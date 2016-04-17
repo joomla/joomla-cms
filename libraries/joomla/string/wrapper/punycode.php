@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_convert.class.php');
+JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
 
 /**
  * Wrapper class for JStringPunycode

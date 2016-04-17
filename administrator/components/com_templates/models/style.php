@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * The help screen base URL for the module.
 	 *
-	 * @var	    string
+	 * @var     string
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -80,7 +80,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$this->setState('style.id', $pk);
 
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_templates');
+		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 	}
 
@@ -329,8 +329,6 @@ class TemplatesModelStyle extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false	= false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -342,11 +340,11 @@ class TemplatesModelStyle extends JModelAdmin
 			{
 				$this->setError($table->getError());
 
-				return $false;
+				return false;
 			}
 
 			// Convert to the JObject before adding other data.
-			$properties = $table->getProperties(1);
+			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
@@ -355,8 +353,8 @@ class TemplatesModelStyle extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the template XML.
-			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
+			$client = JApplicationHelper::getClientInfo($table->client_id);
+			$path   = JPath::clean($client->path . '/templates/' . $table->template . '/templateDetails.xml');
 
 			if (file_exists($path))
 			{
@@ -533,7 +531,7 @@ class TemplatesModelStyle extends JModelAdmin
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
 			$n    = 0;
-			$db   = JFactory::getDbo();
+			$db   = $this->getDbo();
 			$user = JFactory::getUser();
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))

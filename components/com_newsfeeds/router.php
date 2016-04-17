@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,7 +168,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 	public function parse(&$segments)
 	{
 		$total = count($segments);
-		$vars = array();
+		$vars  = array();
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -176,8 +176,8 @@ class NewsfeedsRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$item	= $this->menu->getActive();
-		$params = JComponentHelper::getParams('com_newsfeeds');
+		$item     = $this->menu->getActive();
+		$params   = JComponentHelper::getParams('com_newsfeeds');
 		$advanced = $params->get('sef_advanced_link', 0);
 
 		// Count route segments
@@ -193,11 +193,11 @@ class NewsfeedsRouter extends JComponentRouterBase
 		}
 
 		// From the categories view, we can only jump to a category.
-		$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-		$categories = JCategories::getInstance('Newsfeeds')->get($id)->getChildren();
+		$id            = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
+		$categories    = JCategories::getInstance('Newsfeeds')->get($id)->getChildren();
 		$vars['catid'] = $id;
-		$vars['id'] = $id;
-		$found = 0;
+		$vars['id']    = $id;
+		$found         = 0;
 
 		foreach ($segments as $segment)
 		{
@@ -207,11 +207,12 @@ class NewsfeedsRouter extends JComponentRouterBase
 			{
 				if ($category->slug == $segment || $category->alias == $segment)
 				{
-					$vars['id'] = $category->id;
+					$vars['id']    = $category->id;
 					$vars['catid'] = $category->id;
-					$vars['view'] = 'category';
-					$categories = $category->getChildren();
-					$found = 1;
+					$vars['view']  = 'category';
+					$categories    = $category->getChildren();
+					$found         = 1;
+
 					break;
 				}
 			}
@@ -220,7 +221,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 			{
 				if ($advanced)
 				{
-					$db = JFactory::getDbo();
+					$db    = JFactory::getDbo();
 					$query = $db->getQuery(true)
 						->select($db->quoteName('id'))
 						->from('#__newsfeeds')
@@ -234,7 +235,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 					$nid = $segment;
 				}
 
-				$vars['id'] = $nid;
+				$vars['id']   = $nid;
 				$vars['view'] = 'newsfeed';
 			}
 

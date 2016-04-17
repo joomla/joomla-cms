@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
@@ -62,8 +62,8 @@ class BannerEditPage extends AdminEditPage
 			array('label' => 'Alternative Text', 'id' => 'jform_params_alt', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Click URL', 'id' => 'jform_clickurl', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Description', 'id' => 'jform_description', 'type' => 'textarea', 'tab' => 'details'),
-			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'details'),
+			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),			
 			array('label' => 'Pinned', 'id' => 'jform_sticky', 'type' => 'fieldset', 'tab' => 'details'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'details'),

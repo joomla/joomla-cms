@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,24 +13,36 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 
-$uri		= JUri::getInstance();
-$return		= base64_encode($uri);
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$uri       = JUri::getInstance();
+$return    = base64_encode($uri);
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$modMenuId = (int) $this->get('ModMenuId');
+
+$script = array();
+$script[] = "jQuery(document).ready(function() {";
+
+foreach ($this->items as $item) :
+	if ($user->authorise('core.edit', 'com_menus')) :
+		$script[] = '	function jSelectPosition_' . $item->id . '(name) {';
+		$script[] = '		document.getElementById("' . $item->id . '").value = name;';
+		$script[] = '		jQuery(".modal").modal("hide");';
+		$script[] = '	};';
+	endif;
+endforeach;
+
+$script[] = '	jQuery(".modal").on("hidden", function () {';
+$script[] = '		setTimeout(function(){';
+$script[] = '			window.parent.location.reload();';
+$script[] = '		},1000);';
+$script[] = '	});';
+$script[] = "});";
+
+JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true);?>'))
-		{
-			Joomla.submitform(task);
-		}
-	}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -124,17 +136,51 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						?>
 						<li>
 							<?php if ($canEdit) : ?>
-								<a class="modal" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal');?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}}"  title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
-								<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
-							<?php else :?>
+								<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal'); ?>
+								<a href="#module<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
+									<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+							<?php else : ?>
 								<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
 							<?php endif; ?>
 						</li>
-						<?php
-						endforeach;
-					endif;
-					?>
+						<?php endforeach; ?>
 				</ul>
+					<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
+						<?php if ($canEdit) : ?>
+							<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal'); ?>
+							<?php echo JHtml::_(
+									'bootstrap.renderModal',
+									'module' . $module->id . 'Modal',
+									array(
+										'url' => $link,
+										'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+										'height' => '300px',
+										'width' => '800px',
+										'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+											. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+											. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module'
+											. $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+											. JText::_("JSAVE") . '</button>'
+									)
+								); ?>
+						<?php endif; ?>
+					<?php endforeach; ?>
+					<?php elseif ($modMenuId) : ?>
+						<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>
+						<a href="<?php echo $link; ?>"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+						<?php echo JHtml::_(
+							'bootstrap.renderModal',
+							'moduleModal',
+							array(
+								'url' => $link,
+								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+								'height' => '500px',
+								'width' => '800px',
+								'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								)
+						); ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

@@ -305,8 +305,8 @@
 			label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 			description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="show_article_options"
@@ -316,8 +316,8 @@
 			label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 			description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="save_history"
@@ -346,8 +346,8 @@
 			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 			description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="show_urls_images_backend"
@@ -357,8 +357,8 @@
 			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 			description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="spacer3"

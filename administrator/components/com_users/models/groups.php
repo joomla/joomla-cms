@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,18 +52,17 @@ class UsersModelGroups extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -80,7 +79,6 @@ class UsersModelGroups extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.search');
 
 		return parent::getStoreId($id);

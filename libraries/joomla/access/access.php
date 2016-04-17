@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -264,6 +264,28 @@ class JAccess
 		$rules->mergeCollection($result);
 
 		return $rules;
+	}
+
+	/**
+	 * Method to return the title of a user group
+	 *
+	 * @param   integer  $groupId  Id of the group for which to get the title of.
+	 *
+	 * @return  string  Tthe title of the group
+	 *
+	 * @since   3.5
+	 */
+	public static function getGroupTitle($groupId)
+	{
+		// Fetch the group title from the database
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('title')
+			->from('#__usergroups')
+			->where('id = ' . $db->quote($groupId));
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**

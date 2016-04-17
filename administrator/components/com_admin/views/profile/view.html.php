@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,10 +16,28 @@ defined('_JEXEC') or die;
  */
 class AdminViewProfile extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var    JForm
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/**
+	 * The item being viewed
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
@@ -28,12 +46,14 @@ class AdminViewProfile extends JViewLegacy
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->form			= $this->get('Form');
-		$this->item			= $this->get('Item');
-		$this->state		= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -46,8 +66,9 @@ class AdminViewProfile extends JViewLegacy
 		$this->form->setValue('password',	null);
 		$this->form->setValue('password2',	null);
 
-		parent::display($tpl);
 		$this->addToolbar();
+
+		return parent::display($tpl);
 	}
 
 	/**

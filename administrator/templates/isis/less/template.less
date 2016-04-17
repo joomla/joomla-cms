@@ -36,6 +36,7 @@
 @import "../../../../media/jui/less/popovers.less";
 // Components: Misc
 @import "../../../../media/jui/less/thumbnails.less";
+@import "../../../../media/jui/less/media.less";
 @import "../../../../media/jui/less/labels-badges.less";
 @import "../../../../media/jui/less/progress-bars.less";
 @import "../../../../media/jui/less/accordion.less";
@@ -85,6 +86,7 @@ a:focus {
 
 /* Login */
 .view-login {
+	background-color: @loginBackground;
 	padding-top: 0;
 
 	.container {
@@ -103,9 +105,10 @@ a:focus {
 	.navbar-fixed-bottom,
 	.navbar-fixed-bottom a {
 		color: #FCFCFC;
-		&.navbar-inverse {
-			color: @gray;
-		}
+	}
+	.navbar-inverse.navbar-fixed-bottom,
+	.navbar-inverse.navbar-fixed-bottom a {
+		color: @gray;
 	}
 	.well {
 		padding-bottom: 0;
@@ -115,32 +118,35 @@ a:focus {
 		left: 50%;
 		height: 24px;
 		width: 24px;
-		text-indent: -9999px;
-		background: url('../images/login-joomla.png') no-repeat;
 		margin-left: -12px;
-		.navbar-inverse & {
-			background: url('../images/login-joomla-inverse.png') no-repeat;
-		}
+		font-size: 22px;
 	}
 	.navbar-fixed-bottom {
 		position: absolute;
 	}
 	.input-medium {
-		width: 184px;
+		width: 176px;
 	}
+}
+
+.navbar-inverse {
+	color: @textColor;
 }
 
 .login {
 	.chzn-single {
-		width: 230px !important;
+		width: 222px !important;
 	}
 	.chzn-container,
 	.chzn-drop {
-		width: 238px !important;
-		max-width: 238px !important;
+		width: 230px !important;
+		max-width: 230px !important;
 	}
 	.btn-large {
-		margin-top: 10px;
+		margin-top: 15px;
+	}
+	.form-inline .btn-group {
+		display:block;
 	}
 }
 
@@ -190,9 +196,15 @@ body .navbar-fixed-top {
 		float: left;
 		padding: 7px 12px 0px 15px;
 		font-size: 16px;
-		color: #d9d9d9;
+		color: @gray;
 		&:hover {
-			color: #ffffff;
+			color: @grayDark;
+		}
+		.navbar-inverse& {
+			color: #d9d9d9;
+			&:hover {
+				color: #ffffff;
+			}
 		}
 	}
 	.brand {
@@ -213,6 +225,30 @@ body .navbar-fixed-top {
 	.dropdown-menu,
 	.nav-user {
 		font-size: 13px;
+	}
+	.nav > li ul {
+		overflow-y: auto;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		-o-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+		height: auto;
+		max-height: 500px;
+		margin: 0;
+		&::-webkit-scrollbar {
+			-webkit-appearance: none;
+			width: 7px;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 4px;
+			background-color: rgba(0,0,0,.5);
+			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+		}
+	}
+	.empty-nav {
+		display: none;
 	}
 }
 
@@ -356,6 +392,10 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
+	/* Fix ios scrolling inside bootstrap modals */
+	body {
+		-webkit-overflow-scrolling: touch;
+	}
 	.subhead {
 		margin-left: -20px;
 		margin-right: -20px;
@@ -433,13 +473,21 @@ h6 {
 }
 
 /* Sidebar */
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
 .sidebar-nav .nav-list > li > a {
 	color: #555;
+	padding: 3px 25px;
+	margin-left: -25px;
+	margin-right: -25px;
 }
 
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
-	margin-right: -16px;
+	margin-right: -26px;
 }
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
@@ -501,11 +549,11 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 }
 /* Status Module */
 #status {
-	background: #EDEDED;
-	border-top: 1px solid #DDDDDD;
+	background: #ebebeb;
+	border-top: 1px solid #d4d4d4;
 	padding: 2px 10px 4px 10px;
 	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
-	color: #999999;
+	color: #626262;
 
 	.btn-toolbar, p {
 		margin: 0px;
@@ -514,7 +562,7 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 		font-size: 12px;
 	}
 	a {
-		color: #999999;
+		color: #626262;
 	}
 }
 /* Status Module in top position */
@@ -744,6 +792,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	padding: 3px 20px;
 }
 
+.nav-collapse .dropdown-menu > li {
+	img {
+		max-width: none;
+	}
+}
+
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -953,7 +1007,7 @@ ul.manager .height-50 .icon-folder-2 {
 }
 
 .admin .chzn-container .chzn-drop {
-	z-index: 1040;
+	z-index: 1060;
 }
 /* Tree Select */
 ul.treeselect,
@@ -1148,6 +1202,7 @@ a.grid_true {
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 10px;
+	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
 	border-right: 1px solid darken(@wellBackground, 7%);
@@ -1233,11 +1288,26 @@ a.grid_true {
 	.j-toggle-button-wrapper {
 		display: none;
 	}
+
+	.view-login {
+		select {
+			width: 232px;
+		}
+	}
 }
 
 @media (max-width: 420px) {
 	.j-sidebar-container {
 		margin: 0;
+	}
+
+	.view-login {
+		.input-medium {
+			width: 180px;
+		}
+		select {
+			width: 232px
+		}
 	}
 }
 
@@ -1257,4 +1327,29 @@ textarea.vert {
 
 textarea.noResize {
 	resize: none;
+}
+
+/* Prevent scrolling on the parent window of a modal */
+body.modal-open {
+  overflow: hidden;
+  -ms-overflow-style: none;
+}
+
+/* Corrects the modals padding */
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+
+/* Clear div after modal-body rendering */
+.modal-footer {
+	clear: both;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,15 +47,6 @@ class JInputFiles extends JInput
 		// Set the data source.
 		$this->data = & $_FILES;
 
-		// Scan the files in the array
-		if (!empty($this->data))
-		{
-			foreach ($this->data as $name => &$descriptor)
-			{
-				$descriptor['safe'] = JFilterInput::isSafeFile($descriptor);
-			}
-		}
-
 		// Set the options for the class.
 		$this->options = $options;
 	}
@@ -76,15 +67,6 @@ class JInputFiles extends JInput
 	{
 		if (isset($this->data[$name]))
 		{
-			// Prevent returning an unsafe file unless specifically requested
-			if (!$this->data[$name]['safe'])
-			{
-				if ($filter != 'raw')
-				{
-					return $default;
-				}
-			}
-
 			$results = $this->decodeData(
 				array(
 					$this->data[$name]['name'],
@@ -94,6 +76,17 @@ class JInputFiles extends JInput
 					$this->data[$name]['size']
 				)
 			);
+
+			// Prevent returning an unsafe file unless speciffically requested
+			if ($filter != 'raw')
+			{
+				$isSafe = JFilterInput::isSafeFile($results);
+
+				if (!$isSafe)
+				{
+					return $default;
+				}
+			}
 
 			return $results;
 		}

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,6 +30,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @var    array
 	 * @since  1.0
+	 * @deprecated  2.0  Object caching will no longer be supported
 	 */
 	protected static $instances = array();
 
@@ -251,6 +252,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @return  Registry  The Registry object.
 	 *
+	 * @deprecated  2.0  Instantiate a new Registry instance instead
 	 * @since   1.0
 	 */
 	public static function getInstance($id)
@@ -354,7 +356,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function loadString($data, $format = 'JSON', $options = array())
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler = AbstractRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		$obj = $handler->stringToObject($data, $options);
 		$this->loadObject($obj);
@@ -500,13 +502,13 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		{
 			if (is_object($node))
 			{
-				if (!isset($node->$nodes[$i]) && ($i != $n))
+				if (!isset($node->{$nodes[$i]}) && ($i != $n))
 				{
-					$node->$nodes[$i] = new \stdClass;
+					$node->{$nodes[$i]} = new \stdClass;
 				}
 
 				// Pass the child as pointer in case it is an object
-				$node = &$node->$nodes[$i];
+				$node = &$node->{$nodes[$i]};
 
 				continue;
 			}
@@ -527,7 +529,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		switch (true)
 		{
 			case (is_object($node)):
-				$result = $node->$nodes[$i] = $value;
+				$result = $node->{$nodes[$i]} = $value;
 				break;
 
 			case (is_array($node)):
@@ -574,13 +576,13 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			{
 				if (is_object($node))
 				{
-					if (!isset($node->$nodes[$i]) && ($i != $n))
+					if (!isset($node->{$nodes[$i]}) && ($i != $n))
 					{
-						$node->$nodes[$i] = new \stdClass;
+						$node->{$nodes[$i]} = new \stdClass;
 					}
 
 					// Pass the child as pointer in case it is an array
-					$node = &$node->$nodes[$i];
+					$node = &$node->{$nodes[$i]};
 				}
 				elseif (is_array($node))
 				{
@@ -644,7 +646,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
-		$handler = AbstractRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		return $handler->objectToString($this->data, $options);
 	}

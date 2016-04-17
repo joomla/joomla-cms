@@ -4,7 +4,8 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_USERS_FILTER_SEARCH_DESC"
+			label="COM_USERS_SEARCH_USERS"
+			description="COM_USERS_SEARCH_IN_NAME"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>

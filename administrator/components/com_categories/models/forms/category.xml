@@ -79,14 +79,16 @@
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+		maxlength="255"
 		class="span12"
 		size="45" />
 
 	<field
 		name="note"
 		type="text"
-		label="JFIELD_NOTE_LABEL"
-		description="JFIELD_NOTE_DESC"
+		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
+		description="COM_CATEGORIES_FIELD_NOTE_DESC"
+		maxlength="255"
 		class="span12"
 		size="40"/>
 

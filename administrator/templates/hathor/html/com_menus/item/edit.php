@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,67 +13,66 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.framework');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.modal');
 
-//Ajax for parent items
-$script = "jQuery(document).ready(function ($){
-				$('#jform_menutype').change(function(){
-					var menutype = $(this).val();
-					$.ajax({
-						url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
-						dataType: 'json'
-					}).done(function(data) {
-						$('#jform_parent_id option').each(function() {
-							if ($(this).val() != '1') {
-								$(this).remove();
-							}
-						});
+$assoc = JLanguageAssociations::isEnabled();
 
-						$.each(data, function (i, val) {
-							var option = $('<option>');
-							option.text(val.title).val(val.id);
-							$('#jform_parent_id').append(option);
-						});
-						$('#jform_parent_id').trigger('liszt:updated');
-					});
-				});
-			});";
-
+// Ajax for parent items
+$script = "
+jQuery(document).ready(function ($){
+	$('#jform_menutype').change(function(){
+		var menutype = $(this).val();
+		$.ajax({
+			url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
+			dataType: 'json'
+		}).done(function(data) {
+			$('#jform_parent_id option').each(function() {
+				if ($(this).val() != '1') {
+					$(this).remove();
+				}
+			});
+			$.each(data, function (i, val) {
+				var option = $('<option>');
+				option.text(val.title).val(val.id);
+				$('#jform_parent_id').append(option);
+			});
+			$('#jform_parent_id').trigger('liszt:updated');
+		});
+	});
+});
+Joomla.submitbutton = function(task, type){
+	if (task == 'item.setType' || task == 'item.setMenuType')
+	{
+		if (task == 'item.setType')
+		{
+			jQuery('#item-form input[name=\"jform[type]\"]').val(type);
+			jQuery('#fieldtype').val('type');
+		} else {
+			jQuery('#item-form input[name=\"jform[menutype]\"]').val(type);
+		}
+		Joomla.submitform('item.setType', document.getElementById('item-form'));
+	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
+	{
+		Joomla.submitform(task, document.getElementById('item-form'));
+	}
+	else
+	{
+		// special case for modal popups validation response
+		jQuery('#item-form .modal-value.invalid').each(function(){
+			var field = jQuery(this),
+				idReversed = field.attr('id').split('').reverse().join(''),
+				separatorLocation = idReversed.indexOf('_'),
+				nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
+			jQuery(nameId).addClass('invalid');
+		});
+	}
+};
+";
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 
 ?>
-
-<script type="text/javascript">
-	Joomla.submitbutton = function(task, type)
-	{
-		if (task == 'item.setType' || task == 'item.setMenuType')
-		{
-			if (task == 'item.setType')
-			{
-				document.id('item-form').elements['jform[type]'].value = type;
-				document.id('fieldtype').value = 'type';
-			} else {
-				document.id('item-form').elements['jform[menutype]'].value = type;
-			}
-			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
-		{
-			Joomla.submitform(task, document.id('item-form'));
-		}
-		else
-		{
-			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field){
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				document.id(name).addClass('invalid');
-			});
-		}
-	}
-</script>
 
 <div class="menuitem-edit">
 

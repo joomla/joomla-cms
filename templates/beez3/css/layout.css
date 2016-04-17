@@ -331,7 +331,6 @@ fieldset.word {
 
 fieldset.phrases label,fieldset.only label {
 	display: inline;
-	margin: 0 10px
 }
 
  :root *> fieldset.only label:before {
@@ -348,7 +347,6 @@ fieldset.phrases label,fieldset.only label {
 	margin: 0 4px 0 0;
 	text-transform: uppercase;
 	width: 1em;
-	content: ".";
 	display: inline-block;
 	margin-left: -40px;
 	padding: 2px;
@@ -379,7 +377,6 @@ input[type="checkbox"]:checked+label:before {
 	margin: 0 4px 0 0;
 	text-transform: uppercase;
 	width: 1.3em;
-	content: ".";
 	display: inline-block;
 	margin-left: -40px;
 	-moz-border-radius: 12px;
@@ -507,6 +504,12 @@ textarea,.contact-form input[type="text"],.contact-form input[type="email"],.con
 	border: 0
 }
 
+label#jform_captcha-lbl {
+	clear: both;
+  	position: relative;
+  	float: left;
+}
+
 .contact-form .button {
 	clear: left;
 	float: left;
@@ -542,6 +545,11 @@ fieldset.filters {
 
 #login-form fieldset {
 	background: #f5f5f5
+}
+
+#login-form input[type="text"], input[type="password"], input[type="submit"] {
+	width: 100%;
+	box-sizing: border-box
 }
 
 form ul {
@@ -852,6 +860,10 @@ ul.menu ul ul ul ul a {
 	display: inline
 }
 
+ul.latestnews li {
+	word-wrap: break-word;
+}
+
 /* ++++++++++++++++++++++  Footer +++++++++++++++++++++++++ */
 #footer-outer
 {font-size:0.8em}
@@ -1046,4 +1058,38 @@ div.current {
 	margin: 0 3px;
 	vertical-align: middle;
 	width: 18px;
+}
+/* Smartsearch Calendar*/
+#filter_date1_img,
+#filter_date2_img {
+	background: rgba(0, 0, 0, 0) url("../images/system/calendar.png") no-repeat scroll 0 0;
+	cursor: pointer;
+	height: 18px;
+	margin-left: 3px;
+	vertical-align: middle;
+	width: 18px;
+}
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#searchForm .searchintro {
+	padding: 0 0 0 250px;
+}
+.collapse {
+	position: relative;
+	height: 0;
+	overflow: hidden;
+	-webkit-transition: height .35s ease;
+	-moz-transition: height .35s ease;
+	-o-transition: height .35s ease;
+	transition: height .35s ease;
+}
+.collapse.in {
+	height: auto;
+}
+#finder-search .in.collapse {
+	overflow: visible;
 }

@@ -37,6 +37,7 @@
 			type="text"
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
+			maxlength="255"
 			class="span12"
 			size="40"/>
 
@@ -46,6 +47,7 @@
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
 			readonly="true"
+			class="input-xxlarge"
 			size="50"/>
 
 		<field

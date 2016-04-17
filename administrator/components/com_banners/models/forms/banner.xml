@@ -45,12 +45,13 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			maxlength="255"
 			class="span12" size="45"
 			labelclass="control-label"
 		/>
 
-		<field name="description" type="textarea"
-			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
+		<field name="description" type="editor"
+               filter="JComponentHelper::filterText" buttons="true" hide="readmore,pagebreak" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="type" type="list"
@@ -140,15 +141,15 @@
 			default="0">
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
 			</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_1
+			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED
 			</option>
-			<option value="2">COM_BANNERS_FIELD_VALUE_2
+			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY
 			</option>
-			<option value="3">COM_BANNERS_FIELD_VALUE_3
+			<option value="3">COM_BANNERS_FIELD_VALUE_MONTHLY
 			</option>
-			<option value="4">COM_BANNERS_FIELD_VALUE_4
+			<option value="4">COM_BANNERS_FIELD_VALUE_WEEKLY
 			</option>
-			<option value="5">COM_BANNERS_FIELD_VALUE_5
+			<option value="5">COM_BANNERS_FIELD_VALUE_DAILY
 			</option>
 		</field>
 
