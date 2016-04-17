@@ -185,11 +185,38 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
+<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
+	if ($params->get('access-view')) :
+		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
+	else :
+		$menu = JFactory::getApplication()->getMenu();
+		$active = $menu->getActive();
+		$itemId = $active->id;
+		$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+		$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
+	endif;
+?>
+		<p class="readmore">
+				<a href="<?php echo $link; ?>">
+					<?php $attribs = json_decode($this->item->attribs); ?>
+					<?php if ($attribs->alternative_readmore == null) :
+						echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
+					elseif ($readmore = $this->item->alternative_readmore) :
+						echo $readmore;
+						if ($params->get('show_readmore_title', 0) != 0) :
+							echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+						endif;
+					elseif ($params->get('show_readmore_title', 0) == 0) :
+						echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
+					else :
+						echo JText::_('COM_CONTENT_READ_MORE');
+						echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+					endif; ?></a>
+		</p>
+<?php endif; ?>
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>
-
-
