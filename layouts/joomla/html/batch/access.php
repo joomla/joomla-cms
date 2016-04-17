@@ -15,7 +15,7 @@ defined('JPATH_BASE') or die;
  * None
  */
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal'));
+JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '#collapseModal'));
 
 ?>
 
