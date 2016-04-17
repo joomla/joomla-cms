@@ -143,7 +143,7 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$item->text = $item->introtext;
 		}
-		elseif ($item->params->get('show_intro', '1'))
+		elseif ($item->fulltext && $item->params->get('show_intro', '1'))
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
 		}
