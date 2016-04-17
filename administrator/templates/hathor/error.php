@@ -30,7 +30,7 @@ if (is_callable(array($doc, 'setHtml5')))
 	<?php endif; ?>
 	<!-- Load additional CSS styles for rtl sites -->
 	<?php if ($this->direction == 'rtl') : ?>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/template_rtl.css" rel="stylesheet" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/template_rtl.css" />
 	<?php endif; ?>
 	<!--[if lt IE 9]><script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>

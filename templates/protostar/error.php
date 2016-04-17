@@ -66,7 +66,7 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php // Use of Google Font ?>
 	<?php if ($params->get('googleFont')) : ?>
-		<link href="//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" rel="stylesheet" />
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" />
 		<style>
 			h1,h2,h3,h4,h5,h6,.site-title{
 				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
@@ -106,11 +106,8 @@ else
 			}
 		</style>
 	<?php endif; ?>
-	<!--[if lt IE 9]>
-		<script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
 <body class="site <?php echo $option
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
