@@ -9,16 +9,6 @@
 			hint="JSEARCH_FILTER"
 		/>
 		<field
-			name="client_id"
-			type="bannerclient"
-			label="COM_BANNERS_FILTER_CLIENT"
-			description="COM_BANNERS_FILTER_CLIENT_DESC"
-			extension="com_content"
-			onchange="this.form.submit();"
-			>
-			<option value="">COM_BANNERS_SELECT_CLIENT</option>
-		</field>
-		<field
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
@@ -27,6 +17,16 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+		<field
+			name="client_id"
+			type="bannerclient"
+			label="COM_BANNERS_FILTER_CLIENT"
+			description="COM_BANNERS_FILTER_CLIENT_DESC"
+			extension="com_content"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
 		<field
 			name="type"
