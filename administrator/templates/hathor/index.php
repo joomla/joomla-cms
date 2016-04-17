@@ -83,10 +83,19 @@ else
 {
 	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
-
+$doc->addScriptDeclaration("(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);");
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
@@ -171,17 +180,5 @@ else
 		?>
 	</p>
 </div>
-<script>
-	(function($){
-		$(document).ready(function () {
-			// Patches to fix some wrong render of chosen fields
-			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
-				$(this).css({
-					'width': 'auto'
-				});
-			});
-		});
-	})(jQuery);
-</script>
 </body>
 </html>

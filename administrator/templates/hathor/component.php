@@ -89,7 +89,7 @@ else
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<jdoc:include type="head" />
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
