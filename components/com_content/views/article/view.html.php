@@ -139,7 +139,11 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		if ($item->params->get('show_intro', '1') == '1')
+		if (!$item->params->get('access-view') && $item->params->get('show_noauth', '0'))
+		{
+			$item->text = $item->introtext;
+		}
+		elseif ($item->params->get('show_intro', '1'))
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
 		}
@@ -159,6 +163,9 @@ class ContentViewArticle extends JViewLegacy
 
 		JPluginHelper::importPlugin('content');
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
+
+		// Copy "text" to "introtext" for B/C (some templates might still use introtext...)
+		$item->introtext = $item->text;
 
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
