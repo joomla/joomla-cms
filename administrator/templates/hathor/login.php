@@ -85,19 +85,12 @@ else
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
-<jdoc:include type="head" />
-
-<!-- Load additional CSS styles for Internet Explorer -->
-<!--[if IE 7]>
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-<!--[if lt IE 9]>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-<![endif]-->
-
-<!-- Load Template JavaScript -->
-<script type="text/javascript" src="<?php echo $this->baseurl; ?>/templates/<?php  echo  $this->template;  ?>/js/template.js"></script>
-
+	<jdoc:include type="head" />
+	<!-- Load additional CSS styles for Internet Explorer -->
+	<!--[if IE 7]><link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" /><![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+	<!-- Load Template JavaScript -->
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js"></script>
 </head>
 <body id="login-page">
 	<div id="containerwrap">

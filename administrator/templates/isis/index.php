@@ -133,7 +133,7 @@ $doc->addScriptDeclaration(
 	<jdoc:include type="head" />
 	<!-- Template color -->
 	<?php if ($navbar_color) : ?>
-		<style type="text/css">
+		<style>
 			.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top {
 				background: <?php echo $navbar_color; ?>;
 			}
@@ -141,7 +141,7 @@ $doc->addScriptDeclaration(
 	<?php endif; ?>
 	<!-- Template header color -->
 	<?php if ($header_color) : ?>
-		<style type="text/css">
+		<style>
 			.header {
 				background: <?php echo $header_color; ?>;
 			}
@@ -150,7 +150,7 @@ $doc->addScriptDeclaration(
 
 	<!-- Sidebar background color -->
 	<?php if ($this->params->get('sidebarColor')) : ?>
-		<style type="text/css">
+		<style>
 			.nav-list > .active > a, .nav-list > .active > a:hover {
 				background: <?php echo $this->params->get('sidebarColor'); ?>;
 			}
@@ -159,19 +159,15 @@ $doc->addScriptDeclaration(
 
 	<!-- Link color -->
 	<?php if ($this->params->get('linkColor')) : ?>
-		<style type="text/css">
+		<style>
 			a, .j-toggle-sidebar-button
 			{
 				color: <?php echo $this->params->get('linkColor'); ?>;
 			}
 		</style>
 	<?php endif; ?>
-
-	<!--[if lt IE 9]>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
 <!-- Top Navigation -->
 <nav class="navbar<?php echo $navbar_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
