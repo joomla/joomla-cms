@@ -117,7 +117,7 @@ class JTableMenu extends JTableNested
 				// If menu type alias test first if an alias already exists.
 				$table      = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 				$testAlias  = JApplicationHelper::stringURLSafe($this->title);
-				$itemSearch = array('alias' => $testAlias, 'parent_id' => $this->parent_id,	'client_id' => (int) $this->client_id, 'language' => $this->language);
+				$itemSearch = array('alias' => $testAlias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id, 'language' => $this->language);
 
 				// If not, use the title as alias.
 				if (!$table->load($itemSearch))
