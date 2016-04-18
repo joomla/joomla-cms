@@ -112,7 +112,7 @@ class JTableMenu extends JTableNested
 			{
 				$this->alias = $this->title;
 			}
-			else if ($this->type != 'alias')
+			else if ($this->type == 'alias')
 			{
 				// If menu type alias test first if an alias already exists.
 				$table      = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
