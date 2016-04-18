@@ -225,7 +225,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		{
 			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
 		}
- 
+
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 
