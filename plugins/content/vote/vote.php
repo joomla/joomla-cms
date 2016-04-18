@@ -95,7 +95,7 @@ class PlgContentVote extends JPlugin
 				$html .= '<span class="content_vote">';
 				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
 				$html .= JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
-				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
+				$html .= '&#160;<input class="btn btn-default btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
 				$html .= '<input type="hidden" name="task" value="article.vote" />';
 				$html .= '<input type="hidden" name="hitcount" value="0" />';
 				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString()) . '" />';
