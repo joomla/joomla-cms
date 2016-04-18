@@ -106,9 +106,25 @@ class JTableMenu extends JTableNested
 		// If the alias field is empty, set it to the title.
 		$this->alias = trim($this->alias);
 
-		if ((empty($this->alias)) && ($this->type != 'url'))
+		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+			if ($this->type != 'alias' && $this->type != 'url')
+			{
+				$this->alias = $this->title;
+			}
+			else if ($this->type != 'alias')
+			{
+				// If menu type alias test first if an alias already exists.
+				$table      = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+				$testAlias  = JApplicationHelper::stringURLSafe($this->title);
+				$itemSearch = array('alias' => $testAlias, 'parent_id' => $this->parent_id,	'client_id' => (int) $this->client_id, 'language' => $this->language);
+
+				// If not, use the title as alias.
+				if (!$table->load($itemSearch))
+				{
+					$this->alias = $this->title;
+				}
+			}
 		}
 
 		// Check for a path.
