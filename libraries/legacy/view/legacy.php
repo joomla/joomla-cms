@@ -756,13 +756,13 @@ class JViewLegacy extends JObject
 	protected function _addPath($type, $path)
 	{
 		jimport('joomla.filesystem.path');
-		
+
 		// Just force to array
 		settype($path, 'array');
 
 		// Loop through the path directories
 		foreach ($path as $dir)
-		{			
+		{
 			// Clean up the path
 			$dir = JPath::clean($dir);
 
