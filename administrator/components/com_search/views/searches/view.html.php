@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,11 +33,11 @@ class SearchViewSearches extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->enabled		= $this->state->params->get('enabled');
-		$this->canDo		= JHelperContent::getActions('com_search');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->enabled    = $this->state->params->get('enabled');
+		$this->canDo      = JHelperContent::getActions('com_search');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,7 +60,7 @@ class SearchViewSearches extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= $this->canDo;
+		$canDo = $this->canDo;
 
 		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
 
@@ -71,7 +71,7 @@ class SearchViewSearches extends JViewLegacy
 
 		JToolbarHelper::divider();
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_search');
 		}

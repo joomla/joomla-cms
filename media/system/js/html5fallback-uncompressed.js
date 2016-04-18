@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -179,13 +179,11 @@
 				$elem.addClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
 				$labelref.addClass(self.options.invalidClass);
-				$labelref.attr('aria-invalid', 'true');
 			}
 			else{
 				$elem.removeClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
 				$labelref.removeClass(self.options.invalidClass)
-				$labelref.attr('aria-invalid', 'false');
 			}
 			return elem.validityState.valid;
 		},

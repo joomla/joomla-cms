@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,7 +49,8 @@ class FinderModelIndex extends JModelList
 				'title', 'l.title',
 				'type_id', 'l.type_id',
 				'url', 'l.url',
-				'indexdate', 'l.indexdate'
+				'indexdate', 'l.indexdate',
+				'type'
 			);
 		}
 
@@ -193,11 +194,20 @@ class FinderModelIndex extends JModelList
 			$query->where('l.published = ' . (int) $this->getState('filter.state'));
 		}
 
-		// Check the search phrase.
+			// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
-			$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search . ' OR l.indexdate LIKE  ' . $search);
+
+			// Do not filter by indexdate if $search contains non-ascii characters
+			if (preg_match('/[^\x00-\x7F]/', $search))
+			{
+				$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search);
+			}
+			else
+			{
+				$query->where('l.title LIKE ' . $search . ' OR l.url LIKE ' . $search . ' OR l.indexdate LIKE  ' . $search);
+			}
 		}
 
 		// Handle the list ordering.

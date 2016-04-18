@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,7 +171,7 @@ endif;
 	<?php echo $this->item->text; ?>
 
 <?php // TAGS ?>
-<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 <?php endif; ?>

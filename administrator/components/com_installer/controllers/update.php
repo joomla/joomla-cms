@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,12 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		$app          = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
+
+		// Don't redirect to an external URL.
+		if (!JUri::isInternal($redirect_url))
+		{
+			$redirect_url = '';
+		}
 
 		if (empty($redirect_url))
 		{
@@ -138,7 +144,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if (!JSession::checkToken('get'))
 		{
-			JResponse::setHeader('status', 403, true);
+			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
 			echo JText::_('JINVALID_TOKEN');
 			$app->close();

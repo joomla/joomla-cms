@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,9 +52,9 @@ class UsersViewReset extends JViewLegacy
 		}
 
 		// Get the view data.
-		$this->form	= $this->get($formname);
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->params;
+		$this->form   = $this->get($formname);
+		$this->state  = $this->get('State');
+		$this->params = $this->state->params;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

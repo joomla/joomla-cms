@@ -3,8 +3,8 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -45,9 +45,17 @@ class JFormFieldDob extends JFormFieldCalendar
 
 		if ($text)
 		{
+			$app    = JFactory::getApplication();
 			$layout = new JLayoutFile('plugins.user.profile.fields.dob');
-			$info   = $layout->render(array('text' => $text));
-			$label  = $info . $label;
+			$view   = $app->input->getString('view', '');
+
+			// Only display the tip when editing profile
+			if ($app->isAdmin() || $view == 'profile' || $view == 'registration')
+			{
+				$layout = new JLayoutFile('plugins.user.profile.fields.dob');
+				$info   = $layout->render(array('text' => $text));
+				$label  = $info . $label;
+			}
 		}
 
 		return $label;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,19 +71,19 @@ class PluginsModelPlugin extends JModelAdmin
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{
-			$item		= $this->getItem();
-			$folder		= $item->folder;
-			$element	= $item->element;
+			$item    = $this->getItem();
+			$folder  = $item->folder;
+			$element = $item->element;
 		}
 		else
 		{
-			$folder		= JArrayHelper::getValue($data, 'folder', '', 'cmd');
-			$element	= JArrayHelper::getValue($data, 'element', '', 'cmd');
+			$folder  = JArrayHelper::getValue($data, 'folder', '', 'cmd');
+			$element = JArrayHelper::getValue($data, 'element', '', 'cmd');
 		}
 
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.folder',	$folder);
-		$this->setState('item.element',	$element);
+		$this->setState('item.folder', $folder);
+		$this->setState('item.element', $element);
 
 		// Get the form.
 		$form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
@@ -144,8 +144,6 @@ class PluginsModelPlugin extends JModelAdmin
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false	= false;
-
 			// Get a row instance.
 			$table = $this->getTable();
 
@@ -157,7 +155,7 @@ class PluginsModelPlugin extends JModelAdmin
 			{
 				$this->setError($table->getError());
 
-				return $false;
+				return false;
 			}
 
 			// Convert to the JObject before adding other data.
@@ -236,12 +234,12 @@ class PluginsModelPlugin extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		$folder		= $this->getState('item.folder');
-		$element	= $this->getState('item.element');
-		$lang		= JFactory::getLanguage();
+		$folder  = $this->getState('item.folder');
+		$element = $this->getState('item.element');
+		$lang    = JFactory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.
-		$db = JFactory::getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
@@ -252,8 +250,8 @@ class PluginsModelPlugin extends JModelAdmin
 
 		foreach ($elements as $elementa)
 		{
-				$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			||	$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
+			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
 		}
 
 		if (empty($folder) || empty($element))

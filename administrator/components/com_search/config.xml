@@ -12,6 +12,17 @@
 			<option value="0">JNO</option>
 		</field>
 
+		<field name="search_phrases"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				description="COM_SEARCH_FIELD_SEARCH_PHRASES_DESC"
+				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+		</field>
+
 		<field name="search_areas"
 				type="radio"
 				class="btn-group btn-group-yesno"

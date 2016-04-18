@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,10 +49,10 @@ class PlgAuthenticationLdap extends JPlugin
 		}
 
 		// Load plugin params info
-		$ldap_email		= $this->params->get('ldap_email');
-		$ldap_fullname	= $this->params->get('ldap_fullname');
-		$ldap_uid		= $this->params->get('ldap_uid');
-		$auth_method	= $this->params->get('auth_method');
+		$ldap_email    = $this->params->get('ldap_email');
+		$ldap_fullname = $this->params->get('ldap_fullname');
+		$ldap_uid      = $this->params->get('ldap_uid');
+		$auth_method   = $this->params->get('auth_method');
 
 		$ldap = new JClientLdap($this->params);
 
@@ -154,7 +154,7 @@ class PlgAuthenticationLdap extends JPlugin
 			}
 
 			// Were good - So say so.
-			$response->status		= JAuthentication::STATUS_SUCCESS;
+			$response->status        = JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,12 +34,13 @@ class ContentViewForm extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$user = JFactory::getUser();
+		$app  = JFactory::getApplication();
 
 		// Get model data.
-		$this->state		= $this->get('State');
-		$this->item			= $this->get('Item');
-		$this->form			= $this->get('Form');
-		$this->return_page	= $this->get('ReturnPage');
+		$this->state       = $this->get('State');
+		$this->item        = $this->get('Item');
+		$this->form        = $this->get('Form');
+		$this->return_page = $this->get('ReturnPage');
 
 		if (empty($this->item->id))
 		{
@@ -52,7 +53,8 @@ class ContentViewForm extends JViewLegacy
 
 		if ($authorised !== true)
 		{
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return false;
 		}
@@ -84,7 +86,7 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Create a shortcut to the parameters.
-		$params	= &$this->state->params;
+		$params = &$this->state->params;
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -101,6 +103,13 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
+		// Propose current language as default when creating new article
+		if (JLanguageMultilang::isEnabled() && empty($this->item->id))
+		{
+			$lang = JFactory::getLanguage()->getTag();
+			$this->form->setFieldAttribute('language', 'default', $lang);
+		}
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
@@ -112,9 +121,9 @@ class ContentViewForm extends JViewLegacy
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself

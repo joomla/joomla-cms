@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ ksort($this->files, SORT_STRING);
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>
-					<i class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></i>
+					<span class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
@@ -54,7 +54,7 @@ ksort($this->files, SORT_STRING);
 		<?php if(is_object($value)): ?>
 			<li>
 				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
-					<i class='icon-file'>&nbsp;<?php echo $value->name; ?></i>
+					<span class='icon-file'>&nbsp;<?php echo $value->name; ?></span>
 				</a>
 			</li>
 		<?php endif; ?>

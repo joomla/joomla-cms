@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -629,17 +629,7 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 			"REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle', `start_date` = '2014-08-17 00:00:00', `description` = 'testDescription'"
 		);
 
-		$this->assertThat(
-			(bool) self::$driver->execute(),
-			$this->isTrue(),
-			__LINE__
-		);
-
-		$this->assertThat(
-			self::$driver->insertid(),
-			$this->equalTo(5),
-			__LINE__
-		);
+		$this->assertInstanceOf('PDOStatement', self::$driver->execute());
 
 	}
 

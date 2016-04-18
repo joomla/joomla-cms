@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,10 +31,12 @@ class TemplatesViewStyles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
-		$this->preview    = JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->preview       = JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
 		TemplatesHelper::addSubmenu('styles');
 
@@ -84,11 +86,11 @@ class TemplatesViewStyles extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'styles.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
@@ -98,22 +100,5 @@ class TemplatesViewStyles extends JViewLegacy
 
 		JHtmlSidebar::setAction('index.php?option=com_templates&view=styles');
 
-		JHtmlSidebar::addFilter(
-			JText::_('COM_TEMPLATES_FILTER_TEMPLATE'),
-			'filter_template',
-			JHtml::_(
-				'select.options',
-				TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')),
-				'value',
-				'text',
-				$this->state->get('filter.template')
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JGLOBAL_FILTER_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,12 +14,12 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.multiselect');
 
-$uri		= JUri::getInstance();
-$return		= base64_encode($uri);
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
+$uri       = JUri::getInstance();
+$return    = base64_encode($uri);
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 $modMenuId = (int) $this->get('ModMenuId');
 
 $script = array();
@@ -43,15 +43,6 @@ $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true);?>'))
-		{
-			Joomla.submitform(task);
-		}
-	}
-</script>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
@@ -157,13 +148,38 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 					<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 						<?php if ($canEdit) : ?>
 							<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal'); ?>
-							<?php echo JHtmlBootstrap::renderModal('module' . $module->id . 'Modal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),'height' => '500px', 'width' => '800px'), ''); ?>
+							<?php echo JHtml::_(
+									'bootstrap.renderModal',
+									'module' . $module->id . 'Modal',
+									array(
+										'url' => $link,
+										'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+										'height' => '300px',
+										'width' => '800px',
+										'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+											. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+											. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module'
+											. $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+											. JText::_("JSAVE") . '</button>'
+									)
+								); ?>
 						<?php endif; ?>
 					<?php endforeach; ?>
 					<?php elseif ($modMenuId) : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]='.$item->menutype); ?>">
-						<?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
-					<?php echo JHtmlBootstrap::renderModal('moduleModal', array( 'url' => $link, 'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),'height' => '500px', 'width' => '800px'), ''); ?>
+						<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>
+						<a href="<?php echo $link; ?>"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+						<?php echo JHtml::_(
+							'bootstrap.renderModal',
+							'moduleModal',
+							array(
+								'url' => $link,
+								'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+								'height' => '500px',
+								'width' => '800px',
+								'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+									. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								)
+						); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
