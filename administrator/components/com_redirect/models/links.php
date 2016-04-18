@@ -145,11 +145,11 @@ class RedirectModelLinks extends JModelList
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = ' . (int) $state);
+			$query->where($db->quoteName('a.published') . ' = ' . (int) $state);
 		}
 		elseif ($state === '')
 		{
-			$query->where('(a.published IN (0,1,2))');
+			$query->where($db->quoteName('a.published') . ' IN (0,1,2)');
 		}
 
 		// Filter the items over the search string if set.
@@ -159,7 +159,7 @@ class RedirectModelLinks extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{
