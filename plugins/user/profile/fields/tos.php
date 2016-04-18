@@ -95,10 +95,14 @@ class JFormFieldTos extends JFormFieldRadio
 			$article = $db->loadObject();
 
 			if (JLanguageAssociations::isEnabled())
-				$tosassociated = JLanguageAssociations::getAssociations('com_content','#__content','com_content.item',$tosarticle);
+			{
+				$tosassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+			}
 
 			$current_lang = JFactory::getLanguage()->getTag();
-			if ($current_lang != $article->language && array_key_exists($current_lang, $tosassociated)) {
+
+			if ($current_lang != $article->language && array_key_exists($current_lang, $tosassociated))
+			{
 				$url = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
 			}
 			else
