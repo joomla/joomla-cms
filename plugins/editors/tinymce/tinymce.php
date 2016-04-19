@@ -296,7 +296,7 @@ class PlgEditorTinymce extends JPlugin
 			if ($this->params->get('use_config_textfilters', 0))
 			{
 				// Use filters from com_config
-				$filter = self::filterText(true);
+				$filter = self::getGlobalFilters();
 
 				$tagBlacklist	= !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
 				$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
@@ -1150,11 +1150,8 @@ class PlgEditorTinymce extends JPlugin
 	 *
 	 * @since   2.5
 	 */
-	public static function filterText($text)
+	protected static function getGlobalFilters()
 	{
-		// Punyencoding utf8 email addresses
-		$text = JFilterInput::getInstance()->emailToPunycode($text);
-
 		// Filter settings
 		$config   = JComponentHelper::getParams('com_config');
 		$user    = JFactory::getUser();
