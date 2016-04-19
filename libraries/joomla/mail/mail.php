@@ -51,6 +51,12 @@ class JMail extends PHPMailer
 		{
 			JLog::add(sprintf('Error in JMail API: %s', $message), JLog::ERROR, 'mail');
 		};
+
+		// If debug mode is enabled then set SMTPDebug to the maximum level
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$this->SMTPDebug = 4;
+		}
 	}
 
 	/**
