@@ -47,12 +47,20 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		if (!$menutypeId || !$user->authorise('core.manage', 'com_menus.menu.' . (int) $menutypeId))
+		{
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		MenusHelper::addSubmenu('items');
 
@@ -236,7 +244,9 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
 
 		// Get the menu title
