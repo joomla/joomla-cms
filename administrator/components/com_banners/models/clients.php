@@ -222,7 +222,7 @@ class BannersModelClients extends JModelList
 
 		// Get the published menu counts.
 		$query = $db->getQuery(true)
-			->select('cid, COUNT(DISTINCT cid) AS count_published')
+			->select('cid, COUNT(cid) AS count_published')
 			->from('#__banners')
 			->where('state = 1')
 			->where('cid IN (' . $clientIds . ')')
