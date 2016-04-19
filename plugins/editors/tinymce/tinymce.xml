@@ -152,7 +152,19 @@
 					<option value="0">PLG_TINY_FIELD_VALUE_P</option>
 				</field>
 
+				<field name="use_config_textfilters" type="radio"
+					class="btn-group btn-group-yesno"
+					default="0"
+					description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
+					label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+
 				<field name="invalid_elements" type="textarea"
+					showon="use_config_textfilters:0"
 					cols="30"
 					default="script,applet,iframe"
 					description="PLG_TINY_FIELD_PROHIBITED_DESC"
@@ -161,6 +173,7 @@
 				/>
 
 				<field name="valid_elements" type="textarea"
+					showon="use_config_textfilters:0"
 					cols="30"
 					description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
 					label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
@@ -168,6 +181,7 @@
 				/>
 
 				<field name="extended_elements" type="textarea"
+					showon="use_config_textfilters:0"
 					cols="30"
 					description="PLG_TINY_FIELD_ELEMENTS_DESC"
 					label="PLG_TINY_FIELD_ELEMENTS_LABEL"
