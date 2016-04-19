@@ -169,8 +169,7 @@ class ContentViewArticle extends JViewLegacy
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
 		// Copy "text" to "introtext" for B/C (some templates might still use introtext...)
-		// but don't do that when introtex != text (there might be templates around using introtext when that's not supposed to happen)
-		// The introtext received by the above templates will not be processed by onContentPrepare: full B/C here!
+		// Don't do that when introtex != text, for full B/C with (non core) templates using introtext when that's not supposed to happen
 		if ($full_fix)
 		{
 			$item->introtext = $item->text;
