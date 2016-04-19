@@ -39,6 +39,7 @@ class UsersModelNotes extends JModelList
 				'review_time', 'a.review_time',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
+				'level', 'c.level',
 			);
 		}
 
@@ -129,6 +130,12 @@ class UsersModelNotes extends JModelList
 				->where('a.user_id = ' . $userId);
 		}
 
+		// Filter on the level.
+		if ($level = $this->getState('filter.level'))
+		{
+			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.review_time')) . ' ' . $db->escape($this->getState('list.direction', 'DESC')));
 
@@ -155,6 +162,7 @@ class UsersModelNotes extends JModelList
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.user_id');
+		$id .= ':' . $this->getState('filter.level');
 
 		return parent::getStoreId($id);
 	}
@@ -202,12 +210,10 @@ class UsersModelNotes extends JModelList
 		}
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string'));
-
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id'));
-
 		$this->setState('filter.user_id', $this->getUserStateFromRequest($this->context . '.filter.user_id', 'filter_user_id'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', null, 'int'));
 
 		parent::populateState($ordering, $direction);
 	}
