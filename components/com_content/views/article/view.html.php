@@ -130,6 +130,8 @@ class ContentViewArticle extends JViewLegacy
 
 		$offset = $this->state->get('list.offset');
 
+		$full_fix = true;
+
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') == false && ($item->params->get('show_noauth', '0') == '0'))
 		{
@@ -146,10 +148,12 @@ class ContentViewArticle extends JViewLegacy
 		elseif ($item->fulltext && $item->params->get('show_intro', '1'))
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
+			$full_fix = false;
 		}
 		elseif ($item->fulltext)
 		{
 			$item->text = $item->fulltext;
+			$full_fix = false;
 		}
 		else
 		{
@@ -165,7 +169,12 @@ class ContentViewArticle extends JViewLegacy
 		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$item->params, $offset));
 
 		// Copy "text" to "introtext" for B/C (some templates might still use introtext...)
-		$item->introtext = $item->text;
+		// but don't do that when introtex != text (there might be templates around using introtext when that's not supposed to happen)
+		// The introtext received by the above templates will not be processed by onContentPrepare: full B/C here!
+		if ($full_fix)
+		{
+			$item->introtext = $item->text;
+		}
 
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, $offset));
