@@ -48,6 +48,7 @@ class ModulesModelModules extends JModelList
 				'position', 'a.position',
 				'pages',
 				'name', 'e.name',
+				'menuitem',
 			);
 		}
 
@@ -82,6 +83,7 @@ class ModulesModelModules extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.position', $this->getUserStateFromRequest($this->context . '.filter.position', 'filter_position', '', 'string'));
 		$this->setState('filter.module', $this->getUserStateFromRequest($this->context . '.filter.module', 'filter_module', '', 'string'));
+		$this->setState('filter.menuitem', $this->getUserStateFromRequest($this->context . '.filter.menuitem', 'filter_menuitem', null, 'int'));
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 
 		// If in modal layout on the frontend, state and language are always forced.
@@ -136,6 +138,7 @@ class ModulesModelModules extends JModelList
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.position');
 		$id .= ':' . $this->getState('filter.module');
+		$id .= ':' . $this->getState('filter.menuitem');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
 
@@ -329,6 +332,35 @@ class ModulesModelModules extends JModelList
 		if ($module = $this->getState('filter.module'))
 		{
 			$query->where($db->quoteName('a.module') . ' = ' . $db->quote($module));
+		}
+
+		// Filter by menuitem id (only for site client).
+		if ((int) $clientId === 0 && $menuitem = $this->getState('filter.menuitem'))
+		{
+			// Modules in "All" pages.
+			$subQuery1 = $db->getQuery(true);
+			$subQuery1->select('MIN(menuid)')
+				->from($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
+
+			// Modules in "Selected" pages that have the chosen menu item id.
+			$subQuery2 = $db->getQuery(true);
+			$subQuery2->select($db->quoteName('moduleid'))
+				->from($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('menuid') . ' = ' . $menuitem);
+
+			// Modules in "All except selected" pages that doesn't have the chosen menu item id.
+			$subQuery3 = $db->getQuery(true);
+			$subQuery3->select($db->quoteName('moduleid'))
+				->from($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('menuid') . ' <> -' . $menuitem);
+
+			// Join over the module menus
+			$query->where('(
+				(' . $subQuery1 . ') = 0 
+				OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+				OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery3 . '))
+				)');
 		}
 
 		// Filter by search in title or note or id:.
