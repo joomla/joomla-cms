@@ -53,6 +53,22 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
+		if ($this->enabled)
+		{
+			if ($this->collect_urls_enabled)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'warning');
+			}
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+		}
+
 		$this->addToolbar();
 
 		parent::display($tpl);
