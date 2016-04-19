@@ -208,9 +208,9 @@ class BannersModelClients extends JModelList
 		}
 
 		// Getting the following metric by joins is WAY TOO SLOW.
-		// Faster to do three queries for very large menu trees.
+		// Faster to do three queries for very large banner trees.
 
-		// Get the menu types of menus in the list.
+		// Get the clients in the list.
 		$db = $this->getDbo();
 		$clientIds = ArrayHelper::getColumn($items, 'id');
 
@@ -220,7 +220,7 @@ class BannersModelClients extends JModelList
 			array_map(array($db, 'quote'), $clientIds)
 		);
 
-		// Get the published menu counts.
+		// Get the published banners count.
 		$query = $db->getQuery(true)
 			->select('cid, COUNT(cid) AS count_published')
 			->from('#__banners')
@@ -241,7 +241,7 @@ class BannersModelClients extends JModelList
 			return false;
 		}
 
-		// Get the unpublished menu counts.
+		// Get the unpublished banners count.
 		$query->clear('where')
 			->where('state = 0')
 			->where('cid IN (' . $clientIds . ')');
@@ -258,7 +258,7 @@ class BannersModelClients extends JModelList
 			return false;
 		}
 
-		// Get the trashed menu counts.
+		// Get the trashed banners count.
 		$query->clear('where')
 			->where('state = -2')
 			->where('cid IN (' . $clientIds . ')');
@@ -275,7 +275,7 @@ class BannersModelClients extends JModelList
 			return false;
 		}
 
-		// Get the archieved menu counts.
+		// Get the archived banners count.
 		$query->clear('where')
 			->where('state = 2')
 			->where('cid IN (' . $clientIds . ')');
