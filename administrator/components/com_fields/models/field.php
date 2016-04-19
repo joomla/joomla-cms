@@ -74,6 +74,31 @@ class FieldsModelField extends JModelAdmin
 			$data['label'] = $data['params']['label'];
 			unset($data['params']['label']);
 		}
+
+		// Alter the title for save as copy
+		$input  = JFactory::getApplication()->input;
+		if ($input->get('task') == 'save2copy')
+		{
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['title'] == $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['title'] = $title;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
+
+			$data['state'] = 0;
+		}
+
 		$success = parent::save($data);
 
 		// If the options have changed delete the values
