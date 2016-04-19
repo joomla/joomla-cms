@@ -37,7 +37,7 @@ class FieldsControllerField extends JControllerForm
 		$this->component = $parts ? $parts[0] : null;
 	}
 
-	public function catchange ()
+	public function storeform ()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -49,6 +49,11 @@ class FieldsControllerField extends JControllerForm
 		if ($parts)
 		{
 			$app->setUserState($parts[0] . '.edit.' . $parts[1] . '.data', $data);
+		}
+
+		if ($this->input->get('userstatevariable'))
+		{
+			$app->setUserState($this->input->get('userstatevariable'), $data);
 		}
 
 		$app->redirect(base64_decode($this->input->get->getBase64('return')));

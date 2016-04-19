@@ -23,7 +23,6 @@
 		description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" size="45" />
 
 	<field name="type" type="type" label="COM_FIELDS_FIELD_TYPE_LABEL"
-		onchange="window.location.href = window.location.href + &#39;&amp;type=&#39; + jQuery(this).val();"
 		default="text" description="COM_FIELDS_FIELD_TYPE_DESC" class=""
 		required="true">
 	</field>

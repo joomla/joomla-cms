@@ -285,7 +285,7 @@ class FieldsHelper
 
 			// Setting the options
 			$uri->setVar('option', 'com_fields');
-			$uri->setVar('task', 'field.catchange');
+			$uri->setVar('task', 'field.storeform');
 			$uri->setVar('context', $parts[0] . '.' . $parts[1]);
 			$uri->setVar('formcontrol', $form->getFormControl());
 			$uri->setVar('view', null);
@@ -298,14 +298,13 @@ class FieldsHelper
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
-				jQuery('input[name=task]').val('field.catchange');
+				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
 				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids .
-							 "'){jQuery(formControl).val('" . $assignedCatids . "');}
+				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
 			});");
 		}
 
