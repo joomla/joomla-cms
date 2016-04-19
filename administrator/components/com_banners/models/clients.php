@@ -283,7 +283,7 @@ class BannersModelClients extends JModelList
 
 		try
 		{
-			$countTrashed = $db->loadAssocList('cid', 'count_published');
+			$countArchived = $db->loadAssocList('cid', 'count_published');
 		}
 		catch (RuntimeException $e)
 		{
