@@ -335,32 +335,41 @@ class ModulesModelModules extends JModelList
 		}
 
 		// Filter by menuitem id (only for site client).
-		if ((int) $clientId === 0 && $menuitem = $this->getState('filter.menuitem'))
+		if ((int) $clientId === 0 && $menuItemId = $this->getState('filter.menuitem'))
 		{
-			// Modules in "All" pages.
-			$subQuery1 = $db->getQuery(true);
-			$subQuery1->select('MIN(menuid)')
-				->from($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
+			// If user selected the modules not assigned to any page (menu item).
+			if ((int) $menuItemId === -1)
+			{
+				$query->having('MIN(mm.menuid) IS NULL');
+			}
+			// If user selected the modules assigned to some particlar page (menu item).
+			else
+			{
+				// Modules in "All" pages.
+				$subQuery1 = $db->getQuery(true);
+				$subQuery1->select('MIN(menuid)')
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
 
-			// Modules in "Selected" pages that have the chosen menu item id.
-			$subQuery2 = $db->getQuery(true);
-			$subQuery2->select($db->quoteName('moduleid'))
-				->from($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('menuid') . ' = ' . $menuitem);
+				// Modules in "Selected" pages that have the chosen menu item id.
+				$subQuery2 = $db->getQuery(true);
+				$subQuery2->select($db->quoteName('moduleid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('menuid') . ' = ' . $menuItemId);
 
-			// Modules in "All except selected" pages that doesn't have the chosen menu item id.
-			$subQuery3 = $db->getQuery(true);
-			$subQuery3->select($db->quoteName('moduleid'))
-				->from($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('menuid') . ' <> -' . $menuitem);
+				// Modules in "All except selected" pages that doesn't have the chosen menu item id.
+				$subQuery3 = $db->getQuery(true);
+				$subQuery3->select($db->quoteName('moduleid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('menuid') . ' <> -' . $menuItemId);
 
-			// Filter by modules assigned to the selected menu item.
-			$query->where('(
-				(' . $subQuery1 . ') = 0 
-				OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-				OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery3 . '))
-				)');
+				// Filter by modules assigned to the selected menu item.
+				$query->where('(
+					(' . $subQuery1 . ') = 0 
+					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
+					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery3 . '))
+					)');
+			}
 		}
 
 		// Filter by search in title or note or id:.
