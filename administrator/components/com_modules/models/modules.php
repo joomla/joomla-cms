@@ -355,7 +355,7 @@ class ModulesModelModules extends JModelList
 				->from($db->quoteName('#__modules_menu'))
 				->where($db->quoteName('menuid') . ' <> -' . $menuitem);
 
-			// Join over the module menus
+			// Filter by modules assigned to the selected menu item.
 			$query->where('(
 				(' . $subQuery1 . ') = 0 
 				OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
