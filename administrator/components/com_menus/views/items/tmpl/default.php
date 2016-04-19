@@ -32,8 +32,8 @@ if ($saveOrder)
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+$colSpan = ($assoc) ? 9 : 8;
 ?>
-
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -56,7 +56,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
+						<th width="1%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="center">
@@ -80,7 +80,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							</th>
 						<?php endif;?>
 						<th width="15%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -89,7 +89,7 @@ $assoc = JLanguageAssociations::isEnabled();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="<?php echo $colSpan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
