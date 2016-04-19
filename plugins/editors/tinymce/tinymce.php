@@ -1144,11 +1144,9 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Get the global text filters to arbitrary text as per settings for current user groups
 	 *
-	 * @param   string  $text  The string to filter
+	 * @return  JFilterInput
 	 *
-	 * @return  string  The filtered string
-	 *
-	 * @since   2.5
+	 * @since   3.6
 	 */
 	protected static function getGlobalFilters()
 	{
