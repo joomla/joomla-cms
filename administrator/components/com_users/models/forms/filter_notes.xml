@@ -20,7 +20,7 @@
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
-			extension="com_users"
+			extension="com_users.notes"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
