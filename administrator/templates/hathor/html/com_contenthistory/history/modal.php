@@ -87,7 +87,9 @@ JFactory::getDocument()->addScriptDeclaration("
 );
 
 ?>
-<h2 class="modal-title"><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h2>
+<div class="modal-header">
+	<h3><?php echo JText::_('COM_CONTENTHISTORY_MODAL_TITLE'); ?></h3>
+</div>
 
 <div class="modal-body">
 
