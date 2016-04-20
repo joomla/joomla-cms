@@ -148,7 +148,7 @@ abstract class JFactory
 		{
 			if ($file === null)
 			{
-				$file = JPATH_ROOT . '/configuration.php';
+				$file = JPATH_CONFIGURATION . '/configuration.php';
 			}
 
 			self::$config = self::createConfig($file, $type, $namespace);
