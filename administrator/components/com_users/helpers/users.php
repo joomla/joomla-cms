@@ -221,4 +221,58 @@ class UsersHelper
 
 		return $options;
 	}
+
+	/**
+	 * Adds Count User Notes Items for Category Manager.
+	 *
+	 * @param   stdClass[]  &$items  The user notes category objects
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function countItems(&$items)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, COUNT(*) AS total')
+				->from($db->qn('#__user_notes'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$userNotes = $db->loadObjectList();
+
+			foreach ($userNotes as $userNote)
+			{
+				if ($userNote->state == 1)
+				{
+					$item->count_published = $userNote->total;
+				}
+
+				if ($userNote->state == 0)
+				{
+					$item->count_unpublished = $userNote->total;
+				}
+
+				if ($userNote->state == 2)
+				{
+					$item->count_archived = $userNote->total;
+				}
+
+				if ($userNote->state == -2)
+				{
+					$item->count_trashed = $newsfeed->total;
+				}
+			}
+		}
+
+		return $items;
+	}
 }
