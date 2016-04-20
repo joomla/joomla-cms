@@ -1,0 +1,1 @@
+(function(e){e(function(){document.formvalidator.setHandler("number",function(e,t){var n=parseInt(t.prop("min")),r=parseInt(t.prop("max"));return!isNaN(n)&&n>e?!1:!isNaN(r)&&r<e?!1:!0})})})(jQuery);
