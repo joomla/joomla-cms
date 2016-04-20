@@ -49,7 +49,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		}
 
 		JHtml::_('behavior.formvalidator');
- 		JHtml::script('media/com_config/js/validate-number.js');
+		JHtml::script('media/com_config/js/validate-number.js');
 
 		// Bind data
 		if ($form && $data)
