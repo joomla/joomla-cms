@@ -858,14 +858,14 @@ class PlgEditorTinymce extends JPlugin
 				case 1:
 				default: /* Advanced mode*/
 					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
+						. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
 
 					$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"table link image code hr charmap autolink lists importcss $dragDropPlg\",
+			plugins : \"table link code hr charmap autolink lists importcss $dragDropPlg\",
 			// Toolbar
 			toolbar1: \"$toolbar1 | $toolbar5\",
 			removed_menuitems: \"newdocument\",
