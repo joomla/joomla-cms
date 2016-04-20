@@ -191,6 +191,22 @@ var JFormValidator = function() {
  	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
  	 	 	return regex.test(value);
  	 	});
+    setHandler('number', function(value, element) {
+      var min = parseInt(element.prop('min')),
+          max = parseInt(element.prop('max'));
+ 
+      if(!isNaN(min) && min > value)
+      {
+        return false;
+      }
+ 
+      if(!isNaN(max) && max < value)
+      {
+        return false;
+      }
+ 
+      return true;
+    });
  	 	// Attach to forms with class 'form-validate'
  	 	var forms = jQuery('form.form-validate');
  	 	for (var i = 0, l = forms.length; i < l; i++) {
