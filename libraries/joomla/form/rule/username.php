@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Form Rule class for the Joomla Platform.
@@ -19,7 +20,7 @@ use Joomla\Registry\Registry;
 class JFormRuleUsername extends JFormRule
 {
 	/**
-	 * Method to test the username for uniqueness.
+	 * Method to test the username for uniqueness, minimum size, maximum size, and character set compliant.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
@@ -35,6 +36,9 @@ class JFormRuleUsername extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
+		// Default value
+		$result = true;
+		
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -56,7 +60,52 @@ class JFormRuleUsername extends JFormRule
 		{
 			return false;
 		}
+		
+		// Get the config params for username
+		$params = JComponentHelper::getParams('com_users');
 
-		return true;
+		// CHECK MINIMUM CHARACTER'S NUMBER
+		
+		// Get the number of characters in $username
+		$usernameLenght = StringHelper::strlen($value);
+		
+		// Get the minimum number of characters
+		$minNumChars = $params->get('minimum_length_username');
+		
+		// If is set minNumChars and $usernameLenght does't achieve minimum lenght
+		if (($minNumChars) && ($usernameLenght < $minNumChars)){
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $value), 'warning');
+			$result = false;
+		}
+		
+		// CHECK MAXIMUM CHARACTER'S NUMBER
+		
+		// Get the minimum number of characters
+		$maxNumChars = $params->get('maximum_length_username');
+		
+		// If is set maxNumChars and $usernameLenght surpass maximum lenght
+		if (($maxNumChars) && ($usernameLenght > $maxNumChars)){
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $value), 'warning');
+			$result = false;
+		}
+		
+		// CHECK IF USERNAME SPELLING IN CHARACTER SET
+		
+		// Get the charset specified in the parameters
+		$charset = array_unique(StringHelper::str_split($params->get('charset')));
+		
+		// Get the username
+		$uname = array_unique(StringHelper::str_split($value));
+		
+		// Get the valid chars
+		$invalid_chars = array_diff($uname, $charset);
+		
+		// Check if all the $uname chars are valid chars
+		if (!empty($invalid_chars)) {
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+			$result = false;
+		}
+
+		return $result;
 	}
 }

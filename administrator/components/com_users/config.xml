@@ -176,29 +176,40 @@
 	<fieldset
 		name="username"
 		label="COM_USERS_CONFIG_USERNAME_OPTIONS" >
-
-			<field name="minNumChars" type="text"
-				size="4"  
-				value="3"
-				filter="int"
-				label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
-				description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC" 
-			/>
-			<field name="maxNumChars" type="text"
-				size="4" 
-				value="20"
-				filter="int"
-				label="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_LABEL"
-				description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC" 
-			/>
-			<field name="charset" type="textarea"
-				rows="4" 
-				cols="50" 
-				value="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
-				filter="string"
-				label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_LABEL"
-				description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_DESC" 
-			/>
+		
+		<field
+			name="minimum_length_username"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
+			first="2"
+			last="99"
+			value="2"
+			step="1">
+			</field>
+			
+		<field
+			name="maximum_length_username"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC"
+			first="2"
+			last="99"
+			value="99"
+			step="1">
+			</field>
+			
+		<field 
+			name="charset" 
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_DESC" 
+			rows="4" 
+			cols="50" 
+			value="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
+			filter="string"
+			>
+			</field>
 	</fieldset>
 	
 	<fieldset
