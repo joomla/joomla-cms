@@ -586,7 +586,7 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// If a language was specified it has priority, otherwise use user or default language settings
-		JPluginHelper::importPlugin('system', 'languagefilter');
+		JPluginHelper::importPlugin('system');
 
 		if (empty($options['language']))
 		{
