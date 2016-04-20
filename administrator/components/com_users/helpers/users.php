@@ -244,8 +244,8 @@ class UsersHelper
 			$query = $db->getQuery(true);
 			$query->select('state, COUNT(*) AS total')
 				->from($db->qn('#__user_notes'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
+				->where($db->qn('catid') . ' = ' . (int) $item->id)
+				->group($db->qn('state'));
 			$db->setQuery($query);
 			$userNotes = $db->loadObjectList();
 
