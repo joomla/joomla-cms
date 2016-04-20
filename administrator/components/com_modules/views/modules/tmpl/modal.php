@@ -55,7 +55,6 @@ modulePosIns = function(position) {
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<div class="clearfix"></div>
-		<hr class="hr-condensed" />
 
 		<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
