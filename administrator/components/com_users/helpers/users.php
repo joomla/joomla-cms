@@ -63,8 +63,8 @@ class UsersHelper
 			$extension = JFactory::getApplication()->input->getString('extension');
 			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories' || $extension == 'com_users'
+				'index.php?option=com_categories&extension=com_users.notes',
+				$vName == 'categories' || $extension == 'com_users.notes'
 			);
 		}
 	}
