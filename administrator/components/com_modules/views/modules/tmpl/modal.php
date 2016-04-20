@@ -36,9 +36,9 @@ modulePosIns = function(position) {
 	window.parent.jModalClose();
 };');
 ?>
-<div style="padding-top: 25px;"></div>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
+	<div class="container-popup">
+
 		<div class="well">
 			<div class="control-group">
 				<div class="control-label">
@@ -51,8 +51,12 @@ modulePosIns = function(position) {
 				</div>
 			</div>
 		</div>
+
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+
 		<div class="clearfix"></div>
+		<hr class="hr-condensed" />
+
 		<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
@@ -144,8 +148,10 @@ modulePosIns = function(position) {
 			</tbody>
 		</table>
 		<?php endif;?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
+
 	</div>
 </form>
