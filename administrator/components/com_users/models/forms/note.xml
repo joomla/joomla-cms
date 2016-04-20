@@ -23,7 +23,7 @@
 		<field
 			name="catid"
 			type="category"
-			extension="com_users"
+			extension="com_users.notes"
 			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
 			description="JFIELD_CATEGORY_DESC" >
 		</field>
