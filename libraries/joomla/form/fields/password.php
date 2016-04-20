@@ -44,6 +44,22 @@ class JFormFieldPassword extends JFormField
 	protected $maxLength;
 
 	/**
+	 * The allowable minlength of password.
+	 *
+	 * @var    integer
+	 * @since  3.5
+	 */
+	protected $minLength;
+
+	/**
+	 * The linked username field.
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $username;
+
+	/**
 	 * Whether to attach a password strength meter or not.
 	 *
 	 * @var    boolean
@@ -67,6 +83,8 @@ class JFormFieldPassword extends JFormField
 			case 'threshold':
 			case 'maxLength':
 			case 'meter':
+			case 'username':
+			case 'minlength':
 				return $this->$name;
 		}
 
@@ -91,6 +109,7 @@ class JFormFieldPassword extends JFormField
 		{
 			case 'maxLength':
 			case 'threshold':
+			case 'username':
 				$this->$name = $value;
 				break;
 
@@ -125,9 +144,8 @@ class JFormFieldPassword extends JFormField
 		{
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
-
-			$meter       = (string) $this->element['strengthmeter'];
-			$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$meter           = (string) $this->element['strengthmeter'];
+			$this->meter     = ($meter == 'true' || $meter == 'on' || $meter == '1');
 		}
 
 		return $return;
@@ -146,31 +164,56 @@ class JFormFieldPassword extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
+		$size            = !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$maxLength       = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$class           = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$readonly        = $this->readonly ? ' readonly' : '';
+		$disabled        = $this->disabled ? ' disabled' : '';
+		$required        = $this->required ? ' required aria-required="true"' : '';
+		$hint            = $hint ? ' placeholder="' . $hint . '"' : '';
+		$autocomplete    = !$this->autocomplete ? ' autocomplete="off"' : '';
+		$autofocus       = $this->autofocus ? ' autofocus' : '';
+		$this->username  = $this->element['username'] ? 'options.common.usernameField = "#jform_' . $this->element['username'] . '";' : '';
+
+		if (!$this->minLength)
+		{
+			$this->minLength = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
+		}
 
 		if ($this->meter)
 		{
-			JHtml::_('script', 'system/passwordstrength.js', true, true);
-			$script = 'new Form.PasswordStrength("' . $this->id . '",
-				{
-					threshold: ' . $this->threshold . ',
-					onUpdate: function(element, strength, threshold) {
-						element.set("data-passwordstrength", strength);
-					}
-				}
-			);';
+			JHtml::_('script', 'jui/pwstrength-bootstrap-1.2.9.min.js', false, true, false, false, true);
 
 			// Load script on document load.
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function(){" . $script . "});"
+				"
+		jQuery(document).ready(function($){
+			'use strict';
+			var options = {};
+			options.common = {};
+			" . $this->username . "
+			options.common.minChar = " . $this->minLength . "
+			options.ui = {
+				bootstrap2: true,
+				showErrors: true,
+			};
+			options.ui.verdicts = [
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_WEAK') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_NORMAL') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_MEDIUM') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_STRONG') . "',
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_VSTRONG') . "'];
+			options.ui.errorMessages = {
+				wordLength: '" . JText::_('JFIELD_PASSWORD_INDICATE_LENGTH') . "',
+				wordNotEmail: '" . JText::_('JFIELD_PASSWORD_INDICATE_NOEMAIL') . "',
+				wordSimilarToUsername: '" . JText::_('JFIELD_PASSWORD_INDICATE_USERNAME') . "',
+				wordTwoCharacterClasses: '" . JText::_('JFIELD_PASSWORD_INDICATE_CHARCLASS') . "',
+				wordRepetitions: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDREP') . "',
+				wordSequences: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDSEQ') . "'
+			};
+			jQuery('#" . $this->id . "').pwstrength(options);
+		});
+				"
 			);
 		}
 
