@@ -268,7 +268,7 @@ class UsersHelper
 
 				if ($userNote->state == -2)
 				{
-					$item->count_trashed = $newsfeed->total;
+					$item->count_trashed = $userNote->total;
 				}
 			}
 		}
