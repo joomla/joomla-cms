@@ -41,7 +41,7 @@ class BannersModelTracks extends JModelList
 			$config['filter_fields'] = array(
 				'b.name', 'banner_name',
 				'cl.name', 'client_name', 'client_id',
-				'cat.title', 'category_title', 'category_id',
+				'c.title', 'category_title', 'category_id',
 				'track_type', 'a.track_type', 'type',
 				'count', 'a.count',
 				'track_date', 'a.track_date', 'end', 'begin',
