@@ -160,8 +160,8 @@ class UsersModelGroups extends JModelList
 			// Inject the values back into the array.
 			foreach ($items as $item)
 			{
-				$item->count_enabled   = isset($countEnabled[$item->id]) ? (int) $countEnabled[$item->id] : 0;
-				$item->count_disabled  = isset($countDisabled[$item->id]) ? (int) $countDisabled[$item->id] : 0;
+				$item->count_enabled   = isset($countEnabled[$item->id]) ? (int) $countEnabled[$item->id]['user_count'] : 0;
+				$item->count_disabled  = isset($countDisabled[$item->id]) ? (int) $countDisabled[$item->id]['user_count'] : 0;
 				$item->user_count      = $item->count_enabled + $item->count_disabled;
 			}
 
