@@ -92,13 +92,13 @@ class JFormRuleUsername extends JFormRule
 		// CHECK IF USERNAME SPELLING IN CHARACTER SET
 		
 		// Get the charset specified in the parameters
-		$charset = array_unique(StringHelper::str_split($params->get('charset')));
+		$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
 		
 		// Get the username
 		$uname = array_unique(StringHelper::str_split($value));
 		
 		// Get the valid chars
-		$invalid_chars = array_diff($uname, $charset);
+		$invalid_chars = array_diff($uname, $allowedCharsUsername);
 		
 		// Check if all the $uname chars are valid chars
 		if (!empty($invalid_chars)) {
