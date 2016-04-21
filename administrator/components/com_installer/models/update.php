@@ -232,7 +232,7 @@ class InstallerModelUpdate extends JModelList
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('COUNT(' . $db->quoteName('update_site_id') . ')')
 			->from($db->quoteName('#__update_sites'))
 			->where($db->quoteName('enabled') . ' = 0');
 

@@ -410,7 +410,7 @@ class InstallerModelDatabase extends InstallerModel
 
 		$db->setQuery($creaTabSql)->execute();
 
-		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
+		$db->setQuery('SELECT COUNT(' . $db->quoteName('converted') . ') FROM ' . $db->quoteName('#__utf8_conversion') . ';');
 
 		$count = $db->loadResult();
 

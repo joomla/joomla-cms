@@ -541,7 +541,7 @@ class JDocumentHtml extends JDocument
 			if ($active)
 			{
 				$query = $db->getQuery(true)
-					->select('COUNT(*)')
+					->select('COUNT(' . $db->quoteName('id') . ')')
 					->from('#__menu')
 					->where('parent_id = ' . $active->id)
 					->where('published = 1');

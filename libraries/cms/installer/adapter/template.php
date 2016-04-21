@@ -436,7 +436,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 
 		// Deny remove default template
 		$db = $this->parent->getDbo();
-		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->quote($name);
+		$query = "SELECT COUNT(id) FROM #__template_styles WHERE home = '1' AND template = " . $db->quote($name);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)

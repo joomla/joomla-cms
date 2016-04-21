@@ -230,7 +230,7 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('COUNT(' . $db->quoteName('extension_id') . ')')
 			->from('#__extensions')
 			->where('name = ' . $db->quote($this->getState('new_name')));
 		$db->setQuery($query);
@@ -374,7 +374,7 @@ class TemplatesModelTemplate extends JModelForm
 		// Codemirror or Editor None should be enabled
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('COUNT(*)')
+			->select('COUNT(' . $db->quoteName('extension_id') . ')')
 			->from('#__extensions as a')
 			->where(
 				'(a.name =' . $db->quote('plg_editors_codemirror') .

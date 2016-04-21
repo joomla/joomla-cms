@@ -17,7 +17,7 @@ $input  = JFactory::getApplication()->input;
 
 // Get the number of unread messages in your inbox.
 $query = $db->getQuery(true)
-	->select('COUNT(*)')
+	->select('COUNT(' . $db->quoteName('message_id') . ')')
 	->from('#__messages')
 	->where('state = 0 AND user_id_to = ' . (int) $user->get('id'));
 

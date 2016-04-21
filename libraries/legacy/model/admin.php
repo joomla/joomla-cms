@@ -786,7 +786,7 @@ abstract class JModelAdmin extends JModelForm
 
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true)
-							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
+							->select('COUNT(' . $db->quoteName('id') . ') as count, ' . $db->quoteName('as1.key'))
 							->from($db->quoteName('#__associations') . ' AS as1')
 							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
 							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))

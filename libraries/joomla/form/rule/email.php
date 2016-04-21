@@ -101,7 +101,7 @@ class JFormRuleEmail extends JFormRule
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('COUNT(*)')
+			$query->select('COUNT(' . $db->quoteName('id') . ')')
 				->from('#__users')
 				->where('email = ' . $db->quote($value));
 
