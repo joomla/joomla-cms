@@ -231,7 +231,12 @@ class FieldsModelFields extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote($language) . ',' . $db->quote('*') . ')');
+			$language = (array)$language;
+			foreach ($language as $key => $l)
+			{
+				$language[$key] = $db->quote($l);
+			}
+			$query->where('a.language in (' . implode(',', $language) . ')');
 		}
 
 		// Filter by a single tag.
