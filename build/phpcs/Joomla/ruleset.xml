@@ -19,7 +19,8 @@
  <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/vendor/*</exclude-pattern>
-
+<!-- Exclude the restore_finalisation until we can deal with nested class definitions -->
+ <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore_finalisation.php</exclude-pattern>
  <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
  <exclude-pattern type="relative">configuration.php</exclude-pattern>
  <exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>

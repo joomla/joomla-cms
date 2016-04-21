@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,16 +92,10 @@ class JFormFieldUser extends JFormField
 			$table->name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
-		// Initialize JavaScript field attributes.
-		$onchange = (string) $this->element['onchange'];
-
 		$extraData = array(
-				'onchange'  => $onchange,
 				'userName'  => $table->name,
 				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded(),
-				'readOnly'  => $this->readonly,
-				'class'     => $this->class,
+				'excluded'  => $this->getExcluded()
 		);
 
 		return array_merge($data, $extraData);

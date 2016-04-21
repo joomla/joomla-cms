@@ -79,13 +79,13 @@ Do you want to improve Joomla?
 --------------------
 * How do you [request a feature](https://docs.joomla.org/How_do_you_request_a_feature%3F)?
 * How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues)?
-* Get Involved: Joomla! is community developed software. [Join the community](http://volunteers.joomla.org/).
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
 * Documentation for [Developers](https://docs.joomla.org/Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 
 Copyright
 ---------------------
-* Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
 * [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)

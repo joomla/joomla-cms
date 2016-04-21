@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.protostar
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ $alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-inf
 						<h4 class="alert-heading"><?php echo JText::_($type); ?></h4>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<p class="alert-message"><?php echo $msg; ?></p>
+								<div class="alert-message"><?php echo $msg; ?></div>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

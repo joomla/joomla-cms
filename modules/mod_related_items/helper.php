@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_related_items
@@ -25,7 +25,7 @@ abstract class ModRelatedItemsHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
@@ -37,7 +37,15 @@ abstract class ModRelatedItemsHelper
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models');
 		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		if ($articles === false)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return array();
+		}
 
 		// Set application parameters in model
 		$appParams = $app->getParams();
@@ -71,7 +79,7 @@ abstract class ModRelatedItemsHelper
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-				return;
+				return array();
 			}
 
 			// Explode the meta keys on a comma
@@ -144,6 +152,7 @@ abstract class ModRelatedItemsHelper
 				}
 
 				$db->setQuery($query, 0, $maximum);
+
 				try
 				{
 					$temp = $db->loadObjectList();
@@ -152,7 +161,7 @@ abstract class ModRelatedItemsHelper
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					return;
+					return array();
 				}
 
 				if (count($temp))

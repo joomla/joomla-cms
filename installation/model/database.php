@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,6 +156,16 @@ class InstallationModelDatabase extends JModelBase
 			$app->enqueueMessage(JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'notice');
 
 			return false;
+		}
+
+		// Workaround for UPPERCASE table prefix for postgresql
+		if ($options->db_type == 'postgresql')
+		{
+			if (strtolower($options->db_prefix) != $options->db_prefix)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'notice');
+				return false;
+			}
 		}
 
 		// Get a database object.
@@ -507,6 +517,31 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		// Get query object for later database access
+		$query = $db->getQuery(true);
+
+		// MySQL only: Attempt to update the table #__utf8_conversion.
+		$serverType = $db->getServerType();
+
+		if ($serverType === 'mysql')
+		{
+			$query->clear()
+				->update($db->quoteName('#__utf8_conversion'))
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'notice');
+
+				return false;
+			}
+		}
+
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 
@@ -542,7 +577,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		$query = $db->getQuery(true)
+		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
 				array(

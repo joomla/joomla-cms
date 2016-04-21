@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
 class JUpdate extends JObject
 {
 	/**
-	 * Update manifest <name> element
+	 * Update manifest `<name>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -26,7 +26,7 @@ class JUpdate extends JObject
 	protected $name;
 
 	/**
-	 * Update manifest <description> element
+	 * Update manifest `<description>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -34,7 +34,7 @@ class JUpdate extends JObject
 	protected $description;
 
 	/**
-	 * Update manifest <element> element
+	 * Update manifest `<element>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -42,7 +42,7 @@ class JUpdate extends JObject
 	protected $element;
 
 	/**
-	 * Update manifest <type> element
+	 * Update manifest `<type>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -50,7 +50,7 @@ class JUpdate extends JObject
 	protected $type;
 
 	/**
-	 * Update manifest <version> element
+	 * Update manifest `<version>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -58,7 +58,7 @@ class JUpdate extends JObject
 	protected $version;
 
 	/**
-	 * Update manifest <infourl> element
+	 * Update manifest `<infourl>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -66,7 +66,7 @@ class JUpdate extends JObject
 	protected $infourl;
 
 	/**
-	 * Update manifest <client> element
+	 * Update manifest `<client>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -74,7 +74,7 @@ class JUpdate extends JObject
 	protected $client;
 
 	/**
-	 * Update manifest <group> element
+	 * Update manifest `<group>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -82,7 +82,7 @@ class JUpdate extends JObject
 	protected $group;
 
 	/**
-	 * Update manifest <downloads> element
+	 * Update manifest `<downloads>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -90,7 +90,7 @@ class JUpdate extends JObject
 	protected $downloads;
 
 	/**
-	 * Update manifest <tags> element
+	 * Update manifest `<tags>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -98,7 +98,7 @@ class JUpdate extends JObject
 	protected $tags;
 
 	/**
-	 * Update manifest <maintainer> element
+	 * Update manifest `<maintainer>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -106,7 +106,7 @@ class JUpdate extends JObject
 	protected $maintainer;
 
 	/**
-	 * Update manifest <maintainerurl> element
+	 * Update manifest `<maintainerurl>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -114,7 +114,7 @@ class JUpdate extends JObject
 	protected $maintainerurl;
 
 	/**
-	 * Update manifest <category> element
+	 * Update manifest `<category>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -122,7 +122,7 @@ class JUpdate extends JObject
 	protected $category;
 
 	/**
-	 * Update manifest <relationships> element
+	 * Update manifest `<relationships>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -130,7 +130,7 @@ class JUpdate extends JObject
 	protected $relationships;
 
 	/**
-	 * Update manifest <targetplatform> element
+	 * Update manifest `<targetplatform>` element
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -297,15 +297,29 @@ class JUpdate extends JObject
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
-				$ver = new JVersion;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+				$product = strtolower(JFilterInput::getInstance()->clean(JVersion::PRODUCT, 'cmd'));
 
-				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
+				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
+				{
+					JLog::add(
+						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
+						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
+						JLog::WARNING,
+						'deprecated'
+					);
+				}
+
+				/*
+				 * Check that the product matches and that the version matches (optionally a regexp)
+				 *
+				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				 */
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
+					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', JVERSION)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))

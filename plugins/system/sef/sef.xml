@@ -3,7 +3,7 @@
 	<name>plg_system_sef</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -22,6 +22,7 @@
 				<field name="domain" type="url"
 					description="PLG_SEF_DOMAIN_DESCRIPTION"
 					label="PLG_SEF_DOMAIN_LABEL"
+					hint="https://www.example.com"
 					filter="url"
 					validate="url"
 				/>

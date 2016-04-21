@@ -3,7 +3,7 @@
 	<name>com_tags</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2013</creationDate>
-	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,6 +28,7 @@
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<folder>controllers</folder>
+			<folder>helpers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
 		</files>
