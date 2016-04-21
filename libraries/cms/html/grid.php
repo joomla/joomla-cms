@@ -122,6 +122,7 @@ abstract class JHtmlGrid
 	 */
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
+		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
 		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
@@ -232,7 +233,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.5
 	 */
-	public static function state($filter_state = '*', $published = 'Published', $unpublished = 'Unpublished', $archived = null, $trashed = null)
+	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
 		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
 

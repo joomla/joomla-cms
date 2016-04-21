@@ -115,6 +115,16 @@ class MenusModelItems extends JModelList
 
 		$this->setState('filter.menutype', $menuType);
 
+		// Get menutype title
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('title')
+			->from($db->quoteName('#__menu_types'))
+			->where($db->quoteName('menutype') . " = " . $db->quote($menuType));
+		$db->setQuery($query);
+		$menuTypeTitle = $db->loadResult();
+		$this->setState('menutypetitle', $menuTypeTitle);
+
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
@@ -202,7 +212,7 @@ class MenusModelItems extends JModelList
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
-						null, 'apublished', null, null, null, null,
+						null, 'a.published', null, null, null, null,
 						null, null, null, null, null, null, null, null, null
 					)
 				)

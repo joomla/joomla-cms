@@ -88,8 +88,8 @@ class TemplatesModelTemplates extends JModelList
 		);
 		$query->from($db->quoteName('#__extensions') . ' AS a');
 
-		// Filter by extension type.
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+		// Filter by extension enabled and extension type.
+		$query->where('a.enabled = 1')->where('a.type = ' . $db->quote('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
@@ -116,7 +116,7 @@ class TemplatesModelTemplates extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.folder')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.element')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -155,7 +155,7 @@ class TemplatesModelTemplates extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.element', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
@@ -169,6 +169,6 @@ class TemplatesModelTemplates extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.element', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }

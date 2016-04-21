@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER"
+			description="JSEARCH_FILTER"
+			hint="JSEARCH_FILTER"
+		/>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="table ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="table ASC">COM_CHECKIN_DATABASE_TABLE_ASC</option>
+			<option value="table DESC">COM_CHECKIN_DATABASE_TABLE_DESC</option>
+			<option value="count ASC">COM_CHECKIN_ITEMS_TO_CHECK_IN_ASC</option>
+			<option value="count DESC">COM_CHECKIN_ITEMS_TO_CHECK_IN_DESC</option>
+		</field> 
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIMIT"
+			description="JGLOBAL_LIMIT"
+			class="input-mini"
+			default="5"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

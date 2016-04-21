@@ -1841,7 +1841,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string  The call stack and back trace in HMTL format.
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	protected function renderCallStack(array $callStack = array())
 	{
@@ -1918,7 +1918,7 @@ class PlgSystemDebug extends JPlugin
 
 			if (!$this->linkFormat)
 			{
-				$htmlCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
+				$htmlCallStack .= '<div>[<a href="https://xdebug.org/docs/all_settings#file_link_format" target="_blank">';
 				$htmlCallStack .= JText::_('PLG_DEBUG_LINK_FORMAT') . '</a>]</div>';
 			}
 		}
@@ -1933,7 +1933,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @return  string  The json string pretty printed.
 	 *
-	 * @since   3.6
+	 * @since   3.5
 	 */
 	protected function prettyPrintJSON($json = '')
 	{

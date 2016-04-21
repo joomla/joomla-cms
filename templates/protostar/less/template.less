@@ -644,3 +644,11 @@ body.modal-open {
 #finder-search .in.collapse {
 	overflow: visible;
 }
+
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
+}

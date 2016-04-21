@@ -99,7 +99,7 @@ class MenusViewMenus extends JViewLegacy
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::divider();
-			JToolbarHelper::deleteList('', 'menus.delete');
+			JToolbarHelper::deleteList('COM_MENUS_MENU_CONFIRM_DELETE', 'menus.delete', 'JTOOLBAR_DELETE');
 		}
 
 		JToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);

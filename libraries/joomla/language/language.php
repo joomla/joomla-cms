@@ -797,17 +797,9 @@ class JLanguage
 
 		if ($strings)
 		{
-			if (is_array($strings))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($strings, SORT_STRING);
-				$this->strings = array_merge($this->strings, $strings);
-			}
-
 			if (is_array($strings) && count($strings))
 			{
-				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
-				$this->strings = array_merge($this->strings, $this->override);
+				$this->strings = array_replace($this->strings, $strings, $this->override);
 				$result = true;
 			}
 		}

@@ -8,7 +8,6 @@
 	<author>Joomla! Arabic Unitag Translation team</author>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Arabic Unitag language installation files for Joomla! 3.x ملفات اللغة العربية الموحدة لتنصيب نظام جوملا!</description>
 	<files>
 		<filename>ar-AA.ini</filename>
 	</files>

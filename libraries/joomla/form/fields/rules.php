@@ -100,7 +100,7 @@ class JFormFieldRules extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -267,7 +267,7 @@ class JFormFieldRules extends JFormField
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
 				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. JHtml::_('tooltipText', JText::_($action->title), JText::_($action->description)) . '">';
+					. JHtml::_('tooltipText', $action->title, $action->description) . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
@@ -374,7 +374,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</div></div>';
-
+		$html[] = '<div class="clr"></div>';
 		$html[] = '<div class="alert">';
 
 		if ($section == 'component' || $section == null)
