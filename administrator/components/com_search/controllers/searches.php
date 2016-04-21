@@ -41,7 +41,7 @@ class SearchControllerSearches extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 */
-	public function toggleresults()
+	public function toggleResults()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
