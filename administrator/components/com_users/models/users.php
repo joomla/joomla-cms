@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of user records.
  *
@@ -60,7 +62,7 @@ class UsersModelUsers extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -71,26 +73,17 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$active = $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active');
-		$this->setState('filter.active', $active);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
-		$this->setState('filter.state', $state);
-
-		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int');
-		$this->setState('filter.group_id', $groupId);
-
-		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');
-		$this->setState('filter.range', $range);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.active', $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active', null, 'int'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', null, 'int'));
+		$this->setState('filter.group_id', $this->getUserStateFromRequest($this->context . '.filter.group_id', 'filter_group_id', null, 'int'));
+		$this->setState('filter.range', $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range', '', 'cmd'));
 
 		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
 
 		if (isset($groups))
 		{
-			JArrayHelper::toInteger($groups);
+			$groups = ArrayHelper::toInteger($groups);
 		}
 
 		$this->setState('filter.groups', $groups);
@@ -99,7 +92,7 @@ class UsersModelUsers extends JModelList
 
 		if (isset($excluded))
 		{
-			JArrayHelper::toInteger($excluded);
+			$excluded = ArrayHelper::toInteger($excluded);
 		}
 
 		$this->setState('filter.excluded', $excluded);
@@ -109,7 +102,7 @@ class UsersModelUsers extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
