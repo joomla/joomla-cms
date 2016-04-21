@@ -46,7 +46,7 @@ class SearchControllerSearches extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		if ($this->getModel('Searches')->getState('show_results', 0, 'int') === 0)
+		if ($this->getModel('Searches')->getState('show_results', 1, 'int') === 0)
 		{
 			$this->setRedirect('index.php?option=com_search&view=searches&show_results=1');
 		}
