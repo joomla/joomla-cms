@@ -378,13 +378,19 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension);
+		$parts = explode('.', $extension, 2);
 		$component = $parts[0];
 		$section = null;
 
 		if (count($parts) > 1)
 		{
 			$section = $parts[1];
+
+			// If the section ends with .fields, then the category belongs to com_fields
+			if (substr($section, -strlen('.fields')) === '.fields')
+			{
+				$component = 'com_fields';
+			}
 		}
 
 		// Try to find the component helper.

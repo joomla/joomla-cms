@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -449,5 +449,59 @@ class FieldsHelper
 		}
 
 		return true;
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   stdClass[]  &$items  The field category objects
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countItems(&$items)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, count(*) AS count')
+				->from($db->qn('#__fields'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$fields = $db->loadObjectList();
+
+			foreach ($fields as $article)
+			{
+				if ($article->state == 1)
+				{
+					$item->count_published = $article->count;
+				}
+
+				if ($article->state == 0)
+				{
+					$item->count_unpublished = $article->count;
+				}
+
+				if ($article->state == 2)
+				{
+					$item->count_archived = $article->count;
+				}
+
+				if ($article->state == -2)
+				{
+					$item->count_trashed = $article->count;
+				}
+			}
+		}
+
+		return $items;
 	}
 }
