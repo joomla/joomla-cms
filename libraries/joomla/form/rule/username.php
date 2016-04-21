@@ -89,21 +89,49 @@ class JFormRuleUsername extends JFormRule
 			$result = false;
 		}
 		
-		// CHECK IF USERNAME SPELLING IN CHARACTER SET
+		// CHECK IF USERNAME SPELLING IN ALLOWED CHARACTER SET
 		
-		// Get the charset specified in the parameters
-		$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
+		// Get preset option
+		$allowed_preset = $params->get('allowed_chars_username_preset');
 		
-		// Get the username
-		$uname = array_unique(StringHelper::str_split($value));
-		
-		// Get the valid chars
-		$invalid_chars = array_diff($uname, $allowedCharsUsername);
-		
-		// Check if all the $uname chars are valid chars
-		if (!empty($invalid_chars)) {
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
-			$result = false;
+		if ($allowed_preset) {
+			
+			// Get the username
+			$uname = array_unique(StringHelper::str_split($value));
+			
+			switch($allowed_preset) {
+				case 1: 
+					// Get the charset specified in the CUSTOM parameter
+					$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
+					break;
+				case 2:
+					// ALPHANUMERIC
+					if (!ctype_alnum($value)) {
+						// Enqueue error message and return false
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
+						return false;
+					}
+				case 3:
+					// EMAIL
+					jimport('joomla.mail.helper');
+					if ( ! JMailHelper::isEmailAddress($value) ) {
+						// Enqueue error message and return false
+						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+						return false;
+					}
+				default:
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
+					return false;
+			}
+
+			// Get the valid chars
+			$invalid_chars = array_diff($uname, $allowedCharsUsername);
+			
+			// Check if all the $uname chars are valid chars
+			if (!empty($invalid_chars)) {
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+				$result = false;
+			}
 		}
 
 		return $result;

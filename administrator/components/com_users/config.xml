@@ -201,7 +201,20 @@
 			last="99"
 			step="1">
 			</field>
-			
+
+		<field 
+			name="allowed_chars_username_preset" 
+			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_DESC"
+			type="list"
+			filter="integer"
+			defaut="0">
+			<option value="0">COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_DISABLECHECK</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM</option>
+			<option value="2">COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_ALPHANUMERIC</option>
+			<option value="3">COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_EMAIL</option>
+		</field>
+
 		<field 
 			name="allowed_chars_username" 
 			type="textarea"
