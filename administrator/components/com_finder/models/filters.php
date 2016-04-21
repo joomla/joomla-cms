@@ -75,7 +75,7 @@ class FinderModelFilters extends JModelList
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 
-		if ($state !== '')
+		if (is_numeric($state))
 		{
 			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
 		}
