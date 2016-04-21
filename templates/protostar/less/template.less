@@ -227,6 +227,9 @@ h6 { font-size: 12px; line-height: 14px; }
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+   color: #999;
+}
 /* Caption fixes */
 .img_caption .left {
 	float: left;
@@ -626,8 +629,26 @@ body.modal-open {
 	display: inline;
 }
 
-/*Corrects the modals padding*/
+/* Corrects the modals padding */
 .field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
+}
+/* Getting rid of scroll bar in smartsearch Advanced search */
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
+}
+
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
 }

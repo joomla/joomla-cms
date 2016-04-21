@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,6 +90,11 @@ class PlgSystemStats extends JPlugin
 		}
 
 		if (!$this->isDebugEnabled() && !$this->isUpdateRequired())
+		{
+			return;
+		}
+
+		if (JUri::getInstance()->getVar("tmpl") === "component")
 		{
 			return;
 		}
@@ -225,6 +230,37 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
+	 * Get the data through events
+	 *
+	 * @param   string  $context  Context where this will be called from
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function onGetStatsData($context)
+	{
+		return $this->getStatsData();
+	}
+
+	/**
+	 * Debug a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function debug($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->debug($data);
+	}
+
+	/**
 	 * Get the data for the layout
 	 *
 	 * @return  array
@@ -247,7 +283,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutsPaths()
+	protected function getLayoutPaths()
 	{
 		$template = JFactory::getApplication()->getTemplate();
 
@@ -270,7 +306,7 @@ class PlgSystemStats extends JPlugin
 	{
 		$renderer = new JLayoutFile($layoutId);
 
-		$renderer->setIncludePaths($this->getLayoutsPaths());
+		$renderer->setIncludePaths($this->getLayoutPaths());
 
 		return $renderer;
 	}
@@ -375,6 +411,23 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
+	 * Render a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function render($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
+	}
+
+	/**
 	 * Save the plugin parameters
 	 *
 	 * @return  boolean
@@ -449,7 +502,7 @@ class PlgSystemStats extends JPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
+			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -465,6 +518,13 @@ class PlgSystemStats extends JPlugin
 		{
 			// An unexpected error in processing; don't let this failure kill the site
 			throw new RuntimeException('Unexpected error connecting to statistics server: ' . $e->getMessage(), 500);
+		}
+
+		if ($response->code !== 200)
+		{
+			$data = json_decode($response->body);
+
+			throw new RuntimeException('Could not send site statistics to remote server: ' . $data->message, $response->code);
 		}
 
 		return true;

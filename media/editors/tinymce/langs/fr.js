@@ -84,6 +84,7 @@ tinymce.addI18n('fr',{
 "Horizontal line": "Ligne horizontale",
 "Horizontal space": "Espacement horizontal",
 "Insert\/edit image": "Ins\u00e9rer\/modifier une image",
+"Insert\/Edit code sample": "Ins\u00e9rer\/modifier un exemple de code",
 "General": "G\u00e9n\u00e9ral",
 "Advanced": "Avanc\u00e9",
 "Source": "Source",
@@ -215,5 +216,6 @@ tinymce.addI18n('fr',{
 "Tools": "Outils",
 "View": "Voir",
 "Table": "Tableau",
+"Language": "Langue",
 "Format": "Format"
 });

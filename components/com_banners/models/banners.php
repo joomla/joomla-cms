@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,7 @@ class BannersModelBanners extends JModelList
 					->where('sub.level <= this.level + ' . $levels);
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
+				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
 			}
 			else
 			{

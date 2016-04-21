@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -325,7 +325,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
@@ -629,6 +629,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * Only applicable for DELETE, INSERT, or UPDATE statements.
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *

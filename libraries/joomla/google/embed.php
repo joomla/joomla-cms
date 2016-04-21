@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,7 @@ abstract class JGoogleEmbed
 	public function __construct(Registry $options = null, JUri $uri = null)
 	{
 		$this->options = $options ? $options : new Registry;
-		$this->uri = $uri ? $uri : new JUri;
+		$this->uri = $uri ? $uri : JUri::getInstance();
 	}
 
 	/**

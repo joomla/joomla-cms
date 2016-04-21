@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.5"
+	client="installation">
+	<name>Slovenian (Slovenia)</name>
+	<version>3.5.0</version>
+	<creationDate>2016-01-22</creationDate>
+	<author></author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. Vse pravice pridržane.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>sl-SI jezik namestitve</description>
+	<files>
+		<filename>sl-SI.ini</filename>
+	</files>
+	<metadata>
+		<name>Slovenian (Slovenia)</name>
+		<tag>sl-SI</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

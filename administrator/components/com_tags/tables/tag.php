@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ class TagsTableTag extends JTableNested
 			$array['metadata'] = (string) $registry;
 		}
 
-		if (isset($array['urls']) && $array['urls'])
+		if (isset($array['urls']) && is_array($array['urls']))
 		{
 			$registry = new Registry;
 			$registry->loadArray($array['urls']);
@@ -154,12 +154,12 @@ class TagsTableTag extends JTableNested
 
 		if (empty($this->metadesc))
 		{
-			$this->metadesc = ' ';
+			$this->metadesc = '';
 		}
 
 		if (empty($this->metakey))
 		{
-			$this->metakey = ' ';
+			$this->metakey = '';
 		}
 
 		if (empty($this->metadata))

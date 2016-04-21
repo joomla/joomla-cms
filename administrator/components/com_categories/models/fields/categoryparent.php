@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,22 @@ class JFormFieldCategoryParent extends JFormFieldList
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
+			// Displays language code if not set to All
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('language'))
+				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
+				->from($db->quoteName('#__categories'));
+
+			$db->setQuery($query);
+			$language = $db->loadResult();
+
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+
+			if ($language !== '*')
+			{
+				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
+			}
 		}
 
 		// Get the current user object.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,65 +13,81 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 ?>
-<script type="text/javascript">
-	Joomla.submitbutton4 = function()
-	{
-		var form = document.getElementById('adminForm');
+JFactory::getDocument()->addScriptDeclaration(
+	'
+Joomla.submitbutton4 = function() {
+var form = document.getElementById("adminForm");
 
-		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://"){
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
-		}
-		else
-		{
-			jQuery('#loading').css('display', 'block');
+// do field validation
+if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
+alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
+}
+else
+{
+jQuery("#loading").css("display", "block");
 
-			form.installtype.value = 'url';
-			form.submit();
-		}
-	};
+form.installtype.value = "url";
+form.submit();
+}
+};
 
-	Joomla.submitbuttonInstallWebInstaller = function()
-	{
-		var form = document.getElementById('adminForm');
+Joomla.submitbuttonInstallWebInstaller = function() {
+var form = document.getElementById("adminForm");
 
-		form.install_url.value = 'http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
 
-		Joomla.submitbutton4();
-	};
+Joomla.submitbutton4();
+};
 
-	// Add spindle-wheel for installations:
-	jQuery(document).ready(function($) {
-		var outerDiv = $('#installer-install');
+// Add spindle-wheel for installations:
+jQuery(document).ready(function($) {
+var outerDiv = $("#installer-install");
 
-		$('<div id="loading"></div>')
-			.css("background", "rgba(255, 255, 255, .8) url('../media/jui/img/ajax-loader.gif') 50% 15% no-repeat")
-			.css("top", outerDiv.position().top - $(window).scrollTop())
-			.css("left", outerDiv.position().left - $(window).scrollLeft())
-			.css("width", outerDiv.width())
-			.css("height", outerDiv.height())
-			.css("position", "fixed")
-			.css("opacity", "0.80")
-			.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
-			.css("filter", "alpha(opacity = 80)")
-			.css("display", "none")
-			.appendTo(outerDiv);
-	});
+$("#loading")
+.css("top", outerDiv.position().top - $(window).scrollTop())
+.css("left", outerDiv.position().left - $(window).scrollLeft())
+.css("width", outerDiv.width())
+.css("height", outerDiv.height())
+.css("display", "none")
+});
 
-	// Set the first tab to active if there is other active tab
-	jQuery(document).ready(function($) {
-		var hasTab = function(href){
-			return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
-		};
+// Set the first tab to active if there is other active tab
+jQuery(document).ready(function($) {
+var hasTab = function(href){
+return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
+};
 
-		if (!hasTab(localStorage.getItem('tab-href')))
-		{
-			var tabAnchor = $("#myTabTabs li:first a");
-			window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
-			tabAnchor.click();
-		}
-	});
-</script>
+if (!hasTab(localStorage.getItem('tab-href')))
+{
+var tabAnchor = $("#myTabTabs li:first a");
+window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
+tabAnchor.click();
+}
+});
+'
+);
+
+JFactory::getDocument()->addStyleDeclaration(
+'
+#loading {
+background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
+position: fixed;
+opacity: 0.8;
+-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
+filter: alpha(opacity = 80);
+margin: -10px -50px 0 -50px;
+overflow: hidden;
+}
+
+.j-jed-message {
+margin-bottom: 40px;
+line-height: 2em;
+color:#333333;
+}
+'
+);
+
+?>
 
 <div id="installer-install" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">

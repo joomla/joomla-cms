@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,6 +84,6 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 		<label for="<?php echo $oid; ?>" class="checkbox">
 			<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
-		<?php echo JText::alt($option->text, $alt); ?></label>
+		<?php echo $option->text; ?></label>
 	<?php endforeach; ?>
 </fieldset>

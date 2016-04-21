@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id = JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$id = $paramItem ? $paramItem : JFactory::getApplication()->input->get('Itemid', '0', 'int');
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
