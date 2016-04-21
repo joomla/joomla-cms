@@ -59,11 +59,11 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th width="1%" class="nowrap center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th class="nowrap">
-						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-					</th>
 					<th width="1%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
+					</th>
+					<th class="nowrap">
+						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
@@ -98,6 +98,9 @@ JFactory::getDocument()->addScriptDeclaration('
 					<td class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
 					</td>
+					<td class="center nowrap">
+						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
+					</td>
 					<td>
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin); ?>
@@ -108,9 +111,6 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php else : ?>
 							<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
-					</td>
-					<td class="center nowrap">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'filters.', $canChange); ?>
 					</td>
 					<td class="nowrap hidden-phone">
 						<?php echo $item->created_by_alias ? $item->created_by_alias : $item->user_name; ?>

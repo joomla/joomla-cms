@@ -27,10 +27,10 @@
 			default="a.title ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.created_by_alias ASC">COM_FINDER_HEADING_CREATED_BY_ASC</option>
 			<option value="a.created_by_alias DESC">COM_FINDER_HEADING_CREATED_BY_DESC</option>
 			<option value="a.created ASC">COM_FINDER_HEADING_CREATED_ON_ASC</option>
