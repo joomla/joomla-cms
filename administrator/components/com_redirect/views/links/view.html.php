@@ -127,7 +127,7 @@ class RedirectViewLinks extends JViewLegacy
 			// Get the toolbar object instance
 			$bar = JToolbar::getInstance('toolbar');
 
-			$title = JText::_('JTOOLBAR_BULK');
+			$title = JText::_('JTOOLBAR_BULK_IMPORT');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('toolbar.batch');
