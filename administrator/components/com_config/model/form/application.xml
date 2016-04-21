@@ -727,12 +727,14 @@
 			name="lifetime"
 			type="number"
 			min="1"
+			step="1"
 			default="15"
 			label="COM_CONFIG_FIELD_SESSION_TIME_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_TIME_DESC"
 			required="true"
 			filter="integer"
 			validate="number"
+			class="validate-range"
 			size="6" />
 
 		<field

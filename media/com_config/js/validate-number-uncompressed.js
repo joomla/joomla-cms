@@ -1,20 +1,24 @@
 ;(function($){
-  $(function(){
-    document.formvalidator.setHandler('number', function(value, element){
-      var min = parseInt(element.prop('min')),
-          max = parseInt(element.prop('max'));
+	$(function(){
+		document.formvalidator.setHandler('range', function(value, element){
+			
+			var min  = parseFloat(element.prop('min')),
+				max  = parseFloat(element.prop('max')),
+				step = parseFloat(element.prop('step'));
 
-      if(!isNaN(min) && min > value)
-      {
-        return false;
-      }
+			if(!isNaN(min) && min > value){
+				return false;
+			}
 
-      if(!isNaN(max) && max < value)
-      {
-        return false;
-      }
+			if(!isNaN(max) && max < value){
+				return false;
+			}
 
-      return true;
-    });
-  });
+			if(!isNaN(step) && value % step !== 0){
+				return false;
+			}
+
+			return true;
+		});
+	});
 })(jQuery);
