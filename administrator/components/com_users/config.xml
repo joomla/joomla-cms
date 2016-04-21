@@ -128,7 +128,12 @@
 			step="1"
 			default="1">
 			</field>
-
+	</fieldset>
+	
+	<fieldset
+		name="password"
+		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
+		
 		<field
 			name="minimum_length"
 			type="integer"
@@ -172,7 +177,7 @@
 			default="0">
 			</field>
 	</fieldset>
-
+	
 	<fieldset
 		name="username"
 		label="COM_USERS_CONFIG_USERNAME_OPTIONS" >
@@ -182,9 +187,8 @@
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
-			first="2"
+			first="0"
 			last="99"
-			value="2"
 			step="1">
 			</field>
 			
@@ -193,9 +197,8 @@
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC"
-			first="2"
+			first="0"
 			last="99"
-			value="99"
 			step="1">
 			</field>
 			
@@ -205,8 +208,7 @@
 			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_DESC" 
 			rows="4" 
-			cols="50" 
-			value="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
+			cols="50"
 			filter="string"
 			>
 			</field>
