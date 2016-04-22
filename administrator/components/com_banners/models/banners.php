@@ -48,6 +48,7 @@ class BannersModelBanners extends JModelList
 				'sticky', 'a.sticky',
 				'client_id',
 				'category_id',
+				'published',
 			);
 		}
 
@@ -131,14 +132,14 @@ class BannersModelBanners extends JModelList
 		$query->select('cl.name AS client_name,cl.purchase_type as client_purchase_type')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 
-		// Filter by state
-		$state = $this->getState('filter.state');
+		// Filter by published state
+		$published = $this->getState('filter.published');
 
-		if (is_numeric($state))
+		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $state);
+			$query->where('a.state = ' . (int) $published);
 		}
-		elseif ($state === '')
+		elseif ($published === '')
 		{
 			$query->where('(a.state IN (0, 1))');
 		}
@@ -217,7 +218,7 @@ class BannersModelBanners extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.language');
 
@@ -256,7 +257,7 @@ class BannersModelBanners extends JModelList
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', ''));
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', ''));
 		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', ''));

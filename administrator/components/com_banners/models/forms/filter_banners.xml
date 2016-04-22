@@ -10,7 +10,7 @@
 			class="js-stools-search-string"
 		/>
 		<field
-			name="state"
+			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
