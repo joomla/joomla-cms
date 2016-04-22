@@ -166,7 +166,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 						<td class="small hidden-phone">
 							<?php if ($item->created_by_alias) : ?>
 								<?php echo $this->escape($item->author_name); ?>
-								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+								<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 							<?php else : ?>
 								<?php echo $this->escape($item->author_name); ?>
 							<?php endif; ?>
