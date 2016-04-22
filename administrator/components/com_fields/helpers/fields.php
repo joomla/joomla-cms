@@ -148,15 +148,10 @@ class FieldsHelper
 
 			foreach ($fields as $key => $original)
 			{
-<<<<<<< HEAD
 				/*
 				 * Doing a clone, otherwise fields for different items will
 				 * always reference to the same object
 				 */
-=======
-				// Doing a clone, otherwise fields for different items will
-				// always reference the same object
->>>>>>> customfields/custom-fields
 				$field = clone $original;
 				$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 
@@ -340,12 +335,7 @@ class FieldsHelper
 			}
 			jQuery( document ).ready(function() {
 				var formControl = '#" . $form->getFormControl() . "_catid';
-<<<<<<< HEAD
-				if (!jQuery(formControl).val() != '" . $assignedCatids .
-							"'){jQuery(formControl).val('" . $assignedCatids . "');}
-=======
 				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
->>>>>>> customfields/custom-fields
 			});");
 		}
 
@@ -458,18 +448,12 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-<<<<<<< HEAD
 					/*
 					 *If the field belongs to a assigned_cat_ids but the
 					 * assigned_cat_ids in the data is not known, set the
 					 * required
 					 * flag to false on any circumstance
 					 */
-=======
-					// If the field belongs to an assigned_cat_ids but the
-					// assigned_cat_ids in the data is not known, set the
-					// required flag to false on any circumstance.
->>>>>>> customfields/custom-fields
 					if (! $assignedCatids && $field->assigned_cat_ids)
 					{
 						$node->setAttribute('required', 'false');
