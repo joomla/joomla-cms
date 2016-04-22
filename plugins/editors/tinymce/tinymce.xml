@@ -152,7 +152,9 @@
 					<option value="0">PLG_TINY_FIELD_VALUE_P</option>
 				</field>
 
-				<field name="use_config_textfilters" type="radio"
+				<field 
+					name="use_config_textfilters"
+					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
 					description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
