@@ -7886,7 +7886,7 @@ th .tooltip-inner {
 	position: absolute;
 }
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 .controls .btn-group > .btn {
 	min-width: 50px;

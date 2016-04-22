@@ -7521,3 +7521,6 @@ body.modal-open {
 .well .chzn-container {
 	max-width: 100%;
 }
+.container-popup {
+	padding: 28px 10px 10px 10px;
+}
