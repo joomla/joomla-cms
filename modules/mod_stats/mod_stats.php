@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Include the syndicate functions only once
+// Include the statistics functions only once
 require_once __DIR__ . '/helper.php';
 
 $serverinfo      = $params->get('serverinfo');

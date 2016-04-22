@@ -413,6 +413,11 @@ class JForm
 		// Process each found fieldset.
 		foreach ($sets as $set)
 		{
+			if ((string) $set['hidden'] == 'true')
+			{
+				continue;
+			}
+
 			// Are we dealing with a fieldset element?
 			if ((string) $set['name'])
 			{
