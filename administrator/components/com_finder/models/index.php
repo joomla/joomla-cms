@@ -280,6 +280,26 @@ class FinderModelIndex extends JModelList
 	}
 
 	/**
+	 * Gets the total of indexed items.
+	 *
+	 * @return  int  The total of indexed items.
+	 *
+	 * @since   3.5.2
+	 */
+	public function getTotalIndexed()
+	{
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(link_id)')
+			->from($db->quoteName('#__finder_links'));
+		$db->setQuery($query);
+
+		$db->execute();
+
+		return (int) $db->loadResult();
+	}
+
+	/**
 	 * Returns a JTable object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate. [optional]

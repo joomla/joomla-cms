@@ -54,7 +54,7 @@ class FinderViewIndex extends JViewLegacy
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
 		}
-		elseif ($this->total === 0)
+		elseif ($this->get('TotalIndexed') === 0)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
