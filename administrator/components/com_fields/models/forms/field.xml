@@ -23,13 +23,9 @@
 		description="JFIELD_ALIAS_DESC" hint="JFIELD_ALIAS_PLACEHOLDER" size="45" />
 
 	<field name="type" type="type" label="COM_FIELDS_FIELD_TYPE_LABEL"
-		onchange="window.location.href = window.location.href + &#39;&amp;type=&#39; + jQuery(this).val();"
 		default="text" description="COM_FIELDS_FIELD_TYPE_DESC" class=""
 		required="true">
 	</field>
-	<field name="label" type="text" label="COM_FIELDS_FIELD_LABEL_LABEL"
-		description="COM_FIELDS_FIELD_LABEL_DESC" class="input-xxlarge"
-		size="40" required="true" />
 	<field name="required" type="radio" class="btn-group" default="0"
 		label="COM_FIELDS_FIELD_REQUIRED_LABEL" description="COM_FIELDS_FIELD_REQUIRED_DESC">
 		<option value="1">JYES</option>
@@ -91,6 +87,9 @@
 
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
+			<field name="label" type="text" label="COM_FIELDS_FIELD_LABEL_LABEL"
+				description="COM_FIELDS_FIELD_LABEL_DESC" class="input-xxlarge"
+				size="40" required="true" />
 			<field name="image" type="media" label="COM_FIELDS_FIELD_IMAGE_LABEL"
 				description="COM_FIELDS_FIELD_IMAGE_DESC" />
 			<field name="image_alt" type="text"

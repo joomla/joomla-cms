@@ -43,7 +43,6 @@ class PlgUserProfile extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		JFormHelper::addFieldPath(__DIR__ . '/fields');
 	}
 
 	/**
@@ -373,7 +372,7 @@ class PlgUserProfile extends JPlugin
 		$option     = JFactory::getApplication()->input->getCmd('option');
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = ($this->params->get('register-require_tos', 0) == 2) ? true : false;
-		if (($task == 'register') && ($tosenabled) && ($tosarticle) && ($option == 'com_user'))
+		if (($task == 'register') && ($tosenabled) && ($tosarticle) && ($option == 'com_users'))
 		{
 			// Check that the tos is checked.
 			if ((!($data['profile']['tos'])))

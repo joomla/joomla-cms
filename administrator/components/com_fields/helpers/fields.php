@@ -21,7 +21,7 @@ class FieldsHelper
 
 	/**
 	 * Extracts the component and section from the context string which has to
-	 * be in format component.context.
+	 * be in the format component.context.
 	 *
 	 * @param   string  $contextString  contextString
 	 *
@@ -89,12 +89,11 @@ class FieldsHelper
 	/**
 	 * Returns the fields for the given context.
 	 * If the item is an object the returned fields do have an additional field
-	 * "value" which represents the value for the given item. If the item has a
+	 * "value" which represents the value for the given item. If the item has an
 	 * assigned_cat_ids field, then additionally fields which belong to that
 	 * category will be returned.
-	 * Should the value being prepared to be shown in an HTML context
-	 * prepareValue must be set to true. Then no further escaping needs to be
-	 * don.
+	 * Should the value being prepared to be shown in an HTML context then
+	 * prepareValue must be set to true. No further escaping needs to be done.
 	 *
 	 * @param   string    $context       The context of the content passed to the helper
 	 * @param   stdClass  $item          item
@@ -113,7 +112,7 @@ class FieldsHelper
 				'ignore_request' => true)
 			);
 			self::$fieldsCache->setState('filter.published', 1);
-			self::$fieldsCache->setState('filter.language', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag());
+			self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
 			self::$fieldsCache->setState('list.limit', 0);
 		}
 
@@ -149,10 +148,15 @@ class FieldsHelper
 
 			foreach ($fields as $key => $original)
 			{
+<<<<<<< HEAD
 				/*
 				 * Doing a clone, otherwise fields for different items will
 				 * always reference to the same object
 				 */
+=======
+				// Doing a clone, otherwise fields for different items will
+				// always reference the same object
+>>>>>>> customfields/custom-fields
 				$field = clone $original;
 				$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
 
@@ -233,8 +237,7 @@ class FieldsHelper
 		 * called, so there is no way to load the layout overrides in the order
 		 * template -> context -> fields.
 		 * If there is no override in the context then we need to call the
-		 * layout
-		 * from Fields.
+		 * layout from Fields.
 		 */
 		if ($parts = self::extract($context))
 		{
@@ -316,7 +319,7 @@ class FieldsHelper
 
 			// Setting the options
 			$uri->setVar('option', 'com_fields');
-			$uri->setVar('task', 'field.catchange');
+			$uri->setVar('task', 'field.storeform');
 			$uri->setVar('context', $parts[0] . '.' . $parts[1]);
 			$uri->setVar('formcontrol', $form->getFormControl());
 			$uri->setVar('view', null);
@@ -331,14 +334,18 @@ class FieldsHelper
 					"function categoryHasChanged(element){
 				var cat = jQuery(element);
 				if (cat.val() == '" . $assignedCatids . "')return;
-				jQuery('input[name=task]').val('field.catchange');
+				jQuery('input[name=task]').val('field.storeform');
 				element.form.action='" . $uri . "';
 				element.form.submit();
 			}
 			jQuery( document ).ready(function() {
 				var formControl = '#" . $form->getFormControl() . "_catid';
+<<<<<<< HEAD
 				if (!jQuery(formControl).val() != '" . $assignedCatids .
 							"'){jQuery(formControl).val('" . $assignedCatids . "');}
+=======
+				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
+>>>>>>> customfields/custom-fields
 			});");
 		}
 
@@ -451,12 +458,18 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
+<<<<<<< HEAD
 					/*
 					 *If the field belongs to a assigned_cat_ids but the
 					 * assigned_cat_ids in the data is not known, set the
 					 * required
 					 * flag to false on any circumstance
 					 */
+=======
+					// If the field belongs to an assigned_cat_ids but the
+					// assigned_cat_ids in the data is not known, set the
+					// required flag to false on any circumstance.
+>>>>>>> customfields/custom-fields
 					if (! $assignedCatids && $field->assigned_cat_ids)
 					{
 						$node->setAttribute('required', 'false');
@@ -498,5 +511,59 @@ class FieldsHelper
 		}
 
 		return true;
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   stdClass[]  &$items  The field category objects
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countItems(&$items)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, count(*) AS count')
+				->from($db->qn('#__fields'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$fields = $db->loadObjectList();
+
+			foreach ($fields as $article)
+			{
+				if ($article->state == 1)
+				{
+					$item->count_published = $article->count;
+				}
+
+				if ($article->state == 0)
+				{
+					$item->count_unpublished = $article->count;
+				}
+
+				if ($article->state == 2)
+				{
+					$item->count_archived = $article->count;
+				}
+
+				if ($article->state == -2)
+				{
+					$item->count_trashed = $article->count;
+				}
+			}
+		}
+
+		return $items;
 	}
 }

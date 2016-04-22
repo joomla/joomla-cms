@@ -83,7 +83,7 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only safe the fields with the alias from the data
+			// Only save the fields with the alias from the data
 			if (!key_exists($field->alias, $params))
 			{
 				continue;
@@ -148,7 +148,7 @@ class PlgSystemFields extends JPlugin
 
 		foreach ($fieldsObjects as $field)
 		{
-			// Only safe the fields with the alias from the data
+			// Only save the fields with the alias from the data
 			if (!key_exists($field->alias, $fields))
 			{
 				continue;
@@ -176,8 +176,6 @@ class PlgSystemFields extends JPlugin
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
 		// It is not possible to manipulate the user during save events
-		// http://joomla.stackexchange.com/questions/10693/changing-user-group-in-onuserbeforesave-of-user-profile-plugin-doesnt-work
-
 		// Check if data is valid or we are in a recursion
 		if (!$userData['id'] || !$success)
 		{
@@ -191,7 +189,7 @@ class PlgSystemFields extends JPlugin
 		$this->onContentBeforeSave('com_users.user', $user, false);
 		$this->onContentAfterSave('com_users.user', $user, false);
 
-		// Save the user with the modifed params
+		// Save the user with the modified params
 		$db = JFactory::getDbo();
 		$db->setQuery('update #__users set params = ' . $db->q($user->params));
 		$db->execute();
@@ -262,7 +260,11 @@ class PlgSystemFields extends JPlugin
 
 		if ((!isset($data->catid) || !$data->catid) && JFactory::getApplication()->isSite() && $component = 'com_content')
 		{
-			$data->catid = JFactory::getApplication()->getMenu()->getActive()->params->get('catid');
+			$activeMenu = JFactory::getApplication()->getMenu()->getActive();
+			if ($activeMenu && $activeMenu->params)
+			{
+				$data->catid = $activeMenu->params->get('catid');
+			}
 		}
 
 		FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
@@ -406,7 +408,7 @@ class PlgSystemFields extends JPlugin
 			// it on the next iteration again
 			$contextFields = array_merge(array(), $fields);
 
-			// Loop trough the params and set them on the model
+			// Loop through the params and set them in the model
 			foreach ($params as $string)
 			{
 				$string = trim($string);

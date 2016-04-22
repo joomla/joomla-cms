@@ -61,8 +61,16 @@ class FieldsHelperInternal
 				{
 					$lang = JFactory::getLanguage();
 
+<<<<<<< HEAD
 					// Loading language file from the administrator/language directory then loading language file from the administrator/components/*context*/language directory
 					$lang->load($component, JPATH_BASE, null, false, true) || $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+=======
+					// Loading language file from the administrator/language
+					// directory then loading language file from the
+					// administrator/components/*context*/language directory
+					$lang->load($component, JPATH_BASE, null, false, true) ||
+							 $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+>>>>>>> customfields/custom-fields
 
 					call_user_func(array($cName, 'addSubmenu'), 'fields' . (isset($section) ? '.' . $section : ''));
 				}

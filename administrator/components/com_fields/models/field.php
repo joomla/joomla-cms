@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -66,8 +66,39 @@ class FieldsModelField extends JModelAdmin
 
 		if (! isset($data['assigned_cat_ids']))
 		{
-			$data['assigned_cat_ids'] = [];
+			$data['assigned_cat_ids'] = array();
 		}
+
+		if(!isset($data['label']) && isset($data['params']['label']))
+		{
+			$data['label'] = $data['params']['label'];
+			unset($data['params']['label']);
+		}
+
+		// Alter the title for save as copy
+		$input  = JFactory::getApplication()->input;
+		if ($input->get('task') == 'save2copy')
+		{
+			$origTable = clone $this->getTable();
+			$origTable->load($input->getInt('id'));
+
+			if ($data['title'] == $origTable->title)
+			{
+				list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+				$data['title'] = $title;
+				$data['alias'] = $alias;
+			}
+			else
+			{
+				if ($data['alias'] == $origTable->alias)
+				{
+					$data['alias'] = '';
+				}
+			}
+
+			$data['state'] = 0;
+		}
+
 		$success = parent::save($data);
 
 		// If the options have changed delete the values
@@ -280,6 +311,11 @@ class FieldsModelField extends JModelAdmin
 				// Set the type if available from the request
 				$data->set('type', $app->input->getWord('type', $data->get('type')));
 			}
+
+			if ($data->label && !isset($data->params['label']))
+			{
+				$data->params['label'] = $data->label;
+			}
 		}
 
 		$this->preprocessData('com_fields.field', $data);
@@ -409,12 +445,12 @@ class FieldsModelField extends JModelAdmin
 			}
 			else if (count($value) == 1 && count((array) $oldValue) == 1)
 			{
-				// Only a one row value, update can be done
+				// Only a single row value update can be done
 				$needsUpdate = true;
 			}
 			else
 			{
-				// Multiple values, we need to purge the data and doing a new
+				// Multiple values, we need to purge the data and do a new
 				// insert
 				$needsDelete = true;
 				$needsInsert = true;

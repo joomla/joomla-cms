@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -89,7 +89,7 @@ if ($saveOrder)
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="10">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>

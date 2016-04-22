@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-// Check if we have all data
+// Check if we have all the data
 if (!key_exists('item', $displayData) || !key_exists('context', $displayData))
 {
 	return;
@@ -67,7 +67,7 @@ if (key_exists('container-class', $displayData) && $displayData['container-class
 // Print the container tag
 echo '<' . $container . ' class="fields-container ' . $class . '">';
 
-// Loop trough the fields and print them
+// Loop through the fields and print them
 foreach ($fields as $field)
 {
 	// If the value is empty dp nothing

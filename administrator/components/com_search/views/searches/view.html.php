@@ -33,11 +33,23 @@ class SearchViewSearches extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Set variables
+		$app              = JFactory::getApplication();
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state      = $this->get('State');
 		$this->enabled    = $this->state->params->get('enabled');
 		$this->canDo      = JHelperContent::getActions('com_search');
+
+		// Check if plugin is enabled
+		if ($this->enabled)
+		{
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'error');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

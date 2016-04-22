@@ -12,9 +12,8 @@ class FieldsTypeBase
 {
 
 	/**
-	 * Returns a XML field tag for that type which can be placed in the given
-	 * form.
-	 * The form can be manipulated during preparation of the dom node.
+	 * Returns an XML field tag for that type which can be placed in the given
+	 * form. The form can be manipulated during preparation of the dom node.
 	 *
 	 * @param stdClass $field
 	 * @param DOMElement $parent
@@ -64,7 +63,7 @@ class FieldsTypeBase
 	}
 
 	/**
-	 * Prepares the given value to be ready to be displayed in a HTML context.
+	 * Prepares the given value to be ready to be displayed in an HTML context.
 	 *
 	 * @param stdClass $field
 	 * @param mixed $value
@@ -79,8 +78,7 @@ class FieldsTypeBase
 
 	/**
 	 * Function to manipulate the DOM node before it is returned to the form
-	 * document.
-	 * The form can be manipulated during preparation of the dom node.
+	 * document. The form can be manipulated during preparation of the dom node.
 	 *
 	 * @param stdClass $field
 	 * @param DOMElement $fieldNode
