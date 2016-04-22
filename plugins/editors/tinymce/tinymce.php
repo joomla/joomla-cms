@@ -296,23 +296,23 @@ class PlgEditorTinymce extends JPlugin
 			if ($this->params->get('use_config_textfilters', 0))
 			{
 				// Use filters from com_config
-				$filter = self::getGlobalFilters();
+				$filter = $this->getGlobalFilters();
 
-				$tagBlacklist	= !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
+				$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
 				$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
-				$tagArray		= !empty($filter->tagArray) ? $filter->tagArray : array();
-				$attrArray		= !empty($filter->attrArray) ? $filter->attrArray : array();
+				$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
+				$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
 
-				$invalid_elements	= implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
-				$extended_elements	= '';
-				$valid_elements		= '';
+				$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
+				$extended_elements = '';
+				$valid_elements    = '';
 			}
 			else
 			{
-				// Use filters from Tiny Params
-				$invalid_elements	= $this->params->get('invalid_elements', 'script,applet,iframe');
+				// Use filters from TinyMCE params
+				$invalid_elements  = $this->params->get('invalid_elements', 'script,applet,iframe');
 				$extended_elements = $this->params->get('extended_elements', '');
-				$valid_elements		= $this->params->get('valid_elements', '');
+				$valid_elements    = $this->params->get('valid_elements', '');
 			}
 
 			// Advanced Options
@@ -1151,19 +1151,19 @@ class PlgEditorTinymce extends JPlugin
 	protected static function getGlobalFilters()
 	{
 		// Filter settings
-		$config   = JComponentHelper::getParams('com_config');
-		$user    = JFactory::getUser();
+		$config     = JComponentHelper::getParams('com_config');
+		$user       = JFactory::getUser();
 		$userGroups = JAccess::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
-		$blackListTags    = array();
+		$blackListTags       = array();
 		$blackListAttributes = array();
 
-		$customListTags    = array();
+		$customListTags       = array();
 		$customListAttributes = array();
 
-		$whiteListTags    = array();
+		$whiteListTags       = array();
 		$whiteListAttributes = array();
 
 		$whiteList  = false;
@@ -1172,7 +1172,7 @@ class PlgEditorTinymce extends JPlugin
 		$unfiltered = false;
 
 		// Cycle through each of the user groups the user is in.
-		// Remember they are included in the Public group as well.
+		// Remember they are included in the public group as well.
 		foreach ($userGroups as $groupId)
 		{
 			// May have added a group but not saved the filters.
@@ -1295,6 +1295,7 @@ class PlgEditorTinymce extends JPlugin
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
+
 				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
