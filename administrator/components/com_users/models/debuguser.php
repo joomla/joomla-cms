@@ -124,7 +124,7 @@ class UsersModelDebugUser extends JModelList
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int'));
+		$this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int', false));
 
 		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
 		$this->setState('filter.level_start', $levelStart);
@@ -206,13 +206,6 @@ class UsersModelDebugUser extends JModelList
 			)
 		);
 		$query->from($db->quoteName('#__assets', 'a'));
-
-		// Filter the items over the group id if set.
-		if ($groupId = $this->getState('filter.group_id'))
-		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
-				->where('map2.group_id = ' . (int) $groupId);
-		}
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search'))
