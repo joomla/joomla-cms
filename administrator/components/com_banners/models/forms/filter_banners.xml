@@ -10,7 +10,7 @@
 			class="js-stools-search-string"
 		/>
 		<field
-			name="published"
+			name="state"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
@@ -29,15 +29,15 @@
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
 		<field
-         		name="client_id"
-                	type="bannerclient"
-                	label="COM_BANNERS_FILTER_CLIENT"
-                	extension="com_content"
-                	description="COM_BANNERS_FILTER_CLIENT_DESC"
-                	onchange="this.form.submit();"
-                	>
-            		<option value="">COM_BANNERS_SELECT_CLIENT</option>
-        	</field>
+			name="client_id"
+			type="bannerclient"
+			label="COM_BANNERS_FILTER_CLIENT"
+			extension="com_content"
+			description="COM_BANNERS_FILTER_CLIENT_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_BANNERS_SELECT_CLIENT</option>
+		</field>
 		<field
 			name="language"
 			type="contentlanguage"

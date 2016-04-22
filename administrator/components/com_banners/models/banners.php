@@ -45,10 +45,9 @@ class BannersModelBanners extends JModelList
 				'clicks', 'a.clicks',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'state', 'sticky', 'a.sticky',
+				'sticky', 'a.sticky',
 				'client_id',
 				'category_id',
-				'published'
 			);
 		}
 
@@ -132,14 +131,14 @@ class BannersModelBanners extends JModelList
 		$query->select('cl.name AS client_name,cl.purchase_type as client_purchase_type')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 
-		// Filter by published state
-		$published = $this->getState('filter.published');
+		// Filter by state
+		$state = $this->getState('filter.state');
 
-		if (is_numeric($published))
+		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('a.state = ' . (int) $state);
 		}
-		elseif ($published === '')
+		elseif ($state === '')
 		{
 			$query->where('(a.state IN (0, 1))');
 		}
@@ -218,8 +217,7 @@ class BannersModelBanners extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
-		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.language');
 
