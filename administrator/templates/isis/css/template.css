@@ -7847,6 +7847,9 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
+table label {
+	margin: 0;
+}
 td.has-context {
 	height: 23px;
 }
