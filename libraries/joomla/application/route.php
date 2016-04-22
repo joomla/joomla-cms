@@ -22,7 +22,7 @@ class JRoute
 	 * @var    JRouter
 	 * @since  12.2
 	 */
-	private static $_router = null;
+	private static $_router = array();
 
 	/**
 	 * Translates an internal Joomla URL to a humanly readable URL.
@@ -38,16 +38,20 @@ class JRoute
 	 *
 	 * @since   11.1
 	 */
-	public static function _($url, $xhtml = true, $ssl = null)
+	public static function _($url, $xhtml = true, $ssl = null, $forcedClient = null)
 	{
-		if (!self::$_router)
+		// Get the router.
+		$app = JFactory::getApplication();
+
+		// Check which client we are using.
+		$client = isset($forcedClient) ? $forcedClient : $app->getName();
+
+		if (!isset(self::$_router[$client]))
 		{
-			// Get the router.
-			$app = JFactory::getApplication();
-			self::$_router = $app::getRouter();
+			self::$_router[$client] = JApplicationCms::getInstance($client)->getRouter($client);
 
 			// Make sure that we have our router
-			if (!self::$_router)
+			if (!self::$_router[$client])
 			{
 				return null;
 			}
@@ -59,7 +63,7 @@ class JRoute
 		}
 
 		// Build route.
-		$uri = self::$_router->build($url);
+		$uri = self::$_router[$client]->build($url);
 
 		$scheme = array('path', 'query', 'fragment');
 
