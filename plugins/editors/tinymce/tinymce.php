@@ -298,22 +298,22 @@ class PlgEditorTinymce extends JPlugin
 				// Use filters from com_config
 				$filter = $this->getGlobalFilters();
 
-				$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
+				$tagBlacklist	= !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
 				$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
-				$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
-				$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
+				$tagArray		= !empty($filter->tagArray) ? $filter->tagArray : array();
+				$attrArray		= !empty($filter->attrArray) ? $filter->attrArray : array();
 
 				$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
-				$extended_elements = '';
-				$valid_elements    = '';
 			}
 			else
 			{
 				// Use filters from TinyMCE params
 				$invalid_elements  = $this->params->get('invalid_elements', 'script,applet,iframe');
-				$extended_elements = $this->params->get('extended_elements', '');
-				$valid_elements    = $this->params->get('valid_elements', '');
 			}
+			
+			// Valid elements from TinyMCE
+			$extended_elements = $this->params->get('extended_elements', '');
+			$valid_elements		= $this->params->get('valid_elements', '');
 
 			// Advanced Options
 			$access = JFactory::getUser()->getAuthorisedViewLevels();
