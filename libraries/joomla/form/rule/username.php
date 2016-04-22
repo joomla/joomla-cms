@@ -38,6 +38,7 @@ class JFormRuleUsername extends JFormRule
 	{
 		// Default value
 		$result = true;
+		$app    = JFactory::getApplication();
 
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
@@ -74,7 +75,7 @@ class JFormRuleUsername extends JFormRule
 		// If is set minNumChars and $usernameLenght does't achieve minimum lenght
 		if (($minNumChars) && ($usernameLenght < $minNumChars))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $value), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $value), 'warning');
 			$result = false;
 		}
 
@@ -85,7 +86,7 @@ class JFormRuleUsername extends JFormRule
 		// If is set maxNumChars and $usernameLenght surpass maximum lenght
 		if (($maxNumChars) && ($usernameLenght > $maxNumChars))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $value), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $value), 'warning');
 			$result = false;
 		}
 
@@ -106,7 +107,7 @@ class JFormRuleUsername extends JFormRule
 					if (!ctype_alnum($value))
 					{
 						// Enqueue error message and return false
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
 
 						return false;
 					}
@@ -118,14 +119,14 @@ class JFormRuleUsername extends JFormRule
 					if (!JMailHelper::isEmailAddress($value) )
 					{
 						// Enqueue error message and return false
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED', implode(' ', $invalid_chars)), 'warning');
 
 						return false;
 					}
 
 				default:
 					// NO OPTION
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
+					$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
 
 					return false;
 			}
@@ -139,7 +140,7 @@ class JFormRuleUsername extends JFormRule
 			// Check if all the $uname chars are valid chars
 			if (!empty($invalid_chars))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+				$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
 				$result = false;
 			}
 		}
