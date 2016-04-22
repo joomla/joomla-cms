@@ -296,7 +296,7 @@ class PlgEditorTinymce extends JPlugin
 			if ($this->params->get('use_config_textfilters', 0))
 			{
 				// Use filters from com_config
-				$filter = $this->getGlobalFilters();
+				$filter = static::getGlobalFilters();
 
 				$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
 				$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
@@ -304,12 +304,12 @@ class PlgEditorTinymce extends JPlugin
 				$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
 
 				$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
-				
+
 				// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
 				$default_filter = JFilterInput::getInstance();
 				$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
 
-				$valid_elements    = '';
+				$extended_elements    = '';
 			}
 			else
 			{
@@ -318,7 +318,7 @@ class PlgEditorTinymce extends JPlugin
 				$extended_elements = $this->params->get('extended_elements', '');
 				$valid_elements    = $this->params->get('valid_elements', '');
 			}
-			
+
 			// Advanced Options
 			$access = JFactory::getUser()->getAuthorisedViewLevels();
 
