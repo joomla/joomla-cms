@@ -108,7 +108,7 @@ class FieldsViewField extends JViewLegacy
 			$title = JText::_('COM_FIELDS_VIEW_FIELD_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 		}
 
-		// Load specific css component
+		// Load specific component css
 		JHtml::_('stylesheet', $component . '/administrator/fields.css', array(), true);
 
 		// Prepare the toolbar.

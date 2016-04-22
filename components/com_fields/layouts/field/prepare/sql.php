@@ -37,7 +37,7 @@ foreach ($value as $v)
 
 $query = $field->fieldparams->get('query', 'select id as value, name as text from #__users');
 
-// Run the query with a having condition because it support aliases
+// Run the query with a having condition because it supports aliases
 $db->setQuery($query . ' having value in (' . trim($condition, ',') . ')');
 
 try
