@@ -38,7 +38,7 @@ class JFormRuleUsername extends JFormRule
 	{
 		// Default value
 		$result = true;
-		
+
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -60,75 +60,85 @@ class JFormRuleUsername extends JFormRule
 		{
 			return false;
 		}
-		
+
 		// Get the config params for username
 		$params = JComponentHelper::getParams('com_users');
 
 		// CHECK MINIMUM CHARACTER'S NUMBER
-		
 		// Get the number of characters in $username
 		$usernameLenght = StringHelper::strlen($value);
-		
+
 		// Get the minimum number of characters
 		$minNumChars = $params->get('minimum_length_username');
-		
+
 		// If is set minNumChars and $usernameLenght does't achieve minimum lenght
-		if (($minNumChars) && ($usernameLenght < $minNumChars)){
+		if (($minNumChars) && ($usernameLenght < $minNumChars))
+		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $value), 'warning');
 			$result = false;
 		}
-		
+
 		// CHECK MAXIMUM CHARACTER'S NUMBER
-		
 		// Get the minimum number of characters
 		$maxNumChars = $params->get('maximum_length_username');
-		
+
 		// If is set maxNumChars and $usernameLenght surpass maximum lenght
-		if (($maxNumChars) && ($usernameLenght > $maxNumChars)){
+		if (($maxNumChars) && ($usernameLenght > $maxNumChars))
+		{
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $value), 'warning');
 			$result = false;
 		}
-		
+
 		// CHECK IF USERNAME SPELLING IN ALLOWED CHARACTER SET
-		
 		// Get preset option
 		$allowed_preset = $params->get('allowed_chars_username_preset');
-		
-		if ($allowed_preset) {
-			
-			// Get the username
-			$uname = array_unique(StringHelper::str_split($value));
-			
-			switch($allowed_preset) {
-				case 1: 
-					// Get the charset specified in the CUSTOM parameter
+
+		if ($allowed_preset)
+		{
+			switch ($allowed_preset)
+			{
+				case 1:
+					// CUSTOM
 					$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
 					break;
 				case 2:
 					// ALPHANUMERIC
-					if (!ctype_alnum($value)) {
+					if (!ctype_alnum($value))
+					{
 						// Enqueue error message and return false
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
+
 						return false;
 					}
+
 				case 3:
 					// EMAIL
 					jimport('joomla.mail.helper');
-					if ( ! JMailHelper::isEmailAddress($value) ) {
+
+					if (!JMailHelper::isEmailAddress($value) )
+					{
 						// Enqueue error message and return false
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+
 						return false;
 					}
+
 				default:
+					// NO OPTION
 					JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
+
 					return false;
 			}
 
+			// Get the username
+			$uname = array_unique(StringHelper::str_split($value));
+
 			// Get the valid chars
 			$invalid_chars = array_diff($uname, $allowedCharsUsername);
-			
+
 			// Check if all the $uname chars are valid chars
-			if (!empty($invalid_chars)) {
+			if (!empty($invalid_chars))
+			{
 				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
 				$result = false;
 			}
