@@ -100,7 +100,7 @@ class PluginsModelPlugins extends JModelList
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.access');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
 		$id .= ':' . $this->getState('filter.language');
 
