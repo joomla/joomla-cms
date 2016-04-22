@@ -65,7 +65,7 @@ class UsersModelDebugUser extends JModelList
 	 */
 	public function getItems()
 	{
-		$userId = $this->getState('filter.user_id');
+		$userId = $this->getState('user_id');
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -124,7 +124,7 @@ class UsersModelDebugUser extends JModelList
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.user_id', $this->getUserStateFromRequest($this->context . '.filter.user_id', 'user_id', 0, 'int'));
+		$this->setState('user_id', $this->getUserStateFromRequest($this->context . '.user_id', 'user_id', 0, 'int'));
 
 		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
 		$this->setState('filter.level_start', $levelStart);
@@ -162,8 +162,8 @@ class UsersModelDebugUser extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('user_id');
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.user_id');
 		$id .= ':' . $this->getState('filter.level_start');
 		$id .= ':' . $this->getState('filter.level_end');
 		$id .= ':' . $this->getState('filter.component');
@@ -180,7 +180,7 @@ class UsersModelDebugUser extends JModelList
 	 */
 	public function getUser()
 	{
-		$userId = $this->getState('filter.user_id');
+		$userId = $this->getState('user_id');
 
 		return JFactory::getUser($userId);
 	}
