@@ -61,19 +61,19 @@ class PluginsModelPlugins extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string');
 		$this->setState('filter.search', $search);
 
 		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd');
 		$this->setState('filter.access', $accessId);
 
-		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string');
+		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'cmd');
 		$this->setState('filter.enabled', $state);
 
-		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', null, 'cmd');
+		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string');
 		$this->setState('filter.folder', $folder);
 
-		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
