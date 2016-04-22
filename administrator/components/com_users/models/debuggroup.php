@@ -65,7 +65,7 @@ class UsersModelDebuggroup extends JModelList
 	 */
 	public function getItems()
 	{
-		$groupId = $this->getState('filter.group_id');
+		$groupId = $this->getState('group_id');
 
 		if (($assets = parent::getItems()) && $groupId)
 		{
@@ -124,7 +124,7 @@ class UsersModelDebuggroup extends JModelList
 
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.group_id', $this->getUserStateFromRequest($this->context . '.filter.group_id', 'group_id', 0, 'int', false));
+		$this->setState('group_id', $this->getUserStateFromRequest($this->context . '.group_id', 'group_id', 0, 'int', false));
 
 		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
 		$this->setState('filter.level_start', $levelStart);
@@ -162,8 +162,8 @@ class UsersModelDebuggroup extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('group_id');
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.group_id');
 		$id .= ':' . $this->getState('filter.level_start');
 		$id .= ':' . $this->getState('filter.level_end');
 		$id .= ':' . $this->getState('filter.component');
@@ -180,7 +180,7 @@ class UsersModelDebuggroup extends JModelList
 	 */
 	public function getGroup()
 	{
-		$groupId = (int) $this->getState('filter.group_id');
+		$groupId = (int) $this->getState('group_id');
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
