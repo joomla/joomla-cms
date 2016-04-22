@@ -126,10 +126,10 @@ class UsersModelDebuggroup extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('group_id', $this->getUserStateFromRequest($this->context . '.group_id', 'group_id', 0, 'int', false));
 
-		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
+		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', '', 'cmd');
 		$this->setState('filter.level_start', $levelStart);
 
-		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', '', 'cmd');
 
 		if ($value > 0 && $value < $levelStart)
 		{
