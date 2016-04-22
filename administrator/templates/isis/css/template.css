@@ -7168,9 +7168,6 @@ body .navbar-fixed-top {
 	max-height: 500px;
 	margin: 0;
 }
-.navbar .empty-nav {
-	display: none;
-}
 .navbar .nav > li ul::-webkit-scrollbar {
 	-webkit-appearance: none;
 	width: 7px;
@@ -7179,6 +7176,9 @@ body .navbar-fixed-top {
 	border-radius: 4px;
 	background-color: rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
+}
+.navbar .empty-nav {
+	display: none;
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
@@ -7401,8 +7401,8 @@ h6 {
 	margin: 0px 0 5px;
 }
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 .quick-icons [class^="icon-"]:before,
 .quick-icons [class*=" icon-"]:before {
