@@ -19,7 +19,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan   = 4 + count($this->actions);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('filter.user_id')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('user_id')); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -27,7 +27,7 @@ $colSpan   = 4 + count($this->actions);
 	<div id="j-main-container" class="span10">
 <?php else : ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<table class="table table-striped">
@@ -66,7 +66,7 @@ $colSpan   = 4 + count($this->actions);
 							<?php echo $this->escape($item->title); ?>
 						</td>
 						<td class="nowrap">
-							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
+							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level); ?>
 							<?php echo $this->escape($item->name); ?>
 						</td>
 						<?php foreach ($this->actions as $action) : ?>
@@ -99,7 +99,7 @@ $colSpan   = 4 + count($this->actions);
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
-					<?php endforeach; ?>
+				<?php endforeach; ?>
 			</tbody>
 		</table>
 		<input type="hidden" name="task" value="" />
