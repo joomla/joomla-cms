@@ -164,6 +164,7 @@ class JRouterSite extends JRouter
 
 		$basePath = JUri::base(true);
 
+		// If the site router is called from administrator client.
 		if (JPATH_BASE == JPATH_ADMINISTRATOR)
 		{
 			$basePath = str_replace('/administrator', '', $basePath);
