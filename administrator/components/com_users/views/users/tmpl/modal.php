@@ -42,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<label for="filter_group_id" class="element-invisible"><?php echo JText::_('COM_USERS_FILTER_USER_GROUP'); ?></label>
 					<?php echo JHtml::_('access.usergroup', 'filter_group_id', $this->state->get('filter.group_id'), 'onchange="this.form.submit()"'); ?>
 				</div>
-			</div>
+			/div>
 		</fieldset>
 
 		<?php if (empty($this->items)) : ?>
