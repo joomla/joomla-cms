@@ -49,14 +49,15 @@ extract($displayData);
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
 ?>
+Tste:
 <input type="file"
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	<?php echo !empty($size) ? ' size="' . $size . '"' : ''
 	. !empty($accept) ? ' accept="' . $accept . '"' : ''
 	. !empty($class) ? ' class="' . $class . '"' : ''
+	. !empty($multiple) ? ' multiple' : ''
 	. $disabled ? ' disabled' : ''
-	. $multiple ? ' multiple' : ''
 	. $autofocus ? ' autofocus' : ''
 	. $onchange ? ' onchange="' . $onchange . '"' : ''
 	. $required ? ' required aria-required="true"' : ''; ?> />

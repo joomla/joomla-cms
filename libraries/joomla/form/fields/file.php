@@ -138,13 +138,9 @@ class JFormFieldFile extends JFormField
 	{
 		$data = parent::getLayoutData();
 
-		// Initialize some field attributes.
-		$accept    = !empty($this->accept) ? ' accept="' . $this->accept . '"' : '';
-		$multiple  = $this->multiple ? ' multiple' : '';
-
 		$extraData = array(
-			'accept'   => $accept,
-			'multiple' => $multiple,
+			'accept'   => $this->accept,
+			'multiple' => $this->multiple,
 		);
 
 		return array_merge($data, $extraData);
