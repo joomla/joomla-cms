@@ -121,8 +121,7 @@ if ($saveOrder)
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php
-								// Create dropdown items and render the dropdown list.
+								<?php // Create dropdown items and render the dropdown list.
 								if ($canCreate)
 								{
 									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');

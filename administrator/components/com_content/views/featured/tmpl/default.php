@@ -105,14 +105,11 @@ $saveOrder = $listOrder == 'fp.ordering';
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-								<?php
+								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{
-									// Create dropdown items
 									JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
 									JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
-
-									// Render dropdown list
 									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
 								}
 								?>
