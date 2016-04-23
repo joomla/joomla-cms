@@ -35,6 +35,14 @@ class JFormFieldFile extends JFormField
 	protected $accept;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.6
+	 */
+	protected $layout = 'joomla.form.field.file';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -116,23 +124,29 @@ class JFormFieldFile extends JFormField
 	 */
 	protected function getInput()
 	{
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.6
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
 		// Initialize some field attributes.
 		$accept    = !empty($this->accept) ? ' accept="' . $this->accept . '"' : '';
-		$size      = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$class     = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$required  = $this->required ? ' required aria-required="true"' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$multiple  = $this->multiple ? ' multiple' : '';
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+		$extraData = array(
+			'accept'   => $accept,
+			'multiple' => $multiple,
+		);
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . $accept
-			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
+		return array_merge($data, $extraData);
 	}
 }
