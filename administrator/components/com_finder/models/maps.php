@@ -33,6 +33,7 @@ class FinderModelMaps extends JModelList
 				'title', 'a.title',
 				'branch',
 				'branch_title', 'd.branch_title',
+				'level', 'd.level',
 			);
 		}
 
