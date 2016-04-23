@@ -130,7 +130,7 @@ if ($saveOrder)
 								{
 									JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'newsfeeds');
 									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'newsfeeds');
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
 								}
 								?>
 							</div>
