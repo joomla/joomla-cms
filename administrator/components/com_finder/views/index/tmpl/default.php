@@ -132,7 +132,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<td class="hidden-phone">
 						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
-							<span class="icon-calendar pull-right pop hasPopover" data-placement="left" title="<?php echo JText::_('JDETAILS');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></span>
+							<span class="icon-calendar pull-right pop hasPopover" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></span>
 						<?php endif; ?>
 					</td>
 					<td class="small nowrap hidden-phone">
