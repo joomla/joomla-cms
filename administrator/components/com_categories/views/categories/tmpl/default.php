@@ -18,23 +18,17 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app        = JFactory::getApplication();
-$user       = JFactory::getUser();
-$userId     = $user->get('id');
-$extension  = $this->escape($this->state->get('filter.extension'));
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
-$saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts      = explode('.', $extension);
-$component  = $parts[0];
-$section    = null;
-$columns    = 7;
-$stateTasks = array(
-	1  => 'publish',
-	0  => 'unpublish',
-	2  => 'archive',
-	-2 => 'trash',
-);
+$app       = JFactory::getApplication();
+$user      = JFactory::getUser();
+$userId    = $user->get('id');
+$extension = $this->escape($this->state->get('filter.extension'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$parts     = explode('.', $extension);
+$component = $parts[0];
+$section   = null;
+$columns   = 7;
 
 if (count($parts) > 1)
 {
@@ -196,13 +190,8 @@ if ($saveOrder)
 									if ($canChange)
 									{
 										// Create dropdown items
-										foreach ($stateTasks as $state => $task)
-										{
-											if ((int) $item->published !== $state)
-											{
-												JHtml::_('actionsdropdown.' . $task, 'cb' . $i, 'categories');
-											}
-										}
+										JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'categories');
+										JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'categories');
 
 										// Render dropdown list
 										echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
