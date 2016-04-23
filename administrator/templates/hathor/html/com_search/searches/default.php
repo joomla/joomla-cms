@@ -28,7 +28,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 
+		<div class="filter-select">
+			<?php if ($this->enabled) : ?>
+			<span class="enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
+			<?php else : ?>
+			<span class="disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
+			<?php endif; ?>
 
+			<span class="adminlist-searchstatus">
+			<?php if ($this->state->get('filter.results')) : ?>
+				<a href="<?php echo JRoute::_('index.php?option=com_search&filter_results=0');?>">
+					<?php echo JText::_('COM_SEARCH_HIDE_SEARCH_RESULTS'); ?></a>
+			<?php else : ?>
+				<a href="<?php echo JRoute::_('index.php?option=com_search&filter_results=1');?>">
+					<?php echo JText::_('COM_SEARCH_SHOW_SEARCH_RESULTS'); ?></a>
+			<?php endif; ?>
+			</span>
+		</div>
 	</fieldset>
 	<div class="clr"> </div>
 
@@ -57,7 +73,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo (int) $item->hits; ?>
 					</td>
 					<td class="center">
-					<?php if ($this->state->get('show_results')) : ?>
+					<?php if ($this->state->get('filter.results')) : ?>
 						<?php echo (int) $item->returns; ?>
 					<?php else: ?>
 						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>

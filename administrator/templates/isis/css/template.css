@@ -7168,6 +7168,9 @@ body .navbar-fixed-top {
 	max-height: 500px;
 	margin: 0;
 }
+.navbar .empty-nav {
+	display: none;
+}
 .navbar .nav > li ul::-webkit-scrollbar {
 	-webkit-appearance: none;
 	width: 7px;
@@ -7176,9 +7179,6 @@ body .navbar-fixed-top {
 	border-radius: 4px;
 	background-color: rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
-}
-.navbar .empty-nav {
-	display: none;
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
@@ -7401,8 +7401,8 @@ h6 {
 	margin: 0px 0 5px;
 }
 .well .module-title.nav-header {
-	padding: 0 0 7px;
-	margin: 0;
+	padding: 0px 15px 7px;
+	margin: 0px;
 }
 .quick-icons [class^="icon-"]:before,
 .quick-icons [class*=" icon-"]:before {
@@ -7847,9 +7847,6 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
-table label {
-	margin: 0;
-}
 td.has-context {
 	height: 23px;
 }
@@ -7889,7 +7886,7 @@ th .tooltip-inner {
 	position: absolute;
 }
 .container-popup {
-	padding: 28px 10px 10px 10px;
+	padding: 15px;
 }
 .controls .btn-group > .btn {
 	min-width: 50px;
