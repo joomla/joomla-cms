@@ -185,6 +185,7 @@ class ContentModelArchive extends ContentModelArticles
 	 * Gets the archived articles years
 	 *
 	 * @return   array
+	 * 
 	 * @since    3.5.2
 	 */
 	public function getYears()
@@ -192,8 +193,8 @@ class ContentModelArchive extends ContentModelArticles
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true);
-		$years  =  $query->year($db->qn('created'));
-		$query->select('DISTINCT (' . $years . ')' )
+		$years = $query->year($db->qn('created'));
+		$query->select('DISTINCT (' . $years . ')')
 			->from($db->qn('#__content'))
 			->where($db->qn('state') . '= 2')
 			->order('1 ASC');
