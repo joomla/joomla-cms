@@ -191,12 +191,16 @@ class ContentModelArchive extends ContentModelArticles
 	public function getYears()
 	{
 		$db = $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
 		$years = $query->year($db->qn('created'));
 		$query->select('DISTINCT (' . $years . ')')
 			->from($db->qn('#__content'))
 			->where($db->qn('state') . '= 2')
+			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
+			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
 
 		$db->setQuery($query);
