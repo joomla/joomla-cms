@@ -193,17 +193,20 @@ if ($saveOrder)
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
 									<?php
-									// Create dropdown items
-									foreach ($stateTasks as $state => $task)
+									if ($canChange)
 									{
-										if ((int) $item->published !== $state)
+										// Create dropdown items
+										foreach ($stateTasks as $state => $task)
 										{
-											JHtml::_('actionsdropdown.' . $task, 'cb' . $i, 'categories');
+											if ((int) $item->published !== $state)
+											{
+												JHtml::_('actionsdropdown.' . $task, 'cb' . $i, 'categories');
+											}
 										}
-									}
 
-									// Render dropdown list
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+										// Render dropdown list
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									}
 									?>
 								</div>
 							</td>
