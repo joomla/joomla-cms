@@ -18,16 +18,23 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
-$user		= JFactory::getUser();
-$userId		= $user->get('id');
-$extension	= $this->escape($this->state->get('filter.extension'));
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts		= explode('.', $extension);
-$component	= $parts[0];
-$section	= null;
+$app        = JFactory::getApplication();
+$user       = JFactory::getUser();
+$userId     = $user->get('id');
+$extension  = $this->escape($this->state->get('filter.extension'));
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$parts      = explode('.', $extension);
+$component  = $parts[0];
+$section    = null;
+$columns    = 7;
+$stateTasks = array(
+	1  => 'publish',
+	0  => 'unpublish',
+	2  => 'archive',
+	-2 => 'trash',
+);
 
 if (count($parts) > 1)
 {
@@ -40,8 +47,6 @@ if (count($parts) > 1)
 		$section = $inflector->toPlural($section);
 	}
 }
-
-$columns	= 7;
 
 if ($saveOrder)
 {
@@ -185,7 +190,22 @@ if ($saveOrder)
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
+								<div class="btn-group">
+									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
+									<?php
+									// Create dropdown items
+									foreach ($stateTasks as $state => $task)
+									{
+										if ((int) $item->published !== $state)
+										{
+											JHtml::_('actionsdropdown.' . $task, 'cb' . $i, 'categories');
+										}
+									}
+
+									// Render dropdown list
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									?>
+								</div>
 							</td>
 							<td>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
