@@ -41,13 +41,14 @@
 .modal-body {
   width: 98%;
   position: relative;
-  max-height: 400px;
+  max-height: none;
   padding: 1%;
 }
 // Remove border and scrollbar from iframe modal
 .modal-body iframe {
   width: 100%;
   max-height: none;
+  height: 70vh; //overrides browser standard (300px)
   border: 0 !important;
 }
 // Remove bottom margin if need be
