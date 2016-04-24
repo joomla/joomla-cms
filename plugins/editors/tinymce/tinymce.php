@@ -309,7 +309,7 @@ class PlgEditorTinymce extends JPlugin
 				$default_filter = JFilterInput::getInstance();
 				$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
 
-				$extended_elements    = '';
+				$extended_elements = '';
 			}
 			else
 			{
