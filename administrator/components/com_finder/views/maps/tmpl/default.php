@@ -74,7 +74,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="4">
+					<td colspan="5">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
