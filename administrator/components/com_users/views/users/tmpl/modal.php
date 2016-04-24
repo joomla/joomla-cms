@@ -11,9 +11,13 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('bootstrap.tooltip');
+JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.multiselect');
+
+// Special case for the search field tooltip.
+$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
+JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $app             = JFactory::getApplication();
 $input           = $app->input;
