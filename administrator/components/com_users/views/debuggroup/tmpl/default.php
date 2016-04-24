@@ -19,7 +19,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $colSpan   = 4 + count($this->actions);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $this->state->get('filter.group_id')); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $this->state->get('group_id')); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -107,9 +107,9 @@ $colSpan   = 4 + count($this->actions);
 		<?php echo JHtml::_('form.token'); ?>
 		<div>
 			<?php echo JText::_('COM_USERS_DEBUG_LEGEND'); ?>
-			<span class="icon-white icon-ban-circle"></span> <?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>
-			<span class="icon-white icon-ok"></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>
-			<span class="icon-white icon-remove"></span> <?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+			<span class="icon-white icon-ban-circle"></span><?php echo JText::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
+			<span class="icon-white icon-ok"></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+			<span class="icon-white icon-remove"></span><?php echo JText::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			<br /><br />
 		</div>
 	</div>

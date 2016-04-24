@@ -24,6 +24,8 @@ class ContentViewArchive extends JViewLegacy
 
 	protected $pagination = null;
 
+	protected $years = null;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -108,12 +110,13 @@ class ContentViewArchive extends JViewLegacy
 		);
 
 		// Year Field
+		$this->years = $this->getModel()->getYears();
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
 
-		for ($year = date('Y'), $i = $year - 10; $i <= $year; $i++)
+		for ($i = 0; $i < count($this->years); $i++)
 		{
-			$years[] = JHtml::_('select.option', $i, $i);
+			$years[] = JHtml::_('select.option', $this->years[$i], $this->years[$i]);
 		}
 
 		$form->yearField = JHtml::_(
