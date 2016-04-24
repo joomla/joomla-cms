@@ -14,9 +14,12 @@ require_once JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php';
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'), 'placement' => 'bottom'));
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
+
+// Special case for the search field tooltip.
+$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
+JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $app = JFactory::getApplication();
 

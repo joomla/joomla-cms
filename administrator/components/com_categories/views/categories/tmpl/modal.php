@@ -22,9 +22,12 @@ require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_('COM_CATEGORIES_FILTER_SEARCH_DESC'), 'placement' => 'bottom'));
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
+
+// Special case for the search field tooltip.
+$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
+JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $extension = $this->escape($this->state->get('filter.extension'));
 $function  = $app->input->getCmd('function', 'jSelectCategory');
