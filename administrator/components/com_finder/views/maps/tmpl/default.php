@@ -65,6 +65,9 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center">
+						<?php echo JText::_('COM_FINDER_HEADING_CHILDREN'); ?>
+					</th>
+					<th width="1%" class="nowrap center">
 						<?php echo JText::_('COM_FINDER_HEADING_NODES'); ?>
 					</th>
 				</tr>
@@ -97,6 +100,13 @@ JFactory::getDocument()->addScriptDeclaration('
 					?>
 					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
 						<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
+					<?php endif; ?>
+					</td>
+					<td class="center btns">
+					<?php if ((int) $item->num_children !== 0) : ?>
+						<span class="badge <?php if ($item->num_children > 0) echo "badge-info"; ?>"><?php echo $item->num_children; ?></span>
+					<?php else : ?>
+						&nbsp;
 					<?php endif; ?>
 					</td>
 					<td class="center btns">

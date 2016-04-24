@@ -96,10 +96,7 @@ abstract class JHtmlFinder
 
 		foreach ($rows as $row)
 		{
-			$key = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text))
-					? FinderHelperLanguage::branchPlural($row->text) : $row->text;
-			$string = JText::sprintf('COM_FINDER_ITEM_X_ONLY', JText::_($key));
-			$options[] = JHtml::_('select.option', $row->value, $string);
+			$options[] = JHtml::_('select.option', $row->value, JText::_($row->text));
 		}
 
 		return $options;
