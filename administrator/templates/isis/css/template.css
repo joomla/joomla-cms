@@ -6243,6 +6243,9 @@ div.modal.fade.in {
 		top: 20px;
 		top: 2vh;
 	}
+	.modal-body {
+		height: 79vh;
+	}
 }
 @media (max-width: 480px) {
 	div.modal {
