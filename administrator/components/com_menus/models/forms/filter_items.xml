@@ -3,9 +3,8 @@
 	<field
 		name="menutype"
 		type="menu"
-		label="COM_MENUS_FILTER_CATEGORY"
-		description="JOPTION_FILTER_CATEGORY_DESC"
 		onchange="this.form.submit();"
+		filtermode="selector"
 	/>
 	<fields name="filter">
 		<field
@@ -14,7 +13,7 @@
 			label="COM_MENUS_FILTER_SEARCH_DESC"
 			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
+			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 		<field
 			name="published"
