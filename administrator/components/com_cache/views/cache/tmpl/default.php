@@ -24,8 +24,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php else : ?>
 	<div id="j-main-container">
 	<?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false, 'totalResults' => count($this->data)))); ?>
-		<?php if (count($this->data) > 0) : ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if ($this->total > 0) : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>

@@ -19,6 +19,17 @@
 	display: inline-block;
 	margin: 0 5px 0 0;
 }
+/* Fixed filter fields (selector) */
+.js-stools .js-stools-container-selector {
+	float: left;
+	margin-right: 10px;
+	min-width: 220px;
+}
+html[dir=rtl] .js-stools .js-stools-container-selector {
+	float: right;
+	margin-left: 10px;
+	margin-right: 0;
+}
 .js-stools .js-stools-container-bar {
 	float: left;
 }
