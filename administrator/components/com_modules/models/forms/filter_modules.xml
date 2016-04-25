@@ -5,8 +5,9 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
 		onchange="jQuery('#filter_position, #filter_module, #filter_language').val('');this.form.submit();"
+		filtermode="selector"
+		layout="default"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -18,6 +19,7 @@
 			label="JSEARCH_FILTER_LABEL"
 			description="COM_MODULES_MODULES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
+			noresults="COM_MODULES_MSG_MANAGE_NO_MODULES"
 		/>
 		<field
 			name="state"
