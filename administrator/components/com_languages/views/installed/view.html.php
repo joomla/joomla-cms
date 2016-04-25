@@ -60,6 +60,7 @@ class LanguagesViewInstalled extends JViewLegacy
 		$this->option        = $this->get('Option');
 		$this->pagination    = $this->get('Pagination');
 		$this->rows          = $this->get('Data');
+		$this->total         = $this->get('Total');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
