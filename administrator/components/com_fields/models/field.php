@@ -68,6 +68,18 @@ class FieldsModelField extends JModelAdmin
 		{
 			$data['assigned_cat_ids'] = array();
 		}
+		else
+		{
+			$cats = (array) $data['assigned_cat_ids'];
+			foreach ($cats as $key => $c)
+			{
+				if (empty($c))
+				{
+					unset($cats[$key]);
+				}
+			}
+			$data['assigned_cat_ids'] = $cats;
+		}
 
 		if(!isset($data['label']) && isset($data['params']['label']))
 		{
