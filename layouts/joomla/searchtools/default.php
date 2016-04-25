@@ -18,18 +18,24 @@ $noResultsText     = '';
 $hideActiveFilters = false;
 $showFilterButton  = false;
 $showSelector      = false;
-$selectorField     = isset($data['options']['selectorField']) ? $data['options']['selectorField'] : 'client_id';
+$selectorFieldName = isset($data['options']['selectorFieldName']) ? $data['options']['selectorFieldName'] : 'client_id';
 
 // If a filter form exists.
 if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 {
 	// Checks if a selector (e.g. client_id) exists.
-	$showSelector = $data['view']->filterForm->getFieldAttribute($selectorField, 'filtermode', '', '') == 'selector' ? true : false;
-
-	// Unset the selector field from active filters group.
-	if ($showSelector)
+	if ($selectorField = $data['view']->filterForm->getField($selectorFieldName))
 	{
-		unset($data['view']->activeFilters[$selectorField]);
+		$showSelector = $selectorField->getAttribute('filtermode', '') == 'selector' ? true : $showSelector;
+
+		// Checks if a selector shoudl be shown in the current layout.
+		if (isset($data['view']->layout))
+		{
+			$showSelector = $selectorField->getAttribute('layout', 'default') != $data['view']->layout ? false : $showSelector;
+		}
+
+		// Unset the selector field from active filters group.
+		unset($data['view']->activeFilters[$selectorFieldName]);
 	}
 
 	// Checks if the filters button should exist.
@@ -56,7 +62,8 @@ $customOptions = array(
 	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
 	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
-	'selectorField'       => $selectorField,
+	'selectorFieldName'   => $selectorFieldName,
+	'showSelector'        => $showSelector,
 	'orderFieldSelector'  => '#list_fullordering',
 	'showNoResults'       => !empty($noResultsText) ? true : false,
 	'noResultsText'       => !empty($noResultsText) ? $noResultsText : '',
@@ -74,7 +81,7 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 ?>
 <div class="js-stools clearfix">
 	<div class="clearfix">
-		<?php if ($showSelector) : ?>
+		<?php if ($data['options']['showSelector']) : ?>
 		<div class="js-stools-container-selector">
 			<?php echo JLayoutHelper::render('joomla.searchtools.default.selector', $data); ?>
 		</div>
