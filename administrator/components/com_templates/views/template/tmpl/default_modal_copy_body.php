@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '#collapseModal'));
+JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '#copyModal'));
 ?>
 <div id="template-manager-css" class="form-horizontal">
 	<div class="control-group span6">
