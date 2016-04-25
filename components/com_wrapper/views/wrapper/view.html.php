@@ -81,15 +81,20 @@ class WrapperViewWrapper extends JViewLegacy
 		if ($params->def('add_scheme', 1))
 		{
 			// Adds 'http://' or 'https://' if none is set
-			if (substr($url, 0, 1) == '/')
+			if (substr($url, 0, 2) == '//')
+			{
+				// Url without scheme in component. Prepend current scheme.
+				 $wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
+			}
+			elseif (substr($url, 0, 1) == '/')
 			{
 				// Relative url in component. Use scheme + host + port.
 				$wrapper->url = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $url;
 			}
 			elseif (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0)
 			{
-				// Url doesn't start with either 'http://' or 'https://'. Add 'http://'.
-				$wrapper->url = 'http://' . $url;
+				// Url doesn't start with either 'http://' or 'https://'. Add current scheme.
+				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . $url;
 			}
 			else
 			{
