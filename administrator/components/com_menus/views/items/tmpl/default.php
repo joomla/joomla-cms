@@ -44,7 +44,7 @@ $colSpan = ($assoc) ? 9 : 8;
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorField' => 'menutype'))); ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'menutype'))); ?>
 		<?php if ($this->total > 0) : ?>
 			<table class="table table-striped" id="itemList">
 				<thead>
