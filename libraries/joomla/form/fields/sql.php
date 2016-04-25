@@ -271,12 +271,15 @@ class JFormFieldSQL extends JFormFieldList
 		$value = $this->valueField;
 		$header = $this->header;
 
-		// Get the database object.
-		$db = JFactory::getDbo();
+		if ($this->query)
+		{
+			// Get the database object.
+			$db = JFactory::getDbo();
 
-		// Set the query and get the result list.
-		$db->setQuery($this->query);
-		$items = $db->loadObjectlist();
+			// Set the query and get the result list.
+			$db->setQuery($this->query);
+			$items = $db->loadObjectList();
+		}
 
 		// Add header.
 		if (!empty($header))
