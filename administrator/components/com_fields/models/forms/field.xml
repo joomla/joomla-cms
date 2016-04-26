@@ -112,7 +112,7 @@
 				<option value="0">JNO</option>
 			</field>
 			<field name="show_on" type="radio" class="btn-group" default=""
-				label="COM_FIELDS_FIELD_SHOW_ON_LABEL" description="COM_FIELDS_FIELD_SHOW_ON_LABEL">
+				label="COM_FIELDS_FIELD_SHOW_ON_LABEL" description="COM_FIELDS_FIELD_SHOW_ON_DESC">
 				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
 				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
 				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
