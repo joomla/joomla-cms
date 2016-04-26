@@ -105,8 +105,8 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banners` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cid` int(11) NOT NULL DEFAULT 0,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `cid` int(11) unsigned NOT NULL DEFAULT 0,
   `type` int(11) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banner_clients` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `contact` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
   `lft` int(11) NOT NULL DEFAULT 0,
@@ -253,7 +253,7 @@ INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level
 --
 
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `con_position` varchar(255) DEFAULT NULL,
@@ -273,8 +273,8 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ordering` int(11) NOT NULL DEFAULT 0,
   `params` text NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `catid` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(11) unsigned NOT NULL DEFAULT 0,
+  `catid` int(11) unsigned NOT NULL DEFAULT 0,
   `access` int(10) unsigned NOT NULL DEFAULT 0,
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `webpage` varchar(255) NOT NULL DEFAULT '',
@@ -362,7 +362,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
-  `content_id` int(11) NOT NULL DEFAULT 0,
+  `content_id` int(11) unsigned NOT NULL DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -374,7 +374,7 @@ CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_rating` (
-  `content_id` int(11) NOT NULL DEFAULT 0,
+  `content_id` int(11) unsigned NOT NULL DEFAULT 0,
   `rating_sum` int(10) unsigned NOT NULL DEFAULT 0,
   `rating_count` int(10) unsigned NOT NULL DEFAULT 0,
   `lastip` varchar(50) NOT NULL DEFAULT '',
@@ -428,7 +428,7 @@ INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, 
 CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   `type_alias` varchar(255) NOT NULL DEFAULT '',
   `core_content_id` int(10) unsigned NOT NULL COMMENT 'PK from the core content table',
-  `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
+  `content_item_id` int(11) unsigned NOT NULL COMMENT 'PK from the content type table',
   `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
   `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
@@ -456,7 +456,7 @@ CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__extensions` (
-  `extension_id` int(11) NOT NULL AUTO_INCREMENT,
+  `extension_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
@@ -663,7 +663,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `md5sum` varchar(32) DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 1,
   `state` int(5) DEFAULT 1,
-  `access` int(5) DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
   `language` varchar(8) NOT NULL,
   `publish_start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -933,7 +933,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
   `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `state` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `access` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
   `ordering` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
@@ -1218,7 +1218,7 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 --
 
 CREATE TABLE IF NOT EXISTS `#__menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
@@ -1342,7 +1342,7 @@ CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
@@ -1394,8 +1394,8 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules_menu` (
-  `moduleid` int(11) NOT NULL DEFAULT 0,
-  `menuid` int(11) NOT NULL DEFAULT 0,
+  `moduleid` int(11) unsigned NOT NULL DEFAULT 0,
+  `menuid` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`moduleid`,`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -1429,7 +1429,7 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
-  `catid` int(11) NOT NULL DEFAULT 0,
+  `catid` int(11) unsigned NOT NULL DEFAULT 0,
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
@@ -1476,7 +1476,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__overrider` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `constant` varchar(255) NOT NULL,
   `string` text NOT NULL,
   `file` varchar(255) NOT NULL,
@@ -1491,7 +1491,7 @@ CREATE TABLE IF NOT EXISTS `#__overrider` (
 
 CREATE TABLE IF NOT EXISTS `#__postinstall_messages` (
   `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
+  `extension_id` bigint(20) unsigned NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
   `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
   `action_key` varchar(255) NOT NULL DEFAULT '',
@@ -1546,7 +1546,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__schemas` (
-  `extension_id` int(11) NOT NULL,
+  `extension_id` int(11) unsigned NOT NULL,
   `version_id` varchar(20) NOT NULL,
   PRIMARY KEY (`extension_id`,`version_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -1563,7 +1563,7 @@ CREATE TABLE IF NOT EXISTS `#__session` (
   `guest` tinyint(4) unsigned DEFAULT 1,
   `time` varchar(14) DEFAULT '',
   `data` mediumtext,
-  `userid` int(11) DEFAULT 0,
+  `userid` int(11) unsigned DEFAULT 0,
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`),
   KEY `userid` (`userid`),
@@ -1660,8 +1660,8 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 
 CREATE TABLE IF NOT EXISTS `#__ucm_base` (
   `ucm_id` int(10) unsigned NOT NULL,
-  `ucm_item_id` int(10) NOT NULL,
-  `ucm_type_id` int(11) NOT NULL,
+  `ucm_item_id` int(10) unsigned NOT NULL,
+  `ucm_type_id` int(11) unsigned NOT NULL,
   `ucm_language_id` int(11) NOT NULL,
   PRIMARY KEY (`ucm_id`),
   KEY `idx_ucm_item_id` (`ucm_item_id`),
@@ -1752,9 +1752,9 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__updates` (
-  `update_id` int(11) NOT NULL AUTO_INCREMENT,
-  `update_site_id` int(11) DEFAULT 0,
-  `extension_id` int(11) DEFAULT 0,
+  `update_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `update_site_id` int(11) unsigned DEFAULT 0,
+  `extension_id` int(11) unsigned DEFAULT 0,
   `name` varchar(100) DEFAULT '',
   `description` text NOT NULL,
   `element` varchar(100) DEFAULT '',
@@ -1776,7 +1776,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites` (
-  `update_site_id` int(11) NOT NULL AUTO_INCREMENT,
+  `update_site_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
@@ -1803,8 +1803,8 @@ INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `en
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
-  `update_site_id` int(11) NOT NULL DEFAULT 0,
-  `extension_id` int(11) NOT NULL DEFAULT 0,
+  `update_site_id` int(11) unsigned NOT NULL DEFAULT 0,
+  `extension_id` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`update_site_id`,`extension_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Links extensions to update sites';
 
@@ -1859,7 +1859,7 @@ INSERT INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(400) NOT NULL DEFAULT '',
   `username` varchar(150) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
@@ -1937,7 +1937,7 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
-  `user_id` int(11) NOT NULL,
+  `user_id` int(11) unsigned NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` text NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT 0,
