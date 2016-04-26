@@ -120,8 +120,16 @@ JFactory::getDocument()->addStyleDeclaration("
 		background: #08c !important;
 		color: #fff;
 	}
-	.modal-body .column {
-		width: 50%; float: left;
+	.modal-body .column-left {
+		float: left; max-height: 70vh; overflow-y: auto;
+	}
+	.modal-body .column-right {
+		float: right;
+	}
+	@media (max-width: 767px) {
+		.modal-body .column-right {
+			float: left;
+		}
 	}
 	#deleteFolder{
 		margin: 0;
@@ -368,17 +376,17 @@ if($this->type == 'font')
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 <?php // Collapse Modal
-$collapseModalData = array(
-	'selector'	=> 'collapseModal',
+$copyModalData = array(
+	'selector'	=> 'copyModal',
 	'params'	=> array(
 		'title'		=> JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
-		'footer'	=> $this->loadTemplate('modal_collapse_footer')
+		'footer'	=> $this->loadTemplate('modal_copy_footer')
 	),
-	'body'		=> $this->loadTemplate('modal_collapse_body')
+	'body'		=> $this->loadTemplate('modal_copy_body')
 );
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
-	<?php echo JLayoutHelper::render('joomla.modal.main', $collapseModalData); ?>
+	<?php echo JLayoutHelper::render('joomla.modal.main', $copyModalData); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <?php if ($this->type != 'home'): ?>
