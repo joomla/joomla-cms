@@ -33,8 +33,7 @@ $class = ' class="first"';
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
 						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right">
-							<span class="icon-plus"></span>
+							data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span>
 						</a>
 					<?php endif; ?>
 				</h3>
