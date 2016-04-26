@@ -7235,8 +7235,9 @@ body .navbar-fixed-top {
 	text-align: right;
 }
 .logo {
-	width: 100%;
-	max-width: 143px;
+	width: auto;
+	max-width: 100%;
+	max-height: 36px;
 	height: auto;
 }
 .page-title {
