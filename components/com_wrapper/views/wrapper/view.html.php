@@ -84,7 +84,7 @@ class WrapperViewWrapper extends JViewLegacy
 			if (substr($url, 0, 2) == '//')
 			{
 				// Url without scheme in component. Prepend current scheme.
-				 $wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
+				$wrapper->url = JUri::getInstance()->toString(array('scheme')) . substr($url, 2);
 			}
 			elseif (substr($url, 0, 1) == '/')
 			{
