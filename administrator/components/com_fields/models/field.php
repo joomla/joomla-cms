@@ -343,14 +343,19 @@ class FieldsModelField extends JModelAdmin
 		{
 			$component = $parts[0];
 
-			if (isset($data->type))
+			$dataObject = $data;
+			if (is_array($dataObject))
 			{
-				$this->loadTypeForms($form, $data->type, $component);
+				$dataObject = (object) $dataObject;
+			}
+			if (isset($dataObject->type))
+			{
+				$this->loadTypeForms($form, $dataObject->type, $component);
 
 				$form->setFieldAttribute('type', 'component', $component);
 
 				// Not alowed to change the type of an existing record
-				if ($data->id)
+				if ($dataObject->id)
 				{
 					$form->setFieldAttribute('type', 'readonly', 'true');
 				}
