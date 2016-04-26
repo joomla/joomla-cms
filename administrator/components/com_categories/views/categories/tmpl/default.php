@@ -26,7 +26,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$parts		= explode('.', $extension);
+$parts		= explode('.', $extension, 2);
 $component	= $parts[0];
 $section	= null;
 
@@ -39,6 +39,13 @@ if (count($parts) > 1)
 	if (!$inflector->isPlural($section))
 	{
 		$section = $inflector->toPlural($section);
+	}
+
+	// If the section ends with .fields, then the category belongs to com_fields
+	if (substr($section, -strlen('.fields')) === '.fields')
+	{
+		$component = 'com_fields';
+		$section = 'fields&context=' . str_replace('.fields', '', implode('.', $parts));
 	}
 }
 
