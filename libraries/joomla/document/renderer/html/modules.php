@@ -19,9 +19,9 @@ class JDocumentRendererHtmlModules extends JDocumentRenderer
 	/**
 	 * Renders multiple modules script and returns the results as a string
 	 *
-	 * @param   string  $position  The position of the modules to render
-	 * @param   array   $params    Associative array of values
-	 * @param   string  $content   Module content
+	 * @param   string $position The position of the modules to render
+	 * @param   array  $params   Associative array of values
+	 * @param   string $content  Module content
 	 *
 	 * @return  string  The output of the script
 	 *
@@ -49,7 +49,10 @@ class JDocumentRendererHtmlModules extends JDocumentRenderer
 
 			$buffer .= $moduleHtml;
 		}
+    
+		JEventDispatcher::getInstance()->trigger('onAfterRenderModules', array(&$buffer, &$params));
 
 		return $buffer;
 	}
 }
+
