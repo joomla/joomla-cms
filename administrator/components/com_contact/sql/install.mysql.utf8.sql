@@ -3,7 +3,7 @@
 --
 
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `con_position` varchar(255) DEFAULT NULL,
@@ -21,10 +21,10 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(10) NOT NULL DEFAULT 0,
   `params` text NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `catid` int(11) NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `catid` int(10) unsigned NOT NULL DEFAULT 0,
   `access` int(10) unsigned NOT NULL DEFAULT 0,
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `webpage` varchar(255) NOT NULL DEFAULT '',
