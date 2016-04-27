@@ -3,9 +3,9 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__assets](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
-	[parent_id] [int] NOT NULL DEFAULT 0,
-	[lft] [int] NOT NULL DEFAULT 0,
-	[rgt] [int] NOT NULL DEFAULT 0,
+	[parent_id] [bigint] NOT NULL DEFAULT 0,
+	[lft] [bigint] NOT NULL DEFAULT 0,
+	[rgt] [bigint] NOT NULL DEFAULT 0,
 	[level] [bigint] NOT NULL,
 	[name] [nvarchar](50) NOT NULL,
 	[title] [nvarchar](100) NOT NULL,
@@ -144,7 +144,7 @@ SET IDENTITY_INSERT [#__assets] OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__associations](
-	[id] [int] NOT NULL,
+	[id] [bigint] NOT NULL,
 	[context] [nvarchar](50) NOT NULL,
 	[key] [nchar](32) NOT NULL,
  CONSTRAINT [PK_#__associations_context] PRIMARY KEY CLUSTERED
@@ -158,7 +158,7 @@ CREATE TABLE [#__associations](
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__banner_clients](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](255) NOT NULL DEFAULT '',
 	[contact] [nvarchar](255) NOT NULL DEFAULT '',
 	[email] [nvarchar](255) NOT NULL DEFAULT '',
@@ -223,14 +223,14 @@ CREATE NONCLUSTERED INDEX [idx_track_type] ON [#__banner_tracks]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__banners](
-	[id] [int] IDENTITY(1,1) NOT NULL,
-	[cid] [int] NOT NULL DEFAULT 0,
-	[type] [int] NOT NULL DEFAULT 0,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[cid] [bigint] NOT NULL DEFAULT 0,
+	[type] [bigint] NOT NULL DEFAULT 0,
 	[name] [nvarchar](255) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[imptotal] [int] NOT NULL DEFAULT 0,
 	[impmade] [int] NOT NULL DEFAULT 0,
-	[clicks] [int] NOT NULL DEFAULT 0,
+	[clicks] [bigint] NOT NULL DEFAULT 0,
 	[clickurl] [nvarchar](200) NOT NULL DEFAULT '',
 	[state] [smallint] NOT NULL DEFAULT 0,
 	[catid] [bigint] NOT NULL DEFAULT 0,
@@ -297,11 +297,11 @@ CREATE NONCLUSTERED INDEX [idx_createdby] ON [#__banners]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__categories](
-	[id] [int] IDENTITY(1,1) NOT NULL ,
+	[id] [bigint] IDENTITY(1,1) NOT NULL ,
 	[asset_id] [bigint] NOT NULL DEFAULT 0,
 	[parent_id] [bigint] NOT NULL DEFAULT 0,
-	[lft] [int] NOT NULL DEFAULT 0,
-	[rgt] [int] NOT NULL DEFAULT 0,
+	[lft] [bigint] NOT NULL DEFAULT 0,
+	[rgt] [bigint] NOT NULL DEFAULT 0,
 	[level] [bigint] NOT NULL DEFAULT 0,
 	[path] [nvarchar](255) NOT NULL DEFAULT '',
 	[extension] [nvarchar](50) NOT NULL DEFAULT '',
@@ -312,7 +312,7 @@ CREATE TABLE [#__categories](
 	[published] [smallint] NOT NULL DEFAULT 0,
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[access] [int] NOT NULL DEFAULT 0,
+	[access] [bigint] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL,
 	[metadesc] [nvarchar](1024) NOT NULL,
 	[metakey] [nvarchar](1024) NOT NULL,
@@ -404,7 +404,7 @@ SET IDENTITY_INSERT [#__categories] OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__contact_details](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](255) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL,
 	[con_position] [nvarchar](255) NULL,
@@ -420,13 +420,13 @@ CREATE TABLE [#__contact_details](
 	[email_to] [nvarchar](255) NULL,
 	[default_con] [tinyint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
-	[checked_out] [int] NOT NULL,
+	[checked_out] [bigint] NOT NULL,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[ordering] [int] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL,
-	[user_id] [int] NOT NULL DEFAULT 0,
-	[catid] [int] NOT NULL DEFAULT 0,
-	[access] [int] NOT NULL DEFAULT 0,
+	[user_id] [bigint] NOT NULL DEFAULT 0,
+	[catid] [bigint] NOT NULL DEFAULT 0,
+	[access] [bigint] NOT NULL DEFAULT 0,
 	[mobile] [nvarchar](255) NOT NULL DEFAULT '',
 	[webpage] [nvarchar](255) NOT NULL DEFAULT '',
 	[sortname1] [nvarchar](255) NOT NULL,
@@ -579,7 +579,7 @@ CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__content]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__content_frontpage](
-	[content_id] [int] NOT NULL DEFAULT 0,
+	[content_id] [bigint] NOT NULL DEFAULT 0,
 	[ordering] [int] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__content_frontpage_content_id] PRIMARY KEY CLUSTERED
 (
@@ -591,7 +591,7 @@ CREATE TABLE [#__content_frontpage](
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__content_rating](
-	[content_id] [int] NOT NULL DEFAULT 0,
+	[content_id] [bigint] NOT NULL DEFAULT 0,
 	[rating_sum] [bigint] NOT NULL DEFAULT 0,
 	[rating_count] [bigint] NOT NULL DEFAULT 0,
 	[lastip] [nvarchar](50) NOT NULL DEFAULT '',
@@ -661,10 +661,10 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__contentitem_tag_map](
 	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
 	[core_content_id] [bigint] NOT NULL,
-	[content_item_id] [int] NOT NULL,
+	[content_item_id] [bigint] NOT NULL,
 	[tag_id] [bigint] NOT NULL,
 	[tag_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
-	[type_id] [int] NOT NULL,
+	[type_id] [bigint] NOT NULL,
  CONSTRAINT [#__contentitem_tag_map$uc_ItemnameTagid] UNIQUE NONCLUSTERED
 (
 	[type_id] ASC,
@@ -696,14 +696,14 @@ CREATE TABLE [#__core_log_searches](
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__extensions](
-	[extension_id] [int] IDENTITY(10000,1) NOT NULL,
+	[extension_id] [bigint] IDENTITY(10000,1) NOT NULL,
 	[name] [nvarchar](100) NOT NULL,
 	[type] [nvarchar](20) NOT NULL,
 	[element] [nvarchar](100) NOT NULL,
 	[folder] [nvarchar](100) NOT NULL,
 	[client_id] [smallint] NOT NULL,
 	[enabled] [smallint] NOT NULL DEFAULT 1,
-	[access] [int] NOT NULL DEFAULT 1,
+	[access] [bigint] NOT NULL DEFAULT 1,
 	[protected] [smallint] NOT NULL DEFAULT 0,
 	[manifest_cache] [nvarchar](max) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
@@ -1076,7 +1076,7 @@ CREATE TABLE [#__finder_links](
 	[md5sum] [nvarchar](32) NULL,
 	[published] [smallint] NOT NULL DEFAULT 1,
 	[state] [int] NULL DEFAULT 1,
-	[access] [int] NULL DEFAULT 0,
+	[access] [bigint] NULL DEFAULT 0,
 	[language] [nvarchar](8) NOT NULL,
 	[publish_start_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[publish_end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
@@ -1084,7 +1084,7 @@ CREATE TABLE [#__finder_links](
 	[end_date] [datetime2](0) NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[list_price] [float] NOT NULL DEFAULT 0,
 	[sale_price] [float] NOT NULL DEFAULT 0,
-	[type_id] [int] NOT NULL,
+	[type_id] [bigint] NOT NULL,
 	[object] [nvarchar](max) NOT NULL,
  CONSTRAINT [PK_#__finder_links_link_id] PRIMARY KEY CLUSTERED
 (
@@ -1547,7 +1547,7 @@ CREATE TABLE [#__finder_taxonomy](
 	[parent_id] [bigint] NOT NULL DEFAULT 0,
 	[title] [nvarchar](255) NOT NULL,
 	[state] [tinyint] NOT NULL DEFAULT 1,
-	[access] [tinyint] NOT NULL DEFAULT 0,
+	[access] [bigint] NOT NULL DEFAULT 0,
 	[ordering] [tinyint] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__finder_taxonomy_id] PRIMARY KEY CLUSTERED
 (
@@ -1623,7 +1623,7 @@ CREATE TABLE [#__finder_terms](
 	[phrase] [tinyint] NOT NULL DEFAULT 0,
 	[weight] [real] NOT NULL DEFAULT 0,
 	[soundex] [nvarchar](75) NOT NULL,
-	[links] [int] NOT NULL DEFAULT 0,
+	[links] [bigint] NOT NULL DEFAULT 0,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
  CONSTRAINT [PK_#__finder_terms_term_id] PRIMARY KEY CLUSTERED
 (
@@ -1989,7 +1989,7 @@ CREATE TABLE [#__languages](
 	[metakey] [nvarchar](max) NOT NULL,
 	[metadesc] [nvarchar](max) NOT NULL,
 	[sitename] [nvarchar](1024) NOT NULL DEFAULT '',
-	[published] [int] NOT NULL DEFAULT 0,
+	[published] [smallint] NOT NULL DEFAULT 0,
 	[access] [bigint] NOT NULL DEFAULT 0,
 	[ordering] [int] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__languages_lang_id] PRIMARY KEY CLUSTERED
@@ -2018,7 +2018,7 @@ SET IDENTITY_INSERT [#__languages] OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__menu](
-	[id] [int] IDENTITY(102,1) NOT NULL,
+	[id] [bigint] IDENTITY(102,1) NOT NULL,
 	[menutype] [nvarchar](24) NOT NULL,
 	[title] [nvarchar](255) NOT NULL,
 	[alias] [nvarchar](255) NOT NULL,
@@ -2033,12 +2033,12 @@ CREATE TABLE [#__menu](
 	[checked_out] [bigint] NOT NULL DEFAULT 0,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[browserNav] [smallint] NOT NULL DEFAULT 0,
-	[access] [int] NOT NULL DEFAULT 0,
+	[access] [bigint] NOT NULL DEFAULT 0,
 	[img] [nvarchar](255) NOT NULL,
 	[template_style_id] [bigint] NOT NULL DEFAULT 0,
 	[params] [nvarchar](max) NOT NULL,
-	[lft] [int] NOT NULL DEFAULT 0,
-	[rgt] [int] NOT NULL DEFAULT 0,
+	[lft] [bigint] NOT NULL DEFAULT 0,
+	[rgt] [bigint] NOT NULL DEFAULT 0,
 	[home] [tinyint] NOT NULL DEFAULT 0,
 	[language] [nvarchar](7) NOT NULL DEFAULT '',
 	[client_id] [smallint] NOT NULL DEFAULT 0,
@@ -2219,7 +2219,7 @@ CREATE TABLE [#__messages_cfg](
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__modules](
-	[id] [int] IDENTITY(87,1) NOT NULL,
+	[id] [bigint] IDENTITY(87,1) NOT NULL,
   [asset_id] [bigint] NOT NULL DEFAULT 0,
 	[title] [nvarchar](100) NOT NULL DEFAULT '',
 	[note] [nvarchar](255) NOT NULL DEFAULT '',
@@ -2299,8 +2299,8 @@ SET IDENTITY_INSERT [#__modules] OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__modules_menu](
-	[moduleid] [int] NOT NULL DEFAULT 0,
-	[menuid] [int] NOT NULL DEFAULT 0,
+	[moduleid] [bigint] NOT NULL DEFAULT 0,
+	[menuid] [bigint] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__modules_menu_moduleid] PRIMARY KEY CLUSTERED
 (
 	[moduleid] ASC,
@@ -2347,7 +2347,7 @@ SELECT 86, 0;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__newsfeeds](
-	[catid] [int] NOT NULL DEFAULT 0,
+	[catid] [bigint] NOT NULL DEFAULT 0,
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](100) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL,
@@ -2422,7 +2422,7 @@ CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__newsfeeds]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__overrider](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[constant] [nvarchar](255) NOT NULL,
 	[string] [nvarchar](max) NOT NULL,
 	[file] [nvarchar](255) NOT NULL,
@@ -2441,14 +2441,14 @@ CREATE TABLE [#__postinstall_messages] (
 	[description_key] [nvarchar](255) NOT NULL DEFAULT '',
 	[action_key] [nvarchar](255) NOT NULL DEFAULT '',
 	[language_extension] [nvarchar](255) NOT NULL DEFAULT 'com_postinstall',
-	[language_client_id] [int] NOT NULL DEFAULT 1,
+	[language_client_id] [bigint] NOT NULL DEFAULT 1,
 	[type] [nvarchar](10) NOT NULL DEFAULT 'link',
 	[action_file] [nvarchar](255) DEFAULT '',
 	[action] [nvarchar](255) DEFAULT '',
 	[condition_file] [nvarchar](255) DEFAULT NULL,
 	[condition_method] [nvarchar](255) DEFAULT NULL,
 	[version_introduced] [nvarchar](50) NOT NULL DEFAULT '3.2.0',
-	[enabled] [int] NOT NULL DEFAULT 1,
+	[enabled] [smallint] NOT NULL DEFAULT 1,
  CONSTRAINT [PK_#__postinstall_message_id] PRIMARY KEY CLUSTERED
 (
 	[postinstall_message_id] ASC
@@ -2498,7 +2498,7 @@ CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__schemas](
-	[extension_id] [int] NOT NULL,
+	[extension_id] [bigint] NOT NULL,
 	[version_id] [nvarchar](20) NOT NULL,
  CONSTRAINT [PK_#__schemas_extension_id] PRIMARY KEY CLUSTERED
 (
@@ -2516,7 +2516,7 @@ CREATE TABLE [#__session](
 	[guest] [tinyint] NULL DEFAULT 1,
 	[time] [nvarchar](14) NULL DEFAULT '',
 	[data] [nvarchar](max) NULL,
-	[userid] [int] NULL DEFAULT 0,
+	[userid] [bigint] NULL DEFAULT 0,
 	[username] [nvarchar](150) NULL DEFAULT '',
  CONSTRAINT [PK_#__session_session_id] PRIMARY KEY CLUSTERED
 (
@@ -2540,8 +2540,8 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__tags](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[parent_id] [bigint] NOT NULL DEFAULT 0,
-	[lft] [int] NOT NULL DEFAULT 0,
-	[rgt] [int] NOT NULL DEFAULT 0,
+	[lft] [bigint] NOT NULL DEFAULT 0,
+	[rgt] [bigint] NOT NULL DEFAULT 0,
 	[level] [bigint] NOT NULL DEFAULT 0,
 	[path] [nvarchar](255) NOT NULL DEFAULT '',
 	[title] [nvarchar](255) NOT NULL,
@@ -2662,9 +2662,9 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__ucm_base](
   [ucm_id] [bigint] NOT NULL,
-  [ucm_item_id] [int] NOT NULL,
-  [ucm_type_id] [int] NOT NULL,
-  [ucm_language_id] [int] NOT NULL,
+  [ucm_item_id] [bigint] NOT NULL,
+  [ucm_type_id] [bigint] NOT NULL,
+  [ucm_language_id] [bigint] NOT NULL,
  CONSTRAINT [PK_#__ucm_base_ucm_id] PRIMARY KEY CLUSTERED
 (
 	[ucm_id] ASC
@@ -2829,11 +2829,11 @@ CREATE NONCLUSTERED INDEX [idx_save_date] ON [#__ucm_history]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__update_sites](
-	[update_site_id] [int] IDENTITY(1,1) NOT NULL,
+	[update_site_id] [bigint] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](100) NULL DEFAULT '',
 	[type] [nvarchar](20) NULL DEFAULT '',
 	[location] [nvarchar](max) NOT NULL,
-	[enabled] [int] NULL DEFAULT 0,
+	[enabled] [smallint] NULL DEFAULT 0,
 	[last_check_timestamp] [int] NULL DEFAULT 0,
 	[extra_query] [nvarchar](1000) NULL DEFAULT '',
  CONSTRAINT [PK_#__update_sites_update_site_id] PRIMARY KEY CLUSTERED
@@ -2859,8 +2859,8 @@ SET IDENTITY_INSERT [#__update_sites] OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__update_sites_extensions](
-	[update_site_id] [int] NOT NULL DEFAULT 0,
-	[extension_id] [int] NOT NULL DEFAULT 0,
+	[update_site_id] [bigint] NOT NULL DEFAULT 0,
+	[extension_id] [bigint] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__update_sites_extensions_update_site_id] PRIMARY KEY CLUSTERED
 (
 	[update_site_id] ASC,
@@ -2881,9 +2881,9 @@ SELECT 4, 28;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__updates](
-	[update_id] [int] IDENTITY(1,1) NOT NULL,
-	[update_site_id] [int] DEFAULT 0,
-	[extension_id] [int] DEFAULT 0,
+	[update_id] [bigint] IDENTITY(1,1) NOT NULL,
+	[update_site_id] [bigint] DEFAULT 0,
+	[extension_id] [bigint] DEFAULT 0,
 	[name] [nvarchar](100) DEFAULT '',
 	[description] [nvarchar](max) NOT NULL,
 	[element] [nvarchar](100) DEFAULT '',
@@ -2974,7 +2974,7 @@ CREATE NONCLUSTERED INDEX [idx_user_id] ON [#__user_notes]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__user_profiles](
-	[user_id] [int] NOT NULL,
+	[user_id] [bigint] NOT NULL,
 	[profile_key] [nvarchar](100) NOT NULL,
 	[profile_value] [nvarchar](max) NOT NULL,
 	[ordering] [int] NOT NULL DEFAULT 0,
@@ -3004,8 +3004,8 @@ SET QUOTED_IDENTIFIER ON;
 CREATE TABLE [#__usergroups](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[parent_id] [bigint] NOT NULL DEFAULT 0,
-	[lft] [int] NOT NULL DEFAULT 0,
-	[rgt] [int] NOT NULL DEFAULT 0,
+	[lft] [bigint] NOT NULL DEFAULT 0,
+	[rgt] [bigint] NOT NULL DEFAULT 0,
 	[title] [nvarchar](100) NOT NULL DEFAULT '',
  CONSTRAINT [PK_#__usergroups_id] PRIMARY KEY CLUSTERED
 (
@@ -3061,7 +3061,7 @@ SET IDENTITY_INSERT [#__usergroups] OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__users](
-	[id] [int] IDENTITY(1,1) NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](255) NOT NULL DEFAULT '',
 	[username] [nvarchar](150) NOT NULL DEFAULT '',
 	[email] [nvarchar](100) NOT NULL DEFAULT '',
