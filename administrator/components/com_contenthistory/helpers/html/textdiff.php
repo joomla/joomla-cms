@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
