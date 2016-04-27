@@ -7235,8 +7235,9 @@ body .navbar-fixed-top {
 	text-align: right;
 }
 .logo {
-	width: 100%;
-	max-width: 143px;
+	width: auto;
+	max-width: 100%;
+	max-height: 36px;
 	height: auto;
 }
 .page-title {
@@ -7846,6 +7847,9 @@ ul.treeselect ul.dropdown-menu {
 ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
+}
+table label {
+	margin: 0;
 }
 td.has-context {
 	height: 23px;
