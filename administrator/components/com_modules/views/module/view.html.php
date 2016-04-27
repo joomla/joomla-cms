@@ -64,7 +64,7 @@ class ModulesViewModule extends JViewLegacy
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
-		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'cube module');
+		JToolbarHelper::title($isNew ? JText::sprintf('COM_MODULES_MANAGER_MODULE_NEW', JText::_($this->item->module)) : JText::sprintf('COM_MODULES_MANAGER_MODULE_EDIT', JText::_($this->item->module)), 'cube module');
 
 		// For new records, check the create permission.
 		if ($isNew && $canDo->get('core.create'))
