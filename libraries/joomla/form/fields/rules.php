@@ -145,6 +145,8 @@ class JFormFieldRules extends JFormField
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
 		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		JText::script('JLIB_RULES_NOT_ALLOWED');
+		JText::script('JLIB_RULES_ALLOWED');
 
 		// Initialise some field attributes.
 		$section = $this->section;
