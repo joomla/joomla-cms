@@ -125,7 +125,7 @@ class JFormRuleUsername extends JFormRule
 						$result = false;
 					}
 					break;
-					
+
 				case 3:
 					// LATIN ONLY
 					if (preg_match_all('/[^\\p{Common}\\p{Latin}]/u', $value, $nonLatinChars))
