@@ -75,18 +75,18 @@ class JFormRuleUsername extends JFormRule
 		// If is set minNumChars and $usernameLenght does't achieve minimum lenght
 		if (($minNumChars) && ($usernameLenght < $minNumChars))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $value), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $usernameLenght), 'warning');
 			$result = false;
 		}
 
 		// CHECK MAXIMUM CHARACTER'S NUMBER
-		// Get the minimum number of characters
+		// Get the maximum number of characters
 		$maxNumChars = $params->get('maximum_length_username');
 
 		// If is set maxNumChars and $usernameLenght surpass maximum lenght
 		if (($maxNumChars) && ($usernameLenght > $maxNumChars))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $value), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $usernameLenght), 'warning');
 			$result = false;
 		}
 
@@ -101,18 +101,45 @@ class JFormRuleUsername extends JFormRule
 				case 1:
 					// CUSTOM
 					$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
+
+					// Get the username
+					$uname = array_unique(StringHelper::str_split($value));
+
+					// Get the valid chars
+					$invalid_chars = array_diff($uname, $allowedCharsUsername);
+
+					// Check if all the $uname chars are valid chars
+					if (!empty($invalid_chars))
+					{
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+						$result = false;
+					}
 					break;
 				case 2:
-					// ALPHANUMERIC
+					// ALPHANUMERIC ONLY
 					if (!ctype_alnum($value))
 					{
 						// Enqueue error message and return false
 						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
 
-						return false;
+						$result = false;
 					}
-
+					break;
+					
 				case 3:
+					// LATIN ONLY
+					if (preg_match_all('/[^\\p{Common}\\p{Latin}]/u', $value, $nonLatinChars))
+					{
+						$nonLatinString = implode(' ', array_unique($nonLatinChars[0]));
+
+						// Enqueue error message and return false
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_LATIN_REQUIRED', $nonLatinString), 'warning');
+
+						$result = false;
+					}
+					break;
+
+				case 4:
 					// EMAIL
 					jimport('joomla.mail.helper');
 
@@ -121,27 +148,15 @@ class JFormRuleUsername extends JFormRule
 						// Enqueue error message and return false
 						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED', implode(' ', $invalid_chars)), 'warning');
 
-						return false;
+						$result = false;
 					}
+					break;
 
 				default:
 					// NO OPTION
 					$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
 
 					return false;
-			}
-
-			// Get the username
-			$uname = array_unique(StringHelper::str_split($value));
-
-			// Get the valid chars
-			$invalid_chars = array_diff($uname, $allowedCharsUsername);
-
-			// Check if all the $uname chars are valid chars
-			if (!empty($invalid_chars))
-			{
-				$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
-				$result = false;
 			}
 		}
 
