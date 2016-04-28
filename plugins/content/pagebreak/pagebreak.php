@@ -50,27 +50,19 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		$canProceed = $context == 'com_content.article';
+		$app   	 = JFactory::getApplication();
+		$view  	 = $app->input->get('view');
+		$print 	 = $app->input->getBool('print');
+		$showall = $app->input->getBool('showall');
+		$full 	 = $app->input->getBool('fullview');
 
-		if (!$canProceed)
+		if ($context != 'com_content.article')
 		{
 			return;
 		}
 
-		$style = $this->params->get('style', 'pages');
-
 		// Expression to search for.
 		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';
-
-		$input = JFactory::getApplication()->input;
-
-		$print = $input->getBool('print');
-		$showall = $input->getBool('showall');
-
-		if (!$this->params->get('enabled', 1))
-		{
-			$print = true;
-		}
 
 		if ($print)
 		{
@@ -84,9 +76,6 @@ class PlgContentPagebreak extends JPlugin
 		{
 			return true;
 		}
-
-		$view = $input->getString('view');
-		$full = $input->getBool('fullview');
 
 		if (!$page)
 		{
@@ -104,7 +93,7 @@ class PlgContentPagebreak extends JPlugin
 		$matches = array();
 		preg_match_all($regex, $row->text, $matches, PREG_SET_ORDER);
 
-		if (($showall && $this->params->get('showall', 1)))
+		if ($showall && $this->params->get('showall', 1))
 		{
 			$hasToc = $this->params->get('multipage_toc', 1);
 
@@ -142,31 +131,31 @@ class PlgContentPagebreak extends JPlugin
 			$hasToc = $this->params->get('multipage_toc', 1);
 
 			// Adds heading or title to <site> Title.
-			if ($title)
+			if ($title && $page && $matches[$page - 1][2])
 			{
-				if ($page)
-				{
-					if ($page && @$matches[$page - 1][2])
-					{
-						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
+				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
-						if (@$attrs['title'])
-						{
-							$row->page_title = $attrs['title'];
-						}
-					}
+				if (isset($attrs['title']))
+				{
+					$row->page_title = $attrs['title'];
+				}
+				else
+				{
+					$row->page_title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $page + 1);
 				}
 			}
 
 			// Reset the text, we already hold it in the $text array.
 			$row->text = '';
 
+			$style = $this->params->get('style', 'pages');
+
 			if ($style == 'pages')
 			{
 				// Display TOC.
 				if ($hasToc)
 				{
-					$this->_createToc($row, $matches, $page);
+					$this->_createToc($row, $matches);
 				}
 				else
 				{
@@ -185,9 +174,6 @@ class PlgContentPagebreak extends JPlugin
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
 
-				// $row->text .= '<br />';
-				$row->text .= '<div class="pager">';
-
 				// Adds navigation between pages to bottom of text.
 				if ($hasToc)
 				{
@@ -197,12 +183,13 @@ class PlgContentPagebreak extends JPlugin
 				// Page links shown at bottom of page if TOC disabled.
 				if (!$hasToc)
 				{
+					$row->text .= '<div class="pager">';
 					$row->text .= $pageNav->getPagesLinks();
+					$row->text .= '</div>';
 				}
-
-				$row->text .= '</div>';
 			}
-			else
+
+			if ($style == 'tabs' || $style == 'sliders')
 			{
 				$t[] = $text[0];
 
@@ -238,6 +225,20 @@ class PlgContentPagebreak extends JPlugin
 
 				$row->text = implode(' ', $t);
 			}
+
+			if ($style == 'newtabs')
+			{
+				$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'newtabs');
+
+				include $path;
+			}
+
+			if ($style == 'newsliders')
+			{
+				$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'newsliders');
+
+				include $path;
+			}
 		}
 
 		return true;
@@ -246,98 +247,28 @@ class PlgContentPagebreak extends JPlugin
 	/**
 	 * Creates a Table of Contents for the pagebreak
 	 *
-	 * @param   object   &$row      The article object.  Note $article->text is also available
-	 * @param   array    &$matches  Array of matches of a regex in onContentPrepare
-	 * @param   integer  &$page     The 'page' number
+	 * @param   object  &$row      The article object.  Note $article->text is also available
+	 * @param   array   &$matches  Array of matches of a regex in onContentPrepare
 	 *
 	 * @return  void
 	 *
 	 * @since  1.6
 	 */
-	protected function _createToc(&$row, &$matches, &$page)
+	protected function _createToc(&$row, &$matches)
 	{
-		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-		$input = JFactory::getApplication()->input;
-		$limitstart = $input->getUInt('limitstart', 0);
-		$showall = $input->getInt('showall', 0);
+		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'tableofcontent');
 
-		// TOC header.
-		$row->toc = '<div class="pull-right article-index">';
-
-		if ($this->params->get('article_index') == 1)
-		{
-			$headingtext = JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
-
-			if ($this->params->get('article_index_text'))
-			{
-				$headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
-			}
-
-			$row->toc .= '<h3>' . $headingtext . '</h3>';
-		}
-
-		// TOC first Page link.
-		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
-		<li class="' . $class . '">
-			<a href="'
-			. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=')
-			. '" class="' . $class . '">' . $heading . '</a>
-		</li>
-		';
-
-		$i = 2;
-
-		foreach ($matches as $bot)
-		{
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($i - 1));
-
-			if (@$bot[0])
-			{
-				$attrs2 = JUtility::parseAttributes($bot[0]);
-
-				if (@$attrs2['alt'])
-				{
-					$title = stripslashes($attrs2['alt']);
-				}
-				elseif (@$attrs2['title'])
-				{
-					$title = stripslashes($attrs2['title']);
-				}
-				else
-				{
-					$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
-				}
-			}
-			else
-			{
-				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
-			}
-
-			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
-			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
-			$i++;
-		}
-
-		if ($this->params->get('showall'))
-		{
-			$link      = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass   = ($limitstart == $i - 1) ? ' class="active"' : '';
-			$class     = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
-			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
-				. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
-		}
-
-		$row->toc .= '</ul></div>';
+		ob_start();
+		include $path;
+		$row->toc = ob_get_clean();
 	}
 
 	/**
 	 * Creates the navigation for the item
 	 *
 	 * @param   object  &$row  The article object.  Note $article->text is also available
-	 * @param   int     $page  The total number of pages
-	 * @param   int     $n     The page number
+	 * @param   int     $page  The page number
+	 * @param   int     $n     The total number of pages
 	 *
 	 * @return  void
 	 *
@@ -345,41 +276,40 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	protected function _createNavigation(&$row, $page, $n)
 	{
-		$pnSpace = '';
-
-		if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_LT'))
-		{
-			$pnSpace = ' ';
-		}
-
+		// We need a next button for all pages, exept the last one
 		if ($page < $n - 1)
 		{
 			$page_next = $page + 1;
-
 			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($page_next));
-
-			// Next >>
-			$next = '<a href="' . $link_next . '">' . JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') . JText::_('JGLOBAL_GT') . '</a>';
 		}
 		else
 		{
-			$next = JText::_('JNEXT');
+			$page_next = '';
+			$link_next = null;
 		}
 
+		// We need a prev button for all pages exept the first one
 		if ($page > 0)
 		{
 			$page_prev = $page - 1 == 0 ? '' : $page - 1;
-
 			$link_prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($page_prev));
-
-			// << Prev
-			$prev = '<a href="' . $link_prev . '">' . JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>';
 		}
 		else
 		{
-			$prev = JText::_('JPREV');
+			$page_prev = '';
+			$link_prev = null;
 		}
 
-		$row->text .= '<ul><li>' . $prev . ' </li><li>' . $next . '</li></ul>';
+		// Collect data for the layout
+		$data       = array(
+						'page_next' => $page_next,
+						'link_next' => $link_next,
+						'page_prev' => $page_prev,
+						'link_prev' => $link_prev
+					);
+
+		// JLayout
+		$layout     = new JLayoutFile('plugins.content.pagebreak.navigation', $basePath = null);
+		$row->text .= $layout->render($data);
 	}
 }
