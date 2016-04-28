@@ -61,7 +61,7 @@ function sendPermissions(event) {
 			{
 				jQuery(element).parents().next('td').find('span')
 					.removeClass('label label-success').addClass('label label-important')
-					.html('Not Allowed.');
+					.html('Not Allowed');
 			}
 		}
 		else
