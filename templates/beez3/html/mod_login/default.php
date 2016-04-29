@@ -74,14 +74,18 @@ JHtml::_('behavior.keepalive');
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	<ul>
+		<?php if ($params->get('passwordremind', 1)) : ?>
 		<li>
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 			<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 		</li>
+		<?php endif; ?>
 		<li>
+		 <?php if($params->get('usernameremind', 1)) : ?>
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
 			<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
 		</li>
+		<?php endif; ?>
 		<?php $usersConfig = JComponentHelper::getParams('com_users'); ?>
 		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 			<li>
