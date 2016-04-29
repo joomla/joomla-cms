@@ -126,7 +126,7 @@ class JFormRuleUsername extends JFormRule
 
 				case 3:
 					// CUSTOM IS REGEXP
-					$regExp = (string)$params->get('custom_chars_username');
+					$regExp = (string) $params->get('custom_chars_username');
 
 					if (preg_match_all($regExp, $value, $nonRegExpChars))
 					{
