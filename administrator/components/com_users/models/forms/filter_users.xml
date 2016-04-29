@@ -7,7 +7,6 @@
 			label="COM_USERS_SEARCH_USERS"
 			description="COM_USERS_SEARCH_IN_NAME"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="state"
