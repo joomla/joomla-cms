@@ -27,6 +27,9 @@ tests/codeception/tests/acceptance/*Tester.php
 tests/codeception/tests/functional/*Tester.php
 tests/codeception/tests/unit/*Tester.php
 
+# Node modules #
+node_modules/
+
 # phpDocumentor Logs #
 phpdoc-*
 
