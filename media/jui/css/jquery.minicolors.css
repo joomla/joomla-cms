@@ -254,9 +254,11 @@
 .minicolors-theme-bootstrap .keywords {
 	width: 100px;
 }
-.minicolors-theme-bootstrap .rgb,
+.minicolors-theme-bootstrap .rgb {
+	width: 160px;
+}
 .minicolors-theme-bootstrap .rgba {
-	width: 200px;
+	width: 220px;
 }
 
 /* When the input is disabled */
