@@ -63,6 +63,8 @@ class JHttpTransportCurl implements JHttpTransport
 		// Setup the cURL handle.
 		$ch = curl_init();
 
+		$options = array();
+
 		// Set the request method.
 		switch (strtoupper($method))
 		{
@@ -186,6 +188,13 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$options[CURLOPT_USERPWD] = $this->options->get('userauth') . ':' . $this->options->get('passwordauth');
+			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
+		}
 
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
