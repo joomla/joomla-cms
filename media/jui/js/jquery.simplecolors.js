@@ -24,7 +24,7 @@
 				list += '<br />';
 			} else {
 				var clss = 'simplecolors-swatch';
-				if (color == 'none') {
+				if (color == 'none' || color == 'transparent') {
 					clss += ' nocolor';
 					color = 'transparent';
 				}
@@ -37,7 +37,7 @@
 
 		var color = this.select.val();
 		var clss = 'simplecolors-swatch';
-		if (color == 'none') {
+		if (color == 'none' || color == 'transparent') {
 			clss += ' nocolor';
 			color = 'transparent';
 		}
@@ -63,7 +63,17 @@
 		show: function() {
 			var panelpadding = 7; // Empirical value
 			var pos = this.icon.offset();
-			switch (this.select.attr('data-position')) {
+
+			// Reverse default position of the picket in case of rtl language
+			if( jQuery(document.querySelector("html")).attr('dir') == 'rtl'
+				&& this.select.attr('data-position') === 'default' )
+			{
+				position = 'left';
+			} else {
+				position = this.select.attr('data-position');
+			}
+
+			switch (position) {
 				case 'top':
 					this.panel.css({
 						left: pos.left - panelpadding,
@@ -110,7 +120,7 @@
 					var bgcolor = '';
 					var clss = '';
 					if (target.parent().hasClass('nocolor')) {
-						color = 'none';
+						color = 'transparent';
 						bgcolor = 'transparent';
 						clss = 'nocolor';
 					} else {

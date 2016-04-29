@@ -246,6 +246,15 @@
 	width: 65px;
 	margin: 0px;
 }
+.minicolors-theme-bootstrap .hex{
+	width: 65px;
+}
+.minicolors-theme-bootstrap .hex-keywords{
+	width: 100px;
+}
+.minicolors-theme-bootstrap .rgba{
+	width: auto;
+}
 
 /* When the input is disabled */
 .minicolors-theme-bootstrap .minicolors-input[disabled] {
@@ -298,8 +307,8 @@
 
 .minicolors-theme-bootstrap .minicolors-slider,
 .minicolors-theme-bootstrap .minicolors-opacity-slider {
-	top: 6px;
-	left: 157px;
+    top: 6px;
+    margin-left: 5px;
 }
 
 .minicolors-theme-bootstrap .minicolors-grid {
