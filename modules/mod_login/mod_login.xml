@@ -105,8 +105,8 @@
 					default="1"
 					label="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_USERNAME_LABEL"
 					description="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_USERNAME_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field
 					name="passwordremind"
@@ -115,8 +115,8 @@
 					default="1"
 					label="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_PASSWORD_LABEL"
 					description="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_PASSWORD_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 			</fieldset>
 
