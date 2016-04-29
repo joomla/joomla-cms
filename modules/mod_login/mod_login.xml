@@ -103,8 +103,8 @@
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_LOGIN_USERNAMEREMIND_LABEL"
-					description="MOD_LOGIN_USERNAMEREMIND_DESC">
+					label="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_USERNAME_LABEL"
+					description="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_USERNAME_DESC">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -113,8 +113,8 @@
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_LOGIN_PASSWORDREMIND_LABEL"
-					description="MOD_LOGIN_PASSWORDREMIND_DESC">
+					label="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_PASSWORD_LABEL"
+					description="MOD_LOGIN_FIELD_SHOW_FORGOT_YOUR_PASSWORD_DESC">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
