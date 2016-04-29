@@ -98,15 +98,23 @@ class JFormRuleUsername extends JFormRule
 		{
 			switch ($allowed_preset)
 			{
-				case 1:
-					// CUSTOM
+				case 1: // CUSTOM ALLOWED
+				case 2: // CUSTOM FORBIDDEN
 					$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
 
 					// Get the username
 					$uname = array_unique(StringHelper::str_split($value));
 
-					// Get the valid chars
-					$invalid_chars = array_diff($uname, $allowedCharsUsername);
+					if ($allowed_preset == 1)
+					{
+						// Get the invalid chars for CUSTOM ALLOWED
+						$invalid_chars = array_diff($uname, $allowedCharsUsername);
+					}
+					else
+					{
+						// Get the valid chars for CUSTOM FORBIDDEN
+						$invalid_chars = array_intersect($uname, $allowedCharsUsername);
+					}
 
 					// Check if all the $uname chars are valid chars
 					if (!empty($invalid_chars))
@@ -115,7 +123,7 @@ class JFormRuleUsername extends JFormRule
 						$result = false;
 					}
 					break;
-				case 2:
+				case 3:
 					// ALPHANUMERIC ONLY
 					if (!ctype_alnum($value))
 					{
@@ -126,7 +134,7 @@ class JFormRuleUsername extends JFormRule
 					}
 					break;
 
-				case 3:
+				case 4:
 					// LATIN ONLY
 					if (preg_match_all('/[^\\p{Common}\\p{Latin}]/u', $value, $nonLatinChars))
 					{
@@ -139,7 +147,7 @@ class JFormRuleUsername extends JFormRule
 					}
 					break;
 
-				case 4:
+				case 5:
 					// EMAIL
 					jimport('joomla.mail.helper');
 
