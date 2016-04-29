@@ -296,7 +296,7 @@ class JFormFieldColor extends JFormField
 			// Force LTR input value in RTL, due to display issues with rgba/hex colors
 			$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
- 			// Including fallback code for HTML5 non supported browsers.
+			// Including fallback code for HTML5 non supported browsers.
 			JHtml::_('jquery.framework');
 			JHtml::_('script', 'system/html5fallback.js', false, true);
 
