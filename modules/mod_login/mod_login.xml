@@ -98,7 +98,26 @@
 					<option
 						value="1">MOD_LOGIN_VALUE_TEXT</option>
 				</field>
-
+				<field
+					name="usernameremind"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_LOGIN_USERNAMEREMIND_LABEL"
+					description="MOD_LOGIN_USERNAMEREMIND_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="passwordremind"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					label="MOD_LOGIN_PASSWORDREMIND_LABEL"
+					description="MOD_LOGIN_PASSWORDREMIND_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 
 			<fieldset
