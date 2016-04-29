@@ -100,7 +100,7 @@ class JFormRuleUsername extends JFormRule
 			{
 				case 1: // CUSTOM ALLOWED
 				case 2: // CUSTOM FORBIDDEN
-					$allowedCharsUsername = array_unique(StringHelper::str_split($params->get('allowed_chars_username')));
+					$customCharsUsername = array_unique(StringHelper::str_split($params->get('custom_chars_username')));
 
 					// Get the username
 					$uname = array_unique(StringHelper::str_split($value));
@@ -108,12 +108,12 @@ class JFormRuleUsername extends JFormRule
 					if ($allowed_preset == 1)
 					{
 						// Get the invalid chars for CUSTOM ALLOWED
-						$invalid_chars = array_diff($uname, $allowedCharsUsername);
+						$invalid_chars = array_diff($uname, $customCharsUsername);
 					}
 					else
 					{
-						// Get the valid chars for CUSTOM FORBIDDEN
-						$invalid_chars = array_intersect($uname, $allowedCharsUsername);
+						// Get the invalid chars for CUSTOM FORBIDDEN
+						$invalid_chars = array_intersect($uname, $customCharsUsername);
 					}
 
 					// Check if all the $uname chars are valid chars
@@ -123,7 +123,22 @@ class JFormRuleUsername extends JFormRule
 						$result = false;
 					}
 					break;
+
 				case 3:
+					// CUSTOM IS REGEXP
+					$regExp = (string)$params->get('custom_chars_username');
+
+					if (preg_match_all($regExp, $value, $nonRegExpChars))
+					{
+						$nonRegExpString = implode(' ', array_unique($nonRegExpChars[0]));
+
+						// Enqueue error message and return false
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', $nonRegExpString), 'warning');
+
+						$result = false;
+					}
+					break;
+				case 4:
 					// ALPHANUMERIC ONLY
 					if (!ctype_alnum($value))
 					{
@@ -134,7 +149,7 @@ class JFormRuleUsername extends JFormRule
 					}
 					break;
 
-				case 4:
+				case 5:
 					// LATIN ONLY
 					if (preg_match_all('/[^\\p{Common}\\p{Latin}]/u', $value, $nonLatinChars))
 					{
@@ -147,7 +162,7 @@ class JFormRuleUsername extends JFormRule
 					}
 					break;
 
-				case 5:
+				case 6:
 					// EMAIL
 					jimport('joomla.mail.helper');
 
