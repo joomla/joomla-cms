@@ -35,6 +35,12 @@ class JFormRuleCaptcha extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
+		// Do not test when we are in the administrator part
+		if (JFactory::getApplication()->isAdmin())
+		{
+			return true;
+		}
+
 		$plugin    = $element['plugin'] ?: JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha', 0));
 		$namespace = $element['namespace'] ?: $form->getName();
 
