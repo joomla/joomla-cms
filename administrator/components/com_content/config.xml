@@ -217,7 +217,7 @@
 			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 			description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 			default="100"
-			showon="show_readmore_title:1"
+			showon="show_readmore:1[AND]show_readmore_title:1"
 		/>
 
 		<field
