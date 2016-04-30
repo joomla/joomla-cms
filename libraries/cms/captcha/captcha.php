@@ -79,11 +79,6 @@ class JCaptcha extends JObject
 	 */
 	public function __construct($captcha, $options)
 	{
-		if (JFactory::getApplication()->isAdmin())
-		{
-			return null;
-		}
-
 		$this->_name = $captcha;
 		$this->_load($options);
 	}
