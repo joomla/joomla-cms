@@ -8,9 +8,13 @@
  */
 defined('_JEXEC') or die;
 
+/**
+ * FieldsHelper
+ *
+ * @since  3.6
+ */
 class FieldsHelper
 {
-
 	private static $fieldsCache = null;
 
 	private static $fieldCache = null;
@@ -19,24 +23,27 @@ class FieldsHelper
 	 * Extracts the component and section from the context string which has to
 	 * be in the format component.context.
 	 *
-	 * @param string $contextString
+	 * @param   string  $contextString  contextString
+	 *
 	 * @return array|null
 	 */
 	public static function extract ($contextString)
 	{
 		$parts = explode('.', $contextString);
+
 		if (count($parts) < 2)
 		{
 			return null;
 		}
+
 		return $parts;
 	}
 
 	/**
 	 * Creates an object of the given type.
 	 *
-	 * @param string $type
-	 * @param string $context
+	 * @param   string  $type     type
+	 * @param   string  $context  The context of the content passed to the helper
 	 *
 	 * @return FieldsTypeBase
 	 */
@@ -44,9 +51,10 @@ class FieldsHelper
 	{
 		// Loading the class
 		$class = 'FieldsType' . JString::ucfirst($type);
+
 		if (class_exists($class))
 		{
-			return new $class();
+			return new $class;
 		}
 
 		// Searching the file
@@ -58,6 +66,7 @@ class FieldsHelper
 		{
 			// Extracting the component and section
 			$parts = self::extract($context);
+
 			if ($parts)
 			{
 				$component = $parts[0];
@@ -68,12 +77,13 @@ class FieldsHelper
 
 		// Search for the file and load it
 		$file = JPath::find($paths, $type . '.php');
+
 		if ($file !== false)
 		{
 			require_once $file;
 		}
 
-		return class_exists($class) ? new $class() : false;
+		return class_exists($class) ? new $class : false;
 	}
 
 	/**
@@ -85,9 +95,10 @@ class FieldsHelper
 	 * Should the value being prepared to be shown in an HTML context then
 	 * prepareValue must be set to true. No further escaping needs to be done.
 	 *
-	 * @param string $context
-	 * @param stdClass $item
-	 * @param boolean $prepareValue
+	 * @param   string    $context       The context of the content passed to the helper
+	 * @param   stdClass  $item          item
+	 * @param   boolean   $prepareValue  prepareValue
+	 *
 	 * @return array
 	 */
 	public static function getFields ($context, $item = null, $prepareValue = false)
@@ -98,12 +109,13 @@ class FieldsHelper
 			JLoader::import('joomla.application.component.model');
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
-					'ignore_request' => true
-			));
+				'ignore_request' => true)
+			);
 			self::$fieldsCache->setState('filter.published', 1);
 			self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
 			self::$fieldsCache->setState('list.limit', 0);
 		}
+
 		self::$fieldsCache->setState('filter.context', $context);
 
 		if (is_array($item))
@@ -111,8 +123,10 @@ class FieldsHelper
 			$item = (object) $item;
 		}
 
-		// If item has assigned_cat_ids parameter display only fields which
-		// belong to the category
+		/*
+		 *If item has assigned_cat_ids parameter display only fields which
+		 * belong to the category
+ 		 */
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
@@ -120,25 +134,32 @@ class FieldsHelper
 		}
 
 		$fields = self::$fieldsCache->getItems();
+
 		if ($item && isset($item->id))
 		{
 			if (self::$fieldCache === null)
 			{
 				self::$fieldCache = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-						'ignore_request' => true
-				));
+					'ignore_request' => true)
+				);
 			}
+
 			$new = array();
+
 			foreach ($fields as $key => $original)
 			{
-				// Doing a clone, otherwise fields for different items will
-				// always reference the same object
+				/*
+				 * Doing a clone, otherwise fields for different items will
+				 * always reference to the same object
+				 */
 				$field = clone $original;
 				$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
+
 				if (! $field->value)
 				{
 					$field->value = $field->default_value;
 				}
+
 				$field->rawvalue = $field->value;
 
 				if ($prepareValue)
@@ -149,7 +170,7 @@ class FieldsHelper
 					{
 						try
 						{
-							$m = new Mustache_Engine();
+							$m     = new Mustache_Engine;
 							$value = $m->render($output, $field);
 						}
 						catch (Exception $e)
@@ -161,6 +182,7 @@ class FieldsHelper
 					{
 						// Is deprecated
 						$type = self::loadTypeObject($field->type, $context);
+
 						if ($type)
 						{
 							$value = $type->prepareValueForDisplay($field->value, $field);
@@ -170,25 +192,24 @@ class FieldsHelper
 					if (! $value)
 					{
 						// Prepare the value from the type layout
-						$value = self::render($context, 'field.prepare.' . $field->type, array(
-								'field' => $field
-						));
+						$value = self::render($context, 'field.prepare.' . $field->type, array('field' => $field));
 					}
 
 					// If the value is empty, render the base layout
 					if (! $value)
 					{
-						$value = self::render($context, 'field.prepare.base', array(
-								'field' => $field
-						));
+						$value = self::render($context, 'field.prepare.base', array('field' => $field));
 					}
 
 					$field->value = $value;
 				}
+
 				$new[$key] = $field;
 			}
+
 			$fields = $new;
 		}
+
 		return $fields;
 	}
 
@@ -196,9 +217,10 @@ class FieldsHelper
 	 * Renders the layout file and data on the context and does a fall back to
 	 * Fields afterwards.
 	 *
-	 * @param string $context
-	 * @param string $layoutFile
-	 * @param array $displayData
+	 * @param   string  $context      The context of the content passed to the helper
+	 * @param   string  $layoutFile   layoutFile
+	 * @param   array   $displayData  displayData
+	 *
 	 * @return NULL|string
 	 */
 	public static function render ($context, $layoutFile, $displayData)
@@ -215,52 +237,57 @@ class FieldsHelper
 		if ($parts = self::extract($context))
 		{
 			// Trying to render the layout on the component fom the context
-			$value = JLayoutHelper::render($layoutFile, $displayData, null, array(
-					'component' => $parts[0],
-					'client' => 0
-			));
+			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
 		if (! $value)
 		{
 			// Trying to render the layout on Fields itself
-			$value = JLayoutHelper::render($layoutFile, $displayData, null, array(
-					'component' => 'com_fields',
-					'client' => 0
-			));
+			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
 		return $value;
 	}
 
+	/**
+	 * PrepareForm
+	 *
+	 * @param   string  $context  The context of the content passed to the helper
+	 * @param   JForm   $form     form
+	 * @param   object  $data     data.
+	 *
+	 * @return  boolean
+	 */
 	public static function prepareForm ($context, JForm $form, $data)
 	{
-
 		// Extracting the component and section
 		$parts = self::extract($context);
+
 		if (! $parts)
 		{
 			return true;
 		}
 
 		// When no fields available return here
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], new JObject());
+		$fields = self::getFields($parts[0] . '.' . $parts[1], new JObject);
+
 		if (! $fields)
 		{
 			return true;
 		}
 
 		$component = $parts[0];
-		$section = $parts[1];
+		$section   = $parts[1];
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
+
 		if (! $assignedCatids && $form->getField('assigned_cat_ids'))
 		{
 			// Choose the first category available
-			$xml = new DOMDocument();
-			$xml->loadHTML($form->getField('assigned_cat_ids')
-				->__get('input'));
+			$xml     = new DOMDocument;
+			$xml->loadHTML($form->getField('assigned_cat_ids')->__get('input'));
 			$options = $xml->getElementsByTagName('option');
+
 			if ($firstChoice = $options->item(0))
 			{
 				$assignedCatids = $firstChoice->getAttribute('value');
@@ -268,15 +295,19 @@ class FieldsHelper
 			}
 		}
 
-		// If there is a catid field we need to reload the page when the catid
-		// is changed
+		/*
+		 * If there is a catid field we need to reload the page when the catid
+		 * is changed
+		 */
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
 			// The uri to submit to
 			$uri = clone JUri::getInstance('index.php');
 
-			// Removing the catid parameter from the actual url and set it as
-			// return
+			/*
+			 * Removing the catid parameter from the actual url and set it as
+			 * return
+			*/
 			$returnUri = clone JUri::getInstance();
 			$returnUri->setVar('catid', null);
 			$uri->setVar('return', base64_encode($returnUri->toString()));
@@ -289,8 +320,10 @@ class FieldsHelper
 			$uri->setVar('view', null);
 			$uri->setVar('layout', null);
 
-			// Setting the onchange event to reload the page when the category
-			// has changed
+			/*
+			 * Setting the onchange event to reload the page when the category
+			 * has changed
+			*/
 			$form->setFieldAttribute('catid', 'onchange', "categoryHasChanged(this);");
 			JFactory::getDocument()->addScriptDeclaration(
 					"function categoryHasChanged(element){
@@ -307,7 +340,8 @@ class FieldsHelper
 		}
 
 		// Getting the fields
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $data);
+		$fields = self::getFields($parts[0] . '.' . $parts[1], $data);
+
 		if (! $fields)
 		{
 			return true;
@@ -324,12 +358,14 @@ class FieldsHelper
 		$fieldsPerCategory = array(
 				0 => array()
 		);
+
 		foreach ($fields as $field)
 		{
 			if (! key_exists($field->catid, $fieldsPerCategory))
 			{
 				$fieldsPerCategory[$field->catid] = array();
 			}
+
 			$fieldsPerCategory[$field->catid][] = $field;
 		}
 
@@ -349,12 +385,16 @@ class FieldsHelper
 
 			$label = '';
 			$description = '';
+
 			if ($catid > 0)
 			{
-				// JCategories can't handle com_content with a section, going
-				// directly to the table
+				/*
+				 * JCategories can't handle com_content with a section, going
+				 * directly to the table
+				 */
 				$category = JTable::getInstance('Category');
 				$category->load($catid);
+
 				if ($category->id)
 				{
 					$label = $category->title;
@@ -369,16 +409,19 @@ class FieldsHelper
 				if (! $label)
 				{
 					$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
+
 					if (! $lang->hasKey($key))
 					{
 						$key = 'JGLOBAL_FIELDS';
 					}
+
 					$label = JText::_($key);
 				}
 
 				if (! $description)
 				{
 					$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
+
 					if ($lang->hasKey($key))
 					{
 						$description = JText::_($key);
@@ -393,19 +436,24 @@ class FieldsHelper
 			foreach ($catFields as $field)
 			{
 				// Creating the XML form data
-				$type = FieldsHelper::loadTypeObject($field->type, $field->context);
+				$type = self::loadTypeObject($field->type, $field->context);
+
 				if ($type === false)
 				{
 					continue;
 				}
+
 				try
 				{
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
-					// If the field belongs to an assigned_cat_ids but the
-					// assigned_cat_ids in the data is not known, set the
-					// required flag to false on any circumstance.
+					/*
+					 *If the field belongs to a assigned_cat_ids but the
+					 * assigned_cat_ids in the data is not known, set the
+					 * required
+					 * flag to false on any circumstance
+					 */
 					if (! $assignedCatids && $field->assigned_cat_ids)
 					{
 						$node->setAttribute('required', 'false');
@@ -421,8 +469,8 @@ class FieldsHelper
 		$form->load($xml->saveXML());
 
 		$model = JModelLegacy::getInstance('Field', 'FieldsModel', array(
-				'ignore_request' => true
-		));
+				'ignore_request' => true)
+		);
 
 		if ((! isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules' && JFactory::getApplication()->isSite())
 		{
@@ -436,6 +484,7 @@ class FieldsHelper
 			foreach ($fields as $field)
 			{
 				$value = $model->getFieldValue($field->id, $field->context, $data->id);
+
 				if ($value === null)
 				{
 					continue;
