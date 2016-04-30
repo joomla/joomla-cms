@@ -17,8 +17,10 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
+$clientId = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -48,9 +50,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($clientId === 0) : ?>
 						<th width="20%" class="nowrap hidden-phone">
 							<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 						</th>
+						<?php endif; ?>
 						<th width="30%" class="hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 						</th>
@@ -61,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="6">
+						<td colspan="<?php echo $colSpan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -103,6 +107,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
 							<?php endif;?>
 						</td>
+						<?php if ($clientId === 0) : ?>
 						<td class="small hidden-phone">
 							<?php if ($item->home == '1') : ?>
 								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
@@ -114,6 +119,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
 							<?php endif; ?>
 						</td>
+						<?php endif;?>
 						<td class="hidden-phone hidden-tablet">
 							<label for="cb<?php echo $i;?>" class="small">
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
