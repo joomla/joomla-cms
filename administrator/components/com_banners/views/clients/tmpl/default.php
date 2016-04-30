@@ -20,10 +20,7 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = (isset($this->state->params)) ? $this->state->params : new JObject;
-$archived   = $this->state->get('filter.state') == 2 ? true : false;
-$trashed    = $this->state->get('filter.state') == -2 ? true : false;
 ?>
-
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -85,16 +82,13 @@ $trashed    = $this->state->get('filter.state') == -2 ? true : false;
 							<td class="center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
-									<?php
-									// Create dropdown items
-									$action = $archived ? 'unarchive' : 'archive';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
-
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
-
-									// Render dropdown list
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+									<?php // Create dropdown items and render the dropdown list.
+									if ($canChange)
+									{
+										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'clients');
+										JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'clients');
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+									}
 									?>
 								</div>
 							</td>
