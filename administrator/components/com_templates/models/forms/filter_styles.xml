@@ -22,6 +22,7 @@
 			type="menuitem"
 			label="COM_TEMPLATES_OPTION_SELECT_PAGE"
 			disable="separator,alias,heading,url"
+			showon="client_id:0"
 			onchange="this.form.submit();"
 			>
 			<option	value="">COM_TEMPLATES_OPTION_SELECT_PAGE</option>
