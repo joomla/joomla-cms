@@ -464,7 +464,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
-				'enabled'      => $extension->enabled ? JText::_('JENABLED') : JText::_('JDISABLED'),
+				'state'        => $extension->enabled ? JText::_('JENABLED') : JText::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
