@@ -100,7 +100,7 @@
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			default="1"
-			showon="show_category:1">
+			showon="show_parent_category:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
