@@ -126,6 +126,7 @@ class JFormRuleUsername extends JFormRule
 
 				case 3:
 					// CUSTOM IS REGEXP
+					// All that match is rejected
 					$regExp = (string) $params->get('custom_chars_username');
 
 					if (preg_match_all($regExp, $value, $nonRegExpChars))
@@ -140,6 +141,7 @@ class JFormRuleUsername extends JFormRule
 					break;
 				case 4:
 					// ALPHANUMERIC ONLY
+					// @TODO: with regExp
 					if (!ctype_alnum($value))
 					{
 						// Enqueue error message and return false
@@ -163,6 +165,23 @@ class JFormRuleUsername extends JFormRule
 					break;
 
 				case 6:
+					// M3AAWG HIGHLY RESTRICTIVE DEFINITION FOR EAST ASIAN LANGUAGES
+					// https://www.m3aawg.org/sites/default/files/m3aawg-unicode-tutorial-2016-02.pdf
+					$nonLatinHanHiraganaKatakana = preg_match_all('/[^\\p{Common}\\p{Latin}\\p{Han}\\p{Hiragana}\\p{Katakana}]/u', $value);
+					$nonLatinHanBopomofo = preg_match_all('/[^\\p{Common}\\p{Latin}\\p{Han}\\p{Bopomofo}]/u', $value);
+					$nonLatinHanHangul = preg_match_all('/[^\\p{Common}\\p{Latin}\\p{Han}\\p{Hangul}]/u', $value);
+
+					// If none of the allowed combinations by M3AAWG, then reject
+					if ($nonLatinHanHiraganaKatakana && $nonLatinHanBopomofo && $nonLatinHanHangul)
+					{
+						// Enqueue error message and return false
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_M3AAWG_REQUIRED'), 'warning');
+
+						$result = false;
+					}
+					break;
+
+				case 7:
 					// EMAIL
 					jimport('joomla.mail.helper');
 
