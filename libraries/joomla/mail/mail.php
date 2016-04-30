@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,13 +17,17 @@ defined('JPATH_PLATFORM') or die;
 class JMail extends PHPMailer
 {
 	/**
-	 * @var    array  JMail instances container.
+	 * JMail instances container.
+	 *
+	 * @var    JMail[]
 	 * @since  11.3
 	 */
 	protected static $instances = array();
 
 	/**
-	 * @var    string  Charset of the message.
+	 * Charset of the message.
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	public $CharSet = 'utf-8';
@@ -31,32 +35,48 @@ class JMail extends PHPMailer
 	/**
 	 * Constructor
 	 *
+	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown
+	 *
 	 * @since   11.1
 	 */
-	public function __construct()
+	public function __construct($exceptions = true)
 	{
+		parent::__construct($exceptions);
+
 		// PHPMailer has an issue using the relative path for its language files
 		$this->setLanguage('joomla', __DIR__ . '/language');
+
+		// Configure a callback function to handle errors when $this->edebug() is called
+		$this->Debugoutput = function ($message, $level)
+		{
+			JLog::add(sprintf('Error in JMail API: %s', $message), JLog::ERROR, 'mail');
+		};
+
+		// If debug mode is enabled then set SMTPDebug to the maximum level
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$this->SMTPDebug = 4;
+		}
 	}
 
 	/**
-	 * Returns the global email object, only creating it
-	 * if it doesn't already exist.
+	 * Returns the global email object, only creating it if it doesn't already exist.
 	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
 	 * values, use an id string that is not 'Joomla'.
 	 *
-	 * @param   string  $id  The id string for the JMail instance [optional]
+	 * @param   string   $id          The id string for the JMail instance [optional]
+	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown [optional]
 	 *
 	 * @return  JMail  The global JMail object
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($id = 'Joomla')
+	public static function getInstance($id = 'Joomla', $exceptions = true)
 	{
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new JMail;
+			self::$instances[$id] = new JMail($exceptions);
 		}
 
 		return self::$instances[$id];
@@ -65,7 +85,8 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  mixed  True if successful; JError if using legacy tree (no exception thrown in that case).
+	 * @return  boolean|JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
+	 *                              or a JException object if the mail function does not exist or sending the message fails.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -76,38 +97,51 @@ class JMail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				if (class_exists('JError'))
+				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+			}
+
+			try
+			{
+				// Try sending with default settings
+				$result = parent::send();
+			}
+			catch (phpmailerException $e)
+			{
+				$result = false;
+
+				if ($this->SMTPAutoTLS)
 				{
-					return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
-				}
-				else
-				{
-					throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
+					/**
+					 * PHPMailer has an issue with servers with invalid certificates
+					 *
+					 * See: https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls
+					 */
+					$this->SMTPAutoTLS = false;
+
+					try
+					{
+						// Try it again with TLS turned off
+						$result = parent::send();
+					}
+					catch (phpmailerException $e)
+					{
+						// Keep false for B/C compatibility
+						$result = false;
+					}
 				}
 			}
 
-			$result = parent::send();
-
 			if ($result == false)
 			{
-				if (class_exists('JError'))
-				{
-					$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
-				}
-				else
-				{
-					throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
-				}
+				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
 			}
 
 			return $result;
 		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
-			return false;
-		}
+		JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+
+		return false;
 	}
 
 	/**

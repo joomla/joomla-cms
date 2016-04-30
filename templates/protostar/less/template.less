@@ -227,6 +227,9 @@ h6 { font-size: 12px; line-height: 14px; }
 .breadcrumb {
 	margin: 10px 0;
 }
+.breadcrumb > li {
+   color: #999;
+}
 /* Caption fixes */
 .img_caption .left {
 	float: left;
@@ -640,4 +643,17 @@ body.modal-open {
 }
 #finder-search .in.collapse {
 	overflow: visible;
+}
+
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
+}
+
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
 }

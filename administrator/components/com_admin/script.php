@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile  $installer  The class calling this method
+	 * @param   JInstallerAdapterFile  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -31,12 +31,17 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
-		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
+		$this->convertTablesToUtf8mb4();
+		$this->cleanJoomlaCache();
+
+		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
+		// LOGOUT ALL THE USERS
+		$this->flushSessions();
 	}
 
 	/**
@@ -402,18 +407,29 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			// Joomla 1.6 - 1.7 - 2.5
 			'/libraries/cms/cmsloader.php',
+			'/libraries/joomla/database/databaseexception.php',
+			'/libraries/joomla/database/databasequery.php',
+			'/libraries/joomla/environment/response.php',
 			'/libraries/joomla/form/fields/templatestyle.php',
 			'/libraries/joomla/form/fields/user.php',
 			'/libraries/joomla/form/fields/menu.php',
 			'/libraries/joomla/form/fields/helpsite.php',
+			'/libraries/joomla/github/gists.php',
+			'/libraries/joomla/github/issues.php',
+			'/libraries/joomla/github/pulls.php',
+			'/libraries/joomla/log/logentry.php',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
+			'/administrator/components/com_content/models/fields/filters.php',
 			'/administrator/components/com_users/controllers/config.php',
+			'/administrator/components/com_users/helpers/levels.php',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
+			'/administrator/modules/mod_quickicon/tmpl/default_button.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin_src.js',
@@ -1382,7 +1398,17 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
-			'/administrator/components/com_tags/helpers/tags.php',
+			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
+			'/libraries/joomla/document/error/error.php',
+			'/libraries/joomla/document/feed/feed.php',
+			'/libraries/joomla/document/html/html.php',
+			'/libraries/joomla/document/image/image.php',
+			'/libraries/joomla/document/json/json.php',
+			'/libraries/joomla/document/opensearch/opensearch.php',
+			'/libraries/joomla/document/raw/raw.php',
+			'/libraries/joomla/document/xml/xml.php',
+			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
+			'/administrator/components/com_joomlaupdate/helpers/download.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1470,7 +1496,12 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
-			'/administrator/components/com_tags/helpers',
+			'/libraries/joomla/document/error',
+			'/libraries/joomla/document/image',
+			'/libraries/joomla/document/json',
+			'/libraries/joomla/document/opensearch',
+			'/libraries/joomla/document/raw',
+			'/libraries/joomla/document/xml',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1568,5 +1599,291 @@ class JoomlaInstallerScript
 		}
 
 		return true;
+	}
+
+	/**
+	 * If we migrated the session from the previous system, flush all the active sessions.
+	 * Otherwise users will be logged in, but not able to do anything since they don't have
+	 * a valid session
+	 *
+	 * @return  boolean
+	 */
+	public function flushSessions()
+	{
+		/**
+		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
+		 * have a valid session.
+		 */
+		$session = JFactory::getSession();
+
+		/**
+		 * Restarting the Session require a new login for the current user so lets check if we have a active session
+		 * and only if not restart it.
+		 * For B/C reasons we need to use getState as isActive is not available in 2.5
+		 */
+		if ($session->getState() !== 'active')
+		{
+			$session->restart();
+		}
+
+		// If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
+		if (!isset($_SESSION['__default']))
+		{
+			return true;
+		}
+
+		$db = JFactory::getDbo();
+
+		try
+		{
+			switch ($db->name)
+			{
+				// MySQL database, use TRUNCATE (faster, more resilient)
+				case 'pdomysql':
+				case 'mysql':
+				case 'mysqli':
+					$db->truncateTable('#__session');
+					break;
+
+				// Non-MySQL databases, use a simple DELETE FROM query
+				default:
+					$query = $db->getQuery(true)
+						->delete($db->qn('#__session'));
+					$db->setQuery($query)->execute();
+					break;
+			}
+		}
+		catch (Exception $e)
+		{
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br />';
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Converts the site's database tables to support UTF-8 Multibyte.
+	 *
+	 * Note that this is a modified of InstallerModelDatabase::convertTablesToUtf8mb4()
+	 * that doesn't use JDatabase functions introduced in 3.5.0 which would cause errors
+	 * when upgrading from a version before 3.5.0
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	private function convertTablesToUtf8mb4()
+	{
+		$db = JFactory::getDbo();
+
+		// This is only required for MySQL databases
+		$name = $db->getName();
+
+		if (stristr($name, 'mysql') === false)
+		{
+			return;
+		}
+
+		// Check if utf8mb4 is supported and set required conversion status
+		$utf8mb4Support = false;
+
+		if ($this->serverClaimsUtf8mb4Support($name))
+		{
+			$utf8mb4Support = true;
+			$converted = 2;
+		}
+		else
+		{
+			$converted = 1;
+		}
+
+		// Check conversion status in database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			);
+
+		try
+		{
+			$convertedDB = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+
+			return;
+		}
+
+		// Nothing to do, saved conversion status from DB is equal to required
+		if ($convertedDB == $converted)
+		{
+			return;
+		}
+
+		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
+		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+
+		if (is_file($fileName1))
+		{
+			$fileContents1 = @file_get_contents($fileName1);
+			$queries1 = $db->splitSql($fileContents1);
+
+			if (!empty($queries1))
+			{
+				foreach ($queries1 as $query1)
+				{
+					try
+					{
+						$db->setQuery($query1)->execute();
+					}
+					catch (Exception $e)
+					{
+						// If the query fails we will go on. It just means the index to be dropped does not exist.
+					}
+				}
+			}
+		}
+
+		// Step 2: Perform the index modifications and conversions
+		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2 = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				foreach ($queries2 as $query2)
+				{
+					// Downgrade the query if utf8mb4 isn't supported
+					if (!$utf8mb4Support)
+					{
+						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
+					}
+
+					try
+					{
+						$db->setQuery($query2)->execute();
+					}
+					catch (Exception $e)
+					{
+						$converted = 0;
+
+						// Still render the error message from the Exception object
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					}
+				}
+			}
+		}
+
+		// Show if there was some error
+		if ($converted == 0)
+		{
+			// Show an error message telling to check database problems
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+		}
+
+		// Set flag in database if the update is done.
+		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+	}
+
+	/**
+	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
+	 * 
+	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
+	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
+	 * which will still have the old database driver loaded at this point.
+	 *
+	 * @param   string  $format  The type of database connection.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.5.0
+	 */
+	private function serverClaimsUtf8mb4Support($format)
+	{
+		$db = JFactory::getDbo();
+
+		switch ($format)
+		{
+			case 'mysql':
+				$client_version = mysql_get_client_info();
+				$server_version = $db->getVersion();
+				break;
+			case 'mysqli':
+				$client_version = mysqli_get_client_info();
+				$server_version = $db->getVersion();
+				break;
+			case 'pdomysql':
+				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
+				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
+				break;
+			default:
+				$client_version = false;
+				$server_version = false;
+		}
+
+		if ($client_version && version_compare($server_version, '5.5.3', '>='))
+		{
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
+	 * doesn't support UTF-8 Multibyte.
+	 *
+	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
+	 * people upgrading from a version lower than 3.5.0 through extension manager which will still have the old database
+	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
+	 * updater elsewhere.
+	 *
+	 * @param   string  $query  The query to convert
+	 *
+	 * @return  string  The converted query
+	 *
+	 * @since   3.5
+	 */
+	private function convertUtf8mb4QueryToUtf8($query)
+	{
+		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
+		$beginningOfQuery = substr($query, 0, 12);
+		$beginningOfQuery = strtoupper($beginningOfQuery);
+
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		{
+			return $query;
+		}
+
+		// Replace utf8mb4 with utf8
+		return str_replace('utf8mb4', 'utf8', $query);
+	}
+
+	/**
+	 * This method clean the Joomla Cache using the method `clean` from the com_cache model
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
+	 */
+	private function cleanJoomlaCache()
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
+		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+		$model->clean();
 	}
 }

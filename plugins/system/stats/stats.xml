@@ -3,14 +3,14 @@
 	<name>plg_system_stats</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2013</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.5.0</version>
 	<description>PLG_SYSTEM_STATS_XML_DESCRIPTION</description>
 	<files>
-		<folder>fields</folder>
+		<folder>field</folder>
 		<folder>layouts</folder>
 		<filename plugin="stats">stats.php</filename>
 	</files>
@@ -19,11 +19,16 @@
 		<language tag="en-GB">en-GB/en-GB.plg_system_stats.sys.ini</language>
 	</languages>
 	<config>
-		<fields name="params" addfieldpath="/plugins/system/stats/fields">
+		<fields name="params" addfieldpath="/plugins/system/stats/field">
 			<fieldset name="basic">
 				<field
+					name="data"
+					type="plgsystemstats.data"
+					label=""
+				/>
+				<field
 					name="unique_id"
-					type="stats.uniqueid"
+					type="plgsystemstats.uniqueid"
 					description="PLG_SYSTEM_STATS_UNIQUE_ID_DESC"
 					label="PLG_SYSTEM_STATS_UNIQUE_ID_LABEL"
 					size="10"

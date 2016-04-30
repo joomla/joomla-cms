@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,10 +46,90 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
+		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
+
+		return;
+	}
+
+	/**
+	 * TinyMCE WYSIWYG Editor - get the editor content
+	 *
+	 * @param   string  $editor  The name of the editor
+	 *
+	 * @return  string
+	 */
+	public function onGetContent($editor)
+	{
+		return 'tinyMCE.activeEditor.getContent();';
+	}
+
+	/**
+	 * TinyMCE WYSIWYG Editor - set the editor content
+	 *
+	 * @param   string  $editor  The name of the editor
+	 * @param   string  $html    The html to place in the editor
+	 *
+	 * @return  string
+	 */
+	public function onSetContent($editor, $html)
+	{
+		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
+	}
+
+	/**
+	 * TinyMCE WYSIWYG Editor - copy editor content to form field
+	 *
+	 * @param   string  $editor  The name of the editor
+	 *
+	 * @return  string
+	 */
+	public function onSave($editor)
+	{
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
+	}
+
+	/**
+	 * Inserts html code into the editor
+	 *
+	 * @param   string  $name  The name of the editor
+	 *
+	 * @return  void
+	 *
+	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
+	 */
+	public function onGetInsertMethod($name)
+	{
+		return;
+	}
+
+	/**
+	 * Display the editor area.
+	 *
+	 * @param   string   $name     The name of the editor area.
+	 * @param   string   $content  The content of the field.
+	 * @param   string   $width    The width of the editor area.
+	 * @param   string   $height   The height of the editor area.
+	 * @param   int      $col      The number of columns for the editor area.
+	 * @param   int      $row      The number of rows for the editor area.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
+	 * @param   string   $asset    The object asset
+	 * @param   object   $author   The author.
+	 *
+	 * @return  string
+	 */
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
+	{
+		if (empty($id))
+		{
+			$id = $name;
+		}
+
 		$app      = JFactory::getApplication();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
+		$idField  = str_replace('[', '_', substr($name, 0, -1));
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
@@ -146,7 +226,7 @@ class PlgEditorTinymce extends JPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/' . $content_css_custom . '",';
+				$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom . '",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -172,12 +252,12 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root() . 'templates/system/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root(true) . '/templates/system/css/editor.css",';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/editor.css",';
+					$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/editor.css",';
 				}
 			}
 		}
@@ -239,7 +319,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// The param is true for vertical resizing only, false or both
-		$resizing = $this->params->get('resizing', '1');
+		$resizing          = $this->params->get('resizing', '1');
 		$resize_horizontal = $this->params->get('resize_horizontal', '1');
 
 		if ($resizing || $resizing == 'true')
@@ -423,7 +503,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (isset($access[$directionality]))
 		{
-			$plugins[] = 'directionality';
+			$plugins[]      = 'directionality';
 			$toolbar3_add[] = 'ltr rtl';
 		}
 
@@ -504,7 +584,7 @@ class PlgEditorTinymce extends JPlugin
 				foreach ($matches['0'] as $match)
 				{
 					preg_match_all('/\".*\"/', $match, $values);
-					$result = trim($values["0"]["0"], '"');
+					$result       = trim($values["0"]["0"], '"');
 					$final_result = explode(',', $result);
 					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '"
 						. trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
@@ -522,8 +602,8 @@ class PlgEditorTinymce extends JPlugin
 
 					if ($filename !== 'index')
 					{
-						$lang = JFactory::getLanguage();
-						$title = $filename;
+						$lang        = JFactory::getLanguage();
+						$title       = $filename;
 						$description = ' ';
 
 						if ($lang->hasKey('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_TITLE'))
@@ -554,7 +634,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (isset($access[$print]))
 		{
-			$plugins[] = 'print';
+			$plugins[]      = 'print';
 			$toolbar4_add[] = '|';
 			$toolbar4_add[] = 'print';
 			$toolbar4_add[] = 'preview';
@@ -584,6 +664,15 @@ class PlgEditorTinymce extends JPlugin
 		if (isset($access[$advlist]))
 		{
 			$plugins[] = 'advlist';
+		}
+
+		// Codesample
+		$advlist = $this->params->get('code_sample', 1);
+
+		if (isset($access[$advlist]))
+		{
+			$plugins[]      = 'codesample';
+			$toolbar4_add[] = 'codesample';
 		}
 
 		// Autosave
@@ -617,9 +706,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// We shall put the XTD button inside tinymce
-		$buttons = $this->tinyButtons();
-		$btnsNames = $buttons['names'];
-		$tinyBtns  = $buttons['script'];
+		$btns      = $this->tinyButtons($id, $buttons);
+		$btnsNames = $btns['names'];
+		$tinyBtns  = $btns['script'];
 
 		// Drag and drop Images
 		$allowImgPaste = "false";
@@ -665,7 +754,7 @@ class PlgEditorTinymce extends JPlugin
 		var setCustomDir    = '" . $isSubDir . "';
 		var mediaUploadPath = '" . $tempPath . "';
 		var uploadUri       = '" . $uploadUrl . "';
-				"
+			"
 			);
 		}
 
@@ -687,8 +776,6 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
@@ -709,50 +796,49 @@ class PlgEditorTinymce extends JPlugin
 
 		$script = '';
 
-				// Mootools b/c
-		$script .= '
-		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
-		';
-
+		// First line is for Mootools b/c
 		$script .= "
+		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
+		tinymce.suffix = '.min';
+		tinymce.baseURL = '" . JUri::root() . "media/editors/tinymce';
 		tinymce.init({
 		";
 
 		// General
 		$script .= "
-			directionality: \"$text_direction\",
-			selector: \"textarea.mce_editable\",
-			language : \"$langPrefix\",
-			mode : \"specific_textareas\",
-			autosave_restore_when_empty: false,
-			$skin
-			theme : \"$theme\",
-			schema: \"html5\",
-			";
+		directionality: \"$text_direction\",
+		selector: \"textarea#$id\",
+		language : \"$langPrefix\",
+		mode : \"specific_textareas\",
+		autosave_restore_when_empty: false,
+		$skin
+		theme : \"$theme\",
+		schema: \"html5\",
+		";
 
 		// Cleanup/Output
 		$script .= "
-			inline_styles : true,
-			gecko_spellcheck : true,
-			entity_encoding : \"$entity_encoding\",
-			$forcenewline
-			$smallButtons
+		inline_styles : true,
+		gecko_spellcheck : true,
+		entity_encoding : \"$entity_encoding\",
+		$forcenewline
+		$smallButtons
 		";
 
 		// URL
 		$script .= "
-			relative_urls : $relative_urls,
-			remove_script_host : false,
+		relative_urls : $relative_urls,
+		remove_script_host : false,
 		";
 
 		// Layout
 		$script .= "
-			$content_css
-			document_base_url : \"" . JUri::root() . "\",
-			setup: function (editor) {
-		$tinyBtns
-			},
-			paste_data_images: $allowImgPaste,
+		$content_css
+		document_base_url : \"" . JUri::root() . "\",
+		setup: function (editor) {
+			$tinyBtns
+		},
+		paste_data_images: $allowImgPaste,
 		";
 		switch ($mode)
 		{
@@ -767,17 +853,17 @@ class PlgEditorTinymce extends JPlugin
 
 			case 1:
 			default: /* Advanced mode*/
-			$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-				. "| outdent indent | undo redo | link unlink anchor image | hr table | subscript superscript | charmap";
+				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
+					. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
 
-			$script .= "
+				$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
 			plugins : \"table link image code hr charmap autolink lists importcss $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | $toolbar5 | code\",
+			toolbar1: \"$toolbar1 | $toolbar5\",
 			removed_menuitems: \"newdocument\",
 			// Layout
 			importcss_append: true,
@@ -790,14 +876,14 @@ class PlgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
-			$script .= "
+				$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
 			plugins : \"$plugins $dragDropPlg\",
 			// Toolbar
-			toolbar1: \"$toolbar1 | code\",
+			toolbar1: \"$toolbar1\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			rel_list : [
@@ -839,19 +925,28 @@ class PlgEditorTinymce extends JPlugin
 		if (!empty($btnsNames))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
-					"
-		function jModalClose() {
-			tinyMCE.activeEditor.windowManager.close();
+				"
+		if (jModalClose === undefined && typeof(jModalClose) != 'function') {
+			var jModalClose;
+			jModalClose = function() {
+				tinyMCE.activeEditor.windowManager.close();
+			}
+		} else {
+			var oldClose = jModalClose;
+			jModalClose = function() {
+				oldClose.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
 		}
-		var SqueezeBox;
-		if (SqueezeBox != undefined)
-		{
-			var otherStr = 'SqueezeBox.close', otherCallback;
-			otherCallback = new Function(otherStr);
-			otherCallback.call(SqueezeBox.close);
+		if (SqueezeBox != undefined) {
+			var oldSqueezeBox = SqueezeBox.close;
+			SqueezeBox.close = function() {
+				oldSqueezeBox.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			}
 		} else {
 			var SqueezeBox = {};
-			SqueezeBox.close = function(){
+			SqueezeBox.close = function() {
 				tinyMCE.activeEditor.windowManager.close();
 			}
 		}
@@ -861,83 +956,6 @@ class PlgEditorTinymce extends JPlugin
 
 		JFactory::getDocument()->addScriptDeclaration($script);
 		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
-
-		return;
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - get the editor content
-	 *
-	 * @param   string  $editor  The name of the editor
-	 *
-	 * @return  string
-	 */
-	public function onGetContent($editor)
-	{
-		return 'tinyMCE.activeEditor.getContent();';
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - set the editor content
-	 *
-	 * @param   string  $editor  The name of the editor
-	 * @param   string  $html    The html to place in the editor
-	 *
-	 * @return  string
-	 */
-	public function onSetContent($editor, $html)
-	{
-		return 'tinyMCE.activeEditor.setContent(' . $html . ');';
-	}
-
-	/**
-	 * TinyMCE WYSIWYG Editor - copy editor content to form field
-	 *
-	 * @param   string  $editor  The name of the editor
-	 *
-	 * @return  string
-	 */
-	public function onSave($editor)
-	{
-		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()};';
-	}
-
-	/**
-	 * Inserts html code into the editor
-	 *
-	 * @param   string  $name  The name of the editor
-	 *
-	 * @return  void
-	 *
-	 * @deprecated 3.5 tinyMCE (API v4) will get the content automatically from the text area
-	 */
-	public function onGetInsertMethod($name)
-	{
-		return;
-	}
-
-	/**
-	 * Display the editor area.
-	 *
-	 * @param   string   $name     The name of the editor area.
-	 * @param   string   $content  The content of the field.
-	 * @param   string   $width    The width of the editor area.
-	 * @param   string   $height   The height of the editor area.
-	 * @param   int      $col      The number of columns for the editor area.
-	 * @param   int      $row      The number of rows for the editor area.
-	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
-	 * @param   string   $id       An optional ID for the textarea. If not supplied the name is used.
-	 * @param   string   $asset    The object asset
-	 * @param   object   $author   The author.
-	 *
-	 * @return  string
-	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null)
-	{
-		if (empty($id))
-		{
-			$id = $name;
-		}
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
@@ -983,24 +1001,27 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Get the XTD buttons and render them inside tinyMCE
 	 *
+	 * @param   string  $name      the id of the editor field
+	 * @param   string  $excluded  the buttons that should be hidden
+	 *
 	 * @return array
 	 */
-	private function tinyButtons()
+	private function tinyButtons($name, $excluded)
 	{
 		// Get the available buttons
-		$buttons = $this->_subject->getButtons($this->_name, true);
+		$buttons = $this->_subject->getButtons($name, $excluded);
 
 		// Init the arrays for the buttons
 		$tinyBtns  = array();
 		$btnsNames = array();
 
 		// Build the script
-		foreach ($buttons as $button)
+		foreach ($buttons as $i => $button)
 		{
 			if ($button->get('name'))
 			{
 				// Set some vars
-				$name    = str_replace(" ", "", $button->get('text'));
+				$name    = 'button-' . $i . str_replace(" ", "", $button->get('text'));
 				$title   = $button->get('text');
 				$onclick = ($button->get('onclick')) ? $button->get('onclick') : null;
 				$options = $button->get('options');

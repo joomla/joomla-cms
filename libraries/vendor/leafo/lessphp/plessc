@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 // Command line utility to compile LESS to STDOUT
-// Leaf Corcoran <leafot@gmail.com>, 2012
+// Leaf Corcoran <leafot@gmail.com>, 2013
 
 $exe = array_shift($argv); // remove filename
 

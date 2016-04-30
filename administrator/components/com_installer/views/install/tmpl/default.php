@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		var form = document.getElementById("adminForm");
 
 		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://") {
+		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
 			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
 		}
 		else
@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 	Joomla.submitbuttonInstallWebInstaller = function() {
 		var form = document.getElementById("adminForm");
 
-		form.install_url.value = "http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
+		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
 
 		Joomla.submitbutton4();
 	};
@@ -75,29 +75,26 @@ JFactory::getDocument()->addScriptDeclaration(
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
 
-		$(\'<div id="loading"></div>\')
-		.css("background", \'rgba(255, 255, 255, .8) url("../media/jui/img/ajax-loader.gif") 50% 15% no-repeat\')
+		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
 		.css("left", outerDiv.position().left - $(window).scrollLeft())
 		.css("width", outerDiv.width())
 		.css("height", outerDiv.height())
-		.css("position", "fixed")
-		.css("opacity", "0.80")
-		.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
-		.css("filter", "alpha(opacity = 80)")
 		.css("display", "none")
-		.appendTo(outerDiv);
 	});
 	'
 );
-?>
-<style type="text/css">
+
+JFactory::getDocument()->addStyleDeclaration(
+	'
 	#loading {
-		background: rgba(255, 255, 255, .8) url('<?php echo JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true); ?>') 50% 15% no-repeat;
+		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
 		position: fixed;
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
+		margin: -10px -50px 0 -50px;
+		overflow: hidden;
 	}
 
 	.j-jed-message {
@@ -105,7 +102,10 @@ JFactory::getDocument()->addScriptDeclaration(
 		line-height: 2em;
 		color:#333333;
 	}
-</style>
+	'
+);
+
+?>
 
 <div id="installer-install" class="clearfix">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -169,7 +169,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<div class="control-group">
 						<label for="install_url" class="control-label"><?php echo JText::_('COM_INSTALLER_INSTALL_URL'); ?></label>
 						<div class="controls">
-							<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="http://" />
+							<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="https://" />
 						</div>
 					</div>
 					<div class="form-actions">

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -406,9 +406,6 @@ abstract class JHtmlBehavior
 			});
 		});
 		function jModalClose() {
-			if (jQuery('.mce-window').length ){
-				tinyMCE.activeEditor.windowManager.close();
-			}
 			SqueezeBox.close();
 		}"
 		);
@@ -657,7 +654,7 @@ abstract class JHtmlBehavior
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
+			$url = JUri::base(true) . '/index.php?option=com_ajax&amp;format=json';
 		}
 		else
 		{
@@ -711,7 +708,10 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
-		$terms = str_replace('"', '\"', $terms);
+		foreach ($terms as $i => $term)
+		{
+			$terms[$i] = JFilterOutput::stringJSSafe($term);
+		}
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
@@ -759,8 +759,18 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
-			" else {top.location = self.location; }});";
+		$js = 'jQuery(function () {
+			if (top == self) {
+				document.documentElement.style.display = "block";
+			}
+			else
+			{
+				top.location = self.location;
+			}
+
+			// Firefox fix
+			jQuery("input[autofocus]").focus();
+		})';
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
@@ -879,11 +889,14 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support to keep a tab state.
 	 *
-	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
+	 *
+	 * ```
 	 * parent tab = permissions
 	 * child tab = permission-<identifier>
+	 * ```
 	 *
-	 * Each tab header "a" tag also should have a unique href attribute
+	 * Each tab header `<a>` tag also should have a unique href attribute
 	 *
 	 * @return  void
 	 *
