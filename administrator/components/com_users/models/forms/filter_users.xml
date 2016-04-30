@@ -44,6 +44,15 @@
 			>
 			<option value="">COM_USERS_OPTION_FILTER_DATE</option>
 		</field>
+		<field
+			name="lastvisitrange"
+			type="lastvisitdaterange"
+			label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+			description="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field

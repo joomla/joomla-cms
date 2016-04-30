@@ -73,6 +73,14 @@ $loggeduser = JFactory::getUser();
 				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'));?>
 			</select>
 
+			<label class="selectlabel" for="filter_lastvisitrange">
+				<?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE'); ?>
+			</label>
+			<select name="filter_lastvisitrange" id="filter_lastvisitrange" >
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.lastvisitrange'));?>
+			</select>
+
 			<button type="submit" id="filter-go">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
