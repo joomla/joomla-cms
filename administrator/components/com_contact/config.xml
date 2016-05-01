@@ -255,6 +255,7 @@
 			type="list"
 			default="10"
 			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
+			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
 			showon="show_articles:1"
 		>
 			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
