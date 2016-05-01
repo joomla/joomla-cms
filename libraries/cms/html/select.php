@@ -118,7 +118,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
@@ -243,7 +243,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		// Disable groups in the options.
 		$options['groups'] = false;

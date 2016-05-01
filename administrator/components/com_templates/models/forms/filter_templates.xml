@@ -7,7 +7,7 @@
 			name="search"
 			type="text"
 			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			description="COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
         <field

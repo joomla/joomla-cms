@@ -85,7 +85,8 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  mixed  True if successful; JError if using legacy tree (no exception thrown in that case).
+	 * @return  boolean|JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
+	 *                              or a JException object if the mail function does not exist or sending the message fails.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -96,21 +97,13 @@ class JMail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
-				}
-				else
-				{
-					throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
-				}
+				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
 			}
 
 			try
 			{
 				// Try sending with default settings
 				$result = parent::send();
-
 			}
 			catch (phpmailerException $e)
 			{
@@ -140,24 +133,15 @@ class JMail extends PHPMailer
 
 			if ($result == false)
 			{
-				if (class_exists('JError'))
-				{
-					$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
-				}
-				else
-				{
-					throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
-				}
+				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
 			}
 
 			return $result;
 		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
-			return false;
-		}
+		JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+
+		return false;
 	}
 
 	/**
