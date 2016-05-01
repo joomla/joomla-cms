@@ -39,12 +39,12 @@ $saveOrder = $listOrder == 'ordering';
 		</div>
 
 		<div class="filter-select">
-			<label class="selectlabel" for="filter_state">
+			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" id="filter_state">
+			<select name="filter_published" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true);?>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
 			<label class="selectlabel" for="filter_client_id">
