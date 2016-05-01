@@ -591,8 +591,8 @@
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 		>
-			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
+			<option value="-1">JALL</option>
 			<option value="1">J1</option>
 			<option value="2">J2</option>
 			<option value="3">J3</option>
