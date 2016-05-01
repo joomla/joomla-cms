@@ -45,6 +45,7 @@ class JFormFieldLastvisitDateRange extends JFormFieldPredefinedList
 			'past_6month' => 'COM_USERS_OPTION_RANGE_PAST_6MONTH',
 			'past_year'   => 'COM_USERS_OPTION_RANGE_PAST_YEAR',
 			'post_year'   => 'COM_USERS_OPTION_RANGE_POST_YEAR',
+			'never'       => 'COM_USERS_OPTION_RANGE_NEVER',
 		);
 	}
 }

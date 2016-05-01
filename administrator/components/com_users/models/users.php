@@ -397,7 +397,13 @@ class UsersModelUsers extends JModelList
 		{
 			$dates = $this->buildDateRange($lastvisitrange);
 
-			if ($dates['dNow'] === false)
+			if (is_string($dates['dStart']))
+			{
+				$query->where(
+					$db->qn('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
+				);
+			}
+			elseif ($dates['dNow'] === false)
 			{
 				$query->where(
 					$db->qn('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
@@ -477,6 +483,10 @@ class UsersModelUsers extends JModelList
 				// Now change the timezone back to UTC.
 				$tz = new DateTimeZone('GMT');
 				$dStart->setTimezone($tz);
+				break;
+			case 'never':
+				$dNow = false;
+				$dStart = $this->_db->getNullDate();
 				break;
 		}
 
