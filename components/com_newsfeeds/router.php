@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsRouter extends JComponentRouterView
 {
+	protected $noIDs = false;
+
 	/**
 	 * Newsfeeds Component router constructor
 	 * 
@@ -24,6 +26,8 @@ class NewsfeedsRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
+		$params = JComponentHelper::getParams('com_newsfeeds');
+		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new JComponentRouterViewconfiguration('categories');
 		$categories->setKey('id');
 		$this->registerView($categories);
@@ -43,6 +47,7 @@ class NewsfeedsRouter extends JComponentRouterView
 		if ($params->get('sef_advanced', 0))
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
+			$this->attachRule(new JComponentRouterRulesNomenu($this));
 		}
 		else
 		{
@@ -64,7 +69,20 @@ class NewsfeedsRouter extends JComponentRouterView
 		$category = JCategories::getInstance($this->getName())->get($id);
 		if ($category)
 		{
-			return array_reverse($category->getPath());
+			if ($this->noIDs)
+			{
+				$path = array_reverse($category->getPath(), true);
+				foreach ($path as &$segment)
+				{
+					list($id, $segment) = explode(':', $segment, 2);
+				}
+
+				return $path;
+			}
+			else
+			{
+				return array_reverse($category->getPath(), true);
+			}
 		}
 
 		return array();
@@ -93,7 +111,28 @@ class NewsfeedsRouter extends JComponentRouterView
 	 */
 	public function getNewsfeedSegment($id, $query)
 	{
-		return array($id);
+		if ($this->noIDs)
+		{
+			if (strpos($id, ':'))
+			{
+				list($void, $segment) = explode(':', $id, 2);
+
+				return array($void => $segment);
+			}
+			else
+			{
+				$db = JFactory::getDbo();
+				$dbquery = $db->getQuery(true);
+				$dbquery->select($dbquery->qn('alias'))
+					->from($dbquery->qn('#__newsfeeds'))
+					->where('id = ' . $dbquery->q((int) $id));
+				$db->setQuery($dbquery);
+
+				return array($id => $id . ':' . $db->loadResult());
+			}
+		}
+
+		return array((int) $id => $id);
 	}
 
 	/**
@@ -112,9 +151,19 @@ class NewsfeedsRouter extends JComponentRouterView
 
 			foreach ($category->getChildren() as $child)
 			{
-				if ($child->id == (int) $segment)
+				if ($this->noIDs)
 				{
-					return $child->id;
+					if ($child->alias == $segment)
+					{
+						return $child->id;
+					}
+				}
+				else
+				{
+					if ($child->id == (int) $segment)
+					{
+						return $child->id;
+					}
 				}
 			}
 		}
@@ -145,6 +194,19 @@ class NewsfeedsRouter extends JComponentRouterView
 	 */
 	public function getNewsfeedId($segment, $query)
 	{
+		if ($this->noIDs)
+		{
+			$db = JFactory::getDbo();
+			$dbquery = $db->getQuery(true);
+			$dbquery->select($dbquery->qn('id'))
+				->from($dbquery->qn('#__newsfeeds'))
+				->where('alias = ' . $dbquery->q($segment))
+				->where('catid = ' . $dbquery->q($query['id']));
+			$db->setQuery($dbquery);
+
+			return (int) $db->loadResult();
+		}
+
 		return (int) $segment;
 	}
 }

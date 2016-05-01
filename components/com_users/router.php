@@ -41,6 +41,7 @@ class UsersRouter extends JComponentRouterView
 		if ($params->get('sef_advanced', 0))
 		{
 			$this->attachRule(new JComponentRouterRulesStandard($this));
+			$this->attachRule(new JComponentRouterRulesNomenu($this));
 		}
 		else
 		{

@@ -732,7 +732,7 @@ class JCategoryNode extends JObject
 					$this->_path = $parent->getPath();
 				}
 
-				$this->_path[] = $this->id . ':' . $this->alias;
+				$this->_path[$this->id] = $this->id . ':' . $this->alias;
 			}
 
 			if (count($parent->_children) > 1)
