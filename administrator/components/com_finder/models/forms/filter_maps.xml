@@ -7,7 +7,7 @@
 			name="search"
 			type="text"
 			label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
-			desc="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
+			description="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
