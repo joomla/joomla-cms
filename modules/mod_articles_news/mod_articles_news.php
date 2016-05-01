@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Include the syndicate functions only once
+// Include the news functions only once
 require_once __DIR__ . '/helper.php';
 
 $list            = ModArticlesNewsHelper::getList($params);

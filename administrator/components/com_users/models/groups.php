@@ -55,7 +55,7 @@ class UsersModelGroups extends JModelList
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
@@ -117,39 +117,52 @@ class UsersModelGroups extends JModelList
 			foreach ($items as $item)
 			{
 				$groupIds[] = (int) $item->id;
-				$item->user_count = 0;
 			}
 
-			// Get the counts from the database only for the users in the list.
+			// Get total enabled users in group.
 			$query = $db->getQuery(true);
 
 			// Count the objects in the user group.
 			$query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')
-				->from($db->quoteName('#__user_usergroup_map') . ' AS map')
-				->where('map.group_id IN (' . implode(',', $groupIds) . ')')
-				->group('map.group_id');
-
+				->from($db->quoteName('#__user_usergroup_map', 'map'))
+				->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
+				->where($db->quoteName('map.group_id') . ' IN (' . implode(',', $groupIds) . ')')
+				->where($db->quoteName('u.block') . ' = 0')
+				->group($db->quoteName('map.group_id'));
 			$db->setQuery($query);
 
-			// Load the counts into an array indexed on the user id field.
 			try
 			{
-				$users = $db->loadObjectList('group_id');
+				$countEnabled = $db->loadAssocList('group_id', 'count_enabled');
 			}
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
-
 				return false;
 			}
 
-			// Second pass: collect the group counts into the master items array.
-			foreach ($items as &$item)
+			// Get total disabled users in group.
+			$query->clear('where')
+				->where('map.group_id IN (' . implode(',', $groupIds) . ')')
+				->where('u.block = 1');
+			$db->setQuery($query);
+
+			try
 			{
-				if (isset($users[$item->id]))
-				{
-					$item->user_count = $users[$item->id]->user_count;
-				}
+				$countDisabled = $db->loadAssocList('group_id', 'count_disabled');
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+
+			// Inject the values back into the array.
+			foreach ($items as $item)
+			{
+				$item->count_enabled   = isset($countEnabled[$item->id]) ? (int) $countEnabled[$item->id]['user_count'] : 0;
+				$item->count_disabled  = isset($countDisabled[$item->id]) ? (int) $countDisabled[$item->id]['user_count'] : 0;
+				$item->user_count      = $item->count_enabled + $item->count_disabled;
 			}
 
 			// Add the items to the internal cache.
