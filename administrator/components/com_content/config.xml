@@ -345,6 +345,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="10"
+			showon="save_history:1"
 		/>
 		<field
 			name="show_urls_images_frontend"
@@ -380,6 +381,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -393,6 +395,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -406,6 +409,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
 			>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -422,7 +426,9 @@
 			name="float_intro"
 			type="list"
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
-			description="COM_CONTENT_FLOAT_DESC">
+			description="COM_CONTENT_FLOAT_DESC"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			>
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
@@ -431,7 +437,9 @@
 			name="float_fulltext"
 			type="list"
 			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-			description="COM_CONTENT_FLOAT_DESC">
+			description="COM_CONTENT_FLOAT_DESC"
+			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			>
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
@@ -584,6 +592,7 @@
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 		>
 			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
 			<option value="1">J1</option>
 			<option value="2">J2</option>
 			<option value="3">J3</option>
@@ -597,6 +606,7 @@
 			default="0"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
+			showon="maxLevelcat:-1,1,2,3,4,5"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -608,6 +618,7 @@
 			default="1"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			showon="maxLevelcat:-1,1,2,3,4,5"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -744,7 +755,9 @@
 			type="text"
 			size="15"
 			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC" />
+			description="JGLOBAL_DATE_FORMAT_DESC" 
+			showon="list_show_date:created,modified,published"
+		/>
 
 		<field name="list_show_hits"
 			type="radio"
@@ -837,7 +850,9 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			description="JGLOBAL_PAGINATION_RESULTS_DESC">
+			description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			showon="show_pagination:1,2"
+			>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 		</field>
@@ -874,7 +889,9 @@
 			type="list"
 			label="JGLOBAL_FEED_SUMMARY_LABEL"
 			description="JGLOBAL_FEED_SUMMARY_DESC"
-			default="0">
+			default="0"
+			showon="show_feed_link:1"
+		>
 			<option
 				value="0">JGLOBAL_INTRO_TEXT</option>
 			<option
@@ -887,7 +904,9 @@
 			class="btn-group btn-group-yesno"
 			label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
 			description="JGLOBAL_FEED_SHOW_READMORE_DESC"
-			default="0">
+			default="0"
+			showon="show_feed_link:1[AND]feed_summary:0"
+		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
