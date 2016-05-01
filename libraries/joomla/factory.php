@@ -254,7 +254,7 @@ abstract class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns the global {@link JCache} object
+	 * Returns the global {@link JCacheController} object
 	 *
 	 * @param   string  $group    The cache group name
 	 * @param   string  $handler  The handler to use
