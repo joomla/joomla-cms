@@ -829,6 +829,7 @@
 				default="published"
 				description="JGLOBAL_ORDERING_DATE_DESC"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
+				showon="orderby_sec:rdate,date"
 			>
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
