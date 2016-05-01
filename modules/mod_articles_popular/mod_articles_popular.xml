@@ -72,7 +72,7 @@
 				<field name="date_field" type="list" default="a.created"
 					label="MOD_POPULAR_FIELD_DATEFIELD_LABEL"
 					description="MOD_POPULAR_FIELD_DATEFIELD_DESC"
-					showon="date_filtering:range, relative"
+					showon="date_filtering:range,relative"
 				>
 					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE
 					</option>
