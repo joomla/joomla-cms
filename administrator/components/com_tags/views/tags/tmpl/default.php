@@ -140,7 +140,17 @@ if ($saveOrder)
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tags.', $canChange);?>
+								<div class="btn-group">
+									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
+									<?php // Create dropdown items and render the dropdown list.
+									if ($canChange)
+									{
+										JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'tags');
+										JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'tags');
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									}
+									?>
+								</div>
 							</td>
 							<td>
 								<?php if ($item->level > 0): ?>

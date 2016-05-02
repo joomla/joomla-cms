@@ -145,6 +145,8 @@ class JFormFieldRules extends JFormField
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
 		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		JText::script('JLIB_RULES_NOT_ALLOWED');
+		JText::script('JLIB_RULES_ALLOWED');
 
 		// Initialise some field attributes.
 		$section = $this->section;
@@ -274,7 +276,7 @@ class JFormFieldRules extends JFormField
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small"'
+				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';

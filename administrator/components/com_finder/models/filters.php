@@ -55,31 +55,33 @@ class FinderModelFilters extends JModelList
 
 		// Select all fields from the table.
 		$query->select('a.*')
-			->from($db->quoteName('#__finder_filters') . ' AS a');
+			->from($db->quoteName('#__finder_filters', 'a'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', $db->quoteName('#__users') . ' AS uc ON uc.id=a.checked_out');
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON ' . $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Join over the users for the author.
-		$query->select('ua.name AS user_name')
-			->join('LEFT', $db->quoteName('#__users') . ' AS ua ON ua.id = a.created_by');
+		$query->select($db->quoteName('ua.name', 'user_name'))
+			->join('LEFT', $db->quoteName('#__users', 'ua') . ' ON ' . $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'));
 
 		// Check for a search filter.
-		if ($this->getState('filter.search'))
+		if ($search = $this->getState('filter.search'))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
-			$query->where('( a.title LIKE ' . $search . ' )');
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->quoteName('a.title') . ' LIKE ' . $search);
 		}
 
 		// If the model is set to check item state, add to the query.
-		if (is_numeric($this->getState('filter.state')))
+		$state = $this->getState('filter.state');
+
+		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $this->getState('filter.state'));
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.title') . ' ' . $db->escape($this->getState('list.direction'))));
+		$query->order($db->escape($this->getState('list.ordering', 'a.title') . ' ' . $db->escape($this->getState('list.direction', 'ASC'))));
 
 		return $query;
 	}
@@ -116,20 +118,17 @@ class FinderModelFilters extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.title', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }
