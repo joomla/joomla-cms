@@ -81,7 +81,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6
 	 *
 	 * @throws  Exception on error
 	 */
@@ -108,7 +108,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6
 	 */
 	public function rebuild()
 	{
