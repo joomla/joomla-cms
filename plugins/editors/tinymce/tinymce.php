@@ -200,6 +200,7 @@ class PlgEditorTinymce extends JPlugin
 			->where('client_id=0 AND home=' . $db->quote('1'));
 
 		$db->setQuery($query);
+
 		try
 		{
 			$template = $db->loadResult();
@@ -840,6 +841,7 @@ class PlgEditorTinymce extends JPlugin
 		},
 		paste_data_images: $allowImgPaste,
 		";
+
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
@@ -851,17 +853,10 @@ class PlgEditorTinymce extends JPlugin
 		";
 				break;
 
-<<<<<<< HEAD
-				case 1:
-				default: /* Advanced mode*/
-					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-						. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
-=======
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
->>>>>>> joomla/staging
+					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
 
 				$script .= "
 			valid_elements : \"$valid_elements\",
@@ -1058,7 +1053,6 @@ class PlgEditorTinymce extends JPlugin
 					btnOptions = getBtnOptions(),
 					modalWidth = btnOptions.size && btnOptions.size.x ?  btnOptions.size.x : null,
 					modalHeight = btnOptions.size && btnOptions.size.y ?  btnOptions.size.y : null;';
-
 				}
 				else
 				{
@@ -1072,6 +1066,7 @@ class PlgEditorTinymce extends JPlugin
 					title: \"" . $title . "\",
 					icon: \"" . $icon . "\",
 					onclick: function () {";
+
 				if ($button->get('modal') || $href)
 				{
 					$tempConstructor .= "
@@ -1090,6 +1085,7 @@ class PlgEditorTinymce extends JPlugin
 								modalOptions.height = modalHeight;
 							}
 							editor.windowManager.open(modalOptions);";
+
 					if ($onclick && ($button->get('modal') || $href))
 					{
 						$tempConstructor .= "\r\n
@@ -1103,6 +1099,7 @@ class PlgEditorTinymce extends JPlugin
 						" . $onclick . "
 							";
 				}
+
 				$tempConstructor .= "
 					}
 				});
