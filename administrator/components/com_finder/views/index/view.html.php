@@ -32,12 +32,12 @@ class FinderViewIndex extends JViewLegacy
 		// Load plug-in language files.
 		FinderHelperLanguage::loadPluginLanguage();
 
-		$this->items = $this->get('Items');
-		$this->total = $this->get('Total');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->pluginState = $this->get('pluginState');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->total         = $this->get('Total');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->pluginState   = $this->get('pluginState');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('index');
@@ -48,6 +48,15 @@ class FinderViewIndex extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
+		}
+
+		if (!$this->pluginState['plg_content_finder']->enabled)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+		}
+		elseif ($this->get('TotalIndexed') === 0)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

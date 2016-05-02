@@ -9,9 +9,13 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="template-manager-css" class="form-horizontal">
+<div id="template-manager-copy" class="form-horizontal">
 	<div class="control-group">
-		<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+		<div class="control-label">
+			<label for="new_name" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL', 'COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>">
+				<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?>
+			</label>
+		</div>
 		<div class="controls">
 			<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
 		</div>
