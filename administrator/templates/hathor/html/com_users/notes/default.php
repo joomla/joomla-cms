@@ -55,7 +55,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				<?php
 				echo JHtml::_(
 					'select.options', JHtml::_('jgrid.publishedOptions'),
-					'value', 'text', $this->state->get('filter.state'), true
+					'value', 'text', $this->state->get('filter.published'), true
 				); ?>
 			</select>
 

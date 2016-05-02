@@ -22,8 +22,8 @@
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
-			extension="com_banners"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			extension="com_banners"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>

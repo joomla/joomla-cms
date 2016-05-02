@@ -108,6 +108,9 @@ if (isset($params['url']))
 }
 else
 {
+	// Set modalTooltip container to modal ID (selector)
+	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
+
 	// Set max-height for modal-body if needed, to adapt to viewport height.
 	$script[] = "       if (modalHeight > maxModalHeight){;";
 	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
@@ -117,6 +120,7 @@ else
 $script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
+$script[] = "       $('.modalTooltip').tooltip('destroy');";
 $script[] = "   });";
 $script[] = "});";
 

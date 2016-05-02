@@ -39,6 +39,7 @@ class UsersModelNotes extends JModelList
 				'review_time', 'a.review_time',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
+				'published',
 			);
 		}
 
@@ -152,7 +153,7 @@ class UsersModelNotes extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.user_id');
 
@@ -202,11 +203,8 @@ class UsersModelNotes extends JModelList
 		}
 
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-
-		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string'));
-
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id'));
-
 		$this->setState('filter.user_id', $this->getUserStateFromRequest($this->context . '.filter.user_id', 'filter_user_id'));
 
 		parent::populateState($ordering, $direction);
