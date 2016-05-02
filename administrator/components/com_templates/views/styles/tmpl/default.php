@@ -17,8 +17,10 @@ JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
+$clientId = (int) $this->state->get('client_id', 0);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$colSpan = $clientId === 1 ? 5 : 6;
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -39,32 +41,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped" id="styleList">
 				<thead>
 					<tr>
-						<th width="5">
+						<th width="1%" class="nowrap center">
 							&#160;
 						</th>
-						<th>
+						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center hidden-phone">
-							<?php echo JText::_('COM_TEMPLATES_HEADING_ASSIGNED'); ?>
+						<?php if ($clientId === 0) : ?>
+						<th width="20%" class="nowrap hidden-phone">
+							<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 						</th>
-						<th width="10%" class="nowrap">
-							<?php echo JHtml::_('searchtools.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
-						</th>
-						<th class="hidden-phone">
+						<?php endif; ?>
+						<th width="30%" class="hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="<?php echo $colSpan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -81,7 +82,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td>
 							<?php if ($this->preview && $item->client_id == '0') : ?>
-								<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
+								<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&template=' . (int) $item->id ?>" class="jgrid">
 								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
 							<?php elseif ($item->client_id == '1') : ?>
 								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>
@@ -106,24 +107,27 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
 							<?php endif;?>
 						</td>
-						<td class="center hidden-phone">
-							<?php if ($item->assigned > 0) : ?>
-								<span class="icon-ok tip hasTooltip" title="<?php echo JHtml::tooltipText(JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), '', 0); ?>"></span>
+						<?php if ($clientId === 0) : ?>
+						<td class="small hidden-phone">
+							<?php if ($item->home == '1') : ?>
+								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
+							<?php elseif ($item->home != '0' && $item->home != '1') : ?>
+								<?php echo JText::sprintf('COM_TEMPLATES_STYLES_PAGES_ALL_LANGUAGE', $this->escape($item->language_title)); ?>
+							<?php elseif ($item->assigned > 0) : ?>
+								<?php echo JText::sprintf('COM_TEMPLATES_STYLES_PAGES_SELECTED', $this->escape($item->assigned)); ?>
 							<?php else : ?>
-								&#160;
+								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_NONE'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="small">
-							<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
-						</td>
-						<td class="hidden-phone">
+						<?php endif;?>
+						<td class="hidden-phone hidden-tablet">
 							<label for="cb<?php echo $i;?>" class="small">
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
 									<?php echo ucfirst($this->escape($item->template));?>
 								</a>
 							</label>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

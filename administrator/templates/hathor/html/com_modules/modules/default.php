@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 
-$client    = $this->state->get('filter.client_id') ? 'administrator' : 'site';
+$client    = $this->state->get('client_id') ? 'administrator' : 'site';
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -46,7 +46,7 @@ $saveOrder = $listOrder == 'ordering';
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
 			<select name="client_id" id="client_id">
-				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
 			</select>
 
             <label class="selectlabel" for="filter_state">
@@ -62,7 +62,7 @@ $saveOrder = $listOrder == 'ordering';
 			</label>
 			<select name="filter_position" id="filter_position">
 				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'));?>
+				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.position'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_module">
@@ -70,7 +70,7 @@ $saveOrder = $listOrder == 'ordering';
 			</label>
 			<select name="filter_module" id="filter_module">
 				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'));?>
+				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('client_id')), 'value', 'text', $this->state->get('filter.module'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_access">
