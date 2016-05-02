@@ -186,7 +186,7 @@ class ContentModelArchive extends ContentModelArticles
 	 *
 	 * @return   array
 	 * 
-	 * @since    3.5.2
+	 * @since    3.6.0
 	 */
 	public function getYears()
 	{
