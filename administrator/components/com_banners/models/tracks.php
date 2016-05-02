@@ -71,7 +71,6 @@ class BannersModelTracks extends JModelList
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '', 'cmd'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
-		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 		$this->setState('filter.begin', $this->getUserStateFromRequest($this->context . '.filter.begin', 'filter_begin', '', 'string'));
 		$this->setState('filter.end', $this->getUserStateFromRequest($this->context . '.filter.end', 'filter_end', '', 'string'));
 

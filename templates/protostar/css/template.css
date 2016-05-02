@@ -2805,7 +2805,7 @@ input[type="submit"].btn.btn-mini {
 	color: #c09853;
 }
 .alert h4 {
-  margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7520,4 +7520,7 @@ body.modal-open {
 .well select,
 .well .chzn-container {
 	max-width: 100%;
+}
+.container-popup {
+	padding: 28px 10px 10px 10px;
 }

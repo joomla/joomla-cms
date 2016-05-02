@@ -39,7 +39,8 @@
 					name="text"
 					type="text"
 					label="MOD_SYNDICATE_FIELD_TEXT_LABEL"
-					description="MOD_SYNDICATE_FIELD_TEXT_DESC" />
+					description="MOD_SYNDICATE_FIELD_TEXT_DESC"
+					showon="display_text:1" />
 				<field
 					name="format"
 					type="list"
