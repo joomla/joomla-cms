@@ -782,8 +782,8 @@
 		<field name="orderby_sec"
 			type="list"
 			default="rdate"
-			label="JGLOBAL_Article_Order_Label"
-			description="JGLOBAL_Article_Order_Desc">
+			label="JGLOBAL_ARTICLE_ORDER_LABEL"
+			description="JGLOBAL_ARTICLE_ORDER_DESC">
 			<option
 				value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option
@@ -817,8 +817,8 @@
 		<field name="show_pagination"
 			type="list"
 			default="2"
-			label="JGLOBAL_Pagination_Label"
-			description="JGLOBAL_Pagination_Desc">
+			label="JGLOBAL_PAGINATION_LABEL"
+			description="JGLOBAL_PAGINATION_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>

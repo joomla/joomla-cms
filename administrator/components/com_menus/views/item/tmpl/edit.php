@@ -149,9 +149,12 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		?>
 
 		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-			<?php echo $this->loadTemplate('associations'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
+				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>

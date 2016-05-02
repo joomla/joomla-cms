@@ -2790,7 +2790,7 @@ input[type="submit"].btn.btn-mini {
 	color: #8a6d3b;
 }
 .alert h4 {
-  margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7168,9 +7168,6 @@ body .navbar-fixed-top {
 	max-height: 500px;
 	margin: 0;
 }
-.navbar .empty-nav {
-	display: none;
-}
 .navbar .nav > li ul::-webkit-scrollbar {
 	-webkit-appearance: none;
 	width: 7px;
@@ -7179,6 +7176,9 @@ body .navbar-fixed-top {
 	border-radius: 4px;
 	background-color: rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
+}
+.navbar .empty-nav {
+	display: none;
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
@@ -7235,8 +7235,9 @@ body .navbar-fixed-top {
 	text-align: right;
 }
 .logo {
-	width: 100%;
-	max-width: 143px;
+	width: auto;
+	max-width: 100%;
+	max-height: 36px;
 	height: auto;
 }
 .page-title {
@@ -7401,8 +7402,8 @@ h6 {
 	margin: 0px 0 5px;
 }
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 .quick-icons [class^="icon-"]:before,
 .quick-icons [class*=" icon-"]:before {
@@ -7631,6 +7632,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	display: block;
 	padding: 3px 20px;
 }
+.nav-collapse .dropdown-menu > li img {
+	max-width: none;
+}
 @media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -7844,6 +7848,9 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
+table label {
+	margin: 0;
+}
 td.has-context {
 	height: 23px;
 }
@@ -7883,7 +7890,7 @@ th .tooltip-inner {
 	position: absolute;
 }
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 .controls .btn-group > .btn {
 	min-width: 50px;
@@ -8068,6 +8075,7 @@ a.grid_true {
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 10px;
+	clear: both;
 	background-color: #f5f5f5;
 	border-bottom: 1px solid #e3e3e3;
 	border-right: 1px solid #e3e3e3;
@@ -8190,12 +8198,6 @@ body.modal-open {
 .js-pstats-data-details dt {
 	width: 220px;
 }
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
-}
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
+.modal-footer {
+	clear: both;
 }

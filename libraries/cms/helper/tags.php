@@ -1053,7 +1053,7 @@ class JHelperTags extends JHelper
 		{
 			JArrayHelper::toInteger($tags);
 
-			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
+			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
 		}
 
 		$db->setQuery($query);

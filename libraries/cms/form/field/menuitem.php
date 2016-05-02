@@ -169,8 +169,19 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			foreach ($items as $link)
 			{
 				$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
+
+				// Displays language code if not set to All
+				if ($link->language !== '*')
+				{
+					$lang = ' (' . $link->language . ')';
+				}
+				else
+				{
+					$lang = '';
+				}
+
 				$groups[$menuType][] = JHtml::_('select.option',
-								$link->value, $levelPrefix . $link->text,
+								$link->value, $levelPrefix . $link->text . $lang,
 								'value',
 								'text',
 								in_array($link->type, $this->disable)
@@ -190,10 +201,23 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 				foreach ($menu->links as $link)
 				{
 					$levelPrefix = str_repeat('- ', $link->level - 1);
-					$groups[$menu->menutype][] = JHtml::_(
-						'select.option', $link->value, $levelPrefix . $link->text, 'value', 'text',
-						in_array($link->type, $this->disable)
-					);
+
+					// Displays language code if not set to All
+					if ($link->language !== '*')
+					{
+						$lang = ' (' . $link->language . ')';
+					}
+					else
+					{
+						$lang = '';
+					}
+
+					$groups[$menu->menutype][] = JHtml::_('select.option',
+										$link->value, $levelPrefix . $link->text . $lang,
+										'value',
+										'text',
+										in_array($link->type, $this->disable)
+									);
 				}
 			}
 		}

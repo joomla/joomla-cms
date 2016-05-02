@@ -97,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php foreach ($this->items as $i => $item) :?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<?php echo $item->name;?>
+					<?php echo $item->banner_name;?>
 				</td>
 				<td>
 					<?php echo $item->client_name;?>

@@ -80,7 +80,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<?php endif; ?>
 			<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 			<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-				<?php echo JText::alt($option->text, $alt); ?>
+				<?php echo $option->text; ?>
 			</label>
 		<?php endforeach; ?>
 	<?php endif; ?>

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::stylesheet('com_finder/finder.css', false, true, false);
 ?>
