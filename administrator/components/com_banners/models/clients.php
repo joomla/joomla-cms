@@ -61,7 +61,7 @@ class BannersModelClients extends JModelList
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string'));
-		$this->setState('filter.purchase_type', $this->getUserStateFromRequest($this->context . '.filter.purchase_type', 'filter_purchase_type', '', 'string'));
+		$this->setState('filter.purchase_type', $this->getUserStateFromRequest($this->context . '.filter.purchase_type', 'filter_purchase_type'));
 
 		// Load the parameters.
 		$this->setState('params', JComponentHelper::getParams('com_banners'));
