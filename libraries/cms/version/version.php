@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '02-Mai-2016';
+	const RELDATE = '02-May-2016';
 
 	/**
 	 * Release time.
