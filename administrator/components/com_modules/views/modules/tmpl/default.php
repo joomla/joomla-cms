@@ -16,7 +16,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
-$trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $saveOrder	= ($listOrder == 'a.ordering');
 if ($saveOrder)
 {
@@ -122,12 +121,20 @@ if ($saveOrder)
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php // Create dropdown items ?>
-								<?php JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules'); ?>
-								<?php $action = $trashed ? 'untrash' : 'trash'; ?>
-								<?php JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules'); ?>
-								<?php // Render dropdown list ?>
-								<?php echo JHtml::_('actionsdropdown.render', $this->escape($item->title)); ?>
+								<?php // Create dropdown items and render the dropdown list.
+								if ($canCreate)
+								{
+									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
+								}
+								if ($canChange)
+								{
+									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'modules');
+								}
+								if ($canCreate || $canChange)
+								{
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								}
+								?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
 								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
