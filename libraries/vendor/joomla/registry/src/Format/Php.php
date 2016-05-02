@@ -30,6 +30,9 @@ class Php extends AbstractRegistryFormat
 	 */
 	public function objectToString($object, $params = array())
 	{
+		// A class must be provided
+		$class = !empty($params['class']) ? $params['class'] : 'Registry';
+
 		// Build the object variables string
 		$vars = '';
 
@@ -53,7 +56,7 @@ class Php extends AbstractRegistryFormat
 			$str .= "namespace " . $params['namespace'] . ";\n\n";
 		}
 
-		$str .= "class " . $params['class'] . " {\n";
+		$str .= "class " . $class . " {\n";
 		$str .= $vars;
 		$str .= "}";
 
