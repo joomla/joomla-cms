@@ -203,7 +203,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($count > 0)
 		{
-			$app->enqueueMessage(JText::plural('COM_INSTALLER_MSG_UPDATESITES_DELETE_N_UPDATESITES_DELETED', $count), 'message');
+			$app->enqueueMessage(JText::plural('COM_INSTALLER_MSG_UPDATESITES_N_DELETE_UPDATESITES_DELETED', $count), 'message');
 		}
 	}
 
