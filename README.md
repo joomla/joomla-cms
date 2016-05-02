@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.5 [version history](https://docs.joomla.org/Joomla_3.5_version_history).
+* Joomla! 3.6 [version history](https://docs.joomla.org/Joomla_3.6_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
