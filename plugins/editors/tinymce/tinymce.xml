@@ -107,6 +107,7 @@
 					hide_default="1"
 					filter="\.js$"
 					size="10"
+					showon="lang_mode:0"
 				/>
 
 				<field name="text_direction" type="list"
@@ -205,6 +206,7 @@
 					default="1"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
+					showon="resizing:1"
 				>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
