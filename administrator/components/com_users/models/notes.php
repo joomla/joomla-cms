@@ -34,13 +34,12 @@ class UsersModelNotes extends JModelList
 				'u.name',
 				'subject', 'a.subject',
 				'catid', 'a.catid', 'category_id',
-				'state', 'a.state',
+				'state', 'a.state', 'published',
 				'c.title',
 				'review_time', 'a.review_time',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'level', 'c.level',
-				'published',
 			);
 		}
 
