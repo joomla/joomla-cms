@@ -40,6 +40,7 @@
 		rows="3"
 		cols="40"
 		filter="safehtml"
+		showon="logindescription_show:1"
 		/>
 
 		<field
@@ -76,6 +77,7 @@
 		rows="3"
 		cols="40"
 		filter="safehtml"
+		showon="logoutdescription_show:1"
 		/>
 
 		<field

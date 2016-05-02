@@ -112,15 +112,8 @@ $stickyBar = 0;
 
 if ($stickyToolbar)
 {
-	$stickyBar = 1;
+	$stickyBar = 'true';
 }
-
-$doc->addScriptDeclaration(
-	"
-	window.isisStickyToolbar = $stickyBar;
-	window.isisOffsetTop = $offset;
-	"
-);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -246,7 +239,7 @@ $doc->addScriptDeclaration(
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse">
+	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>
