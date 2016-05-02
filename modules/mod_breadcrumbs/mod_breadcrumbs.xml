@@ -46,7 +46,8 @@
 					name="homeText"
 					type="text"
 					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC" />
+					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC"
+					showon="showHome:1" />
 				<field
 					name="showLast"
 					type="radio"
