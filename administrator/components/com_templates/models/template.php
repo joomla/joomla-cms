@@ -126,15 +126,8 @@ class TemplatesModelTemplate extends JModelForm
 				else
 				{
 					$ext          = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					$params       = JComponentHelper::getParams('com_templates');
-					$imageTypes   = explode(',', $params->get('image_formats'));
-					$sourceTypes  = explode(',', $params->get('source_formats'));
-					$fontTypes    = explode(',', $params->get('font_formats'));
-					$archiveTypes = explode(',', $params->get('compressed_formats'));
-
-					$types = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
-
-					if (in_array($ext, $types))
+					$allowedFormat = $this->checkFormat($ext);
+					if ($allowedFormat == true)
 					{
 						$relativePath = str_replace($this->element, '', $dir);
 						$info = $this->getFile('/' . $relativePath, $value);
@@ -523,7 +516,8 @@ class TemplatesModelTemplate extends JModelForm
 
 			return false;
 		}
-
+		
+		// Get the extension of the changed file.
 		$explodeArray = explode('.', $fileName);
 		$ext = end($explodeArray);
 
@@ -858,7 +852,15 @@ class TemplatesModelTemplate extends JModelForm
 
 				return false;
 			}
-
+			// Check if the format is allowed and will be showed in the backend
+ 			$check = $this->checkFormat($type);
+ 
+ 			// Add a message if we are not allowed to show this file in the backend.
+ 			if (!$check)
+ 			{
+ 				$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
+ 			}
+ 
 			return true;
 		}
 	}
@@ -1385,5 +1387,29 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 		}
+	}
+	/**
+ 	* Check if the extension is allowed and will be shown in the template manager
+ 	*
+	* @param   string  $ext  The extension to check if it is allowed
+ 	*
+ 	* @return  boolean  true if the extension is allowed false otherwise
+ 	*
+ 	* @since   3.6.0
+	*/
+ 	protected function checkFormat($ext)
+	{
+		if (!isset($this->allowedFormats))
+		{
+			$params       = JComponentHelper::getParams('com_templates');
+			$imageTypes   = explode(',', $params->get('image_formats'));
+			$sourceTypes  = explode(',', $params->get('source_formats'));
+			$fontTypes    = explode(',', $params->get('font_formats'));
+			$archiveTypes = explode(',', $params->get('compressed_formats'));
+
+			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+		}
+
+		return in_array($ext, $this->allowedFormats);
 	}
 }
