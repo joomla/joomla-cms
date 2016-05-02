@@ -40,6 +40,7 @@ class UsersModelNotes extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'level', 'c.level',
+				'published',
 			);
 		}
 
@@ -159,7 +160,7 @@ class UsersModelNotes extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.published');
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.user_id');
 		$id .= ':' . $this->getState('filter.level');
@@ -209,11 +210,11 @@ class UsersModelNotes extends JModelList
 			$this->context .= '.' . $layout;
 		}
 
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
-		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string'));
-		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id'));
-		$this->setState('filter.user_id', $this->getUserStateFromRequest($this->context . '.filter.user_id', 'filter_user_id'));
-		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', null, 'int'));
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.published', $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '', 'string'));
+		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
+		$this->setState('filter.user_id', $this->getUserStateFromRequest($this->context . '.filter.user_id', 'filter_user_id', '', 'cmd'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 
 		parent::populateState($ordering, $direction);
 	}
