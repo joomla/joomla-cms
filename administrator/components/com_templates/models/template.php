@@ -1399,7 +1399,7 @@ class TemplatesModelTemplate extends JModelForm
  	*
  	* @since   3.6.0
 	*/
- 	protected function checkFormat($ext)
+	protected function checkFormat($ext)
 	{
 		if (!isset($this->allowedFormats))
 		{
