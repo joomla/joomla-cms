@@ -37,6 +37,7 @@
 					description="PLG_GMAIL_FIELD_SUFFIX_DESC"
 					label="PLG_GMAIL_FIELD_SUFFIX_LABEL"
 					size="20"
+					showon="applysuffix:1,2"
 				/>
 
 				<field
