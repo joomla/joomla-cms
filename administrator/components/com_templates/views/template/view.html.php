@@ -206,7 +206,7 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add a copy template button (Hathor override doesn't need the button)
 			if ($app->getTemplate() != 'hathor')
 			{
-				JToolbarHelper::modal('collapseModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+				JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 			}
 		}
 
