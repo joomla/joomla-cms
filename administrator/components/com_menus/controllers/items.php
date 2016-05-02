@@ -172,7 +172,7 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.6.0
 	 */
 	public function publish()
 	{
@@ -246,7 +246,7 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   12.2
+	 * @since   3.6.0
 	 */
 	public function checkin()
 	{
