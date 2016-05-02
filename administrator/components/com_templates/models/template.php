@@ -125,8 +125,9 @@ class TemplatesModelTemplate extends JModelForm
 				}
 				else
 				{
-					$ext          = pathinfo($dir . $value, PATHINFO_EXTENSION);
+					$ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
 					$allowedFormat = $this->checkFormat($ext);
+
 					if ($allowedFormat == true)
 					{
 						$relativePath = str_replace($this->element, '', $dir);
@@ -516,7 +517,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			return false;
 		}
-		
+
 		// Get the extension of the changed file.
 		$explodeArray = explode('.', $fileName);
 		$ext = end($explodeArray);
@@ -853,14 +854,14 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 			// Check if the format is allowed and will be showed in the backend
- 			$check = $this->checkFormat($type);
- 
- 			// Add a message if we are not allowed to show this file in the backend.
- 			if (!$check)
- 			{
- 				$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
- 			}
- 
+			$check = $this->checkFormat($type);
+
+			// Add a message if we are not allowed to show this file in the backend.
+			if (!$check)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
+			}
+
 			return true;
 		}
 	}
@@ -1388,6 +1389,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 		}
 	}
+
 	/**
  	* Check if the extension is allowed and will be shown in the template manager
  	*
