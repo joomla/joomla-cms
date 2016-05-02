@@ -127,7 +127,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6
 	 *
 	 * @throws  Exception on ACL error
 	 */
@@ -212,7 +212,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6
 	 *
 	 * @throws  Exception on ACL error
 	 */
@@ -353,7 +353,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 *
 	 * @return  array  Array with joomla core update site ids.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6
 	 */
 	protected function getJoomlaUpdateSitesIds()
 	{
