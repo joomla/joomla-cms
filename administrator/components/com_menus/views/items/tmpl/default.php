@@ -58,7 +58,7 @@ $colSpan = ($assoc) ? 9 : 8;
 				<thead>
 					<tr>
 						<?php if (!empty($menuType)) : ?>
-							<th width="1%" class="hidden-phone">
+							<th width="1%" class="nowrap center hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 							</th>
 						<?php endif; ?>
