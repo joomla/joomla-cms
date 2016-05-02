@@ -41,11 +41,10 @@ class BannersModelTracks extends JModelList
 			$config['filter_fields'] = array(
 				'b.name', 'banner_name',
 				'cl.name', 'client_name', 'client_id',
-				'c.title', 'category_title', 'category_id',
+				'cat.title', 'category_title', 'category_id',
 				'track_type', 'a.track_type', 'type',
 				'count', 'a.count',
 				'track_date', 'a.track_date', 'end', 'begin',
-				'level', 'c.level',
 			);
 		}
 
@@ -71,7 +70,6 @@ class BannersModelTracks extends JModelList
 		$this->setState('filter.category_id', $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '', 'cmd'));
 		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '', 'cmd'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
-		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 		$this->setState('filter.begin', $this->getUserStateFromRequest($this->context . '.filter.begin', 'filter_begin', '', 'string'));
 		$this->setState('filter.end', $this->getUserStateFromRequest($this->context . '.filter.end', 'filter_end', '', 'string'));
 
@@ -99,7 +97,7 @@ class BannersModelTracks extends JModelList
 		$query->select($db->quoteName(array('a.track_date', 'a.track_type', 'a.count')))
 			->select($db->quoteName('b.name', 'banner_name'))
 			->select($db->quoteName('cl.name', 'client_name'))
-			->select($db->quoteName('c.title', 'category_title'));
+			->select($db->quoteName('cat.title', 'category_title'));
 
 		// From tracks table.
 		$query->from($db->quoteName('#__banner_tracks', 'a'));
@@ -111,7 +109,7 @@ class BannersModelTracks extends JModelList
 		$query->join('LEFT', $db->quoteName('#__banner_clients', 'cl') . ' ON ' . $db->quoteName('cl.id') . ' = ' . $db->quoteName('b.cid'));
 
 		// Join with the category.
-		$query->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('b.catid'));
+		$query->join('LEFT', $db->quoteName('#__categories', 'cat') . ' ON ' . $db->quoteName('cat.id') . ' = ' . $db->quoteName('b.catid'));
 
 		// Filter by type.
 		$type = $this->getState('filter.type');
@@ -152,12 +150,6 @@ class BannersModelTracks extends JModelList
 		if (!empty($end))
 		{
 			$query->where($db->quoteName('a.track_date') . ' <= ' . $db->quote($end));
-		}
-
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
 		}
 
 		// Filter by search in banner name or client name.
