@@ -4,8 +4,8 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			label="COM_BANNERS_TRACKS_FILTER_SEARCH_LABEL"
+			description="COM_BANNERS_TRACKS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
@@ -36,6 +36,19 @@
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
 			<option value="1">COM_BANNERS_TYPE1</option>
 			<option value="2">COM_BANNERS_TYPE2</option>
+		</field>
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
 		</field>
 		<field
 			name="begin"
