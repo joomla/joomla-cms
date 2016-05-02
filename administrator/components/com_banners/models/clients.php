@@ -185,7 +185,7 @@ class BannersModelClients extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6
 	 */
 	public function getItems()
 	{
