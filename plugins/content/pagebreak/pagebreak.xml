@@ -40,7 +40,9 @@
 				</field>
 				<field name="article_index_text"  type="text" default=""
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
-					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC" />
+					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC" 
+					showon="article_index:1"
+				/>
 
 				<field name="multipage_toc" type="radio"
 					class="btn-group btn-group-yesno"
