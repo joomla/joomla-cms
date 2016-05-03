@@ -42,6 +42,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $spellcheck      Enable spell check for this field.
  * @var   array    $checked         Is this field checked?
+ *
  * @var   boolean  $meter           Is the password strength indicator enabled?
  * @var   string   $username        The field that contains the username
  * @var   integer  $minLength       The minimum characters allowed
@@ -65,7 +66,7 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 if ($meter)
 {
 	JHtml::_('bootstrap.framework');
-	JHtml::_('script', 'jui/pwstrength-bootstrap-1.2.9.min.js', false, true, false, false, true);
+	JHtml::_('script', 'jui/pwstrength-bootstrap.min.js', false, true, false, false, true);
 
 	// Load script on document load.
 	JFactory::getDocument()->addScriptDeclaration(
@@ -81,18 +82,19 @@ if ($meter)
 				showErrors: true,
 			};
 			options.ui.verdicts = [
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_VERYWEAK') . "',
 			'" . JText::_('JFIELD_PASSWORD_INDICATE_WEAK') . "',
 			'" . JText::_('JFIELD_PASSWORD_INDICATE_NORMAL') . "',
 			'" . JText::_('JFIELD_PASSWORD_INDICATE_MEDIUM') . "',
 			'" . JText::_('JFIELD_PASSWORD_INDICATE_STRONG') . "',
-			'" . JText::_('JFIELD_PASSWORD_INDICATE_VSTRONG') . "'];
+			'" . JText::_('JFIELD_PASSWORD_INDICATE_VERYSTRONG') . "'];
 			options.ui.errorMessages = {
 				wordLength: '" . JText::_('JFIELD_PASSWORD_INDICATE_LENGTH') . "',
 				wordNotEmail: '" . JText::_('JFIELD_PASSWORD_INDICATE_NOEMAIL') . "',
+				wordSequences: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDSEQ') . "',
+				wordRepetitions: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDREP') . "',
 				wordSimilarToUsername: '" . JText::_('JFIELD_PASSWORD_INDICATE_USERNAME') . "',
 				wordTwoCharacterClasses: '" . JText::_('JFIELD_PASSWORD_INDICATE_CHARCLASS') . "',
-				wordRepetitions: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDREP') . "',
-				wordSequences: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDSEQ') . "'
 			};
 			jQuery('#" . $id . "').pwstrength(options);
 		});
@@ -100,5 +102,6 @@ if ($meter)
 	);
 }
 ?>
-<input type="password" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo $hint , $autocomplete ,
-$class , $readonly , $disabled , $size , $maxLength , $required , $autofocus; ?> />
+<input type="password" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
+echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
+echo $hint, $autocomplete, $class, $readonly, $disabled, $size, $maxLength,  $required, $autofocus; ?> />
