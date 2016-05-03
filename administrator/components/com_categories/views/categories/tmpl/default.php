@@ -200,7 +200,7 @@ if ($saveOrder)
 								</div>
 							</td>
 							<td>
-								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
+								<?php echo $item->level > 1 ? '<span class="muted">' . str_repeat('&#9478;&nbsp;&nbsp;&nbsp;', $item->level - 2) . '</span>&#9495;' : ''; ?>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 								<?php endif; ?>
