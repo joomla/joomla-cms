@@ -112,11 +112,11 @@ class FieldsHelper
 				'ignore_request' => true)
 			);
 			self::$fieldsCache->setState('filter.published', 1);
-			self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
 			self::$fieldsCache->setState('list.limit', 0);
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
+		self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
 
 		if (is_array($item))
 		{
