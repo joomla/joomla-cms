@@ -55,7 +55,7 @@ class JFormFieldPassword extends JFormField
 	 * The linked username field.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $username;
 
@@ -66,6 +66,14 @@ class JFormFieldPassword extends JFormField
 	 * @since  3.2
 	 */
 	protected $meter = false;
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.6
+	 */
+	protected $layout = 'joomla.form.field.password';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -160,69 +168,41 @@ class JFormFieldPassword extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+		// Trim the trailing line in the layout file
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		// Initialize some field attributes.
-		$size            = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength       = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class           = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly        = $this->readonly ? ' readonly' : '';
-		$disabled        = $this->disabled ? ' disabled' : '';
-		$required        = $this->required ? ' required aria-required="true"' : '';
-		$hint            = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete    = !$this->autocomplete ? ' autocomplete="off"' : '';
-		$autofocus       = $this->autofocus ? ' autofocus' : '';
-		$this->username  = $this->element['username'] ? 'options.common.usernameField = "#' . $this->formControl . '_' . $this->element['username'] . '";' : '';
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.6
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
 		if (!$this->minLength)
 		{
 			$this->minLength = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
 		}
 
-		if ($this->meter)
-		{
-			JHtml::_('script', 'jui/pwstrength-bootstrap-1.2.9.min.js', false, true, false, false, true);
+		// Initialize some field attributes.
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$multiple     = $this->multiple ? ' multiple' : '';
+		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
+		$username     = $this->element['username'] ? 'options.common.usernameField = "#' . $this->formControl . '_' . $this->element['username'] . '";' : '';
 
-			// Load script on document load.
-			JFactory::getDocument()->addScriptDeclaration(
-				"
-		jQuery(document).ready(function($){
-			'use strict';
-			var options = {};
-			options.common = {};
-			" . $this->username . "
-			options.common.minChar = " . $this->minLength . "
-			options.ui = {
-				bootstrap2: true,
-				showErrors: true,
-			};
-			options.ui.verdicts = [
-			'" . JText::_('JFIELD_PASSWORD_INDICATE_WEAK') . "',
-			'" . JText::_('JFIELD_PASSWORD_INDICATE_NORMAL') . "',
-			'" . JText::_('JFIELD_PASSWORD_INDICATE_MEDIUM') . "',
-			'" . JText::_('JFIELD_PASSWORD_INDICATE_STRONG') . "',
-			'" . JText::_('JFIELD_PASSWORD_INDICATE_VSTRONG') . "'];
-			options.ui.errorMessages = {
-				wordLength: '" . JText::_('JFIELD_PASSWORD_INDICATE_LENGTH') . "',
-				wordNotEmail: '" . JText::_('JFIELD_PASSWORD_INDICATE_NOEMAIL') . "',
-				wordSimilarToUsername: '" . JText::_('JFIELD_PASSWORD_INDICATE_USERNAME') . "',
-				wordTwoCharacterClasses: '" . JText::_('JFIELD_PASSWORD_INDICATE_CHARCLASS') . "',
-				wordRepetitions: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDREP') . "',
-				wordSequences: '" . JText::_('JFIELD_PASSWORD_INDICATE_WORDSEQ') . "'
-			};
-			jQuery('#" . $this->id . "').pwstrength(options);
-		});
-				"
-			);
-		}
+		$extraData = array(
+			'maxLength'  => $maxLength,
+			'multiple'   => $multiple,
+			'spellcheck' => $spellcheck,
+			'username'   => $username,
+			'minLength'  => $this->minLength,
+			'meter'      => $this->meter,
+		);
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
-			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint . $autocomplete .
-			$class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . ' />';
+		return array_merge($data, $extraData);
 	}
 }
