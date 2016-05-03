@@ -147,7 +147,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.6
+	 * @since   3.6.0
 	 */
 	public function checkin()
 	{
