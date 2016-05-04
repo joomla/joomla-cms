@@ -40,7 +40,7 @@ class JDocumentRendererHtmlFooter extends JDocumentRenderer
 	/**
 	 * Generates the footer HTML and return the results as a string
 	 *
-	 * @param   JDocumentHtml  $document  The document for which the head will be created
+	 * @param   JDocumentHtml  &$document  The document for which the head will be created
 	 *
 	 * @return  string  The footer hTML
 	 *

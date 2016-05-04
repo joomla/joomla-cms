@@ -136,6 +136,14 @@ class JDocument
 	public $_scripts = array();
 
 	/**
+	+	 * Array of linked footer scripts
+	+	 *
+	+	 * @var    array
+	+	 * @since  3.7
+	+	 */
+	public $_footer_scripts = array();
+
+	/**
 	 * Array of scripts placed in the header
 	 *
 	 * @var    array
@@ -456,6 +464,27 @@ class JDocument
 		$this->_scripts[$url]['mime'] = $type;
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
+
+		return $this;
+	}
+
+	/**
+	+	 * Adds a linked footer script to the page
+	+	 *
+	+	 * @param   string  $url   URL to the linked footer script
+	+	 * @param   string  $type  Type of script. Defaults to 'text/javascript'
+	+	 * @param   boolean $defer Adds the defer attribute.
+	+	 * @param   boolean $async Adds the async attribute.
+	+	 *
+	+	 * @return  JDocument instance of $this to allow chaining
+	+	 *
+	+	 * @since   3.7
+	+	 */
+	function addFooterScript($url, $type = "text/javascript", $defer = false, $async = false)
+	{
+		$this->_footer_scripts[$url]['mime']  = $type;
+		$this->_footer_scripts[$url]['defer'] = $defer;
+		$this->_footer_scripts[$url]['async'] = $async;
 
 		return $this;
 	}
