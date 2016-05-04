@@ -136,6 +136,14 @@ class JDocument
 	public $_scripts = array();
 
 	/**
+	 * Array of linked footer scripts
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	public $_footer_scripts = array();
+
+	/**
 	 * Array of scripts placed in the header
 	 *
 	 * @var    array
@@ -210,7 +218,7 @@ class JDocument
 	/**
 	 * Class constructor.
 	 *
-	 * @param   array  $options  Associative array of options
+	 * @param   array $options Associative array of options
 	 *
 	 * @since   11.1
 	 */
@@ -261,8 +269,8 @@ class JDocument
 	 * Returns the global JDocument object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param   string  $type        The document type to instantiate
-	 * @param   array   $attributes  Array of attributes
+	 * @param   string $type       The document type to instantiate
+	 * @param   array  $attributes Array of attributes
 	 *
 	 * @return  object  The document object.
 	 *
@@ -298,7 +306,7 @@ class JDocument
 				}
 			}
 
-			$instance = new $class($attributes);
+			$instance                    = new $class($attributes);
 			self::$instances[$signature] = $instance;
 
 			if (!is_null($ntype))
@@ -314,7 +322,7 @@ class JDocument
 	/**
 	 * Set the document type
 	 *
-	 * @param   string  $type  Type document is to set to
+	 * @param   string $type Type document is to set to
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -354,8 +362,8 @@ class JDocument
 	/**
 	 * Set the contents of the document buffer
 	 *
-	 * @param   string  $content  The content to be set in the buffer.
-	 * @param   array   $options  Array of optional elements.
+	 * @param   string $content The content to be set in the buffer.
+	 * @param   array  $options Array of optional elements.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -371,8 +379,8 @@ class JDocument
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name       Value of name or http-equiv tag
-	 * @param   boolean  $httpEquiv  META type "http-equiv" defaults to null
+	 * @param   string  $name      Value of name or http-equiv tag
+	 * @param   boolean $httpEquiv META type "http-equiv" defaults to null
 	 *
 	 * @return  string
 	 *
@@ -406,9 +414,9 @@ class JDocument
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param   string   $name        Value of name or http-equiv tag
-	 * @param   string   $content     Value of the content tag
-	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Value of name or http-equiv tag
+	 * @param   string  $content    Value of the content tag
+	 * @param   boolean $http_equiv META type "http-equiv" defaults to null
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -442,10 +450,10 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string  $url   URL to the linked script
+	 * @param   string  $type  Type of script. Defaults to 'text/javascript'
+	 * @param   boolean $defer Adds the defer attribute.
+	 * @param   boolean $async Adds the async attribute.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -453,9 +461,30 @@ class JDocument
 	 */
 	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
 	{
-		$this->_scripts[$url]['mime'] = $type;
+		$this->_scripts[$url]['mime']  = $type;
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
+
+		return $this;
+	}
+
+	/**
+	 * Adds a linked footer script to the page
+	 *
+	 * @param   string  $url   URL to the linked footer script
+	 * @param   string  $type  Type of script. Defaults to 'text/javascript'
+	 * @param   boolean $defer Adds the defer attribute.
+	 * @param   boolean $async Adds the async attribute.
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.7
+	 */
+	function addFooterScript($url, $type = "text/javascript", $defer = false, $async = false)
+	{
+		$this->_footer_scripts[$url]['mime']  = $type;
+		$this->_footer_scripts[$url]['defer'] = $defer;
+		$this->_footer_scripts[$url]['async'] = $async;
 
 		return $this;
 	}
@@ -464,11 +493,11 @@ class JDocument
 	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string   $url      URL to the linked script
-	 * @param   string   $version  Version of the script
-	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer    Adds the defer attribute.
-	 * @param   boolean  $async    [description]
+	 * @param   string  $url     URL to the linked script
+	 * @param   string  $version Version of the script
+	 * @param   string  $type    Type of script. Defaults to 'text/javascript'
+	 * @param   boolean $defer   Adds the defer attribute.
+	 * @param   boolean $async   [description]
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -493,8 +522,8 @@ class JDocument
 	/**
 	 * Adds a script to the page
 	 *
-	 * @param   string  $content  Script
-	 * @param   string  $type     Scripting mime (defaults to 'text/javascript')
+	 * @param   string $content Script
+	 * @param   string $type    Scripting mime (defaults to 'text/javascript')
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -517,10 +546,10 @@ class JDocument
 	/**
 	 * Adds a linked stylesheet to the page
 	 *
-	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   string $url     URL to the linked style sheet
+	 * @param   string $type    Mime encoding type
+	 * @param   string $media   Media type that this stylesheet applies to
+	 * @param   array  $attribs Array of attributes
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -528,8 +557,8 @@ class JDocument
 	 */
 	public function addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array())
 	{
-		$this->_styleSheets[$url]['mime'] = $type;
-		$this->_styleSheets[$url]['media'] = $media;
+		$this->_styleSheets[$url]['mime']    = $type;
+		$this->_styleSheets[$url]['media']   = $media;
 		$this->_styleSheets[$url]['attribs'] = $attribs;
 
 		return $this;
@@ -539,11 +568,11 @@ class JDocument
 	 * Adds a linked stylesheet version to the page. Ex: template.css?54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string  $url      URL to the linked style sheet
-	 * @param   string  $version  Version of the stylesheet
-	 * @param   string  $type     Mime encoding type
-	 * @param   string  $media    Media type that this stylesheet applies to
-	 * @param   array   $attribs  Array of attributes
+	 * @param   string $url     URL to the linked style sheet
+	 * @param   string $version Version of the stylesheet
+	 * @param   string $type    Mime encoding type
+	 * @param   string $media   Media type that this stylesheet applies to
+	 * @param   array  $attribs Array of attributes
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -568,8 +597,8 @@ class JDocument
 	/**
 	 * Adds a stylesheet declaration to the page
 	 *
-	 * @param   string  $content  Style declarations
-	 * @param   string  $type     Type of stylesheet (defaults to 'text/css')
+	 * @param   string $content Style declarations
+	 * @param   string $type    Type of stylesheet (defaults to 'text/css')
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -592,7 +621,7 @@ class JDocument
 	/**
 	 * Sets the document charset
 	 *
-	 * @param   string  $type  Charset encoding string
+	 * @param   string $type Charset encoding string
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -620,7 +649,7 @@ class JDocument
 	/**
 	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
-	 * @param   string  $lang  The language to be set
+	 * @param   string $lang The language to be set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -648,7 +677,7 @@ class JDocument
 	/**
 	 * Sets the global document direction declaration. Default is left-to-right (ltr).
 	 *
-	 * @param   string  $dir  The language direction to be set
+	 * @param   string $dir The language direction to be set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -676,7 +705,7 @@ class JDocument
 	/**
 	 * Sets the title of the document
 	 *
-	 * @param   string  $title  The title to be set
+	 * @param   string $title The title to be set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -704,7 +733,7 @@ class JDocument
 	/**
 	 * Set the assets version
 	 *
-	 * @param   string  $mediaVersion  Media version to use
+	 * @param   string $mediaVersion Media version to use
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -732,7 +761,7 @@ class JDocument
 	/**
 	 * Sets the base URI of the document
 	 *
-	 * @param   string  $base  The base URI to be set
+	 * @param   string $base The base URI to be set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -760,7 +789,7 @@ class JDocument
 	/**
 	 * Sets the description of the document
 	 *
-	 * @param   string  $description  The description to set
+	 * @param   string $description The description to set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -788,7 +817,7 @@ class JDocument
 	/**
 	 * Sets the document link
 	 *
-	 * @param   string  $url  A url
+	 * @param   string $url A url
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -816,7 +845,7 @@ class JDocument
 	/**
 	 * Sets the document generator
 	 *
-	 * @param   string  $generator  The generator to be set
+	 * @param   string $generator The generator to be set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -844,7 +873,7 @@ class JDocument
 	/**
 	 * Sets the document modified date
 	 *
-	 * @param   string  $date  The date to be set
+	 * @param   string $date The date to be set
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -878,8 +907,8 @@ class JDocument
 	 * ({@link http://www.w3.org/TR/xhtml-media-types/
 	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.
 	 *
-	 * @param   string   $type  The document type to be sent
-	 * @param   boolean  $sync  Should the type be synced with HTML?
+	 * @param   string  $type The document type to be sent
+	 * @param   boolean $sync Should the type be synced with HTML?
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -915,7 +944,7 @@ class JDocument
 	/**
 	 * Sets the line end style to Windows, Mac, Unix or a custom string.
 	 *
-	 * @param   string  $style  "win", "mac", "unix" or custom string.
+	 * @param   string $style "win", "mac", "unix" or custom string.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -956,7 +985,7 @@ class JDocument
 	/**
 	 * Sets the string used to indent HTML
 	 *
-	 * @param   string  $string  String used to indent ("\11", "\t", '  ', etc.).
+	 * @param   string $string String used to indent ("\11", "\t", '  ', etc.).
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -984,7 +1013,7 @@ class JDocument
 	/**
 	 * Load a renderer
 	 *
-	 * @param   string  $type  The renderer type
+	 * @param   string $type The renderer type
 	 *
 	 * @return  JDocumentRenderer
 	 *
@@ -1028,7 +1057,7 @@ class JDocument
 	/**
 	 * Parses the document and prepares the buffers
 	 *
-	 * @param   array  $params  The array of parameters
+	 * @param   array $params The array of parameters
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -1042,8 +1071,8 @@ class JDocument
 	/**
 	 * Outputs the document
 	 *
-	 * @param   boolean  $cache   If true, cache the output
-	 * @param   array    $params  Associative array of attributes
+	 * @param   boolean $cache  If true, cache the output
+	 * @param   array   $params Associative array of attributes
 	 *
 	 * @return  The rendered data
 	 *
