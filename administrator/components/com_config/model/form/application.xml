@@ -634,7 +634,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
-			filter="integer">
+			filter="integer"
+			showon="sef:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -646,7 +647,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
-			filter="integer">
+			filter="integer"
+			showon="sef:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -658,7 +660,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
-			filter="integer">
+			filter="integer"
+			showon="sef:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
