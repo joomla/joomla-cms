@@ -425,17 +425,17 @@
 		</field>
 
 		<field
-			name="mailer"
-			type="list"
-			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
-			default="mail"
-			filter="word"
+			name="massmailoff"
+			type="radio"
+			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
 			showon="mailonline:1"
 			>
-			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
-			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
-			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -458,6 +458,20 @@
 			size="30"
 			showon="mailonline:1"
 		/>
+
+		<field
+			name="mailer"
+			type="list"
+			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
+			default="mail"
+			filter="word"
+			showon="mailonline:1"
+			>
+			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
+			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
+			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
+		</field>
 
 		<field
 			name="sendmail"
@@ -542,20 +556,6 @@
 			autocomplete="off"
 			size="30"
 		/>
-
-		<field
-			name="massmailoff"
-			type="radio"
-			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
-			class="btn-group btn-group-yesno"
-			default="0"
-			filter="integer"
-			showon="mailonline:1"
-			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
-		</field>
 
 	</fieldset>
 
