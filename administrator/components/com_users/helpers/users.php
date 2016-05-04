@@ -234,7 +234,8 @@ class UsersHelper
 	public static function getVisibleByGroups($rules)
 	{
 		$rules = json_decode($rules);
-		if (!$rules){
+		if (!$rules)
+		{
 			return false;
 		}
 			$rules = implode(',', $rules);
