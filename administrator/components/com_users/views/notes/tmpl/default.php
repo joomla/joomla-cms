@@ -55,7 +55,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<th width="10%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap">
+					<th width="1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -108,7 +108,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
 						<?php endif; ?>
 					</td>
-					<td>
+					<td class="hidden-phone">
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
