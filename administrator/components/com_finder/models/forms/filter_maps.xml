@@ -6,7 +6,8 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_FINDER_FILTER_SEARCH_DESC"
+			label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
+			description="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field

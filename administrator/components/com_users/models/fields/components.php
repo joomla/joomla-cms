@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  3.5.2
+ * @since  3.6.0
  */
 class JFormFieldComponents extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldComponents extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	protected $type = 'Components';
 
@@ -31,7 +31,7 @@ class JFormFieldComponents extends JFormFieldList
 	 *
 	 * @return  array  The field option objects
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	protected function getOptions()
 	{
