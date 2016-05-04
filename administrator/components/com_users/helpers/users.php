@@ -225,6 +225,8 @@ class UsersHelper
 	/**
 	 * Get a list of the User Groups for Viewing Access Levels
 	 *
+	 * @param   string  the User Groups in JSON format
+	 *
 	 * @return  array  An array.
 	 *
 	 * @since   3.6
@@ -232,7 +234,8 @@ class UsersHelper
 	public static function getVisibleByGroups($rules)
 	{
 		$rules = json_decode($rules);
-		if (!$rules) {
+		if (!$rules)
+		{
 			return false;
 		}
 			$rules = implode(',', $rules);
@@ -241,7 +244,7 @@ class UsersHelper
 			$query = $db->getQuery(true)
 				->select('a.title AS text')
 				->from('#__usergroups as a')
-				->where('a.id IN ('. $rules. ')');
+				->where('a.id IN (' . $rules . ')');
 
 			$db->setQuery($query);
 
