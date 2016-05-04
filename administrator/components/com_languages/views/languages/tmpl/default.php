@@ -57,7 +57,7 @@ if ($saveOrder)
 						<th class="title nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="title nowrap hidden-phone">
+						<th class="title nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap">
@@ -129,7 +129,7 @@ if ($saveOrder)
 							<?php endif; ?>
 							</span>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo $this->escape($item->title_native); ?>
 						</td>
 						<td>
