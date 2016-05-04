@@ -75,7 +75,7 @@ class InstallerModel extends JModelList
 			$this->translate($result);
 
 			// Process searching.
-			if (!empty($search))
+			if (!empty($search) && stripos($search, 'id:') !== 0)
 			{
 				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
