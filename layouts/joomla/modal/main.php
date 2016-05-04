@@ -108,7 +108,11 @@ if (isset($params['url']))
 }
 else
 {
-	// Set modalTooltip container to modal ID (selector)
+	// Set modalTooltip container to modal ID (selector), and placement to top-left if no data attribute (bootstrap-tooltip-extended.js)
+	$script[] = "       $('.modalTooltip').each(function(){;";
+	$script[] = "           var attr = $(this).attr('data-placement');";
+	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
+	$script[] = "       });";
 	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
 
 	// Set max-height for modal-body if needed, to adapt to viewport height.
