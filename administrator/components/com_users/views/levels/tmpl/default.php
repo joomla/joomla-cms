@@ -58,7 +58,7 @@ if ($saveOrder)
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th>
-							<?php echo JText::_('COM_USERS_HEADING_LEVEL_VISIBLE_BY'); ?>
+							<?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
 						</th>
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
