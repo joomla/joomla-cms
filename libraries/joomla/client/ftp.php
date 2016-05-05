@@ -1225,7 +1225,7 @@ class JClientFtp
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function append($remote, $buffer)
 	{
@@ -1311,7 +1311,7 @@ class JClientFtp
 	 *
 	 * @return  mixed  number of bytes or false on error
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function size($remote)
 	{

@@ -38,7 +38,7 @@ class JFormFieldColor extends JFormField
 	 * The format.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6.0
 	 */
 	protected $format = 'hex';
 
@@ -46,7 +46,7 @@ class JFormFieldColor extends JFormField
 	 * The keywords (transparent,initial,inherit).
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6.0
 	 */
 	protected $keywords = '';
 

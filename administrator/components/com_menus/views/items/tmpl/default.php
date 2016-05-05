@@ -24,8 +24,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $ordering  = ($listOrder == 'a.lft');
 $canOrder  = $user->authorise('core.edit.state',	'com_menus');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menuType  = (array) $app->getUserState('com_menus.items.menutype');
 
-if ($saveOrder)
+if ($saveOrder && !empty($menuType))
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
@@ -56,10 +57,12 @@ $colSpan = ($assoc) ? 9 : 8;
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
-						<th width="1%" class="center">
+						<?php if (!empty($menuType)) : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							</th>
+						<?php endif; ?>
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -67,6 +70,9 @@ $colSpan = ($assoc) ? 9 : 8;
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+						</th>
+						<th class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'a.menutype', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
@@ -133,26 +139,28 @@ $colSpan = ($assoc) ? 9 : 8;
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
-						<td class="order nowrap center hidden-phone">
-							<?php
-							$iconClass = '';
+						<?php if (!empty($menuType)) : ?>
+							<td class="order nowrap center hidden-phone">
+								<?php
+								$iconClass = '';
 
-							if (!$canChange)
-							{
-								$iconClass = ' inactive';
-							}
-							elseif (!$saveOrder)
-							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-							}
-							?>
-							<span class="sortable-handler<?php echo $iconClass ?>">
-								<span class="icon-menu"></span>
-							</span>
-							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
-							<?php endif; ?>
-						</td>
+								if (!$canChange)
+								{
+									$iconClass = ' inactive';
+								}
+								elseif (!$saveOrder)
+								{
+									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								}
+								?>
+								<span class="sortable-handler<?php echo $iconClass ?>">
+									<span class="icon-menu"></span>
+								</span>
+								<?php if ($canChange && $saveOrder) : ?>
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
@@ -186,6 +194,9 @@ $colSpan = ($assoc) ? 9 : 8;
 								<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->menutype); ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>

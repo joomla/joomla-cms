@@ -26,6 +26,8 @@ $input = JFactory::getApplication()->input;
 						<option value="xml">xml</option>
 						<option value="ini">ini</option>
 						<option value="less">less</option>
+						<option value="sass">sass</option>
+						<option value="scss">scss</option>
 						<option value="txt">txt</option>
 					</select>
 					<input type="hidden" class="address" name="address" />

@@ -284,7 +284,7 @@ class FinderModelIndex extends JModelList
 	 *
 	 * @return  int  The total of indexed items.
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function getTotalIndexed()
 	{
