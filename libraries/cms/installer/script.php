@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
 /**
  * Base install script for use by extensions providing helper methods for common behaviours.
  *
- * @since  3.5
+ * @since  3.6
  */
 class JInstallerScript
 {
@@ -23,7 +23,7 @@ class JInstallerScript
 	 * The version number of the extension.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $release;
 
@@ -31,7 +31,7 @@ class JInstallerScript
 	 * The table the parameters are stored in.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $paramTable;
 
@@ -39,7 +39,7 @@ class JInstallerScript
 	 * The extension name. This should be set in the installer script.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $extension;
 
@@ -47,7 +47,7 @@ class JInstallerScript
 	 * A list of files to be deleted
 	 *
 	 * @var    array
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $deleteFiles = array();
 
@@ -55,7 +55,7 @@ class JInstallerScript
 	 * A list of folders to be deleted
 	 *
 	 * @var    array
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $deleteFolders = array();
 
@@ -63,7 +63,7 @@ class JInstallerScript
 	 * A list of CLI script files to be copied to the cli directory
 	 *
 	 * @var    array
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $cliScriptFiles = array();
 
@@ -71,7 +71,7 @@ class JInstallerScript
 	 * Minimum PHP version required to install the extension
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $minimumPhp;
 
@@ -79,7 +79,7 @@ class JInstallerScript
 	 * Minimum Joomla! version required to install the extension
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $minimumJoomla;
 
@@ -89,7 +89,7 @@ class JInstallerScript
 	 * Use at your own risk as if there is a change in functionality people may wish to downgrade.
 	 *
 	 * @var    boolean
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $allowDowngrades = false;
 
@@ -101,7 +101,7 @@ class JInstallerScript
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function preflight($type, $parent)
 	{
@@ -155,7 +155,7 @@ class JInstallerScript
 	 *
 	 * @return  array  An array of ID's of the extension
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function getInstances($isModule)
 	{
@@ -188,7 +188,7 @@ class JInstallerScript
 	 *
 	 * @return  string  The parameter desired
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function getParam($name, $id = 0)
 	{
@@ -214,7 +214,7 @@ class JInstallerScript
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function setParams($param_array = null, $type = 'edit', $id = 0)
 	{
@@ -278,7 +278,7 @@ class JInstallerScript
 	 *
 	 * @return  array  Associated array containing data from the cell
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function getItemArray($element, $table, $column, $identifier)
 	{
@@ -301,7 +301,7 @@ class JInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function removeFiles()
 	{
@@ -333,7 +333,7 @@ class JInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function moveCliFiles()
 	{
