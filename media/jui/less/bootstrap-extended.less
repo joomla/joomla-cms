@@ -525,37 +525,3 @@ th .tooltip-inner {
 .dropdown-menu {
 	text-align: left;
 }
-
-// Base class (Tooltip Extended extra positions)
-.tooltip {
-	&.top-left,
-	&.top-right   { margin-top:  -3px; padding: 5px 0; }
-	&.bottom-left,
-	&.bottom-right { margin-top:   3px; padding: 5px 0; }
-}
-
-// Arrows (Tooltip Extended extra positions)
-.tooltip.top-left .tooltip-arrow {
-	bottom: 0;
-	left: @tooltipArrowWidth;
-	border-width: @tooltipArrowWidth @tooltipArrowWidth 0;
-	border-top-color: @tooltipArrowColor;
-}
-.tooltip.top-right .tooltip-arrow {
-	bottom: 0;
-	right: @tooltipArrowWidth;
-	border-width: @tooltipArrowWidth @tooltipArrowWidth 0;
-	border-top-color: @tooltipArrowColor;
-}
-.tooltip.bottom-left .tooltip-arrow {
-	top: 0;
-	left: @tooltipArrowWidth;
-	border-width: 0 @tooltipArrowWidth @tooltipArrowWidth;
-	border-bottom-color: @tooltipArrowColor;
-}
-.tooltip.bottom-right .tooltip-arrow {
-	top: 0;
-	right: @tooltipArrowWidth;
-	border-width: 0 @tooltipArrowWidth @tooltipArrowWidth;
-	border-bottom-color: @tooltipArrowColor;
-}
