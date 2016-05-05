@@ -132,7 +132,7 @@ class JInstallerScript
 		}
 
 		// Abort if the extension being installed is not newer than the currently installed version
-		if (strtolower($type) == 'Update' && !$this->allowDowngrades)
+		if (strtolower($type) == 'update' && !$this->allowDowngrades)
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', JFactory::getDbo()->quote($this->extension));
 			$oldRelease = $manifest['version'];
