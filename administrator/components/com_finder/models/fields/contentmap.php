@@ -98,7 +98,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 						$groups[$name] = array();
 					}
 
-					$groups[$name][] = JHtml::_('select.option', $branch->value, $levelPrefix . $branch->text);
+					$groups[$name][] = JHtml::_('select.option', $branch->value, $levelPrefix . $text);
 				}
 			}
 		}
