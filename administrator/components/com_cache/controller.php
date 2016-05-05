@@ -110,7 +110,7 @@ class CacheController extends JControllerLegacy
 
 		$app        = JFactory::getApplication();
 		$model      = $this->getModel('cache');
-		$data       = $model->getData();
+		$data       = $model->getCache()->getAll();
 		$allCleared = true;
 
 		foreach ($data as $cache)
