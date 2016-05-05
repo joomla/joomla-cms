@@ -19,7 +19,6 @@ JHtml::_('formbehavior.chosen', 'select');
 $user      = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$advancedMode = JComponentHelper::getParams('com_redirect')->get('mode', 0);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
@@ -54,11 +53,9 @@ $advancedMode = JComponentHelper::getParams('com_redirect')->get('mode', 0);
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<?php if ($advancedMode) : ?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_STATUS_CODE', 'a.header', $listDirn, $listOrder); ?>
 						</th>
-						<?php endif; ?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -66,7 +63,7 @@ $advancedMode = JComponentHelper::getParams('com_redirect')->get('mode', 0);
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="<?php echo $advancedMode ? 9 : 8; ?>">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -102,11 +99,9 @@ $advancedMode = JComponentHelper::getParams('com_redirect')->get('mode', 0);
 						<td class="hidden-phone">
 							<?php echo (int) $item->hits; ?>
 						</td>
-						<?php if ($advancedMode) : ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->header; ?>
 						</td>
-						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
