@@ -62,8 +62,7 @@ $colSpan = ($assoc) ? 9 : 8;
 								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 							</th>
 						<?php endif; ?>
-						</th>
-						<th width="1%" class="center">
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
