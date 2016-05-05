@@ -121,12 +121,11 @@ class InstallerModelLanguages extends JModelList
 		// This where clause will avoid to list languages already installed.
 		$query->where($db->quoteName('extension_id') . ' = 0');
 
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (!empty($search))
+		// Filter by search in title and language tag.
+		if ($search = $this->getState('filter.search'))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ')');
+			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ' OR LOWER(element) LIKE ' . strtolower($search) . ')');
 		}
 
 		// Add the list ordering clause.
