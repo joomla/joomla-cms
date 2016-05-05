@@ -39,10 +39,10 @@ class JFormRuleLogoutUniqueField extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
 		$field = (string) $element['field'];
-		
+
 		$logoutRedirectUrl      = $input['params']->logout_redirect_url;
 		$logoutRedirectMenuitem = $input['params']->logout_redirect_menuitem;
-		
+
 		if (is_null($form))
 		{
 			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
@@ -52,10 +52,10 @@ class JFormRuleLogoutUniqueField extends JFormRule
 		{
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
-		
+
 		// Test the input values for logout.
 		if ($logoutRedirectUrl != '' && $logoutRedirectMenuitem != '')
-		{			
+		{
 			return false;
 		}
 

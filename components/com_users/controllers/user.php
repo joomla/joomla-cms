@@ -210,7 +210,6 @@ class UsersControllerUser extends UsersController
 			}
 		}
 
-
 		// Redirect the user.
 		$app->redirect(JRoute::_($return, false));
 	}
