@@ -249,6 +249,7 @@ class JFormRuleUsername extends JFormRule
 					if (preg_match_all($regexAllowedChars, $value, $nonIdentifierProfile))
 					{
 						$nonIdentifierProfileString = implode(',', array_unique($nonIdentifierProfile[0]));
+
 						if (!preg_match('/[\p{Mc}]/u', $nonIdentifierProfileString))
 						{
 							$nonIdentifierProfileString .= 'whitespace';
@@ -261,27 +262,27 @@ class JFormRuleUsername extends JFormRule
 					}
 
 					/*
-					// UAX31-D1. Default Identifier Syntax: <ID_Start>
-					// <identifier> := <ID_Start> <ID_Continue>*
-					if (!preg_match('/^[\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}]/u', $value))
-					{
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_IDSTART_REQUIRED'), 'warning');
-
-						$result = false;
-					}
-
-					// UAX31-D1. Default Identifier Syntax: <ID_Continue>
-					// http://www.unicode.org/reports/tr31/#Default_Identifier_Syntax
-					if (preg_match_all('/[^\p{Lu}\p{Ll}\p{Lt}\p{Lm}\p{Lo}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}]/u', $value, $nonIdContinue))
-					{
-						$nonIdContinueString = implode(' ', array_unique($nonIdContinue[0]));
-
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_IDCONTINUE_REQUIRED', $nonIdContinueString), 'warning');
-
-						$result = false;
-					}
+					* // UAX31-D1. Default Identifier Syntax: <ID_Start>
+					* // <identifier> := <ID_Start> <ID_Continue>*
+					* if (!preg_match('/^[\p{Lu}|\p{Ll}|\p{Lt}|\p{Lm}|\p{Lo}|\p{Nl}]/u', $value))
+					* {
+					*	// Enqueue error message and return false
+					*	$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_IDSTART_REQUIRED'), 'warning');
+					*
+					*	$result = false;
+					* }
+					*
+					* // UAX31-D1. Default Identifier Syntax: <ID_Continue>
+					* // http://www.unicode.org/reports/tr31/#Default_Identifier_Syntax
+					* if (preg_match_all('/[^\p{Lu}\p{Ll}\p{Lt}\p{Lm}\p{Lo}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}]/u', $value, $nonIdContinue))
+					* {
+					*	$nonIdContinueString = implode(' ', array_unique($nonIdContinue[0]));
+					*
+					*	// Enqueue error message and return false
+					*	$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_IDCONTINUE_REQUIRED', $nonIdContinueString), 'warning');
+					*
+					*	$result = false;
+					* }
 					*/
 
 					break;
