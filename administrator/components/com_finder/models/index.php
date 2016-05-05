@@ -196,8 +196,8 @@ class FinderModelIndex extends JModelList
 
 		if (is_numeric($contentMapId))
 		{
-			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.link_id') . ' = ' . $db->quoteName('l.link_id'));
-			$query->where($db->quoteName('m.node_id') . ' = ' . (int) $contentMapId);
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.link_id') . ' = ' . $db->quoteName('l.link_id'))
+				->where($db->quoteName('m.node_id') . ' = ' . (int) $contentMapId);
 		}
 
 		// Check for state filter.
