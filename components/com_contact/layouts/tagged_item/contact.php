@@ -35,3 +35,4 @@ $lang = JFactory::getLanguage()->load('com_contact');
 	<img src="<?php echo $item->core_images; ?>" class="ss-image pull-right img-polaroid">
 <?php endif; ?>
 <?php echo $item->core_body; ?>
+
