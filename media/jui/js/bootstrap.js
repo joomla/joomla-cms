@@ -1466,176 +1466,186 @@
   }
 
 }(window.jQuery);
-/* ===========================================================================
- * bootstrap-tooltip-extended.js v1.0.0
- * https://github.com/cyrilreze/bootstrap-tooltip-extended
- * ===========================================================================
- * Copyright 2016 Cyril Rezé
- * Licensed under MIT
- * https://github.com/cyrilreze/bootstrap-tooltip-extended/blob/master/LICENSE
- * =========================================================================== */
+/* ===========================================================
+ * bootstrap-tooltip-extension.js v0.0.2
+ * https://github.com/andresgutgon/bootstrap-tooltip-extension
+ * ===========================================================
+ *
+ * This file extends bootstrap-tooltip.js that add
+ * More tooltip positions 'bottom-left', 'bottom-right', 'top-left' and 'top-right'
+ *
+ * Licensed under the MIT License (MIT) http://opensource.org/licenses/MIT
+ * Copyright (c)2013 Andres andresgutgon@gmail.com
+ *
+ * =========================================================== */
 
-!function ($) {
+(function ($) {
+  var old
+    , TooltipExtension = function (element, options) {
+    this.init('tooltip', element, options);
+  };
 
-  "use strict"; // jshint ;_;
-
-  var bootstrapVersion = $.fn.tooltip.Constructor.VERSION ? $.fn.tooltip.Constructor.VERSION.split('.')[0] : '2'
-
-
- /* TOOLTIP-EXTENDED PUBLIC CLASS DEFINITION
-  * ======================================== */
-
-  // Save the original function object
-  var _old = $.fn.tooltip;
-
-  // Create a new constructor
-  var TooltipExtended = function (element, options) {
-    this.init('tooltip', element, options)
-  }
-
-  TooltipExtended.prototype = $.extend({}, _old.Constructor.prototype, {
-
-    constructor: TooltipExtended
-
+  TooltipExtension.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype, {
+    constructor: TooltipExtension
   , show: function () {
       var $tip
         , pos
         , actualWidth
         , actualHeight
         , placement
+        , moveArrow
         , tp
-        , e = $.Event('show')
+        , e = $.Event('show');
 
       if (this.hasContent() && this.enabled) {
-        this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
-        $tip = this.tip()
-        this.setContent()
+        this.$element.trigger(e);
+        if (e.isDefaultPrevented()) { return; }
+        $tip = this.tip();
+        this.setContent();
 
         if (this.options.animation) {
-          $tip.addClass('fade')
+          $tip.addClass('fade');
         }
 
-        placement = typeof this.options.placement == 'function' ?
+        placement = typeof this.options.placement === 'function' ?
           this.options.placement.call(this, $tip[0], this.$element[0]) :
-          this.options.placement
-
-        // Detect if auto direction placement
-        var autoDirToken = /\s?auto-dir?\s?/i
-        var autoDirPlace = autoDirToken.test(placement)
-        if (autoDirPlace) placement = placement.replace(autoDirToken, '') || 'top'
+          this.options.placement;
 
         $tip
           .detach()
-          .css({ top: 0, left: 0, display: 'block' })
-          .addClass(placement)
+          .css({ top: 0, left: 0, display: 'block' });
 
-        this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
-
-        pos = this.getPosition()
-
-        actualWidth = $tip[0].offsetWidth
-        actualHeight = $tip[0].offsetHeight
-
-        // Get the overall document direction
-        var isRTL = jQuery(document.querySelector("html")).attr('dir') === 'rtl' ? true : false
-
-        // If auto-dir and the direction is RTL, the horizontal placement is reversed
-        if (autoDirPlace) {
-          var orgPlacement = placement
-          var xPlace = placement.replace(/bottom-|top-/g, '') || ''
-          var yPlace = placement.replace(/left|right/g, '') || ''
-
-          placement = xPlace == 'left'  && isRTL ? yPlace + 'right' :
-                      xPlace == 'right' && isRTL ? yPlace + 'left'  :
-                      placement
-
-          $tip
-            .removeClass(orgPlacement)
-            .addClass(placement)
+        if (this.options.container) {
+          $tip.appendTo(this.options.container);
+        } else {
+          $tip.insertAfter(this.$element);
         }
+
+        pos = this.getPosition();
+
+        actualWidth = $tip[0].offsetWidth;
+        actualHeight = $tip[0].offsetHeight;
 
         switch (placement) {
-          case 'bottom':
-            tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2}
-            break
-          case 'top':
-            tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2}
-            break
-          case 'left':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth}
-            break
-          case 'right':
-            tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width}
-            break
-          // Additional positions
-          case 'bottom-left':
-            tp = {top: pos.top + pos.height, left: pos.left}
-            break
-          case 'bottom-right':
-            tp = {top: pos.top + pos.height, left: pos.left + pos.width - actualWidth}
-            break
-          case 'top-left':
-            tp = {top: pos.top - actualHeight, left: pos.left }
-            break
-          case 'top-right':
-            tp = {top: pos.top - actualHeight, left: pos.left + pos.width - actualWidth}
-            break
+        case 'bottom':
+          tp = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+          break;
+        case 'top':
+          tp = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+          break;
+        case 'left':
+          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+          break;
+        case 'right':
+          tp = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
+          break;
+        // Extra positions. This are not part of bootstrap
+        // Extrange:
+        //  I've to make top position 10px smaller in 'top-left' and 'top-right'
+        //  And 10px bigger in 'bottom-left' and 'bottom-right'
+        // This should behave like 'top' and 'bottom'. But they don't.
+        case 'bottom-left':
+          tp = {top: pos.top + pos.height + 10, left: pos.left};
+          if (this.$element.outerWidth() <= 18) { // if button is small move tooltip left
+            tp.left -= 4;
+          }
+          break;
+        case 'bottom-right':
+          tp = {top: pos.top + pos.height + 10, left: pos.left + pos.width - actualWidth};
+          if (this.$element.outerWidth() <= 18) { // if button is small move tooltip left
+            tp.left += 4;
+          }
+          break;
+        case 'top-left':
+          tp = {top: pos.top - actualHeight - 10, left: pos.left };
+          if (this.$element.outerWidth() <= 18) { // if button is small move tooltip left
+            tp.left -= 4;
+          }
+          break;
+        case 'top-right':
+          tp = {top: pos.top - actualHeight - 10, left: pos.left + pos.width - actualWidth};
+          if (this.$element.outerWidth() <= 18) { // if button is small move tooltip left
+            tp.left += 4;
+          }
+          break;
         }
 
-        this.applyPlacement(tp, placement)
+        this.applyPlacement(tp, placement);
 
-        // Arrow position adjustment for Bootstrap 3
-        if ( bootstrapVersion === '3' ) {
-          this.newArrow(placement, actualWidth, isRTL)
+        if (this.options.moveArrow) {
+          this.moveArrow();
         }
 
-        this.$element.trigger('shown')
+        this.$element.trigger('shown');
       }
     }
-  , newArrow: function (placement, actualWidth, isRTL) {
-      var $arrow = this.tip().find('.tooltip-arrow')
-        , arrow_width = parseInt($arrow.css('width'), 10)
-        , arrow_height = parseInt($arrow.css('height'), 10)
-  
-      var xPlace = placement.replace(/bottom-|top-/g, '') || ''
-      var yPlace = placement.replace(/left|right/g, '') || ''
-
-      if ( yPlace && xPlace == 'left' && !isRTL ) $arrow.css("left", arrow_width / 2)
-      if ( yPlace && xPlace == 'left' && isRTL )  $arrow.css("right", actualWidth - arrow_width - arrow_width / 2)
-      if ( yPlace && xPlace == 'right' )          $arrow.css("left", actualWidth - arrow_width - arrow_width / 2)
-      if ( yPlace == 'bottom-' )                  $arrow.css("top", arrow_height)
-      if ( yPlace == 'top-' )                     $arrow.css("bottom", arrow_height)
+  /**
+   * Calculate arrow position relative to button width.
+   */
+  , moveArrow: function () {
+      var placement = this.options.placement
+        , button = this.$element
+        , template = $(this.options.template)
+        , $arrow = this.tip().find(".tooltip-arrow, .arrow")
+        , arrow_width = parseInt($arrow.css("width"), 10) // This is needed we get here Ex.: '18px'
+        , new_arrow_position = (button.outerWidth() / 2) - (arrow_width / 2);
+      switch (placement) {
+      case 'bottom-left':
+        $arrow.css("left", new_arrow_position);
+        break;
+      case 'bottom-right':
+        $arrow.css("right", new_arrow_position);
+        break;
+      case 'top-left':
+        $arrow.css("left", new_arrow_position);
+        break;
+      case 'top-right':
+        $arrow.css("right", new_arrow_position);
+        break;
+      }
     }
   });
 
 
- /* TOOLTIP-EXTENDED PLUGIN DEFINITION
-  * ================================== */
 
-  var old = $.fn.tooltip
+ /* TOOLTIP EXTRA PLUGIN DEFINITION
+  * ========================= */
 
-  // Override the old initialization with the new constructor
-  $.fn.tooltip = $.extend(function ( option ) {
+  old = $.fn.tooltip;
+
+  $.fn.tooltip = function (option) {
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('tooltip')
-        , options = $.extend({}, TooltipExtended.defaults, $this.data(), typeof option == 'object' && option)
-      if (!data) $this.data('tooltip', (data = new TooltipExtended(this, options)))
-      if (typeof option == 'string') data[option]()
-    })
-  }, $.fn.tooltip )
-
-
- /* TOOLTIP-EXTENDED NO CONFLICT
-  * ============================ */
-
-  $.fn.tooltip.noConflict = function () {
-    $.fn.tooltip = old
-    return this
+        , options = typeof option === 'object' && option;
+      if (!data) { $this.data('tooltip', (data = new TooltipExtension(this, options))); }
+      if (typeof option === 'string') { data[option](); }
+    });
   };
 
-}(window.jQuery);
+  $.fn.tooltip.Constructor = TooltipExtension;
+
+  $.fn.tooltip.defaults = {
+    animation: true
+  , placement: 'top'
+  , selector: false
+  , template: '<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+  , trigger: 'hover focus'
+  , title: ''
+  , delay: 0
+  , html: false
+  , container: false
+  };
+
+ /* TOOLTIP EXTRA NO CONFLICT
+  * =================== */
+
+  $.fn.tooltip.noConflict = function () {
+    $.fn.tooltip = old;
+    return this;
+  };
+
+})(window.jQuery);
 /* ===========================================================
  * bootstrap-popover.js v2.3.2
  * http://twitter.github.com/bootstrap/javascript.html#popovers
