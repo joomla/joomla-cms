@@ -410,29 +410,32 @@
 	<fieldset
 		name="mail"
 		label="CONFIG_MAIL_SETTINGS_LABEL">
+
 		<field
 			name="mailonline"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
-			filter="integer">
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
 		<field
-			name="mailer"
-			type="list"
-			default="mail"
-			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
-			filter="word"
-			showon="mailonline:1">
-			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
-			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
-			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
+			name="massmailoff"
+			type="radio"
+			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			showon="mailonline:1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -443,7 +446,8 @@
 			filter="string"
 			size="30"
 			validate="email"
-			showon="mailonline:1" />
+			showon="mailonline:1"
+		/>
 
 		<field
 			name="fromname"
@@ -452,61 +456,66 @@
 			description="COM_CONFIG_FIELD_MAIL_FROM_NAME_DESC"
 			filter="string"
 			size="30"
-			showon="mailonline:1" />
+			showon="mailonline:1"
+		/>
 
 		<field
-			name="massmailoff"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_DESC"
-			filter="integer"
+			name="mailer"
+			type="list"
+			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
+			default="mail"
+			filter="word"
 			showon="mailonline:1"
 			>
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
+			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
+			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
 		</field>
 
 		<field
 			name="sendmail"
 			type="text"
-			default="/usr/sbin/sendmail"
-			showon="mailonline:1[AND]mailer:sendmail"
 			label="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_DESC"
+			default="/usr/sbin/sendmail"
+			showon="mailonline:1[AND]mailer:sendmail"
 			filter="string"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="smtphost"
 			type="text"
-			default="localhost"
-			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_HOST_DESC"
+			default="localhost"
+			showon="mailonline:1[AND]mailer:smtp"
 			filter="string"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="smtpport"
 			type="text"
-			default="25"
-			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PORT_DESC"
+			default="25"
+			showon="mailonline:1[AND]mailer:smtp"
 			required="true"
 			filter="string"
-			size="6" />
+			size="6"
+		/>
 
 		<field
 			name="smtpsecure"
 			type="list"
-			default="none"
-			showon="mailonline:1[AND]mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
-			filter="word">
+			default="none"
+			showon="mailonline:1[AND]mailer:smtp"
+			filter="word"
+			>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
 			<option value="tls">COM_CONFIG_FIELD_VALUE_TLS</option>
@@ -515,12 +524,13 @@
 		<field
 			name="smtpauth"
 			type="radio"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
-			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
-			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -528,22 +538,25 @@
 		<field
 			name="smtpuser"
 			type="text"
-			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			filter="string"
 			autocomplete="off"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="smtppass"
 			type="password"
-			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
+			showon="mailonline:1[AND]mailer:smtp[AND]smtpauth:1"
 			filter="raw"
 			autocomplete="off"
-			size="30" />
+			size="30"
+		/>
+
 	</fieldset>
 
 	<fieldset
@@ -634,7 +647,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
-			filter="integer">
+			filter="integer"
+			showon="sef:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -646,7 +660,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
-			filter="integer">
+			filter="integer"
+			showon="sef:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -658,7 +673,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
-			filter="integer">
+			filter="integer"
+			showon="sef:1">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>

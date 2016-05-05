@@ -53,7 +53,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ORDERING', 'fp.ordering', $listDirn, $listOrder); ?>
 							<?php if ($canOrder && $saveOrder) :?>
 								<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'featured.saveorder'); ?>
@@ -139,7 +139,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 								</div>
 							</div>
 						</td>
-						<td class="order">
+						<td class="order hidden-phone">
 							<?php if ($canChange && $saveOrder) : ?>
 								<div class="input-prepend">
 									<?php if ($listDirn == 'ASC') : ?>

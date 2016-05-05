@@ -49,6 +49,7 @@ class ContentModelArticles extends JModelList
 				'publish_down', 'a.publish_down',
 				'images', 'a.images',
 				'urls', 'a.urls',
+				'filter_tag'
 			);
 		}
 
@@ -81,6 +82,9 @@ class ContentModelArticles extends JModelList
 
 		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
+
+		$value = $app->input->get('filter_tag', 0, 'uint');
+		$this->setState('filter.tag', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
 
@@ -515,6 +519,19 @@ class ContentModelArticles extends JModelList
 		if ($this->getState('filter.language'))
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+
+		if (!empty($tagId) && is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+				);
 		}
 
 		// Add the list ordering clause.
