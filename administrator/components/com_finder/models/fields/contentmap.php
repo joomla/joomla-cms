@@ -40,7 +40,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
-		
+
 		// Levels subquery.
 		$levelQuery = $db->getQuery(true);
 		$levelQuery->select('title AS branch_title, 1 as level')
