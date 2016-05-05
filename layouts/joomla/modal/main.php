@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-// Load bootstrap-tooltip-extended for additional tooltip positions in modal
+// Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
 JHtml::_('bootstrap.tooltipExtended');
 
 extract($displayData);
