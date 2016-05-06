@@ -330,63 +330,63 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		/*
-		 * If there is only one segment, then it points to either an article or a category.
-		 * We test it first to see if it is a category.  If the id and alias match a category,
-		 * then we assume it is a category.  If they don't we assume it is an article
-		 */
-		if ($count == 1)
-		{
-			// We check to see if an alias is given.  If not, we assume it is an article
-			if (strpos($segments[0], ':') === false)
-			{
-				$vars['view'] = 'article';
-				$vars['id'] = (int) $segments[0];
-
-				return $vars;
-			}
-
-			list($id, $alias) = explode(':', $segments[0], 2);
-
-			// First we check if it is a category
-			$category = JCategories::getInstance('Content')->get($id);
-
-			if ($category && $category->alias == $alias)
-			{
-				$vars['view'] = 'category';
-				$vars['id'] = $id;
-
-				return $vars;
-			}
-			else
-			{
-				$query = $db->getQuery(true)
-					->select($db->quoteName(array('alias', 'catid')))
-					->from($db->quoteName('#__content'))
-					->where($db->quoteName('id') . ' = ' . (int) $id);
-				$db->setQuery($query);
-				$article = $db->loadObject();
-
-				if ($article)
-				{
-					if ($article->alias == $alias)
-					{
-						$vars['view'] = 'article';
-						$vars['catid'] = (int) $article->catid;
-						$vars['id'] = (int) $id;
-
-						return $vars;
-					}
-				}
-			}
-		}
-
-		/*
 		 * If there was more than one segment, then we can determine where the URL points to
 		 * because the first segment will have the target category id prepended to it.  If the
 		 * last segment has a number prepended, it is an article, otherwise, it is a category.
 		 */
 		if (!$advanced)
 		{
+			/*
+			 * If there is only one segment, then it points to either an article or a category.
+			 * We test it first to see if it is a category.  If the id and alias match a category,
+			 * then we assume it is a category.  If they don't we assume it is an article
+			 */
+			if ($count == 1)
+			{
+				// We check to see if an alias is given.  If not, we assume it is an article
+				if (strpos($segments[0], ':') === false)
+				{
+					$vars['view'] = 'article';
+					$vars['id'] = (int) $segments[0];
+
+					return $vars;
+				}
+
+				list($id, $alias) = explode(':', $segments[0], 2);
+
+				// First we check if it is a category
+				$category = JCategories::getInstance('Content')->get($id);
+
+				if ($category && $category->alias == $alias)
+				{
+					$vars['view'] = 'category';
+					$vars['id'] = $id;
+
+					return $vars;
+				}
+				else
+				{
+					$query = $db->getQuery(true)
+						->select($db->quoteName(array('alias', 'catid')))
+						->from($db->quoteName('#__content'))
+						->where($db->quoteName('id') . ' = ' . (int) $id);
+					$db->setQuery($query);
+					$article = $db->loadObject();
+
+					if ($article)
+					{
+						if ($article->alias == $alias)
+						{
+							$vars['view'] = 'article';
+							$vars['catid'] = (int) $article->catid;
+							$vars['id'] = (int) $id;
+
+							return $vars;
+						}
+					}
+				}
+			}
+		
 			$cat_id = (int) $segments[0];
 
 			$article_id = (int) $segments[$count - 1];
