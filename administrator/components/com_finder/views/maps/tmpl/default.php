@@ -96,13 +96,14 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php
 					if (trim($item->parent_title, '**') == 'Language')
 					{
-						echo FinderHelperLanguage::branchLanguageTitle($item->title);
+						$title = FinderHelperLanguage::branchLanguageTitle($item->title);
 					}
 					else
 					{
 						$key = FinderHelperLanguage::branchSingular($item->title);
-						echo $lang->hasKey($key) ? JText::_($key) : $item->title;
+						$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
 					}
+					echo $title;
 					?>
 					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
 						<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
