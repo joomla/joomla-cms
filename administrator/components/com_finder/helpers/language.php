@@ -60,7 +60,7 @@ class FinderHelperLanguage
 	 *
 	 * @param   string  $branchName  Language branch name.
 	 *
-	 * @return  string  the language title.
+	 * @return  string  The language title.
 	 *
 	 * @since   3.6.0
 	 */
