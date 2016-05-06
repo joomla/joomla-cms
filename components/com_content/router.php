@@ -386,7 +386,7 @@ class ContentRouter extends JComponentRouterBase
 					}
 				}
 			}
-		
+
 			$cat_id = (int) $segments[0];
 
 			$article_id = (int) $segments[$count - 1];
