@@ -685,6 +685,18 @@ class MenusModelItem extends JModelAdmin
 			// Note that all request arguments become reserved parameter names.
 			$result->request = $args;
 			$result->params = array_merge($result->params, $args);
+
+			// Special case for the Login menu item.
+			// Display the login or logout redirect URL fields if not empty
+			if (!empty($result->params['login_redirect_url']))
+			{
+				$result->params['loginredirectchoice'] = '0';
+			}
+
+			if (!empty($result->params['logout_redirect_url']))
+			{
+				$result->params['logoutredirectchoice'] = '0';
+			}
 		}
 
 		if ($table->type == 'alias')

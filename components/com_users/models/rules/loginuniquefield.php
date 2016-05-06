@@ -38,8 +38,6 @@ class JFormRuleLoginUniqueField extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		$field = (string) $element['field'];
-
 		$loginRedirectUrl       = $input['params']->login_redirect_url;
 		$loginRedirectMenuitem  = $input['params']->login_redirect_menuitem;
 

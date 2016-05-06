@@ -38,8 +38,6 @@ class JFormRuleLogoutUniqueField extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		$field = (string) $element['field'];
-
 		$logoutRedirectUrl      = $input['params']->logout_redirect_url;
 		$logoutRedirectMenuitem = $input['params']->logout_redirect_menuitem;
 
