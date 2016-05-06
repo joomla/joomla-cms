@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 $item = $displayData['item'];
+
 ?>
 <h3>
 	<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
@@ -17,4 +18,3 @@ $item = $displayData['item'];
 	</a>
 </h3>
 <?php echo $item->core_body; ?>
-
