@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -105,7 +105,7 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . $this->getState('filter.context');
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . print_r($this->getState('filter.language'), true);
 
 		return parent::getStoreId($id);
 	}
