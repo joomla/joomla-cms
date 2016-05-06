@@ -38,7 +38,7 @@ Please keep in mind that this repository adds two new tables and new entries to 
 4. Open the article.
 5. Check if the custom field is displayed.
 
-A more detailed test instruction article with screenshots can be found on our [blog](https://joomla.digital-peak.com/blog/198-custom-fields-in-joomla-3-6). We scratched here only on the surface of com_fields. If you want to check out what is all possible with this PR should have a look on the [full documentation of DPFields](https://joomla.digital-peak.com/documentation/162-dpfields). There are many options like layout overrides, inline field rendering in the article description, categories per fields, permissions. What works for DPFields will also work for com_fields.
+A more detailed test instruction article with screenshots can be found on our [blog](https://joomla.digital-peak.com/blog/198-custom-fields-in-joomla-3-7). We scratched here only on the surface of com_fields. If you want to check out what is all possible with this PR should have a look on the [full documentation of DPFields](https://joomla.digital-peak.com/documentation/162-dpfields). There are many options like layout overrides, inline field rendering in the article description, categories per fields, permissions. What works for DPFields will also work for com_fields.
 
 #### Things to clear
 As the current code is more or less a one to one copy of DPFields the following approaches do need clarification:
