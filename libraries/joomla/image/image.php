@@ -681,6 +681,71 @@ class JImage
 	}
 
 	/**
+	 * Method to set the background fill color to use for non-transparent images.
+	 *
+	 * @param   array   $color   The RGBA values defining the color to use for background fill
+	 *
+	 * @return  JImage
+	 *
+	 * @since   11.3
+	 */
+	public function setFillColor(array $color = array())
+	{
+		$this->fillColor = array(0, 0, 0, 127);
+
+		if (count($color))
+		{
+			JArrayHelper::toInteger($color);
+
+			// Ensure passed in values are valid
+			$color = array_filter($color, function(&$value, $i) use(&$defaultColor)
+			{
+				if ($i === 3)
+				{
+					$value = $value > 127 ? 127 : $value;
+				}
+				else
+				{
+					$value = $value > 255 ? 255 : $value;
+				}
+
+				return true;
+
+			}, ARRAY_FILTER_USE_BOTH);
+
+			// Add missing values from the default color.
+			$len = count($color);
+
+			if ($len < 4)
+			{
+				for ($i = $len; $i < 4; $i += 1)
+				{
+					array_push($color, $this->fillColor[$i]);
+				}
+
+				// Ensure the value for the alpha channel is valid.
+				$color[3] = $color[3] > 127 ? 127 : $color[3];
+			}
+
+			$this->fillColor = $color;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to get the background fill color.
+	 *
+	 * @return  array   The RGBA values defining the color to use for background fill
+	 *
+	 * @since   11.3
+	 */
+	public function getFillColor()
+	{
+		return $this->fillColor;
+	}
+
+	/**
 	 * Method to resize the current image.
 	 *
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
@@ -727,7 +792,10 @@ class JImage
 			// Make image transparent, otherwise cavas outside initial image would default to black
 			if (!$this->isTransparent())
 			{
-				$transparency = imagecolorAllocateAlpha($this->handle, 0, 0, 0, 127);
+				// Get fill color.
+				$fillColor = $this->getFillColor();
+
+				$transparency = imagecolorAllocateAlpha($this->handle, $fillColor[0], $fillColor[1], $fillColor[2], $fillColor[3]);
 				imagecolorTransparent($this->handle, $transparency);
 			}
 		}
