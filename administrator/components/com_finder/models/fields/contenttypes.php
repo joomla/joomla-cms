@@ -13,6 +13,8 @@ JFormHelper::loadFieldClass('list');
 
 use Joomla\Utilities\ArrayHelper;
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Content Types Filter field for the Finder package.
  *
