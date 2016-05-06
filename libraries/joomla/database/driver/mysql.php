@@ -86,7 +86,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		// Attempt to connect to the server.
-		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
+		if (!($this->connection = @ mysqli_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
 			throw new RuntimeException('Could not connect to MySQL.');
 		}
