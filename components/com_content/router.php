@@ -329,6 +329,11 @@ class ContentRouter extends JComponentRouterBase
 			return $vars;
 		}
 
+		/*
+		 * If there was more than one segment, then we can determine where the URL points to
+		 * because the first segment will have the target category id prepended to it.  If the
+		 * last segment has a number prepended, it is an article, otherwise, it is a category.
+		 */
 		if (!$advanced)
 		{
 			/*
@@ -381,13 +386,7 @@ class ContentRouter extends JComponentRouterBase
 					}
 				}
 			}
-			
-			/*
-			 * If there was more than one segment, then we can determine where the URL points to
-			 * because the first segment will have the target category id prepended to it.  If the
-			 * last segment has a number prepended, it is an article, otherwise, it is a category.
-			 */
-			 
+
 			$cat_id = (int) $segments[0];
 
 			$article_id = (int) $segments[$count - 1];
