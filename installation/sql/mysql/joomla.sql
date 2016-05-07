@@ -1564,13 +1564,9 @@ CREATE TABLE IF NOT EXISTS `#__session` (
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`(32)),
   KEY `userid` (`userid`),
-<<<<<<< HEAD
   KEY `time` (`time`(10))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-=======
-  KEY `time` (`time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
->>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
+
 
 -- --------------------------------------------------------
 
