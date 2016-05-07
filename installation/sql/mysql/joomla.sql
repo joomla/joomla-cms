@@ -1979,14 +1979,9 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `ordering` int(11) NOT NULL DEFAULT 0,
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
-<<<<<<< HEAD
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`),
   KEY `idx_ordering_title` (`ordering`,`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7;
-=======
-  UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=7;
->>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__viewlevels`
