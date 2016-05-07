@@ -219,6 +219,10 @@ class FinderModelMaps extends JModelList
 		// Group
 		$query->group('a.id, a.parent_id, a.title, a.state, a.access, a.ordering');
 
+		// Self-join to get the parent title.
+		$query->select('e.title AS parent_title')
+			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('a.parent_id'));
+
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 

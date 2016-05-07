@@ -99,8 +99,16 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<td>
 					<?php
-					$key = FinderHelperLanguage::branchSingular($item->title);
-					$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+					if (trim($item->parent_title, '**') == 'Language')
+					{
+						$title = FinderHelperLanguage::branchLanguageTitle($item->title);
+					}
+					else
+					{
+						$key = FinderHelperLanguage::branchSingular($item->title);
+						$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+					}
+					echo $title;
 					?>
 					<?php if ((int) $item->num_children === 0) : ?>
 						<span class="gi">&mdash;</span>

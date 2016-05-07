@@ -16,24 +16,25 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user      = JFactory::getUser();
-$app       = JFactory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state',	'com_menus');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$user		= JFactory::getUser();
+$app		= JFactory::getApplication();
+$userId		= $user->get('id');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$ordering	= ($listOrder == 'a.lft');
+$canOrder	= $user->authorise('core.edit.state',	'com_menus');
+$saveOrder	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menutypeid	= (int) $this->state->get('menutypeid');
 $menuType  = (array) $app->getUserState('com_menus.items.menutype');
 
-if ($saveOrder && !empty($menuType))
+if ($saveOrder && $menuType != '*')
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
 $assoc = JLanguageAssociations::isEnabled();
-$colSpan = ($assoc) ? 9 : 8;
+$colSpan = ($assoc) ? 10 : 9;
 ?>
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
@@ -105,10 +106,10 @@ $colSpan = ($assoc) ? 9 : 8;
 				<?php
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-					$canCreate  = $user->authorise('core.create',     'com_menus');
-					$canEdit    = $user->authorise('core.edit',       'com_menus');
+					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
+					$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-					$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
+					$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
 
 					// Get the parents of item for sorting
 					if ($item->level > 1)
