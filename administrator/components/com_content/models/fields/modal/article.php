@@ -49,7 +49,11 @@ class JFormFieldModal_Article extends JFormField
 
 		if ($allowEdit)
 		{
-			$script[] = '		jQuery("#' . $this->id . '_Edit").addClass("hidden");';
+			$script[] = '		if (id == ' . $this->value . ') {';
+			$script[] = '			jQuery("#' . $this->id . '_edit").removeClass("hidden");';
+			$script[] = '		} else {';
+			$script[] = '			jQuery("#' . $this->id . '_edit").addClass("hidden");';
+			$script[] = '		}';
 		}
 
 		if ($allowClear)
@@ -149,7 +153,7 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a id="' . $this->id . '_Edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip" role="button" data-toggle="modal" title="'
+			$html[] = '<a id="' . $this->id . '_edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip" role="button" data-toggle="modal" title="'
 				. JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
 				. '<span class="icon-edit"></span> '
 				. JText::_('JACTION_EDIT') . '</a>';
