@@ -37,7 +37,27 @@ abstract class JToolbarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
-		JFactory::getDocument()->setTitle($app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . strip_tags($title));
+
+		$title = strip_tags($title);
+		switch ((string) $app->get('sitename_pagetitles_backend', '1'))
+		{
+
+			// None
+			case '0':
+			break;
+
+			// After
+			case '2':
+			$title .= ' - ' . $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION');
+			break;
+
+			// Before
+			case '1':
+			default:
+			$title = $app->get('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title;
+			break;
+		}
+		JFactory::getDocument()->setTitle($title);
 	}
 
 	/**

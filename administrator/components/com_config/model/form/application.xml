@@ -994,6 +994,24 @@
 	</fieldset>
 
 	<fieldset
+		name="backend"
+		label="CONFIG_BACKEND_SETTINGS_LABEL">
+
+		<field
+			name="sitename_pagetitles_backend"
+			type="list"
+			default="1"
+			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
+			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
+			filter="integer">
+			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset
 		name="permissions"
 		label="CONFIG_PERMISSION_SETTINGS_LABEL">
 

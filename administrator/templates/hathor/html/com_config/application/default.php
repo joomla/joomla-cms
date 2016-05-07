@@ -39,6 +39,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<div class="width-40 fltrt">
 					<?php echo $this->loadTemplate('seo'); ?>
 					<?php echo $this->loadTemplate('cookie'); ?>
+					<?php echo $this->loadTemplate('backend'); ?>
 				</div>
 			</div>
 		</div>
