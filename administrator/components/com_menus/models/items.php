@@ -194,7 +194,7 @@ class MenusModelItems extends JModelList
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
-						null, 'apublished', null, null, null, null,
+						null, 'a.published', null, null, null, null,
 						null, null, null, null, null, null, null, null, null
 					)
 				)
