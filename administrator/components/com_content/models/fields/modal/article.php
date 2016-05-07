@@ -153,8 +153,8 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a id="' . $this->id . '_edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip" role="button" data-toggle="modal" title="'
-				. JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
+			$html[] = '<a id="' . $this->id . '_edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip" role="button" data-toggle="modal"'
+				. ' title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
 				. '<span class="icon-edit"></span> '
 				. JText::_('JACTION_EDIT') . '</a>';
 		}
