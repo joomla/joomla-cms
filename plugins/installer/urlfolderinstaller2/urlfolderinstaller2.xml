@@ -12,13 +12,13 @@
 
 	<!--Files and Folder for installation definition -->
 	<files>
-		<filename plugin="urlFolderInstaller">urlFolderInstaller.php</filename>
+		<filename plugin="urlfolderinstaller">urlfolderinstaller.php</filename>
 		<folder>js</folder>
 		<folder>css</folder>
 	</files>
 
 	<languages>
-		<language tag="en-GB">en-GB.plg_installer_urlFolderInstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_urlFolderInstaller.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_installer_urlfolderinstaller.ini</language>
+		<language tag="en-GB">en-GB.plg_installer_urlfolderinstaller.sys.ini</language>
 	</languages>
 </extension>

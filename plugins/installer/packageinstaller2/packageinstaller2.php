@@ -1,11 +1,12 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Installer.urlFolderInstaller
+ * @subpackage  Installer.packageInstaller
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
@@ -14,11 +15,11 @@ JHtml::_('bootstrap.tooltip');
 JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 
 /**
- * UrlFolderInstaller Plugin.
+ * PackageInstaller Plugin.
  *
  * @since  3.5
  */
-class PlgInstallerUrlFolderInstaller  extends JPlugin
+class PlgInstallerPackageInstaller  extends JPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -69,12 +70,12 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 		$document = JFactory::getDocument();
 
 		// External files added Javascript and CSS
-		$document->addScript(JURI::root() . 'plugins/installer/urlFolderInstaller/js/urlFolderInstaller.js');
-		$document->addStyleSheet(JURI::root() . 'plugins/installer/urlFolderInstaller/css/client.css');
+		$document->addScript(JUri::root() . 'plugins/installer/packageinstaller/js/packageinstaller.js');
+		$document->addStyleSheet(JUri::root() . 'plugins/installer/packageinstaller/css/client.css');
 	}
 
 	/**
-	 * This is for the Layout of the Plugin.
+	 * Returns true if it is hathor else false
 	 *
 	 * @return  boolean
 	 *
@@ -113,27 +114,23 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 
 		if ($ishathor || !$ishathor)
 		{
-			echo JHtml::_('bootstrap.addTab', 'myTab', 'urlfolder', JText::_('PLG_INSTALLER_URLFOLDERINSTALLER_INSTALLALL_TEXT', true));
+			echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
 			?>
-			<div class="clr"></div>
 			<fieldset class="uploadform">
-				<legend><?php echo JText::_('PLG_INSTALLER_URLFOLDERINSTALLER_INSTALLALL_TEXT'); ?></legend>
+				<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 				<div class="control-group">
-					<label for="install_all" class="control-label"><?php echo JText::_('PLG_INSTALLER_URLFOLDERINSTALLER_INSTALLALL_TEXT'); ?></label>
+					<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 					<div class="controls">
-						<input type="text" id="install_all" name="install_all" class="span5 input_box" size="70" value="" />
+						<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
 					</div>
-
 				</div>
 				<div class="form-actions">
-					<input type="button" class="btn btn-primary"
-						value="<?php echo JText::_('PLG_INSTALLER_URLFOLDERINSTALLER_INSTALLALL_BUTTON'); ?>" onclick="Joomla.submitbuttonall()"
-					/>
+					<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton_package()">
+						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER__UPLOAD_AND_INSTALL'); ?></button>
 				</div>
-
-				<input type="hidden" name="install_url" value="" />
-				<input type="hidden" name="install_directory" value="" />
 			</fieldset>
+
+			<!-- Get the Value from the form -->
 
 			<?php
 			echo JHtml::_('bootstrap.endTab');
