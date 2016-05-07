@@ -699,7 +699,7 @@ class JImage
 
 			// Ensure passed in values are valid
 			$color = array_filter(
-				$color, 
+				$color,
 				function(&$value, $i) use(&$defaultColor)
 				{
 					if ($i === 3)
@@ -710,7 +710,7 @@ class JImage
 					{
 						$value = $value > 255 ? 255 : $value;
 					}
-	
+
 					return true;
 				},
 				ARRAY_FILTER_USE_BOTH
