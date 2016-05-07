@@ -39,36 +39,14 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$params        = $component->params;
 		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
 
-		$model->update($uid, $minimum_stability);
-
-		if ($model->getState('result', false))
-		{
-			$cache = JFactory::getCache('mod_menu');
-			$cache->clean();
-		}
-
-		$app          = JFactory::getApplication();
-		$redirect_url = $app->getUserState('com_installer.redirect_url');
-
-		// Don't redirect to an external URL.
-		if (!JUri::isInternal($redirect_url))
-		{
-			$redirect_url = '';
-		}
-
-		if (empty($redirect_url))
-		{
-			$redirect_url = JRoute::_('index.php?option=com_installer&view=update', false);
-		}
-		else
-		{
-			// Wipe out the user state when we're going to redirect.
-			$app->setUserState('com_installer.redirect_url', '');
-			$app->setUserState('com_installer.message', '');
-			$app->setUserState('com_installer.extension_message', '');
-		}
-
-		$this->setRedirect($redirect_url);
+		// Redirect to installer.batchInstall
+		$this->setRedirect(JRoute::_('index.php?' . http_build_query(array(
+			'option' => 'com_installer',
+			'task' => 'installer.batchInstall',
+			'uid' => $uid,
+			'minimum_stability' => $minimum_stability,
+			JSession::getFormToken() => '1'
+			)), false));
 	}
 
 	/**
@@ -134,9 +112,9 @@ class InstallerControllerUpdate extends JControllerLegacy
 	/**
 	 * Fetch and report updates in JSON format, for AJAX requests
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5
+	 * @since   2.5
 	 */
 	public function ajax()
 	{

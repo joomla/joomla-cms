@@ -118,8 +118,10 @@ class InstallerModelUpdate extends JModelList
 		}
 		else
 		{
+			/* Allow Core
 			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
 				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+				*/
 		}
 
 		// Process search filter.

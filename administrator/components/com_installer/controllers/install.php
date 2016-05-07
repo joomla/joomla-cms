@@ -28,37 +28,42 @@ class InstallerControllerInstall extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+		$app = JFactory::getApplication();
 		$model = $this->getModel('install');
 
-		if ($model->install())
+		// Initialize (download / prepare package)
+		if ($model->initialize())
 		{
-			$cache = JFactory::getCache('mod_menu');
-			$cache->clean();
 
-			// TODO: Reset the users acl here as well to kill off any missing bits.
-		}
+			// Review Package
+			$package = $model->getState('package');
 
-		$app = JFactory::getApplication();
-		$redirect_url = $app->getUserState('com_installer.redirect_url');
+			// Verify Requirements
+			if (!empty($package['dir']) && !empty($package['type']))
+			{
 
-		// Don't redirect to an external URL.
-		if (!JUri::isInternal($redirect_url))
-		{
-			$redirect_url = '';
-		}
+				// Redirect to installer.install
+				$app->setUserState('com_installer.package', $package);
+				$this->setRedirect(JRoute::_('index.php?' . http_build_query(array(
+					'option' => 'com_installer',
+					'task' => 'installer.install',
+					JSession::getFormToken() => '1'
+					)), false));
+				return;
 
-		if (empty($redirect_url))
-		{
-			$redirect_url = JRoute::_('index.php?option=com_installer&view=install', false);
+			}
+			else
+			{
+				$this->setMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			}
+
 		}
 		else
 		{
-			// Wipe out the user state when we're going to redirect.
-			$app->setUserState('com_installer.redirect_url', '');
-			$app->setUserState('com_installer.message', '');
-			$app->setUserState('com_installer.extension_message', '');
+			$this->setMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
 		}
 
-		$this->setRedirect($redirect_url);
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=install', false));
 	}
+
 }
