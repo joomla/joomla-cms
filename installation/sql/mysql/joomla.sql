@@ -1198,14 +1198,9 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   UNIQUE KEY `idx_image` (`image`),
   UNIQUE KEY `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
-<<<<<<< HEAD
   KEY `idx_ordering` (`ordering`),
   KEY 'idx_published_ordering' ('published','ordering')
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-=======
-  KEY `idx_ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
->>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__languages`
