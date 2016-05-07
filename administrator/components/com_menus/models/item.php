@@ -738,6 +738,21 @@ class MenusModelItem extends JModelAdmin
 			// Note that all request arguments become reserved parameter names.
 			$result->request = $args;
 			$result->params = array_merge($result->params, $args);
+
+			// Special case for the Login menu item.
+			// Display the login or logout redirect URL fields if not empty
+			if ($table->link == 'index.php?option=com_users&view=login')
+			{
+				if (!empty($result->params['login_redirect_url']))
+				{
+					$result->params['loginredirectchoice'] = '0';
+				}
+
+				if (!empty($result->params['logout_redirect_url']))
+				{
+					$result->params['logoutredirectchoice'] = '0';
+				}
+			}
 		}
 
 		if ($table->type == 'alias')
@@ -1147,6 +1162,7 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('name', $tag);
 					$field->addAttribute('type', 'menuitem');
 					$field->addAttribute('language', $tag);
+					$field->addAttribute('disable', 'separator,alias,heading,url');
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');

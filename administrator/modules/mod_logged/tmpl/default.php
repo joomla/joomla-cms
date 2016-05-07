@@ -24,8 +24,7 @@ JHtml::_('bootstrap.tooltip');
 				<strong class="row-title">
 					<?php if (isset($user->editLink)) : ?>
 						<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
-							<?php echo $user->name; ?>
-						</a>
+							<?php echo $user->name; ?></a>
 					<?php else : ?>
 						<?php echo $user->name; ?>
 					<?php endif; ?>

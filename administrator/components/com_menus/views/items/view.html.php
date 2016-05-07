@@ -56,8 +56,10 @@ class MenusViewItems extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		$menutypeId = (int) $this->state->get('menutypeid');
+		$menuType = $this->state->get('filter.menutype');
 
-		if (!$menutypeId || !$user->authorise('core.manage', 'com_menus.menu.' . (int) $menutypeId))
+		// Do not validate "*" because, that is our "show all" selection
+		if ($menuType != '*' && (!$menutypeId || !$user->authorise('core.manage', 'com_menus.menu.' . (int) $menutypeId)))
 		{
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -255,7 +257,14 @@ class MenusViewItems extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		if ($menuTypeTitle)
+		{
+			JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+		}
 
 		if ($canDo->get('core.create'))
 		{

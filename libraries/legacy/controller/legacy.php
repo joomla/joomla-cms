@@ -402,7 +402,7 @@ class JControllerLegacy extends JObject
 			}
 			else
 			{
-				$this->model_prefix = $this->name . 'Model';
+				$this->model_prefix = ucfirst($this->name) . 'Model';
 			}
 		}
 

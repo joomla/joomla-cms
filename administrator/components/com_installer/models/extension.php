@@ -63,31 +63,56 @@ class InstallerModel extends JModelList
 		$search = str_replace('/', ' ', $search);
 		$db     = $this->getDbo();
 
-		// Process ordering and pagination.
-		if (in_array($listOrder, array('name', 'client_translated', 'type_translated', 'folder_translated'))
-			|| (!empty($search) && stripos($search, 'id:') !== 0))
+		// Define which fields have to be processed in a custom way because of translation.
+		$customOrderFields = array('name', 'client_translated', 'type_translated', 'folder_translated');
+
+		// Process searching, ordering and pagination for fields that need to be translated.
+		if (in_array($listOrder, $customOrderFields) || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
+			// Get results from database and translate them.
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
 			$this->translate($result);
 
-			// Search in the name.
-			if (!empty($search))
+			// Process searching.
+			if (!empty($search) && stripos($search, 'id:') !== 0)
 			{
 				$escapedSearchString = $this->refineSearchStringToRegex($search, '/');
 
+				// By default search only the extension name field.
+				$searchFields = array('name');
+
+				// If in update sites view search also in the update site name field.
+				if ($this instanceof InstallerModelUpdatesites)
+				{
+					$searchFields[] = 'update_site_name';
+				}
+
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$escapedSearchString/i", $item->name))
+					// Check if search string exists in any of the fields to be searched.
+					$found = 0;
+					foreach ($searchFields as $key => $field)
+					{
+						if (!$found && preg_match('/' . $escapedSearchString . '/i', $item->{$field}))
+						{
+							$found = 1;
+						}
+					}
+
+					// If search string was not found in any of the fields searched remove it from results array.
+					if (!$found)
 					{
 						unset($result[$i]);
 					}
 				}
 			}
 
+			// Process ordering.
 			// Sort array object by selected ordering and selected direction. Sort is case insensative and using locale sorting.
 			$result = ArrayHelper::sortObjects($result, $listOrder, strtolower($listDirn) == 'desc' ? -1 : 1, false, true);
 
+			// Process pagination.
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 
@@ -100,6 +125,7 @@ class InstallerModel extends JModelList
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
 
+		// Process searching, ordering and pagination for regular database fields.
 		$query->order($db->quoteName($listOrder) . ' ' . $db->escape($listDirn));
 		$result = parent::_getList($query, $limitstart, $limit);
 		$this->translate($result);

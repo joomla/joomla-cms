@@ -85,7 +85,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<span class="icon-cube"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -195,7 +195,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									); ?>
 							<?php endif; ?>
 						</td>
-						<td>
+						<td class="hidden-phone">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

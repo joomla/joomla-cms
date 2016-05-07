@@ -139,6 +139,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_image_heading" type="list"
+				label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL" 
+				description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 		<field name="show_position_headings" type="list"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"

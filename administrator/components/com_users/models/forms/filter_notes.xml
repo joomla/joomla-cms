@@ -4,8 +4,8 @@
 		<field
 			name="search"
 			type="text"
-			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			label="COM_USERS_SEARCH_USER_NOTES"
+			description="COM_USERS_SEARCH_IN_NOTE_TITLE"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
@@ -25,6 +25,19 @@
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
@@ -38,12 +51,12 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
-			<option value="u.name ASC">COM_USERS_HEADING_USER_ASC</option>
-			<option value="u.name DESC">COM_USERS_HEADING_USER_DESC</option>
 			<option value="a.subject ASC">COM_USERS_HEADING_SUBJECT_ASC</option>
 			<option value="a.subject DESC">COM_USERS_HEADING_SUBJECT_DESC</option>
 			<option value="c.title ASC">COM_USERS_HEADING_CATEGORY_ASC</option>
 			<option value="c.title DESC">COM_USERS_HEADING_CATEGORY_DESC</option>
+			<option value="u.name ASC">COM_USERS_HEADING_USER_ASC</option>
+			<option value="u.name DESC">COM_USERS_HEADING_USER_DESC</option>
 			<option value="a.review_time ASC">COM_USERS_HEADING_REVIEW_ASC</option>
 			<option value="a.review_time DESC">COM_USERS_HEADING_REVIEW_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

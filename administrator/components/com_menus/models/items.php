@@ -74,6 +74,7 @@ class MenusModelItems extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
+		$user = JFactory::getUser();
 
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
@@ -93,42 +94,41 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', null);
+		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype'));
 		$menuId = 0;
 
 		if ($menuType)
 		{
-			if ($menuType != $app->getUserState($this->context . '.menutype'))
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+						->select($db->qn(array('id', 'title')))
+						->from($db->qn('#__menu_types'))
+						->where($db->qn('menutype') . '=' . $db->q($menuType));
+
+			$menuTypeItem = $db->setQuery($query)->loadObject();
+
+			// Check if menu type was changed and if valid agains ACL - "*" needs no validation
+			if (($menuType == '*' || $user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id)))
 			{
 				$app->setUserState($this->context . '.menutype', $menuType);
 				$app->input->set('limitstart', 0);
+				$this->setState('menutypetitle', !empty($menuTypeItem->title) ? $menuTypeItem->title : '');
+				$this->setState('menutypeid', !empty($menuTypeItem->id) ? $menuTypeItem->id : '');
+			}
+			// Nope, not valid
+			else
+			{
+				$menuType = '';
 			}
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.menutype');
-
-			if (!$menuType)
-			{
-				$menuType = $this->getDefaultMenuType();
-			}
+			$app->setUserState($this->context . '.menutype', '');
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
 		}
 
 		$this->setState('filter.menutype', $menuType);
-
-		if ($menuType)
-		{
-			// Get menutype title + ID
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'title')))
-				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('menutype') . " = " . $db->quote($menuType));
-			$db->setQuery($query);
-			$menuTypeItem = $db->LoadObject();
-			$this->setState('menutypetitle', $menuTypeItem->title);
-			$this->setState('menutypeid', $menuTypeItem->id);
-		}
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
@@ -165,38 +165,6 @@ class MenusModelItems extends JModelList
 		$id .= ':' . $this->getState('filter.menutype');
 
 		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Finds the default menu type.
-	 *
-	 * In the absence of better information, this is the first menu ordered by title.
-	 *
-	 * @return  string    The default menu type
-	 *
-	 * @since   1.6
-	 */
-	protected function getDefaultMenuType()
-	{
-		$user = JFactory::getUser();
-
-		// Create a new query object.
-		$query = $this->getDbo()->getQuery(true)
-			->select($this->getDbo()->qn(array('id', 'menutype')))
-			->from('#__menu_types')
-			->order('title');
-
-		$menuTypes = $this->getDbo()->setQuery($query)->loadObjectList();
-
-		foreach ($menuTypes as $type)
-		{
-			if ($user->authorise('core.manage', 'com_menus.menu.' . $type->id))
-			{
-				return $type->menutype;
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -327,11 +295,35 @@ class MenusModelItems extends JModelList
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
 
-		if (!empty($menuType))
+		// "*" means all
+		if ($menuType == '*')
+		{
+			// Load all menu types we have manage access
+			$query2 = $this->getDbo()->getQuery(true)
+				->select($this->getDbo()->qn(array('id', 'menutype')))
+				->from('#__menu_types')
+				->order('title');
+
+			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+
+			$types = array();
+
+			foreach ($menuTypes as $type)
+			{
+				if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
+				{
+					$types[] = $query->q($type->menutype);
+				}
+			}
+
+			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+		}
+		// Default behavior => load all items from a specific menu
+		elseif (strlen($menuType))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
 		}
-		// Don't show menus if no menutype is available
+		// Empty menu type => error
 		else
 		{
 			$query->where('1!=1');

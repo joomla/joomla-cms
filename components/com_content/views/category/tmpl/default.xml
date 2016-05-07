@@ -147,6 +147,7 @@
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
+        			<option value="tag">JTAG</option>
 			</field>
 
 			<field name="show_headings" type="list"

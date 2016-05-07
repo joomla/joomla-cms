@@ -49,13 +49,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<th class="hidden-phone hidden-tablet">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th class="hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th class="hidden-phone hidden-tablet">
-							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
@@ -97,13 +97,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</span>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php echo $item->client; ?>
+							<?php echo $item->client_translated; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
+							<?php echo $item->type_translated; ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+							<?php echo $item->folder_translated; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->update_site_id; ?>
