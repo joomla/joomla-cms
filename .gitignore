@@ -128,3 +128,6 @@ Desktop.ini
 /libraries/vendor/symfony/yaml/composer.json
 /libraries/vendor/symfony/yaml/phpunit.xml.dist
 /libraries/vendor/symfony/yaml/README.md
+
+# Node modules
+/node_modules/*
