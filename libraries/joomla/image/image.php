@@ -698,20 +698,22 @@ class JImage
 			JArrayHelper::toInteger($color);
 
 			// Ensure passed in values are valid
-			$color = array_filter($color, function(&$value, $i) use(&$defaultColor) {
-				if ($i === 3)
+			$color = array_filter(
+				$color, 
+				function(&$value, $i) use(&$defaultColor)
 				{
-					$value = $value > 127 ? 127 : $value;
-				}
-				else
-				{
-					$value = $value > 255 ? 255 : $value;
-				}
-
-				return true;
-
-			},
-			ARRAY_FILTER_USE_BOTH
+					if ($i === 3)
+					{
+						$value = $value > 127 ? 127 : $value;
+					}
+					else
+					{
+						$value = $value > 255 ? 255 : $value;
+					}
+	
+					return true;
+				},
+				ARRAY_FILTER_USE_BOTH
 			);
 
 			// Add missing values from the default color.
