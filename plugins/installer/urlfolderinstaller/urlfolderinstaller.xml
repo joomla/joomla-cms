@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.5" type="plugin" group="installer">
+<extension version="3.6" type="plugin" group="installer">
 	<name>PLG_INSTALLER_URLFOLDERINSTALLER</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2016</creationDate>
