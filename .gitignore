@@ -128,3 +128,11 @@ Desktop.ini
 /libraries/vendor/symfony/yaml/composer.json
 /libraries/vendor/symfony/yaml/phpunit.xml.dist
 /libraries/vendor/symfony/yaml/README.md
+/libraries/vendor/simplepie/demo
+/libraries/vendor/simplepie/tests
+/libraries/vendor/simplepie/README.markdown
+/libraries/vendor/simplepie/phpunit.xml.dist
+/libraries/vendor/simplepie/.gitignore
+/libraries/vendor/simplepie/.travis.yml
+/libraries/vendor/simplepie/compatibility_test
+/libraries/vendor/simplepie/build
