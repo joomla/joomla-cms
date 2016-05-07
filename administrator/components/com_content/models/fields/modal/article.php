@@ -49,7 +49,7 @@ class JFormFieldModal_Article extends JFormField
 
 		if ($allowEdit)
 		{
-			$script[] = '		jQuery("#' . $this->id . '_edit").removeClass("hidden");';
+			$script[] = '		jQuery("#' . $this->id . '_Edit").addClass("hidden");';
 		}
 
 		if ($allowClear)
@@ -57,7 +57,7 @@ class JFormFieldModal_Article extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jQuery("#modalArticle' . $this->id . '").modal("hide");';
+		$script[] = '		jQuery("#articleSelect' . $this->id . 'Modal").modal("hide");';
 
 		if ($this->required)
 		{
@@ -91,11 +91,13 @@ class JFormFieldModal_Article extends JFormField
 
 		// Setup variables for display.
 		$html = array();
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
+		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
+		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit';
 
 		if (isset($this->element['language']))
 		{
-			$link .= '&amp;forcedLanguage=' . $this->element['language'];
+			$linkArticles .= '&amp;forcedLanguage=' . $this->element['language'];
+			$linkArticle .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
 
 		if ((int) $this->value > 0)
@@ -133,12 +135,13 @@ class JFormFieldModal_Article extends JFormField
 			$value = (int) $this->value;
 		}
 
-		$url = $link . '&amp;' . JSession::getFormToken() . '=1';
+		$urlSelect = $linkArticles . '&amp;' . JSession::getFormToken() . '=1';
+		$urlEdit = $linkArticle . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
 		// The current article display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title . '" disabled="disabled" size="35" />';
-		$html[] = '<a href="#modalArticle' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal" title="'
+		$html[] = '<a href="#articleSelect' . $this->id . 'Modal" class="btn hasTooltip" role="button" data-toggle="modal" title="'
 			. JHtml::tooltipText('COM_CONTENT_CHANGE_ARTICLE') . '">'
 			. '<span class="icon-file"></span> '
 			. JText::_('JSELECT') . '</a>';
@@ -146,9 +149,10 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden')
-				. '" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value . '" target="_blank" title="'
-				. JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a id="' . $this->id . '_Edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip" role="button" data-toggle="modal" title="'
+				. JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
+				. '<span class="icon-edit"></span> '
+				. JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear article button
@@ -172,16 +176,34 @@ class JFormFieldModal_Article extends JFormField
 
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
-			'modalArticle' . $this->id,
+			'articleSelect' . $this->id . 'Modal',
 			array(
-				'url' => $url,
+				'url' => $urlSelect,
 				'title' => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
 				'width' => '800px',
-				'height' => '300px',
+				'height' => '400px',
 				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
+
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'articleEdit' . $this->id . 'Modal',
+			array(
+				'url' => $urlEdit,
+				'title' => JText::_('COM_CONTENT_EDIT_ARTICLE'),
+				'width' => '800px',
+				'height' => '400px',
+				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+					. ' onclick="jQuery(\'#articleEdit' . $this->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+					. '<button type="button" class="btn btn-success" data-dismiss="modal" aria-hidden="true"'
+					. ' onclick="jQuery(\'#articleEdit' . $this->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+					. JText::_("JSAVE") . '</button>'
+			)
+		);
+
 		return implode("\n", $html);
 	}
 
