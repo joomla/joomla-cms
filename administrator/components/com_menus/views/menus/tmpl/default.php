@@ -109,16 +109,16 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>
-							<?php if ($canManageItems) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
+							<?php if ($canEdit) : ?>
+							<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 								<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 							<div class="small">
 								<?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
-								<?php if ($canEdit) : ?>
-									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>" title="<?php echo $this->escape($item->description); ?>">
+								<?php if ($canManageItems) : ?>
+									<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
 									<?php echo $this->escape($item->menutype); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->menutype); ?>
