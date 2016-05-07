@@ -57,6 +57,9 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 						</th>
+						<th class="nowrap hidden-phone">
+							<?php echo JText::_('COM_USERS_USER_GROUPS_HAVING_ACCESS'); ?>
+						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -107,6 +110,9 @@ if ($saveOrder)
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
+						</td>
+						<td class="hidden-phone">
+							<?php echo UsersHelper::getVisibleByGroups($item->rules); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
