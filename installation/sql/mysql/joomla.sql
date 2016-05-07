@@ -1245,18 +1245,11 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
   KEY `idx_menutype` (`menutype`),
   KEY `idx_left_right` (`lft`,`rgt`),
-<<<<<<< HEAD
-  KEY `idx_alias` (`alias`),
-  KEY `idx_path` (`path`(255)),
-  KEY `idx_language` (`language`),
-  KEY 'idx_client_id_published_lft' ('client_id','published','lft')
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102;
-=======
   KEY `idx_alias` (`alias`(100)),
   KEY `idx_path` (`path`(100)),
-  KEY `idx_language` (`language`)
+  KEY `idx_language` (`language`),
+  KEY 'idx_client_id_published_lft' ('client_id','published','lft')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=102;
->>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__menu`
