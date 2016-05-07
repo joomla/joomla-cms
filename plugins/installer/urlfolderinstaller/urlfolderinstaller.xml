@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.6" type="plugin" group="installer">
-	<name>PLG_INSTALLER_URLFOLDERINSTALLER</name>
+	<name>plg_installer_urlfolderinstaller</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2016</creationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
