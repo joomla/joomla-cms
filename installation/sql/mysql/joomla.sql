@@ -483,14 +483,9 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   PRIMARY KEY (`extension_id`),
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
-<<<<<<< HEAD
   KEY `extension` (`type`,`element`,`folder`,`client_id`),
   KEY 'idx_type_ordering' ('type','ordering')
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
-=======
-  KEY `extension` (`type`,`element`,`folder`,`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=10000;
->>>>>>> 5f03cec685fcfbe203457828a24ef41f611eba15
 
 --
 -- Dumping data for table `#__extensions`
