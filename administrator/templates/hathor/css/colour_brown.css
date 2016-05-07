@@ -860,6 +860,7 @@ table.adminlist {
 	color: #2c2c2c;
 }
 table.adminlist.modal {
+	border-top: 1px solid #000000;
 	border-right: 1px solid #000000;
 	border-left: 1px solid #000000;
 }

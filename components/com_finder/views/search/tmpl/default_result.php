@@ -22,7 +22,7 @@ if ($show_description)
 	$pad_length = $term_length < $desc_length ? floor(($desc_length - $term_length) / 2) : 0;
 
 	// Find the position of the search term
-	$pos = JString::strpos(JString::strtolower($this->result->description), JString::strtolower($this->query->input));
+	$pos = $term_length ? JString::strpos(JString::strtolower($this->result->description), JString::strtolower($this->query->input)) : false;
 
 	// Find a potential start point
 	$start = ($pos && $pos > $pad_length) ? $pos - $pad_length : 0;

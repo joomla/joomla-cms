@@ -254,7 +254,7 @@ abstract class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns the global {@link JCache} object
+	 * Returns the global {@link JCacheController} object
 	 *
 	 * @param   string  $group    The cache group name
 	 * @param   string  $handler  The handler to use
@@ -671,8 +671,26 @@ abstract class JFactory
 		// Create a JMail object
 		$mail = JMail::getInstance();
 
-		// Set default sender without Reply-to
-		$mail->SetFrom(JMailHelper::cleanLine($mailfrom), JMailHelper::cleanLine($fromname), 0);
+		// Clean the email address
+		$mailfrom = JMailHelper::cleanLine($mailfrom);
+
+		// Set default sender without Reply-to if the mailfrom is a valid address
+		if (JMailHelper::isEmailAddress($mailfrom))
+		{
+			// Wrap in try/catch to catch phpmailerExceptions if it is throwing them
+			try
+			{
+				// Check for a false return value if exception throwing is disabled
+				if ($mail->setFrom($mailfrom, JMailHelper::cleanLine($fromname), false) === false)
+				{
+					JLog::add(__METHOD__ . '() could not set the sender data.', JLog::WARNING, 'mail');
+				}
+			}
+			catch (phpmailerException $e)
+			{
+				JLog::add(__METHOD__ . '() could not set the sender data.', JLog::WARNING, 'mail');
+			}
+		}
 
 		// Default mailer is to use PHP's mail function
 		switch ($mailer)
@@ -682,11 +700,11 @@ abstract class JFactory
 				break;
 
 			case 'sendmail':
-				$mail->IsSendmail();
+				$mail->isSendmail();
 				break;
 
 			default:
-				$mail->IsMail();
+				$mail->isMail();
 				break;
 		}
 

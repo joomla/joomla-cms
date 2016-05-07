@@ -10,6 +10,11 @@
 			readonly="true"/>
 
 		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset" />
+
+		<field
 			id="menutype"
 			name="menutype"
 			type="text"
@@ -37,6 +42,16 @@
 			description="COM_MENUS_MENU_DESCRIPTION_DESC"
 			size="30"
 			maxlength="255" />
+
+		<field
+			name="rules"
+			type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			filter="rules"
+			component="com_menus"
+			section="menu"
+			validate="rules" />
 
 	</fieldset>
 </form>

@@ -251,6 +251,7 @@ class AdminModelSysInfo extends JModelLegacy
 			'zip'                => function_exists('zip_open') && function_exists('zip_read'),
 			'mbstring'           => extension_loaded('mbstring'),
 			'iconv'              => function_exists('iconv'),
+			'mcrypt'             => extension_loaded('mcrypt'),
 			'max_input_vars'     => ini_get('max_input_vars'),
 		);
 
@@ -463,10 +464,11 @@ class AdminModelSysInfo extends JModelLegacy
 			$installed[$extension->name] = array(
 				'name'         => $extension->name,
 				'type'         => $extension->type,
+				'state'        => $extension->enabled ? JText::_('JENABLED') : JText::_('JDISABLED'),
 				'author'       => 'unknown',
 				'version'      => 'unknown',
 				'creationDate' => 'unknown',
-				'authorUrl'    => 'unknown'
+				'authorUrl'    => 'unknown',
 			);
 
 			$manifest = json_decode($extension->manifest_cache);
@@ -480,7 +482,7 @@ class AdminModelSysInfo extends JModelLegacy
 				'author'       => $manifest->author,
 				'version'      => $manifest->version,
 				'creationDate' => $manifest->creationDate,
-				'authorUrl'    => $manifest->authorUrl
+				'authorUrl'    => $manifest->authorUrl,
 			);
 
 			$installed[$extension->name] = array_merge($installed[$extension->name], $extraData);

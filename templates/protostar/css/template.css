@@ -2805,7 +2805,7 @@ input[type="submit"].btn.btn-mini {
 	color: #c09853;
 }
 .alert h4 {
-  margin: 0 0 .5em;
+	margin: 0 0 .5em;
 }
 .alert .close {
 	position: relative;
@@ -7059,6 +7059,7 @@ h4,
 h5,
 h6 {
 	margin: 12px 0;
+	word-wrap: break-word;
 }
 h1 {
 	font-size: 26px;
@@ -7088,6 +7089,9 @@ h6 {
 	padding-bottom: 17px;
 	margin: 20px 0 18px 0;
 	border-bottom: 1px solid #eeeeee;
+}
+p {
+	word-wrap: break-word;
 }
 .item-title {
 	margin-bottom: 9px;
@@ -7497,6 +7501,12 @@ code {
 	font-weight: bold;
 	padding: 1px 4px;
 }
+dt.result-title {
+	word-wrap: break-word;
+}
+dd.result-text {
+	word-wrap: break-word;
+}
 body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
@@ -7521,12 +7531,9 @@ body.modal-open {
 .well .chzn-container {
 	max-width: 100%;
 }
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
+.container-popup {
+	padding: 28px 10px 10px 10px;
 }
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
+li {
+	word-wrap: break-word;
 }
