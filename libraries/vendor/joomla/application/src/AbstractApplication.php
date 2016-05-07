@@ -62,6 +62,11 @@ abstract class AbstractApplication implements LoggerAwareInterface
 		$this->input = $input instanceof Input ? $input : new Input;
 		$this->config = $config instanceof Registry ? $config : new Registry;
 
+		// Set the execution datetime and timestamp;
+		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
+		$this->set('execution.timestamp', time());
+		$this->set('execution.microtimestamp', microtime(true));
+
 		$this->initialise();
 	}
 

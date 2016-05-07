@@ -83,7 +83,11 @@ class JFormFieldFilters extends JFormField
 			$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $group->level) . $group->text;
 			$html[] = '		</th>';
 			$html[] = '		<td>';
-			$html[] = '				<select name="' . $this->name . '[' . $group->value . '][filter_type]" id="' . $this->id . $group->value . '_filter_type">';
+			$html[] = '				<select'
+				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
+				. ' id="' . $this->id . $group->value . '_filter_type"'
+				. ' class="novalidate"'
+				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
 				. JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
@@ -100,7 +104,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
-				. ' id="' . $this->id . $group->value . '_filter_tags"'
+				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
 				. ' value="' . $group_filter['filter_tags'] . '"'
 				. '/>';
@@ -109,7 +113,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
-				. ' id="' . $this->id . $group->value . '_filter_attributes"'
+				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
 				. ' value="' . $group_filter['filter_attributes'] . '"'
 				. '/>';
