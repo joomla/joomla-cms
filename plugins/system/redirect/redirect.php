@@ -127,7 +127,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
 			$query = $db->getQuery(true)
-				->select($db->quoteName('new_url'))
+				->select($db->quoteName(array('new_url', 'header')))
 				->select($db->quoteName('published'))
 				->from($db->quoteName('#__redirect_links'))
 				->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));
