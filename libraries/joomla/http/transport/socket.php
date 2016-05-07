@@ -137,6 +137,12 @@ class JHttpTransportSocket implements JHttpTransport
 			$request[] = $data;
 		}
 
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
+		}
+
 		// Send the request to the server.
 		fwrite($connection, implode("\r\n", $request) . "\r\n\r\n");
 

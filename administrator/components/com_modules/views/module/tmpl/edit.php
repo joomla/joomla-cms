@@ -48,9 +48,11 @@ $script .= "
 						var updPosition = jQuery('#jform_position').chosen().val(),
 							updTitle = jQuery('#jform_title').val(),
 							updMenus = jQuery('#jform_assignment').chosen().val(),
+							updStatus = jQuery('#jform_published').chosen().val(),
 							updAccess = jQuery('#jform_access').chosen().val(),
 							tmpMenu = jQuery('#menus-" . $this->item->id . "', parent.document),
 							tmpRow = jQuery('#tr-" . $this->item->id . "', parent.document);
+							tmpStatus = jQuery('#status-" . $this->item->id . "', parent.document);
 							window.parent.inMenus = new Array();
 							window.parent.numMenus = jQuery(':input[name=\"jform[assigned][]\"]').length;
 
@@ -118,7 +120,18 @@ $script .= "
 								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
-
+						if (updStatus == 1) {
+							tmpStatus.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
+						}
+						if (updStatus == 0) {
+							tmpStatus.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
+						}
+						if (updStatus == -2) {
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
+							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
+						}
 							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
