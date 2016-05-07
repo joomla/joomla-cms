@@ -48,7 +48,7 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 	<?php endif; ?>
 </div>
 <?php else : ?>
-    <div class="row-fluid">
-        <p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST') ?></p>
-    </div>
+<div class="row-fluid">
+	<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST') ?></p>
+</div>
 <?php endif; ?>
