@@ -224,7 +224,7 @@ if (file_exists($rootPath . $languagePackXmlFile))
 if (file_exists($rootPath . $antJobFile))
 {
 	$fileContents = file_get_contents($rootPath . $antJobFile);
-	$fileContents = preg_replace('#<arg value="Joomla! CMS [^<]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
+	$fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
 	file_put_contents($rootPath . $antJobFile, $fileContents);
 }
 
