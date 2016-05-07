@@ -309,6 +309,10 @@ abstract class JHtmlFilter
 					->where('t.access IN (' . $groups . ')')
 					->order('t.ordering, t.title');
 
+				// Self-join to get the parent title.
+				$query->select('e.title AS parent_title')
+					->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
+
 				// Limit the nodes to a predefined filter.
 				if (!empty($filter->data))
 				{
@@ -331,11 +335,16 @@ abstract class JHtmlFilter
 				$language = JFactory::getLanguage();
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					$key = FinderHelperLanguage::branchPlural($node->title);
-					if ($language->hasKey($key))
+					if (trim($node->parent_title, '**') == 'Language')
 					{
-						$branches[$bk]->nodes[$node_id]->title = JText::_($key);
+						$title = FinderHelperLanguage::branchLanguageTitle($node->title);
 					}
+					else
+					{
+						$key = FinderHelperLanguage::branchPlural($node->title);
+						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
+					}
+					$branches[$bk]->nodes[$node_id]->title = $title;
 				}
 
 				// Add the Search All option to the branch.
