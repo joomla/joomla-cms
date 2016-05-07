@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -253,13 +253,6 @@ class ModulesModelModule extends JModelAdmin
 				}
 
 				$table->position = $position;
-
-				// Alter the title if necessary
-				$data = $this->generateNewTitle(0, $table->title, $table->position);
-				$table->title = $data['0'];
-
-				// Unpublish the moved module
-				$table->published = 0;
 
 				if (!$table->store())
 				{
@@ -602,12 +595,17 @@ class ModulesModelModule extends JModelAdmin
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
 
-			// This allows us to inject parameter settings into a new module.
-			$params = $app->getUserState('com_modules.add.module.params');
-
-			if (is_array($params))
+			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
+			if (empty($data->params))
 			{
-				$data->set('params', $params);
+
+				// This allows us to inject parameter settings into a new module.
+				$params = $app->getUserState('com_modules.add.module.params');
+
+				if (is_array($params))
+				{
+					$data->set('params', $params);
+				}
 			}
 		}
 

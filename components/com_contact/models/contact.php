@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -166,11 +166,11 @@ class ContactModelContact extends JModelForm
 				$query->select($this->getState('item.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
 					->from('#__contact_details AS a')
 
-				// Join on category table.
+					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->join('LEFT', '#__categories AS c on c.id = a.catid')
 
-				// Join over the categories to get parent category titles
+					// Join over the categories to get parent category titles
 					->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
@@ -446,7 +446,7 @@ class ContactModelContact extends JModelForm
 
 				if (empty($result))
 				{
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					return false;
 				}
 			}
 			catch (Exception $e)
@@ -507,10 +507,7 @@ class ContactModelContact extends JModelForm
 					// Filter per language if plugin published
 					if (JLanguageMultilang::isEnabled())
 					{
-						$query->where(
-							('a.created_by = ' . (int) $result->user_id) . ' AND ' .
-							('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
-						);
+						$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
 					if (is_numeric($published))

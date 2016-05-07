@@ -673,26 +673,10 @@ CREATE TABLE [#__contentitem_tag_map](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-CREATE NONCLUSTERED INDEX [idx_tag_name] ON [#__contentitem_tag_map]
-(
-	[tag_id] ASC,
-	[type_alias] ASC
-)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
 CREATE NONCLUSTERED INDEX [idx_date_id] ON [#__contentitem_tag_map]
 (
 	[tag_date] ASC,
 	[tag_id] ASC
-)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX [idx_tag] ON [#__contentitem_tag_map]
-(
-	[tag_id] ASC
-)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
-CREATE NONCLUSTERED INDEX [idx_type] ON [#__contentitem_tag_map]
-(
-	[type_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_core_content_id] ON [#__contentitem_tag_map]
@@ -1011,7 +995,13 @@ SELECT 449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0
 UNION ALL
 SELECT 450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 451, 'plg_search_tags', 'plugin', 'tags', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","show_tagged_items":"1"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 452, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 453, 'plg_editors-xtd_module', 'plugin', 'module', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 454, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
@@ -1999,15 +1989,13 @@ SELECT 6, 'menu', 'com_banners_tracks', 'Tracks', '', 'Banners/Tracks', 'index.p
 UNION ALL
 SELECT 7, 'menu', 'com_contact', 'Contacts', '', 'Contacts', 'index.php?option=com_contact', 'component', 0, 1, 1, 8, 0, '1900-01-01 00:00:00', 0, 0, 'class:contact', 0, '', 11, 16, 0, '*', 1
 UNION ALL
-SELECT 8, 'menu', 'com_contact', 'Contacts', '', 'Contacts/Contacts', 'index.php?option=com_contact', 'component', 0, 7, 2, 8, 0, '1900-01-01 00:00:00', 0, 0, 'class:contact', 0, '', 12, 13, 0, '*', 1
+SELECT 8, 'menu', 'com_contact_contacts', 'Contacts', '', 'Contacts/Contacts', 'index.php?option=com_contact', 'component', 0, 7, 2, 8, 0, '1900-01-01 00:00:00', 0, 0, 'class:contact', 0, '', 12, 13, 0, '*', 1
 UNION ALL
 SELECT 9, 'menu', 'com_contact_categories', 'Categories', '', 'Contacts/Categories', 'index.php?option=com_categories&extension=com_contact', 'component', 0, 7, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:contact-cat', 0, '', 14, 15, 0, '*', 1
 UNION ALL
 SELECT 10, 'menu', 'com_messages', 'Messaging', '', 'Messaging', 'index.php?option=com_messages', 'component', 0, 1, 1, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages', 0, '', 17, 22, 0, '*', 1
 UNION ALL
 SELECT 11, 'menu', 'com_messages_add', 'New Private Message', '', 'Messaging/New Private Message', 'index.php?option=com_messages&task=message.add', 'component', 0, 10, 2, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1
-UNION ALL
-SELECT 12, 'menu', 'com_messages_read', 'Read Private Message', '', 'Messaging/Read Private Message', 'index.php?option=com_messages', 'component', 0, 10, 2, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages-read', 0, '', 20, 21, 0, '*', 1
 UNION ALL
 SELECT 13, 'menu', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 1, 1, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0, '*', 1
 UNION ALL
@@ -2167,7 +2155,7 @@ SELECT 15, 49, 'Title', '', '', 1, 'title', 0, '1900-01-01 00:00:00', '1900-01-0
 UNION ALL
 SELECT 16, 50, 'Login Form', '', '', 7, 'position-7', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'
 UNION ALL
-SELECT 17, 51, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'
+SELECT 17, 51, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'
 UNION ALL
 SELECT 79, 52, 'Multilanguage status', '', '', 1, 'status', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
 UNION ALL
@@ -2338,16 +2326,18 @@ CREATE TABLE [#__postinstall_messages] (
 INSERT INTO [#__postinstall_messages] ([extension_id], [title_key], [description_key], [action_key], [language_extension], [language_client_id], [type], [action_file], [action], [condition_file], [condition_method], [version_introduced], [enabled])
 SELECT 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1
 UNION ALL
-SELECT 700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1;
+SELECT 700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1
+UNION ALL
+SELECT 700, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1;
 
 /****** Object:  Table [#__redirect_links] ******/
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__redirect_links](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
-	[old_url] [nvarchar](255) NOT NULL,
-	[new_url] [nvarchar](255),
-	[referer] [nvarchar](150) NOT NULL,
+	[old_url] [nvarchar](2048) NOT NULL,
+	[new_url] [nvarchar](2048),
+	[referer] [nvarchar](2048) NOT NULL,
 	[comment] [nvarchar](255) NOT NULL,
 	[hits] [bigint] NOT NULL DEFAULT 0,
 	[published] [smallint] NOT NULL,
@@ -2358,11 +2348,12 @@ CREATE TABLE [#__redirect_links](
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY],
- CONSTRAINT [#__redirect_links$idx_link_old] UNIQUE NONCLUSTERED
+) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX [idx_old_url] ON [#__redirect_links]
 (
 	[old_url] ASC
-)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY];
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 CREATE NONCLUSTERED INDEX [idx_link_modifed] ON [#__redirect_links]
 (
@@ -2720,13 +2711,13 @@ CREATE TABLE [#__update_sites](
 SET IDENTITY_INSERT [#__update_sites] ON;
 
 INSERT INTO [#__update_sites] ([update_site_id], [name], [type], [location], [enabled], [last_check_timestamp])
-SELECT 1, 'Joomla! Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0
+SELECT 1, 'Joomla! Core', 'collection', 'https://update.joomla.org/core/list.xml', 1, 0
 UNION ALL
-SELECT 2, 'Joomla! Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0
+SELECT 2, 'Joomla! Extension Directory', 'collection', 'https://update.joomla.org/jed/list.xml', 1, 0
 UNION ALL
-SELECT 3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0
+SELECT 3, 'Accredited Joomla! Translations', 'collection', 'https://update.joomla.org/language/translationlist_3.xml', 1, 0
 UNION ALL
-SELECT 4, 'Joomla! Update Component Update Site', 'extension', 'http://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0;
+SELECT 4, 'Joomla! Update Component Update Site', 'extension', 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml', 1, 0;
 
 SET IDENTITY_INSERT [#__update_sites] OFF;
 

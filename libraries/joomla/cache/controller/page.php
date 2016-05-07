@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,19 +17,25 @@ defined('JPATH_PLATFORM') or die;
 class JCacheControllerPage extends JCacheController
 {
 	/**
-	 * @var    integer  ID property for the cache page object.
+	 * ID property for the cache page object.
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
-	 * @var    string  Cache group
+	 * Cache group
+	 *
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
-	 * @var    object  Cache lock test
+	 * Cache lock test
+	 *
+	 * @var    stdClass
 	 * @since  11.1
 	 */
 	protected $_locktest = null;
@@ -37,10 +43,10 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Get the cached page data
 	 *
-	 * @param   boolean  $id     The cache data id
+	 * @param   boolean  $id     The cache data ID
 	 * @param   string   $group  The cache data group
 	 *
-	 * @return  boolean  True if the cache is hit (false else)
+	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
 	 * @since   11.1
 	 */
@@ -71,8 +77,8 @@ class JCacheControllerPage extends JCacheController
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
 
-		$this->_locktest = new stdClass;
-		$this->_locktest->locked = null;
+		$this->_locktest             = new stdClass;
+		$this->_locktest->locked     = null;
 		$this->_locktest->locklooped = null;
 
 		if ($data === false)
@@ -101,7 +107,7 @@ class JCacheControllerPage extends JCacheController
 			return $data;
 		}
 
-		// Set id and group placeholders
+		// Set ID and group placeholders
 		$this->_id    = $id;
 		$this->_group = $group;
 
@@ -112,11 +118,11 @@ class JCacheControllerPage extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @param   mixed    $data        The data to store
-	 * @param   string   $id          The cache data id
+	 * @param   string   $id          The cache data ID
 	 * @param   string   $group       The cache data group
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
-	 * @return  boolean  True if cache stored
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -145,7 +151,8 @@ class JCacheControllerPage extends JCacheController
 			if ($wrkarounds)
 			{
 				$data = JCache::setWorkarounds(
-					$data, array(
+					$data,
+					array(
 						'nopathway' => 1,
 						'nohead'    => 1,
 						'nomodules' => 1,
@@ -175,11 +182,10 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @return  string  MD5 Hash : page cache id
+	 * @return  string  MD5 Hash
 	 *
 	 * @since   11.1
-	 * @todo    Discuss whether this should be coupled to a data hash or a request
-	 * hash ... perhaps hashed with a serialized request
+	 * @todo    Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
 	{
@@ -187,8 +193,7 @@ class JCacheControllerPage extends JCacheController
 	}
 
 	/**
-	 * There is no change in page data so send an
-	 * unmodified header and die gracefully
+	 * There is no change in page data so send an unmodified header and die gracefully
 	 *
 	 * @return  void
 	 *

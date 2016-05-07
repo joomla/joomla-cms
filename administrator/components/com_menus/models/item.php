@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -685,6 +685,21 @@ class MenusModelItem extends JModelAdmin
 			// Note that all request arguments become reserved parameter names.
 			$result->request = $args;
 			$result->params = array_merge($result->params, $args);
+
+			// Special case for the Login menu item.
+			// Display the login or logout redirect URL fields if not empty
+			if ($table->link == 'index.php?option=com_users&view=login')
+			{
+				if (!empty($result->params['login_redirect_url']))
+				{
+					$result->params['loginredirectchoice'] = '0';
+				}
+
+				if (!empty($result->params['logout_redirect_url']))
+				{
+					$result->params['logoutredirectchoice'] = '0';
+				}
+			}
 		}
 
 		if ($table->type == 'alias')
@@ -1067,6 +1082,7 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('name', $tag);
 					$field->addAttribute('type', 'menuitem');
 					$field->addAttribute('language', $tag);
+					$field->addAttribute('disable', 'separator,alias,heading,url');
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
@@ -1284,9 +1300,12 @@ class MenusModelItem extends JModelAdmin
 			// Adding self to the association
 			$associations = $data['associations'];
 
+			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
 			foreach ($associations as $tag => $id)
 			{
-				if (empty($id))
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -1330,7 +1349,7 @@ class MenusModelItem extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

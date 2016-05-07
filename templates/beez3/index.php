@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  * 
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,6 +64,14 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js', 'text/javascript');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js', 'text/javascript');
 $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js', 'text/javascript');
+
+// Check for a custom CSS file
+$userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
+
+if (file_exists($userCss) && filesize($userCss) > 0)
+{
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
+}
 
 ?>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,12 +38,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select">
-			<label class="selectlabel" for="filter_client_id">
+			<label class="selectlabel" for="client_id">
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" id="filter_client_id">
-				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			<select name="client_id" id="client_id">
+				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
 			</select>
 
 			<button type="submit" id="filter-go">

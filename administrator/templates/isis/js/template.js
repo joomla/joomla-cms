@@ -1,7 +1,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -54,6 +54,106 @@
 			});
 
 		});
+
+		/**
+		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
+		 */
+		var menuScroll = $('#menu > li > ul')
+		var emptyMenu  = $('#nav-empty');
+		var menuWidth;
+
+		$('#menu > li > a').on('click mouseenter', function() {
+
+			menuWidth = $(this).next('ul').outerWidth();
+			emptyMenu.empty().hide();
+
+		});
+
+		menuScroll.find('.dropdown-submenu > a').on('mouseenter', function() {
+
+			var $self    = $(this);
+			var dropdown = $self.next('.dropdown-menu');
+			var offset   = $self.offset();
+			var scroll   = $(window).scrollTop() + 5;
+			var width    = menuWidth - 13;
+
+			// Set the submenu position
+			if ($('html').attr('dir') == 'rtl')
+			{
+				emptyMenu.css({
+					top : offset.top - scroll,
+					left: offset.left - width
+				});
+			}
+			else
+			{
+				emptyMenu.css({
+					top : offset.top - scroll,
+					left: offset.left + width
+				});
+			}
+
+			// Append items to empty <ul> and show it
+			dropdown.hide();
+			emptyMenu.show().html(dropdown.html());
+
+		});
+		menuScroll.find('a.no-dropdown').on('mouseenter', function() {
+
+			emptyMenu.empty().hide();
+
+		});
+		$(document).on('click', function() {
+
+			emptyMenu.empty().hide();
+
+		});
+
+		/**
+		 * USED IN: All views with toolbar and sticky bar enabled
+		 */
+		var navTop;
+		var isFixed = false;
+
+
+		if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
+			processScrollInit();
+			processScroll();
+
+			$(window).on('resize', processScrollInit);
+			$(window).on('scroll', processScroll);
+		}
+
+		function processScrollInit() {
+			if ($('.subhead').length) {
+				navTop = $('.subhead').length && $('.subhead').offset().top - parseInt(document.getElementById('isisJsData').getAttribute('data-tmpl-offset'));
+
+				// Fix the container top
+				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+
+				// Only apply the scrollspy when the toolbar is not collapsed
+				if (document.body.clientWidth > 480) {
+					$('.subhead-collapse').height($('.subhead').height());
+					$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
+				}
+			}
+		}
+
+		function processScroll() {
+			if ($('.subhead').length) {
+				var scrollTop = $(window).scrollTop();
+				if (scrollTop >= navTop && !isFixed) {
+					isFixed = true;
+					$('.subhead').addClass('subhead-fixed');
+
+					// Fix the container top
+					$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
+				} else if (scrollTop <= navTop && isFixed) {
+					isFixed = false;
+					$('.subhead').removeClass('subhead-fixed');
+				}
+			}
+		}
 
 		/**
 		 * USED IN: All list views to hide/show the sidebar

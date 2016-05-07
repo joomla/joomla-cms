@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -215,6 +215,12 @@ class UsersModelProfile extends JModelForm
 			$form->setFieldAttribute('username', 'required', 'false');
 		}
 
+		// When multilanguage is set, a user's default site language should also be a Content Language
+		if (JLanguageMultilang::isEnabled())
+		{
+			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
+		}
+
 		// If the user needs to change their password, mark the password fields as required
 		if (JFactory::getUser()->requireReset)
 		{
@@ -392,8 +398,9 @@ class UsersModelProfile extends JModelForm
 		// Load the users plugin group.
 		JPluginHelper::importPlugin('user');
 
-		// Null the user groups so they don't get overwritten
-		$user->groups = null;
+		// Retrieve the user groups so they don't get overwritten
+		unset ($user->groups);
+		$user->groups = JAccess::getGroupsByUser($user->id, false);
 
 		// Store the data.
 		if (!$user->save())

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,10 @@ class FinderModelMaps extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'state', 'a.state',
-				'title', 'a.title'
+				'title', 'a.title',
+				'branch',
+				'branch_title', 'd.branch_title',
+				'level', 'd.level',
 			);
 		}
 
@@ -156,50 +159,83 @@ class FinderModelMaps extends JModelList
 	protected function getListQuery()
 	{
 		$db = $this->getDbo();
+
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
 		$query->select('a.*')
-			->from($db->quoteName('#__finder_taxonomy') . ' AS a');
+			->from($db->quoteName('#__finder_taxonomy', 'a'))
+			->where($db->quoteName('a.parent_id') . ' <> 0');
 
 		// Self-join to get children.
 		$query->select('COUNT(b.id) AS num_children')
-			->join('LEFT', $db->quoteName('#__finder_taxonomy') . ' AS b ON b.parent_id=a.id');
+			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->quoteName('b.parent_id') . ' = ' . $db->quoteName('a.id'));
 
 		// Join to get the map links
 		$query->select('COUNT(c.node_id) AS num_nodes')
-			->join('LEFT', $db->quoteName('#__finder_taxonomy_map') . ' AS c ON c.node_id=a.id')
+			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'c') . ' ON ' . $db->quoteName('c.node_id') . ' = ' . $db->quoteName('a.id'))
 			->group('a.id, a.parent_id, a.title, a.state, a.access, a.ordering');
 
+		// Calculate levels.
+		$levelQuery = $db->getQuery(true);
+		$levelQuery->select('title AS branch_title, 1 as level')
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('parent_id') . ' = 1');
+		$levelQuery2 = $db->getQuery(true);
+		$levelQuery2->select('b.title AS branch_title, 2 as level')
+			->select($db->quoteName('a.id'))
+			->from($db->quoteName('#__finder_taxonomy', 'a'))
+			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'b') . ' ON ' . $db->quoteName('a.parent_id') . ' = ' . $db->quoteName('b.id'))
+			->where($db->quoteName('a.parent_id') . ' NOT IN (0, 1)');
+
+		$levelQuery->union($levelQuery2);
+
+		// Join to get the levels.
+		$query->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->quoteName('d.id') . ' = ' . $db->quoteName('a.id'));
+
 		// If the model is set to check item state, add to the query.
-		if (is_numeric($this->getState('filter.state')))
+		$state = $this->getState('filter.state');
+
+		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $this->getState('filter.state'));
+			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
+		}
+
+		// Filter over level.
+		$level = $this->getState('filter.level');
+
+		if (is_numeric($level) && (int) $level === 1)
+		{
+			$query->where($db->quoteName('d.level') . ' = 1');
 		}
 
 		// Filter the maps over the branch if set.
-		$branch_id = $this->getState('filter.branch');
+		$branchId = $this->getState('filter.branch');
 
-		if (!empty($branch_id))
+		if (is_numeric($branchId))
 		{
-			$query->where('a.parent_id = ' . (int) $branch_id);
+			$query->where($db->quoteName('a.parent_id') . ' = ' . (int) $branchId);
 		}
 
 		// Filter the maps over the search string if set.
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = $this->getState('filter.search'))
 		{
-			$query->where('a.title LIKE ' . $db->quote('%' . $search . '%'));
+			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+			$query->where($db->quoteName('a.title') . ' LIKE ' . $search);
 		}
 
 		// Handle the list ordering.
-		$ordering = $this->getState('list.ordering');
-		$direction = $this->getState('list.direction');
+		$listOrdering = $db->escape($this->getState('list.ordering', 'd.branch_title'));
+		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
-		if (!empty($ordering))
+		if ($listOrdering == 'd.branch_title')
 		{
-			$query->order($db->escape($ordering) . ' ' . $db->escape($direction));
+			$query->order('d.branch_title ' . $listDirn . ', d.level ASC, a.title ' . $listDirn);
+		}
+		elseif ($listOrdering == 'a.state')
+		{
+			$query->order('a.state ' . $listDirn . ', d.branch_title ' . $listDirn . ', d.level ASC');
 		}
 
 		return $query;
@@ -221,9 +257,10 @@ class FinderModelMaps extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.branch');
+		$id .= ':' . $this->getState('filter.level');
 
 		return parent::getStoreId($id);
 	}
@@ -254,24 +291,20 @@ class FinderModelMaps extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'd.branch_title', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
-
-		$branch = $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '1', 'string');
-		$this->setState('filter.branch', $branch);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
+		$this->setState('filter.branch', $this->getUserStateFromRequest($this->context . '.filter.branch', 'filter_branch', '', 'cmd'));
+		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_finder');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

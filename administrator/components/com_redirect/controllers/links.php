@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,47 @@ class RedirectControllerLinks extends JControllerAdmin
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment))
+			{
+				JError::raiseWarning(500, $model->getError());
+			}
+			else
+			{
+				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_redirect&view=links');
+	}
+
+	/**
+	 * Method to duplicate URLs in records.
+	 *
+	 * @return  void.
+	 *
+	 * @since   3.6.0
+	 */
+	public function duplicateUrls()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$ids     = $this->input->get('cid', array(), 'array');
+		$newUrl  = $this->input->getString('new_url');
+		$comment = $this->input->getString('comment');
+
+		if (empty($ids))
+		{
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
+		}
+		else
+		{
+			// Get the model.
+			$model = $this->getModel();
+
+			JArrayHelper::toInteger($ids);
+
+			// Remove the items.
+			if (!$model->duplicateUrls($ids, $newUrl, $comment))
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
@@ -111,4 +152,28 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_redirect&view=links');
 	}
+
+	/**
+	 * Clean out the unpublished links.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function purge()
+	{
+		$model = $this->getModel('Links');
+
+		if ($model->purge())
+		{
+			$message = JText::_('COM_REDIRECT_CLEAR_SUCCESS');
+		}
+		else
+		{
+			$message = JText::_('COM_REDIRECT_CLEAR_FAIL');
+		}
+
+		$this->setRedirect('index.php?option=com_redirect&view=links', $message);
+	}
+
 }

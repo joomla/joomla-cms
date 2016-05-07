@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.4" client="installation">
+<metafile version="3.6" client="installation">
 	<name>Japanese 日本語 (Japan)</name>
-	<version>3.4.4</version>
-	<creationDate>2015-09-07</creationDate>
-	<author>JOOMLA.JP</author>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<version>3.6.0</version>
+	<creationDate>May 2016</creationDate>
+	<author>Joomla.jp</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>ja-JP.ini</filename>
 	</files>

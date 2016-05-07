@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,14 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 * @since  11.1
 	 */
 	protected $type = 'Checkboxes';
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.5
+	 */
+	protected $layout = 'joomla.form.field.checkboxes';
 
 	/**
 	 * Flag to tell the field to always be in multiple values mode.
@@ -90,9 +98,26 @@ class JFormFieldCheckboxes extends JFormFieldList
 	}
 
 	/**
+	 * Method to get the radio button field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
+	protected function getInput()
+	{
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
+
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -116,29 +141,15 @@ class JFormFieldCheckboxes extends JFormFieldList
 	}
 
 	/**
-	 * Method to get the field input markup for check boxes.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
-	 */
-	protected function getInput()
-	{
-		$displayData = $this->getInputLayoutData();
-
-		return JLayoutHelper::render('joomla.fields.checkboxes', $displayData);
-	}
-
-	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
-	protected function getInputLayoutData()
+	protected function getLayoutData()
 	{
-		$displayData = parent::getInputLayoutData();
+		$data = parent::getLayoutData();
 
 		// True if the field has 'value' set. In other words, it has been stored, don't use the default values.
 		$hasValue = (isset($this->value) && !empty($this->value));
@@ -146,10 +157,12 @@ class JFormFieldCheckboxes extends JFormFieldList
 		// If a value has been stored, use it. Otherwise, use the defaults.
 		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
 
-		$displayData['checkedOptions'] = is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions);
-		$displayData['hasValue'] = $hasValue;
-		$displayData['options'] = $this->getOptions();
+		$extraData = array(
+			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
+			'hasValue'       => $hasValue,
+			'options'        => $this->getOptions()
+		);
 
-		return $displayData;
+		return array_merge($data, $extraData);
 	}
 }

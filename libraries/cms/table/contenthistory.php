@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -162,8 +162,8 @@ class JTableContenthistory extends JTable
 		$query = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . $this->get('ucm_type_id'))
+			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
 		$db->setQuery($query, 0, 1);
 
@@ -188,8 +188,8 @@ class JTableContenthistory extends JTable
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->ucm_item_id)
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->ucm_type_id)
+			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 			->where($db->quoteName('keep_forever') . ' != 1')
 			->order($db->quoteName('save_date') . ' DESC ');
 		$db->setQuery($query, 0, (int) $maxVersions);
@@ -201,8 +201,8 @@ class JTableContenthistory extends JTable
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
 			$query->delete($db->quoteName('#__ucm_history'))
-				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->ucm_item_id)
-				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->ucm_type_id)
+				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
+				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
 				->where($db->quoteName('version_id') . ' NOT IN (' . implode(',', $idsToSave) . ')')
 				->where($db->quoteName('keep_forever') . ' != 1');
 			$db->setQuery($query);

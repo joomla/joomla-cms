@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -417,7 +417,7 @@ class JUser extends JObject
 
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . $subQuery->__toString() . ') AS c')
+			->from('(' . (string) $subQuery . ') AS c')
 			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');

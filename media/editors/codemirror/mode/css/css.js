@@ -12,9 +12,8 @@
 "use strict";
 
 CodeMirror.defineMode("css", function(config, parserConfig) {
-  var provided = parserConfig;
+  var inline = parserConfig.inline
   if (!parserConfig.propertyKeywords) parserConfig = CodeMirror.resolveMode("text/css");
-  parserConfig.inline = provided.inline;
 
   var indentUnit = config.indentUnit,
       tokenHooks = parserConfig.tokenHooks,
@@ -28,7 +27,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       counterDescriptors = parserConfig.counterDescriptors || {},
       colorKeywords = parserConfig.colorKeywords || {},
       valueKeywords = parserConfig.valueKeywords || {},
-      allowNested = parserConfig.allowNested;
+      allowNested = parserConfig.allowNested,
+      supportsAtComponent = parserConfig.supportsAtComponent === true;
 
   var type, override;
   function ret(style, tp) { type = tp; return style; }
@@ -122,13 +122,14 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     this.prev = prev;
   }
 
-  function pushContext(state, stream, type) {
-    state.context = new Context(type, stream.indentation() + indentUnit, state.context);
+  function pushContext(state, stream, type, indent) {
+    state.context = new Context(type, stream.indentation() + (indent === false ? 0 : indentUnit), state.context);
     return type;
   }
 
   function popContext(state) {
-    state.context = state.context.prev;
+    if (state.context.prev)
+      state.context = state.context.prev;
     return state.context.type;
   }
 
@@ -160,9 +161,13 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       return pushContext(state, stream, "block");
     } else if (type == "}" && state.context.prev) {
       return popContext(state);
-    } else if (/@(media|supports|(-moz-)?document)/.test(type)) {
+    } else if (supportsAtComponent && /@component/.test(type)) {
+      return pushContext(state, stream, "atComponentBlock");
+    } else if (/^@(-moz-)?document$/.test(type)) {
+      return pushContext(state, stream, "documentTypes");
+    } else if (/^@(media|supports|(-moz-)?document|import)$/.test(type)) {
       return pushContext(state, stream, "atBlock");
-    } else if (/@(font-face|counter-style)/.test(type)) {
+    } else if (/^@(font-face|counter-style)/.test(type)) {
       state.stateArg = type;
       return "restricted_atBlock_before";
     } else if (/^@(-(moz|ms|o|webkit)-)?keyframes$/.test(type)) {
@@ -222,7 +227,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     if (type == "}" || type == "{") return popAndPass(type, stream, state);
     if (type == "(") return pushContext(state, stream, "parens");
 
-    if (type == "hash" && !/^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/.test(stream.current())) {
+    if (type == "hash" && !/^#([0-9a-fA-f]{3,4}|[0-9a-fA-f]{6}|[0-9a-fA-f]{8})$/.test(stream.current())) {
       override += " error";
     } else if (type == "word") {
       wordAsValue(stream);
@@ -255,17 +260,26 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     return pass(type, stream, state);
   };
 
+  states.documentTypes = function(type, stream, state) {
+    if (type == "word" && documentTypes.hasOwnProperty(stream.current())) {
+      override = "tag";
+      return state.context.type;
+    } else {
+      return states.atBlock(type, stream, state);
+    }
+  };
+
   states.atBlock = function(type, stream, state) {
     if (type == "(") return pushContext(state, stream, "atBlock_parens");
-    if (type == "}") return popAndPass(type, stream, state);
+    if (type == "}" || type == ";") return popAndPass(type, stream, state);
     if (type == "{") return popContext(state) && pushContext(state, stream, allowNested ? "block" : "top");
+
+    if (type == "interpolation") return pushContext(state, stream, "interpolation");
 
     if (type == "word") {
       var word = stream.current().toLowerCase();
       if (word == "only" || word == "not" || word == "and" || word == "or")
         override = "keyword";
-      else if (documentTypes.hasOwnProperty(word))
-        override = "tag";
       else if (mediaTypes.hasOwnProperty(word))
         override = "attribute";
       else if (mediaFeatures.hasOwnProperty(word))
@@ -283,6 +297,16 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       else
         override = "error";
     }
+    return state.context.type;
+  };
+
+  states.atComponentBlock = function(type, stream, state) {
+    if (type == "}")
+      return popAndPass(type, stream, state);
+    if (type == "{")
+      return popContext(state) && pushContext(state, stream, allowNested ? "block" : "top", false);
+    if (type == "word")
+      override = "error";
     return state.context.type;
   };
 
@@ -343,9 +367,9 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
   return {
     startState: function(base) {
       return {tokenize: null,
-              state: parserConfig.inline ? "block" : "top",
+              state: inline ? "block" : "top",
               stateArg: null,
-              context: new Context(parserConfig.inline ? "block" : "top", base || 0, null)};
+              context: new Context(inline ? "block" : "top", base || 0, null)};
     },
 
     token: function(stream, state) {
@@ -364,12 +388,18 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       var cx = state.context, ch = textAfter && textAfter.charAt(0);
       var indent = cx.indent;
       if (cx.type == "prop" && (ch == "}" || ch == ")")) cx = cx.prev;
-      if (cx.prev &&
-          (ch == "}" && (cx.type == "block" || cx.type == "top" || cx.type == "interpolation" || cx.type == "restricted_atBlock") ||
-           ch == ")" && (cx.type == "parens" || cx.type == "atBlock_parens") ||
-           ch == "{" && (cx.type == "at" || cx.type == "atBlock"))) {
-        indent = cx.indent - indentUnit;
-        cx = cx.prev;
+      if (cx.prev) {
+        if (ch == "}" && (cx.type == "block" || cx.type == "top" ||
+                          cx.type == "interpolation" || cx.type == "restricted_atBlock")) {
+          // Resume indentation from parent context.
+          cx = cx.prev;
+          indent = cx.indent;
+        } else if (ch == ")" && (cx.type == "parens" || cx.type == "atBlock_parens") ||
+            ch == "{" && (cx.type == "at" || cx.type == "atBlock")) {
+          // Dedent relative to current context.
+          indent = Math.max(0, cx.indent - indentUnit);
+          cx = cx.prev;
+        }
       }
       return indent;
     },
@@ -422,8 +452,8 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "animation-direction", "animation-duration", "animation-fill-mode",
     "animation-iteration-count", "animation-name", "animation-play-state",
     "animation-timing-function", "appearance", "azimuth", "backface-visibility",
-    "background", "background-attachment", "background-clip", "background-color",
-    "background-image", "background-origin", "background-position",
+    "background", "background-attachment", "background-blend-mode", "background-clip",
+    "background-color", "background-image", "background-origin", "background-position",
     "background-repeat", "background-size", "baseline-shift", "binding",
     "bleed", "bookmark-label", "bookmark-level", "bookmark-state",
     "bookmark-target", "border", "border-bottom", "border-bottom-color",
@@ -567,11 +597,12 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "capitalize", "caps-lock-indicator", "caption", "captiontext", "caret",
     "cell", "center", "checkbox", "circle", "cjk-decimal", "cjk-earthly-branch",
     "cjk-heavenly-stem", "cjk-ideographic", "clear", "clip", "close-quote",
-    "col-resize", "collapse", "column", "column-reverse", "compact", "condensed", "contain", "content",
+    "col-resize", "collapse", "color", "color-burn", "color-dodge", "column", "column-reverse",
+    "compact", "condensed", "contain", "content",
     "content-box", "context-menu", "continuous", "copy", "counter", "counters", "cover", "crop",
-    "cross", "crosshair", "currentcolor", "cursive", "cyclic", "dashed", "decimal",
+    "cross", "crosshair", "currentcolor", "cursive", "cyclic", "darken", "dashed", "decimal",
     "decimal-leading-zero", "default", "default-button", "destination-atop",
-    "destination-in", "destination-out", "destination-over", "devanagari",
+    "destination-in", "destination-out", "destination-over", "devanagari", "difference",
     "disc", "discard", "disclosure-closed", "disclosure-open", "document",
     "dot-dash", "dot-dot-dash",
     "dotted", "double", "down", "e-resize", "ease", "ease-in", "ease-in-out", "ease-out",
@@ -582,23 +613,23 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "ethiopic-halehame-gez", "ethiopic-halehame-om-et",
     "ethiopic-halehame-sid-et", "ethiopic-halehame-so-et",
     "ethiopic-halehame-ti-er", "ethiopic-halehame-ti-et", "ethiopic-halehame-tig",
-    "ethiopic-numeric", "ew-resize", "expanded", "extends", "extra-condensed",
+    "ethiopic-numeric", "ew-resize", "exclusion", "expanded", "extends", "extra-condensed",
     "extra-expanded", "fantasy", "fast", "fill", "fixed", "flat", "flex", "flex-end", "flex-start", "footnotes",
     "forwards", "from", "geometricPrecision", "georgian", "graytext", "groove",
-    "gujarati", "gurmukhi", "hand", "hangul", "hangul-consonant", "hebrew",
+    "gujarati", "gurmukhi", "hand", "hangul", "hangul-consonant", "hard-light", "hebrew",
     "help", "hidden", "hide", "higher", "highlight", "highlighttext",
-    "hiragana", "hiragana-iroha", "horizontal", "hsl", "hsla", "icon", "ignore",
+    "hiragana", "hiragana-iroha", "horizontal", "hsl", "hsla", "hue", "icon", "ignore",
     "inactiveborder", "inactivecaption", "inactivecaptiontext", "infinite",
     "infobackground", "infotext", "inherit", "initial", "inline", "inline-axis",
     "inline-block", "inline-flex", "inline-table", "inset", "inside", "intrinsic", "invert",
     "italic", "japanese-formal", "japanese-informal", "justify", "kannada",
     "katakana", "katakana-iroha", "keep-all", "khmer",
     "korean-hangul-formal", "korean-hanja-formal", "korean-hanja-informal",
-    "landscape", "lao", "large", "larger", "left", "level", "lighter",
+    "landscape", "lao", "large", "larger", "left", "level", "lighter", "lighten",
     "line-through", "linear", "linear-gradient", "lines", "list-item", "listbox", "listitem",
     "local", "logical", "loud", "lower", "lower-alpha", "lower-armenian",
     "lower-greek", "lower-hexadecimal", "lower-latin", "lower-norwegian",
-    "lower-roman", "lowercase", "ltr", "malayalam", "match", "matrix", "matrix3d",
+    "lower-roman", "lowercase", "ltr", "luminosity", "malayalam", "match", "matrix", "matrix3d",
     "media-controls-background", "media-current-time-display",
     "media-fullscreen-button", "media-mute-button", "media-play-button",
     "media-return-to-realtime-button", "media-rewind-button",
@@ -607,7 +638,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "media-volume-slider-container", "media-volume-sliderthumb", "medium",
     "menu", "menulist", "menulist-button", "menulist-text",
     "menulist-textfield", "menutext", "message-box", "middle", "min-intrinsic",
-    "mix", "mongolian", "monospace", "move", "multiple", "myanmar", "n-resize",
+    "mix", "mongolian", "monospace", "move", "multiple", "multiply", "myanmar", "n-resize",
     "narrower", "ne-resize", "nesw-resize", "no-close-quote", "no-drop",
     "no-open-quote", "no-repeat", "none", "normal", "not-allowed", "nowrap",
     "ns-resize", "numbers", "numeric", "nw-resize", "nwse-resize", "oblique", "octal", "open-quote",
@@ -621,7 +652,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "repeating-radial-gradient", "repeat-x", "repeat-y", "reset", "reverse",
     "rgb", "rgba", "ridge", "right", "rotate", "rotate3d", "rotateX", "rotateY",
     "rotateZ", "round", "row", "row-resize", "row-reverse", "rtl", "run-in", "running",
-    "s-resize", "sans-serif", "scale", "scale3d", "scaleX", "scaleY", "scaleZ",
+    "s-resize", "sans-serif", "saturation", "scale", "scale3d", "scaleX", "scaleY", "scaleZ", "screen",
     "scroll", "scrollbar", "se-resize", "searchfield",
     "searchfield-cancel-button", "searchfield-decoration",
     "searchfield-results-button", "searchfield-results-decoration",
@@ -629,7 +660,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     "simp-chinese-formal", "simp-chinese-informal", "single",
     "skew", "skewX", "skewY", "skip-white-space", "slide", "slider-horizontal",
     "slider-vertical", "sliderthumb-horizontal", "sliderthumb-vertical", "slow",
-    "small", "small-caps", "small-caption", "smaller", "solid", "somali",
+    "small", "small-caps", "small-caption", "smaller", "soft-light", "solid", "somali",
     "source-atop", "source-in", "source-out", "source-over", "space", "space-around", "space-between", "spell-out", "square",
     "square-button", "start", "static", "status-bar", "stretch", "stroke", "sub",
     "subpixel-antialiased", "super", "sw-resize", "symbolic", "symbols", "table",
@@ -767,6 +798,28 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     },
     name: "css",
     helperType: "less"
+  });
+
+  CodeMirror.defineMIME("text/x-gss", {
+    documentTypes: documentTypes,
+    mediaTypes: mediaTypes,
+    mediaFeatures: mediaFeatures,
+    propertyKeywords: propertyKeywords,
+    nonStandardPropertyKeywords: nonStandardPropertyKeywords,
+    fontProperties: fontProperties,
+    counterDescriptors: counterDescriptors,
+    colorKeywords: colorKeywords,
+    valueKeywords: valueKeywords,
+    supportsAtComponent: true,
+    tokenHooks: {
+      "/": function(stream, state) {
+        if (!stream.eat("*")) return false;
+        state.tokenize = tokenCComment;
+        return tokenCComment(stream, state);
+      }
+    },
+    name: "css",
+    helperType: "gss"
   });
 
 });

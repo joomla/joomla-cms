@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,15 +105,20 @@ class MenusModelItems extends JModelList
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.menutype');
-
-			if (!$menuType)
-			{
-				$menuType = $this->getDefaultMenuType();
-			}
+			$app->setUserState($this->context . '.menutype', '');
 		}
 
 		$this->setState('filter.menutype', $menuType);
+
+		// Get menutype title
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('title')
+			->from($db->quoteName('#__menu_types'))
+			->where($db->quoteName('menutype') . " = " . $db->quote($menuType));
+		$db->setQuery($query);
+		$menuTypeTitle = $db->loadResult();
+		$this->setState('menutypetitle', $menuTypeTitle);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
@@ -153,29 +158,6 @@ class MenusModelItems extends JModelList
 	}
 
 	/**
-	 * Finds the default menu type.
-	 *
-	 * In the absence of better information, this is the first menu ordered by title.
-	 *
-	 * @return  string    The default menu type
-	 *
-	 * @since   1.6
-	 */
-	protected function getDefaultMenuType()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('menutype')
-			->from('#__menu_types')
-			->order('title');
-		$db->setQuery($query, 0, 1);
-		$menuType = $db->loadResult();
-
-		return $menuType;
-	}
-
-	/**
 	 * Builds an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery    A query object.
@@ -202,7 +184,7 @@ class MenusModelItems extends JModelList
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
-						null, 'apublished', null, null, null, null,
+						null, 'a.published', null, null, null, null,
 						null, null, null, null, null, null, null, null, null
 					)
 				)
@@ -224,7 +206,7 @@ class MenusModelItems extends JModelList
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image as image')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
