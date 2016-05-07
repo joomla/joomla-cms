@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ extract($displayData);
 ?>
 <div class="modal-header">
 	<?php if (!isset($params['closeButton']) || $params['closeButton']) : ?>
-		<button type="button" class="close" data-dismiss="modal">×</button>
+		<button type="button" class="close novalidate" data-dismiss="modal">×</button>
 	<?php endif; ?>
 	<?php if (isset($params['title'])) : ?>
 		<h3><?php echo $params['title']; ?></h3>

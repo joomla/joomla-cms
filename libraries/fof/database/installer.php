@@ -336,6 +336,7 @@ class FOFDatabaseInstaller
 		$driverType = $this->db->name;
 		$xml = null;
 
+		// And now look for the file
 		foreach ($this->xmlFiles as $baseName)
 		{
 			// Remove any accidental whitespace
@@ -383,11 +384,28 @@ class FOFDatabaseInstaller
 			/** @var SimpleXMLElement $drivers */
 			$drivers = $xml->meta->drivers;
 
+			// Strict driver name match
 			foreach ($drivers->children() as $driverTypeTag)
 			{
 				$thisDriverType = (string)$driverTypeTag;
 
 				if ($thisDriverType == $driverType)
+				{
+					return $xml;
+				}
+			}
+
+			// Some custom database drivers use a non-standard $name variable. Let try a relaxed match.
+			foreach ($drivers->children() as $driverTypeTag)
+			{
+				$thisDriverType = (string)$driverTypeTag;
+
+				if (
+					// e.g. $driverType = 'mysqlistupid', $thisDriverType = 'mysqli' => driver matched
+					strpos($driverType, $thisDriverType) === 0
+					// e.g. $driverType = 'stupidmysqli', $thisDriverType = 'mysqli' => driver matched
+					|| (substr($driverType, -strlen($thisDriverType)) == $thisDriverType)
+				)
 				{
 					return $xml;
 				}

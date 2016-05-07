@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -171,6 +171,21 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 
 		// Callback is callable
 		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+	}
+
+	/**
+	 * Test the JLogLoggerCallback::__construct method.
+	 *
+	 * @return  null
+	 *
+	 * @since   12.2
+	 * @expectedException  RuntimeException
+	 */
+	public function testConstructorForException()
+	{
+		$options = array();
+
+		new JLogLoggerCallback($options);
 	}
 
 	/**

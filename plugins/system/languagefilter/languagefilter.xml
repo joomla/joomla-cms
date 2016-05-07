@@ -3,7 +3,7 @@
 	<name>plg_system_languagefilter</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -45,6 +45,36 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+				<field name="alternate_meta" type="radio"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
+					default="1"
+					class="btn-group btn-group-yesno"
+					showon="item_associations:1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="xdefault" type="radio"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
+					default="1"
+					class="btn-group btn-group-yesno"
+					showon="item_associations:1[AND]alternate_meta:1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="xdefault_language" type="contentlanguage"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_LABEL"
+					default="default"
+					showon="item_associations:1[AND]alternate_meta:1[AND]xdefault:1"
+				>
+					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_OPTION_DEFAULT_LANGUAGE</option>
+				</field>
 				<field name="remove_default_prefix" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
@@ -54,23 +84,13 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				<field name="lang_cookie" type="radio"
+				<field name="lang_cookie" type="list"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
 					default="0"
-					class="btn-group btn-group-yesno"
 				>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
-				</field>
-				<field name="alternate_meta" type="radio"
-					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
-					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
-					default="1"
-					class="btn-group btn-group-yesno"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

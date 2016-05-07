@@ -34,6 +34,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 
 		<field
@@ -169,8 +170,8 @@
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 		>
-	 		<option value="0">JHIDE</option>
 	 		<option value="1">JSHOW</option>
+	 		<option value="0">JHIDE</option>
 	 	</field>
 
 		<field name="maxLevel" type="list"
@@ -192,6 +193,7 @@
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
+			showon="maxLevel:-1,1,2,3,4,5"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -202,6 +204,7 @@
 			default="1"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			showon="maxLevel:-1,1,2,3,4,5"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -252,6 +255,7 @@
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 		>
 			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
 			<option value="1">J1</option>
 			<option value="2">J2</option>
 			<option value="3">J3</option>
@@ -264,6 +268,7 @@
 			default="0"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
+			showon="maxLevelcat:-1,1,2,3,4,5"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -274,6 +279,7 @@
 			default="1"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+			showon="maxLevelcat:-1,1,2,3,4,5"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -305,7 +311,7 @@
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="1">JSHOW</option>
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -377,6 +383,7 @@
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			showon="show_pagination:1,2"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>

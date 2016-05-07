@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,11 +148,11 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Get the document properties.
 		$attributes = array (
-			'charset'	=> 'utf-8',
-			'lineend'	=> 'unix',
-			'tab'		=> '  ',
-			'language'	=> $lang->getTag(),
-			'direction'	=> $lang->isRTL() ? 'rtl' : 'ltr'
+			'charset'   => 'utf-8',
+			'lineend'   => 'unix',
+			'tab'       => '  ',
+			'language'  => $lang->getTag(),
+			'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
 		);
 
 		// Get the HTML document.
@@ -166,7 +166,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$admin = clone JFactory::getApplication();
 
 		// Get the site app.
-		$site = JApplication::getInstance('site');
+		$site = JApplicationCms::getInstance('site');
 
 		// Swap the app.
 		$app = JFactory::getApplication();
@@ -351,7 +351,7 @@ class FinderIndexerResponse
 			$this->totalItems = (int) $state->totalItems;
 
 			$this->startTime = $state->startTime;
-			$this->endTime = JFactory::getDate()->toSQL();
+			$this->endTime = JFactory::getDate()->toSql();
 
 			$this->start = !empty($state->start) ? (int) $state->start : 0;
 			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;

@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class ArticleEditPage extends AdminEditPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//form[@id='item-form']";
+	protected $waitForXpath = "//form[@id='item-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -64,6 +64,7 @@ class ArticleEditPage extends AdminEditPage
 			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'general'),
+			array('label' => 'articletext', 'id' => 'jform_articletext', 'type' => 'textarea', 'tab' => 'general'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created Date', 'id' => 'jform_created', 'type' => 'input', 'tab' => 'publishing'),
@@ -128,24 +129,38 @@ class ArticleEditPage extends AdminEditPage
 			array('label' => 'Frontend Images and Links', 'id' => 'jform_attribs_show_urls_images_frontend', 'type' => 'select', 'tab' => 'editor'),
 			);
 
+	/**
+	 * function to add test to the article\
+	 *
+	 * @param   String   $text  text to be writen in the article
+	 *
+	 * @return void
+	 */
 	public function addArticleText($text)
 	{
 		$values = array('id' => 'jform_articletext', 'value' => $text);
 		$this->setTextAreaValues($values);
 	}
 
+	/**
+	 * function to set the field values
+	 *
+	 * @param   array  $array    array stores the value of the different input fields
+	 *
+	 * @return void
+	 */
 	public function setFieldValues($array)
 	{
-		if(isset($array['text']))
+		if (isset($array['text']))
 		{
 			$this->addArticleText($array['text']);
 			unset($array['text']);
 		}
+
 		if (count($array) > 0)
 		{
 			parent::setFieldValues($array);
 		}
+
 	}
-
-
 }

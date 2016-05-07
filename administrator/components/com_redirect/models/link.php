@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -197,4 +197,66 @@ class RedirectModelLink extends JModelAdmin
 
 		return true;
 	}
+
+	/**
+	 * Method to duplicate URL links.
+	 *
+	 * @param   array   &$pks     An array of link ids.
+	 * @param   string  $url      The new URL to set for the redirect.
+	 * @param   string  $comment  A comment for the redirect links.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   3.6.0
+	 */
+	public function duplicateUrls(&$pks, $url, $comment = null)
+	{
+		$user = JFactory::getUser();
+		$db = $this->getDbo();
+
+		// Sanitize the ids.
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
+
+		// Access checks.
+		if (!$user->authorise('core.edit', 'com_redirect'))
+		{
+			$pks = array();
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+
+			return false;
+		}
+
+		if (!empty($pks))
+		{
+			$date = JFactory::getDate()->toSql();
+
+			// Update the link rows.
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__redirect_links'))
+				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
+				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+
+			if (!empty($comment))
+			{
+				$query->set($db->quoteName('comment') . ' = ' . $db->quote($comment));
+			}
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }

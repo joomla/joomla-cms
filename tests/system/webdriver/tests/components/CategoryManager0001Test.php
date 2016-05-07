@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class CategoryManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Contacts.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function setUp()
@@ -47,6 +49,8 @@ class CategoryManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function tearDown()
@@ -56,6 +60,10 @@ class CategoryManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tag edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_CategoryEditOpened()
@@ -65,5 +73,4 @@ class CategoryManager0001Test extends JoomlaWebdriverTestCase
 		$categoryEditPage->clickButton('cancel');
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 	}
-
 }

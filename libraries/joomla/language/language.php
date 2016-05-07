@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JLanguage
 	/**
 	 * Array of JLanguage objects
 	 *
-	 * @var    array
+	 * @var    JLanguage[]
 	 * @since  11.1
 	 */
 	protected static $languages = array();
@@ -190,7 +190,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
+		$this->lang = $lang;
+		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
@@ -796,17 +797,9 @@ class JLanguage
 
 		if ($strings)
 		{
-			if (is_array($strings))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($strings, SORT_STRING);
-				$this->strings = array_merge($this->strings, $strings);
-			}
-
 			if (is_array($strings) && count($strings))
 			{
-				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
-				$this->strings = array_merge($this->strings, $this->override);
+				$this->strings = array_replace($this->strings, $strings, $this->override);
 				$result = true;
 			}
 		}
@@ -904,7 +897,7 @@ class JLanguage
 				}
 
 				// Check that the line passes the necessary format.
-				if (!preg_match('#^[A-Z][A-Z0-9_\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+				if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
 				{
 					$errors[] = $realNumber;
 					continue;
@@ -922,14 +915,7 @@ class JLanguage
 			// Check if we encountered any errors.
 			if (count($errors))
 			{
-				if (basename($filename) != $this->lang . '.ini')
-				{
-					$this->errorfiles[$filename] = $filename . JText::sprintf('JERROR_PARSING_LANGUAGE_FILE', implode(', ', $errors));
-				}
-				else
-				{
-					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ', $errors);
-				}
+				$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
 			}
 			elseif ($php_errormsg)
 			{
@@ -1076,7 +1062,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function isRTL()
+	public function isRtl()
 	{
 		return (bool) $this->metadata['rtl'];
 	}
@@ -1259,9 +1245,12 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Instantiate a new JLanguage object instead.', JLog::WARNING, 'deprecated');
+
 		$previous = $this->lang;
 		$this->lang = $lang;
 		$this->metadata = $this->getMetadata($this->lang);
@@ -1332,32 +1321,31 @@ class JLanguage
 	{
 		$languages = array();
 
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-
-		foreach ($iterator as $file)
+		// Search main language directory for subdirectories
+		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
 		{
-			$langs    = array();
-			$fileName = $file->getFilename();
-
-			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
+			// But only directories with lang code format
+			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
 			{
-				continue;
-			}
+				$dirPathParts = pathinfo($directory);
+				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
 
-			try
-			{
-				$metadata = self::parseXMLLanguageFile($file->getRealPath());
-
-				if ($metadata)
+				if (!is_file($file))
 				{
-					$lang = str_replace('.xml', '', $fileName);
-					$langs[$lang] = $metadata;
+					continue;
 				}
 
-				$languages = array_merge($languages, $langs);
-			}
-			catch (RuntimeException $e)
-			{
+				try
+				{
+					// Get installed language metadata from xml file and merge it with lang array
+					if ($metadata = self::parseXMLLanguageFile($file))
+					{
+						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+					}
+				}
+				catch (RuntimeException $e)
+				{
+				}
 			}
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Pathway
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class JPathwaySite extends JPathway
 	{
 		$this->_pathway = array();
 
-		$app  = JApplication::getInstance('site');
+		$app  = JApplicationCms::getInstance('site');
 		$menu = $app->getMenu();
 		$lang = JFactory::getLanguage();
 
@@ -49,7 +49,6 @@ class JPathwaySite extends JPathway
 			{
 				foreach ($item->tree as $menupath)
 				{
-					$url = '';
 					$link = $menu->getItem($menupath);
 
 					switch ($link->type)
@@ -77,16 +76,7 @@ class JPathwaySite extends JPathway
 							break;
 
 						default:
-							$router = $app::getRouter();
-
-							if ($router->getMode() == JROUTER_MODE_SEF)
-							{
-								$url = 'index.php?Itemid=' . $link->id;
-							}
-							else
-							{
-								$url .= $link->link . '&Itemid=' . $link->id;
-							}
+							$url = $link->link . '&Itemid=' . $link->id;
 							break;
 					}
 

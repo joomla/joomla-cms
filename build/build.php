@@ -17,7 +17,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,12 +40,11 @@ umask(022);
 // Import JVersion to set the version information
 define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
-$jversion = new JVersion;
 
 // Set version information for the build
-$version     = $jversion->RELEASE;
-$release     = $jversion->DEV_LEVEL;
-$stability   = $jversion->DEV_STATUS;
+$version     = JVersion::RELEASE;
+$release     = JVersion::DEV_LEVEL;
+$stability   = JVersion::DEV_STATUS;
 $fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
@@ -70,9 +69,6 @@ chdir($tmp);
 system('mkdir diffdocs');
 system('mkdir diffconvert');
 system('mkdir packages' . $version);
-
-echo "Copy manifest file to root directory for install packages.\n";
-system('cp ' . $fullpath . '/administrator/manifests/files/joomla.xml ' . $fullpath);
 
 echo "Create list of changed files from git repository.\n";
 
@@ -104,8 +100,7 @@ $filesArray = array(
 	"LICENSE.txt\n" => true,
 	"README.txt\n" => true,
 	"robots.txt.dist\n" => true,
-	"web.config.txt\n" => true,
-	"joomla.xml\n" => true
+	"web.config.txt\n" => true
 );
 
 /*
@@ -113,9 +108,9 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.github',
 	'.gitignore',
 	'.travis.yml',
-	'CONTRIBUTING.md',
 	'README.md',
 	'build',
 	'build.xml',
@@ -157,28 +152,28 @@ for ($num = $release - 1; $num >= 0; $num--)
 	foreach ($files as $file)
 	{
 		$fileName   = substr($file, 2);
-		$folderPath = explode('/', $file);
-		$folderName = $folderPath[0];
+		$folderPath = explode('/', $fileName);
+		$baseFolderName = $folderPath[0];
 
-		// TODO - Old check, commented for reference, remove when complete
-		/*if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
-			&& substr($file, 2, 6) != 'images')
-		{*/
+		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
+		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
 
-		if (!in_array($fileName, $doNotPackage) && !in_array($fileName, $doNotPatch)
-			&& !in_array($folderName, $doNotPackage) && !in_array($folderName, $doNotPatch))
+		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
-			// Don't add deleted files to the list
-			if (substr($file, 0, 1) != 'D')
-			{
-				$filesArray[$fileName] = true;
-			}
-			else
-			{
-				// Add deleted files to the deleted files list
-				$deletedFiles[] = $fileName;
-			}
+			continue;
+		}
+
+		// Don't add deleted files to the list
+		if (substr($file, 0, 1) != 'D')
+		{
+			$filesArray[$fileName] = true;
+		}
+		else
+		{
+			// Add deleted files to the deleted files list
+			$deletedFiles[] = $fileName;
 		}
 	}
 
@@ -235,9 +230,7 @@ system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');
 system('rm -r images/sampledata');
-system('rm images/joomla_black.gif');
-system('rm images/joomla_green.gif');
-system('rm images/joomla_logo_black.jpg');
+system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
 // Move the weblinks manifest back

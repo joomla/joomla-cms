@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -256,36 +256,12 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Unused, JS Not working
+	 * @deprecated  4.0  This method was used by the old renderModal() implementation.
+	 *                   Since the new implementation it is unneeded and the broken JS it was injecting could create issues
+	 *                   As a case, please see: https://github.com/joomla/joomla-cms/pull/6918
 	 */
 	public static function modal($selector = 'modal', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
-		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
-			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').modal($options);
-					})(jQuery);"
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-		}
-
 		return;
 	}
 
@@ -295,17 +271,17 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  The ID selector for the modal.
 	 * @param   array   $params    An array of options for the modal.
 	 *                             Options for the modal can be:
-	 *                             - title     string   The modal title
-	 *                             - backdrop  mixed    A boolean select if a modal-backdrop element should be included (default = true)
-	 *                                                  The string 'static' includes a backdrop which doesn't close the modal on click.
-	 *                             - keyboard  boolean  Closes the modal when escape key is pressed (default = true)
+	 *                             - title        string   The modal title
+	 *                             - backdrop     mixed    A boolean select if a modal-backdrop element should be included (default = true)
+	 *                                                     The string 'static' includes a backdrop which doesn't close the modal on click.
+	 *                             - keyboard     boolean  Closes the modal when escape key is pressed (default = true)
 	 *                             - closeButton  boolean  Display modal close button (default = true)
-	 *                             - animation boolean  Fade in from the top of the page (default = true)
-	 *                             - footer    string   Optional markup for the modal footer
-	 *                             - url       string   URL of a resource to be inserted as an <iframe> inside the modal body
-	 *                             - height    string   height of the <iframe> containing the remote resource
-	 *                             - width     string   width of the <iframe> containing the remote resource
-	 * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
+	 *                             - animation    boolean  Fade in from the top of the page (default = true)
+	 *                             - footer       string   Optional markup for the modal footer
+	 *                             - url          string   URL of a resource to be inserted as an `<iframe>` inside the modal body
+	 *                             - height       string   height of the `<iframe>` containing the remote resource
+	 *                             - width        string   width of the `<iframe>` containing the remote resource
+	 * @param   string  $body      Markup for the modal body. Appended after the `<iframe>` if the url option is set
 	 *
 	 * @return  string  HTML markup for a modal
 	 *
@@ -465,13 +441,13 @@ abstract class JHtmlBootstrap
 			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
-			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
+			$opt['delay']     = isset($params['delay']) ? (is_array($params['delay']) ? $params['delay'] : (int) $params['delay']) : null;
 			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
-			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
-			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
-			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
-			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+			$onShow           = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown          = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide           = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden         = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -492,7 +468,7 @@ abstract class JHtmlBootstrap
 
 			if ($onHide)
 			{
-				$script[] = "\tjQuery('" . $selector . "').on('hide.bs.tooltip', " . $onHide . ");";
+				$script[] = "\tjQuery('" . $selector . "').on('hideme.bs.tooltip', " . $onHide . ");";
 			}
 
 			if ($onHidden)
@@ -581,6 +557,13 @@ abstract class JHtmlBootstrap
 	 *                                                 collapsible item is shown. (similar to traditional accordion behavior)
 	 *                             - toggle  boolean   Toggles the collapsible element on invocation
 	 *                             - active  string    Sets the active slide during load
+	 * 
+	 *                             - onShow    function  This event fires immediately when the show instance method is called.
+	 *                             - onShown   function  This event is fired when a collapse element has been made visible to the user 
+	 *                                                   (will wait for css transitions to complete).
+	 *                             - onHide    function  This event is fired immediately when the hide method has been called.
+	 *                             - onHidden  function  This event is fired when a collapse element has been hidden from the user 
+	 *                                                   (will wait for css transitions to complete).
 	 *
 	 * @return  string  HTML for the accordian
 	 *
@@ -588,33 +571,58 @@ abstract class JHtmlBootstrap
 	 */
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (!isset(static::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
 			static::framework();
 
 			// Setup options object
-			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
-			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
+			$opt['parent'] = isset($params['parent']) ? ($params['parent'] == true ? '#' . $selector : $params['parent']) : false;
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : ($opt['parent'] === false || isset($params['active']) ? false : true);
+			$onShow = isset($params['onShow']) ? (string) $params['onShow'] : null;
+			$onShown = isset($params['onShown']) ? (string) $params['onShown'] : null;
+			$onHide = isset($params['onHide']) ? (string) $params['onHide'] : null;
+			$onHidden = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
+
+			// Build the script.
+			$script = array();
+			$script[] = "jQuery(document).ready(function($){";
+			$script[] = "\t$('#" . $selector . "').collapse(" . $options . ")";
+
+			if ($onShow)
+			{
+				$script[] = "\t.on('show', " . $onShow . ")";
+			}
+
+			if ($onShown)
+			{
+				$script[] = "\t.on('shown', " . $onShown . ")";
+			}
+
+			if ($onHide)
+			{
+				$script[] = "\t.on('hideme', " . $onHide . ")";
+			}
+
+			if ($onHidden)
+			{
+				$script[] = "\t.on('hidden', " . $onHidden . ")";
+			}
+
+			$script[] = "});";
+
 			// Attach accordion to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').collapse($options);
-				})(jQuery);"
-			);
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			// Set static array
-			static::$loaded[__METHOD__][$sig] = true;
-			static::$loaded[__METHOD__]['active'] = $opt['active'];
-		}
+			static::$loaded[__METHOD__][$selector] = $opt;
 
-		return '<div id="' . $selector . '" class="accordion">';
+			return '<div id="' . $selector . '" class="accordion">';
+		}
 	}
 
 	/**
@@ -643,12 +651,14 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$in = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
+		$parent = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
+			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
 			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
+			. '<strong><a href="#' . $id . '" data-toggle="collapse"' . $parent . ' class="accordion-toggle">'
 			. $text
 			. '</a></strong>'
 			. '</div>'

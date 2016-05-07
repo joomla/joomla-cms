@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -312,10 +312,17 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testReplacePrefix()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'SELECT * FROM &dbtest',
 			$this->db->replacePrefix('SELECT * FROM #__dbtest'),
-			$this->equalTo('SELECT * FROM &dbtest'),
 			'replacePrefix method should return the query string with the #__ prefix replaced by the actual table prefix.'
+		);
+
+		// Prefix in quoted values not replaced, see https://github.com/joomla/joomla-cms/issues/7162
+		$this->assertEquals(
+			"SHOW TABLE STATUS LIKE '#__table'",
+			$this->db->replacePrefix("SHOW TABLE STATUS LIKE '#__table'"),
+			'replacePrefix method should not change the #__ prefix in a quoted value.'
 		);
 	}
 

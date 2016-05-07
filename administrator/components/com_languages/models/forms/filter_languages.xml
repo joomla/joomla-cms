@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER"
+			description="COM_LANGUAGES_SEARCH_IN_TITLE"
+			hint="JSEARCH_FILTER"
+		/>
+		<field
+			name="published"
+			type="status"
+			filter="1,0,-2,*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+		<field
+			name="access"
+			type="accesslevel"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_ACCESS</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="a.ordering ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.published ASC">JSTATUS_ASC</option>
+			<option value="a.published DESC">JSTATUS_DESC</option>
+			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.title_native ASC">COM_LANGUAGES_HEADING_TITLE_NATIVE_ASC</option>
+			<option value="a.title_native DESC">COM_LANGUAGES_HEADING_TITLE_NATIVE_DESC</option>
+			<option value="a.lang_code ASC">COM_LANGUAGES_HEADING_LANG_TAG_ASC</option>
+			<option value="a.lang_code DESC">COM_LANGUAGES_HEADING_LANG_TAG_DESC</option>
+			<option value="a.sef ASC">COM_LANGUAGES_HEADING_LANG_CODE_ASC</option>
+			<option value="a.sef DESC">COM_LANGUAGES_HEADING_LANG_CODE_DESC</option>
+			<option value="a.image ASC">COM_LANGUAGES_HEADING_LANG_IMAGE_ASC</option>
+			<option value="a.image DESC">COM_LANGUAGES_HEADING_LANG_IMAGE_DESC</option>
+			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
+			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
+			<option value="l.home ASC">COM_LANGUAGES_HEADING_HOMEPAGE_ASC</option>
+			<option value="l.home DESC">COM_LANGUAGES_HEADING_HOMEPAGE_DESC</option>
+			<option value="a.lang_id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.lang_id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			label="JGLOBAL_LIMIT"
+			description="JGLOBAL_LIMIT"
+			class="input-mini"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

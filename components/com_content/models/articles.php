@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,7 @@ class ContentModelArticles extends JModelList
 				'publish_down', 'a.publish_down',
 				'images', 'a.images',
 				'urls', 'a.urls',
+				'filter_tag'
 			);
 		}
 
@@ -81,6 +82,9 @@ class ContentModelArticles extends JModelList
 
 		$value = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $value);
+
+		$value = $app->input->get('filter_tag', 0, 'uint');
+		$this->setState('filter.tag', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
 
@@ -171,7 +175,7 @@ class ContentModelArticles extends JModelList
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user	= JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -354,7 +358,7 @@ class ContentModelArticles extends JModelList
 				}
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
+				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
 			}
 			else
 			{
@@ -442,8 +446,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Define null and now dates
-		$nullDate	= $db->quote($db->getNullDate());
-		$nowDate	= $db->quote(JFactory::getDate()->toSql());
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
@@ -515,6 +519,19 @@ class ContentModelArticles extends JModelList
 		if ($this->getState('filter.language'))
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+
+		if (!empty($tagId) && is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+				);
 		}
 
 		// Add the list ordering clause.
@@ -659,8 +676,11 @@ class ContentModelArticles extends JModelList
 			}
 
 			// Get the tags
-			$item->tags = new JHelperTags;
-			$item->tags->getItemTags('com_content.article', $item->id);
+			if ($item->params->get('show_tags'))
+			{
+				$item->tags = new JHelperTags;
+				$item->tags->getItemTags('com_content.article', $item->id);
+			}
 		}
 
 		return $items;

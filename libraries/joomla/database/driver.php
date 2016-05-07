@@ -3,28 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-/**
- * Joomla Platform Database Interface
- *
- * @since  11.2
-*/
-interface JDatabaseInterface
-{
-	/**
-	 * Test to see if the connector is available.
-	 *
-	 * @return  boolean  True on success, false otherwise.
-	 *
-	 * @since   11.2
-	 */
-	public static function isSupported();
-}
 
 /**
  * Joomla Platform Database Driver Class
@@ -51,6 +34,15 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since  11.1
 	 */
 	public $name;
+
+	/**
+	 * The type of the database server family supported by this driver. Examples: mysql, oracle, postgresql, mssql,
+	 * sqlite.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType;
 
 	/**
 	 * @var    resource  The database connection resource.
@@ -147,6 +139,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $utf = true;
 
 	/**
+	 * @var    boolean  True if the database engine supports UTF-8 Multibyte (utf8mb4) character encoding.
+	 * @since  CMS 3.5.0
+	 */
+	protected $utf8mb4 = false;
+
+	/**
 	 * @var         integer  The database error number
 	 * @since       11.1
 	 * @deprecated  12.1
@@ -211,6 +209,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				continue;
 			}
 
+			// Block the ext/mysql driver for PHP 7
+			if ($fileName === 'mysql.php' && PHP_MAJOR_VERSION >= 7)
+			{
+				continue;
+			}
+
 			// Derive the class name from the type.
 			$class = str_ireplace('.php', '', 'JDatabaseDriver' . ucfirst(trim($fileName)));
 
@@ -255,6 +259,45 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
 		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
+		// If the selected driver is `mysql` and we are on PHP 7 or greater, switch to the `mysqli` driver.
+		if ($options['driver'] === 'mysql' && PHP_MAJOR_VERSION >= 7)
+		{
+			// Check if we have support for the other MySQL drivers
+			$mysqliSupported   = JDatabaseDriverMysqli::isSupported();
+			$pdoMysqlSupported = JDatabaseDriverPdomysql::isSupported();
+
+			// If neither is supported, then the user cannot use MySQL; throw an exception
+			if (!$mysqliSupported && !$pdoMysqlSupported)
+			{
+				throw new RuntimeException(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
+					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
+				);
+			}
+
+			// Prefer MySQLi as it is a closer replacement for the removed MySQL driver, otherwise use the PDO driver
+			if ($mysqliSupported)
+			{
+				JLog::add(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `mysqli` instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$options['driver'] = 'mysqli';
+			}
+			else
+			{
+				JLog::add(
+					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.  Trying `pdomysql` instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$options['driver'] = 'pdomysql';
+			}
+		}
+
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
 
@@ -277,7 +320,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
+				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -289,6 +332,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
+	 * Single line or line end comments and multi line comments are stripped off.
 	 *
 	 * @param   string  $sql  Input SQL string with which to split into individual queries.
 	 *
@@ -300,16 +344,26 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$start = 0;
 		$open = false;
-		$char = '';
+		$comment = false;
+		$endString = '';
 		$end = strlen($sql);
 		$queries = array();
+		$query = '';
 
 		for ($i = 0; $i < $end; $i++)
 		{
 			$current = substr($sql, $i, 1);
+			$current2 = substr($sql, $i, 2);
+			$current3 = substr($sql, $i, 3);
+			$lenEndString = strlen($endString);
+			$testEnd = substr($sql, $i, $lenEndString);
 
-			if (($current == '"' || $current == '\''))
+			if ($current == '"' || $current == "'" || $current2 == '--'
+				|| ($current2 == '/*' && $current3 != '/*!' && $current3 != '/*+')
+				|| ($current == '#' && $current3 != '#__')
+				|| ($comment && $testEnd == $endString))
 			{
+				// Check if quoted with previous backslash
 				$n = 2;
 
 				while (substr($sql, $i - $n + 1, 1) == '\\' && $n < $i)
@@ -317,29 +371,84 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					$n++;
 				}
 
+				// Not quoted
 				if ($n % 2 == 0)
 				{
 					if ($open)
 					{
-						if ($current == $char)
+						if ($testEnd == $endString)
 						{
+							if ($comment)
+							{
+								$comment = false;
+								if ($lenEndString > 1)
+								{
+									$i += ($lenEndString - 1);
+									$current = substr($sql, $i, 1);
+								}
+								$start = $i + 1;
+							}
 							$open = false;
-							$char = '';
+							$endString = '';
 						}
 					}
 					else
 					{
 						$open = true;
-						$char = $current;
+						if ($current2 == '--')
+						{
+							$endString = "\n";
+							$comment = true;
+						}
+						elseif ($current2 == '/*')
+						{
+							$endString = '*/';
+							$comment = true;
+						}
+						elseif ($current == '#')
+						{
+							$endString = "\n";
+							$comment = true;
+						}
+						else
+						{
+							$endString = $current;
+						}
+						if ($comment && $start < $i)
+						{
+							$query = $query . substr($sql, $start, ($i - $start));
+						}
 					}
 				}
 			}
 
-			if (($current == ';' && !$open) || $i == $end - 1)
+			if ($comment)
 			{
-				$queries[] = substr($sql, $start, ($i - $start + 1));
 				$start = $i + 1;
 			}
+
+			if (($current == ';' && !$open) || $i == $end - 1)
+			{
+				if ($start <= $i)
+				{
+					$query = $query . substr($sql, $start, ($i - $start + 1));
+				}
+				$query = trim($query);
+
+				if ($query)
+				{
+					if (($i == $end - 1) && ($current != ';'))
+					{
+						$query = $query . ';';
+					}
+					$queries[] = $query;
+				}
+
+				$query = '';
+				$start = $i + 1;
+			}
+
+			$endComment = false;
 		}
 
 		return $queries;
@@ -414,6 +523,98 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		$this->setQuery($this->getAlterDbCharacterSet($dbName));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Alter a table's character set, obtaining an array of queries to do so from a protected method. The conversion is
+	 * wrapped in a transaction, if supported by the database driver. Otherwise the table will be locked before the
+	 * conversion. This prevents data corruption.
+	 *
+	 * @param   string   $tableName  The name of the table to alter
+	 * @param   boolean  $rethrow    True to rethrow database exceptions. Default: false (exceptions are suppressed)
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   CMS 3.5.0
+	 * @throws  RuntimeException  If the table name is empty
+	 * @throws  Exception  Relayed from the database layer if a database error occurs and $rethrow == true
+	 */
+	public function alterTableCharacterSet($tableName, $rethrow = false)
+	{
+		if (is_null($tableName))
+		{
+			throw new RuntimeException('Table name must not be null.');
+		}
+
+		$queries = $this->getAlterTableCharacterSet($tableName);
+
+		if (empty($queries))
+		{
+			return false;
+		}
+
+		$hasTransaction = true;
+
+		try
+		{
+			$this->transactionStart();
+		}
+		catch (Exception $e)
+		{
+			$hasTransaction = false;
+			$this->lockTable($tableName);
+		}
+
+		foreach ($queries as $query)
+		{
+			try
+			{
+				$this->setQuery($query)->execute();
+			}
+			catch (Exception $e)
+			{
+				if ($hasTransaction)
+				{
+					$this->transactionRollback();
+				}
+				else
+				{
+					$this->unlockTables();
+				}
+
+				if ($rethrow)
+				{
+					throw $e;
+				}
+
+				return false;
+			}
+		}
+
+		if ($hasTransaction)
+		{
+			try
+			{
+				$this->transactionCommit();
+			}
+			catch (Exception $e)
+			{
+				$this->transactionRollback();
+
+				if ($rethrow)
+				{
+					throw $e;
+				}
+
+				return false;
+			}
+		}
+		else
+		{
+			$this->unlockTables();
+		}
+
+		return true;
 	}
 
 	/**
@@ -579,9 +780,126 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   12.2
 	 */
-	protected function getAlterDbCharacterSet($dbName)
+	public function getAlterDbCharacterSet($dbName)
 	{
-		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `' . $charset . '`';
+	}
+
+	/**
+	 * Get the query strings to alter the character set and collation of a table.
+	 *
+	 * @param   string  $tableName  The name of the table
+	 *
+	 * @return  string[]  The queries required to alter the table's character set and collation
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getAlterTableCharacterSet($tableName)
+	{
+		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+		$collation = $charset . '_unicode_ci';
+
+		$quotedTableName = $this->quoteName($tableName);
+
+		$queries = array();
+		$queries[] = "ALTER TABLE $quotedTableName CONVERT TO CHARACTER SET $charset COLLATE $collation";
+
+		/**
+		 * We also need to convert each text column, modifying their character set and collation. This allows us to
+		 * change, for example, a utf8_bin collated column to a utf8mb4_bin collated column.
+		 */
+		$sql = "SHOW FULL COLUMNS FROM $quotedTableName";
+		$this->setQuery($sql);
+		$columns = $this->loadAssocList();
+		$columnMods = array();
+
+		if (is_array($columns))
+		{
+			foreach ($columns as $column)
+			{
+				// Make sure we are redefining only columns which do support a collation
+				$col = (object) $column;
+
+				if (empty($col->Collation))
+				{
+					continue;
+				}
+
+				// Default new collation: utf8_unicode_ci or utf8mb4_unicode_ci
+				$newCollation = $charset . '_unicode_ci';
+				$collationParts = explode('_', $col->Collation);
+
+				/**
+				 * If the collation is in the form charset_collationType_ci or charset_collationType we have to change
+				 * the charset but leave the collationType intact (e.g. utf8_bin must become utf8mb4_bin, NOT
+				 * utf8mb4_general_ci).
+				 */
+				if (count($collationParts) >= 2)
+				{
+					$ci = array_pop($collationParts);
+					$collationType = array_pop($collationParts);
+					$newCollation = $charset . '_' . $collationType . '_' . $ci;
+
+					/**
+					 * When the last part of the old collation is not _ci we have a charset_collationType format,
+					 * something like utf8_bin. Therefore the new collation only has *two* parts.
+					 */
+					if ($ci != 'ci')
+					{
+						$newCollation = $charset . '_' . $ci;
+					}
+				}
+
+				// If the old and new collation is the same we don't have to change the collation type
+				if (strtolower($newCollation) == strtolower($col->Collation))
+				{
+					continue;
+				}
+
+				$null = $col->Null == 'YES' ? 'NULL' : 'NOT NULL';
+				$default = is_null($col->Default) ? '' : "DEFAULT '" . $this->q($col->Default) . "'";
+				$columnMods[] = "MODIFY COLUMN `{$col->Field}` {$col->Type} CHARACTER SET $charset COLLATE $newCollation $null $default";
+			}
+		}
+
+		if (count($columnMods))
+		{
+			$queries[] = "ALTER TABLE $quotedTableName " .
+				implode(',', $columnMods) .
+				" CHARACTER SET $charset COLLATE $collation";
+		}
+
+		return $queries;
+	}
+
+	/**
+	 * Automatically downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used
+	 * when the server doesn't support UTF-8 Multibyte.
+	 *
+	 * @param   string  $query  The query to convert
+	 *
+	 * @return  string  The converted query
+	 */
+	public function convertUtf8mb4QueryToUtf8($query)
+	{
+		if ($this->hasUTF8mb4Support())
+		{
+			return $query;
+		}
+
+		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
+		$beginningOfQuery = substr($query, 0, 12);
+		$beginningOfQuery = strtoupper($beginningOfQuery);
+
+		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		{
+			return $query;
+		}
+
+		// Replace utf8mb4 with utf8
+		return str_replace('utf8mb4', 'utf8', $query);
 	}
 
 	/**
@@ -600,7 +918,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if ($utf)
 		{
-			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+			$collation = $charset . '_unicode_ci';
+
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
 		}
 
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
@@ -614,6 +935,17 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function getCollation();
+
+	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return '';
+	}
 
 	/**
 	 * Method that provides access to the underlying database connection. Useful for when you need to call a
@@ -800,6 +1132,74 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Get the name of the database driver. If $this->name is not set it will try guessing the driver name from the
+	 * class name.
+	 *
+	 * @return  string
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getName()
+	{
+		if (empty($this->name))
+		{
+			$className = get_class($this);
+			$className = str_replace('JDatabaseDriver', '', $className);
+			$this->name = strtolower($className);
+		}
+
+		return $this->name;
+	}
+
+	/**
+	 * Get the server family type, e.g. mysql, postgresql, oracle, sqlite, mssql. If $this->serverType is not set it
+	 * will attempt guessing the server family type from the driver name. If this is not possible the driver name will
+	 * be returned instead.
+	 *
+	 * @return  string
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getServerType()
+	{
+		if (empty($this->serverType))
+		{
+			$name = $this->getName();
+
+			if (stristr($name, 'mysql') !== false)
+			{
+				$this->serverType = 'mysql';
+			}
+			elseif (stristr($name, 'postgre') !== false)
+			{
+				$this->serverType = 'postgresql';
+			}
+			elseif (stristr($name, 'oracle') !== false)
+			{
+				$this->serverType = 'oracle';
+			}
+			elseif (stristr($name, 'sqlite') !== false)
+			{
+				$this->serverType = 'sqlite';
+			}
+			elseif (stristr($name, 'sqlsrv') !== false)
+			{
+				$this->serverType = 'mssql';
+			}
+			elseif (stristr($name, 'mssql') !== false)
+			{
+				$this->serverType = 'mssql';
+			}
+			else
+			{
+				$this->serverType = $name;
+			}
+		}
+
+		return $this->serverType;
+	}
+
+	/**
 	 * Get the current query object or a new JDatabaseQuery object.
 	 *
 	 * @param   boolean  $new  False to return the current query object, True to return a new JDatabaseQuery object.
@@ -930,6 +1330,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function hasUTFSupport()
 	{
 		return $this->utf;
+	}
+
+	/**
+	 * Determine whether the database engine support the UTF-8 Multibyte (utf8mb4) character encoding. This applies to
+	 * MySQL databases.
+	 *
+	 * @return  boolean  True if the database engine supports UTF-8 Multibyte.
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function hasUTF8mb4Support()
+	{
+		return $this->utf8mb4;
 	}
 
 	/**
@@ -1151,10 +1564,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
-		JLog::add(__METHOD__ . '() is deprecated. Use JDatabase::getIterator() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1188,11 +1602,11 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated  N/A (CMS)  Use JDatabaseDriver::getIterator() instead
+	 * @deprecated  4.0 (CMS)  Use JDatabaseDriver::getIterator() instead
 	 */
 	public function loadNextRow()
 	{
-		JLog::add('JDatabaseDriver::loadNextRow() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . '() is deprecated. Use JDatabaseDriver::getIterator() instead.', JLog::WARNING, 'deprecated');
 		$this->connect();
 
 		static $cursor = null;
@@ -1728,7 +2142,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 */
-	abstract public function setUTF();
+	abstract public function setUtf();
 
 	/**
 	 * Method to commit a transaction.

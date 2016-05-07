@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
@@ -11,7 +18,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +37,7 @@ class SiteConfigurationTemplatePage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//form[@id='templates-form']";
+	protected $waitForXpath = "//form[@id='templates-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -43,24 +50,21 @@ class SiteConfigurationTemplatePage extends SitePage
 	/**
 	 * Function which changes the template color saving the changes
 	 *
-	 * @var string template Color
+	 * @param   string  $templateColor  stores the color of the template
 	 *
 	 * @return  null
 	 */
 	public function changeTemplateColor($templateColor)
 	{
-
 		$d = $this->driver;
 
 		$d->findElement(By::xPath("//input[@id='params_templateColor']"))->clear();
 		$d->findElement(By::xPath("//input[@id='params_templateColor']"))->sendKeys($templateColor);
 		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click();
-
 	}
 
 	/**
 	 * Function which returns Template Color
-	 *
 	 *
 	 * @return  string   template color
 	 */
@@ -69,19 +73,17 @@ class SiteConfigurationTemplatePage extends SitePage
 		$d = $this->driver;
 
 		return $d->findElement(By::xPath("//input[@id='params_templateColor']"))->getAttribute("value");
-
 	}
 
 	/**
 	 * Function which changes the Background Color saving the changes
 	 *
-	 * @var string background color
+	 * @param   string  $backgroundColor  stores the background color
 	 *
 	 * @return  null
 	 */
 	public function changeBackgroundColor($backgroundColor)
 	{
-
 		$d = $this->driver;
 
 		$d->findElement(By::xPath("//input[@id='params_templateBackgroundColor']"))->clear();
@@ -100,6 +102,5 @@ class SiteConfigurationTemplatePage extends SitePage
 		$d = $this->driver;
 
 		return $d->findElement(By::xPath("//input[@id='params_templateBackgroundColor']"))->getAttribute("value");
-
 	}
 }

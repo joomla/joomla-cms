@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Platform
  * @subpackage  Form
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class JFormRuleOptions extends JFormRule
 	/**
 	 * Method to test the value.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -35,15 +35,26 @@ class JFormRuleOptions extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		// Check each value and return true if we get a match
-		foreach ($element->option as $option)
+		// Make an array of all available option values.
+		$options = array();
+
+		foreach ($element->option as $opt)
 		{
-			if ($value == (string) $option->attributes()->value)
-			{
-				return true;
-			}
+			$options[] = $opt->attributes()->value;
 		}
 
-		return false;
+		// There may be multiple values in the form of an array (if the element is checkboxes, for example).
+		if (is_array($value))
+		{
+			// If all values are in the $options array, $diff will be empty and the options valid.
+			$diff = array_diff($value, $options);
+
+			return empty($diff);
+		}
+		else
+		{
+			// In this case value must be a string
+			return in_array((string) $value, $options);
+		}
 	}
 }

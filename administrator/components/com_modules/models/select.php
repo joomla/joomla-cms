@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,8 +33,8 @@ class ModulesModelSelect extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.filter.client_id', 0);
-		$this->setState('filter.client_id', (int) $clientId);
+		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
+		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_modules');
@@ -61,7 +61,7 @@ class ModulesModelSelect extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id .= ':' . $this->getState('filter.client_id');
+		$id .= ':' . $this->getState('client_id');
 
 		return parent::getStoreId($id);
 	}
@@ -90,7 +90,7 @@ class ModulesModelSelect extends JModelList
 		$query->where('a.type = ' . $db->quote('module'));
 
 		// Filter by client.
-		$clientId = $this->getState('filter.client_id');
+		$clientId = $this->getState('client_id');
 		$query->where('a.client_id = ' . (int) $clientId);
 
 		// Filter by enabled
@@ -112,7 +112,7 @@ class ModulesModelSelect extends JModelList
 		// Get the list of items from the database.
 		$items = parent::getItems();
 
-		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
+		$client = JApplicationHelper::getClientInfo($this->getState('client_id', 0));
 		$lang = JFactory::getLanguage();
 
 		// Loop through the results to add the XML metadata,

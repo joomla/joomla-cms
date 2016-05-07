@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,48 +27,47 @@ class ModStatsHelper
 	 */
 	public static function &getList(&$params)
 	{
-		$app	= JFactory::getApplication();
-		$db		= JFactory::getDbo();
-		$rows	= array();
-		$query	= $db->getQuery(true);
-
+		$app        = JFactory::getApplication();
+		$db         = JFactory::getDbo();
+		$rows       = array();
+		$query      = $db->getQuery(true);
 		$serverinfo = $params->get('serverinfo');
-		$siteinfo	= $params->get('siteinfo');
-		$counter	= $params->get('counter');
-		$increase	= $params->get('increase');
+		$siteinfo   = $params->get('siteinfo');
+		$counter    = $params->get('counter');
+		$increase   = $params->get('increase');
 
 		$i = 0;
 
 		if ($serverinfo)
 		{
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_OS');
-			$rows[$i]->data		= substr(php_uname(), 0, 7);
+			$rows[$i]->title = JText::_('MOD_STATS_OS');
+			$rows[$i]->data  = substr(php_uname(), 0, 7);
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_PHP');
-			$rows[$i]->data	= phpversion();
+			$rows[$i]->title = JText::_('MOD_STATS_PHP');
+			$rows[$i]->data  = phpversion();
 			$i++;
 
 			$rows[$i] = new stdClass;
 			$rows[$i]->title = JText::_($db->name);
-			$rows[$i]->data	= $db->getVersion();
+			$rows[$i]->data  = $db->getVersion();
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JTEXT::_('MOD_STATS_TIME');
-			$rows[$i]->data	= JHtml::_('date', 'now', 'H:i');
+			$rows[$i]->title = JText::_('MOD_STATS_TIME');
+			$rows[$i]->data  = JHtml::_('date', 'now', 'H:i');
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
-			$rows[$i]->data	= $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->title = JText::_('MOD_STATS_CACHING');
+			$rows[$i]->data  = $app->get('caching') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
-			$rows[$i]->data	= $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
+			$rows[$i]->title = JText::_('MOD_STATS_GZIP');
+			$rows[$i]->data  = $app->get('gzip') ? JText::_('JENABLED') : JText::_('JDISABLED');
 			$i++;
 		}
 
@@ -77,28 +76,42 @@ class ModStatsHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
-			$users = $db->loadResult();
+			try
+			{
+				$users = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$users = false;
+			}
 
 			$query->clear()
 				->select('COUNT(id) AS count_items')
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$items = $db->loadResult();
+			try
+			{
+				$items = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$items = false;
+			}
 
 			if ($users)
 			{
 				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_USERS');
-				$rows[$i]->data	= $users;
+				$rows[$i]->title = JText::_('MOD_STATS_USERS');
+				$rows[$i]->data  = $users;
 				$i++;
 			}
 
 			if ($items)
 			{
 				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES');
-				$rows[$i]->data	= $items;
+				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
+				$rows[$i]->data  = $items;
 				$i++;
 			}
 
@@ -109,7 +122,14 @@ class ModStatsHelper
 					->from('#__weblinks')
 					->where('state = 1');
 				$db->setQuery($query);
-				$links = $db->loadResult();
+				try
+				{
+					$links = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					$links = false;
+				}
 
 				if ($links)
 				{
@@ -129,13 +149,20 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
-			$hits = $db->loadResult();
+			try
+			{
+				$hits = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$hits = false;
+			}
 
 			if ($hits)
 			{
 				$rows[$i] = new stdClass;
-				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
-				$rows[$i]->data	= $hits + $increase;
+				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
+				$rows[$i]->data  = $hits + $increase;
 			}
 		}
 

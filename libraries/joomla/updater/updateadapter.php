@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,7 +141,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 			return;
 		}
 
-		$db = $this->parent->getDBO();
+		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 			->update($db->qn('#__update_sites'))
 			->set($db->qn('enabled') . ' = ' . $db->q($enabled ? 1 : 0))
@@ -174,7 +174,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 			return '';
 		}
 
-		$db = $this->parent->getDBO();
+		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 					->select($db->qn('name'))
 					->from($db->qn('#__update_sites'))
@@ -243,7 +243,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		try
 		{
 			$http = JHttpFactory::getHttp();
-			$response = $http->get($url);
+			$response = $http->get($url, array(), 20);
 		}
 		catch (RuntimeException $e)
 		{

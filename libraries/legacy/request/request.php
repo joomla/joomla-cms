@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ class JRequest
 	 *
 	 * @deprecated   12.1
 	 */
-	public static function getURI()
+	public static function getUri()
 	{
 		$uri = JUri::getInstance();
 
@@ -379,10 +379,10 @@ class JRequest
 				$_FILES[$name] = $value;
 				break;
 			case 'ENV':
-				$_ENV['name'] = $value;
+				$_ENV[$name] = $value;
 				break;
 			case 'SERVER':
-				$_SERVER['name'] = $value;
+				$_SERVER[$name] = $value;
 				break;
 		}
 
