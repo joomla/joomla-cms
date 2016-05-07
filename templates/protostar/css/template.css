@@ -7059,6 +7059,7 @@ h4,
 h5,
 h6 {
 	margin: 12px 0;
+	word-wrap: break-word;
 }
 h1 {
 	font-size: 26px;
@@ -7088,6 +7089,9 @@ h6 {
 	padding-bottom: 17px;
 	margin: 20px 0 18px 0;
 	border-bottom: 1px solid #eeeeee;
+}
+p {
+	word-wrap: break-word;
 }
 .item-title {
 	margin-bottom: 9px;
@@ -7496,6 +7500,12 @@ code {
 	background-color: #FFFFCC;
 	font-weight: bold;
 	padding: 1px 4px;
+}
+dt.result-title {
+	word-wrap: break-word;
+}
+dd.result-text {
+	word-wrap: break-word;
 }
 body.modal-open {
 	overflow: hidden;

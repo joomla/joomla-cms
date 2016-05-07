@@ -105,12 +105,7 @@ class MenusModelItems extends JModelList
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.menutype');
-
-			if (!$menuType)
-			{
-				$menuType = $this->getDefaultMenuType();
-			}
+			$app->setUserState($this->context . '.menutype', '');
 		}
 
 		$this->setState('filter.menutype', $menuType);
@@ -160,29 +155,6 @@ class MenusModelItems extends JModelList
 		$id .= ':' . $this->getState('filter.menutype');
 
 		return parent::getStoreId($id);
-	}
-
-	/**
-	 * Finds the default menu type.
-	 *
-	 * In the absence of better information, this is the first menu ordered by title.
-	 *
-	 * @return  string    The default menu type
-	 *
-	 * @since   1.6
-	 */
-	protected function getDefaultMenuType()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('menutype')
-			->from('#__menu_types')
-			->order('title');
-		$db->setQuery($query, 0, 1);
-		$menuType = $db->loadResult();
-
-		return $menuType;
 	}
 
 	/**

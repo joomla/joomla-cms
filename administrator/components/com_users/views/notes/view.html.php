@@ -126,7 +126,7 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::checkin('notes.checkin');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();

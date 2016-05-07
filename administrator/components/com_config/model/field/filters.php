@@ -86,7 +86,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
 				. ' id="' . $this->id . $group->value . '_filter_type"'
-				. ' class="novalidate" data-chosen="true"'
+				. ' class="novalidate"'
 				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
 				. JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
