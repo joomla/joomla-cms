@@ -7501,6 +7501,12 @@ code {
 	font-weight: bold;
 	padding: 1px 4px;
 }
+dt.result-title {
+	word-wrap: break-word;
+}
+dd.result-text {
+	word-wrap: break-word;
+}
 body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;

@@ -433,6 +433,15 @@ input[type="radio"]:checked + label:before {
 	padding: 10px 15px 5px 5px
 }
 
+/* Com_search break long titles & text */
+dt.result-title {
+	word-wrap: break-word;
+}
+
+dd.result-text {
+	word-wrap: break-word;
+}
+
 .advanced-search-tip {
 	background: #FEFDE2;
 	border-radius: 3px;
