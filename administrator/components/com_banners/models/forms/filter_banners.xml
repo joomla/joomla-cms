@@ -5,14 +5,12 @@
 			name="search"
 			type="text"
 			label="COM_BANNERS_BANNERS_FILTER_SEARCH_LABEL"
-			description="COM_BANNERS_BANNERS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
 		<field
 			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -21,7 +19,6 @@
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
-			description="JOPTION_FILTER_CATEGORY_DESC"
 			extension="com_banners"
 			onchange="this.form.submit();"
 			>
@@ -31,7 +28,6 @@
          	name="client_id"
 			type="bannerclient"
 			label="COM_BANNERS_FILTER_CLIENT"
-			description="COM_BANNERS_FILTER_CLIENT_DESC"
 			extension="com_content"
 			onchange="this.form.submit();"
 			>
@@ -41,7 +37,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
-			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -51,7 +46,6 @@
 			name="level"
 			type="integer"
 			label="JOPTION_FILTER_LEVEL"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -67,7 +61,6 @@
 			type="list"
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.name ASC"
 			>
@@ -99,7 +92,6 @@
 			class="input-mini"
 			default="25"
 			label="COM_BANNERS_LIST_LIMIT"
-			description="COM_BANNERS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
 		/>
 	</fields>

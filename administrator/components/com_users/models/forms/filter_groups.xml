@@ -5,7 +5,6 @@
 			name="search"
 			type="text"
 			label="COM_USERS_SEARCH_GROUPS_LABEL"
-			description="COM_USERS_SEARCH_IN_GROUPS"
 			hint="JSEARCH_FILTER"
 		/>
 	</fields>
@@ -14,7 +13,6 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
 			>
@@ -30,7 +28,6 @@
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
