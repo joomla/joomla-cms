@@ -683,7 +683,7 @@ class JImage
 	/**
 	 * Method to set the background fill color to use for non-transparent images.
 	 *
-	 * @param   array   $color   The RGBA values defining the color to use for background fill
+	 * @param   array  $color  The RGBA values defining the color to use for background fill
 	 *
 	 * @return  JImage
 	 *
@@ -698,8 +698,7 @@ class JImage
 			JArrayHelper::toInteger($color);
 
 			// Ensure passed in values are valid
-			$color = array_filter($color, function(&$value, $i) use(&$defaultColor)
-			{
+			$color = array_filter($color, function(&$value, $i) use(&$defaultColor) {
 				if ($i === 3)
 				{
 					$value = $value > 127 ? 127 : $value;
@@ -711,14 +710,16 @@ class JImage
 
 				return true;
 
-			}, ARRAY_FILTER_USE_BOTH);
+			},
+			ARRAY_FILTER_USE_BOTH
+			);
 
 			// Add missing values from the default color.
 			$len = count($color);
 
 			if ($len < 4)
 			{
-				for ($i = $len; $i < 4; $i += 1)
+				for ($i = $len; $i < 4; $i++)
 				{
 					array_push($color, $this->fillColor[$i]);
 				}
