@@ -94,9 +94,16 @@ JFactory::getDocument()->addScriptDeclaration('
 						<span class="gi">&mdash;</span>
 					<?php endif; ?>
 					<?php
-					$key = FinderHelperLanguage::branchSingular($item->title);
-					$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
-					echo $this->escape(($title == '*') ? JText::_('JALL_LANGUAGE') : $title);
+					if (trim($item->parent_title, '**') == 'Language')
+					{
+						$title = FinderHelperLanguage::branchLanguageTitle($item->title);
+					}
+					else
+					{
+						$key = FinderHelperLanguage::branchSingular($item->title);
+						$title = $lang->hasKey($key) ? JText::_($key) : $item->title;
+					}
+					echo $title;
 					?>
 					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
 						<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>

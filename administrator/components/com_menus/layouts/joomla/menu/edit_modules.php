@@ -59,7 +59,7 @@ foreach ($fields as $field)
 				$form->setFieldAttribute($f, 'type', 'hidden');
 			}
 
-			$html[] = '<li>'.$form->renderField($f).'</li>';
+			$html[] = '<li>' . $form->renderField($f) . '</li>';
 			break;
 		}
 	}

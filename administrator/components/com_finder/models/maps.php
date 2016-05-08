@@ -194,6 +194,10 @@ class FinderModelMaps extends JModelList
 		// Join to get the levels.
 		$query->join('LEFT', '(' . $levelQuery . ') AS d ON ' . $db->quoteName('d.id') . ' = ' . $db->quoteName('a.id'));
 
+		// Self-join to get the parent title.
+		$query->select('e.title AS parent_title')
+			->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('a.parent_id'));
+
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 

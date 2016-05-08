@@ -78,6 +78,7 @@ class FinderViewFilters extends JViewLegacy
 		{
 			JToolbarHelper::publishList('filters.publish');
 			JToolbarHelper::unpublishList('filters.unpublish');
+			JToolbarHelper::checkin('filters.checkin');
 			JToolbarHelper::divider();
 		}
 
