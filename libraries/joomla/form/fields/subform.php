@@ -20,7 +20,7 @@ jimport('joomla.filesystem.path');
  * 		layout="joomla.form.field.subform.repeatable-table" groupByFieldset="false" component="com_example" client="site"
  * 		label="Field Label" description="Field Description" />
  *
- * @since  3.5
+ * @since  3.6
  */
 class JFormFieldSubform extends JFormField
 {
@@ -73,7 +73,7 @@ class JFormFieldSubform extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function __get($name)
 	{
@@ -99,7 +99,7 @@ class JFormFieldSubform extends JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function __set($name, $value)
 	{
@@ -177,7 +177,7 @@ class JFormFieldSubform extends JFormField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -205,7 +205,7 @@ class JFormFieldSubform extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	protected function getInput()
 	{
@@ -291,7 +291,7 @@ class JFormFieldSubform extends JFormField
 	 *
 	 * @return  string  The name to be used for the field input tag.
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	protected function getName($fieldName)
 	{
