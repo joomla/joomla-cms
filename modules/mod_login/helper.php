@@ -32,30 +32,19 @@ class ModLoginHelper
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
 
+		// Stay on the same page
+		$url = JUri::getInstance()->toString();
+
 		if ($item)
 		{
-			if (JLanguageMultilang::isEnabled())
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled() && $item->language !== '*')
 			{
-				if ($item->language !== '*')
-				{
-					$lang = '&lang=' . $item->language;
-				}
-				else
-				{
-					$lang = '';
-				}
-			}
-			else
-			{
-				$lang = '';
+				$lang = '&lang=' . $item->language;
 			}
 
 			$url = 'index.php?Itemid=' . $item->id . $lang;
-		}
-		else
-		{
-			// Stay on the same page
-			$url = JUri::getInstance()->toString();
 		}
 
 		return base64_encode($url);
