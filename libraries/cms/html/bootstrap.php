@@ -489,6 +489,24 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
+	 * Loads js and css files needed by Bootstrap Tooltip Extended plugin
+	 *
+	 * @param   boolean  $extended  If true, bootstrap-tooltip-extended.js and .css files are loaded
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public static function tooltipExtended($extended = true)
+	{
+		if ($extended)
+		{
+			JHtml::_('script', 'jui/bootstrap-tooltip-extended.min.js', false, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-tooltip-extended.css', false, true);
+		}
+	}
+
+	/**
 	 * Add javascript support for Bootstrap typeahead
 	 *
 	 * @param   string  $selector  The selector for the typeahead element.
