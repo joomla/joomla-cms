@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       3.4
+ * @since       3.6
  */
 class JLanguageMultiLangTest extends TestCaseDatabase
 {
@@ -22,7 +22,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * Value for test host.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.6
 	 */
 	const TEST_HTTP_HOST = 'mydomain.com';
 
@@ -30,7 +30,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * Value for test user agent.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.6
 	 */
 	const TEST_USER_AGENT = 'Mozilla/5.0';
 
@@ -38,7 +38,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * Value for test user agent.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  3.6
 	 */
 	const TEST_REQUEST_URI = '/index.php';
 
@@ -46,7 +46,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * Backup of the SERVER superglobal
 	 *
 	 * @var    array
-	 * @since  3.4
+	 * @since  3.6
 	 */
 	protected $backupServer;
 
@@ -55,7 +55,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.2
+	 * @since   3.6
 	 */
 	public function setUp()
 	{
@@ -81,7 +81,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.2
+	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
@@ -100,7 +100,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   3.4
+	 * @since   3.6
 	 */
 	protected function getDataSet()
 	{
@@ -116,6 +116,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 *
 	 * @covers   JLanguageMultiLang::isEnabled
 	 * @uses     JApplicationSite
+	 * @since    3.6
 	 */
 	public function testIsEnabledWithSiteApp()
 	{
@@ -135,6 +136,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 	 * @testdox  Ensure isEnabled() database query works correctly
 	 *
 	 * @covers   JLanguageMultiLang::isEnabled
+	 * @since    3.6
 	 */
 	public function testIsEnabledWithAdminApp()
 	{
