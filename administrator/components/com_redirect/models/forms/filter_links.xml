@@ -17,6 +17,15 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
+		<field
+			name="http_status"
+			type="Redirect"
+			label="COM_REDIRECT_FILTER_HTTP_HEADER_LABEL"
+			description="COM_REDIRECT_FILTER_HTTP_HEADER_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
