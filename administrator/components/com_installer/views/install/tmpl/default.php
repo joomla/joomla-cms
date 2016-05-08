@@ -109,7 +109,7 @@ JFactory::getDocument()->addStyleDeclaration(
 						 style="margin-bottom: 40px; line-height: 2em; color:#333333;">
 					<?php echo JHtml::_(
 						'link',
-						JRoute::_('index.php?option=com_installer&view=discover' . urlencode(base64_encode(JUri::getInstance()))),
+						JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
 						'&times;',
 						'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 					);
