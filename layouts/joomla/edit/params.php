@@ -89,7 +89,7 @@ else
 		{
 			foreach ($form->getFieldset($name) as $field)
 			{
-				echo $field->input;
+				$html[] = $field->input;
 			}
 		}
 	}

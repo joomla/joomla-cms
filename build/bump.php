@@ -52,6 +52,8 @@ $languageXmlFiles = array(
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
+$antJobFile = '/build.xml';
+
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
 
@@ -216,6 +218,14 @@ if (file_exists($rootPath . $languagePackXmlFile))
 	$fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '.1</version>', $fileContents);
 	$fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
 	file_put_contents($rootPath . $languagePackXmlFile, $fileContents);
+}
+
+// Updates the version for the `phpdoc` task in the Ant job file.
+if (file_exists($rootPath . $antJobFile))
+{
+	$fileContents = file_get_contents($rootPath . $antJobFile);
+	$fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
+	file_put_contents($rootPath . $antJobFile, $fileContents);
 }
 
 echo 'Version bump complete!' . PHP_EOL;
