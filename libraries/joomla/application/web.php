@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Base class for a Joomla! Web application.
@@ -478,9 +479,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function redirect($url, $status = 303)
 	{
-		// Import library dependencies.
-		jimport('phputf8.utils.ascii');
-
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
 		{
@@ -528,7 +526,7 @@ class JApplicationWeb extends JApplicationBase
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -855,6 +853,8 @@ class JApplicationWeb extends JApplicationBase
 		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
 		 * information from Apache or IIS.
 		 */
+		// Define variable to return
+		$uri = '';
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
@@ -863,7 +863,7 @@ class JApplicationWeb extends JApplicationBase
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else
+		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];

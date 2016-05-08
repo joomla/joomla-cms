@@ -79,6 +79,17 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			JToolbarHelper::divider();
 		}
 
+		if ($canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'updatesites.delete', 'JTOOLBAR_DELETE');
+			JToolbarHelper::divider();
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
 
 		parent::addToolbar();

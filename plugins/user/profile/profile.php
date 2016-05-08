@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * An example custom profile plugin.
  *
@@ -373,7 +375,7 @@ class PlgUserProfile extends JPlugin
 		$option     = JFactory::getApplication()->input->getCmd('option');
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = ($this->params->get('register-require_tos', 0) == 2) ? true : false;
-		if (($task == 'register') && ($tosenabled) && ($tosarticle) && ($option == 'com_user'))
+		if (($task == 'register') && ($tosenabled) && ($tosarticle) && ($option == 'com_users'))
 		{
 			// Check that the tos is checked.
 			if ((!($data['profile']['tos'])))
@@ -397,7 +399,7 @@ class PlgUserProfile extends JPlugin
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
-		$userId = JArrayHelper::getValue($data, 'id', 0, 'int');
+		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
 		{
@@ -454,7 +456,7 @@ class PlgUserProfile extends JPlugin
 			return false;
 		}
 
-		$userId = JArrayHelper::getValue($user, 'id', 0, 'int');
+		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId)
 		{

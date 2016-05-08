@@ -102,6 +102,11 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function connect()
 	{
+		if ($this->connection)
+		{
+			return;
+		}
+
 		try
 		{
 			// Try to connect to MySQL
