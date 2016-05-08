@@ -1250,8 +1250,8 @@ CREATE TABLE "#__menu_types" (
 --
 -- Dumping data for table #__menu_types
 --
-INSERT INTO "#__menu_types" ("id", "menutype", "title", "description") VALUES
-(1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+INSERT INTO "#__menu_types" ("id", "asset_id", "menutype", "title", "description") VALUES
+(1, 0, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
 SELECT setval('#__menu_types_id_seq', 2, false);
 
