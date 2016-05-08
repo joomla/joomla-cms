@@ -20,11 +20,9 @@
 		</field>
 		<field
 			name="type"
-			type="sql"
+			type="ContentTypes"
 			label="JOPTION_FILTER_CATEGORY"
 			description="JOPTION_FILTER_CATEGORY_DESC"
-			default="0"
-			query="SELECT id AS value, title AS type FROM #__finder_types ORDER BY title"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_FINDER_MAPS_SELECT_TYPE</option>

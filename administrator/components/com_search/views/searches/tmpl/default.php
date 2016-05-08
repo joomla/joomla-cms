@@ -59,7 +59,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td>
+					<td class="break-word">
 						<?php echo $this->escape($item->search_term); ?>
 					</td>
 					<td>
