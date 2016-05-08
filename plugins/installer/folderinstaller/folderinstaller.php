@@ -1,22 +1,21 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Installer.packageInstaller
+ * @subpackage  Installer.FolderInstaller
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
 /**
- * PackageInstaller Plugin.
+ * FolderInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller extends JPlugin
+class PlgInstallerFolderInstaller  extends JPlugin
 {
 	/**
 	 * Constructor
@@ -44,40 +43,48 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
+		$app = JFactory::getApplication('administrator');
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'folder', JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT', true));
 		?>
+		<div class="clr"></div>
 		<fieldset class="uploadform">
-			<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
+			<legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 			<div class="control-group">
-				<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+				<label for="install_directory" class="control-label"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
 				<div class="controls">
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+					<input 
+						type="text" 
+						id="install_directory" 
+						name="install_directory" 
+						class="span5 input_box" 
+						size="70" 
+						value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
 				</div>
 			</div>
 			<div class="form-actions">
-				<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonpackage()">
-					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+				<input type="button" class="btn btn-primary"
+					value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()"
+				/>
 			</div>
-			
 		</fieldset>
 
 		<?php
 		echo JHtml::_('bootstrap.endTab');
 
 		JFactory::getDocument()->addScriptDeclaration('
-			Joomla.submitbuttonpackage = function()
+			Joomla.submitbuttonfolder = function()
 			{
 				var form = document.getElementById("adminForm");
 		
 				// do field validation 
-				if (form.install_package.value == "")
+				if (form.install_directory.value == "")
 				{
-					alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE') . '");
+					alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH') . '");
 				}
 				else
 				{
 					jQuery("#loading").css("display", "block");
-					form.installtype.value = "upload"
+					form.installtype.value = "folder"
 					form.submit();
 				}
 			};

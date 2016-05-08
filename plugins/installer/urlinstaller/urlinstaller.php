@@ -1,22 +1,21 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Installer.packageInstaller
+ * @subpackage  Installer.Urlinstaller
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
 /**
- * PackageInstaller Plugin.
+ * UrlFolderInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller extends JPlugin
+class PlgInstallerUrlInstaller extends JPlugin
 {
 	/**
 	 * Constructor
@@ -44,40 +43,42 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('PLG_INSTALLER_URLINSTALLER_TEXT', true));
 		?>
+		<div class="clr"></div>
 		<fieldset class="uploadform">
-			<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
+			<legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
 			<div class="control-group">
-				<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+				<label for="install_url"
+				       class="control-label"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></label>
 				<div class="controls">
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+					<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="http://"/>
 				</div>
 			</div>
 			<div class="form-actions">
-				<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonpackage()">
-					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?></button>
+				<input type="button" class="btn btn-primary"
+				       value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>"
+				       onclick="Joomla.submitbuttonurl()"
+				/>
 			</div>
-			
 		</fieldset>
 
 		<?php
 		echo JHtml::_('bootstrap.endTab');
 
 		JFactory::getDocument()->addScriptDeclaration('
-			Joomla.submitbuttonpackage = function()
+			Joomla.submitbuttonurl = function()
 			{
 				var form = document.getElementById("adminForm");
 		
 				// do field validation 
-				if (form.install_package.value == "")
-				{
-					alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE') . '");
-				}
-				else
+				if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
+		            alert("' . JText::_('PLG_INSTALLER_URLINSTALLER_NO_URL', true) . '");
+		        }
+		        else
 				{
 					jQuery("#loading").css("display", "block");
-					form.installtype.value = "upload"
+					form.installtype.value = "url"
 					form.submit();
 				}
 			};
