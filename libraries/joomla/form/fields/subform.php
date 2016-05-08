@@ -131,6 +131,14 @@ class JFormFieldSubform extends JFormField
 
 			case 'layout':
 				$this->layout = (string) $value;
+
+				// Make sure the layout is not empty.
+				if (!$this->layout)
+				{
+					// Set default value depend from "multiple" mode
+					$this->layout = !$this->multiple ? 'joomla.form.field.subform.default' : 'joomla.form.field.subform.repeatable';
+				}
+
 				break;
 
 			case 'buttons':
