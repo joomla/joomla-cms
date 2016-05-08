@@ -211,15 +211,15 @@ class JFormFieldSubform extends JFormField
 	{
 		$value = $this->value ? $this->value : array();
 
-		// Prepare render data
-		$data = array();
-		$tmpl = null;
-		$forms = array();
+		// Prepare data for renderer
+		$data    = parent::getLayoutData();
+		$tmpl    = null;
+		$forms   = array();
 		$control = $this->name;
 
 		try
 		{
-			// Get the form template
+			// Prepare the form template
 			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
 			$tmpl = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
@@ -253,26 +253,31 @@ class JFormFieldSubform extends JFormField
 			return $e->getMessage();
 		}
 
-		$data['tmpl'] = $tmpl;
-		$data['forms'] = $forms;
-		$data['multiple'] = $this->multiple;
-		$data['min'] = $this->min;
-		$data['max'] = $this->max;
+		$data['tmpl']      = $tmpl;
+		$data['forms']     = $forms;
+		$data['min']       = $this->min;
+		$data['max']       = $this->max;
+		$data['control']   = $control;
+		$data['buttons']   = $this->buttons;
 		$data['fieldname'] = $this->fieldname;
-		$data['control'] = $control;
-		$data['buttons'] = $this->buttons;
-
-		$label = (string) $this->element['label'];
-		$data['label'] = $this->translateLabel ? JText::_($label) : $label;
-		$data['description'] = $this->translateLabel ? JText::_($this->description) : $this->description;
 		$data['groupByFieldset'] = $this->groupByFieldset;
 
-		// Allow to define some JLayout options in XML element
-		$client = $this->element['client'] ? (string) $this->element['client'] : 'auto';
-		$component = $this->element['component'] ? (string) $this->element['component'] : 'auto';
+		// Prepare renderer
+		$renderer = $this->getRenderer($this->layout);
+
+		// Allow to define some JLayout options as attribute of the element
+		if ($this->element['component'])
+		{
+			$renderer->setComponent((string) $this->element['component']);
+		}
+
+		if ($this->element['client'])
+		{
+			$renderer->setClient((string) $this->element['client']);
+		}
 
 		// Render
-		$html = JLayoutHelper::render($this->layout, $data, null, array('client' => $client, 'component' => $component));
+		$html = $renderer->render($data);
 
 		// Add hidden input on front of the subform inputs, in multiple mode
 		// for allow to submit an empty value
