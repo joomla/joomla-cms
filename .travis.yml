@@ -50,11 +50,13 @@ before_script:
   - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 7.* ]]; then printf "\n" | pecl install apcu-beta && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
   - if [[ $INSTALL_APCU_BC_BETA == "yes" ]]; then printf "\n" | pecl install apcu_bc-beta; fi
   - if [[ $INSTALL_REDIS == "yes" ]]; then phpenv config-add build/travis/phpenv/redis.ini; fi
+  #Make sure all node modules are installed
+  - npm install
 
 script:
   - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
   - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
-
+  - node_modules/karma/bin/karma start my.conf.js --single-run
 branches:
   except:
     - 2.5.x
