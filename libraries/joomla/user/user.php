@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  11.1
  */
-class JUser extends JObject
+class JUser extends JObject implements Serializable
 {
 	/**
 	 * A cached switch for if this user has root access rights.
@@ -813,12 +813,6 @@ class JUser extends JObject
 			return false;
 		}
 
-		// Reset the user object in the session on a successful save
-		if ($result === true && JFactory::getUser()->id == $this->id)
-		{
-			JFactory::getSession()->set('user', $this);
-		}
-
 		return $result;
 	}
 
@@ -898,5 +892,50 @@ class JUser extends JObject
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to serialize the input.
+	 *
+	 * @return  string  The serialized input.
+	 *
+	 * @since   3.5
+	 */
+	public function serialize()
+	{
+		return serialize(array($this->id));
+	}
+
+	/**
+	 * Method to unserialize the user object.
+	 *
+	 * @param   string  $input  The serialized input.
+	 *
+	 * @return  JUser
+	 *
+	 * @since   3.5
+	 */
+	public function unserialize($input)
+	{
+		// Get the user id from the serialized data.
+		list($id) = unserialize($input);
+
+		// Initialise some variables
+		$this->userHelper = new JUserWrapperHelper;
+		$this->_params    = new Registry;
+
+		// Load the user if it exists
+		if (!empty($id))
+		{
+			$this->load($id);
+		}
+		else
+		{
+			// Initialise
+			$this->id = 0;
+			$this->sendEmail = 0;
+			$this->aid = 0;
+			$this->guest = 1;
+		}
 	}
 }
