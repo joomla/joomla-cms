@@ -899,7 +899,7 @@ class JUser extends JObject implements Serializable
 	 *
 	 * @return  string  The serialized input.
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function serialize()
 	{
@@ -913,7 +913,7 @@ class JUser extends JObject implements Serializable
 	 *
 	 * @return  JUser
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function unserialize($input)
 	{
