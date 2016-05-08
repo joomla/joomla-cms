@@ -520,8 +520,8 @@ INSERT INTO "#__menu_types" VALUES
 (5,'parks','Australian Parks','Main menu for a site about Australian parks'),
 (6,'mainmenu','Main Menu','Simple Home Menu'),
 (7,'fruitshop','Fruit Shop','Menu for the sample shop site.'),
-(8,'frontendviews','All Front End Views',''),
-(9,'modules','All Modules','');
+(8,'frontendviews','All Front End Views'),
+(9,'modules','All Modules');
 
 SELECT setval('#__menu_types_id_seq', max(id)) FROM #__menu_types;
 
