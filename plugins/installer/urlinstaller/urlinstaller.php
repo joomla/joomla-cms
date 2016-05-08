@@ -1,22 +1,21 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Installer.packageInstaller
+ * @subpackage  Installer.Urlinstaller
  *
  * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
 /**
- * PackageInstaller Plugin.
+ * UrlFolderInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller extends JPlugin
+class PlgInstallerUrlInstaller extends JPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -35,38 +34,43 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_TEXT', true));
 		?>
+		<div class="clr"></div>
 		<fieldset class="uploadform">
-			<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
+			<legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_TEXT'); ?></legend>
 			<div class="control-group">
-				<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+				<label for="install_url"
+				       class="control-label"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_TEXT'); ?></label>
 				<div class="controls">
-					<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+					<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value=""/>
 				</div>
 			</div>
 			<div class="form-actions">
-				<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonpackage()">
-					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER__UPLOAD_AND_INSTALL'); ?></button>
+				<input type="button" class="btn btn-primary"
+				       value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_BUTTON'); ?>"
+				       onclick="Joomla.submitbuttonurl()"
+				/>
 			</div>
 
-			<input type="hidden" name="installtype" value="upload"/>
+			<input type="hidden" name="installtype" value="url"/>
 		</fieldset>
 
 		<?php
 		echo JHtml::_('bootstrap.endTab');
 
 		JFactory::getDocument()->addScriptDeclaration('
-			Joomla.submitbuttonpackage = function()
+			Joomla.submitbuttonurl = function()
 			{
 				var form = document.getElementById("adminForm");
 		
 				// do field validation 
-				if (form.install_package.value == "")
+				if (form.install_url.value == "")
 				{
 					alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE') . '");
 				}
-				else
+				// test if it is an https url or http url 
+				else if ((form.install_url.value.startsWith("http") == true) || (form.install_url.value.startsWith("https") == true))
 				{
 					jQuery("#loading").css("display", "block");
 					form.submit();

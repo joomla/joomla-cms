@@ -124,10 +124,19 @@ JFactory::getDocument()->addStyleDeclaration(
                 <?php endif; ?>
 
                 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
-
-                <?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
-                <!-- Extension fieldset of the plugin installer urlFolderInstaller-->
-                <?php JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
+	            
+                <?php
+                    // Show installation tabs at the start
+                    JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); 
+                ?>
+	            <?php
+		            // Show installation tabs
+		            JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array());
+	            ?>
+                <?php
+                    // Show installation tabs at the end
+                    JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); 
+                ?>
 
                 <?php if ($this->ftp) : ?>
                     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
