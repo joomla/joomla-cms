@@ -20,8 +20,6 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
-$archived  = $this->state->get('filter.published') == 2 ? true : false;
-$trashed   = $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder = $listOrder == 'fp.ordering';
 
 if ($saveOrder)
@@ -130,14 +128,13 @@ if ($saveOrder)
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 									<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-									<?php
-									// Create dropdown items
-									$action = $archived ? 'unarchive' : 'archive';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-									// Render dropdown list
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									<?php // Create dropdown items and render the dropdown list.
+									if ($canChange)
+									{
+										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
+										JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									}
 									?>
 								</div>
 							</td>
