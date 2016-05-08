@@ -36,7 +36,7 @@ class RedirectModelLinks extends JModelList
 				'hits', 'a.hits',
 				'created_date', 'a.created_date',
 				'published', 'a.published',
-				'header', 'a.header',
+				'header', 'a.header', 'http_status',
 			);
 		}
 
