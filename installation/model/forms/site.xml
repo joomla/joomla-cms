@@ -24,16 +24,14 @@
 			required="true"
 		/>
 
-		<field name="admin_password" type="installation.password" id="admin_password" class="inputbox"
+		<field name="admin_password" type="password" id="admin_password" class="inputbox"
 			label="INSTL_ADMIN_PASSWORD_LABEL"
 			required="true"
 			filter="raw"
 			autocomplete="off"
-			strengthmeter="true"
-			username="admin_user"
 		/>
 
-		<field name="admin_password2" type="installation.password" id="admin_password2" class="inputbox"
+		<field name="admin_password2" type="password" id="admin_password2" class="inputbox"
 			label="INSTL_ADMIN_PASSWORD2_LABEL"
 			required="true"
 			filter="raw"

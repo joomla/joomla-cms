@@ -8199,14 +8199,7 @@ body.modal-open {
 	width: 220px;
 }
 .modal-footer {
-	clear : both;
-}
-.modal-footer {
 	clear: both;
-}
-.controls .progress {
-	margin-top: 7px;
-	width: 220px;
 }
 .pull-right {
 	float: left;
