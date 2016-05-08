@@ -94,7 +94,7 @@ SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
 --
 -- Dumping data for table #__menu_types
 --
-INSERT INTO "#__menu_types" VALUES
+INSERT INTO "#__menu_types" ("id", "menutype", "title", "description") VALUES
 (1,'mainmenu','Main Menu','The main menu for the site'),
 (2,'usermenu','User Menu','A Menu for logged-in Users');
 
