@@ -49,8 +49,7 @@ class JFormFieldModal_Article extends JFormField
 
 		if ($allowEdit)
 		{
-			$script[] = '		var currentValue = "' . $this->value . '";';
-			$script[] = '		if (id == currentValue) {';
+			$script[] = '		if (id == "' . (int) $this->value . '") {';
 			$script[] = '			jQuery("#' . $this->id . '_edit").removeClass("hidden");';
 			$script[] = '		} else {';
 			$script[] = '			jQuery("#' . $this->id . '_edit").addClass("hidden");';
@@ -70,6 +69,11 @@ class JFormFieldModal_Article extends JFormField
 			$script[] = '		document.formvalidator.validate(document.getElementById("' . $this->id . '_name"));';
 		}
 
+		$script[] = '	}';
+
+		$script[] = '	function jEditArticle_' . $this->id . '(id, title, catid, object) {';
+		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
 		$script[] = '	}';
 
 		// Clear button script
@@ -97,7 +101,7 @@ class JFormFieldModal_Article extends JFormField
 		// Setup variables for display.
 		$html = array();
 		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
-		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit';
+		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit&amp;function=jEditArticle_' . $this->id;
 
 		if (isset($this->element['language']))
 		{
@@ -154,7 +158,8 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a id="' . $this->id . '_edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip' . ($value ? '' : ' hidden') . '" role="button" data-toggle="modal" title="'
+			$html[] = '<a id="' . $this->id . '_edit" href="#articleEdit' . $this->id . 'Modal" class="btn hasTooltip'
+				. ($value ? '' : ' hidden') . '" role="button" data-toggle="modal" title="'
 				. JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE') . '">'
 				. '<span class="icon-edit"></span> '
 				. JText::_('JACTION_EDIT') . '</a>';
