@@ -376,7 +376,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		$columns = explode(',', str_replace(" ", "", $columns));
 
 		// Get the _formatted_ FROM string and remove everything except `table AS alias`
-		$fromStr = str_replace(array("[","]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string)$this->from)));
+		$fromStr = str_replace(array("[","]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
 
 		// Start setting up an array of alias => table
 		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
@@ -393,7 +393,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		// Go through all joins and add them to the tables array
 		foreach ($this->join as $join)
 		{
-			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string)$join)));
+			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
 
 			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
 
@@ -405,7 +405,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			}
 		}
 
-		$selectStr = str_replace("SELECT ", "", (string)$this->select);
+		$selectStr = str_replace("SELECT ", "", (string) $this->select);
 
 		// Remove any functions (e.g. COUNT(), SUM(), CONCAT())
 		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", "", $selectStr);
@@ -422,7 +422,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		// Get an array to compare against
 		$selectCols = explode(",", $selectCols);
 
-		// find all alias.* and fill with proper table column names
+		// Find all alias.* and fill with proper table column names
 		foreach ($selectCols as $key => $aliasColName)
 		{
 			if (preg_match("/.+\*/", $aliasColName, $match))
