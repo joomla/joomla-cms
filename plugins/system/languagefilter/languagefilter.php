@@ -549,8 +549,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->current_lang;
 			}
 
+			if (is_null($this->app->getUserState('users.login.form.return'))) {
 			// Try to get association from the current active menu item
 			$active = $menu->getActive();
+			}
+			else{
+				$items = $menu->getItems( 'link', $this->app->getUserState('users.login.form.return'));
+				$active = $items[0];
+			}
 			$foundAssociation = false;
 
 			if ($active)
@@ -565,6 +571,10 @@ class PlgSystemLanguageFilter extends JPlugin
 					$associationItemid = $associations[$lang_code];
 					$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $associationItemid);
 					$foundAssociation = true;
+				}
+				elseif (!is_null($this->app->getUserState('users.login.form.return')))
+				{
+					$this->app->setUserState('users.login.form.return', 'index.php?Itemid=' . $active->id);
 				}
 				elseif ($active->home)
 				{
