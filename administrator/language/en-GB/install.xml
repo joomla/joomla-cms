@@ -161,6 +161,10 @@
 		<filename>en-GB.plg_finder_tags.sys.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.sys.ini</filename>
+		<filename>en-GB.plg_installer_packageinstaller.ini</filename>
+		<filename>en-GB.plg_installer_packageinstaller.sys.ini</filename>
+		<filename>en-GB.plg_installer_urlfolderinstaller.ini</filename>
+		<filename>en-GB.plg_installer_urlfolderinstaller.sys.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.ini</filename>
 		<filename>en-GB.plg_installer_webinstaller.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.ini</filename>
