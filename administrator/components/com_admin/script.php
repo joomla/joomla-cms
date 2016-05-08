@@ -239,6 +239,7 @@ class JoomlaInstallerScript
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
