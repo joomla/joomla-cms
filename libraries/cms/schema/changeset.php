@@ -80,7 +80,7 @@ class JSchemaChangeset
 				{
 					$this->db->setQuery($changeItem->updateQuery)->execute();
 				}
-				catch (Exception $e)
+				catch (RuntimeException $e)
 				{
 					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 				}

@@ -52,7 +52,7 @@ abstract class JInstallerHelper
 		{
 			$response = JHttpFactory::getHttp()->get($url, $headers);
 		}
-		catch (Exception $exception)
+		catch (RuntimeException $exception)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), JLog::WARNING, 'jerror');
 

@@ -84,6 +84,10 @@ class JErrorPage
 				// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 				return;
 			}
+			catch (Throwable $e)
+			{
+				// Pass the error down
+			}
 			catch (Exception $e)
 			{
 				// Pass the error down
