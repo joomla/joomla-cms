@@ -568,6 +568,7 @@ class JHelperTags extends JHelper
 					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
+
 			// Join over categoris for get only published
 			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
 
