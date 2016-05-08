@@ -56,7 +56,7 @@ before_script:
 script:
   - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
   - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
-  - node_modules/karma/bin/karma start my.conf.js --single-run
+  - node_modules/karma/bin/karma start karma.conf.js --single-run
 branches:
   except:
     - 2.5.x
