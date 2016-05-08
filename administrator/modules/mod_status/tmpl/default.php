@@ -22,7 +22,7 @@ if ($params->get('show_viewsite', 1))
 
 	$output[] = '<div class="btn-group viewsite">'
 		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
-		. '<span class="icon-out-2"></span> ' . JText::_('JGLOBAL_VIEW_SITE')
+		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</div>'
 		. '<div class="btn-group divider"></div>';
