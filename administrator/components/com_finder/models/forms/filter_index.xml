@@ -27,6 +27,15 @@
 			>
 			<option value="">COM_FINDER_MAPS_SELECT_TYPE</option>
 		</field>
+		<field
+			name="content_map"
+			type="ContentMap"
+			label="COM_FINDER_FILTER_CONTENT_MAP_LABEL"
+			description="COM_FINDER_FILTER_CONTENT_MAP_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_FINDER_FILTER_SELECT_CONTENT_MAP</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field

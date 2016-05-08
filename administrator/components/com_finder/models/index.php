@@ -51,6 +51,7 @@ class FinderModelIndex extends JModelList
 				't.title', 't_title',
 				'url', 'l.url',
 				'indexdate', 'l.indexdate',
+				'content_map',
 			);
 		}
 
@@ -190,6 +191,15 @@ class FinderModelIndex extends JModelList
 			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $type);
 		}
 
+		// Check the map filter.
+		$contentMapId = $this->getState('filter.content_map');
+
+		if (is_numeric($contentMapId))
+		{
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.link_id') . ' = ' . $db->quoteName('l.link_id'))
+				->where($db->quoteName('m.node_id') . ' = ' . (int) $contentMapId);
+		}
+
 		// Check for state filter.
 		$state = $this->getState('filter.state');
 
@@ -275,6 +285,7 @@ class FinderModelIndex extends JModelList
 		$id .= ':' . $this->getState('filter.search');
 		$id .= ':' . $this->getState('filter.state');
 		$id .= ':' . $this->getState('filter.type');
+		$id .= ':' . $this->getState('filter.content_map');
 
 		return parent::getStoreId($id);
 	}
@@ -377,6 +388,7 @@ class FinderModelIndex extends JModelList
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 		$this->setState('filter.state', $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'cmd'));
 		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'cmd'));
+		$this->setState('filter.content_map', $this->getUserStateFromRequest($this->context . '.filter.content_map', 'filter_content_map', '', 'cmd'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_finder');
