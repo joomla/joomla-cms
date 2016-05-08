@@ -112,9 +112,9 @@ JFactory::getDocument()->addScriptDeclaration('
 					<?php if ((int) $item->num_children === 0) : ?>
 						<span class="gi">&mdash;</span>
 					<?php endif; ?>
-						<label for="cb<?php echo $i ?>" style="display:inline-block;">
-							<?php echo $this->escape(($title == '*') ? JText::_('JALL_LANGUAGE') : $title); ?>
-						</label>
+					<label for="cb<?php echo $i; ?>" style="display:inline-block;">
+						<?php echo $this->escape($title); ?>
+					</label>
 					<?php if ($this->escape(trim($title, '**')) == 'Language' && JLanguageMultilang::isEnabled()) : ?>
 						<strong><?php echo JText::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
 					<?php endif; ?>
