@@ -8201,7 +8201,3 @@ body.modal-open {
 .modal-footer {
 	clear: both;
 }
-.controls .progress {
-	margin-top: 7px;
-	width: 220px;
-}
