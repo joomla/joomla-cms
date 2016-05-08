@@ -131,7 +131,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</td>
 					<?php endif; ?>
 					<td class="center btns">
-					<?php echo $item->num_nodes; if ((int) $item->num_children === 0) : ?>
+					<?php if ((int) $item->num_children === 0) : ?>
 						<a class="badge <?php if ((int) $item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo JRoute::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 						<?php echo (int) $item->count_published; ?></a>
 					<?php else : ?>
