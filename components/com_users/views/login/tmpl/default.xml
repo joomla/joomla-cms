@@ -35,6 +35,7 @@
 		class="inputbox"
 		validate="loginuniquefield"
 		field="login_redirect_menuitem"
+		hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
 		message="COM_USERS_FIELD_LOGIN_REDIRECT_ERROR"
 		showon="loginredirectchoice:0"
 		/>
@@ -103,6 +104,7 @@
 		class="inputbox"
 		field="logout_redirect_menuitem"
 		validate="logoutuniquefield"
+		hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
 		message="COM_USERS_FIELD_LOGOUT_REDIRECT_ERROR"
 		showon="logoutredirectchoice:0"
 		/>
