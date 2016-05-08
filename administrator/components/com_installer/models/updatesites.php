@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 require_once __DIR__ . '/extension.php';
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Installer Update Sites Model
  *
@@ -38,9 +36,10 @@ class InstallerModelUpdatesites extends InstallerModel
 				'update_site_name',
 				'name',
 				'client_id',
+				'client', 'client_translated',
 				'status',
-				'type',
-				'folder',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
 				'update_site_id',
 				'enabled',
 			);
@@ -122,6 +121,255 @@ class InstallerModelUpdatesites extends InstallerModel
 	}
 
 	/**
+	 * Deletes an update site.
+	 *
+	 * @param   array  $ids  Extension ids to delete.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 *
+	 * @throws  Exception on ACL error
+	 */
+	public function delete($ids = array())
+	{
+		$user = JFactory::getUser();
+
+		if (!$user->authorise('core.delete', 'com_installer'))
+		{
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
+		// Ensure eid is an array of extension ids
+		if (!is_array($ids))
+		{
+			$ids = array($ids);
+		}
+
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+
+		$count = 0;
+
+		// Gets the update site names.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('update_site_id', 'name')))
+			->from($db->qn('#__update_sites'))
+			->where($db->qn('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+		$db->setQuery($query);
+		$updateSitesNames = $db->loadObjectList('update_site_id');
+
+		// Gets Joomla core update sites Ids.
+		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds();
+
+		// Enable the update site in the table and store it in the database
+		foreach ($ids as $i => $id)
+		{
+			// Don't allow to delete Joomla Core update sites.
+			if (in_array((int) $id, $joomlaUpdateSitesIds))
+			{
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
+				continue;
+			}
+
+			// Delete the update site from all tables.
+			try
+			{
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__update_sites'))
+					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+				$db->setQuery($query);
+				$db->execute();
+
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__update_sites_extensions'))
+					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+				$db->setQuery($query);
+				$db->execute();
+
+				$query = $db->getQuery(true)
+					->delete($db->qn('#__updates'))
+					->where($db->qn('update_site_id') . ' = ' . (int) $id);
+				$db->setQuery($query);
+				$db->execute();
+
+				$count++;
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
+			}
+		}
+
+		if ($count > 0)
+		{
+			$app->enqueueMessage(JText::plural('COM_INSTALLER_MSG_UPDATESITES_N_DELETE_UPDATESITES_DELETED', $count), 'message');
+		}
+	}
+
+	/**
+	 * Rebuild update sites tables.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 *
+	 * @throws  Exception on ACL error
+	 */
+	public function rebuild()
+	{
+		$user = JFactory::getUser();
+
+		if (!$user->authorise('core.admin', 'com_installer'))
+		{
+			throw new Exception(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
+		}
+
+		$db  = JFactory::getDbo();
+		$app = JFactory::getApplication();
+
+		$clients               = array(JPATH_SITE, JPATH_ADMINISTRATOR);
+		$extensionGroupFolders = array('components', 'modules', 'plugins', 'templates', 'language', 'manifests');
+
+		$pathsToSearch = array();
+
+		// Identifies which folders to search for manifest files.
+		foreach ($clients as $clientPath)
+		{
+			foreach ($extensionGroupFolders as $extensionGroupFolderName)
+			{
+				// Components, modules, plugins, templates, languages and manifest (files, libraries, etc)
+				if ($extensionGroupFolderName != 'plugins')
+				{
+					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
+					{
+						array_push($pathsToSearch, $extensionFolderPath);
+					}
+				}
+
+				// Plugins (another directory level is needed)
+				else
+				{
+					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $pluginGroupFolderPath)
+					{
+						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
+						{
+							array_push($pathsToSearch, $extensionFolderPath);
+						}
+					}
+				}
+			}
+		}
+
+		// Gets Joomla core update sites Ids.
+		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds());
+
+		// Delete from all tables (except joomla core update sites).
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__update_sites'))
+			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__update_sites_extensions'))
+			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__updates'))
+			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+		$db->setQuery($query);
+		$db->execute();
+
+		$count = 0;
+
+		// Search for updateservers in manifest files inside the folders to search.
+		foreach ($pathsToSearch as $extensionFolderPath)
+		{
+			$tmpInstaller = new JInstaller;
+
+			$tmpInstaller->setPath('source', $extensionFolderPath);
+
+			// Main folder manifests (higher priority)
+			$parentXmlfiles = JFolder::files($tmpInstaller->getPath('source'), '.xml$', false, true);
+
+			// Search for children manifests (lower priority)
+			$allXmlFiles    = JFolder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
+
+			// Create an unique array of files ordered by priority
+			$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
+
+			if (!empty($xmlfiles))
+			{
+				foreach ($xmlfiles as $file)
+				{
+					// Is it a valid Joomla installation manifest file?
+					$manifest = $tmpInstaller->isManifest($file);
+
+					if (!is_null($manifest))
+					{
+						$query = $db->getQuery(true)
+							->select($db->qn('extension_id'))
+							->from($db->qn('#__extensions'))
+							->where($db->qn('name') . ' = ' . $db->q($manifest->name))
+							->where($db->qn('type') . ' = ' . $db->q($manifest['type']))
+							->where($db->qn('state') . ' != -1');
+						$db->setQuery($query);
+						$eid = (int) $db->loadResult();
+
+						if ($eid && $manifest->updateservers)
+						{
+							// Set the manifest object and path
+							$tmpInstaller->manifest = $manifest;
+							$tmpInstaller->setPath('manifest', $file);
+
+							// Load the extension plugin (if not loaded yet).
+							JPluginHelper::importPlugin('extension', 'joomla');
+
+							// Fire the onExtensionAfterUpdate
+							JEventDispatcher::getInstance()->trigger('onExtensionAfterUpdate', array('installer' => $tmpInstaller, 'eid' => $eid));
+
+							$count++;
+						}
+					}
+				}
+			}
+		}
+
+		if ($count > 0)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_SUCCESS'), 'message');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_WARNING'), 'warning');
+		}
+	}
+
+	/**
+	 * Fetch the Joomla update sites ids.
+	 *
+	 * @return  array  Array with joomla core update site ids.
+	 *
+	 * @since   3.6
+	 */
+	protected function getJoomlaUpdateSitesIds()
+	{
+		$db  = JFactory::getDbo();
+
+		// Fetch the Joomla core Joomla update sites ids.
+		$query = $db->getQuery(true);
+		$query->select($db->qn('update_site_id'))
+			->from($db->qn('#__update_sites'))
+			->where($db->qn('location') . ' LIKE \'%update.joomla.org%\'');
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Method to get the database query
 	 *
 	 * @return  JDatabaseQuery  The database query
@@ -171,12 +419,12 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		if ($clientId != '')
 		{
-			$query->where('client_id = ' . (int) $clientId);
+			$query->where('e.client_id = ' . (int) $clientId);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+			$query->where('e.folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
 		// Process search filter (update site id).
@@ -187,65 +435,8 @@ class InstallerModelUpdatesites extends InstallerModel
 			$query->where('s.update_site_id = ' . (int) substr($search, 3));
 		}
 
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
+
 		return $query;
-	}
-
-	/**
-	 * Returns an object list
-	 *
-	 * @param   string  $query       The query
-	 * @param   int     $limitstart  Offset
-	 * @param   int     $limit       The number of records
-	 *
-	 * @return  array
-	 *
-	 * @since   3.4
-	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0)
-	{
-		$ordering  = $this->getState('list.ordering', 'name');
-		$direction = $this->getState('list.direction', 'asc');
-		$search    = $this->getState('filter.search');
-
-		// Replace slashes so preg_match will work
-		$search = str_replace('/', ' ', $search);
-		$db     = $this->getDbo();
-
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
-		{
-			$db->setQuery($query);
-			$result = $db->loadObjectList();
-			$this->translate($result);
-
-			if (!empty($search) && (stripos($search, 'id:') !== 0))
-			{
-				foreach ($result as $i => $item)
-				{
-					if (!preg_match("/$search/i", $item->name) && !preg_match("/$search/i", $item->update_site_name))
-					{
-						unset($result[$i]);
-					}
-				}
-			}
-
-			$result = ArrayHelper::sortObjects($result, $ordering, strtolower($direction) === 'desc' ? -1 : 1, true, true);
-
-			$total = count($result);
-			$this->cache[$this->getStoreId('getTotal')] = $total;
-
-			if ($total < $limitstart)
-			{
-				$limitstart = 0;
-				$this->setState('list.start', 0);
-			}
-
-			return array_slice($result, $limitstart, $limit ? $limit : null);
-		}
-
-		$query->order($db->quoteName($ordering) . ' ' . $direction);
-		$result = parent::_getList($query, $limitstart, $limit);
-		$this->translate($result);
-
-		return $result;
 	}
 }

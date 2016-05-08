@@ -135,6 +135,11 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	foreach ($menuTypes as $menuType)
 	{
+		if (!$user->authorise('core.manage', 'com_menus.menu.' . (int) $menuType->id))
+		{
+			continue;
+		}
+
 		$alt = '*' .$menuType->sef. '*';
 		if ($menuType->home == 0)
 		{
@@ -161,9 +166,11 @@ if ($user->authorise('core.manage', 'com_menus'))
 			}
 		}
 		$menu->addChild(
-			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
+			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon),
+				$user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id)
 		);
-		if ($createMenu)
+
+		if ($user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id))
 		{
 			$menu->addChild(
 				new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType->menutype, 'class:newarticle')
@@ -261,7 +268,17 @@ if ($im || $mm || $pm || $tm || $lm)
 
 	if ($im)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer', 'class:install'), $im);
+
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', 'class:install'));
+		$menu->getParent();
 		$menu->addSeparator();
 	}
 
@@ -282,7 +299,13 @@ if ($im || $mm || $pm || $tm || $lm)
 
 	if ($lm)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_LANGUAGE_MANAGER'), 'index.php?option=com_languages', 'class:language'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_LANGUAGE_MANAGER'), 'index.php?option=com_languages', 'class:language'), $lm);
+
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_LANGUAGES_SUBMENU_INSTALLED'), 'index.php?option=com_languages&view=installed', 'class:language'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_LANGUAGES_SUBMENU_CONTENT'), 'index.php?option=com_languages&view=languages', 'class:language'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_LANGUAGES_SUBMENU_OVERRIDES'), 'index.php?option=com_languages&view=overrides', 'class:language'));
+		$menu->getParent();
+
 	}
 	$menu->getParent();
 }

@@ -20,8 +20,6 @@ $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
-$archived  = $this->state->get('filter.published') == 2 ? true : false;
-$trashed   = $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder = $listOrder == 'fp.ordering';
 ?>
 
@@ -55,7 +53,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ORDERING', 'fp.ordering', $listDirn, $listOrder); ?>
 							<?php if ($canOrder && $saveOrder) :?>
 								<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'featured.saveorder'); ?>
@@ -107,16 +105,13 @@ $saveOrder = $listOrder == 'fp.ordering';
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-								<?php
-								// Create dropdown items
-								$action = $archived ? 'unarchive' : 'archive';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-
-								$action = $trashed ? 'untrash' : 'trash';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-
-								// Render dropdown list
-								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								<?php // Create dropdown items and render the dropdown list.
+								if ($canChange)
+								{
+									JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
+									JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								}
 								?>
 							</div>
 						</td>
@@ -144,7 +139,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 								</div>
 							</div>
 						</td>
-						<td class="order">
+						<td class="order hidden-phone">
 							<?php if ($canChange && $saveOrder) : ?>
 								<div class="input-prepend">
 									<?php if ($listDirn == 'ASC') : ?>
@@ -166,7 +161,7 @@ $saveOrder = $listOrder == 'fp.ordering';
 						<td class="small hidden-phone">
 							<?php if ($item->created_by_alias) : ?>
 								<?php echo $this->escape($item->author_name); ?>
-								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+								<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 							<?php else : ?>
 								<?php echo $this->escape($item->author_name); ?>
 							<?php endif; ?>

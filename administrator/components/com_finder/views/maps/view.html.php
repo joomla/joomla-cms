@@ -33,11 +33,11 @@ class FinderViewMaps extends JViewLegacy
 		FinderHelperLanguage::loadPluginLanguage();
 
 		// Load the view data.
-		$this->items = $this->get('Items');
-		$this->total = $this->get('Total');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->total         = $this->get('Total');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		FinderHelper::addSubmenu('maps');
