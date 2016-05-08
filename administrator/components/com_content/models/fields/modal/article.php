@@ -71,11 +71,6 @@ class JFormFieldModal_Article extends JFormField
 
 		$script[] = '	}';
 
-		$script[] = '	function jEditArticle_' . $this->id . '(id, title, catid, object) {';
-		$script[] = '		document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
-		$script[] = '	}';
-
 		// Clear button script
 		static $scriptClear;
 
@@ -101,7 +96,7 @@ class JFormFieldModal_Article extends JFormField
 		// Setup variables for display.
 		$html = array();
 		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
-		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit&amp;function=jEditArticle_' . $this->id;
+		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit;
 
 		if (isset($this->element['language']))
 		{
