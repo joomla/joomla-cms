@@ -108,9 +108,13 @@ JFactory::getDocument()->addStyleDeclaration(
                 <?php elseif ($this->showJedAndWebInstaller) : ?>
                     <div class="alert alert-info j-jed-message"
                          style="margin-bottom: 40px; line-height: 2em; color:#333333;">
-                        <a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>"
-                           class="close hasTooltip" data-dismiss="alert"
-                           title="<?php echo str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')); ?>">&times;</a>
+			<?php echo JHtml::_(
+				'link',
+				JRoute::_('index.php?option=com_installer&view=discover' . urlencode(base64_encode(JUri::getInstance()))),
+				'&times;',
+				'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+			);
+			?>
                         <p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
                             &nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
                         <input class="btn" type="button"

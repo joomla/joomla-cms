@@ -806,8 +806,6 @@ UNION ALL
 SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-SELECT 101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
 SELECT 102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -1005,9 +1003,9 @@ SELECT 453, 'plg_editors-xtd_module', 'plugin', 'module', 'editors-xtd', 0, 1, 1
 UNION ALL
 SELECT 454, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 UNION ALL
-SELECT 455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'installer', 0, 1, 1, 1, '{"name":"plg_installer_packageinstaller","type":"plugin","creationDate":"02.10.2015","author":"Willy Noel Nzefameni, Lukas Gies, Markus Pompejus","copyright":"Copyright (C) 2013 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.0","description":"PLG_PACKAGE_INSTALLER_PLUGIN_XML_DESCRIPTION","group":"","filename":"packageInstaller"}', '{}', '', '', 0, '0000-00-00 00:00:00', 1, 0
+SELECT 455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'installer', 0, 1, 1, 1, '{"name":"plg_installer_packageinstaller","type":"plugin","creationDate":"07.05.2016","author":"Joomla","copyright":"Copyright (C) 2016 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.0","description":"PLG_PACKAGE_INSTALLER_PLUGIN_XML_DESCRIPTION","group":"","filename":"packageinstaller"}', '{}', '', '', 0, '0000-00-00 00:00:00', 1, 0
 UNION ALL
-SELECT 456, 'plg_installer_urlfolderinstaller', 'plugin', 'urlfolderinstaller', 'installer', 0, 1, 1, 1, '{"name":"plg_installer_urlfolderinstaller","type":"plugin","creationDate":"02.10.2015","author":"Willy Noel Nzefameni, Markus Pompejus, Lukas Gies","copyright":"Copyright (C) 2013 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.0","description":"PLG_INSTALLER_PLUGIN_XML_DESCRIPTION","group":"","filename":"urlFolderInstaller"}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0;
+SELECT 456, 'plg_installer_urlfolderinstaller', 'plugin', 'urlfolderinstaller', 'installer', 0, 1, 1, 1, '{"name":"plg_installer_urlfolderinstaller","type":"plugin","creationDate":"07.05.2016","author":"Joomla","copyright":"Copyright (C) 2016 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.0","description":"PLG_INSTALLER_PLUGIN_XML_DESCRIPTION","group":"","filename":"urlfolderinstaller"}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0;
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
