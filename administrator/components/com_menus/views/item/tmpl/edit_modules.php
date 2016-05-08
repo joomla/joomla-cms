@@ -140,9 +140,11 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 						'height' => '300px',
 						'width' => '800px',
 						'closeButton' => false,
-						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+							. ' onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-							. '<button type="button" class="btn btn-success novalidate" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+							. '<button type="button" class="btn btn-success novalidate" data-dismiss="modal" aria-hidden="true"'
+							. ' onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 							. JText::_("JSAVE") . '</button>'
 					)
 				); ?>
