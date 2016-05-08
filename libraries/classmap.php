@@ -14,3 +14,4 @@ JLoader::registerAlias('JRegistryFormatPhp',  '\\Joomla\\Registry\\Format\\Php')
 JLoader::registerAlias('JRegistryFormatXml',  '\\Joomla\\Registry\\Format\\Xml');
 JLoader::registerAlias('JStringInflector',    '\\Joomla\\String\\Inflector');
 JLoader::registerAlias('JStringNormalise',    '\\Joomla\\String\\Normalise');
+JLoader::registerAlias('JApplicationWebClient', '\\Joomla\\Application\\Web\\WebClient');
