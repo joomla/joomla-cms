@@ -213,9 +213,9 @@ class UsersModelUser extends JModelAdmin
 		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
 
 		$result = parent::validate($form, $data, $group);
-		
+
 		$dispatcher->trigger('onUserAfterDataValidation', array($form, &$data, &$result));
-		
+
 		return $result;
 	}
 

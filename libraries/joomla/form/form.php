@@ -954,6 +954,7 @@ class JForm
 	 * @param   SimpleXMLElement  $element  The XML element object representation of the form field.
 	 * @param   string            $group    The optional dot-separated form group path on which to set the field.
 	 * @param   boolean           $replace  True to replace an existing field if one already exists.
+	 * @param   string            $path	    Tree elements a doc separated list where we add the node.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -2102,9 +2103,11 @@ class JForm
 	/**
 	 * Adds a new child SimpleXMLElement node to the source.
 	 *
-	 * @param   SimpleXMLElement $source  The source element on which to append.
-	 * @param   SimpleXMLElement $new     The new element to append.
-	 * @param   string           $path	  Tree elements a doc separated list where we add the node
+	 * @param   SimpleXMLElement  $source  The source element on which to append.
+	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * @param   string            $path	   Tree elements a doc separated list where we add the node
+	 *
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -2114,13 +2117,13 @@ class JForm
 		if ($path != '')
 		{
 			$pathElements = explode('.', $path);
-			
+
 			foreach ($pathElements as $element)
 			{
 				$source = $source->{$element};
 			}	
 		}
-		
+
 		// Add the new child node.
 		$node = $source->addChild($new->getName(), htmlspecialchars(trim($new)));
 
