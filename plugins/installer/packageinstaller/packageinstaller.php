@@ -26,7 +26,7 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 *
-	 * @since   1.5
+	 * @since   3.6.0
 	 */
 	public function __construct(&$subject, $config = array())
 	{
