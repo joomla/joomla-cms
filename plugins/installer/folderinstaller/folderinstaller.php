@@ -62,7 +62,7 @@ class PlgInstallerFolderInstaller  extends JPlugin
 				</div>
 			</div>
 			<div class="form-actions">
-				<input type="button" class="btn btn-primary" id="install_button"
+				<input type="button" class="btn btn-primary" id="installbutton_directory"
 					value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()"
 				/>
 			</div>
