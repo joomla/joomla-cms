@@ -23,6 +23,8 @@
 			validate="password"
 			label="JGLOBAL_PASSWORD"
 			size="30"
+			strengthmeter="true"
+			username="username"
 		/>
 
 		<field name="password2" type="password"
