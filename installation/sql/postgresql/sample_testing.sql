@@ -513,15 +513,15 @@ SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
 --
 -- Dumping data for table #__menu_types
 --
-INSERT INTO "#__menu_types" ("id", "menutype", "title", "description") VALUES
-(2,'usermenu','User Menu','A Menu for logged-in Users'),
-(3,'top','Top','Links for major types of users'),
-(4,'aboutjoomla','About Joomla','All about Joomla!'),
-(5,'parks','Australian Parks','Main menu for a site about Australian parks'),
-(6,'mainmenu','Main Menu','Simple Home Menu'),
-(7,'fruitshop','Fruit Shop','Menu for the sample shop site.'),
-(8,'frontendviews','All Front End Views',''),
-(9,'modules','All Modules','');
+INSERT INTO "#__menu_types" ("id", "asset_id","menutype", "title", "description") VALUES
+(2,0,'usermenu','User Menu','A Menu for logged-in Users'),
+(3,0,'top','Top','Links for major types of users'),
+(4,0,'aboutjoomla','About Joomla','All about Joomla!'),
+(5,0,'parks','Australian Parks','Main menu for a site about Australian parks'),
+(6,0,'mainmenu','Main Menu','Simple Home Menu'),
+(7,0,'fruitshop','Fruit Shop','Menu for the sample shop site.'),
+(8,0,'frontendviews','All Front End Views',''),
+(9,0,'modules','All Modules','');
 
 SELECT setval('#__menu_types_id_seq', max(id)) FROM #__menu_types;
 
