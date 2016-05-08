@@ -198,6 +198,8 @@ class JFormFieldModal_Article extends JFormField
 			array(
 				'url' => $urlEdit,
 				'title' => JText::_('COM_CONTENT_EDIT_ARTICLE'),
+				'backdrop' => 'static',
+				'closeButton' => false,
 				'width' => '800px',
 				'height' => '400px',
 				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
