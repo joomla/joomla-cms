@@ -73,7 +73,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testAffix()
 	{
@@ -157,7 +157,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testCarousel()
 	{
@@ -241,7 +241,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testModal()
 	{
@@ -269,7 +269,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testRenderModal()
 	{
@@ -309,7 +309,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testPopover()
 	{
@@ -337,7 +337,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testScrollspy()
 	{
@@ -365,7 +365,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testTooltip()
 	{
@@ -393,7 +393,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testTypeahead()
 	{
@@ -421,7 +421,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testStartAccordion()
 	{
@@ -477,7 +477,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testaddSlide()
 	{
@@ -539,7 +539,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testStartTabSet()
 	{
@@ -594,7 +594,7 @@ class JHtmlBootstrapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.4
+	 * @since   3.6.0
 	 */
 	public function testAddTab()
 	{
