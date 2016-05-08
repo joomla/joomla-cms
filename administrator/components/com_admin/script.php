@@ -235,9 +235,11 @@ class JoomlaInstallerScript
 			array('component', 'com_config', '', 1),
 			array('component', 'com_redirect', '', 1),
 			array('component', 'com_users', '', 1),
+			array('component', 'com_finder', '', 1),
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -1411,14 +1413,14 @@ class JoomlaInstallerScript
 			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
 			'/administrator/components/com_joomlaupdate/helpers/download.php',
 			// Joomla 3.6.0
-			'libraries/simplepie/README.txt',
-			'libraries/simplepie/simplepie.php',
-			'libraries/simplepie/LICENSE.txt',
-			'libraries/simplepie/idn/LICENCE',
-			'libraries/simplepie/idn/ReadMe.txt',
-			'libraries/simplepie/idn/idna_convert.class.php',
-			'libraries/simplepie/idn/npdata.ser',
-			'administrator/manifests/libraries/simplepie.xml',
+			'/libraries/simplepie/README.txt',
+			'/libraries/simplepie/simplepie.php',
+			'/libraries/simplepie/LICENSE.txt',
+			'/libraries/simplepie/idn/LICENCE',
+			'/libraries/simplepie/idn/ReadMe.txt',
+			'/libraries/simplepie/idn/idna_convert.class.php',
+			'/libraries/simplepie/idn/npdata.ser',
+			'/administrator/manifests/libraries/simplepie.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1513,8 +1515,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
 			// Joomla 3.6
-			'libraries/simplepie/idn',
-			'libraries/simplepie',
+			'/libraries/simplepie/idn',
+			'/libraries/simplepie',
 		);
 
 		jimport('joomla.filesystem.file');
