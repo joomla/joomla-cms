@@ -52,17 +52,17 @@ class PlgInstallerFolderInstaller  extends JPlugin
 			<div class="control-group">
 				<label for="install_directory" class="control-label"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
 				<div class="controls">
-					<input 
-						type="text" 
-						id="install_directory" 
-						name="install_directory" 
-						class="span5 input_box" 
-						size="70" 
+					<input
+						type="text"
+						id="install_directory"
+						name="install_directory"
+						class="span5 input_box"
+						size="70"
 						value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
 				</div>
 			</div>
 			<div class="form-actions">
-				<input type="button" class="btn btn-primary"
+				<input type="button" class="btn btn-primary" id="install_button"
 					value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()"
 				/>
 			</div>
