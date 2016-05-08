@@ -425,7 +425,7 @@ class JFilterInput extends InputFilter
 						// Filter element for XSS and other 'bad' code etc.
 						if (is_string($value))
 						{
-							$source[$key] = $this->_remove($this->_decode($value));
+							$source[$key] = $this->remove($this->decode($value));
 						}
 					}
 					$result = $source;
@@ -436,7 +436,7 @@ class JFilterInput extends InputFilter
 					if (is_string($source) && !empty($source))
 					{
 						// Filter source for XSS and other 'bad' code etc.
-						$result = $this->_remove($this->_decode($source));
+						$result = $this->remove($this->decode($source));
 					}
 					else
 					{
@@ -787,7 +787,7 @@ class JFilterInput extends InputFilter
 		do
 		{
 			$temp = $source;
-			$source = $this->_cleanTags($source);
+			$source = $this->cleanTags($source);
 		}
 		while ($temp != $source);
 
@@ -821,7 +821,7 @@ class JFilterInput extends InputFilter
 	protected function cleanTags($source)
 	{
 		// First, pre-process this for illegal characters inside attribute values
-		$source = $this->_escapeAttributeValues($source);
+		$source = $this->escapeAttributeValues($source);
 
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
@@ -1003,7 +1003,7 @@ class JFilterInput extends InputFilter
 				if (!$isCloseTag)
 				{
 					// Open or single tag
-					$attrSet = $this->_cleanAttributes($attrSet);
+					$attrSet = $this->cleanAttributes($attrSet);
 					$preTag .= '<' . $tagName;
 					for ($i = 0, $count = count($attrSet); $i < $count; $i++)
 					{
@@ -1107,7 +1107,7 @@ class JFilterInput extends InputFilter
 
 			// Escape bad chars
 			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
-			$attributeValue = $this->_stripCSSExpressions($attributeValue);
+			$attributeValue = $this->stripCSSExpressions($attributeValue);
 			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
 			$remainder = substr($remainder, $nextAfter + 1);
 		}
