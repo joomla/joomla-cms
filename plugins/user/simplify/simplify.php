@@ -113,7 +113,7 @@ class PlgUserSimplify extends JPlugin
 		{
 			// We resort the fields and change the label a bit so that it makes more sense
 			$fields   = array('name', 'username', 'password', 'password2', 'email', 'registerDate', 'lastvisitDate',
-							 'lastResetTime', 'resetCount', 'sendEmail', 'block', 'requireReset', 'id'
+								'lastResetTime', 'resetCount', 'sendEmail', 'block', 'requireReset', 'id'
 			);
 			$newOrder = array('email', 'password', 'password2', 'registerDate', 'lastvisitDate', 'lastResetTime',
 								'resetCount', 'sendEmail', 'block', 'requireReset', 'id'
