@@ -52,7 +52,7 @@ class PlgInstallerUrlInstaller extends JPlugin
 				<label for="install_url"
 				       class="control-label"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></label>
 				<div class="controls">
-					<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="http://"/>
+					<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" placeholder="https://"/>
 				</div>
 			</div>
 			<div class="form-actions">
