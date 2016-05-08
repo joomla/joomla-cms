@@ -11,6 +11,14 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
+
+// Load the users plugin group.
+JPluginHelper::importPlugin('user');
+
+$simplify = JPluginHelper::isEnabled('user', 'simplify');
+
+$usernameTag = $simplify ? 'PLG_USER_SIMPLIFY_USERNAME' : 'MOD_LOGIN_VALUE_USERNAME';
+
 ?>
 <?php if ($type == 'logout') : ?>
 	<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form">
@@ -40,7 +48,7 @@ JHtml::_('behavior.keepalive');
 	<?php endif; ?>
 	<fieldset class="userdata">
 	<p id="form-login-username">
-		<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?></label>
+		<label for="modlgn-username"><?php echo JText::_($usernameTag) ?></label>
 		<input id="modlgn-username" type="text" name="username" class="inputbox"  size="18" />
 	</p>
 	<p id="form-login-password">
@@ -78,10 +86,12 @@ JHtml::_('behavior.keepalive');
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 			<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 		</li>
-		<li>
-			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
-			<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
-		</li>
+		<?php if (! $simplify) : ?>
+			<li>
+				<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+				<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+			</li>
+		<?php endif; ?>
 		<?php $usersConfig = JComponentHelper::getParams('com_users'); ?>
 		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 			<li>

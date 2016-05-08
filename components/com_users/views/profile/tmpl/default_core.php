@@ -9,6 +9,20 @@
 
 defined('_JEXEC') or die;
 
+$showname     = true;
+$showusername = true;
+
+if (JPluginHelper::isEnabled('user', 'simplify'))
+{
+	$showusername = false;
+
+	$plugin = JPluginHelper::getPlugin('user', 'simplify');
+
+	$params = (new JRegistry)->loadString($plugin->params);
+
+	$showname = $params->get('remove_name_field', 1) == 0;
+}
+
 ?>
 
 <fieldset id="users-profile-core">
@@ -16,18 +30,22 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_USERS_PROFILE_CORE_LEGEND'); ?>
 	</legend>
 	<dl class="dl-horizontal">
-		<dt>
-			<?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
-		</dt>
-		<dd>
-			<?php echo $this->data->name; ?>
-		</dd>
-		<dt>
-			<?php echo JText::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
-		</dt>
-		<dd>
-			<?php echo htmlspecialchars($this->data->username); ?>
-		</dd>
+		<?php if ( $showname) :?>
+			<dt>
+				<?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
+			</dt>
+			<dd>
+				<?php echo $this->data->name; ?>
+			</dd>
+		<?php endif; ?>
+		<?php if ( $showusername) :?>
+			<dt>
+				<?php echo JText::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
+			</dt>
+			<dd>
+				<?php echo htmlspecialchars($this->data->username); ?>
+			</dd>
+		<?php endif; ?>
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_REGISTERED_DATE_LABEL'); ?>
 		</dt>

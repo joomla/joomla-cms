@@ -94,10 +94,12 @@ JHtml::_('behavior.formvalidator');
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 			<?php echo JText::_('COM_USERS_LOGIN_RESET'); ?></a>
 		</li>
+		<?php if ( ! JPluginHelper::isEnabled('user', 'simplify')) :?>
 		<li>
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
 			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
 		</li>
+		<?php endif; ?>
 		<?php
 		$usersConfig = JComponentHelper::getParams('com_users');
 		if ($usersConfig->get('allowUserRegistration')) : ?>
