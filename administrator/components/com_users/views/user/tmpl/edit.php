@@ -146,7 +146,7 @@ $fieldsets = $this->form->getFieldsets();
 			<?php endif; ?>
 		</fieldset>
 		<?php else : ?>
-		<div id="system-message-container">
+		<div>
 			<button type="button" class="close" data-dismiss="alert">×</button>
 			<div class="alert alert-error">
 				<h4 class="alert-heading"><?php echo JText::_('ERROR') ?></h4>
