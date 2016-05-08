@@ -55,10 +55,9 @@ class PlgInstallerPackageInstaller extends JPlugin
 				</div>
 			</div>
 			<div class="form-actions">
-				<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonpackage()">
+				<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
 					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 			</div>
-			
 		</fieldset>
 
 		<?php
