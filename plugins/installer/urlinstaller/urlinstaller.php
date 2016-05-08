@@ -18,42 +18,49 @@ JHtml::_('bootstrap.tooltip');
 class PlgInstallerUrlInstaller extends JPlugin
 {
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 * Constructor
 	 *
-	 * @var    boolean
-	 * @since  3.6.0
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
 	 */
-	protected $autoloadLanguage = true;
+	public function __construct(&$subject, $config = array())
+	{
+		$this->autoloadLanguage = true;
+
+		parent::__construct($subject, $config);
+	}
 
 	/**
 	 * Textfield or Form of the Plugin.
 	 *
-	 * @return  void
+	 * @return  bool  Always returns true
 	 *
 	 * @since   3.6.0
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_TEXT', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('PLG_INSTALLER_URLINSTALLER_TEXT', true));
 		?>
 		<div class="clr"></div>
 		<fieldset class="uploadform">
-			<legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_TEXT'); ?></legend>
+			<legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
 			<div class="control-group">
 				<label for="install_url"
-				       class="control-label"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_TEXT'); ?></label>
+				       class="control-label"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></label>
 				<div class="controls">
-					<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value=""/>
+					<input type="text" id="install_url" name="install_url" class="span5 input_box" size="70" value="http://"/>
 				</div>
 			</div>
 			<div class="form-actions">
 				<input type="button" class="btn btn-primary"
-				       value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_INSTALLALL_BUTTON'); ?>"
+				       value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>"
 				       onclick="Joomla.submitbuttonurl()"
 				/>
 			</div>
-
-			<input type="hidden" name="installtype" value="url"/>
 		</fieldset>
 
 		<?php
@@ -65,17 +72,18 @@ class PlgInstallerUrlInstaller extends JPlugin
 				var form = document.getElementById("adminForm");
 		
 				// do field validation 
-				if (form.install_url.value == "")
-				{
-					alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE') . '");
-				}
-				// test if it is an https url or http url 
-				else if ((form.install_url.value.startsWith("http") == true) || (form.install_url.value.startsWith("https") == true))
+				if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
+		            alert("' . JText::_('PLG_INSTALLER_URLINSTALLER_NO_URL', true) . '");
+		        }
+		        else
 				{
 					jQuery("#loading").css("display", "block");
+					form.installtype.value = "url"
 					form.submit();
 				}
 			};
 		');
+
+		return true;
 	}
 }

@@ -108,18 +108,18 @@ JFactory::getDocument()->addStyleDeclaration(
                 <?php elseif ($this->showJedAndWebInstaller) : ?>
                     <div class="alert alert-info j-jed-message"
                          style="margin-bottom: 40px; line-height: 2em; color:#333333;">
-			<?php echo JHtml::_(
-				'link',
-				JRoute::_('index.php?option=com_installer&view=discover' . urlencode(base64_encode(JUri::getInstance()))),
-				'&times;',
-				'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
-			);
-			?>
-                        <p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
-                            &nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-                        <input class="btn" type="button"
-                               value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
-                               onclick="Joomla.submitbuttonInstallWebInstaller()"/>
+					<?php echo JHtml::_(
+						'link',
+						JRoute::_('index.php?option=com_installer&view=discover' . urlencode(base64_encode(JUri::getInstance()))),
+						'&times;',
+						'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+					);
+					?>
+                    <p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
+                        &nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
+                    <input class="btn" type="button"
+                           value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
+                           onclick="Joomla.submitbuttonInstallWebInstaller()"/>
                     </div>
                 <?php endif; ?>
 
@@ -127,16 +127,25 @@ JFactory::getDocument()->addStyleDeclaration(
 	            
                 <?php
                     // Show installation tabs at the start
-                    JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); 
+                    $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); 
                 ?>
 	            <?php
 		            // Show installation tabs
-		            JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array());
+		            $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array());
 	            ?>
                 <?php
                     // Show installation tabs at the end
-                    JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); 
+                    $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); 
                 ?>
+	            
+	            <?php 
+	                $tabs = array_merge($firstTab, $tabs, $lastTab);
+	            
+	                if (!$tabs)
+	                {
+		                JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning');
+	                }
+	            ?>
 
                 <?php if ($this->ftp) : ?>
                     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
@@ -144,11 +153,12 @@ JFactory::getDocument()->addStyleDeclaration(
                     <?php echo JHtml::_('bootstrap.endTab'); ?>
                 <?php endif; ?>
 
-                <input type="hidden" name="type" value=""/>
-                <input type="hidden" name="installtype" value="upload"/>
+                <input type="hidden" name="installtype" value=""/>
                 <input type="hidden" name="task" value="install.install"/>
                 <?php echo JHtml::_('form.token'); ?>
 
                 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
+            </div>
     </form>
 </div>
+<div id="loading"></div>

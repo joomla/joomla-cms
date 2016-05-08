@@ -19,17 +19,26 @@ JHtml::_('bootstrap.tooltip');
 class PlgInstallerPackageInstaller extends JPlugin
 {
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 * Constructor
 	 *
-	 * @var    boolean
-	 * @since  3.6.0
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   1.5
 	 */
-	protected $autoloadLanguage = true;
+	public function __construct(&$subject, $config = array())
+	{
+		$this->autoloadLanguage = true;
+
+		parent::__construct($subject, $config);
+	}
 
 	/**
 	 * Textfield or Form of the Plugin.
 	 *
-	 * @return  void
+	 * @return  bool  Always returns true
 	 *
 	 * @since   3.6.0
 	 */
@@ -47,10 +56,9 @@ class PlgInstallerPackageInstaller extends JPlugin
 			</div>
 			<div class="form-actions">
 				<button class="btn btn-primary" type="button" onclick="Joomla.submitbuttonpackage()">
-					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER__UPLOAD_AND_INSTALL'); ?></button>
+					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 			</div>
-
-			<input type="hidden" name="installtype" value="upload"/>
+			
 		</fieldset>
 
 		<?php
@@ -64,14 +72,17 @@ class PlgInstallerPackageInstaller extends JPlugin
 				// do field validation 
 				if (form.install_package.value == "")
 				{
-					alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE') . '");
+					alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE') . '");
 				}
 				else
 				{
 					jQuery("#loading").css("display", "block");
+					form.installtype.value = "upload"
 					form.submit();
 				}
 			};
 		');
+
+		return true;
 	}
 }

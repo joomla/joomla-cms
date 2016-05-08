@@ -51,9 +51,6 @@ class InstallerModelInstall extends JModelLegacy
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		// Recall the 'Install from Directory' path.
-		$path = $app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory', $app->get('tmp_path'));
-		$this->setState('install.directory', $path);
 		parent::populateState();
 	}
 

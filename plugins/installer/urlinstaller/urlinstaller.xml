@@ -11,7 +11,7 @@
 	<description>PLG_INSTALLER_URLINSTALLER_PLUGIN_XML_DESCRIPTION</description>
 
 	<files>
-		<filename plugin="urlinstaller">urinstaller.php</filename>
+		<filename plugin="urlinstaller">urlinstaller.php</filename>
 	</files>
 
 	<languages>
