@@ -719,18 +719,6 @@
 				<option value="0">JHIDE</option>
 		</field>
 
-		<field name="filter_field"
-			type="list"
-			default="hide"
-			label="JGLOBAL_FILTER_FIELD_LABEL"
-			description="JGLOBAL_FILTER_FIELD_DESC">
-				<option value="hide">JHIDE</option>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
-				<option value="tag">JTAG</option>
-		</field>
-
 		<field name="show_headings"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -866,6 +854,18 @@
 			<option value="show">JSHOW</option>
 			<option value="hide">JHIDE</option>
 			<option value="only">JONLY</option>
+		</field>
+
+		<field name="filter_field"
+			type="list"
+			default="hide"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			description="JGLOBAL_FILTER_FIELD_DESC">
+				<option value="hide">JHIDE</option>
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="author">JAUTHOR</option>
+				<option value="hits">JGLOBAL_HITS</option>
+				<option value="tag">JTAG</option>
 		</field>
 
 	</fieldset>
