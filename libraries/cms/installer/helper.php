@@ -42,8 +42,6 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = JHttpFactory::getHttp();
-
 		// Load installer plugins, and allow url and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
@@ -52,7 +50,7 @@ abstract class JInstallerHelper
 
 		try
 		{
-			$response = $http->get($url, $headers);
+			$response = JHttpFactory::getHttp()->get($url, $headers);
 		}
 		catch (Exception $exception)
 		{
