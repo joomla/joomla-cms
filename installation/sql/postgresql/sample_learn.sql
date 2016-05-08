@@ -502,7 +502,7 @@ SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
 --
 -- Dumping data for table #__menu_types
 --
-INSERT INTO "#__menu_types" VALUES
+INSERT INTO "#__menu_types" ("id", "menutype", "title", "description") VALUES
 (2,'usermenu','User Menu','A Menu for logged-in Users'),
 (3,'top','Top','Links for major types of users'),
 (4,'aboutjoomla','About Joomla','All about Joomla!'),
