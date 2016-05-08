@@ -96,7 +96,7 @@ class JFormFieldModal_Article extends JFormField
 		// Setup variables for display.
 		$html = array();
 		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
-		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit;
+		$linkArticle = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;task=article.edit';
 
 		if (isset($this->element['language']))
 		{
