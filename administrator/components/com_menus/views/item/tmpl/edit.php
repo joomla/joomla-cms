@@ -82,6 +82,27 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
+	<?php
+	// Find the short link to this menu item
+	if (JLanguageMultilang::isEnabled())
+	{
+		if ($this->item->language !== '*')
+		{
+			$lang = '&lang=' . $this->item->language;
+		}
+		else
+		{
+			$lang = '';
+		}
+	}
+	else
+	{
+		$lang = '';
+	}
+
+	$shortlink = 'index.php?Itemid=' . $this->item->id . $lang;
+	?>
+
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
@@ -112,6 +133,14 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				}
 
 				echo $this->form->getControlGroup('link');
+
+				// Display the short link to this menu item
+				$specialTypes = array('alias', 'separator', 'url', 'heading');
+
+				if (!in_array($this->item->type, $specialTypes) && $this->item->id)
+				{
+					echo $this->form->renderField('shortlink', '', $default = $shortlink);
+				}
 
 				echo $this->form->getControlGroup('browserNav');
 				echo $this->form->getControlGroup('template_style_id');
