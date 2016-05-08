@@ -5,4 +5,4 @@ SELECT 801, 'English (United Kingdom)', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, 
 
 SET IDENTITY_INSERT [#__extensions]  OFF;
 
-UPDATE [#__update_sites_extensions] SET [extension_id] = 801 WHERE [update_site_id] = 8 AND [extension_id] = 600;
+UPDATE [#__update_sites_extensions] SET [extension_id] = 801 WHERE [update_site_id] = 3 AND [extension_id] = 600;
