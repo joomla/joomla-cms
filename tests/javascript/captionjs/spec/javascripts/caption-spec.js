@@ -2,24 +2,10 @@
  * Created by Ruchiranga on 4/29/2016.
  */
 
-define(['jquery', 'jcaption', 'jasmineJquery'], function($) {
+define(['jquery', 'jcaptionSetup', 'jasmineJquery'], function ($) {
 
-    describe('JCaption', function() {
-        jasmine.getFixtures().fixturesPath = 'base/tests/javascript/captionjs/spec/javascripts/fixtures';
-        var fixture = readFixtures('caption-fixture.html');
-        $('body').append(fixture);
-        
-        new JCaption('img.test');
-
-        it('Should have image 1', function() {
-            expect($('#img1')).toExist();
-        });
-
-        it('Should have image 2', function() {
-            expect($('#img2')).toExist();
-        });
-
-        it('Should have caption as "Joomla logo" under image 1', function() {
+    describe('JCaption initialized with valid selector', function () {
+        it('Should have caption as "Joomla logo" under image 1', function () {
             expect($('p')[0]).toHaveText('Joomla logo');
         });
 
@@ -28,5 +14,16 @@ define(['jquery', 'jcaption', 'jasmineJquery'], function($) {
         });
     });
 
+    describe('JCaption with align and width options', function () {
+        it('Should have and element with class right', function () {
+            expect($('.right')).toExist();
+        });
 
+        it('Should have specified CSS', function () {
+            expect($('.right')).toHaveCss({
+                float: 'right',
+                width: '100px'
+            });
+        });
+    });
 });
