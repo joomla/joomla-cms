@@ -16,7 +16,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 /**
  * UrlFolderInstaller Plugin.
  *
- * @since  3.5
+ * @since  3.6.0
  */
 class PlgInstallerUrlFolderInstaller  extends JPlugin
 {
@@ -24,7 +24,7 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  3.5
+	 * @since  3.6.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -33,7 +33,7 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function onInstallerViewBeforeFirstTab()
 	{
@@ -49,7 +49,7 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function onInstallerViewAfterLastTab()
 	{
@@ -70,7 +70,7 @@ class PlgInstallerUrlFolderInstaller  extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	private function getChanges()
 	{
