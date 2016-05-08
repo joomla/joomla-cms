@@ -69,7 +69,7 @@ class BannersTableBanner extends JTable
 
 		if (empty($this->alias))
 		{
-			$this->alias = JApplicationHelper::stringURLSafe($this->name);
+			$this->alias = JApplicationHelper::stringURLSafe($this->name, $this->language);
 		}
 
 		// Check the publish down date is not earlier than publish up.
