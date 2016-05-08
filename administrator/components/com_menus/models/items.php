@@ -94,8 +94,13 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', '*'));
+		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype'));
 		$menuId = 0;
+
+		if (!$menuType)
+		{
+			$menuType = $this->getDefaultMenuType();
+		}
 
 		if ($menuType)
 		{
@@ -358,5 +363,39 @@ class MenusModelItems extends JModelList
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Finds the default menu type.
+	 *
+	 * In the absence of better information, this is the first menu ordered by title.
+	 *
+	 * @return  string    The default menu type
+	 *
+	 * @since   3.6
+	 */
+	protected function getDefaultMenuType()
+	{
+		$user = JFactory::getUser();
+
+		// Create a new query object.
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select(array('id', 'menutype'))
+			->from('#__menu_types')
+			->order('title');
+		$db->setQuery($query);
+		$menuTypes = $db->loadObjectList();
+
+		foreach ($menuTypes as $type)
+		{
+			if ($user->authorise('core.manage', 'com_menus.menu.' . $type->id))
+			{
+				return $type->menutype;
+			}
+		}
+
+		return null;
 	}
 }
