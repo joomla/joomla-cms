@@ -36,6 +36,7 @@ class RedirectModelLinks extends JModelList
 				'hits', 'a.hits',
 				'created_date', 'a.created_date',
 				'published', 'a.published',
+				'header', 'a.header',
 			);
 		}
 
@@ -149,7 +150,7 @@ class RedirectModelLinks extends JModelList
 		}
 		elseif ($state === '')
 		{
-			$query->where($db->quoteName('a.published') . ' IN (0,1,2)');
+			$query->where($db->quoteName('a.published') . ' IN (0,1)');
 		}
 
 		// Filter the items over the search string if set.

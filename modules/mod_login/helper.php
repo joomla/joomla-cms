@@ -34,7 +34,23 @@ class ModLoginHelper
 
 		if ($item)
 		{
-			$url = 'index.php?Itemid=' . $item->id;
+			if (JLanguageMultilang::isEnabled())
+			{
+				if ($item->language !== '*')
+				{
+					$lang = '&lang=' . $item->language;
+				}
+				else
+				{
+					$lang = '';
+				}
+			}
+			else
+			{
+				$lang = '';
+			}
+
+			$url = 'index.php?Itemid=' . $item->id . $lang;
 		}
 		else
 		{

@@ -76,7 +76,8 @@ abstract class JInstallerHelper
 		if (isset($response->headers['Content-Disposition'])
 			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
 		{
-			$target = trim(rtrim($parts[1], ";"), '"');
+			$flds = explode(';', $parts[1]);
+			$target = trim($flds[0], '"');
 		}
 
 		// Set the target path if not given
