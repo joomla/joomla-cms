@@ -342,7 +342,7 @@ abstract class JFolder
 				// Don't descend into linked directories, just delete the link.
 				$file = new JFilesystemWrapperFile;
 
-				$file->delete($folder);
+				if ($file->delete($folder) === false)
 				{
 					// JFile::delete throws an error (Not always)
 					return false;
@@ -500,6 +500,7 @@ abstract class JFolder
 
 		// Compute the excludefilter string
 		$excludefilter_string = '';
+
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
@@ -551,6 +552,7 @@ abstract class JFolder
 
 		// Compute the excludefilter string
 		$excludefilter_string = '';
+
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
