@@ -17,7 +17,7 @@ JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
 /**
  * PackageInstaller Plugin.
  *
- * @since  3.5
+ * @since  3.6.0
  */
 class PlgInstallerPackageInstaller  extends JPlugin
 {
@@ -25,7 +25,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  3.5
+	 * @since  3.6.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -34,7 +34,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function onInstallerViewBeforeFirstTab()
 	{
@@ -50,7 +50,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function onInstallerViewAfterLastTab()
 	{
@@ -71,7 +71,7 @@ class PlgInstallerPackageInstaller  extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	private function getChanges()
 	{
