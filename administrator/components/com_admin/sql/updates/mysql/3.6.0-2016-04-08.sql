@@ -6,9 +6,9 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 UPDATE `#__update_sites_extensions`
 SET `extension_id` = 802
 WHERE `update_site_id` IN (
-						SELECT `update_site_id`
-						FROM `#__update_sites`
-						WHERE `name` = 'Accredited Joomla! Translations'
-						AND `type` = 'collection'
-						)
+			SELECT `update_site_id`
+			FROM `#__update_sites`
+			WHERE `name` = 'Accredited Joomla! Translations'
+			AND `type` = 'collection'
+			)
 AND `extension_id` = 600;
