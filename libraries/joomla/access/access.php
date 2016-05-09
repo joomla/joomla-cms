@@ -1066,14 +1066,20 @@ class JAccess
 		// If there some elements, analyse them
 		if (!empty($elements))
 		{
-			foreach ($elements as $action)
+			foreach ($elements as $element)
 			{
 				// Add the action to the actions array
-				$actions[] = (object) array(
-					'name' => (string) $action['name'],
-					'title' => (string) $action['title'],
-					'description' => (string) $action['description']
-				);
+				$action = new StdClass;
+				$action->name = (string) $element['name'];
+				$action->title = (string) $element['title'];
+				$action->description = (string) $element['description'];
+
+				if (isset($element['default']))
+				{
+					$action->default = (int) $element['default'];
+				}
+
+				$actions[] = $action;
 			}
 		}
 

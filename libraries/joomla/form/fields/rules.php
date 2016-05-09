@@ -287,14 +287,26 @@ class JFormFieldRules extends JFormField
 				$assetRule = $assetRules->allow($action->name, $group->value);
 
 				// Build the dropdowns for the permissions sliders
-
-				// The parent group has "Not Set", all children can rightly "Inherit" from that.
-				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>'
-					. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
-				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
-					. '</option>';
-				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
-					. '</option>';
+				if ($assetRule === null)
+				{
+					// If asset Rule is not exist yet. Use default option in action if available
+					$html[] = '<option value=""' . (!isset($action->default) ? ' selected="selected"' : '') . '>'
+						. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
+					$html[] = '<option value="1"' . (isset($action->default) && ($action->default == 1) ? ' selected="selected"' : '') . '>'
+						. JText::_('JLIB_RULES_ALLOWED') . '</option>';
+					$html[] = '<option value="0"' . (isset($action->default) && ($action->default == 0) ? ' selected="selected"' : '') . '>'
+						. JText::_('JLIB_RULES_DENIED') . '</option>';
+				}
+				else
+				{
+					// The parent group has "Not Set", all children can rightly "Inherit" from that.
+					$html[] = '<option value="">'
+						. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
+					$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
+						. '</option>';
+					$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
+						. '</option>';
+				}
 
 				$html[] = '</select>&#160; ';
 
