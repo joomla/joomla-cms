@@ -39,7 +39,7 @@ class InstallationControllerDatabase extends JControllerBase
 		$vars = $model->checkForm('database');
 
 		// Determine if the configuration file path is writable.
-		$path = JPATH_CONFIGURATION . '/configuration.php';
+		$path   = JPATH_CONFIGURATION . '/configuration.php';
 		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
 		$r = new stdClass;

@@ -44,7 +44,7 @@ abstract class InstallationHelperDatabase
 				'password' => $password,
 				'database' => $database,
 				'prefix' => $prefix,
-				'select' => $select
+				'select' => $select,
 			);
 
 			// Get a database object.
