@@ -18,7 +18,8 @@ if (JPluginHelper::isEnabled('user', 'simplify'))
 
 	$plugin = JPluginHelper::getPlugin('user', 'simplify');
 
-	$params = (new JRegistry)->loadString($plugin->params);
+	$params = new JRegistry;
+	$params->loadString($plugin->params);
 
 	$showname = $params->get('remove_name_field', 1) == 0;
 }

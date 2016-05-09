@@ -2291,6 +2291,6 @@ class JForm
 	 */
 	public function getFieldXml($name, $group = null)
 	{
-		return self::findField($name, $group);
+		return $this->findField($name, $group);
 	}
 }

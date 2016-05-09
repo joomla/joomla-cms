@@ -24,7 +24,7 @@
 					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_USER_SIMPLIFY_FIELD_REMOVENAME_DESC"
-					   label="PLG_USER__SIMPLIFY_FIELD_REMOVENAME_LABEL"
+					   label="PLG_USER_SIMPLIFY_FIELD_REMOVENAME_LABEL"
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
