@@ -65,12 +65,12 @@ class BannersTableBanner extends JTable
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
 		// Set alias
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
-
-		if (empty($this->alias))
+		if (trim($this->alias) == '')
 		{
-			$this->alias = JApplicationHelper::stringURLSafe($this->name, $this->language);
+			$this->alias = $this->name;
 		}
+
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
