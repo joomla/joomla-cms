@@ -35,9 +35,11 @@ class UsersViewProfile extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
+
 		// Get the view data.
 		$this->data	            = $this->get('Data');
-		$this->form	            = $this->get('Form');
+		$this->form	            = $this->getModel()->getForm(new JObject(array('id' => $user->id)));
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
@@ -53,7 +55,6 @@ class UsersViewProfile extends JViewLegacy
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
-		$user = JFactory::getUser();
 		$cookieLogin = $user->get('cookieLogin');
 
 		if (!empty($cookieLogin))
