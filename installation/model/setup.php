@@ -25,10 +25,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getOptions()
 	{
-		$session = JFactory::getSession();
-		$options = $session->get('setup.options', array());
-
-		return $options;
+		return JFactory::getSession()->get('setup.options', array());;
 	}
 
 	/**
@@ -43,8 +40,7 @@ class InstallationModelSetup extends JModelBase
 	public function storeOptions($options)
 	{
 		// Get the current setup options from the session.
-		$session = JFactory::getSession();
-		$old = $session->get('setup.options', array());
+		$old = (array) $this->getOptions();
 
 		// Ensure that we have language
 		if (!isset($options['language']) || empty($options['language']))
@@ -52,6 +48,8 @@ class InstallationModelSetup extends JModelBase
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
 
+		// Get the session
+		$session = JFactory::getSession();
 		$options['helpurl'] = $session->get('setup.helpurl', null);
 
 		// Merge the new setup options into the current ones and store in the session.
@@ -128,7 +126,9 @@ class InstallationModelSetup extends JModelBase
 		// Attempt to save the data before validation.
 		$form = $this->getForm();
 		$data = $form->filter($data);
+
 		unset($data['admin_password2']);
+
 		$this->storeOptions($data);
 
 		// Check for validation errors.
@@ -153,13 +153,10 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @return  boolean True if successful.
 	 *
-	 * @since	3.1
+	 * @since   3.1
 	 */
 	public function getLanguages()
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Detect the native language.
 		$native = JLanguageHelper::detectLanguage();
 
@@ -169,7 +166,7 @@ class InstallationModelSetup extends JModelBase
 		}
 
 		// Get a forced language if it exists.
-		$forced = $app->getLocalise();
+		$forced = JFactory::getApplication()->getLocalise();
 
 		if (!empty($forced['language']))
 		{
@@ -190,9 +187,9 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
-	 * @return	boolean  True if the method exists.
+	 * @return  boolean  True if the method exists.
 	 *
-	 * @since	3.1
+	 * @since   3.1
 	 */
 	public function getIniParserAvailability()
 	{
@@ -223,7 +220,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Gets PHP options.
 	 *
-	 * @return	array  Array of PHP config options
+	 * @return  array  Array of PHP config options
 	 *
 	 * @since   3.1
 	 */
@@ -422,7 +419,7 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @since	3.1
+	 * @since   3.1
 	 */
 	public function validate($data, $view = null)
 	{

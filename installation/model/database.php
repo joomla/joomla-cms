@@ -33,7 +33,7 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected static function generateRandUserId()
 	{
-		$session = JFactory::getSession();
+		$session    = JFactory::getSession();
 		$randUserId = $session->get('randUserId');
 
 		if (empty($randUserId))
@@ -56,8 +56,8 @@ class InstallationModelDatabase extends JModelBase
 	public static function resetRandUserId()
 	{
 		self::$userId = 0;
-		$session = JFactory::getSession();
-		$session->set('randUserId', self::$userId);
+
+		JFactory::getSession()->set('randUserId', self::$userId);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class InstallationModelDatabase extends JModelBase
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work.
 		$lang = JFactory::getLanguage();
@@ -172,7 +172,13 @@ class InstallationModelDatabase extends JModelBase
 		try
 		{
 			return InstallationHelperDatabase::getDbo(
-				$options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, $options->db_select
+				$options->db_type,
+				$options->db_host,
+				$options->db_user,
+				$options->db_pass,
+				$options->db_name,
+				$options->db_prefix,
+				$options->db_select
 			);
 		}
 		catch (RuntimeException $e)
@@ -214,7 +220,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Check database version.
 		$type = $options->db_type;
@@ -240,12 +246,12 @@ class InstallationModelDatabase extends JModelBase
 				 * in order to trick the connection into creating the database
 				 */
 				$altDBoptions = array(
-					'driver' => $options->db_type,
-					'host' => $options->db_host,
-					'user' => $options->db_user,
+					'driver'   => $options->db_type,
+					'host'     => $options->db_host,
+					'user'     => $options->db_user,
 					'password' => $options->db_pass,
-					'prefix' => $options->db_prefix,
-					'select' => $options->db_select
+					'prefix'   => $options->db_prefix,
+					'select'   => $options->db_select,
 				);
 
 				$altDB = JDatabaseDriver::getInstance($altDBoptions);
@@ -391,6 +397,7 @@ class InstallationModelDatabase extends JModelBase
 			if (isset($i['1']) && $i['1'] == '*')
 			{
 				unset($options[$i]);
+
 				break;
 			}
 		}
@@ -400,8 +407,7 @@ class InstallationModelDatabase extends JModelBase
 		// Restore autoselect value after database creation.
 		$options['db_select'] = $tmpSelect;
 
-		$session = JFactory::getSession();
-		$session->set('setup.options', $options);
+		JFactory::getSession()->set('setup.options', $options);
 
 		return true;
 	}
@@ -428,7 +434,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
 		$this->setDatabaseCharset($db, $options->db_name);
@@ -481,7 +487,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Check database type.
 		$type = $options->db_type;
@@ -653,7 +659,6 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
-		$app = JFactory::getApplication();
 		$languages = $app->getLocaliseAdmin($db);
 
 		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
@@ -663,7 +668,7 @@ class InstallationModelDatabase extends JModelBase
 
 			// Set default administrator/site language to sample data values.
 			$params['administrator'] = 'en-GB';
-			$params['site'] = 'en-GB';
+			$params['site']          = 'en-GB';
 
 			if (in_array($options->language, $languages['admin']))
 			{
@@ -691,6 +696,7 @@ class InstallationModelDatabase extends JModelBase
 			catch (RuntimeException $e)
 			{
 				$app->enqueueMessage($e->getMessage(), 'notice');
+
 				$return = false;
 			}
 		}
@@ -724,7 +730,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
 		$type = $options->db_type;
@@ -777,22 +783,31 @@ class InstallationModelDatabase extends JModelBase
 		// Update all created_by field of the tables with the random user id
 		// categories (created_user_id), contact_details, content, newsfeeds.
 		$updates_array = array(
-			'categories' => 'created_user_id',
+			'categories'      => 'created_user_id',
 			'contact_details' => 'created_by',
-			'content' => 'created_by',
-			'newsfeeds' => 'created_by',
-			'tags' => 'created_user_id',
-			'ucm_content' => 'core_created_user_id',
-			'ucm_history' => 'editor_user_id'
+			'content'         => 'created_by',
+			'newsfeeds'       => 'created_by',
+			'tags'            => 'created_user_id',
+			'ucm_content'     => 'core_created_user_id',
+			'ucm_history'     => 'editor_user_id',
 		);
 
 		foreach ($updates_array as $table => $field)
 		{
-			$db->setQuery(
-				'UPDATE ' . $db->quoteName('#__' . $table) .
-					' SET ' . $db->quoteName($field) . ' = ' . $db->quote($userId)
-			);
-			$db->execute();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__' . $table))
+				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
+
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
+			}
 		}
 	}
 
@@ -808,6 +823,10 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	public function backupDatabase($db, $prefix)
 	{
+		// Get the application.
+		/* @var InstallationApplicationWeb $app */
+		$app = JFactory::getApplication();
+
 		$return = true;
 		$backup = 'bak_' . $prefix;
 
@@ -831,7 +850,8 @@ class InstallationModelDatabase extends JModelBase
 					}
 					catch (RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
+						$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
+
 						$return = false;
 					}
 
@@ -842,7 +862,8 @@ class InstallationModelDatabase extends JModelBase
 					}
 					catch (RuntimeException $e)
 					{
-						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
+						$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
+
 						$return = false;
 					}
 				}
@@ -913,6 +934,7 @@ class InstallationModelDatabase extends JModelBase
 					catch (RuntimeException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'notice');
+
 						$return = false;
 					}
 				}
@@ -949,7 +971,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Get an array of queries from the schema and process them.
-		$queries = $this->_splitQueries($buffer);
+		$queries = $this->splitQueries($buffer);
 
 		foreach ($queries as $query)
 		{
@@ -986,6 +1008,7 @@ class InstallationModelDatabase extends JModelBase
 				catch (RuntimeException $e)
 				{
 					$app->enqueueMessage($e->getMessage(), 'notice');
+
 					$return = false;
 				}
 			}
@@ -1030,10 +1053,10 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	protected function _splitQueries($query)
+	protected function splitQueries($query)
 	{
-		$buffer = array();
-		$queries = array();
+		$buffer    = array();
+		$queries   = array();
 		$in_string = false;
 
 		// Trim any whitespace.
@@ -1057,8 +1080,8 @@ class InstallationModelDatabase extends JModelBase
 			if ($query[$i] == ";" && !$in_string)
 			{
 				$queries[] = substr($query, 0, $i);
-				$query = substr($query, $i + 1);
-				$i = 0;
+				$query     = substr($query, $i + 1);
+				$i         = 0;
 			}
 
 			if ($in_string && ($query[$i] == $in_string) && $buffer[1] != "\\")

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * FTP configuration model for the Joomla Core Installer.
  *
@@ -32,7 +34,7 @@ class InstallationModelFtp extends JModelBase
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
@@ -105,14 +107,15 @@ class InstallationModelFtp extends JModelBase
 		}
 
 		// Check all possible paths for the real Joomla installation by comparing version files.
-		$rootPath = false;
+		$rootPath   = false;
 		$checkValue = file_get_contents(JPATH_LIBRARIES . '/cms/version/version.php');
 
 		foreach ($paths as $tmp)
 		{
 			$filePath = rtrim($tmp, '/') . '/libraries/cms/version/version.php';
-			$buffer = null;
-			@ $ftp->read($filePath, $buffer);
+			$buffer   = null;
+
+			@$ftp->read($filePath, $buffer);
 
 			if ($buffer == $checkValue)
 			{
@@ -151,7 +154,7 @@ class InstallationModelFtp extends JModelBase
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.
-		$options = JArrayHelper::toObject($options);
+		$options = ArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
 		@$ftp = JClientFtp::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
