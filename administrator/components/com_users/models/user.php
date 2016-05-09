@@ -191,6 +191,35 @@ class UsersModelUser extends JModelAdmin
 	}
 
 	/**
+	 * Method to validate the form data.
+	 *
+	 * @param   JForm   $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
+	 * @return  mixed  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see     JFormRule
+	 * @see     JFilterInput
+	 * @since   3.6
+	 */
+	public function validate($form, $data, $group = null)
+	{
+		// Load the users plugin group.
+		JPluginHelper::importPlugin('user');
+
+		$dispatcher = JEventDispatcher::getInstance();
+
+		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+
+		$result = parent::validate($form, $data, $group);
+
+		$dispatcher->trigger('onUserAfterDataValidation', array($form, &$data, &$result));
+
+		return $result;
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
