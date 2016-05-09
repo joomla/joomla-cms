@@ -73,6 +73,7 @@ abstract class JFolder
 			{
 				throw new RuntimeException('Cannot open source folder', -1);
 			}
+
 			// Walk through the directory copying files and recursing into folders.
 			while (($file = readdir($dh)) !== false)
 			{
@@ -82,15 +83,15 @@ abstract class JFolder
 				switch (filetype($sfid))
 				{
 					case 'dir':
+
 						if ($file != '.' && $file != '..')
 						{
-							$ret = self::copy($sfid, $dfid, null, $force);
-
-							if ($ret !== true)
+							if (!self::copy($sfid, $dfid, null, $force))
 							{
-								return $ret;
+								return false;
 							}
 						}
+
 						break;
 
 					case 'file':
@@ -101,55 +102,57 @@ abstract class JFolder
 						{
 							throw new RuntimeException('Copy file failed', -1);
 						}
+
 						break;
 				}
 			}
+
+			return true;
 		}
-		else
+
+		if (!($dh = @opendir($src)))
 		{
-			if (!($dh = @opendir($src)))
+			throw new RuntimeException('Cannot open source folder', -1);
+		}
+
+		// Walk through the directory copying files and recursing into folders.
+		while (($file = readdir($dh)) !== false)
+		{
+			$sfid = $src . '/' . $file;
+			$dfid = $dest . '/' . $file;
+
+			switch (filetype($sfid))
 			{
-				throw new RuntimeException('Cannot open source folder', -1);
-			}
-			// Walk through the directory copying files and recursing into folders.
-			while (($file = readdir($dh)) !== false)
-			{
-				$sfid = $src . '/' . $file;
-				$dfid = $dest . '/' . $file;
-
-				switch (filetype($sfid))
-				{
-					case 'dir':
-						if ($file != '.' && $file != '..')
+				case 'dir':
+					if ($file != '.' && $file != '..')
+					{
+						if (self::copy($sfid, $dfid, null, $force, $use_streams))
 						{
-							$ret = self::copy($sfid, $dfid, null, $force, $use_streams);
-
-							if ($ret !== true)
-							{
-								return $ret;
-							}
+							return false;
 						}
+					}
+					break;
+
+				case 'file':
+
+					if ($use_streams)
+					{
+						$stream = JFactory::getStream();
+
+						if (!$stream->copy($sfid, $dfid))
+						{
+							throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
+						}
+
 						break;
+					}
 
-					case 'file':
-						if ($use_streams)
-						{
-							$stream = JFactory::getStream();
+					if (!@copy($sfid, $dfid))
+					{
+						throw new RuntimeException('Copy file failed', -1);
+					}
 
-							if (!$stream->copy($sfid, $dfid))
-							{
-								throw new RuntimeException('Cannot copy file: ' . $stream->getError(), -1);
-							}
-						}
-						else
-						{
-							if (!@copy($sfid, $dfid))
-							{
-								throw new RuntimeException('Copy file failed', -1);
-							}
-						}
-						break;
-				}
+					break;
 			}
 		}
 
@@ -229,13 +232,10 @@ abstract class JFolder
 			// If open_basedir is set we need to get the open_basedir that the path is in
 			if ($obd != null)
 			{
+				$obdSeparator = ":";
 				if (IS_WIN)
 				{
 					$obdSeparator = ";";
-				}
-				else
-				{
-					$obdSeparator = ":";
 				}
 
 				// Create the array of open_basedir paths
@@ -327,11 +327,9 @@ abstract class JFolder
 		{
 			$file = new JFilesystemWrapperFile;
 
-			if ($file->delete($files) !== true)
-			{
-				// JFile::delete throws an error
-				return false;
-			}
+			// JFile::delete throws an error
+			// So we don't need to check anything here
+			$file->delete($files);
 		}
 
 		// Remove sub-folders of folder; disable all filtering
@@ -344,15 +342,15 @@ abstract class JFolder
 				// Don't descend into linked directories, just delete the link.
 				$file = new JFilesystemWrapperFile;
 
-				if ($file->delete($folder) !== true)
+				$file->delete($folder);
 				{
-					// JFile::delete throws an error
+					// JFile::delete throws an error (Not always)
 					return false;
 				}
 			}
 			elseif (self::delete($folder) !== true)
 			{
-				// JFolder::delete throws an error
+				// JFolder::delete throws an error (Not always)
 				return false;
 			}
 		}
@@ -367,23 +365,20 @@ abstract class JFolder
 		// as long as the owner is either the webserver or the ftp.
 		if (@rmdir($path))
 		{
-			$ret = true;
+			return true;
 		}
-		elseif ($FTPOptions['enabled'] == 1)
-		{
-			// Translate path and delete
-			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 
-			// FTP connector throws an error
-			$ret = $ftp->delete($path);
-		}
-		else
+		if ($FTPOptions['enabled'] != 1)
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
-			$ret = false;
+			return false;
 		}
 
-		return $ret;
+		// Translate path and delete
+		$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+
+		// FTP connector throws an error
+		return $ftp->delete($path);
 	}
 
 	/**
@@ -428,39 +423,33 @@ abstract class JFolder
 				return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
 			}
 
-			$ret = true;
+			return true;
 		}
-		else
+
+		if ($FTPOptions['enabled'] != 1)
 		{
-			if ($FTPOptions['enabled'] == 1)
+			if (!@rename($src, $dest))
 			{
-				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
-
-				// Translate path for the FTP account
-				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
-
-				// Use FTP rename to simulate move
-				if (!$ftp->rename($src, $dest))
-				{
-					return JText::_('Rename failed');
-				}
-
-				$ret = true;
+				return JText::_('Rename failed');
 			}
-			else
-			{
-				if (!@rename($src, $dest))
-				{
-					return JText::_('Rename failed');
-				}
 
-				$ret = true;
-			}
+			return true;
 		}
 
-		return $ret;
+		// Connect the FTP client
+		$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
+
+		// Translate path for the FTP account
+		$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+		$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
+		// Use FTP rename to simulate move
+		if (!$ftp->rename($src, $dest))
+		{
+			return JText::_('Rename failed');
+		}
+
+		return true;
 	}
 
 	/**
@@ -510,26 +499,22 @@ abstract class JFolder
 		}
 
 		// Compute the excludefilter string
+		$excludefilter_string = '';
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
-		}
-		else
-		{
-			$excludefilter_string = '';
 		}
 
 		// Get the files
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
-		// Sort the files based on either natural or alpha method
+		// Sort the files alpha method by default
+		asort($arr);
+
+		// If enabled then sort by natural order
 		if ($naturalSort)
 		{
 			natsort($arr);
-		}
-		else
-		{
-			asort($arr);
 		}
 
 		return array_values($arr);
@@ -565,13 +550,10 @@ abstract class JFolder
 		}
 
 		// Compute the excludefilter string
+		$excludefilter_string = '';
 		if (count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
-		}
-		else
-		{
-			$excludefilter_string = '';
 		}
 
 		// Get the folders
