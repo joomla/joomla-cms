@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
 			<a class="btn" href="#" onclick="return Install.goToPage('database');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
-			<a  class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
@@ -87,7 +87,7 @@ defined('_JEXEC') or die;
 		<div class="btn-toolbar">
 			<div class="btn-group pull-right">
 				<a class="btn" href="#" onclick="return Install.goToPage('database');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
-				<a  class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
+				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 			</div>
 		</div>
 	</div>
