@@ -909,6 +909,8 @@ class JUser extends JObject
 	/**
 	 * Method to recover the full object on unserialize.
 	 *
+	 * @return  void
+	 *
 	 * @since   3.6.0
 	 */
 	public function __wakeup()
