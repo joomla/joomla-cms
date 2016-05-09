@@ -180,7 +180,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
 
 							$error = true;
-							}
+						}
 					}
 
 					if (!$error)
