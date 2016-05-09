@@ -1,12 +1,16 @@
 <?php
-
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
- * @since       3.6
+ */
+
+/**
+ * Test class for JDocumentRendererHtmlModules.
+ *
+ * @since  3.6
  */
 class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 {
@@ -16,8 +20,10 @@ class JDocumentRendererHtmlModulesTest extends TestCaseDatabase
 	protected $dispatcher;
 
 	/**
-	 * @var  boolean Flag indicating execution of onAfterRenderModules event in JDocumentRendererHtmlModules::render
-	 *               method.
+	 * Flag indicating execution of onAfterRenderModules event in JDocumentRendererHtmlModules::render
+	 * method.
+	 *
+	 * @var  boolean
 	 */
 	protected $callbackExecuted;
 
