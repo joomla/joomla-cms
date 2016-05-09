@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewInstallHtml $this */
 ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal x">
+<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<h3><?php echo JText::_('INSTL_INSTALLING'); ?></h3>
 	<hr class="hr-condensed" />
 
