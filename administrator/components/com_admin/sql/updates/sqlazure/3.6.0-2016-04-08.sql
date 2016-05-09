@@ -5,4 +5,12 @@ SELECT 802, 'English (United Kingdom)', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, 
 
 SET IDENTITY_INSERT [#__extensions]  OFF;
 
-UPDATE [#__update_sites_extensions] SET [extension_id] = 802 WHERE [name] = 'Joomla! Update Component Update Site' AND [type] = 'extension' AND [extension_id] = 600;
+UPDATE [#__update_sites_extensions]
+SET [extension_id] = 802
+WHERE [update_site_id] IN (
+						SELECT [update_site_id]
+						FROM [#__update_sites]
+						WHERE [name] = 'Accredited Joomla! Translations'
+						AND [type] = 'collection'
+						)
+AND [extension_id] = 600;
