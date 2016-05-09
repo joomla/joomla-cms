@@ -13,11 +13,9 @@ defined('_JEXEC') or die;
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<h3><?php echo JText::_('INSTL_INSTALLING'); ?></h3>
 	<hr class="hr-condensed" />
-
 	<div class="progress progress-striped active" id="install_progress">
 		<div class="bar" style="width: 0%;"></div>
 	</div>
-
 	<table class="table">
 		<tbody>
 		<?php foreach ($this->tasks as $task) : ?>
