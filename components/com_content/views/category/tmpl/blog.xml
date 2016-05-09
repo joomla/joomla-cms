@@ -18,6 +18,12 @@
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				required="true"
 			/>
+			<field name="filter_tag" type="tag"
+				description="JTAG_DESC"
+				label="JTAG"
+				>
+				<option value="">JNONE</option>
+			</field>
 		</fieldset>
 	</fields>
 
