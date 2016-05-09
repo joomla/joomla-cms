@@ -196,7 +196,7 @@
 				label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS"
 			>
 				<field name="html_height" type="text"
-					default="550"
+					default=""
 					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
 				/>
