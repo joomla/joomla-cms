@@ -25,7 +25,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getOptions()
 	{
-		return JFactory::getSession()->get('setup.options', array());;
+		return JFactory::getSession()->get('setup.options', array());
 	}
 
 	/**
