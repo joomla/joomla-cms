@@ -17,111 +17,89 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang = JFactory::getLanguage();
-	$myrtl = $params->get('rssrtl');
-	$direction = " ";
+	$lang 		= JFactory::getLanguage();
+	$rssrtl 	= $params->get('rssrtl');
+	$direction 	= "";
 
-	if ($lang->isRtl() && $myrtl == 0)
+	// Set feed to RTL if parameter is set
+	if ($lang->isRtl() && $rssrtl == 0)
 	{
 		$direction = " redirect-rtl";
 	}
-
-	// Feed description
-	elseif ($lang->isRtl() && $myrtl == 1)
+	elseif ($rssrtl == 1)
 	{
 		$direction = " redirect-ltr";
 	}
-
-	elseif ($lang->isRtl() && $myrtl == 2)
+	else
 	{
 		$direction = " redirect-rtl";
 	}
+	?>
 
-	elseif ($myrtl == 0)
-	{
-		$direction = " redirect-ltr";
-	}
-	elseif ($myrtl == 1)
-	{
-		$direction = " redirect-ltr";
-	}
-	elseif ($myrtl == 2)
-	{
-		$direction = " redirect-rtl";
-	}
-
-	if ($feed != false)
-	{
-		// Image handling
-		$iUrl   = isset($feed->image) ? $feed->image : null;
-		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
-		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
-		<?php
-		// Feed description
-		if (!is_null($feed->title) && $params->get('rsstitle', 1))
-		{
-			?>
-					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo htmlspecialchars($rssurl); ?>" target="_blank">
-						<?php echo $feed->title; ?></a>
-					</h2>
-			<?php
-		}
-		// Feed description
-		if ($params->get('rssdesc', 1))
-		{
-		?>
-			<?php echo $feed->description; ?>
-			<?php
-		}
-		// Feed image
-		if ($params->get('rssimage', 1) && $iUrl) :
-		?>
-			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+	<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"
+		class="feed<?php echo $moduleclass_sfx; ?>">
+		<?php if (!is_null($feed->title) && $params->get('rsstitle', 1)) : ?>
+			<h2 class="<?php echo $direction; ?>">
+				<a href="<?php echo htmlspecialchars($rssurl); ?>" target="_blank">
+					<?php echo $feed->title; ?>
+				</a>
+			</h2>
 		<?php endif; ?>
 
+		<?php if ($params->get('rssdesc', 1)) : ?>
+			<?php echo $feed->description; ?>
+		<?php endif; ?>
 
-	<!-- Show items -->
-	<?php if (!empty($feed))
-	{ ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++)
+		<!-- Feed image -->
+		<?php
+		$iUrl   = isset($feed->image) ? $feed->image : null;
+
+		if ($params->get('rssimage', 1) && $iUrl)
 		{
-			if (!$feed->offsetExists($i))
-			{
-				break;
-			}
+			$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 			?>
-			<?php
-				$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
-				$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
-				$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
-			?>
-				<li>
-					<?php if (!empty($uri)) : ?>
-						<span class="feed-link">
-						<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
-						<?php echo $feed[$i]->title; ?></a></span>
-					<?php else : ?>
-						<span class="feed-link"><?php  echo $feed[$i]->title; ?></span>
-					<?php  endif; ?>
-
-					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
-						<div class="feed-item-description">
-						<?php
-							// Strip the images.
-							$text = JFilterOutput::stripImages($text);
-
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
-							echo str_replace('&apos;', "'", $text);
-						?>
-						</div>
-					<?php endif; ?>
-				</li>
+			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
 		<?php } ?>
-		</ul>
-	<?php } ?>
+
+		<!-- Show items -->
+		<?php if (!empty($feed)) : ?>
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+				<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) :
+					if (!$feed->offsetExists($i)) :
+						break;
+					endif;
+
+					$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
+					$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
+					$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
+					?>
+					<li>
+						<?php if (!empty($uri)) : ?>
+							<span class="feed-link">
+								<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+									<?php echo $feed[$i]->title; ?>
+								</a>
+							</span>
+						<?php else : ?>
+							<span class="feed-link">
+								<?php echo $feed[$i]->title; ?>
+							</span>
+						<?php endif; ?>
+
+						<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
+							<div class="feed-item-description">
+								<?php
+								// Strip the images.
+								$text = strip_tags(JFilterOutput::stripImages($text));
+								$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+
+								echo $text;
+								?>
+							</div>
+						<?php endif; ?>
+					</li>
+				<?php endfor; ?>
+			</ul>
+		<?php endif; ?>
 	</div>
-	<?php }
-}
+<?php } ?>
