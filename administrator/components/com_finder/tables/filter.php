@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Filter table class for the Finder package.
@@ -116,7 +117,7 @@ class FinderTableFilter extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 

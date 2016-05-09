@@ -27,24 +27,13 @@ jQuery(document).ready(function() {
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND.replace("%s", updateInfo.version + "");
 						jQuery('#plg_quickicon_joomlaupdate').find('.j-links-link').html(updateString);
 						var updateString = plg_quickicon_joomlaupdate_text.UPDATEFOUND_MESSAGE.replace("%s", updateInfo.version + "");
-						if (jQuery('.alert-joomlaupdate').length == 0) {
-							jQuery('#system-message-container').prepend(
-								'<div class="alert alert-error alert-joomlaupdate">'
-								+ updateString
-								+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
-								+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
-								+ '</div>'
-							);
-						}
-						else {
-							jQuery('#system-message-container').prepend(
-								'<div class="alert alert-error alert-joomlaupdate span6">'
-								+ updateString
-								+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
-								+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
-								+ '</div>'
-							);
-						}
+						jQuery('#system-message-container').prepend(
+							'<div class="alert alert-error alert-joomlaupdate">'
+							+ updateString
+							+ ' <button class="btn btn-primary" onclick="document.location=\'' + plg_quickicon_joomlaupdate_url + '\'">'
+							+ plg_quickicon_joomlaupdate_text.UPDATEFOUND_BUTTON + '</button>'
+							+ '</div>'
+						);
 					} else {
 						link.html(plg_quickicon_joomlaupdate_text.UPTODATE);
 					}
