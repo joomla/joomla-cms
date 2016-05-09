@@ -66,13 +66,8 @@ class JFilterOutput extends OutputFilter
 		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
-		// Transliterate on the language requested. If no language is passed transliterate on the default site language
-		if ($language == '*' || $language == '')
-		{
-			$languageParams = JComponentHelper::getParams('com_languages');
-			$language = $languageParams->get('site');
-		}
-		$lang = JLanguage::getInstance($language);
+		// Transliterate on the language requested (fallback to current language if not specified)
+		$lang = $language == '' || $language == '*' ? JFactory::getLanguage() : JLanguage::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase

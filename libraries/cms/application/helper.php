@@ -89,6 +89,11 @@ class JApplicationHelper
 		}
 		else
 		{
+			if ($language == '*' || $language == '')
+			{
+				$languageParams = JComponentHelper::getParams('com_languages');
+				$language = $languageParams->get('site');
+			}
 			$output = JFilterOutput::stringURLSafe($string, $language);
 		}
 
