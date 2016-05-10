@@ -74,7 +74,7 @@ class MediaViewMedia extends JViewLegacy
 		// Set the titlebar text
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
-		// Add a upload button
+		// Add an upload button
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout
