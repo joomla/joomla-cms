@@ -313,18 +313,6 @@
 					<option value="hide">JHIDE</option>
 					<option value="only">JONLY</option>
 				</field>
-
-			<field name="filter_field" type="list"
-				description="JGLOBAL_FILTER_FIELD_DESC"
-				label="JGLOBAL_FILTER_FIELD_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="hide">JHIDE</option>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
-        			<option value="tag">JTAG</option>
-			</field>
 		</fieldset>
 
 		<fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
