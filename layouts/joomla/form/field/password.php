@@ -49,17 +49,17 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$size            = !empty($size) ? ' size="' . $size . '"' : '';
-$class           = !empty($class) ? ' class="' . $class . '"' : '';
-$readonly        = $readonly ? ' readonly' : '';
-$disabled        = $disabled ? ' disabled' : '';
-$required        = $required ? ' required aria-required="true"' : '';
+$size            = !empty($size) ? 'size="' . $size . '"' : '';
+$class           = !empty($class) ? 'class="' . $class . '"' : '';
+$readonly        = $readonly ? 'readonly' : '';
+$disabled        = $disabled ? 'disabled' : '';
+$required        = $required ? 'required aria-required="true"' : '';
 $hint            = $hint ? ' placeholder="' . $hint . '"' : '';
-$autocomplete    = !$autocomplete ? ' autocomplete="off"' : '';
-$autofocus       = $autofocus ? ' autofocus' : '';
-$spellcheck      = $spellcheck ? '' : ' spellcheck="false"';
-$maxLength       = !empty($maxLength) ? ' maxlength="' . $maxLength . '"' : '';
-$multiple        = !empty($multiple) ? ' multiple' : '';
+$autocomplete    = !$autocomplete ? 'autocomplete="off"' : '';
+$autofocus       = $autofocus ? 'autofocus' : '';
+$spellcheck      = $spellcheck ? '' : 'spellcheck="false"';
+$maxLength       = !empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '';
+$multiple        = !empty($multiple) ? 'multiple' : '';
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
