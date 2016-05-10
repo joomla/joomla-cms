@@ -53,7 +53,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS'); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<?php echo $this->form->getControlGroup('type'); ?>
