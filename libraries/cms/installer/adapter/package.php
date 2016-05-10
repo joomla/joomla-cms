@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -363,6 +363,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 			$this->extension->params = $this->parent->getParams();
 		}
 
@@ -563,7 +564,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 		foreach ($manifest->filelist as $extension)
 		{
 			$tmpInstaller = new JInstaller;
-			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
+			$id = $this->_getExtensionId($extension->type, $extension->id, $extension->client, $extension->group);
 			$client = JApplicationHelper::getClientInfo($extension->client, true);
 
 			if ($id)
@@ -617,7 +618,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	 *
 	 * @since   3.1
 	 */
-	protected function _getExtensionID($type, $id, $client, $group)
+	protected function _getExtensionId($type, $id, $client, $group)
 	{
 		$db = $this->parent->getDbo();
 

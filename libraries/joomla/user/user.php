@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  11.1
  */
-class JUser extends JObject
+class JUser extends JObject implements Serializable
 {
 	/**
 	 * A cached switch for if this user has root access rights.
@@ -417,7 +417,7 @@ class JUser extends JObject
 
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . $subQuery->__toString() . ') AS c')
+			->from('(' . (string) $subQuery . ') AS c')
 			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
@@ -813,12 +813,6 @@ class JUser extends JObject
 			return false;
 		}
 
-		// Reset the user object in the session on a successful save
-		if ($result === true && JFactory::getUser()->id == $this->id)
-		{
-			JFactory::getSession()->set('user', $this);
-		}
-
 		return $result;
 	}
 
@@ -898,5 +892,50 @@ class JUser extends JObject
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to serialize the input.
+	 *
+	 * @return  string  The serialized input.
+	 *
+	 * @since   3.6.0
+	 */
+	public function serialize()
+	{
+		return serialize(array($this->id));
+	}
+
+	/**
+	 * Method to unserialize the user object.
+	 *
+	 * @param   string  $input  The serialized input.
+	 *
+	 * @return  JUser
+	 *
+	 * @since   3.6.0
+	 */
+	public function unserialize($input)
+	{
+		// Get the user id from the serialized data.
+		list($id) = unserialize($input);
+
+		// Initialise some variables
+		$this->userHelper = new JUserWrapperHelper;
+		$this->_params    = new Registry;
+
+		// Load the user if it exists
+		if (!empty($id))
+		{
+			$this->load($id);
+		}
+		else
+		{
+			// Initialise
+			$this->id = 0;
+			$this->sendEmail = 0;
+			$this->aid = 0;
+			$this->guest = 1;
+		}
 	}
 }

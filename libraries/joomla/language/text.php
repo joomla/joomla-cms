@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,9 +28,9 @@ class JText
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * <script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script>
+	 * `<script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing 'Default'
-	 * <?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string
+	 * `<?php echo JText::_("JDEFAULT"); ?>` will generate a 'Default' string
 	 *
 	 * @param   string   $string                The string to translate.
 	 * @param   mixed    $jsSafe                Boolean: Make the result javascript safe.
@@ -140,8 +140,8 @@ class JText
 	 * Translates a string into the current language.
 	 *
 	 * Examples:
-	 * <?php echo JText::alt("JALL","language");?> it will generate a 'All' string in English but a "Toutes" string in French
-	 * <?php echo JText::alt("JALL","module");?> it will generate a 'All' string in English but a "Tous" string in French
+	 * `<?php echo JText::alt('JALL', 'language'); ?>` will generate a 'All' string in English but a "Toutes" string in French
+	 * `<?php echo JText::alt('JALL', 'module'); ?>` will generate a 'All' string in English but a "Tous" string in French
 	 *
 	 * @param   string   $string                The string to translate.
 	 * @param   string   $alt                   The alternate option for global string
@@ -181,9 +181,9 @@ class JText
 	 * script is a boolean to indicate that the string will be push in the javascript language store.
 	 *
 	 * Examples:
-	 * <script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true));?>'));</script>
+	 * `<script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true)); ?>'));</script>`
 	 * will generate an alert message containing '1 plugin successfully disabled'
-	 * <?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string
+	 * `<?php echo JText::plural('COM_PLUGINS_N_ITEMS_UNPUBLISHED', 1); ?>` will generate a '1 plugin successfully disabled' string
 	 *
 	 * @param   string   $string  The format string.
 	 * @param   integer  $n       The number of items

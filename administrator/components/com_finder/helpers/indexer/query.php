@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
@@ -271,7 +272,7 @@ class FinderIndexerQuery
 	 *
 	 * @since   2.5
 	 */
-	public function toURI($base = null)
+	public function toUri($base = null)
 	{
 		// Set the base if not specified.
 		if (empty($base))
@@ -379,7 +380,7 @@ class FinderIndexerQuery
 
 		// Sanitize the terms.
 		$results = array_unique($results);
-		JArrayHelper::toInteger($results);
+		$results = ArrayHelper::toInteger($results);
 
 		return $results;
 	}
@@ -421,7 +422,7 @@ class FinderIndexerQuery
 		foreach ($results as $key => $value)
 		{
 			$results[$key] = array_unique($results[$key]);
-			JArrayHelper::toInteger($results[$key]);
+			$results[$key] = ArrayHelper::toInteger($results[$key]);
 		}
 
 		return $results;
@@ -462,7 +463,7 @@ class FinderIndexerQuery
 		foreach ($results as $key => $value)
 		{
 			$results[$key] = array_unique($results[$key]);
-			JArrayHelper::toInteger($results[$key]);
+			$results[$key] = ArrayHelper::toInteger($results[$key]);
 		}
 
 		return $results;
@@ -521,7 +522,7 @@ class FinderIndexerQuery
 		// Remove duplicates and sanitize.
 		$filters = explode(',', $return->data);
 		$filters = array_unique($filters);
-		JArrayHelper::toInteger($filters);
+		$filters = ArrayHelper::toInteger($filters);
 
 		// Remove any values of zero.
 		if (array_search(0, $filters, true) !== false)
@@ -585,7 +586,7 @@ class FinderIndexerQuery
 
 		// Remove duplicates and sanitize.
 		$filters = array_unique($filters);
-		JArrayHelper::toInteger($filters);
+		$filters = ArrayHelper::toInteger($filters);
 
 		// Remove any values of zero.
 		if (array_search(0, $filters, true) !== false)
@@ -693,7 +694,7 @@ class FinderIndexerQuery
 		if ($date->toUnix() !== null)
 		{
 			// Set the date filter.
-			$this->date1 = $date->toSQL();
+			$this->date1 = $date->toSql();
 			$this->when1 = in_array($when1, $whens) ? $when1 : 'before';
 		}
 
@@ -711,7 +712,7 @@ class FinderIndexerQuery
 		if ($date->toUnix() !== null)
 		{
 			// Set the date filter.
-			$this->date2 = $date->toSQL();
+			$this->date2 = $date->toSql();
 			$this->when2 = in_array($when2, $whens) ? $when2 : 'before';
 		}
 
@@ -819,7 +820,7 @@ class FinderIndexerQuery
 						if ($date->toUnix() !== null)
 						{
 							// Set the date filter.
-							$this->date1 = $date->toSQL();
+							$this->date1 = $date->toSql();
 							$this->when1 = in_array($modifier, $whens) ? $modifier : 'before';
 						}
 

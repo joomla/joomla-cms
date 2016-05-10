@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Hungarian (Magyar)</name>
-	<version>3.4.2</version>
-	<creationDate>April 2013</creationDate>
-	<author>Hungarian Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<version>3.5.0</version>
+	<creationDate>January 2016</creationDate>
+	<author>Joomla! Magyarország</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description/>
 	<files>
 		<filename>hu-HU.ini</filename>
 	</files>

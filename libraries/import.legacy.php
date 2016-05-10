@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,19 +48,16 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-// Make sure that the Joomla Platform has been successfully loaded.
+// Make sure that the Joomla Loader has been successfully loaded.
 if (!class_exists('JLoader'))
 {
-	throw new RuntimeException('Joomla Platform not loaded.');
+	throw new RuntimeException('Joomla Loader not loaded.');
 }
 
 // Setup the autoloaders.
 JLoader::setup();
 
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
-// Import the Joomla Factory.
-JLoader::import('joomla.factory');
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');

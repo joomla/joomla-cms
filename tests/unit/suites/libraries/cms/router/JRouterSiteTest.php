@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -567,7 +567,8 @@ class JRouterSiteTest extends TestCase
 		$parseRawRouteMethod = new ReflectionMethod('JRouterSite', 'parseRawRoute');
 		$parseRawRouteMethod->setAccessible(true);
 
-		$vars = $parseRawRouteMethod->invoke($object, new JUri($url));
+		$uri  = new JUri($url);
+		$vars = $parseRawRouteMethod->invokeArgs($object, array(&$uri));
 
 		$this->assertEquals(
 			$expectedParseVars,
@@ -904,7 +905,8 @@ class JRouterSiteTest extends TestCase
 		$parseSefRouteMethod = new ReflectionMethod('JRouterSite', 'parseSefRoute');
 		$parseSefRouteMethod->setAccessible(true);
 
-		$vars = $parseSefRouteMethod->invoke($object, new JUri($url));
+		$uri  = new JUri($url);
+		$vars = $parseSefRouteMethod->invokeArgs($object, array(&$uri));
 
 		$this->assertEquals(
 			$expectedParseVars,
@@ -1212,7 +1214,7 @@ class JRouterSiteTest extends TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function casesCreateURI()
+	public function casesCreateUri()
 	{
 		return array(
 			// Check if a rather non-URL is returned identical
@@ -1267,9 +1269,9 @@ class JRouterSiteTest extends TestCase
 	}
 
 	/**
-	 * Tests createURI() method
+	 * Tests createUri() method
 	 *
-	 * @param   array  $url      valid inputs to the createURI() method
+	 * @param   array  $url      valid inputs to the createUri() method
 	 * @param   array  $preset   global Vars that should be merged into the URL
 	 * @param   string $expected expected URI string
 	 *
@@ -1279,7 +1281,7 @@ class JRouterSiteTest extends TestCase
 	 * @testdox      Create URI
 	 * @since        3.4
 	 */
-	public function testCreateURI($url, $preset, $expected)
+	public function testCreateUri($url, $preset, $expected)
 	{
 		$object = new JRouterSite(
 			array(),

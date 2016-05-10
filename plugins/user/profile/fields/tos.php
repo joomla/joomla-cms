@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,25 +71,45 @@ class JFormFieldTos extends JFormFieldRadio
 		{
 			$label .= ' title="'
 				. htmlspecialchars(
-				trim($text, ':') . '<br />' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-				ENT_COMPAT, 'UTF-8'
-			) . '"';
+					trim($text, ':') . '<br />' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+					ENT_COMPAT, 'UTF-8'
+				) . '"';
 		}
 
 		$tosarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
-
-		$link = '';
 
 		if ($tosarticle)
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
-			$attribs = array();
+			$attribs          = array();
 			$attribs['class'] = 'modal';
-			$attribs['rel'] = '{handler: \'iframe\', size: {x:800, y:500}}';
+			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
 
-			// TODO: This is broken!! We need the category ID, too, and the language
-			$url = ContentHelperRoute::getArticleRoute($tosarticle);
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('id, alias, catid, language')
+				->from('#__content')
+				->where('id = ' . $tosarticle);
+			$db->setQuery($query);
+			$article = $db->loadObject();
+
+			if (JLanguageAssociations::isEnabled())
+			{
+				$tosassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+			}
+
+			$current_lang = JFactory::getLanguage()->getTag();
+
+			if ($current_lang != $article->language && array_key_exists($current_lang, $tosassociated))
+			{
+				$url = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
+			}
+			else
+			{
+				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+				$url = ContentHelperRoute::getArticleRoute($slug, $article->catid);
+			}
 
 			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 		}

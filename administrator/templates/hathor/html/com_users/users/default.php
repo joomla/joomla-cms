@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +65,14 @@ $loggeduser = JFactory::getUser();
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
 
+			<label class="selectlabel" for="filter_lastvisitrange">
+				<?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE'); ?>
+			</label>
+			<select name="filter_lastvisitrange" id="filter_lastvisitrange" >
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.lastvisitrange'));?>
+			</select>
+
 			<label class="selectlabel" for="filter_range">
 				<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
 			</label>
@@ -117,13 +125,14 @@ $loggeduser = JFactory::getUser();
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canEdit	= $this->canDo->get('core.edit');
-			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
+			$canEdit   = $this->canDo->get('core.edit');
+			$canChange = $loggeduser->authorise('core.edit.state',	'com_users');
+
 			// If this group is super admin and this user is not super admin, $canEdit is false
 			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))
 			{
-				$canEdit	= false;
-				$canChange	= false;
+				$canEdit   = false;
+				$canChange = false;
 			}
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
@@ -132,7 +141,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					<?php endif; ?>
 				</td>
-				<td>
+				<td class="break-word">
 					<div class="fltrt">
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
@@ -153,7 +162,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div></div></div>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center break-word">
 					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
@@ -177,7 +186,7 @@ $loggeduser = JFactory::getUser();
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center break-word">
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">

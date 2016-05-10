@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,9 +148,25 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.alias, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
+			->select('DISTINCT(a.id) AS value,
+					  a.title AS text,
+					  a.alias,
+					  a.level,
+					  a.menutype,
+					  a.type,
+					  a.published,
+					  a.template_style_id,
+					  a.checked_out,
+					  a.language,
+					  a.lft')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+
+		if (JLanguageMultilang::isEnabled())
+		{
+			$query->select('l.title AS language_title, l.image AS language_image')
+				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		}
 
 		// Filter by the type
 		if ($menuType)
@@ -188,9 +204,8 @@ class MenusHelper
 			$query->where('a.published IN ' . $published);
 		}
 
-		$query->where('a.published != -2')
-			->group('a.id, a.title, a.alias, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft')
-			->order('a.lft ASC');
+		$query->where('a.published != -2');
+		$query->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -267,33 +282,12 @@ class MenusHelper
 	 */
 	public static function getAssociations($pk)
 	{
+		$langAssociations = JLanguageAssociations::getAssociations('com_menus', '#__menu', 'com_menus.item', $pk, 'id', '', '');
 		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__menu as m')
-			->join('INNER', '#__associations as a ON a.id=m.id AND a.context=' . $db->quote('com_menus.item'))
-			->join('INNER', '#__associations as a2 ON a.key=a2.key')
-			->join('INNER', '#__menu as m2 ON a2.id=m2.id')
-			->where('m.id=' . (int) $pk)
-			->select('m2.language, m2.id');
-		$db->setQuery($query);
 
-		try
+		foreach ($langAssociations as $langAssociation)
 		{
-			$menuitems = $db->loadObjectList('language');
-		}
-		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage(), 500);
-		}
-
-		foreach ($menuitems as $tag => $item)
-		{
-			// Do not return itself as result
-			if ((int) $item->id != $pk)
-			{
-				$associations[$tag] = $item->id;
-			}
+			$associations[$langAssociation->language] = $langAssociation->id;
 		}
 
 		return $associations;

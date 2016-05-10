@@ -3,7 +3,7 @@
 	<name>mod_search</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -13,7 +13,6 @@
 		<filename module="mod_search">mod_search.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>mod_search.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_search.ini</language>
@@ -53,7 +52,9 @@
 					type="list"
 					default="left"
 					label="MOD_SEARCH_FIELD_BUTTONPOS_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC">
+					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC"
+					showon="button:1"
+				>
 					<option
 						value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
 					<option
@@ -69,7 +70,9 @@
 					default="0"
 					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
-					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
+					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC"
+					showon="button:1"
+				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -77,7 +80,8 @@
 					name="button_text"
 					type="text"
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
+					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC"
+					showon="button:1" />
 				<field
 					name="opensearch"
 					type="radio"
@@ -92,7 +96,8 @@
 					name="opensearch_title"
 					type="text"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC" />
+					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC"
+					showon="opensearch:1" />
 				<field
 					name="set_itemid"
 					type="menuitem"

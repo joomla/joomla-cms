@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -210,6 +210,7 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
@@ -242,6 +243,12 @@ class JCategories
 		if ($this->_options['published'] == 1)
 		{
 			$query->where('c.published = 1');
+
+			$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
+				'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+				' AND parent.published != 1 GROUP BY cat.id) ';
+			$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
+				->where('badcats.id is null');
 		}
 
 		$query->order('c.lft');
@@ -250,15 +257,25 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
-				->where('s.id=' . (int) $id);
-		}
+			$query->where('s.id=' . (int) $id);
 
-		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-			' AND parent.published != 1 GROUP BY cat.id) ';
-		$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
-			->where('badcats.id is null');
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(JFactory::getLanguage()->getTag())
+					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
+		}
+		else
+		{
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
+		}
 
 		// Note: i for item
 		if ($this->_options['countItems'] == 1)

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.2"
+	version="3.6"
 	client="installation">
 	<name>Ukrainian-Українська (Україна)</name>
-	<version>3.2.0</version>
-	<creationDate>16.09.2012</creationDate>
+	<version>3.6.0</version>
+	<creationDate>01.05.2016</creationDate>
 	<author>Joomla! Ukraine</author>
-	<copyright>2005 - 2014 (C) Open Source Matters. All rights reserved.</copyright>
+	<copyright>2005 - 2016 (C) Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
- 	<description>Ukrainian Localization for Joomla! 3.0 Installation</description>
 	<files>
 		<filename>uk-UA.ini</filename>
 	</files>

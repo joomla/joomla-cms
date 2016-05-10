@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -112,7 +112,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -500,7 +500,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
+				throw new RuntimeException(JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'), $e->getCode(), $e);
 			}
 		}
 	}
@@ -593,7 +593,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// If we are told to delete existing extension entries then do so.
 		if ($deleteExisting)
 		{
-			$db = $this->parent->getDBO();
+			$db = $this->parent->getDbo();
 
 			$query = $db->getQuery(true)
 						->select($db->qn('extension_id'))
@@ -630,6 +630,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->extension->access    = 0;
 			$this->extension->client_id = 1;
 			$this->extension->params    = $this->parent->getParams();
+			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 		}
 
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
@@ -951,6 +953,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = ((string) $menuElement->attributes()->img) ? (string) $menuElement->attributes()->img : 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 		else
 		{
@@ -967,6 +971,8 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img'] = 'class:component';
 			$data['home'] = 0;
+			$data['path'] = '';
+			$data['params'] = '';
 		}
 
 		// Try to create the menu item in the database
@@ -1128,12 +1134,12 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		// Update all menu items which contain 'index.php?option=com_extension' or 'index.php?option=com_extension&...'
 		// to use the new component id.
 		$query = $db->getQuery(true)
-					->update('#__menu AS m')
-					->set('m.component_id = ' . $db->quote($component_id))
-					->where("m.type = " . $db->quote('component'))
-					->where('m.client_id = 0')
-					->where('m.link LIKE ' . $db->quote('index.php?option=' . $option)
-							. " OR m.link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
+					->update('#__menu')
+					->set('component_id = ' . $db->quote($component_id))
+					->where("type = " . $db->quote('component'))
+					->where('client_id = 0')
+					->where('link LIKE ' . $db->quote('index.php?option=' . $option)
+							. " OR link LIKE '" . $db->escape('index.php?option=' . $option . '&') . "%'");
 
 		$db->setQuery($query);
 
