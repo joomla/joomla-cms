@@ -1156,6 +1156,7 @@ class JImage
 	 * @param   boolean  $quality  True for best quality. False for best speed.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.6.0
 	 */
 	public function setThumbnailGenerate($quality = true)
