@@ -923,7 +923,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			case 2:
 				return 1;
 
-			// All other states should return a unpublished state
+			// All other states should return an unpublished state
 			default:
 			case 0:
 				return 0;

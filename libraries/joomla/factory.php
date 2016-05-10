@@ -99,7 +99,7 @@ abstract class JFactory
 	public static $mailer = null;
 
 	/**
-	 * Get a application object.
+	 * Get an application object.
 	 *
 	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
@@ -220,7 +220,7 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get an user object.
+	 * Get a user object.
 	 *
 	 * Returns the global {@link JUser} object, only creating it if it doesn't already exist.
 	 *

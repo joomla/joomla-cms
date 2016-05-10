@@ -44,7 +44,7 @@ class TestMockInput
 	/**
 	 * Creates an instance of a mock JInput object.
 	 *
-	 * @param   array  $options  A associative array of options to configure the mock.
+	 * @param   array  $options  An associative array of options to configure the mock.
 	 *                           * methods => an array of additional methods to mock
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject

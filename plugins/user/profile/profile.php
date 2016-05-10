@@ -131,7 +131,7 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * Returns a anchor tag generated from a given value
+	 * Returns an anchor tag generated from a given value
 	 *
 	 * @param   string  $value  url to use
 	 *
