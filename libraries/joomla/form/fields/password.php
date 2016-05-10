@@ -92,7 +92,7 @@ class JFormFieldPassword extends JFormField
 			case 'maxLength':
 			case 'meter':
 			case 'username':
-			case 'minlength':
+			case 'minLength':
 				return $this->$name;
 		}
 
@@ -118,6 +118,7 @@ class JFormFieldPassword extends JFormField
 			case 'maxLength':
 			case 'threshold':
 			case 'username':
+			case 'minLength':
 				$this->$name = $value;
 				break;
 
@@ -150,6 +151,14 @@ class JFormFieldPassword extends JFormField
 
 		if ($return)
 		{
+			$defaultMinLength = 4;
+
+			if (JFactory::getConfig()->get('db') != '')
+			{
+				$defaultMinLength = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
+			}
+
+			$this->minLength = $this->element['minlength'] ? (int) $this->element['minlength'] : $defaultMinLength;
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter           = (string) $this->element['strengthmeter'];
@@ -183,13 +192,8 @@ class JFormFieldPassword extends JFormField
 	{
 		$data = parent::getLayoutData();
 
-		if (!$this->minLength)
-		{
-			$this->minLength = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
-		}
-
 		// Initialize some field attributes.
-		$username     = $this->element['username'] ? 'options.common.usernameField = "#' .
+		$username = $this->element['username']? 'options.common.usernameField = "#' .
 			$this->formControl . '_' . $this->element['username'] . '";' : '';
 
 		$extraData = array(

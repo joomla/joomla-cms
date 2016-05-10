@@ -31,6 +31,8 @@ class InstallationFormFieldPassword extends JFormFieldPassword
 	protected function getInput()
 	{
 		$this->minLength = 4;
+		$this->username  = $this->element['admin_user'] ? 'options.common.usernameField = "#' .
+			$this->formControl . '_' . $this->element['admin_user'] . '";' : '';
 
 		return parent::getInput();
 	}
