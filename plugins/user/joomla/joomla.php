@@ -241,7 +241,7 @@ class PlgUserJoomla extends JPlugin
 
 		if ($this->app->isSite())
 		{
-			setcookie("joomla_user_state", "logged_in", 0, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set("joomla_user_state", "logged_in", 0, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;
@@ -304,7 +304,7 @@ class PlgUserJoomla extends JPlugin
 
 		if ($this->app->isSite())
 		{
-			setcookie("joomla_user_state", "", time() - 86400, $cookie_path, $cookie_domain, 0);
+			$this->app->input->cookie->set("joomla_user_state", "", time() - 86400, $cookie_path, $cookie_domain, 0);
 		}
 
 		return true;
