@@ -91,7 +91,7 @@ class JImage
 	/**
 	 * @var    boolean  True for best quality. False for speed
 	 *
-	 * @since  3.4.4
+	 * @since  3.6.0
 	 */
 	protected $generateBestQuality = true;
 
@@ -560,7 +560,7 @@ class JImage
 	/**
 	 * Method to determine whether or not the image has transparency.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.3
 	 * @throws  LogicException
@@ -1156,6 +1156,7 @@ class JImage
 	 * @param   boolean  $quality  True for best quality. False for best speed.
 	 *
 	 * @return  void
+	 * @since   3.6.0
 	 */
 	public function setThumbnailGenerate($quality = true)
 	{
