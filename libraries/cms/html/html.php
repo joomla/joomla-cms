@@ -811,7 +811,7 @@ abstract class JHtml
 	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
 	 * @param   string  $image    The image for the tip, if no text is provided.
 	 * @param   string  $text     The text for the tip.
-	 * @param   string  $href     An URL that will be used to create the link.
+	 * @param   string  $href     A URL that will be used to create the link.
 	 * @param   string  $alt      The alt attribute for img tag.
 	 * @param   string  $class    CSS class for the tool tip.
 	 *
