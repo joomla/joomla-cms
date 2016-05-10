@@ -44,7 +44,7 @@ class PlgInstallerPackageInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE'));
 		?>
 		<fieldset class="uploadform">
 			<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>

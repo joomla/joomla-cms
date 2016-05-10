@@ -59,7 +59,7 @@ $this->ignore_fieldsets = array('details', 'display', 'email', 'item_association
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::_('COM_CONTACT_EDIT_CONTACT', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::_('COM_CONTACT_EDIT_CONTACT')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">
@@ -91,7 +91,7 @@ $this->ignore_fieldsets = array('details', 'display', 'email', 'item_association
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 				<div class="form-vertical">
 					<?php echo $this->form->renderField('misc'); ?>
@@ -99,7 +99,7 @@ $this->ignore_fieldsets = array('details', 'display', 'email', 'item_association
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
