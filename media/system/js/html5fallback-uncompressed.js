@@ -302,7 +302,6 @@
 				val = $elem.attr( 'value' ),
 				pattern = $elem.attr( 'pattern' ),
 				type = $elem.attr( 'type' ),
-				emailMatched = true,
 				i, l;
 
 			if ( features.attributes.placeholder || !$elem.attr( 'placeholder' ) || !$elem.hasClass( self.options.placeholderClass ) ) {
