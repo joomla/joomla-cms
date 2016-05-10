@@ -8295,7 +8295,7 @@ body.modal-open {
 	height: 100%;
 	margin-top: -10px;
 	background-image: url('/media/jui/images/ajax-loader.gif');
-	background-color: rgba(255,255,255,0.8);
+	background-color: #fff;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
