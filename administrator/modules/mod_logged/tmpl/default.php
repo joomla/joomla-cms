@@ -14,7 +14,7 @@ JHtml::_('bootstrap.tooltip');
 <div class="row-striped">
 	<?php foreach ($users as $user) : ?>
 		<div class="row-fluid">
-			<div class="span7">
+			<div class="span9">
 				<?php if ($user->client_id == 0) : ?>
 					<a class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-mini">
 						<span class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT'); ?>"></span>
@@ -38,10 +38,10 @@ JHtml::_('bootstrap.tooltip');
 					<?php endif; ?>
 				</small>
 			</div>
-			<div class="span5">
-				<span class="small hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
-					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC2')); ?>
-				</span>
+			<div class="span3">
+				<div class="small hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY') . '<br/>' . JHtml::_('date', $user->time, 'Y-m-d H:i:s'); ?>">
+					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC4')); ?>
+				</div>
 			</div>
 		</div>
 	<?php endforeach; ?>
