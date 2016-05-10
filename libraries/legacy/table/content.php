@@ -79,7 +79,7 @@ class JTableContent extends JTable
 	{
 		$assetId = null;
 
-		// This is a article under a category.
+		// This is an article under a category.
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.

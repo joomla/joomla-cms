@@ -185,7 +185,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
 		{
-			// Add a Apply and save button
+			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
 				JToolbarHelper::apply('template.apply');

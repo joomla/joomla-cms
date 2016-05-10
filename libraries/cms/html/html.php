@@ -403,7 +403,7 @@ abstract class JHtml
 										break;
 									}
 
-									// Try to deal with classical file in a a media subfolder called element
+									// Try to deal with classical file in a media subfolder called element
 									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
 
 									if (file_exists($path))
