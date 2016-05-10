@@ -44,7 +44,7 @@ class PlgInstallerFolderInstaller  extends JPlugin
 	public function onInstallerAddInstallationTab()
 	{
 		$app = JFactory::getApplication('administrator');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'folder', JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'folder', JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'));
 		?>
 		<div class="clr"></div>
 		<fieldset class="uploadform">

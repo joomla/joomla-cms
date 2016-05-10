@@ -134,7 +134,7 @@ JFactory::getDocument()->addStyleDeclaration(
 				<?php endif; ?>
 
 				<?php if ($this->ftp) : ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>
 					<?php echo $this->loadTemplate('ftp'); ?>
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>

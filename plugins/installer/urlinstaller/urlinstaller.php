@@ -43,7 +43,7 @@ class PlgInstallerUrlInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('PLG_INSTALLER_URLINSTALLER_TEXT', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'));
 		?>
 		<div class="clr"></div>
 		<fieldset class="uploadform">
