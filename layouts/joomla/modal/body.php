@@ -38,7 +38,7 @@ $bodyHeight = isset($params['bodyHeight']) ? round((int) $params['bodyHeight'], 
 
 if ($bodyHeight && $bodyHeight >= 20 && $bodyHeight < 90)
 {
-	$bodyClass.= ' jviewport-height' . $bodyHeight;
+	$bodyClass .= ' jviewport-height' . $bodyHeight;
 }
 ?>
 <div class="<?php echo $bodyClass; ?>">
