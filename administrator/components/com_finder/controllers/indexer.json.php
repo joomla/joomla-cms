@@ -251,7 +251,7 @@ class FinderControllerIndexer extends JControllerLegacy
 
 	/**
 	 * Method to handle a send a JSON response. The body parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a JObject for a good response.
 	 *
 	 * @param   mixed  $data  JObject on success, Exception on error. [optional]

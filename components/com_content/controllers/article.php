@@ -43,7 +43,7 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
+	 * @return  mixed  True if the record can be added, an error object if not.
 	 *
 	 * @since   1.6
 	 */

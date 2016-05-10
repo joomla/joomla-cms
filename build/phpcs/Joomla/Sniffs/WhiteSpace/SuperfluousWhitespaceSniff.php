@@ -22,7 +22,7 @@
  *   <li>No whitespace proceeds the first content of the file.</li>
  *   <li>No whitespace resides after content on any line.</li>
  *   <li>There are not two or more empty lines in functions and classes.</li>
- *   <li>There is a exactly one empty line after the last content of the file.</li>
+ *   <li>There is exactly one empty line after the last content of the file.</li>
  * </ul>
  *
  * @category  PHP
