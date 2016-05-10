@@ -31,7 +31,7 @@ class InstallationModelFtp extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
@@ -150,7 +150,7 @@ class InstallationModelFtp extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.

@@ -235,7 +235,7 @@ class PlgAuthenticationCookie extends JPlugin
 			// Remember checkbox is set
 			$cookieName = JUserHelper::getShortHashedUserAgent();
 
-			// Create an unique series which will be used over the lifespan of the cookie
+			// Create a unique series which will be used over the lifespan of the cookie
 			$unique     = false;
 			$errorCount = 0;
 

@@ -373,7 +373,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
-	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *

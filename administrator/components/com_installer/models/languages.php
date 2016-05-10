@@ -318,7 +318,7 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *
