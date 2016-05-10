@@ -19,9 +19,10 @@
 			required="true"
 		/>
 
-		<field name="admin_user" type="username" id="admin_user" class="inputbox"
+		<field name="admin_user" type="text" id="admin_user" class="inputbox"
 			label="INSTL_ADMIN_USER_LABEL"
 			required="true"
+			filter="username"
 		/>
 
 		<field name="admin_password" type="password" id="admin_password" class="inputbox"
