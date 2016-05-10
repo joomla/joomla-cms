@@ -242,7 +242,7 @@ class TagsTableTag extends JTableNested
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Tag', 'TagsTable');
+		$table = JTable::getInstance('Tag', 'TagsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{

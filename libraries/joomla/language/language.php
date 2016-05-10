@@ -1168,7 +1168,7 @@ class JLanguage
 	}
 
 	/**
-	 * Returns a associative array holding the metadata.
+	 * Returns an associative array holding the metadata.
 	 *
 	 * @param   string  $lang  The name of the language.
 	 *

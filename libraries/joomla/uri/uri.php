@@ -281,7 +281,7 @@ class JUri extends Uri
 	}
 
 	/**
-	 * Build a query from a array (reverse of the PHP parse_str()).
+	 * Build a query from an array (reverse of the PHP parse_str()).
 	 *
 	 * @param   array  $params  The array of key => value pairs to return as a query string.
 	 *

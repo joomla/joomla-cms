@@ -108,7 +108,7 @@ class ArticleManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * Edit a Article item in the Article Manager: Article Manager Screen.
+	 * Edit an Article item in the Article Manager: Article Manager Screen.
 	 *
 	 * @param string   $name	   Title field
 	 * @param array    $fields     associative array of fields in the form label => value.
@@ -126,7 +126,7 @@ class ArticleManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * Get state  of a Article in Article Manager Screen: Article Manager.
+	 * Get state  of an Article in Article Manager Screen: Article Manager.
 	 *
 	 * @param string   $name	   Article Title field
 	 *
@@ -163,7 +163,7 @@ class ArticleManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * Change state of a Article Item in Article Manager Screen
+	 * Change state of an Article Item in Article Manager Screen
 	 *
 	 * @param string   $name	   Article Title field
 	 * @param string   $state      State of the Article
