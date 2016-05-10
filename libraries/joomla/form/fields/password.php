@@ -193,7 +193,7 @@ class JFormFieldPassword extends JFormField
 		$data = parent::getLayoutData();
 
 		// Initialize some field attributes.
-		$username = $this->element['username']? 'options.common.usernameField = "#' .
+		$username   = $this->element['username']? 'options.common.usernameField = "#' .
 			$this->formControl . '_' . $this->element['username'] . '";' : '';
 
 		$extraData = array(
