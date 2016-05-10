@@ -1689,6 +1689,15 @@ legend + .control-group {
 .control-label .hasTooltip {
 	display: inline-block;
 }
+.subform-repeatable-wrapper .btn-group>.btn.button {
+	min-width: 0;
+}
+.subform-repeatable-wrapper .ui-sortable-helper {
+	background: #fff;
+}
+.subform-repeatable-wrapper tr.ui-sortable-helper {
+	display: table;
+}
 table {
 	max-width: 100%;
 	background-color: transparent;
