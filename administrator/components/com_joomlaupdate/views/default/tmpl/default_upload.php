@@ -50,7 +50,7 @@ $css             = <<< CSS
 	#loading {
 		background: rgba(255, 255, 255, .8) url('$ajaxLoaderImage') 50% 15% no-repeat;
 		position: fixed;
-		opacity: 0.8;
+		opacity: 1;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
 		overflow: hidden;
