@@ -345,7 +345,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Creates a order-up action icon.
+	 * Creates an order-up action icon.
 	 *
 	 * @param   integer       $i         The row index.
 	 * @param   string        $task      An optional task to fire.
@@ -373,7 +373,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Creates a order-down action icon.
+	 * Creates an order-down action icon.
 	 *
 	 * @param   integer       $i         The row index.
 	 * @param   string        $task      An optional task to fire.

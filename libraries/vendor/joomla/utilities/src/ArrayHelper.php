@@ -257,7 +257,7 @@ final class ArrayHelper
 	{
 		if (!is_array($array) && !($array instanceof \ArrayAccess))
 		{
-			throw new \InvalidArgumentException('The object must be an array or a object that implements ArrayAccess');
+			throw new \InvalidArgumentException('The object must be an array or an object that implements ArrayAccess');
 		}
 
 		$result = null;
