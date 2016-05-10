@@ -160,7 +160,7 @@ class JFormFieldPassword extends JFormField
 
 			$this->minLength = $this->element['minlength'] ? (int) $this->element['minlength'] : $defaultMinLength;
 			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
-			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
+			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 0;
 			$meter           = (string) $this->element['strengthmeter'];
 			$this->meter     = ($meter == 'true' || $meter == 'on' || $meter == '1');
 		}
@@ -197,11 +197,12 @@ class JFormFieldPassword extends JFormField
 			$this->formControl . '_' . $this->element['username'] . '";' : '';
 
 		$extraData = array(
-			'maxLength'  => $this->maxLength,
-			'multiple'   => $this->multiple,
-			'username'   => $username,
-			'minLength'  => $this->minLength,
-			'meter'      => $this->meter,
+			'maxLength' => $this->maxLength,
+			'multiple'  => $this->multiple,
+			'username'  => $username,
+			'minLength' => $this->minLength,
+			'meter'     => $this->meter,
+			'threshold' => $this->threshold,
 		);
 
 		return array_merge($data, $extraData);

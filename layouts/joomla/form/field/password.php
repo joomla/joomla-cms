@@ -76,7 +76,15 @@ if ($meter)
 		jQuery(document).ready(function($){
 			'use strict';
 			var options = {};
-			options.common = {};
+			options.common = {
+				onKeyUp: function (evt, data) {
+					if (data.score > +" . $threshold . ") {
+						$(evt.target).addClass('invalid');
+					} else {
+						$(evt.target).removeClass('invalid');
+					}
+				}
+			};
 			" . $username . "
 			options.common.minChar = " . $minLength . ";
 			options.ui = {
