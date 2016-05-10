@@ -347,8 +347,7 @@ class JFormFieldRules extends JFormField
 							$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
 						elseif ($inheritedRule === true
-							|| ($inheritedRule === null && !$assetId && isset($action->default) && $action->default
-								== 1))
+							|| ($inheritedRule === null && !$assetId && isset($action->default) && $action->default == 1))
 						{
 							$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
 						}
