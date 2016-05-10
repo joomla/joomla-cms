@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,6 +32,7 @@ class FinderViewFilter extends JViewLegacy
 		$this->item = $this->get('Item');
 		$this->form = $this->get('Form');
 		$this->state = $this->get('State');
+		$this->total = $this->get('Total');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

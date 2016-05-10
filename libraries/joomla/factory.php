@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -148,7 +148,7 @@ abstract class JFactory
 		{
 			if ($file === null)
 			{
-				$file = JPATH_PLATFORM . '/config.php';
+				$file = JPATH_CONFIGURATION . '/configuration.php';
 			}
 
 			self::$config = self::createConfig($file, $type, $namespace);
@@ -254,7 +254,7 @@ abstract class JFactory
 	/**
 	 * Get a cache object
 	 *
-	 * Returns the global {@link JCache} object
+	 * Returns the global {@link JCacheController} object
 	 *
 	 * @param   string  $group    The cache group name
 	 * @param   string  $handler  The handler to use
@@ -587,14 +587,15 @@ abstract class JFactory
 	 */
 	protected static function createSession(array $options = array())
 	{
-		// Get the editor configuration setting
-		$conf = self::getConfig();
+		// Get the Joomla configuration settings
+		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');
 
 		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
-		$session = JSession::getInstance($handler, $options);
+		$sessionHandler = new JSessionHandlerJoomla($options);
+		$session        = JSession::getInstance($handler, $options, $sessionHandler);
 
 		if ($session->getState() == 'expired')
 		{
@@ -670,8 +671,26 @@ abstract class JFactory
 		// Create a JMail object
 		$mail = JMail::getInstance();
 
-		// Set default sender without Reply-to
-		$mail->SetFrom(JMailHelper::cleanLine($mailfrom), JMailHelper::cleanLine($fromname), 0);
+		// Clean the email address
+		$mailfrom = JMailHelper::cleanLine($mailfrom);
+
+		// Set default sender without Reply-to if the mailfrom is a valid address
+		if (JMailHelper::isEmailAddress($mailfrom))
+		{
+			// Wrap in try/catch to catch phpmailerExceptions if it is throwing them
+			try
+			{
+				// Check for a false return value if exception throwing is disabled
+				if ($mail->setFrom($mailfrom, JMailHelper::cleanLine($fromname), false) === false)
+				{
+					JLog::add(__METHOD__ . '() could not set the sender data.', JLog::WARNING, 'mail');
+				}
+			}
+			catch (phpmailerException $e)
+			{
+				JLog::add(__METHOD__ . '() could not set the sender data.', JLog::WARNING, 'mail');
+			}
+		}
 
 		// Default mailer is to use PHP's mail function
 		switch ($mailer)
@@ -681,11 +700,11 @@ abstract class JFactory
 				break;
 
 			case 'sendmail':
-				$mail->IsSendmail();
+				$mail->isSendmail();
 				break;
 
 			default:
-				$mail->IsMail();
+				$mail->isMail();
 				break;
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -569,6 +569,9 @@ class JHelperTags extends JHelper
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
+			// Join over categoris for get only published
+			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
+
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
 			->select("ua.email AS author_email")
@@ -607,7 +610,7 @@ class JHelperTags extends JHelper
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id');
+			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, name, author_email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
@@ -953,13 +956,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**
@@ -1055,7 +1056,7 @@ class JHelperTags extends JHelper
 		{
 			JArrayHelper::toInteger($tags);
 
-			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
+			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
 		}
 
 		$db->setQuery($query);

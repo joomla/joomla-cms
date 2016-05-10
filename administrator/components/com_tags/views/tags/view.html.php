@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,9 +31,11 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -64,8 +66,11 @@ class TagsViewTags extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+		}
 		parent::display($tpl);
 	}
 
@@ -83,7 +88,7 @@ class TagsViewTags extends JViewLegacy
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
@@ -125,7 +130,7 @@ class TagsViewTags extends JViewLegacy
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
@@ -138,26 +143,6 @@ class TagsViewTags extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
-
-		JHtmlSidebar::setAction('index.php?option=com_tags&view=tags');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_published',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
 	}
 
 	/**
@@ -170,12 +155,12 @@ class TagsViewTags extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft'    => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'  => JText::_('JSTATUS'),
-			'a.title'  => JText::_('JGLOBAL_TITLE'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'     => JText::_('JGRID_HEADING_ID')
+			'a.lft'      => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'    => JText::_('JSTATUS'),
+			'a.title'    => JText::_('JGLOBAL_TITLE'),
+			'a.access'   => JText::_('JGRID_HEADING_ACCESS'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'       => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

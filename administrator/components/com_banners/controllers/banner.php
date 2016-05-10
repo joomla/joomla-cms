@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Banner controller class.
@@ -17,7 +19,9 @@ defined('_JEXEC') or die;
 class BannersControllerBanner extends JControllerForm
 {
 	/**
-	 * @var    string  The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNER';
@@ -33,26 +37,23 @@ class BannersControllerBanner extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = JFactory::getUser();
 		$filter     = $this->input->getInt('filter_category_id');
-		$categoryId = JArrayHelper::getValue($data, 'catid', $filter, 'int');
+		$categoryId = ArrayHelper::getValue($data, 'catid', $filter, 'int');
 		$allow      = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = $user->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = JFactory::getUser()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
-		if ($allow === null)
-		{
-			// In the absence of better information, revert to the component permissions.
-			return parent::allowAdd($data);
-		}
-		else
+		if ($allow !== null)
 		{
 			return $allow;
 		}
+
+		// In the absence of better information, revert to the component permissions.
+		return parent::allowAdd($data);
 	}
 
 	/**
@@ -67,7 +68,6 @@ class BannersControllerBanner extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user       = JFactory::getUser();
 		$recordId   = (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 
@@ -79,13 +79,11 @@ class BannersControllerBanner extends JControllerForm
 		if ($categoryId)
 		{
 			// The category has been set. Check the category permissions.
-			return $user->authorise('core.edit', $this->option . '.category.' . $categoryId);
+			return JFactory::getUser()->authorise('core.edit', $this->option . '.category.' . $categoryId);
 		}
-		else
-		{
-			// Since there is no asset tracking, revert to the component permissions.
-			return parent::allowEdit($data, $key);
-		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 
 	/**

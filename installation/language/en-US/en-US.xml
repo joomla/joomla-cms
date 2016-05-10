@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.4"
+<metafile
+	version="3.6"
 	client="installation">
-	<name>US English - en-US</name>
-	<version>3.4.2</version>
-	<creationDate>September 2012</creationDate>
-	<author>US Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<name>English (United States)</name>
+	<version>3.6.0</version>
+	<creationDate>April 2016</creationDate>
+	<author>Joomla! Project</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>en-US installation language pack</description>
 	<files>
 		<filename>en-US.ini</filename>
 	</files>

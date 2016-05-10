@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,6 +50,8 @@ class MediaViewMedia extends JViewLegacy
 		$this->folders_id  = ' id="media-tree"';
 		$this->folders     = $this->get('folderTree');
 
+		$this->sidebar = JHtmlSidebar::render();
+
 		// Set the toolbar
 		$this->addToolbar();
 
@@ -66,7 +68,7 @@ class MediaViewMedia extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Get the toolbar object instance
-		$bar  = JToolBar::getInstance('toolbar');
+		$bar  = JToolbar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
 		// Set the titlebar text

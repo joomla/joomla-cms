@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -128,7 +128,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Make the alias URL safe.
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -206,11 +206,24 @@ class JTableMenu extends JTableNested
 			return false;
 		}
 
-		// Verify that the home page for this language is unique
 		if ($this->home == '1')
 		{
-			$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+			// Verify that the home page for this menu is unique.
+			if ($table->load(
+					array(
+					'menutype' => $this->menutype,
+					'client_id' => (int) $this->client_id,
+					'home' => '1'
+					)
+				)
+				&& ($table->language != $this->language))
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
 
+				return false;
+			}
+
+			// Verify that the home page for this language is unique
 			if ($table->load(array('home' => '1', 'language' => $this->language)))
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
@@ -224,14 +237,6 @@ class JTableMenu extends JTableNested
 				$table->checked_out = 0;
 				$table->checked_out_time = $db->getNullDate();
 				$table->store();
-			}
-
-			// Verify that the home page for this menu is unique.
-			if ($table->load(array('home' => '1', 'menutype' => $this->menutype)) && ($table->id != $this->id || $this->id == 0))
-			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
-
-				return false;
 			}
 		}
 

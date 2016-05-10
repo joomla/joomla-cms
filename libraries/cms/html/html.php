@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,7 +84,7 @@ abstract class JHtml
 	 *                        prefix and class are optional and can be used to load custom
 	 *                        html helpers.
 	 *
-	 * @return  mixed  JHtml::call($function, $args) or False on error
+	 * @return  mixed  Result of JHtml::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
@@ -237,13 +237,13 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <a></a> element
+	 * Write a `<a>` element
 	 *
 	 * @param   string  $url      The relative URL to use for the href attribute
 	 * @param   string  $text     The target attribute to use
 	 * @param   array   $attribs  An associative array of attributes to add
 	 *
-	 * @return  string  <a></a> string
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -258,14 +258,14 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <iframe></iframe> element
+	 * Write a `<iframe>` element
 	 *
 	 * @param   string  $url       The relative URL to use for the src attribute.
 	 * @param   string  $name      The target attribute to use.
 	 * @param   array   $attribs   An associative array of attributes to add.
 	 * @param   string  $noFrames  The message to display if the iframe tag is not supported.
 	 *
-	 * @return  string  <iframe></iframe> element or message if not supported.
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -550,7 +550,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <img></img> element
+	 * Write a `<img>` element
 	 *
 	 * @param   string   $file      The relative or absolute URL to use for the src attribute.
 	 * @param   string   $alt       The alt text.
@@ -584,14 +584,14 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <link rel="stylesheet" style="text/css" /> element
+	 * Write a `<link>` element to load a CSS file
 	 *
 	 * @param   string   $file            path to file
 	 * @param   array    $attribs         attributes to be added to the stylesheet
 	 * @param   boolean  $relative        path to file is relative to /media folder
 	 * @param   boolean  $path_only       return the path to the file only
 	 * @param   boolean  $detect_browser  detect browser to include specific browser css files
-	 *                                    will try to include file, file_*browser*, file_*browser*_*major*, file_*browser*_*major*_*minor*
+	 *                                    will try to include file, `file_*browser*`, `file_*browser*_*major*`, `file_*browser*_*major*_*minor*`
 	 *                                    <table>
 	 *                                       <tr><th>Navigator</th>                  <th>browser</th>	<th>major.minor</th></tr>
 	 *
@@ -614,7 +614,6 @@ abstract class JHtml
 	 *
 	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
 	 *                                    </table>
-	 *                                    a lot of others
 	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
@@ -655,7 +654,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <script></script> element
+	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string   $file            path to file.
 	 * @param   boolean  $framework       load the JS framework.
@@ -975,7 +974,7 @@ abstract class JHtml
 		static::_('bootstrap.tooltip');
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($value && $value != JFactory::getDbo()->getNullDate())
+		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');

@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
-	<name>Dutch nl-NL</name>
-	<version>3.4.4</version>
-	<creationDate>September 2012</creationDate>
+	<name>Nederlands nl-NL</name>
+	<version>3.6.0</version>
+	<creationDate>April 2016</creationDate>
 	<author>Dutch Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Dutch language installation for Joomla 3.0</description>
 	<files>
 		<filename>nl-NL.ini</filename>
 	</files>
 	<metadata>
-		<name>Dutch nl-NL</name>
+		<name>Nederlands nl-NL</name>
 		<tag>nl-NL</tag>
 		<rtl>0</rtl>
 	</metadata>

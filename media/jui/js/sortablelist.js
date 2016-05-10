@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,10 +58,10 @@
 				}
 				//Disable sortable for other group's records
 				root.disableOtherGroupSort(e, ui);
-				
-				//Proceed nested list				
+
+				//Proceed nested list
 				if (nestedList){
-					root.hideChidlrenNodes(ui.item.attr('item-id'));	
+					root.hideChildrenNodes(ui.item.attr('item-id'));
 					root.hideSameLevelChildrenNodes(ui.item.attr('level'));
 					$(tableWrapper).sortable('refresh');
 				}
@@ -75,10 +75,10 @@
 				}, 800, function (){
 					$(ui.item).css('opacity','');
 				});
-				
+
 
 				root.enableOtherGroupSort(e, ui);
-			
+
 				root.rearrangeOrderingValues(root.sortableGroupId, ui);
 				if (saveOrderingUrl) {
 					//clone and check all the checkboxes in sortable range to post
@@ -100,7 +100,7 @@
 					root.removeClonedCheckboxes();
 				}
 				root.disabledOrderingElements = '';
-				//Proceed nested list				
+				//Proceed nested list
 				if (nestedList){
 					root.showChildrenNodes(ui.item);
 					root.showSameLevelChildrenNodes(ui.item);
@@ -109,35 +109,35 @@
 			}
 		});
 		
-		this.hideChidlrenNodes = function (itemId) {
+		this.hideChildrenNodes = function (itemId) {
 			root.childrenNodes = root.getChildrenNodes(itemId);				
 			root.childrenNodes.hide();
 		}
-		
+
 		this.showChildrenNodes = function (item) {
 			item.after(root.childrenNodes)
 			root.childrenNodes.show();
 			root.childrenNodes="";
 		}
-		
+
 		this.hideSameLevelChildrenNodes = function (level) {
 			root.sameLevelNodes = root.getSameLevelNodes(level);
 			root.sameLevelNodes.each(function (){
 				_childrenNodes = root.getChildrenNodes($(this).attr('item-id'));
 				_childrenNodes.addClass('child-nodes-tmp-hide');
-				_childrenNodes.hide();				
+				_childrenNodes.hide();
 			});
 		}
-		
+
 		this.showSameLevelChildrenNodes = function (item) {
 			prevItem = item.prev();
 			prevItemChildrenNodes = root.getChildrenNodes(prevItem.attr('item-id'));
-			prevItem.after(prevItemChildrenNodes);			
+			prevItem.after(prevItemChildrenNodes);
 			$('tr.child-nodes-tmp-hide').show().removeClass('child-nodes-tmp-hide');
-			root.sameLevelNodes = "";		
+			root.sameLevelNodes = "";
 		}
-		
-			
+
+
 		this.disableOtherGroupSort = function (e, ui) {
 			if (root.sortableGroupId) {
 				var _tr = $('tr[' + ops.orderingGroup + '!=' + root.sortableGroupId + ']', $(tableWrapper));
@@ -211,45 +211,45 @@
 			range = root.sortableRange;
 			var count = range.length;
 			var i = 0;
-						
+
 			if (count > 1) {
 				//recalculate order number
 				if (ui.originalPosition.top > ui.position.top) //if item moved up
-				{						
+				{
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.next()).attr('value')));
+						$('[name="order[]"]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.next()).attr('value')));
 					}
 					$(range).each(function () {
 						var _top = $(this).position().top;
-						if ( ui.item.get(0) !== $(this).get(0)){	
-							if (_top > ui.item.position().top && _top <= ui.originalPosition.top) {
+						if ( ui.item.get(0) !== $(this).get(0)){
+							if (_top > ui.item.position().top && _top < ui.originalPosition.top + ui.item.outerHeight()) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) + 1;
 								} else {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) - 1;
 								}
-	
-								$('[type=text]', $(this)).attr('value', newValue);
+
+								$('[name="order[]"]:hidden', $(this)).attr('value', newValue);
 							}
 						}
 					});
 				} else if (ui.originalPosition.top < ui.position.top) {
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.prev()).attr('value')));
-					}					
-					$(range).each(function () {												
+						$('[name="order[]"]:hidden', ui.item).attr('value', parseInt($('[name="order[]"]:hidden', ui.item.prev()).attr('value')));
+					}
+					$(range).each(function () {
 						var _top = $(this).position().top;
-						if ( ui.item.get(0) !== $(this).get(0)){						
+						if ( ui.item.get(0) !== $(this).get(0)){
 							if (_top < ui.item.position().top && _top >= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) - 1;
 								} else {
-									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) + 1;
 								}
-								$('[type=text]', $(this)).attr('value', newValue);
+								$('[name="order[]"]:hidden', $(this)).attr('value', newValue);
 							}
 						}
-						
+
 					});
 				}
 			}
@@ -270,14 +270,14 @@
 			$('[shadow=shadow]').remove();
 			$('[name="order-tmp"]', $(tableWrapper)).attr('name', 'order[]');
 		}
-		
+
 		this.getChildrenNodes = function (parentId) {
 			return $('tr[parents~="'+parentId+'"]');
 		}
-		
+
 		this.getSameLevelNodes = function (level) {
-			return $('tr[level='+level+']');			
+			return $('tr[level='+level+']');
 		}
-		
+
 	}
 })(jQuery);

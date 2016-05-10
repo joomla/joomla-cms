@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,9 +96,7 @@ class JFormFieldTag extends JFormFieldList
 			}
 		}
 
-		$input = parent::getInput();
-
-		return $input;
+		return parent::getInput();
 	}
 
 	/**
@@ -148,7 +146,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// Block the possibility to set a tag as it own parent

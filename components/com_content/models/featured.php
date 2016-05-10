@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,12 +133,6 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Create a new query object.
 		$query = parent::getListQuery();
-
-		// Filter by frontpage.
-		if ($this->getState('filter.frontpage'))
-		{
-			$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
-		}
 
 		// Filter by categories
 		$featuredCategories = $this->getState('filter.frontpage.categories');

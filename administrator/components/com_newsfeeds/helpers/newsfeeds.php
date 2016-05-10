@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,4 +40,57 @@ class NewsfeedsHelper extends JHelperContent
 		);
 	}
 
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   stdClass[]  &$items  The banner category objects
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.5
+	 */
+	public static function countItems(&$items)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published AS state, count(*) AS count')
+				->from($db->qn('#__newsfeeds'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$newfeeds = $db->loadObjectList();
+
+			foreach ($newfeeds as $newsfeed)
+			{
+				if ($newsfeed->state == 1)
+				{
+					$item->count_published = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == 0)
+				{
+					$item->count_unpublished = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == 2)
+				{
+					$item->count_archived = $newsfeed->count;
+				}
+
+				if ($newsfeed->state == -2)
+				{
+					$item->count_trashed = $newsfeed->count;
+				}
+			}
+		}
+
+		return $items;
+	}
 }

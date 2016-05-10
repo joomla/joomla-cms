@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,6 +65,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
@@ -126,7 +127,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($assoc) : ?>
+		<?php if ($assoc && $input->get('layout') != 'modal') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

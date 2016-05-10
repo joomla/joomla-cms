@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,7 @@ class JApplicationHelper
 	 * @var    array
 	 * @since  1.6
 	 */
-	protected static $_clients = null;
+	protected static $_clients = array();
 
 	/**
 	 * Return the name of the request component [main component]
@@ -110,8 +110,8 @@ class JApplicationHelper
 	 */
 	public static function getClientInfo($id = null, $byName = false)
 	{
-		// Only create the array if it does not exist
-		if (self::$_clients === null)
+		// Only create the array if it is empty
+		if (empty(self::$_clients))
 		{
 			$obj = new stdClass;
 
@@ -229,6 +229,12 @@ class JApplicationHelper
 	public static function parseXMLLangMetaFile($path)
 	{
 		JLog::add('JApplicationHelper::parseXMLLangMetaFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
+
+		// Check if meta file exists.
+		if (!file_exists($path))
+		{
+			return false;
+		}
 
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);

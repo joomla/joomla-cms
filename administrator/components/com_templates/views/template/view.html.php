@@ -3,7 +3,7 @@
 * @package     Joomla.Administrator
 * @subpackage  com_templates
 *
-* @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+* @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
@@ -176,7 +176,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$isSuperUser = $user->authorise('core.admin');
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
@@ -206,7 +206,7 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add a copy template button (Hathor override doesn't need the button)
 			if ($app->getTemplate() != 'hathor')
 			{
-				JToolbarHelper::modal('collapseModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
+				JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 			}
 		}
 
