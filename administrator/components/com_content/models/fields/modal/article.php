@@ -196,18 +196,20 @@ class JFormFieldModal_Article extends JFormField
 			'bootstrap.renderModal',
 			'articleEdit' . $this->id . 'Modal',
 			array(
-				'url' => $urlEdit,
-				'title' => JText::_('COM_CONTENT_EDIT_ARTICLE'),
-				'backdrop' => 'static',
+				'url'         => $urlEdit,
+				'title'       => JText::_('COM_CONTENT_EDIT_ARTICLE'),
+				'backdrop'    => 'static',
 				'closeButton' => false,
-				'width' => '800px',
-				'height' => '400px',
-				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-					. ' onclick="jQuery(\'#articleEdit' . $this->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-					. '<button type="button" class="btn btn-success" data-dismiss="modal" aria-hidden="true"'
-					. ' onclick="jQuery(\'#articleEdit' . $this->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-					. JText::_("JSAVE") . '</button>'
+				'width'       => '800px',
+				'height'      => '400px',
+				'modalWidth'  => '80',
+				'bodyHeight'  => '70',
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+						. ' onclick="jQuery(\'#articleEdit' . $this->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. '<button type="button" class="btn btn-success" data-dismiss="modal" aria-hidden="true"'
+						. ' onclick="jQuery(\'#articleEdit' . $this->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. JText::_("JSAVE") . '</button>'
 			)
 		);
 
