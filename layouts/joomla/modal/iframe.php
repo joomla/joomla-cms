@@ -38,7 +38,7 @@ $bodyHeight = isset($params['bodyHeight']) ? round((int) $params['bodyHeight'], 
 
 if ($bodyHeight && $bodyHeight >= 20 && $bodyHeight < 90)
 {
-	$iframeClass.= ' jviewport-height' . $bodyHeight;
+	$iframeClass .= ' jviewport-height' . $bodyHeight;
 }
 
 $iframeAttributes = array(
