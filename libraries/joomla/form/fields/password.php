@@ -189,7 +189,8 @@ class JFormFieldPassword extends JFormField
 		}
 
 		// Initialize some field attributes.
-		$username     = $this->element['username'] ? 'options.common.usernameField = "#' . $this->formControl . '_' . $this->element['username'] . '";' : '';
+		$username     = $this->element['username'] ? 'options.common.usernameField = "#' .
+			$this->formControl . '_' . $this->element['username'] . '";' : '';
 
 		$extraData = array(
 			'maxLength'  => $this->maxLength,
