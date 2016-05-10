@@ -34,10 +34,11 @@ $js               = <<< JS
 
 		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", outerDiv.position().left - $(window).scrollLeft())
-		.css("width", outerDiv.width())
-		.css("height", outerDiv.height())
+		.css("left", "0")
+		.css("width", "100%")
+		.css("height", "100%")
 		.css("display", "none")
+		.css("margin-top", "-10px");
 	});
 
 JS;
@@ -52,7 +53,6 @@ $css             = <<< CSS
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
-		margin: -10px -50px 0 -50px;
 		overflow: hidden;
 	}
 CSS;
