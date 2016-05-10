@@ -45,10 +45,11 @@ JFactory::getDocument()->addScriptDeclaration(
 		
 		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
-		.css("left", outerDiv.position().left - $(window).scrollLeft())
-		.css("width", outerDiv.width())
-		.css("height", outerDiv.height())
-		.css("display", "none");
+		.css("left", "0")
+		.css("width", "100%")
+		.css("height", "100%")
+		.css("display", "none")
+		.css("margin-top", "-10px");
 	});
 	'
 );
@@ -61,7 +62,6 @@ JFactory::getDocument()->addStyleDeclaration(
 		opacity: 0.8;
 		-ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 80);
 		filter: alpha(opacity = 80);
-		margin: -10px -50px 0 -50px;
 		overflow: hidden;
 	}
 	
@@ -92,7 +92,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 <div id="installer-install" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>"
-		  method="post" name="adminForm" id="adminForm" class="form-horizontal">
+		method="post" name="adminForm" id="adminForm" class="form-horizontal">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
@@ -106,17 +106,17 @@ JFactory::getDocument()->addStyleDeclaration(
 					<?php echo $this->loadTemplate('message'); ?>
 				<?php elseif ($this->showJedAndWebInstaller) : ?>
 					<div class="alert alert-info j-jed-message"
-						 style="margin-bottom: 40px; line-height: 2em; color:#333333;">
-					<?php echo JHtml::_(
-						'link',
-						JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
-						'&times;',
-						'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
-					);
-					?>
-					<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
-						&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-					<input class="btn" type="button"
+						style="margin-bottom: 40px; line-height: 2em; color:#333333;">
+						<?php echo JHtml::_(
+							'link',
+							JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
+							'&times;',
+							'class="close hasTooltip" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+						);
+						?>
+						<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
+							&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
+						<input class="btn" type="button"
 							value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
 							onclick="Joomla.submitbuttonInstallWebInstaller()"/>
 					</div>
