@@ -47,7 +47,7 @@ class JFormFieldPassword extends JFormField
 	 * The allowable minlength of password.
 	 *
 	 * @var    integer
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	protected $minLength;
 
@@ -189,15 +189,11 @@ class JFormFieldPassword extends JFormField
 		}
 
 		// Initialize some field attributes.
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$multiple     = $this->multiple ? ' multiple' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
 		$username     = $this->element['username'] ? 'options.common.usernameField = "#' . $this->formControl . '_' . $this->element['username'] . '";' : '';
 
 		$extraData = array(
-			'maxLength'  => $maxLength,
-			'multiple'   => $multiple,
-			'spellcheck' => $spellcheck,
+			'maxLength'  => $this->maxLength,
+			'multiple'   => $this->multiple,
 			'username'   => $username,
 			'minLength'  => $this->minLength,
 			'meter'      => $this->meter,

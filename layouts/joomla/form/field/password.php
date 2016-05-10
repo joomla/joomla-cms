@@ -57,7 +57,9 @@ $required        = $required ? ' required aria-required="true"' : '';
 $hint            = $hint ? ' placeholder="' . $hint . '"' : '';
 $autocomplete    = !$autocomplete ? ' autocomplete="off"' : '';
 $autofocus       = $autofocus ? ' autofocus' : '';
-
+$spellcheck      = $spellcheck ? '' : ' spellcheck="false"';
+$maxLength       = !empty($maxLength) ? ' maxlength="' . $maxLength . '"' : '';
+$multiple        = !empty($multiple) ? ' multiple' : '';
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
@@ -104,4 +106,4 @@ if ($meter)
 ?>
 <input type="password" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php
-echo $hint, $autocomplete, $class, $readonly, $disabled, $size, $maxLength,  $required, $autofocus; ?> />
+echo $hint, $autocomplete, $class, $readonly, $disabled, $size, $maxLength, $required, $autofocus; ?> />

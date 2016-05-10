@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('password');
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
  * @note   Two password fields may be validated as matching using JFormRuleEquals
- * @since  11.1
+ * @since  3.6
  */
 class InstallationFormFieldPassword extends JFormFieldPassword
 {
@@ -26,13 +26,12 @@ class InstallationFormFieldPassword extends JFormFieldPassword
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   3.6
 	 */
 	protected function getInput()
 	{
 		$this->minLength = 4;
-		$return          = parent::getInput();
 
-		return $return;
+		return parent::getInput();
 	}
 }
