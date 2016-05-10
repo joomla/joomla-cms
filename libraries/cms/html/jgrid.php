@@ -232,7 +232,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Returns a isDefault state on a grid
+	 * Returns an isDefault state on a grid
 	 *
 	 * @param   integer       $value     The state value.
 	 * @param   integer       $i         The row index

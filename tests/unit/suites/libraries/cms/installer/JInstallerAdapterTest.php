@@ -1410,7 +1410,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test triggering the manifest script for a installer where results are true
+	 * @testdox Test triggering the manifest script for an installer where results are true
 	 *
 	 * @param   string  $method  The method to run
 	 *
@@ -1452,7 +1452,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test triggering the manifest script for a installer where results are true
+	 * @testdox Test triggering the manifest script for an installer where results are true
 	 *
 	 * @param   string  $method  The method to run
 	 *
