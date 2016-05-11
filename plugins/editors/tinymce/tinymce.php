@@ -760,20 +760,29 @@ JS;
 <<<JS
 						{ text: "$name",
 						onclick: function () {
-							ed.onNodeChange.add(function(ed, cm, n, co) {
-								n = ed.dom.getParent(n, 'SPAN');
-			
-								cm.setDisabled('span', co);
-								cm.setDisabled('attribs', n && n.nodeName == 'BODY');
-								cm.setActive('span', 0);
-			
-								if (n) {
-									do {
-										cm.setDisabled(n.nodeName.toLowerCase(), 0);
-										cm.setActive(n.nodeName.toLowerCase(), 1);
-									} while (n = n.parentNode);
-								}
+	
+							ed.on('NodeChange', function(e) {
+							if (e.element.nodeName == 'P') {
+								var spanEl = document.createElement('SPAN');
+								//spanEl.language = "$title";
+								e.element.appendChild(spanEl)
+							}
 							});
+      
+							// ed.onNodeChange.add(function(ed, cm, n, co) {
+							// 	n = ed.dom.getParent(n, 'SPAN');
+							//
+							// 	cm.setDisabled('span', co);
+							// 	cm.setDisabled('attribs', n && n.nodeName == 'BODY');
+							// 	cm.setActive('span', 0);
+							//
+							// 	if (n) {
+							// 		do {
+							// 			cm.setDisabled(n.nodeName.toLowerCase(), 0);
+							// 			cm.setActive(n.nodeName.toLowerCase(), 1);
+							// 		} while (n = n.parentNode);
+							// 	}
+							// });
 					} },
 JS;
 			}
@@ -935,7 +944,7 @@ JS;
 			case 0: /* Simple mode*/
 				$script .= "
 			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code langs\",
 			plugins: \"$dragDropPlg code\",
 		});
 		";
@@ -944,7 +953,7 @@ JS;
 				case 1:
 				default: /* Advanced mode*/
 					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap";
+						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap langs";
 
 				$script .= "
 			valid_elements : \"$valid_elements\",
@@ -960,7 +969,8 @@ JS;
 			// Advanced Options
 			$resizing
 			height : \"$html_height\",
-			width : \"$html_width\"
+			width : \"$html_width\",
+			$ltempConstructor
 		});
 			";
 				break;
@@ -971,7 +981,7 @@ JS;
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"$plugins $dragDropPlg\",
+			plugins : \"$plugins $dragDropPlg langs\",
 			// Toolbar
 			toolbar1: \"$toolbar1 langs\",
 			removed_menuitems: \"newdocument\",
