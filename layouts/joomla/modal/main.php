@@ -29,6 +29,8 @@ extract($displayData);
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
+ *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
+ *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
  *
  */
@@ -38,6 +40,13 @@ $modalClasses = array('modal', 'hide');
 if (!isset($params['animation']) || $params['animation'])
 {
 	array_push($modalClasses, 'fade');
+}
+
+$modalWidth = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
+
+if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
+{
+	array_push($modalClasses, 'jviewport-width' . $modalWidth);
 }
 
 $modalAttributes = array(
