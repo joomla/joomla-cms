@@ -279,13 +279,13 @@
 })(jQuery);
 
 /**
- * Vannila JS
+ * Vanilla JS
  */
 (function( Joomla, document ) {
 	"use strict";
 
 	/**
-	 * Form to preload the loading div by adding it to DOM
+	 * Preload the loading image by adding the loading layer to DOM before submit.
 	 * 
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 */
@@ -296,7 +296,7 @@
 	}
 
 	/**
-	 * Form to show the loading div layer
+	 * Show the loading layer.
 	 * 
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 */
