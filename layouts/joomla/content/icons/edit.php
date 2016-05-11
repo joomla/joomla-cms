@@ -33,7 +33,7 @@ else
 		|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != JFactory::getDbo()->getNullDate()))
 	{
 		$icon = 'eye-close';
-	}	
+	}
 }
 
 ?>
