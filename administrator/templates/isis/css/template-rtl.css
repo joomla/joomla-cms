@@ -8288,13 +8288,12 @@ body.modal-open {
 .modal-footer {
 	clear: both;
 }
-.loading-logo-full {
+#loading-logo-full {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
-	margin-top: -10px;
-	background-image: url('/media/jui/images/ajax-loader.gif');
+	height: auto;
+	background-image: url('../../../../media/jui/images/ajax-loader.gif');
 	background-color: #fff;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -8305,6 +8304,7 @@ body.modal-open {
 	filter: alpha(opacity=80);
 	overflow: hidden;
 	display: block;
+	z-index: 10000;
 }
 .pull-right {
 	float: left;

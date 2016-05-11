@@ -18,13 +18,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 // Add spindle-wheel for language installation.
 JFactory::getDocument()->addScriptDeclaration('
-	jQuery(document).ready(function($) {
-		$("#adminForm").on("submit", function(e) {
-			var outerDiv = $("#installer-languages");
-			var loading = $("<div class=\"loading-logo-full\"/>").css("top", outerDiv.position().top - $(window).scrollTop());
-			outerDiv.after(loading);
-		});
+jQuery(document).ready(function($) {
+	Joomla.preloadLoadingDiv();
+	$("#adminForm").on("submit", function(e) {
+		if (document.getElementsByName("task")[0].value == "languages.install")
+		{
+			Joomla.showLoadingDiv(this.id, 0 + "px");
+		}
 	});
+});
 ');
 ?>
 <div id="installer-languages" class="clearfix">

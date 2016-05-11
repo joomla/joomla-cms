@@ -277,3 +277,32 @@
 		}
 	});
 })(jQuery);
+
+/**
+ * Vannila JS
+ */
+(function( Joomla, document ) {
+	"use strict";
+
+	/**
+	 * Form to preload the loading div by adding it to DOM
+	 * 
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 */
+	Joomla.preloadLoadingDiv = function() {
+		var loadingDiv = document.createElement("div");
+		loadingDiv.id = "loading-logo-full";
+		document.body.appendChild(loadingDiv);
+	}
+
+	/**
+	 * Form to show the loading div layer
+	 * 
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 */
+	Joomla.showLoadingDiv = function(formId, topPosition) {
+		var loadingDiv = document.getElementById("loading-logo-full");
+		loadingDiv.style.height = "100%";
+		loadingDiv.style.top = topPosition;
+	}
+}( Joomla, document ));
