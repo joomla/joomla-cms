@@ -300,9 +300,9 @@
 	 * 
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 */
-	Joomla.showLoadingDiv = function(formId, topPosition) {
+	Joomla.showLoadingDiv = function(topPosition) {
 		var loadingDiv = document.getElementById("loading-logo-full");
 		loadingDiv.style.height = "100%";
-		loadingDiv.style.top = topPosition;
+		loadingDiv.style.top = topPosition + "px";
 	}
 }( Joomla, document ));

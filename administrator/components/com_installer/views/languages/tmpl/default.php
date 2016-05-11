@@ -23,7 +23,7 @@ jQuery(document).ready(function($) {
 	$("#adminForm").on("submit", function(e) {
 		if (document.getElementsByName("task")[0].value == "languages.install")
 		{
-			Joomla.showLoadingDiv(this.id, 0 + "px");
+			Joomla.showLoadingDiv(0);
 		}
 	});
 });
