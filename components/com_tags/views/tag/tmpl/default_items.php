@@ -24,6 +24,7 @@ $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $items = $this->items;
 $n = count($this->items);
+
 JFactory::getDocument()->addScriptDeclaration("
 		var resetFilter = function() {
 		document.getElementById('filter-search').value = '';
@@ -91,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php $images  = json_decode($item->core_images);?>
 			<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
 				<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
-				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+				<img src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>">
 				</a>
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
@@ -106,6 +107,5 @@ JFactory::getDocument()->addScriptDeclaration("
 				</li>
 		<?php endforeach; ?>
 	</ul>
-
 	<?php endif; ?>
 </form>
