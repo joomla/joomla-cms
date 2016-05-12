@@ -180,38 +180,38 @@ class PlgSystemDebug extends JPlugin
 			JHtml::_('bootstrap.tooltip');
 			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
 			JHtml::_('jquery.ui', array('core', 'draggable'));
+
+			// Allow drag of the system debug div container and dispaly accordion.
+			JFactory::getDocument()->addScriptDeclaration('jQuery(function () {
+				jQuery("#system-debug").draggable({
+					handle: ".header .drag",
+					start: function( event, ui ) {
+							jQuery("#system-debug").css("left", "auto").css("right", "auto").css("top", "auto").css("bottom", "auto");
+						}
+					});
+	
+				jQuery("#system-debug h1").on("click", function() {
+						var displayMode = jQuery("#system-debug-container").css("display") == "block" ? "none" : "block";
+						jQuery("#system-debug-container").css("display", displayMode);
+						if (displayMode == "none")
+						{
+							jQuery(".dbg-container").css("display", displayMode);
+							jQuery("#system-debug").removeClass("large").addClass("short");
+						}
+						else
+						{
+							jQuery("#system-debug").addClass("large").removeClass("short");
+						}
+					});
+	
+				jQuery(".dbg-header").on("click", function() {
+					var displayMode = jQuery(this).next().css("display") == "block" ? "none" : "block";
+					jQuery(".dbg-container").css("display", "none");
+					jQuery(this).next().css("display", displayMode);
+					return false;
+					});
+				});');
 		}
-
-		// Allow drag of the system debug div container and dispaly accordion.
-		JFactory::getDocument()->addScriptDeclaration('jQuery(function () {
-			jQuery("#system-debug").draggable({
-				handle: ".header .drag",
-				start: function( event, ui ) {
-						jQuery("#system-debug").css("left", "auto").css("right", "auto").css("top", "auto").css("bottom", "auto");
-					}
-				});
-
-			jQuery("#system-debug h1").on("click", function() {
-					var displayMode = jQuery("#system-debug-container").css("display") == "block" ? "none" : "block";
-					jQuery("#system-debug-container").css("display", displayMode);
-					if (displayMode == "none")
-					{
-						jQuery(".dbg-container").css("display", displayMode);
-						jQuery("#system-debug").removeClass("large").addClass("short");
-					}
-					else
-					{
-						jQuery("#system-debug").addClass("large").removeClass("short");
-					}
-				});
-
-			jQuery(".dbg-header").on("click", function() {
-				var displayMode = jQuery(this).next().css("display") == "block" ? "none" : "block";
-				jQuery(".dbg-container").css("display", "none");
-				jQuery(this).next().css("display", displayMode);
-				return false;
-				});
-			});');
 	}
 
 	/**
