@@ -1,8 +1,13 @@
 /**
- * Created by Ruchiranga on 4/29/2016.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla
+ * @subpackage  JavaScript Tests
+ * @since       3.6
+ * @version     1.0.0
  */
 
-define(['jquery', 'jcaptionSetup', 'jasmineJquery'], function ($) {
+define(['jquery', 'testsRoot/captionjs/spec/javascripts/caption-spec-setup', 'jasmineJquery'], function ($) {
 
     describe('JCaption initialized with valid selector', function () {
         it('Should have caption as "Joomla logo" under image 1', function () {

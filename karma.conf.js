@@ -12,15 +12,15 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            {pattern: 'node_modules/jquery/dist/jquery.min.js', included: false},
-            {pattern: 'node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
+            {pattern: 'tests/javascript/node_modules/jquery/dist/jquery.min.js', included: false},
+            {pattern: 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
             {pattern: 'media/system/js/*.js', included: false},
             {pattern: 'tests/javascript/**/*fixture.html', included: false},
             {pattern: 'tests/javascript/**/*spec.js', included: false},
             {pattern: 'tests/javascript/**/*spec-setup.js', included: false},
             {pattern: 'images/*.png', included: false},
 
-            'test-main.js'
+            'tests/javascript/test-main.js'
         ],
 
         // list of files to exclude

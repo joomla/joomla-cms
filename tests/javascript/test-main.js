@@ -17,10 +17,10 @@ require.config({
     baseUrl: '/base',
 
     paths: {
-        'jquery': 'node_modules/jquery/dist/jquery.min',
-        'jasmineJquery': 'node_modules/jasmine-jquery/lib/jasmine-jquery',
-        'jcaption': 'media/system/js/caption',
-        'jcaptionSetup': 'tests/javascript/captionjs/spec/javascripts/caption-spec-setup'
+        'jquery': 'tests/javascript/node_modules/jquery/dist/jquery.min',
+        'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
+        'libs': 'media/system/js',
+        'testsRoot': 'tests/javascript'
     },
 
     shim: {

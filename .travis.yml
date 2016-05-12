@@ -1,6 +1,3 @@
-# Forces new Travis-CI Infrastructure
-sudo: false
-
 language: php
 
 env:
@@ -60,12 +57,14 @@ before_script:
   - fluxbox &
   - sleep 3 # give fluxbox some time to start
   #Make sure all node modules are installed
+  - cd tests/javascript
   - npm install
+  - cd ../..
 
 script:
   - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
   - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
-  - node_modules/karma/bin/karma start karma.conf.js --single-run
+  - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
 
 branches:
   except:

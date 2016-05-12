@@ -27,6 +27,9 @@ tests/codeception/tests/acceptance/*Tester.php
 tests/codeception/tests/functional/*Tester.php
 tests/codeception/tests/unit/*Tester.php
 
+# Node modules #
+node_modules/
+
 # phpDocumentor Logs #
 phpdoc-*
 
@@ -128,6 +131,3 @@ Desktop.ini
 /libraries/vendor/symfony/yaml/composer.json
 /libraries/vendor/symfony/yaml/phpunit.xml.dist
 /libraries/vendor/symfony/yaml/README.md
-
-# Node modules
-/node_modules/*
