@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+// Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
+JHtml::_('bootstrap.tooltipExtended');
+
 extract($displayData);
 
 /**
@@ -26,6 +29,8 @@ extract($displayData);
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
+ *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
+ *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
  *
  */
@@ -35,6 +40,13 @@ $modalClasses = array('modal', 'hide');
 if (!isset($params['animation']) || $params['animation'])
 {
 	array_push($modalClasses, 'fade');
+}
+
+$modalWidth = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
+
+if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
+{
+	array_push($modalClasses, 'jviewport-width' . $modalWidth);
 }
 
 $modalAttributes = array(
@@ -108,7 +120,11 @@ if (isset($params['url']))
 }
 else
 {
-	// Set modalTooltip container to modal ID (selector)
+	// Set modalTooltip container to modal ID (selector), and placement to top-left if no data attribute (bootstrap-tooltip-extended.js)
+	$script[] = "       $('.modalTooltip').each(function(){;";
+	$script[] = "           var attr = $(this).attr('data-placement');";
+	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
+	$script[] = "       });";
 	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
 
 	// Set max-height for modal-body if needed, to adapt to viewport height.

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageInstaller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,71 +11,40 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 
-// Injection so that the Javascript the Key can be translate in Language
-JText::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE');
-
 /**
  * PackageInstaller Plugin.
  *
  * @since  3.6.0
  */
-class PlgInstallerPackageInstaller  extends JPlugin
+class PlgInstallerPackageInstaller extends JPlugin
 {
 	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 * Constructor
 	 *
-	 * @var    boolean
-	 * @since  3.6.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
-	 * The onInstallerViewBeforeFirstTab event
-	 *
-	 * @return  void
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
 	 *
 	 * @since   3.6.0
 	 */
-	public function onInstallerViewBeforeFirstTab()
+	public function __construct(&$subject, $config = array())
 	{
-		// Filter by Position of the Plugin
-		if (!$this->params->get('tab_position', 0))
-		{
-			$this->getChanges();
-		}
-	}
+		$this->autoloadLanguage = true;
 
-	/**
-	 * The onInstallerViewAfterLastTab event
-	 *
-	 * @return  void
-	 *
-	 * @since   3.6.0
-	 */
-	public function onInstallerViewAfterLastTab()
-	{
-		if ($this->params->get('tab_position', 0))
-		{
-			$this->getChanges();
-		}
-
-		$document = JFactory::getDocument();
-
-		// External files added Javascript and CSS
-		$document->addScript(JUri::root() . 'plugins/installer/packageinstaller/js/packageinstaller.js');
-		$document->addStyleSheet(JUri::root() . 'plugins/installer/packageinstaller/css/client.css');
+		parent::__construct($subject, $config);
 	}
 
 	/**
 	 * Textfield or Form of the Plugin.
 	 *
-	 * @return  void
+	 * @return  bool  Always returns true
 	 *
 	 * @since   3.6.0
 	 */
-	private function getChanges()
+	public function onInstallerAddInstallationTab()
 	{
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'package', JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_PACKAGE_FILE'));
 		?>
 		<fieldset class="uploadform">
 			<legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
@@ -86,12 +55,33 @@ class PlgInstallerPackageInstaller  extends JPlugin
 				</div>
 			</div>
 			<div class="form-actions">
-				<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton_package()">
-					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER__UPLOAD_AND_INSTALL'); ?></button>
+				<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
+					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?></button>
 			</div>
 		</fieldset>
 
 		<?php
 		echo JHtml::_('bootstrap.endTab');
+
+		JFactory::getDocument()->addScriptDeclaration('
+			Joomla.submitbuttonpackage = function()
+			{
+				var form = document.getElementById("adminForm");
+		
+				// do field validation 
+				if (form.install_package.value == "")
+				{
+					alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE') . '");
+				}
+				else
+				{
+					jQuery("#loading").css("display", "block");
+					form.installtype.value = "upload"
+					form.submit();
+				}
+			};
+		');
+
+		return true;
 	}
 }

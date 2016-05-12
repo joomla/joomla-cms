@@ -19,7 +19,7 @@ class JErrorPage
 	/**
 	 * Render the error page based on an exception.
 	 *
-	 * @param   object  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
+	 * @param   Exception|Throwable  $error  An Exception or Throwable (PHP 7+) object for which to render the error page.
 	 *
 	 * @return  void
 	 *
@@ -35,6 +35,12 @@ class JErrorPage
 		{
 			try
 			{
+				// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
+				if ($error->getCode() == '404' && JFactory::getConfig()->get('offline') == 1)
+				{
+					JFactory::getApplication()->redirect('index.php');
+				}
+
 				$app      = JFactory::getApplication();
 				$document = JDocument::getInstance('error');
 
@@ -83,6 +89,10 @@ class JErrorPage
 
 				// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 				return;
+			}
+			catch (Throwable $e)
+			{
+				// Pass the error down
 			}
 			catch (Exception $e)
 			{

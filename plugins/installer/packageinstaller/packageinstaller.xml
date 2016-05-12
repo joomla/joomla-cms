@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.5" type="plugin" group="installer">
+<extension version="3.6" type="plugin" group="installer">
 	<name>plg_installer_packageinstaller</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2016</creationDate>
@@ -8,13 +8,10 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.6.0</version>
-	<description>PLG_PACKAGE_INSTALLER_PLUGIN_XML_DESCRIPTION</description>
+	<description>PLG_INSTALLER_PACKAGEINSTALLER_PLUGIN_XML_DESCRIPTION</description>
 
-	<!--Files and Folder for installation definition -->
 	<files>
 		<filename plugin="packageinstaller">packageinstaller.php</filename>
-		<folder>js</folder>
-		<folder>css</folder>
 	</files>
 
 	<languages>

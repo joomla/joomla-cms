@@ -40,7 +40,7 @@ $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associati
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED', true) : JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED') : JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="form-vertical">
@@ -54,7 +54,7 @@ $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associati
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS')); ?>
 		<div class="row-fluid">
 			<div class="span6">
 					<?php echo $this->form->getControlGroup('images'); ?>
@@ -65,7 +65,7 @@ $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associati
 			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -77,7 +77,7 @@ $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associati
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-jbasic', JText::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-jbasic', JText::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS')); ?>
 		<?php echo $this->loadTemplate('display'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
@@ -85,7 +85,7 @@ $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associati
 
 
 		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>

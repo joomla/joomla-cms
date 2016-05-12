@@ -52,13 +52,11 @@ class InstallerModelLanguages extends JModelList
 		// Get the extension_id of the en-GB package.
 		$db        = $this->getDbo();
 		$extQuery  = $db->getQuery(true);
-		$extType   = 'language';
-		$extElem   = 'en-GB';
 
 		$extQuery->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
-			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('pkg_en-GB'))
 			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
@@ -320,7 +318,7 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *

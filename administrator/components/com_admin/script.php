@@ -235,9 +235,11 @@ class JoomlaInstallerScript
 			array('component', 'com_config', '', 1),
 			array('component', 'com_redirect', '', 1),
 			array('component', 'com_users', '', 1),
+			array('component', 'com_finder', '', 1),
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -340,7 +342,8 @@ class JoomlaInstallerScript
 			array('plugin', 'module', 'editors-xtd', 0),
 			array('plugin', 'stats', 'system', 0),
 			array('plugin', 'packageinstaller','installer',0),
-			array('plugin', 'urlfolderinstaller','installer', 0),
+			array('plugin', 'folderinstaller','installer', 0),
+			array('plugin', 'urlinstaller','installer', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -356,7 +359,7 @@ class JoomlaInstallerScript
 			array('file', 'joomla', '', 0),
 
 			// Packages
-			// None in core at this time
+			array('package', 'pkg_en-GB', '', 0),
 		);
 
 		// Attempt to refresh manifest caches
@@ -1410,14 +1413,14 @@ class JoomlaInstallerScript
 			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
 			'/administrator/components/com_joomlaupdate/helpers/download.php',
 			// Joomla 3.6.0
-			'libraries/simplepie/README.txt',
-			'libraries/simplepie/simplepie.php',
-			'libraries/simplepie/LICENSE.txt',
-			'libraries/simplepie/idn/LICENCE',
-			'libraries/simplepie/idn/ReadMe.txt',
-			'libraries/simplepie/idn/idna_convert.class.php',
-			'libraries/simplepie/idn/npdata.ser',
-			'administrator/manifests/libraries/simplepie.xml',
+			'/libraries/simplepie/README.txt',
+			'/libraries/simplepie/simplepie.php',
+			'/libraries/simplepie/LICENSE.txt',
+			'/libraries/simplepie/idn/LICENCE',
+			'/libraries/simplepie/idn/ReadMe.txt',
+			'/libraries/simplepie/idn/idna_convert.class.php',
+			'/libraries/simplepie/idn/npdata.ser',
+			'/administrator/manifests/libraries/simplepie.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1512,8 +1515,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
 			// Joomla 3.6
-			'libraries/simplepie/idn',
-			'libraries/simplepie',
+			'/libraries/simplepie/idn',
+			'/libraries/simplepie',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1629,8 +1632,8 @@ class JoomlaInstallerScript
 		$session = JFactory::getSession();
 
 		/**
-		 * Restarting the Session require a new login for the current user so lets check if we have a active session
-		 * and only if not restart it.
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
 		 * For B/C reasons we need to use getState as isActive is not available in 2.5
 		 */
 		if ($session->getState() !== 'active')

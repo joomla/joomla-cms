@@ -15,10 +15,7 @@ defined('JPATH_BASE') or die;
  * None
  */
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '#collapseModal'));
-
 ?>
-
 <label id="batch-access-lbl" for="batch-access" class="modalTooltip" title="<?php echo JHtml::_('tooltipText', 'JLIB_HTML_BATCH_ACCESS_LABEL', 'JLIB_HTML_BATCH_ACCESS_LABEL_DESC'); ?>">
 	<?php echo JText::_('JLIB_HTML_BATCH_ACCESS_LABEL'); ?></label>
 	<?php echo JHtml::_(
