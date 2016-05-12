@@ -784,7 +784,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	{
 		$uri = JUri::getInstance('https://maps.googleapis.com/maps/api/geocode/json');
 
-		$uri->setVar('address', $address);
+		$uri->setVar('address', urlencode($address));
 
 		if (($key = $this->getKey()))
 		{
