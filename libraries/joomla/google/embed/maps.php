@@ -784,7 +784,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	{
 		$this->uri->parse('https://maps.googleapis.com/maps/api/geocode/json?sensor=false');
 
-		$this->uri->setVar('address', urlencode($address));
+		$this->uri->setVar('address', $address);
 
 		if (($key = $this->getKey()))
 		{
