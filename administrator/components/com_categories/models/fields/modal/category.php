@@ -163,11 +163,13 @@ class JFormFieldModal_Category extends JFormField
 			'modalCategory-' . $this->id,
 			array(
 				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-				'title' => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
-				'width' => '800px',
-				'height' => '300px',
-				'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				'title'       => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
+				'width'       => '800px',
+				'height'      => '300px',
+				'modalWidth'  => '80',
+				'bodyHeight'  => '70',
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
 
