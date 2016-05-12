@@ -187,10 +187,10 @@ var JFormValidator = function() {
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('email', function(value, element) {
-            value = punycode.encode(value);  // changed here from value = punycode.toASCII(value);
-            var regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-            return regex.test(value);
-        });
+		    value = punycode.toASCII(value);
+ 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+ 	 	 	return regex.test(value);
+ 	 	});
  	 	// Attach to forms with class 'form-validate'
  	 	var forms = jQuery('form.form-validate');
  	 	for (var i = 0, l = forms.length; i < l; i++) {
