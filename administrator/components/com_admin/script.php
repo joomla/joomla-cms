@@ -1421,6 +1421,7 @@ class JoomlaInstallerScript
 			'/libraries/simplepie/idn/idna_convert.class.php',
 			'/libraries/simplepie/idn/npdata.ser',
 			'/administrator/manifests/libraries/simplepie.xml',
+			'/media/jui/js/icomoon-lte-ie7.js'
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
