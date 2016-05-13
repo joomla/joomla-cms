@@ -501,4 +501,58 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		Joomla.submitform( task );
 	};
 
+	/**
+	 * Add Joomla! loading image layer.
+	 *
+	 * @param   string   task         The taks to do (load, show, hide).
+	 * @param   integer  topPosition  The layer top position.
+	 *
+	 * @return  void
+	 *
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 *
+	 * Since 3.6.0
+	 */
+	Joomla.loadingLayer = function(task, topPosition) {
+		// Set default values.
+		task        = typeof task !== 'undefined' ? task : 'show';
+		topPosition = typeof topPosition !== 'undefined' ? topPosition : 0;
+
+		// Create the loading layer (hidden by default).
+		if (task == "load")
+		{
+			var loadingDiv = document.createElement("div");
+
+			// The loading layer CSS styles are JS hardcoded so they can be used without adding CSS.
+			loadingDiv.id = "loading-logo";
+			loadingDiv.style["position"]              = "fixed";
+			loadingDiv.style["top"]                   = (topPosition != 0) ? topPosition + "px" : "0";
+			loadingDiv.style["left"]                  = "0";
+			loadingDiv.style["width"]                 = "100%";
+			loadingDiv.style["height"]                = "100%";
+			loadingDiv.style["background-image"]      = "url('../../../media/jui/images/ajax-loader.gif')";
+			loadingDiv.style["background-color"]      = "#fff";
+			loadingDiv.style["background-position"]   = "center";
+			loadingDiv.style["background-repeat"]     = "no-repeat";
+			loadingDiv.style["background-attachment"] = "fixed";
+			loadingDiv.style["opacity"]               = "0.8";
+			loadingDiv.style["filter"]                = "alpha(opacity=80)";
+			loadingDiv.style["overflow"]              = "hidden";
+			loadingDiv.style["z-index"]               = "10000";
+			loadingDiv.style["display"]               = "none";
+
+			document.body.appendChild(loadingDiv);
+		}
+		// Show or hide the layer.
+		else 
+		{
+			if (!document.getElementById('loading-logo'))
+			{
+				Joomla.loadingLayer = ("load", topPosition);
+			}
+
+			document.getElementById("loading-logo").style["display"] = (task == "show") ? "block" : "none";
+		}
+	};
+
 }( Joomla, document ));
