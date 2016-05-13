@@ -510,6 +510,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @return  void
 	 *
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 *          /installation/template/js/installation.js
 	 *
 	 * Since 3.6.0
 	 */
