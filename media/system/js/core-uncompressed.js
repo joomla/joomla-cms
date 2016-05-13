@@ -516,8 +516,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	Joomla.loadingLayer = function(task, topPosition) {
 		// Set default values.
-		task        = typeof task !== 'undefined' ? task : 'show';
-		topPosition = typeof topPosition !== 'undefined' ? topPosition : 0;
+		task = task || 'show';
+		topPosition = topPosition || 0;
 
 		// Create the loading layer (hidden by default).
 		if (task == "load")
