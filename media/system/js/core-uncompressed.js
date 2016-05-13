@@ -513,7 +513,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
 	 *          /installation/template/js/installation.js
 	 *
-	 * @since 3.6.0
+	 * @since  3.6.0
 	 */
 	Joomla.loadingLayer = function(task, parentElement, topPosition) {
 
