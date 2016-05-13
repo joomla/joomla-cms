@@ -277,32 +277,3 @@
 		}
 	});
 })(jQuery);
-
-/**
- * Vanilla JS
- */
-(function( Joomla, document ) {
-	"use strict";
-
-	/**
-	 * Preload the loading image by adding the loading layer to DOM before submit.
-	 * 
-	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
-	 */
-	Joomla.preloadLoadingDiv = function() {
-		var loadingDiv = document.createElement("div");
-		loadingDiv.id = "loading-logo-full";
-		document.body.appendChild(loadingDiv);
-	}
-
-	/**
-	 * Show the loading layer.
-	 * 
-	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
-	 */
-	Joomla.showLoadingDiv = function(topPosition) {
-		var loadingDiv = document.getElementById("loading-logo-full");
-		loadingDiv.style.height = "100%";
-		loadingDiv.style.top = topPosition + "px";
-	}
-}( Joomla, document ));
