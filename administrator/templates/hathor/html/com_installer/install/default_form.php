@@ -92,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 	<div class="width-70 fltlft">
 
-		<?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
+		<?php $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
 
 		<?php // Show installation fieldsets ?>
 		<?php $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array()); ?>
@@ -102,7 +102,13 @@ JFactory::getDocument()->addScriptDeclaration("
 			</fieldset>
 		<?php endforeach; ?>
 
-		<?php JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
+		<?php $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
+
+		<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
+		<?php if (!$tabs) : ?>
+			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
+		<?php endif; ?>
+
 
 		<input type="hidden" name="type" value="" />
 		<input type="hidden" name="installtype" value="upload" />
