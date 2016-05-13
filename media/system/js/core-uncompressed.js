@@ -557,7 +557,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		{
 			if (!document.getElementById('loading-logo'))
 			{
-				Joomla.loadingLayer('load', topPosition);
+				Joomla.loadingLayer('load', parentElement, topPosition);
 			}
 
 			document.getElementById('loading-logo').style['display'] = (task == 'show') ? 'block' : 'none';
