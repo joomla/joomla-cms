@@ -504,14 +504,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Add Joomla! loading image layer.
 	 *
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 *          /installation/template/js/installation.js
+	 *
 	 * @param   string   task           The task to do [load, show, hide] (defaults to show).
 	 * @param   object   parentElement  The HTML element where we are appending the layer (defaults to body).
 	 * @param   integer  topPosition    The layer top position (defaults to 0).
 	 *
 	 * @return  void
-	 *
-	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
-	 *          /installation/template/js/installation.js
 	 *
 	 * @since  3.6.0
 	 */
