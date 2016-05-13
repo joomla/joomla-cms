@@ -49,7 +49,7 @@ class JAdminCssMenu extends JObject
 	/**
 	 * Method to add a child
 	 *
-	 * @param   JMenuNode  $node       The node to process
+	 * @param   JMenuNode  $node        The node to process
 	 * @param   boolean    $setCurrent  True to set as current working node
 	 *
 	 * @return  void
