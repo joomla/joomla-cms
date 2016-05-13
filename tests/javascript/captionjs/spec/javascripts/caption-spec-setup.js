@@ -12,5 +12,8 @@ define(['jquery', 'libs/caption', 'jasmineJquery'], function ($) {
     var fixture = readFixtures('caption-fixture.html');
     $('body').append(fixture);
 
-    new JCaption('img.test');
+    new JCaption('.single img.test');
+    new JCaption('.multiple img.test');
+    new JCaption('.empty img.test');
+    new JCaption('.options img.test');
 });
