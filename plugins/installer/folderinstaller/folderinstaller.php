@@ -15,7 +15,7 @@ JHtml::_('bootstrap.tooltip');
  *
  * @since  3.6.0
  */
-class PlgInstallerFolderInstaller  extends JPlugin
+class PlgInstallerFolderInstaller extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
