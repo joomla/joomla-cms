@@ -91,13 +91,13 @@ class JDate extends DateTime
 		// If the time zone object is not set, attempt to build it.
 		if (!($tz instanceof DateTimeZone))
 		{
-			if ($tz === null)
-			{
-				$tz = self::$gmt;
-			}
-			elseif (is_string($tz))
+			if (is_string($tz))
 			{
 				$tz = new DateTimeZone($tz);
+			}
+			else
+			{
+				$tz = self::$gmt;
 			}
 		}
 
