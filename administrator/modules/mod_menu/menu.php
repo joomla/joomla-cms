@@ -54,7 +54,7 @@ class JAdminCssMenu extends JObject
 	 *
 	 * @return  void
 	 */
-	public function addChild(JMenuNode &$node, $setCurrent = false)
+	public function addChild(JMenuNode $node, $setCurrent = false)
 	{
 		$this->_current->addChild($node);
 
