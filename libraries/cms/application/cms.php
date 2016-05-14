@@ -692,7 +692,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @param   integer  $clientId  An optional client id (defaults to current application client).
 	 *
-	 * @return  bool  True if is forced for current JApplication, false otherwise.
+	 * @return  bool  True if is forced for the client, false otherwise.
 	 *
 	 * @since   3.6.0
 	 */
