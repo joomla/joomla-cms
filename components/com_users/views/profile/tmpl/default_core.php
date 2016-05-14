@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo htmlspecialchars($this->data->name, ENT_COMPAT, 'UTF-8'); ?>
+			<?php echo $this->data->name; ?>
 		</dd>
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
