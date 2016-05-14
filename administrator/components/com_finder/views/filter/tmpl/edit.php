@@ -65,7 +65,7 @@ JFactory::getDocument()->addStyleDeclaration(
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<?php if ($this->total > 0) : ?>
@@ -87,7 +87,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 		</div>

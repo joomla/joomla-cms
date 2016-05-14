@@ -138,7 +138,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('feed_limit', 10);
 		$registry->set('feed_email', 'none');
 
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		// Session setting.
@@ -233,10 +233,6 @@ class InstallationModelConfiguration extends JModelBase
 	 */
 	private function createRootUser($options)
 	{
-		// Get the application
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get a database object.
 		try
 		{
@@ -251,7 +247,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
 
 			return false;
 		}
@@ -326,7 +322,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return false;
 		}
@@ -362,7 +358,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'notice');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return false;
 		}

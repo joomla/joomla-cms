@@ -611,12 +611,16 @@ class AdminModelSysInfo extends JModelLegacy
 
 		if ($public)
 		{
-			$this->addDirectory('log', $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+			$this->addDirectory('log', $registry->get('log_path', JPATH_ADMINISTRATOR . '/logs'), 'COM_ADMIN_LOG_DIRECTORY');
 			$this->addDirectory('tmp', $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 		}
 		else
 		{
-			$this->addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
+			$this->addDirectory(
+				$registry->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+				$registry->get('log_path', JPATH_ADMINISTRATOR . '/logs'),
+				'COM_ADMIN_LOG_DIRECTORY'
+			);
 			$this->addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 		}
 

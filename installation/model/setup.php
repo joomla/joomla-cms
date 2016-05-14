@@ -70,12 +70,9 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getForm($view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		if (!$view)
 		{
-			$view = $app->input->getWord('view', 'site');
+			$view = JFactory::getApplication()->input->getWord('view', 'site');
 		}
 
 		// Get the form.
@@ -87,7 +84,7 @@ class InstallationModelSetup extends JModelBase
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -115,12 +112,8 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function checkForm($page = 'site')
 	{
-		// Get the application object.
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get the posted values from the request and validate them.
-		$data   = $app->input->post->get('jform', array(), 'array');
+		$data   = JFactory::getApplication()->input->post->get('jform', array(), 'array');
 		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
@@ -137,7 +130,7 @@ class InstallationModelSetup extends JModelBase
 			// Redirect back to the previous page.
 			$r = new stdClass;
 			$r->view = $page;
-			$app->sendJsonResponse($r);
+			JFactory::getApplication()->sendJsonResponse($r);
 		}
 
 		unset($return['admin_password2']);
@@ -423,9 +416,6 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function validate($data, $view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		$form = $this->getForm($view);
 
@@ -442,7 +432,7 @@ class InstallationModelSetup extends JModelBase
 		// Check for an error.
 		if ($return instanceof Exception)
 		{
-			$app->enqueueMessage($return->getMessage(), 'warning');
+			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'warning');
 
 			return false;
 		}
@@ -455,11 +445,11 @@ class InstallationModelSetup extends JModelBase
 			{
 				if ($message instanceof Exception)
 				{
-					$app->enqueueMessage($message->getMessage(), 'warning');
+					JFactory::getApplication()->enqueueMessage($message->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($message, 'warning');
+					JFactory::getApplication()->enqueueMessage($message, 'warning');
 				}
 			}
 

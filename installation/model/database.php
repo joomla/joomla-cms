@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Database configuration model for the Joomla Core Installer.
  *
@@ -160,6 +162,7 @@ class InstallationModelDatabase extends JModelBase
 			if (strtolower($options->db_prefix) != $options->db_prefix)
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'notice');
+
 				return false;
 			}
 		}

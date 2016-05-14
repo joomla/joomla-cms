@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.FolderInstaller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -44,7 +44,7 @@ class PlgInstallerFolderInstaller  extends JPlugin
 	public function onInstallerAddInstallationTab()
 	{
 		$app = JFactory::getApplication('administrator');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'folder', JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT', true));
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'folder', JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'));
 		?>
 		<div class="clr"></div>
 		<fieldset class="uploadform">

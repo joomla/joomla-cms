@@ -1632,8 +1632,8 @@ class JoomlaInstallerScript
 		$session = JFactory::getSession();
 
 		/**
-		 * Restarting the Session require a new login for the current user so lets check if we have a active session
-		 * and only if not restart it.
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
 		 * For B/C reasons we need to use getState as isActive is not available in 2.5
 		 */
 		if ($session->getState() !== 'active')

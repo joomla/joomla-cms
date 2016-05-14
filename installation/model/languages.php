@@ -135,9 +135,6 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
@@ -156,7 +153,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				$app->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message);
 
 				continue;
 			}
@@ -170,7 +167,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				$app->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message);
 
 				continue;
 			}
@@ -185,7 +182,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				$app->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message);
 
 				continue;
 			}
@@ -207,7 +204,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   integer  $uid  The id of the language in the #__updates table.
 	 *
@@ -445,10 +442,6 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function setDefault($language, $cms_client = 'administrator')
 	{
-		// Get the application.
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		$client = $this->getClient($cms_client);
 
 		$params = JComponentHelper::getParams('com_languages');
@@ -460,7 +453,7 @@ class InstallationModelLanguages extends JModelBase
 		// Load
 		if (!$table->load($id))
 		{
-			$app->enqueueMessage($table->getError(), 'warning');
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -470,7 +463,7 @@ class InstallationModelLanguages extends JModelBase
 		// Pre-save checks.
 		if (!$table->check())
 		{
-			$app->enqueueMessage($table->getError(), 'warning');
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -478,7 +471,7 @@ class InstallationModelLanguages extends JModelBase
 		// Save the changes.
 		if (!$table->store())
 		{
-			$app->enqueueMessage($table->getError(), 'warning');
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -509,12 +502,9 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getForm($view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		if (!$view)
 		{
-			$view = $app->input->getWord('view', 'defaultlanguage');
+			$view = JFactory::getApplication()->input->getWord('view', 'defaultlanguage');
 		}
 
 		// Get the form.
@@ -528,7 +518,7 @@ class InstallationModelLanguages extends JModelBase
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
