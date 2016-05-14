@@ -698,7 +698,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isHttpsForced($clientId = null)
 	{
-		$clientId = $clientId === null ? (int) $clientId : (int) $this->getClientId();
+		$clientId = $clientId !== null ? (int) $clientId : (int) $this->getClientId();
 
 		switch ($clientId)
 		{
