@@ -56,10 +56,10 @@ class MenusViewItems extends JViewLegacy
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		$menutypeId = (int) $this->state->get('menutypeid');
-		$menuType = $this->state->get('filter.menutype');
+		$menuType   = $this->state->get('filter.menutype');
 
-		// Do not validate "*" because, that is our "show all" selection
-		if ($menuType != '*' && (!$menutypeId || !$user->authorise('core.manage', 'com_menus.menu.' . (int) $menutypeId)))
+		// Do not validate "" because, that is our "show all" selection
+		if ($menuType && (!$menutypeId || !$user->authorise('core.manage', 'com_menus.menu.' . (int) $menutypeId)))
 		{
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}

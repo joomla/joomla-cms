@@ -25,9 +25,9 @@ $ordering	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_menus');
 $saveOrder	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menutypeid	= (int) $this->state->get('menutypeid');
-$menuType  = (array) $app->getUserState('com_menus.items.menutype');
+$menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
-if ($saveOrder && $menuType != '*')
+if ($saveOrder && $menuType)
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
@@ -58,7 +58,7 @@ $colSpan = ($assoc) ? 10 : 9;
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
-						<?php if (!empty($menuType)) : ?>
+						<?php if ($menuType) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 							</th>
@@ -140,7 +140,7 @@ $colSpan = ($assoc) ? 10 : 9;
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
-						<?php if (!empty($menuType)) : ?>
+						<?php if ($menuType) : ?>
 							<td class="order nowrap center hidden-phone">
 								<?php
 								$iconClass = '';
