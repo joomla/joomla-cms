@@ -122,10 +122,10 @@ class PlgUserJoomla extends JPlugin
 
 					// Compute the mail body.
 					$body_template = 'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY';
+
 					if ($this->params->get('include_password_in_mail_to_user', 1))
 					{
-						$emailBody = 
-							JText::sprintf(
+						$emailBody = JText::sprintf(
 								$body_template,
 								$user['name'],
 								$this->app->get('sitename'),
@@ -134,11 +134,10 @@ class PlgUserJoomla extends JPlugin
 								$user['password_clear']
 							);
 					}
-					else 
+					else
 					{
 						$body_template .= "_NOPW";
-						$emailBody =
-							JText::sprintf(
+						$emailBody = JText::sprintf(
 								$body_template,
 								$user['name'],
 								$this->app->get('sitename'),
@@ -239,6 +238,7 @@ class PlgUserJoomla extends JPlugin
 			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
 			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
 			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+
 		try
 		{
 			$this->db->setQuery($query)->execute();
@@ -304,6 +304,7 @@ class PlgUserJoomla extends JPlugin
 				->delete($this->db->quoteName('#__session'))
 				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
 				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+
 			try
 			{
 				$this->db->setQuery($query)->execute();
