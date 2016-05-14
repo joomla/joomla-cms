@@ -58,7 +58,7 @@ if ($this->direction == 'rtl')
 }
 
 // Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag().'.css';
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (JFile::exists($file))
 {
