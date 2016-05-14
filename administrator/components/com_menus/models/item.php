@@ -923,9 +923,12 @@ class MenusModelItem extends JModelAdmin
 
 		$menuType = $app->getUserState('com_menus.edit.item.menutype');
 
-		if ($app->input->getString('menutype', false))
+		if ($forcedMenuType = $app->input->get('menutype', '', 'string'))
 		{
-			$menuType = $app->input->getString('menutype', 'mainmenu');
+			$menuType = $forcedMenuType;
+
+			// Set the menu type on the list view state, so we return to this menu after saving.
+			$app->setUserState('com_menus.items.menutype', $forcedMenuType);
 		}
 
 		$this->setState('item.menutype', $menuType);
