@@ -268,7 +268,7 @@ class JUri extends Uri
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		// @see JURITest
+		// @see JUriTest
 		if (empty($host) && strpos($uri->path, 'index.php') === 0
 			|| !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
 			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
