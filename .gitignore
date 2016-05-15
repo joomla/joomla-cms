@@ -151,6 +151,7 @@ selenium.log
 tests/cache
 tests/_output
 tests/vendor
+composer.phar
 
 # Build related
 RoboFile.ini

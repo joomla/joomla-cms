@@ -7,7 +7,7 @@
  *
  * @see http://robo.li/
  */
-require_once 'libraries/vendor/autoload.php';
+require_once __DIR__ . '/tests/vendor/autoload.php';
 
 if (!defined('JPATH_BASE'))
 {
@@ -206,9 +206,9 @@ class RoboFile extends \Robo\Tasks
 	private function getComposer()
 	{
 		// Make sure we have Composer
-		if (!file_exists('./composer.phar'))
+		if (!file_exists('./tests/composer.phar'))
 		{
-			$this->_exec('curl  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
+			$this->_exec('curl -o tests/composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
 		}
 	}
 
@@ -255,7 +255,7 @@ class RoboFile extends \Robo\Tasks
 		$this->createTestingSite($opts['use-htaccess']);
 
 		$this->getComposer();
-		$this->taskComposerInstall()->run();
+		$this->taskComposerInstall('tests/composer.phar')->run();
 
 		$this->runSelenium();
 
