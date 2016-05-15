@@ -93,11 +93,11 @@
 				<field
 					name="selectionMatches"
 					type="radio"
+					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
+					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
 					filter="options"
-					description="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_DESC"
-					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
 					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
@@ -145,11 +145,11 @@
 				<field
 					name="autoCloseBrackets"
 					type="radio"
+					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
+					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					filter="options"
-					description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
-					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
@@ -254,9 +254,10 @@
 
 				<field
 					name="activeLineColor"
-					type="color" default="#a4c2eb"
+					type="color"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_LABEL"
 					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_DESC"
+					default="#a4c2eb"
 					filter="color"
 				/>
 
