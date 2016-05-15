@@ -87,8 +87,8 @@
 			type="list"
 			label="COM_CONTACT_LIST_FULL_ORDERING"
 			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
-			onchange="this.form.submit();"
 			default="a.name ASC"
+			onchange="this.form.submit();"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
@@ -105,8 +105,18 @@
 			<option value="a.featured DESC">JFEATURED_DESC</option>
 			<option value="access_level ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="access_level DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
-			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
+			<option
+				value="association ASC"
+				requires="associations"
+				>
+				JASSOCIATIONS_ASC
+			</option>
+			<option
+				value="association DESC"
+				requires="associations"
+				>
+				JASSOCIATIONS_DESC
+			</option>
 			<option value="language_title ASC">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language_title DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
@@ -118,8 +128,8 @@
 			type="limitbox"
 			label="COM_CONTACT_LIST_LIMIT"
 			description="COM_CONTACT_LIST_LIMIT_DESC"
-			class="input-mini"
 			default="25"
+			class="input-mini"
 			onchange="this.form.submit();"
 		/>
 	</fields>
