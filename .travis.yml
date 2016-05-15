@@ -80,6 +80,10 @@ before_script:
   - sudo apt-get install fluxbox -y --force-yes
   - fluxbox &
   - sleep 3 # give fluxbox some time to start
+  # Composer in tests folder
+  - cd tests/
+  - composer install
+  - cd ..
   - sudo cp RoboFile.dist.ini RoboFile.ini
 
 script:
