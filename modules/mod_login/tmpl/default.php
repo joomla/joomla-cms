@@ -14,6 +14,13 @@ require_once JPATH_SITE . '/components/com_users/helpers/route.php';
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
+// Load the users plugin group.
+JPluginHelper::importPlugin('user');
+
+$simplify = JPluginHelper::isEnabled('user', 'simplify');
+
+$usernameTag = $simplify ? 'PLG_USER_SIMPLIFY_USERNAME' : 'MOD_LOGIN_VALUE_USERNAME';
+
 ?>
 <form action="<?php echo JRoute::_(htmlspecialchars(JUri::getInstance()->toString()), true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
 	<?php if ($params->get('pretext')) : ?>
@@ -27,14 +34,14 @@ JHtml::_('bootstrap.tooltip');
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-prepend">
 						<span class="add-on">
-							<span class="icon-user hasTooltip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>"></span>
-							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+							<span class="icon-user hasTooltip" title="<?php echo JText::_($usernameTag) ?>"></span>
+							<label for="modlgn-username" class="element-invisible"><?php echo JText::_($usernameTag); ?></label>
 						</span>
-						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
+						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_($usernameTag) ?>" />
 					</div>
 				<?php else: ?>
-					<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?></label>
-					<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
+					<label for="modlgn-username"><?php echo JText::_($usernameTag) ?></label>
+					<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_($usernameTag) ?>" />
 				<?php endif; ?>
 			</div>
 		</div>
@@ -102,10 +109,12 @@ JHtml::_('bootstrap.tooltip');
 					<?php echo JText::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
 				</li>
 			<?php endif; ?>
-				<li>
-					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind&Itemid=' . UsersHelperRoute::getRemindRoute()); ?>">
-					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
-				</li>
+				<?php if (! $simplify) : ?>
+					<li>
+						<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind&Itemid=' . UsersHelperRoute::getRemindRoute()); ?>">
+						<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+					</li>
+				<?php endif; ?>
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset&Itemid=' . UsersHelperRoute::getResetRoute()); ?>">
 					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>

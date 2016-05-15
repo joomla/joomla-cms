@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.6" type="plugin" group="user" method="upgrade">
+	<name>plg_user_simplify</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2016</creationDate>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>PLG_USER_SIMPLIFY_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="simplify">simplify.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_user_simplify.ini</language>
+		<language tag="en-GB">en-GB.plg_user_simplify.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="remove_name_field"
+					   type="radio"
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_USER_SIMPLIFY_FIELD_REMOVENAME_DESC"
+					   label="PLG_USER_SIMPLIFY_FIELD_REMOVENAME_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
