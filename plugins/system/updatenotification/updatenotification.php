@@ -184,7 +184,7 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		/* Load the appropriate language. We try to load English (GB), the current user's language and the forced
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
