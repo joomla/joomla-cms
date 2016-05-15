@@ -26,29 +26,19 @@
 					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
 					default="table"
 					>
-					<option
-						value="table"
-						>
+					<option value="table">
 						PLG_LOADMODULE_FIELD_VALUE_TABLE
 					</option>
-					<option
-						value="horz"
-						>
+					<option value="horz">
 						PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL
 					</option>
-					<option
-						value="xhtml"
-						>
+					<option value="xhtml">
 						PLG_LOADMODULE_FIELD_VALUE_DIVS
 					</option>
-					<option
-						value="rounded"
-						>
+					<option value="rounded">
 						PLG_LOADMODULE_FIELD_VALUE_MULTIPLEDIVS
 					</option>
-					<option
-						value="none"
-						>
+					<option value="none">
 						PLG_LOADMODULE_FIELD_VALUE_RAW
 					</option>
 				</field>
