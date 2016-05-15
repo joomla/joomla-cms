@@ -31,8 +31,12 @@
 					default="1.0"
 					size="1"
 					>
-					<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
-					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
+					<option value="1.0">
+						PLG_RECAPTCHA_VERSION_V1
+					</option>
+					<option value="2.0">
+						PLG_RECAPTCHA_VERSION_V2
+					</option>
 				</field>
 
 				<field
@@ -67,27 +71,19 @@
 					showon="version:1.0"
 					filter=""
 					>
-					<option
-						value="clean"
-						>
+					<option value="clean">
 						PLG_RECAPTCHA_THEME_CLEAN
 					</option>
-					<option
-						value="white"
-						>
+					<option value="white">
 						PLG_RECAPTCHA_THEME_WHITE
 					</option>
-					<option
-						value="blackglass"
-						>
+					<option value="blackglass">
 						PLG_RECAPTCHA_THEME_BLACKGLASS
 					</option>
-					<option
-						value="red"
-						>
+					<option value="red">
 						PLG_RECAPTCHA_THEME_RED
 					</option>
-					</field>
+				</field>
 
 				<field
 					name="theme2"
@@ -97,15 +93,12 @@
 					default="light"
 					required="false"
 					showon="version:2.0"
-					filter="">
-					<option
-						value="light"
-						>
+					filter=""
+					>
+					<option value="light">
 						PLG_RECAPTCHA_THEME_LIGHT
 					</option>
-					<option
-						value="dark"
-						>
+					<option value="dark">
 						PLG_RECAPTCHA_THEME_DARK
 					</option>
 				</field>
@@ -118,15 +111,12 @@
 					default="normal"
 					required="false"
 					showon="version:2.0"
-					filter="">
-					<option
-						value="normal"
-						>
+					filter=""
+					>
+					<option value="normal">
 						PLG_RECAPTCHA_THEME_NORMAL
 					</option>
-					<option
-						value="compact"
-						>
+					<option value="compact">
 						PLG_RECAPTCHA_THEME_COMPACT
 					</option>
 				</field>
