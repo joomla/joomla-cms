@@ -57,14 +57,14 @@ class PlgSearchTags extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$lang = JFactory::getLanguage();
+		$app   = JFactory::getApplication();
+		$user  = JFactory::getUser();
+		$lang  = JFactory::getLanguage();
 
 		$section = JText::_('PLG_SEARCH_TAGS_TAGS');
-		$limit = $this->params->def('search_limit', 50);
+		$limit   = $this->params->def('search_limit', 50);
 
 		if (is_array($areas))
 		{
