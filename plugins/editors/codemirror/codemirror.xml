@@ -210,18 +210,10 @@
 					description="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_DESC"
 					filter="options"
 					>
-					<option value="Shift">
-						PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_SHIFT
-					</option>
-					<option value="Cmd">
-						PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CMD
-					</option>
-					<option value="Ctrl">
-						PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CTRL
-					</option>
-					<option value="Alt">
-						PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT
-					</option>
+					<option value="Shift">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_SHIFT</option>
+					<option value="Cmd">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CMD</option>
+					<option value="Ctrl">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_CTRL</option>
+					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
 
 				<field
@@ -284,9 +276,7 @@
 					default="0"
 					filter="options"
 					>
-					<option value="0">
-						PLG_CODEMIRROR_FIELD_VALUE_FONT_FAMILY_DEFAULT
-					</option>
+					<option value="0">PLG_CODEMIRROR_FIELD_VALUE_FONT_FAMILY_DEFAULT</option>
 				</field>
 
 				<field
@@ -331,15 +321,9 @@
 					default="native"
 					filter="options"
 					>
-					<option value="native">
-						PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DEFAULT
-					</option>
-					<option value="simple">
-						PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE
-					</option>
-					<option value="overlay">
-						PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY
-					</option>
+					<option value="native">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_DEFAULT</option>
+					<option value="simple">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_SIMPLE</option>
+					<option value="overlay">PLG_CODEMIRROR_FIELD_VALUE_SCROLLBARSTYLE_OVERLAY</option>
 				</field>
 
 			</fieldset>
