@@ -20,84 +20,115 @@
 			name="message"
 			type="note"
 			label="PLG_RECAPTCHA_VERSION_1_WARNING_LABEL"
-			showon="version:1.0" />
+			showon="version:1.0"
+		/>
+
 		<field
 			name="version"
 			type="list"
-			default="1.0"
 			label="PLG_RECAPTCHA_VERSION_LABEL"
 			description="PLG_RECAPTCHA_VERSION_DESC"
-			size="1">
+			default="1.0"
+			size="1"
+			>
 			<option value="1.0">PLG_RECAPTCHA_VERSION_V1</option>
 			<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 		</field>
+
 		<field
 			name="public_key"
 			type="text"
-			default=""
 			label="PLG_RECAPTCHA_PUBLIC_KEY_LABEL"
 			description="PLG_RECAPTCHA_PUBLIC_KEY_DESC"
+			default=""
 			required="true"
 			filter="string"
-			size="50" />
+			size="50"
+		/>
 
 		<field
 			name="private_key"
 			type="text"
-			default=""
 			label="PLG_RECAPTCHA_PRIVATE_KEY_LABEL"
 			description="PLG_RECAPTCHA_PRIVATE_KEY_DESC"
+			default=""
 			required="true"
 			filter="string"
-			size="50" />
+			size="50"
+		/>
 
 		<field
 			name="theme"
 			type="list"
-			default="clean"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
+			default="clean"
 			required="false"
 			showon="version:1.0"
-			filter="">
+			filter=""
+			>
 			<option
-				value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
+				value="clean"
+				>
+				PLG_RECAPTCHA_THEME_CLEAN
+			</option>
 			<option
-				value="white">PLG_RECAPTCHA_THEME_WHITE</option>
+				value="white"
+				>
+				PLG_RECAPTCHA_THEME_WHITE
+			</option>
 			<option
-				value="blackglass">PLG_RECAPTCHA_THEME_BLACKGLASS</option>
+				value="blackglass"
+				>
+				PLG_RECAPTCHA_THEME_BLACKGLASS
+			</option>
 			<option
-				value="red">PLG_RECAPTCHA_THEME_RED</option>
+				value="red"
+				>
+				PLG_RECAPTCHA_THEME_RED
+			</option>
 			</field>
 
 		<field
 			name="theme2"
 			type="list"
-			default="light"
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
+			default="light"
 			required="false"
 			showon="version:2.0"
 			filter="">
 			<option
-				value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
+				value="light"
+				>
+				PLG_RECAPTCHA_THEME_LIGHT
+			</option>
 			<option
-				value="dark">PLG_RECAPTCHA_THEME_DARK</option>
+				value="dark"
+				>
+				PLG_RECAPTCHA_THEME_DARK
+			</option>
 		</field>
 
 		<field
 			name="size"
 			type="list"
-			default="normal"
 			label="PLG_RECAPTCHA_SIZE_LABEL"
 			description="PLG_RECAPTCHA_SIZE_DESC"
+			default="normal"
 			required="false"
 			showon="version:2.0"
 			filter="">
 			<option
-				value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
+				value="normal"
+				>
+				PLG_RECAPTCHA_THEME_NORMAL
+			</option>
 			<option
-				value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>
+				value="compact"
+				>
+				PLG_RECAPTCHA_THEME_COMPACT
+			</option>
 		</field>
 		</fieldset>
 	</fields>
