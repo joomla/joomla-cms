@@ -87,6 +87,7 @@ class JFormFieldUser extends JFormField
 			$this->value = JFactory::getUser()->id;
 			$data['value'] = $this->value;
 			$table->load($this->value);
+			$data['value'] = $this->value;
 		}
 		else
 		{
