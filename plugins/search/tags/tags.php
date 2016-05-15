@@ -107,7 +107,7 @@ class PlgSearchTags extends JPlugin
 			. ', a.path, a.parent_id, a.level, a.lft, a.rgt'
 			. ', a.language, a.created_time AS created, a.description');
 
-		$case_when_item_alias = ' CASE WHEN ';
+		$case_when_item_alias  = ' CASE WHEN ';
 		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
 		$a_id                  = $query->castAsChar('a.id');
