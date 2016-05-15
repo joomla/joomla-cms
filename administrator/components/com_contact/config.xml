@@ -5,7 +5,7 @@
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-	>
+		>
 
 		<field
 			name="contact_layout"
@@ -388,7 +388,7 @@
 		name="Icons"
 		label="COM_CONTACT_ICONS_SETTINGS"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-	>
+		>
 
 		<field
 			name="contact_icons"
@@ -461,7 +461,7 @@
 		name="Category"
 		label="JCATEGORY"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
-	>
+		>
 
 		<field
 			name="category_layout"
@@ -580,7 +580,7 @@
 		name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
-	>
+		>
 
 		<field
 			name="show_base_description"
@@ -653,7 +653,7 @@
 		name="contacts"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
-	>
+		>
 
 		<field
 			name="filter_field"
@@ -850,7 +850,7 @@
 		name="Contact_Form"
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-	>
+		>
 
 		<field
 			name="captcha"
@@ -959,7 +959,7 @@
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
-	>
+		>
 
 		<field
 			name="show_feed_link"
@@ -978,7 +978,7 @@
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-	>
+		>
 
 		<field
 			name="rules"
