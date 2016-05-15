@@ -28,12 +28,8 @@
 					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
 					default="1"
 				>
-					<option value="1">
-						PLG_PAGENAVIGATION_FIELD_VALUE_BELOW
-					</option>
-					<option value="0">
-						PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE
-					</option>
+					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_BELOW</option>
+					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE</option>
 				</field>
 
 				<field
@@ -43,12 +39,8 @@
 					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
 					default="1"
 				>
-						<option value="1">
-							PLG_PAGENAVIGATION_FIELD_VALUE_ARTICLE
-						</option>
-						<option value="0">
-							PLG_PAGENAVIGATION_FIELD_VALUE_TEXT
-						</option>
+						<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_ARTICLE</option>
+						<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_TEXT</option>
 				</field>
 
 				<field
@@ -58,12 +50,8 @@
 					description="PLG_PAGENAVIGATION_FIELD_DISPLAY_DESC"
 					default="0"
 				>
-					<option value="0">
-						PLG_PAGENAVIGATION_FIELD_VALUE_NEXTPREV
-					</option>
-					<option value="1">
-						PLG_PAGENAVIGATION_FIELD_VALUE_TITLE
-					</option>
+					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_NEXTPREV</option>
+					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_TITLE</option>
 				</field>
 
 			</fieldset>
