@@ -91,7 +91,8 @@
 					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_OPTION_DEFAULT_LANGUAGE</option>
 				</field>
 
-				<field name="remove_default_prefix"
+				<field
+					name="remove_default_prefix"
 					type="radio"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
