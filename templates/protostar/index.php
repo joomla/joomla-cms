@@ -15,6 +15,9 @@ $user            = JFactory::getUser();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Getting params from template
 $params = $app->getTemplate(true)->params;
 
@@ -25,9 +28,6 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
-
-// Output as HTML5
-$doc->setHtml5(true);
 
 if($task == "edit" || $layout == "form" )
 {
@@ -89,41 +89,36 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
 	<?php // Use of Google Font ?>
 	<?php if ($this->params->get('googleFont')) : ?>
-		<link href='//fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName'); ?>' rel='stylesheet' type='text/css' />
-		<style type="text/css">
-			h1,h2,h3,h4,h5,h6,.site-title{
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName'); ?>" />
+		<style>
+			h1,h2,h3,h4,h5,h6,.site-title {
 				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName')); ?>', sans-serif;
 			}
 		</style>
 	<?php endif; ?>
 	<?php // Template color ?>
 	<?php if ($this->params->get('templateColor')) : ?>
-	<style type="text/css">
-		body.site
-		{
+	<style>
+		body.site {
 			border-top: 3px solid <?php echo $this->params->get('templateColor'); ?>;
 			background-color: <?php echo $this->params->get('templateBackgroundColor'); ?>
 		}
-		a
-		{
+		a {
 			color: <?php echo $this->params->get('templateColor'); ?>;
 		}
 		.nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
-		.btn-primary
-		{
+		.btn-primary {
 			background: <?php echo $this->params->get('templateColor'); ?>;
 		}
 	</style>
 	<?php endif; ?>
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 
 <body class="site <?php echo $option

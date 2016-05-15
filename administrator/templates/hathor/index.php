@@ -15,6 +15,9 @@ $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
 
@@ -80,24 +83,27 @@ else
 {
 	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
-
+$doc->addScriptDeclaration("(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);");
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
-	<head>
+<!DOCTYPE html>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
 	<!-- Load additional CSS styles for Internet Explorer -->
-	<!--[if IE 8]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
-	</head>
+	<!--[if IE 8]><link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" /><![endif]-->
+	<!--[if IE 7]><link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" /><![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+</head>
 <body id="minwidth-body">
 <div id="containerwrap">
 	<!-- Header Logo -->
@@ -174,17 +180,5 @@ else
 		?>
 	</p>
 </div>
-<script type="text/javascript">
-	(function($){
-		$(document).ready(function () {
-			// Patches to fix some wrong render of chosen fields
-			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
-				$(this).css({
-					'width': 'auto'
-				});
-			});
-		});
-	})(jQuery);
-</script>
 </body>
 </html>

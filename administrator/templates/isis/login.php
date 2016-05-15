@@ -13,6 +13,9 @@ $app  = JFactory::getApplication();
 $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Color Params
 $background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
 $color_is_light = ($background_color && colorIsLight($background_color));
@@ -62,12 +65,12 @@ function colorIsLight($color)
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-	<style type="text/css">
+	<style>
 		/* Background color */
 		<?php if($background_color): ?>
 		.view-login {
@@ -97,11 +100,8 @@ function colorIsLight($color)
 		}
 		<?php endif; ?>
 	</style>
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>">
 	<!-- Container -->
 	<div class="container">
