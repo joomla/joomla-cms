@@ -263,9 +263,10 @@
 
 				<field
 					name="highlightMatchColor"
-					type="color" default="#fa542f"
+					type="color"
 					label="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_LABEL"
 					description="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_DESC"
+					default="#fa542f"
 					filter="color"
 				/>
 
