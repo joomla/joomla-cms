@@ -131,7 +131,8 @@
 
 			<fieldset
 				name="language"
-				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL">
+				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
+				>
 
 				<field
 					name="language_errorfiles"
@@ -200,8 +201,8 @@
 
 			<fieldset
 				name="logging"
-				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL">
-
+				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
+				>
 				<field
 					name="log-deprecated"
 					type="radio"
