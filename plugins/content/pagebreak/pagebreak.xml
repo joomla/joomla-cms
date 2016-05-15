@@ -47,9 +47,9 @@
 				<field
 					name="article_index_text"
 					type="text"
-					default=""
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC"
+					default=""
 					showon="article_index:1"
 				/>
 
@@ -84,19 +84,14 @@
 					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
 					default="pages"
 				>
-					<option
-						value="pages"
-						>
+					<option value="pages">
 						PLG_CONTENT_PAGEBREAK_PAGES
 					</option>
-					<option
-						value="sliders"
-						>
+					<option value="sliders">
 						PLG_CONTENT_PAGEBREAK_SLIDERS
 					</option>
-					<option
-						value="tabs"
-						>PLG_CONTENT_PAGEBREAK_TABS
+					<option value="tabs">
+						PLG_CONTENT_PAGEBREAK_TABS
 					</option>
 				</field>
 			</fieldset>
