@@ -117,9 +117,9 @@ class PlgContentPagenavigation extends JPlugin
 					break;
 			}
 
-			$xwhere = ' AND (a.state = 1 OR a.state = -1)' .
-				' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')' .
-				' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
+			$xwhere = ' AND (a.state = 1 OR a.state = -1)'
+				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
+				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
 			// Array of articles in same category correctly ordered.
 			$query = $db->getQuery(true);
