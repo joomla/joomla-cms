@@ -25,7 +25,6 @@
 					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
 					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
 					default="0"
-
 				>
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
 					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
@@ -37,7 +36,6 @@
 					type="text"
 					label="PLG_GMAIL_FIELD_SUFFIX_LABEL"
 					description="PLG_GMAIL_FIELD_SUFFIX_DESC"
-
 					size="20"
 					showon="applysuffix:1,2"
 				/>
@@ -49,8 +47,6 @@
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-
-
 				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -59,7 +55,6 @@
 				<field
 					name="user_blacklist"
 					type="text"
-
 					label="PLG_GMAIL_FIELD_USER_BLACKLIST_LABEL"
 					description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC"
 					size="20"
@@ -71,8 +66,6 @@
 					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
 					default="0"
 					class="btn-group btn-group-yesno"
-
-
 				>
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
