@@ -55,7 +55,7 @@ class PlgSystemLanguagecode extends JPlugin
 			else
 			{
 				$patterns = array();
-				$replace = array();
+				$replace  = array();
 			}
 
 			// Replace codes in <link hreflang="" /> attributes.
