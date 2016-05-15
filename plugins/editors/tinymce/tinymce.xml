@@ -51,15 +51,9 @@
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
 					default="2"
 					>
-					<option value="0">
-						PLG_TINY_FIELD_VALUE_SIMPLE
-					</option>
-					<option value="1">
-						PLG_TINY_FIELD_VALUE_ADVANCED
-					</option>
-					<option value="2">
-						PLG_TINY_FIELD_VALUE_EXTENDED
-					</option>
+					<option value="0">PLG_TINY_FIELD_VALUE_SIMPLE</option>
+					<option value="1">PLG_TINY_FIELD_VALUE_ADVANCED</option>
+					<option value="2">PLG_TINY_FIELD_VALUE_EXTENDED</option>
 				</field>
 
 				<field
@@ -142,12 +136,8 @@
 					description="PLG_TINY_FIELD_DIRECTION_DESC"
 					default="ltr"
 					>
-					<option value="ltr">
-						PLG_TINY_FIELD_VALUE_LTR
-					</option>
-					<option value="rtl">
-						PLG_TINY_FIELD_VALUE_RTL
-					</option>
+					<option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
+					<option value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
 				</field>
 
 				<field
@@ -177,12 +167,8 @@
 					description="PLG_TINY_FIELD_URLS_DESC"
 					default="1"
 					>
-					<option value="0">
-						PLG_TINY_FIELD_VALUE_ABSOLUTE
-					</option>
-					<option value="1">
-						PLG_TINY_FIELD_VALUE_RELATIVE
-					</option>
+					<option value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
+					<option value="1">PLG_TINY_FIELD_VALUE_RELATIVE</option>
 				</field>
 
 				<field
@@ -192,12 +178,8 @@
 					description="PLG_TINY_FIELD_NEWLINES_DESC"
 					default="0"
 					>
-					<option value="1">
-						PLG_TINY_FIELD_VALUE_BR
-					</option>
-					<option value="0">
-						PLG_TINY_FIELD_VALUE_P
-					</option>
+					<option value="1">PLG_TINY_FIELD_VALUE_BR</option>
+					<option value="0">PLG_TINY_FIELD_VALUE_P</option>
 				</field>
 
 				<field
