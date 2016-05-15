@@ -1887,7 +1887,7 @@ CREATE UNIQUE INDEX [idx_access] ON [#__languages]
 SET IDENTITY_INSERT [#__languages]  ON;
 
 INSERT INTO [#__languages] ([lang_id], [lang_code], [title], [title_native], [sef], [image], [description], [metakey], [metadesc], [sitename], [published], [access], [ordering])
-VALUES (1, 'en-GB  ', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', 1, 1, 1);
+VALUES (1, 'en-GB  ', 'English (en-GB)', 'English (en-GB)', 'en', 'en', '', '', '', '', 1, 1, 1);
 
 SET IDENTITY_INSERT [#__languages]  OFF;
 
