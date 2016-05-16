@@ -515,16 +515,18 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @since  3.6.0
 	 */
-	Joomla.loadingLayer = function(task, parentElement, topPosition) {
+	Joomla.loadingLayer = function(task, parentElement) {
 
 		// Set default values.
 		task          = task || 'show';
 		parentElement = parentElement || document.body;
-		topPosition   = topPosition || '0';
 
 		// Create the loading layer (hidden by default).
 		if (task == 'load')
 		{
+			// Gets the site base path from the body element (defaults to empty - no subfolder)
+			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+
 			var loadingDiv = document.createElement('div');
 
 			loadingDiv.id = 'loading-logo';
@@ -533,7 +535,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			// Loading layer style and positioning.
 			loadingDiv.style['position']              = 'fixed';
-			loadingDiv.style['top']                   = topPosition;
+			loadingDiv.style['top']                   = '0';
 			loadingDiv.style['left']                  = '0';
 			loadingDiv.style['width']                 = '100%';
 			loadingDiv.style['height']                = '100%';
@@ -545,7 +547,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			loadingDiv.style['background-color']      = '#fff';
 
 			// Loading logo positioning.
-			loadingDiv.style['background-image']      = 'url("../../../media/jui/images/ajax-loader.gif")';
+			loadingDiv.style['background-image']      = 'url("' + basePath + '/media/jui/images/ajax-loader.gif")';
 			loadingDiv.style['background-position']   = 'center';
 			loadingDiv.style['background-repeat']     = 'no-repeat';
 			loadingDiv.style['background-attachment'] = 'fixed';
@@ -557,11 +559,13 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		{
 			if (!document.getElementById('loading-logo'))
 			{
-				Joomla.loadingLayer('load', parentElement, topPosition);
+				Joomla.loadingLayer('load', parentElement);
 			}
 
 			document.getElementById('loading-logo').style['display'] = (task == 'show') ? 'block' : 'none';
 		}
+
+		return document.getElementById('loading-logo');
 	};
 
 }( Joomla, document ));
