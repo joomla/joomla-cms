@@ -43,7 +43,7 @@ class PlgSystemStatsFormFieldData extends PlgSystemStatsFormFieldBase
 	 */
 	protected function getLayoutData()
 	{
-		$data = parent::getLayoutData();
+		$data       = parent::getLayoutData();
 
 		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('system', 'stats');
