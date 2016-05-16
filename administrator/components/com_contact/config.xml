@@ -282,9 +282,7 @@
 			default="10"
 			showon="show_articles:1"
 			>
-			<option value="use_contact">
-				COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS
-			</option>
+			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
