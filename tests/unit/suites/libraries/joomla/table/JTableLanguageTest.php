@@ -88,7 +88,7 @@ class JTableLanguageTest extends TestCaseDatabase
 			'Line: ' . __LINE__ . ' Checking an empty table should fail.'
 		);
 
-		$table->title = 'English (UK)';
+		$table->title = 'English (GB)';
 		$this->assertThat(
 			$table->check(),
 			$this->isTrue(),

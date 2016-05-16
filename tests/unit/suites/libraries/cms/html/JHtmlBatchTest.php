@@ -201,7 +201,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 			'tag'   => 'select',
 			'child' => array(
 				'tag'        => 'option',
-				'content'    => 'English (UK)',
+				'content'    => 'English (GB)',
 				'attributes' => array('value' => 'en-GB')
 			)
 		);
@@ -209,7 +209,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 		$this->assertTag(
 			$matcher,
 			$result,
-			'Expected a <select> element with id "batch-language-id" containing a child <option value="en-GB">English (UK)</option>'
+			'Expected a <select> element with id "batch-language-id" containing a child <option value="en-GB">English (GB)</option>'
 		);
 	}
 
