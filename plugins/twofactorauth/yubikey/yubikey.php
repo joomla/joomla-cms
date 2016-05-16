@@ -214,7 +214,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
-			'yubikey' => $yubikey
+				'yubikey' => $yubikey
 			),
 			'otep'    => array()
 		);
