@@ -592,6 +592,9 @@ class JModelListTest extends TestCaseDatabase
 			)
 		);
 
+		// We've set the state manually, populateState call will overwrite it.
+		TestReflection::setValue($this->object, '__state_set', true);
+
 		$this->assertEquals($expected, $method->invoke($this->object));
 	}
 

@@ -453,10 +453,10 @@ class JModelList extends JModelLegacy
 		if (!property_exists($data, 'list'))
 		{
 			$data->list = array(
-				'direction' => $this->state->{'list.direction'},
-				'limit'     => $this->state->{'list.limit'},
-				'ordering'  => $this->state->{'list.ordering'},
-				'start'     => $this->state->{'list.start'}
+				'direction' => $this->getState('list.direction'),
+				'limit'     => $this->getState('list.limit'),
+				'ordering'  => $this->getState('list.ordering'),
+				'start'     => $this->getState('list.start'),
 			);
 		}
 
