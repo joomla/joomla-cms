@@ -59,7 +59,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
-			$keys = $this->db->getTableKeys($table);
+			$keys   = $this->db->getTableKeys($table);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';
 
@@ -74,6 +74,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 			{
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
 					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
+					' Sub_part ="' . $key->Sub_part . '"' .
 					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
 					' />';
 			}
