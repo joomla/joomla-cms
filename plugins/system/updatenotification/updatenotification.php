@@ -217,7 +217,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		$mailFrom = $jConfig->get('mailfrom');
 		$fromName = $jConfig->get('fromname');
 
-		$substitutions = array(
+		$substitutions     = array(
 			'[NEWVERSION]' => $newVersion,
 			'[CURVERSION]' => $currentVersion,
 			'[SITENAME]'   => $sitename,
