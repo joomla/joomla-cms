@@ -102,6 +102,12 @@ class ContentViewCategory extends JViewCategory
 				$item->text = $item->introtext;
 			}
 
+			if ($item->params->get('show_cat_tags', '1') == '1')
+			{
+				$item->tags = new JHelperTags;
+				$item->tags->getItemTags('com_content.article', $this->item->id);
+			}
+
 			JPluginHelper::importPlugin('content');
 			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$item->params, 0));
 
