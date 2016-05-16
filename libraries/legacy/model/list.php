@@ -321,11 +321,14 @@ class JModelList extends JModelLegacy
 
 		$start = $this->getState('list.start');
 		$limit = $this->getState('list.limit');
-		$total = $this->getTotal();
 
-		if ($start > $total - $limit)
+		if ($start > 0)
 		{
-			$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
+			$total = $this->getTotal();
+			if ($start > $total - $limit)
+			{
+				$start = max(0, (int) (ceil($total / $limit) - 1) * $limit);
+			}
 		}
 
 		// Add the total to the internal cache.
