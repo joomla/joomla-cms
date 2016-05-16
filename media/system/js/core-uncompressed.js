@@ -166,6 +166,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			// Close button
 			var buttonWrapper = document.createElement( 'button' );
+			buttonWrapper.setAttribute('type', 'button');
 			buttonWrapper.setAttribute('data-dismiss', 'alert');
 			buttonWrapper.className = 'close';
 			buttonWrapper.innerHTML = '×';
