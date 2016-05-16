@@ -16,6 +16,7 @@
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				show_root="true"
 				required="true"
 			/>
 
