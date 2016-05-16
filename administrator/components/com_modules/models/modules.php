@@ -367,7 +367,7 @@ class ModulesModelModules extends JModelList
 				$query->where('(
 					(' . $subQuery1 . ') = 0 
 					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
-					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery3 . '))
+					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
 					)');
 			}
 		}
