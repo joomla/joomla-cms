@@ -153,7 +153,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		Joomla.removeMessages();
 
 		var messageContainer = document.getElementById( 'system-message-container' ),
-			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper;
+			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
 		for ( type in messages ) {
 			if ( !messages.hasOwnProperty( type ) ) { continue; }
@@ -162,7 +162,12 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			// Create the alert box
 			messagesBox = document.createElement( 'div' );
-			messagesBox.className = 'alert alert-' + type;
+
+			// Message class
+			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
+			alertClass = (type == 'message') ? 'alert-success' : alertClass;
+
+			messagesBox.className = 'alert ' + alertClass;
 
 			// Close button
 			var buttonWrapper = document.createElement( 'button' );
