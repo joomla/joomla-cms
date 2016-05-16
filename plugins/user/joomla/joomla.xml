@@ -35,8 +35,8 @@
 					name="mail_to_user"
 					type="radio"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
-					class="btn-group btn-group-yesno"
 					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
+					class="btn-group btn-group-yesno"
 					default="1"
 					>
 					<option value="1">JYES</option>
