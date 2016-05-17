@@ -39,6 +39,16 @@ class JFormFieldModal_Contact extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
+		// The active contact id field.
+		if (0 == (int) $this->value)
+		{
+			$value = '';
+		}
+		else
+		{
+			$value = (int) $this->value;
+		}
+
 		// Build the script.
 		$script = array();
 
@@ -71,6 +81,11 @@ class JFormFieldModal_Contact extends JFormField
 
 		$script[] = '	}';
 
+		// Edit button script
+		$script[] = '	function jEditContact_' . $value . '(name) {';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
+		$script[] = '	}';
+
 		// Clear button script
 		static $scriptClear;
 
@@ -96,14 +111,21 @@ class JFormFieldModal_Contact extends JFormField
 		// Setup variables for display.
 		$html = array();
 
-		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectContact_' . $this->id;
-		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component&amp;task=contact.edit';
+		$linkContacts = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component'
+			. '&amp;function=jSelectContact_' . $this->id;
+
+		$linkContact  = 'index.php?option=com_contact&amp;view=contact&amp;layout=modal&amp;tmpl=component'
+			. '&amp;task=contact.edit'
+			. '&amp;function=jEditContact_' . $value;
 
 		if (isset($this->element['language']))
 		{
 			$linkContacts .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkContact  .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
+
+		$urlSelect = $linkContacts . '&amp;' . JSession::getFormToken() . '=1';
+		$urlEdit   = $linkContact . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
 		if ((int) $this->value > 0)
 		{
@@ -131,19 +153,6 @@ class JFormFieldModal_Contact extends JFormField
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-		// The active contact id field.
-		if (0 == (int) $this->value)
-		{
-			$value = '';
-		}
-		else
-		{
-			$value = (int) $this->value;
-		}
-
-		$urlSelect = $linkContacts . '&amp;' . JSession::getFormToken() . '=1';
-		$urlEdit   = $linkContact . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
-
 		// The current contact display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
@@ -166,7 +175,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
-				. ' href="#contactEdit' . $this->value . 'Modal"'
+				. ' href="#contactEdit' . $value . 'Modal"'
 				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
 				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
@@ -204,7 +213,7 @@ class JFormFieldModal_Contact extends JFormField
 		// Edit contact modal
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
-			'contactEdit' . $this->value . 'Modal',
+			'contactEdit' . $value . 'Modal',
 			array(
 				'url'         => $urlEdit,
 				'title'       => JText::_('COM_CONTACT_EDIT_CONTACT'),
@@ -215,13 +224,13 @@ class JFormFieldModal_Contact extends JFormField
 				'modalWidth'  => '80',
 				'bodyHeight'  => '70',
 				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $this->value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. ' onclick="jQuery(\'#contactEdit' . $value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $this->value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. ' onclick="jQuery(\'#contactEdit' . $value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $this->value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+						. ' onclick="jQuery(\'#contactEdit' . $value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
 						. JText::_("JAPPLY") . '</button>'
 			)
 		);

@@ -48,6 +48,16 @@ class JFormFieldModal_Category extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
+		// The active category id field.
+		if (0 == (int) $this->value)
+		{
+			$value = '';
+		}
+		else
+		{
+			$value = (int) $this->value;
+		}
+
 		// Build the script.
 		$script = array();
 
@@ -71,6 +81,11 @@ class JFormFieldModal_Category extends JFormField
 		}
 
 		$script[] = '		jQuery("#categorySelect' . $this->id . 'Modal").modal("hide");';
+		$script[] = '	}';
+
+		// Edit button script
+		$script[] = '	function jEditCategory_' . $value . '(title) {';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = title;';
 		$script[] = '	}';
 
 		// Clear button script
@@ -98,15 +113,22 @@ class JFormFieldModal_Category extends JFormField
 		// Setup variables for display.
 		$html = array();
 
-		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;extension='
-			. $extension . '&amp;function=jSelectCategory_' . $this->id;
-		$linkCategory   = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component&amp;task=category.edit';
+		$linkCategories = 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component'
+			. '&amp;extension=' . $extension
+			. '&amp;function=jSelectCategory_' . $this->id;
+
+		$linkCategory   = 'index.php?option=com_categories&amp;view=category&amp;layout=modal&amp;tmpl=component'
+			. '&amp;task=category.edit'
+			. '&amp;function=jEditCategory_' . $value;
 
 		if (isset($this->element['language']))
 		{
 			$linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
+
+		$urlSelect = $linkCategories . '&amp;' . JSession::getFormToken() . '=1';
+		$urlEdit   = $linkCategory . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
 		if ((int) $this->value > 0)
 		{
@@ -134,19 +156,6 @@ class JFormFieldModal_Category extends JFormField
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
-		// The active category id field.
-		if (0 == (int) $this->value)
-		{
-			$value = '';
-		}
-		else
-		{
-			$value = (int) $this->value;
-		}
-
-		$urlSelect = $linkCategories . '&amp;' . JSession::getFormToken() . '=1';
-		$urlEdit   = $linkCategory . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
-
 		// The current category display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
@@ -169,7 +178,7 @@ class JFormFieldModal_Category extends JFormField
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
-				. ' href="#categoryEdit' . $this->value . 'Modal"'
+				. ' href="#categoryEdit' . $value . 'Modal"'
 				. ' title="' . JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY') . '">'
 				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
@@ -207,7 +216,7 @@ class JFormFieldModal_Category extends JFormField
 		// Edit category modal
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
-			'categoryEdit' . $this->value . 'Modal',
+			'categoryEdit' . $value . 'Modal',
 			array(
 				'url'         => $urlEdit,
 				'title'       => JText::_('COM_CATEGORIES_EDIT_CATEGORY'),
@@ -218,13 +227,13 @@ class JFormFieldModal_Category extends JFormField
 				'modalWidth'  => '80',
 				'bodyHeight'  => '70',
 				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#categoryEdit' . $this->value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-						. ' onclick="jQuery(\'#categoryEdit' . $this->value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" aria-hidden="true"'
-						. ' onclick="jQuery(\'#categoryEdit' . $this->value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
 						. JText::_("JAPPLY") . '</button>'
 			)
 		);
