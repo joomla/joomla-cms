@@ -764,7 +764,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				else
 				{
-					$explain = JText::sprintf('PLG_DEBUG_QUERY_EXPLAIN_NOT_POSSIBLE', htmlspecialchars($query));
+					$explain = JText::sprintf('PLG_DEBUG_QUERY_EXPLAIN_NOT_POSSIBLE', htmlspecialchars($query, ENT_COMPAT, 'UTF-8'));
 				}
 
 				// Run a SHOW PROFILE query.
@@ -1236,7 +1236,7 @@ class PlgSystemDebug extends JPlugin
 
 		foreach (array_keys($table[0]) as $k)
 		{
-			$html[] = '<th>' . htmlspecialchars($k) . '</th>';
+			$html[] = '<th>' . htmlspecialchars($k, ENT_COMPAT, 'UTF-8') . '</th>';
 		}
 
 		$html[] = '</tr>';
@@ -1285,7 +1285,7 @@ class PlgSystemDebug extends JPlugin
 				elseif ($k == 'Error')
 				{
 					// An error in the EXPLAIN query occured, display it instead of the result (means original query had syntax error most probably).
-					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
+					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td, ENT_COMPAT, 'UTF-8');
 					$hasWarnings = true;
 				}
 				elseif ($k == 'key')
@@ -1300,7 +1300,7 @@ class PlgSystemDebug extends JPlugin
 					}
 					else
 					{
-						$html[] = '<td><strong>' . htmlspecialchars($td) . '</strong>';
+						$html[] = '<td><strong>' . htmlspecialchars($td, ENT_COMPAT, 'UTF-8') . '</strong>';
 					}
 				}
 				elseif ($k == 'Extra')
@@ -1328,7 +1328,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				else
 				{
-					$html[] = '<td>' . htmlspecialchars($td);
+					$html[] = '<td>' . htmlspecialchars($td, ENT_COMPAT, 'UTF-8');
 				}
 
 				$html[] = '</td>';

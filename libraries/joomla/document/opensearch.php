@@ -133,11 +133,11 @@ class JDocumentOpensearch extends JDocument
 		$elOs = $xml->createElementNs($osns, 'OpenSearchDescription');
 
 		$elShortName = $xml->createElementNs($osns, 'ShortName');
-		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));
+		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName, ENT_COMPAT, 'UTF-8')));
 		$elOs->appendChild($elShortName);
 
 		$elDescription = $xml->createElementNs($osns, 'Description');
-		$elDescription->appendChild($xml->createTextNode(htmlspecialchars($this->description)));
+		$elDescription->appendChild($xml->createTextNode(htmlspecialchars($this->description, ENT_COMPAT, 'UTF-8')));
 		$elOs->appendChild($elDescription);
 
 		// Always set the accepted input encoding to UTF-8
@@ -151,7 +151,7 @@ class JDocumentOpensearch extends JDocument
 			$elImage->setAttribute('type', $image->type);
 			$elImage->setAttribute('width', $image->width);
 			$elImage->setAttribute('height', $image->height);
-			$elImage->appendChild($xml->createTextNode(htmlspecialchars($image->data)));
+			$elImage->appendChild($xml->createTextNode(htmlspecialchars($image->data, ENT_COMPAT, 'UTF-8')));
 			$elOs->appendChild($elImage);
 		}
 
