@@ -19,7 +19,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var     string
 	 * @since   1.6
 	 */
 	protected $type = 'Modal_Newsfeed';
@@ -27,7 +27,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string  The field input markup.
 	 *
 	 * @since   1.6
 	 */
@@ -39,9 +39,6 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
-		// Load the javascript
-		JHtml::_('bootstrap.tooltip');
-
 		// Build the script.
 		$script = array();
 
@@ -52,7 +49,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		if ($allowEdit)
 		{
-			$script[] = '		jQuery("#' . $this->id . '_edit").removeClass("hidden");';
+			$script[] = '		if (id == "' . (int) $this->value . '") {';
+			$script[] = '			jQuery("#' . $this->id . '_edit").removeClass("hidden");';
+			$script[] = '		} else {';
+			$script[] = '			jQuery("#' . $this->id . '_edit").addClass("hidden");';
+			$script[] = '		}';
 		}
 
 		if ($allowClear)
@@ -60,7 +61,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$script[] = '		jQuery("#' . $this->id . '_clear").removeClass("hidden");';
 		}
 
-		$script[] = '		jQuery("#modalNewsfeed' . $this->id . '").modal("hide");';
+		$script[] = '		jQuery("#newsfeedSelect' . $this->id . 'Modal").modal("hide");';
 
 		if ($this->required)
 		{
@@ -79,8 +80,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 			$script[] = '	function jClearNewsfeed(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "' .
-				htmlspecialchars(JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8') . '";';
+			$script[] = '		document.getElementById(id + "_name").value = "'
+				. htmlspecialchars(JText::_('COM_NEWSFEEDS_SELECT_A_FEED', true), ENT_COMPAT, 'UTF-8') . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -94,17 +95,19 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		// Setup variables for display.
 		$html = array();
-		$link = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_' . $this->id;
+
+		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_' . $this->id;
+		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;task=newsfeed.edit';
 
 		if (isset($this->element['language']))
 		{
-			$link .= '&amp;forcedLanguage=' . $this->element['language'];
+			$linkNewsfeeds .= '&amp;forcedLanguage=' . $this->element['language'];
+			$linkNewsfeed  .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
 
-		// Get the title of the linked chart
 		if ((int) $this->value > 0)
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))
@@ -125,6 +128,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		{
 			$title = JText::_('COM_NEWSFEEDS_SELECT_A_FEED');
 		}
+
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The active newsfeed id field.
@@ -137,54 +141,93 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$value = (int) $this->value;
 		}
 
+		$urlSelect = $linkNewsfeeds . '&amp;' . JSession::getFormToken() . '=1';
+		$urlEdit   = $linkNewsfeed . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
+
 		// The current newsfeed display field.
 		$html[] = '<span class="input-append">';
-		$html[] = '<input type="text" class="input-medium" id="' . $this->id . '_name" value="' . $title .
-			'" disabled="disabled" size="35" />';
+		$html[] = '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
 
-		$html[] = '<a href="#modalNewsfeed' . $this->id . '" class="btn hasTooltip" role="button"  data-toggle="modal"'
+		// Select newsfeed button
+		$html[] = '<a'
+			. ' class="btn hasTooltip"'
+			. ' data-toggle="modal"'
+			. ' role="button"'
+			. ' href="#newsfeedSelect' . $this->id . 'Modal"'
 			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
 			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
-		$html[] = JHtml::_(
-			'bootstrap.renderModal',
-			'modalNewsfeed' . $this->id,
-			array(
-				'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-				'title' => JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON'),
-				'width' => '800px',
-				'height' => '300px',
-				'footer' => '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-			)
-		);
-
 		// Edit newsfeed button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip' . ($value ? '' : ' hidden') .
-				'" href="index.php?option=com_newsfeeds&layout=modal&tmpl=component&task=newsfeed.edit&id=' . $value .
-				'" target="_blank" title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') .
-				'" ><span class="icon-edit"></span>' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a'
+				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' id="' . $this->id . '_edit"'
+				. ' data-toggle="modal"'
+				. ' role="button"'
+				. ' href="#newsfeedEdit' . $this->id . 'Modal"'
+				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
+				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
+				. '</a>';
 		}
 
 		// Clear newsfeed button
 		if ($allowClear)
 		{
-			$html[] = '<button id="' . $this->id . '_clear" class="btn' . ($value ? '' : ' hidden') . '" onclick="return jClearNewsfeed(\'' .
-				$this->id . '\')"><span class="icon-remove"></span>' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button'
+				. ' class="btn' . ($value ? '' : ' hidden') . '"'
+				. ' id="' . $this->id . '_clear"'
+				. ' onclick="return jClearNewsfeed(\'' . $this->id . '\')">'
+				. '<span class="icon-remove"></span>' . JText::_('JCLEAR')
+				. '</button>';
 		}
 
 		$html[] = '</span>';
 
-		// Add class='required' for client side validation
-		$class = '';
+		// Select newsfeed modal
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'newsfeedSelect' . $this->id . 'Modal',
+			array(
+				'url'         => $urlSelect,
+				'title'       => JText::_('COM_NEWSFEEDS_SELECT_A_FEED'),
+				'width'       => '800px',
+				'height'      => '400px',
+				'modalWidth'  => '80',
+				'bodyHeight'  => '70',
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+			)
+		);
 
-		if ($this->required)
-		{
-			$class = ' class="required modal-value"';
-		}
+		// Edit newsfeed modal
+		$html[] = JHtml::_(
+			'bootstrap.renderModal',
+			'newsfeedEdit' . $this->id . 'Modal',
+			array(
+				'url'         => $urlEdit,
+				'title'       => JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED'),
+				'backdrop'    => 'static',
+				'closeButton' => false,
+				'width'       => '800px',
+				'height'      => '400px',
+				'modalWidth'  => '80',
+				'bodyHeight'  => '70',
+				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+						. ' onclick="jQuery(\'#newsfeedEdit' . $this->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"'
+						. ' onclick="jQuery(\'#newsfeedEdit' . $this->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. JText::_("JSAVE") . '</button>'
+						. '<button type="button" class="btn btn-success" aria-hidden="true"'
+						. ' onclick="jQuery(\'#newsfeedEdit' . $this->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+						. JText::_("JAPPLY") . '</button>'
+			)
+		);
+
+		// Add class='required' for client side validation
+		$class = $this->required ? ' class="required modal-value"' : '';
 
 		$html[] = '<input type="hidden" id="' . $this->id . '_id"' . $class . ' name="' . $this->name . '" value="' . $value . '" />';
 

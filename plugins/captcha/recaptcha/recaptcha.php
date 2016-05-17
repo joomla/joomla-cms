@@ -86,11 +86,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 		else
 		{
-			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class) .
-					' data-sitekey="' . $this->params->get('public_key', '') .
-					'" data-theme="' . $this->params->get('theme2', 'light') .
-					'" data-size="' . $this->params->get('size', 'normal') .
-					'"></div>';
+			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
+					. ' data-sitekey="' . $this->params->get('public_key', '')
+					. '" data-theme="' . $this->params->get('theme2', 'light')
+					. '" data-size="' . $this->params->get('size', 'normal')
+					. '"></div>';
 		}
 	}
 

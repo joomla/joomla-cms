@@ -370,6 +370,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($this->params->get('detect_browser', 1))
 				{
 					$lang_code = JLanguageHelper::detectLanguage();
+
 					if (!isset($this->lang_codes[$lang_code]))
 					{
 						$lang_code = false;
@@ -390,12 +391,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
 				}
+
 				$uri->setPath($path);
 
 				if (!$this->app->get('sef_rewrite'))
 				{
 					$uri->setPath('index.php/' . $uri->getPath());
 				}
+
 				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), 301);
 			}
 			else
@@ -734,6 +737,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$xdefault_language = $this->params->get('xdefault_language', $this->default_lang);
 					$xdefault_language = ( $xdefault_language == 'default' ) ? $this->default_lang : $xdefault_language;
+
 					if (isset($languages[$xdefault_language]))
 					{
 						// Use a custom tag because addHeadLink is limited to one URI per tag
@@ -755,9 +759,9 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	private function setLanguageCookie($lang_code)
 	{
-
 		// Get the cookie lifetime we want.
 		$cookie_expire = 0;
+
 		if ($this->params->get('lang_cookie', 1) == 1)
 		{
 			$cookie_expire = time() + 365 * 86400;
