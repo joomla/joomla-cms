@@ -31,7 +31,12 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'media/system/js/*.js': ['coverage']
+            '**/system/js/*!(uncompressed).js': ['coverage']
+        },
+
+        // coverage reporter configuration
+        coverageReporter: {
+            type : 'text'
         },
 
         // test results reporter to use
@@ -58,8 +63,9 @@ module.exports = function (config) {
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
+        singleRun: true,
 
+        // list of plugins
         plugins: [
             'karma-jasmine',
             'karma-firefox-launcher',
