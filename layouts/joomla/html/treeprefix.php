@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * ---------------------
  *
  * @var  integer  $level  The level of the item in the tree like structure.
- 
+ *
  * @since  3.6.0
  */
 
