@@ -39,7 +39,9 @@ class InstallationModelFtp extends JModelBase
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected())
 		{
-			JFactory::getApplication()->enqueueMessage($options->get('ftp_host') . ':' . $options->get('ftp_port') . ' ' . JText::_('INSTL_FTP_NOCONNECT'), 'error');
+			JFactory::getApplication()->enqueueMessage(
+				$options->get('ftp_host') . ':' . $options->get('ftp_port') . ' ' . JText::_('INSTL_FTP_NOCONNECT'), 'error'
+			);
 
 			return false;
 		}
