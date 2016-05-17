@@ -233,6 +233,10 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		{
 			$result = 'int(10) unsigned';
 		}
+		elseif (strtolower(substr($type2, 0, 8)) == 'unsigned')
+		{
+			$result = $type1 . ' unsigned';
+		}
 
 		return $result;
 	}
