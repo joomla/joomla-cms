@@ -126,7 +126,6 @@ textarea.noResize {
 .tooltip {
 	white-space: pre-wrap;
 }
-
 #loading {
 	position: absolute;
 	display: none;
@@ -140,3 +139,7 @@ textarea.noResize {
  	filter: alpha(opacity = 95);
  	background: url('../../../media/jui/images/ajax-loader.gif') rgba(255,255,255,0.7) center no-repeat;
  }
+.controls .progress {
+	margin-top: 7px;
+	width: 220px;
+}
