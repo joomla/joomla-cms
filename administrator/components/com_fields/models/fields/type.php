@@ -78,8 +78,7 @@ class JFormFieldType extends JFormFieldList
 		$uri->setVar('task', 'field.storeform');
 		$uri->setVar('context', 'com_fields.field');
 		$uri->setVar('formcontrol', $this->form->getFormControl());
-		$uri->setVar('userstatevariable',
-				'com_fields.edit.field.' . str_replace('com_', '', JFactory::getApplication()->input->get('context')) . '.data');
+		$uri->setVar('userstatevariable', 'com_fields.edit.field.data');
 		$uri->setVar('view', null);
 		$uri->setVar('layout', null);
 		JFactory::getDocument()->addScriptDeclaration(

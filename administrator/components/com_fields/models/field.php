@@ -118,7 +118,7 @@ class FieldsModelField extends JModelAdmin
 		{
 			$oldParams = json_decode($field->fieldparams['options']);
 			$newParams = json_decode($data['fieldparams']['options']);
-			if (count(array_intersect($oldParams->key, $newParams->key)) != count($oldParams->key))
+			if (is_array($oldParams) && is_array($newParams) && count(array_intersect($oldParams->key, $newParams->key)) != count($oldParams->key))
 			{
 				$this->_db->setQuery(
 						'delete from #__fields_values where field_id = ' . (int) $field->id . ' and value not in (\'' .
@@ -298,7 +298,7 @@ class FieldsModelField extends JModelAdmin
 	{
 		// Check the session for previously entered form data.
 		$app = JFactory::getApplication();
-		$data = $app->getUserState('com_fields.edit.' . $this->getName() . '.data', array());
+		$data = $app->getUserState('com_fields.edit.field.data', array());
 
 		if (empty($data))
 		{
