@@ -25,7 +25,7 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 $doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet($this->baseurl . '/templates/'.$this->template.'/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -34,7 +34,7 @@ if (!$this->params->get('colourChoice'))
 }
 else
 {
-	$colour = htmlspecialchars($this->params->get('colourChoice'));
+	$colour = htmlspecialchars($this->params->get('colourChoice'), ENT_COMPAT, 'UTF-8');
 }
 
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');

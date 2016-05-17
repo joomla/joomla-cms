@@ -1,48 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+
 	<field
 		name="id"
 		type="text"
-		default="0"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		description="JGLOBAL_FIELD_ID_DESC"
+		default="0"
 		class="readonly"
-		readonly="true"/>
+		readonly="true"
+	/>
 
 	<field
 		name="hits"
 		type="text"
-		default="0"
 		label="JGLOBAL_HITS"
 		description="COM_CATEGORIES_FIELD_HITS_DESC"
+		default="0"
 		class="readonly"
-		readonly="true"/>
+		readonly="true"
+	/>
 
 	<field
 		name="asset_id"
 		type="hidden"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="parent_id"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
-		description="COM_CATEGORIES_FIELD_PARENT_DESC"/>
+		description="COM_CATEGORIES_FIELD_PARENT_DESC"
+	/>
 
 	<field
 		name="lft"
 		type="hidden"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="rgt"
 		type="hidden"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="level"
 		type="hidden"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="path"
@@ -51,11 +59,13 @@
 		description="COM_CATEGORIES_PATH_DESC"
 		class="readonly"
 		size="40"
-		readonly="true"/>
+		readonly="true"
+	/>
 
 	<field
 		name="extension"
-		type="hidden"/>
+		type="hidden"
+	/>
 
 	<field
 		name="title"
@@ -64,33 +74,37 @@
 		description="JFIELD_TITLE_DESC"
 		class="input-xxlarge input-large-text"
 		size="40"
-		required="true"/>
+		required="true"
+	/>
 
 	<field
 		name="alias"
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
+		size="45"
 		hint="JFIELD_ALIAS_PLACEHOLDER"
-		size="45"/>
+	/>
 
 	<field
 		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-		maxlength="255"
 		class="span12"
-		size="45" />
+		size="45"
+		maxlength="255"
+	/>
 
 	<field
 		name="note"
 		type="text"
 		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
 		description="COM_CATEGORIES_FIELD_NOTE_DESC"
-		maxlength="255"
 		class="span12"
-		size="40"/>
+		size="40"
+		maxlength="255"
+	/>
 
 	<field
 		name="description"
@@ -99,41 +113,49 @@
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		filter="JComponentHelper::filterText"
 		buttons="true"
-		hide="readmore,pagebreak"/>
+		hide="readmore,pagebreak"
+	/>
 
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
-		default="1"
-		size="1"
 		label="JSTATUS"
-		description="JFIELD_PUBLISHED_DESC">
+		description="JFIELD_PUBLISHED_DESC"
+		default="1"
+		class="chzn-color-state"
+		size="1"
+		>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
 		<option value="2">JARCHIVED</option>
 		<option value="-2">JTRASHED</option>
 	</field>
+
 	<field
 		name="buttonspacer"
+		type="spacer"
 		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
 		description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
-		type="spacer" />
+	/>
+
 	<field
 		name="checked_out"
 		type="hidden"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="checked_out_time"
 		type="hidden"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"/>
+		description="JFIELD_ACCESS_DESC"
+	/>
 
 	<field
 		name="metadesc"
@@ -141,7 +163,8 @@
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		description="JFIELD_META_DESCRIPTION_DESC"
 		rows="3"
-		cols="40"/>
+		cols="40"
+	/>
 
 	<field
 		name="metakey"
@@ -149,14 +172,15 @@
 		label="JFIELD_META_KEYWORDS_LABEL"
 		description="JFIELD_META_KEYWORDS_DESC"
 		rows="3"
-		cols="40"/>
+		cols="40"
+	/>
 
 	<field
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
-		/>
+	/>
 
 	<field
 		name="created_time"
@@ -164,7 +188,8 @@
 		label="JGLOBAL_CREATED_DATE"
 		class="readonly"
 		filter="unset"
-		readonly="true" />
+		readonly="true"
+	/>
 
 	<field
 		name="modified_user_id"
@@ -172,7 +197,8 @@
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 		class="readonly"
 		readonly="true"
-		filter="unset"/>
+		filter="unset"
+	/>
 
 	<field
 		name="modified_time"
@@ -180,39 +206,42 @@
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
 		class="readonly"
 		filter="unset"
-		readonly="true" />
+		readonly="true"
+	/>
 
 	<field
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC">
+		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
+		>
 		<option value="*">JALL</option>
 	</field>
 
-	<field name="tags"
+	<field
+		name="tags"
 		type="tag"
 		label="JTAG"
 		description="JTAG_DESC"
 		class="span12"
 		multiple="true"
-		>
-	</field>
+	/>
 
 	<field
-		id="rules"
 		name="rules"
 		type="rules"
 		label="JFIELD_RULES_LABEL"
+		id="rules"
 		translate_label="false"
 		filter="rules"
 		validate="rules"
 		component="com_content"
-		section="category"/>
+		section="category"
+	/>
 
 	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
-		<fieldset
-			name="basic">
+
+		<fieldset name="basic">
 
 			<field
 				name="category_layout"
@@ -220,39 +249,44 @@
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
-				useglobal="true" />
+				useglobal="true"
+			/>
 
 			<field
 				name="image"
 				type="media"
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
-				description="COM_CATEGORIES_FIELD_IMAGE_DESC" />
+				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
+			/>
 
 			<field 
 				name="image_alt"
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
 				description="COM_CATEGORIES_FIELD_IMAGE_ALT_DESC"
-				size="20" />
-
+				size="20"
+			/>
 		</fieldset>
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-		<fieldset name="jmetadata"
-			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
 			<field
 				name="author"
 				type="text"
 				label="JAUTHOR"
 				description="JFIELD_METADATA_AUTHOR_DESC"
-				size="30"/>
+				size="30"
+			/>
 
-			<field name="robots"
+			<field
+				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
-			>
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
 				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
