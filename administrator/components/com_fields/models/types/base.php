@@ -63,20 +63,6 @@ class FieldsTypeBase
 	}
 
 	/**
-	 * Prepares the given value to be ready to be displayed in an HTML context.
-	 *
-	 * @param stdClass $field
-	 * @param mixed $value
-	 * @return string
-	 *
-	 * @deprecated is replaced trough layouts
-	 */
-	public function prepareValueForDisplay ($value, $field)
-	{
-		return null;
-	}
-
-	/**
 	 * Function to manipulate the DOM node before it is returned to the form
 	 * document. The form can be manipulated during preparation of the dom node.
 	 *

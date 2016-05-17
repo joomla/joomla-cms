@@ -178,16 +178,6 @@ class FieldsHelper
 							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
 						}
 					}
-					else
-					{
-						// Is deprecated
-						$type = self::loadTypeObject($field->type, $context);
-
-						if ($type)
-						{
-							$value = $type->prepareValueForDisplay($field->value, $field);
-						}
-					}
 
 					if (! $value)
 					{
