@@ -166,7 +166,7 @@ class JFormFieldModal_Contact extends JFormField
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
-				. ' href="#contactEdit' . $this->id . 'Modal"'
+				. ' href="#contactEdit' . $this->value . 'Modal"'
 				. ' title="' . JHtml::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
 				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
@@ -204,7 +204,7 @@ class JFormFieldModal_Contact extends JFormField
 		// Edit contact modal
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
-			'contactEdit' . $this->id . 'Modal',
+			'contactEdit' . $this->value . 'Modal',
 			array(
 				'url'         => $urlEdit,
 				'title'       => JText::_('COM_CONTACT_EDIT_CONTACT'),
@@ -215,13 +215,13 @@ class JFormFieldModal_Contact extends JFormField
 				'modalWidth'  => '80',
 				'bodyHeight'  => '70',
 				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $this->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. ' onclick="jQuery(\'#contactEdit' . $this->value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $this->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+						. ' onclick="jQuery(\'#contactEdit' . $this->value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" aria-hidden="true"'
-						. ' onclick="jQuery(\'#contactEdit' . $this->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+						. ' onclick="jQuery(\'#contactEdit' . $this->value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
 						. JText::_("JAPPLY") . '</button>'
 			)
 		);
