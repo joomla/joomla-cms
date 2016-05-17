@@ -66,8 +66,7 @@ $colSpan   = 4 + count($this->actions);
 							<?php echo $this->escape($item->title); ?>
 						</td>
 						<td class="nowrap">
-							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level); ?>
-							<?php echo $this->escape($item->name); ?>
+							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
 						</td>
 						<?php foreach ($this->actions as $action) : ?>
 							<?php
