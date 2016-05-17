@@ -79,9 +79,9 @@ class JFormFieldFilters extends JFormField
 			$group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
 			$html[] = '	<tr>';
-			$html[] = '		<th class="acl-groups left">';
-			$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $group->level) . $group->text;
-			$html[] = '		</th>';
+			$html[] = '		<td class="acl-groups left">';
+			$html[] = '			' . JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
