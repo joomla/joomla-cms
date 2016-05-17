@@ -65,7 +65,7 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')

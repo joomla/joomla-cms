@@ -52,8 +52,7 @@ class InstallationViewCompleteHtml extends JViewHtml
 		$this->options = $this->model->getOptions();
 
 		// Get the config string from the session.
-		$session = JFactory::getSession();
-		$this->config = $session->get('setup.config', null);
+		$this->config = JFactory::getSession()->get('setup.config', null);
 
 		return parent::render();
 	}

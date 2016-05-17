@@ -164,6 +164,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			messagesBox = document.createElement( 'div' );
 			messagesBox.className = 'alert alert-' + type;
 
+			// Close button
+			var buttonWrapper = document.createElement( 'button' );
+			buttonWrapper.setAttribute('type', 'button');
+			buttonWrapper.setAttribute('data-dismiss', 'alert');
+			buttonWrapper.className = 'close';
+			buttonWrapper.innerHTML = '×';
+			messagesBox.appendChild( buttonWrapper );
+
 			// Title
 			title = Joomla.JText._( type );
 
@@ -172,7 +180,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				titleWrapper = document.createElement( 'h4' );
 				titleWrapper.className = 'alert-heading';
 				titleWrapper.innerHTML = Joomla.JText._( type );
-
 				messagesBox.appendChild( titleWrapper );
 			}
 

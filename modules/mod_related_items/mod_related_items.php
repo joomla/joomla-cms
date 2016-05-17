@@ -26,7 +26,7 @@ if (!count($list))
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-$showDate = $params->get('showDate', 0);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$showDate        = $params->get('showDate', 0);
 
 require JModuleHelper::getLayoutPath('mod_related_items', $params->get('layout', 'default'));
