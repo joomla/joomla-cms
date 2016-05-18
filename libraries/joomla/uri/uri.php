@@ -268,7 +268,7 @@ class JUri extends Uri
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		// @see JURITest
+		// @see JUriTest
 		if (empty($host) && strpos($uri->path, 'index.php') === 0
 			|| !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
 			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false
@@ -281,7 +281,7 @@ class JUri extends Uri
 	}
 
 	/**
-	 * Build a query from a array (reverse of the PHP parse_str()).
+	 * Build a query from an array (reverse of the PHP parse_str()).
 	 *
 	 * @param   array  $params  The array of key => value pairs to return as a query string.
 	 *

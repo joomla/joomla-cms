@@ -1027,7 +1027,7 @@ INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [cl
 SELECT 700, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
-SELECT 801, 'English (United Kingdom)', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 802, 'English (United Kingdom)', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 SET IDENTITY_INSERT [#__extensions]  OFF;
 
@@ -2748,7 +2748,7 @@ SELECT 1, 700
 UNION ALL
 SELECT 2, 700
 UNION ALL
-SELECT 3, 801
+SELECT 3, 802
 UNION ALL
 SELECT 4, 28;
 
