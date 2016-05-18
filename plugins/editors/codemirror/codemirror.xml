@@ -216,17 +216,9 @@
 					<option value="Alt">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_ALT</option>
 				</field>
 
-				<field
-					name="basePath"
-					type="hidden"
-					default="media/editors/codemirror/"
-				/>
+				<field name="basePath" type="hidden" default="media/editors/codemirror/" />
 
-				<field
-					name="modePath"
-					type="hidden"
-					default="media/editors/codemirror/mode/%N/%N"
-				/>
+				<field name="modePath" type="hidden" default="media/editors/codemirror/mode/%N/%N" />
 
 			</fieldset>
 
