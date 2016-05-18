@@ -127,7 +127,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), '#'), true);
 	$createMenu = $shownew && $user->authorise('core.create', 'com_menus');
 
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'), true);
 	$menu->addSeparator();
 
 	if ($createMenu)
