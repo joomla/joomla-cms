@@ -61,7 +61,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Attempt to set the default administrator language
 		if (!$model->setDefault($admin_lang, 'administrator'))
 		{
-			// Create a error response message.
+			// Create an error response message.
 			$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else
@@ -82,7 +82,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Attempt to set the default site language
 		if (!$model->setDefault($frontend_lang, 'site'))
 		{
-			// Create a error response message.
+			// Create an error response message.
 			$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_FRONTEND_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else

@@ -31,7 +31,7 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT', true) : JText::_('COM_BANNERS_EDIT_CLIENT', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::_('COM_BANNERS_EDIT_CLIENT')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<?php
@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<?php echo $this->form->getControlGroups('metadata'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 

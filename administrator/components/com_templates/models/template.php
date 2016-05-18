@@ -1332,7 +1332,7 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Extract contents of a archive file.
+	 * Extract contents of an archive file.
 	 *
 	 * @param   string  $file  The name and location of the file
 	 *

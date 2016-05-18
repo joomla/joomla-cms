@@ -73,7 +73,7 @@ abstract class JApplicationBase extends AbstractApplication
 	 * Registers a handler to a particular event group.
 	 *
 	 * @param   string    $event    The event name.
-	 * @param   callable  $handler  The handler, a function or an instance of a event object.
+	 * @param   callable  $handler  The handler, a function or an instance of an event object.
 	 *
 	 * @return  JApplicationBase  The application to allow chaining.
 	 *

@@ -33,10 +33,10 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>" />
+			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>" />
 		<?php endif; ?>
 		<h1>
-			<?php echo htmlspecialchars($app->get('sitename')); ?>
+			<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>
 		</h1>
 	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 		<p>

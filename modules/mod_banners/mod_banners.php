@@ -18,6 +18,6 @@ $footerText = trim($params->get('footer_text'));
 require_once JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php';
 BannersHelper::updateReset();
 $list = &ModBannersHelper::getList($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));
