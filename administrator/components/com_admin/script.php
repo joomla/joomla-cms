@@ -1421,6 +1421,8 @@ class JoomlaInstallerScript
 			'/libraries/simplepie/idn/idna_convert.class.php',
 			'/libraries/simplepie/idn/npdata.ser',
 			'/administrator/manifests/libraries/simplepie.xml',
+			'/administrator/templates/isis/js/jquery.js',
+			'/administrator/templates/isis/js/bootstrap.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1632,8 +1634,8 @@ class JoomlaInstallerScript
 		$session = JFactory::getSession();
 
 		/**
-		 * Restarting the Session require a new login for the current user so lets check if we have a active session
-		 * and only if not restart it.
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
 		 * For B/C reasons we need to use getState as isActive is not available in 2.5
 		 */
 		if ($session->getState() !== 'active')

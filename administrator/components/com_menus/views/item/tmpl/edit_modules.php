@@ -135,15 +135,20 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 					'bootstrap.renderModal',
 					'module' . $module->id . 'Modal',
 					array(
-						'url' => $link,
-						'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-						'height' => '300px',
-						'width' => '800px',
+						'url'         => $link,
+						'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+						'backdrop'    => 'static',
 						'closeButton' => false,
-						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-							. '<button type="button" class="btn btn-success novalidate" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-							. JText::_("JSAVE") . '</button>'
+						'height'      => '400px',
+						'width'       => '800px',
+						'modalWidth'  => '80',
+						'bodyHeight'  => '70',
+						'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+								. ' onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								. '<button type="button" class="btn btn-success novalidate" data-dismiss="modal" aria-hidden="true"'
+								. ' onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+								. JText::_("JSAVE") . '</button>'
 					)
 				); ?>
 			</tr>

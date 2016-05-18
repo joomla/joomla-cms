@@ -40,8 +40,8 @@ class JFormFieldDob extends JFormFieldCalendar
 		$label = parent::getLabel();
 
 		// Get the info text from the XML element, defaulting to empty.
-		$text = $this->element['info'] ? (string) $this->element['info'] : '';
-		$text = $this->translateLabel ? JText::_($text) : $text;
+		$text  = $this->element['info'] ? (string) $this->element['info'] : '';
+		$text  = $this->translateLabel ? JText::_($text) : $text;
 
 		if ($text)
 		{

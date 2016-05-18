@@ -217,7 +217,7 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '<li class="' . $active . '">';
 			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';
 		}

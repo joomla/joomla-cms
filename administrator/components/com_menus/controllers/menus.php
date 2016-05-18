@@ -49,7 +49,7 @@ class MenusControllerMenus extends JControllerLegacy
 	}
 
 	/**
-	 * Remove a item.
+	 * Remove an item.
 	 *
 	 * @return  void
 	 *

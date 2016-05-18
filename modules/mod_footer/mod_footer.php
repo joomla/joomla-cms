@@ -32,6 +32,6 @@ else
 	$lineone = $line1;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_footer', $params->get('layout', 'default'));
