@@ -128,7 +128,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$createMenu = $shownew && $user->authorise('core.create', 'com_menus');
 
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'), $createMenu);
-	
+
 	if ($createMenu)
 	{
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU'), 'index.php?option=com_menus&view=menu&layout=edit', 'class:newarticle'));
