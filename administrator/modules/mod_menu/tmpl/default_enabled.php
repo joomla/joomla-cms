@@ -127,7 +127,8 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), '#'), true);
 	$createMenu = $shownew && $user->authorise('core.create', 'com_menus');
 
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'), $createMenu);
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'));
+	$menu->addSeparator();
 
 	if ($createMenu)
 	{
@@ -135,10 +136,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 		$menu->getParent();
 	}
 
-	$menu->addSeparator();
-
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS_ALL_ITEMS'), 'index.php?option=com_menus&view=items&menutype=*', 'class:menumgr'), $createMenu);
-	$menu->getParent();
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS_ALL_ITEMS'), 'index.php?option=com_menus&view=items&menutype=*', 'class:menumgr'));
 	$menu->addSeparator();
 
 	// Menu Types
