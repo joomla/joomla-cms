@@ -40,14 +40,7 @@ class JFormFieldModal_Contact extends JFormField
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		// The active contact id field.
-		if (0 == (int) $this->value)
-		{
-			$value = '';
-		}
-		else
-		{
-			$value = (int) $this->value;
-		}
+		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		// Build the script.
 		$script = array();
@@ -127,13 +120,13 @@ class JFormFieldModal_Contact extends JFormField
 		$urlSelect = $linkContacts . '&amp;' . JSession::getFormToken() . '=1';
 		$urlEdit   = $linkContact . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
-		if ((int) $this->value > 0)
+		if ($value)
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__contact_details'))
-				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+				->where($db->quoteName('id') . ' = ' . (int) $value);
 			$db->setQuery($query);
 
 			try

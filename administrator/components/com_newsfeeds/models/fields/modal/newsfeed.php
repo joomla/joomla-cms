@@ -40,14 +40,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		JFactory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
 		// The active newsfeed id field.
-		if (0 == (int) $this->value)
-		{
-			$value = '';
-		}
-		else
-		{
-			$value = (int) $this->value;
-		}
+		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		// Build the script.
 		$script = array();
@@ -127,13 +120,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 		$urlSelect = $linkNewsfeeds . '&amp;' . JSession::getFormToken() . '=1';
 		$urlEdit   = $linkNewsfeed . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
-		if ((int) $this->value > 0)
+		if ($value)
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))
-				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+				->where($db->quoteName('id') . ' = ' . (int) $value);
 			$db->setQuery($query);
 
 			try
