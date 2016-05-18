@@ -8,10 +8,10 @@
  */
 
 define(['jquery', 'text!testsRoot/captionjs/spec/fixtures/caption-fixture.html', 'libs/caption', 'jasmineJquery'], function ($, fixture) {
-    $('body').append(fixture);
+	$('body').append(fixture);
 
-    new JCaption('#single img.test');
-    new JCaption('#multiple img.test');
-    new JCaption('#empty img.test');
-    new JCaption('#options img.test');
+	new JCaption('#single img.test');
+	new JCaption('#multiple img.test');
+	new JCaption('#empty img.test');
+	new JCaption('#options img.test');
 });
