@@ -6,7 +6,7 @@
  */
 
 var Installation = function(_container, _base) {
-    var $, container, busy, $spinner, baseUrl, view;
+    var $, container, busy, baseUrl, view;
 
     /**
      * Initializes JavaScript events on each request, required for AJAX
@@ -17,9 +17,8 @@ var Installation = function(_container, _base) {
             document.formvalidator.attachToForm(form);
         });
 
-        // Create and append the spinner
-        $spinner = $('<div/>', {id: 'loading'});
-        $('#' + container).prepend($spinner);
+        // Create and append the loading layer.
+        Joomla.loadingLayer("load");
     }
 
     /**
@@ -35,7 +34,7 @@ var Installation = function(_container, _base) {
             return false;
         }
 
-        $spinner.show();
+        Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
         var data = 'format: json&' + $form.serialize();
@@ -57,7 +56,7 @@ var Installation = function(_container, _base) {
                 window.location = baseUrl + '?view=' + r.data.view;
             }
         }).fail(function(xhr) {
-            $spinner.hide();
+            Joomla.loadingLayer("hide");
             busy = false;
             try {
                 var r = $.parseJSON(xhr.responseText);
@@ -83,7 +82,7 @@ var Installation = function(_container, _base) {
             return false;
         }
 
-        $spinner.show();
+        Joomla.loadingLayer("show");
         busy = true;
         Joomla.removeMessages();
         var data = 'format: json&' + $form.serialize();
@@ -105,7 +104,7 @@ var Installation = function(_container, _base) {
                 window.location = baseUrl + '?view=' + r.data.view;
             }
         }).fail(function(xhr) {
-            $spinner.hide();
+            Joomla.loadingLayer("hide");
             busy = false;
             try {
                 var r = $.parseJSON(xhr.responseText);
@@ -129,7 +128,7 @@ var Installation = function(_container, _base) {
     var goToPage = function(page, fromSubmit) {
         if (!fromSubmit) {
             Joomla.removeMessages();
-            $spinner.show();
+            Joomla.loadingLayer("show");
         }
 
         $.ajax({
@@ -143,7 +142,7 @@ var Installation = function(_container, _base) {
             // Attach JS behaviors to the newly loaded HTML
             pageInit();
 
-            $spinner.hide();
+            Joomla.loadingLayer("hide");
             busy = false;
 
             initElements();
@@ -178,7 +177,7 @@ var Installation = function(_container, _base) {
 
         $progress.css('width', parseFloat($progress.get(0).style.width) + step_width + '%');
         $tr.addClass('active');
-        $spinner.show();
+        Joomla.loadingLayer("show");
 
         $.ajax({
             type : "POST",
@@ -194,7 +193,7 @@ var Installation = function(_container, _base) {
             } else {
                 $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
                 $tr.removeClass('active');
-                $spinner.hide();
+                Joomla.loadingLayer("hide");
 
                 install(tasks, step_width);
             }
