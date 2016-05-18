@@ -128,13 +128,14 @@ if ($user->authorise('core.manage', 'com_menus'))
 	$createMenu = $shownew && $user->authorise('core.create', 'com_menus');
 
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'), $createMenu);
-	$menu->addSeparator();
-
+	
 	if ($createMenu)
 	{
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU'), 'index.php?option=com_menus&view=menu&layout=edit', 'class:newarticle'));
 		$menu->getParent();
 	}
+
+	$menu->addSeparator();
 
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS_ALL_ITEMS'), 'index.php?option=com_menus&view=items&menutype=*', 'class:allmenu'));
 	$menu->addSeparator();
