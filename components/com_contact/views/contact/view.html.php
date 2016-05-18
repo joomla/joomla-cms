@@ -238,7 +238,7 @@ class ContactViewContact extends JViewLegacy
 		$offset = $state->get('list.offset');
 
 		// Fix for where some plugins require a text attribute
-		!empty($item->description)? $item->text = $item->description : $item->text = null;
+		!empty($item->misc)? $item->text = $item->misc : $item->text = null;
 		$dispatcher->trigger('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
 
 		// Store the events for later
@@ -254,7 +254,7 @@ class ContactViewContact extends JViewLegacy
 
 		if ($item->text)
 		{
-			$item->description = $item->text;
+			$item->misc = $item->text;
 		}
 
 		// Escape strings for HTML output
