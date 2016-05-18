@@ -14,6 +14,7 @@ module.exports = function (config) {
         files: [
             {pattern: 'tests/javascript/node_modules/jquery/dist/jquery.min.js', included: false},
             {pattern: 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
+            {pattern: 'tests/javascript/node_modules/text/text.js', included: false},
             {pattern: 'media/system/js/*.js', included: false},
             {pattern: 'tests/javascript/**/*fixture.html', included: false},
             {pattern: 'tests/javascript/**/*spec.js', included: false},
@@ -42,7 +43,7 @@ module.exports = function (config) {
         // test results reporter to use
         // possible values: 'dots', 'progress'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['coverage', 'verbose'],
+        reporters: ['verbose', 'coverage'],
 
         // web server port
         port: 9876,

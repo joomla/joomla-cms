@@ -22,6 +22,7 @@
     "karma-jasmine": "^0.3.8",
     "karma-requirejs": "^1.0.0",
     "karma-verbose-reporter": "0.0.3",
-    "requirejs": "^2.2.0"
+    "requirejs": "^2.2.0",
+    "text": "requirejs/text"
   }
 }

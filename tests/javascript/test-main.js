@@ -20,7 +20,8 @@ require.config({
         'jquery': 'tests/javascript/node_modules/jquery/dist/jquery.min',
         'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
         'libs': 'media/system/js',
-        'testsRoot': 'tests/javascript'
+        'testsRoot': 'tests/javascript',
+        'text': 'tests/javascript/node_modules/text/text'
     },
 
     shim: {

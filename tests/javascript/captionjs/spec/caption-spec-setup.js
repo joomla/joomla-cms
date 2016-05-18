@@ -7,9 +7,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'libs/caption', 'jasmineJquery'], function ($) {
-    jasmine.getFixtures().fixturesPath = 'base/tests/javascript/captionjs/spec/javascripts/fixtures';
-    var fixture = readFixtures('caption-fixture.html');
+define(['jquery', 'text!testsRoot/captionjs/spec/fixtures/caption-fixture.html', 'libs/caption', 'jasmineJquery'], function ($, fixture) {
     $('body').append(fixture);
 
     new JCaption('.single img.test');
