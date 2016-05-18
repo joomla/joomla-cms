@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Thanuditha Ruchiranga Wickramasinghe",
-  "license": "GNU",
+  "license": "GPL-2.0",
   "private": true,
   "devDependencies": {
     "jasmine-core": "^2.4.1",
