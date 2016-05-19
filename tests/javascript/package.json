@@ -23,6 +23,6 @@
 		"karma-requirejs": "^1.0.0",
 		"karma-verbose-reporter": "0.0.3",
 		"requirejs": "^2.2.0",
-		"text": "requirejs/text"
+		"text": "^1.0.0"
 	}
 }
