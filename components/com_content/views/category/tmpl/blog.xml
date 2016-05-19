@@ -582,7 +582,6 @@
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-				<option value="2">COM_CONTENT_FIELD_VALUE_SHOW_ONLY_FOR_ARTCILE_VIEW</option>
 			</field>
 
 			<field
