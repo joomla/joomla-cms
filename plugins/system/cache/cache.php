@@ -65,8 +65,14 @@ class PlgSystemCache extends JPlugin
 			$this->app = JFactory::getApplication();
 		}
 
-		$this->_cache     = JCache::getInstance('page', $options);
-		$this->_cache_key = JUri::getInstance()->toString();
+		$this->_cache = JCache::getInstance('page', $options);
+
+		JPluginHelper::importPlugin('pagecache');
+
+		$parts = JEventDispatcher::getInstance()->trigger('onPageCacheGetKey');
+		$parts[] = JUri::getInstance()->toString();
+
+		$this->_cache_key = serialize($parts);
 	}
 
 	/**
