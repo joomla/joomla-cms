@@ -26,7 +26,7 @@ $info    = $params->get('info_block_position', 0);
 	<?php echo JLayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
 <?php endif; ?>
 
-<?php if ($params->get('show_tags') && !empty($this->item->tags->itemTags)) : ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 <?php endif; ?>
 
