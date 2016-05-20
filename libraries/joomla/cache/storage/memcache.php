@@ -90,6 +90,9 @@ class JCacheStorageMemcache extends JCacheStorage
 
 			throw new RuntimeException('Could not connect to memcache server');
 		}
+
+		$options = array('text_file' => 'memcache.php');
+		JLog::addLogger($options, JLog::ALL, array('memcache'));
 	}
 
 	/**
@@ -142,43 +145,76 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function getAll()
 	{
-		$keys   = static::$_db->get($this->_hash . '-index');
-		$secret = $this->_hash;
+		$data  = array();
+		$index = static::$_db->get($this->_hash . '-index');
 
-		$data = array();
-
-		if (is_array($keys))
+		if (is_array($index))
 		{
-			foreach ($keys as $key)
+			foreach ($index as $group_key)
 			{
-				if (empty($key))
+				// From $group_key=com_contentG extract $group=com_content
+				if ($group_key[0] === '_' || ctype_digit(substr($group_key, -1, 1))) {
+					$group = $group_key;
+				}
+				else
 				{
-					continue;
+					$group = substr($group_key, 0, -1);
 				}
 
-				$namearr = explode('-', $key->name);
+				// Keys like [hash => size, ...]
+				$index2key = $this->_hash . '-' . $group_key . '-index';
+				$index2    = static::$_db->get($index2key);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($index2)
 				{
-					$group = $namearr[2];
-
-					if (!isset($data[$group]))
+					foreach ($index2 as $size)
 					{
-						$item = new JCacheStorageHelper($group);
-					}
-					else
-					{
-						$item = $data[$group];
-					}
+						if (!isset($data[$group]))
+						{
+							$item = new JCacheStorageHelper($group);
+						}
+						else
+						{
+							$item = $data[$group];
+						}
 
-					$item->updateSize($key->size / 1024);
+						$item->updateSize($size / 1024);
 
-					$data[$group] = $item;
+						$data[$group] = $item;
+					}
 				}
 			}
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Get group key for cache id
+	 *
+	 * @param   string  $group         The cache data group
+	 * @param   string  $cache_id_sfx  The cache id suffix
+
+	 * @return  string  Group key for given group and cache id suffix
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getGroupKey($group, $cache_id_sfx)
+	{
+		$key = $group;
+
+		// If the group does not begin with '_' and does not end with number
+		// then add suffix A or B or ... or P.
+		// For groups like _system or com_custom_part1 do not add suffix
+		if ($group[0] !== '_' && !ctype_digit(substr($group, -1, 1)))
+		{
+			// The cache id suffix looks like:
+			// com_content-329adb1b3633424818ec393fb9780000 and then key will be com_contentD
+			// Total can be 16 different keys per one group
+			$key .= chr(hexdec($cache_id_sfx[strlen($group) + 1]) + 65);
+		}
+
+		return $key;
 	}
 
 	/**
@@ -194,29 +230,82 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
+		$group    = (string) $group;
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!$this->lockindex())
+		// Cache id suffix contains group and 33 chars plus plafform suffix
+		$cache_id_sfx = substr($cache_id, strlen($this->_hash . '-cache-'));
+
+		// By group key we can use different indexes
+		$group_key = static::getGroupKey($group, $cache_id_sfx);
+
+		// Start time
+		$mtime = microtime(true);
+
+		if (!$this->lockindex($group_key))
 		{
+			$waited = sprintf("%.6f", microtime(true) - $mtime);
+			JLog::add("Lock index2 failed for $group_key after $waited", JLog::ERROR, 'memcache');
 			return false;
 		}
 
-		$index = static::$_db->get($this->_hash . '-index');
+		$index2key = $this->_hash . '-' . $group_key . '-index';
+		$index2    = static::$_db->get($index2key);
 
-		if (!is_array($index))
+		if (!is_array($index2))
 		{
-			$index = array();
+			if (!$this->lockindex())
+			{
+				JLog::add("Lock index failed before adding $group_key", JLog::ERROR, 'memcache');
+				$this->unlockindex($group_key);
+				return false;
+			}
+
+			$index = static::$_db->get($this->_hash . '-index');
+
+			if (!is_array($index))
+			{
+				$index = array();
+			}
+
+			// Checking for race condition
+			if (!in_array($group_key, $index, true))
+			{
+				$index[] = $group_key;
+				static::$_db->set($this->_hash . '-index', $index, 0, 0);
+			}
+
+			$this->unlockindex();
+
+			// Initialize secondary index
+			$index2 = array();
 		}
 
-		$tmparr       = new stdClass;
-		$tmparr->name = $cache_id;
-		$tmparr->size = strlen($data);
+		$size = $index2[$cache_id_sfx] = strlen($data);
 
-		$index[] = $tmparr;
-		static::$_db->set($this->_hash . '-index', $index, 0, 0);
-		$this->unlockindex();
+		if (!static::$_db->set($index2key, $index2, 0, 0))
+		{
+			JLog::add("Saving index2 failed for $group_key", JLog::WARNING, 'memcache');
+		}
 
-		static::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
+		$this->unlockindex($group_key);
+
+		// We do not have to use replace in single memcache server
+		if (!static::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime))
+		{
+			$msg = "Saving data failed for $group_key (size: %d, compression: %s)";
+			JLog::add(sprintf($msg, $size, $this->_compress), JLog::ERROR, 'memcache');
+			return false;
+		}
+
+		// Debug information about performance
+		$lasttime = microtime(true) - $mtime;
+		$maxtime  = (float) static::$_db->get($this->_hash . '-maxtime');
+
+		if ($lasttime > $maxtime)
+		{
+			static::$_db->set($this->_hash . '-maxtime', $lasttime, 0, 86400);
+		}
 
 		return true;
 	}
@@ -233,29 +322,31 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
+		$group    = (string) $group;
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (!$this->lockindex())
+		// Cache id suffix contains group and 33 chars plus plafform suffix
+		$cache_id_sfx = substr($cache_id, strlen($this->_hash . '-cache-'));
+
+		// Group_key is a group with possibly added one uppercase letter
+		$group_key = static::getGroupKey($group, $cache_id_sfx);
+
+		if (!$this->lockindex($group_key))
 		{
+			JLog::add("Lock index2 failed for removing $group_key", JLog::ERROR, 'memcache');
 			return false;
 		}
 
-		$index = static::$_db->get($this->_hash . '-index');
+		$index2key = $this->_hash . '-' . $group_key . '-index';
+		$index2    = static::$_db->get($index2key);
 
-		if (is_array($index))
+		if (isset($index2[$cache_id_sfx]))
 		{
-			foreach ($index as $key => $value)
-			{
-				if ($value->name == $cache_id)
-				{
-					unset($index[$key]);
-					static::$_db->set($this->_hash . '-index', $index, 0, 0);
-					break;
-				}
-			}
+			unset($index2[$cache_id_sfx]);
+			static::$_db->set($index2key, $index2, 0, 0);
 		}
 
-		$this->unlockindex();
+		$this->unlockindex($group_key);
 
 		return static::$_db->delete($cache_id);
 	}
@@ -275,30 +366,119 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		if (!$this->lockindex())
+		$index  = static::$_db->get($this->_hash . '-index');
+
+		if (is_array($index))
 		{
-			return false;
+			$length = strlen($group);
+
+			foreach ($index as $group_key)
+			{
+				if ($mode === 'group' xor !strncmp($group_key, $group, $length))
+				{
+					continue;
+				}
+
+				if (!$this->lockindex($group_key))
+				{
+					JLog::add("Lock index2 failed on cleaning $group_key", JLog::WARNING, 'memcache');
+					continue;
+				}
+
+				$index2key = $this->_hash . '-' . $group_key . '-index';
+				$index2    = static::$_db->get($index2key);
+
+				if (is_array($index2))
+				{
+					foreach ($index2 as $cache_id_sfx => $size)
+					{
+						$cache_id = $this->_hash . '-cache-' . $cache_id_sfx;
+						static::$_db->delete($cache_id);
+						unset($index2[$cache_id_sfx]);
+					}
+
+					static::$_db->set($index2key, $index2, 0, 0);
+				}
+
+				$this->unlockindex($group_key);
+			}
 		}
 
+		return true;
+	}
+
+	/**
+	 * Garbage collect expired cache data
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function gc()
+	{
 		$index = static::$_db->get($this->_hash . '-index');
 
 		if (is_array($index))
 		{
-			$prefix = $this->_hash . '-cache-' . $group . '-';
+			// Stats data
+			$total_index2    = 0;
+			$total_expired   = 0;
+			$max_index2_size = array('group_key', 0);
 
-			foreach ($index as $key => $value)
+			sort($index, SORT_REGULAR);
+
+			foreach ($index as $group_key)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
+				if (!$this->lockindex($group_key))
 				{
-					static::$_db->delete($value->name);
-					unset($index[$key]);
+					JLog::add("Lock index2 failed in gc for $group_key", JLog::WARNING, 'memcache');
+					continue;
 				}
+
+				$index2key = $this->_hash . '-' . $group_key . '-index';
+				$index2    = static::$_db->get($index2key);
+
+				if (is_array($index2))
+				{
+					$size = count($index2);
+
+					if ($size > $max_index2_size[1])
+					{
+						$max_index2_size = array($group_key, $size);
+					}
+
+					foreach ($index2 as $cache_id_sfx => $size)
+					{
+						$cache_id = $this->_hash . '-cache-' . $cache_id_sfx;
+
+						if (static::$_db->add($cache_id, '', 0, 1))
+						{
+							// We added a new value so that means the cache was expired
+							static::$_db->delete($cache_id);
+							unset($index2[$cache_id_sfx]);
+							$total_expired++;
+						}
+					}
+
+					static::$_db->set($index2key, $index2, 0, 0);
+					$total_index2++;
+				}
+
+				$this->unlockindex($group_key);
 			}
 
-			static::$_db->set($this->_hash . '-index', $index, 0, 0);
-		}
+			// Get max data saving time
+			$max_saving_time = static::$_db->get($this->_hash . '-maxtime');
 
-		$this->unlockindex();
+			// Save useful stats
+			$msg1 = "Total index2 arrays: %3d, max full index2 was %s: %d";
+			$msg1 = sprintf($msg1, $total_index2, $max_index2_size[0], $max_index2_size[1]);
+			$msg2 = "Total expired: %3d, max saving time in last 24h: %.6f";
+			$msg2 = sprintf($msg2, $total_expired, $max_saving_time);
+
+			JLog::add($msg1, JLog::DEBUG, 'memcache');
+			JLog::add($msg2, JLog::DEBUG, 'memcache');
+		}
 
 		return true;
 	}
@@ -316,6 +496,8 @@ class JCacheStorageMemcache extends JCacheStorage
 		{
 			return false;
 		}
+
+		// TODO: lock each index2
 
 		return static::$_db->flush();
 	}
@@ -367,7 +549,7 @@ class JCacheStorageMemcache extends JCacheStorage
 					break;
 				}
 
-				usleep(100);
+				usleep(200);
 				$data_lock = static::$_db->add($cache_id . '_lock', 1, 0, $locktime);
 				$lock_counter++;
 			}
@@ -397,16 +579,20 @@ class JCacheStorageMemcache extends JCacheStorage
 	}
 
 	/**
-	 * Lock cache index
+	 * Lock cache index or index2
+	 *
+	 * @param   string|null  $group_key  This is part of the index2 key or null
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	protected function lockindex()
+	protected function lockindex($group_key = null)
 	{
-		$looptime  = 300;
-		$data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 0, 30);
+		$looptime   = 150;
+		$group_key  = $group_key !== null ? "-$group_key" : '';
+		$index_lock = $this->_hash . $group_key . '-index_lock';
+		$data_lock  = static::$_db->add($index_lock, 1, 0, 30);
 
 		if ($data_lock === false)
 		{
@@ -420,8 +606,8 @@ class JCacheStorageMemcache extends JCacheStorage
 					return false;
 				}
 
-				usleep(100);
-				$data_lock = static::$_db->add($this->_hash . '-index_lock', 1, 0, 30);
+				usleep(200);
+				$data_lock = static::$_db->add($index_lock, 1, 0, 30);
 				$lock_counter++;
 			}
 		}
@@ -430,14 +616,18 @@ class JCacheStorageMemcache extends JCacheStorage
 	}
 
 	/**
-	 * Unlock cache index
+	 * Unlock cache index or index2
+	 *
+	 * @param   string|null  $group_key  This is part of the index2 key or null
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	protected function unlockindex()
+	protected function unlockindex($group_key = null)
 	{
-		return static::$_db->delete($this->_hash . '-index_lock');
+		$group_key  = $group_key !== null ? "-$group_key" : '';
+		$index_lock = $this->_hash . $group_key . '-index_lock';
+		return static::$_db->delete($index_lock);
 	}
 }
