@@ -19,28 +19,30 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="autoregister"
+				<field
+					name="autoregister"
 					type="radio"
+					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
-					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="mail_to_user"
+				<field
+					name="mail_to_user"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-
+	
 				<field name="include_password_in_mail_to_user"
 					type="radio"
 					class="btn-group btn-group-yesno"
@@ -52,15 +54,15 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				
 
-				<field name="forceLogout"
+				<field
+					name="forceLogout"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
