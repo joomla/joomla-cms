@@ -39,6 +39,9 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Load language
 		JFactory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
+		// The active newsfeed id field.
+		$value = (int) $this->value > 0 ? (int) $this->value : '';
+
 		// Build the script.
 		$script = array();
 
@@ -71,6 +74,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		$script[] = '	}';
 
+		// Edit button script
+		$script[] = '	function jEditNewsfeed_' . $value . '(name) {';
+		$script[] = '		document.getElementById("' . $this->id . '_name").value = name;';
+		$script[] = '	}';
+
 		// Clear button script
 		static $scriptClear;
 
@@ -96,8 +104,12 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Setup variables for display.
 		$html = array();
 
-		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component&amp;function=jSelectNewsfeed_' . $this->id;
-		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component&amp;task=newsfeed.edit';
+		$linkNewsfeeds = 'index.php?option=com_newsfeeds&amp;view=newsfeeds&amp;layout=modal&amp;tmpl=component'
+			. '&amp;function=jSelectNewsfeed_' . $this->id;
+
+		$linkNewsfeed  = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=modal&amp;tmpl=component'
+			. '&amp;task=newsfeed.edit'
+			. '&amp;function=jEditNewsfeed_' . $value;
 
 		if (isset($this->element['language']))
 		{
@@ -105,13 +117,16 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$linkNewsfeed  .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
 
-		if ((int) $this->value > 0)
+		$urlSelect = $linkNewsfeeds . '&amp;' . JSession::getFormToken() . '=1';
+		$urlEdit   = $linkNewsfeed . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
+
+		if ($value)
 		{
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))
-				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+				->where($db->quoteName('id') . ' = ' . (int) $value);
 			$db->setQuery($query);
 
 			try
@@ -130,19 +145,6 @@ class JFormFieldModal_Newsfeed extends JFormField
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
-
-		// The active newsfeed id field.
-		if (0 == (int) $this->value)
-		{
-			$value = '';
-		}
-		else
-		{
-			$value = (int) $this->value;
-		}
-
-		$urlSelect = $linkNewsfeeds . '&amp;' . JSession::getFormToken() . '=1';
-		$urlEdit   = $linkNewsfeed . '&amp;id=' . $value . '&amp;' . JSession::getFormToken() . '=1';
 
 		// The current newsfeed display field.
 		$html[] = '<span class="input-append">';
@@ -166,7 +168,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' role="button"'
-				. ' href="#newsfeedEdit' . $this->id . 'Modal"'
+				. ' href="#newsfeedEdit' . $value . 'Modal"'
 				. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_EDIT_NEWSFEED') . '">'
 				. '<span class="icon-edit"></span> ' . JText::_('JACTION_EDIT')
 				. '</a>';
@@ -204,7 +206,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		// Edit newsfeed modal
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
-			'newsfeedEdit' . $this->id . 'Modal',
+			'newsfeedEdit' . $value . 'Modal',
 			array(
 				'url'         => $urlEdit,
 				'title'       => JText::_('COM_NEWSFEEDS_EDIT_NEWSFEED'),
@@ -215,13 +217,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 				'modalWidth'  => '80',
 				'bodyHeight'  => '70',
 				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#newsfeedEdit' . $this->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+						. ' onclick="jQuery(\'#newsfeedEdit' . $value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"'
-						. ' onclick="jQuery(\'#newsfeedEdit' . $this->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+						. ' onclick="jQuery(\'#newsfeedEdit' . $value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
 						. '<button type="button" class="btn btn-success" aria-hidden="true"'
-						. ' onclick="jQuery(\'#newsfeedEdit' . $this->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+						. ' onclick="jQuery(\'#newsfeedEdit' . $value . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
 						. JText::_("JAPPLY") . '</button>'
 			)
 		);
