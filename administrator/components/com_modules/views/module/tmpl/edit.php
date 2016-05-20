@@ -132,15 +132,17 @@ $script .= "
 							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
+						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
 							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
+						}
 					}
+				}
 
-					if (task !== 'module.apply')
-					{
-						window.parent.jQuery('#module" . (int) $this->item->id . "Modal').modal('hide');
-					}
+				if (task !== 'module.apply')
+				{
+					window.parent.jQuery('#module" . (int) $this->item->id . "Modal').modal('hide');
 				}
 			}
 	};";
