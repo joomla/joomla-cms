@@ -269,11 +269,6 @@ if ($stickyToolbar)
 				<div class="span12">
 					<?php endif; ?>
 					<jdoc:include type="message" />
-					<?php
-					// Show the page title here if the header is hidden
-					if (!$displayHeader) : ?>
-						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false); ?></h1>
-					<?php endif; ?>
 					<jdoc:include type="component" />
 				</div>
 			</div>
