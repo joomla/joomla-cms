@@ -26,7 +26,7 @@ if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $modu
 }
 
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
-$editUrl = JUri::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
+$editUrl = JUri::base() . 'administrator/index.php?option=com_modules&task=module.edit&id=' . (int) $mod->id;
 
 if ($parameters->get('redirect_edit', 'site') == 'site')
 {
