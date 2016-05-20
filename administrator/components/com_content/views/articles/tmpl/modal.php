@@ -18,7 +18,9 @@ if ($app->isSite())
 
 require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 
+// Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
@@ -40,9 +42,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="clearfix"></div>
 
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 			<table class="table table-striped table-condensed">
 				<thead>
