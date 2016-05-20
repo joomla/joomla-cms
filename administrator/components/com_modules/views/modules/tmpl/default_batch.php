@@ -11,7 +11,7 @@
 
 defined('_JEXEC') or die;
 
-$clientId  = $this->state->get('filter.client_id');
+$clientId  = $this->state->get('client_id');
 
 // Show only Module Positions of published Templates
 $published = 1;

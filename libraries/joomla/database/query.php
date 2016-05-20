@@ -1095,7 +1095,7 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Add a ordering column to the ORDER clause of the query.
+	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
 	 * $query->order('foo')->order('bar');

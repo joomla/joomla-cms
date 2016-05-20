@@ -793,53 +793,9 @@ abstract class JError
 	 */
 	public static function customErrorPage(&$error)
 	{
-		JLog::add('JError::customErrorPage() is deprecated.', JLog::WARNING, 'deprecated');
+		JLog::add('JError::customErrorPage() is deprecated, use JErrorPage::render() instead.', JLog::WARNING, 'deprecated');
 
-		$app = JFactory::getApplication();
-		$document = JDocument::getInstance('error');
-
-		if ($document)
-		{
-			$config = JFactory::getConfig();
-
-			// Get the current template from the application
-			$template = $app->getTemplate();
-
-			// Push the error object into the document
-			$document->setError($error);
-
-			// If site is offline and it's a 404 error, just go to index (to see offline message, instead of 404)
-			if ($error->getCode() == '404' && JFactory::getConfig()->get('offline') == 1)
-			{
-				JFactory::getApplication()->redirect('index.php');
-			}
-
-			@ob_end_clean();
-			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
-			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
-
-			// Failsafe to get the error displayed.
-			if (empty($data))
-			{
-				self::handleEcho($error, array());
-			}
-			else
-			{
-				// Do not allow cache
-				$app->allowCache(false);
-
-				$app->setBody($data);
-				echo $app->toString();
-			}
-		}
-		else
-		{
-			// Just echo the error since there is no document
-			// This is a common use case for Command Line Interface applications.
-			self::handleEcho($error, array());
-		}
-
-		$app->close(0);
+		JErrorPage::render($error);
 	}
 
 	/**

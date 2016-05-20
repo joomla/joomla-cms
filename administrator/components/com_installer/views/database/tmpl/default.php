@@ -54,7 +54,7 @@ defined('_JEXEC') or die;
 				</fieldset>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>

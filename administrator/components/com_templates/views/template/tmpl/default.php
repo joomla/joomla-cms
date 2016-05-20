@@ -120,8 +120,16 @@ JFactory::getDocument()->addStyleDeclaration("
 		background: #08c !important;
 		color: #fff;
 	}
-	.modal-body .column {
-		width: 50%; float: left;
+	.modal-body .column-left {
+		float: left; max-height: 70vh; overflow-y: auto;
+	}
+	.modal-body .column-right {
+		float: right;
+	}
+	@media (max-width: 767px) {
+		.modal-body .column-right {
+			float: left;
+		}
 	}
 	#deleteFolder{
 		margin: 0;
@@ -159,7 +167,7 @@ if($this->type == 'font')
 }
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row-fluid">
 	<div class="span12">
 		<?php if($this->type == 'file'): ?>
@@ -297,7 +305,7 @@ if($this->type == 'font')
 </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES', true)); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
 	<div class="span4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
@@ -362,207 +370,89 @@ if($this->type == 'font')
 </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION', true)); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description');?>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-	  method="post" name="adminForm" id="adminForm">
-	<div  id="collapseModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></h3>
-		</div>
-		<div class="modal-body">
-			<div id="template-manager-css" class="form-horizontal">
-				<div class="control-group">
-					<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<div class="controls">
-						<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
-		</div>
-	</div>
+<?php // Collapse Modal
+$copyModalData = array(
+	'selector'	=> 'copyModal',
+	'params'	=> array(
+		'title'		=> JText::_('COM_TEMPLATES_TEMPLATE_COPY'),
+		'footer'	=> $this->loadTemplate('modal_copy_footer')
+	),
+	'body'		=> $this->loadTemplate('modal_copy_body')
+);
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+	<?php echo JLayoutHelper::render('joomla.modal.main', $copyModalData); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <?php if ($this->type != 'home'): ?>
-	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-		  method="post" >
-		<div  id="renameModal" class="modal hide fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3><?php echo JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName); ?></h3>
-			</div>
-			<div class="modal-body">
-				<div id="template-manager-css" class="form-horizontal">
-					<div class="control-group">
-						<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-						<div class="controls">
-							<input class="input-xlarge" type="text" name="new_name" required />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-				<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
-			</div>
-		</div>
+	<?php // Rename Modal
+	$renameModalData = array(
+		'selector'	=> 'renameModal',
+		'params'	=> array(
+			'title'		=> JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName),
+			'footer'	=> $this->loadTemplate('modal_rename_footer')
+		),
+		'body'		=> $this->loadTemplate('modal_rename_body')
+	);
+	?>
+	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
+		<?php echo JLayoutHelper::render('joomla.modal.main', $renameModalData); ?>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 <?php endif; ?>
 <?php if ($this->type != 'home'): ?>
-	<div  id="deleteModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3><?php echo JText::_('COM_TEMPLATES_ARE_YOU_SURE');?></h3>
-		</div>
-		<div class="modal-body">
-			<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
-		</div>
-		<div class="modal-footer">
-			<form method="post" action="">
-				<input type="hidden" name="option" value="com_templates" />
-				<input type="hidden" name="task" value="template.delete" />
-				<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>" />
-				<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
-				<?php echo JHtml::_('form.token'); ?>
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-				<button type="submit" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
-			</form>
-		</div>
-	</div>
+	<?php // Delete Modal
+	$deleteModalData = array(
+		'selector'	=> 'deleteModal',
+		'params'	=> array(
+			'title'		=> JText::_('COM_TEMPLATES_ARE_YOU_SURE'),
+			'footer'	=> $this->loadTemplate('modal_delete_footer')
+		),
+		'body'		=> $this->loadTemplate('modal_delete_body')
+	);
+	?>
+	<?php echo JLayoutHelper::render('joomla.modal.main', $deleteModalData); ?>
 <?php endif; ?>
-
-<div  id="fileModal" class="modal hide fade">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3><?php echo JText::_('COM_TEMPLATES_NEW_FILE_HEADER');?></h3>
-	</div>
-	<div class="modal-body">
-		<div class="column">
-			<?php echo $this->loadTemplate('folders');?>
-		</div>
-		<div class="column">
-			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-				  class="well" >
-				<fieldset>
-					<label><?php echo JText::_('COM_TEMPLATES_NEW_FILE_TYPE');?></label>
-					<select name="type" required >
-						<option value="null">- <?php echo JText::_('COM_TEMPLATES_NEW_FILE_SELECT');?> -</option>
-						<option value="css">css</option>
-						<option value="php">php</option>
-						<option value="js">js</option>
-						<option value="xml">xml</option>
-						<option value="ini">ini</option>
-						<option value="less">less</option>
-						<option value="txt">txt</option>
-					</select>
-					<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME');?></label>
-					<input type="text" name="name" required />
-					<input type="hidden" class="address" name="address" />
-					<?php echo JHtml::_('form.token'); ?>
-					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
-				</fieldset>
-			</form>
-			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-				  class="well" enctype="multipart/form-data" >
-				<fieldset>
-					<input type="hidden" class="address" name="address" />
-					<input type="file" name="files" required />
-					<?php echo JHtml::_('form.token'); ?>
-					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
-				</fieldset>
-			</form>
-			<?php if ($this->type != 'home'): ?>
-				<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-					  class="well" enctype="multipart/form-data" >
-					<fieldset>
-						<input type="hidden" class="address" name="address" />
-						<div class="control-group">
-							<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?></label>
-							<div class="controls">
-								<input type="text" id="new_name" name="new_name" required />
-							</div>
-						</div>
-						<?php echo JHtml::_('form.token'); ?>
-						<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE');?>" class="btn btn-primary" />
-					</fieldset>
-				</form>
-			<?php endif; ?>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-	</div>
-</div>
-<div  id="folderModal" class="modal hide fade">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h3><?php echo JText::_('COM_TEMPLATES_MANAGE_FOLDERS');?></h3>
-	</div>
-	<div class="modal-body">
-		<div class="column">
-			<?php echo $this->loadTemplate('folders');?>
-		</div>
-		<div class="column">
-			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-				  class="well" >
-				<fieldset>
-					<label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME');?></label>
-					<input type="text" name="name" required />
-					<input type="hidden" class="address" name="address" />
-					<?php echo JHtml::_('form.token'); ?>
-					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
-				</fieldset>
-			</form>
-		</div>
-	</div>
-	<div class="modal-footer">
-		<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-			<fieldset>
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-				<input type="hidden" class="address" name="address" />
-				<?php echo JHtml::_('form.token'); ?>
-				<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
-			</fieldset>
-		</form>
-	</div>
-</div>
+<?php // File Modal
+$fileModalData = array(
+	'selector'	=> 'fileModal',
+	'params'	=> array(
+		'title'		=> JText::_('COM_TEMPLATES_NEW_FILE_HEADER'),
+		'footer'	=> $this->loadTemplate('modal_file_footer')
+	),
+	'body'		=> $this->loadTemplate('modal_file_body')
+);
+?>
+<?php echo JLayoutHelper::render('joomla.modal.main', $fileModalData); ?>
+<?php // Folder Modal
+$folderModalData = array(
+	'selector'	=> 'folderModal',
+	'params'	=> array(
+		'title'		=> JText::_('COM_TEMPLATES_MANAGE_FOLDERS'),
+		'footer'	=> $this->loadTemplate('modal_folder_footer')
+	),
+	'body'		=> $this->loadTemplate('modal_folder_body')
+);
+?>
+<?php echo JLayoutHelper::render('joomla.modal.main', $folderModalData); ?>
 <?php if ($this->type != 'home'): ?>
-	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-		  method="post" >
-		<div  id="resizeModal" class="modal hide fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3><?php echo JText::_('COM_TEMPLATES_RESIZE_IMAGE'); ?></h3>
-			</div>
-			<div class="modal-body">
-				<div id="template-manager-css" class="form-horizontal">
-					<div class="control-group">
-						<label for="height" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?></label>
-						<div class="controls">
-							<input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
-						</div>
-						<br />
-						<label for="width" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?></label>
-						<div class="controls">
-							<input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-				<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
-			</div>
-		</div>
+	<?php // Resize Modal
+	$resizeModalData = array(
+		'selector'	=> 'resizeModal',
+		'params'	=> array(
+			'title'		=> JText::_('COM_TEMPLATES_RESIZE_IMAGE'),
+			'footer'	=> $this->loadTemplate('modal_resize_footer')
+		),
+		'body'		=> $this->loadTemplate('modal_resize_body')
+	);
+	?>
+	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
+		<?php echo JLayoutHelper::render('joomla.modal.main', $resizeModalData); ?>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 <?php endif; ?>

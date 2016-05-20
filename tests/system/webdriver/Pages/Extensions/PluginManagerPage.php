@@ -154,7 +154,7 @@ class PluginManagerPage extends AdminManagerPage
 	 * Edit a Plugin  item in the Plugin Manager: Plugin Manager Edit Screen.
 	 *
 	 * @param string   $name	   Name of the Plugin
-	 * @param string   $fields	   Input Fields that are to be changed in the form of a array 
+	 * @param string   $fields	   Input Fields that are to be changed in the form of an array 
 	 * 
 	 * @return  void
 	 */

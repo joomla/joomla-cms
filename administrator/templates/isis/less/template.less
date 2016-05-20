@@ -317,9 +317,10 @@ body .navbar-fixed-top {
 }
 
 .logo {
-	width: 100%;
-	max-width: 143px;
-	height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 36px;
+    height: auto;
 }
 
 /* Page Title */
@@ -517,8 +518,8 @@ h6 {
 }
 
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 
 .quick-icons [class^="icon-"]:before, .quick-icons [class*=" icon-"]:before {
@@ -792,6 +793,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	padding: 3px 20px;
 }
 
+.nav-collapse .dropdown-menu > li {
+	img {
+		max-width: none;
+	}
+}
+
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -1053,6 +1060,10 @@ ul.treeselect ul.dropdown-menu li {
 	border: none;
 }
 /* Tables */
+table label {
+	margin: 0;
+}
+
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
@@ -1104,7 +1115,7 @@ th .tooltip-inner {
 }
 /* Component pop-up */
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 /* Min-width on buttons */
 .controls .btn-group > .btn {
@@ -1347,15 +1358,7 @@ body.modal-open {
 	width: 220px;
 }
 
-/* Corrects the media modal padding on small devices */
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
-}
-
-/* Fix iOS scrolling inside bootstrap modals (using iframe) */
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
+/* Clear div after modal-body rendering */
+.modal-footer {
+	clear: both;
 }

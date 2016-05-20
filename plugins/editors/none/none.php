@@ -20,36 +20,15 @@ class PlgEditorNone extends JPlugin
 	 * Method to handle the onInitEditor event.
 	 *  - Initialises the Editor
 	 *
-	 * @return  string	JavaScript Initialization string
+	 * @return  void
 	 *
 	 * @since 1.5
 	 */
 	public function onInit()
 	{
-		$txt =	"<script type=\"text/javascript\">
-					function insertAtCursor(myField, myValue)
-					{
-						if (document.selection)
-						{
-							// IE support
-							myField.focus();
-							sel = document.selection.createRange();
-							sel.text = myValue;
-						} else if (myField.selectionStart || myField.selectionStart == '0')
-						{
-							// MOZILLA/NETSCAPE support
-							var startPos = myField.selectionStart;
-							var endPos = myField.selectionEnd;
-							myField.value = myField.value.substring(0, startPos)
-								+ myValue
-								+ myField.value.substring(endPos, myField.value.length);
-						} else {
-							myField.value += myValue;
-						}
-					}
-				</script>";
+		JHtml::script('media/editors/none/none.min.js', false, false, false, false, true);
 
-		return $txt;
+		return null;
 	}
 
 	/**
@@ -94,24 +73,11 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * @param   string  $id  The id of the editor field
 	 *
-	 * @return  boolean  returns true when complete
+	 * @return  void
 	 */
 	public function onGetInsertMethod($id)
 	{
-		static $done = false;
-
-		// Do this only once.
-		if (!$done)
-		{
-			$doc = JFactory::getDocument();
-			$js = "\tfunction jInsertEditorText(text, editor)
-			{
-				insertAtCursor(document.getElementById(editor), text);
-			}";
-			$doc->addScriptDeclaration($js);
-		}
-
-		return true;
+		return null;
 	}
 
 	/**
@@ -150,9 +116,9 @@ class PlgEditorNone extends JPlugin
 			$height .= 'px';
 		}
 
-		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
-		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>"
-			. $buttons;
+		$editor = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row
+				. '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>'
+				. $this->_displayButtons($id, $buttons, $asset, $author);
 
 		return $editor;
 	}

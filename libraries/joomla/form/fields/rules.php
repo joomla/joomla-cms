@@ -145,6 +145,8 @@ class JFormFieldRules extends JFormField
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
 		JText::script('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS');
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		JText::script('JLIB_RULES_NOT_ALLOWED');
+		JText::script('JLIB_RULES_ALLOWED');
 
 		// Initialise some field attributes.
 		$section = $this->section;
@@ -215,7 +217,7 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '<li class="' . $active . '">';
 			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';
 		}
@@ -267,14 +269,14 @@ class JFormFieldRules extends JFormField
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
 				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
-					. JHtml::_('tooltipText', JText::_($action->title), JText::_($action->description)) . '">';
+					. JHtml::_('tooltipText', $action->title, $action->description) . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
 				$html[] = '</td>';
 
 				$html[] = '<td headers="settings-th' . $group->value . '">';
 
-				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small"'
+				$html[] = '<select onchange="sendPermissions.call(this, event)" data-chosen="true" class="input-small novalidate"'
 					. ' name="' . $this->name . '[' . $action->name . '][' . $group->value . ']"'
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
@@ -374,7 +376,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</div></div>';
-
+		$html[] = '<div class="clr"></div>';
 		$html[] = '<div class="alert">';
 
 		if ($section == 'component' || $section == null)

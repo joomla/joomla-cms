@@ -29,17 +29,18 @@ class SearchViewSearches extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		// Set variables
-		$app              = JFactory::getApplication();
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
-		$this->enabled    = $this->state->params->get('enabled');
-		$this->canDo      = JHelperContent::getActions('com_search');
+		$app                 = JFactory::getApplication();
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->enabled       = $this->state->params->get('enabled');
+		$this->canDo         = JHelperContent::getActions('com_search');
 
 		// Check if plugin is enabled
 		if ($this->enabled)
@@ -59,6 +60,15 @@ class SearchViewSearches extends JViewLegacy
 			return false;
 		}
 
+		if ($this->enabled)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -75,6 +85,17 @@ class SearchViewSearches extends JViewLegacy
 		$canDo = $this->canDo;
 
 		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
+
+		$showResults = $this->state->get('show_results', 1, 'int');
+
+		if ($showResults === 0)
+		{
+			JToolbarHelper::custom('searches.toggleresults', 'zoom-in.png', null, 'COM_SEARCH_SHOW_SEARCH_RESULTS', false);
+		}
+		else
+		{
+			JToolbarHelper::custom('searches.toggleresults', 'zoom-out.png', null, 'COM_SEARCH_HIDE_SEARCH_RESULTS', false);
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{

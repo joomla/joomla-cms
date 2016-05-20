@@ -80,8 +80,6 @@ abstract class JHtmlFilter
 			->where('t.parent_id = 1')
 			->where('t.state = 1')
 			->where('t.access IN (' . $groups . ')')
-			->where('c.state = 1')
-			->where('c.access IN (' . $groups . ')')
 			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
 			->order('t.ordering, t.title');
 
@@ -134,6 +132,10 @@ abstract class JHtmlFilter
 				->where('t.access IN (' . $groups . ')')
 				->order('t.ordering, t.title');
 
+			// Self-join to get the parent title.
+			$query->select('e.title AS parent_title')
+				->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
+
 			// Load the branches.
 			$db->setQuery($query);
 
@@ -150,11 +152,16 @@ abstract class JHtmlFilter
 			$lang = JFactory::getLanguage();
 			foreach ($nodes as $nk => $nv)
 			{
-				$key = FinderHelperLanguage::branchPlural($nv->title);
-				if ($lang->hasKey($key))
+				if (trim($nv->parent_title, '**') == 'Language')
 				{
-					$nodes[$nk]->title = JText::_($key);
+					$title = FinderHelperLanguage::branchLanguageTitle($nv->title);
 				}
+				else
+				{
+					$key = FinderHelperLanguage::branchPlural($nv->title);
+					$title = $lang->hasKey($key) ? JText::_($key) : $nv->title;
+				}
+				$nodes[$nk]->title = $title;
 			}
 
 			// Adding slides
@@ -309,6 +316,10 @@ abstract class JHtmlFilter
 					->where('t.access IN (' . $groups . ')')
 					->order('t.ordering, t.title');
 
+				// Self-join to get the parent title.
+				$query->select('e.title AS parent_title')
+					->join('LEFT', $db->quoteName('#__finder_taxonomy', 'e') . ' ON ' . $db->quoteName('e.id') . ' = ' . $db->quoteName('t.parent_id'));
+
 				// Limit the nodes to a predefined filter.
 				if (!empty($filter->data))
 				{
@@ -331,11 +342,16 @@ abstract class JHtmlFilter
 				$language = JFactory::getLanguage();
 				foreach ($branches[$bk]->nodes as $node_id => $node)
 				{
-					$key = FinderHelperLanguage::branchPlural($node->title);
-					if ($language->hasKey($key))
+					if (trim($node->parent_title, '**') == 'Language')
 					{
-						$branches[$bk]->nodes[$node_id]->title = JText::_($key);
+						$title = FinderHelperLanguage::branchLanguageTitle($node->title);
 					}
+					else
+					{
+						$key = FinderHelperLanguage::branchPlural($node->title);
+						$title = $language->hasKey($key) ? JText::_($key) : $node->title;
+					}
+					$branches[$bk]->nodes[$node_id]->title = $title;
 				}
 
 				// Add the Search All option to the branch.
@@ -383,7 +399,8 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active,
+				'select.genericlist',
+				$branches[$bk]->nodes, 't[]', 'class="inputbox advancedSelect"', 'id', 'title', $active,
 				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
 			);
 			$html .= '</div>';
@@ -438,7 +455,8 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+				'select.genericlist',
+				$operators, 'w1', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
 			);
 			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', $attribs);
 			$html .= '</li>';
@@ -450,7 +468,8 @@ abstract class JHtmlFilter
 			$html .= '</label>';
 			$html .= '<br />';
 			$html .= JHtml::_(
-				'select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+				'select.genericlist',
+				$operators, 'w2', 'class="inputbox filter-date-operator advancedSelect"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
 			);
 			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', $attribs);
 			$html .= '</li>';

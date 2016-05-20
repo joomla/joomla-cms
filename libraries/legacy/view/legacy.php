@@ -199,7 +199,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
@@ -755,14 +755,14 @@ class JViewLegacy extends JObject
 	 */
 	protected function _addPath($type, $path)
 	{
+		jimport('joomla.filesystem.path');
+
 		// Just force to array
 		settype($path, 'array');
 
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			jimport('joomla.filesystem.path');
-
 			// Clean up the path
 			$dir = JPath::clean($dir);
 

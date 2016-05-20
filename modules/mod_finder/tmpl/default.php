@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 JHtml::_('jquery.framework');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen');
 JHtml::_('bootstrap.tooltip');
 
 // Load the smart search component language file.
@@ -21,7 +21,7 @@ $lang->load('com_finder', JPATH_SITE);
 
 $suffix = $params->get('moduleclass_sfx');
 $output = '<input type="text" name="q" id="mod-finder-searchword" class="search-query input-medium" size="'
-	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string')) . '"'
+	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
 
 $showLabel  = $params->get('show_label', 1);

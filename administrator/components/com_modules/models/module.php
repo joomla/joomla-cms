@@ -254,13 +254,6 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
-				// Alter the title if necessary
-				$data = $this->generateNewTitle(0, $table->title, $table->position);
-				$table->title = $data['0'];
-
-				// Unpublish the moved module
-				$table->published = 0;
-
 				if (!$table->store())
 				{
 					$this->setError($table->getError());

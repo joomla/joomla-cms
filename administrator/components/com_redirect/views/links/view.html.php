@@ -68,6 +68,22 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
+		if ($this->enabled)
+		{
+			if ($this->collect_urls_enabled)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'warning');
+			}
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+		}
+
 		$this->addToolbar();
 
 		parent::display($tpl);
@@ -126,10 +142,10 @@ class RedirectViewLinks extends JViewLegacy
 			// Get the toolbar object instance
 			$bar = JToolbar::getInstance('toolbar');
 
-			$title = JText::_('JTOOLBAR_BATCH');
+			$title = JText::_('JTOOLBAR_BULK_IMPORT');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
+			$layout = new JLayoutFile('toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -142,7 +158,7 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::custom('links.purge', 'purge', 'purge', 'COM_REDIRECT_TOOLBAR_PURGE', false);
+			JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();
 		}
