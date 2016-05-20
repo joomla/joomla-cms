@@ -47,16 +47,16 @@
 			<option value="-2">JTRASHED</option>
 		</field>
 
-		<field	name="catid"
-				type="categoryedit"
-				extension="com_newsfeeds"
-				label="JCATEGORY"
-				description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
-				required="true"
-				allowAdd="true"
-				default=""
-		>
-		</field>
+		<field
+			name="catid"
+			type="categoryedit"
+			label="JCATEGORY"
+			description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
+			extension="com_newsfeeds"
+			required="true"
+			allowAdd="true"
+			default=""
+		/>
 
 		<field
 			name="language"
