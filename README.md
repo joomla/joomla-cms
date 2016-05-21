@@ -89,3 +89,68 @@ Copyright
 * [Special Thanks](https://docs.joomla.org/Joomla!_Credits_and_Thanks)
 * Distributed under the GNU General Public License version 2 or later
 * See [License details](https://docs.joomla.org/Joomla_Licenses)
+
+Test
+---------------------
+## Run the tests
+
+To run the tests please execute the following commands (for the moment only working in Linux and MacOS, for more information see: https://docs.joomla.org/Testing_Joomla_Extensions_with_Codeception):
+
+```bash
+$ cd tests
+$ composer install
+$ vendor/bin/robo
+$ vendor/bin/robo run:tests
+```
+
+## Additional options
+
+You can run the tests against different resolutions. The default acceptance YAML configuration file provides three options:
+
+* "desktop": default, 1024x768px
+* "tablet": tablet in portrait mode, 768x1024px
+* "phone": phone in portrait mode, 480x640px
+
+To set a specific resolution, set is as an option of the command:
+
+`$ vendor/bin/robo run:tests --env=tablet`
+
+Note: the first parameter is used by Travis and you should always set it to "0" when you run your tests locally.
+
+##For Windows:
+
+You need to install:
+- Git for windows (https://msysgit.github.io/)
+- GitHub for windows (https://windows.github.com/)
+- Curl for Windows if necesssary.
+
+Note: For commands line is better if you use the 'Git shell' program.
+
+First you should create a fork of the official repository and clone the fork into your web server folder.
+
+To prepare the system tests (Selenium) to be run in your local machine you are asked to rename the file `tests/acceptance.suite.dist.yml` to `tests/acceptance.suite.yml`. Afterwards, please edit the file according to your system needs.
+
+Open the console and go in the root folder, for example:
+
+```bash
+cd C:\wamp\www\gsoc16_browser-automated-tests
+```
+
+Then run the commands:
+
+```bash
+$ cd tests
+$ composer install
+```
+
+You can then run the following command to start the tests:
+
+```bash
+$ vendor/bin/robo run:tests
+```
+
+Once all tests were executed, you may also run a specific test:
+
+```bash
+$ vendor/bin/robo run:test // Then select the test you want to run!
+```
