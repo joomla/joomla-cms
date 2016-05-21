@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,9 @@ $doc   = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
+
+// jQuery needed by template.js
+JHtml::_('jquery.framework');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -36,22 +39,6 @@ else
 
 $doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
-// Load custom.css
-$file = 'templates/' . $this->template . '/css/custom.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
-
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
-
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
@@ -59,18 +46,26 @@ if ($this->direction == 'rtl')
 	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
-// Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-
-if (is_file($file))
-{
-	$doc->addStyleSheetVersion($file);
-}
-
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
 	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
+}
+
+// Load specific language related CSS
+$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
+if (file_exists($languageCss) && filesize($languageCss) > 0)
+{
+	$doc->addStyleSheetVersion($languageCss);
+}
+
+// Load custom.css
+$customCss = 'templates/' . $this->template . '/css/custom.css';
+
+if (file_exists($customCss) && filesize($customCss) > 0)
+{
+	$doc->addStyleSheetVersion($customCss);
 }
 
 // Load template javascript
@@ -104,7 +99,7 @@ else
 	<![endif]-->
 	</head>
 <body id="minwidth-body">
-<div id="containerwrap">
+<div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
 	<!-- Header Logo -->
 	<div id="header">
 		<!-- Site Title and Skip to Content -->
@@ -163,10 +158,20 @@ else
 </div><!-- end of containerwrap -->
 <!-- Footer -->
 <div id="footer">
-	<jdoc:include type="modules" name="footer" style="none"  />
+	<jdoc:include type="modules" name="footer" style="none" />
 	<p class="copyright">
-		<?php $joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla); ?>
+		<?php
+		// Fix wrong display of Joomla!® in RTL language
+		if (JFactory::getLanguage()->isRtl())
+		{
+			$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+		}
+		else
+		{
+			$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+		}
+		echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
+		?>
 	</p>
 </div>
 <script type="text/javascript">

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -75,7 +75,7 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * Tests the findOption() method simulating an user without login admin permissions.
+	 * Tests the findOption() method simulating a user without login admin permissions.
 	 */
 	public function testFindOptionCanNotLoginAdmin()
 	{
@@ -101,7 +101,7 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * Tests the findOption() method simulating an user who is able to log in to admin.
+	 * Tests the findOption() method simulating a user who is able to log in to admin.
 	 */
 	public function testFindOptionCanLoginAdmin()
 	{

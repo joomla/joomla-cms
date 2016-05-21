@@ -3,13 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Base class for a Joomla! Web application.
@@ -108,7 +109,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;
@@ -436,7 +437,7 @@ class JApplicationWeb extends JApplicationBase
 		if (!$this->response->cachable)
 		{
 			// Expires in the past.
-			$this->setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);
+			$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 
 			// Always modified.
 			$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -478,9 +479,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function redirect($url, $status = 303)
 	{
-		// Import library dependencies.
-		jimport('phputf8.utils.ascii');
-
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
 		{
@@ -528,7 +526,7 @@ class JApplicationWeb extends JApplicationBase
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
+			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !StringHelper::is_ascii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
@@ -547,7 +545,7 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
-				// @deprecated 4.0 From 4.0 if no valid status code is given a InvalidArgumentException will be thrown
+				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
 				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
 				{
 					$status = 303;
@@ -691,7 +689,7 @@ class JApplicationWeb extends JApplicationBase
 				if ('status' == strtolower($header['name']))
 				{
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					$this->header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
+					$this->header('HTTP/1.1 ' . $header['value'], null, (int) $header['value']);
 				}
 				else
 				{
@@ -855,6 +853,8 @@ class JApplicationWeb extends JApplicationBase
 		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
 		 * information from Apache or IIS.
 		 */
+		// Define variable to return
+		$uri = '';
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
@@ -863,7 +863,7 @@ class JApplicationWeb extends JApplicationBase
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else
+		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
@@ -957,6 +957,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
+		$string = str_replace(chr(0), '', $string);
 		header($string, $replace, $code);
 	}
 

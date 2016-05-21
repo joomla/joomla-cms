@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,15 +29,17 @@ class SearchViewSearches extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->enabled		= $this->state->params->get('enabled');
-		$this->canDo		= JHelperContent::getActions('com_search');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->enabled       = $this->state->params->get('enabled');
+		$this->canDo         = JHelperContent::getActions('com_search');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -45,6 +47,15 @@ class SearchViewSearches extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
+		}
+
+		if ($this->enabled)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+		}
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		$this->addToolbar();
@@ -60,9 +71,20 @@ class SearchViewSearches extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= $this->canDo;
+		$canDo = $this->canDo;
 
 		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
+
+		$showResults = $this->state->get('show_results', 1, 'int');
+
+		if ($showResults === 0)
+		{
+			JToolbarHelper::custom('searches.toggleresults', 'zoom-in.png', null, 'COM_SEARCH_SHOW_SEARCH_RESULTS', false);
+		}
+		else
+		{
+			JToolbarHelper::custom('searches.toggleresults', 'zoom-out.png', null, 'COM_SEARCH_HIDE_SEARCH_RESULTS', false);
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -71,7 +93,7 @@ class SearchViewSearches extends JViewLegacy
 
 		JToolbarHelper::divider();
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
 			JToolbarHelper::preferences('com_search');
 		}

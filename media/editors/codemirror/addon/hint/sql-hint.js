@@ -20,6 +20,8 @@
   };
   var Pos = CodeMirror.Pos;
 
+  function isArray(val) { return Object.prototype.toString.call(val) == "[object Array]" }
+
   function getKeywords(editor) {
     var mode = editor.doc.modeOption;
     if (mode === "sql") mode = "text/x-sql";
@@ -30,10 +32,28 @@
     return typeof item == "string" ? item : item.text;
   }
 
-  function getItem(list, item) {
-    if (!list.slice) return list[item];
-    for (var i = list.length - 1; i >= 0; i--) if (getText(list[i]) == item)
-      return list[i];
+  function wrapTable(name, value) {
+    if (isArray(value)) value = {columns: value}
+    if (!value.text) value.text = name
+    return value
+  }
+
+  function parseTables(input) {
+    var result = {}
+    if (isArray(input)) {
+      for (var i = input.length - 1; i >= 0; i--) {
+        var item = input[i]
+        result[getText(item).toUpperCase()] = wrapTable(getText(item), item)
+      }
+    } else if (input) {
+      for (var name in input)
+        result[name.toUpperCase()] = wrapTable(name, input[name])
+    }
+    return result
+  }
+
+  function getTable(name) {
+    return tables[name.toUpperCase()]
   }
 
   function shallowClone(object) {
@@ -50,13 +70,17 @@
   }
 
   function addMatches(result, search, wordlist, formatter) {
-    for (var word in wordlist) {
-      if (!wordlist.hasOwnProperty(word)) continue;
-      if (Array.isArray(wordlist)) {
-        word = wordlist[word];
-      }
-      if (match(search, word)) {
-        result.push(formatter(word));
+    if (isArray(wordlist)) {
+      for (var i = 0; i < wordlist.length; i++)
+        if (match(search, wordlist[i])) result.push(formatter(wordlist[i]))
+    } else {
+      for (var word in wordlist) if (wordlist.hasOwnProperty(word)) {
+        var val = wordlist[word]
+        if (!val || val === true)
+          val = word
+        else
+          val = val.displayText ? {text: val.text, displayText: val.displayText} : val.text
+        if (match(search, val)) result.push(formatter(val))
       }
     }
   }
@@ -81,7 +105,7 @@
   }
 
   function nameCompletion(cur, token, result, editor) {
-    // Try to complete table, colunm names and return start position of completion
+    // Try to complete table, column names and return start position of completion
     var useBacktick = false;
     var nameParts = [];
     var start = token.start;
@@ -115,21 +139,28 @@
     string = nameParts.pop();
     var table = nameParts.join(".");
 
+    var alias = false;
+    var aliasTable = table;
     // Check if table is available. If not, find table by Alias
-    if (!getItem(tables, table))
+    if (!getTable(table)) {
+      var oldTable = table;
       table = findTableByAlias(table, editor);
+      if (table !== oldTable) alias = true;
+    }
 
-    var columns = getItem(tables, table);
-    if (columns && Array.isArray(tables) && columns.columns)
+    var columns = getTable(table);
+    if (columns && columns.columns)
       columns = columns.columns;
 
     if (columns) {
       addMatches(result, string, columns, function(w) {
+        var tableInsert = table;
+        if (alias == true) tableInsert = aliasTable;
         if (typeof w == "string") {
-          w = table + "." + w;
+          w = tableInsert + "." + w;
         } else {
           w = shallowClone(w);
-          w.text = table + "." + w.text;
+          w.text = tableInsert + "." + w.text;
         }
         return useBacktick ? insertBackticks(w) : w;
       });
@@ -180,7 +211,7 @@
     //find valid range
     var prevItem = 0;
     var current = convertCurToNumber(editor.getCursor());
-    for (var i=0; i< separator.length; i++) {
+    for (var i = 0; i < separator.length; i++) {
       var _v = convertCurToNumber(separator[i]);
       if (current > prevItem && current <= _v) {
         validRange = { start: convertNumberToCur(prevItem), end: convertNumberToCur(_v) };
@@ -195,7 +226,7 @@
       var lineText = query[i];
       eachWord(lineText, function(word) {
         var wordUpperCase = word.toUpperCase();
-        if (wordUpperCase === aliasUpperCase && getItem(tables, previousWord))
+        if (wordUpperCase === aliasUpperCase && getTable(previousWord))
           table = previousWord;
         if (wordUpperCase !== CONS.ALIAS_KEYWORD)
           previousWord = word;
@@ -206,10 +237,19 @@
   }
 
   CodeMirror.registerHelper("hint", "sql", function(editor, options) {
-    tables = (options && options.tables) || {};
+    tables = parseTables(options && options.tables)
     var defaultTableName = options && options.defaultTable;
-    defaultTable = (defaultTableName && getItem(tables, defaultTableName)) || [];
+    var disableKeywords = options && options.disableKeywords;
+    defaultTable = defaultTableName && getTable(defaultTableName);
     keywords = keywords || getKeywords(editor);
+
+    if (defaultTableName && !defaultTable)
+      defaultTable = findTableByAlias(defaultTableName, editor);
+
+    defaultTable = defaultTable || [];
+
+    if (defaultTable.columns)
+      defaultTable = defaultTable.columns;
 
     var cur = editor.getCursor();
     var result = [];
@@ -232,7 +272,8 @@
     } else {
       addMatches(result, search, tables, function(w) {return w;});
       addMatches(result, search, defaultTable, function(w) {return w;});
-      addMatches(result, search, keywords, function(w) {return w.toUpperCase();});
+      if (!disableKeywords)
+        addMatches(result, search, keywords, function(w) {return w.toUpperCase();});
     }
 
     return {list: result, from: Pos(cur.line, start), to: Pos(cur.line, end)};

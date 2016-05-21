@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -234,6 +234,19 @@ class JAccessTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JAccess::getGroupTitle method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetGroupTitle()
+	{
+		$access = new JAccess;
+		$this->assertThat($access->getGroupTitle(1), $this->equalTo('Public'), 'Get group title. Line: ' . __LINE__);
+	}
+
+	/**
 	 * Tests the JAccess::getUsersByGroup method.
 	 *
 	 * @return  void
@@ -354,7 +367,7 @@ class JAccessTest extends TestCaseDatabase
 </access>',
 				"/access/section[@name='unexisting']/",
 				array(),
-				'Unable to get actions from an unexiting section.'),
+				'Unable to get actions from an unexisting section.'),
 			array(
 				'<access component="com_banners',
 				"/access/section[@name='component']/",

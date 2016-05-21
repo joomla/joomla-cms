@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_whosonline
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,15 @@ class ModWhosonlineHelper
 			->where('client_id = 0');
 		$db->setQuery($query);
 
-		$sessions = (array) $db->loadObjectList();
+		try
+		{
+			$sessions = (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			// Don't worry be happy
+			$sessions = array();
+		}
 
 		if (count($sessions))
 		{
@@ -102,6 +110,13 @@ class ModWhosonlineHelper
 
 		$db->setQuery($query);
 
-		return (array) $db->loadObjectList();
+		try
+		{
+			return (array) $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return array();
+		}
 	}
 }

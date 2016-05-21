@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -106,14 +106,14 @@ class JViewLegacy extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  A named configuration array for object construction.<br />
-	 *                          name: the name (optional) of the view (defaults to the view class name suffix).<br />
-	 *                          charset: the character set to use for display<br />
-	 *                          escape: the name (optional) of the function to use for escaping strings<br />
-	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)<br />
-	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name<br />
-	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)<br />
-	 *                          layout: the layout (optional) to use to display the view<br />
+	 * @param   array  $config  A named configuration array for object construction.
+	 *                          name: the name (optional) of the view (defaults to the view class name suffix).
+	 *                          charset: the character set to use for display
+	 *                          escape: the name (optional) of the function to use for escaping strings
+	 *                          base_path: the parent path (optional) of the views directory (defaults to the component folder)
+	 *                          template_plath: the path (optional) of the layout directory (defaults to base_path + /views/ + view name
+	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
+	 *                          layout: the layout (optional) to use to display the view
 	 *
 	 * @since   12.2
 	 */
@@ -161,7 +161,7 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
-		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		elseif (is_dir($this->_basePath . '/view'))
 		{
 			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
 		}
@@ -199,7 +199,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
@@ -755,14 +755,14 @@ class JViewLegacy extends JObject
 	 */
 	protected function _addPath($type, $path)
 	{
+		jimport('joomla.filesystem.path');
+
 		// Just force to array
 		settype($path, 'array');
 
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			jimport('joomla.filesystem.path');
-
 			// Clean up the path
 			$dir = JPath::clean($dir);
 

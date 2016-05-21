@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -154,7 +154,7 @@ class PluginManagerPage extends AdminManagerPage
 	 * Edit a Plugin  item in the Plugin Manager: Plugin Manager Edit Screen.
 	 *
 	 * @param string   $name	   Name of the Plugin
-	 * @param string   $fields	   Input Fields that are to be changed in the form of a array 
+	 * @param string   $fields	   Input Fields that are to be changed in the form of an array 
 	 * 
 	 * @return  void
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    object
+	 * @var    JDatabaseDriver
 	 * @since  12.2
 	 */
 	protected $_db;
@@ -54,7 +54,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    string
+	 * @var    JObject
 	 * @since  12.2
 	 */
 	protected $state;
@@ -101,14 +101,22 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 
-			if (!in_array($path, $paths[$prefix]))
+			if (!is_array($path))
 			{
-				array_unshift($paths[$prefix], JPath::clean($path));
+				$path = array($path);
 			}
 
-			if (!in_array($path, $paths['']))
+			foreach ($path as $includePath)
 			{
-				array_unshift($paths[''], JPath::clean($path));
+				if (!in_array($includePath, $paths[$prefix]))
+				{
+					array_unshift($paths[$prefix], JPath::clean($includePath));
+				}
+
+				if (!in_array($includePath, $paths['']))
+				{
+					array_unshift($paths[''], JPath::clean($includePath));
+				}
 			}
 		}
 
@@ -476,37 +484,37 @@ abstract class JModelLegacy extends JObject
 	 */
 	public function loadHistory($version_id, JTable &$table)
 	{
-		// Only attempt to check the row in if it exists.
-		if ($version_id)
+		// Only attempt to check the row in if it exists, otherwise do an early exit.
+		if (!$version_id)
 		{
-			$user = JFactory::getUser();
+			return false;
+		}
 
-			// Get an instance of the row to checkout.
-			$historyTable = JTable::getInstance('Contenthistory');
+		// Get an instance of the row to checkout.
+		$historyTable = JTable::getInstance('Contenthistory');
 
-			if (!$historyTable->load($version_id))
+		if (!$historyTable->load($version_id))
+		{
+			$this->setError($historyTable->getError());
+
+			return false;
+		}
+
+		$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+		$typeId   = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+
+		if ($historyTable->ucm_type_id != $typeId)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+
+			$key = $table->getKeyName();
+
+			if (isset($rowArray[$key]))
 			{
-				$this->setError($historyTable->getError());
-
-				return false;
+				$table->checkIn($rowArray[$key]);
 			}
 
-			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
-
-			$typeId = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
-
-			if ($historyTable->ucm_type_id != $typeId)
-			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
-				$key = $table->getKeyName();
-
-				if (isset($rowArray[$key]))
-				{
-					$table->checkIn($rowArray[$key]);
-				}
-
-				return false;
-			}
+			return false;
 		}
 
 		$this->setState('save_date', $historyTable->save_date);

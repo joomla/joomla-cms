@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
+
+// jQuery needed by template.js
+JHtml::_('jquery.framework');
 
 JHtml::_('behavior.noframes');
 
@@ -22,7 +25,7 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 $doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet($this->baseurl . '/templates/'.$this->template.'/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -31,7 +34,7 @@ if (!$this->params->get('colourChoice'))
 }
 else
 {
-	$colour = htmlspecialchars($this->params->get('colourChoice'));
+	$colour = htmlspecialchars($this->params->get('colourChoice'), ENT_COMPAT, 'UTF-8');
 }
 
 $doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
@@ -126,8 +129,18 @@ else
 	<!-- Footer -->
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla); ?>
+			<?php
+			// Fix wrong display of Joomla!® in RTL language
+			if (JFactory::getLanguage()->isRtl())
+			{
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+			}
+			else
+			{
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+			}
+			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
+			?>
 		</p>
 	</div>
 </body>

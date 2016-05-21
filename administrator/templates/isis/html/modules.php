@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,11 +50,11 @@ function modChrome_well($module, &$params, &$attribs)
 		$moduleTag     = $params->get('module_tag', 'div');
 		$bootstrapSize = (int) $params->get('bootstrap_size');
 		$moduleClass   = ($bootstrapSize) ? ' span' . $bootstrapSize : '';
-		$headerTag     = htmlspecialchars($params->get('header_tag', 'h2'));
+		$headerTag     = htmlspecialchars($params->get('header_tag', 'h2'), ENT_COMPAT, 'UTF-8');
 
 		// Temporarily store header class in variable
 		$headerClass   = $params->get('header_class');
-		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+		$headerClass   = ($headerClass) ? ' ' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') : '';
 
 		echo '<' . $moduleTag . ' class="well well-small' . $moduleClass . '">';
 

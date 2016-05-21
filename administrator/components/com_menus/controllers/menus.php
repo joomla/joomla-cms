@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class MenusControllerMenus extends JControllerLegacy
 	}
 
 	/**
-	 * Remove a item.
+	 * Remove an item.
 	 *
 	 * @return  void
 	 *
@@ -115,7 +115,7 @@ class MenusControllerMenus extends JControllerLegacy
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getMessage()));
+			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
 
 			return false;
 		}

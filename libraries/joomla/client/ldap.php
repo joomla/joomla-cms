@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -193,7 +193,7 @@ class JClientLdap
 	 *
 	 * @since   12.1
 	 */
-	public function setDN($username, $nosub = 0)
+	public function setDn($username, $nosub = 0)
 	{
 		if ($this->users_dn == '' || $nosub)
 		{
@@ -216,7 +216,7 @@ class JClientLdap
 	 *
 	 * @since   12.1
 	 */
-	public function getDN()
+	public function getDn()
 	{
 		return $this->_dn;
 	}
@@ -258,8 +258,8 @@ class JClientLdap
 			$password = $this->password;
 		}
 
-		$this->setDN($username, $nosub);
-		$bindResult = @ldap_bind($this->_resource, $this->getDN(), $password);
+		$this->setDn($username, $nosub);
+		$bindResult = @ldap_bind($this->_resource, $this->getDn(), $password);
 
 		return $bindResult;
 	}

@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,12 +73,12 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'First Sort Field', 'id' => 'jform_sortname1', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Second Sort Field', 'id' => 'jform_sortname2', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Third Sort Field', 'id' => 'jform_sortname3', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'details'),
+			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Featured', 'id' => 'jform_featured', 'type' => 'fieldset', 'tab' => 'details'),
 			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
+			array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Miscellaneous Information', 'id' => 'jform_misc', 'type' => 'textarea', 'tab' => 'misc'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'publishing'),
@@ -115,6 +115,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Image', 'id' => 'jform_params_show_image', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'vCard', 'id' => 'jform_params_allow_vcard', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Show User Articles', 'id' => 'jform_params_show_articles', 'type' => 'select', 'tab' => 'attrib-display'),
+			array('label' => '# Articles to List', 'id' => 'jform_params_articles_display_num', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Show Profile', 'id' => 'jform_params_show_profile', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Show Links', 'id' => 'jform_params_show_links', 'type' => 'select', 'tab' => 'attrib-display'),
 			array('label' => 'Link A Label', 'id' => 'jform_params_linka_name', 'type' => 'input', 'tab' => 'attrib-display'),

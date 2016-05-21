@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ elseif ($input->get('module'))
 
 		if ($parts)
 		{
-			$class = 'mod';
+			$class = 'Mod';
 
 			foreach ($parts as $part)
 			{
@@ -79,7 +79,7 @@ elseif ($input->get('module'))
 		}
 		else
 		{
-			$class = 'mod' . ucfirst($module) . 'Helper';
+			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
 		$method = $input->get('method') ? $input->get('method') : 'get';
@@ -155,13 +155,6 @@ switch ($format)
 	// JSONinzed
 	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
-
-		break;
-
-	// Human-readable format
-	case 'debug' :
-		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
 
 		break;
 

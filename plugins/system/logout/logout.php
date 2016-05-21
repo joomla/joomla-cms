@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * Plugin class for logout redirect handling.
@@ -69,8 +69,8 @@ class PlgSystemLogout extends JPlugin
 			// Create the cookie.
 			$hash = JApplicationHelper::getHash('PlgSystemLogout');
 			$conf = JFactory::getConfig();
-			$cookie_domain 	= $conf->get('cookie_domain', '');
-			$cookie_path 	= $conf->get('cookie_path', '/');
+			$cookie_domain = $conf->get('cookie_domain', '');
+			$cookie_path   = $conf->get('cookie_path', '/');
 			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
 
@@ -96,7 +96,7 @@ class PlgSystemLogout extends JPlugin
 		{
 			// Redirect to the home page.
 			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
-			$app->redirect('index.php', true);
+			$app->redirect('index.php');
 		}
 		else
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class JComponentHelper
 	 * @param   string   $option  The component option.
 	 * @param   boolean  $strict  If set and the component does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  object   An object with the information for the component.
+	 * @return  stdClass   An object with the information for the component.
 	 *
 	 * @since   1.5
 	 */
@@ -100,6 +100,7 @@ class JComponentHelper
 				->select('COUNT(extension_id)')
 				->from('#__extensions')
 				->where('element = ' . $db->quote($option))
+				->where('type = ' . $db->quote('component'))
 		)->loadResult();
 	}
 
@@ -132,6 +133,9 @@ class JComponentHelper
 	 */
 	public static function filterText($text)
 	{
+		// Punyencoding utf8 email addresses
+		$text = JFilterInput::getInstance()->emailToPunycode($text);
+
 		// Filter settings
 		$config     = static::getParams('com_config');
 		$user       = JFactory::getUser();
@@ -307,7 +311,7 @@ class JComponentHelper
 	 * @param   string  $option  The component option.
 	 * @param   array   $params  The component parameters
 	 *
-	 * @return  object
+	 * @return  string
 	 *
 	 * @since   1.5
 	 * @throws  Exception
@@ -325,6 +329,11 @@ class JComponentHelper
 		if (empty($option))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
+		}
+
+		if (JDEBUG)
+		{
+			JProfiler::getInstance('Application')->mark('beforeRenderComponent ' . $option);
 		}
 
 		// Record the scope
@@ -372,6 +381,11 @@ class JComponentHelper
 
 		// Revert the scope
 		$app->scope = $scope;
+
+		if (JDEBUG)
+		{
+			JProfiler::getInstance('Application')->mark('afterRenderComponent ' . $option);
+		}
 
 		return $contents;
 	}

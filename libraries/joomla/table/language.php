@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,7 +59,7 @@ class JTableLanguage extends JTable
 	public function store($updateNulls = false)
 	{
 		// Verify that the sef field is unique
-		$table = JTable::getInstance('Language', 'JTable', array('dbo', $this->getDbo()));
+		$table = JTable::getInstance('Language', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('sef' => $this->sef)) && ($table->lang_id != $this->lang_id || $this->lang_id == 0))
 		{

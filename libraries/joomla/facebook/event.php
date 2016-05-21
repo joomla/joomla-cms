@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -217,7 +217,7 @@ class JFacebookEvent extends JFacebookObject
 	}
 
 	/**
-	 * Method to delete a invitation. Note: you can only delete the invite if the current user is the event admin.
+	 * Method to delete an invitation. Note: you can only delete the invite if the current user is the event admin.
 	 * Requires authentication and rsvp_event permission.
 	 *
 	 * @param   string  $event  The event id.

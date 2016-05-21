@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,9 +86,7 @@ class CategoriesHelper
 		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
 		// Get list of actions
-		$result = JHelperContent::getActions($extension, 'category', $categoryId);
-
-		return $result;
+		return JHelperContent::getActions($extension, 'category', $categoryId);
 	}
 
 	/**
@@ -97,44 +95,64 @@ class CategoriesHelper
 	 * @param   integer  $pk         Content item key.
 	 * @param   string   $extension  Optional extension name.
 	 *
-	 * @return  array of associations. 
+	 * @return  array of associations.
 	 */
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
+		$langAssociations = JLanguageAssociations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->from('#__categories as c')
-			->join('INNER', '#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_categories.item'))
-			->join('INNER', '#__associations as a2 ON a.key = a2.key')
-			->join('INNER', '#__categories as c2 ON a2.id = c2.id AND c2.extension = ' . $db->quote($extension))
-			->where('c.id =' . (int) $pk)
-			->where('c.extension = ' . $db->quote($extension));
-		$select = array(
-			'c2.language',
-			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id'
-		);
-		$query->select($select);
-		$db->setQuery($query);
-		$contentitems = $db->loadObjectList('language');
 
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
+		foreach ($langAssociations as $langAssociation)
 		{
-			JError::raiseWarning(500, $error);
-
-			return false;
-		}
-
-		foreach ($contentitems as $tag => $item)
-		{
-			// Do not return itself as result
-			if ((int) $item->id != $pk)
-			{
-				$associations[$tag] = $item->id;
-			}
+			$associations[$langAssociation->language] = $langAssociation->id;
 		}
 
 		return $associations;
+	}
+
+	/**
+	 * Check if Category ID exists otherwise assign to ROOT category.
+	 *
+	 * @param   mixed   $catid      Name or ID of category.
+	 * @param   string  $extension  Extension that triggers this function
+	 *
+	 * @return int $catid  Category ID.
+	 */
+	public static function validateCategoryId($catid, $extension)
+	{
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+
+		$categoryTable = JTable::getInstance('Category');
+
+		$data = array();
+		$data['id'] = $catid;
+		$data['extension'] = $extension;
+
+		if (!$categoryTable->load($data))
+		{
+			$catid = 0;
+		}
+
+		return (int) $catid;
+	}
+
+	/**
+	 * Create new Category from within item view.
+	 *
+	 * @param   array  $data  Array of data for new category.
+	 *
+	 * @return  integer.
+	 */
+	public static function createCategory($data)
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_categories/tables');
+
+		$categoryModel = JModelLegacy::getInstance('Category', 'CategoriesModel');
+		$categoryModel->save($data);
+
+		$catid = $categoryModel->getState('category.id');
+
+		return $catid;
 	}
 }

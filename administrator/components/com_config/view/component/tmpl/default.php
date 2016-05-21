@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,15 +17,22 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration('
+JFactory::getDocument()->addScriptDeclaration(
+	'
 	Joomla.submitbutton = function(task)
 	{
 		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
 		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			Joomla.submitform(task, document.getElementById("component-form"));
 		}
 	};
-');
+
+	// Select first tab
+	jQuery(document).ready(function() {
+		jQuery("#configTabs a:first").tab("show");
+	});'
+);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
@@ -40,8 +47,23 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="span10">
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+					<?php $rel = ''; ?>
+					<?php if (!empty($fieldSet->showon)) : ?>
+						<?php JHtml::_('jquery.framework'); ?>
+						<?php JHtml::_('script', 'jui/cms.js', false, true); ?>
+						<?php $showonarr = array(); ?>
+						<?php foreach (preg_split('%\[AND\]|\[OR\]%', $fieldSet->showon) as $showonfield) : ?>
+							<?php $showon   = explode(':', $showonfield, 2); ?>
+							<?php $showonarr[] = array(
+								'field'  => $this->form->getFormControl() . '[' . $showon[0] . ']',
+								'values' => explode(',', $showon[1]),
+								'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $fieldSet->showon, $matches)) ? $matches[1] : ''
+							); ?>
+						<?php endforeach; ?>
+						<?php $rel = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
+					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
-					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
+					<li<?php echo $rel; ?>><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="tab-content">
@@ -55,19 +77,25 @@ JFactory::getDocument()->addScriptDeclaration('
 						?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
-							$class = '';
-							$rel = '';
-							if ($showon = $field->getAttribute('showon'))
-							{
+							$datashowon = '';
+							if ($showonstring = $field->getAttribute('showon'))							{
 								JHtml::_('jquery.framework');
 								JHtml::_('script', 'jui/cms.js', false, true);
-								$id = $this->form->getFormControl();
-								$showon = explode(':', $showon, 2);
-								$class = ' showon_' . implode(' showon_', explode(',', $showon[1]));
-								$rel = ' rel="showon_' . $id . '[' . $showon[0] . ']"';
+								$showonarr = array();
+
+								foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield)
+								{
+									$showon   = explode(':', $showonfield, 2);
+									$showonarr[] = array(
+										'field'  => $this->form->getFormControl() . '[' . $this->form->getFieldAttribute($showon[0], 'name') . ']',
+										'values' => explode(',', $showon[1]),
+										'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+									);
+								}
+								$datashowon = ' data-showon=\'' . json_encode($showonarr) . '\'';
 							}
 							?>
-							<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+							<div class="control-group"<?php echo $datashowon; ?>>
 								<?php if (!$field->hidden && $name != "permissions") : ?>
 									<div class="control-label">
 										<?php echo $field->label; ?>
@@ -91,6 +119,3 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
-<script type="text/javascript">
-	jQuery('#configTabs a:first').tab('show'); // Select first tab
-</script>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,8 +63,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function onUserTwofactorIdentify()
 	{
-		$section = (int) $this->params->get('section', 3);
-
+		$section         = (int) $this->params->get('section', 3);
 		$current_section = 0;
 
 		try
@@ -121,7 +120,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != $this->methodName;
+		$new_totp    = $otpConfig->method != $this->methodName;
 
 		// Start output buffering
 		@ob_start();
@@ -186,8 +185,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		{
 			try
 			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+				JFactory::getApplication()->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
 			}
 			catch (Exception $exc)
 			{
@@ -199,27 +197,26 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the Yubikey OTP
-		$check = $this->validateYubikeyOTP($data['securitycode']);
+		$check = $this->validateYubikeyOtp($data['securitycode']);
 
 		if (!$check)
 		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
 
 			// Check failed. Do not change two factor authentication settings.
 			return false;
 		}
 
 		// Remove the last 32 digits and store the rest in the user configuration parameters
-		$yubikey = substr($data['securitycode'], 0, -32);
+		$yubikey      = substr($data['securitycode'], 0, -32);
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object) array(
-			'method'	=> $this->methodName,
-			'config'	=> array(
-				'yubikey'	=> $yubikey
+		$otpConfig    = (object) array(
+			'method'  => $this->methodName,
+			'config'  => array(
+				'yubikey' => $yubikey
 			),
-			'otep'		=> array()
+			'otep'    => array()
 		);
 
 		return $otpConfig;
@@ -261,13 +258,13 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Check if the Yubikey starts with the configured Yubikey user string
 		$yubikey_valid = $otpConfig->config['yubikey'];
-		$yubikey = substr($credentials['secretkey'], 0, -32);
+		$yubikey       = substr($credentials['secretkey'], 0, -32);
 
 		$check = $yubikey == $yubikey_valid;
 
 		if ($check)
 		{
-			$check = $this->validateYubikeyOTP($credentials['secretkey']);
+			$check = $this->validateYubikeyOtp($credentials['secretkey']);
 		}
 
 		return $check;
@@ -282,28 +279,29 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function validateYubikeyOTP($otp)
+	public function validateYubikeyOtp($otp)
 	{
 		$server_queue = array(
-			'api.yubico.com', 'api2.yubico.com', 'api3.yubico.com',
-			'api4.yubico.com', 'api5.yubico.com'
+			'api.yubico.com',
+			'api2.yubico.com',
+			'api3.yubico.com',
+			'api4.yubico.com',
+			'api5.yubico.com',
 		);
 
 		shuffle($server_queue);
 
 		$gotResponse = false;
-		$check = false;
+		$check       = false;
 
-		$http = JHttpFactory::getHttp();
-
+		$http  = JHttpFactory::getHttp();
 		$token = JSession::getFormToken();
 		$nonce = md5($token . uniqid(rand()));
 
 		while (!$gotResponse && !empty($server_queue))
 		{
 			$server = array_shift($server_queue);
-
-			$uri = new JUri('https://' . $server . '/wsapi/2.0/verify');
+			$uri    = new JUri('https://' . $server . '/wsapi/2.0/verify');
 
 			// I don't see where this ID is used?
 			$uri->setVar('id', 1);
@@ -350,12 +348,11 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Parse response
 		$lines = explode("\n", $response->body);
-		$data = array();
+		$data  = array();
 
 		foreach ($lines as $line)
 		{
-			$line = trim($line);
-
+			$line  = trim($line);
 			$parts = explode('=', $line, 2);
 
 			if (count($parts) < 2)
