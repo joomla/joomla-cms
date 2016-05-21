@@ -157,8 +157,15 @@ class JFormFieldNumber extends JFormField
 
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
-		$value = (float) $this->value;
-		$value = empty($value) ? $this->min : $value;
+		if (is_numeric($this->value))
+		{
+			$value = (float) $this->value;
+		}
+		else
+		{
+			$value = "";
+			$value = (isset($this->min)) ? $this->min : $value;
+		}
 
 		// Initialize JavaScript field attributes.
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';

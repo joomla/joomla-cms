@@ -76,8 +76,8 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 			{
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
 					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
-					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
-					' />';
+					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' .
+					' Comment="' . htmlspecialchars($key->Comment, ENT_COMPAT, 'UTF-8') . '"' . ' />';
 			}
 
 			$buffer[] = '  </table_structure>';

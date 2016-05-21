@@ -64,7 +64,7 @@
 
 		$('#menu > li > a').on('click mouseenter', function() {
 
-			menuWidth = $(this).next('ul').width() - 10;
+			menuWidth = $(this).next('ul').outerWidth();
 			emptyMenu.empty().hide();
 
 		});
@@ -74,15 +74,15 @@
 			var $self    = $(this);
 			var dropdown = $self.next('.dropdown-menu');
 			var offset   = $self.offset();
-			var scroll   = $(window).scrollTop();
-			var width    = menuWidth;
+			var scroll   = $(window).scrollTop() + 5;
+			var width    = menuWidth - 13;
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
 			{
 				emptyMenu.css({
 					top : offset.top - scroll,
-					left:  offset.left - width
+					left: offset.left - width
 				});
 			}
 			else
@@ -108,14 +108,15 @@
 			emptyMenu.empty().hide();
 
 		});
-		
+
 		/**
 		 * USED IN: All views with toolbar and sticky bar enabled
 		 */
 		var navTop;
 		var isFixed = false;
 
-		if (window.isisStickyToolbar == 1) {
+
+		if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 			processScrollInit();
 			processScroll();
 
@@ -125,7 +126,7 @@
 
 		function processScrollInit() {
 			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+				navTop = $('.subhead').length && $('.subhead').offset().top - parseInt(document.getElementById('isisJsData').getAttribute('data-tmpl-offset'));
 
 				// Fix the container top
 				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());

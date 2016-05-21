@@ -252,7 +252,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Gets a mock input object.
 	 *
-	 * @param   array  $options  A associative array of options to configure the mock.
+	 * @param   array  $options  An associative array of options to configure the mock.
 	 *                           * methods => an array of additional methods to mock
 	 *
 	 * @return  JInput

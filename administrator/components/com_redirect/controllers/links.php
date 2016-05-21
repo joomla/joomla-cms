@@ -58,6 +58,47 @@ class RedirectControllerLinks extends JControllerAdmin
 	}
 
 	/**
+	 * Method to duplicate URLs in records.
+	 *
+	 * @return  void.
+	 *
+	 * @since   3.6.0
+	 */
+	public function duplicateUrls()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$ids     = $this->input->get('cid', array(), 'array');
+		$newUrl  = $this->input->getString('new_url');
+		$comment = $this->input->getString('comment');
+
+		if (empty($ids))
+		{
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
+		}
+		else
+		{
+			// Get the model.
+			$model = $this->getModel();
+
+			JArrayHelper::toInteger($ids);
+
+			// Remove the items.
+			if (!$model->duplicateUrls($ids, $newUrl, $comment))
+			{
+				JError::raiseWarning(500, $model->getError());
+			}
+			else
+			{
+				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
+			}
+		}
+
+		$this->setRedirect('index.php?option=com_redirect&view=links');
+	}
+
+	/**
 	 * Proxy for getModel.
 	 *
 	 * @param   string  $name    The name of the model.

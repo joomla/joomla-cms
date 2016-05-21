@@ -302,6 +302,31 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$input = JFactory::getApplication()->input;
 
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
+
+		// Check if New Category exists
+		if ($catid > 0)
+		{
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+		}
+
+		// Save New Category
+		if ($catid == 0)
+		{
+			$table = array();
+			$table['title'] = $data['catid'];
+			$table['parent_id'] = 1;
+			$table['extension'] = 'com_newsfeeds';
+			$table['language'] = $data['language'];
+			$table['published'] = 1;
+
+			// Create new category and get catid back
+			$data['catid'] = CategoriesHelper::createCategory($table);
+		}
+
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
@@ -393,11 +418,11 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		$user = JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplicationHelper::stringURLSafe($table->alias);
+		$table->alias = JApplicationHelper::stringURLSafe($table->alias, $table->language);
 
 		if (empty($table->alias))
 		{
-			$table->alias = JApplicationHelper::stringURLSafe($table->name);
+			$table->alias = JApplicationHelper::stringURLSafe($table->name, $table->language);
 		}
 
 		if (empty($table->id))

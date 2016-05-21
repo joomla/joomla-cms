@@ -43,7 +43,21 @@ class JoomlaupdateController extends JControllerLegacy
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
+			/** @var JoomlaupdateModelDefault $model */
 			$model = $this->getModel('default');
+
+			// Push the Installer Warnings model into the view, if we can load it
+			if (!class_exists('InstallerModelWarnings'))
+			{
+				@include_once JPATH_ADMINISTRATOR . '/components/com_installer/models/warnings.php';
+			}
+
+			$warningsModel = $this->getModel('warnings', 'InstallerModel');
+
+			if (is_object($warningsModel))
+			{
+				$view->setModel($warningsModel, false);
+			}
 
 			// Perform update source preference check and refresh update information.
 			$model->applyUpdateSite();

@@ -91,15 +91,8 @@ $stickyBar = 0;
 
 if ($stickyToolbar)
 {
-	$stickyBar = 1;
+	$stickyBar = 'true';
 }
-
-JHtml::_('asset.scriptDeclaration',
-	"
-	window.isisStickyToolbar = $stickyBar;
-	window.isisOffsetTop = $offset;
-	"
-);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -149,7 +142,7 @@ JHtml::_('asset.scriptDeclaration',
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" data-basepath="<?php echo JURI::root(true); ?>">
 <!-- Top Navigation -->
 <nav class="navbar<?php echo $navbar_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
 	<div class="navbar-inner">
@@ -171,7 +164,7 @@ JHtml::_('asset.scriptDeclaration',
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
-						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
+						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-user"></span>
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<?php if (!$hidden) : ?>
@@ -225,7 +218,7 @@ JHtml::_('asset.scriptDeclaration',
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse">
+	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>

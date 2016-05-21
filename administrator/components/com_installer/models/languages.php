@@ -41,8 +41,9 @@ class InstallerModelLanguages extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'update_id', 'update_id',
-				'name', 'name',
+				'update_id',
+				'name',
+				'element',
 			);
 		}
 
@@ -51,13 +52,11 @@ class InstallerModelLanguages extends JModelList
 		// Get the extension_id of the en-GB package.
 		$db        = $this->getDbo();
 		$extQuery  = $db->getQuery(true);
-		$extType   = 'language';
-		$extElem   = 'en-GB';
 
 		$extQuery->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
-			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('pkg_en-GB'))
 			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
@@ -99,7 +98,7 @@ class InstallerModelLanguages extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table.
-		$query->select($db->quoteName(array('update_id', 'name', 'version', 'detailsurl', 'type')))
+		$query->select($db->quoteName(array('update_id', 'name', 'element', 'version', 'detailsurl', 'type')))
 			->from($db->quoteName('#__updates'));
 
 		/*
@@ -120,19 +119,15 @@ class InstallerModelLanguages extends JModelList
 		// This where clause will avoid to list languages already installed.
 		$query->where($db->quoteName('extension_id') . ' = 0');
 
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		// Filter by search in title and language tag.
+		if ($search = $this->getState('filter.search'))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ')');
+			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ' OR LOWER(element) LIKE ' . strtolower($search) . ')');
 		}
 
 		// Add the list ordering clause.
-		$listOrder = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->escape($listOrder) . ' ' . $db->escape($orderDirn));
+		$query->order($db->escape($this->getState('list.ordering', 'name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -168,12 +163,9 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
-		$app = JFactory::getApplication();
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $value);
-
-		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+		$this->setState('extension_message', JFactory::getApplication()->getUserState('com_installer.extension_message'));
 
 		parent::populateState($ordering, $direction);
 	}
@@ -309,7 +301,7 @@ class InstallerModelLanguages extends JModelList
 			}
 
 			// Package installed successfully.
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_LANGUAGE_SUCCESS', $language->name));
 
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
@@ -326,7 +318,7 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *
