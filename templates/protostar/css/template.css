@@ -175,6 +175,9 @@ textarea {
 .rtl .categories-list .collapse {
 	margin: 0 20px 0 0;
 }
+.rtl .modal-footer button {
+	float: left;
+}
 .clearfix {
 	*zoom: 1;
 }
