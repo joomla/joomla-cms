@@ -193,10 +193,10 @@ class ModMenuHelper
 	}
 
 	/**
-	* Get default menu item (homepage) for current language.
-	*
-	* @return  object
-	*/
+	 * Get default menu item (homepage) for current language.
+	 *
+	 * @return  object
+	 */
 	public static function getDefault()
 	{
 		$menu = JFactory::getApplication()->getMenu();
