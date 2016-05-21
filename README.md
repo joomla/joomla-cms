@@ -99,8 +99,9 @@ To run the tests please execute the following commands (for the moment only work
 ```bash
 $ cd tests
 $ composer install
-$ vendor/bin/robo
-$ vendor/bin/robo run:tests
+$ cd ..
+$ tests/vendor/bin/robo
+$ tests/vendor/bin/robo run:tests
 ```
 
 ## Additional options
@@ -141,16 +142,17 @@ Then run the commands:
 ```bash
 $ cd tests
 $ composer install
+$ cd ..
 ```
 
 You can then run the following command to start the tests:
 
 ```bash
-$ vendor/bin/robo run:tests
+$ tests/vendor/bin/robo run:tests
 ```
 
 Once all tests were executed, you may also run a specific test:
 
 ```bash
-$ vendor/bin/robo run:test // Then select the test you want to run!
+$ tests/vendor/bin/robo run:test // Then select the test you want to run!
 ```
