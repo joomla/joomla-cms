@@ -21,11 +21,12 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
 	<config>
 		<fieldset>
-			<field name="language"
+			<field
+				name="language"
 				type="list"
-				description="JFIELD_MODULE_LANGUAGE_DESC"
 				label="JFIELD_LANGUAGE_LABEL"
-			>
+				description="JFIELD_MODULE_LANGUAGE_DESC"
+				>
 				<option value="*">JALL</option>
 			</field>
 		</fieldset>
@@ -34,29 +35,31 @@
 				<field
 					name="header_text"
 					type="textarea"
+					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
+					description="MOD_LANGUAGES_FIELD_HEADER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
-					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
-					description="MOD_LANGUAGES_FIELD_HEADER_DESC" />
+				/>
 
 				<field
 					name="footer_text"
 					type="textarea"
+					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
+					description="MOD_LANGUAGES_FIELD_FOOTER_DESC"
 					filter="safehtml"
 					rows="3"
 					cols="40"
-					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
-					description="MOD_LANGUAGES_FIELD_FOOTER_DESC" />
+				/>
 
 				<field
 					name="dropdown"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="MOD_LANGUAGES_FIELD_DROPDOWN_LABEL"
 					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -64,12 +67,12 @@
 				<field
 					name="dropdownimage"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
+					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdown:1"
-					label="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -77,11 +80,12 @@
 				<field
 					name="lineheight"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
+					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
 					showon="dropdown:1[AND]dropdownimage:1"
-					label="MOD_LANGUAGES_FIELD_LINEHEIGHT_LABEL"
-					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC" >
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -89,33 +93,33 @@
 				<field
 					name="image"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
+					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdown:0"
-					label="MOD_LANGUAGES_FIELD_USEIMAGE_LABEL"
-					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field 
-					name="spacer3" 
-					type="spacer" 
+				<field
+					name="spacer3"
+					type="spacer"
+					label="MOD_LANGUAGES_SPACER_USENAME_LABEL"
 					class="text"
 					showon="image:0[AND]dropdown:0"
-					label="MOD_LANGUAGES_SPACER_USENAME_LABEL"
 				/>
 
 				<field
 					name="show_active"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
+					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdownimage:1[OR]dropdown:0"
-					label="MOD_LANGUAGES_FIELD_ACTIVE_LABEL"
-					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -123,12 +127,12 @@
 				<field
 					name="full_name"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
+					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
 					class="btn-group btn-group-yesno"
 					showon="dropdown:0[AND]image:0"
 					default="1"
-					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
-					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -136,12 +140,12 @@
 				<field
 					name="inline"
 					type="radio"
+					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
+					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
 					showon="dropdown:0"
-					label="MOD_LANGUAGES_FIELD_INLINE_LABEL"
-					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -151,39 +155,40 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC" />
+					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
-				>
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					default="0"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 
 				<field
 					name="cachemode"
 					type="hidden"
 					default="itemid"
-				>
+					>
 					<option	value="itemid"></option>
 				</field>
 			</fieldset>
