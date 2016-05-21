@@ -52,8 +52,10 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// Check again
-		if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_content')
+		if (!empty($menuItem) && $menuItem->component != 'com_content')
 		{
+			// Clear active menu item, because later code uses it without checking: $menuItemGiven
+			$menuItem = null;
 			$menuItemGiven = false;
 			unset($query['Itemid']);
 		}
@@ -72,7 +74,6 @@ class ContentRouter extends JComponentRouterBase
 		if (($menuItem instanceof stdClass)
 			&& $menuItem->query['view'] == $query['view']
 			&& isset($query['id'])
-			&& !empty($menuItem->query['id'])
 			&& $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);
