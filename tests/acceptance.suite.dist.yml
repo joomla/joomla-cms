@@ -31,3 +31,9 @@ modules:
         AcceptanceHelper:
             url: 'http://localhost/tests/joomla-cms3' # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
+gherkin:
+    contexts:
+        default:
+            - AcceptanceTester
+            - Step\Acceptance\Administrator\User
+            - Page\Acceptance\Administrator\Login
