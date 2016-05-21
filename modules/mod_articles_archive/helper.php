@@ -47,6 +47,7 @@ class ModArchiveHelper
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));
+
 		try
 		{
 			$rows = (array) $db->loadObjectList();
@@ -54,6 +55,7 @@ class ModArchiveHelper
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
 			return;
 		}
 
