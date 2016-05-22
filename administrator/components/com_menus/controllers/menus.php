@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The Menu List Controller
  *
@@ -87,8 +89,7 @@ class MenusControllerMenus extends JControllerLegacy
 				$model = $this->getModel();
 
 				// Make sure the item ids are integers
-				jimport('joomla.utilities.arrayhelper');
-				JArrayHelper::toInteger($cids);
+				$cids = ArrayHelper::toInteger($cids);
 
 				// Remove the items.
 				if (!$model->delete($cids))
