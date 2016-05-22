@@ -25,29 +25,31 @@
 				<field
 					name="showmode"
 					type="list"
-					default="0"
 					label="MOD_WHOSONLINE_SHOWMODE_LABEL"
-					description="MOD_WHOSONLINE_SHOWMODE_DESC">
-					<option
-						value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
-					<option
-						value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
-					<option
-						value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
+					description="MOD_WHOSONLINE_SHOWMODE_DESC"
+					default="0"
+					>
+					<option value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
+					<option value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
+					<option value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
+					rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
+
 				<field
 					name="cache"
 					type="list"
