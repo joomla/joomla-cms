@@ -149,7 +149,8 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					default="itemid">
+					default="itemid"
+					>
 					<option value="itemid"></option>
 				</field>
 			</fieldset>
