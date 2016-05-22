@@ -14,21 +14,26 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0 ));
 
 $app   = JFactory::getApplication();
 $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-JFactory::getDocument()->addScriptDeclaration("
+JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.getElementById('newsfeed-form'))) {
-			Joomla.submitform(task, document.getElementById('newsfeed-form'));
+		if (task == "newsfeed.cancel" || document.formvalidator.isValid(document.getElementById("newsfeed-form"))) {
+			Joomla.submitform(task, document.getElementById("newsfeed-form"));
+
+			if (task !== "newsfeed.apply")
+			{
+				window.parent.jQuery("#newsfeedEdit' . $this->item->id . 'Modal").modal("hide");
+			}
 		}
 	};
-");
+');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associations');
