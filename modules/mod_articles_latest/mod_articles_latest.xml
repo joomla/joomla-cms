@@ -72,9 +72,9 @@
 				<field
 					name="user_id"
 					type="list"
-					default="0"
 					label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_USER_DESC"
+					default="0"
 					>
 					<option value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>
 					<option value="by_me">MOD_LATEST_NEWS_VALUE_ADDED_BY_ME</option>
