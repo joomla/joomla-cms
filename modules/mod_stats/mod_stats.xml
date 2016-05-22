@@ -25,10 +25,10 @@
 				<field
 					name="serverinfo"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					description="MOD_STATS_FIELD_SERVERINFO_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
