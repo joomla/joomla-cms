@@ -110,9 +110,10 @@
 
 				<field
 					name="relative_date"
-					type="text" default="30"
+					type="text"
 					label="MOD_POPULAR_FIELD_RELATIVEDATE_LABEL"
 					description="MOD_POPULAR_FIELD_RELATIVEDATE_DESC"
+					default="30"
 					showon="date_filtering:relative"
 				/>
 			</fieldset>
