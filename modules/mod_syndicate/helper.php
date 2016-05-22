@@ -20,11 +20,11 @@ class ModSyndicateHelper
 {
 	/**
 	 * Gets the link
-	 * 
+	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
-	 * 
+	 *
 	 * @return  array  The link as a string
-	 * 
+	 *
 	 * @since   1.5
 	 */
 	public static function getLink(&$params)
