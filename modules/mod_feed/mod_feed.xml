@@ -87,7 +87,7 @@
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					description="MOD_FEED_FIELD_ITEMS_DESC"
 					default="3"
-					/>
+				/>
 
 				<field
 					name="rssitemdesc"
