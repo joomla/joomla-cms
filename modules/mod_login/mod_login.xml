@@ -45,9 +45,9 @@
 				<field
 					name="login"
 					type="menuitem"
-					disable="separator,alias,heading,url"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
+					disable="separator,alias,heading,url"
 					>
 					<option value="">JDEFAULT</option>
 				</field>
