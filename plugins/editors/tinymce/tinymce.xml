@@ -22,7 +22,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
+			<fieldset name="basic">
 				<field
 					name="skins"
 					type="note"
@@ -50,7 +50,7 @@
 					label="PLG_TINY_FIELD_FUNCTIONALITY_LABEL"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
 					default="2"
-				>
+					>
 					<option value="0">PLG_TINY_FIELD_VALUE_SIMPLE</option>
 					<option value="1">PLG_TINY_FIELD_VALUE_ADVANCED</option>
 					<option value="2">PLG_TINY_FIELD_VALUE_EXTENDED</option>
@@ -63,7 +63,7 @@
 					description="PLG_TINY_FIELD_MOBILE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -75,7 +75,7 @@
 					description="PLG_TINY_FIELD_DRAG_DROP_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -95,7 +95,7 @@
 					label="PLG_TINY_FIELD_ENCODING_LABEL"
 					description="PLG_TINY_FIELD_ENCODING_DESC"
 					default="raw"
-				>
+					>
 					<option value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
 					<option value="numeric">PLG_TINY_FIELD_VALUE_NUMERIC</option>
 					<option value="raw">PLG_TINY_FIELD_VALUE_RAW</option>
@@ -108,7 +108,7 @@
 					description="PLG_TINY_FIELD_LANGSELECT_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -135,7 +135,7 @@
 					label="PLG_TINY_FIELD_DIRECTION_LABEL"
 					description="PLG_TINY_FIELD_DIRECTION_DESC"
 					default="ltr"
-				>
+					>
 					<option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
 					<option value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
 				</field>
@@ -147,7 +147,7 @@
 					description="PLG_TINY_FIELD_CSS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -166,7 +166,7 @@
 					label="PLG_TINY_FIELD_URLS_LABEL"
 					description="PLG_TINY_FIELD_URLS_DESC"
 					default="1"
-				>
+					>
 					<option value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
 					<option value="1">PLG_TINY_FIELD_VALUE_RELATIVE</option>
 				</field>
@@ -177,7 +177,7 @@
 					label="PLG_TINY_FIELD_NEWLINES_LABEL"
 					description="PLG_TINY_FIELD_NEWLINES_DESC"
 					default="0"
-				>
+					>
 					<option value="1">PLG_TINY_FIELD_VALUE_BR</option>
 					<option value="0">PLG_TINY_FIELD_VALUE_P</option>
 				</field>
@@ -189,7 +189,7 @@
 					description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -250,7 +250,7 @@
 					description="PLG_TINY_FIELD_RESIZING_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -263,7 +263,7 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					showon="resizing:1"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -275,7 +275,7 @@
 					description="PLG_TINY_FIELD_PATH_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
@@ -293,7 +293,7 @@
 					label="PLG_TINY_FIELD_FONTS_LABEL"
 					description="PLG_TINY_FIELD_FONTS_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -303,7 +303,7 @@
 					label="PLG_TINY_FIELD_PASTE_LABEL"
 					description="PLG_TINY_FIELD_PASTE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -313,7 +313,7 @@
 					label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
 					description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -323,7 +323,7 @@
 					label="PLG_TINY_FIELD_DATE_LABEL"
 					description="PLG_TINY_FIELD_DATE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -333,7 +333,7 @@
 					label="PLG_TINY_FIELD_COLORS_LABEL"
 					description="PLG_TINY_FIELD_COLORS_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -343,7 +343,7 @@
 					label="PLG_TINY_FIELD_TABLE_LABEL"
 					description="PLG_TINY_FIELD_TABLE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -353,7 +353,7 @@
 					label="PLG_TINY_FIELD_SMILIES_LABEL"
 					description="PLG_TINY_FIELD_SMILIES_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -363,7 +363,7 @@
 					label="PLG_TINY_FIELD_HR_LABEL"
 					description="PLG_TINY_FIELD_HR_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -373,7 +373,7 @@
 					label="PLG_TINY_FIELD_LINK_LABEL"
 					description="PLG_TINY_FIELD_LINK_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -383,7 +383,7 @@
 					label="PLG_TINY_FIELD_MEDIA_LABEL"
 					description="PLG_TINY_FIELD_MEDIA_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -393,7 +393,7 @@
 					label="PLG_TINY_FIELD_PRINT_LABEL"
 					description="PLG_TINY_FIELD_PRINT_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -403,7 +403,7 @@
 					label="PLG_TINY_FIELD_RTL_LABEL"
 					description="PLG_TINY_FIELD_RTL_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -413,7 +413,7 @@
 					label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
 					description="PLG_TINY_FIELD_FULLSCREEN_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -423,7 +423,7 @@
 					label="PLG_TINY_FIELD_ALIGN_LABEL"
 					description="PLG_TINY_FIELD_ALIGN_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -433,7 +433,7 @@
 					label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
 					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -443,7 +443,7 @@
 					label="PLG_TINY_FIELD_VISUALBLOCKS_LABEL"
 					description="PLG_TINY_FIELD_VISUALBLOCKS_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -453,7 +453,7 @@
 					label="PLG_TINY_FIELD_NONBREAKING_LABEL"
 					description="PLG_TINY_FIELD_NONBREAKING_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -463,7 +463,7 @@
 					label="PLG_TINY_FIELD_TEMPLATE_LABEL"
 					description="PLG_TINY_FIELD_TEMPLATE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
@@ -483,7 +483,7 @@
 					label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
 					description="PLG_TINY_FIELD_WORDCOUNT_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
@@ -493,7 +493,7 @@
 					label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
 					description="PLG_TINY_FIELD_ADVIMAGE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
@@ -503,7 +503,7 @@
 					label="PLG_TINY_FIELD_CODESAMPLE_LABEL"
 					description="PLG_TINY_FIELD_CODESAMPLE_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
@@ -513,7 +513,7 @@
 					label="PLG_TINY_FIELD_ADVLIST_LABEL"
 					description="PLG_TINY_FIELD_ADVLIST_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
@@ -523,7 +523,7 @@
 					label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
 					description="PLG_TINY_FIELD_SAVEWARNING_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
@@ -533,7 +533,7 @@
 					label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
 					description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
@@ -543,7 +543,7 @@
 					label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"
 					description="PLG_TINY_FIELD_INLINEPOPUPS_DESC"
 					default="1"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 

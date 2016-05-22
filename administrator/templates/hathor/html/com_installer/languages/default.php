@@ -17,8 +17,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $version = new JVersion;
 
+// Add spindle-wheel for language installation.
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function($) {
+	Joomla.loadingLayer("load");
+	$("#adminForm").on("submit", function(e) {
+		if (document.getElementsByName("task")[0].value == "languages.install")
+		{
+			Joomla.loadingLayer("show");
+		}
+	});
+});
+');
 ?>
-
 <div id="installer-languages">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages');?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>

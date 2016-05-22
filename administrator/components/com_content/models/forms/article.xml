@@ -42,9 +42,13 @@
 				JTRASHED</option>
 		</field>
 
-		<field name="catid" type="categoryedit"
-			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
+		<field name="catid"
+			   type="categoryedit"
+			label="JCATEGORY"
+			   description="JFIELD_CATEGORY_DESC"
 			required="true"
+			   allowAdd="true"
+			   default=""
 		>
 		</field>
 

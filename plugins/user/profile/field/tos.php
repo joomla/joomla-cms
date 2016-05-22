@@ -103,13 +103,13 @@ class JFormFieldTos extends JFormFieldRadio
 
 			if (isset($tosassociated) && $current_lang != $article->language && array_key_exists($current_lang, $tosassociated))
 			{
-				$url = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
+				$url  = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
 				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $tosassociated[$current_lang]->language), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url = ContentHelperRoute::getArticleRoute($slug, $article->catid);
+				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
 				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
 			}
 		}

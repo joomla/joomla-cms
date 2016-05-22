@@ -33,7 +33,7 @@
 	* There are lots of ready made templates that you can download.
 
 8- Ready to install Joomla?
-	* See minimum requirements here: https://www.joomla.org/technical-requirements.html
+	* See minimum requirements here: https://www.joomla.org/about-joomla/technical-requirements.html
 	* How do you install Joomla! ? - https://docs.joomla.org/Installing_Joomla!
 	* Start your Joomla experience building your site with a local test server.
 	When ready it can be moved to an on-line hosting account of your choice.

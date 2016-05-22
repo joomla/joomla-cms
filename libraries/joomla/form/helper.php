@@ -305,6 +305,11 @@ class JFormHelper
 			{
 				array_unshift($paths, trim($path));
 			}
+
+			if (!is_dir($path))
+			{
+				array_unshift($paths, trim($path));
+			}
 		}
 
 		return $paths;

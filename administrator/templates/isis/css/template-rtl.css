@@ -9103,3 +9103,6 @@ a.grid_true {
 .js-pstats-data-details dd {
 	margin-right: 240px;
 }
+.modal-footer button {
+	float: left;
+}

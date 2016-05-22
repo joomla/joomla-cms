@@ -19,10 +19,13 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="style" type="list"
-					default="table"
+				<field
+					name="style"
+					type="list"
+					label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
 					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
-					label="PLG_LOADMODULE_FIELD_STYLE_LABEL">
+					default="table"
+					>
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
 					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
 					<option value="xhtml">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>

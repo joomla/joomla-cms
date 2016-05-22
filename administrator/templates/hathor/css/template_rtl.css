@@ -1301,3 +1301,6 @@ div.toggle-editor {
 div.toggle-editor {
 	margin-top: 14px;
 }
+.modal-footer button {
+	float: left;
+}
