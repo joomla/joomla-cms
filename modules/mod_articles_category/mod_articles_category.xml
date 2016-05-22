@@ -25,9 +25,9 @@
 				<field
 					name="mode"
 					type="list"
-					default="normal"
 					label="MOD_ARTICLES_CATEGORY_FIELD_MODE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_MODE_DESC"
+					default="normal"
 					>
 					<option value="normal">MOD_ARTICLES_CATEGORY_OPTION_NORMAL_VALUE</option>
 					<option value="dynamic">MOD_ARTICLES_CATEGORY_OPTION_DYNAMIC_VALUE</option>
@@ -180,10 +180,10 @@
 				<field
 					name="created_by_alias"
 					type="sql"
-					multiple="true"
-					size="5"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
+					multiple="true"
+					size="5"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"
@@ -227,9 +227,9 @@
 				<field
 					name="date_field"
 					type="list"
-					default="a.created"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_DESC"
+					default="a.created"
 					>
 					<option value="a.created">
 						MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE
