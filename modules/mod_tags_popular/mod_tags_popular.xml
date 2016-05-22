@@ -25,128 +25,134 @@
 				<field
 					name="maximum"
 					type="integer"
+					label="MOD_TAGS_POPULAR_MAX_LABEL"
+					description="MOD_TAGS_POPULAR_MAX_DESC"
 					default="5"
 					first="1"
 					last="20"
 					step="1"
-					label="MOD_TAGS_POPULAR_MAX_LABEL"
-					description="MOD_TAGS_POPULAR_MAX_DESC">
-				</field>
+				/>
+
 				<field
 					name="timeframe"
 					type="list"
-					default="alltime"
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC">
-					<option
-						value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
-					<option
-						value="hour">MOD_TAGS_POPULAR_FIELD_LAST_HOUR</option>
-					<option
-						value="day">MOD_TAGS_POPULAR_FIELD_LAST_DAY</option>
-					<option
-						value="week">MOD_TAGS_POPULAR_FIELD_LAST_WEEK</option>
-					<option
-						value="month">MOD_TAGS_POPULAR_FIELD_LAST_MONTH</option>
-					<option
-						value="year">MOD_TAGS_POPULAR_FIELD_LAST_YEAR</option>
+					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC"
+					default="alltime"
+					>
+					<option value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
+					<option value="hour">MOD_TAGS_POPULAR_FIELD_LAST_HOUR</option>
+					<option value="day">MOD_TAGS_POPULAR_FIELD_LAST_DAY</option>
+					<option value="week">MOD_TAGS_POPULAR_FIELD_LAST_WEEK</option>
+					<option value="month">MOD_TAGS_POPULAR_FIELD_LAST_MONTH</option>
+					<option value="year">MOD_TAGS_POPULAR_FIELD_LAST_YEAR</option>
 				</field>
+
 				<field
 					name="order_value"
 					type="list"
-					default="count"
 					label="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_DESC">
-					<option
-						value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
-					<option
-						value="count">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_COUNT</option>
-					<option
-						value="rand()">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_RANDOM</option>
+					description="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_DESC"
+					default="count"
+					>
+					<option value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
+					<option value="count">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_COUNT</option>
+					<option value="rand()">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_RANDOM</option>
 				</field>
+
 				<field
 					name="order_direction"
 					type="list"
-					default="1"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
-					description="JGLOBAL_ORDER_DIRECTION_DESC">
-					<option
-						value="0">JGLOBAL_ORDER_ASCENDING</option>
-					<option
-						value="1">JGLOBAL_ORDER_DESCENDING</option>
+					description="JGLOBAL_ORDER_DIRECTION_DESC"
+					default="1"
+					>
+					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
+					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
+
 				<field
 					name="display_count"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_DESC"
-					filter="integer">
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+
 				<field
 					name="no_results_text"
 					type="radio"
+					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
+					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
-					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC" >
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset
 				name="cloud"
-				label="MOD_TAGS_POPULAR_FIELDSET_CLOUD_LABEL">
+				label="MOD_TAGS_POPULAR_FIELDSET_CLOUD_LABEL"
+			>
 				<field
 					name="minsize"
 					type="text"
-					default="1"
 					label="MOD_TAGS_POPULAR_FIELD_MINSIZE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_MINSIZE_DESC"
+					default="1"
 					filter="float"
 				/>
+
 				<field
 					name="maxsize"
 					type="text"
-					default="2"
 					label="MOD_TAGS_POPULAR_FIELD_MAXSIZE_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_MAXSIZE_DESC"
+					default="2"
 					filter="float"
 				/>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
-					default="_:default"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					default="_:default"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="owncache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="1"
+					>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 			</fieldset>
 		</fields>
 	</config>
