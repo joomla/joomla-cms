@@ -94,8 +94,7 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', '*'));
-		$menuId = 0;
+		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
 
 		if ($menuType)
 		{
@@ -103,12 +102,17 @@ class MenusModelItems extends JModelList
 			$query = $db->getQuery(true)
 						->select($db->qn(array('id', 'title')))
 						->from($db->qn('#__menu_types'))
-						->where($db->qn('menutype') . '=' . $db->q($menuType));
+						->where($db->qn('menutype') . ' = ' . $db->q($menuType));
 
 			$menuTypeItem = $db->setQuery($query)->loadObject();
 
-			// Check if menu type was changed and if valid agains ACL - "*" needs no validation
-			if (($menuType == '*' || $user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id)))
+			// Check if menu type exists.
+			if (!$menuTypeItem)
+			{
+				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+			}
+			// Check if menu type was changed and if valid agains ACL
+			elseif ($user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id))
 			{
 				$app->setUserState($this->context . '.menutype', $menuType);
 				$app->input->set('limitstart', 0);
@@ -118,7 +122,7 @@ class MenusModelItems extends JModelList
 			// Nope, not valid
 			else
 			{
-				$menuType = '';
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 		else
@@ -295,8 +299,8 @@ class MenusModelItems extends JModelList
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
 
-		// "*" means all
-		if ($menuType == '*')
+		// "" means all
+		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
 			$query2 = $this->getDbo()->getQuery(true)
@@ -326,7 +330,7 @@ class MenusModelItems extends JModelList
 		// Empty menu type => error
 		else
 		{
-			$query->where('1!=1');
+			$query->where('1 != 1');
 		}
 
 		// Filter on the access level.
