@@ -104,7 +104,6 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 
 		JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
-
 	}
 
 	/**
@@ -117,10 +116,10 @@ class BannersViewTracks extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'b.name' => JText::_('COM_BANNERS_HEADING_NAME'),
-			'cl.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'b.name'     => JText::_('COM_BANNERS_HEADING_NAME'),
+			'cl.name'    => JText::_('COM_BANNERS_HEADING_CLIENT'),
 			'track_type' => JText::_('COM_BANNERS_HEADING_TYPE'),
-			'count' => JText::_('COM_BANNERS_HEADING_COUNT'),
+			'count'      => JText::_('COM_BANNERS_HEADING_COUNT'),
 			'track_date' => JText::_('JDATE')
 		);
 	}
