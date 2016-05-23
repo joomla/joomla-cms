@@ -156,9 +156,9 @@
 		<field
 			name="modified"
 			type="calendar"
-			class="readonly"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			description="COM_BANNERS_FIELD_MODIFIED_DESC"
+			class="readonly"
 			size="22"
 			readonly="true"
 			format="%Y-%m-%d %H:%M:%S"
@@ -241,9 +241,9 @@
 		<field
 			name="clicks"
 			type="clicks"
-			default="0"
 			label="COM_BANNERS_FIELD_CLICKS_LABEL"
 			description="COM_BANNERS_FIELD_CLICKS_DESC"
+			default="0"
 		/>
 
 		<field
@@ -329,11 +329,11 @@
 			<field
 				name="imageurl"
 				type="media"
+				label="COM_BANNERS_FIELD_IMAGE_LABEL"
+				description="COM_BANNERS_FIELD_IMAGE_DESC"
 				directory="banners"
 				hide_none="1"
-				label="COM_BANNERS_FIELD_IMAGE_LABEL"
 				size="40"
-				description="COM_BANNERS_FIELD_IMAGE_DESC"
 			/>
 
 			<field
