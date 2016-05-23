@@ -229,9 +229,9 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if ((strpos(strtolower($type1), "integer")!==false || strpos(strtolower($type1), "int(")!==false) && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
-			$result = 'int(10) unsigned';
+			$result = $type1.' unsigned';
 		}
 
 		return $result;
