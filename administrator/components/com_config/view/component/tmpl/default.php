@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration(
 						<?php
 						if (isset($fieldSet->description) && !empty($fieldSet->description))
 						{
-							echo '<p class="tab-description">' . JText::_($fieldSet->description) . '</p>';
+							echo '<p class="tab-description alert alert-info"><span class="icon-info"></span> ' . JText::_($fieldSet->description) . '</p>';
 						}
 						?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
