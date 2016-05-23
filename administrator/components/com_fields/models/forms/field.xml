@@ -78,7 +78,7 @@
 
 	<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC" />
-	<field id="rules" name="rules" type="dprules" label="JFIELD_RULES_LABEL"
+	<field id="rules" name="rules" type="rules" label="JFIELD_RULES_LABEL"
 		translate_label="false" filter="rules" validate="rules" component="com_fields"
 		section="field" />
 

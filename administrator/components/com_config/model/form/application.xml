@@ -1024,6 +1024,10 @@
 				name="core.edit.own"
 				title="JACTION_EDITOWN"
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
+			<action
+				name="core.edit.value"
+				title="JACTION_EDITVALUE"
+				description="COM_CONFIG_ACTION_EDITVALUE_DESC" />
 		</field>
 
 	</fieldset>
