@@ -52,7 +52,8 @@
 					name="cid"
 					type="bannerclient"
 					label="MOD_BANNERS_FIELD_BANNERCLIENT_LABEL"
-					description="MOD_BANNERS_FIELD_BANNERCLIENT_DESC" />
+					description="MOD_BANNERS_FIELD_BANNERCLIENT_DESC"
+				/>
 
 				<field
 					name="catid"
