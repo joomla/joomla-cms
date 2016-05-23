@@ -136,7 +136,9 @@
 					name="opensearch_title"
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION" />
+					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION"
+				/>
+
 				<field
 					name="set_itemid"
 					type="menuitem"
