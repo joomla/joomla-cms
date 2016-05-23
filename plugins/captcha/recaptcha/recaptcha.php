@@ -60,7 +60,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			// Load callback first for browser compatibility
 			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', false, true);
-			
+
 			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
 			JHtml::_('script', $file);
 		}
