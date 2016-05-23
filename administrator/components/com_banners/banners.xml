@@ -64,7 +64,8 @@
 				view="tracks"
 				img="class:banners-tracks"
 				alt="Banners/Tracks"
-				>com_banners_tracks
+				>
+				com_banners_tracks
 			</menu>
 		</submenu>
 		<files folder="admin">
