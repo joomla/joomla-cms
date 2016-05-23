@@ -36,10 +36,11 @@
 		<field
 			name="track_clicks"
 			type="radio"
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
+			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
-			description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>

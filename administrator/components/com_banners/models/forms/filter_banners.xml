@@ -31,7 +31,7 @@
 		</field>
 
 		<field
-         	name="client_id"
+			name="client_id"
 			type="bannerclient"
 			label="COM_BANNERS_FILTER_CLIENT"
 			description="COM_BANNERS_FILTER_CLIENT_DESC"
