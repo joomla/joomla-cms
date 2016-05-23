@@ -58,9 +58,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 		else
 		{
-			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
-			JFactory::getDocument()->addScript($file, "text/javascript", true);
+			// Load callback first for browser compatibility
 			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', false, true);
+			
+			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			JHtml::_('script', $file);
 		}
 
 		return true;
