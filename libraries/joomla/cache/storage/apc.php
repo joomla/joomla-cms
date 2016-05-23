@@ -57,7 +57,7 @@ class JCacheStorageApc extends JCacheStorage
 			}
 			elseif (isset($key['entry_name']))
 			{
-				// Some APC modules changed the internal key name from key to entry_name, HHMV is one such case
+				// Some APC modules changed the internal key name from key to entry_name, HHVM is one such case
 				$name = $key['entry_name'];
 			}
 			else
@@ -149,7 +149,7 @@ class JCacheStorageApc extends JCacheStorage
 			}
 			elseif (isset($key['entry_name']))
 			{
-				// Some APC modules changed the internal key name from key to entry_name, HHMV is one such case
+				// Some APC modules changed the internal key name from key to entry_name, HHVM is one such case
 				$internalKey = $key['entry_name'];
 			}
 			else
@@ -189,7 +189,7 @@ class JCacheStorageApc extends JCacheStorage
 			}
 			elseif (isset($key['entry_name']))
 			{
-				// Some APC modules changed the internal key name from key to entry_name, HHMV is one such case
+				// Some APC modules changed the internal key name from key to entry_name, HHVM is one such case
 				$internalKey = $key['entry_name'];
 			}
 			else
