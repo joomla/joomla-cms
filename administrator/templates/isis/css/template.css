@@ -8288,3 +8288,6 @@ body.modal-open {
 .modal-footer {
 	clear: both;
 }
+.modal-header {
+	text-align: left;
+}
