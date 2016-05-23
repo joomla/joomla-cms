@@ -142,7 +142,7 @@ $script .= "
 
 				if (task !== 'module.apply')
 				{
-					window.parent.jQuery('#module" . (int) $this->item->id . "Modal').modal('hide');
+					window.parent.jQuery('#module" . ((int) $this->item->id == 0 ? 'Add' : 'Edit' . (int) $this->item->id) . "Modal').modal('hide');
 				}
 			}
 	};";
