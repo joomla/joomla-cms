@@ -112,18 +112,20 @@
 		<field
 			name="metakey"
 			type="textarea"
-			rows="3"
-			cols="30"
 			label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDS_DESC"
+			rows="3"
+			cols="30"
 		/>
 
-		<field name="own_prefix" type="radio"
-			class="btn-group btn-group-yesno"
+		<field
+			name="own_prefix"
+			type="radio"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
+			class="btn-group btn-group-yesno"
 			default="0"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -140,11 +142,11 @@
 		<field
 			name="extrainfo"
 			type="textarea"
+			label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
+			description="COM_BANNERS_FIELD_EXTRAINFO_DESC"
 			class="span12"
 			rows="5"
 			cols="80"
-			label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
-			description="COM_BANNERS_FIELD_EXTRAINFO_DESC"
 		/>
 	</fieldset>
 </form>
