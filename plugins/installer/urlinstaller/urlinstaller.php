@@ -28,7 +28,7 @@ class PlgInstallerUrlInstaller extends JPlugin
 	/**
 	 * Get the install type and the related form for this Plugin.
 	 *
-	 * @param   array  $types      An array that will be appended with this plugin's install-type object
+	 * @param   array  &$types     An array that will be appended with this plugin's install-type object
 	 * @param   bool   $with_form  Whether to pass the install type information only or include relevant form/html also
 	 *
 	 * @return  bool  Always returns true
@@ -37,7 +37,7 @@ class PlgInstallerUrlInstaller extends JPlugin
 	 */
 	public function onInstallerFetchInstallTypes(&$types, $with_form = false)
 	{
-		$type = new stdClass();
+		$type = new stdClass;
 
 		$type->name        = 'url';
 		$type->title       = JText::_('PLG_INSTALLER_URLINSTALLER_TEXT');

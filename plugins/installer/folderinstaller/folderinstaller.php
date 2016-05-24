@@ -28,7 +28,7 @@ class PlgInstallerFolderInstaller  extends JPlugin
 	/**
 	 * Get the install type and the related form for this Plugin.
 	 *
-	 * @param   array  $types      An array that will be appended with this plugin's install-type object
+	 * @param   array  &$types     An array that will be appended with this plugin's install-type object
 	 * @param   bool   $with_form  Whether to pass the install type information only or include relevant form/html also
 	 *
 	 * @return  bool  Always returns true
@@ -38,7 +38,7 @@ class PlgInstallerFolderInstaller  extends JPlugin
 	public function onInstallerFetchInstallTypes(&$types, $with_form = false)
 	{
 		$app  = JFactory::getApplication('administrator');
-		$type = new stdClass();
+		$type = new stdClass;
 
 		$type->name        = 'folder';
 		$type->description = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
