@@ -340,14 +340,14 @@ class ModulesModelModules extends JModelList
 			// If user selected the modules not assigned to any page (menu item).
 			if ((int) $menuItemId === -1)
 			{
-				$query->having('MIN(mm.menuid) IS NULL');
+				$query->having('MIN(' . $db->quoteName('mm.menuid') . ') IS NULL');
 			}
 			// If user selected the modules assigned to some particlar page (menu item).
 			else
 			{
 				// Modules in "All" pages.
 				$subQuery1 = $db->getQuery(true);
-				$subQuery1->select('MIN(menuid)')
+				$subQuery1->select('MIN(' . $db->quoteName('menuid') . ')')
 					->from($db->quoteName('#__modules_menu'))
 					->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
 
@@ -355,13 +355,13 @@ class ModulesModelModules extends JModelList
 				$subQuery2 = $db->getQuery(true);
 				$subQuery2->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = ' . $menuItemId);
+					->where($db->quoteName('menuid') . ' = ' . (int) $menuItemId);
 
 				// Modules in "All except selected" pages that doesn't have the chosen menu item id.
 				$subQuery3 = $db->getQuery(true);
 				$subQuery3->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = -' . $menuItemId);
+					->where($db->quoteName('menuid') . ' = -' . (int) $menuItemId);
 
 				// Filter by modules assigned to the selected menu item.
 				$query->where('(
