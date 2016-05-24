@@ -319,16 +319,6 @@ class ContentRouter extends JComponentRouterBase
 			return $vars;
 		}
 
-		// First handle archive view
-		if ($item->query['view'] == 'archive')
-		{
-			$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
-			$vars['month'] = $segments[$count - 1];
-			$vars['view']  = 'archive';
-
-			return $vars;
-		}
-
 		/*
 		 * If there is only one segment, then it points to either an article or a category.
 		 * We test it first to see if it is a category.  If the id and alias match a category,
