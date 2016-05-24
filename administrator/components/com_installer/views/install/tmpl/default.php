@@ -11,7 +11,9 @@ defined('_JEXEC') or die;
 
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);
+JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
+JHtml::_('script', 'com_installer/install.js', false, true);
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
@@ -21,11 +23,8 @@ JFactory::getDocument()->addScriptDeclaration(
 		// do field validation
 		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
 			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
-		}
-		else
-		{
+		} else {
 			jQuery("#loading").css("display", "block");
-			
 			form.installtype.value = "url";
 			form.submit();
 		}
@@ -35,7 +34,6 @@ JFactory::getDocument()->addScriptDeclaration(
 		var form = document.getElementById("adminForm");
 		
 		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
-		
 		Joomla.submitbutton4();
 	};
 
@@ -64,7 +62,6 @@ JFactory::getDocument()->addStyleDeclaration(
 		filter: alpha(opacity = 80);
 		overflow: hidden;
 	}
-	
 	.j-jed-message {
 		margin-bottom: 40px;
 		line-height: 2em;
@@ -72,9 +69,7 @@ JFactory::getDocument()->addStyleDeclaration(
 	}
 	'
 );
-
 ?>
-
 <script type="text/javascript">
 	// Set the first tab to active if there is no other active tab
 	jQuery(document).ready(function($) {
@@ -83,7 +78,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		};
 		if (!hasTab(localStorage.getItem('tab-href')))
 		{
-			var tabAnchor = $("#myTabTabs li:first a");
+			var tabAnchor = $("#myTabTabs").find("li:first a");
 			window.localStorage.setItem('tab-href', tabAnchor.attr('href'));
 			tabAnchor.click();
 		}
@@ -104,7 +99,7 @@ JFactory::getDocument()->addStyleDeclaration(
 				<!-- Render messages set by extension install scripts here -->
 				<?php if ($this->showMessage) : ?>
 					<?php echo $this->loadTemplate('message'); ?>
-				<?php elseif ($this->showJedAndWebInstaller) : ?>
+				<?php elseif ($this->state->get('install.show_jed_info')) : ?>
 					<div class="alert alert-info j-jed-message"
 						style="margin-bottom: 40px; line-height: 2em; color:#333333;">
 						<?php echo JHtml::_(
@@ -121,17 +116,35 @@ JFactory::getDocument()->addStyleDeclaration(
 							onclick="Joomla.submitbuttonInstallWebInstaller()"/>
 					</div>
 				<?php endif; ?>
+
 				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
-				<?php // Show installation tabs at the start ?>
-				<?php $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
-				<?php // Show installation tabs ?>
-				<?php $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array()); ?>
-				<?php // Show installation tabs at the end ?>
-				<?php $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
-				<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
-				<?php if (!$tabs) : ?>
+
+				<?php if (!count($this->installTypes)) : ?>
 					<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 				<?php endif; ?>
+
+				<?php foreach ($this->installTypes as $tab) : ?>
+					<?php if (isset($tab->form) && $tab->form instanceof JForm): ?>
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab->name, $tab->title); ?>
+						<div class="clr"></div>
+						<fieldset class="uploadform">
+							<legend><?php echo $tab->title; ?></legend>
+							<?php foreach ($tab->form->getFieldset() as $field): ?>
+								<div class="control-group">
+									<div class="control-label"><?php echo $field->label; ?></div>
+									<div class="controls"><?php echo $field->input; ?></div>
+								</div>
+							<?php endforeach; ?>
+							<div class="form-actions">
+								<button type="button" class="btn btn-primary"
+								       onclick="Joomla.installer.submit('<?php echo $tab->name ?>');"><?php echo $tab->button; ?></button>
+							</div>
+						</fieldset>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
+					<?php else: // B/C for older plugins before Joomla 3.6.0 that echo html directly ?>
+						<?php echo $tab->html; ?>
+					<?php endif; ?>
+				<?php endforeach; ?>
 
 				<?php if ($this->ftp) : ?>
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE')); ?>

@@ -12,6 +12,7 @@
 
 	<files>
 		<filename plugin="urlinstaller">urlinstaller.php</filename>
+		<filename>form.xml</filename>
 	</files>
 
 	<languages>
