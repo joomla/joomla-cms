@@ -293,7 +293,7 @@ class MenusModelItems extends JModelList
 
 		if (!empty($parentId))
 		{
-			$query->where('p.id = ' . (int) $parentId);
+			$query->where('a.parent_id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.
