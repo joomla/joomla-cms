@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 
-	<fieldset name="contact"
+	<fieldset
+		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-	>
+		>
 
 		<field
-			name="contact_layout" type="componentlayout"
+			name="contact_layout"
+			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -15,26 +17,25 @@
 			view="contact"
 		/>
 
-		<field name="show_contact_category"
+		<field
+			name="show_contact_category"
 			type="list"
-			default="hide"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
-		>
+			default="hide"
+			>
 			<option value="hide">JHIDE</option>
-			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK
-			</option>
-			<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK
-			</option>
+			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
+			<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK</option>
 		</field>
 		
 		<field
 			name="save_history"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			default="0"
+			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -43,218 +44,244 @@
 		<field
 			name="history_limit"
 			type="text"
-			filter="integer"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			filter="integer"
+			showon="save_history:1"
 		/>
 
-		<field name="show_contact_list"
+		<field
+			name="show_contact_list"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
+			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
-				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="presentation_style"
-		type="list"
-			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+		<field
+			name="presentation_style"
+			type="list"
 			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-		>
+			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+			>
 			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
 			<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
 		</field>
 
-		<field name="show_name"
+		<field
+			name="show_name"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_position"
+		<field
+			name="show_position"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_email"
+		<field
+			name="show_email"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_street_address"
+		<field
+			name="show_street_address"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1" label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
+			label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_suburb"
+		<field
+			name="show_suburb"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_state"
+		<field
+			name="show_state"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_postcode"
+		<field
+			name="show_postcode"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_country"
+		<field
+			name="show_country"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_telephone"
+		<field
+			name="show_telephone"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_mobile"
+		<field
+			name="show_mobile"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_fax"
+		<field
+			name="show_fax"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_webpage"
+		<field
+			name="show_webpage"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_misc"
+		<field
+			name="show_misc"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_image"
+		<field
+			name="show_image"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
+			description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
 			default="1"
-			label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
-		>
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		<field name="image"
+
+		<field
+			name="image"
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
-		>
-		</field>
-		<field name="allow_vcard"
+			showon="show_image:1"
+		/>
+
+		<field
+			name="allow_vcard"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_articles"
+		<field
+			name="show_articles"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 			description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="articles_display_num"
+		<field
+			name="articles_display_num"
 			type="list"
-			default="10"
 			label="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_LABEL"
 			description="COM_CONTACT_FIELD_ARTICLES_DISPLAY_NUM_DESC"
-		>
+			default="10"
+			showon="show_articles:1"
+			>
 			<option value="use_contact">COM_CONTACT_FIELD_VALUE_USE_CONTACT_SETTINGS</option>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
@@ -272,132 +299,171 @@
 			<option value="0">JALL</option>
 		</field>
 
-		<field name="show_profile"
+		<field
+			name="show_profile"
 			type="radio"
-			class="btn-group btn-group-yesno"
+			label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
+			description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
 			default="1"
-			label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL" description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
-		>
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_links"
+		<field
+			name="show_links"
+			type="radio"
 			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-			type="radio"
-			class="btn-group btn-group-yesno"
 			default="1"
-		>
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-
 		</field>
 
-			<field name="linka_name"
-				type="text"
-				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30"
-			/>
-
-			<field name="linkb_name"
-				type="text"
-				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30"
-			/>
-
-			<field name="linkc_name" type="text"
-				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL" description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30" />
-
-			<field name="linkd_name"
-				type="text"
-				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30"
-			/>
-
-			<field name="linke_name"
-				type="text"
-				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
-				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-				size="30"
-			/>
+		<field
+			name="linka_name"
+			type="text"
+			label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
+			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+			size="30"
+			showon="show_links:1"
+		/>
 
 		<field
-			id="show_tags"
+			name="linkb_name"
+			type="text"
+			label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
+			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+			size="30"
+			showon="show_links:1"
+		/>
+
+		<field
+			name="linkc_name" 
+			type="text"
+			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL" 
+			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+			size="30" 
+			showon="show_links:1"
+		/>
+
+		<field
+			name="linkd_name"
+			type="text"
+			label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
+			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+			size="30"
+			showon="show_links:1"
+		/>
+
+		<field
+			name="linke_name"
+			type="text"
+			label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
+			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+			size="30"
+			showon="show_links:1"
+		/>
+
+		<field
 			name="show_tags"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC">
+			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
+			id="show_tags"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
 	</fieldset>
-	<fieldset name="Icons"
-			 label="COM_CONTACT_ICONS_SETTINGS"
-			 description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-			 >
 
-		<field name="contact_icons"
-			type="list"
-			default="0"
-			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
+	<fieldset
+		name="Icons"
+		label="COM_CONTACT_ICONS_SETTINGS"
+		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 		>
-			<option value="0">COM_CONTACT_FIELD_VALUE_ICONS
-			</option>
-			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT
-			</option>
-			<option value="2">COM_CONTACT_FIELD_VALUE_NONE
-			</option>
-		</field>
-
-		<field name="icon_address"
-			type="media"
-			hide_none="1" label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" />
-
-		<field name="icon_email"
-			type="media"
-			hide_none="1" label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" />
-
-		<field name="icon_telephone"
-			type="media"
-			 hide_none="1"
-			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" />
-
-		<field name="icon_mobile"
-			type="media"
-			 hide_none="1"
-			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" />
-
-		<field name="icon_fax"
-			type="media"
-			hide_none="1" label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" />
-
-		<field name="icon_misc"
-			type="media"
-			hide_none="1"
-			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
-	</fieldset>
-
-	<fieldset name="Category"
-			label="JCATEGORY"
-			description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
-	>
 
 		<field
-			name="category_layout" type="componentlayout"
+			name="contact_icons"
+			type="list"
+			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
+			default="0"
+			>
+			<option value="0">COM_CONTACT_FIELD_VALUE_ICONS</option>
+			<option value="1">COM_CONTACT_FIELD_VALUE_TEXT</option>
+			<option value="2">COM_CONTACT_FIELD_VALUE_NONE</option>
+		</field>
+
+		<field
+			name="icon_address"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
+			hide_none="1" 
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_email"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
+			hide_none="1" 
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_telephone"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" 
+			hide_none="1"
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_mobile"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" 
+			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" 
+			hide_none="1"
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_fax"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" 
+			hide_none="1" 
+			showon="contact_icons:0"
+		/>
+
+		<field
+			name="icon_misc"
+			type="media"
+			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" 
+			hide_none="1"
+			showon="contact_icons:0"
+		/>
+	</fieldset>
+
+	<fieldset
+		name="Category"
+		label="JCATEGORY"
+		description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
+		>
+
+		<field
+			name="category_layout"
+			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -405,41 +471,49 @@
 			view="category"
 		/>
 
-		<field name="show_category_title" type="radio"
-			default="1"
-			class="btn-group btn-group-yesno"
+		<field
+			name="show_category_title"
+			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_description" type="radio"
+		<field
+			name="show_description"
+			type="radio"
+			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
-			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
-			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-		>
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_description_image" type="radio"
+		<field
+			name="show_description_image"
+			type="radio"
+			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 			default="0"
 			class="btn-group btn-group-yesno"
-			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
-			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-		>
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="maxLevel" type="list"
-			default="-1"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+		<field
+			name="maxLevel"
+			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-		>
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+			default="-1"
+			>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
 			<option value="1">J1</option>
@@ -449,67 +523,84 @@
 			<option value="5">J5</option>
 		</field>
 
-		<field name="show_empty_categories" type="radio"
-			default="0"
-			class="btn-group btn-group-yesno"
-			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
-		>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field name="show_subcat_desc" type="radio"
-			default="1"
-			class="btn-group btn-group-yesno"
+		<field
+			name="show_subcat_desc"
+			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			showon="maxLevel:-1,1,2,3,4,5"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_cat_items" type="radio"
-			default="1"
+		<field
+			name="show_empty_categories"
+			type="radio"
+			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
+			default="0"
 			class="btn-group btn-group-yesno"
+			showon="maxLevel:-1,1,2,3,4,5"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="show_cat_items"
+			type="radio"
 			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_cat_tags" type="radio"
+		<field
+			name="show_cat_tags"
+			type="radio"
 			label="COM_CONTACT_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_CONTACT_FIELD_SHOW_CAT_TAGS_DESC"
-			class="btn-group btn-group-yesno"
 			default="1"
-		>
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 	</fieldset>
 
-		<fieldset name="categories"
+	<fieldset
+		name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
->
-		<field name="show_base_description" type="radio"
-			default="1"
-			class="btn-group btn-group-yesno"
+		>
+
+		<field
+			name="show_base_description"
+			type="radio"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="maxLevelcat" type="list"
-			default="-1"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+		<field
+			name="maxLevelcat"
+			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-		>
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+			default="-1"
+			>
 			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
 			<option value="1">J1</option>
 			<option value="2">J2</option>
 			<option value="3">J3</option>
@@ -517,318 +608,384 @@
 			<option value="5">J5</option>
 		</field>
 
-		<field name="show_empty_categories_cat" type="radio"
-			default="0"
-			class="btn-group btn-group-yesno"
-			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
-		>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field name="show_subcat_desc_cat" type="radio"
-			default="1"
-			class="btn-group btn-group-yesno"
+		<field
+			name="show_subcat_desc_cat"
+			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-		>
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field name="show_cat_items_cat" type="radio"
 			default="1"
 			class="btn-group btn-group-yesno"
-			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
-		>
+			showon="maxLevelcat:-1,1,2,3,4,5"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		
+		<field
+			name="show_empty_categories_cat"
+			type="radio"
+			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="maxLevelcat:-1,1,2,3,4,5"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
+		<field
+			name="show_cat_items_cat"
+			type="radio"
+			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
 	</fieldset>
 
-	<fieldset name="contacts"
+	<fieldset
+		name="contacts"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
-	>
+		>
+
 		<field
 			name="filter_field"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
-			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
+			description="JGLOBAL_FILTER_FIELD_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
 			>
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>		
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>		
 		</field>
 
-		<field name="show_pagination_limit" type="radio"
-			default="1"
-			class="btn-group btn-group-yesno"
-			description="JGLOBAL_DISPLAY_SELECT_DESC"
+		<field
+			name="show_pagination_limit"
+			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-		>
+			description="JGLOBAL_DISPLAY_SELECT_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_headings" type="radio"
-			default="1"
-			class="btn-group btn-group-yesno"
-			description="JGLOBAL_SHOW_HEADINGS_DESC"
+		<field
+			name="show_headings"
+			type="radio"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-		>
+			description="JGLOBAL_SHOW_HEADINGS_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_position_headings" type="radio"
+		<field
+			name="show_image_heading"
+			type="radio"
+			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL" 
+			description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="show_position_headings"
+			type="radio"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_email_headings" type="radio"
-			default="0"
-			class="btn-group btn-group-yesno"
+		<field
+			name="show_email_headings"
+			type="radio"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_telephone_headings"
+		<field
+			name="show_telephone_headings"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_mobile_headings"
+		<field
+			name="show_mobile_headings"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_fax_headings"
+		<field
+			name="show_fax_headings"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_suburb_headings" type="radio"
-			default="0"
-			class="btn-group btn-group-yesno"
+		<field
+			name="show_suburb_headings"
+			type="radio"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_state_headings"
+		<field
+			name="show_state_headings"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_country_headings"
+		<field
+			name="show_country_headings"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_headings:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-			<field name="show_pagination" type="list"
-				default="2"
-				description="JGLOBAL_PAGINATION_DESC"
-				label="JGLOBAL_PAGINATION_LABEL"
+		<field
+			name="show_pagination"
+			type="list"
+			label="JGLOBAL_PAGINATION_LABEL"
+			description="JGLOBAL_PAGINATION_DESC"
+			default="2"
 			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+			<option value="2">JGLOBAL_AUTO</option>
+		</field>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-				<option value="2">JGLOBAL_AUTO</option>
-			</field>
-
-			<field
-				name="show_pagination_results"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC"
+		<field
+			name="show_pagination_results"
+			type="radio"
+			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+			description="JGLOBAL_PAGINATION_RESULTS_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			showon="show_pagination:1,2"
 			>
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
-			</field>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
 
-			<field name="initial_sort" type="list"
-				description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
-				label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
-				validate="options"
-				default="ordering"
+		<field
+			name="initial_sort"
+			type="list"
+			label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
+			description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
+			default="ordering"
+			validate="options"
 			>
-				<option value="name">COM_CONTACT_FIELD_VALUE_NAME</option>
-				<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>
-				<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
-			</field>
+			<option value="name">COM_CONTACT_FIELD_VALUE_NAME</option>
+			<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>
+			<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
+		</field>
 	</fieldset>
 
-	<fieldset name="Contact_Form"
+	<fieldset
+		name="Contact_Form"
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
-	>
+		>
 
 		<field
 			name="captcha"
 			type="plugins"
-			folder="captcha"
-			default=""
 			label="COM_CONTACT_FIELD_CAPTCHA_LABEL"
 			description="COM_CONTACT_FIELD_CAPTCHA_DESC"
+			default=""
+			folder="captcha"
 			filter="cmd" >
-			<option
-				value="">JOPTION_USE_DEFAULT</option>
-			<option
-				value="0">JOPTION_DO_NOT_USE</option>
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
-		<field name="show_email_form"
+		<field
+			name="show_email_form"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="show_email_copy"
+		<field
+			name="show_email_copy"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 			description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			showon="show_email_form:1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
 
-		<field name="banned_email"
+		<field
+			name="banned_email"
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
 			rows="3"
 			cols="30"
-			description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
+			showon="show_email_form:1"
 		/>
 
-		<field name="banned_subject"
+		<field
+			name="banned_subject"
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_DESC"
 			rows="3"
 			cols="30"
-			description="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_DESC"
+			showon="show_email_form:1"
 		/>
 
-		<field name="banned_text"
+		<field
+			name="banned_text"
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_DESC"
 			rows="3"
 			cols="30"
-			description="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_DESC"
+			showon="show_email_form:1"
 		/>
 
-		<field name="validate_session"
+		<field
+			name="validate_session"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
-		>
+			default="1"
+			class="btn-group btn-group-yesno"
+			showon="show_email_form:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field name="custom_reply"
+		<field
+			name="custom_reply"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
-		>
+			default="0"
+			class="btn-group btn-group-yesno"
+			showon="show_email_form:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field name="redirect"
+		<field
+			name="redirect"
 			type="text"
-			size="30"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC" />
+			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC" 
+			size="30"
+			showon="show_email_form:1"
+		/>
 	</fieldset>
 
-	<fieldset name="integration"
+	<fieldset
+		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
-	>
+		>
 
 		<field
 			name="show_feed_link"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			description="JGLOBAL_SHOW_FEED_LINK_DESC">
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
+			description="JGLOBAL_SHOW_FEED_LINK_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
-
 	</fieldset>
 
-	<fieldset name="permissions"
+	<fieldset
+		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-	>
+		>
 
-		<field name="rules"
+		<field
+			name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			validate="rules"
 			filter="rules"
 			component="com_contact"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
-
 </config>

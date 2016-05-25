@@ -21,7 +21,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var    array
 	 *
-	 * @since  3.5.2
+	 * @since  3.6.0
 	 */
 	protected $updateInfo = null;
 
@@ -30,7 +30,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var    string
 	 *
-	 * @since  3.5.2
+	 * @since  3.6.0
 	 */
 	protected $methodSelect = null;
 
@@ -39,7 +39,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	 *
 	 * @var   string
 	 *
-	 * @since  3.5.2
+	 * @since  3.6.0
 	 */
 	protected $methodSelectUpload = null;
 
@@ -87,7 +87,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 
 		if (!is_null($this->updateInfo['object']))
 		{
-			// Show the message if a update is found.
+			// Show the message if an update is found.
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 

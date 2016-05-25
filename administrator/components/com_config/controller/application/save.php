@@ -35,14 +35,14 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			$this->app->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 
@@ -104,7 +104,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		}
 
 		// Set the success message.
-		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])

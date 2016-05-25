@@ -23,6 +23,7 @@ if (!count($images))
 	return;
 }
 
-$image = ModRandomImageHelper::getRandomImage($params, $images);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$image           = ModRandomImageHelper::getRandomImage($params, $images);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+
 require JModuleHelper::getLayoutPath('mod_random_image', $params->get('layout', 'default'));

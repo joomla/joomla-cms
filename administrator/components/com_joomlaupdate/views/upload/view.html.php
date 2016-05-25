@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! Update's Update View
  *
- * @since  3.5.2
+ * @since  3.6.0
  */
 class JoomlaupdateViewUpload extends JViewLegacy
 {
@@ -23,7 +23,7 @@ class JoomlaupdateViewUpload extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function display($tpl = null)
 	{

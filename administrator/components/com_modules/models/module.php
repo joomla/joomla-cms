@@ -254,13 +254,6 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
-				// Alter the title if necessary
-				$data = $this->generateNewTitle(0, $table->title, $table->position);
-				$table->title = $data['0'];
-
-				// Unpublish the moved module
-				$table->published = 0;
-
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
@@ -533,6 +526,10 @@ class ModulesModelModule extends JModelAdmin
 			$module   = JArrayHelper::getValue($data, 'module');
 			$id       = JArrayHelper::getValue($data, 'id');
 		}
+
+		// Add the default fields directory
+		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);

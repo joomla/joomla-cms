@@ -66,7 +66,6 @@ $version = new JVersion;
 			<?php echo JText::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT') ?><br />
 			<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
 		</p>
-
 		<table class="table table-striped table-condensed">
 			<thead>
 					<tr>
@@ -85,14 +84,12 @@ $version = new JVersion;
 					</tr>
 			</thead>
 			<tbody>
-				<?php
-				$version = new JVersion;
-				$currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion());
-				foreach ($this->items as $i => $language) :
-					// Get language code and language image.
-					preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element);
-					$language->code = $element[1];
-				?>
+				<?php $version = new JVersion; ?>
+				<?php $currentShortVersion = preg_replace('#^([0-9\.]+)(|.*)$#', '$1', $version->getShortVersion()); ?>
+				<?php foreach ($this->items as $i => $language) : ?>
+					<?php // Get language code and language image. ?>
+					<?php preg_match('#^pkg_([a-z]{2,3}-[A-Z]{2})$#', $language->element, $element); ?>
+					<?php $language->code = $element[1]; ?>
 					<tr>
 						<td>
 							<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $language->update_id; ?>" />

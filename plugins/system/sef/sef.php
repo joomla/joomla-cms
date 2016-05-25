@@ -50,6 +50,7 @@ class PlgSystemSef extends JPlugin
 
 		// Check if a canonical html tag already exists (for instance, added by a component).
 		$canonical = '';
+
 		foreach ($doc->_links as $linkUrl => $link)
 		{
 			if (isset($link['relation']) && $link['relation'] === 'canonical')
@@ -98,16 +99,19 @@ class PlgSystemSef extends JPlugin
 		if (strpos($buffer, 'href="index.php?') !== false)
 		{
 			preg_match_all('#href="index.php\?([^"]+)"#m', $buffer, $matches);
+
 			foreach ($matches[1] as $urlQueryString)
 			{
 				$buffer = str_replace('href="index.php?' . $urlQueryString . '"', 'href="' . JRoute::_('index.php?' . $urlQueryString) . '"', $buffer);
 			}
+
 			$this->checkBuffer($buffer);
 		}
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
-		$protocols = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'poster=');
+		$protocols  = '[a-zA-Z0-9\-]+:';
+		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
+
 		foreach ($attributes as $attribute)
 		{
 			if (strpos($buffer, $attribute) !== false)
@@ -128,6 +132,7 @@ class PlgSystemSef extends JPlugin
 
 		// Replace all unknown protocols in onmouseover and onmouseout attributes.
 		$attributes = array('onmouseover=', 'onmouseout=');
+
 		foreach ($attributes as $attribute)
 		{
 			if (strpos($buffer, $attribute) !== false)
