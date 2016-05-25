@@ -174,7 +174,8 @@ if ($menuType == '')
 							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
 						</td>
 						<td>
-							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
+							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+							<?php echo $prefix; ?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
@@ -195,9 +196,9 @@ if ($menuType == '')
 								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 							<?php endif; ?>
 							</span>
-							<div class="small" title="<?php echo $this->escape($item->path);?>">
-								<?php echo str_repeat('<span class="gtr">&mdash;</span>', $item->level - 1) ?>
-								<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
+							<div title="<?php echo $this->escape($item->path); ?>">
+								<?php echo $prefix; ?>
+								<span class="small"  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
 						</td>
