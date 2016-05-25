@@ -16,8 +16,12 @@ $output    = array();
 // Print the Preview link to Main site.
 if ($params->get('show_viewsite', 1))
 {
+	// Gets the FrontEnd Main page Uri
+	$frontEndUri = JUri::getInstance(JUri::root());
+	$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+
 	$output[] = '<div class="btn-group viewsite">'
-		. '<a href="' . JUri::root() . '" target="_blank">'
+		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
 		. '</div>'
