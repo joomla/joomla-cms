@@ -165,9 +165,9 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			// If the menutype is empty, group the items by menutype.
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('title')
-				->from('#__menu_types')
-				->where('menutype = ' . $db->quote($menuType));
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__menu_types'))
+				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
 			$db->setQuery($query);
 
 			try
