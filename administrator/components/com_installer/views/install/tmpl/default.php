@@ -11,36 +11,18 @@ defined('_JEXEC') or die;
 
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);
-JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'com_installer/install.js', false, true);
 
-JFactory::getDocument()->addScriptDeclaration(
-	'
-	Joomla.submitbutton4 = function() {
-		var form = document.getElementById("adminForm");
-
-		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://" || form.install_url.value == "https://") {
-			alert("' . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . '");
-		} else {
-			jQuery("#loading").css("display", "block");
-			form.installtype.value = "url";
-			form.submit();
-		}
-	};
-
+JFactory::getDocument()->addScriptDeclaration('
+	// Keep for B/C. required for webInstaller updates
 	Joomla.submitbuttonInstallWebInstaller = function() {
-		var form = document.getElementById("adminForm");
-		
-		form.install_url.value = "https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml";
-		Joomla.submitbutton4();
+		Joomla.installer.installWebInstaller();
 	};
-
 	// Add spindle-wheel for installations:
 	jQuery(document).ready(function($) {
 		var outerDiv = $("#installer-install");
-		
+
 		$("#loading")
 		.css("top", outerDiv.position().top - $(window).scrollTop())
 		.css("left", "0")
@@ -49,11 +31,9 @@ JFactory::getDocument()->addScriptDeclaration(
 		.css("display", "none")
 		.css("margin-top", "-10px");
 	});
-	'
-);
+');
 
-JFactory::getDocument()->addStyleDeclaration(
-	'
+JFactory::getDocument()->addStyleDeclaration('
 	#loading {
 		background: rgba(255, 255, 255, .8) url(\'' . JHtml::_('image', 'jui/ajax-loader.gif', '', null, true, true) . '\') 50% 15% no-repeat;
 		position: fixed;
@@ -67,8 +47,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		line-height: 2em;
 		color:#333333;
 	}
-	'
-);
+');
 ?>
 <script type="text/javascript">
 	// Set the first tab to active if there is no other active tab
@@ -113,22 +92,18 @@ JFactory::getDocument()->addStyleDeclaration(
 							&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
 						<input class="btn" type="button"
 							value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
-							onclick="Joomla.submitbuttonInstallWebInstaller()"/>
+							onclick="Joomla.installer.installWebInstaller()"/>
 					</div>
 				<?php endif; ?>
 
 				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab'); ?>
-
-				<?php if (!count($this->installTypes)) : ?>
-					<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
-				<?php endif; ?>
 
 				<?php foreach ($this->installTypes as $tab) : ?>
 					<?php if (isset($tab->form) && $tab->form instanceof JForm): ?>
 						<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab->name, $tab->title); ?>
 						<div class="clr"></div>
 						<fieldset class="uploadform">
-							<legend><?php echo $tab->title; ?></legend>
+							<legend><?php echo $tab->description; ?></legend>
 							<?php foreach ($tab->form->getFieldset() as $field): ?>
 								<div class="control-group">
 									<div class="control-label"><?php echo $field->label; ?></div>

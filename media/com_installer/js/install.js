@@ -22,5 +22,18 @@ Joomla.installer = {
 			jQuery('#loading').css('display', 'block');
 			form.submit();
 		}
+	},
+	installWebInstaller: function() {
+		var form = document.getElementById('adminForm');
+		if (typeof form.install_url == 'undefined') {
+			var install_url = document.createElement('input');
+			install_url.type = 'hidden';
+			install_url.name = 'install_url';
+			form.appendChild(install_url);
+		}
+		form.install_url.value = 'https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+		form.installtype.value = 'url';
+		jQuery('#loading').css('display', 'block');
+		form.submit();
 	}
 };

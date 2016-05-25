@@ -63,8 +63,6 @@ class InstallerViewInstall extends InstallerViewDefault
 		if (count($this->installTypes) == 0)
 		{
 			JLog::add(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), JLog::INFO, 'jerror');
-
-			return;
 		}
 
 		$show = $this->state->get('install.show_jed_info');
