@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 ?>
+<button id="applyBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.apply');"></button>
 <button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
 <button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.cancel');"></button>
 
