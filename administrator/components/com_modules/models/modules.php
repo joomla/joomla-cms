@@ -365,7 +365,7 @@ class ModulesModelModules extends JModelList
 
 				// Filter by modules assigned to the selected menu item.
 				$query->where('(
-					(' . $subQuery1 . ') = 0 
+					(' . $subQuery1 . ') = 0
 					OR ((' . $subQuery1 . ') > 0 AND ' . $db->quoteName('a.id') . ' IN (' . $subQuery2 . '))
 					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
 					)');
