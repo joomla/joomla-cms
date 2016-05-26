@@ -23,7 +23,7 @@ if (is_callable(array($doc, 'setHtml5')))
 	<meta charset="utf-8" />
 	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 	<link href="templates/system/css/error.css" rel="stylesheet" />
-	<!--[if lt IE 9]><script src="<?php echo $this->baseurl; ?>/media/jui/js/html5.js"></script><![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri:root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
 	<table class="outline" style="text-align: center; width: 550px;">
