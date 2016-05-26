@@ -1782,13 +1782,13 @@ class PlgSystemDebug extends JPlugin
 
 		$showEverything = $this->params->get('log-everything', 0);
 
-		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logEntriesTotal) . '</h4><br />';
+		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br />';
 
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
 			<div class="alert alert-warning">
-				<h4>' . sprintf(JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE'), $logEntriesDeprecated) . '</h4>
+				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
 			</div>
 			<br />';
