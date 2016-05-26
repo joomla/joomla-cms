@@ -671,11 +671,11 @@ class JBrowser
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isSSLConnection method on the application object.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isHttpsConnection() method on the application object.
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add('JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
+		JLog::add('JBrowser::isSSLConnection() is deprecated. Use the isHttpsConnection method on the application object instead.',
 			JLog::WARNING, 'deprecated');
 
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));

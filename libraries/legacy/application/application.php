@@ -1164,7 +1164,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   12.2
-	 * @deprecated  4.0
+	 * @deprecated  4.0 - Use the isHttpsConnection() method instead.
 	 */
 	public function isSSLConnection()
 	{
