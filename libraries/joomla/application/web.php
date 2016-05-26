@@ -983,8 +983,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add(__CLASS__ . '::isSSLConnection() is deprecated. Use the ' . __CLASS__ . '::isHttpsConnection() instead.',
-			JLog::WARNING, 'deprecated');
+		JLog::add(__CLASS__ . '::isSSLConnection() is deprecated. Use the ' . __CLASS__ . '::isHttpsConnection() instead.', JLog::WARNING, 'deprecated');
 
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
