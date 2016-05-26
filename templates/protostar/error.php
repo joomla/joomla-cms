@@ -68,7 +68,7 @@ else
 	<?php if ($params->get('googleFont')) : ?>
 		<link href="//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName'); ?>" rel="stylesheet" />
 		<style>
-			h1,h2,h3,h4,h5,h6,.site-title{
+			h1, h2, h3, h4, h5, h6, .site-title {
 				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName')); ?>', sans-serif;
 			}
 		</style>
@@ -85,21 +85,17 @@ else
 	<?php // Template color ?>
 	<?php if ($params->get('templateColor')) : ?>
 		<style>
-			body.site
-			{
+			body.site {
 				border-top: 3px solid <?php echo $params->get('templateColor'); ?>;
 				background-color: <?php echo $params->get('templateBackgroundColor'); ?>
 			}
-			a
-			{
+			a {
 				color: <?php echo $params->get('templateColor'); ?>;
 			}
-			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover
-			{
+			.navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover {
 				background: <?php echo $params->get('templateColor'); ?>;
 			}
-			.navbar-inner
-			{
+			.navbar-inner {
 				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
 				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
