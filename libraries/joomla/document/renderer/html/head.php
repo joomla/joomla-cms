@@ -214,7 +214,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if (!empty($scriptOptions))
 		{
-			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+			$buffer .= $tab . '<script';
+
+			if (!$document->isHtml5())
+			{
+				$buffer .= ' type="text/javascript"';
+			}
+
+			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
