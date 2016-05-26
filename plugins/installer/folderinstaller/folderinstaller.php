@@ -34,42 +34,14 @@ class PlgInstallerFolderInstaller extends JPlugin
 	 */
 	public function onInstallerAddInstallationTab()
 	{
-		$app = JFactory::getApplication('administrator');
-
 		$tab            = array();
 		$tab['name']    = 'folder';
 		$tab['label']   = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
-		$tab['content'] = '<legend>' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT') . '</legend>'
-			. '<div class="control-group">'
-				. '<label for="install_directory" class="control-label">' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT') . '</label>'
-				. '<div class="controls">'
-					. '<input type="text" id="install_directory" name="install_directory" class="span5 input_box" size="70" value="'
-						. $app->input->get('install_directory', $app->get('tmp_path')) . '" />'
-				. '</div>'
-			. '</div>'
-			. '<div class="form-actions">'
-				. '<input type="button" class="btn btn-primary" id="installbutton_directory"
-					value="' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON') . '" onclick="Joomla.submitbuttonfolder()" />'
-			. '</div>';
 
-		JFactory::getDocument()->addScriptDeclaration('
-			Joomla.submitbuttonfolder = function()
-			{
-				var form = document.getElementById("adminForm");
-		
-				// do field validation 
-				if (form.install_directory.value == "")
-				{
-					alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH') . '");
-				}
-				else
-				{
-					jQuery("#loading").css("display", "block");
-					form.installtype.value = "folder"
-					form.submit();
-				}
-			};
-		');
+		// Render the input
+		ob_start();
+		include JPluginHelper::getLayoutPath('installer', 'folderinstaller');
+		$tab['content'] = ob_get_clean();
 
 		return $tab;
 	}
