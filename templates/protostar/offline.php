@@ -62,6 +62,7 @@ if ($this->params->get('templateColor'))
 	.btn-primary {
 		background: " . $this->params->get('templateColor') . ";
 	}");
+}
 
 // Check for a custom CSS file
 $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
