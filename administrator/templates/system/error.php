@@ -26,20 +26,18 @@ if (is_callable(array($doc, 'setHtml5')))
 	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
-	<table class="outline" style="text-align: center; width: 550px;">
+	<table class="outline" style="margin: 0 auto; width: 550px;">
 		<tr>
 			<td style="text-align: center;">
-				<h1>
-					<?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED') ?>
-				</h1>
+				<h1><?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 			</td>
 		</tr>
 		<tr>
-			<td width="39%" style="text-align: center;">
+			<td style="text-align: center;">
 				<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
-				<p><a href="<?php JRoute::_('index.php'); ?>"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a></p>
+				<p><a href="<?php JRoute::_('index.php'); ?>"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 				<?php if ($this->debug) : ?>
-					<div><?php echo $this->renderBacktrace(); ?></divp>
+					<div><?php echo $this->renderBacktrace(); ?></div>
 				<?php endif; ?>
 			</td>
 		</tr>
