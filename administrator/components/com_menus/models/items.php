@@ -115,7 +115,6 @@ class MenusModelItems extends JModelList
 			elseif ($user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id))
 			{
 				$app->setUserState($this->context . '.menutype', $menuType);
-				$app->input->set('limitstart', 0);
 				$this->setState('menutypetitle', !empty($menuTypeItem->title) ? $menuTypeItem->title : '');
 				$this->setState('menutypeid', !empty($menuTypeItem->id) ? $menuTypeItem->id : '');
 			}
