@@ -53,6 +53,7 @@ class PlgSystemRedirect extends JPlugin
 		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
 	}
 
+
 	/**
 	 * Method to handle an error condition from JError.
 	 *
@@ -101,11 +102,9 @@ class PlgSystemRedirect extends JPlugin
 	 */
 	private static function doErrorHandling($error)
 	{
-		// Get the application object.
 		$app = JFactory::getApplication();
 
-		// Make sure the error is a 404 and we are not in the administrator.
-		if ($app->isAdmin() || $error->getCode() != 404)
+		if ($app->isAdmin() || ((int) $error->getCode() !== 404))
 		{
 			// Proxy to the previous exception handler if available, otherwise just render the error page
 			if (self::$previousExceptionHandler)
@@ -118,125 +117,135 @@ class PlgSystemRedirect extends JPlugin
 			}
 		}
 
-		// Get the full current URI.
-		$uri     = JUri::getInstance();
-		$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
+		$uri = JUri::getInstance();
 
-		// Attempt to ignore idiots.
-		if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
+		$url = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
+		$urlRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
+
+		$urlWithoutQuery = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'fragment')));
+		$urlRelWithoutQuery = rawurldecode($uri->toString(array('path', 'fragment')));
+
+		// Why is this (still) here?
+		if ((strpos($url, 'mosConfig_') !== false) || (strpos($url, '=http://') !== false))
 		{
-			// Render the error page.
 			JErrorPage::render($error);
 		}
 
-		// See if the current url exists in the database as a redirect.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('new_url', 'header')))
-			->select($db->quoteName('published'))
-			->from($db->quoteName('#__redirect_links'))
-			->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
-		$db->setQuery($query, 0, 1);
-		$link = $db->loadObject();
+		$dbo = JFactory::getDbo();
 
-		// If no published redirect was found try with the server-relative URL
-		if (!$link || ($link->published != 1))
-		{
-			$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
-			$query = $db->getQuery(true)
-				->select($db->quoteName(array('new_url', 'header')))
-				->select($db->quoteName('published'))
-				->from($db->quoteName('#__redirect_links'))
-				->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));
-			$db->setQuery($query, 0, 1);
-			$link = $db->loadObject();
-		}
+		$query = $dbo->getQuery(true);
 
-		// If a redirect exists and is published, permanently redirect.
-		if ($link && ($link->published == 1))
-		{
-			// If no header is set use a 301 permanent redirect
-			if (!$link->header || JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
-			{
-				$link->header = 301;
-			}
+		$query->select('*')
+			->from($dbo->qn('#__redirect_links'))
+			->where(
+				'('
+				. $dbo->qn('old_url') . ' = ' . $dbo->q($url)
+				. ' OR '
+				. $dbo->qn('old_url') . ' = ' . $dbo->q($urlRel)
+				. ' OR '
+				. $dbo->qn('old_url') . ' = ' . $dbo->q($urlWithoutQuery)
+				. ' OR '
+				. $dbo->qn('old_url') . ' = ' . $dbo->q($urlRelWithoutQuery)
+				. ')'
+			);
 
-			// If we have a redirect in the 300 range use JApplicationWeb::redirect().
-			if ($link->header < 400 && $link->header >= 300)
-			{
-				$new_link = JUri::isInternal($link->new_url) ? JRoute::_($link->new_url) : $link->new_url;
+		$dbo->setQuery($query);
 
-				$app->redirect($new_link, intval($link->header));
-			}
-
-			// Else rethrow the exeception with the new header and return
-			JErrorPage::render(new RuntimeException($error->getMessage(), $link->header, $error));
-		}
+		$redirect = null;
 
 		try
 		{
-			$referer = $app->input->server->getString('HTTP_REFERER', '');
-			$query   = $db->getQuery(true)
-				->select($db->quoteName('id'))
-				->from($db->quoteName('#__redirect_links'))
-				->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
-			$db->setQuery($query);
-			$res = $db->loadResult();
+			$redirects = $dbo->loadAssocList();
 
-			if (!$res)
+			$possibleMatches = array_unique(
+				array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
+			);
+
+			foreach ($possibleMatches as $match)
 			{
-				// If not, add the new url to the database but only if option is enabled
-				$params       = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
-				$collect_urls = $params->get('collect_urls', 1);
-
-				if ($collect_urls == true)
+				if (($index = array_search($match, array_column($redirects, 'old_url'))) !== false)
 				{
-					$columns = array(
-						$db->quoteName('old_url'),
-						$db->quoteName('new_url'),
-						$db->quoteName('referer'),
-						$db->quoteName('comment'),
-						$db->quoteName('hits'),
-						$db->quoteName('published'),
-						$db->quoteName('created_date')
-					);
+					$redirect = (object) $redirects[$index];
 
-					$values = array(
-						$db->quote($current),
-						$db->quote(''),
-						$db->quote($referer),
-						$db->quote(''),
-						1,
-						0,
-						$db->quote(JFactory::getDate()->toSql())
-					);
-
-					$query->clear()
-						->insert($db->quoteName('#__redirect_links'), false)
-						->columns($columns)
-						->values(implode(', ', $values));
-
-					$db->setQuery($query);
-					$db->execute();
+					if ((int) $redirect->published === 1)
+					{
+						break;
+					}
 				}
 			}
-			else
-			{
-				// Existing error url, increase hit counter.
-				$query->clear()
-					->update($db->quoteName('#__redirect_links'))
-					->set($db->quoteName('hits') . ' = ' . $db->quoteName('hits') . ' + 1')
-					->where('id = ' . (int) $res);
-				$db->setQuery($query);
-				$db->execute();
-			}
 		}
-		catch (RuntimeException $exception)
+		catch (Exception $e)
 		{
-			JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 404, $exception));
+			JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
 		}
 
-		// Render the error page.
+		// A redirect object was found and, if published, will be used
+		if (!is_null($redirect) && ((int) $redirect->published === 1))
+		{
+			if (!$redirect->header || (bool) JComponentHelper::getParams('com_redirect')->get('mode', false) === false)
+			{
+				$redirect->header = 301;
+			}
+
+			if ($redirect->header < 400 && $redirect->header >= 300)
+			{
+				$urlQuery = $uri->getQuery();
+
+				$oldUrlParts = parse_url($redirect->old_url);
+
+				if (empty($oldUrlParts['query']) && $urlQuery !== '')
+				{
+					$redirect->new_url .= '?' . $urlQuery;
+				}
+
+				$destination = JUri::isInternal($redirect->new_url) ? JRoute::_($redirect->new_url) : $redirect->new_url;
+
+				$app->redirect($destination, (int) $redirect->header);
+			}
+
+			JErrorPage::render(new RuntimeException($error->getMessage(), $redirect->header, $error));
+		}
+		// No redirect object was found so we create an entry in the redirect table
+		elseif (is_null($redirect))
+		{
+			$params = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
+
+			if ((bool) $params->get('collect_urls', true))
+			{
+				$data = (object) array(
+					'id' => 0,
+					'old_url' => $url,
+					'referer' => $app->input->server->getString('HTTP_REFERER', ''),
+					'hits' => 1,
+					'published' => 0,
+					'created_date' => JFactory::getDate()->toSql()
+				);
+
+				try
+				{
+					$dbo->insertObject('#__redirect_links', $data, 'id');
+				}
+				catch (Exception $e)
+				{
+					JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+				}
+			}
+		}
+		// We have an unpublished redirect object, increment the hit counter
+		else
+		{
+			$redirect->hits += 1;
+
+			try
+			{
+				$dbo->updateObject('#__redirect_links', $redirect, 'id');
+			}
+			catch (Exception $e)
+			{
+				JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+			}
+		}
+
 		JErrorPage::render($error);
 	}
 }
