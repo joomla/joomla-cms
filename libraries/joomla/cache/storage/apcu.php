@@ -50,8 +50,22 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			// The internal key name changed with APCu 4.0.7 from key to info
-			$name    = isset($key['info']) ? $key['info'] : $key['key'];
+			if (isset($key['info']))
+			{
+				// The internal key name changed with APCu 4.0.7 from key to info
+				$name = $key['info'];
+			}
+			elseif (isset($key['entry_name']))
+			{
+				// Some APCu modules changed the internal key name from key to entry_name
+				$name = $key['entry_name'];
+			}
+			else
+			{
+				// A fall back for the old internal key name
+				$name = $key['key'];
+			}
+
 			$namearr = explode('-', $name);
 
 			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
@@ -136,8 +150,21 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			// The internal key name changed with APCu 4.0.7 from key to info
-			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+			if (isset($key['info']))
+			{
+				// The internal key name changed with APCu 4.0.7 from key to info
+				$internalKey = $key['info'];
+			}
+			elseif (isset($key['entry_name']))
+			{
+				// Some APCu modules changed the internal key name from key to entry_name
+				$internalKey = $key['entry_name'];
+			}
+			else
+			{
+				// A fall back for the old internal key name
+				$internalKey = $key['key'];
+			}
 
 			if (strpos($internalKey, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
 			{
@@ -163,8 +190,21 @@ class JCacheStorageApcu extends JCacheStorage
 
 		foreach ($keys as $key)
 		{
-			// The internal key name changed with APCu 4.0.7 from key to info
-			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
+			if (isset($key['info']))
+			{
+				// The internal key name changed with APCu 4.0.7 from key to info
+				$internalKey = $key['info'];
+			}
+			elseif (isset($key['entry_name']))
+			{
+				// Some APCu modules changed the internal key name from key to entry_name
+				$internalKey = $key['entry_name'];
+			}
+			else
+			{
+				// A fall back for the old internal key name
+				$internalKey = $key['key'];
+			}
 
 			if (strpos($internalKey, $secret . '-cache-'))
 			{
