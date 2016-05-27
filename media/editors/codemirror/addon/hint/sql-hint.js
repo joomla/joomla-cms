@@ -105,7 +105,7 @@
   }
 
   function nameCompletion(cur, token, result, editor) {
-    // Try to complete table, colunm names and return start position of completion
+    // Try to complete table, column names and return start position of completion
     var useBacktick = false;
     var nameParts = [];
     var start = token.start;
@@ -241,7 +241,7 @@
     var defaultTableName = options && options.defaultTable;
     var disableKeywords = options && options.disableKeywords;
     defaultTable = defaultTableName && getTable(defaultTableName);
-    keywords = keywords || getKeywords(editor);
+    keywords = getKeywords(editor);
 
     if (defaultTableName && !defaultTable)
       defaultTable = findTableByAlias(defaultTableName, editor);

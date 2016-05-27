@@ -55,13 +55,13 @@ function sendPermissions(event) {
 			{
 				jQuery(element).parents().next('td').find('span')
 					.removeClass('label label-important').addClass('label label-success')
-					.html('Allowed');
+					.html(Joomla.JText._('JLIB_RULES_ALLOWED'));
 			}
 			else
 			{
 				jQuery(element).parents().next('td').find('span')
 					.removeClass('label label-success').addClass('label label-important')
-					.html('Not Allowed.');
+					.html(Joomla.JText._('JLIB_RULES_NOT_ALLOWED'));
 			}
 		}
 		else

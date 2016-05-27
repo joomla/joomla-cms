@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.5';
+	const RELEASE = '3.6';
 
 	/**
 	 * Maintenance version.
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '2-dev';
+	const DEV_LEVEL = '0-alpha2-dev';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'Alpha';
 
 	/**
 	 * Build number.
@@ -62,7 +62,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Unicorn';
+	const CODENAME = 'Noether';
 
 	/**
 	 * Release date.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '05-April-2016';
+	const RELDATE = '21-May-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '22:45';
+	const RELTIME = '20:43';
 
 	/**
 	 * Release timezone.

@@ -115,7 +115,8 @@
 		var navTop;
 		var isFixed = false;
 
-		if (window.isisStickyToolbar == 1) {
+
+		if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 			processScrollInit();
 			processScroll();
 
@@ -125,7 +126,7 @@
 
 		function processScrollInit() {
 			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+				navTop = $('.subhead').length && $('.subhead').offset().top - parseInt(document.getElementById('isisJsData').getAttribute('data-tmpl-offset'));
 
 				// Fix the container top
 				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());

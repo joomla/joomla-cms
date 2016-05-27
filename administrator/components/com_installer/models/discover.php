@@ -137,6 +137,7 @@ class InstallerModelDiscover extends InstallerModel
 	public function discover()
 	{
 		// Purge the list of discovered extensions and fetch them again.
+		$this->purge();
 		$results = JInstaller::getInstance()->discover();
 
 		// Get all templates, including discovered ones

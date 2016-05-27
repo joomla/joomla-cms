@@ -18,8 +18,6 @@ defined('JPATH_BASE') or die;
 
 extract($displayData);
 
-JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '#collapseModal'));
-
 $optionNo = '';
 
 if ($noUser)

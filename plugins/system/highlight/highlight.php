@@ -62,7 +62,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Clean the terms array.
-		$filter = JFilterInput::getInstance();
+		$filter     = JFilterInput::getInstance();
 
 		$cleanTerms = array();
 

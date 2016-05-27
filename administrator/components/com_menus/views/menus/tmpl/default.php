@@ -85,7 +85,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							<span class="icon-cube"></span>
 							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -102,14 +102,19 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 					$canCreate = $user->authorise('core.create',     'com_menus');
 					$canEdit   = $user->authorise('core.edit',       'com_menus');
 					$canChange = $user->authorise('core.edit.state', 'com_menus');
+					$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>
+							<?php if ($canManageItems) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
 								<?php echo $this->escape($item->title); ?></a>
+							<?php else : ?>
+								<?php echo $this->escape($item->title); ?>
+							<?php endif; ?>
 							<div class="small">
 								<?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL'); ?>:
 								<?php if ($canEdit) : ?>
@@ -144,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 											<li>
 												<?php if ($canEdit) : ?>
 													<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-													<a href="#module<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+													<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
 														<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
 												<?php else : ?>
 													<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
@@ -158,39 +163,58 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
 										<?php echo JHtml::_(
 												'bootstrap.renderModal',
-												'module' . $module->id . 'Modal',
+												'moduleEdit' . $module->id . 'Modal',
 												array(
-													'url' => $link,
-													'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-													'height' => '300px',
-													'width' => '800px',
-													'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-														. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-														. '<button class="btn btn-success" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#module'
-														. $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-														. JText::_("JSAVE") . '</button>'
+													'url'         => $link,
+													'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+													'backdrop'    => 'static',
+													'closeButton' => false,
+													'height'      => '400px',
+													'width'       => '800px',
+													'modalWidth'  => '80',
+													'bodyHeight'  => '70',
+													'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+															. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+															. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+															. JText::_("JSAVE") . '</button>'
+															. '<button type="button" class="btn btn-success" aria-hidden="true"'
+															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+															. JText::_("JAPPLY") . '</button>'
 												)
 											); ?>
 									<?php endif; ?>
 								<?php endforeach; ?>
 							<?php elseif ($modMenuId) : ?>
-								<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype); ?>
-								<a href="<?php echo $link; ?>"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+								<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
+								<a class="btn btn-small btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
 								<?php echo JHtml::_(
 										'bootstrap.renderModal',
-										'moduleModal',
+										'moduleAddModal',
 										array(
-											'url' => $link,
-											'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-											'height' => '500px',
-											'width' => '800px',
-											'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-												. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+											'url'         => $link,
+											'title'       => JText::_('COM_MENUS_ADD_MENU_MODULE'),
+											'backdrop'    => 'static',
+											'closeButton' => false,
+											'height'      => '400px',
+											'width'       => '800px',
+											'modalWidth'  => '80',
+											'bodyHeight'  => '70',
+											'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
+													. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+													. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#saveBtn\').click();">'
+													. JText::_("JSAVE") . '</button>'
+													. '<button type="button" class="btn btn-success" aria-hidden="true"'
+													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#applyBtn\').click();">'
+													. JText::_("JAPPLY") . '</button>'
 										)
 									); ?>
 							<?php endif; ?>
 						</td>
-						<td>
+						<td class="hidden-phone">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

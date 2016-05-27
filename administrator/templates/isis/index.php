@@ -17,6 +17,11 @@ $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
 
+// Gets the FrontEnd Main page Uri
+$frontEndUri = JUri::getInstance(JUri::root());
+$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+$mainPageUri = $frontEndUri->toString();
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
@@ -112,15 +117,8 @@ $stickyBar = 0;
 
 if ($stickyToolbar)
 {
-	$stickyBar = 1;
+	$stickyBar = 'true';
 }
-
-$doc->addScriptDeclaration(
-	"
-	window.isisStickyToolbar = $stickyBar;
-	window.isisOffsetTop = $offset;
-	"
-);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -170,7 +168,7 @@ $doc->addScriptDeclaration(
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" data-basepath="<?php echo JURI::root(true); ?>">
 <!-- Top Navigation -->
 <nav class="navbar<?php echo $navbar_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
 	<div class="navbar-inner">
@@ -185,14 +183,14 @@ $doc->addScriptDeclaration(
 
 			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '/index.php"'); ?>><span class="icon-joomla"></span></a>
 
-			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+			<a class="brand hidden-desktop hidden-tablet" href="<?php echo $mainPageUri; ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
 
 			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse collapse"' : ''; ?>>
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
-						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
+						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-user"></span>
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<?php if (!$hidden) : ?>
@@ -214,7 +212,7 @@ $doc->addScriptDeclaration(
 						</ul>
 					</li>
 				</ul>
-				<a class="brand visible-desktop visible-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+				<a class="brand visible-desktop visible-tablet" href="<?php echo $mainPageUri; ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 					<span class="icon-out-2 small"></span></a>
 			</div>
 			<!--/.nav-collapse -->
@@ -246,7 +244,7 @@ $doc->addScriptDeclaration(
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse">
+	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>
@@ -276,11 +274,6 @@ $doc->addScriptDeclaration(
 				<div class="span12">
 					<?php endif; ?>
 					<jdoc:include type="message" />
-					<?php
-					// Show the page title here if the header is hidden
-					if (!$displayHeader) : ?>
-						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false); ?></h1>
-					<?php endif; ?>
 					<jdoc:include type="component" />
 				</div>
 			</div>

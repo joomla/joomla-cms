@@ -448,7 +448,7 @@ class JFile
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public static function append($file, &$buffer, $use_streams = false)
 	{

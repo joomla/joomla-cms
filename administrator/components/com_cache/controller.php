@@ -97,6 +97,44 @@ class CacheController extends JControllerLegacy
 	}
 
 	/**
+	 * Method to delete all cache groups.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.6.0
+	 */
+	public function deleteAll()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$app        = JFactory::getApplication();
+		$model      = $this->getModel('cache');
+		$data       = $model->getCache()->getAll();
+		$allCleared = true;
+
+		foreach ($data as $cache)
+		{
+			if ((int) $model->clean($cache->group) !== 1)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $cache->group), 'error');
+				$allCleared = false;
+			}
+		}
+
+		if ($allCleared)
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+		}
+
+		$this->setRedirect('index.php?option=com_cache&view=cache');
+	}
+
+	/**
 	 * Purge the cache.
 	 *
 	 * @return  void

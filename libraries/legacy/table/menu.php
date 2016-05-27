@@ -144,7 +144,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Make the alias URL safe.
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{

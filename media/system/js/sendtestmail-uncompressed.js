@@ -12,7 +12,7 @@ jQuery(document).ready(function ($)
 	$('#sendtestmail').click(function ()
 	{
 		var email_data = {
-			smtpauth  : $('input[name="jform[smtpauth]"]').val(),
+			smtpauth  : $('input[name="jform[smtpauth]"]:checked').val(),
 			smtpuser  : $('input[name="jform[smtpuser]"]').val(),
 			smtppass  : $('input[name="jform[smtppass]"]').val(),
 			smtphost  : $('input[name="jform[smtphost]"]').val(),
