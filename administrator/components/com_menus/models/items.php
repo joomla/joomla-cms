@@ -96,6 +96,12 @@ class MenusModelItems extends JModelList
 
 		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
 
+		// If selected menu type different from current menu type reset pagination to 0
+		if ($menuType != $app->getUserState($this->context . '.menutype', ''))
+		{
+			$app->input->set('limitstart', 0);
+		}
+
 		if ($menuType)
 		{
 			$db = $this->getDbo();

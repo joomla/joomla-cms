@@ -5,7 +5,7 @@
 		type="menu"
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
-		onchange="jQuery('input[name=limitstart]').val('0');this.form.submit();"
+		onchange="this.form.submit();"
 		accesstype="manage"
 		>
 		<option value="">COM_MENUS_SELECT_MENU</option>
