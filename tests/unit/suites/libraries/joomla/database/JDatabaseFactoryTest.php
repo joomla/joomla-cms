@@ -41,6 +41,20 @@ class JDatabaseFactoryTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset(static::$instance);
+		parent::tearDown();
+	}
+
+	/**
 	 * Test for the JDatabaseFactory::getInstance method.
 	 *
 	 * @return  void
