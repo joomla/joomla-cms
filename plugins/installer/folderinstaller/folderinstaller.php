@@ -28,24 +28,30 @@ class PlgInstallerFolderInstaller  extends JPlugin
 	/**
 	 * Get the install type and the related form for this Plugin.
 	 *
-	 * @param   array  &$types     An array that will be appended with this plugin's install-type object
-	 * @param   bool   $with_form  Whether to pass the install type information only or include relevant form/html also
+	 * @param   array  &$types    An array that will be appended with this plugin's install-type object
+	 *                            Properties of that object:
+	 *                            name: install type name,
+	 *                            title: Title of the install type,
+	 *                            description: Short description for the install type,
+	 *                            button: Submit Button label
+	 *                            form: The JForm instance for the install form OR the html
+	 * @param   bool   $withForm  Whether to pass the install type information only or include relevant form/html also
 	 *
 	 * @return  bool  Always returns true
 	 *
 	 * @since   3.6.0
 	 */
-	public function onInstallerFetchInstallTypes(&$types, $with_form = false)
+	public function onInstallerFetchInstallTypes(&$types, $withForm = false)
 	{
 		$app  = JFactory::getApplication('administrator');
 		$type = new stdClass;
 
 		$type->name        = 'folder';
-		$type->description = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 		$type->title       = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
+		$type->description = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
 		$type->button      = JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON');
 
-		if ($with_form)
+		if ($withForm)
 		{
 			$form = JForm::getInstance('com_installer.install.folder', __DIR__ . '/form.xml');
 
@@ -78,7 +84,7 @@ class PlgInstallerFolderInstaller  extends JPlugin
 		JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true);
 
 		$script = '
-			jQuery(document).ready(function($){
+			jQuery(document).ready(function($) {
 				Joomla.installer.addHandler("folder", function(form) {
 					form = form || document.getElementById("adminForm");
 					// Do field validation 

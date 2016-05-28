@@ -52,9 +52,9 @@ class InstallerModelInstall extends JModelLegacy
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		$show_info    = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
-		$webinstaller = JPluginHelper::getPlugin('installer', 'webinstaller');
-		$this->state->set('install.show_jed_info', $show_info && !is_object($webinstaller));
+		$showInfo     = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
+		$webInstaller = JPluginHelper::getPlugin('installer', 'webinstaller');
+		$this->state->set('install.show_jed_info', $showInfo && !is_object($webInstaller));
 
 		parent::populateState();
 	}
@@ -377,9 +377,11 @@ class InstallerModelInstall extends JModelLegacy
 	}
 
 	/**
-	 * Load the install methods with respective forms installer plugins
+	 * Load the install methods with respective forms from installer plugins
 	 *
 	 * @return  stdClass[]
+	 *
+	 * @since   3.6.0
 	 */
 	public function getInstallTypes()
 	{
@@ -392,7 +394,7 @@ class InstallerModelInstall extends JModelLegacy
 			$dispatcher = JEventDispatcher::getInstance();
 
 			/*
-			 * Those plugin  prior to J3.6 expect the tabSet initialized already, we won't break b/c but ignore returned html.
+			 * Those plugin prior to J3.6 expect the tabSet initialized already, we won't break b/c but ignore returned html.
 			 * Webinstaller is on of those, but it skips tabs on "hathor" template, but again others may not care!
 			 */
 			JHtml::_('bootstrap.startTabSet', 'myTab');
