@@ -23,13 +23,6 @@ class JDocumentRendererAtomTest extends TestCase
 	protected $object;
 
 	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var  array
-	 */
-	protected $backupServer;
-
-	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -50,7 +43,6 @@ class JDocumentRendererAtomTest extends TestCase
 		require_once JPATH_PLATFORM . '/joomla/document/feed/feed.php';
 		require_once JPATH_PLATFORM . '/joomla/environment/response.php';
 		$this->saveFactoryState();
-		$this->backupServer = $_SERVER;
 
 		JFactory::$application = $this->getMock(
 			'JApplication',
@@ -91,11 +83,7 @@ class JDocumentRendererAtomTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($input);
-		parent::tearDown();
 	}
 
 	/**

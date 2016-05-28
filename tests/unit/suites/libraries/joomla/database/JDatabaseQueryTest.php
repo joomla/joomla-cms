@@ -1987,21 +1987,6 @@ class JDatabaseQueryTest extends TestCase
 	}
 
 	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.6
-	 */
-	protected function tearDown()
-	{
-		unset($this->dbo);
-		unset($this->_instance);
-		parent::tearDown();
-	}
-
-	/**
 	 * Data for the testDateAdd test.
 	 *
 	 * @return  array

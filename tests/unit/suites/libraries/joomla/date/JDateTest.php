@@ -484,20 +484,6 @@ class JDateTest extends TestCaseDatabase
 	}
 
 	/**
-	 * This method is called after a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.6
-	 */
-	protected function tearDown()
-	{
-		unset($this->object);
-		// Note: we do not extend/call parent tearDown() method as per setUp()
-	}
-
-	/**
 	 * Testing the Constructor
 	 *
 	 * @param   string  $date          What time should be set?

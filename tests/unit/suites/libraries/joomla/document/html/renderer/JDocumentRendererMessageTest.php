@@ -45,6 +45,7 @@ class JDocumentRendererMessageTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
 		parent::tearDown();
 	}
 

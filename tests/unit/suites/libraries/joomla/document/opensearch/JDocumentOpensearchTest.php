@@ -18,21 +18,13 @@ class JDocumentOpensearchTest extends TestCase
 	protected $object;
 
 	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var  array
-	 */
-	protected $backupServer;
-
-	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
-		
-		$this->backupServer = $_SERVER;
+
 		$this->saveFactoryState();
 
 		$_SERVER['HTTP_HOST'] = 'localhost';
@@ -50,9 +42,8 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$_SERVER = $this->backupServer;
-		unset($this->backupServer);
 		$this->restoreFactoryState();
+
 		JDocument::$_buffer = null;
 
 		parent::tearDown();
