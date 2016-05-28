@@ -35,7 +35,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	protected function tearDown()
 	{
 		JDocument::$_buffer = null;
-		unset($this->object);
+
 		parent::tearDown();
 	}
 
