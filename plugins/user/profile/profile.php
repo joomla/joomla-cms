@@ -45,6 +45,7 @@ class PlgUserProfile extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
+		JFormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
