@@ -53,7 +53,7 @@ class JDocumentRendererTest extends PHPUnit_Framework_TestCase
 	{
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
-		unset($doc);
+
 		parent::tearDown();
 	}
 
