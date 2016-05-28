@@ -53,7 +53,6 @@ class JDocumentOpensearchTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		$this->restoreFactoryState();
-		unset($this->object);
 		JDocument::$_buffer = null;
 
 		parent::tearDown();
