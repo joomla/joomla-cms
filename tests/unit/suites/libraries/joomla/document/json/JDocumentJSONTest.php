@@ -39,7 +39,7 @@ class JDocumentJsonTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-		unset($this->object);
+
 		parent::tearDown();
 	}
 
