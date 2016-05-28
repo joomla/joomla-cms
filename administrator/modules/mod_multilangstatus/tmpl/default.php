@@ -37,7 +37,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	'multiLangModal',
 	array(
 		'title'       => JText::_('MOD_MULTILANGSTATUS'),
-		'backdrop'    => 'static',
 		'url'         => JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
 		'height'      => '400px',
 		'width'       => '800px',
