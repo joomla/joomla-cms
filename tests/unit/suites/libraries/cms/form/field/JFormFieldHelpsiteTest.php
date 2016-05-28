@@ -58,7 +58,7 @@ class JFormFieldHelpsiteTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
