@@ -87,7 +87,6 @@ class JDocumentHtmlTest extends TestCase
 		$this->restoreFactoryState();
 
 		JDocument::$_buffer = null;
-		unset($this->object);
 
 		parent::tearDown();
 	}
