@@ -94,7 +94,14 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
+		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
+		$menuType        = $app->input->getString('menutype', $currentMenuType);
+
+		// If selected menu type different from current menu type reset pagination to 0
+		if ($menuType != $currentMenuType)
+		{
+			$app->input->set('limitstart', 0);
+		}
 
 		if ($menuType)
 		{
@@ -115,7 +122,6 @@ class MenusModelItems extends JModelList
 			elseif ($user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id))
 			{
 				$app->setUserState($this->context . '.menutype', $menuType);
-				$app->input->set('limitstart', 0);
 				$this->setState('menutypetitle', !empty($menuTypeItem->title) ? $menuTypeItem->title : '');
 				$this->setState('menutypeid', !empty($menuTypeItem->id) ? $menuTypeItem->id : '');
 			}
