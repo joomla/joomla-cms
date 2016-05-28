@@ -20,11 +20,8 @@ JFactory::getDocument()->addScriptDeclaration("
 		$('body').append(multilangueModal);
 	});
 ");
-
-$link   = JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');
-$footer = '<button class="btn" data-dismiss="modal" type="button" aria-hidden="true">'
-		. JText::_('JTOOLBAR_CLOSE') . '</button>';
 ?>
+
 <div class="btn-group multilanguage">
 	<a class="btn btn-link"
 		data-toggle="modal"
@@ -41,11 +38,12 @@ $footer = '<button class="btn" data-dismiss="modal" type="button" aria-hidden="t
 	array(
 		'title'       => JText::_('MOD_MULTILANGSTATUS'),
 		'backdrop'    => 'static',
-		'url'         => $link,
+		'url'         => JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
 		'height'      => '400px',
 		'width'       => '800px',
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => $footer,
+		'footer'      => '<button class="btn" data-dismiss="modal" type="button" aria-hidden="true">'
+				. JText::_('JTOOLBAR_CLOSE') . '</button>',
 	)
 );
