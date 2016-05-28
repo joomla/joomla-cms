@@ -13,9 +13,12 @@ $app  = JFactory::getApplication();
 $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
-$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 
 // Color Params
 $background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
@@ -26,7 +29,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -64,48 +67,51 @@ function colorIsLight($color)
 
 	return $yiq >= 200;
 }
+
+// Background color
+if ($background_color)
+{
+	$doc->addStyleDeclaration("
+	.view-login {
+		background-color: " . $background_color . ";
+	}");
+}
+
+// Responsive Styles
+$doc->addStyleDeclaration("
+	@media (max-width: 480px) {
+		.view-login .container {
+			margin-top: -170px;
+		}
+		.btn {
+			font-size: 13px;
+			padding: 4px 10px 4px;
+		}
+	}");
+
+// Check if debug is on
+if ($app->get('debug_lang', 1) || $app->get('debug', 1))
+{
+	$doc->addStyleDeclaration("
+	.view-login .container {
+		position: static;
+		margin-top: 20px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.view-login .navbar-fixed-bottom {
+		display: none;
+	}");
+}
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-	<style type="text/css">
-		/* Background color */
-		<?php if($background_color): ?>
-		.view-login {
-			background-color: <?php echo $background_color; ?>;
-		}
-		<?php endif; ?>
-		/* Responsive Styles */
-		@media (max-width: 480px) {
-			.view-login .container {
-				margin-top: -170px;
-			}
-			.btn {
-				font-size: 13px;
-				padding: 4px 10px 4px;
-			}
-		}
-		<?php // Check if debug is on ?>
-		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
-		.view-login .container {
-			position: static;
-			margin-top: 20px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.view-login .navbar-fixed-bottom {
-			display: none;
-		}
-		<?php endif; ?>
-	</style>
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
 <body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>">
 	<!-- Container -->
 	<div class="container">
