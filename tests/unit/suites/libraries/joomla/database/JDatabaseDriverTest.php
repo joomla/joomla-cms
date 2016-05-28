@@ -44,20 +44,6 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.6
-	 */
-	protected function tearDown()
-	{
-		unset($this->db);
-		parent::tearDown();
-	}
-
-	/**
 	 * Test for the JDatabaseDriver::__call method.
 	 *
 	 * @return  void
