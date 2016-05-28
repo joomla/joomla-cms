@@ -43,8 +43,6 @@ class JCacheStorageApcTest extends TestCaseCache
 	 */
 	protected function tearDown()
 	{
-		unset($this->handler);
-
 		parent::tearDown();
 	}
 
