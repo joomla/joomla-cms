@@ -26,8 +26,8 @@ if ($input->get('view') === 'article' && $input->get('layout') === 'pagebreak')
 }
 elseif ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
 {
-        if (!($user->authorise('core.edit', 'com_content') ||
-	    $user->authorise('core.edit.own', 'com_content')))
+	if (!($user->authorise('core.edit', 'com_content') 
+	|| $user->authorise('core.edit.own', 'com_content')))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
