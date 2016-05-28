@@ -7,7 +7,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'testsRoot/captionjs/spec/caption-spec-setup', 'jasmineJquery'], function ($) {
+define(['jquery', 'testsRoot/caption/spec-setup', 'jasmineJquery'], function ($) {
 
 	describe('JCaption applied to single image', function () {
 		it('Should have caption as "Joomla Title 1" under image', function () {
