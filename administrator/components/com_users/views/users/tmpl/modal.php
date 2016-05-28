@@ -26,17 +26,12 @@ $listOrder       = $this->escape($this->state->get('list.ordering'));
 $listDirn        = $this->escape($this->state->get('list.direction'));
 $enabledStates   = array(0 => 'icon-publish', 1 => 'icon-unpublish');
 $activatedStates = array(0 => 'icon-publish', 1 => 'icon-unpublish');
-$userRequired    = (int) $input->get('required', 0, 'int');
 ?>
 <div class="container-popup">
 	<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
-		<?php if (!$userRequired) : ?>
-		<div class="pull-left">
-			<button type="button" class="btn button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
-				data-user-field="<?php echo $this->escape($field);?>"><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
-		</div>
-		<?php endif; ?>
+
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+
 		<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -103,6 +98,7 @@ $userRequired    = (int) $input->get('required', 0, 'int');
 			</tbody>
 		</table>
 		<?php endif; ?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="field" value="<?php echo $this->escape($field); ?>" />
 		<input type="hidden" name="boxchecked" value="0" />
