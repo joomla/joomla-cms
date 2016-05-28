@@ -34,19 +34,6 @@ class JCacheStorageApcTest extends TestCaseCache
 	}
 
 	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.6
-	 */
-	protected function tearDown()
-	{
-		parent::tearDown();
-	}
-
-	/**
 	 * Overrides TestCaseCache::testCacheTimeout to skip the test due to an environment incompatibility
 	 *
 	 * @testdox  The cache handler correctly handles expired cache data
