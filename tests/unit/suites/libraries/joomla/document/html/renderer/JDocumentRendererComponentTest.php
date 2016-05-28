@@ -43,7 +43,7 @@ class JDocumentRendererComponentTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->instance);
 		parent::tearDown();
 	}
 
