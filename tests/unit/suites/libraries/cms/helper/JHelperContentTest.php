@@ -64,6 +64,8 @@ class JHelperContentTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
