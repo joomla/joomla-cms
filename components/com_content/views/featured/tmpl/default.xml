@@ -37,8 +37,8 @@
 			<field
 				name="bloglayout"
 				type="spacer"
-				class="text"
 				label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
+				class="text"
 			/>
 
 			<field
@@ -336,7 +336,8 @@
 			</field>
 
 			<field
-				name="show_vote" type="list"
+				name="show_vote"
+				type="list"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC"
 				>
