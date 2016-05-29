@@ -156,26 +156,27 @@ class PlgSystemRedirect extends JPlugin
 		{
 			$redirects = $db->loadAssocList();
 
-			$possibleMatches = array_unique(
-				array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
-			);
-
-			foreach ($possibleMatches as $match)
-			{
-				if (($index = array_search($match, array_column($redirects, 'old_url'))) !== false)
-				{
-					$redirect = (object) $redirects[$index];
-
-					if ((int) $redirect->published === 1)
-					{
-						break;
-					}
-				}
-			}
 		}
 		catch (Exception $e)
 		{
 			JErrorPage::render(new Exception(JText::_('PLG_SYSTEM_REDIRECT_ERROR_UPDATING_DATABASE'), 500, $e));
+		}
+
+		$possibleMatches = array_unique(
+			array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
+		);
+
+		foreach ($possibleMatches as $match)
+		{
+			if (($index = array_search($match, array_column($redirects, 'old_url'))) !== false)
+			{
+				$redirect = (object) $redirects[$index];
+
+				if ((int) $redirect->published === 1)
+				{
+					break;
+				}
+			}
 		}
 
 		// A redirect object was found and, if published, will be used
