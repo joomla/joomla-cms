@@ -145,7 +145,7 @@
 			name="checked_out"
 			type="hidden"
 			filter="unset"
-			/>
+		/>
 
 		<field
 			name="checked_out_time"
@@ -303,8 +303,8 @@
 			<field
 				name="show_intro"
 				type="list"
-				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				description="JGLOBAL_SHOW_INTRO_DESC"
 				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -460,9 +460,9 @@
 			<field
 				name="show_icons"
 				type="list"
-				class="chzn-color"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 				description="JGLOBAL_SHOW_ICONS_DESC"
+				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option	value="0">JHIDE</option>
@@ -639,8 +639,8 @@
 			<field
 				name="show_intro"
 				type="hidden"
-				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				description="JGLOBAL_SHOW_INTRO_DESC"
 			/>
 
 			<field
@@ -755,10 +755,13 @@
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 			/>
 
-			<field name="alternative_readmore" type="hidden"
+			<field
+				name="alternative_readmore"
+				type="hidden"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				size="25" />
+				size="25"
+			/>
 
 			<field
 				name="article_layout"
@@ -792,7 +795,8 @@
 			name="float_intro"
 			type="list"
 			label="COM_CONTENT_FLOAT_LABEL"
-			description="COM_CONTENT_FLOAT_DESC">
+			description="COM_CONTENT_FLOAT_DESC"
+			>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="right">COM_CONTENT_RIGHT</option>
 			<option value="left">COM_CONTENT_LEFT</option>
@@ -856,6 +860,7 @@
 			size="20"
 		/>
 	</fields>
+
 	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
 		<field
 			name="urla"
