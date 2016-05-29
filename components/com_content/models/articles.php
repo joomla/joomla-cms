@@ -552,7 +552,7 @@ class ContentModelArticles extends JModelList
 		// Process the content plugins that might modify the query
 		JPluginHelper::importPlugin('content');
 		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onContentGetQuery', array ($this->context, &$query));
+		$dispatcher->trigger('onContentGetQuery', array ($this->context, &$query, JFactory::getApplication()->scope, $this->getState()));
 
 		return $query;
 	}
