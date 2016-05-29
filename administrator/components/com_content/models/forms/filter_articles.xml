@@ -43,7 +43,7 @@
 
 		<field
 			name="author_id"
-			ype="author"
+			type="author"
 			label="COM_CONTENT_FILTER_AUTHOR"
 			description="COM_CONTENT_FILTER_AUTHOR_DESC"
 			onchange="this.form.submit();"
