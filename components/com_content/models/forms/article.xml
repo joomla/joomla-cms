@@ -210,6 +210,7 @@
 			size="1"
 		/>
 	</fieldset>
+
 	<fields name="images">
 		<fieldset name="image-intro">
 			<field
@@ -289,83 +290,83 @@
 			</field>
 		</fieldset>
 	</fields>
-		<field
-			name="urla"
-			type="url"
-			label="COM_CONTENT_FIELD_URLA_LABEL"
-			description="COM_CONTENT_FIELD_URL_DESC"
-			validate="url"
-			filter="url"
-			relative="true"
-		/>
-
-		<field
-			name="urlatext"
-			type="text"
-			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			class="inputbox"
-			size="20"
-		/>
-
-		<field
-			name="targeta"
-			type="hidden"
-		 />
-
-		<field
-			name="urlb"
-			type="url"
-			label="COM_CONTENT_FIELD_URLB_LABEL"
-			description="COM_CONTENT_FIELD_URL_DESC"
-			validate="url"
-			filter="url"
-			relative="true"
-		/>
-
-		<field
-			name="urlbtext"
-			type="text"
-			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			class="inputbox"
-			size="20"
-		/>
-
-		<field
-			name="targetb"
-			type="hidden"
-		/>
-
-		<field
-			name="urlc"
-			type="url"
-			label="COM_CONTENT_FIELD_URLC_LABEL"
-			description="COM_CONTENT_FIELD_URL_DESC"
-			validate="url"
-			filter="url"
-			relative="true"
-		/>
-
-		<field
-			name="urlctext"
-			type="text"
-			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-			class="inputbox"
-			size="20"
-		/>
-
-		<field
-			name="targetc"
-			type="hidden"
-		/>
-	</fields>
 
 	<fields name="urls">
-		<fields name="metadata">
-			<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field
+				name="urla"
+				type="url"
+				label="COM_CONTENT_FIELD_URLA_LABEL"
+				description="COM_CONTENT_FIELD_URL_DESC"
+				validate="url"
+				filter="url"
+				relative="true"
+			/>
 
+			<field
+				name="urlatext"
+				type="text"
+				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
+				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+				class="inputbox"
+				size="20"
+			/>
+
+			<field
+				name="targeta"
+				type="hidden"
+			 />
+
+			<field
+				name="urlb"
+				type="url"
+				label="COM_CONTENT_FIELD_URLB_LABEL"
+				description="COM_CONTENT_FIELD_URL_DESC"
+				validate="url"
+				filter="url"
+				relative="true"
+			/>
+
+			<field
+				name="urlbtext"
+				type="text"
+				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
+				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+				class="inputbox"
+				size="20"
+			/>
+
+			<field
+				name="targetb"
+				type="hidden"
+			/>
+
+			<field
+				name="urlc"
+				type="url"
+				label="COM_CONTENT_FIELD_URLC_LABEL"
+				description="COM_CONTENT_FIELD_URL_DESC"
+				validate="url"
+				filter="url"
+				relative="true"
+			/>
+
+			<field
+				name="urlctext"
+				type="text"
+				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
+				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+				class="inputbox"
+				size="20"
+			/>
+
+			<field
+				name="targetc"
+				type="hidden"
+			/>
+	</fields>
+
+	<fields name="metadata">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 			<field
 				name="robots"
 				type="hidden"

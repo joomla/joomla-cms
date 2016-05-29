@@ -712,7 +712,7 @@
 				name="show_item_navigation"
 				type="hidden"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-				description="JGLOBAL_SHOW_NAVIGATION_DESC"\
+				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 			/>
 
 			<field

@@ -100,8 +100,8 @@
 			<field
 				name="spacer3"
 				type="spacer"
-				class="text"
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+				class="text"
 			/>
 
 			<field
@@ -200,13 +200,15 @@
 			<field
 				name="spacer4"
 				type="spacer"
-				class="text"
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+				class="text"
 			/>
 
-			<field name="num_leading_articles" type="text"
-				description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
+			<field
+				name="num_leading_articles"
+				type="text"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+				description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 				size="3"
 			/>
 
@@ -528,8 +530,8 @@
 			<field
 				name="show_author"
 				type="list"
-				label="JGLOBAL_Show_Author_Label"
-				description="JGLOBAL_Show_Author_Desc"
+				label="JGLOBAL_SHOW_AUTHOR_LABEL"
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -539,8 +541,8 @@
 			<field
 				name="link_author"
 				type="list"
-				label="JGLOBAL_Link_Author_Label"
-				description="JGLOBAL_Link_Author_Desc"
+				label="JGLOBAL_LINK_AUTHOR_LABEL"
+				description="JGLOBAL_LINK_AUTHOR_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNo</option>
@@ -550,8 +552,8 @@
 			<field
 				name="show_create_date"
 				type="list"
-				label="JGLOBAL_Show_Create_Date_Label"
-				description="JGLOBAL_Show_Create_Date_Desc"
+				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -572,8 +574,8 @@
 			<field
 				name="show_publish_date"
 				type="list"
-				label="JGLOBAL_Show_Publish_Date_Label"
-				description="JGLOBAL_Show_Publish_Date_Desc"
+				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

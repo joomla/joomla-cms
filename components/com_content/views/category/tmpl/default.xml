@@ -306,9 +306,9 @@
 			<field
 				name="display_num"
 				type="list"
-				default="10"
 				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+				default="10"
 				>
 				<option value="5">J5</option>
 				<option value="10">J10</option>

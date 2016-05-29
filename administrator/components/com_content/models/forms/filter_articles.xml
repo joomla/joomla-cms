@@ -65,9 +65,9 @@
 		<field
 			name="tag"
 			type="tag"
-			mode="nested"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
+			mode="nested"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_TAG</option>

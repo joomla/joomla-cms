@@ -77,9 +77,9 @@
 			<field
 				name="introtext_limit"
 				type="text"
-				default="100"
 				label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
 				description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC"
+				default="100"
 			/>
 		</fieldset>
 
