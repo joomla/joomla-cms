@@ -102,7 +102,8 @@
 			label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC"
 			size="22"
-			format="%Y-%m-%d %H:%M:%S" filter="user_utc"
+			format="%Y-%m-%d %H:%M:%S"
+			filter="user_utc"
 		/>
 
 		<field
@@ -655,7 +656,7 @@
 				type="hidden"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC"
-			>
+			/>
 
 			<field
 				name="show_parent_category"

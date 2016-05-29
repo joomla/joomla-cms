@@ -726,9 +726,9 @@
 		<field
 			name="num_intro_articles"
 			type="text"
-			default="4"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			description="JGLOBAL_NUM_INTRO_ARTICLES_DESC"
+			default="4"
 		/>
 
 		<field
@@ -920,7 +920,8 @@
 		</field>
 
 		<field
-			name="order_date" type="list"
+			name="order_date"
+			type="list"
 			label="JGLOBAL_ORDERING_DATE_LABEL"
 			description="JGLOBAL_ORDERING_DATE_DESC"
 			default="published"
