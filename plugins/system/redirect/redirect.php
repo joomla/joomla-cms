@@ -53,7 +53,6 @@ class PlgSystemRedirect extends JPlugin
 		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
 	}
 
-
 	/**
 	 * Method to handle an error condition from JError.
 	 *
