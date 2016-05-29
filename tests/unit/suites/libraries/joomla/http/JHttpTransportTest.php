@@ -52,6 +52,22 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->stubUrl);
+		parent::tearDown();
+	}
+
+	/**
 	 * Data provider for the request test methods.
 	 *
 	 * @return  array
