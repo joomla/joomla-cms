@@ -25,7 +25,7 @@ class ContentCategories extends JCategories
 	 */
 	public function __construct($options = array())
 	{
-		$options['table'] = '#__content';
+		$options['table']     = '#__content';
 		$options['extension'] = 'com_content';
 
 		parent::__construct($options);

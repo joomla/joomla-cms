@@ -16,29 +16,29 @@ defined('_JEXEC') or die;
  */
 class ContentViewFeatured extends JViewLegacy
 {
-	protected $state = null;
+	protected $state       = null;
 
-	protected $item = null;
+	protected $item        = null;
 
-	protected $items = null;
+	protected $items       = null;
 
-	protected $pagination = null;
+	protected $pagination  = null;
 
-	protected $lead_items = array();
+	protected $lead_items  = array();
 
 	protected $intro_items = array();
 
-	protected $link_items = array();
+	protected $link_items  = array();
 
 	protected $columns = 1;
-	
+
 	/**
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    JDatabaseDriver
 	 * @since  3.6.3
 	 */
-	 protected $db;
+	protected $db;
 
 	/**
 	 * Execute and display a template script.

@@ -84,7 +84,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$properties = $table->getProperties(1);
-		$value = ArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry;

@@ -156,7 +156,7 @@ class ContentHelperQuery
 	 * @param   \Joomla\Registry\Registry  $params  An options object for the article.
 	 *
 	 * @return  array  A named array with "select" and "join" keys.
-	 * 
+	 *
 	 * @since   1.5
 	 */
 	public static function buildVotingQuery($params = null)

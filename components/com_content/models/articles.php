@@ -186,16 +186,16 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
-					'a.checked_out, a.checked_out_time, ' .
-					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
+				'a.id, a.title, a.alias, a.introtext, a.fulltext, '
+					. 'a.checked_out, a.checked_out_time, '
+					. 'a.catid, a.created, a.created_by, a.created_by_alias, '
 					// Use created if modified is 0
-					'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-					'a.modified_by, uam.name as modified_by_name,' .
+					. 'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, '
+					. 'a.modified_by, uam.name as modified_by_name,'
 					// Use created if publish_up is 0
-					'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
-					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-					'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+					. 'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,'
+					. 'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, '
+					. 'a.hits, a.xreference, a.featured, a.language, ' . ' ' . $query->length('a.fulltext') . ' AS readmore'
 			)
 		);
 
@@ -393,7 +393,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by author
-		$authorId = $this->getState('filter.author_id');
+		$authorId    = $this->getState('filter.author_id');
 		$authorWhere = '';
 
 		if (is_numeric($authorId))
@@ -438,8 +438,8 @@ class ContentModelArticles extends JModelList
 				if ($authorAlias)
 				{
 					$type = $this->getState('filter.author_alias.include', true) ? 'IN' : 'NOT IN';
-					$authorAliasWhere = 'a.created_by_alias ' . $type . ' (' . $authorAlias .
-						')';
+					$authorAliasWhere = 'a.created_by_alias ' . $type . ' (' . $authorAlias
+						. ')';
 				}
 			}
 		}
@@ -471,24 +471,24 @@ class ContentModelArticles extends JModelList
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
-		$dateField = $this->getState('filter.date_field', 'a.created');
+		$dateField     = $this->getState('filter.date_field', 'a.created');
 
 		switch ($dateFiltering)
 		{
 			case 'range':
 				$startDateRange = $db->quote($this->getState('filter.start_date_range', $nullDate));
-				$endDateRange = $db->quote($this->getState('filter.end_date_range', $nullDate));
+				$endDateRange   = $db->quote($this->getState('filter.end_date_range', $nullDate));
 				$query->where(
-					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField .
-						' <= ' . $endDateRange . ')'
+					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField
+						. ' <= ' . $endDateRange . ')'
 				);
 				break;
 
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-						$relativeDate . ' DAY)'
+					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL '
+						. $relativeDate . ' DAY)'
 				);
 				break;
 
@@ -501,16 +501,16 @@ class ContentModelArticles extends JModelList
 		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter = JString::strtolower($filter);
+			$filter     = JString::strtolower($filter);
 			$hitsFilter = (int) $filter;
-			$filter = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
 			switch ($params->get('filter_field'))
 			{
 				case 'author':
 					$query->where(
-						'LOWER( CASE WHEN a.created_by_alias > ' . $db->quote(' ') .
-							' THEN a.created_by_alias ELSE ua.name END ) LIKE ' . $filter . ' '
+						'LOWER( CASE WHEN a.created_by_alias > ' . $db->quote(' ')
+							. ' THEN a.created_by_alias ELSE ua.name END ) LIKE ' . $filter . ' '
 					);
 					break;
 
@@ -562,12 +562,12 @@ class ContentModelArticles extends JModelList
 	 */
 	public function getItems()
 	{
-		$items = parent::getItems();
-		$user = JFactory::getUser();
+		$items  = parent::getItems();
+		$user   = JFactory::getUser();
 		$userId = $user->get('id');
-		$guest = $user->get('guest');
+		$guest  = $user->get('guest');
 		$groups = $user->getAuthorisedViewLevels();
-		$input = JFactory::getApplication()->input;
+		$input  = JFactory::getApplication()->input;
 
 		// Get the global params
 		$globalParams = JComponentHelper::getParams('com_content', true);

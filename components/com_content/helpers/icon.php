@@ -242,8 +242,8 @@ abstract class JHtmlIcon
 	 */
 	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$app     = JFactory::getApplication();
+		$input   = $app->input;
 		$request = $input->request;
 
 		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);

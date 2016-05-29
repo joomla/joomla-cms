@@ -49,7 +49,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
-		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+		$limit  = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
 
@@ -91,7 +91,7 @@ class ContentModelFeatured extends ContentModelArticles
 	public function getItems()
 	{
 		$params = clone $this->getState('params');
-		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
+		$limit  = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 
 		if ($limit > 0)
 		{
