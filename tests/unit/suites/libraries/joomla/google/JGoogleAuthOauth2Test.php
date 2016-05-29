@@ -111,7 +111,6 @@ class JGoogleAuthOauth2Test extends TestCase
 		parent::tearDown();
 	}
 
-
 	/**
 	 * Tests the auth method
 	 *
