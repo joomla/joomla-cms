@@ -76,12 +76,12 @@
 		<field
 			name="level"
 			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
-			label="JOPTION_FILTER_LEVEL"
 			languages="*"
-			description="JOPTION_FILTER_LEVEL_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
