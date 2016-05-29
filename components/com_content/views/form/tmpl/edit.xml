@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_CONTENT_FORM_VIEW_DEFAULT_TITLE" option="COM_CONTENT_FORM_VIEW_DEFAULT_OPTION">
+	<layout
+		title="COM_CONTENT_FORM_VIEW_DEFAULT_TITLE"
+		option="COM_CONTENT_FORM_VIEW_DEFAULT_OPTION"
+		>
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CREATE"
 		/>
@@ -8,23 +11,29 @@
 			<![CDATA[COM_CONTENT_FORM_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+
 	<fields name="params">
 		<fieldset name="basic">
-			<field name="enable_category"
+			<field
+				name="enable_category"
 				type="radio"
+				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
+				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
-				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-			<field name="catid"
+
+			<field
+				name="catid"
 				type="category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC" 
-				showon="enable_category:1" />
+				showon="enable_category:1"
+			/>
 		</fieldset>
 	</fields>
 </metadata>
