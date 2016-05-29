@@ -551,6 +551,7 @@ class ContentModelArticles extends JModelList
 
 		// Process the content plugins that might modify the query
 		JPluginHelper::importPlugin('content');
+		$dispatcher = JEventDispatcher::getInstance();
 		$dispatcher->trigger('onContentGetQuery', array ('com_content.articles', &$query));
 
 		return $query;
