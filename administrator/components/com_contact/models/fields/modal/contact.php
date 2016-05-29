@@ -209,10 +209,10 @@ class JFormFieldModal_Contact extends JFormField
 			'contactEdit' . $value . 'Modal',
 			array(
 				'title'       => JText::_('COM_CONTACT_EDIT_CONTACT'),
-				'url'         => $urlEdit,
 				'backdrop'    => 'static',
 				'keyboard'    => false,
 				'closeButton' => false,
+				'url'         => $urlEdit,
 				'height'      => '400px',
 				'width'       => '800px',
 				'bodyHeight'  => '70',
