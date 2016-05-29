@@ -23,13 +23,13 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 
-$app = JFactory::getApplication();
+$app   = JFactory::getApplication();
 $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
-$params = json_decode($params);
+$params        = json_decode($params);
 $editoroptions = isset($params->show_publishing_options);
 
 if (!$editoroptions)
@@ -84,7 +84,7 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" id="item-form" class="form-validate" name="adminForm">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
