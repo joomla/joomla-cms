@@ -121,7 +121,8 @@
 			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
-			showon="show_parent_category:1">
+			showon="show_parent_category:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -464,11 +465,12 @@
 			<option value="2">JBROWSERTARGET_POPUP</option>
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
+
 		<field
 			name="spacer4"
 			type="spacer"
 			hr="true"
-			/>
+		/>
 
 		<field
 			name="float_intro"
@@ -517,7 +519,8 @@
  			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
 			class="btn-group btn-group-yesno"
-			default="1">
+			default="1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -525,9 +528,9 @@
 		<field
 			name="show_category_title"
 			type="radio"
-			class="btn-group btn-group-yesno"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+			class="btn-group btn-group-yesno"
 			default="1"
 			>
 			<option value="1">JSHOW</option>
@@ -720,7 +723,8 @@
 			default="1"
 		/>
 
-		<field name="num_intro_articles"
+		<field
+			name="num_intro_articles"
 			type="text"
 			default="4"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
@@ -738,9 +742,9 @@
 		<field
 			name="num_links"
 			type="text"
-			default="4"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			description="JGLOBAL_NUM_LINKS_DESC"
+			default="4"
 		/>
 
 		<field
@@ -1014,6 +1018,7 @@
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
 		>
+
 		<field
 			name="rules"
 			type="rules"
