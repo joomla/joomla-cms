@@ -130,31 +130,31 @@ class PlgSystemRedirect extends JPlugin
 			JErrorPage::render($error);
 		}
 
-		$dbo = JFactory::getDbo();
+		$db = JFactory::getDbo();
 
-		$query = $dbo->getQuery(true);
+		$query = $db->getQuery(true);
 
 		$query->select('*')
-			->from($dbo->qn('#__redirect_links'))
+			->from($db->qn('#__redirect_links'))
 			->where(
 				'('
-				. $dbo->qn('old_url') . ' = ' . $dbo->q($url)
+				. $db->qn('old_url') . ' = ' . $db->q($url)
 				. ' OR '
-				. $dbo->qn('old_url') . ' = ' . $dbo->q($urlRel)
+				. $db->qn('old_url') . ' = ' . $db->q($urlRel)
 				. ' OR '
-				. $dbo->qn('old_url') . ' = ' . $dbo->q($urlWithoutQuery)
+				. $db->qn('old_url') . ' = ' . $db->q($urlWithoutQuery)
 				. ' OR '
-				. $dbo->qn('old_url') . ' = ' . $dbo->q($urlRelWithoutQuery)
+				. $db->qn('old_url') . ' = ' . $db->q($urlRelWithoutQuery)
 				. ')'
 			);
 
-		$dbo->setQuery($query);
+		$db->setQuery($query);
 
 		$redirect = null;
 
 		try
 		{
-			$redirects = $dbo->loadAssocList();
+			$redirects = $db->loadAssocList();
 
 			$possibleMatches = array_unique(
 				array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
@@ -222,7 +222,7 @@ class PlgSystemRedirect extends JPlugin
 
 				try
 				{
-					$dbo->insertObject('#__redirect_links', $data, 'id');
+					$db->insertObject('#__redirect_links', $data, 'id');
 				}
 				catch (Exception $e)
 				{
@@ -237,7 +237,7 @@ class PlgSystemRedirect extends JPlugin
 
 			try
 			{
-				$dbo->updateObject('#__redirect_links', $redirect, 'id');
+				$db->updateObject('#__redirect_links', $redirect, 'id');
 			}
 			catch (Exception $e)
 			{
