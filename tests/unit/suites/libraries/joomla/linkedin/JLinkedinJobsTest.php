@@ -114,7 +114,6 @@ class JLinkedinJobsTest extends TestCase
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
 		unset($this->options);
-		unset($this->http);
 		unset($this->input);
 		unset($this->client);
 		unset($this->oauth);
