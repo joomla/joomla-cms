@@ -58,6 +58,7 @@ $readMeFiles = array(
 			'/README.md',
 			'/README.txt',
 			);
+
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
 
