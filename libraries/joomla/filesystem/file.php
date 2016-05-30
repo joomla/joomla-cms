@@ -107,7 +107,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -151,7 +151,7 @@ class JFile
 			}
 
 			if($ret) {
-				self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
+				self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -227,7 +227,7 @@ class JFile
 			}
 		}
 
-		self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$file), 'method'=>__METHOD__));
+		self::triggerEvent(array('args'=>array('src'=>$file), 'method'=>__METHOD__));
 
 		return true;
 	}
@@ -273,7 +273,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -308,7 +308,7 @@ class JFile
 				}
 			}
 
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -425,7 +425,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -450,7 +450,7 @@ class JFile
 			}
 			
 			if($ret) {
-				self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
+				self::triggerEvent(array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -578,7 +578,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -627,7 +627,7 @@ class JFile
 			}
 
 			if($ret) {
-				self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
+				self::triggerEvent(array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -681,13 +681,12 @@ class JFile
 	/*
 	 * Triggers file plugin events
 	 * 
-	 * @param   string  $src  File path
-	 * @param   array   $options  Event options
+	 * @param   array   $args  Event args
 	 * 
 	 * @return bool success
 	 */
-	private static function triggerEvent($event, $args=array()) {
+	private static function triggerEvent($args=array()) {
 		JPluginHelper::importPlugin( 'file' );
-		JFactory::getApplication()->triggerEvent($event,$args);
+		JFactory::getApplication()->triggerEvent('onFilesystemEvent', $args);
 	}
 }
