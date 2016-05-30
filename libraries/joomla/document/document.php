@@ -390,7 +390,7 @@ class JDocument
 		// B/C old http_equiv parameter.
 		if (!is_string($attribute))
 		{
-			$attribute = $attribute === true ? 'http-equiv' : 'name';
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
 		if ($name == 'generator')
@@ -425,7 +425,7 @@ class JDocument
 		// B/C old http_equiv parameter.
 		if (!is_string($attribute))
 		{
-			$attribute = $attribute === true ? 'http-equiv' : 'name';
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
 
 		if ($name == 'generator')
