@@ -132,19 +132,30 @@ $script .= "
 							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
+						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
 							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
+						}
 					}
-					window.parent.jQuery('#module" . $this->item->id . "Modal').modal('hide');
+				}
+
+				if (task !== 'module.apply')
+				{
+					window.parent.jQuery('#module" . ((int) $this->item->id == 0 ? 'Add' : 'Edit' . (int) $this->item->id) . "Modal').modal('hide');
 				}
 			}
 	};";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
+// In case of modal
+$isModal = JFactory::getApplication()->input->get('layout') == 'modal' ? true : false;
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal ? '&tmpl=component' : '';
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

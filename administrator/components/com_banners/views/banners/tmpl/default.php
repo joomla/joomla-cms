@@ -97,6 +97,7 @@ if ($saveOrder)
 							<td class="order nowrap center hidden-phone">
 								<?php
 								$iconClass = '';
+
 								if (!$canChange)
 								{
 									$iconClass = ' inactive';

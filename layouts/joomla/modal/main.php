@@ -81,9 +81,31 @@ if (isset($params['keyboard']))
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   $('#" . $selector . "').on('shown.bs.modal', function() {";
+$script[] = "   $('#" . $selector . "').on('show.bs.modal', function() {";
 
 $script[] = "       $('body').addClass('modal-open');";
+
+if (isset($params['url']))
+{
+	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
+
+	// Script for destroying and reloading the iframe
+	$script[] = "       var modalBody = $(this).find('.modal-body');";
+	$script[] = "       modalBody.find('iframe').remove();";
+	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
+}
+else
+{
+	// Set modalTooltip container to modal ID (selector), and placement to top-left if no data attribute (bootstrap-tooltip-extended.js)
+	$script[] = "       $('.modalTooltip').each(function(){;";
+	$script[] = "           var attr = $(this).attr('data-placement');";
+	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
+	$script[] = "       });";
+	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
+}
+
+// Adapt modal body max-height to window viewport if needed, when the modal has been made visible to the user.
+$script[] = "   }).on('shown.bs.modal', function() {";
 
 // Get height of the modal elements.
 $script[] = "       var modalHeight = $('div.modal:visible').outerHeight(true),";
@@ -104,13 +126,6 @@ $script[] = "           maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+m
 
 if (isset($params['url']))
 {
-	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
-
-	// Script for destroying and reloading the iframe
-	$script[] = "       var modalBody = $(this).find('.modal-body');";
-	$script[] = "       modalBody.find('iframe').remove();";
-	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
-
 	// Set max-height for iframe if needed, to adapt to viewport height.
 	$script[] = "       var iframeHeight = $('.iframe').height();";
 	$script[] = "       if (iframeHeight > maxModalBodyHeight){;";
@@ -120,13 +135,6 @@ if (isset($params['url']))
 }
 else
 {
-	// Set modalTooltip container to modal ID (selector), and placement to top-left if no data attribute (bootstrap-tooltip-extended.js)
-	$script[] = "       $('.modalTooltip').each(function(){;";
-	$script[] = "           var attr = $(this).attr('data-placement');";
-	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
-	$script[] = "       });";
-	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
-
 	// Set max-height for modal-body if needed, to adapt to viewport height.
 	$script[] = "       if (modalHeight > maxModalHeight){;";
 	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
