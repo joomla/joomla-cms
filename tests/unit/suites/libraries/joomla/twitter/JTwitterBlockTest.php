@@ -131,7 +131,6 @@ class JTwitterBlockTest extends TestCase
 		unset($this->client);
 		unset($this->oauth);
 		unset($this->object);
-		parent::tearDown();
 	}
 
 	/**
