@@ -81,5 +81,4 @@ class JViewBaseTest extends TestCase
 		unset($this->_instance);
 		parent::tearDown();
 	}
-
 }
