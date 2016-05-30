@@ -107,7 +107,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent($dest,array('action'=>'copy'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -151,7 +151,7 @@ class JFile
 			}
 
 			if($ret) {
-				self::triggerEvent($dest,array('action'=>'copy'));
+				self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -227,7 +227,7 @@ class JFile
 			}
 		}
 
-		self::triggerEvent($file,array('action'=>'delete'));
+		self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$file), 'method'=>__METHOD__));
 
 		return true;
 	}
@@ -273,7 +273,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent($src,array('dest'=>$dest, 'path'=>$path, 'action'=>'move'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -308,7 +308,7 @@ class JFile
 				}
 			}
 
-			self::triggerEvent($src,array('dest'=>$dest, 'path'=>$path, 'action'=>'move'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest, 'path'=>$path), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -425,7 +425,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent($file, array('action'=>'write'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -450,7 +450,7 @@ class JFile
 			}
 			
 			if($ret) {
-				self::triggerEvent($file, array('action'=>'write'));
+				self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$file), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -578,7 +578,7 @@ class JFile
 				return false;
 			}
 
-			self::triggerEvent($dest, array('action'=>'upload'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
 
 			return true;
 		}
@@ -627,7 +627,7 @@ class JFile
 			}
 
 			if($ret) {
-				self::triggerEvent($dest, array('action'=>'upload'));
+				self::triggerEvent('onFilesystemEvent', array('args'=>array('dest'=>$dest), 'method'=>__METHOD__));
 			}
 
 			return $ret;
@@ -686,11 +686,8 @@ class JFile
 	 * 
 	 * @return bool success
 	 */
-	private static function triggerEvent($src, $args=array()) {
-		$action = $args['action']?:'Copy';
-		$args = array('src'=>$src);
+	private static function triggerEvent($event, $args=array()) {
 		JPluginHelper::importPlugin( 'file' );
-		$dispatcher = JEventDispatcher::getInstance();
-		return $dispatcher->trigger( 'onFile'.ucfirst($action), $args );
+		JFactory::getApplication()->triggerEvent($event,$args);
 	}
 }
