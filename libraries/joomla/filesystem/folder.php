@@ -737,7 +737,13 @@ abstract class JFolder
 	 * @return bool success
 	 */
 	private static function triggerEvent($args=array()) {
+		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin( 'file' );
-		JFactory::getApplication()->triggerEvent('onFilesystemEvent', $args);
+		if($app) {
+		    return $app->triggerEvent('onFilesystemEvent', $args);
+		} else {
+		    $dispatcher = JEventDispatcher::getInstance();
+		    return $dispatcher->trigger('onFilesystemEvent', $args);
+		}
 	}
 }
