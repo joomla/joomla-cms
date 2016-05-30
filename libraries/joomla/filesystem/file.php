@@ -107,9 +107,7 @@ class JFile
 				return false;
 			}
 
-			if($ret) {
-				self::triggerEvent($dest,array('action'=>'copy'));
-			}
+			self::triggerEvent($dest,array('action'=>'copy'));
 
 			return true;
 		}
