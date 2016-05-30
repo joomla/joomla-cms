@@ -153,7 +153,7 @@ abstract class JFolder
 			}
 		}
 
-		self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
+		self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 
 		return true;
 	}
@@ -209,7 +209,7 @@ abstract class JFolder
 		// Check if dir already exists
 		if (self::exists($path))
 		{
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('path'=>$path), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 			
 			return true;
 		}
@@ -285,7 +285,7 @@ abstract class JFolder
 			@umask($origmask);
 		}
 
-		self::triggerEvent('onFilesystemEvent', array('args'=>array('path'=>$path), 'method'=>__METHOD__));
+		self::triggerEvent(array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 
 		return $ret;
 	}
@@ -390,7 +390,7 @@ abstract class JFolder
 		}
 		
 		if($ret) {
-			self::triggerEvent('onFilesystemEvent', array('args'=>array('path'=>$path), 'method'=>__METHOD__));
+			self::triggerEvent(array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 		}
 
 		return $ret;
@@ -471,7 +471,7 @@ abstract class JFolder
 		}
 
 		if($ret) {
-		    self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
+		    self::triggerEvent(array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 		}
 
 		return $ret;
@@ -732,13 +732,12 @@ abstract class JFolder
 	/*
 	 * Triggers file plugin events
 	 * 
-	 * @param   string  $event  File path
 	 * @param   array   $args  Event args
 	 * 
 	 * @return bool success
 	 */
-	private static function triggerEvent($event, $args=array()) {
+	private static function triggerEvent($args=array()) {
 		JPluginHelper::importPlugin( 'file' );
-		JFactory::getApplication()->triggerEvent($event,$args);
+		JFactory::getApplication()->triggerEvent('onFilesystemEvent', $args);
 	}
 }
