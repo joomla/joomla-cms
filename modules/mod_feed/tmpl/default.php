@@ -17,8 +17,8 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang = JFactory::getLanguage();
-	$myrtl = $params->get('rssrtl');
+	$lang      = JFactory::getLanguage();
+	$myrtl     = $params->get('rssrtl');
 	$direction = " ";
 
 	if ($lang->isRtl() && $myrtl == 0)

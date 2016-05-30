@@ -22,7 +22,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
+			<fieldset name="basic">
 				<field
 					name="skins"
 					type="note"

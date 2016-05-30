@@ -125,7 +125,7 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+				$options[] = JHtml::_('select.option', 'none', JText::_('COM_MODULES_NONE'));
 			}
 			else
 			{

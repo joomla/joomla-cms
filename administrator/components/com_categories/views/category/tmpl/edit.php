@@ -31,6 +31,11 @@ JFactory::getDocument()->addScriptDeclaration('
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
+
+			if (task !== "category.apply")
+			{
+				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
+			}
 		}
 	};
 ');
