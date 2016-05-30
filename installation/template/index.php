@@ -40,7 +40,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
 		</script>
 	</head>
-	<body>
+	<body data-basepath="<?php echo JURI::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />

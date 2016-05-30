@@ -19,7 +19,7 @@
 		<language tag="en-GB">en-GB/en-GB.plg_system_stats.sys.ini</language>
 	</languages>
 	<config>
-		<fields name="params" addfieldpath="/plugins/system/stats/field">
+		<fields name="params">
 			<fieldset name="basic">
 				<field
 					name="data"

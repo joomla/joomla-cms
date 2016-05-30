@@ -85,6 +85,20 @@ class PlgSystemLanguagecode extends JPlugin
 				}
 			}
 
+			// Replace codes in itemprop content
+			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+
+			foreach ($matches[2] as $match)
+			{
+				$new_code = $this->params->get(strtolower($match));
+
+				if ($new_code)
+				{
+					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*/>)' . chr(1) . 'i';
+					$replace[] = '${1}' . $new_code . '${3}';
+				}
+			}
+
 			$app->setBody(preg_replace($patterns, $replace, $body));
 		}
 	}
