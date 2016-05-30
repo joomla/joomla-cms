@@ -86,7 +86,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 			<tr class="<?php echo $no;?><?php echo $status;?>row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
 				<td id="<?php echo $module->id; ?>">
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id=' . $module->id . '&amp;tmpl=component&amp;view=module&amp;layout=modal'; ?>
-					<a href="#module<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
+					<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>" id="title-<?php echo $module->id; ?>">
 						<?php echo $this->escape($module->title); ?></a>
 				</td>
 				<td id="access-<?php echo $module->id; ?>">
@@ -133,21 +133,25 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				</td>
 			<?php echo JHtml::_(
 					'bootstrap.renderModal',
-					'module' . $module->id . 'Modal',
+					'moduleEdit' . $module->id . 'Modal',
 					array(
-						'url' => $link,
-						'title' => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
-						'backdrop' => 'static',
+						'url'         => $link,
+						'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
+						'backdrop'    => 'static',
 						'closeButton' => false,
-						'height' => '400px',
-						'width' => '800px',
-						'closeButton' => false,
-						'footer' => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-							. ' onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-							. '<button type="button" class="btn btn-success novalidate" data-dismiss="modal" aria-hidden="true"'
-							. ' onclick="jQuery(\'#module' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
-							. JText::_("JSAVE") . '</button>'
+						'height'      => '400px',
+						'width'       => '800px',
+						'modalWidth'  => '80',
+						'bodyHeight'  => '70',
+						'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+								. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+								. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+								. JText::_("JSAVE") . '</button>'
+								. '<button type="button" class="btn btn-success" aria-hidden="true"'
+								. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+								. JText::_("JAPPLY") . '</button>'
 					)
 				); ?>
 			</tr>

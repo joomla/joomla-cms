@@ -49,7 +49,7 @@ $tagsData = $displayData->get('category')->tags->itemTags;
 		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $displayData->get('category')->getParams()->get('image')) : ?>
-					<img src="<?php echo $displayData->get('category')->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($displayData->get('category')->getParams()->get('image_alt')); ?>"/>
+					<img src="<?php echo $displayData->get('category')->getParams()->get('image'); ?>" alt="<?php echo htmlspecialchars($displayData->get('category')->getParams()->get('image_alt'), ENT_COMPAT, 'UTF-8'); ?>"/>
 				<?php endif; ?>
 				<?php if ($params->get('show_description') && $displayData->get('category')->description) : ?>
 					<?php echo JHtml::_('content.prepare', $displayData->get('category')->description, '', $extension . '.category.description'); ?>

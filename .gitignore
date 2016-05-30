@@ -7,8 +7,8 @@
 
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
+/administrator/logs
 /cache
-/logs
 /tmp
 /configuration.php
 /.htaccess
