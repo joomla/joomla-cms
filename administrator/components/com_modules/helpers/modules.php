@@ -210,7 +210,7 @@ abstract class ModulesHelper
 			$modules[$i]->text = JText::_($module->text);
 		}
 
-		ArrayHelper::sortObjects($modules, 'text', 1, true, true);
+		$modules = ArrayHelper::sortObjects($modules, 'text', 1, true, true);
 
 		return $modules;
 	}
