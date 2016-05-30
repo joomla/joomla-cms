@@ -153,7 +153,7 @@ abstract class JFolder
 			}
 		}
 
-		self::triggerEvent($src,array('dest'=>$dest, 'action'=>'copy'));
+		self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 
 		return true;
 	}
@@ -209,7 +209,7 @@ abstract class JFolder
 		// Check if dir already exists
 		if (self::exists($path))
 		{
-			self::triggerEvent($path,array('action'=>'create'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 			
 			return true;
 		}
@@ -285,7 +285,7 @@ abstract class JFolder
 			@umask($origmask);
 		}
 
-		self::triggerEvent($path,array('action'=>'create'));
+		self::triggerEvent('onFilesystemEvent', array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 
 		return $ret;
 	}
@@ -390,7 +390,7 @@ abstract class JFolder
 		}
 		
 		if($ret) {
-			self::triggerEvent($path,array('action'=>'delete'));
+			self::triggerEvent('onFilesystemEvent', array('args'=>array('path'=>$path), 'method'=>__METHOD__));
 		}
 
 		return $ret;
@@ -471,7 +471,7 @@ abstract class JFolder
 		}
 
 		if($ret) {
-		    self::triggerEvent($src,array('dest'=>$dest,'action'=>'move'));
+		    self::triggerEvent('onFilesystemEvent', array('args'=>array('src'=>$src, 'dest'=>$dest), 'method'=>__METHOD__));
 		}
 
 		return $ret;
@@ -732,16 +732,13 @@ abstract class JFolder
 	/*
 	 * Triggers file plugin events
 	 * 
-	 * @param   string  $src  File path
-	 * @param   array   $options  Event options
+	 * @param   string  $event  File path
+	 * @param   array   $args  Event args
 	 * 
 	 * @return bool success
 	 */
-	private static function triggerEvent($src, $args=array()) {
-		$action = $args['action']?:'Copy';
-		$args = array('src'=>$src);
+	private static function triggerEvent($event, $args=array()) {
 		JPluginHelper::importPlugin( 'file' );
-		$dispatcher = JEventDispatcher::getInstance();
-		return $dispatcher->trigger( 'onFolder'.ucfirst($action), $args );
+		JFactory::getApplication()->triggerEvent($event,$args);
 	}
 }
