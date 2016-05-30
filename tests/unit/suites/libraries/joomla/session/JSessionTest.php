@@ -69,6 +69,9 @@ class JSessionTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		unset($this->input);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
