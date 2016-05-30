@@ -378,8 +378,8 @@ class JDocument
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name       Name of the meta HTML tag
-	 * @param   string   $attribute  Attribute to use in the meta HTML tag
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  string
 	 *
@@ -412,9 +412,9 @@ class JDocument
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param   string   $name       Name of the meta HTML tag
-	 * @param   string   $content    Value of the meta HTML tag
-	 * @param   string   $attribute  Attribute to use in the meta HTML tag
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $content    Value of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
