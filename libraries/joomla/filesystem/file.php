@@ -107,6 +107,10 @@ class JFile
 				return false;
 			}
 
+			if($ret) {
+				self::triggerEvent($dest,array('action'=>'copy'));
+			}
+
 			return true;
 		}
 		else
@@ -146,6 +150,10 @@ class JFile
 				}
 
 				$ret = true;
+			}
+
+			if($ret) {
+				self::triggerEvent($dest,array('action'=>'copy'));
 			}
 
 			return $ret;
@@ -221,6 +229,8 @@ class JFile
 			}
 		}
 
+		self::triggerEvent($file,array('action'=>'delete'));
+
 		return true;
 	}
 
@@ -265,6 +275,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent($src,array('dest'=>$dest, 'path'=>$path, 'action'=>'move'));
+
 			return true;
 		}
 		else
@@ -297,6 +309,8 @@ class JFile
 					return false;
 				}
 			}
+
+			self::triggerEvent($src,array('dest'=>$dest, 'path'=>$path, 'action'=>'move'));
 
 			return true;
 		}
@@ -413,6 +427,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent($file, array('action'=>'write'));
+
 			return true;
 		}
 		else
@@ -433,6 +449,10 @@ class JFile
 			{
 				$file = $pathObject->clean($file);
 				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
+			}
+			
+			if($ret) {
+				self::triggerEvent($file, array('action'=>'write'));
 			}
 
 			return $ret;
@@ -560,6 +580,8 @@ class JFile
 				return false;
 			}
 
+			self::triggerEvent($dest, array('action'=>'upload'));
+
 			return true;
 		}
 		else
@@ -604,6 +626,10 @@ class JFile
 				{
 					JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WARNFS_ERR04', $src, $dest), JLog::WARNING, 'jerror');
 				}
+			}
+
+			if($ret) {
+				self::triggerEvent($dest, array('action'=>'upload'));
 			}
 
 			return $ret;
@@ -652,5 +678,21 @@ class JFile
 		{
 			return $file;
 		}
+	}
+
+	/*
+	 * Triggers file plugin events
+	 * 
+	 * @param   string  $src  File path
+	 * @param   array   $options  Event options
+	 * 
+	 * @return bool success
+	 */
+	private static function triggerEvent($src, $args=array()) {
+		$action = $args['action']?:'Copy';
+		$args = array('src'=>$src);
+		JPluginHelper::importPlugin( 'file' );
+		$dispatcher = JEventDispatcher::getInstance();
+		return $dispatcher->trigger( 'onFile'.ucfirst($action), $args );
 	}
 }
