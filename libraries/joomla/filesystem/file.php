@@ -686,13 +686,13 @@ class JFile
 	 * @return bool success
 	 */
 	private static function triggerEvent($args=array()) {
-		$app = JFactory::getApplication();
 		JPluginHelper::importPlugin( 'file' );
-		if($app) {
-		    return $app->triggerEvent('onFilesystemEvent', $args);
-		} else {
+//		$app = JFactory::getApplication();
+//		if($app) {
+//		    return $app->triggerEvent('onFilesystemEvent', $args);
+//		} else {
 		    $dispatcher = JEventDispatcher::getInstance();
 		    return $dispatcher->trigger('onFilesystemEvent', $args);
-		}
+//		}
 	}
 }
