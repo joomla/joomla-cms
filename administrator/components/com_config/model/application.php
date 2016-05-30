@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model for the global configuration
@@ -56,20 +57,20 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the config data.
 		$config = new JConfig;
-		$data   = JArrayHelper::fromObject($config);
+		$data   = ArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
 		// Get the text filter data
 		$params          = JComponentHelper::getParams('com_config');
-		$data['filters'] = JArrayHelper::fromObject($params->get('filters'));
+		$data['filters'] = ArrayHelper::fromObject($params->get('filters'));
 
 		// If no filter data found, get from com_content (update of 1.6/1.7 site)
 		if (empty($data['filters']))
 		{
 			$contentParams = JComponentHelper::getParams('com_content');
-			$data['filters'] = JArrayHelper::fromObject($contentParams->get('filters'));
+			$data['filters'] = ArrayHelper::fromObject($contentParams->get('filters'));
 		}
 
 		// Check for data in the session.
@@ -223,7 +224,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Merge the new data in. We do this to preserve values that were not in the form.
 		$data = array_merge($prev, $data);
@@ -301,7 +302,7 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		// Get the previous configuration.
 		$prev = new JConfig;
-		$prev = JArrayHelper::fromObject($prev);
+		$prev = ArrayHelper::fromObject($prev);
 
 		// Create the new configuration object, and unset the root_user property
 		$config = new Registry('config');
