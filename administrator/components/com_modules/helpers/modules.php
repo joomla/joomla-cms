@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Modules component helper.
  *
@@ -195,7 +197,7 @@ abstract class ModulesHelper
 			->group('element,name');
 
 		$db->setQuery($query);
-		$modules = $db->loadObjectList();
+		$modules = (array) $db->loadObjectList();
 		$lang = JFactory::getLanguage();
 
 		foreach ($modules as $i => $module)
@@ -208,7 +210,7 @@ abstract class ModulesHelper
 			$modules[$i]->text = JText::_($module->text);
 		}
 
-		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
+		ArrayHelper::sortObjects($modules, 'text', 1, true, true);
 
 		return $modules;
 	}
