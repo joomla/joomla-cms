@@ -749,7 +749,7 @@ abstract class JFactory
 		$attributes = array(
 			'charset'      => 'utf-8',
 			'lineend'      => 'unix',
-			'tab'          => "\t",
+			'tab'          => PHP_TAB,
 			'language'     => $lang->getTag(),
 			'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
 			'mediaversion' => $version->getMediaVersion()
