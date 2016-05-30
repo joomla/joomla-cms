@@ -288,12 +288,36 @@ class JFormFieldRules extends JFormField
 
 				// Build the dropdowns for the permissions sliders
 
+				$inheritSelected = '';
+				$allowedSelected = '';
+				$deniedSelected  = '';
+
+				// Use default option for first use of rules.
+				if ($assetRule === null && isset($action->default) && !$assetId)
+				{
+					$allowedSelected = ($action->default == 1) ? ' selected="selected"' : '';
+					$deniedSelected = ($action->default == 0) ? ' selected="selected"' : '';
+				}
+				elseif ($assetRule === true)
+				{
+					$allowedSelected = ' selected="selected"';
+				}
+				elseif ($assetRule === false)
+				{
+					$deniedSelected = ' selected="selected"';
+				}
+				else
+				{
+					$inheritSelected = ' selected="selected"';
+				}
+
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
-				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>'
+
+				$html[] = '<option value=""' . $inheritSelected . '>'
 					. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
-				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
+				$html[] = '<option value="1"' . $allowedSelected . '>' . JText::_('JLIB_RULES_ALLOWED')
 					. '</option>';
-				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
+				$html[] = '<option value="0"' . $deniedSelected . '>' . JText::_('JLIB_RULES_DENIED')
 					. '</option>';
 
 				$html[] = '</select>&#160; ';
@@ -318,11 +342,12 @@ class JFormFieldRules extends JFormField
 
 					if (JAccess::checkGroup($group->value, 'core.admin', $assetId) !== true)
 					{
-						if ($inheritedRule === null)
+						if ($inheritedRule === null && $assetId)
 						{
 							$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
-						elseif ($inheritedRule === true)
+						elseif ($inheritedRule === true
+							|| ($inheritedRule === null && !$assetId && isset($action->default) && $action->default == 1))
 						{
 							$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
 						}
@@ -337,6 +362,10 @@ class JFormFieldRules extends JFormField
 								$html[] = '<span class="label"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
 									. '</span>';
 							}
+						}
+						else
+						{
+							$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
 					}
 					elseif (!empty($component))
