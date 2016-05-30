@@ -153,9 +153,7 @@ abstract class JFolder
 			}
 		}
 
-		if($ret) {
-			self::triggerEvent($src,array('dest'=>$dest, 'action'=>'copy'));
-		}
+		self::triggerEvent($src,array('dest'=>$dest, 'action'=>'copy'));
 
 		return true;
 	}
