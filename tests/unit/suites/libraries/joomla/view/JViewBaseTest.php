@@ -67,7 +67,6 @@ class JViewBaseTest extends TestCase
 		$this->_instance = new BaseView($model);
 	}
 
-
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
