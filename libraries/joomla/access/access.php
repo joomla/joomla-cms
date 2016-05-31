@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.utilities.arrayhelper');
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Class that handles all access authorisation routines.
@@ -849,7 +849,7 @@ class JAccess
 				$result = $db->loadColumn();
 
 				// Clean up any NULL or duplicate values, just in case
-				JArrayHelper::toInteger($result);
+				$result = ArrayHelper::toInteger($result);
 
 				if (empty($result))
 				{
@@ -898,7 +898,7 @@ class JAccess
 		$result = $db->loadColumn();
 
 		// Clean up any NULL values, just in case
-		JArrayHelper::toInteger($result);
+		$result = ArrayHelper::toInteger($result);
 
 		return $result;
 	}
