@@ -52,14 +52,6 @@ class JFormRuleEmail extends JFormRule
 			return true;
 		}
 
-		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
-		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
-
-		if ($tld)
-		{
-			$this->regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
-		}
-
 		// Determine if the multiple attribute is present
 		$multiple = ((string) $element['multiple'] == 'true' || (string) $element['multiple'] == 'multiple');
 
