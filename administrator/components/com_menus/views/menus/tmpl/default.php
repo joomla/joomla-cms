@@ -99,9 +99,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 				</tfoot>
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
-					$canCreate = $user->authorise('core.create',     'com_menus');
-					$canEdit   = $user->authorise('core.edit',       'com_menus');
-					$canChange = $user->authorise('core.edit.state', 'com_menus');
+					$canEdit        = $user->authorise('core.edit',   'com_menus.menu.' . (int) $item->id);
 					$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
@@ -126,16 +124,31 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 							</div>
 						</td>
 						<td class="center btns">
-							<a class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
-								<?php echo $item->count_published; ?></a>
+							<?php if ($canManageItems) : ?>
+								<a class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+									<?php echo $item->count_published; ?></a>
+							<?php else : ?>
+								<span class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>">
+									<?php echo $item->count_published; ?></span>
+							<?php endif; ?>
 						</td>
 						<td class="center btns">
-							<a class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
-								<?php echo $item->count_unpublished; ?></a>
+							<?php if ($canManageItems) : ?>
+								<a class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+									<?php echo $item->count_unpublished; ?></a>
+							<?php else : ?>
+								<span class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>">
+									<?php echo $item->count_unpublished; ?></span>
+							<?php endif; ?>
 						</td>
 						<td class="center btns">
-							<a class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
-								<?php echo $item->count_trashed; ?></a>
+							<?php if ($canManageItems) : ?>
+								<a class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+									<?php echo $item->count_trashed; ?></a>
+							<?php else : ?>
+								<span class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>">
+									<?php echo $item->count_trashed; ?></span>
+							<?php endif; ?>
 						</td>
 						<td class="center">
 							<?php if (isset($this->modules[$item->menutype])) : ?>
