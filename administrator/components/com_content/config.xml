@@ -4,7 +4,7 @@
 		name="articles"
 		label="JGLOBAL_ARTICLES"
 		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC"
-	>
+		>
 
 		<field
 			name="article_layout"
