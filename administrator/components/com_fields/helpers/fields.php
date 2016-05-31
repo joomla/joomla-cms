@@ -126,7 +126,7 @@ class FieldsHelper
 		/*
 		 *If item has assigned_cat_ids parameter display only fields which
 		 * belong to the category
- 		 */
+		 */
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
 		{
 			$assignedCatIds = isset($item->catid) ? $item->catid : $item->fieldscatid;
@@ -166,6 +166,16 @@ class FieldsHelper
 				{
 					$value = null;
 
+					/*
+					 * On before field prepare
+					 * Event allow plugins to modfify the output of the field before it is prepared
+					 */
+					$dispatcher = JEventDispatcher::getInstance();
+					if ($field->value)
+					{
+						$dispatcher->trigger('onFieldBeforePrepare', array($context, $item, &$field));
+					}
+
 					if ($output = $field->params->get('output'))
 					{
 						try
@@ -184,13 +194,20 @@ class FieldsHelper
 						// Prepare the value from the type layout
 						$value = self::render($context, 'field.prepare.' . $field->type, array('field' => $field));
 					}
-
 					// If the value is empty, render the base layout
 					if (! $value)
 					{
 						$value = self::render($context, 'field.prepare.base', array('field' => $field));
 					}
 
+					/*
+					 * On after field render
+					 * Event allow plugins to modfify the output of the prepared field
+					 */
+					if ($value)
+					{
+						$dispatcher->trigger('onFieldAfterPrepare', array($context, $item, $field, &$value));
+					}
 					$field->value = $value;
 				}
 
@@ -229,7 +246,6 @@ class FieldsHelper
 			// Trying to render the layout on the component fom the context
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
-
 		if (! $value)
 		{
 			// Trying to render the layout on Fields itself
