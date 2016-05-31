@@ -135,7 +135,7 @@ class UsersModelGroup extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Include the content plugins for events.
+		// Include the user plugins for events.
 		JPluginHelper::importPlugin($this->events_map['save']);
 
 		/**

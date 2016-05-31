@@ -42,8 +42,6 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
-		$http = JHttpFactory::getHttp();
-
 		// Load installer plugins, and allow url and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
@@ -52,9 +50,9 @@ abstract class JInstallerHelper
 
 		try
 		{
-			$response = $http->get($url, $headers);
+			$response = JHttpFactory::getHttp()->get($url, $headers);
 		}
-		catch (Exception $exception)
+		catch (RuntimeException $exception)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), JLog::WARNING, 'jerror');
 
@@ -76,7 +74,8 @@ abstract class JInstallerHelper
 		if (isset($response->headers['Content-Disposition'])
 			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
 		{
-			$target = trim(rtrim($parts[1], ";"), '"');
+			$flds = explode(';', $parts[1]);
+			$target = trim($flds[0], '"');
 		}
 
 		// Set the target path if not given
@@ -172,7 +171,7 @@ abstract class JInstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge(JFolder::files($extractdir, ''), JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) JFolder::files($extractdir, ''), (array) JFolder::folders($extractdir, ''));
 
 		if (count($dirList) == 1)
 		{
@@ -218,7 +217,7 @@ abstract class JInstallerHelper
 		// Search the install dir for an XML file
 		$files = JFolder::files($p_dir, '\.xml$', 1, true);
 
-		if (!count($files))
+		if (!$files || !count($files))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
 

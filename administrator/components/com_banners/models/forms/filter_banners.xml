@@ -4,10 +4,9 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_BANNERS_SEARCH_IN_TITLE"
-			description="COM_BANNERS_SEARCH_IN_TITLE"
+			label="COM_BANNERS_BANNERS_FILTER_SEARCH_LABEL"
+			description="COM_BANNERS_BANNERS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="published"
@@ -22,11 +21,21 @@
 			name="category_id"
 			type="category"
 			label="JOPTION_FILTER_CATEGORY"
-			extension="com_banners"
 			description="JOPTION_FILTER_CATEGORY_DESC"
+			extension="com_banners"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
+		</field>
+		<field
+         	name="client_id"
+			type="bannerclient"
+			label="COM_BANNERS_FILTER_CLIENT"
+			description="COM_BANNERS_FILTER_CLIENT_DESC"
+			extension="com_content"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_BANNERS_SELECT_CLIENT</option>
 		</field>
 		<field
 			name="language"
@@ -38,16 +47,19 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
-        <field
-                name="client_id"
-                type="bannerclient"
-                label="COM_BANNERS_FILTER_CLIENT"
-                extension="com_content"
-                description="COM_BANNERS_FILTER_CLIENT_DESC"
-                onchange="this.form.submit();"
-                >
-            <option value="">COM_BANNERS_SELECT_CLIENT</option>
-        </field>
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
@@ -60,8 +72,8 @@
 			default="a.name ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="a.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>

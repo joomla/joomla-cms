@@ -27,6 +27,14 @@ class PlgSystemRedirect extends JPlugin
 	protected $autoloadLanguage = false;
 
 	/**
+	 * The global exception handler registered before the plugin was instantiated
+	 *
+	 * @var    callable
+	 * @since  3.6
+	 */
+	private static $previousExceptionHandler;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -38,9 +46,11 @@ class PlgSystemRedirect extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Set the error handler for E_ERROR to be the class handleError method.
+		// Set the JError handler for E_ERROR to be the class' handleError method.
 		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
-		set_exception_handler(array('PlgSystemRedirect', 'handleException'));
+
+		// Register the previously defined exception handler so we can forward errors to it
+		self::$previousExceptionHandler = set_exception_handler(array('PlgSystemRedirect', 'handleException'));
 	}
 
 	/**
@@ -73,7 +83,7 @@ class PlgSystemRedirect extends JPlugin
 		if (!($exception instanceof Throwable) && !($exception instanceof Exception))
 		{
 			throw new InvalidArgumentException(
-				sprintf('The error handler requires a Exception or Throwable object, a "%s" object was given instead.', get_class($exception))
+				sprintf('The error handler requires an Exception or Throwable object, a "%s" object was given instead.', get_class($exception))
 			);
 		}
 
@@ -97,8 +107,15 @@ class PlgSystemRedirect extends JPlugin
 		// Make sure the error is a 404 and we are not in the administrator.
 		if ($app->isAdmin() || $error->getCode() != 404)
 		{
-			// Render the error page.
-			JErrorPage::render($error);
+			// Proxy to the previous exception handler if available, otherwise just render the error page
+			if (self::$previousExceptionHandler)
+			{
+				call_user_func_array(self::$previousExceptionHandler, array($error));
+			}
+			else
+			{
+				JErrorPage::render($error);
+			}
 		}
 
 		// Get the full current URI.
@@ -127,7 +144,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			$currRel = rawurldecode($uri->toString(array('path', 'query', 'fragment')));
 			$query = $db->getQuery(true)
-				->select($db->quoteName('new_url'))
+				->select($db->quoteName(array('new_url', 'header')))
 				->select($db->quoteName('published'))
 				->from($db->quoteName('#__redirect_links'))
 				->where($db->quoteName('old_url') . ' = ' . $db->quote($currRel));

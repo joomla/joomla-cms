@@ -109,7 +109,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;
@@ -545,7 +545,7 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
-				// @deprecated 4.0 From 4.0 if no valid status code is given a InvalidArgumentException will be thrown
+				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
 				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
 				{
 					$status = 303;
@@ -853,6 +853,8 @@ class JApplicationWeb extends JApplicationBase
 		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
 		 * information from Apache or IIS.
 		 */
+		// Define variable to return
+		$uri = '';
 
 		// If PHP_SELF and REQUEST_URI are both populated then we will assume "Apache Mode".
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
@@ -861,7 +863,7 @@ class JApplicationWeb extends JApplicationBase
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
-		else
+		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];

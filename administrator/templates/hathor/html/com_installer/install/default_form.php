@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_url.value == '' || form.install_url.value == 'http://'){
+		if (form.install_url.value == '' || form.install_url.value == 'http://' || form.install_url.value == 'https://'){
 			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . "');
 		}
 		else
@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<fieldset class="uploadform">
 			<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_URL'); ?></legend>
 			<label for="install_url"><?php echo JText::_('COM_INSTALLER_INSTALL_URL'); ?></label>
-			<input type="text" id="install_url" name="install_url" class="input_box" size="70" value="http://" />
+			<input type="text" id="install_url" name="install_url" class="input_box" size="70" value="https://" />
 			<input type="button" class="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
 		</fieldset>
 

@@ -65,6 +65,7 @@
 					class="chzn-color"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
+					showon="item_title:1"
 				>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
@@ -77,6 +78,7 @@
 					default="h4"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
 					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
+					showon="item_title:1"
 				>
 					<option value="h1">JH1</option>
 					<option value="h2">JH2</option>
@@ -136,6 +138,7 @@
 					default="1"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC"
+					showon="ordering:a.publish_up,a.created,a.ordering,a.hits"
 				>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>

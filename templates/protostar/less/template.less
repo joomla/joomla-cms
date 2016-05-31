@@ -169,7 +169,8 @@ body.site.fluid{
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {
-  margin: (@baseLineHeight / 1.5) 0;
+  	margin: (@baseLineHeight / 1.5) 0;
+	word-wrap: break-word;
 }
 h1 { font-size: 26px; line-height: 28px; }
 h2 { font-size: 22px; line-height: 24px; }
@@ -184,6 +185,9 @@ h6 { font-size: 12px; line-height: 14px; }
 	border-bottom: 1px solid #eeeeee;
 }
 /* Single Item */
+p {
+	word-wrap: break-word;
+}
 .item-title {
 	margin-bottom:9px;
 }
@@ -618,6 +622,15 @@ code {
 	padding:1px 4px;
 }
 
+/* Com_search break long titles & text */
+dt.result-title {
+	word-wrap: break-word;
+}
+
+dd.result-text {
+	word-wrap: break-word;
+}
+
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
   overflow: hidden;
@@ -653,15 +666,10 @@ body.modal-open {
 	}
 }
 
-/* Corrects the media modal padding on small devices */
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
 }
-
-/* Fix iOS scrolling inside bootstrap modals (using iframe) */
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
+li {
+	word-wrap: break-word;
 }

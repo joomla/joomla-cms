@@ -88,15 +88,30 @@ class JFormFieldTos extends JFormFieldRadio
 
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('id, alias, catid')
+			$query->select('id, alias, catid, language')
 				->from('#__content')
 				->where('id = ' . $tosarticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
-			$slug    = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-			$url     = ContentHelperRoute::getArticleRoute($slug, $article->catid);
 
-			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+			if (JLanguageAssociations::isEnabled())
+			{
+				$tosassociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+			}
+
+			$current_lang = JFactory::getLanguage()->getTag();
+
+			if (isset($tosassociated) && $current_lang != $article->language && array_key_exists($current_lang, $tosassociated))
+			{
+				$url  = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
+				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $tosassociated[$current_lang]->language), $text, $attribs);
+			}
+			else
+			{
+				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
+				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+			}
 		}
 		else
 		{

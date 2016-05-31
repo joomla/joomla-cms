@@ -125,15 +125,15 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			'ReturnDatesAsStrings' => true);
 
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
-		if (!function_exists('sqlsrv_connect'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('PHP extension sqlsrv_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('PHP extension sqlsrv_connect is not available.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ sqlsrv_connect($this->options['host'], $config)))
 		{
-			throw new RuntimeException('Database sqlsrv_connect failed');
+			throw new JDatabaseExceptionConnecting('Database sqlsrv_connect failed');
 		}
 
 		// Make sure that DB warnings are not returned as errors.
@@ -594,7 +594,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if (!is_resource($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -676,7 +676,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -692,7 +692,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -822,7 +822,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
-			throw new RuntimeException('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to database');
 		}
 
 		return true;

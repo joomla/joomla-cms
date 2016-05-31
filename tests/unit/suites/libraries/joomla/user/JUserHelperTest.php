@@ -52,6 +52,7 @@ class JUserHelperTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 		parent::tearDown();
 	}
 

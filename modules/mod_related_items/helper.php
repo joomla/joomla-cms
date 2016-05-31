@@ -103,7 +103,7 @@ abstract class ModRelatedItemsHelper
 				$query->clear()
 					->select('a.id')
 					->select('a.title')
-					->select('DATE(a.created) as created')
+					->select('CAST(a.created AS DATE) as created')
 					->select('a.catid')
 					->select('a.language')
 					->select('cc.access AS cat_access')

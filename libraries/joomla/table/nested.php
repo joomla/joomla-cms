@@ -538,7 +538,7 @@ class JTableNested extends JTable
 		if ($this->_trackAssets)
 		{
 			$name = $this->_getAssetName();
-			$asset = JTable::getInstance('Asset', 'JTable', array('dbo', $this->getDbo()));
+			$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 
 			// Lock the table for writing.
 			if (!$asset->_lock())

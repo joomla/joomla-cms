@@ -71,7 +71,9 @@
 					type="list"
 					default="0"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
-					description="MOD_LOGIN_FIELD_NAME_DESC">
+					description="MOD_LOGIN_FIELD_NAME_DESC"
+					showon="greeting:1"
+				>
 					<option
 						value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option

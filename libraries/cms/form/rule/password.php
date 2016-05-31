@@ -131,7 +131,7 @@ class JFormRulePassword extends JFormRule
 			}
 		}
 
-		// Minimum number of upper case ASII characters required
+		// Minimum number of upper case ASCII characters required
 		if (!empty($minimumUppercase))
 		{
 			$nUppercase = preg_match_all("/[A-Z]/", $value, $umatch);

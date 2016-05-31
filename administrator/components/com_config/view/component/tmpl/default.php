@@ -47,8 +47,23 @@ JFactory::getDocument()->addScriptDeclaration(
 		<div class="span10">
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
+					<?php $rel = ''; ?>
+					<?php if (!empty($fieldSet->showon)) : ?>
+						<?php JHtml::_('jquery.framework'); ?>
+						<?php JHtml::_('script', 'jui/cms.js', false, true); ?>
+						<?php $showonarr = array(); ?>
+						<?php foreach (preg_split('%\[AND\]|\[OR\]%', $fieldSet->showon) as $showonfield) : ?>
+							<?php $showon   = explode(':', $showonfield, 2); ?>
+							<?php $showonarr[] = array(
+								'field'  => $this->form->getFormControl() . '[' . $showon[0] . ']',
+								'values' => explode(',', $showon[1]),
+								'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $fieldSet->showon, $matches)) ? $matches[1] : ''
+							); ?>
+						<?php endforeach; ?>
+						<?php $rel = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
+					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
-					<li><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
+					<li<?php echo $rel; ?>><a href="#<?php echo $name; ?>" data-toggle="tab"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
 			</ul>
 			<div class="tab-content">

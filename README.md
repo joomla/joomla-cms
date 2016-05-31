@@ -7,7 +7,7 @@ Travis-CI: [![Build Status](https://travis-ci.org/joomla-projects/custom-fields.
 
 What is this?
 ---------------------
-This is the official custom fields repository for the Joomla 3.6 version. Please open here issues and pull requests for feedback.
+This is the official custom fields repository for the Joomla 3.7 version. Please open here issues and pull requests for feedback.
 
 This repository adds custom fields functionality to the Joomla CMS, based on the code of [DPFields](https://github.com/Digital-Peak/DPFields). It will be integrated as a horizontal component. This means, loading of fields into JForm and displaying them on the front is controlled trough the _Fields_ system plugin. Field management is done trough the com_fields component and will be integrated similar to com_categories as a new _Fields_ menu item in the articles manager.
 
@@ -39,12 +39,6 @@ Please keep in mind that this repository adds two new tables and new entries to 
 5. Check if the custom field is displayed.
 
 A more detailed test instruction article with screenshots can be found on our [blog](https://joomla.digital-peak.com/blog/198-custom-fields-in-joomla-3-7). We scratched here only on the surface of com_fields. If you want to check out what is all possible with this PR should have a look on the [full documentation of DPFields](https://joomla.digital-peak.com/documentation/162-dpfields). There are many options like layout overrides, inline field rendering in the article description, categories per fields, permissions. What works for DPFields will also work for com_fields.
-
-#### Things to clear
-As the current code is more or less a one to one copy of DPFields the following approaches do need clarification:
-- Is the system plugin approach right? Or should it be integrated as Observer on JTable and JModelForm?
-- com_fields uses a new permission, who can edit the value of a field? Should that be made as a new permission in core too, as at the moment a field can't inherit from the categories or even the global configuration?
-
 
 Copyright
 ---------------------

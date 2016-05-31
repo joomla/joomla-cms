@@ -52,7 +52,9 @@
 					type="list"
 					default="left"
 					label="MOD_SEARCH_FIELD_BUTTONPOS_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC">
+					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC"
+					showon="button:1"
+				>
 					<option
 						value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
 					<option
@@ -68,7 +70,9 @@
 					default="0"
 					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
-					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
+					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC"
+					showon="button:1"
+				>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -76,7 +80,8 @@
 					name="button_text"
 					type="text"
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
-					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
+					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC"
+					showon="button:1" />
 				<field
 					name="opensearch"
 					type="radio"
@@ -91,7 +96,8 @@
 					name="opensearch_title"
 					type="text"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_LABEL"
-					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC" />
+					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC"
+					showon="opensearch:1" />
 				<field
 					name="set_itemid"
 					type="menuitem"

@@ -36,8 +36,12 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 			$this->app->redirect('index.php');
 		}
 
+		$this->app->mimeType = 'application/json';
+		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
+		$this->app->sendHeaders();
+
 		$model = new ConfigModelApplication;
 		echo new JResponseJson($model->sendTestMail());
-		JFactory::getApplication()->close();
+		$this->app->close();
 	}
 }

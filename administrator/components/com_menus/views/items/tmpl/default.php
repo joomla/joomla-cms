@@ -16,24 +16,26 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user      = JFactory::getUser();
-$app       = JFactory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state',	'com_menus');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$user		= JFactory::getUser();
+$app		= JFactory::getApplication();
+$userId		= $user->get('id');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
+$ordering	= ($listOrder == 'a.lft');
+$canOrder	= $user->authorise('core.edit.state',	'com_menus');
+$saveOrder	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menutypeid	= (int) $this->state->get('menutypeid');
+$menuType  = (array) $app->getUserState('com_menus.items.menutype');
 
-if ($saveOrder)
+if ($saveOrder && $menuType != '*')
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
 $assoc = JLanguageAssociations::isEnabled();
+$colSpan = ($assoc) ? 10 : 9;
 ?>
-
 <?php // Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -56,10 +58,12 @@ $assoc = JLanguageAssociations::isEnabled();
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
-						<th width="1%" class="hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
-						<th width="1%" class="center">
+						<?php if (!empty($menuType)) : ?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							</th>
+						<?php endif; ?>
+						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -67,6 +71,9 @@ $assoc = JLanguageAssociations::isEnabled();
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+						</th>
+						<th class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'a.menutype', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
@@ -80,7 +87,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							</th>
 						<?php endif;?>
 						<th width="15%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -89,7 +96,7 @@ $assoc = JLanguageAssociations::isEnabled();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="<?php echo $colSpan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -99,10 +106,10 @@ $assoc = JLanguageAssociations::isEnabled();
 				<?php
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-					$canCreate  = $user->authorise('core.create',     'com_menus');
-					$canEdit    = $user->authorise('core.edit',       'com_menus');
+					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menutypeid);
+					$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menutypeid);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-					$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
+					$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menutypeid) && $canCheckin;
 
 					// Get the parents of item for sorting
 					if ($item->level > 1)
@@ -133,26 +140,28 @@ $assoc = JLanguageAssociations::isEnabled();
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
-						<td class="order nowrap center hidden-phone">
-							<?php
-							$iconClass = '';
+						<?php if (!empty($menuType)) : ?>
+							<td class="order nowrap center hidden-phone">
+								<?php
+								$iconClass = '';
 
-							if (!$canChange)
-							{
-								$iconClass = ' inactive';
-							}
-							elseif (!$saveOrder)
-							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-							}
-							?>
-							<span class="sortable-handler<?php echo $iconClass ?>">
-								<span class="icon-menu"></span>
-							</span>
-							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
-							<?php endif; ?>
-						</td>
+								if (!$canChange)
+								{
+									$iconClass = ' inactive';
+								}
+								elseif (!$saveOrder)
+								{
+									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								}
+								?>
+								<span class="sortable-handler<?php echo $iconClass ?>">
+									<span class="icon-menu"></span>
+								</span>
+								<?php if ($canChange && $saveOrder) : ?>
+									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
@@ -186,6 +195,9 @@ $assoc = JLanguageAssociations::isEnabled();
 								<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->menutype); ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>

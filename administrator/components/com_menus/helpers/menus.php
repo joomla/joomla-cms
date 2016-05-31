@@ -148,16 +148,16 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, 
-					  a.title AS text, 
-					  a.alias, 
-					  a.level, 
-					  a.menutype, 
-					  a.type, 
-					  a.published, 
-					  a.template_style_id, 
-					  a.checked_out, 
-					  a.language, 
+			->select('DISTINCT(a.id) AS value,
+					  a.title AS text,
+					  a.alias,
+					  a.level,
+					  a.menutype,
+					  a.type,
+					  a.published,
+					  a.template_style_id,
+					  a.checked_out,
+					  a.language,
 					  a.lft')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
@@ -205,40 +205,6 @@ class MenusHelper
 		}
 
 		$query->where('a.published != -2');
-
-		if (JLanguageMultilang::isEnabled())
-		{
-			$query->group(
-				'a.id , 
-				 a.title , 
-				 a.alias, 
-				 a.level, 
-				 a.menutype, 
-				 a.type, 
-				 a.published, 
-				 a.template_style_id, 
-				 a.checked_out, 
-				 a.language,
-				 a.lft,
-				 l.title , 
-				 l.image');
-		}
-		else
-		{
-			$query->group(
-				'a.id , 
-				 a.title , 
-				 a.alias, 
-				 a.level, 
-				 a.menutype, 
-				 a.type, 
-				 a.published, 
-				 a.template_style_id, 
-				 a.checked_out, 
-				 a.language,
-				 a.lft');
-		}
-
 		$query->order('a.lft ASC');
 
 		// Get the options.
@@ -318,6 +284,7 @@ class MenusHelper
 	{
 		$langAssociations = JLanguageAssociations::getAssociations('com_menus', '#__menu', 'com_menus.item', $pk, 'id', '', '');
 		$associations = array();
+
 		foreach ($langAssociations as $langAssociation)
 		{
 			$associations[$langAssociation->language] = $langAssociation->id;

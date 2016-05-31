@@ -22,7 +22,6 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldSkins extends JFormFieldList
 {
-
 	protected $type = 'skins';
 
 	/**
@@ -34,7 +33,6 @@ class JFormFieldSkins extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-
 		$options = array();
 
 		$directories = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);

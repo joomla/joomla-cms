@@ -21,7 +21,7 @@ class JComponentRouterBaseInspector extends JComponentRouterBase
 	 * 
 	 * @param   array   $url  valid inputs to the createURI() method
 	 *
-	 * @return  object  JURI object from the given parameters
+	 * @return  object  JUri object from the given parameters
 	 *
 	 * @since   3.4
 	 */

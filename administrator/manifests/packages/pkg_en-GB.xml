@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="3.5" method="upgrade">
+<extension type="package" version="3.6" method="upgrade">
 	<name>English (en-GB) Language Pack</name>
 	<packagename>en-GB</packagename>
-	<version>3.5.0.1</version>
-	<creationDate>2013-03-07</creationDate>
+	<version>3.6.0.1</version>
+	<creationDate>2016-05-01</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,7 +19,7 @@
 	</files>
 	<updateservers>
 		<server type="collection" priority="1" name="Accredited Joomla! Translations">
-			http://update.joomla.org/language/translationlist_3.xml
+			https://update.joomla.org/language/translationlist_3.xml
 		</server>
 	</updateservers>
 </extension>

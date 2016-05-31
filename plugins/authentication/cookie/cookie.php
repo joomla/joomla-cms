@@ -54,7 +54,7 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 
 		// Get cookie
-		$cookieName  = JUserHelper::getShortHashedUserAgent();
+		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
 
 		if (!$cookieValue)
@@ -220,7 +220,7 @@ class PlgAuthenticationCookie extends JPlugin
 		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
 		{
 			// Logged in using a cookie
-			$cookieName = JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 
 			// We need the old data to get the existing series
 			$cookieValue = $this->app->input->cookie->get($cookieName);
@@ -233,9 +233,9 @@ class PlgAuthenticationCookie extends JPlugin
 		elseif (!empty($options['remember']))
 		{
 			// Remember checkbox is set
-			$cookieName = JUserHelper::getShortHashedUserAgent();
+			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 
-			// Create an unique series which will be used over the lifespan of the cookie
+			// Create a unique series which will be used over the lifespan of the cookie
 			$unique     = false;
 			$errorCount = 0;
 
@@ -346,7 +346,7 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		$cookieName  = JUserHelper::getShortHashedUserAgent();
+		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
 
 		// There are no cookies to delete.
