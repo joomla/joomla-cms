@@ -12,6 +12,7 @@
 
 	<files>
 		<filename plugin="folderinstaller">folderinstaller.php</filename>
+		<filename>form.xml</filename>
 	</files>
 
 	<languages>

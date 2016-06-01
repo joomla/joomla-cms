@@ -17,6 +17,16 @@ defined('_JEXEC') or die;
 class InstallerViewDefault extends JViewLegacy
 {
 	/**
+	 * @var  bool
+	 */
+	protected $showMessage = false;
+
+	/**
+	 * @var  JObject
+	 */
+	protected $state;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  Configuration array

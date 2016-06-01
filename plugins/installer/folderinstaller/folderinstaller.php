@@ -18,78 +18,86 @@ JHtml::_('bootstrap.tooltip');
 class PlgInstallerFolderInstaller  extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   3.6.0
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(&$subject, $config = array())
-	{
-		$this->autoloadLanguage = true;
-
-		parent::__construct($subject, $config);
-	}
+	protected $autoloadLanguage = true;
 
 	/**
-	 * Textfield or Form of the Plugin.
+	 * Get the install type and the related form for this Plugin.
+	 *
+	 * @param   array  &$types    An array that will be appended with this plugin's install-type object
+	 *                            Properties of that object:
+	 *                            name: install type name,
+	 *                            title: Title of the install type,
+	 *                            description: Short description for the install type,
+	 *                            button: Submit Button label
+	 *                            form: The JForm instance for the install form OR the html
+	 * @param   bool   $withForm  Whether to pass the install type information only or include relevant form/html also
 	 *
 	 * @return  bool  Always returns true
 	 *
 	 * @since   3.6.0
 	 */
-	public function onInstallerAddInstallationTab()
+	public function onInstallerFetchInstallTypes(&$types, $withForm = false)
 	{
-		$app = JFactory::getApplication('administrator');
-		echo JHtml::_('bootstrap.addTab', 'myTab', 'folder', JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'));
-		?>
-		<div class="clr"></div>
-		<fieldset class="uploadform">
-			<legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
-			<div class="control-group">
-				<label for="install_directory" class="control-label"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
-				<div class="controls">
-					<input
-						type="text"
-						id="install_directory"
-						name="install_directory"
-						class="span5 input_box"
-						size="70"
-						value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
-				</div>
-			</div>
-			<div class="form-actions">
-				<input type="button" class="btn btn-primary" id="installbutton_directory"
-					value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()"
-				/>
-			</div>
-		</fieldset>
+		$app  = JFactory::getApplication('administrator');
+		$type = new stdClass;
 
-		<?php
-		echo JHtml::_('bootstrap.endTab');
+		$type->name        = 'folder';
+		$type->title       = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
+		$type->description = JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT');
+		$type->button      = JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON');
 
-		JFactory::getDocument()->addScriptDeclaration('
-			Joomla.submitbuttonfolder = function()
+		if ($withForm)
+		{
+			$form = JForm::getInstance('com_installer.install.folder', __DIR__ . '/form.xml');
+
+			if (!$form instanceof JForm)
 			{
-				var form = document.getElementById("adminForm");
-		
-				// do field validation 
-				if (form.install_directory.value == "")
-				{
-					alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH') . '");
-				}
-				else
-				{
-					jQuery("#loading").css("display", "block");
-					form.installtype.value = "folder"
-					form.submit();
-				}
-			};
-		');
+				// We cannot render the form so skip this.
+				return true;
+			}
+
+			$form->setFieldAttribute('install_directory', 'default', $app->get('tmp_path'));
+			$form->bind(array('install_directory' => $app->input->get('install_directory')));
+
+			$type->form = $form;
+
+			$this->addScript();
+		}
+
+		$types[] = $type;
 
 		return true;
+	}
+
+	/**
+	 * Add the install submit handler script to the page
+	 *
+	 * @return  void
+	 */
+	private function addScript()
+	{
+		JText::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true);
+
+		$script = '
+			jQuery(document).ready(function($) {
+				Joomla.installer.addHandler("folder", function(form) {
+					form = form || document.getElementById("adminForm");
+					// Do field validation 
+					if (form.install_directory.value == "") {
+						alert(Joomla.JText._("PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH"));
+						return false;
+					}
+					form.installtype.value = "folder";
+					return true;
+				});
+			});
+		';
+
+		JFactory::getDocument()->addScriptDeclaration($script);
 	}
 }

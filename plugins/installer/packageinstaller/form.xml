@@ -1,0 +1,9 @@
+<form>
+	<field
+		type="file"
+		name="install_package"
+		label="PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE"
+		class="input_box"
+		size="57"
+	/>
+</form>

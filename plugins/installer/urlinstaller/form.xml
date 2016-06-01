@@ -1,0 +1,10 @@
+<form>
+	<field
+		type="text"
+		name="install_url"
+		label="PLG_INSTALLER_URLINSTALLER_TEXT"
+		class="span5 input_box"
+		size="70"
+		hint="https://"
+	/>
+</form>

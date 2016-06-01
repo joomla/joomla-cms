@@ -1,0 +1,9 @@
+<form>
+	<field
+		type="text"
+		name="install_directory"
+		label="PLG_INSTALLER_FOLDERINSTALLER_TEXT"
+		class="span5 input_box"
+		size="70"
+	/>
+</form>

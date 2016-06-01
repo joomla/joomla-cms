@@ -48,8 +48,13 @@ class InstallerModelInstall extends JModelLegacy
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
+
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+
+		$showInfo     = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
+		$webInstaller = JPluginHelper::getPlugin('installer', 'webinstaller');
+		$this->state->set('install.show_jed_info', $showInfo && !is_object($webInstaller));
 
 		parent::populateState();
 	}
@@ -401,5 +406,58 @@ class InstallerModelInstall extends JModelLegacy
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
+	}
+
+	/**
+	 * Load the install methods with respective forms from installer plugins
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6.0
+	 */
+	public function getInstallTypes()
+	{
+		JPluginHelper::importPlugin('installer');
+
+		$types = array();
+
+		try
+		{
+			$dispatcher = JEventDispatcher::getInstance();
+
+			/*
+			 * Those plugin prior to J3.6 expect the tabSet initialized already, we won't break b/c but ignore returned html.
+			 * Webinstaller is on of those, but it skips tabs on "hathor" template, but again others may not care!
+			 */
+			JHtml::_('bootstrap.startTabSet', 'myTab');
+
+			// Load before first tab for B/C prior to J3.6, output may be comprise or multiple plugins html
+			ob_start();
+			$dispatcher->trigger('onInstallerViewBeforeFirstTab');
+			$beforeTabs = ob_get_clean();
+
+			if (trim($beforeTabs) != '')
+			{
+				$types[] = (object) array('html' => $beforeTabs);
+			}
+
+			$dispatcher->trigger('onInstallerFetchInstallTypes', array(&$types, true));
+
+			// Load after last tab for B/C prior to J3.6, output may be comprise or multiple plugins html
+			ob_start();
+			$dispatcher->trigger('onInstallerViewAfterLastTab');
+			$afterTabs = ob_get_clean();
+
+			if (trim($afterTabs) != '')
+			{
+				$types[] = (object) array('html' => $afterTabs);
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+		}
+
+		return $types;
 	}
 }

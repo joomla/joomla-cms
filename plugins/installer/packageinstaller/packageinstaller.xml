@@ -12,6 +12,7 @@
 
 	<files>
 		<filename plugin="packageinstaller">packageinstaller.php</filename>
+		<filename>form.xml</filename>
 	</files>
 
 	<languages>

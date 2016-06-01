@@ -12,62 +12,18 @@ defined('_JEXEC') or die;
 // MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
 JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
+JHtml::_('script', 'com_installer/install.js', false, true);
 
 JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function()
-	{
-		var form = document.getElementById('adminForm');
-
-		// do field validation
-		if (form.install_package.value == ''){
-			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true) . "');
-		}
-		else
-		{
-			form.installtype.value = 'upload';
-			form.submit();
-		}
-	};
-
-	Joomla.submitbutton3 = function()
-	{
-		var form = document.getElementById('adminForm');
-
-		// do field validation
-		if (form.install_directory.value == ''){
-			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true) . "');
-		}
-		else
-		{
-			form.installtype.value = 'folder';
-			form.submit();
-		}
-	};
-
-	Joomla.submitbutton4 = function()
-	{
-		var form = document.getElementById('adminForm');
-
-		// do field validation
-		if (form.install_url.value == '' || form.install_url.value == 'http://' || form.install_url.value == 'https://'){
-			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . "');
-		}
-		else
-		{
-			form.installtype.value = 'url';
-			form.submit();
-		}
-	};
-
-	Joomla.submitbuttonInstallWebInstaller = function()
-	{
-		var form = document.getElementById('adminForm');
-
-		form.install_url.value = 'https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
-
-		Joomla.submitbutton4();
+	// Keep for B/C. required for webInstaller updates
+	Joomla.submitbuttonInstallWebInstaller = function() {
+		Joomla.installer.installWebInstaller();
 	};
 ");
+JFactory::getDocument()->addStyleDeclaration('
+	.control-label { display: block; min-width: 140px; float: left }
+	.form-action { padding-left: 138px; margin-top: 5px; }
+');
 ?>
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -79,42 +35,36 @@ JFactory::getDocument()->addScriptDeclaration("
 	<div id="j-main-container">
 <?php endif;?>
 
-	<?php if ($this->showJedAndWebInstaller && !$this->showMessage) : ?>
+	<?php if ($this->state->get('install.show_jed_info') && !$this->showMessage) : ?>
 		<div class="alert j-jed-message" style="margin-bottom: 20px; line-height: 2em; color:#333333; clear:both;">
-			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close hasTooltip" data-dismiss="alert" title="<?php echo str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')); ?>">&times;</a>
+			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>"
+			   class="close hasTooltip" data-dismiss="alert" title="<?php echo str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')); ?>">&times;</a>
 			<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-			<input class="btn" type="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>" onclick="Joomla.submitbuttonInstallWebInstaller()" />
+			<input class="btn" type="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>" onclick="Joomla.installer.installWebInstaller()" />
 		</div>
 	<?php endif; ?>
 
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
+
 	<div class="width-70 fltlft">
-
-		<?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
-
-		<fieldset class="uploadform">
-			<legend><?php echo JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE'); ?></legend>
-			<label for="install_package"><?php echo JText::_('COM_INSTALLER_PACKAGE_FILE'); ?></label>
-			<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
-			<input class="button" type="button" value="<?php echo JText::_('COM_INSTALLER_UPLOAD_AND_INSTALL'); ?>" onclick="Joomla.submitbutton()" />
-		</fieldset>
-		<div class="clr"></div>
-		<fieldset class="uploadform">
-			<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY'); ?></legend>
-			<label for="install_directory"><?php echo JText::_('COM_INSTALLER_INSTALL_DIRECTORY'); ?></label>
-			<input type="text" id="install_directory" name="install_directory" class="input_box" size="70" value="<?php echo $this->state->get('install.directory'); ?>" />			<input type="button" class="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton3()" />
-		</fieldset>
-		<div class="clr"></div>
-		<fieldset class="uploadform">
-			<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_URL'); ?></legend>
-			<label for="install_url"><?php echo JText::_('COM_INSTALLER_INSTALL_URL'); ?></label>
-			<input type="text" id="install_url" name="install_url" class="input_box" size="70" value="https://" />
-			<input type="button" class="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
-		</fieldset>
-
-		<?php JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
+		<?php foreach ($this->installTypes as $installType) : ?>
+			<?php if (isset($installType->form) && $installType->form instanceof JForm): ?>
+				<div class="clr"></div>
+				<fieldset class="uploadform">
+					<legend><?php echo $installType->title; ?></legend>
+					<?php foreach ($installType->form->getFieldset() as $field): ?>
+						<div class="control-label"><?php echo $field->label; ?></div>
+						<div class="control-input"><?php echo $field->input; ?></div>
+					<?php endforeach; ?>
+					<div class="form-action"><button type="button" class="btn btn-primary"
+					        onclick="Joomla.installer.submit('<?php echo $installType->name ?>');"><?php echo $installType->button; ?></button></div>
+				</fieldset>
+			<?php else: // B/C for older plugins before Joomla 3.6.0 that echo html directly ?>
+				<?php echo $installType->html; ?>
+			<?php endif; ?>
+		<?php endforeach; ?>
 
 		<input type="hidden" name="type" value="" />
 		<input type="hidden" name="installtype" value="upload" />

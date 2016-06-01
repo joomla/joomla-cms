@@ -19,6 +19,23 @@ include_once __DIR__ . '/../default/view.php';
 class InstallerViewInstall extends InstallerViewDefault
 {
 	/**
+	 * @var  stdClass
+	 */
+	protected $paths;
+
+	/**
+	 * @var  bool
+	 *
+	 * @deprecated   Use $this->state->get('install.show_jed_info');
+	 */
+	protected $showJedAndWebInstaller;
+
+	/**
+	 * @var  stdClass[]
+	 */
+	protected $installTypes;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  Template
@@ -31,19 +48,37 @@ class InstallerViewInstall extends InstallerViewDefault
 	{
 		$paths = new stdClass;
 		$paths->first = '';
-		$state = $this->get('state');
 
-		$this->paths = &$paths;
-		$this->state = &$state;
+		$this->paths        = $paths;
+		$this->state        = $this->get('state');
+		$this->installTypes = $this->get('InstallTypes');
 
-		$this->showJedAndWebInstaller = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
+		if ($errors = $this->get('Errors'))
+		{
+			JLog::add(implode('<br>', $errors), JLog::WARNING, 'jerror');
+
+			return;
+		}
+
+		if (count($this->installTypes) == 0)
+		{
+			JLog::add(JText::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), JLog::WARNING, 'jerror');
+		}
+
+		$show = $this->state->get('install.show_jed_info');
 
 		JPluginHelper::importPlugin('installer');
 
 		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
+		$dispatcher->trigger('onInstallerBeforeDisplay', array(&$show, $this));
+
+		// Sync both the deprecated and new value
+		$this->showJedAndWebInstaller = $show;
+		$this->state->set('install.show_jed_info', $show);
 
 		parent::display($tpl);
+
+		$dispatcher->trigger('onInstallerAfterDisplay');
 	}
 
 	/**
