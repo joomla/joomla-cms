@@ -117,6 +117,7 @@ class ContentModelArticle extends JModelAdmin
 			if (!$this->table->check())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -126,6 +127,7 @@ class ContentModelArticle extends JModelAdmin
 			if (!$this->table->store())
 			{
 				$this->setError($this->table->getError());
+
 				return false;
 			}
 
@@ -170,6 +172,7 @@ class ContentModelArticle extends JModelAdmin
 			{
 				return false;
 			}
+
 			$user = JFactory::getUser();
 
 			return $user->authorise('core.delete', 'com_content.article.' . (int) $record->id);
@@ -238,7 +241,7 @@ class ContentModelArticle extends JModelAdmin
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid . ' AND state >= 0');
 		}
 	}
 
@@ -332,10 +335,12 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
 		}
+
 		$jinput = JFactory::getApplication()->input;
 
 		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -348,6 +353,7 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$id = $jinput->get('id', 0);
 		}
+
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))
 		{
@@ -485,6 +491,31 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadArray($data['images']);
 
 			$data['images'] = (string) $registry;
+		}
+
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
+
+		// Check if New Category exists
+		if ($catid > 0)
+		{
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+		}
+
+		// Save New Category
+		if ($catid == 0)
+		{
+			$table = array();
+			$table['title'] = $data['catid'];
+			$table['parent_id'] = 1;
+			$table['extension'] = 'com_content';
+			$table['language'] = $data['language'];
+			$table['published'] = 1;
+
+			// Create new category and get catid back
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
@@ -641,10 +672,12 @@ class ContentModelArticle extends JModelAdmin
 
 				// Featuring.
 				$tuples = array();
+				$ordering = $table->getNextOrder();
 
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = $pk . ', ' . $ordering;
+					$ordering++;
 				}
 
 				if (count($tuples))
@@ -663,10 +696,9 @@ class ContentModelArticle extends JModelAdmin
 		catch (Exception $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
-
-		$table->reorder();
 
 		$this->cleanCache();
 
@@ -735,6 +767,7 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('clear', 'true');
 				}
 			}
+
 			if ($add)
 			{
 				$form->load($addform, false);
@@ -763,5 +796,17 @@ class ContentModelArticle extends JModelAdmin
 		parent::cleanCache('mod_articles_latest');
 		parent::cleanCache('mod_articles_news');
 		parent::cleanCache('mod_articles_popular');
+	}
+
+	/**
+	 * Void hit function for pagebreak when editing content from frontend
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function hit()
+	{
+		return;
 	}
 }

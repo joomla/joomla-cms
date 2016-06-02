@@ -47,7 +47,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return $result;
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -91,7 +91,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			*/
 			return true;
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -122,7 +122,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return (boolean) $db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -156,7 +156,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return (boolean) $db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

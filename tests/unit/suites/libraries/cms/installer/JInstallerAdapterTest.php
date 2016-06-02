@@ -248,7 +248,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 			'install',
 			'route',
 			$object,
-			'JInstallerAdapter::checkExtensionInFilesystem() should not update the route unless a extension ID has been set'
+			'JInstallerAdapter::checkExtensionInFilesystem() should not update the route unless an extension ID has been set'
 		);
 
 		$this->assertTrue(
@@ -1410,7 +1410,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test triggering the manifest script for a installer where results are true
+	 * @testdox Test triggering the manifest script for an installer where results are true
 	 *
 	 * @param   string  $method  The method to run
 	 *
@@ -1452,7 +1452,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test triggering the manifest script for a installer where results are true
+	 * @testdox Test triggering the manifest script for an installer where results are true
 	 *
 	 * @param   string  $method  The method to run
 	 *
@@ -1484,7 +1484,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test a exception is thrown when the preflight method returns false
+	 * @testdox Test an exception is thrown when the preflight method returns false
 	 *
 	 * @expectedException  RuntimeException
 	 * @covers  JInstallerAdapter::triggerManifestScript
@@ -1525,7 +1525,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test a exception is thrown when the install or update methods return false
+	 * @testdox Test an exception is thrown when the install or update methods return false
 	 *
 	 * @param   string  $method  The method to run
 	 *
@@ -1555,7 +1555,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test a exception isn't thrown when the uninstall method returns false
+	 * @testdox Test an exception isn't thrown when the uninstall method returns false
 	 * 
 	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */
@@ -1583,7 +1583,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @testdox Test a exception isn't thrown when the postflight method returns false
+	 * @testdox Test an exception isn't thrown when the postflight method returns false
 	 * 
 	 * @covers  JInstallerAdapter::triggerManifestScript
 	 */

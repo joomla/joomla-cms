@@ -54,6 +54,16 @@
 		"url": "//fonts.googleapis.com/css?family=PT+Mono",
 		"css": "'PT Mono', monospace"
 	},
+	"roboto_mono": {
+		"name": "Roboto Mono",
+		"url": "//fonts.googleapis.com/css?family=Roboto+Mono",
+		"css": "'Roboto Mono', monospace"
+	},
+	"rubik_mono_one": {
+		"name": "Rubik Mono One",
+		"url": "//fonts.googleapis.com/css?family=Rubik+Mono+One",
+		"css": "'Rubik Mono One', monospace"
+	},
 	"share_tech_mono": {
 		"name": "Share Tech Mono",
 		"url": "//fonts.googleapis.com/css?family=Share+Tech+Mono",

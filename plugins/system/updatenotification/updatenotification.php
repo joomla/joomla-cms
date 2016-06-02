@@ -72,7 +72,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			// If we can't lock the tables it's too risk continuing execution
+			// If we can't lock the tables it's too risky to continue execution
 			return;
 		}
 

@@ -76,18 +76,62 @@ class CacheController extends JControllerLegacy
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
-		$model = $this->getModel('cache');
-
 		if (empty($cid))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
-			$model->cleanlist($cid);
+			$result = $this->getModel('cache')->cleanlist($cid);
+
+			if ($result !== array())
+			{
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_DELETED'), 'message');
+			}
+		}
+		$this->setRedirect('index.php?option=com_cache');
+	}
+
+	/**
+	 * Method to delete all cache groups.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.6.0
+	 */
+	public function deleteAll()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$app        = JFactory::getApplication();
+		$model      = $this->getModel('cache');
+		$data       = $model->getCache()->getAll();
+		$allCleared = true;
+
+		foreach ($data as $cache)
+		{
+			if ((int) $model->clean($cache->group) !== 1)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $cache->group), 'error');
+				$allCleared = false;
+			}
 		}
 
-		$this->setRedirect('index.php?option=com_cache&client=' . $model->getClient()->id);
+		if ($allCleared)
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_MSG_ALL_CACHE_GROUPS_CLEARED'), 'message');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
+		}
+
+		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 
 	/**
@@ -100,18 +144,14 @@ class CacheController extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$model = $this->getModel('cache');
-		$ret = $model->purge();
-
-		$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED');
-		$msgType = 'message';
-
-		if ($ret === false)
+		if (!$this->getModel('cache')->purge())
 		{
-			$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR');
-			$msgType = 'error';
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
 		}
-
-		$this->setRedirect('index.php?option=com_cache&view=purge', $msg, $msgType);
+		else
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'), 'message');
+		}
+		$this->setRedirect('index.php?option=com_cache&view=purge');
 	}
 }

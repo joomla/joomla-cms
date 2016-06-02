@@ -127,6 +127,7 @@ class ModMenuHelper
 					$item->title        = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_css   = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->anchor_rel = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->menu_image   = $item->params->get('menu_image', '') ?
 						htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
 				}
@@ -187,18 +188,28 @@ class ModMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+
+		return $menu->getActive() ? $menu->getActive() : self::getDefault();
+	}
+
+	/**
+	 * Get default menu item (homepage) for current language.
+	 *
+	 * @return  object
+	 */
+	public static function getDefault()
+	{
+		$menu = JFactory::getApplication()->getMenu();
 		$lang = JFactory::getLanguage();
 
 		// Look for the home menu
 		if (JLanguageMultilang::isEnabled())
 		{
-			$home = $menu->getDefault($lang->getTag());
+			return $menu->getDefault($lang->getTag());
 		}
 		else
 		{
-			$home  = $menu->getDefault();
+			return $menu->getDefault();
 		}
-
-		return $menu->getActive() ? $menu->getActive() : $home;
 	}
 }

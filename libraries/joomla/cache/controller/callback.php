@@ -19,8 +19,7 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * Since arguments to this function are read with func_get_args you can pass any number of
-	 * arguments to this method
+	 * Since arguments to this function are read with func_get_args you can pass any number of arguments to this method
 	 * as long as the first argument passed is the callback definition.
 	 *
 	 * The callback definition can be in several forms:
@@ -35,7 +34,7 @@ class JCacheControllerCallback extends JCacheController
 	public function call()
 	{
 		// Get callback and arguments
-		$args = func_get_args();
+		$args     = func_get_args();
 		$callback = array_shift($args);
 
 		return $this->get($callback, $args);
@@ -46,7 +45,7 @@ class JCacheControllerCallback extends JCacheController
 	 *
 	 * @param   mixed    $callback    Callback or string shorthand for a callback
 	 * @param   array    $args        Callback arguments
-	 * @param   mixed    $id          Cache id
+	 * @param   mixed    $id          Cache ID
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 * @param   array    $woptions    Workaround options
 	 *
@@ -80,10 +79,6 @@ class JCacheControllerCallback extends JCacheController
 			global $$object_123456789;
 			$callback = array($$object_123456789, $method);
 		}
-		else
-		{
-			// We have just a standard function -- do nothing
-		}
 
 		if (!$id)
 		{
@@ -93,8 +88,8 @@ class JCacheControllerCallback extends JCacheController
 
 		$data = $this->cache->get($id);
 
-		$locktest = new stdClass;
-		$locktest->locked = null;
+		$locktest             = new stdClass;
+		$locktest->locked     = null;
 		$locktest->locklooped = null;
 
 		if ($data === false)
@@ -111,10 +106,10 @@ class JCacheControllerCallback extends JCacheController
 
 		if ($data !== false)
 		{
-			$cached = unserialize(trim($data));
+			$cached                = unserialize(trim($data));
 			$coptions['mergehead'] = isset($woptions['mergehead']) ? $woptions['mergehead'] : 0;
-			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
-			$result = $cached['result'];
+			$output                = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
+			$result                = $cached['result'];
 
 			if ($locktest->locked == true)
 			{
@@ -125,11 +120,11 @@ class JCacheControllerCallback extends JCacheController
 		{
 			if (!is_array($args))
 			{
-				$Args = !empty($args) ? array(&$args) : array();
+				$referenceArgs = !empty($args) ? array(&$args) : array();
 			}
 			else
 			{
-				$Args = &$args;
+				$referenceArgs = &$args;
 			}
 
 			if ($locktest->locked == false)
@@ -154,19 +149,17 @@ class JCacheControllerCallback extends JCacheController
 			ob_start();
 			ob_implicit_flush(false);
 
-			$result = call_user_func_array($callback, $Args);
-			$output = ob_get_contents();
-
-			ob_end_clean();
-
-			$cached = array();
+			$result = call_user_func_array($callback, $referenceArgs);
+			$output = ob_get_clean();
 
 			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
-			$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
+			$coptions['nohead']    = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
 			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
 
-			$cached['output'] = ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions);
-			$cached['result'] = $result;
+			$cached = array(
+				'output' => ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions),
+				'result' => $result
+			);
 
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
@@ -183,12 +176,12 @@ class JCacheControllerCallback extends JCacheController
 	}
 
 	/**
-	 * Generate a callback cache id
+	 * Generate a callback cache ID
 	 *
 	 * @param   callback  $callback  Callback to cache
 	 * @param   array     $args      Arguments to the callback method to cache
 	 *
-	 * @return  string  MD5 Hash : function cache id
+	 * @return  string  MD5 Hash
 	 *
 	 * @since   11.1
 	 */
@@ -196,8 +189,8 @@ class JCacheControllerCallback extends JCacheController
 	{
 		if (is_array($callback) && is_object($callback[0]))
 		{
-			$vars = get_object_vars($callback[0]);
-			$vars[] = strtolower(get_class($callback[0]));
+			$vars        = get_object_vars($callback[0]);
+			$vars[]      = strtolower(get_class($callback[0]));
 			$callback[0] = $vars;
 		}
 

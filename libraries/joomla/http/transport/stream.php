@@ -142,6 +142,13 @@ class JHttpTransportStream implements JHttpTransport
 			)
 		);
 
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$uri->setUser($this->options->get('userauth'));
+			$uri->setPass($this->options->get('passwordauth'));
+		}
+
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');

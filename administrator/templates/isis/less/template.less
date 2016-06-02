@@ -226,6 +226,30 @@ body .navbar-fixed-top {
 	.nav-user {
 		font-size: 13px;
 	}
+	.nav > li ul {
+		overflow-y: auto;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		-o-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+		height: auto;
+		max-height: 500px;
+		margin: 0;
+		&::-webkit-scrollbar {
+			-webkit-appearance: none;
+			width: 7px;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 4px;
+			background-color: rgba(0,0,0,.5);
+			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+		}
+	}
+	.empty-nav {
+		display: none;
+	}
 }
 
 .navbar-fixed-top,
@@ -293,9 +317,10 @@ body .navbar-fixed-top {
 }
 
 .logo {
-	width: 100%;
-	max-width: 143px;
-	height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 36px;
+    height: auto;
 }
 
 /* Page Title */
@@ -493,8 +518,8 @@ h6 {
 }
 
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 
 .quick-icons [class^="icon-"]:before, .quick-icons [class*=" icon-"]:before {
@@ -768,6 +793,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	padding: 3px 20px;
 }
 
+.nav-collapse .dropdown-menu > li {
+	img {
+		max-width: none;
+	}
+}
+
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -1025,6 +1056,10 @@ ul.treeselect ul.dropdown-menu li {
 	border: none;
 }
 /* Tables */
+table label {
+	margin: 0;
+}
+
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
@@ -1076,7 +1111,7 @@ th .tooltip-inner {
 }
 /* Component pop-up */
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 /* Min-width on buttons */
 .controls .btn-group > .btn {
@@ -1172,6 +1207,7 @@ a.grid_true {
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 10px;
+	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
 	border-right: 1px solid darken(@wellBackground, 7%);
@@ -1300,8 +1336,8 @@ textarea.noResize {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
 /* Corrects the modals padding */
@@ -1318,15 +1354,12 @@ body.modal-open {
 	width: 220px;
 }
 
-/* Corrects the media modal padding on small devices */
-@media (max-width: 767px) {
-	.field-media-wrapper .modal .modal-body {
-		padding: 5px 0;
-	}
+/* Clear div after modal-body rendering */
+.modal-footer {
+	clear: both;
 }
 
-/* Fix iOS scrolling inside bootstrap modals (using iframe) */
-.modal-body {
-	-webkit-overflow-scrolling: touch;
-	overflow-y: auto !important;
+/* Modal Header text align left even if parent container centered */
+.modal-header {
+	text-align: left;
 }

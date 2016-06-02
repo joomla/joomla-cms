@@ -54,15 +54,13 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 <?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+	<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+		<?php echo JLayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
+	<?php endif; ?>
 <?php endif; ?>
 
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
-	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
-	<?php if ($images->image_intro_caption):
-		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
-	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
+	<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 <?php endif; ?>
 
 <?php if (!$params->get('show_intro')) : ?>
@@ -89,7 +87,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-		$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false)));
+		$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 	endif; ?>
 
 	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>

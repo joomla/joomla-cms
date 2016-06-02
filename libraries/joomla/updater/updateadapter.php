@@ -152,7 +152,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		{
 			$db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			// Do nothing
 		}
@@ -187,9 +187,9 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		{
 			$name = $db->loadResult();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
-
+			// Do nothing
 		}
 
 		return $name;
@@ -243,7 +243,7 @@ abstract class JUpdateAdapter extends JAdapterInstance
 		try
 		{
 			$http = JHttpFactory::getHttp();
-			$response = $http->get($url);
+			$response = $http->get($url, array(), 20);
 		}
 		catch (RuntimeException $e)
 		{
