@@ -127,10 +127,15 @@ class PlgSearchTags extends JPlugin
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		if ($app->isSite())
 		{
-			$tag = JFactory::getLanguage()->getTag();
-			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+			$query->where('a.published = 1');
+
+			if (JLanguageMultilang::isEnabled())
+			{
+				$tag = JFactory::getLanguage()->getTag();
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+			}
 		}
 
 		$query->order($order);
