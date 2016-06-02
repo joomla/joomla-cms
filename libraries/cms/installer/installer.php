@@ -1036,8 +1036,9 @@ class JInstaller extends JAdapter
 	/**
 	 * Method to process the updates for an item
 	 *
-	 * @param   SimpleXMLElement  $schema  The XML node to process
-	 * @param   integer           $eid     Extension Identifier
+	 * @param   SimpleXMLElement  $schema  		The XML node to process
+	 * @param   integer           $eid     		Extension Identifier
+	 * @param   SimpleXMLElement  $top_version  The XML node to process containing verion we updating to
 	 *
 	 * @return  boolean           Result of the operations
 	 *
