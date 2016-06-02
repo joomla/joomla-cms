@@ -814,7 +814,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		{
 			if ($this->getManifest()->update)
 			{
-				$result = $this->parent->parseSchemaUpdates($this->getManifest()->update->schemas, $this->extension->extension_id,$this->getManifest()->version);
+				$result = $this->parent->parseSchemaUpdates($this->getManifest()->update->schemas, $this->extension->extension_id, $this->getManifest()->version);
 
 				if ($result === false)
 				{
