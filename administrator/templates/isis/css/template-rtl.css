@@ -8288,6 +8288,9 @@ body.modal-open {
 .modal-footer {
 	clear: both;
 }
+.modal-header {
+	text-align: left;
+}
 .pull-right {
 	float: left;
 }
@@ -9102,4 +9105,10 @@ a.grid_true {
 }
 .js-pstats-data-details dd {
 	margin-right: 240px;
+}
+.modal-footer button {
+	float: left;
+}
+.modal-header {
+	text-align: right;
 }

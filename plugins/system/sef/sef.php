@@ -110,7 +110,7 @@ class PlgSystemSef extends JPlugin
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'poster=');
+		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
 
 		foreach ($attributes as $attribute)
 		{
