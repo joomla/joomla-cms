@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -124,11 +124,23 @@ class JHttpTransportSocket implements JHttpTransport
 			}
 		}
 
+		// Set any custom transport options
+		foreach ($this->options->get('transport.socket', array()) as $value)
+		{
+			$request[] = $value;
+		}
+
 		// If we have data to send add it to the request payload.
 		if (!empty($data))
 		{
 			$request[] = null;
 			$request[] = $data;
+		}
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$request[] = 'Authorization: Basic ' . base64_encode($this->options->get('userauth') . ':' . $this->options->get('passwordauth'));
 		}
 
 		// Send the request to the server.
@@ -224,7 +236,7 @@ class JHttpTransportSocket implements JHttpTransport
 		$err = null;
 
 		// Get the host from the uri.
-		$host = ($uri->isSSL()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
+		$host = ($uri->isSsl()) ? 'ssl://' . $uri->getHost() : $uri->getHost();
 
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())

@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,10 +67,10 @@ class CategoryEditPage extends AdminEditPage
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'header'),
 			array('label' => 'Description', 'id' => 'jform_description', 'type' => 'textarea', 'tab' => 'general'),
 			array('label' => 'Parent', 'id' => 'jform_parent_id', 'type' => 'select', 'tab' => 'general'),
-			array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Tags', 'id' => 'jform_tags', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Created Date', 'id' => 'jform_created_time', 'type' => 'input', 'tab' => 'publishing'),

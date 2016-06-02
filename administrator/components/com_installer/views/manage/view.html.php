@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,9 +38,11 @@ class InstallerViewManage extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model.
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -66,7 +68,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= JHelperContent::getActions('com_installer');
+		$canDo = JHelperContent::getActions('com_installer');
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -80,63 +82,11 @@ class InstallerViewManage extends InstallerViewDefault
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
+			JToolbarHelper::deleteList('COM_INSTALLER_CONFIRM_UNINSTALL', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
-			'filter_client_id',
-			JHtml::_(
-				'select.options',
-				array('0' => 'JSITE', '1' => 'JADMINISTRATOR'),
-				'value',
-				'text',
-				$this->state->get('filter.client_id'),
-				true
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
-			'filter_status',
-			JHtml::_(
-				'select.options',
-				array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED', '3' => 'JUNPROTECTED'),
-				'value',
-				'text',
-				$this->state->get('filter.status'),
-				true
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
-			'filter_type',
-			JHtml::_(
-				'select.options',
-				InstallerHelper::getExtensionTypes(),
-				'value',
-				'text',
-				$this->state->get('filter.type'),
-				true
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
-			'filter_group',
-			JHtml::_(
-				'select.options',
-				array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))),
-				'value',
-				'text',
-				$this->state->get('filter.group'),
-				true
-			)
-		);
 
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');

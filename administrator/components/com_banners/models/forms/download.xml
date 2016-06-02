@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="details">
-
-		<field name="compressed" type="radio" class="btn-group btn-group-yesno"
+		<field
+			name="compressed"
+			type="radio"
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			description="COM_BANNERS_FIELD_COMPRESSED_DESC"
+			class="btn-group btn-group-yesno"
 			default="0"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
 
-		<field name="basename" type="text"
+		<field
+			name="basename"
+			type="text"
+			label="COM_BANNERS_FIELD_BASENAME_LABEL"
+			description="COM_BANNERS_FIELD_BASENAME_DESC"
 			size="40"
-			label="COM_BANNERS_FIELD_BASENAME_LABEL" description="COM_BANNERS_FIELD_BASENAME_DESC" />
-
+		/>
 	</fieldset>
 </form>

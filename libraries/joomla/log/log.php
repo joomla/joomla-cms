@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -199,10 +199,18 @@ class JLog
 
 		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
 		// Closure objects are not serializable so swap it out for a unique id first then back again later
-		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
+		if (isset($options['callback']))
 		{
-			$callback = $options['callback'];
-			$options['callback'] = spl_object_hash($options['callback']);
+			if (is_a($options['callback'], 'closure'))
+			{
+				$callback = $options['callback'];
+				$options['callback'] = spl_object_hash($options['callback']);
+			}
+			elseif (is_array($options['callback']) && count($options['callback']) == 2 && is_object($options['callback'][0]))
+			{
+				$callback = $options['callback'];
+				$options['callback'] = spl_object_hash($options['callback'][0]) . '::' . $options['callback'][1];
+			}
 		}
 
 		// Generate a unique signature for the JLog instance based on its options.
@@ -316,7 +324,7 @@ class JLog
 				else
 				{
 					// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-					if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+					if (empty($rules->categories) || in_array($category, $rules->categories))
 					{
 						$loggers[] = $signature;
 					}

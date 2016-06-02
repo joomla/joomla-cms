@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -544,6 +544,7 @@ class JHelperTags extends JHelper
 				. ', ' . 'count(m.tag_id) AS match_count'
 				. ', ' . 'MAX(m.tag_date) as tag_date'
 				. ', ' . 'MAX(c.core_title) AS core_title'
+				. ', ' . 'MAX(c.core_params) AS core_params'
 			)
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
 			->select(
@@ -567,6 +568,9 @@ class JHelperTags extends JHelper
 					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
+
+			// Join over categoris for get only published
+			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
 
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
@@ -606,7 +610,7 @@ class JHelperTags extends JHelper
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id');
+			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, name, author_email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
@@ -804,7 +808,7 @@ class JHelperTags extends JHelper
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != ''))
 		{
-			if (!$newTags && $replace = true)
+			if (!$newTags && $replace == true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -952,13 +956,11 @@ class JHelperTags extends JHelper
 		}
 		catch (RuntimeException $e)
 		{
-			return false;
+			return array();
 		}
 
 		// We will replace path aliases with tag names
-		$results = self::convertPathsToNames($results);
-
-		return $results;
+		return self::convertPathsToNames($results);
 	}
 
 	/**
@@ -1054,7 +1056,7 @@ class JHelperTags extends JHelper
 		{
 			JArrayHelper::toInteger($tags);
 
-			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
+			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
 		}
 
 		$db->setQuery($query);

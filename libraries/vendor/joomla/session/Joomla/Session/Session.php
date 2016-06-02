@@ -20,7 +20,6 @@ use Joomla\Input\Input;
  * more advanced features such as expire timeouts.
  *
  * @since  1.0
- * @deprecated  The joomla/session package is deprecated
  */
 class Session implements \IteratorAggregate
 {
@@ -77,6 +76,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @var    mixed
 	 * @since  1.0
+	 * @deprecated  2.0
 	 */
 	protected $cookie_domain;
 
@@ -85,6 +85,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @var    mixed
 	 * @since  1.0
+	 * @deprecated  2.0
 	 */
 	protected $cookie_path;
 
@@ -93,6 +94,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @var    Session
 	 * @since  1.0
+	 * @deprecated  2.0
 	 */
 	protected static $instance;
 
@@ -101,6 +103,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @var    string
 	 * @since  1.0
+	 * @deprecated  2.0
 	 */
 	protected $storeName;
 
@@ -153,7 +156,7 @@ class Session implements \IteratorAggregate
 
 		$this->_setCookieParams();
 
-		$this->state = 'inactive';
+		$this->setState('inactive');
 	}
 
 	/**
@@ -164,6 +167,7 @@ class Session implements \IteratorAggregate
 	 * @return  mixed   The value of the property
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Use get methods for non-deprecated properties
 	 */
 	public function __get($name)
 	{
@@ -183,6 +187,7 @@ class Session implements \IteratorAggregate
 	 * @return  Session  The Session object.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  A singleton object store will no longer be supported
 	 */
 	public static function getInstance($handler, array $options = array ())
 	{
@@ -266,7 +271,7 @@ class Session implements \IteratorAggregate
 		{
 			if ($forceExpire)
 			{
-				$this->state = 'expired';
+				$this->setState('expired');
 			}
 
 			return false;
@@ -296,7 +301,7 @@ class Session implements \IteratorAggregate
 	 */
 	public function getName()
 	{
-		if ($this->state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			// @TODO : raise error
 			return null;
@@ -314,7 +319,7 @@ class Session implements \IteratorAggregate
 	 */
 	public function getId()
 	{
-		if ($this->state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			return null;
 		}
@@ -328,6 +333,7 @@ class Session implements \IteratorAggregate
 	 * @return  array  An array of available session handlers
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  The Storage class chain will be removed
 	 */
 	public static function getStores()
 	{
@@ -375,7 +381,7 @@ class Session implements \IteratorAggregate
 	 */
 	public function isActive()
 	{
-		return (bool) ($this->state == 'active');
+		return (bool) ($this->getState() == 'active');
 	}
 
 	/**
@@ -395,12 +401,13 @@ class Session implements \IteratorAggregate
 	/**
 	 * Check whether this session is currently created
 	 *
-	 * @param   Input       $input       Input object for the session to use.
-	 * @param   Dispatcher  $dispatcher  Dispatcher object for the session to use.
+	 * @param   Input                $input       Input object for the session to use.
+	 * @param   DispatcherInterface  $dispatcher  Dispatcher object for the session to use.
 	 *
-	 * @return  void.
+	 * @return  void
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  In 2.0 the DispatcherInterface should be injected via the object constructor
 	 */
 	public function initialise(Input $input, DispatcherInterface $dispatcher = null)
 	{
@@ -413,7 +420,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @param   string  $name       Name of a variable
 	 * @param   mixed   $default    Default value of a variable if not set
-	 * @param   string  $namespace  Namespace to use, default to 'default'
+	 * @param   string  $namespace  Namespace to use, default to 'default' {@deprecated 2.0 Namespace support will be removed.}
 	 *
 	 * @return  mixed  Value of a variable
 	 *
@@ -424,7 +431,7 @@ class Session implements \IteratorAggregate
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->state !== 'active' && $this->state !== 'expired')
+		if ($this->getState() !== 'active' && $this->getState() !== 'expired')
 		{
 			// @TODO :: generated error here
 			$error = null;
@@ -445,7 +452,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @param   string  $name       Name of a variable.
 	 * @param   mixed   $value      Value of a variable.
-	 * @param   string  $namespace  Namespace to use, default to 'default'.
+	 * @param   string  $namespace  Namespace to use, default to 'default' {@deprecated 2.0 Namespace support will be removed.}
 	 *
 	 * @return  mixed  Old value of a variable.
 	 *
@@ -456,7 +463,7 @@ class Session implements \IteratorAggregate
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return null;
@@ -480,7 +487,7 @@ class Session implements \IteratorAggregate
 	 * Check whether data exists in the session store
 	 *
 	 * @param   string  $name       Name of variable
-	 * @param   string  $namespace  Namespace to use, default to 'default'
+	 * @param   string  $namespace  Namespace to use, default to 'default' {@deprecated 2.0 Namespace support will be removed.}
 	 *
 	 * @return  boolean  True if the variable exists
 	 *
@@ -491,7 +498,7 @@ class Session implements \IteratorAggregate
 		// Add prefix to namespace to avoid collisions.
 		$namespace = '__' . $namespace;
 
-		if ($this->state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return null;
@@ -504,7 +511,7 @@ class Session implements \IteratorAggregate
 	 * Unset data from the session store
 	 *
 	 * @param   string  $name       Name of variable
-	 * @param   string  $namespace  Namespace to use, default to 'default'
+	 * @param   string  $namespace  Namespace to use, default to 'default' {@deprecated 2.0 Namespace support will be removed.}
 	 *
 	 * @return  mixed   The value from session or NULL if not set
 	 *
@@ -515,7 +522,7 @@ class Session implements \IteratorAggregate
 		// Add prefix to namespace to avoid collisions
 		$namespace = '__' . $namespace;
 
-		if ($this->state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return null;
@@ -541,14 +548,14 @@ class Session implements \IteratorAggregate
 	 */
 	public function start()
 	{
-		if ($this->state === 'active')
+		if ($this->getState() === 'active')
 		{
 			return;
 		}
 
 		$this->_start();
 
-		$this->state = 'active';
+		$this->setState('active');
 
 		// Initialise the session
 		$this->_setCounter();
@@ -571,11 +578,12 @@ class Session implements \IteratorAggregate
 	 * @return  boolean  true on success
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	protected function _start()
 	{
 		// Start session if not started
-		if ($this->state === 'restart')
+		if ($this->getState() === 'restart')
 		{
 			session_regenerate_id(true);
 		}
@@ -583,7 +591,7 @@ class Session implements \IteratorAggregate
 		{
 			$session_name = session_name();
 
-			// Get the JInputCookie object
+			// Get the Joomla\Input\Cookie object
 			$cookie = $this->input->cookie;
 
 			if (is_null($cookie->get($session_name)))
@@ -629,7 +637,7 @@ class Session implements \IteratorAggregate
 	public function destroy()
 	{
 		// Session was already destroyed
-		if ($this->state === 'destroyed')
+		if ($this->getState() === 'destroyed')
 		{
 			return true;
 		}
@@ -647,7 +655,7 @@ class Session implements \IteratorAggregate
 		session_unset();
 		session_destroy();
 
-		$this->state = 'destroyed';
+		$this->setState('destroyed');
 
 		return true;
 	}
@@ -664,7 +672,7 @@ class Session implements \IteratorAggregate
 	{
 		$this->destroy();
 
-		if ($this->state !== 'destroyed')
+		if ($this->getState() !== 'destroyed')
 		{
 			// @TODO :: generated error here
 			return false;
@@ -673,12 +681,12 @@ class Session implements \IteratorAggregate
 		// Re-register the session handler after a session has been destroyed, to avoid PHP bug
 		$this->store->register();
 
-		$this->state = 'restart';
+		$this->setState('restart');
 
 		// Regenerate session id
 		session_regenerate_id(true);
 		$this->_start();
-		$this->state = 'active';
+		$this->setState('active');
 
 		$this->_validate();
 		$this->_setCounter();
@@ -695,7 +703,7 @@ class Session implements \IteratorAggregate
 	 */
 	public function fork()
 	{
-		if ($this->state !== 'active')
+		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
 			return false;
@@ -742,11 +750,44 @@ class Session implements \IteratorAggregate
 	}
 
 	/**
+	 * Set the session expiration
+	 *
+	 * @param   integer  $expire  Maximum age of unused session in minutes
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.3.0
+	 */
+	protected function setExpire($expire)
+	{
+		$this->expire = $expire;
+
+		return $this;
+	}
+
+	/**
+	 * Set the session state
+	 *
+	 * @param   string  $state  Internal state
+	 *
+	 * @return  $this
+	 *
+	 * @since   1.3.0
+	 */
+	protected function setState($state)
+	{
+		$this->state = $state;
+
+		return $this;
+	}
+
+	/**
 	 * Set session cookie parameters
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	protected function _setCookieParams()
 	{
@@ -778,8 +819,23 @@ class Session implements \IteratorAggregate
 	 * @return  string  Generated token
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Use createToken instead
 	 */
 	protected function _createToken($length = 32)
+	{
+		return $this->createToken($length);
+	}
+
+	/**
+	 * Create a token-string
+	 *
+	 * @param   integer  $length  Length of string
+	 *
+	 * @return  string  Generated token
+	 *
+	 * @since   1.3.1
+	 */
+	protected function createToken($length = 32)
 	{
 		static $chars = '0123456789abcdef';
 		$max = strlen($chars) - 1;
@@ -800,8 +856,21 @@ class Session implements \IteratorAggregate
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Use setCounter instead
 	 */
 	protected function _setCounter()
+	{
+		return $this->setCounter();
+	}
+
+	/**
+	 * Set counter of session usage
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.3.0
+	 */
+	protected function setCounter()
 	{
 		$counter = $this->get('session.counter', 0);
 		++$counter;
@@ -817,8 +886,21 @@ class Session implements \IteratorAggregate
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Use setTimers instead
 	 */
 	protected function _setTimers()
+	{
+		return $this->setTimers();
+	}
+
+	/**
+	 * Set the session timers
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.3.0
+	 */
+	protected function setTimers()
 	{
 		if (!$this->has('session.timer.start'))
 		{
@@ -843,8 +925,23 @@ class Session implements \IteratorAggregate
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Use setOptions instead
 	 */
 	protected function _setOptions(array $options)
+	{
+		return $this->setOptions($options);
+	}
+
+	/**
+	 * Set additional session options
+	 *
+	 * @param   array  $options  List of parameter
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.3.0
+	 */
+	protected function setOptions(array $options)
 	{
 		// Set name
 		if (isset($options['name']))
@@ -861,7 +958,7 @@ class Session implements \IteratorAggregate
 		// Set expire time
 		if (isset($options['expire']))
 		{
-			$this->expire = $options['expire'];
+			$this->setExpire($options['expire']);
 		}
 
 		// Get security options
@@ -886,7 +983,7 @@ class Session implements \IteratorAggregate
 		}
 
 		// Sync the session maxlifetime
-		ini_set('session.gc_maxlifetime', $this->expire);
+		ini_set('session.gc_maxlifetime', $this->getExpire());
 
 		return true;
 	}
@@ -906,72 +1003,81 @@ class Session implements \IteratorAggregate
 	 *
 	 * @see     http://shiflett.org/articles/the-truth-about-sessions
 	 * @since   1.0
+	 * @deprecated  2.0  Use validate instead
 	 */
 	protected function _validate($restart = false)
+	{
+		return $this->validate($restart);
+	}
+
+	/**
+	 * Do some checks for security reason
+	 *
+	 * - timeout check (expire)
+	 * - ip-fixiation
+	 * - browser-fixiation
+	 *
+	 * If one check failed, session data has to be cleaned.
+	 *
+	 * @param   boolean  $restart  Reactivate session
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @see     http://shiflett.org/articles/the-truth-about-sessions
+	 * @since   1.3.0
+	 */
+	protected function validate($restart = false)
 	{
 		// Allow to restart a session
 		if ($restart)
 		{
-			$this->state = 'active';
+			$this->setState('active');
 
 			$this->set('session.client.address', null);
 			$this->set('session.client.forwarded', null);
-			$this->set('session.client.browser', null);
 			$this->set('session.token', null);
 		}
 
 		// Check if session has expired
-		if ($this->expire)
+		if ($this->getExpire())
 		{
 			$curTime = $this->get('session.timer.now', 0);
-			$maxTime = $this->get('session.timer.last', 0) + $this->expire;
+			$maxTime = $this->get('session.timer.last', 0) + $this->getExpire();
 
 			// Empty session variables
 			if ($maxTime < $curTime)
 			{
-				$this->state = 'expired';
+				$this->setState('expired');
 
 				return false;
 			}
 		}
 
-		// Record proxy forwarded for in the session in case we need it later
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-		{
-			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
-		}
+		$remoteAddr = $this->input->server->getString('REMOTE_ADDR', '');
 
 		// Check for client address
-		if (in_array('fix_adress', $this->security) && isset($_SERVER['REMOTE_ADDR']))
+		if (in_array('fix_adress', $this->security) && !empty($remoteAddr) && filter_var($remoteAddr, FILTER_VALIDATE_IP) !== false)
 		{
 			$ip = $this->get('session.client.address');
 
 			if ($ip === null)
 			{
-				$this->set('session.client.address', $_SERVER['REMOTE_ADDR']);
+				$this->set('session.client.address', $remoteAddr);
 			}
-			elseif ($_SERVER['REMOTE_ADDR'] !== $ip)
+			elseif ($remoteAddr !== $ip)
 			{
-				$this->state = 'error';
+				$this->setState('error');
 
 				return false;
 			}
 		}
 
-		// Check for clients browser
-		if (in_array('fix_browser', $this->security) && isset($_SERVER['HTTP_USER_AGENT']))
-		{
-			$browser = $this->get('session.client.browser');
+		$xForwardedFor = $this->input->server->getString('HTTP_X_FORWARDED_FOR', '');
 
-			if ($browser === null)
-			{
-				$this->set('session.client.browser', $_SERVER['HTTP_USER_AGENT']);
-			}
-			elseif ($_SERVER['HTTP_USER_AGENT'] !== $browser)
-			{
-				// @todo remove code: 				$this->_state	=	'error';
-				// @todo remove code: 				return false;
-			}
+		// Record proxy forwarded for in the session in case we need it later
+		if (!empty($xForwardedFor) && filter_var($xForwardedFor, FILTER_VALIDATE_IP) !== false)
+		{
+			$this->set('session.client.forwarded', $xForwardedFor);
 		}
 
 		return true;

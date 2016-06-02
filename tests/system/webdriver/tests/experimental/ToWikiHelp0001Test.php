@@ -20,7 +20,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	{
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
-		$this->gcPage = $cpPage->clickMenuByURL('com_config', 'GlobalConfigurationPage');
+		$this->gcPage = $cpPage->clickMenuByUrl('com_config', 'GlobalConfigurationPage');
 	}
 
 	public function tearDown()

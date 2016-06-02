@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,19 +27,24 @@ class ModLoginHelper
 	 *
 	 * @return string
 	 */
-	public static function getReturnURL($params, $type)
+	public static function getReturnUrl($params, $type)
 	{
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
 
+		// Stay on the same page
+		$url = JUri::getInstance()->toString();
+
 		if ($item)
 		{
-			$url = 'index.php?Itemid=' . $item->id;
-		}
-		else
-		{
-			// Stay on the same page
-			$url = JUri::getInstance()->toString();
+			$lang = '';
+
+			if (JLanguageMultilang::isEnabled() && $item->language !== '*')
+			{
+				$lang = '&lang=' . $item->language;
+			}
+
+			$url = 'index.php?Itemid=' . $item->id . $lang;
 		}
 
 		return base64_encode($url);

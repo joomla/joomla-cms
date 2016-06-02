@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -630,17 +630,10 @@ class JHtmlBehaviorTest extends TestCase
 		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
 
-		// We create a stub (not a mock because we don't enforce whether it is called or not)
-		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
-		$mock->expects($this->any())
+		// We create a stub (not a mock because we don't enforce whether it is called or not) to return a value from getTemplate
+		JFactory::$application->expects($this->any())
 			->method('getTemplate')
-			->will($this->returnValue($template));
-
-		// @todo We need to mock this.
-		$mock->input = new JInput;
-
-		JFactory::$application = $mock;
+			->willReturn($template);
 
 		JHtmlBehaviorInspector::keepalive();
 		$this->assertEquals(

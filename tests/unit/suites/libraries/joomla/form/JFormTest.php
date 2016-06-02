@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -78,8 +78,8 @@ class JFormTest extends TestCaseDatabase
 		$dom = new DOMDocument('1.0');
 		$dom->preserveWhiteSpace = false;
 		$dom->formatOutput = true;
-		$dom->loadXML($form->getXml()->asXML());
-		echo $dom->saveXML();
+		$dom->loadXml($form->getXml()->asXml());
+		echo $dom->saveXml();
 	}
 
 	/**
@@ -1070,22 +1070,40 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$this->assertThat(
+		$matcher = array(
+			'id' => 'title_id',
+			'tag' => 'input',
+			'attributes' => array(
+				'type' => 'text',
+				'name' => 'title',
+				'value' => 'The Title',
+				'class' => 'inputbox',
+				'aria-required' => 'true'
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('title', null, 'The Title'),
-			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required" required aria-required="true" />'),
 			'Line:' . __LINE__ . ' The method should return a simple input text field.'
 		);
 
-		$this->assertThat(
+		$matcher = array(
+			'id' => 'params_show_title',
+			'tag' => 'fieldset',
+			'attributes' => array('class' => 'radio'),
+			'descendant' => array(
+				'tag' => 'input',
+				'attributes' => array(
+					'type' => 'radio',
+					'name' => 'params[show_title]'
+				)
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('show_title', 'params', '0'),
-			$this->equalTo(
-				'<fieldset id="params_show_title" class="radio" >' .
-					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1" />' .
-					'<label for="params_show_title0" >' . JText::_('JYes') . '</label>' .
-					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked" />' .
-					'<label for="params_show_title1" >' . JText::_('JNo') . '</label>' .
-					'</fieldset>'
-			),
 			'Line:' . __LINE__ . ' The method should return a radio list.'
 		);
 
@@ -1097,46 +1115,81 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$this->assertThat(
-			$form->getInput('colours', 'params', 'blue'),
-			$this->equalTo(
-				'<select id="jform_params_colours" name="jform[params][colours][]" multiple>' .
-					"\n\t" . '<option value="red">Red</option>' .
-					"\n\t" . '<option value="blue" selected="selected">Blue</option>' .
-					"\n\t" . '<option value="green">Green</option>' .
-					"\n\t" . '<option value="yellow">Yellow</option>' .
-					"\n" . '</select>' .
-					"\n"
+		$matcher = array(
+			'id' => 'jform_params_colours',
+			'tag' => 'select',
+			'attributes' => array(
+				'name' => 'jform[params][colours][]',
+				'multiple' => true
 			),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
+			'child' => array(
+				'tag' => 'option',
+				'content' => 'Red',
+				'attributes' => array(
+					'value' => 'red'
+				)
+			),
+			'children' => array(
+				'count' => 4,
+				'only' => array('tag' => 'option')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$form->getInput('colours', 'params', 'blue'),
+			'Line:' . __LINE__ . ' The method should return a select list.'
+		);
+
+		$matcher = array(
+			'id' => 'jform_translate_default',
+			'tag' => 'input',
+			'attributes' => array(
+				'name' => 'jform[translate_default]',
+				'value' => 'DEFAULT_KEY'
+			)
 		);
 
 		// Test translate default
-		$this->assertThat(
+		$this->assertTag(
+			$matcher,
 			$form->getInput('translate_default'),
-			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY" />'
-			),
 			'Line:' . __LINE__ .
 			' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
 		);
 
 		$lang = JFactory::getLanguage();
 		$debug = $lang->setDebug(true);
-		$this->assertThat(
+
+		$matcher = array(
+			'id' => 'jform_translate_default',
+			'tag' => 'input',
+			'attributes' => array(
+				'name' => 'jform[translate_default]',
+				'value' => '??DEFAULT_KEY??'
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('translate_default'),
-			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??" />'
-			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is marked untranslated.'
 		);
 
 		$lang->load('form_test', __DIR__);
-		$this->assertThat(
+
+		$matcher = array(
+			'id' => 'jform_translate_default',
+			'tag' => 'input',
+			'attributes' => array(
+				'name' => 'jform[translate_default]',
+				'value' => 'My Default'
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
 			$form->getInput('translate_default'),
-			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default" />'
-			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is translated.'
 		);
 		$lang->setDebug($debug);
@@ -1338,7 +1391,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof SimpleXMLElement),
+			($form->getXml() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The internal XML should be a SimpleXMLElement object.'
 		);
@@ -1352,7 +1405,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('/form/fields/field')),
+			count($form->getXml()->xpath('/form/fields/field')),
 			$this->equalTo(4),
 			'Line:' . __LINE__ . ' There are 2 new ungrouped field and one existing field should merge, resulting in 4 total.'
 		);
@@ -1382,27 +1435,27 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('//fields[@name]')),
+			count($form->getXml()->xpath('//fields[@name]')),
 			$this->equalTo(2),
 			'Line:' . __LINE__ . ' The XML has 2 fields tags with a name attribute.'
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('//fields[@name="params"]/field')),
+			count($form->getXml()->xpath('//fields[@name="params"]/field')),
 			$this->equalTo(2),
 			'Line:' . __LINE__ . ' The params fields have been merged ending with 2 elements.'
 		);
 
 		$this->assertThat(
-			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_abstract"]')),
+			count($form->getXml()->xpath('/form/fields/fields[@name="params"]/field[@name="show_abstract"]')),
 			$this->equalTo(1),
 			'Line:' . __LINE__ . ' The show_title in the params group has been replaced by show_abstract.'
 		);
 
 		$originalform = new JFormInspector('form1');
 		$originalform->load(JFormDataHelper::$loadDocument);
-		$originalset = $originalform->getXML()->xpath('/form/fields/field');
-		$set = $form->getXML()->xpath('/form/fields/field');
+		$originalset = $originalform->getXml()->xpath('/form/fields/field');
+		$set = $form->getXml()->xpath('/form/fields/field');
 
 		for ($i = 0; $i < count($originalset); $i++)
 		{
@@ -1437,7 +1490,7 @@ class JFormTest extends TestCaseDatabase
 
 		// Check that replaced options are present
 		$this->assertThat(
-			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_title"]/option')),
+			count($form->getXml()->xpath('/form/fields/fields[@name="params"]/field[@name="show_title"]/option')),
 			$this->equalTo(3),
 			'Line:' . __LINE__ . ' The show_title in the params group is supposed to have 3 descendant nodes.'
 		);
@@ -1644,7 +1697,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof SimpleXMLElement),
+			($form->getXml() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should parse successfully.'
 		);
@@ -1661,7 +1714,7 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		$this->assertThat(
-			($form->getXML() instanceof SimpleXMLElement),
+			($form->getXml() instanceof SimpleXMLElement),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should parse successfully.'
 		);
@@ -2079,10 +2132,16 @@ class JFormTest extends TestCaseDatabase
 			$this->fail('Error in text XML data');
 		}
 
-		// Test without replace.
+		$addFields = array();
 
+		foreach ($xml1->field as $element)
+		{
+			$addFields[] = $element;
+		}
+
+		// Test without replace.
 		$this->assertTrue(
-			$form->setFields($xml1->field, null, false),
+			$form->setFields($addFields, null, false),
 			'Line:' . __LINE__ . ' The setFields method should return true for an existing field.'
 		);
 
@@ -2297,11 +2356,11 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$xml = $form->getXML();
+		$xml = $form->getXml();
 
 		// Test error handling.
-
-		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$data = $xml->xpath('fields/field[@name="boolean"]');
+		$field = array_pop($data);
 		$result = $form->validateField($field);
 		$this->assertThat(
 			$result instanceof UnexpectedValueException,
@@ -2309,7 +2368,8 @@ class JFormTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' A failed validation should return an exception.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$data = $xml->xpath('fields/field[@name="required"]');
+		$field = array_pop($data);
 		$result = $form->validateField($field);
 		$this->assertThat(
 			$result instanceof RuntimeException,
@@ -2318,22 +2378,24 @@ class JFormTest extends TestCaseDatabase
 		);
 
 		// Test general usage.
-
-		$field = array_pop($xml->xpath('fields/field[@name="boolean"]'));
+		$data = $xml->xpath('fields/field[@name="boolean"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field, null, 'true'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A field with a passing validate attribute set should return true.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="optional"]'));
+		$data = $xml->xpath('fields/field[@name="optional"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A field without required set should return true.'
 		);
 
-		$field = array_pop($xml->xpath('fields/field[@name="required"]'));
+		$data = $xml->xpath('fields/field[@name="required"]');
+		$field = array_pop($data);
 		$this->assertThat(
 			$form->validateField($field, null, 'value'),
 			$this->isTrue(),
@@ -2354,9 +2416,9 @@ class JFormTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 		$form->load(JFormDataHelper::$validateFieldDocument);
-		$xml = $form->getXML();
-
-		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/field[@name="missingrule"]');
+		$field = array_pop($data);
 		$form->validateField($field, null, 'value');
 	}
 }

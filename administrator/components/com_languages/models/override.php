@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,9 +38,9 @@ class LanguagesModelOverride extends JModelAdmin
 			return false;
 		}
 
-		$client		= $this->getState('filter.client', 'site');
-		$language	= $this->getState('filter.language', 'en-GB');
-		$langName	= JLanguage::getInstance($language)->getName();
+		$client   = $this->getState('filter.client', 'site');
+		$language = $this->getState('filter.language', 'en-GB');
+		$langName = JLanguage::getInstance($language)->getName();
 
 		if (!$langName)
 		{
@@ -91,8 +91,8 @@ class LanguagesModelOverride extends JModelAdmin
 	{
 		require_once JPATH_COMPONENT . '/helpers/languages.php';
 
-		$input = JFactory::getApplication()->input;
-		$pk	= (!empty($pk)) ? $pk : $input->get('id');
+		$input    = JFactory::getApplication()->input;
+		$pk       = (!empty($pk)) ? $pk : $input->get('id');
 		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
@@ -126,8 +126,8 @@ class LanguagesModelOverride extends JModelAdmin
 		require_once JPATH_COMPONENT . '/helpers/languages.php';
 		jimport('joomla.filesystem.file');
 
-		$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
-		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
+		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		// If the override should be created for both.
 		if ($opposite_client)
@@ -135,7 +135,7 @@ class LanguagesModelOverride extends JModelAdmin
 			$client = 1 - $client;
 		}
 
-		// return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
+		// Return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
 		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
 
 		if (in_array($data['key'], $blacklist))
@@ -148,8 +148,8 @@ class LanguagesModelOverride extends JModelAdmin
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename	= constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
-		$strings	= LanguagesHelper::parseFile($filename);
+		$filename = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
+		$strings  = LanguagesHelper::parseFile($filename);
 
 		if (isset($strings[$data['id']]))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ class TagsRouter extends JComponentRouterBase
 		$segments = array();
 
 		// Get a menu item based on Itemid or currently active
-		$params		= JComponentHelper::getParams('com_tags');
+		$params = JComponentHelper::getParams('com_tags');
 
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
@@ -126,7 +126,7 @@ class TagsRouter extends JComponentRouterBase
 		}
 
 		// Get the active menu item.
-		$item	= $this->menu->getActive();
+		$item = $this->menu->getActive();
 
 		// Count route segments
 		$count = count($segments);
@@ -134,8 +134,8 @@ class TagsRouter extends JComponentRouterBase
 		// Standard routing for tags.
 		if (!isset($item))
 		{
-			$vars['view']	= $segments[0];
-			$vars['id']		= $segments[$count - 1];
+			$vars['view'] = $segments[0];
+			$vars['id']   = $segments[$count - 1];
 
 			return $vars;
 		}

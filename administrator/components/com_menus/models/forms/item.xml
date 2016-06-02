@@ -37,6 +37,7 @@
 			type="text"
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
+			maxlength="255"
 			class="span12"
 			size="40"/>
 
@@ -55,7 +56,10 @@
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			required="true"
-			size="1" />
+			size="1" 
+			>
+			<option value="">COM_MENUS_SELECT_MENU</option>
+		</field>
 
 		<field
 			name="type"
@@ -199,10 +203,22 @@
 			filter="unset"/>
 
 		<field
-			name="toggle_modules"
+			name="toggle_modules_assigned"
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
+			default="1"
+			class="btn-group btn-group-yesno"
+			filter="integer">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
+			name="toggle_modules_published"
+			type="radio"
+			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
+			description="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
 			filter="integer">

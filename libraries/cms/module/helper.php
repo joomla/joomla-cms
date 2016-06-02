@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ abstract class JModuleHelper
 	 * @param   string  $name   The name of the module
 	 * @param   string  $title  The title of the module, optional
 	 *
-	 * @return  object  The Module object
+	 * @return  stdClass  The Module object
 	 *
 	 * @since   1.5
 	 */
@@ -258,6 +258,8 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
+		$app->triggerEvent('onAfterRenderModule', array(&$module, &$attribs));
+
 		if (JDEBUG)
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
@@ -300,14 +302,13 @@ abstract class JModuleHelper
 		{
 			return $tPath;
 		}
-		elseif (file_exists($bPath))
+
+		if (file_exists($bPath))
 		{
 			return $bPath;
 		}
-		else
-		{
-			return $dPath;
-		}
+
+		return $dPath;
 	}
 
 	/**

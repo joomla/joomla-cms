@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,6 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {
-
 	/**
 	 * The type alias for this content type.
 	 *
@@ -28,6 +27,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @since    3.2
 	 */
 	public $typeAlias = 'com_newsfeeds.newsfeed';
+
+	/**
+	 * The context used for the associations table
+	 *
+	 * @var string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_newsfeeds.item';
 
 	/**
 	 * @var     string    The prefix to use with controller messages.
@@ -98,7 +105,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
+			// $this->table->ordering = 1;
 
 			// Check the row.
 			if (!$this->table->check())
@@ -204,8 +211,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  JForm    A JForm object on success, false on failure
 	 *
@@ -295,6 +302,31 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$input = JFactory::getApplication()->input;
 
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
+
+		// Check if New Category exists
+		if ($catid > 0)
+		{
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+		}
+
+		// Save New Category
+		if ($catid == 0)
+		{
+			$table = array();
+			$table['title'] = $data['catid'];
+			$table['parent_id'] = 1;
+			$table['extension'] = 'com_newsfeeds';
+			$table['language'] = $data['language'];
+			$table['published'] = 1;
+
+			// Create new category and get catid back
+			$data['catid'] = CategoriesHelper::createCategory($table);
+		}
+
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
@@ -317,78 +349,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$data['published'] = 0;
 		}
 
-		if (parent::save($data))
-		{
-
-			$assoc = JLanguageAssociations::isEnabled();
-			if ($assoc)
-			{
-				$id = (int) $this->getState($this->getName() . '.id');
-				$item = $this->getItem($id);
-
-				// Adding self to the association
-				$associations = $data['associations'];
-
-				foreach ($associations as $tag => $id)
-				{
-					if (empty($id))
-					{
-						unset($associations[$tag]);
-					}
-				}
-
-				// Detecting all item menus
-				$all_language = $item->language == '*';
-
-				if ($all_language && !empty($associations))
-				{
-					JError::raiseNotice(403, JText::_('COM_NEWSFEEDS_ERROR_ALL_LANGUAGE_ASSOCIATED'));
-				}
-
-				$associations[$item->language] = $item->id;
-
-				// Deleting old association for these items
-				$db = $this->getDbo();
-				$query = $db->getQuery(true)
-					->delete('#__associations')
-					->where($db->quoteName('context') . ' = ' . $db->quote('com_newsfeeds.item'))
-					->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
-				$db->setQuery($query);
-				$db->execute();
-
-				if ($error = $db->getErrorMsg())
-				{
-					$this->setError($error);
-					return false;
-				}
-
-				if (!$all_language && count($associations))
-				{
-					// Adding new association for these items
-					$key = md5(json_encode($associations));
-					$query->clear()
-						->insert('#__associations');
-
-					foreach ($associations as $id)
-					{
-						$query->values($id . ',' . $db->quote('com_newsfeeds.item') . ',' . $db->quote($key));
-					}
-
-					$db->setQuery($query);
-					$db->execute();
-
-					if ($error = $db->getErrorMsg())
-					{
-						$this->setError($error);
-						return false;
-					}
-				}
-			}
-
-			return true;
-		}
-
-		return false;
+		return parent::save($data);
 	}
 
 	/**
@@ -457,11 +418,11 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		$user = JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplication::stringURLSafe($table->alias);
+		$table->alias = JApplicationHelper::stringURLSafe($table->alias, $table->language);
 
 		if (empty($table->alias))
 		{
-			$table->alias = JApplication::stringURLSafe($table->name);
+			$table->alias = JApplicationHelper::stringURLSafe($table->name, $table->language);
 		}
 
 		if (empty($table->id))
@@ -496,8 +457,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    $pks      A list of the primary keys to change.
-	 * @param   integer  $value    The value of the published state.
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
 	 *

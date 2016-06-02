@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -46,10 +46,20 @@ class JMenu
 	protected $_active = 0;
 
 	/**
-	 * @var    array  JMenu instances container.
+	 * JMenu instances container.
+	 *
+	 * @var    JMenu[]
 	 * @since  1.7
 	 */
 	protected static $instances = array();
+
+	/**
+	 * User object to check access levels for
+	 *
+	 * @var    JUser
+	 * @since  3.5
+	 */
+	protected $user;
 
 	/**
 	 * Class constructor
@@ -75,6 +85,8 @@ class JMenu
 			$result->loadString($item->params);
 			$item->params = $result;
 		}
+
+		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
 	}
 
 	/**
@@ -113,14 +125,12 @@ class JMenu
 				}
 			}
 
-			if (class_exists($classname))
-			{
-				self::$instances[$client] = new $classname($options);
-			}
-			else
+			if (!class_exists($classname))
 			{
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 			}
+
+			self::$instances[$client] = new $classname($options);
 		}
 
 		return self::$instances[$client];
@@ -184,14 +194,13 @@ class JMenu
 		{
 			return $this->_items[$this->_default[$language]];
 		}
-		elseif (array_key_exists('*', $this->_default))
+
+		if (array_key_exists('*', $this->_default))
 		{
 			return $this->_items[$this->_default['*']];
 		}
-		else
-		{
-			return null;
-		}
+
+		return null;
 	}
 
 	/**
@@ -252,6 +261,7 @@ class JMenu
 		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
+		$count = count($attributes);
 
 		foreach ($this->_items as $item)
 		{
@@ -262,7 +272,7 @@ class JMenu
 
 			$test = true;
 
-			for ($i = 0, $count = count($attributes); $i < $count; $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				if (is_array($values[$i]))
 				{
@@ -311,10 +321,8 @@ class JMenu
 		{
 			return $menu->params;
 		}
-		else
-		{
-			return new Registry;
-		}
+
+		return new Registry;
 	}
 
 	/**
@@ -342,16 +350,13 @@ class JMenu
 	public function authorise($id)
 	{
 		$menu = $this->getItem($id);
-		$user = JFactory::getUser();
 
 		if ($menu)
 		{
-			return in_array((int) $menu->access, $user->getAuthorisedViewLevels());
+			return in_array((int) $menu->access, $this->user->getAuthorisedViewLevels());
 		}
-		else
-		{
-			return true;
-		}
+
+		return true;
 	}
 
 	/**

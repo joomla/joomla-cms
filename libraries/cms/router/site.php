@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -652,10 +652,10 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function createURI($url)
+	protected function createUri($url)
 	{
 		// Create the URI
-		$uri = parent::createURI($url);
+		$uri = parent::createUri($url);
 
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');

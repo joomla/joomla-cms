@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -242,7 +242,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function dataGetAlterTableSQL()
+	public function dataGetAlterTableSql()
 	{
 		$f1 = '<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />';
 		$f2 = '<field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />';
@@ -297,7 +297,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function dataGetColumnSQL()
+	public function dataGetColumnSql()
 	{
 		return array(
 			array(
@@ -331,7 +331,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function dataGetKeySQL()
+	public function dataGetKeySql()
 	{
 		return array(
 			array(
@@ -501,7 +501,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetAddColumnSQL()
+	public function testGetAddColumnSql()
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -524,7 +524,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetAddKeySQL()
+	public function testGetAddKeySql()
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -551,7 +551,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
-	public function testGetAlterTableSQL($structure, $expected, $message)
+	public function testGetAlterTableSql($structure, $expected, $message)
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -574,7 +574,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetChangeColumnSQL()
+	public function testGetChangeColumnSql()
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -602,7 +602,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
-	public function testGetColumnSQL($field, $expected, $message)
+	public function testGetColumnSql($field, $expected, $message)
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -621,7 +621,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetDropColumnSQL()
+	public function testGetDropColumnSql()
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -642,7 +642,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetDropKeySQL()
+	public function testGetDropKeySql()
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -663,7 +663,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.4
 	 */
-	public function testGetDropPrimaryKeySQL()
+	public function testGetDropPrimaryKeySql()
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -733,7 +733,7 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetKeySQL
 	 */
-	public function testGetKeySQL($field, $expected, $message)
+	public function testGetKeySql($field, $expected, $message)
 	{
 		$instance = new JDatabaseImporterPdomysql;
 		$instance->setDbo($this->dbo);
@@ -761,37 +761,6 @@ class JDatabaseImporterPdomysqlTest extends PHPUnit_Framework_TestCase
 			TestReflection::invoke($instance, 'getRealTableName', '#__test'),
 			$this->equalTo('jos_test'),
 			'getRealTableName should return the name of the table with #__ converted to the database prefix.'
-		);
-	}
-
-	/**
-	 * Tests the setDbo method with the wrong type of class.
-	 *
-	 * @return void
-	 *
-	 * @since  3.4
-	 */
-	public function testSetDboWithBadInput()
-	{
-		if (PHP_MAJOR_VERSION >= 7)
-		{
-			$this->markTestSkipped('A fatal error is thrown on PHP 7 due to the typehinting of the method.');
-		}
-
-		$instance = new JDatabaseImporterPdomysql;
-
-		try
-		{
-			$instance->setDbo(new stdClass);
-		}
-		catch (PHPUnit_Framework_Error $e)
-		{
-			// Expecting the error, so just ignore it.
-			return;
-		}
-
-		$this->fail(
-			'setDbo requires a JDatabaseDriverPdomysql object and should throw an exception.'
 		);
 	}
 

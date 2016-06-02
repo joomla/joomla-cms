@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Türkçe (Türkiye)</name>
-	<version>3.4.0</version>
-	<creationDate>September 2012</creationDate>
-	<author>Turkish Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<version>3.6.0</version>
+	<creationDate>May 2016</creationDate>
+	<author>Ümit Kenan Gönüllü</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Turkish installation file</description>
 	<files>
 		<filename>tr-TR.ini</filename>
 	</files>

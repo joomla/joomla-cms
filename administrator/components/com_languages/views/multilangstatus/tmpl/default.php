@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,7 +100,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<th>
 					<?php echo JText::_('JDETAILS'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('JSTATUS'); ?>
 				</th>
 			</tr>
@@ -174,7 +174,8 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 							<?php echo $status->element; ?>
 						</td>
 				<?php endif; ?>
-				<?php if ($status->element) : // Published Site languages ?>
+				<?php // Published Site languages ?>
+				<?php if ($status->element) : ?>
 						<td class="center">
 							<span class="icon-ok"></span>
 						</td>
@@ -183,7 +184,8 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 							<?php echo JText::_('JNO'); ?>
 						</td>
 				<?php endif; ?>
-				<?php if ($status->lang_code && $status->published) : // Published Content languages ?>
+				<?php // Published Content languages ?>
+				<?php if ($status->lang_code && $status->published) : ?>
 						<td class="center">
 							<span class="icon-ok"></span>
 						</td>
@@ -192,7 +194,8 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 							<span class="icon-pending"></span>
 						</td>
 				<?php endif; ?>
-				<?php if ($status->home_language) : // Published Home pages ?>
+				<?php // Published Home pages ?>
+				<?php if ($status->home_language) : ?>
 						<td class="center">
 							<span class="icon-ok"></span>
 						</td>

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -117,7 +117,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -162,13 +162,47 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		// Build group for a specific menu type.
 		if ($menuType)
 		{
+			// If the menutype is empty, group the items by menutype.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__menu_types'))
+				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+			$db->setQuery($query);
+
+			try
+			{
+				$menuTitle = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$menuTitle = $menuType;
+			}
+
 			// Initialize the group.
-			$groups[$menuType] = array();
+			$groups[$menuTitle] = array();
 
 			// Build the options array.
 			foreach ($items as $link)
 			{
-				$groups[$menuType][] = JHtml::_('select.option', $link->value, $link->text, 'value', 'text', in_array($link->type, $this->disable));
+				$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
+
+				// Displays language code if not set to All
+				if ($link->language !== '*')
+				{
+					$lang = ' (' . $link->language . ')';
+				}
+				else
+				{
+					$lang = '';
+				}
+
+				$groups[$menuTitle][] = JHtml::_('select.option',
+								$link->value, $levelPrefix . $link->text . $lang,
+								'value',
+								'text',
+								in_array($link->type, $this->disable)
+							);
 			}
 		}
 		// Build groups for all menu types.
@@ -178,15 +212,29 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			foreach ($items as $menu)
 			{
 				// Initialize the group.
-				$groups[$menu->menutype] = array();
+				$groups[$menu->title] = array();
 
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
-					$groups[$menu->menutype][] = JHtml::_(
-						'select.option', $link->value, $link->text, 'value', 'text',
-						in_array($link->type, $this->disable)
-					);
+					$levelPrefix = str_repeat('- ', $link->level - 1);
+
+					// Displays language code if not set to All
+					if ($link->language !== '*')
+					{
+						$lang = ' (' . $link->language . ')';
+					}
+					else
+					{
+						$lang = '';
+					}
+
+					$groups[$menu->title][] = JHtml::_('select.option',
+										$link->value, $levelPrefix . $link->text . $lang,
+										'value',
+										'text',
+										in_array($link->type, $this->disable)
+									);
 				}
 			}
 		}

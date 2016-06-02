@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,14 @@ class MenusModelItem extends JModelAdmin
 	 * @since    3.4
 	 */
 	public $typeAlias = 'com_menus.item';
+
+	/**
+	 * The context used for the associations table
+	 *
+	 * @var      string
+	 * @since    3.4.4
+	 */
+	protected $associationsContext = 'com_menus.item';
 
 	/**
 	 * @var        string    The prefix to use with controller messages.
@@ -82,6 +90,8 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
+		$user = JFactory::getUser();
+
 		if (!empty($record->id))
 		{
 			if ($record->published != -2)
@@ -89,8 +99,38 @@ class MenusModelItem extends JModelAdmin
 				return;
 			}
 
-			return parent::canDelete($record);
+			$menuTypeId = 0;
+
+			if (!empty($record->menutype))
+			{
+				$menuTypeId = $this->getMenuTypeId($record->menutype);
+			}
+
+			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 		}
+	}
+
+	/**
+	 * Method to test whether the state of a record can be edited.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
+	 *
+	 * @since   3.6
+	 */
+	protected function canEditState($record)
+	{
+		$user = JFactory::getUser();
+
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
@@ -151,7 +191,9 @@ class MenusModelItem extends JModelAdmin
 		// Check that user has create permission for menus
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('core.create', 'com_menus'))
+		$menuTypeId = (int) $this->getMenuTypeId($menuType);
+
+		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
 			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
@@ -237,11 +279,11 @@ class MenusModelItem extends JModelAdmin
 			$table->setLocation($table->parent_id, 'last-child');
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $table->ordering = 1;
 			$table->level = null;
-			$table->lft = null;
-			$table->rgt = null;
-			$table->home = 0;
+			$table->lft   = null;
+			$table->rgt   = null;
+			$table->home  = 0;
 
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
@@ -310,12 +352,12 @@ class MenusModelItem extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		// $value comes as {menutype}.{parent_id}
-		$parts = explode('.', $value);
+		$parts    = explode('.', $value);
 		$menuType = $parts[0];
 		$parentId = (int) JArrayHelper::getValue($parts, 1, 0);
 
 		$table = $this->getTable();
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Check that the parent exists.
@@ -342,14 +384,16 @@ class MenusModelItem extends JModelAdmin
 		// Check that user has create and edit permission for menus
 		$user = JFactory::getUser();
 
-		if (!$user->authorise('core.create', 'com_menus'))
+		$menuTypeId = (int) $this->getMenuTypeId($menuType);
+
+		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
 			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
 
-		if (!$user->authorise('core.edit', 'com_menus'))
+		if (!$user->authorise('core.edit', 'com_menus.menu.' . $menuTypeId))
 		{
 			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 
@@ -504,6 +548,11 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
+		if ($loadData)
+		{
+			$data = $this->loadFormData();
+		}
+
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -516,6 +565,11 @@ class MenusModelItem extends JModelAdmin
 			$form->setFieldAttribute('menuordering', 'filter', 'unset');
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
+
+		// Filter available menues
+		$action = $this->getState('item.id') > 0 ? 'edit' : 'create';
+
+		$form->setFieldAttribute('menutype', 'accesstype', $action);
 
 		return $form;
 	}
@@ -540,6 +594,13 @@ class MenusModelItem extends JModelAdmin
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
 			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+		}
+
+		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
+		{
+			$menuTypeId = (int) $this->getMenuTypeId($data['menutype']);
+
+			$this->setState('item.menutypeid', $menuTypeId);
 		}
 
 		$this->preprocessData('com_menus.item', $data);
@@ -677,6 +738,21 @@ class MenusModelItem extends JModelAdmin
 			// Note that all request arguments become reserved parameter names.
 			$result->request = $args;
 			$result->params = array_merge($result->params, $args);
+
+			// Special case for the Login menu item.
+			// Display the login or logout redirect URL fields if not empty
+			if ($table->link == 'index.php?option=com_users&view=login')
+			{
+				if (!empty($result->params['login_redirect_url']))
+				{
+					$result->params['loginredirectchoice'] = '0';
+				}
+
+				if (!empty($result->params['logout_redirect_url']))
+				{
+					$result->params['logoutredirectchoice'] = '0';
+				}
+			}
 		}
 
 		if ($table->type == 'alias')
@@ -847,12 +923,24 @@ class MenusModelItem extends JModelAdmin
 
 		$menuType = $app->getUserState('com_menus.edit.item.menutype');
 
-		if ($app->input->getString('menutype', false))
+		if ($forcedMenuType = $app->input->get('menutype', '', 'string'))
 		{
-			$menuType = $app->input->getString('menutype', 'mainmenu');
+			$menuType = $forcedMenuType;
+
+			// Set the menu type on the list view state, so we return to this menu after saving.
+			$app->setUserState('com_menus.items.menutype', $forcedMenuType);
 		}
 
 		$this->setState('item.menutype', $menuType);
+
+		$menuTypeId = 0;
+
+		if ($menuType)
+		{
+			$menuTypeId = $this->getMenuTypeId($menuType);
+		}
+
+		$this->setState('item.menutypeid', $menuTypeId);
 
 		if (!($type = $app->getUserState('com_menus.edit.item.type')))
 		{
@@ -874,6 +962,24 @@ class MenusModelItem extends JModelAdmin
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+	}
+
+	/**
+	 * Loads the menutype ID by a given menutype string
+	 *
+	 * @param   string  $menutype  The given menutype
+	 *
+	 * @return integer
+	 *
+	 * @since  3.6
+	 */
+	protected function getMenuTypeId($menutype)
+	{
+		$table = $this->getTable('MenuType', 'JTable');
+
+		$table->load(array('menutype' => $menutype));
+
+		return (int) $table->id;
 	}
 
 	/**
@@ -945,7 +1051,7 @@ class MenusModelItem extends JModelAdmin
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
 					$temp = explode(':', $layout);
-					$templatePath = JPATH::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
+					$templatePath = JPath::clean(JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $option . '/' . $view . '/' . $temp[1] . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1059,6 +1165,7 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('name', $tag);
 					$field->addAttribute('type', 'menuitem');
 					$field->addAttribute('language', $tag);
+					$field->addAttribute('disable', 'separator,alias,heading,url');
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
@@ -1090,7 +1197,18 @@ class MenusModelItem extends JModelAdmin
 		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
-		if (!$table->rebuild())
+		try
+		{
+			$rebuildResult = $table->rebuild();
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		if (!$rebuildResult)
 		{
 			$this->setError($table->getError());
 
@@ -1258,7 +1376,6 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
@@ -1266,9 +1383,12 @@ class MenusModelItem extends JModelAdmin
 			// Adding self to the association
 			$associations = $data['associations'];
 
+			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
 			foreach ($associations as $tag => $id)
 			{
-				if (empty($id))
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -1288,7 +1408,7 @@ class MenusModelItem extends JModelAdmin
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where('context=' . $db->quote('com_menus.item'))
+				->where('context=' . $db->quote($this->associationsContext))
 				->where('id IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 
@@ -1312,7 +1432,7 @@ class MenusModelItem extends JModelAdmin
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

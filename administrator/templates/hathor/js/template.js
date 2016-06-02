@@ -1,21 +1,12 @@
 /**
  * @package		Hathor
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Functions
  */
-
-/**
- * Set focus to username on the login screen
- */
-function setFocus() {
-	if (jQuery("#login-page").length) {
-		jQuery('#form-login').find('input[name="username"]').focus()
-	}
-}
 
 /**
  * Change the skip nav target to work with webkit browsers (Safari/Chrome) and
@@ -127,7 +118,6 @@ jQuery(function($){
 });
 
 jQuery(function() {
-	setFocus();
 	setSkip();
 	setAriaRoleElementsById();
 	setAriaProperties();

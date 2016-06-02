@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -53,6 +53,35 @@ class FinderHelperLanguage
 		$return = preg_replace('/[^a-zA-Z0-9]+/', '_', strtoupper($branchName));
 
 		return 'PLG_FINDER_QUERY_FILTER_BRANCH_S_' . $return;
+	}
+
+	/**
+	 * Method to return the language name for a language taxonomy branch.
+	 *
+	 * @param   string  $branchName  Language branch name.
+	 *
+	 * @return  string  The language title.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function branchLanguageTitle($branchName)
+	{
+		$title = $branchName;
+
+		if ($branchName == '*')
+		{
+			$title = JText::_('JALL_LANGUAGE');
+		}
+		else
+		{
+			$languages = JLanguageHelper::getLanguages('lang_code');
+			if (isset($languages[$branchName]))
+			{
+				$title = $languages[$branchName]->title;
+			}
+		}
+
+		return $title;
 	}
 
 	/**

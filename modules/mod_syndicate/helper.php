@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_syndicate
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,11 +20,11 @@ class ModSyndicateHelper
 {
 	/**
 	 * Gets the link
-	 * 
+	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
-	 * 
+	 *
 	 * @return  array  The link as a string
-	 * 
+	 *
 	 * @since   1.5
 	 */
 	public static function getLink(&$params)

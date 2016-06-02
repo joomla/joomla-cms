@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.6" type="plugin" group="system" method="upgrade">
+	<name>plg_system_updatenotification</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2015</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.5.0</version>
+	<description>PLG_SYSTEM_UPDATENOTIFICATION_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="updatenotification">updatenotification.php</filename>
+	</files>
+	<languages folder="language">
+		<language tag="en-GB">en-GB.plg_system_updatenotification.ini</language>
+		<language tag="en-GB">en-GB.plg_system_updatenotification.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="email"
+					type="text"
+					label="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_LBL"
+					description="PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_DESC"
+					default=""
+					size="40"
+				/>
+
+				<field
+					name="language_override"
+					type="language"
+					label="PLG_SYSTEM_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_LBL"
+					description="PLG_SYSTEM_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_DESC"
+					default=""
+					client="administrator"
+					>
+					<option value="">PLG_SYSTEM_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_NONE</option>
+				</field>
+
+				<field
+					name="lastrun"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

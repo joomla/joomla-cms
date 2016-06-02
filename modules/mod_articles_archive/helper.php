@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,7 @@ class ModArchiveHelper
 			->select('MIN(' . $db->quoteName('created') . ') AS created')
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
-			->where('state = 2 AND checked_out = 0')
+			->where('state = 2')
 			->group($query->year($db->quoteName('created')) . ', ' . $query->month($db->quoteName('created')))
 			->order($query->year($db->quoteName('created')) . ' DESC, ' . $query->month($db->quoteName('created')) . ' DESC');
 
@@ -47,6 +47,7 @@ class ModArchiveHelper
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));
+
 		try
 		{
 			$rows = (array) $db->loadObjectList();
@@ -54,6 +55,7 @@ class ModArchiveHelper
 		catch (RuntimeException $e)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
 			return;
 		}
 
@@ -72,8 +74,8 @@ class ModArchiveHelper
 			$created_month = $date->format('n');
 			$created_year  = $date->format('Y');
 
-			$created_year_cal = JHTML::_('date', $row->created, 'Y');
-			$month_name_cal   = JHTML::_('date', $row->created, 'F');
+			$created_year_cal = JHtml::_('date', $row->created, 'Y');
+			$month_name_cal   = JHtml::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 

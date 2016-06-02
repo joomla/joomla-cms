@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Serbian Latin</name>
-	<version>3.4.2</version>
-	<creationDate>17-9-2012</creationDate>
+	<version>3.6.0</version>
+	<creationDate>May 2016</creationDate>
 	<author>joomla-serbia.com</author>
- 	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+ 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
 	<files>
 		<filename>sr-YU.ini</filename>
 	</files>

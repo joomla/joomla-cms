@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -406,7 +406,7 @@ class JAuthenticationResponse
 	 * value MUST always be 10. If the End User user does not want to reveal any particular
 	 * component of this value, it MUST be set to zero.
 	 *
-	 * For instance, if a End User wants to specify that his date of birth is in 1980, but
+	 * For instance, if an End User wants to specify that his date of birth is in 1980, but
 	 * not the month or day, the value returned SHALL be "1980-00-00".
 	 *
 	 * @var    string

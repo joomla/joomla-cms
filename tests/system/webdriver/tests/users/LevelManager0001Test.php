@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,7 @@ use SeleniumClient\DesiredCapabilities;
  * @package     Joomla.Tests
  * @subpackage  Test
  *
- * @copyright   Copyright (c) 2005 - 2015 Open Source Matters, Inc.   All rights reserved.
+ * @copyright   Copyright (c) 2005 - 2016 Open Source Matters, Inc.   All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       Joomla 3.3
  */
@@ -107,7 +107,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		$this->levelManagerPage->addLevel();
 		$message = $this->levelManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Level successfully saved') >= 0, 'Level save should return success');
-		$this->assertEquals(7, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be in row 6');
+		$this->assertGreaterThanOrEqual(1, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be present');
 		$this->levelManagerPage->delete('Test Level');
 		$this->assertFalse($this->levelManagerPage->getRowNumber('Test Level'), 'Test level should not be present');
 	}

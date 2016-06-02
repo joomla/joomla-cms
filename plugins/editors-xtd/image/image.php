@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,13 +52,13 @@ class PlgButtonImage extends JPlugin
 			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
-			JHtml::_('behavior.modal');
+
 			$button = new JObject;
 			$button->modal = true;
 			$button->class = 'btn';
 			$button->link = $link;
 			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
-			$button->name = 'picture';
+			$button->name = 'pictures';
 			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 			return $button;

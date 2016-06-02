@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -369,17 +369,17 @@
         self.fixUniqueAttributes = function($row, count){
         	//all elements that have a "id" attribute
         	var haveIds = $row.find('*[id]');
-        	self.incresseAttrName(haveIds, 'id', count);
+        	self.increaseAttrName(haveIds, 'id', count);
         	// all labels that have a "for" attribute
         	var haveFor = $row.find('label[for]');
-        	self.incresseAttrName(haveFor, 'for', count);
+        	self.increaseAttrName(haveFor, 'for', count);
         	// all inputs that have a "name" attribute
         	var haveName = $row.find('*[name]');
-        	self.incresseAttrName(haveName, 'name', count);
+        	self.increaseAttrName(haveName, 'name', count);
         };
 
-        // increse attribute name like: attribute_value + '-' + count
-        self.incresseAttrName = function (elements, attr, count){
+        // increase attribute name like: attribute_value + '-' + count
+        self.increaseAttrName = function (elements, attr, count){
         	for(var i = 0, l = elements.length; i < l; i++){
         		var $el =  $(elements[i]);
         		var oldValue = $el.attr(attr);

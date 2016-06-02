@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Filter table class for the Finder package.
@@ -72,20 +73,26 @@ class FinderTableFilter extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
-		// Check the end date is not earlier than start up.
-		if ($this->d2 > $this->_db->getNullDate() && $this->d2 < $this->d1)
+		$params = new Registry($this->params);
+
+		$nullDate = $this->_db->getNullDate();
+		$d1 = $params->get('d1', $nullDate);
+		$d2 = $params->get('d2', $nullDate);
+
+		// Check the end date is not earlier than the start date.
+		if ($d2 > $nullDate && $d2 < $d1)
 		{
 			// Swap the dates.
-			$temp = $this->d1;
-			$this->d1 = $this->d2;
-			$this->d2 = $temp;
+			$params->set('d1', $d2);
+			$params->set('d2', $d1);
+			$this->params = (string) $params;
 		}
 
 		return true;
@@ -110,7 +117,7 @@ class FinderTableFilter extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 

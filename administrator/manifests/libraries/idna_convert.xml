@@ -11,7 +11,7 @@
 	<authorEmail>phlymail@phlylabs.de</authorEmail>
 	<authorUrl>http://phlylabs.de</authorUrl>
 	<packager>Joomla!</packager>
-	<packagerurl>http://www.joomla.org</packagerurl>
+	<packagerurl>https://www.joomla.org</packagerurl>
 	<files folder="libraries">
 		<folder>idna_convert</folder>
 	</files>

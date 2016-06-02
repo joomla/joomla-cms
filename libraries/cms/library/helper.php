@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Library
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class JLibraryHelper
 	 * @param   string   $element  Element of the library in the extensions table.
 	 * @param   boolean  $strict   If set and the library does not exist, the enabled attribute will be set to false.
 	 *
-	 * @return  object   An object with the library's information.
+	 * @return  stdClass   An object with the library's information.
 	 *
 	 * @since   3.2
 	 */

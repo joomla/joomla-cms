@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -181,7 +181,7 @@ final class JApplicationSite extends JApplicationCms
 		// Add version number or not based on global configuration
 		if ($this->get('MetaVersion', 0))
 		{
-			$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
+			$document->setGenerator('Joomla! - Open Source Content Management - Version ' . JVERSION);
 		}
 		else
 		{
@@ -279,7 +279,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 * @deprecated  4.0  Use getParams() instead
@@ -294,7 +294,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @param   string  $option  The component option
 	 *
-	 * @return  object  The parameters object
+	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
 	 */
@@ -509,7 +509,23 @@ final class JApplicationSite extends JApplicationCms
 		}
 
 		// Allows for overriding the active template from the request
-		$template->template = $this->input->getCmd('template', $template->template);
+		$template_override = $this->input->getCmd('template', '');
+
+		// Only set template override if it is a valid template (= it exists and is enabled)
+		if (!empty($template_override))
+		{
+			if (file_exists(JPATH_THEMES . '/' . $template_override . '/index.php'))
+			{
+				foreach ($templates as $tmpl)
+				{
+					if ($tmpl->template == $template_override)
+					{
+						$template->template = $template_override;
+						break;
+					}
+				}
+			}
+		}
 
 		// Need to filter the default value as well
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');

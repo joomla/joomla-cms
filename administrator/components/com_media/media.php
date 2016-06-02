@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,18 +30,17 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/media.php';
 
 // Set the path definitions
 $popup_upload = $input->get('pop_up', null);
-$path = 'file_path';
-
-$view = $input->get('view');
+$path         = 'file_path';
+$view         = $input->get('view');
 
 if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
 {
 	$path = 'image_path';
 }
 
-define('COM_MEDIA_BASE',    JPATH_ROOT . '/' . $params->get($path, 'images'));
+define('COM_MEDIA_BASE', JPATH_ROOT . '/' . $params->get($path, 'images'));
 define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
 
-$controller	= JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
+$controller = JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
 $controller->execute($input->get('task'));
 $controller->redirect();

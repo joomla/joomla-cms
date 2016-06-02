@@ -1,7 +1,7 @@
 <?php
 /**
  * @package	Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,16 +14,16 @@ REQUIREMENTS
 
 First you must have the base environment for Joomla.
 We have thoroughly tested Joomla! on: Linux, Free BSD, Mac OS X and Windows.
-Linux or one of the BSD's are recommended, but anything else that can run the
+Linux or one of the BSD's are recommended, but anything else that can run 
 a supported PHP version, a supported database and a supported webserver listed
-in the Technical Requirements at http://www.joomla.org/technical-requirements.html
+in the Technical Requirements at https://www.joomla.org/about-joomla/technical-requirements.html
 should do it.
 
 SERVER CONFIGURATION
 --------------------
 
-You MUST ensure that PHP has been compiled with support for MySQL and Zlib
-in order to successfully run Joomla.
+You MUST ensure that PHP has been compiled with support for MySQL (or the database
+you are using) and Zlib in order to successfully run Joomla.
 
 While we have reports that Joomla! works on IIS server we recommend Apache
 for running Joomla! on Windows.
@@ -32,8 +32,9 @@ for running Joomla! on Windows.
 OPTIONAL COMPONENTS
 -------------------
 
-If you want support for SEF (Search Engine Friendly) URLs, you'll need mod_rewrite and the ability to
-use local .htaccess files.
+If you want support for SEF (Search Engine Friendly) URLs using the apache webserver
+you'll need mod_rewrite and the ability to use local .htaccess files. If you are using
+the IIS webserver you'll need the ability to use local web.config.txt files
 
 
 INSTALLATION
@@ -42,7 +43,7 @@ INSTALLATION
 1. DOWNLOAD Joomla
 
 	You can obtain the latest Joomla! release from:
-		http://www.joomla.org/download.html
+		https://www.joomla.org/download.html
 
 	Copy the tar.gz file into a working directory e.g.
 
@@ -70,7 +71,7 @@ INSTALLATION
 
 2. CREATE THE Joomla! DATABASE
 
-	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but 
+	Joomla! will currently work with MySQL, MSSQL and PostgreSQL but
 	the following instructions are for MySQL. Refer to relevant
 	documentation if you are using another database.
 
@@ -126,8 +127,8 @@ You can now launch your browser and point it to your Joomla! site e.g.
 	http://www.example.org -> Main Site
 	http://www.example.org/administrator -> Admin
 
-You can log into Admin using the username 'admin' along with the
-password that was generated or you chose during the web based install.
+You can log into Admin using the username and password that you chose 
+during the web based install.
 
 
 Joomla! ADMINISTRATION
@@ -140,7 +141,8 @@ Use Admin to install and configure additional extensions, add users, select
 default language and much more.
 
 Note that additional community-contributed extensions and languages are
-available at the Joomla! Extensions Directory: http://extensions.joomla.org/
+available at the Joomla! Extensions Directory (JED): http://extensions.joomla.org/
+
 You can also install and use the `Install from Web Tab` to access the JED
-directly out of the backend here:
+directly out of the Admin here:
 http://www.example.org/administrator/index.php?option=com_installer&view=install

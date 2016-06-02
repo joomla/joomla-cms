@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -202,7 +202,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	public function casesGetOffsetFromGMT()
+	public function casesGetOffsetFromGmt()
 	{
 		return array(
 			'basic' => array(
@@ -325,7 +325,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	public function casesToSQL()
+	public function casesToSql()
 	{
 		return array(
 			'basic' => array(
@@ -612,11 +612,11 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider casesGetOffsetFromGMT
+	 * @dataProvider casesGetOffsetFromGmt
 	 * @since   11.3
 	 * @covers  JDate::getOffsetFromGMT
 	 */
-	public function testGetOffsetFromGMT($tz, $setTime, $hours, $expected)
+	public function testGetOffsetFromGmt($tz, $setTime, $hours, $expected)
 	{
 		if (is_null($tz))
 		{
@@ -629,11 +629,11 @@ class JDateTest extends TestCaseDatabase
 
 		if (is_null($hours))
 		{
-			$offset = $testJDate->getOffsetFromGMT();
+			$offset = $testJDate->getOffsetFromGmt();
 		}
 		else
 		{
-			$offset = $testJDate->getOffsetFromGMT($hours);
+			$offset = $testJDate->getOffsetFromGmt($hours);
 		}
 
 		$this->assertThat($offset, $this->equalTo($expected));

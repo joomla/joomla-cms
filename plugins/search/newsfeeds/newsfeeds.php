@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -148,18 +148,18 @@ class PlgSearchNewsfeeds extends JPlugin
 		$query = $db->getQuery(true);
 
 		// SQLSRV changes.
-		$case_when = ' CASE WHEN ';
+		$case_when  = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
+		$a_id       = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $a_id . ' END as slug';
 
-		$case_when1 = ' CASE WHEN ';
+		$case_when1  = ' CASE WHEN ';
 		$case_when1 .= $query->charLength('c.alias', '!=', '0');
 		$case_when1 .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
+		$c_id        = $query->castAsChar('c.id');
 		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
@@ -181,6 +181,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
+
 		try
 		{
 			$rows = $db->loadObjectList();

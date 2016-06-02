@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,6 +44,13 @@ class JOAuth2ClientTest extends TestCase
 	protected $object;
 
 	/**
+	 * Code that the app closes with.
+	 *
+	 * @var  int
+	 */
+	private static $closed = null;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -62,7 +69,7 @@ class JOAuth2ClientTest extends TestCase
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$array = array();
 		$this->input = new JInput($array);
-		$this->application = new JApplicationWebInspector;
+		$this->application = $this->getMockWeb();
 		$this->object = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
 	}
 
@@ -82,7 +89,7 @@ class JOAuth2ClientTest extends TestCase
 		$this->object->setOption('sendheaders', true);
 
 		$this->object->authenticate();
-		$this->assertEquals(0, $this->application->closed);
+		$this->assertEquals(0, static::$closed);
 
 		$this->object->setOption('tokenurl', 'https://accounts.google.com/o/oauth2/token');
 		$this->object->setOption('clientsecret', 'jeDs8rKw_jDJW8MMf-ff8ejs');
@@ -320,6 +327,14 @@ class JOAuth2ClientTest extends TestCase
 		$this->assertEquals('refreshvalue', $result['refresh_token']);
 		$this->assertEquals(3600, $result['expires_in']);
 		$this->assertLessThanOrEqual(1, time() - $result['created']);
+	}
+
+	/**
+	 * @param   integer  $code  The exit code (optional; default is 0).
+	 */
+	public static function mockClose($code = 0)
+	{
+		self::$closed = $code;
 	}
 }
 

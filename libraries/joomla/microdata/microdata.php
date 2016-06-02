@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Microdata
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 class JMicrodata
 {
 	/**
-	 * Array with all available Types and Properties
+	 * Array with all available Types and Properties from the http://schema.org vocabulary
 	 *
 	 * @var    array
 	 * @since  3.2
@@ -25,7 +25,7 @@ class JMicrodata
 	protected static $types = null;
 
 	/**
-	 * The Schema.org Type
+	 * The Type
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -41,7 +41,7 @@ class JMicrodata
 	protected $property = null;
 
 	/**
-	 * The Human value or Machine value
+	 * The Human content
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -49,7 +49,7 @@ class JMicrodata
 	protected $content = null;
 
 	/**
-	 * The Machine value
+	 * The Machine content
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -57,7 +57,7 @@ class JMicrodata
 	protected $machineContent = null;
 
 	/**
-	 * Fallback Type
+	 * The Fallback Type
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -65,7 +65,7 @@ class JMicrodata
 	protected $fallbackType = null;
 
 	/**
-	 * Fallback Property
+	 * The Fallback Property
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -73,15 +73,7 @@ class JMicrodata
 	protected $fallbackProperty = null;
 
 	/**
-	 * Used to check if a Fallback must be used
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $fallback = false;
-
-	/**
-	 * Used to check if the Microdata semantics output are enabled or disabled
+	 * Used for checking if the library output is enabled or disabled
 	 *
 	 * @var    boolean
 	 * @since  3.2
@@ -89,10 +81,10 @@ class JMicrodata
 	protected $enabled = true;
 
 	/**
-	 * Initialize the class and setup the default Type
+	 * Initialize the class and setup the default $Type
 	 *
-	 * @param   string   $type  Optional, Fallback to Thing Type
-	 * @param   boolean  $flag  Enable or disable microdata output
+	 * @param   string   $type  Optional, fallback to 'Thing' Type
+	 * @param   boolean  $flag  Enable or disable the library output
 	 *
 	 * @since   3.2
 	 */
@@ -100,7 +92,7 @@ class JMicrodata
 	{
 		if ($this->enabled = (boolean) $flag)
 		{
-			// Fallback to Thing Type
+			// Fallback to 'Thing' Type
 			if (!$type)
 			{
 				$type = 'Thing';
@@ -111,7 +103,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Load all Types and Properties from the types.json file
+	 * Load all available Types and Properties from the http://schema.org vocabulary contained in the types.json file
 	 *
 	 * @return  void
 	 *
@@ -137,17 +129,16 @@ class JMicrodata
 	protected function resetParams()
 	{
 		$this->content          = null;
-		$this->machineContent	= null;
+		$this->machineContent   = null;
 		$this->property         = null;
 		$this->fallbackProperty = null;
 		$this->fallbackType     = null;
-		$this->fallback         = false;
 	}
 
 	/**
-	 * Enable or Disable Microdata semantics output
+	 * Enable or Disable the library output
 	 *
-	 * @param   boolean  $flag  Enable or disable microdata output
+	 * @param   boolean  $flag  Enable or disable the library output
 	 *
 	 * @return  JMicrodata  Instance of $this
 	 *
@@ -161,7 +152,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return true if Microdata semantics output are enabled
+	 * Return 'true' if the library output is enabled
 	 *
 	 * @return  boolean
 	 *
@@ -173,9 +164,9 @@ class JMicrodata
 	}
 
 	/**
-	 * Set a new Schema.org Type
+	 * Set a new http://schema.org Type
 	 *
-	 * @param   string  $type  The Type to be setup
+	 * @param   string  $type  The $Type to be setup
 	 *
 	 * @return  JMicrodata  Instance of $this
 	 *
@@ -191,17 +182,17 @@ class JMicrodata
 		// Sanitize the Type
 		$this->type = static::sanitizeType($type);
 
-		// If the given Type isn't available, fallback to Thing
+		// If the given $Type isn't available, fallback to 'Thing' Type
 		if (!static::isTypeAvailable($this->type))
 		{
-			$this->type	= 'Thing';
+			$this->type = 'Thing';
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Return the current Type name
+	 * Return the current $Type name
 	 *
 	 * @return  string
 	 *
@@ -213,7 +204,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Setup a Property
+	 * Setup a $Property
 	 *
 	 * @param   string  $property  The Property
 	 *
@@ -228,24 +219,20 @@ class JMicrodata
 			return $this;
 		}
 
-		// Sanitize the Property
+		// Sanitize the $Property
 		$property = static::sanitizeProperty($property);
 
-		// Control if the Property exist in the given Type and setup it, if not leave NULL
+		// Control if the $Property exists in the given $Type and setup it, otherwise leave it 'NULL'
 		if (static::isPropertyInType($this->type, $property))
 		{
 			$this->property = $property;
-		}
-		else
-		{
-			$this->fallback = true;
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Return the property variable
+	 * Return the current $Property name
 	 *
 	 * @return  string
 	 *
@@ -257,25 +244,25 @@ class JMicrodata
 	}
 
 	/**
-	 * Setup a Text value or Content value for the Microdata
+	 * Setup a Human content or content for the Machines
 	 *
-	 * @param   string  $value         The human value or marchine value to be used
-	 * @param   string  $machineValue  The machine value
+	 * @param   string  $content         The human content or machine content to be used
+	 * @param   string  $machineContent  The machine content
 	 *
 	 * @return  JMicrodata  Instance of $this
 	 *
 	 * @since   3.2
 	 */
-	public function content($value, $machineValue = null)
+	public function content($content, $machineContent = null)
 	{
-		$this->content = $value;
-		$this->machineContent = $machineValue;
+		$this->content = $content;
+		$this->machineContent = $machineContent;
 
 		return $this;
 	}
 
 	/**
-	 * Return the content variable
+	 * Return the current $content
 	 *
 	 * @return  string
 	 *
@@ -284,6 +271,18 @@ class JMicrodata
 	public function getContent()
 	{
 		return $this->content;
+	}
+
+	/**
+	 * Return the current $machineContent
+	 *
+	 * @return  string
+	 *
+	 * @since   3.3
+	 */
+	public function getMachineContent()
+	{
+		return $this->machineContent;
 	}
 
 	/**
@@ -303,16 +302,16 @@ class JMicrodata
 			return $this;
 		}
 
-		// Sanitize the Type
+		// Sanitize the $Type
 		$this->fallbackType = static::sanitizeType($type);
 
-		// If the given Type isn't available, fallback to Thing
+		// If the given $Type isn't available, fallback to 'Thing' Type
 		if (!static::isTypeAvailable($this->fallbackType))
 		{
 			$this->fallbackType = 'Thing';
 		}
 
-		// Control if the Property exist in the given Type and setup it, if not leave NULL
+		// Control if the $Property exist in the given $Type and setup it, otherwise leave it 'NULL'
 		if (static::isPropertyInType($this->fallbackType, $property))
 		{
 			$this->fallbackProperty = $property;
@@ -326,7 +325,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the fallbackType variable
+	 * Return the current $fallbackType
 	 *
 	 * @return  string
 	 *
@@ -338,7 +337,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the fallbackProperty variable
+	 * Return the current $fallbackProperty
 	 *
 	 * @return  string
 	 *
@@ -350,13 +349,12 @@ class JMicrodata
 	}
 
 	/**
-	 * This function handle the logic of a Microdata intelligent display.
-	 * Check if the Type, Property are available, if not check for a Fallback,
-	 * then reset all params for the next use and
-	 * return the Microdata HTML
+	 * This function handles the display logic.
+	 * It checks if the Type, Property are available, if not check for a Fallback,
+	 * then reset all params for the next use and return the HTML.
 	 *
-	 * @param   string   $displayType  Optional, 'inline', available ['inline'|'span'|'div'|meta]
-	 * @param   boolean  $emptyOutput  Return an empty string if the microdata output is disabled and there is a $content value
+	 * @param   string   $displayType  Optional, 'inline', available options ['inline'|'span'|'div'|meta]
+	 * @param   boolean  $emptyOutput  Return an empty string if the library output is disabled and there is a $content value
 	 *
 	 * @return  string
 	 *
@@ -365,19 +363,19 @@ class JMicrodata
 	public function display($displayType = '', $emptyOutput = false)
 	{
 		// Initialize the HTML to output
-		$html = ($this->content !== null) ? $this->content : '';
+		$html = ($this->content !== null && !$emptyOutput) ? $this->content : '';
 
-		// Control if the Microdata output is enabled, otherwise return the content or empty string
+		// Control if the library output is enabled, otherwise return the $content or an empty string
 		if (!$this->enabled)
 		{
 			// Reset params
 			$this->resetParams();
 
-			return ($emptyOutput) ? '' : $html;
+			return $html;
 		}
 
-		// If the property is wrong for the current Type check if Fallback available, otherwise return empty HTML
-		if ($this->property && !$this->fallback)
+		// If the $property is wrong for the current $Type check if a Fallback is available, otherwise return an empty HTML
+		if ($this->property)
 		{
 			// Process and return the HTML the way the user expects to
 			if ($displayType)
@@ -407,13 +405,13 @@ class JMicrodata
 			{
 				/*
 				 * Process and return the HTML in an automatic way,
-				 * with the Property expected Types and display the Microdata in the right way,
-				 * check if the Property is normal, nested or must be rendered in a metadata tag
+				 * with the $Property expected Types and display everything in the right way,
+				 * check if the $Property is 'normal', 'nested' or must be rendered in a metadata tag
 				 */
 				switch (static::getExpectedDisplayType($this->type, $this->property))
 				{
 					case 'nested':
-						// Retrive the expected nested Type of the Property
+						// Retrieve the expected 'nested' Type of the $Property
 						$nestedType = static::getExpectedTypes($this->type, $this->property);
 						$nestedProperty = '';
 
@@ -432,7 +430,7 @@ class JMicrodata
 							$nestedType = $nestedType[0];
 						}
 
-						// Check if a Content is available, otherwise Fallback to an 'inline' display type
+						// Check if a $content is available, otherwise fallback to an 'inline' display type
 						if ($this->content !== null)
 						{
 							if ($nestedProperty)
@@ -463,7 +461,7 @@ class JMicrodata
 						break;
 
 					case 'meta':
-						// Check if the Content value is available, otherwise Fallback to an 'inline' display Type
+						// Check if a $content is available, otherwise fallback to an 'inline' display type
 						if ($this->content !== null)
 						{
 							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
@@ -479,8 +477,8 @@ class JMicrodata
 					default:
 						/*
 						 * Default expected display type = 'normal'
-						 * Check if the Content value is available,
-						 * otherwise Fallback to an 'inline' display Type
+						 * Check if a $content is available,
+						 * otherwise fallback to an 'inline' display type
 						 */
 						if ($this->content !== null)
 						{
@@ -517,7 +515,7 @@ class JMicrodata
 
 					default:
 						// Default $displayType = 'inline'
-						$html = static::htmlScope($type::scope()) . ' ' . static::htmlProperty($this->fallbackProperty);
+						$html = static::htmlScope($this->fallbackType) . ' ' . static::htmlProperty($this->fallbackProperty);
 						break;
 				}
 			}
@@ -525,13 +523,13 @@ class JMicrodata
 			{
 				/*
 				 * Process and return the HTML in an automatic way,
-				 * with the Property expected Types an display the Microdata in the right way,
-				 * check if the Property is nested or must be rendered in a metadata tag
+				 * with the $Property expected Types an display everything in the right way,
+				 * check if the Property is 'nested' or must be rendered in a metadata tag
 				 */
 				switch (static::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))
 				{
 					case 'meta':
-						// Check if the Content value is available, otherwise Fallback to an 'inline' display Type
+						// Check if a $content is available, otherwise fallback to an 'inline' display Type
 						if ($this->content !== null)
 						{
 							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
@@ -547,8 +545,8 @@ class JMicrodata
 					default:
 						/*
 						 * Default expected display type = 'normal'
-						 * Check if the Content value is available,
-						 * otherwise Fallback to an 'inline' display Type
+						 * Check if a $content is available,
+						 * otherwise fallback to an 'inline' display Type
 						 */
 						if ($this->content !== null)
 						{
@@ -584,7 +582,7 @@ class JMicrodata
 	 */
 	public function displayScope()
 	{
-		// Control if the Microdata output is enabled, otherwise return the content or empty string
+		// Control if the library output is enabled, otherwise return the $content or empty string
 		if (!$this->enabled)
 		{
 			return '';
@@ -594,7 +592,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the sanitized Type
+	 * Return the sanitized $Type
 	 *
 	 * @param   string  $type  The Type to sanitize
 	 *
@@ -608,7 +606,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the sanitized Property
+	 * Return the sanitized $Property
 	 *
 	 * @param   string  $property  The Property to sanitize
 	 *
@@ -622,7 +620,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return an array with all Types and Properties
+	 * Return an array with all available Types and Properties from the http://schema.org vocabulary
 	 *
 	 * @return  array
 	 *
@@ -636,7 +634,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return an array with all available Types
+	 * Return an array with all available Types from the http://schema.org vocabulary
 	 *
 	 * @return  array
 	 *
@@ -650,7 +648,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the expected types of the Property
+	 * Return the expected Types of the given Property
 	 *
 	 * @param   string  $type      The Type to process
 	 * @param   string  $property  The Property to process
@@ -665,13 +663,13 @@ class JMicrodata
 
 		$tmp = static::$types[$type]['properties'];
 
-		// Check if the Property is in the Type
+		// Check if the $Property is in the $Type
 		if (isset($tmp[$property]))
 		{
 			return $tmp[$property]['expectedTypes'];
 		}
 
-		// Check if the Property is inherit
+		// Check if the $Property is inherit
 		$extendedType = static::$types[$type]['extends'];
 
 		// Recursive
@@ -684,11 +682,11 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the expected display type of the [normal|nested|meta]
-	 * In wich way to display the Property:
+	 * Return the expected display type: [normal|nested|meta]
+	 * In which way to display the Property:
 	 * normal -> itemprop="name"
-	 * nested -> itemprop="director" itemscope itemtype="http://schema.org/Person"
-	 * meta   -> <meta itemprop="datePublished" content="1991-05-01">
+	 * nested -> itemprop="director" itemscope itemtype="https://schema.org/Person"
+	 * meta   -> `<meta itemprop="datePublished" content="1991-05-01">`
 	 *
 	 * @param   string  $type      The Type where to find the Property
 	 * @param   string  $property  The Property to process
@@ -704,19 +702,19 @@ class JMicrodata
 		// Retrieve the first expected type
 		$type = $expectedTypes[0];
 
-		// Check if it's a meta display
+		// Check if it's a 'meta' display
 		if ($type === 'Date' || $type === 'DateTime' || $property === 'interactionCount')
 		{
 			return 'meta';
 		}
 
-		// Check if it's a normal display
+		// Check if it's a 'normal' display
 		if ($type === 'Text' || $type === 'URL' || $type === 'Boolean' || $type === 'Number')
 		{
 			return 'normal';
 		}
 
-		// Otherwise it's a nested display
+		// Otherwise it's a 'nested' display
 		return 'nested';
 	}
 
@@ -737,13 +735,13 @@ class JMicrodata
 			return false;
 		}
 
-		// Control if the Property exists, and return true
+		// Control if the $Property exists, and return 'true'
 		if (array_key_exists($property, static::$types[$type]['properties']))
 		{
 			return true;
 		}
 
-		// Recursive: Check if the Property is inherit
+		// Recursive: Check if the $Property is inherit
 		$extendedType = static::$types[$type]['extends'];
 
 		if (!empty($extendedType))
@@ -771,72 +769,85 @@ class JMicrodata
 	}
 
 	/**
-	 * Return the microdata in a <meta> tag with content for machines.
+	 * Return Microdata semantics in a `<meta>` tag with content for machines.
 	 *
 	 * @param   string   $content   The machine content to display
 	 * @param   string   $property  The Property
 	 * @param   string   $scope     Optional, the Type scope to display
-	 * @param   boolean  $inverse   Optional, default = false, inverse the $scope with the $property
+	 * @param   boolean  $invert    Optional, default = false, invert the $scope with the $property
 	 *
 	 * @return  string
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
-	public static function htmlMeta($content, $property, $scope = '', $inverse = false)
+	public static function htmlMeta($content, $property, $scope = '', $invert = false)
 	{
-		// Control if the Property has allready the itemprop
-		if (stripos($property, 'itemprop') !== 0)
-		{
-			$property = static::htmlProperty($property);
-		}
-
-		// Control if the Scope have allready the itemtype
-		if (!empty($scope) && stripos($scope, 'itemscope') !== 0)
-		{
-			$scope = static::htmlScope($scope);
-		}
-
-		if ($inverse)
-		{
-			$tmp = join(' ', array($property, $scope));
-		}
-		else
-		{
-			$tmp = join(' ', array($scope, $property));
-		}
-
-		$tmp = trim($tmp);
-
-		return "<meta $tmp content='$content'/>";
+		return static::htmlTag('meta', $content, $property, $scope, $invert);
 	}
 
 	/**
-	 * Return the microdata in a <span> tag.
+	 * Return Microdata semantics in a `<span>` tag.
 	 *
-	 * @param   string   $content   The human value
-	 * @param   string   $property  Optional, the human value to display
+	 * @param   string   $content   The human content
+	 * @param   string   $property  Optional, the human content to display
 	 * @param   string   $scope     Optional, the Type scope to display
-	 * @param   boolean  $inverse   Optional, default = false, inverse the $scope with the $property
+	 * @param   boolean  $invert    Optional, default = false, invert the $scope with the $property
 	 *
 	 * @return  string
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
-	public static function htmlSpan($content, $property = '', $scope = '', $inverse = false)
+	public static function htmlSpan($content, $property = '', $scope = '', $invert = false)
 	{
-		// Control if the Property has allready the itemprop
+		return static::htmlTag('span', $content, $property, $scope, $invert);
+	}
+
+	/**
+	 * Return Microdata semantics in a `<div>` tag.
+	 *
+	 * @param   string   $content   The human content
+	 * @param   string   $property  Optional, the human content to display
+	 * @param   string   $scope     Optional, the Type scope to display
+	 * @param   boolean  $invert    Optional, default = false, invert the $scope with the $property
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	public static function htmlDiv($content, $property = '', $scope = '', $invert = false)
+	{
+		return static::htmlTag('div', $content, $property, $scope, $invert);
+	}
+
+	/**
+	 * Return Microdata semantics in a specified tag.
+	 *
+	 * @param   string   $tag       The HTML tag
+	 * @param   string   $content   The human content
+	 * @param   string   $property  Optional, the human content to display
+	 * @param   string   $scope     Optional, the Type scope to display
+	 * @param   boolean  $invert    Optional, default = false, invert the $scope with the $property
+	 *
+	 * @return  string
+	 *
+	 * @since   3.3
+	 */
+	public static function htmlTag($tag, $content, $property = '', $scope = '', $invert = false)
+	{
+		// Control if the $Property has already the 'itemprop' prefix
 		if (!empty($property) && stripos($property, 'itemprop') !== 0)
 		{
 			$property = static::htmlProperty($property);
 		}
 
-		// Control if the Scope have allready the itemtype
+		// Control if the $Scope have already the 'itemscope' prefix
 		if (!empty($scope) && stripos($scope, 'itemscope') !== 0)
 		{
 			$scope = static::htmlScope($scope);
 		}
 
-		if ($inverse)
+		// Depending on the case, the $scope must precede the $property, or otherwise
+		if ($invert)
 		{
 			$tmp = join(' ', array($property, $scope));
 		}
@@ -848,48 +859,13 @@ class JMicrodata
 		$tmp = trim($tmp);
 		$tmp = ($tmp) ? ' ' . $tmp : '';
 
-		return "<span$tmp>$content</span>";
-	}
-
-	/**
-	 * Return the microdata in an <div> tag.
-	 *
-	 * @param   string   $content   The human value
-	 * @param   string   $property  Optional, the human value to display
-	 * @param   string   $scope     Optional, the Type scope to display
-	 * @param   boolean  $inverse   Optional, default = false, inverse the $scope with the $property
-	 *
-	 * @return  string
-	 *
-	 * @since	3.2
-	 */
-	public static function htmlDiv($content, $property = '', $scope = '', $inverse = false)
-	{
-		// Control if the Property has allready the itemprop
-		if (!empty($property) && stripos($property, 'itemprop') !== 0)
+		// Control if it is an empty element without a closing tag
+		if ($tag === 'meta')
 		{
-			$property = static::htmlProperty($property);
+			return "<meta$tmp content='$content'/>";
 		}
 
-		// Control if the Scope have allready the itemtype
-		if (!empty($scope) && stripos($scope, 'itemscope') !== 0)
-		{
-			$scope = static::htmlScope($scope);
-		}
-
-		if ($inverse)
-		{
-			$tmp = join(' ', array($property, $scope));
-		}
-		else
-		{
-			$tmp = join(' ', array($scope, $property));
-		}
-
-		$tmp = trim($tmp);
-		$tmp = ($tmp) ? ' ' . $tmp : '';
-
-		return "<div$tmp>$content</div>";
+		return "<" . $tag . $tmp . ">" . $content . "</" . $tag . ">";
 	}
 
 	/**
@@ -903,12 +879,7 @@ class JMicrodata
 	 */
 	public static function htmlScope($scope)
 	{
-		if (stripos($scope, 'http') !== 0)
-		{
-			$scope = 'https://schema.org/' . ucfirst($scope);
-		}
-
-		return "itemscope itemtype='$scope'";
+		return "itemscope itemtype='https://schema.org/" . static::sanitizeType($scope) . "'";
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,6 @@ defined('_JEXEC') or die;
 			<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 		</div>
 	</div>
-
 	<?php if ($this->config) : ?>
 	<div class="alert alert-error">
 		<h3 class="alert-heading"><?php echo JText::_('JNOTICE'); ?></h3>
@@ -77,6 +76,5 @@ defined('_JEXEC') or die;
 		<textarea rows="10" cols="80" style="width: 100%;" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();"><?php echo $this->config; ?></textarea>
 	</div>
 	<?php endif; ?>
-
 	<?php echo JHtml::_('form.token'); ?>
 </form>

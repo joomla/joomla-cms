@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * -------------------------------------------------------------------------
@@ -73,6 +73,7 @@ class JConfig {
 	public $caching = '0';
 	public $cachetime = '15';
 	public $cache_handler = 'file';
+	public $cache_platformprefix = '0';
 
 	/* Debug Settings */
 	public $debug = '0';
@@ -94,5 +95,5 @@ class JConfig {
 
 	/* Feed Settings */
 	public $feed_limit = 10;
-	public $feed_email = 'author';
+	public $feed_email = 'none';
 }

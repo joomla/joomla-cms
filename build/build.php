@@ -17,7 +17,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,12 +40,11 @@ umask(022);
 // Import JVersion to set the version information
 define('JPATH_PLATFORM', 1);
 require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
-$jversion = new JVersion;
 
 // Set version information for the build
-$version     = $jversion->RELEASE;
-$release     = $jversion->DEV_LEVEL;
-$stability   = $jversion->DEV_STATUS;
+$version     = JVersion::RELEASE;
+$release     = JVersion::DEV_LEVEL;
+$stability   = JVersion::DEV_STATUS;
 $fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
@@ -71,9 +70,6 @@ system('mkdir diffdocs');
 system('mkdir diffconvert');
 system('mkdir packages' . $version);
 
-echo "Copy manifest file to root directory for install packages.\n";
-system('cp ' . $fullpath . '/administrator/manifests/files/joomla.xml ' . $fullpath);
-
 echo "Create list of changed files from git repository.\n";
 
 /*
@@ -93,7 +89,6 @@ $filesArray = array(
 	"language/index.html\n" => true,
 	"layouts/index.html\n" => true,
 	"libraries/index.html\n" => true,
-	"logs/index.html\n" => true,
 	"media/index.html\n" => true,
 	"modules/index.html\n" => true,
 	"plugins/index.html\n" => true,
@@ -104,8 +99,7 @@ $filesArray = array(
 	"LICENSE.txt\n" => true,
 	"README.txt\n" => true,
 	"robots.txt.dist\n" => true,
-	"web.config.txt\n" => true,
-	"joomla.xml\n" => true
+	"web.config.txt\n" => true
 );
 
 /*
@@ -113,9 +107,9 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.github',
 	'.gitignore',
 	'.travis.yml',
-	'CONTRIBUTING.md',
 	'README.md',
 	'build',
 	'build.xml',
@@ -131,6 +125,7 @@ $doNotPackage = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPatch = array(
+	'administrator/logs',
 	'installation',
 	'images',
 );
@@ -229,8 +224,9 @@ system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_'
 
 system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
 
-// Create full update file without installation folder or sample images.
+// Create full update file without the default logs directory, installation folder, or sample images.
 echo "Build full update package.\n";
+system('rm -r administrator/logs');
 system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');

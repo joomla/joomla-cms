@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class InstallationModelFtp extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.
@@ -150,7 +150,7 @@ class InstallationModelFtp extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Connect and login to the FTP server.

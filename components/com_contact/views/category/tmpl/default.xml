@@ -117,7 +117,7 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
@@ -133,6 +133,15 @@
 			<field name="show_headings" type="list"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_image_heading" type="list"
+				label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL" 
+				description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
