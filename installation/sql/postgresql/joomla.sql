@@ -504,7 +504,6 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 
 -- Libraries
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (104, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -612,8 +611,9 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (452, 'plg_system_updatenotification', 'plugin', 'updatenotification', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (453, 'plg_editors-xtd_module', 'plugin', 'module', 'editors-xtd', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (454, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'installer', 0, 1, 1, 1, '{"name":"plg_installer_packageinstaller","type":"plugin","creationDate":"02.10.2015","author":"Willy Noel Nzefameni, Lukas Gies, Markus Pompejus","copyright":"Copyright (C) 2013 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.0","description":"PLG_PACKAGE_INSTALLER_PLUGIN_XML_DESCRIPTION","group":"","filename":"packageInstaller"}', '{}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
-(456, 'plg_installer_urlfolderinstaller', 'plugin', 'urlfolderinstaller', 'installer', 0, 1, 1, 1, '{"name":"plg_installer_urlfolderinstaller","type":"plugin","creationDate":"02.10.2015","author":"Willy Noel Nzefameni, Markus Pompejus, Lukas Gies","copyright":"Copyright (C) 2013 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.0","description":"PLG_INSTALLER_PLUGIN_XML_DESCRIPTION","group":"","filename":"urlFolderInstaller"}', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+(455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
+(456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 2, 0),
+(457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 3, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -630,6 +630,10 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 -- Files Extensions
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (700, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+
+-- Packages
+INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(802, 'English (United Kingdom)', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 SELECT setval('#__extensions_extension_id_seq', 10000, false);
 
@@ -1736,7 +1740,7 @@ COMMENT ON TABLE "#__update_sites_extensions" IS 'Links extensions to update sit
 INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALUES
 (1, 700),
 (2, 700),
-(3, 600),
+(3, 802),
 (4, 28);
 
 --

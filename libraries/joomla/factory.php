@@ -99,7 +99,7 @@ abstract class JFactory
 	public static $mailer = null;
 
 	/**
-	 * Get a application object.
+	 * Get an application object.
 	 *
 	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
@@ -148,7 +148,7 @@ abstract class JFactory
 		{
 			if ($file === null)
 			{
-				$file = JPATH_PLATFORM . '/config.php';
+				$file = JPATH_CONFIGURATION . '/configuration.php';
 			}
 
 			self::$config = self::createConfig($file, $type, $namespace);
@@ -220,7 +220,7 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get an user object.
+	 * Get a user object.
 	 *
 	 * Returns the global {@link JUser} object, only creating it if it doesn't already exist.
 	 *

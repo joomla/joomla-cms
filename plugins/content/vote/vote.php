@@ -55,7 +55,7 @@ class PlgContentVote extends JPlugin
 			$img = '';
 
 			// Look for images in template if available
-			$starImageOn = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
+			$starImageOn  = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
 			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', JText::_('PLG_VOTE_STAR_INACTIVE'), null, true);
 
 			for ($i = 0; $i < $rating; $i++)
@@ -91,14 +91,14 @@ class PlgContentVote extends JPlugin
 				}
 
 				// Generate voting form
-				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString()) . '" class="form-inline">';
+				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8') . '" class="form-inline">';
 				$html .= '<span class="content_vote">';
 				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
 				$html .= JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
 				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
 				$html .= '<input type="hidden" name="task" value="article.vote" />';
 				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString()) . '" />';
+				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString(), ENT_COMPAT, 'UTF-8') . '" />';
 				$html .= JHtml::_('form.token');
 				$html .= '</span>';
 				$html .= '</form>';

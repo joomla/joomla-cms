@@ -708,6 +708,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		$terms = array_filter($terms, 'strlen');
+
+		// Nothing to Highlight
+		if (empty($terms))
+		{
+			static::$loaded[__METHOD__][$sig] = true;
+			return;
+		}
+
 		// Include core
 		static::core();
 

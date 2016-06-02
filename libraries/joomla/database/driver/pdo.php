@@ -123,7 +123,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Make sure the PDO extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('PDO Extension is not available.', 1);
+			throw new JDatabaseExceptionUnsupported('PDO Extension is not available.', 1);
 		}
 
 		$replace = array();
@@ -306,7 +306,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO: ' . $e->getMessage(), 2, $e);
+			throw new JDatabaseExceptionConnecting('Could not connect to PDO: ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -377,7 +377,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!is_object($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -466,7 +466,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -482,7 +482,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 			}
 		}
 

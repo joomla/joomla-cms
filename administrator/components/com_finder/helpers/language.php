@@ -58,7 +58,7 @@ class FinderHelperLanguage
 	/**
 	 * Method to return the language name for a language taxonomy branch.
 	 *
-	 * @param   string  $branchName  Branch name.
+	 * @param   string  $branchName  Language branch name.
 	 *
 	 * @return  string  The language title.
 	 *

@@ -276,7 +276,7 @@ class UsersControllerUser extends UsersController
 		else
 		{
 			// URL to redirect after logout, default page if no ItemID is set
-			$url = $itemid ? 'index.php?Itemid=' . $itemid : JURI::root();
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : JUri::root();
 		}
 
 		// Logout and redirect

@@ -109,7 +109,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
 	{
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;
@@ -545,7 +545,7 @@ class JApplicationWeb extends JApplicationBase
 				}
 
 				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
-				// @deprecated 4.0 From 4.0 if no valid status code is given a InvalidArgumentException will be thrown
+				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
 				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
 				{
 					$status = 303;

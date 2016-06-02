@@ -217,8 +217,22 @@ class ContentModelArticles extends JModelList
 
 		$query->from('#__content AS a');
 
-		// Join over the frontpage articles.
-		if ($this->context != 'com_content.featured')
+		$params = $this->getState('params');
+		$orderby_sec = $params->get('orderby_sec');
+
+		// Join over the frontpage articles if required.
+		if ($this->getState('filter.frontpage'))
+		{
+			if ($orderby_sec == 'front')
+			{
+				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+			}
+			else
+			{
+				$query->where('a.featured = 1');
+			}
+		}
+		elseif ($orderby_sec == 'front')
 		{
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
@@ -485,8 +499,6 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Process the filter for list views with user-entered filters
-		$params = $this->getState('params');
-
 		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable

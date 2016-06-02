@@ -84,11 +84,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
 				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
 				elseif ($type == 'standard' && !empty($content))
 				{
-					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
 			}
 		}
@@ -98,7 +98,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if ($documentDescription)
 		{
-			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 		}
 
 		// Don't add empty generators
@@ -106,7 +106,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if ($generator)
 		{
-			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 		}
 
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
