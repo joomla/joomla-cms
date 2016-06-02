@@ -54,6 +54,11 @@ $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
 $antJobFile = '/build.xml';
 
+$readMeFiles = array(
+			'/README.md',
+			'/README.txt',
+			);
+
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
 
@@ -226,6 +231,18 @@ if (file_exists($rootPath . $antJobFile))
 	$fileContents = file_get_contents($rootPath . $antJobFile);
 	$fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
 	file_put_contents($rootPath . $antJobFile, $fileContents);
+}
+
+// Updates the version in readme files.
+foreach ($readMeFiles as $readMeFile)
+{
+	if (file_exists($rootPath . $readMeFile))
+	{
+		$fileContents = file_get_contents($rootPath . $readMeFile);
+		$fileContents = preg_replace('#Joomla! [0-9]+\.[0-9]+ (|\[)version#', 'Joomla! ' . $version['main'] . ' $1version', $fileContents);
+		$fileContents = preg_replace('#Joomla_[0-9]+\.[0-9]+_version#', 'Joomla_' . $version['main'] . '_version', $fileContents);
+		file_put_contents($rootPath . $readMeFile, $fileContents);
+	}
 }
 
 echo 'Version bump complete!' . PHP_EOL;
