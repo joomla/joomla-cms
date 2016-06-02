@@ -1043,7 +1043,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @since   3.1
 	 */
-	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
+	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid, $top_version = null)
 	{
 		$update_count = 0;
 
