@@ -1108,7 +1108,7 @@ class JInstaller extends JAdapter
 
 					foreach ($files as $file)
 					{
-						if (version_compare($file, $version) > 0)
+						if (version_compare($file, $version)>0 && ($top_version && version_compare($file, $top_version)<=0 || !$top_version))
 						{
 							$buffer = file_get_contents($this->getPath('extension_root') . '/' . $schemapath . '/' . $file . '.sql');
 
