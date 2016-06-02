@@ -403,7 +403,7 @@ class JDocument
 		}
 		else
 		{
-			$result = @$this->_metaTags[$attribute][$name];
+			$result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
 		}
 
 		return $result;
