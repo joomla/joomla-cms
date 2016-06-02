@@ -584,7 +584,7 @@ class ContentModelArticle extends JModelAdmin
 
 				$table = JTable::getInstance('Content', 'JTable');
 
-				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
+				if ($table->load(array('catid' => $data['catid'], 'alias' => $data['alias'])))
 				{
 					$msg = JText::_('COM_CONTENT_SAVE_WARNING');
 				}
