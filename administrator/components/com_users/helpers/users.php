@@ -74,7 +74,7 @@ class UsersHelper
 			$vName == 'fields.user'
 		);
 		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_FIELD_CATEGORIES'),
+			JText::_('JGLOBAL_FIELD_GROUPS'),
 			'index.php?option=com_categories&extension=com_users.user.fields',
 			$vName == 'categories.user'
 		);
