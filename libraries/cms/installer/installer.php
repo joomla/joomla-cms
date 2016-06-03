@@ -804,7 +804,8 @@ class JInstaller extends JAdapter
 			try
 			{
 				$adapter->prepareDiscoverInstall();
-			} catch (RuntimeException $e)
+			}
+			catch (RuntimeException $e)
 			{
 				$this->abort($e->getMessage());
 
