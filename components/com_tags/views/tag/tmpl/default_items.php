@@ -62,9 +62,9 @@ $n = count($this->items);
 	<ul class="category list-striped">
 		<?php foreach ($items as $i => $item) : ?>
 			<?php if ($item->core_state == 0) : ?>
-				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo ($item->featured) ? ' featured-contact' : ''; ?>">
+				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo (empty($item->featured)) ? '' : ' item-featured';?>">
 			<?php else: ?>
-				<li class="cat-list-row<?php echo $i % 2; ?> clearfix<?php echo ($item->featured) ? ' featured-contact' : ''; ?>" >
+				<li class="cat-list-row<?php echo $i % 2; ?> clearfix<?php echo (empty($item->featured)) ? '' : ' item-featured';?>" >
 				<h3>
 					<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<?php echo $this->escape($item->core_title); ?>
