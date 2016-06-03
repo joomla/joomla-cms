@@ -151,7 +151,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
-		
+
 		if (JHtmlSidebar::getEntries())
 		{
 			$this->sidebar = JHtmlSidebar::render();
