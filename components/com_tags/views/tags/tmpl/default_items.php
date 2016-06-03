@@ -77,7 +77,7 @@ $n = count($this->items);
 				<ul class="thumbnails">
 			<?php endif; ?>
 			<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-			<li class="cat-list-row<?php echo $i % 2; ?><?php echo ($item->featured) ? ' featured-tag' : ''; ?>" >
+			<li class="cat-list-row<?php echo $i % 2; ?><?php echo (empty($item->featured)) ? '' : ' item-featured';?>" >
 			<h3>
 				<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . '-' . $item->alias)); ?>">
 					<?php echo $this->escape($item->title); ?>
