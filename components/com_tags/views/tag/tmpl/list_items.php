@@ -74,9 +74,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($this->items[$i]->core_state == 0) : ?>
-					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo ($item->featured) ? ' featured-tag' : ''; ?>">
+					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo (empty($item->featured)) ? '' : ' item-featured';?>">
 					<?php else: ?>
-					<tr class="cat-list-row<?php echo $i % 2; ?><?php echo ($item->featured) ? ' featured-tag' : ''; ?>" >
+					<tr class="cat-list-row<?php echo $i % 2; ?><?php echo (empty($item->featured)) ? '' : ' item-featured';?>" >
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
 							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
