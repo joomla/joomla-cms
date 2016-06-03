@@ -66,7 +66,8 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
 		}
 
 		$this->addToolbar();

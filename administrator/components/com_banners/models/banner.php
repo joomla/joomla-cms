@@ -358,7 +358,7 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filters     = (array) $app->getUserState('com_banners.banners.filter');
 				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
 
 				$data->set('catid', $app->input->getInt('catid', $filterCatId));
@@ -486,6 +486,31 @@ class BannersModelBanner extends JModelAdmin
 	{
 		$input = JFactory::getApplication()->input;
 
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+
+		// Cast catid to integer for comparison
+		$catid = (int) $data['catid'];
+
+		// Check if New Category exists
+		if ($catid > 0)
+		{
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
+		}
+
+		// Save New Category
+		if ($catid == 0)
+		{
+			$table              = array();
+			$table['title']     = $data['catid'];
+			$table['parent_id'] = 1;
+			$table['extension'] = 'com_banners';
+			$table['language']  = $data['language'];
+			$table['published'] = 1;
+
+			// Create new category and get catid back
+			$data['catid'] = CategoriesHelper::createCategory($table);
+		}
+
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
@@ -496,8 +521,8 @@ class BannersModelBanner extends JModelAdmin
 			if ($data['name'] == $origTable->name)
 			{
 				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name'] = $name;
-				$data['alias'] = $alias;
+				$data['name']       = $name;
+				$data['alias']      = $alias;
 			}
 			else
 			{
