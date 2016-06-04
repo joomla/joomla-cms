@@ -16,7 +16,7 @@ $params = $this->params;
 <div id="archive-items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>
-		<div class="row<?php echo $i % 2; ?><?php echo (empty($item->featured)) ? '' : ' item-featured';?>" itemscope itemtype="https://schema.org/Article">
+		<div class="row<?php echo $i % 2; ?><?php echo $item->featured ? ' item-featured' : '';?>" itemscope itemtype="https://schema.org/Article">
 			<div class="page-header">
 				<h2 itemprop="name">
 					<?php if ($params->get('link_titles')) : ?>
