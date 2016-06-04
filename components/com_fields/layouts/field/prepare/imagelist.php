@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -31,7 +31,7 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$buffer .= '<img src="' . $field->fieldparams->get('directory', 'images') . '/' . $path 
+	$buffer .= '<img src="images/' . $field->fieldparams->get('directory', '/') . '/' . $path
 			. '" class="' . $field->fieldparams->get('image_class') . '"/>';
 }
 

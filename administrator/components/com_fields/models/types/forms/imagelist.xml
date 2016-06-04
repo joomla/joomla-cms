@@ -2,10 +2,12 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="directory" type="text" default="images" class="input-xxlarge"
-				required="true"
+			<field name="directory" type="folderlist" directory="images" class="input-xxlarge"
+				required="true" hide_none="true" hide_default="true" recursive="true" default="/"
 				label="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_LABEL"
-				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC" />
+				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC">
+				<option value="/">/</option>
+			</field>
 			<field name="multiple" type="radio" class="btn-group" default="0"
 				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC">
 				<option value="1">JYES</option>
