@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Contact: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class CategoryManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                    = $this->doAdminLogin();
 		$this->categoryManagerPage = $cpPage->clickMenuByUrl('com_categories&extension=com_contact', 'CategoryManagerPage');
 	}
 

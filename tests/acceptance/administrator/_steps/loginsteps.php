@@ -1,6 +1,7 @@
 <?php
 
 namespace AcceptanceTester;
+
 /**
  * Class LoginSteps
  *
@@ -25,6 +26,6 @@ class LoginSteps extends \AcceptanceTester
 		$I->fillField(\AdministratorLoginPage::$elements['username'], $user);
 		$I->fillField(\AdministratorLoginPage::$elements['password'], $password);
 		$I->click('Log in');
-		$I->waitForText('Control Panel',10,'H1');
+		$I->waitForText('Control Panel', 10, 'H1');
 	}
 }

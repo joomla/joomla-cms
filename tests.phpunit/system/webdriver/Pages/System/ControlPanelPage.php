@@ -7,11 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -19,27 +14,26 @@ use SeleniumClient\WebElement;
  */
 class ControlPanelPage extends AdminPage
 {
-	protected $waitForXpath = "//h1[contains(., 'Control Panel')]";
-	protected $url = 'administrator/index.php';
-
 	/**
 	 *
 	 * @var  array  Array of Control Panel icon text and links
 	 */
 	public $expectedIconArray = array(
-			'Add New Article' => 'administrator/index.php?option=com_content&task=article.add',
-			'Article Manager' => 'administrator/index.php?option=com_content',
-			'Category Manager' => 'administrator/index.php?option=com_categories&extension=com_content',
-			'Media Manager' => 'administrator/index.php?option=com_media',
-			'Menu Manager' => 'administrator/index.php?option=com_menus',
-			'User Manager' => 'administrator/index.php?option=com_users',
-			'Module Manager' => 'administrator/index.php?option=com_modules',
-			'User Manager' => 'administrator/index.php?option=com_users',
-			'Global Configuration' => 'administrator/index.php?option=com_config',
-			'Template Manager' => 'administrator/index.php?option=com_templates',
-			'Language Manager' => 'administrator/index.php?option=com_languages',
-			'Install Extensions' => 'administrator/index.php?option=com_installer',
+		'Add New Article'      => 'administrator/index.php?option=com_content&task=article.add',
+		'Article Manager'      => 'administrator/index.php?option=com_content',
+		'Category Manager'     => 'administrator/index.php?option=com_categories&extension=com_content',
+		'Media Manager'        => 'administrator/index.php?option=com_media',
+		'Menu Manager'         => 'administrator/index.php?option=com_menus',
+		'User Manager'         => 'administrator/index.php?option=com_users',
+		'Module Manager'       => 'administrator/index.php?option=com_modules',
+		'User Manager'         => 'administrator/index.php?option=com_users',
+		'Global Configuration' => 'administrator/index.php?option=com_config',
+		'Template Manager'     => 'administrator/index.php?option=com_templates',
+		'Language Manager'     => 'administrator/index.php?option=com_languages',
+		'Install Extensions'   => 'administrator/index.php?option=com_installer',
 	);
+	protected $waitForXpath = "//h1[contains(., 'Control Panel')]";
+	protected $url = 'administrator/index.php';
 
 	/**
 	 * Gets information about all control panel icons on the screen
@@ -49,15 +43,16 @@ class ControlPanelPage extends AdminPage
 	public function getControlPanelIcons()
 	{
 		$container = $this->driver->findElement(By::xPath("//div[contains(@class, 'quick-icons')]"));
-		$elements = $container->findElements(By::tagName('a'));
-		$return = array();
+		$elements  = $container->findElements(By::tagName('a'));
+		$return    = array();
 		foreach ($elements as $element)
 		{
-			$object = new stdClass();
+			$object       = new stdClass();
 			$object->text = $element->getText();
 			$object->href = $element->getAttribute('href');
-			$return[] = $object;
+			$return[]     = $object;
 		}
+
 		return $return;
 	}
 
@@ -69,13 +64,12 @@ class ControlPanelPage extends AdminPage
 	public function getModuleTitles()
 	{
 		$container = $this->driver->findElement(By::Id('panel-sliders'));
-		$elements = $container->findElements(By::tagName('h3'));
-		$return = array();
+		$elements  = $container->findElements(By::tagName('h3'));
+		$return    = array();
 		foreach ($elements as $element)
 		{
-			$object = new stdClass();
+			$object       = new stdClass();
 			$object->text = $element->getText();
-
 		}
 	}
 

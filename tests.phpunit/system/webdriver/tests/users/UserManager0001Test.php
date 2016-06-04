@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Control panel.
  *
@@ -25,7 +19,6 @@ use SeleniumClient\DesiredCapabilities;
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       Joomla 3.3
  */
-
 class UserManager0001Test extends JoomlaWebdriverTestCase
 {
 	/**
@@ -42,7 +35,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                = $this->doAdminLogin();
 		$this->userManagerPage = $cpPage->clickMenu('User Manager', 'UserManagerPage');
 	}
 
@@ -85,7 +78,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->userManagerPage->clickButton('toolbar-new');
 		$userEditPage = $this->getPageObject('UserEditPage');
-		$textArray = $userEditPage->getTabIds();
+		$textArray    = $userEditPage->getTabIds();
 		$this->assertEquals($userEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$userEditPage->clickButton('toolbar-cancel');
 		$this->userManagerPage = $this->getPageObject('UserManagerPage');
@@ -137,12 +130,12 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addUser_WithGivenFields_UserAdded()
 	{
-		$salt = rand();
+		$salt     = rand();
 		$userName = 'Test User' . $salt;
-		$login = 'user' . $salt;
+		$login    = 'user' . $salt;
 		$password = 'password' . $salt;
-		$email = 'myemail' . $salt . '@test.com';
-		$groups = array('Public', 'Manager');
+		$email    = 'myemail' . $salt . '@test.com';
+		$groups   = array('Public', 'Manager');
 		$this->assertFalse($this->userManagerPage->getRowNumber($userName), 'Test user should not be present');
 		$this->userManagerPage->addUser($userName, $login, $password, $email, $groups);
 		$message = $this->userManagerPage->getAlertMessage();
@@ -166,16 +159,18 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editUser_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
+		$salt     = rand();
 		$userName = 'User' . $salt;
-		$login = 'user' . $salt;
+		$login    = 'user' . $salt;
 		$password = 'password' . $salt;
-		$email = 'myemail' . $salt . '@test.com';
-		$groups = array('Manager', 'Registered');
+		$email    = 'myemail' . $salt . '@test.com';
+		$groups   = array('Manager', 'Registered');
 		$this->assertFalse($this->userManagerPage->getRowNumber($userName), 'Test user should not be present');
 		$this->userManagerPage->addUser($userName, $login, $password, $email, $groups, array('Time Zone' => 'Vancouver'));
 		$newGroups = array('Administrator', 'Author', 'Guest');
-		$this->userManagerPage->editUser($userName, array('Email' => 'newemail@test.com', 'Time Zone' => 'Toronto'), $newGroups);
+		$this->userManagerPage->editUser($userName, array('Email'     => 'newemail@test.com',
+		                                                  'Time Zone' => 'Toronto'
+		), $newGroups);
 		$rowText = $this->userManagerPage->getRowText($userName);
 		$this->assertTrue(strpos($rowText, 'newemail@test.com') > 0, 'Row should contain new email');
 		$actualGroups = $this->userManagerPage->getGroups($userName);
@@ -183,7 +178,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		sort($actualGroups);
 		$this->assertEquals($newGroups, $actualGroups, 'New groups should be assigned');
 		$values = $this->userManagerPage->getFieldValues('UserEditPage', $userName, array('Email', 'Time Zone'));
-		$this->assertEquals(array('newemail@test.com', 'Toronto' ), $values, 'Actual values should match expected');
+		$this->assertEquals(array('newemail@test.com', 'Toronto'), $values, 'Actual values should match expected');
 		$this->userManagerPage->searchFor();
 		$this->userManagerPage->delete($userName);
 		$this->assertFalse($this->userManagerPage->getRowNumber($userName) > 0, 'Test User should not be present');
@@ -198,7 +193,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function changeUserState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
-		$salt = rand();
+		$salt     = rand();
 		$userName = 'Test User ' . $salt;
 		$this->userManagerPage->addUser($userName);
 		$state = $this->userManagerPage->getState($userName);

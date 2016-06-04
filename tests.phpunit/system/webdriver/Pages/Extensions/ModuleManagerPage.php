@@ -7,11 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -20,88 +15,83 @@ use SeleniumClient\WebElement;
  */
 class ModuleManagerPage extends AdminManagerPage
 {
-	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_modules']";
-
-	protected $url = 'administrator/index.php?option=com_modules';
-
 	public $filters = array(
-			'Site' => 'filter_client_id',
-			'Status' => 'filter_state',
-			'Position' => 'filter_position',
-			'Type' => 'filter_module',
-			'Access' => 'filter_access',
-			'Language' => 'filter_language',
-			);
-
-	public $toolbar = array (
-			'New' => 'toolbar-new',
-			'Edit' => 'toolbar-edit',
-			'Duplicate' => 'toolbar-copy',
-			'Publish' => 'toolbar-publish',
-			'Unpublish' => 'toolbar-unpublish',
-			'Check In' => 'toolbar-checkin',
-			'Trash' => 'toolbar-trash',
-			'Empty Trash' => 'toolbar-delete',
-			'Batch' => 'toolbar-batch',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			);
-
-	public $submenu = array (
-			'option=com_modules&filter_client_id=0',
-			'option=com_modules&filter_client_id=1',
-			);
-
-	public $moduleTypes = array(
-			array('client' => 'site', 'name' => 'Articles - Archived'),
-			array('client' => 'site', 'name' => 'Articles - Categories'),
-			array('client' => 'site', 'name' => 'Articles - Category'),
-			array('client' => 'site', 'name' => 'Articles - Latest'),
-			array('client' => 'site', 'name' => 'Articles - Most Read'),
-			array('client' => 'site', 'name' => 'Articles - Newsflash'),
-			array('client' => 'site', 'name' => 'Articles - Related'),
-			array('client' => 'site', 'name' => 'Banners'),
-			array('client' => 'site', 'name' => 'Breadcrumbs'),
-			array('client' => 'site', 'name' => 'Custom HTML'),
-			array('client' => 'site', 'name' => 'Feed Display'),
-			array('client' => 'site', 'name' => 'Footer'),
-			array('client' => 'site', 'name' => 'Language Switcher'),
-			array('client' => 'site', 'name' => 'Latest Users'),
-			array('client' => 'site', 'name' => 'Login'),
-			array('client' => 'site', 'name' => 'Menu'),
-			array('client' => 'site', 'name' => 'Random Image'),
-			array('client' => 'site', 'name' => 'Search'),
-			array('client' => 'site', 'name' => 'Smart Search'),
-			array('client' => 'site', 'name' => 'Statistics'),
-			array('client' => 'site', 'name' => 'Syndication Feeds'),
-			array('client' => 'site', 'name' => 'Tags - Popular'),
-			array('client' => 'site', 'name' => 'Tags - Similar'),
-			array('client' => 'site', 'name' => 'Who\'s Online'),
-			array('client' => 'site', 'name' => 'Wrapper'),
-			array('client' => 'administrator', 'name' => 'Admin Sub-Menu'),
-			array('client' => 'administrator', 'name' => 'Administrator Menu'),
-			array('client' => 'administrator', 'name' => 'Articles - Latest'),
-			array('client' => 'administrator', 'name' => 'Custom HTML'),
-			array('client' => 'administrator', 'name' => 'Feed Display'),
-			array('client' => 'administrator', 'name' => 'Joomla! Version Information'),
-			array('client' => 'administrator', 'name' => 'Logged-in Users'),
-			array('client' => 'administrator', 'name' => 'Login Form'),
-			array('client' => 'administrator', 'name' => 'Multilingual Status'),
-			array('client' => 'administrator', 'name' => 'Popular Articles'),
-			array('client' => 'administrator', 'name' => 'Quick Icons'),
-			array('client' => 'administrator', 'name' => 'Statistics'),
-			array('client' => 'administrator', 'name' => 'Title'),
-			array('client' => 'administrator', 'name' => 'Toolbar'),
-			array('client' => 'administrator', 'name' => 'User Status'),
+		'Site'     => 'filter_client_id',
+		'Status'   => 'filter_state',
+		'Position' => 'filter_position',
+		'Type'     => 'filter_module',
+		'Access'   => 'filter_access',
+		'Language' => 'filter_language',
 	);
+	public $toolbar = array(
+		'New'         => 'toolbar-new',
+		'Edit'        => 'toolbar-edit',
+		'Duplicate'   => 'toolbar-copy',
+		'Publish'     => 'toolbar-publish',
+		'Unpublish'   => 'toolbar-unpublish',
+		'Check In'    => 'toolbar-checkin',
+		'Trash'       => 'toolbar-trash',
+		'Empty Trash' => 'toolbar-delete',
+		'Batch'       => 'toolbar-batch',
+		'Options'     => 'toolbar-options',
+		'Help'        => 'toolbar-help',
+	);
+	public $submenu = array(
+		'option=com_modules&filter_client_id=0',
+		'option=com_modules&filter_client_id=1',
+	);
+	public $moduleTypes = array(
+		array('client' => 'site', 'name' => 'Articles - Archived'),
+		array('client' => 'site', 'name' => 'Articles - Categories'),
+		array('client' => 'site', 'name' => 'Articles - Category'),
+		array('client' => 'site', 'name' => 'Articles - Latest'),
+		array('client' => 'site', 'name' => 'Articles - Most Read'),
+		array('client' => 'site', 'name' => 'Articles - Newsflash'),
+		array('client' => 'site', 'name' => 'Articles - Related'),
+		array('client' => 'site', 'name' => 'Banners'),
+		array('client' => 'site', 'name' => 'Breadcrumbs'),
+		array('client' => 'site', 'name' => 'Custom HTML'),
+		array('client' => 'site', 'name' => 'Feed Display'),
+		array('client' => 'site', 'name' => 'Footer'),
+		array('client' => 'site', 'name' => 'Language Switcher'),
+		array('client' => 'site', 'name' => 'Latest Users'),
+		array('client' => 'site', 'name' => 'Login'),
+		array('client' => 'site', 'name' => 'Menu'),
+		array('client' => 'site', 'name' => 'Random Image'),
+		array('client' => 'site', 'name' => 'Search'),
+		array('client' => 'site', 'name' => 'Smart Search'),
+		array('client' => 'site', 'name' => 'Statistics'),
+		array('client' => 'site', 'name' => 'Syndication Feeds'),
+		array('client' => 'site', 'name' => 'Tags - Popular'),
+		array('client' => 'site', 'name' => 'Tags - Similar'),
+		array('client' => 'site', 'name' => 'Who\'s Online'),
+		array('client' => 'site', 'name' => 'Wrapper'),
+		array('client' => 'administrator', 'name' => 'Admin Sub-Menu'),
+		array('client' => 'administrator', 'name' => 'Administrator Menu'),
+		array('client' => 'administrator', 'name' => 'Articles - Latest'),
+		array('client' => 'administrator', 'name' => 'Custom HTML'),
+		array('client' => 'administrator', 'name' => 'Feed Display'),
+		array('client' => 'administrator', 'name' => 'Joomla! Version Information'),
+		array('client' => 'administrator', 'name' => 'Logged-in Users'),
+		array('client' => 'administrator', 'name' => 'Login Form'),
+		array('client' => 'administrator', 'name' => 'Multilingual Status'),
+		array('client' => 'administrator', 'name' => 'Popular Articles'),
+		array('client' => 'administrator', 'name' => 'Quick Icons'),
+		array('client' => 'administrator', 'name' => 'Statistics'),
+		array('client' => 'administrator', 'name' => 'Title'),
+		array('client' => 'administrator', 'name' => 'Toolbar'),
+		array('client' => 'administrator', 'name' => 'User Status'),
+	);
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_modules']";
+	protected $url = 'administrator/index.php?option=com_modules';
 
 	/**
 	 * functioon to add a module
 	 *
-	 * @param   string  $title         name of the module
-	 * @param   string  $client        client of the module
-	 * @param   string  $type          type of the module
-	 * @param   null    $otherFields   values of other input fields
+	 * @param   string $title       name of the module
+	 * @param   string $client      client of the module
+	 * @param   string $type        type of the module
+	 * @param   null   $otherFields values of other input fields
 	 *
 	 * @return void
 	 */
@@ -125,8 +115,8 @@ class ModuleManagerPage extends AdminManagerPage
 	/**
 	 * function to change the state of the module
 	 *
-	 * @param   string  $name      name of the module
-	 * @param   string  $state     state of the module
+	 * @param   string $name  name of the module
+	 * @param   string $state state of the module
 	 *
 	 * @return void
 	 */
@@ -162,15 +152,16 @@ class ModuleManagerPage extends AdminManagerPage
 	/**
 	 * Gets the modules field values. In turn calls getFieldValues of AdminManagerPage after selecting module client.
 	 *
-	 * @param   string  $title      name of the module
-	 * @param   string  $client     client of the module
-	 * @param   array   $fieldNames values of the input fields
+	 * @param   string $title      name of the module
+	 * @param   string $client     client of the module
+	 * @param   array  $fieldNames values of the input fields
 	 *
 	 * @return array
 	 */
 	public function getModuleFieldValues($title, $client, $fieldNames = array())
 	{
 		$this->setFilter('filter_client_id', $client);
+
 		return $this->getFieldValues('ModuleEditPage', $title, $fieldNames);
 	}
 
@@ -181,7 +172,7 @@ class ModuleManagerPage extends AdminManagerPage
 	 */
 	public function getModuleTypes()
 	{
-		$result = array();
+		$result  = array();
 		$clients = array('Site', 'Administrator');
 
 		foreach ($clients as $client)
@@ -189,7 +180,7 @@ class ModuleManagerPage extends AdminManagerPage
 			$this->setFilter('filter_client_id', $client);
 			$this->clickButton('toolbar-new');
 			$this->driver->waitForElementUntilIsPresent(By::xPath("//h2[contains(., 'Select a Module Type')]"));
-			$el = $this->driver->findElement(By::id('new-modules-list'));
+			$el             = $this->driver->findElement(By::id('new-modules-list'));
 			$moduleElements = $el->findElements(By::xPath("//a/strong"));
 
 			foreach ($moduleElements as $element)
@@ -207,7 +198,7 @@ class ModuleManagerPage extends AdminManagerPage
 	/**
 	 * function to get the state of the module
 	 *
-	 * @param   string  $title  name of the module
+	 * @param   string $title name of the module
 	 *
 	 * @return bool|string
 	 */
@@ -215,7 +206,8 @@ class ModuleManagerPage extends AdminManagerPage
 	{
 		$result = false;
 		$this->searchFor($title);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr//a[contains(@onclick, 'listItemTask')]"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr//a[contains(@onclick, 'listItemTask')]"))
+		                     ->getAttribute(@onclick);
 
 		if (strpos($text, 'modules.publish') > 0)
 		{

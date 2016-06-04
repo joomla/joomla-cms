@@ -18,72 +18,122 @@ namespace SeleniumClient;
 class By
 {
 	private $_strategy = "";
-	public function getStrategy() { return $this->_strategy; }
-	
 	private $_selectorValue = "";
-	public function getSelectorValue() { return $this->_selectorValue; }
-	
+
+	function __construct($strategy, $selectorValue)
+	{
+		$this->_strategy      = $strategy;
+		$this->_selectorValue = $selectorValue;
+	}
+
 	/**
 	 * Locate by element's css class name
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function className($selectorValue) { return new By("class name", $selectorValue); }
-	
+	public static function className($selectorValue)
+	{
+		return new By("class name", $selectorValue);
+	}
+
 	/**
 	 * Locate by element's css selector path
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function cssSelector($selectorValue) { return new By("css selector", $selectorValue); }
-	
+	public static function cssSelector($selectorValue)
+	{
+		return new By("css selector", $selectorValue);
+	}
+
 	/**
 	 * Locate by element's id
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function id($selectorValue) { return new By("id", $selectorValue); }
-	
+	public static function id($selectorValue)
+	{
+		return new By("id", $selectorValue);
+	}
+
 	/**
 	 * Locate by element's name
+	 *
 	 * @param unknown_type $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function name($selectorValue) { return new By("name", $selectorValue); }
-	
+	public static function name($selectorValue)
+	{
+		return new By("name", $selectorValue);
+	}
+
 	/**
 	 * Locate by element's link text
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function linkText($selectorValue) { return new By("link text", $selectorValue); }
-	
+	public static function linkText($selectorValue)
+	{
+		return new By("link text", $selectorValue);
+	}
+
 	/**
 	 * Locate by part of element's link text
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function partialLinkText($selectorValue) { return new By("partial link text", $selectorValue); }
-	
+	public static function partialLinkText($selectorValue)
+	{
+		return new By("partial link text", $selectorValue);
+	}
+
 	/**
 	 * Locate by element's tag name
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function tagName($selectorValue) { return new By("tag name", $selectorValue); }
-	
+	public static function tagName($selectorValue)
+	{
+		return new By("tag name", $selectorValue);
+	}
+
 	/**
 	 * Locate by element's xPath
+	 *
 	 * @param String $selectorValue
+	 *
 	 * @return \SeleniumClient\By
 	 */
-	public static function xPath($selectorValue) { return new By("xpath", $selectorValue); }
-
-	public function __toString() { return "By strategy: '" . $this->_strategy . "', strategy factor '" .  $this->_selectorValue."'"; }
-
-	function __construct ($strategy, $selectorValue)
+	public static function xPath($selectorValue)
 	{
-		$this->_strategy = $strategy;
-		$this->_selectorValue = $selectorValue;
+		return new By("xpath", $selectorValue);
+	}
+
+	public function getStrategy()
+	{
+		return $this->_strategy;
+	}
+
+	public function getSelectorValue()
+	{
+		return $this->_selectorValue;
+	}
+
+	public function __toString()
+	{
+		return "By strategy: '" . $this->_strategy . "', strategy factor '" . $this->_selectorValue . "'";
 	}
 }

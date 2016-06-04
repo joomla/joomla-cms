@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Tags: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage               = $this->doAdminLogin();
 		$this->tagManagerPage = $cpPage->clickMenu('Tags', 'TagManagerPage');
 	}
 
@@ -109,7 +103,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
-		$textArray = $tagEditPage->getTabIds();
+		$textArray   = $tagEditPage->getTabIds();
 
 		// Keep the following line commented to make it easy to generate values for arrays as fields change.
 
@@ -129,7 +123,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addTag_WithFieldDefaults_TagAdded()
 	{
-		$salt = rand();
+		$salt    = rand();
 		$tagName = 'Tag' . $salt;
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 		$this->tagManagerPage->addTag($tagName);
@@ -151,11 +145,11 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		// Other than the Default Value
 
-		$salt = rand();
+		$salt    = rand();
 		$tagName = 'Tag' . $salt;
 		$caption = 'Sample' . $salt;
-		$alt = 'alt' . $salt;
-		$float = 'Right';
+		$alt     = 'alt' . $salt;
+		$float   = 'Right';
 
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 		$this->tagManagerPage->addTag($tagName, $caption, $alt, $float);
@@ -177,11 +171,11 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editTag_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
+		$salt    = rand();
 		$tagName = 'Tag' . $salt;
 		$Caption = 'Caption' . $salt;
-		$alt = 'alt' . $salt;
-		$float = 'Right';
+		$alt     = 'alt' . $salt;
+		$float   = 'Right';
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 		$this->tagManagerPage->addTag($tagName, $Caption, $alt, $float);
 		$this->tagManagerPage->editTag($tagName, array('Caption' => 'new_sample_Caption', 'Alt' => 'Sample_Alt'));

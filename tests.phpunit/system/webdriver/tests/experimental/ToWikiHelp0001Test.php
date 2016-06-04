@@ -2,12 +2,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 class WikihelpTest extends JoomlaWebdriverTestCase
 {
 	/**
@@ -19,7 +13,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage       = $this->doAdminLogin();
 		$this->gcPage = $cpPage->clickMenuByUrl('com_config', 'GlobalConfigurationPage');
 	}
 
@@ -43,6 +37,5 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 			$this->gcPage->selectTab($tab);
 			$this->helpScreenshot('test-' . $tab . '.png', $this->cfg->baseURI . "/tests.phpunit/system/tmp");
 		}
-
 	}
 }

@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Redirect: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class RedirectManager0002Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                    = $this->doAdminLogin();
 		$this->redirectManagerPage = $cpPage->clickMenu('Redirect', 'RedirectManagerPage');
 	}
 
@@ -68,7 +62,7 @@ class RedirectManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
 	{
-		$actualIds = $this->redirectManagerPage->getFilters();
+		$actualIds   = $this->redirectManagerPage->getFilters();
 		$expectedIds = array_values($this->redirectManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
@@ -82,7 +76,7 @@ class RedirectManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
-		$salt = rand();
+		$salt    = rand();
 		$srcName = 'administrator/index.php/dummysrc' . $salt;
 		$this->redirectManagerPage->addRedirect($srcName);
 		$message = $this->redirectManagerPage->getAlertMessage();
@@ -104,7 +98,7 @@ class RedirectManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_TestFilters_ShouldFilterRedirect()
 	{
-		$salt = rand();
+		$salt      = rand();
 		$srcName_1 = 'administrator/index.php/dummysrc1' . $salt;
 		$srcName_2 = 'administrator/index.php/dummysrc2' . $salt;
 
@@ -144,7 +138,7 @@ class RedirectManager0002Test extends JoomlaWebdriverTestCase
 
 	public function setFilter_TestFilters_ShouldFilterTags2()
 	{
-		$salt = rand();
+		$salt      = rand();
 		$srcName_1 = 'administrator/index.php/dummysrc1' . $salt;
 		$srcName_2 = 'administrator/index.php/dummysrc2' . $salt;
 

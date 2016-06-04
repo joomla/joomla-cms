@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -25,13 +20,37 @@ use SeleniumClient\WebElement;
 class TemplateManagerPage extends AdminManagerPage
 {
 	/**
+	 * Array of filter id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $filters = array(
+		'Select Template' => 'filter_template',
+		'Select Location' => 'filter_client_id',
+	);
+	/**
+	 * Array of toolbar id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $toolbar = array(
+		'Make Default' => 'toolbar-star',
+		'Edit'         => 'toolbar-edit',
+		'Duplicate'    => 'toolbar-copy',
+		'Delete'       => 'toolbar-delete',
+		'Options'      => 'toolbar-options',
+		'Help'         => 'toolbar-help',
+		'Save as Copy' => 'toolbar-save-copy',
+	);
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
 	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_templates']";
-
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -41,35 +60,9 @@ class TemplateManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_templates';
 
 	/**
-	 * Array of filter id values for this page
-	 *
-	 * @var    array
-	 * @since  3.0
-	 */
-	public $filters = array(
-			'Select Template' => 'filter_template',
-			'Select Location' => 'filter_client_id',
-			);
-
-	/**
-	 * Array of toolbar id values for this page
-	 *
-	 * @var    array
-	 * @since  3.0
-	 */
-	public $toolbar = array (
-			'Make Default' => 'toolbar-star',
-			'Edit' => 'toolbar-edit',
-			'Duplicate' => 'toolbar-copy',
-			'Delete' => 'toolbar-delete',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			'Save as Copy' => 'toolbar-save-copy',
-			);
-
-	/**
 	 * Copy Style from the Template Manager Screen
-	 * @param string   $name	  Template Name whose Copy is to be made
+	 *
+	 * @param string $name Template Name whose Copy is to be made
 	 *
 	 * @return  void
 	 */
@@ -77,7 +70,7 @@ class TemplateManagerPage extends AdminManagerPage
 	{
 		$this->searchFor($name);
 		$row_number = $this->getRowNumber($name) - 1;
-		$el = $this->driver->findElement(By::xPath(".//input[@id='cb" . $row_number . "']"));
+		$el         = $this->driver->findElement(By::xPath(".//input[@id='cb" . $row_number . "']"));
 		$el->click();
 		$this->clickButton('toolbar-copy');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
@@ -86,7 +79,7 @@ class TemplateManagerPage extends AdminManagerPage
 	/**
 	 * function to delete style
 	 *
-	 * @param   string   $name  stores name of the style
+	 * @param   string $name stores name of the style
 	 *
 	 * @return void
 	 */
@@ -94,7 +87,7 @@ class TemplateManagerPage extends AdminManagerPage
 	{
 		$this->searchFor($name);
 		$row_number = $this->getRowNumber($name) - 1;
-		$el = $this->driver->findElement(By::xPath(".//input[@id='cb" . $row_number . "']"));
+		$el         = $this->driver->findElement(By::xPath(".//input[@id='cb" . $row_number . "']"));
 		$el->click();
 		$this->clickButton('toolbar-delete');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
@@ -103,8 +96,8 @@ class TemplateManagerPage extends AdminManagerPage
 	/**
 	 * function to edit style
 	 *
-	 * @param   string    $name     stores name of the style
-	 * @param   array     $fields   stores the value of the input fields
+	 * @param   string $name   stores name of the style
+	 * @param   array  $fields stores the value of the input fields
 	 *
 	 * @return void
 	 *

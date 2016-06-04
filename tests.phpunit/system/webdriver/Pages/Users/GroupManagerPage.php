@@ -6,12 +6,6 @@
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -20,41 +14,37 @@ use SeleniumClient\WebElement;
  */
 class GroupManagerPage extends AdminManagerPage
 {
-	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_users&view=groups']";
-
-	protected $url = 'administrator/index.php?option=com_users&view=groups';
-
 	/**
 	 *
 	 * @var GroupManagerPage
 	 */
 	public $groupManagerPage = null;
-
-	public $toolbar = array (
-			'toolbar-new',
-			'toolbar-edit',
-			'toolbar-delete',
-			'toolbar-options',
-			'toolbar-help'
-			);
-
-	public $submenu = array (
-			'option=com_users&view=users',
-			'option=com_users&view=groups',
-			'option=com_users&view=levels',
-			'option=com_users&view=notes',
-			'option=com_categories&extension=com_users'
-			);
+	public $toolbar = array(
+		'toolbar-new',
+		'toolbar-edit',
+		'toolbar-delete',
+		'toolbar-options',
+		'toolbar-help'
+	);
+	public $submenu = array(
+		'option=com_users&view=users',
+		'option=com_users&view=groups',
+		'option=com_users&view=levels',
+		'option=com_users&view=notes',
+		'option=com_categories&extension=com_users'
+	);
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_users&view=groups']";
+	protected $url = 'administrator/index.php?option=com_users&view=groups';
 
 	/**
 	 * function to add a group
 	 *
-	 * @param   string  $name    title of group
-	 * @param   string  $parent  parent of group
+	 * @param   string $name   title of group
+	 * @param   string $parent parent of group
 	 *
 	 * @return void
 	 */
-	public function addGroup($name='Test Group', $parent='Public')
+	public function addGroup($name = 'Test Group', $parent = 'Public')
 	{
 		$this->clickButton('toolbar-new');
 		$editGroupPage = $this->test->getPageObject('GroupEditPage');
@@ -66,8 +56,8 @@ class GroupManagerPage extends AdminManagerPage
 	/**
 	 * function to edit group
 	 *
-	 * @param   String  $name    title of the group to b edited
-	 * @param   Array   $fields  Input fields
+	 * @param   String $name   title of the group to b edited
+	 * @param   Array  $fields Input fields
 	 *
 	 * @return void
 	 */

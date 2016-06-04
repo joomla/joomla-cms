@@ -15,22 +15,25 @@
 
 namespace SeleniumClient\Http;
 
-abstract class HttpFactory{
-	
+abstract class HttpFactory
+{
+
 	const PRODUCTIONMODE = "PRODUCTION";
-	const TESTINGMODE = "TESTING";	
-	
+	const TESTINGMODE = "TESTING";
+
 	public static function getClient($environment)
 	{
-		switch(strtoupper($environment))
-		{			
+		switch (strtoupper($environment))
+		{
 			case HttpFactory::PRODUCTIONMODE :
 				require_once("SeleniumAdapter.php");
+
 				return new SeleniumAdapter();
 				break;
-			case HttpFactory::TESTINGMODE:			
+			case HttpFactory::TESTINGMODE:
 				require_once("../../SeleniumClientTest/HttpClientMock.php");
-				return new \HttpClientMock();			
+
+				return new \HttpClientMock();
 				break;
 		}
 	}

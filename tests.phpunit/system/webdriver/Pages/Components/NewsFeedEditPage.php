@@ -1,12 +1,5 @@
 <?php
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
-
 /**
  * @package     Joomla.Test
  * @subpackage  Webdriver
@@ -24,22 +17,6 @@ use SeleniumClient\WebElement;
  */
 class NewsFeedEditPage extends AdminEditPage
 {
-  /**
-	 * XPath string used to uniquely identify this page
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $waitForXpath =  "//form[@id='newsfeed-form']";
-
-	/**
-	 * URL used to uniquely identify this page
-	 *
-	 * @var    string
-	 * @since  3.0
-	 */
-	protected $url = 'administrator/index.php?option=com_newsfeeds&view=newsfeed&layout=edit';
-
 	/**
 	 * Array of tabs present on this page
 	 *
@@ -47,14 +24,13 @@ class NewsFeedEditPage extends AdminEditPage
 	 * @since  3.0
 	 */
 	public $tabs = array('details', 'images', 'publishing', 'attrib-jbasic');
-
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
 	 *
 	 * @var array
 	 * @since 3.0
 	 */
-	public $inputFields = array (
+	public $inputFields = array(
 		array('label' => 'Title', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'header'),
 		array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'header'),
 		array('label' => 'Link', 'id' => 'jform_link', 'type' => 'input', 'tab' => 'details'),
@@ -87,16 +63,64 @@ class NewsFeedEditPage extends AdminEditPage
 		array('label' => 'External Reference', 'id' => 'jform_xreference', 'type' => 'input', 'tab' => 'publishing'),
 		array('label' => 'Robots', 'id' => 'jform_metadata_robots', 'type' => 'select', 'tab' => 'publishing'),
 		array('label' => 'Content Rights', 'id' => 'jform_metadata_rights', 'type' => 'input', 'tab' => 'publishing'),
-		array('label' => 'Number of Articles', 'id' => 'jform_numarticles', 'type' => 'input', 'tab' => 'attrib-jbasic'),
+		array(
+			'label' => 'Number of Articles',
+			'id'    => 'jform_numarticles',
+			'type'  => 'input',
+			'tab'   => 'attrib-jbasic'
+		),
 		array('label' => 'Cache Time', 'id' => 'jform_cache_time', 'type' => 'input', 'tab' => 'attrib-jbasic'),
 		array('label' => 'Language Direction', 'id' => 'jform_rtl', 'type' => 'select', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Feed Image', 'id' => 'jform_params_show_feed_image', 'type' => 'select', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Feed Description', 'id' => 'jform_params_show_feed_description', 'type' => 'select', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Feed Content', 'id' => 'jform_params_show_item_description', 'type' => 'select', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Characters Count', 'id' => 'jform_params_feed_character_count', 'type' => 'input', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Alternative Layout', 'id' => 'jform_params_newsfeed_layout', 'type' => 'select', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Feed Display Order', 'id' => 'jform_params_feed_display_order', 'type' => 'select', 'tab' => 'attrib-jbasic'),
+		array(
+			'label' => 'Feed Image',
+			'id'    => 'jform_params_show_feed_image',
+			'type'  => 'select',
+			'tab'   => 'attrib-jbasic'
+		),
+		array(
+			'label' => 'Feed Description',
+			'id'    => 'jform_params_show_feed_description',
+			'type'  => 'select',
+			'tab'   => 'attrib-jbasic'
+		),
+		array(
+			'label' => 'Feed Content',
+			'id'    => 'jform_params_show_item_description',
+			'type'  => 'select',
+			'tab'   => 'attrib-jbasic'
+		),
+		array(
+			'label' => 'Characters Count',
+			'id'    => 'jform_params_feed_character_count',
+			'type'  => 'input',
+			'tab'   => 'attrib-jbasic'
+		),
+		array(
+			'label' => 'Alternative Layout',
+			'id'    => 'jform_params_newsfeed_layout',
+			'type'  => 'select',
+			'tab'   => 'attrib-jbasic'
+		),
+		array(
+			'label' => 'Feed Display Order',
+			'id'    => 'jform_params_feed_display_order',
+			'type'  => 'select',
+			'tab'   => 'attrib-jbasic'
+		),
 	);
-
+	/**
+	 * XPath string used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $waitForXpath = "//form[@id='newsfeed-form']";
+	/**
+	 * URL used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $url = 'administrator/index.php?option=com_newsfeeds&view=newsfeed&layout=edit';
 
 }

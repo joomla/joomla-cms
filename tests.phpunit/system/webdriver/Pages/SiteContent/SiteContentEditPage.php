@@ -8,11 +8,6 @@
  */
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -50,13 +45,13 @@ class SiteContentEditPage extends SitePage
 	/**
 	 * Function which changes the articles texts and returns back to the siteContentFeaturedPage after saving the changes
 	 *
-	 * @param   string  $articleText  Stores article text
+	 * @param   string $articleText Stores article text
 	 *
 	 * @return  null
 	 */
 	public function editArticle($articleText)
 	{
-		$d = $this->driver;
+		$d         = $this->driver;
 		$guiEditor = $this->driver->findElement(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"));
 		$guiEditor->click();
 		$d->findElement(By::xPath("//textarea[@id='jform_articletext']"))->clear();

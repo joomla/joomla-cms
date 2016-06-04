@@ -21,7 +21,7 @@ class GlobalconfigurationPage
 	 * @var array
 	 */
 	public static $elements = array(
-	'Error Reporting Dropdown'  => "//div[@id='jform_error_reporting_chzn']/a",
-	'option: Development'       => "//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]",
+		'Error Reporting Dropdown' => "//div[@id='jform_error_reporting_chzn']/a",
+		'option: Development'      => "//div[@id='jform_error_reporting_chzn']/div/ul/li[contains(text(), 'Development')]",
 	);
 }

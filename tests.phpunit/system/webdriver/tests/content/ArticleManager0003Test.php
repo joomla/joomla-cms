@@ -8,12 +8,6 @@
  */
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the Article: Front End and Add/Edit Screens.
  *
@@ -66,12 +60,12 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function SiteArchivedArticle_ChangeToArchived_ArticleArchived()
 	{
-		$salt = rand();
-		$newArticle = 'Test Article ' . $salt;
-		$cfg = new SeleniumConfig;
+		$salt                = rand();
+		$newArticle          = 'Test Article ' . $salt;
+		$cfg                 = new SeleniumConfig;
 		$archivedArticlePath = 'index.php/using-joomla/extensions/components/content-component/archived-articles';
-		$url = $cfg->host . $cfg->path . $archivedArticlePath;
-		$articleManager = 'administrator/index.php?option=com_content';
+		$url                 = $cfg->host . $cfg->path . $archivedArticlePath;
+		$articleManager      = 'administrator/index.php?option=com_content';
 		$this->doAdminLogin();
 		$this->driver->get($cfg->host . $cfg->path . $articleManager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
@@ -80,7 +74,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->changeArticleState($newArticle, 'archived');
 		$this->driver->get($url);
 		$this->archivedArticlePage = $this->getPageObject('SiteArchivedArticlesPage', true, $url);
-		$arrayTitles = $this->archivedArticlePage->getArticleTitles();
+		$arrayTitles               = $this->archivedArticlePage->getArticleTitles();
 		$this->assertTrue(in_array($newArticle, $arrayTitles), 'New article must be present');
 		$this->driver->get($cfg->host . $cfg->path . $articleManager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
@@ -88,7 +82,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->changeArticleState($newArticle, 'published');
 		$this->driver->get($url);
 		$this->archivedArticlePage = $this->getPageObject('SiteArchivedArticlesPage', true, $url);
-		$arrayTitles = $this->archivedArticlePage->getArticleTitles();
+		$arrayTitles               = $this->archivedArticlePage->getArticleTitles();
 		$this->assertFalse(in_array($newArticle, $arrayTitles), 'New article must not be present');
 
 		$this->driver->get($cfg->host . $cfg->path . $articleManager);
@@ -105,18 +99,18 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function frontEndSingleArticleState_ChangeArticleState_ArticleStateChanged()
 	{
-		$salt = rand();
+		$salt        = rand();
 		$articleName = 'Test Article ' . $salt;
-		$cfg = new SeleniumConfig;
-		$urlHome = $this->cfg->host . $this->cfg->path . 'index.php';
-		$homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);
-		$articleUrl = $this->cfg->host . $this->cfg->path . 'index.php/test-article-' . $salt;
+		$cfg         = new SeleniumConfig;
+		$urlHome     = $this->cfg->host . $this->cfg->path . 'index.php';
+		$homePage    = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);
+		$articleUrl  = $this->cfg->host . $this->cfg->path . 'index.php/test-article-' . $salt;
 		$this->doAdminLogin();
 		$articleManager = 'administrator/index.php?option=com_content';
 		$this->driver->get($cfg->host . $cfg->path . $articleManager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->addArticle($articleName, 'Uncategorised', array('text' => '<p>This is a test.</p>'));
-		$articleId = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array('ID'));
+		$articleId  = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array('ID'));
 		$articleUrl = $this->cfg->host . $this->cfg->path . 'index.php/' . $articleId[0] . '-test-article-' . $salt;
 
 		$this->driver->get($articleUrl);
@@ -138,7 +132,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($singleArticlePage->isEditPresent(), 'Edit Icons Must be Present');
 		$this->doSiteLogout();
 
-		$cpPage = $this->doAdminLogin();
+		$cpPage                   = $this->doAdminLogin();
 		$this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 
@@ -174,10 +168,10 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function batchAccessLevel_ChangeBatchAccessLevel_AccessLevelChanged()
 	{
-		$salt = rand();
-		$articleName = 'Test Article ' . $salt;
-		$newAccessLevel = 'Special';
-		$cpPage = $this->doAdminLogin();
+		$salt                     = rand();
+		$articleName              = 'Test Article ' . $salt;
+		$newAccessLevel           = 'Special';
+		$cpPage                   = $this->doAdminLogin();
 		$this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
 		$this->articleManagerPage->addArticle($articleName, 'Uncategorised', array('text' => '<p>This is a test.</p>'));
 
@@ -199,21 +193,21 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function batchCopy_BatchCopyArticle_ArticleCopied()
 	{
-		$salt = rand();
-		$articleName = 'Test Article ' . $salt;
-		$cpPage = $this->doAdminLogin();
+		$salt                     = rand();
+		$articleName              = 'Test Article ' . $salt;
+		$cpPage                   = $this->doAdminLogin();
 		$this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
-		$originalCategory = 'Uncategorised';
+		$originalCategory         = 'Uncategorised';
 		$this->articleManagerPage->addArticle($articleName, $originalCategory, array('text' => '<p>This is a test.</p>'));
 
 		// Category to which we will copy the article using Batch Process
 		$newCategory = 'Park Site';
-		$value = $this->articleManagerPage->getCategoryName($articleName);
+		$value       = $this->articleManagerPage->getCategoryName($articleName);
 		$this->assertEquals($value, 'Category: ' . $originalCategory, 'Article should belong to Original Category');
 		$this->articleManagerPage->doBatchAction($articleName, 'Park', $newCategory, 'copy');
 		$this->articleManagerPage->changeCategoryFilter($newCategory);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
-		$value = $this->articleManagerPage->getCategoryName($articleName);
+		$value                    = $this->articleManagerPage->getCategoryName($articleName);
 		$this->assertEquals($value, 'Category: ' . $newCategory, 'The Article should be copied into the new Category');
 		$this->articleManagerPage->trashAndDelete($articleName);
 		$this->articleManagerPage->changeCategoryFilter();
@@ -237,17 +231,17 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function batchMove_BatchMoveArticle_ArticleMoved()
 	{
-		$cpPage = $this->doAdminLogin();
+		$cpPage                   = $this->doAdminLogin();
 		$this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
-		$originalCategory = 'Uncategorised';
-		$salt = rand();
-		$articleName = 'Test Article ' . $salt;
+		$originalCategory         = 'Uncategorised';
+		$salt                     = rand();
+		$articleName              = 'Test Article ' . $salt;
 		$this->articleManagerPage->addArticle($articleName, $originalCategory, array('text' => '<p>This is a test.</p>'));
 
 		// Category to which we will move the article using Batch Process
 		$newCategory = 'Languages';
-		$value = $this->articleManagerPage->getCategoryName($articleName);
+		$value       = $this->articleManagerPage->getCategoryName($articleName);
 		$this->assertEquals($value, 'Category: ' . $originalCategory, 'Initially new article should be in Uncategorised Category');
 		$this->articleManagerPage->doBatchAction($articleName, 'lang', $newCategory, 'move');
 		$this->articleManagerPage->changeCategoryFilter($newCategory);
@@ -266,11 +260,11 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function frontEndEditArticle_ChangeArticleText_ArticleTextChanged()
 	{
-		$cfg = new SeleniumConfig;
-		$checkingText = '<p>Testing Edit</p>';
+		$cfg            = new SeleniumConfig;
+		$checkingText   = '<p>Testing Edit</p>';
 		$validationText = 'Testing Edit';
-		$salt = rand();
-		$articleName = 'Test Article ' . $salt;
+		$salt           = rand();
+		$articleName    = 'Test Article ' . $salt;
 		$this->doAdminLogin();
 		$articleManager = 'administrator/index.php?option=com_content';
 		$this->driver->get($cfg->host . $cfg->path . $articleManager);
@@ -285,7 +279,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleEditPage = $this->getPageObject('SiteContentEditPage');
 		$this->articleEditPage->editArticle($checkingText);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
-		$articleTexts = $this->siteHomePage->getArticleText();
+		$articleTexts       = $this->siteHomePage->getArticleText();
 		$this->assertTrue(in_array($validationText, $articleTexts), 'Text Must be Present');
 
 		// Delete the Article
@@ -311,8 +305,8 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$categoryManager = 'administrator/index.php?option=com_categories&extension=com_content';
 		$this->driver->get($cfg->host . $cfg->path . $categoryManager);
 
-		$salt = rand();
-		$categoryName = 'category_ABC' . $salt;
+		$salt                      = rand();
+		$categoryName              = 'category_ABC' . $salt;
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName);
@@ -323,8 +317,8 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$articleManager = 'administrator/index.php?option=com_content';
 		$this->driver->get($cfg->host . $cfg->path . $articleManager);
 
-		$articleName = 'article_ABC' . $salt;
-		$category = $categoryName;
+		$articleName              = 'article_ABC' . $salt;
+		$category                 = $categoryName;
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
 		$this->articleManagerPage->addArticle($articleName, $category, array('Featured' => 'Yes'));
@@ -332,24 +326,26 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
 
 		/*confirming if the article is present in front end*/
-		$cfg = new SeleniumConfig;
-		$i = 0;
+		$cfg         = new SeleniumConfig;
+		$i           = 0;
 		$homePageUrl = 'index.php?limitstart=';
 		$this->driver->get($cfg->host . $cfg->path . $homePageUrl . $i);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
-		$arrayTitles = $this->siteHomePage->getArticleTitles();
-		$d = $this->driver;
+		$arrayTitles        = $this->siteHomePage->getArticleTitles();
+		$d                  = $this->driver;
 
-		for ($i = 0;$i <= 4;)
+		for ($i = 0; $i <= 4;)
 		{
 			if (in_array($articleName, $arrayTitles))
+			{
 				break;
+			}
 			else
 			{
 				++$i;
 				$this->driver->get($cfg->host . $cfg->path . $homePageUrl . $i);
 				$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
-				$arrayTitles = $this->siteHomePage->getArticleTitles();
+				$arrayTitles        = $this->siteHomePage->getArticleTitles();
 			}
 		}
 

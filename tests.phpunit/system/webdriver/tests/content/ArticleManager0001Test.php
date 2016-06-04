@@ -10,10 +10,6 @@
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Tags: Add / Edit  Screen.
@@ -42,7 +38,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                   = $this->doAdminLogin();
 		$this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
 	}
 
@@ -81,7 +77,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 
 		foreach ($testElements as $el)
 		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
+			$el->labelText  = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
 		}
 
@@ -115,8 +111,8 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addArticle_WithFieldDefaults_ArticleAdded()
 	{
-		$salt = rand();
-		$articleName = 'ABC' . $salt;
+		$salt                     = rand();
+		$articleName              = 'ABC' . $salt;
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
 		$this->articleManagerPage->addArticle($articleName);
@@ -135,17 +131,23 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addArticle_WithGivenFields_ArticleAdded()
 	{
-		$salt = rand();
-		$articleName = 'ABC' . $salt;
-		$category = 'Joomla!';
-		$expected_category = '- - Joomla!';
+		$salt                     = rand();
+		$articleName              = 'ABC' . $salt;
+		$category                 = 'Joomla!';
+		$expected_category        = '- - Joomla!';
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
 		$this->articleManagerPage->addArticle($articleName, $category);
 		$message = $this->articleManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
-		$values = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array('Title', 'Category'));
-		$this->assertEquals(array($articleName, $expected_category), $values, 'Actual name, category should match expected');
+		$values = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array(
+			'Title',
+			'Category'
+		));
+		$this->assertEquals(array(
+			$articleName,
+			$expected_category
+		), $values, 'Actual name, category should match expected');
 		$this->articleManagerPage->trashAndDelete($articleName);
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test article should not be present');
 	}
@@ -159,16 +161,23 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editArticle_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
-		$articleName = 'ABC' . $salt;
-		$category = 'Joomla!';
-		$caption = 'Testing';
-		$alt_text = 'Alternate Testing';
+		$salt                     = rand();
+		$articleName              = 'ABC' . $salt;
+		$category                 = 'Joomla!';
+		$caption                  = 'Testing';
+		$alt_text                 = 'Alternate Testing';
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Test Article should not be present');
 		$this->articleManagerPage->addArticle($articleName);
-		$this->articleManagerPage->editArticle($articleName, array('Category' => $category, 'Alt text' => $alt_text, 'Caption' => $caption));
-		$values = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array('Caption', 'Alt text'));
+		$this->articleManagerPage->editArticle($articleName, array(
+			'Category' => $category,
+			'Alt text' => $alt_text,
+			'Caption'  => $caption
+		));
+		$values = $this->articleManagerPage->getFieldValues('ArticleEditPage', $articleName, array(
+			'Caption',
+			'Alt text'
+		));
 		$this->assertEquals(array($caption, $alt_text), $values, 'Actual values should match expected');
 		$this->articleManagerPage->trashAndDelete($articleName);
 	}
@@ -203,7 +212,8 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$cfg = new SeleniumConfig;
 		$this->driver->get($cfg->host . $cfg->path);
-		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
+		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))
+		                               ->isDisplayed(), 'Professionals Must be Present');
 		$article_manager = 'administrator/index.php?option=com_content';
 		$this->driver->get($cfg->host . $cfg->path . $article_manager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
@@ -215,7 +225,8 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->changeArticleState('Professionals', 'published');
 		$this->driver->get($cfg->host . $cfg->path);
-		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
+		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))
+		                               ->isDisplayed(), 'Professionals Must be Present');
 	}
 
 	/**

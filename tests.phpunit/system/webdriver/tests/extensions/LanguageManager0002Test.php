@@ -10,10 +10,6 @@
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Language: Add / Edit  Screen.
@@ -42,9 +38,10 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage               = $this->doAdminLogin();
 		$this->tagManagerPage = $cpPage->clickMenu('Language Manager', 'LanguageManagerPage');
-		$this->driver->findElement(By::xPath("//ul/li/a[@href='index.php?option=com_languages&view=languages']"))->click();
+		$this->driver->findElement(By::xPath("//ul/li/a[@href='index.php?option=com_languages&view=languages']"))
+		             ->click();
 	}
 
 	/**
@@ -70,8 +67,8 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
 	{
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
-		$actualIds = $this->languageManagerPage->getFilters();
-		$expectedIds = array_values($this->languageManagerPage->filters);
+		$actualIds                 = $this->languageManagerPage->getFilters();
+		$expectedIds               = array_values($this->languageManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
 
@@ -84,8 +81,8 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
-		$salt = rand();
-		$langName = 'Test Lang' . $salt;
+		$salt                      = rand();
+		$langName                  = 'Test Lang' . $salt;
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->languageManagerPage->addLanguage($langName);
 		$message = $this->languageManagerPage->getAlertMessage();
@@ -109,12 +106,12 @@ class LanguageManager0002Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		/*Other than the Default Value */
-		$langName_1 = 'Test Lang 1';
-		$langName_2 = 'Test Lang 2';
+		$langName_1        = 'Test Lang 1';
+		$langName_2        = 'Test Lang 2';
 		$lang_title_native = 'Sample2' . $salt;
-		$url_code = 'Sample2' . $salt;
-		$image_prefix = 'af';
-		$language_tag = 'Sample2';
+		$url_code          = 'Sample2' . $salt;
+		$image_prefix      = 'af';
+		$language_tag      = 'Sample2';
 
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 

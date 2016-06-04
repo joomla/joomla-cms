@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -24,14 +19,45 @@ use SeleniumClient\WebElement;
  */
 class NewsFeedManagerPage extends AdminManagerPage
 {
-  /**
+	/**
+	 * Array of filter id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $filters = array(
+		'Select Status'   => 'filter_published',
+		'Select Category' => 'filter_category_id',
+		'Select Access'   => 'filter_access',
+		'Select Language' => 'filter_language',
+		'Select Tags'     => 'filter_tag'
+	);
+	/**
+	 * Array of toolbar id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $toolbar = array(
+		'New'         => 'toolbar-new',
+		'Edit'        => 'toolbar-edit',
+		'Publish'     => 'toolbar-publish',
+		'Unpublish'   => 'toolbar-unpublish',
+		'Archive'     => 'toolbar-archive',
+		'Check In'    => 'toolbar-check-in',
+		'Trash'       => 'toolbar-trash',
+		'Empty Trash' => 'toolbar-delete',
+		'Batch'       => 'toolbar-batch',
+		'Options'     => 'toolbar-options',
+		'Help'        => 'toolbar-help',
+	);
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_newsfeeds']";
-
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_newsfeeds']";
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -41,62 +67,34 @@ class NewsFeedManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_newsfeeds';
 
 	/**
-	 * Array of filter id values for this page
-	 *
-	 * @var    array
-	 * @since  3.0
-	 */
-	public $filters = array(
-			'Select Status' => 'filter_published',
-			'Select Category' => 'filter_category_id',
-			'Select Access' => 'filter_access',
-			'Select Language' => 'filter_language',
-			'Select Tags' => 'filter_tag'
-			);
-
-	/**
-	 * Array of toolbar id values for this page
-	 *
-	 * @var    array
-	 * @since  3.0
-	 */
-	public $toolbar = array (
-			'New' => 'toolbar-new',
-			'Edit' => 'toolbar-edit',
-			'Publish' => 'toolbar-publish',
-			'Unpublish' => 'toolbar-unpublish',
-			'Archive' => 'toolbar-archive',
-			'Check In' => 'toolbar-check-in',
-			'Trash' => 'toolbar-trash',
-			'Empty Trash' => 'toolbar-delete',
-			'Batch' => 'toolbar-batch',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			);
-
-	/**
 	 * Add a new NewsFeed item in the  News Feed Manager: Component screen.
 	 *
-	 * @param string    $name           Test Feed Name
+	 * @param string $name        Test Feed Name
 	 *
-	 * @param string    $link			Test URL for the News Feed
+	 * @param string $link        Test URL for the News Feed
 	 *
-	 * @param string 	$category 		Test Feed Category
+	 * @param string $category    Test Feed Category
 	 *
-	 * @param string 	$description	Test Feed description
+	 * @param string $description Test Feed description
 	 *
-	 * @param string 	$caption		Test Feed Image Caption
+	 * @param string $caption     Test Feed Image Caption
 	 *
-	 * @param string 	$alt			Test Feed Image Alt
+	 * @param string $alt         Test Feed Image Alt
 	 *
 	 * @return  NewsFeedManagerPage
 	 */
-	public function addFeed($name='Test Tag', $link='administrator/index.php/dummysrc', $category= 'Sample Data-Newsfeeds', $description='Sample', $caption='',$alt='')
+	public function addFeed($name = 'Test Tag', $link = 'administrator/index.php/dummysrc', $category = 'Sample Data-Newsfeeds', $description = 'Sample', $caption = '', $alt = '')
 	{
 		$new_name = $name;
 		$this->clickButton('toolbar-new');
 		$newsFeedEditPage = $this->test->getPageObject('NewsFeedEditPage');
-		$newsFeedEditPage->setFieldValues(array('Title' => $name, 'Link'=> $link, 'Category'=>$category, 'Description'=>$description, 'Caption'=>$caption, 'Alt text'=>$alt));
+		$newsFeedEditPage->setFieldValues(array('Title'       => $name,
+		                                        'Link'        => $link,
+		                                        'Category'    => $category,
+		                                        'Description' => $description,
+		                                        'Caption'     => $caption,
+		                                        'Alt text'    => $alt
+		));
 		$newsFeedEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('NewsFeedManagerPage');
 	}
@@ -104,8 +102,8 @@ class NewsFeedManagerPage extends AdminManagerPage
 	/**
 	 * Edit a News Feed item in the News Feed Manager: Newsfeed Items screen.
 	 *
-	 * @param string   $name	   Newsfeed Title field
-	 * @param array    $fields     associative array of fields in the form label => value.
+	 * @param string $name   Newsfeed Title field
+	 * @param array  $fields associative array of fields in the form label => value.
 	 *
 	 * @return  void
 	 */
@@ -122,15 +120,15 @@ class NewsFeedManagerPage extends AdminManagerPage
 	/**
 	 * Get state  of a News Feed in the News Feed Manager: News Feed Items screen.
 	 *
-	 * @param string   $name	   News Feed Title field
+	 * @param string $name News Feed Title field
 	 *
 	 * @return  State of the NewsFeed //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
+		$row    = $this->getRowNumber($name);
+		$text   = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'newsfeeds.unpublish') > 0)
 		{
 			$result = 'published';
@@ -139,14 +137,15 @@ class NewsFeedManagerPage extends AdminManagerPage
 		{
 			$result = 'unpublished';
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Change state of a News Feed item in the News Feed Manager: News Feed Items screen.
 	 *
-	 * @param string   $name	   News Feed Title field
-	 * @param string   $state      State of the Feed
+	 * @param string $name  News Feed Title field
+	 * @param string $state State of the Feed
 	 *
 	 * @return  void
 	 */

@@ -23,27 +23,41 @@ class Alert
 	/**
 	 * @param WebDriver $driver
 	 */
-	public function __construct(WebDriver $driver) { $this->_driver = $driver; }
+	public function __construct(WebDriver $driver)
+	{
+		$this->_driver = $driver;
+	}
 
 	#region IAlert Members
 	/**
 	 * Gets the text of the alert.
+	 *
 	 * @return String
 	 */
-	public function getText() { return $this->_driver->getAlertText(); }
+	public function getText()
+	{
+		return $this->_driver->getAlertText();
+	}
 
 	/**
 	 * Dismisses the alert.
 	 */
-	public function dismiss() { $this->_driver->dismissAlert(); }
+	public function dismiss()
+	{
+		$this->_driver->dismissAlert();
+	}
 
 	/**
 	 * Accepts the alert.
 	 */
-	public function accept() { $this->_driver->acceptAlert(); }
+	public function accept()
+	{
+		$this->_driver->acceptAlert();
+	}
 
 	/**
 	 * Sends keys to the alert.
+	 *
 	 * @param String $keysToSend
 	 */
 	public function sendKeys($keysToSend)

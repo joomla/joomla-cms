@@ -25,7 +25,6 @@ if (file_exists('../logs/junit.xml'))
 	}
 }
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,49 +44,58 @@ if (file_exists('../logs/junit.xml'))
 				<a href="http://docs.joomla.org/System_Testing"> System Test</a>
 			</h2>
 		<?php else : ?>
-		<table class="table table-striped table-hover">
-			<thead>
-				<tr>
-					<th>Name</th>
-					<th>Assertions</th>
-					<th>Time</th>
-					<th>Tests</th>
-					<th>Failures</th>
-					<th>Errors</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($xml->xpath('//testsuite') as $testsuite) : ?>
-				<?php
-					$class = '';
-					if ((int)$testsuite->attributes()->failures or (int)$testsuite->attributes()->errors) $class = 'danger';
-					elseif (!(int) $testsuite->attributes()->assertions or !(int) $testsuite->attributes()->tests) $class = 'warning';
-				?>
-				<tr class="<?= $class ?>" ?>
-					<td>
-						<?php echo $testsuite->attributes()->name; ?> <span class="label label-primary"><?php echo $testsuite->attributes()->tests; ?> tests</span>
-					</td>
-					<td>
-						<?php echo $testsuite->attributes()->assertions; ?>
-					</td>
-					<td>
-						<span class="label label-success"><?php echo gmdate('i\m s\s', (int) $testsuite->attributes()->time); ?>
-					</td>
-					<td>
-						<?php foreach ($testsuite->testcase as $testcase) : ?>
-							<?php echo $testcase->attributes()->name; ?><br/>
-						<?php endforeach; ?>
-					</td>
-					<td>
-						<?php echo $testsuite->attributes()->failures; ?>
-					</td>
-					<td>
-						<?php echo $testsuite->attributes()->errors; ?>
-					</td>
-				</tr>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Assertions</th>
+						<th>Time</th>
+						<th>Tests</th>
+						<th>Failures</th>
+						<th>Errors</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($xml->xpath('//testsuite') as $testsuite) : ?>
+						<?php
+						$class = '';
+						if ((int) $testsuite->attributes()->failures or (int) $testsuite->attributes()->errors)
+						{
+							$class = 'danger';
+						}
+						elseif (!(int) $testsuite->attributes()->assertions or !(int) $testsuite->attributes()->tests)
+						{
+							$class = 'warning';
+						}
+						?>
+						<tr class="<?= $class ?>" ?>
+							<td>
+								<?php echo $testsuite->attributes()->name; ?> <span
+									class="label label-primary"><?php echo $testsuite->attributes()->tests; ?>
+									tests</span>
+							</td>
+							<td>
+								<?php echo $testsuite->attributes()->assertions; ?>
+							</td>
+							<td>
+								<span
+									class="label label-success"><?php echo gmdate('i\m s\s', (int) $testsuite->attributes()->time); ?>
+							</td>
+							<td>
+								<?php foreach ($testsuite->testcase as $testcase) : ?>
+									<?php echo $testcase->attributes()->name; ?><br />
+								<?php endforeach; ?>
+							</td>
+							<td>
+								<?php echo $testsuite->attributes()->failures; ?>
+							</td>
+							<td>
+								<?php echo $testsuite->attributes()->errors; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
 		<?php endif; ?>
 	</body>
 </html>

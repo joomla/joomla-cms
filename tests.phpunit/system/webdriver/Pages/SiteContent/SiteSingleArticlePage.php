@@ -8,11 +8,6 @@
  */
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -50,7 +45,7 @@ class SiteSingleArticlePage extends SitePage
 	/**
 	 * Function which checks if an Article is visible or not
 	 *
-	 * @param   string  $articleTitle  stores title of the Article
+	 * @param   string $articleTitle stores title of the Article
 	 *
 	 * @return  True or Flase
 	 */

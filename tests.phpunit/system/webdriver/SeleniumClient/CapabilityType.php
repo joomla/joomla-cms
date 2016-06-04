@@ -15,11 +15,12 @@
 
 namespace SeleniumClient;
 
-abstract class CapabilityType {	
-	
+abstract class CapabilityType
+{
+
 	const browserName = "browserName";
 	const version = "version";
-	const platform = "platform";	
+	const platform = "platform";
 	const javascriptEnabled = "javascriptEnabled";
 	const takesScreenshot = "takesScreenshot";
 	const handlesAlerts = "handlesAlerts";
@@ -32,23 +33,23 @@ abstract class CapabilityType {
 	const rotatable = "rotatable";
 	const acceptSslCerts = "acceptSslCerts";
 	const nativeEvents = "nativeEvents";
-	const proxy = "proxy";	
-	
+	const proxy = "proxy";
+
 	public static function isValidCapabilityType($capabilityType)
 	{
 		$refl = new \ReflectionClass(__CLASS__);
-		
+
 		$validCapabilityType = false;
-		
+
 		foreach ($refl->getConstants() as $constantName => $constantValue)
 		{
-			if($constantValue ==  $capabilityType )
+			if ($constantValue == $capabilityType)
 			{
 				$validCapabilityType = true;
 			}
 		}
-		
+
 		return $validCapabilityType;
 	}
-		
+
 }

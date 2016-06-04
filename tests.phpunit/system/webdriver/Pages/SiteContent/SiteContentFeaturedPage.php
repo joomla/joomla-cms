@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -48,9 +43,9 @@ class SiteContentFeaturedPage extends SitePage
 	public function getArticleTitles()
 	{
 		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), '')]"));
-		$arrayTitles = array();
+		$arrayTitles  = array();
 
-		for ($i = 0;$i < count($arrayElement);$i++)
+		for ($i = 0; $i < count($arrayElement); $i++)
 		{
 			$arrayTitles[$i] = $arrayElement[$i]->getText();
 		}
@@ -66,9 +61,9 @@ class SiteContentFeaturedPage extends SitePage
 	public function getContactTitles()
 	{
 		$arrayElement = $this->driver->findElements(By::xPath("//a[contains(text(), '')]"));
-		$arrayTitles = array();
+		$arrayTitles  = array();
 
-		for ($i = 0;$i < count($arrayElement);$i++)
+		for ($i = 0; $i < count($arrayElement); $i++)
 		{
 			$arrayTitles[$i] = $arrayElement[$i]->getText();
 		}
@@ -84,9 +79,9 @@ class SiteContentFeaturedPage extends SitePage
 	public function getArticleText()
 	{
 		$arrayElement = $this->driver->findElements(By::xPath("//p[contains(text(),'')]"));
-		$arrayText = array();
+		$arrayText    = array();
 
-		for ($i = 0;$i < count($arrayElement);$i++)
+		for ($i = 0; $i < count($arrayElement); $i++)
 		{
 			$arrayText[$i] = $arrayElement[$i]->getText();
 		}
@@ -97,22 +92,24 @@ class SiteContentFeaturedPage extends SitePage
 	/**
 	 * Function which opens the article in editing mode at the front end
 	 *
-	 * @param   string  $articleTitle  Title of the article which we are going to edit
-	 * 
+	 * @param   string $articleTitle Title of the article which we are going to edit
+	 *
 	 * @return  null
 	 */
 	public function clickEditArticle($articleTitle)
 	{
 		$d = $this->driver;
-		$d->findElement(By::xPath("//a[contains(text(),'" . $articleTitle . "')]/../../div//a/span[contains(@class, 'icon-cog')]"))->click();
+		$d->findElement(By::xPath("//a[contains(text(),'" . $articleTitle . "')]/../../div//a/span[contains(@class, 'icon-cog')]"))
+		  ->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'" . $articleTitle . "')]/../../div//a/span[contains(@class, 'icon-edit')]"), 10);
-		$d->findElement(By::xPath("//a[contains(text(),'" . $articleTitle . "')]/../../div//a/span[contains(@class, 'icon-edit')]"))->click();
+		$d->findElement(By::xPath("//a[contains(text(),'" . $articleTitle . "')]/../../div//a/span[contains(@class, 'icon-edit')]"))
+		  ->click();
 	}
 
 	/**
 	 * Function to check if the edit icon is present on the page or not
 	 *
-	 * @return  boolean 
+	 * @return  boolean
 	 */
 	public function isEditPresent()
 	{
@@ -131,7 +128,7 @@ class SiteContentFeaturedPage extends SitePage
 	/**
 	 * Function to check if the unpublished tag is present for an article or not
 	 *
-	 * @param   string  $articleTitle  stores the name of the article
+	 * @param   string $articleTitle stores the name of the article
 	 *
 	 * @return  boolean
 	 */
@@ -152,15 +149,15 @@ class SiteContentFeaturedPage extends SitePage
 	/**
 	 * check whether the item is present on the site or not given the xpath variable.
 	 *
-	 * @param   string  $itemName  stores the name of the item to be searched
-	 * @param   string  $arg       xpath variable
+	 * @param   string $itemName stores the name of the item to be searched
+	 * @param   string $arg      xpath variable
 	 *
 	 * @return boolean
 	 */
 	public function itemExist($itemName, $arg)
 	{
 		$driver = $this->driver;
-		$path = "//" . $arg . "[contains(text(),'" . $itemName . "')]";
+		$path   = "//" . $arg . "[contains(text(),'" . $itemName . "')]";
 		$driver->waitForElementUntilIsPresent(By::xPath($path), 60);
 		$element = $driver->findElement(By::xPath($path));
 
@@ -175,18 +172,18 @@ class SiteContentFeaturedPage extends SitePage
 	/**
 	 * function to click an item
 	 *
-	 * @param   string  $itemName  stores the item name to be clicked
+	 * @param   string $itemName stores the item name to be clicked
 	 *
 	 * @return void
 	 */
 	public function itemClick($itemName)
 	{
 		$driver = $this->driver;
-		$path = "//a[contains(text(),'" . $itemName . "')]";
+		$path   = "//a[contains(text(),'" . $itemName . "')]";
 		$driver->waitForElementUntilIsPresent(By::xPath($path), 60);
 		$driver->findElement(By::xPath($path))->click();
 	}
-	
+
 	/**
 	 * check if the voting option is available on the front end
 	 *
@@ -194,7 +191,7 @@ class SiteContentFeaturedPage extends SitePage
 	 */
 	public function checkVote()
 	{
-		$driver = $this->driver;
+		$driver  = $this->driver;
 		$element = $driver->findElement(By::xPath("//input[@name='submit_vote']"));
 
 		if ($element != null)

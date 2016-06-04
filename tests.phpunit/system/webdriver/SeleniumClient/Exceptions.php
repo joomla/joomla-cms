@@ -15,31 +15,50 @@
 
 namespace SeleniumClient;
 
-class WebDriverWaitTimeoutException extends \Exception {}
+class WebDriverWaitTimeoutException extends \Exception
+{
+}
 
-class EmptyValueException extends \Exception { }
+class EmptyValueException extends \Exception
+{
+}
 
 class NotStringException extends \Exception
 {
-	public function __construct($functionName, $paramName) { parent::__construct("function {$functionName}: {$paramName} is not String."); }
+	public function __construct($functionName, $paramName)
+	{
+		parent::__construct("function {$functionName}: {$paramName} is not String.");
+	}
 }
 
 class NotIntException extends \Exception
 {
-	public function __construct($functionName, $paramName) { parent::__construct("function {$functionName}: {$paramName} is not Int."); }
+	public function __construct($functionName, $paramName)
+	{
+		parent::__construct("function {$functionName}: {$paramName} is not Int.");
+	}
 }
 
 class NotBooleanException extends \Exception
 {
-	public function __construct($functionName, $paramName) { parent::__construct("function {$functionName}: {$paramName} is not Boolean"); }
+	public function __construct($functionName, $paramName)
+	{
+		parent::__construct("function {$functionName}: {$paramName} is not Boolean");
+	}
 }
 
 class DirectoryNotFoundException extends \Exception
 {
-	public function __construct($functionName, $directoryPath) { parent::__construct("function {$functionName}: \"{$directoryPath}\" Directory specified for storing screenshots does not exist"); }
+	public function __construct($functionName, $directoryPath)
+	{
+		parent::__construct("function {$functionName}: \"{$directoryPath}\" Directory specified for storing screenshots does not exist");
+	}
 }
 
 class FileNotFoundException extends \Exception
 {
-	public function __construct($functionName, $filePath) { parent::__construct("function {$functionName}: \"{$filePath}\" File does not exist"); }
+	public function __construct($functionName, $filePath)
+	{
+		parent::__construct("function {$functionName}: \"{$filePath}\" File does not exist");
+	}
 }

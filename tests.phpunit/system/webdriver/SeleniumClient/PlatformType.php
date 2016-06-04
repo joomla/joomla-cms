@@ -28,18 +28,21 @@ abstract class PlatformType
 	const MAC = "MAC";
 	const LINUX = "LINUX";
 	const UNIX = "UNIX";
-	
+
 	public static function isValidPlatformType($platformType)
 	{
 		$refl = new \ReflectionClass(__CLASS__);
-		
+
 		$validPlatformType = false;
-		
+
 		foreach ($refl->getConstants() as $constantName => $constantValue)
 		{
-			if ($constantValue ==  $platformType) { $validPlatformType = true; }
+			if ($constantValue == $platformType)
+			{
+				$validPlatformType = true;
+			}
 		}
-		
+
 		return $validPlatformType;
 	}
 }

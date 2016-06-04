@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Control panel.
  *
@@ -43,7 +37,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                 = $this->doAdminLogin();
 		$this->levelManagerPage = $cpPage->clickMenu('Access Levels', 'LevelManagerPage');
 	}
 
@@ -121,9 +115,9 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addLevel_WithGivenFields_LevelAdded()
 	{
-		$salt = rand();
+		$salt      = rand();
 		$levelName = 'Level' . $salt;
-		$groups = array('Registered', 'Manager');
+		$groups    = array('Registered', 'Manager');
 		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
 		$this->levelManagerPage->addLevel($levelName, $groups);
 		$message = $this->levelManagerPage->getAlertMessage();
@@ -146,9 +140,9 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editLevel_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
+		$salt      = rand();
 		$levelName = 'Level' . $salt;
-		$groups = array('Customer', 'Administrator', 'Author');
+		$groups    = array('Customer', 'Administrator', 'Author');
 		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
 		$this->levelManagerPage->addLevel($levelName, $groups);
 		$newGroups = array('Manager', 'Publisher');
@@ -169,13 +163,13 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_TestOrdering_ShouldOrderLevels()
 	{
-		$orderings = array('Level Name', 'ID');
-		$rows = array('Customer Access', 'Guest', 'Public', 'Registered', 'Special', 'Super Users');
+		$orderings        = array('Level Name', 'ID');
+		$rows             = array('Customer Access', 'Guest', 'Public', 'Registered', 'Special', 'Super Users');
 		$actualRowNumbers = $this->levelManagerPage->orderAndGetRowNumbers($orderings, $rows);
 
 		$expectedRowNumbers = array(
-				'Level Name' => array('ascending' => array(1, 2, 3, 4, 5, 6), 'descending' => array(6, 5, 4, 3, 2, 1)),
-				'ID' => array('ascending' => array(4, 5, 1, 2, 3, 6), 'descending' => array(3, 2, 6, 5, 4, 1))
+			'Level Name' => array('ascending' => array(1, 2, 3, 4, 5, 6), 'descending' => array(6, 5, 4, 3, 2, 1)),
+			'ID'         => array('ascending' => array(4, 5, 1, 2, 3, 6), 'descending' => array(3, 2, 6, 5, 4, 1))
 		);
 
 		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
@@ -185,10 +179,10 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 				foreach ($rowNumbers as $key => $rowNumber)
 				{
 					$this->assertEquals(
-							$expectedRowNumbers[$ordering][$order][$key],
-							$rowNumber,
-							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
-							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
+						$expectedRowNumbers[$ordering][$order][$key],
+						$rowNumber,
+						'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
+						. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
 					);
 				}
 			}

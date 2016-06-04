@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -25,13 +20,45 @@ use SeleniumClient\WebElement;
 class BannerManagerPage extends AdminManagerPage
 {
 	/**
+	 * Array of filter id values for this page
+	 *
+	 * @var array
+	 * @since 3.2
+	 */
+	public $filters = array(
+		'Sort Table By:'  => 'list_fullordering',
+		'20'              => 'list_limit',
+		'Select Status'   => 'filter_state',
+		'Select Client'   => 'filter_client_id',
+		'Select Category' => 'filter_category_id',
+		'Select Language' => 'filter_language'
+	);
+	/**
+	 * Array of toolbar id values for this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $toolbar = array(
+		'New'         => 'toolbar-new',
+		'Edit'        => 'toolbar-edit',
+		'Publish'     => 'toolbar-publish',
+		'Unpublish'   => 'toolbar-unpublish',
+		'Archive'     => 'toolbar-archive',
+		'Check In'    => 'toolbar-check-in',
+		'Trash'       => 'toolbar-trash',
+		'Empty Trash' => 'toolbar-delete',
+		'Batch'       => 'toolbar-batch',
+		'Options'     => 'toolbar-options',
+		'Help'        => 'toolbar-help',
+	);
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_banners']";
-
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_banners']";
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -41,49 +68,14 @@ class BannerManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_banners';
 
 	/**
-	 * Array of filter id values for this page
-	 *
-	 * @var array
-	 * @since 3.2
-	 */
-	public $filters = array(
-		'Sort Table By:' => 'list_fullordering',
-		'20' => 'list_limit',
-		'Select Status' => 'filter_state',
-		'Select Client' => 'filter_client_id',
-		'Select Category' => 'filter_category_id',
-		'Select Language' => 'filter_language'
-	);
-
-	/**
-	 * Array of toolbar id values for this page
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	public $toolbar = array (
-			'New' => 'toolbar-new',
-			'Edit' => 'toolbar-edit',
-			'Publish' => 'toolbar-publish',
-			'Unpublish' => 'toolbar-unpublish',
-			'Archive' => 'toolbar-archive',
-			'Check In' => 'toolbar-check-in',
-			'Trash' => 'toolbar-trash',
-			'Empty Trash' => 'toolbar-delete',
-			'Batch' => 'toolbar-batch',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			);
-
-	/**
 	 * Add a new Banner item in the Banner Manager: Component screen.
 	 *
-	 * @param string   $name          Test Banner Name
-	 * @param array    $fields		  associative array of fields in the form label => value.
+	 * @param string $name   Test Banner Name
+	 * @param array  $fields associative array of fields in the form label => value.
 	 *
 	 * @return  BannerManagerPage
 	 */
-	public function addBanner($name='Test Banner', $fields = null)
+	public function addBanner($name = 'Test Banner', $fields = null)
 	{
 		$this->clickButton('toolbar-new');
 		$bannerEditPage = $this->test->getPageObject('BannerEditPage');
@@ -99,8 +91,8 @@ class BannerManagerPage extends AdminManagerPage
 	/**
 	 * Edit a Banner item in the Banner Manager: Banner Items screen.
 	 *
-	 * @param string   $name	   Banner Title field
-	 * @param array    $fields     associative array of fields in the form label => value.
+	 * @param string $name   Banner Title field
+	 * @param array  $fields associative array of fields in the form label => value.
 	 *
 	 * @return  void
 	 */
@@ -117,15 +109,15 @@ class BannerManagerPage extends AdminManagerPage
 	/**
 	 * Get state  of a Banner item in the Banner Manager: Banner Items screen.
 	 *
-	 * @param string   $name	   Banner Title field
+	 * @param string $name Banner Title field
 	 *
 	 * @return  State of the Banner //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
+		$row    = $this->getRowNumber($name);
+		$text   = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'banners.unpublish') > 0)
 		{
 			$result = 'published';
@@ -134,14 +126,15 @@ class BannerManagerPage extends AdminManagerPage
 		{
 			$result = 'unpublished';
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Change state of a Banner item in the Banner Manager: Banner Items screen.
 	 *
-	 * @param string   $name	   Banner Title field
-	 * @param string   $state      State of the Banner
+	 * @param string $name  Banner Title field
+	 * @param string $state State of the Banner
 	 *
 	 * @return  void
 	 */

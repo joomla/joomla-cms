@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -25,13 +20,44 @@ use SeleniumClient\WebElement;
 class WeblinkManagerPage extends AdminManagerPage
 {
 	/**
+	 * Array of filter id values for this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $filters = array(
+		'Select Status'   => 'filter_state',
+		'Select Category' => 'filter_category_id',
+		'Select Access'   => 'filter_access',
+		'Select Language' => 'filter_language',
+		'Select Tag'      => 'filter_tag',
+	);
+	/**
+	 * Array of toolbar id values for this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $toolbar = array(
+		'New'         => 'toolbar-new',
+		'Edit'        => 'toolbar-edit',
+		'Publish'     => 'toolbar-publish',
+		'Unpublish'   => 'toolbar-unpublish',
+		'Archive'     => 'toolbar-archive',
+		'Check In'    => 'toolbar-check-in',
+		'Trash'       => 'toolbar-trash',
+		'Empty Trash' => 'toolbar-delete',
+		'Batch'       => 'toolbar-batch',
+		'Options'     => 'toolbar-options',
+		'Help'        => 'toolbar-help',
+	);
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_weblinks']";
-
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_weblinks']";
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -41,48 +67,14 @@ class WeblinkManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_weblinks';
 
 	/**
-	 * Array of filter id values for this page
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	public $filters = array(
-			'Select Status' => 'filter_state',
-			'Select Category' => 'filter_category_id',
-			'Select Access' => 'filter_access',
-			'Select Language' => 'filter_language',
-			'Select Tag' => 'filter_tag',
-			);
-
-	/**
-	 * Array of toolbar id values for this page
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	public $toolbar = array (
-			'New' => 'toolbar-new',
-			'Edit' => 'toolbar-edit',
-			'Publish' => 'toolbar-publish',
-			'Unpublish' => 'toolbar-unpublish',
-			'Archive' => 'toolbar-archive',
-			'Check In' => 'toolbar-check-in',
-			'Trash' => 'toolbar-trash',
-			'Empty Trash' => 'toolbar-delete',
-			'Batch' => 'toolbar-batch',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			);
-
-	/**
 	 * Add a new Weblink item in the Weblink Manager: Component screen.
 	 *
-	 * @param string   $name          Test Weblink Name
-	 * @param array    $fields		  associative array of fields in the form label => value.
+	 * @param string $name   Test Weblink Name
+	 * @param array  $fields associative array of fields in the form label => value.
 	 *
 	 * @return  WeblinkManagerPage
 	 */
-	public function addWeblink($name='Test Weblink', $url, $fields)
+	public function addWeblink($name = 'Test Weblink', $url, $fields)
 	{
 		$this->clickButton('toolbar-new');
 		$contactEditPage = $this->test->getPageObject('WeblinkEditPage');
@@ -98,8 +90,8 @@ class WeblinkManagerPage extends AdminManagerPage
 	/**
 	 * Edit a Weblink item in the Weblink Manager: Weblink Items screen.
 	 *
-	 * @param string   $name	   Weblink Title field
-	 * @param array    $fields     associative array of fields in the form label => value.
+	 * @param string $name   Weblink Title field
+	 * @param array  $fields associative array of fields in the form label => value.
 	 *
 	 * @return  void
 	 */
@@ -116,15 +108,15 @@ class WeblinkManagerPage extends AdminManagerPage
 	/**
 	 * Get state  of a Weblink item in the Weblink Manager: Weblink Items screen.
 	 *
-	 * @param string   $name	   Weblink Title field
+	 * @param string $name Weblink Title field
 	 *
 	 * @return  State of the Weblink //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
+		$row    = $this->getRowNumber($name);
+		$text   = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'weblinks.unpublish') > 0)
 		{
 			$result = 'published';
@@ -133,14 +125,15 @@ class WeblinkManagerPage extends AdminManagerPage
 		{
 			$result = 'unpublished';
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Change state of a Weblink item in the Weblink Manager: Weblink Items screen.
 	 *
-	 * @param string   $name	   Weblink Title field
-	 * @param string   $state      State of the Weblink
+	 * @param string $name  Weblink Title field
+	 * @param string $state State of the Weblink
 	 *
 	 * @return  void
 	 */

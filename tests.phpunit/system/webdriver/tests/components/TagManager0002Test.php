@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Tags: Add / Edit  Screen.
  *
@@ -43,7 +37,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage               = $this->doAdminLogin();
 		$this->tagManagerPage = $cpPage->clickMenu('Tags', 'TagManagerPage');
 	}
 
@@ -69,7 +63,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
 	{
-		$actualIds = $this->tagManagerPage->getFilters();
+		$actualIds   = $this->tagManagerPage->getFilters();
 		$expectedIds = array_values($this->tagManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
@@ -83,7 +77,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
-		$salt = rand();
+		$salt    = rand();
 		$tagName = 'Test Filter' . $salt;
 		$this->tagManagerPage->addTag($tagName);
 		$message = $this->tagManagerPage->getAlertMessage();

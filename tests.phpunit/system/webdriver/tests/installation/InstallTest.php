@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  installation of joomla.
  *
@@ -40,7 +34,7 @@ class InstallTest extends JoomlaWebdriverTestCase
 		if ($this->cfg->doInstall == 'true')
 		{
 			$this->deleteConfigurationFile();
-			$url = $this->cfg->host . $this->cfg->path . 'installation/';
+			$url         = $this->cfg->host . $this->cfg->path . 'installation/';
 			$installPage = $this->getPageObject('InstallationPage', true, $url);
 			$installPage->install($this->cfg);
 		}

@@ -5,11 +5,9 @@
 require_once '../bootstrap.php';
 
 use SeleniumClient\By;
+use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 class AlertTest extends PHPUnit_Framework_TestCase
 {
@@ -28,7 +26,10 @@ class AlertTest extends PHPUnit_Framework_TestCase
 
 	public function tearDown()
 	{
-		if($this->_driver != null) { $this->_driver->quit(); }
+		if ($this->_driver != null)
+		{
+			$this->_driver->quit();
+		}
 	}
 
 	public function testTinyTyping()
@@ -66,10 +67,8 @@ class AlertTest extends PHPUnit_Framework_TestCase
 		$select = new SelectElement($d->findElement(By::id("jform_featured")));
 		$select->selectByValue("1");
 
-
 		sleep(5);
 		// Clean up
-
 
 	}
 }

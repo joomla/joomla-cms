@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Weblinks: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class WeblinkManager0002Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                   = $this->doAdminLogin();
 		$this->weblinkManagerPage = $cpPage->clickMenu('Weblinks', 'WeblinkManagerPage');
 	}
 
@@ -64,11 +58,11 @@ class WeblinkManager0002Test extends JoomlaWebdriverTestCase
 	 *
 	 * @return void
 	 *
-	 * 
+	 *
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
 	{
-		$actualIds = $this->weblinkManagerPage->getFilters();
+		$actualIds   = $this->weblinkManagerPage->getFilters();
 		$expectedIds = array_values($this->weblinkManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
@@ -78,13 +72,13 @@ class WeblinkManager0002Test extends JoomlaWebdriverTestCase
 	 *
 	 * @return void
 	 *
-	 * 
+	 *
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
-		$salt = rand();
+		$salt        = rand();
 		$weblinkName = 'Test Filter' . $salt;
-		$url = 'www.example.com';
+		$url         = 'www.example.com';
 		$this->weblinkManagerPage->addWeblink($weblinkName, $url, false);
 		$message = $this->weblinkManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Weblink successfully saved') >= 0, 'Weblink save should return success');
@@ -101,13 +95,13 @@ class WeblinkManager0002Test extends JoomlaWebdriverTestCase
 	 *
 	 * @return void
 	 *
-	 * 
+	 *
 	 */
 	public function setFilter_TestFilters_ShouldFilterWeblinks()
 	{
 		$weblinkName_1 = 'Test Filter 1';
 		$weblinkName_2 = 'Test Filter 2';
-		$url = 'www.example.com';
+		$url           = 'www.example.com';
 
 		$this->weblinkManagerPage->addWeblink($weblinkName_1, $url, false);
 		$message = $this->weblinkManagerPage->getAlertMessage();

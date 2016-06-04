@@ -2,12 +2,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Manager: Add / Edit  Screen
  *
@@ -36,7 +30,7 @@ class MenuManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                = $this->doAdminLogin();
 		$this->menuManagerPage = $cpPage->clickMenu('Menu Manager', 'MenuManagerPage');
 	}
 
@@ -117,17 +111,21 @@ class MenuManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addMenu_WithGivenFields_MenuAdded()
 	{
-		$salt = rand();
-		$menuName = 'Menu' . $salt;
-		$type = 'menu' . $salt;
+		$salt        = rand();
+		$menuName    = 'Menu' . $salt;
+		$type        = 'menu' . $salt;
 		$description = 'test menu ' . $salt;
 		$this->assertFalse($this->menuManagerPage->getRowNumber($menuName), 'Test menu should not be present');
 		$this->menuManagerPage->addMenu($menuName, $type, $description);
 		$message = $this->menuManagerPage->getAlertMessage();
 		$this->assertContains('Menu successfully saved', $message, 'Menu save should return success', true);
 		$this->assertTrue($this->menuManagerPage->getRowNumber($menuName) > 0, 'Test menu should be on the page');
-		$actualValues = $this->menuManagerPage->getFieldValues('MenuEditPage', $menuName, array('Title', 'Menu type', 'Description'));
-		$expectedValues = array ($menuName, $type, $description);
+		$actualValues   = $this->menuManagerPage->getFieldValues('MenuEditPage', $menuName, array(
+			'Title',
+			'Menu type',
+			'Description'
+		));
+		$expectedValues = array($menuName, $type, $description);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
 		$this->menuManagerPage->deleteMenu($menuName);
 		$this->assertFalse($this->menuManagerPage->getRowNumber($menuName), 'Test menu should not be present');
@@ -142,20 +140,27 @@ class MenuManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editMenu_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
-		$menuName = 'Menu' . $salt;
-		$type = 'menu' . $salt;
+		$salt        = rand();
+		$menuName    = 'Menu' . $salt;
+		$type        = 'menu' . $salt;
 		$description = 'test menu ' . $salt;
 		$this->assertFalse($this->menuManagerPage->getRowNumber($menuName), 'Test menu should not be present');
 		$this->menuManagerPage->addMenu($menuName, $type, $description);
 
-		$newMenuName = 'New Menu' . $salt;
-		$newType = 'newmenu' . $salt;
+		$newMenuName    = 'New Menu' . $salt;
+		$newType        = 'newmenu' . $salt;
 		$newDescription = 'new test menu' . $salt;
-		$this->menuManagerPage->editMenu($menuName, array('Title' => $newMenuName, 'Menu type' => $newType, 'Description' => $newDescription));
+		$this->menuManagerPage->editMenu($menuName, array('Title'       => $newMenuName,
+		                                                  'Menu type'   => $newType,
+		                                                  'Description' => $newDescription
+		));
 
-		$actualValues = $this->menuManagerPage->getFieldValues('MenuEditPage', $newMenuName, array('Title', 'Menu type', 'Description'));
-		$expectedValues = array ($newMenuName, $newType, $newDescription);
+		$actualValues   = $this->menuManagerPage->getFieldValues('MenuEditPage', $newMenuName, array(
+			'Title',
+			'Menu type',
+			'Description'
+		));
+		$expectedValues = array($newMenuName, $newType, $newDescription);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
 		$this->menuManagerPage->deleteMenu($newMenuName);
 		$this->assertFalse($this->menuManagerPage->getRowNumber($newMenuName), 'Test menu should not be present');

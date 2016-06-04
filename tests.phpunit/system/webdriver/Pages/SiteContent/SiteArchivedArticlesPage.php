@@ -8,11 +8,6 @@
  */
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -55,7 +50,7 @@ class SiteArchivedArticlesPage extends SitePage
 	public function getArticleTitles()
 	{
 		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), '')]"));
-		$arrayTitles = array();
+		$arrayTitles  = array();
 
 		for ($i = 0; $i < count($arrayElement); $i++)
 		{

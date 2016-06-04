@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Category: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                    = $this->doAdminLogin();
 		$this->categoryManagerPage = $cpPage->clickMenu('Category Manager', 'CategoryManagerPage');
 	}
 
@@ -107,8 +101,8 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function addCategory_WithFieldDefaults_CategoryAdded()
 	{
-		$salt = rand();
-		$categoryName = 'ABC' . $salt;
+		$salt                      = rand();
+		$categoryName              = 'ABC' . $salt;
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName);
@@ -127,16 +121,19 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function addCategory_WithGivenFields_CategoryAdded()
 	{
-		$salt = rand();
-		$categoryName = 'ABC' . $salt;
-		$expected_alias = 'abc-alias' . $salt;
-		$desc = $categoryName . ' Description';
+		$salt                      = rand();
+		$categoryName              = 'ABC' . $salt;
+		$expected_alias            = 'abc-alias' . $salt;
+		$desc                      = $categoryName . ' Description';
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName, $desc, array('Alias' => $expected_alias));
 		$message = $this->categoryManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Category successfully saved') >= 0, 'Category save should return success');
-		$values = $this->categoryManagerPage->getFieldValues('CategoryEditPage', $categoryName, array('Title', 'Alias'));
+		$values = $this->categoryManagerPage->getFieldValues('CategoryEditPage', $categoryName, array(
+			'Title',
+			'Alias'
+		));
 		$this->assertEquals(array($categoryName, $expected_alias), $values, 'Actual name, alias should match expected');
 		$this->categoryManagerPage->trashAndDelete($categoryName);
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test category should not be present');
@@ -151,16 +148,19 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function editCategory_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
-		$categoryName = 'ABC' . $salt;
-		$alias = 'abc-alias' . $salt;
-		$desc = 'ABC_Description';
-		$expected_desc = '<p>ABC_Description</p>';
+		$salt                      = rand();
+		$categoryName              = 'ABC' . $salt;
+		$alias                     = 'abc-alias' . $salt;
+		$desc                      = 'ABC_Description';
+		$expected_desc             = '<p>ABC_Description</p>';
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName);
 		$this->categoryManagerPage->editCategory($categoryName, array('Alias' => $alias, 'Description' => $desc));
-		$values = $this->categoryManagerPage->getFieldValues('CategoryEditPage', $categoryName, array('Alias', 'Description'));
+		$values = $this->categoryManagerPage->getFieldValues('CategoryEditPage', $categoryName, array(
+			'Alias',
+			'Description'
+		));
 		$this->assertEquals(array($alias, $expected_desc), $values, 'Actual values should match expected');
 		$this->categoryManagerPage->trashAndDelete($categoryName);
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test category should not be present');
@@ -175,8 +175,8 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function changeCategoryState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
-		$salt = rand();
-		$categoryName = 'Test Category ' . $salt;
+		$salt                      = rand();
+		$categoryName              = 'Test Category ' . $salt;
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->categoryManagerPage->addCategory($categoryName);
 		$state = $this->categoryManagerPage->getState($categoryName);

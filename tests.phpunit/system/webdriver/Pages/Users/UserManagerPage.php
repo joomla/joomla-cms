@@ -7,11 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -20,55 +15,56 @@ use SeleniumClient\WebElement;
  */
 class UserManagerPage extends AdminManagerPage
 {
-	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_users&view=users']";
-
-	protected $url = 'administrator/index.php?option=com_users&view=users';
-
 	public $filters = array(
-			'Sort Table By:' => 'list_fullordering',
-			'20' => 'list_limit',
-			'State' => 'filter_state',
-			'Active' => 'filter_active',
-			'Group' => 'filter_group_id',
-			'Registration Date' => 'filter_range',
-			);
-
-	public $toolbar = array (
-			'New' => 'toolbar-new',
-			'Edit' => 'toolbar-edit',
-			'Activate' => 'toolbar-publish',
-			'Block' => 'toolbar-unpublish',
-			'Unblock' => 'toolbar-unblock',
-			'Delete' => 'toolbar-delete',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			);
-
-	public $submenu = array (
-			'option=com_users&view=users',
-			'option=com_users&view=groups',
-			'option=com_users&view=levels',
-			'option=com_users&view=notes',
-			'option=com_categories&extension=com_users'
-			);
+		'Sort Table By:'    => 'list_fullordering',
+		'20'                => 'list_limit',
+		'State'             => 'filter_state',
+		'Active'            => 'filter_active',
+		'Group'             => 'filter_group_id',
+		'Registration Date' => 'filter_range',
+	);
+	public $toolbar = array(
+		'New'      => 'toolbar-new',
+		'Edit'     => 'toolbar-edit',
+		'Activate' => 'toolbar-publish',
+		'Block'    => 'toolbar-unpublish',
+		'Unblock'  => 'toolbar-unblock',
+		'Delete'   => 'toolbar-delete',
+		'Options'  => 'toolbar-options',
+		'Help'     => 'toolbar-help',
+	);
+	public $submenu = array(
+		'option=com_users&view=users',
+		'option=com_users&view=groups',
+		'option=com_users&view=levels',
+		'option=com_users&view=notes',
+		'option=com_categories&extension=com_users'
+	);
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_users&view=users']";
+	protected $url = 'administrator/index.php?option=com_users&view=users';
 
 	/**
 	 * function to add user
 	 *
-	 * @param   string  $name         title of the user
-	 * @param   string  $login        stores login ID
-	 * @param   string  $password     Stores Password
-	 * @param   string  $email        Stores Email ID
-	 * @param   array   $groupNames   Store name of the group
-	 * @param   null    $otherFields  stores value of other fields
+	 * @param   string $name        title of the user
+	 * @param   string $login       stores login ID
+	 * @param   string $password    Stores Password
+	 * @param   string $email       Stores Email ID
+	 * @param   array  $groupNames  Store name of the group
+	 * @param   null   $otherFields stores value of other fields
 	 *
 	 * @return void
 	 */
-	public function addUser($name='Test User', $login='test', $password='password', $email='abc@test.com', $groupNames = array(), $otherFields = null)
+	public function addUser($name = 'Test User', $login = 'test', $password = 'password', $email = 'abc@test.com', $groupNames = array(), $otherFields = null)
 	{
 		$this->clickButton('toolbar-new');
 		$userEditPage = $this->test->getPageObject('UserEditPage');
-		$userEditPage->setFieldValues(array('Name' => $name, 'Login Name' => $login, 'Password' => $password, 'Confirm Password' => $password, 'Email' => $email ));
+		$userEditPage->setFieldValues(array('Name'             => $name,
+		                                    'Login Name'       => $login,
+		                                    'Password'         => $password,
+		                                    'Confirm Password' => $password,
+		                                    'Email'            => $email
+		));
 
 		if (is_array($otherFields))
 		{
@@ -83,8 +79,8 @@ class UserManagerPage extends AdminManagerPage
 	/**
 	 * function to change the state of the user
 	 *
-	 * @param   string  $name   Title of the user
-	 * @param   string  $state  State of the user
+	 * @param   string $name  Title of the user
+	 * @param   string $state State of the user
 	 *
 	 * @return void
 	 */
@@ -110,9 +106,9 @@ class UserManagerPage extends AdminManagerPage
 	/**
 	 * function to edit user
 	 *
-	 * @param   string  $name        Title of the user
-	 * @param   array   $fields      input fields of the user
-	 * @param   array   $groupNames  array of names of groups
+	 * @param   string $name       Title of the user
+	 * @param   array  $fields     input fields of the user
+	 * @param   array  $groupNames array of names of groups
 	 *
 	 * @return void
 	 */
@@ -130,7 +126,7 @@ class UserManagerPage extends AdminManagerPage
 	/**
 	 * function to get groups
 	 *
-	 * @param   string  $userName  Title of the user
+	 * @param   string $userName Title of the user
 	 *
 	 * @return mixed
 	 */
@@ -138,7 +134,7 @@ class UserManagerPage extends AdminManagerPage
 	{
 		$this->clickItem($userName);
 		$userEditPage = $this->test->getPageObject('UserEditPage');
-		$result = $userEditPage->getGroups();
+		$result       = $userEditPage->getGroups();
 		$userEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('UserManagerPage');
 
@@ -148,15 +144,15 @@ class UserManagerPage extends AdminManagerPage
 	/**
 	 * function to get the state of the user
 	 *
-	 * @param   string  $name  Title of the user
+	 * @param   string $name Title of the user
 	 *
 	 * @return bool|string
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]/a"))->getAttribute(@onclick);
+		$row    = $this->getRowNumber($name);
+		$text   = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]/a"))->getAttribute(@onclick);
 
 		if (strpos($text, 'users.unblock') > 0)
 		{

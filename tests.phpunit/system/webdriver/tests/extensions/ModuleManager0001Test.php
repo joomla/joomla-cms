@@ -3,10 +3,6 @@
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the Module Manager: Add / Edit Module Screen
@@ -80,7 +76,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->moduleManagerPage->clickButton('toolbar-new');
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(., 'Articles - Categories')]"))->click();
 		$moduleEditPage = $this->getPageObject('ModuleEditPage');
-		$textArray = $moduleEditPage->getTabIds();
+		$textArray      = $moduleEditPage->getTabIds();
 		$this->assertEquals($moduleEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$moduleEditPage->clickButton('toolbar-cancel');
 		$this->moduleManagerPage = $this->getPageObject('ModuleManagerPage');
@@ -147,12 +143,12 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addModule_WithGivenFields_ModuleAdded()
 	{
-		$salt = rand();
-		$title = 'Module' . $salt;
-		$client = 'Administrator';
-		$type = 'Custom HTML';
-		$position = 'mynewposition';
-		$suffix = 'mysuffix';
+		$salt        = rand();
+		$title       = 'Module' . $salt;
+		$client      = 'Administrator';
+		$type        = 'Custom HTML';
+		$position    = 'mynewposition';
+		$suffix      = 'mysuffix';
 		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix);
 		$this->moduleManagerPage->setFilter('filter_client_id', $client)->searchFor($title);
 		$this->assertFalse($this->moduleManagerPage->getRowNumber($title), 'Test module should not be present');
@@ -162,7 +158,10 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->moduleManagerPage->searchFor($title);
 		$this->assertTrue($this->moduleManagerPage->getRowNumber($title) > 0, 'Test module should be present');
 
-		$values = $this->moduleManagerPage->getModuleFieldValues($title, $client, array('Position', 'Module Class Suffix'));
+		$values = $this->moduleManagerPage->getModuleFieldValues($title, $client, array(
+			'Position',
+			'Module Class Suffix'
+		));
 		$this->assertEquals(array($position, $suffix), $values, 'Actual position and suffix should match expected');
 		$this->moduleManagerPage->trashAndDelete($title);
 		$this->moduleManagerPage->searchFor($title);
@@ -179,13 +178,13 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editModule_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
-		$title = 'Module' . $salt;
-		$client = 'Administrator';
-		$type = 'Custom HTML';
-		$position = 'myposition';
-		$suffix = 'mysuffix';
-		$note = 'My old note.';
+		$salt        = rand();
+		$title       = 'Module' . $salt;
+		$client      = 'Administrator';
+		$type        = 'Custom HTML';
+		$position    = 'myposition';
+		$suffix      = 'mysuffix';
+		$note        = 'My old note.';
 		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix, 'Note' => $note);
 		$this->moduleManagerPage->setFilter('filter_client_id', $client)->searchFor($title);
 		$this->assertFalse($this->moduleManagerPage->getRowNumber($title), 'Test module should not be present');
@@ -195,17 +194,35 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->moduleManagerPage->searchFor($title);
 		$this->assertTrue($this->moduleManagerPage->getRowNumber($title) > 0, 'Test module should be present');
 
-		$values = $this->moduleManagerPage->getModuleFieldValues($title, $client, array('Position', 'Module Class Suffix'));
+		$values = $this->moduleManagerPage->getModuleFieldValues($title, $client, array(
+			'Position',
+			'Module Class Suffix'
+		));
 		$this->assertEquals(array($position, $suffix), $values, 'Actual position and suffix should match expected');
 
-		$newTitle = 'New Module Title' . $salt;
+		$newTitle    = 'New Module Title' . $salt;
 		$newPosition = 'mynewposition';
-		$newSuffix = 'mynewsuffix';
-		$newNote = 'my new note';
-		$this->moduleManagerPage->editModule($title, array('Title' => $newTitle, 'Position' => $newPosition, 'Module Class Suffix' => $newSuffix, 'Note' => $newNote));
+		$newSuffix   = 'mynewsuffix';
+		$newNote     = 'my new note';
+		$this->moduleManagerPage->editModule($title, array(
+			'Title'               => $newTitle,
+			'Position'            => $newPosition,
+			'Module Class Suffix' => $newSuffix,
+			'Note'                => $newNote
+		));
 
-		$values = $this->moduleManagerPage->getModuleFieldValues($newTitle, $client, array('Title', 'Position', 'Module Class Suffix', 'Note'));
-		$this->assertEquals(array($newTitle, $newPosition, $newSuffix, $newNote), $values, 'Actual values should match expected');
+		$values = $this->moduleManagerPage->getModuleFieldValues($newTitle, $client, array(
+			'Title',
+			'Position',
+			'Module Class Suffix',
+			'Note'
+		));
+		$this->assertEquals(array(
+			$newTitle,
+			$newPosition,
+			$newSuffix,
+			$newNote
+		), $values, 'Actual values should match expected');
 		$this->moduleManagerPage->trashAndDelete($newTitle);
 	}
 

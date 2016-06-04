@@ -14,7 +14,6 @@
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
-
 class JoomlaInstallationConfigurationPage
 {
 	/**
@@ -23,8 +22,8 @@ class JoomlaInstallationConfigurationPage
 	 * @var array
 	 */
 	public static $elements = array(
-		'Language Selector'         => "//div[@id='jform_language_chzn']/a",
-		'English (United Kingdom)'  => "//li[text()='English (United Kingdom)']",
-		'No Site Offline'  => "//fieldset[@id='jform_site_offline']/label[2]"
+		'Language Selector'        => "//div[@id='jform_language_chzn']/a",
+		'English (United Kingdom)' => "//li[text()='English (United Kingdom)']",
+		'No Site Offline'          => "//fieldset[@id='jform_site_offline']/label[2]"
 	);
 }

@@ -8,11 +8,6 @@
  */
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -48,30 +43,30 @@ class SiteLoginPage extends SitePage
 	protected $url = '/index.php/login';
 
 	/**
-	 * Function to click on logout button 
+	 * Function to click on logout button
 	 *
 	 * @return  void
 	 */
-	 public function SiteLogoutUser()
-	 {
-		 $d = $this->driver;
-		 $d->findElement(By::xPath("//button[contains(text(), 'Log out')]"))->click();
-		 $d->clearCurrentCookies();
-	 }
-	
+	public function SiteLogoutUser()
+	{
+		$d = $this->driver;
+		$d->findElement(By::xPath("//button[contains(text(), 'Log out')]"))->click();
+		$d->clearCurrentCookies();
+	}
+
 	/**
 	 * Function to enter Username Password
-	 * 
-	 * @param   string  $username  Username of the user
-	 * @param   string  $password  Password of the user
+	 *
+	 * @param   string $username Username of the user
+	 * @param   string $password Password of the user
 	 *
 	 * @return  void
 	 */
-	 public function SiteLoginUser($username, $password)
-	 {
+	public function SiteLoginUser($username, $password)
+	{
 		$d = $this->driver;
 		$d->findElement(By::xPath("//input[@id='username']"))->sendKeys($username);
 		$d->findElement(By::xPath("//input[@id='password']"))->sendKeys($password);
 		$d->findElement(By::xPath("//button[contains(text(), 'Log in')]"))->click();
-	 }
+	}
 }

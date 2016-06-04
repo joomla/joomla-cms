@@ -9,13 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
-
 /**
  * this class tests if metadiscription can be changed from site
  *
@@ -76,7 +69,7 @@ class ConfigFrontEnd0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function testChangeMetaDescription()
 	{
-		$newMetaDescription = 'JoomlaTestMetaDescription' . rand(1,100);
+		$newMetaDescription = 'JoomlaTestMetaDescription' . rand(1, 100);
 		$this->siteHomePage->changeMetaDescription($newMetaDescription);
 
 		$this->assertNotEquals($this->previousMetaDescription, $this->siteHomePage->getMetaDescription(), 'Site Meta Description has not changed');

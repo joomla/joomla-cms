@@ -27,18 +27,21 @@ abstract class BrowserType
 	const HTMLUNIT = "htmlunit";
 	const INTERNET_EXPLORER = "internet explorer";
 	const IPHONE = "iphone";
-	
+
 	public static function isValidBrowserType($browserType)
 	{
 		$refl = new \ReflectionClass(__CLASS__);
-		
+
 		$validBrowserType = false;
-		
+
 		foreach ($refl->getConstants() as $constantName => $constantValue)
 		{
-			if ($constantValue ==  $browserType) { $validBrowserType = true; }
+			if ($constantValue == $browserType)
+			{
+				$validBrowserType = true;
+			}
 		}
-		
+
 		return $validBrowserType;
 	}
 }

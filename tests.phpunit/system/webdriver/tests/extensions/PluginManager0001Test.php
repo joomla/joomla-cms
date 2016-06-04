@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Plugin Manager: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                  = $this->doAdminLogin();
 		$this->pluginManagerPage = $cpPage->clickMenu('Plugin Manager', 'PluginManagerPage');
 	}
 
@@ -68,7 +62,7 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function constructor_OpenEditScreen_PluginEditOpened()
 	{
-		$test_plugin = 'Content - Joomla'; /*A test Plugin which we are going to select to open the edit page*/
+		$test_plugin             = 'Content - Joomla'; /*A test Plugin which we are going to select to open the edit page*/
 		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
 		$this->pluginManagerPage->clickItem($test_plugin);
 		$pluginEditPage = $this->getPageObject('PluginEditPage');
@@ -85,11 +79,11 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
 	{
-		$test_plugin = 'Content - Joomla'; /*A test Plugin which we are going to select to open the edit page*/
+		$test_plugin             = 'Content - Joomla'; /*A test Plugin which we are going to select to open the edit page*/
 		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
 		$this->pluginManagerPage->clickItem($test_plugin);
 		$pluginEditPage = $this->getPageObject('PluginEditPage');
-		$textArray = $pluginEditPage->getTabIds();
+		$textArray      = $pluginEditPage->getTabIds();
 		$this->assertEquals($pluginEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$pluginEditPage->clickButton('toolbar-cancel');
 		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
@@ -104,8 +98,8 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function getPluginTypes_GetsTypes_EqualsExpected()
 	{
-		$test_plugin = 'Content - Joomla'; /*A test Plugin whose type we are going to compare with the expected and actual value*/
-		$expected_type = 'content';
+		$test_plugin      = 'Content - Joomla'; /*A test Plugin whose type we are going to compare with the expected and actual value*/
+		$expected_type    = 'content';
 		$actualPluginType = $this->pluginManagerPage->getPluginType($test_plugin);
 		$this->assertEquals($expected_type, $actualPluginType, 'Plugin type should equal expected');
 	}
@@ -120,11 +114,11 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 	public function editPlugin_ChangeFields_FieldsChanged()
 	{
 		/*A test Plugin which we are going to edit, We are going to change the state and Access level for this.*/
-		$test_plugin = 'Content - Joomla';
-		$expected_type = 'content';
-		$expected_state = 'published';
-		$expected_access = 'Public';
-		$new_pluginAccess = 'Guest';
+		$test_plugin             = 'Content - Joomla';
+		$expected_type           = 'content';
+		$expected_state          = 'published';
+		$expected_access         = 'Public';
+		$new_pluginAccess        = 'Guest';
 		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
 		$this->pluginManagerPage->setFilter('filter_enabled', 'Disabled')->searchFor($test_plugin);
 		$this->assertFalse($this->pluginManagerPage->getRowNumber($test_plugin), 'Test plugin should not be present');
@@ -160,10 +154,10 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 	public function changePluginState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
 		/*A test Plugin which we are going to change the state.*/
-		$test_plugin = 'Content - Joomla';
-		$expected_state = 'published';
+		$test_plugin             = 'Content - Joomla';
+		$expected_state          = 'published';
 		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
-		$actuall_pluginState = $this->pluginManagerPage->getState($test_plugin);
+		$actuall_pluginState     = $this->pluginManagerPage->getState($test_plugin);
 		$this->assertEquals($actuall_pluginState, $expected_state, 'Plugin State should equal expected');
 		$this->pluginManagerPage->changePluginState($test_plugin, 'unpublished');
 		$message = $this->pluginManagerPage->getAlertMessage();

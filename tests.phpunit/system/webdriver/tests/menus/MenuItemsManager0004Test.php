@@ -41,16 +41,16 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 	public function addMenuItem_ListAllTags_MenuItemsAdded()
 	{
 		/*add test tags*/
-		$cpPage = $this->doAdminLogin();
+		$cpPage               = $this->doAdminLogin();
 		$this->tagManagerPage = $cpPage->clickMenu('Tags', 'TagManagerPage');
-		$cfg = new SeleniumConfig;
-		$tagManager = 'administrator/index.php?option=com_tags';
-		$salt = rand();
-		$tagName1 = 'Tag_1' . $salt;
-		$tagName2 = 'Tag_2' . $salt;
-		$caption = 'Sample' . $salt;
-		$alt = 'alt' . $salt;
-		$float = 'Right';
+		$cfg                  = new SeleniumConfig;
+		$tagManager           = 'administrator/index.php?option=com_tags';
+		$salt                 = rand();
+		$tagName1             = 'Tag_1' . $salt;
+		$tagName2             = 'Tag_2' . $salt;
+		$caption              = 'Sample' . $salt;
+		$alt                  = 'alt' . $salt;
+		$float                = 'Right';
 
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName1), 'Test tag should not be present');
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName2), 'Test tag should not be present');
@@ -66,9 +66,9 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 
 		$menuItemManager = 'administrator/index.php?option=com_menus&view=items';
 		$this->driver->get($cfg->host . $cfg->path . $menuItemManager);
-		$title = 'Menu Item' . $salt;
-		$menuType = 'List of all tags';
-		$menuLocation = 'Main Menu';
+		$title                      = 'Menu Item' . $salt;
+		$menuType                   = 'List of all tags';
+		$menuLocation               = 'Main Menu';
 		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
 		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
@@ -79,7 +79,7 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 		/*verify from the front end*/
 
 		$homePageUrl = 'index.php';
-		$d = $this->driver;
+		$d           = $this->driver;
 		$d->get($cfg->host . $cfg->path . $homePageUrl);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
 
@@ -112,15 +112,15 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 	public function addMenuItem_SingleNewsFeed_MenuItemAdded()
 	{
 		$this->doAdminLogin();
-		$cfg = new seleniumconfig;
+		$cfg  = new seleniumconfig;
 		$salt = rand();
 
 		$menuItemManager = 'administrator/index.php?option=com_menus&view=items';
 		$this->driver->get($cfg->host . $cfg->path . $menuItemManager);
-		$title = 'Menu Item' . $salt;
-		$menuType = 'Single News Feed';
-		$menuLocation = 'Main Menu';
-		$feedName = "Joomla! Connect";
+		$title                      = 'Menu Item' . $salt;
+		$menuType                   = 'Single News Feed';
+		$menuLocation               = 'Main Menu';
+		$feedName                   = "Joomla! Connect";
 		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
 		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
@@ -131,7 +131,7 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 		/*verify from the front end*/
 
 		$homePageUrl = 'index.php';
-		$d = $this->driver;
+		$d           = $this->driver;
 		$d->get($cfg->host . $cfg->path . $homePageUrl);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
 
@@ -154,16 +154,16 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 	public function addMenuItem_ListAllNewsFeedCategory_MenuAdded()
 	{
 		$this->doAdminLogin();
-		$cfg = new SeleniumConfig;
+		$cfg             = new SeleniumConfig;
 		$categoryManager = 'administrator/index.php?option=com_categories&extension=com_newsfeeds';
-		$feedManager = 'administrator/index.php?option=com_newsfeeds';
+		$feedManager     = 'administrator/index.php?option=com_newsfeeds';
 		$menuItemManager = 'administrator/index.php?option=com_menus&view=items';
 		$this->driver->get($cfg->host . $cfg->path . $categoryManager);
 
 		/*add test category*/
 
-		$salt = rand();
-		$categoryName = 'category_ABC' . $salt;
+		$salt                      = rand();
+		$categoryName              = 'category_ABC' . $salt;
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName);
@@ -174,9 +174,9 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 
 		$this->driver->get($cfg->host . $cfg->path . $feedManager);
 		$this->newsFeedManagerPage = $this->getPageObject('NewsFeedManagerPage');
-		$salt = rand();
-		$feedName1 = 'Test_Feed_1' . $salt;
-		$link1 = 'www.test1.com';
+		$salt                      = rand();
+		$feedName1                 = 'Test_Feed_1' . $salt;
+		$link1                     = 'www.test1.com';
 		$this->assertFalse($this->newsFeedManagerPage->getRowNumber($feedName1), 'Test Feed should not be present');
 		$this->newsFeedManagerPage->addFeed($feedName1, $link1, $categoryName);
 		$message = $this->newsFeedManagerPage->getAlertMessage();
@@ -185,9 +185,9 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 		/* add menu item of type List all newsFeeds category */
 
 		$this->driver->get($cfg->host . $cfg->path . $menuItemManager);
-		$title = 'Menu Item' . $salt;
-		$menuType = 'List All News Feed Categories';
-		$menuLocation = 'Main Menu';
+		$title                      = 'Menu Item' . $salt;
+		$menuType                   = 'List All News Feed Categories';
+		$menuLocation               = 'Main Menu';
 		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
 		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
@@ -198,7 +198,7 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 		/*verify from the front end*/
 
 		$homePageUrl = 'index.php';
-		$d = $this->driver;
+		$d           = $this->driver;
 		$d->get($cfg->host . $cfg->path . $homePageUrl);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
 
@@ -228,16 +228,16 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 	public function addMenuItem_ListNewsFeedCategory_MenuItemAdded()
 	{
 		$this->doAdminLogin();
-		$cfg = new SeleniumConfig;
+		$cfg             = new SeleniumConfig;
 		$categoryManager = 'administrator/index.php?option=com_categories&extension=com_newsfeeds';
-		$feedManager = 'administrator/index.php?option=com_newsfeeds';
+		$feedManager     = 'administrator/index.php?option=com_newsfeeds';
 		$menuItemManager = 'administrator/index.php?option=com_menus&view=items';
 		$this->driver->get($cfg->host . $cfg->path . $categoryManager);
 
 		/*add test category*/
 
-		$salt = rand();
-		$categoryName = 'category_ABC' . $salt;
+		$salt                      = rand();
+		$categoryName              = 'category_ABC' . $salt;
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->assertFalse($this->categoryManagerPage->getRowNumber($categoryName), 'Test Category should not be present');
 		$this->categoryManagerPage->addCategory($categoryName);
@@ -248,11 +248,11 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 
 		$this->driver->get($cfg->host . $cfg->path . $feedManager);
 		$this->newsFeedManagerPage = $this->getPageObject('NewsFeedManagerPage');
-		$salt = rand();
-		$feedName1 = 'Test_Feed_1' . $salt;
-		$feedName2 = 'Test_Feed_2' . $salt;
-		$link1 = 'www.test1.com';
-		$link2 = 'www.link2.com';
+		$salt                      = rand();
+		$feedName1                 = 'Test_Feed_1' . $salt;
+		$feedName2                 = 'Test_Feed_2' . $salt;
+		$link1                     = 'www.test1.com';
+		$link2                     = 'www.link2.com';
 		$this->assertFalse($this->newsFeedManagerPage->getRowNumber($feedName1), 'Test Feed should not be present');
 		$this->assertFalse($this->newsFeedManagerPage->getRowNumber($feedName2), 'Test Feed should not be present');
 		$this->newsFeedManagerPage->addFeed($feedName1, $link1, $categoryName);
@@ -266,9 +266,9 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 		/*add menu Item of type List news feeds in a category*/
 
 		$this->driver->get($cfg->host . $cfg->path . $menuItemManager);
-		$title = 'Menu Item' . $salt;
-		$menuType = 'List News Feeds in a Category';
-		$menuLocation = 'Main Menu';
+		$title                      = 'Menu Item' . $salt;
+		$menuType                   = 'List News Feeds in a Category';
+		$menuLocation               = 'Main Menu';
 		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
 		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
@@ -279,7 +279,7 @@ class MenuItemsManager0004Test extends JoomlaWebdriverTestCase
 		/*front end verification*/
 
 		$homePageUrl = 'index.php';
-		$d = $this->driver;
+		$d           = $this->driver;
 		$d->get($cfg->host . $cfg->path . $homePageUrl);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
 

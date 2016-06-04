@@ -1,12 +1,5 @@
 <?php
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
-
 /**
  * @package     Joomla.Test
  * @subpackage  Webdriver
@@ -25,36 +18,19 @@ use SeleniumClient\WebElement;
 class WeblinkEditPage extends AdminEditPage
 {
 	/**
-	 * XPath string used to uniquely identify this page
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $waitForXpath =  "//form[@id='weblink-form']";
-
-	/**
-	 * URL used to uniquely identify this page
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $url = 'administrator/index.php?option=com_weblinks&view=weblink&layout=edit';
-
-	/**
 	 * Array of tabs present on this page
 	 *
 	 * @var    array
 	 * @since  3.2
 	 */
 	public $tabs = array('details', 'images', 'publishing', 'attrib-jbasic');
-
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
 	 *
 	 * @var array
 	 * @since 3.2
 	 */
-	public $inputFields = array (
+	public $inputFields = array(
 		array('label' => 'Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header'),
 		array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'header'),
 		array('label' => 'URL', 'id' => 'jform_url', 'type' => 'input', 'tab' => 'details'),
@@ -91,7 +67,27 @@ class WeblinkEditPage extends AdminEditPage
 		array('label' => 'Target', 'id' => 'jform_params_target', 'type' => 'select', 'tab' => 'attrib-jbasic'),
 		array('label' => 'Width', 'id' => 'jform_params_width', 'type' => 'input', 'tab' => 'attrib-jbasic'),
 		array('label' => 'Height', 'id' => 'jform_params_height', 'type' => 'input', 'tab' => 'attrib-jbasic'),
-		array('label' => 'Count Clicks', 'id' => 'jform_params_count_clicks', 'type' => 'select', 'tab' => 'attrib-jbasic'),			);
+		array(
+			'label' => 'Count Clicks',
+			'id'    => 'jform_params_count_clicks',
+			'type'  => 'select',
+			'tab'   => 'attrib-jbasic'
+		),
+	);
+	/**
+	 * XPath string used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $waitForXpath = "//form[@id='weblink-form']";
+	/**
+	 * URL used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $url = 'administrator/index.php?option=com_weblinks&view=weblink&layout=edit';
 
 }
 

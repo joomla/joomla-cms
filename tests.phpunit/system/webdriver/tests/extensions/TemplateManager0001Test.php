@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Template Manager: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                  = $this->doAdminLogin();
 		$this->pluginManagerPage = $cpPage->clickMenu('Template Manager', 'TemplateManagerPage');
 	}
 
@@ -68,7 +62,7 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function constructor_OpenEditScreen_TemplateEditOpened()
 	{
-		$test_template = 'Hathor - Default';
+		$test_template             = 'Hathor - Default';
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->clickItem($test_template);
 		$templateEditPage = $this->getPageObject('TemplateEditPage');
@@ -85,11 +79,11 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
 	{
-		$test_template = 'Hathor - Default';
+		$test_template             = 'Hathor - Default';
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->clickItem($test_template);
 		$templateEditPage = $this->getPageObject('TemplateEditPage');
-		$textArray = $templateEditPage->getTabIds();
+		$textArray        = $templateEditPage->getTabIds();
 		$this->assertEquals($templateEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$templateEditPage->clickButton('toolbar-cancel');
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
@@ -104,8 +98,8 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function copyStyle_MakeDuplicate()
 	{
-		$template_name = 'Hathor - Default (2)';
-		$test_template = 'Hathor - Default';
+		$template_name             = 'Hathor - Default (2)';
+		$test_template             = 'Hathor - Default';
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->copyStyle($test_template);
 		$message = $this->templateManagerPage->getAlertMessage();
@@ -124,9 +118,9 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editStyle_EditDuplicate()
 	{
-		$template_name = 'Hathor - Default (2)';
-		$template_new_name = 'Testing 1234';
-		$test_template = 'Hathor - Default';
+		$template_name             = 'Hathor - Default (2)';
+		$template_new_name         = 'Testing 1234';
+		$test_template             = 'Hathor - Default';
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->copyStyle($test_template);
 		$message = $this->templateManagerPage->getAlertMessage();

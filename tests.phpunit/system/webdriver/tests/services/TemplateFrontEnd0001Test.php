@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * this class tests if the color of the template is changed
  *
@@ -25,7 +19,6 @@ use SeleniumClient\DesiredCapabilities;
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       Joomla 3.3
  */
-
 class TemplateFrontEnd0001Test extends JoomlaWebdriverTestCase
 {
 	private $previousTemplateColor;

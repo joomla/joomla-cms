@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -25,13 +20,42 @@ use SeleniumClient\WebElement;
 class TagManagerPage extends AdminManagerPage
 {
 	/**
+	 * Array of filter id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $filters = array(
+		'Select Status'   => 'filter_published',
+		'Select Access'   => 'filter_access',
+		'Select Language' => 'filter_language',
+	);
+	/**
+	 * Array of toolbar id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $toolbar = array(
+		'New'         => 'toolbar-new',
+		'Edit'        => 'toolbar-edit',
+		'Publish'     => 'toolbar-publish',
+		'Unpublish'   => 'toolbar-unpublish',
+		'Archive'     => 'toolbar-archive',
+		'Check In'    => 'toolbar-check-in',
+		'Trash'       => 'toolbar-trash',
+		'Empty Trash' => 'toolbar-delete',
+		'Batch'       => 'toolbar-batch',
+		'Options'     => 'toolbar-options',
+		'Help'        => 'toolbar-help',
+	);
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_tags']";
-
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_tags']";
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -41,57 +65,25 @@ class TagManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_tags';
 
 	/**
-	 * Array of filter id values for this page
-	 *
-	 * @var    array
-	 * @since  3.0
-	 */
-	public $filters = array(
-			'Select Status' => 'filter_published',
-			'Select Access' => 'filter_access',
-			'Select Language' => 'filter_language',
-			);
-
-	/**
-	 * Array of toolbar id values for this page
-	 *
-	 * @var    array
-	 * @since  3.0
-	 */
-	public $toolbar = array (
-			'New' => 'toolbar-new',
-			'Edit' => 'toolbar-edit',
-			'Publish' => 'toolbar-publish',
-			'Unpublish' => 'toolbar-unpublish',
-			'Archive' => 'toolbar-archive',
-			'Check In' => 'toolbar-check-in',
-			'Trash' => 'toolbar-trash',
-			'Empty Trash' => 'toolbar-delete',
-			'Batch' => 'toolbar-batch',
-			'Options' => 'toolbar-options',
-			'Help' => 'toolbar-help',
-			);
-
-	/**
 	 * Add a new Tag item in the Tag Manager: Component screen.
 	 *
-	 * @param string   $name          Test Tag Name
+	 * @param string $name    Test Tag Name
 	 *
-	 * @param string   $caption 	  Caption of the test Image
+	 * @param string $caption Caption of the test Image
 	 *
-	 * @param string   $alt			  Alternative Caption for the Image
+	 * @param string $alt     Alternative Caption for the Image
 	 *
-	 * @param string   $float		  Position of the Image of the tag
+	 * @param string $float   Position of the Image of the tag
 	 *
 	 * @return  TagManagerPage
 	 */
-	public function addTag($name='Test Tag', $caption='sample', $alt='Sample_Alt', $float='Use Global')
+	public function addTag($name = 'Test Tag', $caption = 'sample', $alt = 'Sample_Alt', $float = 'Use Global')
 	{
 		$new_name = $name;
-		$login = "testing";
+		$login    = "testing";
 		$this->clickButton('toolbar-new');
 		$tagEditPage = $this->test->getPageObject('TagEditPage');
-		$tagEditPage->setFieldValues(array('Title' => $name, 'Caption' => $caption, 'Alt'=>$alt,'Float'=>$float));
+		$tagEditPage->setFieldValues(array('Title' => $name, 'Caption' => $caption, 'Alt' => $alt, 'Float' => $float));
 		$tagEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('TagManagerPage');
 	}
@@ -99,8 +91,8 @@ class TagManagerPage extends AdminManagerPage
 	/**
 	 * Edit a Tag item in the Tag Manager: Tag Items screen.
 	 *
-	 * @param string   $name	   Tag Title field
-	 * @param array    $fields     associative array of fields in the form label => value.
+	 * @param string $name   Tag Title field
+	 * @param array  $fields associative array of fields in the form label => value.
 	 *
 	 * @return  void
 	 */
@@ -117,15 +109,15 @@ class TagManagerPage extends AdminManagerPage
 	/**
 	 * Get state  of a Tag item in the Tag Manager: Tag Items screen.
 	 *
-	 * @param string   $name	   Tag Title field
+	 * @param string $name Tag Title field
 	 *
 	 * @return  State of the Tag //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
+		$row    = $this->getRowNumber($name);
+		$text   = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'tags.unpublish') > 0)
 		{
 			$result = 'published';
@@ -134,14 +126,15 @@ class TagManagerPage extends AdminManagerPage
 		{
 			$result = 'unpublished';
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Change state of a Tag item in the Tag Manager: Tag Items screen.
 	 *
-	 * @param string   $name	   Tag Title field
-	 * @param string   $state      State of the Tag
+	 * @param string $name  Tag Title field
+	 * @param string $state State of the Tag
 	 *
 	 * @return  void
 	 */

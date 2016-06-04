@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Banner: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                  = $this->doAdminLogin();
 		$this->bannerManagerPage = $cpPage->clickMenu('Banners', 'BannerManagerPage');
 	}
 
@@ -68,7 +62,7 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
 	{
-		$actualIds = $this->bannerManagerPage->getFilters();
+		$actualIds   = $this->bannerManagerPage->getFilters();
 		$expectedIds = array_values($this->bannerManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
@@ -82,7 +76,7 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
-		$salt = rand();
+		$salt       = rand();
 		$bannerName = 'Test Filter' . $salt;
 		$this->bannerManagerPage->addBanner($bannerName, false);
 		$message = $this->bannerManagerPage->getAlertMessage();

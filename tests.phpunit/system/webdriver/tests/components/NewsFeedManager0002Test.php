@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  News Feeds: Add / Edit  Screen.
  *
@@ -42,7 +36,7 @@ class NewsFeedManager0002Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                    = $this->doAdminLogin();
 		$this->newsFeedManagerPage = $cpPage->clickMenu('Newsfeeds', 'NewsFeedManagerPage');
 	}
 
@@ -68,7 +62,7 @@ class NewsFeedManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
 	{
-		$actualIds = $this->newsFeedManagerPage->getFilters();
+		$actualIds   = $this->newsFeedManagerPage->getFilters();
 		$expectedIds = array_values($this->newsFeedManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
@@ -82,7 +76,7 @@ class NewsFeedManager0002Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
 	{
-		$salt = rand();
+		$salt     = rand();
 		$feedName = 'Test Filter' . $salt;
 		$this->newsFeedManagerPage->addFeed($feedName);
 		$message = $this->newsFeedManagerPage->getAlertMessage();

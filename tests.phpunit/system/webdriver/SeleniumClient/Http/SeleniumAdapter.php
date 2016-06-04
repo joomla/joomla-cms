@@ -22,37 +22,13 @@ class SeleniumAdapter extends HttpClient
 	public function execute()
 	{
 		parent::execute();
-		
+
 		$this->validateSeleniumResponseCode();
-		$this->validateHttpCode ();
-		
+		$this->validateHttpCode();
+
 		return $this->_responseBody;
 	}
-	
-	protected function validateHttpCode()
-	{
-		// Http response exceptions
-		switch (intval(trim($this->_responseHeaders['http_code'])))
-		{
-			case 400:
-				throw new SeleniumMissingCommandParametersException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
-				break;
-			case 405:
-				throw new SeleniumInvalidCommandMethodException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
-				break;
-			case 500:
-				if (!$this->_polling) { throw new SeleniumFailedCommandException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']); }
-				break;
-			case 501:
-				throw new SeleniumUnimplementedCommandException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
-				break;
-			default:
-				// Looks for 4xx http codes
-				if (preg_match("/^4[0-9][0-9]$/", $this->_responseHeaders['http_code'])) { throw new SeleniumInvalidRequestException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']); }
-				break;
-		}
-	}
-	
+
 	protected function validateSeleniumResponseCode()
 	{
 		// Selenium response status exceptions
@@ -69,7 +45,8 @@ class SeleniumAdapter extends HttpClient
 			switch (intval($this->_responseBody["status"]))
 			{
 				case 7:
-					if (!$this->_polling) {
+					if (!$this->_polling)
+					{
 						throw new SeleniumNoSuchElementException($message);
 					}
 					break;
@@ -134,6 +111,36 @@ class SeleniumAdapter extends HttpClient
 					throw new SeleniumInvalidSelectorException($message);
 					break;
 			}
+		}
+	}
+
+	protected function validateHttpCode()
+	{
+		// Http response exceptions
+		switch (intval(trim($this->_responseHeaders['http_code'])))
+		{
+			case 400:
+				throw new SeleniumMissingCommandParametersException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
+				break;
+			case 405:
+				throw new SeleniumInvalidCommandMethodException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
+				break;
+			case 500:
+				if (!$this->_polling)
+				{
+					throw new SeleniumFailedCommandException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
+				}
+				break;
+			case 501:
+				throw new SeleniumUnimplementedCommandException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
+				break;
+			default:
+				// Looks for 4xx http codes
+				if (preg_match("/^4[0-9][0-9]$/", $this->_responseHeaders['http_code']))
+				{
+					throw new SeleniumInvalidRequestException((string) $this->_responseHeaders['http_code'], $this->_responseHeaders['url']);
+				}
+				break;
 		}
 	}
 }

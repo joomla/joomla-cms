@@ -9,12 +9,6 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-
 /**
  * This class tests the  Control panel.
  *
@@ -43,7 +37,7 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$cpPage = $this->doAdminLogin();
+		$cpPage                 = $this->doAdminLogin();
 		$this->groupManagerPage = $cpPage->clickMenu('Groups', 'GroupManagerPage');
 	}
 
@@ -125,9 +119,9 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function addGroup_WithGivenFields_GroupAdded()
 	{
-		$salt = rand();
+		$salt      = rand();
 		$groupName = 'Group' . $salt;
-		$parent = 'Administrator';
+		$parent    = 'Administrator';
 		$this->assertFalse($this->groupManagerPage->getRowNumber($groupName), 'Test group should not be present');
 		$this->groupManagerPage->addGroup($groupName, $parent);
 		$message = $this->groupManagerPage->getAlertMessage();
@@ -148,14 +142,14 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function editGroup_ChangeFields_FieldsChanged()
 	{
-		$salt = rand();
+		$salt      = rand();
 		$groupName = 'Group' . $salt;
-		$parent = 'Author';
+		$parent    = 'Author';
 		$this->assertFalse($this->groupManagerPage->getRowNumber($groupName), 'Test group should not be present');
 		$this->groupManagerPage->addGroup($groupName, $parent);
 		$this->groupManagerPage->editGroup($groupName, array('Group Parent' => 'Publisher'));
 		$rowText = $this->groupManagerPage->getRowText($groupName);
-		$values = $this->groupManagerPage->getFieldValues('GroupEditPage', $groupName, array('Group Parent'));
+		$values  = $this->groupManagerPage->getFieldValues('GroupEditPage', $groupName, array('Group Parent'));
 		$this->assertStringEndsWith('Publisher', $values[0], 'Actual group parent should be Publisher');
 		$this->groupManagerPage->delete($groupName);
 	}
@@ -169,8 +163,8 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function setFilter_TestOrdering_ShouldOrderGroups()
 	{
-		$orderings = array('Group Title', 'ID');
-		$rows = array(
+		$orderings        = array('Group Title', 'ID');
+		$rows             = array(
 			'Administrator',
 			'Author',
 			'Customer Group',
@@ -186,15 +180,15 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$actualRowNumbers = $this->groupManagerPage->orderAndGetRowNumbers($orderings, $rows);
 
 		$expectedRowNumbers = array(
-				'Group Title' => array(
-					'ascending' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
-					'descending' => array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
-					),
-				'ID' => array(
-					'ascending' => array(7, 3, 10, 4, 11, 6, 1, 5, 2, 9, 8),
-					'descending' => array(5, 9, 2, 8, 1, 6, 11, 7, 10, 3, 4)
-					)
-				);
+			'Group Title' => array(
+				'ascending'  => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
+				'descending' => array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+			),
+			'ID'          => array(
+				'ascending'  => array(7, 3, 10, 4, 11, 6, 1, 5, 2, 9, 8),
+				'descending' => array(5, 9, 2, 8, 1, 6, 11, 7, 10, 3, 4)
+			)
+		);
 
 		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
 		{
@@ -203,10 +197,10 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 				foreach ($rowNumbers as $key => $rowNumber)
 				{
 					$this->assertEquals(
-							$expectedRowNumbers[$ordering][$order][$key],
-							$rowNumber,
-							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
-							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
+						$expectedRowNumbers[$ordering][$order][$key],
+						$rowNumber,
+						'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
+						. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
 					);
 				}
 			}

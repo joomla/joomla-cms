@@ -7,11 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -20,24 +15,22 @@ use SeleniumClient\WebElement;
  */
 class LevelEditPage extends AdminEditPage
 {
-	protected $waitForXpath = "//form[@id='level-form']";
-
-	protected $url = 'administrator/index.php?option=com_users&view=level&layout=edit';
-
 	/**
 	 * Associative array of expected input fields for the Account Details and Basic Settings tabs
 	 * Assigned User Acesss tab is omitted because that depends on the levels set up in the sample data
 	 *
 	 * @var unknown_type
 	 */
-	public $inputFields = array (
-			array('label' => 'Level Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header')
+	public $inputFields = array(
+		array('label' => 'Level Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header')
 	);
+	protected $waitForXpath = "//form[@id='level-form']";
+	protected $url = 'administrator/index.php?option=com_users&view=level&layout=edit';
 
 	/**
 	 * function to get all the input fields
 	 *
-	 * @param   array  $tabIds  Stores tab IDs
+	 * @param   array $tabIds Stores tab IDs
 	 *
 	 * @return array
 	 */
@@ -45,7 +38,7 @@ class LevelEditPage extends AdminEditPage
 	{
 		$return = array();
 		$labels = $this->driver->findElements(By::xPath("//fieldset/div[@class='control-group']/div/label"));
-		$tabId = 'header';
+		$tabId  = 'header';
 
 		foreach ($labels as $label)
 		{
@@ -67,12 +60,12 @@ class LevelEditPage extends AdminEditPage
 	 */
 	public function getGroups()
 	{
-		$result = array();
+		$result   = array();
 		$elements = $this->driver->findElements(By::xPath("//input[@checked='checked']/../../label"));
 
 		foreach ($elements as $el)
 		{
-			$result[] = str_replace(array('|','—'), '', $el->getText());
+			$result[] = str_replace(array('|', '—'), '', $el->getText());
 		}
 
 		return $result;
@@ -81,7 +74,7 @@ class LevelEditPage extends AdminEditPage
 	/**
 	 * function to set the group values
 	 *
-	 * @param   array  $groupNames  array to store all the group names
+	 * @param   array $groupNames array to store all the group names
 	 *
 	 * @return void
 	 */

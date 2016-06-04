@@ -8,11 +8,7 @@
  */
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Page class for front end page
@@ -24,58 +20,52 @@ use SeleniumClient\WebElement;
 abstract class SitePage
 {
 	/**
+	 * @var array $toolbar Associative array as label => id for the toolbar buttons
+	 */
+	public $toolbar = array();
+	/**
+	 *
+	 * @var  array of top menu text that is visible in all frontend pages
+	 */
+	public $visibleMenuText = array('Home', 'Sample Sites', 'Joomla.org');
+	/**
 	 *
 	 * @var Webdriver  The driver object for invoking driver methods.
 	 */
 	protected $driver = null;
-
 	/**
 	 *
 	 * @var SeleniumConfig  The configuration object.
 	 */
 	protected $cfg = null;
-
 	/**
 	 *
 	 * @var string This is the element that we wait for when we load a new page. It should specify something unique about this page.
 	 */
 	protected $waitForXpath;
-
 	/**
 	 *
 	 * @var JoomlaWebdriverTestCase  The test object for invoking test methods.
 	 */
 	protected $test = null;
-
-	/**
-	 * @var array $toolbar  Associative array as label => id for the toolbar buttons
-	 */
-	public $toolbar = array();
-
 	/**
 	 * @var string  This is the URL for this page. We check this when a new page class is loaded.
 	 */
 	protected $url = null;
 
 	/**
-	 *
-	 * @var  array of top menu text that is visible in all frontend pages
-	 */
-	public $visibleMenuText = array ('Home','Sample Sites','Joomla.org');
-
-	/**
 	 * constructor function
 	 *
-	 * @param   Webdriver                 $driver  Driver for this test.
-	 * @param   JoomlaWebdriverTestClass  $test    Test class object (needed to create page class objects)
-	 * @param   string                    $url     Optional URL to load when object is created. Only use for initial page load.
+	 * @param   Webdriver                $driver Driver for this test.
+	 * @param   JoomlaWebdriverTestClass $test   Test class object (needed to create page class objects)
+	 * @param   string                   $url    Optional URL to load when object is created. Only use for initial page load.
 	 */
 	public function __construct(Webdriver $driver, $test, $url = null)
 	{
 		$this->driver = $driver;
 		/* @var $test JoomlaWebdriverTestCase */
 		$this->test = $test;
-		$cfg = new SeleniumConfig;
+		$cfg        = new SeleniumConfig;
 
 		// Save current configuration
 		$this->cfg = $cfg;
