@@ -334,12 +334,12 @@ abstract class JHtmlGrid
 			$(\'input.check-all-toggle\').each(function(){
 				$(this).on(\'click\', function(){
 					if (this.checked) {
-						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
 							this.checked = true;
 						})
 					}
 					else {
-						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
 							this.checked = false;
 						})
 					}

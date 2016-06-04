@@ -79,7 +79,7 @@ JFactory::getDocument()->addStyleDeclaration(
 	// Set the first tab to active if there is no other active tab
 	jQuery(document).ready(function($) {
 		var hasTab = function(href){
-			return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
+			return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
 		};
 		if (!hasTab(localStorage.getItem('tab-href')))
 		{
