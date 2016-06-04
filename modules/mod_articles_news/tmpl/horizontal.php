@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <ul class="newsflash-horiz<?php echo $params->get('moduleclass_sfx'); ?>">
 	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
 		<?php $item = $list[$i]; ?>
-		<li<?php echo (empty($item->featured)) ? '' : 'class="item-featured"';?>>
+		<li<?php echo $item->featured ? 'class="item-featured"' : '';?>>
 			<?php require JModuleHelper::getLayoutPath('mod_articles_news', '_item'); ?>
 
 			<?php if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>

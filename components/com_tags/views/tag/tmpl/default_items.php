@@ -71,10 +71,10 @@ JFactory::getDocument()->addScriptDeclaration("
 	<ul class="category list-striped">
 		<?php foreach ($items as $i => $item) : ?>
 			<?php if ($item->core_state == 0) : ?>
-				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo (empty($item->featured)) ? '' : ' item-featured';?>">
+				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo $item->featured ? ' item-featured' : '';?>">
 			<?php else: ?>
-				<li class="cat-list-row<?php echo $i % 2; ?> clearfix<?php echo (empty($item->featured)) ? '' : ' item-featured';?>" >
-				<?php if (($item->type_alias == 'com_users.category') || ($item->type_alias == 'com_banners.category')) : ?>
+				<li class="cat-list-row<?php echo $i % 2; ?> clearfix<?php echo $item->featured ? ' item-featured' : ''; ?>" >
+				<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
 					<h3>
 						<?php echo $this->escape($item->core_title); ?>
 					</h3>
