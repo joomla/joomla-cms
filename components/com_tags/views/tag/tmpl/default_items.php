@@ -30,6 +30,9 @@ JFactory::getDocument()->addScriptDeclaration("
 	}
 ");
 ?>
+
+<?php print_r($this->item); ?>
+
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
@@ -71,15 +74,15 @@ JFactory::getDocument()->addScriptDeclaration("
 	<ul class="category list-striped">
 		<?php foreach ($items as $i => $item) : ?>
 			<?php if ($item->core_state == 0) : ?>
-				<li class="system-unpublished cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : '';?>">
+				<li class="system-unpublished cat-list-row<?php echo $i % 2; echo $item->featured-tag ? ' item-featured' : '';?>">
 			<?php else: ?>
 				<li class="cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : ''; ?> clearfix" >
 				<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
-					<h3>
+					<h3<?php echo $item->featured ? ' class="item-featured"' : '';?>>
 						<?php echo $this->escape($item->core_title); ?>
 					</h3>
 				<?php else: ?>
-					<h3>
+					<h3<?php echo $item->featured ? ' class="item-featured"' : '';?>>
 						<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 							<?php echo $this->escape($item->core_title); ?>
 						</a>

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 			<div class="mod-articles-category-group"><?php echo $group_name;?></div>
 			<ul>
 				<?php foreach ($group as $item) : ?>
-					<li>
+					<li<?php echo $item->featured ? ' class="item-featured"' : '';?>>
 						<?php if ($params->get('link_titles') == 1) : ?>
 							<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 								<?php echo $item->title; ?>

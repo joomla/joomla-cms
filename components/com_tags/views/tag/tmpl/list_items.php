@@ -22,6 +22,8 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 
+<?php print_r($this->item); ?>
+
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
@@ -84,9 +86,9 @@ JFactory::getDocument()->addScriptDeclaration("
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($this->items[$i]->core_state == 0) : ?>
-					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?><?php echo $item->featured ? ' item-featured' : '';?>">
+					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : '';?>">
 					<?php else: ?>
-					<tr class="cat-list-row<?php echo $i % 2; ?><?php echo $item->featured ? ' item-featured' : '';?>" >
+					<tr class="cat-list-row<?php echo $i % 2; echo $item->featured ? ' item-featured' : '';?>" >
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
 							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
