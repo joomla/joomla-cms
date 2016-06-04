@@ -16,7 +16,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - WebDriver
-        - AcceptanceHelper
+        - \Helper\Acceptance
         - Filesystem
     config:
         WebDriver:
@@ -39,4 +39,4 @@ modules:
             Admin email: 'admin@mydomain.com'      # email Id of the Admin
             Language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
             Joomla folder: '/home/travis/build/joomla-extensions/joomla-cms/tests.phpunit/codeception/testingsite/' # Path to Joomla installation where we execute the tests
-
+error_reporting: E_ALL
