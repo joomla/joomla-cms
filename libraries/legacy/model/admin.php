@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -790,7 +790,8 @@ abstract class JModelAdmin extends JModelForm
 							->from($db->quoteName('#__associations') . ' AS as1')
 							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
 							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk);
+							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
 						$row = $db->loadAssoc();
@@ -1003,7 +1004,19 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
+
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					return false;
+				}
+
+				// If the table is checked out by another user, drop it and report to the user trying to change its state.
+				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				{
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), JLog::WARNING, 'jerror');
+
+					// Prune items that you can't change.
+					unset($pks[$i]);
 
 					return false;
 				}
@@ -1201,14 +1214,17 @@ abstract class JModelAdmin extends JModelForm
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && JLanguageAssociations::isEnabled())
+		if ($this->associationsContext && JLanguageAssociations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 
 			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
+			// Unset any invalid associations
 			foreach ($associations as $tag => $id)
 			{
-				if (!(int) $id)
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
@@ -1244,7 +1260,7 @@ abstract class JModelAdmin extends JModelForm
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);

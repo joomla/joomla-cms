@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -214,7 +214,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -780,7 +780,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to parse the queries specified in the <sql> tags
+	 * Method to parse the queries specified in the `<sql>` tags
 	 *
 	 * @return  void
 	 *
@@ -979,6 +979,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'postflight')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(
@@ -998,6 +1001,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'uninstall')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
 							throw new RuntimeException(
 								JText::sprintf(

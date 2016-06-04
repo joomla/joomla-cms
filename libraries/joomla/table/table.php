@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -776,6 +776,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function store($updateNulls = false)
 	{
+		$result = true;
+
 		$k = $this->_tbl_keys;
 
 		// Implement JObservableInterface: Pre-processing by observers
@@ -797,11 +799,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->hasPrimaryKey())
 		{
-			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
 		}
 		else
 		{
-			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
+			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_keys[0]);
 		}
 
 		// If the table is not set to track assets return true.
@@ -1035,8 +1037,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function checkOut($userId, $pk = null)
 	{
+		$checkedOutField = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
 		{
 			return true;
 		}
@@ -1071,15 +1076,15 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($this->getColumnAlias('checked_out')) . ' = ' . (int) $userId)
-			->set($this->_db->quoteName($this->getColumnAlias('checked_out_time')) . ' = ' . $this->_db->quote($time));
+			->set($this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId)
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($time));
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->checked_out      = (int) $userId;
-		$this->checked_out_time = $time;
+		$this->$checkedOutField      = (int) $userId;
+		$this->$checkedOutTimeField = $time;
 
 		return true;
 	}
@@ -1098,8 +1103,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function checkIn($pk = null)
 	{
+		$checkedOutField = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
+
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!property_exists($this, $checkedOutField) || !property_exists($this, $checkedOutTimeField))
 		{
 			return true;
 		}
@@ -1131,8 +1139,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($this->getColumnAlias('checked_out')) . ' = 0')
-			->set($this->_db->quoteName($this->getColumnAlias('checked_out_time')) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $this->_db->quote($this->_db->getNullDate()));
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 
@@ -1140,8 +1148,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->checked_out      = 0;
-		$this->checked_out_time = '';
+		$this->$checkedOutField      = 0;
+		$this->$checkedOutTimeField = '';
 
 		return true;
 	}
@@ -1200,8 +1208,10 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function hit($pk = null)
 	{
+		$hitsField = $this->getColumnAlias('hits');
+
 		// If there is no hits field, just return true.
-		if (!property_exists($this, 'hits'))
+		if (!property_exists($this, $hitsField))
 		{
 			return true;
 		}
@@ -1233,7 +1243,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($this->getColumnAlias('hits')) . ' = (' . $this->_db->quoteName($this->getColumnAlias('hits')) . ' + 1)');
+			->set($this->_db->quoteName($hitsField) . ' = (' . $this->_db->quoteName($hitsField) . ' + 1)');
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -1264,7 +1274,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Handle the non-static case.
 		if (isset($this) && ($this instanceof JTable) && is_null($against))
 		{
-			$against = $this->get('checked_out');
+			$checkedOutField = $this->getColumnAlias('checked_out');
+			$against = $this->get($checkedOutField);
 		}
 
 		// The item is not checked out or is checked out by the same user.
@@ -1563,17 +1574,27 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pks = array($pk);
 		}
 
+		$publishedField = $this->getColumnAlias('published');
+		$checkedOutField = $this->getColumnAlias('checked_out');
+
 		foreach ($pks as $pk)
 		{
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
-				->set($this->_db->quoteName($this->getColumnAlias('published')) . ' = ' . (int) $state);
+				->set($this->_db->quoteName($publishedField) . ' = ' . (int) $state);
+
+			// If publishing, set published date/time if not previously set
+			if ($state && property_exists($this, 'publish_up') && (int) $this->publish_up == 0)
+			{
+				$nowDate = $this->_db->quote(JFactory::getDate()->toSql());
+				$query->set($this->_db->quoteName($this->getColumnAlias('publish_up')) . ' = ' . $nowDate);
+			}
 
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
 			{
-				$query->where('(' . $this->getColumnAlias('checked_out') . ' = 0 OR ' . $this->getColumnAlias('checked_out') . ' = ' . (int) $userId . ')');
+				$query->where('(' . $this->_db->quoteName($checkedOutField) . ' = 0 OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId . ')');
 				$checkin = true;
 			}
 			else
@@ -1616,7 +1637,6 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 			if ($ours)
 			{
-				$publishedField = $this->getColumnAlias('published');
 				$this->$publishedField = $state;
 			}
 		}

@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Client table
@@ -19,14 +21,14 @@ class BannersTableClient extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$_db  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(&$_db)
+	public function __construct(&$db)
 	{
-		$this->checked_out_time = $_db->getNullDate();
-		parent::__construct('#__banner_clients', 'id', $_db);
+		$this->checked_out_time = $db->getNullDate();
+		parent::__construct('#__banner_clients', 'id', $db);
 
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.client'));
 	}
@@ -49,7 +51,7 @@ class BannersTableClient extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks    = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 
@@ -84,10 +86,10 @@ class BannersTableClient extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
-			' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state .
-			' WHERE (' . $where . ')' .
-			$checkin
+			'UPDATE ' . $this->_db->quoteName($this->_tbl)
+			. ' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state
+			. ' WHERE (' . $where . ')'
+			. $checkin
 		);
 
 		try

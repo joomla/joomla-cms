@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,6 +117,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('caching', 0);
 		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
+		$registry->set('cache_platformprefix', 0);
 
 		// Meta settings.
 		$registry->set('MetaDesc', $options->site_metadesc);
@@ -134,7 +135,9 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Feed settings.
 		$registry->set('feed_limit', 10);
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('feed_email', 'none');
+
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		// Session setting.

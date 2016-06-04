@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1215,6 +1215,143 @@ class JClientFtp
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to append a string to the FTP server
+	 *
+	 * @param   string  $remote  FTP path to file to append to
+	 * @param   string  $buffer  Contents to append to the FTP server
+	 *
+	 * @return  boolean  True if successful
+	 *
+	 * @since   3.6.0
+	 */
+	public function append($remote, $buffer)
+	{
+		// Determine file type
+		$mode = $this->_findMode($remote);
+
+		// If native FTP support is enabled let's use it...
+		if (FTP_NATIVE)
+		{
+			// Turn passive mode on
+			if (@ftp_pasv($this->_conn, true) === false)
+			{
+				throw new RuntimeException(JText::_('JLIB_CLIENT_ERROR_JFTP_APPEND_PASSIVE'), 36);
+			}
+
+			$tmp = fopen('buffer://tmp', 'bw+');
+			fwrite($tmp, $buffer);
+			rewind($tmp);
+
+			$size = $this->size($remote);
+
+			if ($size === false)
+			{
+			}
+
+			if (@ftp_fput($this->_conn, $remote, $tmp, $mode, $size) === false)
+			{
+				fclose($tmp);
+
+				throw new RuntimeException(JText::_('JLIB_CLIENT_ERROR_JFTP_APPEND_BAD_RESPONSE'), 35);
+			}
+
+			fclose($tmp);
+
+			return true;
+		}
+
+		// First we need to set the transfer mode
+		$this->_mode($mode);
+
+		// Start passive mode
+		if (!$this->_passive())
+		{
+			throw new RuntimeException(JText::_('JLIB_CLIENT_ERROR_JFTP_APPEND_PASSIVE'), 36);
+		}
+
+		// Send store command to the FTP server
+		if (!$this->_putCmd('APPE ' . $remote, array(150, 125)))
+		{
+			@fclose($this->_dataconn);
+
+			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_APPEND_BAD_RESPONSE_APPE', $this->_response, $remote), 35);
+		}
+
+		// Write buffer to the data connection port
+		do
+		{
+			if (($result = @ fwrite($this->_dataconn, $buffer)) === false)
+			{
+				throw new RuntimeException(JText::_('JLIB_CLIENT_ERROR_JFTP_APPEND_DATA_PORT'), 37);
+			}
+
+			$buffer = substr($buffer, $result);
+		}
+		while ($buffer != '');
+
+		// Close the data connection port [Data transfer complete]
+		fclose($this->_dataconn);
+
+		// Verify that the server recieved the transfer
+		if (!$this->_verifyResponse(226))
+		{
+			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_APPEND_BAD_RESPONSE_TRANSFER', $this->_response, $remote), 37);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Get the size of the remote file.
+	 *
+	 * @param   string  $remote  FTP path to file whose size to get
+	 *
+	 * @return  mixed  number of bytes or false on error
+	 *
+	 * @since   3.6.0
+	 */
+	public function size($remote)
+	{
+		if (FTP_NATIVE)
+		{
+			$size = ftp_size($this->_conn, $remote);
+
+			// In case ftp_size fails, try the SIZE command directly.
+			if ($size === -1)
+			{
+				$response = ftp_raw($this->_conn, 'SIZE ' . $remote);
+				$responseCode = substr($response[0], 0, 3);
+				$responseMessage = substr($response[0], 4);
+
+				if ($responseCode != '213')
+				{
+					throw new RuntimeException(JText::_('JLIB_CLIENT_ERROR_JFTP_SIZE_BAD_RESPONSE'), 35);
+				}
+
+				$size = (int) $responseMessage;
+			}
+
+			return $size;
+		}
+
+		// Start passive mode
+		if (!$this->_passive())
+		{
+			throw new RuntimeException(JText::_('JLIB_CLIENT_ERROR_JFTP_SIZE_PASSIVE'), 36);
+		}
+
+		// Send size command to the FTP server
+		if (!$this->_putCmd('SIZE ' . $remote, array(213)))
+		{
+			@fclose($this->_dataconn);
+
+			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_BAD_RESPONSE_SIZE', $this->_response, $remote), 35);
+		}
+
+		return (int) substr($this->_responseMsg, 4);
 	}
 
 	/**

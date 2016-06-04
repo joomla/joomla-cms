@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -123,7 +123,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Make sure the PDO extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('PDO Extension is not available.', 1);
+			throw new JDatabaseExceptionUnsupported('PDO Extension is not available.', 1);
 		}
 
 		$replace = array();
@@ -306,7 +306,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO: ' . $e->getMessage(), 2, $e);
+			throw new JDatabaseExceptionConnecting('Could not connect to PDO: ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -325,7 +325,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		$this->freeResult();
-		unset($this->connection);
+		$this->connection = null;
 	}
 
 	/**
@@ -377,7 +377,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!is_object($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -444,8 +444,8 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if (!$this->executed)
 		{
 			// Get the error number and message before we execute any more queries.
-			$errorNum = (int) $this->connection->errorCode();
-			$errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+			$errorNum = $this->getErrorNumber();
+			$errorMsg = $this->getErrorMessage($query);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -460,13 +460,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					// Get the error number and message.
-					$this->errorNum = (int) $this->connection->errorCode();
-					$this->errorMsg = (string) 'SQL: ' . implode(", ", $this->connection->errorInfo());
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage($query);
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -482,7 +482,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -629,6 +629,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * Only applicable for DELETE, INSERT, or UPDATE statements.
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *
@@ -1043,5 +1044,42 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		// Get connection back
 		$this->__construct($this->options);
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorNumber()
+	{
+		return (int) $this->connection->errorCode();
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @param   string  $query  The SQL Query that fails
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage($query)
+	{
+		// Note we ignoring $query here as it not used in the original code.
+
+		// The SQL Error Information
+		$errorInfo = implode(", ", $this->connection->errorInfo());
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorInfo = str_replace($this->tablePrefix, '#__', $errorInfo);
+		}
+
+		return 'SQL: ' . $errorInfo;
 	}
 }

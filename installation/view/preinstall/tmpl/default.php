@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,12 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewPreinstallHtml $this */
 ?>
-<div class="btn-toolbar">
-	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
-	</div>
-</div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
+	<div class="btn-toolbar">
+		<div class="btn-group pull-right">
+			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
+		</div>
+	</div>
 	<div class="control-group">
 		<label for="jform_language" class="control-label"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
 		<div class="controls">
@@ -44,7 +44,7 @@ defined('_JEXEC') or die;
 						<td>
 							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
-								<?php if ($option->notice):?>
+								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
 							</span>
@@ -62,9 +62,7 @@ defined('_JEXEC') or die;
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
-			<p class="install-text">
-				<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
-			</p>
+			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
@@ -106,7 +104,13 @@ defined('_JEXEC') or die;
 			</table>
 		</div>
 	</div>
-
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
+			</div>
+		</div>
+	</div>
 	<input type="hidden" name="task" value="preinstall" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

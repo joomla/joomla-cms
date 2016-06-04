@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -551,7 +553,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$row = $this->db->loadAssoc();
 
 		// Convert the item to a result object.
-		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+		$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -586,7 +588,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($rows as $row)
 		{
 			// Convert the item to a result object.
-			$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+			$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 			// Set the item type.
 			$item->type_id = $this->type_id;
@@ -921,7 +923,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			case 2:
 				return 1;
 
-			// All other states should return a unpublished state
+			// All other states should return an unpublished state
 			default:
 			case 0:
 				return 0;

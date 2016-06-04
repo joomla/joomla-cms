@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ContentViewFeatured extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -29,7 +29,7 @@ class ContentViewFeatured extends JViewLegacy
 		$app       = JFactory::getApplication();
 		$doc       = JFactory::getDocument();
 		$params    = $app->getParams();
-		$feedEmail = $app->get('feed_email', 'author');
+		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
 		$doc->link = JRoute::_('index.php?option=com_content&view=featured');
 

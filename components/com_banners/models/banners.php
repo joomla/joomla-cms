@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,27 +54,27 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$ordering = $this->getState('filter.ordering');
-		$tagSearch = $this->getState('filter.tag_search');
-		$cid = $this->getState('filter.client_id');
+		$db         = $this->getDbo();
+		$query      = $db->getQuery(true);
+		$ordering   = $this->getState('filter.ordering');
+		$tagSearch  = $this->getState('filter.tag_search');
+		$cid        = $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
-		$keywords = $this->getState('filter.keywords');
-		$randomise = ($ordering == 'random');
-		$nullDate = $db->quote($db->getNullDate());
+		$keywords   = $this->getState('filter.keywords');
+		$randomise  = ($ordering == 'random');
+		$nullDate   = $db->quote($db->getNullDate());
 
 		$query->select(
-			'a.id as id,' .
-				'a.type as type,' .
-				'a.name as name,' .
-				'a.clickurl as clickurl,' .
-				'a.cid as cid,' .
-				'a.description as description,' .
-				'a.params as params,' .
-				'a.custombannercode as custombannercode,' .
-				'a.track_impressions as track_impressions,' .
-				'cl.track_impressions as client_track_impressions'
+			'a.id as id,'
+				. 'a.type as type,'
+				. 'a.name as name,'
+				. 'a.clickurl as clickurl,'
+				. 'a.cid as cid,'
+				. 'a.description as description,'
+				. 'a.params as params,'
+				. 'a.custombannercode as custombannercode,'
+				. 'a.track_impressions as track_impressions,'
+				. 'cl.track_impressions as client_track_impressions'
 		)
 			->from('#__banners as a')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
@@ -111,7 +111,7 @@ class BannersModelBanners extends JModelList
 					->where('sub.level <= this.level + ' . $levels);
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . $subQuery->__toString() . '))');
+				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
 			}
 			else
 			{
@@ -138,7 +138,7 @@ class BannersModelBanners extends JModelList
 			}
 			else
 			{
-				$temp = array();
+				$temp   = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
 
@@ -184,7 +184,7 @@ class BannersModelBanners extends JModelList
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$query->order('a.sticky DESC,' . ($randomise ? 'RAND()' : 'a.ordering'));
+		$query->order('a.sticky DESC,' . ($randomise ? $query->Rand() : 'a.ordering'));
 
 		return $query;
 	}
@@ -204,7 +204,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters = new Registry;
+				$parameters   = new Registry;
 				$parameters->loadString($item->params);
 				$item->params = $parameters;
 			}
@@ -223,9 +223,9 @@ class BannersModelBanners extends JModelList
 	public function impress()
 	{
 		$trackDate = JFactory::getDate()->format('Y-m-d H');
-		$items = $this->getItems();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$items     = $this->getItems();
+		$db        = $this->getDbo();
+		$query     = $db->getQuery(true);
 
 		foreach ($items as $item)
 		{
@@ -256,7 +256,7 @@ class BannersModelBanners extends JModelList
 
 			if ($trackImpressions < 0)
 			{
-				$config = JComponentHelper::getParams('com_banners');
+				$config           = JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 

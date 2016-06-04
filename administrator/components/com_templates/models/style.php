@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -267,6 +267,10 @@ class TemplatesModelStyle extends JModelAdmin
 			$clientId  = JArrayHelper::getValue($data, 'client_id');
 			$template  = JArrayHelper::getValue($data, 'template');
 		}
+
+		// Add the default fields directory
+		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		JForm::addFieldPath($baseFolder . '/templates/' . $template . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.3"
+	version="3.6"
 	client="installation">
 	<name>Português (pt-PT)</name>
-	<version>3.3.3</version>
-	<creationDate>2014-08-06</creationDate>
-	<author>Comunidade JoomlaPT! Portugal</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<version>3.5.0.1</version>
+	<creationDate>2016-02-22</creationDate>
+	<author>Joomla! Project</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Idioma de instalação Joomla v3.x - português europeu pt-PT</description>
 	<files>
 		<filename>pt-PT.ini</filename>
 	</files>

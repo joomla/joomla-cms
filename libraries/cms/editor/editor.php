@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -261,7 +261,7 @@ class JEditor extends JObject
 
 		$document = JFactory::getDocument();
 
-		if (method_exists($document, "addCustomTag"))
+		if (method_exists($document, "addCustomTag") && !empty($return))
 		{
 			$document->addCustomTag($return);
 		}
@@ -459,7 +459,12 @@ class JEditor extends JObject
 			}
 
 			JPluginHelper::importPlugin('editors-xtd', $plugin->name, false);
-			$className = 'plgButton' . $plugin->name;
+			$className = 'PlgEditorsXtd' . $plugin->name;
+
+			if (!class_exists($className))
+			{
+				$className = 'PlgButton' . $plugin->name;
+			}
 
 			if (class_exists($className))
 			{
@@ -467,10 +472,25 @@ class JEditor extends JObject
 			}
 
 			// Try to authenticate
-			if (method_exists($plugin, 'onDisplay') && $temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			if (!method_exists($plugin, 'onDisplay'))
 			{
-				$result[] = $temp;
+				continue;
 			}
+
+			$button = $plugin->onDisplay($editor, $this->asset, $this->author);
+
+			if (empty($button))
+			{
+				continue;
+			}
+
+			if (is_array($button))
+			{
+				$result = array_merge($result, $button);
+				continue;
+			}
+
+			$result[] = $button;
 		}
 
 		return $result;
@@ -522,7 +542,7 @@ class JEditor extends JObject
 		$plugin->params = $params;
 
 		// Build editor plugin classname
-		$name = 'plgEditor' . $this->_name;
+		$name = 'PlgEditor' . $this->_name;
 
 		if ($this->_editor = new $name($this, (array) $plugin))
 		{

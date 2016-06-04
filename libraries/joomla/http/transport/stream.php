@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -136,11 +136,18 @@ class JHttpTransportStream implements JHttpTransport
 				'http' => $options,
 				'ssl' => array(
 					'verify_peer'   => true,
-					'cafile'        => __DIR__ . '/cacert.pem',
+					'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
 					'verify_depth'  => 5,
 				)
 			)
 		);
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$uri->setUser($this->options->get('userauth'));
+			$uri->setPass($this->options->get('passwordauth'));
+		}
 
 		// Capture PHP errors
 		$php_errormsg = '';

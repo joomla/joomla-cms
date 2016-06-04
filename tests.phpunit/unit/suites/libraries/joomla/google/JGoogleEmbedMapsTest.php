@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -308,12 +308,12 @@ class JGoogleEmbedMapsTest extends TestCase
 	{
 		$this->http->expects($this->exactly(5))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
-		$reference[] = array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array());
+		$reference[] = array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array());
 		$this->object->setCenter(array(37, -122));
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37, -122));
 
-		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array());
+		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array(), 'events' => array());
 		$this->object->setCenter('Palo Alto');
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.44188340, -122.14301950));
@@ -322,7 +322,7 @@ class JGoogleEmbedMapsTest extends TestCase
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.77492950, -122.41941550));
 
-		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'));
+		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array());
 		$this->object->setCenter('Palo Alto', 'somewhere', array('key' => 'value'));
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.44188340, -122.14301950));
@@ -349,16 +349,19 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testAddMarker()
 	{
-		$this->http->expects($this->exactly(3))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
+		$this->http->expects($this->exactly(4))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
 		$marker = $this->object->addMarker(array(37, -122));
-		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array()));
+		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array()));
 
 		$marker = $this->object->addMarker('Palo Alto');
-		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array()));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array(), 'events' => array()));
 
-		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'));
-		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value')));
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array());
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array()));
+
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array('click' => 'function(e) { map.setCenter(this.getPosition()); }'));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array('click' => 'function(e) { map.setCenter(this.getPosition()); }')));
 
 		$marker = $this->object->addMarker('Nowhere');
 		$this->assertFalse($marker);
@@ -730,7 +733,10 @@ class JGoogleEmbedMapsTest extends TestCase
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
-	parse_str($url, $params);
+	$query = parse_url($url, PHP_URL_QUERY);
+	
+	parse_str($query, $params);
+	
 	$address = strtolower($params['address']);
 
 	switch ($address)

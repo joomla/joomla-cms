@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -206,7 +206,7 @@ class JPath
 		}
 		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 		// If dealing with a UNC path don't forget to prepend the path with a backslash.
-		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
+		elseif (($ds == '\\') && substr($path, 0, 2) == '\\\\')
 		{
 			$path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
 		}
@@ -236,9 +236,17 @@ class JPath
 		$jtp = JPATH_SITE . '/tmp';
 
 		// Try to find a writable directory
-		$dir = is_writable('/tmp') ? '/tmp' : false;
-		$dir = (!$dir && is_writable($ssp)) ? $ssp : false;
-		$dir = (!$dir && is_writable($jtp)) ? $jtp : false;
+		$dir = false;
+
+		foreach (array($jtp, $ssp, '/tmp') as $currentDir)
+		{
+			if (is_writable($currentDir))
+			{
+				$dir = $currentDir;
+
+				break;
+			}
+		}
 
 		if ($dir)
 		{

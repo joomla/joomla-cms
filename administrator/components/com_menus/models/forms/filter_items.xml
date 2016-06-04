@@ -6,22 +6,24 @@
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
 		onchange="this.form.submit();"
-	/>
+		accesstype="manage"
+		>
+		<option value="">COM_MENUS_SELECT_MENU</option>
+	</field>
 	<fields name="filter">
 		<field
 			name="search"
 			type="text"
-			label="COM_MENUS_FILTER_SEARCH_DESC"
+			label="COM_MENUS_ITEMS_SEARCH_FILTER_LABEL"
 			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="published"
 			type="status"
-			filter="*,0,1,-2"
 			label="COM_MENUS_FILTER_PUBLISHED"
 			description="COM_MENUS_FILTER_PUBLISHED_DESC"
+			filter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -45,27 +47,27 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
-        <field
-                name="level"
-                type="integer"
-                first="1"
-                last="10"
-                step="1"
-                label="JOPTION_FILTER_LEVEL"
-                languages="*"
-                description="JOPTION_FILTER_LEVEL_DESC"
-                onchange="this.form.submit();"
-                >
-            <option value="">JOPTION_SELECT_MAX_LEVELS</option>
-        </field>
+		<field
+			name="level"
+			type="integer"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
+			first="1"
+			last="10"
+			step="1"
+			languages="*"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			statuses="*,0,1,2,-2"
 			description="JGLOBAL_SORT_BY"
+			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
 			>
@@ -76,12 +78,14 @@
 			<option value="a.published DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="a.menutype ASC">COM_MENUS_HEADING_MENU_ASC</option>
+			<option value="a.menutype DESC">COM_MENUS_HEADING_MENU_DESC</option>
 			<option value="a.home ASC">COM_MENUS_HEADING_HOME_ASC</option>
 			<option value="a.home DESC">COM_MENUS_HEADING_HOME_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
-			<option value="association DESC" requries="associations">JASSOCIATIONS_DESC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
@@ -90,10 +94,10 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
-			default="25"
 			label="COM_MENUS_LIST_LIMIT"
 			description="COM_MENUS_LIST_LIMIT_DESC"
+			class="input-mini"
+			default="25"
 			onchange="this.form.submit();"
 		/>
 	</fields>

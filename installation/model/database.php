@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class InstallationModelDatabase extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work.
@@ -158,6 +158,16 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		// Workaround for UPPERCASE table prefix for postgresql
+		if ($options->db_type == 'postgresql')
+		{
+			if (strtolower($options->db_prefix) != $options->db_prefix)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'notice');
+				return false;
+			}
+		}
+
 		// Get a database object.
 		try
 		{
@@ -203,7 +213,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Check database version.
@@ -417,7 +427,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
@@ -470,7 +480,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Check database type.
@@ -505,6 +515,31 @@ class InstallationModelDatabase extends JModelBase
 		if (!$this->populateDatabase($db, $schema))
 		{
 			return false;
+		}
+
+		// Get query object for later database access
+		$query = $db->getQuery(true);
+
+		// MySQL only: Attempt to update the table #__utf8_conversion.
+		$serverType = $db->getServerType();
+
+		if ($serverType === 'mysql')
+		{
+			$query->clear()
+				->update($db->quoteName('#__utf8_conversion'))
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'notice');
+
+				return false;
+			}
 		}
 
 		// Attempt to update the table #__schema.
@@ -542,7 +577,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		$query = $db->getQuery(true)
+		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
 				array(
@@ -688,7 +723,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.

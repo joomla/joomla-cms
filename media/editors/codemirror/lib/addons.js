@@ -218,7 +218,7 @@
     }
     for (var i = ranges.length - 1; i >= 0; i--) {
       var cur = ranges[i].head;
-      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1));
+      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1), "+delete");
     }
   }
 
@@ -245,6 +245,12 @@
     });
   }
 
+  function contractSelection(sel) {
+    var inverted = CodeMirror.cmpPos(sel.anchor, sel.head) > 0;
+    return {anchor: new Pos(sel.anchor.line, sel.anchor.ch + (inverted ? -1 : 1)),
+            head: new Pos(sel.head.line, sel.head.ch + (inverted ? 1 : -1))};
+  }
+
   function handleChar(cm, ch) {
     var conf = getConfig(cm);
     if (!conf || cm.getOption("disableInput")) return CodeMirror.Pass;
@@ -258,7 +264,7 @@
     var ranges = cm.listSelections();
     var opening = pos % 2 == 0;
 
-    var type, next;
+    var type;
     for (var i = 0; i < ranges.length; i++) {
       var range = ranges[i], cur = range.head, curType;
       var next = cm.getRange(cur, Pos(cur.line, cur.ch + 1));
@@ -300,6 +306,10 @@
         for (var i = 0; i < sels.length; i++)
           sels[i] = left + sels[i] + right;
         cm.replaceSelections(sels, "around");
+        sels = cm.listSelections().slice();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = contractSelection(sels[i]);
+        cm.setSelections(sels);
       } else if (type == "both") {
         cm.replaceSelection(left + right, null);
         cm.triggerElectric(left + right);
@@ -712,7 +722,7 @@
 
 CodeMirror.registerHelper("fold", "brace", function(cm, start) {
   var line = start.line, lineText = cm.getLine(line);
-  var startCh, tokenType;
+  var tokenType;
 
   function findOpening(openCh) {
     for (var at = start.ch, pass = 0;;) {
@@ -771,15 +781,15 @@ CodeMirror.registerHelper("fold", "import", function(cm, start) {
     }
   }
 
-  var start = start.line, has = hasImport(start), prev;
-  if (!has || hasImport(start - 1) || ((prev = hasImport(start - 2)) && prev.end.line == start - 1))
+  var startLine = start.line, has = hasImport(startLine), prev;
+  if (!has || hasImport(startLine - 1) || ((prev = hasImport(startLine - 2)) && prev.end.line == startLine - 1))
     return null;
   for (var end = has.end;;) {
     var next = hasImport(end.line + 1);
     if (next == null) break;
     end = next.end;
   }
-  return {from: cm.clipPos(CodeMirror.Pos(start, has.startCh + 1)), to: end};
+  return {from: cm.clipPos(CodeMirror.Pos(startLine, has.startCh + 1)), to: end};
 });
 
 CodeMirror.registerHelper("fold", "include", function(cm, start) {
@@ -790,14 +800,14 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     if (start.type == "meta" && start.string.slice(0, 8) == "#include") return start.start + 8;
   }
 
-  var start = start.line, has = hasInclude(start);
-  if (has == null || hasInclude(start - 1) != null) return null;
-  for (var end = start;;) {
+  var startLine = start.line, has = hasInclude(startLine);
+  if (has == null || hasInclude(startLine - 1) != null) return null;
+  for (var end = startLine;;) {
     var next = hasInclude(end + 1);
     if (next == null) break;
     ++end;
   }
-  return {from: CodeMirror.Pos(start, has + 1),
+  return {from: CodeMirror.Pos(startLine, has + 1),
           to: cm.clipPos(CodeMirror.Pos(end))};
 });
 
@@ -975,7 +985,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       cm.off("viewportChange", onViewportChange);
       cm.off("fold", onFold);
       cm.off("unfold", onFold);
-      cm.off("swapDoc", updateInViewport);
+      cm.off("swapDoc", onChange);
     }
     if (val) {
       cm.state.foldGutter = new State(parseOptions(val));
@@ -985,7 +995,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       cm.on("viewportChange", onViewportChange);
       cm.on("fold", onFold);
       cm.on("unfold", onFold);
-      cm.on("swapDoc", updateInViewport);
+      cm.on("swapDoc", onChange);
     }
   });
 
@@ -1242,9 +1252,9 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       var openTag = toNextTag(iter), end;
       if (!openTag || iter.line != start.line || !(end = toTagEnd(iter))) return;
       if (!openTag[1] && end != "selfClose") {
-        var start = Pos(iter.line, iter.ch);
-        var close = findMatchingClose(iter, openTag[2]);
-        return close && {from: start, to: close.from};
+        var startPos = Pos(iter.line, iter.ch);
+        var endPos = findMatchingClose(iter, openTag[2]);
+        return endPos && {from: startPos, to: endPos.from};
       }
     }
   });
@@ -1401,7 +1411,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             if (!other.parseDelimiters) stream.match(other.open);
             state.innerActive = other;
             state.inner = CodeMirror.startState(other.mode, outer.indent ? outer.indent(state.outer, "") : 0);
-            return other.delimStyle;
+            return other.delimStyle && (other.delimStyle + " " + other.delimStyle + "-open");
           } else if (found != -1 && found < cutOff) {
             cutOff = found;
           }
@@ -1420,7 +1430,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (found == stream.pos && !curInner.parseDelimiters) {
           stream.match(curInner.close);
           state.innerActive = state.inner = null;
-          return curInner.delimStyle;
+          return curInner.delimStyle && (curInner.delimStyle + " " + curInner.delimStyle + "-close");
         }
         if (found > -1) stream.string = oldContent.slice(0, found);
         var innerToken = curInner.mode.token(stream, state.inner);
@@ -1430,7 +1440,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           state.innerActive = state.inner = null;
 
         if (curInner.innerStyle) {
-          if (innerToken) innerToken = innerToken + ' ' + curInner.innerStyle;
+          if (innerToken) innerToken = innerToken + " " + curInner.innerStyle;
           else innerToken = curInner.innerStyle;
         }
 
@@ -1470,6 +1480,125 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   };
 };
 
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineExtension("annotateScrollbar", function(options) {
+    if (typeof options == "string") options = {className: options};
+    return new Annotation(this, options);
+  });
+
+  CodeMirror.defineOption("scrollButtonHeight", 0);
+
+  function Annotation(cm, options) {
+    this.cm = cm;
+    this.options = options;
+    this.buttonHeight = options.scrollButtonHeight || cm.getOption("scrollButtonHeight");
+    this.annotations = [];
+    this.doRedraw = this.doUpdate = null;
+    this.div = cm.getWrapperElement().appendChild(document.createElement("div"));
+    this.div.style.cssText = "position: absolute; right: 0; top: 0; z-index: 7; pointer-events: none";
+    this.computeScale();
+
+    function scheduleRedraw(delay) {
+      clearTimeout(self.doRedraw);
+      self.doRedraw = setTimeout(function() { self.redraw(); }, delay);
+    }
+
+    var self = this;
+    cm.on("refresh", this.resizeHandler = function() {
+      clearTimeout(self.doUpdate);
+      self.doUpdate = setTimeout(function() {
+        if (self.computeScale()) scheduleRedraw(20);
+      }, 100);
+    });
+    cm.on("markerAdded", this.resizeHandler);
+    cm.on("markerCleared", this.resizeHandler);
+    if (options.listenForChanges !== false)
+      cm.on("change", this.changeHandler = function() {
+        scheduleRedraw(250);
+      });
+  }
+
+  Annotation.prototype.computeScale = function() {
+    var cm = this.cm;
+    var hScale = (cm.getWrapperElement().clientHeight - cm.display.barHeight - this.buttonHeight * 2) /
+      cm.getScrollerElement().scrollHeight
+    if (hScale != this.hScale) {
+      this.hScale = hScale;
+      return true;
+    }
+  };
+
+  Annotation.prototype.update = function(annotations) {
+    this.annotations = annotations;
+    this.redraw();
+  };
+
+  Annotation.prototype.redraw = function(compute) {
+    if (compute !== false) this.computeScale();
+    var cm = this.cm, hScale = this.hScale;
+
+    var frag = document.createDocumentFragment(), anns = this.annotations;
+
+    var wrapping = cm.getOption("lineWrapping");
+    var singleLineH = wrapping && cm.defaultTextHeight() * 1.5;
+    var curLine = null, curLineObj = null;
+    function getY(pos, top) {
+      if (curLine != pos.line) {
+        curLine = pos.line;
+        curLineObj = cm.getLineHandle(curLine);
+      }
+      if (wrapping && curLineObj.height > singleLineH)
+        return cm.charCoords(pos, "local")[top ? "top" : "bottom"];
+      var topY = cm.heightAtLine(curLineObj, "local");
+      return topY + (top ? 0 : curLineObj.height);
+    }
+
+    if (cm.display.barWidth) for (var i = 0, nextTop; i < anns.length; i++) {
+      var ann = anns[i];
+      var top = nextTop || getY(ann.from, true) * hScale;
+      var bottom = getY(ann.to, false) * hScale;
+      while (i < anns.length - 1) {
+        nextTop = getY(anns[i + 1].from, true) * hScale;
+        if (nextTop > bottom + .9) break;
+        ann = anns[++i];
+        bottom = getY(ann.to, false) * hScale;
+      }
+      if (bottom == top) continue;
+      var height = Math.max(bottom - top, 3);
+
+      var elt = frag.appendChild(document.createElement("div"));
+      elt.style.cssText = "position: absolute; right: 0px; width: " + Math.max(cm.display.barWidth - 1, 2) + "px; top: "
+        + (top + this.buttonHeight) + "px; height: " + height + "px";
+      elt.className = this.options.className;
+      if (ann.id) {
+        elt.setAttribute("annotation-id", ann.id);
+      }
+    }
+    this.div.textContent = "";
+    this.div.appendChild(frag);
+  };
+
+  Annotation.prototype.clear = function() {
+    this.cm.off("refresh", this.resizeHandler);
+    this.cm.off("markerAdded", this.resizeHandler);
+    this.cm.off("markerCleared", this.resizeHandler);
+    if (this.changeHandler) this.cm.off("change", this.changeHandler);
+    this.div.parentNode.removeChild(this.div);
+  };
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -1533,22 +1662,29 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     CodeMirror.on(this.node, "DOMMouseScroll", onWheel);
   }
 
-  Bar.prototype.moveTo = function(pos, update) {
+  Bar.prototype.setPos = function(pos, force) {
     if (pos < 0) pos = 0;
     if (pos > this.total - this.screen) pos = this.total - this.screen;
-    if (pos == this.pos) return;
+    if (!force && pos == this.pos) return false;
     this.pos = pos;
     this.inner.style[this.orientation == "horizontal" ? "left" : "top"] =
       (pos * (this.size / this.total)) + "px";
-    if (update !== false) this.scroll(pos, this.orientation);
+    return true
   };
+
+  Bar.prototype.moveTo = function(pos) {
+    if (this.setPos(pos)) this.scroll(pos, this.orientation);
+  }
 
   var minButtonSize = 10;
 
   Bar.prototype.update = function(scrollSize, clientSize, barSize) {
-    this.screen = clientSize;
-    this.total = scrollSize;
-    this.size = barSize;
+    var sizeChanged = this.screen != clientSize || this.total != scrollSize || this.size != barSize
+    if (sizeChanged) {
+      this.screen = clientSize;
+      this.total = scrollSize;
+      this.size = barSize;
+    }
 
     var buttonSize = this.screen * (this.size / this.total);
     if (buttonSize < minButtonSize) {
@@ -1557,8 +1693,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
     this.inner.style[this.orientation == "horizontal" ? "width" : "height"] =
       buttonSize + "px";
-    this.inner.style[this.orientation == "horizontal" ? "left" : "top"] =
-      this.pos * (this.size / this.total) + "px";
+    this.setPos(this.pos, sizeChanged);
   };
 
   function SimpleScrollbars(cls, place, scroll) {
@@ -1585,7 +1720,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     if (needsV) {
       this.vert.update(measure.scrollHeight, measure.clientHeight,
                        measure.viewHeight - (needsH ? width : 0));
-      this.vert.node.style.display = "block";
       this.vert.node.style.bottom = needsH ? width + "px" : "0";
     }
     if (needsH) {
@@ -1599,11 +1733,11 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   };
 
   SimpleScrollbars.prototype.setScrollTop = function(pos) {
-    this.vert.moveTo(pos, false);
+    this.vert.setPos(pos);
   };
 
   SimpleScrollbars.prototype.setScrollLeft = function(pos) {
-    this.horiz.moveTo(pos, false);
+    this.horiz.setPos(pos);
   };
 
   SimpleScrollbars.prototype.clear = function() {
@@ -1618,6 +1752,441 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   CodeMirror.scrollbarModel.overlay = function(place, scroll) {
     return new SimpleScrollbars("CodeMirror-overlayscroll", place, scroll);
   };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./searchcursor"), require("../scroll/annotatescrollbar"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./searchcursor", "../scroll/annotatescrollbar"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineExtension("showMatchesOnScrollbar", function(query, caseFold, options) {
+    if (typeof options == "string") options = {className: options};
+    if (!options) options = {};
+    return new SearchAnnotation(this, query, caseFold, options);
+  });
+
+  function SearchAnnotation(cm, query, caseFold, options) {
+    this.cm = cm;
+    this.options = options;
+    var annotateOptions = {listenForChanges: false};
+    for (var prop in options) annotateOptions[prop] = options[prop];
+    if (!annotateOptions.className) annotateOptions.className = "CodeMirror-search-match";
+    this.annotation = cm.annotateScrollbar(annotateOptions);
+    this.query = query;
+    this.caseFold = caseFold;
+    this.gap = {from: cm.firstLine(), to: cm.lastLine() + 1};
+    this.matches = [];
+    this.update = null;
+
+    this.findMatches();
+    this.annotation.update(this.matches);
+
+    var self = this;
+    cm.on("change", this.changeHandler = function(_cm, change) { self.onChange(change); });
+  }
+
+  var MAX_MATCHES = 1000;
+
+  SearchAnnotation.prototype.findMatches = function() {
+    if (!this.gap) return;
+    for (var i = 0; i < this.matches.length; i++) {
+      var match = this.matches[i];
+      if (match.from.line >= this.gap.to) break;
+      if (match.to.line >= this.gap.from) this.matches.splice(i--, 1);
+    }
+    var cursor = this.cm.getSearchCursor(this.query, CodeMirror.Pos(this.gap.from, 0), this.caseFold);
+    var maxMatches = this.options && this.options.maxMatches || MAX_MATCHES;
+    while (cursor.findNext()) {
+      var match = {from: cursor.from(), to: cursor.to()};
+      if (match.from.line >= this.gap.to) break;
+      this.matches.splice(i++, 0, match);
+      if (this.matches.length > maxMatches) break;
+    }
+    this.gap = null;
+  };
+
+  function offsetLine(line, changeStart, sizeChange) {
+    if (line <= changeStart) return line;
+    return Math.max(changeStart, line + sizeChange);
+  }
+
+  SearchAnnotation.prototype.onChange = function(change) {
+    var startLine = change.from.line;
+    var endLine = CodeMirror.changeEnd(change).line;
+    var sizeChange = endLine - change.to.line;
+    if (this.gap) {
+      this.gap.from = Math.min(offsetLine(this.gap.from, startLine, sizeChange), change.from.line);
+      this.gap.to = Math.max(offsetLine(this.gap.to, startLine, sizeChange), change.from.line);
+    } else {
+      this.gap = {from: change.from.line, to: endLine + 1};
+    }
+
+    if (sizeChange) for (var i = 0; i < this.matches.length; i++) {
+      var match = this.matches[i];
+      var newFrom = offsetLine(match.from.line, startLine, sizeChange);
+      if (newFrom != match.from.line) match.from = CodeMirror.Pos(newFrom, match.from.ch);
+      var newTo = offsetLine(match.to.line, startLine, sizeChange);
+      if (newTo != match.to.line) match.to = CodeMirror.Pos(newTo, match.to.ch);
+    }
+    clearTimeout(this.update);
+    var self = this;
+    this.update = setTimeout(function() { self.updateAfterChange(); }, 250);
+  };
+
+  SearchAnnotation.prototype.updateAfterChange = function() {
+    this.findMatches();
+    this.annotation.update(this.matches);
+  };
+
+  SearchAnnotation.prototype.clear = function() {
+    this.cm.off("change", this.changeHandler);
+    this.annotation.clear();
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+// Highlighting text that matches the selection
+//
+// Defines an option highlightSelectionMatches, which, when enabled,
+// will style strings that match the selection throughout the
+// document.
+//
+// The option can be set to true to simply enable it, or to a
+// {minChars, style, wordsOnly, showToken, delay} object to explicitly
+// configure it. minChars is the minimum amount of characters that should be
+// selected for the behavior to occur, and style is the token style to
+// apply to the matches. This will be prefixed by "cm-" to create an
+// actual CSS class name. If wordsOnly is enabled, the matches will be
+// highlighted only if the selected text is a word. showToken, when enabled,
+// will cause the current token to be highlighted when nothing is selected.
+// delay is used to specify how much time to wait, in milliseconds, before
+// highlighting the matches. If annotateScrollbar is enabled, the occurences
+// will be highlighted on the scrollbar via the matchesonscrollbar addon.
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./matchesonscrollbar"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./matchesonscrollbar"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  var defaults = {
+    style: "matchhighlight",
+    minChars: 2,
+    delay: 100,
+    wordsOnly: false,
+    annotateScrollbar: false,
+    showToken: false,
+    trim: true
+  }
+
+  function State(options) {
+    this.options = {}
+    for (var name in defaults)
+      this.options[name] = (options && options.hasOwnProperty(name) ? options : defaults)[name]
+    this.overlay = this.timeout = null;
+    this.matchesonscroll = null;
+  }
+
+  CodeMirror.defineOption("highlightSelectionMatches", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      removeOverlay(cm);
+      clearTimeout(cm.state.matchHighlighter.timeout);
+      cm.state.matchHighlighter = null;
+      cm.off("cursorActivity", cursorActivity);
+    }
+    if (val) {
+      cm.state.matchHighlighter = new State(val);
+      highlightMatches(cm);
+      cm.on("cursorActivity", cursorActivity);
+    }
+  });
+
+  function cursorActivity(cm) {
+    var state = cm.state.matchHighlighter;
+    clearTimeout(state.timeout);
+    state.timeout = setTimeout(function() {highlightMatches(cm);}, state.options.delay);
+  }
+
+  function addOverlay(cm, query, hasBoundary, style) {
+    var state = cm.state.matchHighlighter;
+    cm.addOverlay(state.overlay = makeOverlay(query, hasBoundary, style));
+    if (state.options.annotateScrollbar && cm.showMatchesOnScrollbar) {
+      var searchFor = hasBoundary ? new RegExp("\\b" + query + "\\b") : query;
+      state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, true,
+        {className: "CodeMirror-selection-highlight-scrollbar"});
+    }
+  }
+
+  function removeOverlay(cm) {
+    var state = cm.state.matchHighlighter;
+    if (state.overlay) {
+      cm.removeOverlay(state.overlay);
+      state.overlay = null;
+      if (state.matchesonscroll) {
+        state.matchesonscroll.clear();
+        state.matchesonscroll = null;
+      }
+    }
+  }
+
+  function highlightMatches(cm) {
+    cm.operation(function() {
+      var state = cm.state.matchHighlighter;
+      removeOverlay(cm);
+      if (!cm.somethingSelected() && state.options.showToken) {
+        var re = state.options.showToken === true ? /[\w$]/ : state.options.showToken;
+        var cur = cm.getCursor(), line = cm.getLine(cur.line), start = cur.ch, end = start;
+        while (start && re.test(line.charAt(start - 1))) --start;
+        while (end < line.length && re.test(line.charAt(end))) ++end;
+        if (start < end)
+          addOverlay(cm, line.slice(start, end), re, state.options.style);
+        return;
+      }
+      var from = cm.getCursor("from"), to = cm.getCursor("to");
+      if (from.line != to.line) return;
+      if (state.options.wordsOnly && !isWord(cm, from, to)) return;
+      var selection = cm.getRange(from, to)
+      if (state.options.trim) selection = selection.replace(/^\s+|\s+$/g, "")
+      if (selection.length >= state.options.minChars)
+        addOverlay(cm, selection, false, state.options.style);
+    });
+  }
+
+  function isWord(cm, from, to) {
+    var str = cm.getRange(from, to);
+    if (str.match(/^\w+$/) !== null) {
+        if (from.ch > 0) {
+            var pos = {line: from.line, ch: from.ch - 1};
+            var chr = cm.getRange(pos, from);
+            if (chr.match(/\W/) === null) return false;
+        }
+        if (to.ch < cm.getLine(from.line).length) {
+            var pos = {line: to.line, ch: to.ch + 1};
+            var chr = cm.getRange(to, pos);
+            if (chr.match(/\W/) === null) return false;
+        }
+        return true;
+    } else return false;
+  }
+
+  function boundariesAround(stream, re) {
+    return (!stream.start || !re.test(stream.string.charAt(stream.start - 1))) &&
+      (stream.pos == stream.string.length || !re.test(stream.string.charAt(stream.pos)));
+  }
+
+  function makeOverlay(query, hasBoundary, style) {
+    return {token: function(stream) {
+      if (stream.match(query) &&
+          (!hasBoundary || boundariesAround(stream, hasBoundary)))
+        return style;
+      stream.next();
+      stream.skipTo(query.charAt(0)) || stream.skipToEnd();
+    }};
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+  var Pos = CodeMirror.Pos;
+
+  function SearchCursor(doc, query, pos, caseFold) {
+    this.atOccurrence = false; this.doc = doc;
+    if (caseFold == null && typeof query == "string") caseFold = false;
+
+    pos = pos ? doc.clipPos(pos) : Pos(0, 0);
+    this.pos = {from: pos, to: pos};
+
+    // The matches method is filled in based on the type of query.
+    // It takes a position and a direction, and returns an object
+    // describing the next occurrence of the query, or null if no
+    // more matches were found.
+    if (typeof query != "string") { // Regexp match
+      if (!query.global) query = new RegExp(query.source, query.ignoreCase ? "ig" : "g");
+      this.matches = function(reverse, pos) {
+        if (reverse) {
+          query.lastIndex = 0;
+          var line = doc.getLine(pos.line).slice(0, pos.ch), cutOff = 0, match, start;
+          for (;;) {
+            query.lastIndex = cutOff;
+            var newMatch = query.exec(line);
+            if (!newMatch) break;
+            match = newMatch;
+            start = match.index;
+            cutOff = match.index + (match[0].length || 1);
+            if (cutOff == line.length) break;
+          }
+          var matchLen = (match && match[0].length) || 0;
+          if (!matchLen) {
+            if (start == 0 && line.length == 0) {match = undefined;}
+            else if (start != doc.getLine(pos.line).length) {
+              matchLen++;
+            }
+          }
+        } else {
+          query.lastIndex = pos.ch;
+          var line = doc.getLine(pos.line), match = query.exec(line);
+          var matchLen = (match && match[0].length) || 0;
+          var start = match && match.index;
+          if (start + matchLen != line.length && !matchLen) matchLen = 1;
+        }
+        if (match && matchLen)
+          return {from: Pos(pos.line, start),
+                  to: Pos(pos.line, start + matchLen),
+                  match: match};
+      };
+    } else { // String query
+      var origQuery = query;
+      if (caseFold) query = query.toLowerCase();
+      var fold = caseFold ? function(str){return str.toLowerCase();} : function(str){return str;};
+      var target = query.split("\n");
+      // Different methods for single-line and multi-line queries
+      if (target.length == 1) {
+        if (!query.length) {
+          // Empty string would match anything and never progress, so
+          // we define it to match nothing instead.
+          this.matches = function() {};
+        } else {
+          this.matches = function(reverse, pos) {
+            if (reverse) {
+              var orig = doc.getLine(pos.line).slice(0, pos.ch), line = fold(orig);
+              var match = line.lastIndexOf(query);
+              if (match > -1) {
+                match = adjustPos(orig, line, match);
+                return {from: Pos(pos.line, match), to: Pos(pos.line, match + origQuery.length)};
+              }
+             } else {
+               var orig = doc.getLine(pos.line).slice(pos.ch), line = fold(orig);
+               var match = line.indexOf(query);
+               if (match > -1) {
+                 match = adjustPos(orig, line, match) + pos.ch;
+                 return {from: Pos(pos.line, match), to: Pos(pos.line, match + origQuery.length)};
+               }
+            }
+          };
+        }
+      } else {
+        var origTarget = origQuery.split("\n");
+        this.matches = function(reverse, pos) {
+          var last = target.length - 1;
+          if (reverse) {
+            if (pos.line - (target.length - 1) < doc.firstLine()) return;
+            if (fold(doc.getLine(pos.line).slice(0, origTarget[last].length)) != target[target.length - 1]) return;
+            var to = Pos(pos.line, origTarget[last].length);
+            for (var ln = pos.line - 1, i = last - 1; i >= 1; --i, --ln)
+              if (target[i] != fold(doc.getLine(ln))) return;
+            var line = doc.getLine(ln), cut = line.length - origTarget[0].length;
+            if (fold(line.slice(cut)) != target[0]) return;
+            return {from: Pos(ln, cut), to: to};
+          } else {
+            if (pos.line + (target.length - 1) > doc.lastLine()) return;
+            var line = doc.getLine(pos.line), cut = line.length - origTarget[0].length;
+            if (fold(line.slice(cut)) != target[0]) return;
+            var from = Pos(pos.line, cut);
+            for (var ln = pos.line + 1, i = 1; i < last; ++i, ++ln)
+              if (target[i] != fold(doc.getLine(ln))) return;
+            if (fold(doc.getLine(ln).slice(0, origTarget[last].length)) != target[last]) return;
+            return {from: from, to: Pos(ln, origTarget[last].length)};
+          }
+        };
+      }
+    }
+  }
+
+  SearchCursor.prototype = {
+    findNext: function() {return this.find(false);},
+    findPrevious: function() {return this.find(true);},
+
+    find: function(reverse) {
+      var self = this, pos = this.doc.clipPos(reverse ? this.pos.from : this.pos.to);
+      function savePosAndFail(line) {
+        var pos = Pos(line, 0);
+        self.pos = {from: pos, to: pos};
+        self.atOccurrence = false;
+        return false;
+      }
+
+      for (;;) {
+        if (this.pos = this.matches(reverse, pos)) {
+          this.atOccurrence = true;
+          return this.pos.match || true;
+        }
+        if (reverse) {
+          if (!pos.line) return savePosAndFail(0);
+          pos = Pos(pos.line-1, this.doc.getLine(pos.line-1).length);
+        }
+        else {
+          var maxLine = this.doc.lineCount();
+          if (pos.line == maxLine - 1) return savePosAndFail(maxLine);
+          pos = Pos(pos.line + 1, 0);
+        }
+      }
+    },
+
+    from: function() {if (this.atOccurrence) return this.pos.from;},
+    to: function() {if (this.atOccurrence) return this.pos.to;},
+
+    replace: function(newText, origin) {
+      if (!this.atOccurrence) return;
+      var lines = CodeMirror.splitLines(newText);
+      this.doc.replaceRange(lines, this.pos.from, this.pos.to, origin);
+      this.pos.to = Pos(this.pos.from.line + lines.length - 1,
+                        lines[lines.length - 1].length + (lines.length == 1 ? this.pos.from.ch : 0));
+    }
+  };
+
+  // Maps a position in a case-folded line back to a position in the original line
+  // (compensating for codepoints increasing in number during folding)
+  function adjustPos(orig, folded, pos) {
+    if (orig.length == folded.length) return pos;
+    for (var pos1 = Math.min(pos, orig.length);;) {
+      var len1 = orig.slice(0, pos1).toLowerCase().length;
+      if (len1 < pos) ++pos1;
+      else if (len1 > pos) --pos1;
+      else return pos1;
+    }
+  }
+
+  CodeMirror.defineExtension("getSearchCursor", function(query, pos, caseFold) {
+    return new SearchCursor(this.doc, query, pos, caseFold);
+  });
+  CodeMirror.defineDocExtension("getSearchCursor", function(query, pos, caseFold) {
+    return new SearchCursor(this, query, pos, caseFold);
+  });
+
+  CodeMirror.defineExtension("selectMatches", function(query, caseFold) {
+    var ranges = [];
+    var cur = this.getSearchCursor(query, this.getCursor("from"), caseFold);
+    while (cur.findNext()) {
+      if (CodeMirror.cmpPos(cur.to(), this.getCursor("to")) > 0) break;
+      ranges.push({anchor: cur.from(), head: cur.to()});
+    }
+    if (ranges.length)
+      this.setSelections(ranges, 0);
+  });
 });
 
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
@@ -1640,6 +2209,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   "use strict";
   var WRAP_CLASS = "CodeMirror-activeline";
   var BACK_CLASS = "CodeMirror-activeline-background";
+  var GUTT_CLASS = "CodeMirror-activeline-gutter";
 
   CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
     var prev = old && old != CodeMirror.Init;
@@ -1658,6 +2228,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     for (var i = 0; i < cm.state.activeLines.length; i++) {
       cm.removeLineClass(cm.state.activeLines[i], "wrap", WRAP_CLASS);
       cm.removeLineClass(cm.state.activeLines[i], "background", BACK_CLASS);
+      cm.removeLineClass(cm.state.activeLines[i], "gutter", GUTT_CLASS);
     }
   }
 
@@ -1682,6 +2253,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       for (var i = 0; i < active.length; i++) {
         cm.addLineClass(active[i], "wrap", WRAP_CLASS);
         cm.addLineClass(active[i], "background", BACK_CLASS);
+        cm.addLineClass(active[i], "gutter", GUTT_CLASS);
       }
       cm.state.activeLines = active;
     });
@@ -1720,7 +2292,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
  *  2. Variable declarations and short basic helpers
  *  3. Instance (External API) implementation
  *  4. Internal state tracking objects (input state, counter) implementation
- *     and instanstiation
+ *     and instantiation
  *  5. Key handler (the main command dispatcher) implementation
  *  6. Motion, operator, and action implementations
  *  7. Helper functions for the key handler, motions, operators, and actions
@@ -1758,9 +2330,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: '<C-[>', type: 'keyToKey', toKeys: '<Esc>', context: 'insert' },
     { keys: '<C-c>', type: 'keyToKey', toKeys: '<Esc>', context: 'insert' },
     { keys: 's', type: 'keyToKey', toKeys: 'cl', context: 'normal' },
-    { keys: 's', type: 'keyToKey', toKeys: 'xi', context: 'visual'},
+    { keys: 's', type: 'keyToKey', toKeys: 'c', context: 'visual'},
     { keys: 'S', type: 'keyToKey', toKeys: 'cc', context: 'normal' },
-    { keys: 'S', type: 'keyToKey', toKeys: 'dcc', context: 'visual' },
+    { keys: 'S', type: 'keyToKey', toKeys: 'VdO', context: 'visual' },
     { keys: '<Home>', type: 'keyToKey', toKeys: '0' },
     { keys: '<End>', type: 'keyToKey', toKeys: '$' },
     { keys: '<PageUp>', type: 'keyToKey', toKeys: '<C-b>' },
@@ -1858,6 +2430,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: 'v', type: 'action', action: 'toggleVisualMode' },
     { keys: 'V', type: 'action', action: 'toggleVisualMode', actionArgs: { linewise: true }},
     { keys: '<C-v>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
+    { keys: '<C-q>', type: 'action', action: 'toggleVisualMode', actionArgs: { blockwise: true }},
     { keys: 'gv', type: 'action', action: 'reselectLastSelection' },
     { keys: 'J', type: 'action', action: 'joinLines', isEdit: true },
     { keys: 'p', type: 'action', action: 'paste', isEdit: true, actionArgs: { after: true, isEdit: true }},
@@ -1919,6 +2492,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { name: 'sort', shortName: 'sor' },
     { name: 'substitute', shortName: 's', possiblyAsync: true },
     { name: 'nohlsearch', shortName: 'noh' },
+    { name: 'yank', shortName: 'y' },
     { name: 'delmarks', shortName: 'delm' },
     { name: 'registers', shortName: 'reg', excludeFromCommandHistory: true },
     { name: 'global', shortName: 'g' }
@@ -1986,12 +2560,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         // Keypress character binding of format "'a'"
         return key.charAt(1);
       }
-      var pieces = key.split('-');
-      if (/-$/.test(key)) {
-        // If the - key was typed, split will result in 2 extra empty strings
-        // in the array. Replace them with 1 '-'.
-        pieces.splice(-2, 2, '-');
-      }
+      var pieces = key.split(/-(?!$)/);
       var lastPiece = pieces[pieces.length - 1];
       if (pieces.length == 1 && pieces[0].length == 1) {
         // No-modifier bindings use literal character bindings above. Skip.
@@ -2339,7 +2908,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         jumpList: createCircularJumpList(),
         macroModeState: new MacroModeState,
         // Recording latest f, t, F or T motion command.
-        lastChararacterSearch: {increment:0, forward:true, selectedCharacter:''},
+        lastCharacterSearch: {increment:0, forward:true, selectedCharacter:''},
         registerController: new RegisterController({}),
         // search history buffer
         searchHistoryController: new HistoryController({}),
@@ -2379,6 +2948,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       map: function(lhs, rhs, ctx) {
         // Add user defined key bindings.
         exCommandDispatcher.map(lhs, rhs, ctx);
+      },
+      unmap: function(lhs, ctx) {
+        exCommandDispatcher.unmap(lhs, ctx);
       },
       // TODO: Expose setOption and getOption as instance methods. Need to decide how to namespace
       // them, or somehow make them work with the existing CodeMirror setOption/getOption API.
@@ -2742,7 +3314,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     };
     function HistoryController() {
         this.historyBuffer = [];
-        this.iterator;
+        this.iterator = 0;
         this.initialPrefix = null;
     }
     HistoryController.prototype = {
@@ -3067,7 +3639,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         }
       },
       evalInput: function(cm, vim) {
-        // If the motion comand is set, execute both the operator and motion.
+        // If the motion command is set, execute both the operator and motion.
         // Otherwise return.
         var inputState = vim.inputState;
         var motion = inputState.motion;
@@ -3391,11 +3963,12 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var line = motionArgs.forward ? cur.line + repeat : cur.line - repeat;
         var first = cm.firstLine();
         var last = cm.lastLine();
-        // Vim cancels linewise motions that start on an edge and move beyond
-        // that edge. It does not cancel motions that do not start on an edge.
-        if ((line < first && cur.line == first) ||
-            (line > last && cur.line == last)) {
-          return;
+        // Vim go to line begin or line end when cursor at first/last line and
+        // move to previous/next line is triggered.
+        if (line < first && cur.line == first){
+          return this.moveToStartOfLine(cm, head, motionArgs, vim);
+        }else if (line > last && cur.line == last){
+            return this.moveToEol(cm, head, motionArgs, vim);
         }
         if (motionArgs.toFirstChar){
           endCh=findFirstNonWhiteSpaceCharacter(cm.getLine(line));
@@ -3603,7 +4176,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       },
 
       repeatLastCharacterSearch: function(cm, head, motionArgs) {
-        var lastSearch = vimGlobalState.lastChararacterSearch;
+        var lastSearch = vimGlobalState.lastCharacterSearch;
         var repeat = motionArgs.repeat;
         var forward = motionArgs.forward === lastSearch.forward;
         var increment = (lastSearch.increment ? 1 : 0) * (forward ? -1 : 1);
@@ -3653,13 +4226,21 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
               text = text.slice(0, - match[0].length);
             }
           }
-          var wasLastLine = head.line - 1 == cm.lastLine();
-          cm.replaceRange('', anchor, head);
-          if (args.linewise && !wasLastLine) {
+          var prevLineEnd = new Pos(anchor.line - 1, Number.MAX_VALUE);
+          var wasLastLine = cm.firstLine() == cm.lastLine();
+          if (head.line > cm.lastLine() && args.linewise && !wasLastLine) {
+            cm.replaceRange('', prevLineEnd, head);
+          } else {
+            cm.replaceRange('', anchor, head);
+          }
+          if (args.linewise) {
             // Push the next line back down, if there is a next line.
-            CodeMirror.commands.newlineAndIndent(cm);
-            // null ch so setCursor moves to end of line.
-            anchor.ch = null;
+            if (!wasLastLine) {
+              cm.setCursor(prevLineEnd);
+              CodeMirror.commands.newlineAndIndent(cm);
+            }
+            // make sure cursor ends up at the end of the line.
+            anchor.ch = Number.MAX_VALUE;
           }
           finalHead = anchor;
         } else {
@@ -3838,9 +4419,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         switch (actionArgs.position) {
           case 'center': y = y - (height / 2) + lineHeight;
             break;
-          case 'bottom': y = y - height + lineHeight*1.4;
-            break;
-          case 'top': y = y + lineHeight*0.4;
+          case 'bottom': y = y - height + lineHeight;
             break;
         }
         cm.scrollTo(null, y);
@@ -4690,7 +5269,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       // Only clip if the selection ends with trailing newline + whitespace
       if (/\n\s*$/.test(selection)) {
         var lines = selection.split('\n');
-        // We know this is all whitepsace.
+        // We know this is all whitespace.
         lines.pop();
 
         // Cases:
@@ -4776,9 +5355,9 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     function recordLastCharacterSearch(increment, args) {
-        vimGlobalState.lastChararacterSearch.increment = increment;
-        vimGlobalState.lastChararacterSearch.forward = args.forward;
-        vimGlobalState.lastChararacterSearch.selectedCharacter = args.selectedCharacter;
+        vimGlobalState.lastCharacterSearch.increment = increment;
+        vimGlobalState.lastCharacterSearch.forward = args.forward;
+        vimGlobalState.lastCharacterSearch.selectedCharacter = args.selectedCharacter;
     }
 
     var symbolToMode = {
@@ -4902,7 +5481,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       return cur;
     }
 
-    /*
+    /**
      * Returns the boundaries of the next word. If the cursor in the middle of
      * the word, then returns the boundaries of the current word, starting at
      * the cursor. If the cursor is at the start/end of a word, and we are going
@@ -4977,8 +5556,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         line = cm.getLine(lineNum);
         pos = (dir > 0) ? 0 : line.length;
       }
-      // Should never get here.
-      throw new Error('The impossible happened.');
     }
 
     /**
@@ -5140,7 +5717,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     // TODO: perhaps this finagling of start and end positions belonds
-    // in codmirror/replaceRange?
+    // in codemirror/replaceRange?
     function selectCompanionObject(cm, head, symb, inclusive) {
       var cur = head, start, end;
 
@@ -5471,17 +6048,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     }
     function makePrompt(prefix, desc) {
-      var raw = '';
-      if (prefix) {
-        raw += '<span style="font-family: monospace">' + prefix + '</span>';
-      }
-      raw += '<input type="text"/> ' +
-          '<span style="color: #888">';
-      if (desc) {
-        raw += '<span style="color: #888">';
-        raw += desc;
-        raw += '</span>';
-      }
+      var raw = '<span style="font-family: monospace; white-space: pre">' +
+          (prefix || "") + '<input type="text"></span>';
+      if (desc)
+        raw += ' <span style="color: #888">' + desc + '</span>';
       return raw;
     }
     var searchPromptDesc = '(Javascript regexp)';
@@ -6202,13 +6772,20 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         if (CodeMirror.commands.save) {
           // If a save command is defined, call it.
           CodeMirror.commands.save(cm);
-        } else {
-          // Saves to text area if no save command is defined.
+        } else if (cm.save) {
+          // Saves to text area if no save command is defined and cm.save() is available.
           cm.save();
         }
       },
       nohlsearch: function(cm) {
         clearSearchHighlight(cm);
+      },
+      yank: function (cm) {
+        var cur = copyCursor(cm.getCursor());
+        var line = cur.line;
+        var lineText = cm.getLine(line);
+        vimGlobalState.registerController.pushText(
+          '0', 'yank', lineText, true, true);
       },
       delmarks: function(cm, params) {
         if (!params.argString || !trim(params.argString)) {

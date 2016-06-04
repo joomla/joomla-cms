@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,8 +84,8 @@ class InstallationModelLanguages extends JModelBase
 
 		$extQuery->select($db->qn('extension_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' . $db->q('language'))
-			->where($db->qn('element') . ' = ' . $db->q('en-GB'))
+			->where($db->qn('type') . ' = ' . $db->q('package'))
+			->where($db->qn('element') . ' = ' . $db->q('pkg_en-GB'))
 			->where($db->qn('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
@@ -106,7 +106,7 @@ class InstallationModelLanguages extends JModelBase
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->qn(array('update_id', 'name', 'version')))
+			$query->select($db->qn(array('update_id', 'name', 'element', 'version')))
 				->from($db->qn('#__updates'))
 				->order($db->qn('name'));
 
@@ -201,7 +201,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   integer  $uid  The id of the language in the #__updates table.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since  1.6
-	 * @see    JController
+	 * @see    JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -75,7 +75,6 @@ class CategoriesControllerCategory extends JControllerForm
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $this->extension))
@@ -110,7 +109,7 @@ class CategoriesControllerCategory extends JControllerForm
 			}
 
 			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
+			if ($ownerId == $user->id)
 			{
 				return true;
 			}
@@ -133,6 +132,7 @@ class CategoriesControllerCategory extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
+		/** @var CategoriesModelCategory $model */
 		$model = $this->getModel('Category');
 
 		// Preset the redirect
@@ -201,7 +201,5 @@ class CategoriesControllerCategory extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-
-		return;
 	}
 }

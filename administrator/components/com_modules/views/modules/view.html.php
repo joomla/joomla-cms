@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,15 +27,17 @@ class ModulesViewModules extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->filterForm       = $this->get('FilterForm');
-		$this->activeFilters    = $this->get('ActiveFilters');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -45,11 +47,29 @@ class ModulesViewModules extends JViewLegacy
 			return false;
 		}
 
-		$this->addToolbar();
+		// We don't need the toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+		}
+		// If in modal layout.
+		else
+		{
+			// Client id selector should not exist.
+			$this->filterForm->removeField('client_id', '');
+
+			// If in the frontend state and language should not activate the search tools.
+			if (JFactory::getApplication()->isSite())
+			{
+				unset($this->activeFilters['state']);
+				unset($this->activeFilters['language']);
+			}
+		}
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -68,7 +88,14 @@ class ModulesViewModules extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
+		if ($state->get('client_id') == 1)
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+		}
 
 		if ($canDo->get('core.create'))
 		{
@@ -111,7 +138,7 @@ class ModulesViewModules extends JViewLegacy
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
@@ -135,16 +162,29 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
+		if ($this->getLayout() == 'default')
+		{
+			return array(
+				'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published'    => JText::_('JSTATUS'),
+				'a.title'        => JText::_('JGLOBAL_TITLE'),
+				'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+				'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+				'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+				'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+				'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'           => JText::_('JGRID_HEADING_ID')
+			);
+		}
+
 		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
-			'position' => JText::_('COM_MODULES_HEADING_POSITION'),
-			'name' => JText::_('COM_MODULES_HEADING_MODULE'),
-			'pages' => JText::_('COM_MODULES_HEADING_PAGES'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+			'a.title'        => JText::_('JGLOBAL_TITLE'),
+			'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+			'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+			'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+			'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
 			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.id'           => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

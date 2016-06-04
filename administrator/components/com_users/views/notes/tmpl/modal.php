@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 <?php if (empty($this->items)) : ?>
 	<?php echo JText::_('COM_USERS_NO_NOTES'); ?>
 <?php else : ?>
-	<ol class="alternating">
+	<ul class="alternating">
 	<?php foreach ($this->items as $item) : ?>
 		<li>
 			<div class="fltlft utitle">
@@ -45,10 +45,10 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 			<div class="clr"></div>
 			<div class="ubody">
-				<?php echo JHtml::_('content.prepare', $item->body); ?>
+				<?php echo (isset($item->body) ? JHtml::_('content.prepare', $item->body) : ''); ?>
 			</div>
 		</li>
 	<?php endforeach; ?>
-	</ol>
+	</ul>
 <?php endif; ?>
 </div>

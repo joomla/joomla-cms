@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -244,6 +244,13 @@ class JBrowser
 				{
 					$this->identifyBrowserVersion();
 				}
+			}
+
+			// Opera 15+
+			elseif (preg_match('|OPR[/ ]([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('opera');
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->agent, $version))
 			{

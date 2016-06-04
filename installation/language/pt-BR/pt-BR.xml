@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
-	<name>Português Brasileiro (pt-BR)</name>
-	<version>3.4.4</version>
-	<creationDate>Junho 2015</creationDate>
+	<name>Português do Brasil (pt-BR)</name>
+	<version>3.5.0</version>
+	<creationDate>2016-01-20</creationDate>
 	<author>Equipe de Tradução Português Brasileiro</author>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005-2015 Open Source Matters. Todos os direitos reservados.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Português Brasileiro (pt-BR) 3.4.4</description>
 	<files>
 		<filename>pt-BR.ini</filename>
 	</files>
 	<metadata>
-		<name>Português Brasileiro (pt-BR)</name>
+		<name>Português do Brasil (pt-BR)</name>
 		<tag>pt-BR</tag>
 		<rtl>0</rtl>
 	</metadata>

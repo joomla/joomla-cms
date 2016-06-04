@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,7 +133,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 	/**
 	 * Method to send a JSON response. The data parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a stdClass for a good response.
 	 *
 	 * @param   mixed  $response  stdClass on success, Exception on failure.

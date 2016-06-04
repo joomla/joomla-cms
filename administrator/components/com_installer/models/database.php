@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,6 +42,10 @@ class InstallerModelDatabase extends InstallerModel
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
+
+		// Prepare the utf8mb4 conversion check table
+		$this->prepareUtf8mb4StatusTable();
+
 		parent::populateState('name', 'asc');
 	}
 
@@ -64,8 +68,16 @@ class InstallerModelDatabase extends InstallerModel
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 
-		// Finally, make sure the database is converted to utf8mb4 if supported by the server
-		$this->convertTablesToUtf8mb4();
+		/*
+		 * Finally, if the schema updates succeeded, make sure the database is
+		 * converted to utf8mb4 or, if not suported by the server, compatible to it.
+		 */
+		$statusArray = $changeSet->getStatus();
+
+		if (count($statusArray['error']) == 0)
+		{
+			$installer->convertTablesToUtf8mb4(false);
+		}
 	}
 
 	/**
@@ -251,50 +263,59 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
-	 * Converts the site's database tables to support UTF-8 Multibyte
+	 * Prepare the table to save the status of utf8mb4 conversion
+	 * Make sure it contains 1 initialized record if there is not
+	 * already exactly 1 record.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	public function convertTablesToUtf8mb4()
+	private function prepareUtf8mb4StatusTable()
 	{
 		$db = JFactory::getDbo();
 
-		// If the database does not have UTF-8 Multibyte (utf8mb4) support we can't do much about it.
-		if (!$db->hasUTF8mb4Support())
-		{
-			return;
-		}
-
-		// Get the SQL file to convert the core tables. Yes, this is hardcoded because we have all sorts of index
-		// conversions and funky things we can't automate in core tables without an actual SQL file.
 		$serverType = $db->getServerType();
-		$fileName = JPATH_ADMINISTRATOR . "/components/com_admin/sql/updates/$serverType/3.5.0-2015-01-01.sql";
 
-		if (!is_file($fileName))
+		if ($serverType != 'mysql')
 		{
 			return;
 		}
 
-		$fileContents = @file_get_contents($fileName);
-		$queries = $db->splitSql($fileContents);
+		$creaTabSql = 'CREATE TABLE IF NOT EXISTS ' . $db->quoteName('#__utf8_conversion')
+			. ' (' . $db->quoteName('converted') . ' tinyint(4) NOT NULL DEFAULT 0'
+			. ') ENGINE=InnoDB';
 
-		if (empty($queries))
+		if ($db->hasUTF8mb4Support())
 		{
-			return;
+			$creaTabSql = $creaTabSql
+				. ' DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;';
+		}
+		else
+		{
+			$creaTabSql = $creaTabSql
+				. ' DEFAULT CHARSET=utf8 DEFAULT COLLATE=utf8_unicode_ci;';
 		}
 
-		foreach ($queries as $query)
+		$db->setQuery($creaTabSql)->execute();
+
+		$db->setQuery('SELECT COUNT(*) FROM ' . $db->quoteName('#__utf8_conversion') . ';');
+
+		$count = $db->loadResult();
+
+		if ($count > 1)
 		{
-			try
-			{
-				$db->setQuery($query)->execute();
-			}
-			catch (Exception $e)
-			{
-				// If the query fails we will go on. It probably means we've already done this conversion.
-			}
+			// Table messed up somehow, clear it
+			$db->setQuery('DELETE FROM ' . $db->quoteName('#__utf8_conversion')
+				. ';')->execute();
+			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
+		}
+		elseif ($count == 0)
+		{
+			// Record missing somehow, fix this
+			$db->setQuery('INSERT INTO ' . $db->quoteName('#__utf8_conversion')
+				. ' (' . $db->quoteName('converted') . ') VALUES (0);')->execute();
 		}
 	}
 }

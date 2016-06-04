@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class TagsViewTags extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed   A string if successful, otherwise a Error object.
+	 * @return  mixed   A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -44,8 +44,6 @@ class TagsViewTags extends JViewLegacy
 
 			return false;
 		}
-
-		TagsHelper::addSubmenu('tags');
 
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
@@ -72,7 +70,6 @@ class TagsViewTags extends JViewLegacy
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = JHtmlSidebar::render();
 		}
 		parent::display($tpl);
 	}
@@ -133,7 +130,7 @@ class TagsViewTags extends JViewLegacy
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
@@ -158,12 +155,12 @@ class TagsViewTags extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.lft'    => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state'  => JText::_('JSTATUS'),
-			'a.title'  => JText::_('JGLOBAL_TITLE'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'     => JText::_('JGRID_HEADING_ID')
+			'a.lft'      => JText::_('JGRID_HEADING_ORDERING'),
+			'a.state'    => JText::_('JSTATUS'),
+			'a.title'    => JText::_('JGLOBAL_TITLE'),
+			'a.access'   => JText::_('JGRID_HEADING_ACCESS'),
+			'a.language' => JText::_('JGRID_HEADING_LANGUAGE'),
+			'a.id'       => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

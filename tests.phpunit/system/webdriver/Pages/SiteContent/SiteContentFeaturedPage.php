@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -129,7 +129,7 @@ class SiteContentFeaturedPage extends SitePage
 	}
 
 	/**
-	 * Function to check if the unpublished tag is present for a article or not
+	 * Function to check if the unpublished tag is present for an article or not
 	 *
 	 * @param   string  $articleTitle  stores the name of the article
 	 *

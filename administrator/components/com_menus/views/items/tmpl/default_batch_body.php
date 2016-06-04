@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -13,8 +13,9 @@ $options = array(
 	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 );
 $published = $this->state->get('filter.published');
+$menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype');
 ?>
-
+<?php if (strlen($menuType) && $menuType != '*') : ?>
 <div class="row-fluid">
 	<div class="control-group span6">
 		<div class="controls">
@@ -36,7 +37,7 @@ $published = $this->state->get('filter.published');
 			<div class="controls">
 				<select name="batch[menu_id]" id="batch-menu-id">
 					<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
-					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
+					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published, 'checkacl' => (int) $this->state->get('menutypeid')))); ?>
 				</select>
 			</div>
 		</div>
@@ -46,3 +47,8 @@ $published = $this->state->get('filter.published');
 		</div>
 	<?php endif; ?>
 </div>
+<?php else : ?>
+<div class="row-fluid">
+	<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST') ?></p>
+</div>
+<?php endif; ?>

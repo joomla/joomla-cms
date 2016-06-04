@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php foreach ($this->items as $i => $item) :?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<?php echo $item->name;?>
+					<?php echo $item->banner_name;?>
 				</td>
 				<td>
 					<?php echo $item->client_name;?>

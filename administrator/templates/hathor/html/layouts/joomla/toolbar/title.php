@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 $class = 'pagetitle';
+
 if (!empty($displayData['icon']))
 {
 	// Strip the extension.
@@ -19,7 +20,7 @@ if (!empty($displayData['icon']))
 	{
 		$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
 	}
-	$class .= ' ' . htmlspecialchars(implode(' ', $icons));
+	$class .= ' ' . htmlspecialchars(implode(' ', $icons), ENT_COMPAT, 'UTF-8');
 }
 ?>
 <div class="<?php echo $class; ?>">

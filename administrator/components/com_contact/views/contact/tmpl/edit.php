@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,12 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
+$input = $app->input;
+
 $assoc = JLanguageAssociations::isEnabled();
 
 JFactory::getDocument()->addScriptDeclaration('
@@ -25,22 +28,32 @@ JFactory::getDocument()->addScriptDeclaration('
 		{
 			' . $this->form->getField("misc")->save() . '
 			Joomla.submitform(task, document.getElementById("contact-form"));
+
+			if (task !== "contact.apply")
+			{
+				window.parent.jQuery("#contactEdit' . $this->item->id . 'Modal").modal("hide");
+			}
 		}
 	};
 ');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
+
+// In case of modal
+$isModal = $input->get('layout') == 'modal' ? true : false;
+$layout = $isModal ? 'modal' : 'edit';
+$tmpl = $isModal ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::_('COM_CONTACT_EDIT_CONTACT', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::_('COM_CONTACT_EDIT_CONTACT')); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">
@@ -72,7 +85,7 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 				<div class="form-vertical">
 					<?php echo $this->form->renderField('misc'); ?>
@@ -80,7 +93,7 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -93,10 +106,12 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
-		<?php if ($assoc) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+		<?php if ( ! $isModal && $assoc) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php elseif ($isModal && $assoc) : ?>
+			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>

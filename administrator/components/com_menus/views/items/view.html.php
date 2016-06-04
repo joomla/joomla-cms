@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -98,8 +99,9 @@ class MenusViewItems extends JViewLegacy
 
 					if (!empty($item->componentname))
 					{
-						$value = JText::_($item->componentname);
-						$vars  = null;
+						$titleParts   = array();
+						$titleParts[] = JText::_($item->componentname);
+						$vars         = null;
 
 						parse_str($item->link, $vars);
 
@@ -118,59 +120,71 @@ class MenusViewItems extends JViewLegacy
 								// Look for the first view node off of the root node.
 								if ($view = $xml->xpath('view[1]'))
 								{
+									// Add view title if present.
 									if (!empty($view[0]['title']))
 									{
-										$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+										$viewTitle = trim((string) $view[0]['title']);
 
-										// Attempt to load the layout xml file.
-										// If Alternative Menu Item, get template folder for layout file
-										if (strpos($vars['layout'], ':') > 0)
+										// Check if the key is valid. Needed due to B/C so we don't show untranslated keys. This check should be removed with Joomla 4.
+										if ($lang->hasKey($viewTitle))
 										{
-											// Use template folder for layout file
-											$temp = explode(':', $vars['layout']);
-											$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
-
-											// Load template language file
-											$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
-											|| $lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
-										}
-										else
-										{
-											// Get XML file from component folder for standard layouts
-											$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
-
-											if (!file_exists($file))
-											{
-												$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
-											}
-										}
-
-										if (is_file($file) && $xml = simplexml_load_file($file))
-										{
-											// Look for the first view node off of the root node.
-											if ($layout = $xml->xpath('layout[1]'))
-											{
-												if (!empty($layout[0]['title']))
-												{
-													$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
-												}
-											}
-
-											if (!empty($layout[0]->message[0]))
-											{
-												$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
-											}
+											$titleParts[] = JText::_($viewTitle);
 										}
 									}
 								}
+							}
 
-								unset($xml);
+							$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+
+							// Attempt to load the layout xml file.
+							// If Alternative Menu Item, get template folder for layout file
+							if (strpos($vars['layout'], ':') > 0)
+							{
+								// Use template folder for layout file
+								$temp = explode(':', $vars['layout']);
+								$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
+
+								// Load template language file
+								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
+								||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
 							}
 							else
 							{
-								// Special case for absent views
-								$value .= ' » ' . $vars['view'];
+								// Get XML file from component folder for standard layouts
+								$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+
+								if (!file_exists($file))
+								{
+									$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+								}
 							}
+
+							if (is_file($file) && $xml = simplexml_load_file($file))
+							{
+								// Look for the first view node off of the root node.
+								if ($layout = $xml->xpath('layout[1]'))
+								{
+									if (!empty($layout[0]['title']))
+									{
+										$titleParts[] = JText::_(trim((string) $layout[0]['title']));
+									}
+								}
+
+								if (!empty($layout[0]->message[0]))
+								{
+									$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+								}
+							}
+
+							unset($xml);
+
+							// Special case if neither a view nor layout title is found
+							if (count($titleParts) == 1)
+							{
+								$titleParts[] = $vars['view'];
+							}
+
+							$value = implode(' » ', $titleParts);
 						}
 					}
 					else
@@ -223,13 +237,25 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
+
+		// Get the menu title
+		$menuTypeTitle = $this->get('State')->get('menutypetitle');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'list menumgr');
+		if ($menuTypeTitle)
+		{
+			JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+		}
 
 		if ($canDo->get('core.create'))
 		{
@@ -278,7 +304,7 @@ class MenusViewItems extends JViewLegacy
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{

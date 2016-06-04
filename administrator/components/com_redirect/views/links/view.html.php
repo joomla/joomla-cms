@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,6 +42,8 @@ class RedirectViewLinks extends JViewLegacy
 		$this->items                = $this->get('Items');
 		$this->pagination           = $this->get('Pagination');
 		$this->state                = $this->get('State');
+		$this->filterForm           = $this->get('FilterForm');
+		$this->activeFilters        = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -51,8 +53,25 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
+		if ($this->enabled)
+		{
+			if ($this->collect_urls_enabled)
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+			}
+			else
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'warning');
+			}
+		}
+		else
+		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
+		}
+
 		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
@@ -109,10 +128,10 @@ class RedirectViewLinks extends JViewLegacy
 			// Get the toolbar object instance
 			$bar = JToolbar::getInstance('toolbar');
 
-			$title = JText::_('JTOOLBAR_BATCH');
+			$title = JText::_('JTOOLBAR_BULK_IMPORT');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
-			$layout = new JLayoutFile('joomla.toolbar.batch');
+			$layout = new JLayoutFile('toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
@@ -120,11 +139,12 @@ class RedirectViewLinks extends JViewLegacy
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
+			JToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();
 		}
@@ -137,12 +157,5 @@ class RedirectViewLinks extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 
-		JHtmlSidebar::setAction('index.php?option=com_redirect&view=links');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', RedirectHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true)
-		);
 	}
 }

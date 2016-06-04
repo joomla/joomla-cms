@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -189,7 +189,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 		if ($feed_display_order == 'asc')
 		{
-			$newsfeed->items = array_reverse($newsfeed->items);
+			$this->rssDoc->reverseItems();
 		}
 
 		// Escape strings for HTML output

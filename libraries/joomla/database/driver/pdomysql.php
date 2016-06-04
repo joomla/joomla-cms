@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -72,24 +72,21 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function __construct($options)
 	{
-		/**
-		 * Pre-populate the UTF-8 Multibyte compatibility flag. Unfortuantely PDO won't report the server version
-		 * unless we're connected to it and we cannot connect to it unless we know if it supports utf8mb4 which requires
-		 * us knowing the server version. Between this chicken and egg issue we _assume_ it's supported and we'll just
-		 * catch any problems at connection time.
-		 */
-		$this->utf8mb4 = true;
-
 		// Get some basic values from the options.
 		$options['driver']  = 'mysql';
-		$options['charset'] = (isset($options['charset'])) ? $options['charset'] : 'utf8';
 
-		if ($this->utf8mb4 && ($options['charset'] == 'utf8'))
+		if (!isset($options['charset']) || $options['charset'] == 'utf8')
 		{
 			$options['charset'] = 'utf8mb4';
 		}
 
-		$this->charset = $options['charset'];
+		/**
+		 * Pre-populate the UTF-8 Multibyte compatibility flag. Unfortunately PDO won't report the server version
+		 * unless we're connected to it, and we cannot connect to it unless we know if it supports utf8mb4, which requires
+		 * us knowing the server version. Because of this chicken and egg issue, we _assume_ it's supported and we'll just
+		 * catch any problems at connection time.
+		 */
+		$this->utf8mb4 = ($options['charset'] == 'utf8mb4');
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -105,6 +102,11 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function connect()
 	{
+		if ($this->connection)
+		{
+			return;
+		}
+
 		try
 		{
 			// Try to connect to MySQL
@@ -112,29 +114,47 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		}
 		catch (\RuntimeException $e)
 		{
-			// If the connection failed but not because of the wrong character set bubble up the exception
-			if (!$this->utf8mb4 || ($this->options['charset'] != 'utf8mb4'))
+			// If the connection failed, but not because of the wrong character set, then bubble up the exception.
+			if (!$this->utf8mb4)
 			{
 				throw $e;
 			}
 
-			/**
-			 * If the connection failed and I was trying to use the utf8mb4 charset then it is likely that the server
-			 * doesn't support utf8mb4 despite claiming otherwise.
-			 *
-			 * This happens on old MySQL server versions (less than 5.5.3) using the mysqlnd PHP driver. Since mysqlnd
-			 * masks the server version and reports only its own we can not be sure if the server actually does support
-			 * UTF-8 Multibyte (i.e. it's MySQL 5.5.3 or later). Since the utf8mb4 charset is undefined in this case we
-			 * catch the error and determine that utf8mb4 is not supported!
-			 */
+			/*
+			 * Otherwise, try connecting again without using
+			 * utf8mb4 and see if maybe that was the problem. If the
+			 * connection succeeds, then we will have learned that the
+			 * client end of the connection does not support utf8mb4.
+  			 */
 			$this->utf8mb4 = false;
 			$this->options['charset'] = 'utf8';
 
 			parent::connect();
 		}
 
+		if ($this->utf8mb4)
+		{
+			/*
+ 			 * At this point we know the client supports utf8mb4.  Now
+ 			 * we must check if the server supports utf8mb4 as well.
+ 			 */
+			$serverVersion = $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+			$this->utf8mb4 = version_compare($serverVersion, '5.5.3', '>=');
+
+			if (!$this->utf8mb4)
+			{
+				// Reconnect with the utf8 character set.
+				parent::disconnect();
+				$this->options['charset'] = 'utf8';
+				parent::connect();
+			}
+		}
+
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+
+		// Set sql_mode to non_strict mode
+		$this->connection->query("SET @@SESSION.sql_mode = '';");
 	}
 
 	/**

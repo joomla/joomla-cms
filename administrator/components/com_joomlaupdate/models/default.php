@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,12 +37,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			// "Minor & Patch Release for Current version AND Next Major Release".
 			case 'sts':
 			case 'next':
-				$updateURL = 'http://update.joomla.org/core/sts/list_sts.xml';
+				$updateURL = 'https://update.joomla.org/core/sts/list_sts.xml';
 				break;
 
 			// "Testing"
 			case 'testing':
-				$updateURL = 'http://update.joomla.org/core/test/list_test.xml';
+				$updateURL = 'https://update.joomla.org/core/test/list_test.xml';
 				break;
 
 			// "Custom"
@@ -66,7 +66,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			 * case 'nochange':
 			 */
 			default:
-				$updateURL = 'http://update.joomla.org/core/list.xml';
+				$updateURL = 'https://update.joomla.org/core/list.xml';
 		}
 
 		$db = $this->getDbo();
@@ -120,7 +120,20 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		$updater = JUpdater::getInstance();
-		$updater->findUpdates(700, $cache_timeout);
+
+		$reflection = new ReflectionObject($updater);
+		$reflectionMethod = $reflection->getMethod('findUpdates');
+		$methodParameters = $reflectionMethod->getParameters();
+
+		if (count($methodParameters) >= 4)
+		{
+			// Reinstall support is available in JUpdater
+			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE, true);
+		}
+		else
+		{
+			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE);
+		}
 	}
 
 	/**
@@ -135,8 +148,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		// Initialise the return array.
 		$ret = array(
 			'installed' => JVERSION,
-			'latest' => null,
-			'object' => null
+			'latest'    => null,
+			'object'    => null,
+			'hasUpdate' => false
 		);
 
 		// Fetch the update information from the database.
@@ -154,25 +168,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			return $ret;
 		}
-		else
-		{
-			$ret['latest'] = $updateObject->version;
-		}
+
+		$ret['latest']    = $updateObject->version;
+		$ret['hasUpdate'] = $updateObject->version != JVERSION;
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
 
-		// Pass the update object.
-		if ($ret['latest'] == JVERSION)
-		{
-			$ret['object'] = null;
-		}
-		else
-		{
-			$ret['object'] = $update;
-		}
+		$ret['object'] = $update;
 
 		return $ret;
 	}
@@ -189,12 +194,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$config = JFactory::getConfig();
 
 		return array(
-			'host' => $config->get('ftp_host'),
-			'port' => $config->get('ftp_port'),
-			'username' => $config->get('ftp_user'),
-			'password' => $config->get('ftp_pass'),
+			'host'      => $config->get('ftp_host'),
+			'port'      => $config->get('ftp_port'),
+			'username'  => $config->get('ftp_user'),
+			'password'  => $config->get('ftp_pass'),
 			'directory' => $config->get('ftp_root'),
-			'enabled' => $config->get('ftp_enable'),
+			'enabled'   => $config->get('ftp_enable'),
 		);
 	}
 
@@ -246,12 +251,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$basename = basename($packageURL);
+		$basename   = basename($packageURL);
 
 		// Find the path to the temp directory and the local package.
-		$config = JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$tempdir = $config->get('tmp_path');
-		$target = $tempdir . '/' . $basename;
+		$target  = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
 		$exists = JFile::exists($target);
@@ -290,16 +295,34 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
-		$result = AdmintoolsHelperDownload::download($url, $target);
 
-		if (!$result)
+		// Get the handler to download the package
+		try
+		{
+			$http = JHttpFactory::getHttp(null, array('curl', 'stream'));
+		}
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
-		else
+
+		jimport('joomla.filesystem.file');
+
+		// Make sure the target does not exist.
+		JFile::delete($target);
+
+		// Download the package
+		$result = $http->get($url);
+
+		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
-			return basename($target);
+			return false;
 		}
+
+		// Write the file to disk
+		JFile::write($target, $result->body);
+
+		return basename($target);
 	}
 
 	/**
@@ -319,7 +342,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Do we have to use FTP?
-		$method = $app->input->get('method', 'direct');
+		$method = JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
 
 		// Get the absolute path to site's root.
 		$siteroot = JPATH_SITE;
@@ -333,9 +356,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		// Get the package name.
-		$config = JFactory::getConfig();
+		$config  = JFactory::getConfig();
 		$tempdir = $config->get('tmp_path');
-		$file = $tempdir . '/' . $basename;
+		$file    = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
 		$app->setUserState('com_joomlaupdate.password', $password);
@@ -356,7 +379,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	'kickstart.setup.dryrun' => '0'
 ENDDATA;
 
-		if ($method == 'ftp')
+		if ($method != 'direct')
 		{
 			/*
 			 * Fetch the FTP parameters from the request. Note: The password should be
@@ -366,7 +389,7 @@ ENDDATA;
 			$ftp_host = $app->input->get('ftp_host', '');
 			$ftp_port = $app->input->get('ftp_port', '21');
 			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = $app->input->get('ftp_pass', '', 'default', 'none', 2);
+			$ftp_pass = $app->input->get('ftp_pass', '', 'raw');
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
@@ -419,7 +442,8 @@ ENDDATA;
 				if (!is_dir($tempdir))
 				{
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir . '/.htaccess', "order deny,allow\ndeny from all\nallow from none\n");
+					$htaccessContents = "order deny,allow\ndeny from all\nallow from none\n";
+					JFile::write($tempdir . '/.htaccess', $htaccessContents);
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory.
@@ -541,52 +565,40 @@ ENDDATA;
 	{
 		$installer = JInstaller::getInstance();
 
-		$installer->setPath('source', JPATH_ROOT);
-		$installer->setPath('extension_root', JPATH_ROOT);
+		$manifest = $installer->isManifest(JPATH_MANIFESTS . '/files/joomla.xml');
 
-		if (!$installer->setupInstall())
+		if ($manifest === false)
 		{
 			$installer->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 
 			return false;
 		}
 
+		$installer->manifest = $manifest;
+
+		$installer->setUpgrade(true);
+		$installer->setOverwrite(true);
+
 		$installer->extension = JTable::getInstance('extension');
 		$installer->extension->load(700);
+
 		$installer->setAdapter($installer->extension->type);
 
-		$manifest = $installer->getManifest();
-
-		$manifestPath = JPath::clean($installer->getPath('manifest'));
-		$element = preg_replace('/\.xml/', '', basename($manifestPath));
+		$installer->setPath('manifest', JPATH_MANIFESTS . '/files/joomla.xml');
+		$installer->setPath('source', JPATH_MANIFESTS . '/files');
+		$installer->setPath('extension_root', JPATH_ROOT);
 
 		// Run the script file.
-		$manifestScript = (string) $manifest->scriptfile;
+		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
-		if ($manifestScript)
-		{
-			$manifestScriptFile = JPATH_ROOT . '/' . $manifestScript;
-
-			if (is_file($manifestScriptFile))
-			{
-				// Load the file.
-				include_once $manifestScriptFile;
-			}
-
-			$classname = 'JoomlaInstallerScript';
-
-			if (class_exists($classname))
-			{
-				$manifestClass = new $classname($this);
-			}
-		}
+		$manifestClass = new JoomlaInstallerScript;
 
 		ob_start();
 		ob_implicit_flush(false);
 
 		if ($manifestClass && method_exists($manifestClass, 'preflight'))
 		{
-			if ($manifestClass->preflight('update', $this) === false)
+			if ($manifestClass->preflight('update', $installer) === false)
 			{
 				$installer->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_CUSTOM_INSTALL_FAILURE'));
 
@@ -622,7 +634,7 @@ ENDDATA;
 		{
 			// Install failed, roll back changes.
 			$installer->abort(
-				JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $db->stderr(true))
+				JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $e->getMessage())
 			);
 
 			return false;
@@ -646,7 +658,7 @@ ENDDATA;
 			{
 				// Install failed, roll back changes.
 				$installer->abort(
-					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $db->stderr(true))
+					JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_UPDATE'), $row->getError())
 				);
 
 				return false;
@@ -672,7 +684,7 @@ ENDDATA;
 			if (!$row->store())
 			{
 				// Install failed, roll back changes.
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $db->stderr(true)));
+				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $row->getError()));
 
 				return false;
 			}
@@ -685,20 +697,14 @@ ENDDATA;
 			$installer->pushStep(array('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
 
-		/*
-		 * Let's run the queries for the file.
-		 */
-		if ($manifest->update)
+		$result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
+
+		if ($result === false)
 		{
-			$result = $installer->parseSchemaUpdates($manifest->update->schemas, $row->extension_id);
+			// Install failed, rollback changes.
+			$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
 
-			if ($result === false)
-			{
-				// Install failed, rollback changes.
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_UPDATE_SQL_ERROR', $db->stderr(true)));
-
-				return false;
-			}
+			return false;
 		}
 
 		// Start Joomla! 1.6.
@@ -720,23 +726,10 @@ ENDDATA;
 		$msg .= ob_get_contents();
 		ob_end_clean();
 
-		// Lastly, we will copy the manifest file to its appropriate place.
-		$manifest = array();
-		$manifest['src'] = $installer->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($installer->getPath('manifest'));
-
-		if (!$installer->copyFiles(array($manifest), true))
-		{
-			// Install failed, rollback changes.
-			$installer->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
-
-			return false;
-		}
-
 		// Clobber any possible pending updates.
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $element, 'type' => 'file', 'client_id' => '0', 'folder' => '')
+			array('element' => 'joomla', 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
 
 		if ($uid)
@@ -750,7 +743,7 @@ ENDDATA;
 
 		if ($manifestClass && method_exists($manifestClass, 'postflight'))
 		{
-			$manifestClass->postflight('update', $this);
+			$manifestClass->postflight('update', $installer);
 		}
 
 		// Append messages.
@@ -807,5 +800,178 @@ ENDDATA;
 
 		// Unset the update filename from the session.
 		JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
+	}
+
+	/**
+	 * Uploads what is presumably an update ZIP file under a mangled name in the temporary directory.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function upload()
+	{
+		// Get the uploaded file information.
+		$input = JFactory::getApplication()->input;
+
+		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See JInputFiles::get.
+		$userfile = $input->files->get('install_package', null, 'raw');
+
+		// Make sure that file uploads are enabled in php.
+		if (!(bool) ini_get('file_uploads'))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 500);
+		}
+
+		// Make sure that zlib is loaded so that the package can be unpacked.
+		if (!extension_loaded('zlib'))
+		{
+			throw new RuntimeException(('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+		}
+
+		// If there is no uploaded file, we have a problem...
+		if (!is_array($userfile))
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'), 500);
+		}
+
+		// Is the PHP tmp directory missing?
+		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_NO_TMP_DIR))
+		{
+			throw new RuntimeException(
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' .
+				JText::_('COM_INSTALLER_MSG_WARNINGS_PHPUPLOADNOTSET'),
+				500
+			);
+		}
+
+		// Is the max upload size too small in php.ini?
+		if ($userfile['error'] && ($userfile['error'] == UPLOAD_ERR_INI_SIZE))
+		{
+			throw new RuntimeException(
+				JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR') . '<br />' . JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'),
+				500
+			);
+		}
+
+		// Check if there was a different problem uploading the file.
+		if ($userfile['error'] || $userfile['size'] < 1)
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+		}
+
+		// Build the appropriate paths.
+		$config   = JFactory::getConfig();
+		$tmp_dest = tempnam($config->get('tmp_path'), 'ju');
+		$tmp_src  = $userfile['tmp_name'];
+
+		// Move uploaded file.
+		jimport('joomla.filesystem.file');
+
+		if (version_compare(JVERSION, '3.4.0', 'ge'))
+		{
+			$result = JFile::upload($tmp_src, $tmp_dest, false, true);
+		}
+		else
+		{
+			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
+			$result = JFile::upload($tmp_src, $tmp_dest);
+		}
+
+		if (!$result)
+		{
+			throw new RuntimeException(JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
+		}
+
+		JFactory::getApplication()->setUserState('com_joomlaupdate.temp_file', $tmp_dest);
+	}
+
+	/**
+	 * Checks the super admin credentials are valid for the currently logged in users
+	 *
+	 * @param   array  $credentials  The credentials to authenticate the user with
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.0
+	 */
+	public function captiveLogin($credentials)
+	{
+		// Make sure the username matches
+		$username = isset($credentials['username']) ? $credentials['username'] : null;
+		$user     = JFactory::getUser();
+
+		if ($user->username != $username)
+		{
+			return false;
+		}
+
+		// Make sure the user we're authorising is a Super User
+		if (!$user->authorise('core.admin'))
+		{
+			return false;
+		}
+
+		// Get the global JAuthentication object.
+		jimport('joomla.user.authentication');
+
+		$authenticate = JAuthentication::getInstance();
+		$response     = $authenticate->authenticate($credentials);
+
+		if ($response->status !== JAuthentication::STATUS_SUCCESS)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Does the captive (temporary) file we uploaded before still exist?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.0
+	 */
+	public function captiveFileExists()
+	{
+		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
+
+		JLoader::import('joomla.filesystem.file');
+
+		if (empty($file) || !JFile::exists($file))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Remove the captive (temporary) file we uploaded before and the .
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function removePackageFiles()
+	{
+		$files = array(
+			JFactory::getApplication()->getUserState('com_joomlaupdate.temp_file', null),
+			JFactory::getApplication()->getUserState('com_joomlaupdate.file', null),
+		);
+
+		JLoader::import('joomla.filesystem.file');
+
+		foreach ($files as $file)
+		{
+			if (JFile::exists($file))
+			{
+				if (!@unlink($file))
+				{
+					JFile::delete($file);
+				}
+			}
+		}
 	}
 }

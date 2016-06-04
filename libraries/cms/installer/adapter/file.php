@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
 class JInstallerAdapterFile extends JInstallerAdapter
 {
 	/**
-	 * <scriptfile> element of the extension manifest
+	 * `<scriptfile>` element of the extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -37,7 +37,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected $supportsDiscoverInstall = false;
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -151,12 +151,10 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	{
 		if (!$element)
 		{
-			// Ensure the element is a string
-			$element = (string) $this->getManifest()->name;
-
-			// Filter the name for illegal characters
-			$element = str_replace('files_', '', JFilterInput::getInstance()->clean($element, 'cmd'));
+			$manifestPath = JPath::clean($this->parent->getPath('manifest'));
+			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
+
 		return $element;
 	}
 

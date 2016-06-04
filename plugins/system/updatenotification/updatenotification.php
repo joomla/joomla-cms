@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			// If we can't lock the tables it's too risk continuing execution
+			// If we can't lock the tables it's too risky to continue execution
 			return;
 		}
 

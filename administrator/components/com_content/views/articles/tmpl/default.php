@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,8 +20,6 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$archived  = $this->state->get('filter.published') == 2 ? true : false;
-$trashed   = $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
 
@@ -79,7 +77,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
@@ -136,16 +134,13 @@ $assoc = JLanguageAssociations::isEnabled();
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-								<?php
-								// Create dropdown items
-								$action = $archived ? 'unarchive' : 'archive';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-
-								$action = $trashed ? 'untrash' : 'trash';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
-
-								// Render dropdown list
-								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								<?php // Create dropdown items and render the dropdown list.
+								if ($canChange)
+								{
+									JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
+									JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+								}
 								?>
 							</div>
 						</td>
@@ -187,7 +182,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php if ($item->created_by_alias) : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
-								<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+								<div class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 							<?php else : ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
 								<?php echo $this->escape($item->author_name); ?></a>
@@ -197,7 +192,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php if ($item->language == '*'):?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
 						<td class="nowrap small hidden-phone">

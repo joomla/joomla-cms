@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -402,7 +402,7 @@ class JControllerLegacy extends JObject
 			}
 			else
 			{
-				$this->model_prefix = $this->name . 'Model';
+				$this->model_prefix = ucfirst($this->name) . 'Model';
 			}
 		}
 

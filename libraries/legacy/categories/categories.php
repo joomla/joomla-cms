@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -257,13 +257,24 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
-				->where('s.id=' . (int) $id);
-		}
+			$query->where('s.id=' . (int) $id);
 
-		if ($app->isSite() && JLanguageMultilang::isEnabled())
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(JFactory::getLanguage()->getTag())
+					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
+			}
+			else
+			{
+				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
+		}
+		else
 		{
-			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
 		}
 
 		// Note: i for item
