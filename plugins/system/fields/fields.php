@@ -472,7 +472,7 @@ class PlgSystemFields extends JPlugin
 						));
 
 				// Set the output on the item
-				$item->text = substr_replace($item->text, $output, $starts[0][1], $end + 13 - $starts[0][1]);
+				$item->text = substr_replace($item->text, $output, $starts[0][1], $end + 11 - $starts[0][1]);
 			}
 			catch (Exception $e)
 			{
