@@ -55,7 +55,7 @@ $cparams = JComponentHelper::getParams('com_media');
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
-		<article class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? 'system-unpublished' : null; ?><?php echo $item->featured ? ' item-featured' : '';?>">
+		<article class="leading-<?php echo $leadingcount; echo $item->state == 0 ? 'system-unpublished' : null; echo $item->featured ? ' item-featured' : '';?>">
 			<?php
 				$this->item = &$item;
 				echo $this->loadTemplate('item');
@@ -77,7 +77,7 @@ $cparams = JComponentHelper::getParams('com_media');
 			<?php $row = $counter / $this->columns; ?>
 			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 		<?php endif; ?>
-		<article class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?><?php echo $item->featured ? ' item-featured' : '';?>">
+		<article class="item column-<?php echo $rowcount; echo $item->state == 0 ? ' system-unpublished' : null; echo $item->featured ? ' item-featured' : '';?>">
 		<?php
 			$this->item = &$item;
 			echo $this->loadTemplate('item');

@@ -29,7 +29,7 @@ JHtml::_('behavior.caption');
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading clearfix">
 	<?php foreach ($this->lead_items as &$item) : ?>
-		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> clearfix<?php echo $item->featured ? ' item-featured' : '';?>" 
+		<div class="leading-<?php echo $leadingcount; echo $item->state == 0 ? ' system-unpublished' : null; echo $item->featured ? ' item-featured' : '';?> clearfix" 
 			itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
 				$this->item = &$item;
@@ -58,7 +58,7 @@ JHtml::_('behavior.caption');
 
 		<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-' . $row; ?> row-fluid">
 		<?php endif; ?>
-			<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> span<?php echo round((12 / $this->columns));?><?php echo $item->featured ? ' item-featured' : '';?>"
+			<div class="item column-<?php echo $rowcount; echo $item->state == 0 ? ' system-unpublished' : null; ?> span<?php echo round((12 / $this->columns)); echo $item->featured ? ' item-featured' : '';?>"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 			<?php
 					$this->item = &$item;
