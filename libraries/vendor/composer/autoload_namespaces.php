@@ -11,4 +11,5 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Joomla\\Session' => array($vendorDir . '/joomla/session'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
 );

@@ -6,9 +6,6 @@
     "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0+",
     "config": {
-        "platform": {
-            "php": "5.3.10"
-        },
         "vendor-dir": "libraries/vendor"
     },
     "support": {
@@ -40,6 +37,6 @@
         "phpunit/dbunit": "~1.3",
         "squizlabs/php_codesniffer": "~1.5",
         "pear/cache_lite": "1.7.16",
-        "codeception/codeception": "^2.1"
+        "codeception/codeception": "~2.2"
     }
 }
