@@ -137,7 +137,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('feed_limit', 10);
 		$registry->set('feed_email', 'none');
 
-		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('log_path', JPATH_ADMINISTRATOR . '/logs');
 		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		// Session setting.

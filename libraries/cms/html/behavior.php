@@ -578,7 +578,15 @@ abstract class JHtmlBehavior
 					jQuery('.minicolors').each(function() {
 						jQuery(this).minicolors({
 							control: jQuery(this).attr('data-control') || 'hue',
-							position: jQuery(this).attr('data-position') || 'right',
+							format: jQuery(this).attr('data-validate') === 'color'
+								? 'hex'
+								: (jQuery(this).attr('data-format') === 'rgba'
+									? 'rgb'
+									: jQuery(this).attr('data-format'))
+								|| 'hex',
+							keywords: jQuery(this).attr('data-keywords') || '',
+							opacity: jQuery(this).attr('data-format') === 'rgba' ? true : false || false,
+							position: jQuery(this).attr('data-position') || 'default',
 							theme: 'bootstrap'
 						});
 					});
@@ -654,7 +662,7 @@ abstract class JHtmlBehavior
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
+			$url = JUri::base(true) . '/index.php?option=com_ajax&amp;format=json';
 		}
 		else
 		{
@@ -700,6 +708,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		$terms = array_filter($terms, 'strlen');
+
+		// Nothing to Highlight
+		if (empty($terms))
+		{
+			static::$loaded[__METHOD__][$sig] = true;
+			return;
+		}
+
 		// Include core
 		static::core();
 
@@ -708,7 +725,10 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
-		$terms = str_replace('"', '\"', $terms);
+		foreach ($terms as $i => $term)
+		{
+			$terms[$i] = JFilterOutput::stringJSSafe($term);
+		}
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
@@ -886,11 +906,14 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support to keep a tab state.
 	 *
-	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
+	 *
+	 * ```
 	 * parent tab = permissions
 	 * child tab = permission-<identifier>
+	 * ```
 	 *
-	 * Each tab header "a" tag also should have a unique href attribute
+	 * Each tab header `<a>` tag also should have a unique href attribute
 	 *
 	 * @return  void
 	 *

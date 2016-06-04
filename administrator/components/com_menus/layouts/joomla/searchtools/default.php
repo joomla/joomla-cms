@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  Layout
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
@@ -23,6 +23,7 @@ if ($data['view'] instanceof MenusViewItems)
 		.js-stools .js-stools-menutype {
 			float: left;
 			margin-right: 10px;
+			min-width: 220px;
 		}
 		html[dir=rtl] .js-stools .js-stools-menutype {
 			float: right;

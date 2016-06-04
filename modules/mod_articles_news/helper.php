@@ -34,13 +34,12 @@ abstract class ModArticlesNewsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$app = JFactory::getApplication();
-
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app       = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
 		// Set the filters based on the module params
@@ -92,7 +91,7 @@ abstract class ModArticlesNewsHelper
 			else
 			{
 				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
-				$item->link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false)));
+				$item->link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 

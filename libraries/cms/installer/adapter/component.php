@@ -112,7 +112,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -631,6 +631,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$this->extension->client_id = 1;
 			$this->extension->params    = $this->parent->getParams();
 			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 		}
 
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();

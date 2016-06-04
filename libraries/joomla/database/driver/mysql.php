@@ -38,7 +38,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// PHP's `mysql` extension is not present in PHP 7, block instantiation in this environment
 		if (PHP_MAJOR_VERSION >= 7)
 		{
-			throw new RuntimeException(
+			throw new JDatabaseExceptionUnsupported(
 				'This driver is unsupported in PHP 7, please use the MySQLi or PDO MySQL driver instead.'
 			);
 		}
@@ -82,13 +82,13 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Make sure the MySQL extension for PHP is installed and enabled.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new JDatabaseExceptionUnsupported('Could not connect to MySQL.');
 		}
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @ mysql_connect($this->options['host'], $this->options['user'], $this->options['password'], true)))
 		{
-			throw new RuntimeException('Could not connect to MySQL.');
+			throw new JDatabaseExceptionConnecting('Could not connect to MySQL.');
 		}
 
 		// Set sql_mode to non_strict mode
@@ -206,7 +206,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
-	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cursor  An optional database cursor resource to extract the row count from.
 	 *
@@ -264,7 +264,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if (!is_resource($this->connection))
 		{
 			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
+			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
@@ -336,7 +336,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -348,7 +348,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -376,7 +376,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		if (!mysql_select_db($database, $this->connection))
 		{
-			throw new RuntimeException('Could not connect to database');
+			throw new JDatabaseExceptionConnecting('Could not connect to database');
 		}
 
 		return true;
@@ -512,16 +512,24 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	private function serverClaimsUtf8mb4Support()
 	{
 		$client_version = mysql_get_client_info();
+		$server_version = $this->getVersion();
 
-		if (strpos($client_version, 'mysqlnd') !== false)
+		if (version_compare($server_version, '5.5.3', '<'))
 		{
-			$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-			return version_compare($client_version, '5.0.9', '>=');
+			return false;
 		}
 		else
 		{
-			return version_compare($client_version, '5.5.3', '>=');
+			if (strpos($client_version, 'mysqlnd') !== false)
+			{
+				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
+
+				return version_compare($client_version, '5.0.9', '>=');
+			}
+			else
+			{
+				return version_compare($client_version, '5.5.3', '>=');
+			}
 		}
 	}
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <?php if (!empty($list)) : ?>
 	<ul class="archive-module<?php echo $moduleclass_sfx; ?>">
 	<?php foreach ($list as $item) : ?>
-	<li<?php echo (empty($item->featured)) ? '' : ' item-featured';?>>
+	<li<?php echo (empty($item->featured)) ? '' : 'class="item-featured"';?>>
 		<a href="<?php echo $item->link; ?>">
 			<?php echo $item->text; ?>
 		</a>

@@ -45,7 +45,7 @@ class JImageFilterContrastTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Define red.
@@ -78,7 +78,7 @@ class JImageFilterContrastTest extends TestCase
 	 */
 	public function testExecuteInvalidArgument()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Define red.

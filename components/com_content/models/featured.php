@@ -134,12 +134,6 @@ class ContentModelFeatured extends ContentModelArticles
 		// Create a new query object.
 		$query = parent::getListQuery();
 
-		// Filter by frontpage.
-		if ($this->getState('filter.frontpage'))
-		{
-			$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
-		}
-
 		// Filter by categories
 		$featuredCategories = $this->getState('filter.frontpage.categories');
 

@@ -49,9 +49,6 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Import the base Joomla Platform libraries.
-JLoader::import('joomla.factory');
-
 // Check if the JsonSerializable interface exists already
 if (!interface_exists('JsonSerializable'))
 {

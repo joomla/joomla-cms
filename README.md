@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.5 [version history](https://docs.joomla.org/Joomla_3.5_version_history).
+* Joomla! 3.6 [version history](https://docs.joomla.org/Joomla_3.6_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
@@ -49,7 +49,7 @@ Is it easy to change the layout display?
 
 Ready to install Joomla?
 ---------------------
-* Check the [minimum requirements](https://www.joomla.org/technical-requirements.html). 
+* Check the [minimum requirements](https://www.joomla.org/about-joomla/technical-requirements.html). 
 * How do you [install Joomla](https://docs.joomla.org/Installing_Joomla!)?
 * You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Installing_Joomla_locally).
 When ready, it can be moved to an on-line hosting account of your choice.
@@ -79,7 +79,7 @@ Do you want to improve Joomla?
 --------------------
 * How do you [request a feature](https://docs.joomla.org/How_do_you_request_a_feature%3F)?
 * How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues)?
-* Get Involved: Joomla! is community developed software. [Join the community](http://volunteers.joomla.org/).
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
 * Documentation for [Developers](https://docs.joomla.org/Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 

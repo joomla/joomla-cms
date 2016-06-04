@@ -21,7 +21,6 @@ $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
 $canOrder  = $user->authorise('core.edit.state', 'com_tags');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 
@@ -55,7 +54,7 @@ if ($saveOrder)
 						<th width="1%" class="nowrap hidden-phone center">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="hidden-phone">
+						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -67,8 +66,8 @@ if ($saveOrder)
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -77,7 +76,7 @@ if ($saveOrder)
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="7">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -141,16 +140,24 @@ if ($saveOrder)
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tags.', $canChange);?>
+								<div class="btn-group">
+									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
+									<?php // Create dropdown items and render the dropdown list.
+									if ($canChange)
+									{
+										JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'tags');
+										JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'tags');
+										echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									}
+									?>
+								</div>
 							</td>
 							<td>
-								<?php if ($item->level > 0): ?>
-								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
-								<?php if ($canEdit || $canEditOwn) : ?>
+								<?php if ($canEdit) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id);?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
@@ -171,7 +178,7 @@ if ($saveOrder)
 						<?php if ($item->language == '*') : ?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 							</td>
 							<td class="hidden-phone">

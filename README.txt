@@ -1,7 +1,7 @@
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
-	* Joomla! 3.5 version history - https://docs.joomla.org/Joomla_3.5_version_history
+	* Joomla! 3.6 version history - https://docs.joomla.org/Joomla_3.6_version_history
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
@@ -33,7 +33,7 @@
 	* There are lots of ready made templates that you can download.
 
 8- Ready to install Joomla?
-	* See minimum requirements here: https://www.joomla.org/technical-requirements.html
+	* See minimum requirements here: https://www.joomla.org/about-joomla/technical-requirements.html
 	* How do you install Joomla! ? - https://docs.joomla.org/Installing_Joomla!
 	* Start your Joomla experience building your site with a local test server.
 	When ready it can be moved to an on-line hosting account of your choice.
@@ -60,7 +60,7 @@
 12- Do you want to improve Joomla?
 	* How do you request a feature? https://docs.joomla.org/How_do_you_request_a_feature%3F
 	* How do you report a bug? https://docs.joomla.org/Filing_bugs_and_issues
-	* Get Involved: Joomla! is a community developed software. Join the community at http://volunteers.joomla.org/
+	* Get Involved: Joomla! is a community developed software. Join the community at https://volunteers.joomla.org/
 	* Are you a Developer? https://docs.joomla.org/Developers
 	* Are you a Web designer? https://docs.joomla.org/Web_designers
 

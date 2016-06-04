@@ -82,7 +82,7 @@ class InstallerViewManage extends InstallerViewDefault
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'manage.remove', 'JTOOLBAR_UNINSTALL');
+			JToolbarHelper::deleteList('COM_INSTALLER_CONFIRM_UNINSTALL', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			JToolbarHelper::divider();
 		}
 

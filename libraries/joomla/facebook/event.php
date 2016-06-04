@@ -217,7 +217,7 @@ class JFacebookEvent extends JFacebookObject
 	}
 
 	/**
-	 * Method to delete a invitation. Note: you can only delete the invite if the current user is the event admin.
+	 * Method to delete an invitation. Note: you can only delete the invite if the current user is the event admin.
 	 * Requires authentication and rsvp_event permission.
 	 *
 	 * @param   string  $event  The event id.

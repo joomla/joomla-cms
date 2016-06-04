@@ -470,3 +470,8 @@ body input[type="text"].search-query {
 .text-center {
 	text-align: center;
 }
+
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
+}

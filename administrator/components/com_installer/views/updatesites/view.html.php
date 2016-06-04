@@ -42,25 +42,16 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 	public function display($tpl = null)
 	{
 		// Get data from the model
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->filterForm = $this->get('FilterForm');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
-		}
-
-		// Check if there are no matching items
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_INSTALLER_MSG_MANAGE_NOUPDATESITE'),
-				'warning'
-			);
 		}
 
 		// Include the component HTML helpers.
@@ -86,6 +77,17 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			JToolbarHelper::publish('updatesites.publish', 'JTOOLBAR_ENABLE', true);
 			JToolbarHelper::unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolbarHelper::divider();
+		}
+
+		if ($canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'updatesites.delete', 'JTOOLBAR_DELETE');
+			JToolbarHelper::divider();
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');

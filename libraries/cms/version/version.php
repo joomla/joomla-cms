@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.5';
+	const RELEASE = '3.6';
 
 	/**
 	 * Maintenance version.
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-beta';
+	const DEV_LEVEL = '0-alpha2-dev';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Beta';
+	const DEV_STATUS = 'Alpha';
 
 	/**
 	 * Build number.
@@ -62,7 +62,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Ember';
+	const CODENAME = 'Noether';
 
 	/**
 	 * Release date.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '21-December-2015';
+	const RELDATE = '21-May-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '16:00';
+	const RELTIME = '20:43';
 
 	/**
 	 * Release timezone.
@@ -102,7 +102,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Magic getter providing access to constants previously defined as class member vars.

@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_url.value == '' || form.install_url.value == 'http://'){
+		if (form.install_url.value == '' || form.install_url.value == 'http://' || form.install_url.value == 'https://'){
 			alert('" . JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true) . "');
 		}
 		else
@@ -63,7 +63,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	{
 		var form = document.getElementById('adminForm');
 
-		form.install_url.value = 'http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+		form.install_url.value = 'https://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
 
 		Joomla.submitbutton4();
 	};
@@ -82,7 +82,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php if ($this->showJedAndWebInstaller && !$this->showMessage) : ?>
 		<div class="alert j-jed-message" style="margin-bottom: 20px; line-height: 2em; color:#333333; clear:both;">
 			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close hasTooltip" data-dismiss="alert" title="<?php echo str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')); ?>">&times;</a>
-			<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
+			<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
 			<input class="btn" type="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>" onclick="Joomla.submitbuttonInstallWebInstaller()" />
 		</div>
 	<?php endif; ?>
@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<fieldset class="uploadform">
 			<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_URL'); ?></legend>
 			<label for="install_url"><?php echo JText::_('COM_INSTALLER_INSTALL_URL'); ?></label>
-			<input type="text" id="install_url" name="install_url" class="input_box" size="70" value="http://" />
+			<input type="text" id="install_url" name="install_url" class="input_box" size="70" value="https://" />
 			<input type="button" class="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
 		</fieldset>
 

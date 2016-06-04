@@ -169,6 +169,7 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$db->setQuery($query, 0, $limit);
+
 		try
 		{
 			$rows = $db->loadObjectList();

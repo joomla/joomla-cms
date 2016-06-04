@@ -854,10 +854,12 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
+		$update_count = 0;
+
 		// Process each query in the $queries array (children of $tagName).
 		foreach ($queries as $query)
 		{
-			$db->setQuery($query->data());
+			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
 			if (!$db->execute())
 			{
@@ -865,9 +867,11 @@ class JInstaller extends JAdapter
 
 				return false;
 			}
+
+			$update_count++;
 		}
 
-		return (int) count($queries);
+		return $update_count;
 	}
 
 	/**
@@ -895,6 +899,8 @@ class JInstaller extends JAdapter
 		{
 			$dbDriver = 'mysql';
 		}
+
+		$update_count = 0;
 
 		// Get the name of the sql file to process
 		foreach ($element->children() as $file)
@@ -941,41 +947,21 @@ class JInstaller extends JAdapter
 				// Process each query in the $queries array (split out of sql file).
 				foreach ($queries as $query)
 				{
-					$query = trim($query);
+					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
-					if ($query != '' && $query{0} != '#')
+					if (!$db->execute())
 					{
-						/**
-						 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-						 *
-						 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
-						 * necessary, so there's no need to check the conditions in JInstaller.
-						 */
-						$query = $db->convertUtf8mb4QueryToUtf8($query);
+						JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
-						/**
-						 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
-						 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
-						 */
-						if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
-						{
-							continue;
-						}
-
-						$db->setQuery($query);
-
-						if (!$db->execute())
-						{
-							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
-
-							return false;
-						}
+						return false;
 					}
+
+					$update_count++;
 				}
 			}
 		}
 
-		return (int) count($queries);
+		return $update_count;
 	}
 
 	/**
@@ -1104,7 +1090,7 @@ class JInstaller extends JAdapter
 
 					if (!count($files))
 					{
-						return false;
+						return $update_count;
 					}
 
 					$query = $db->getQuery(true)
@@ -1146,27 +1132,22 @@ class JInstaller extends JAdapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
-								$query = trim($query);
+								$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
-								if ($query != '' && $query{0} != '#')
+								if (!$db->execute())
 								{
-									$db->setQuery($query);
+									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
-									if (!$db->execute())
-									{
-										JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
-
-										return false;
-									}
-									else
-									{
-										$queryString = (string) $query;
-										$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-										JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
-									}
-
-									$update_count++;
+									return false;
 								}
+								else
+								{
+									$queryString = (string) $query;
+									$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+									JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+								}
+
+								$update_count++;
 							}
 						}
 					}
@@ -2167,6 +2148,12 @@ class JInstaller extends JAdapter
 	 */
 	public static function parseXMLInstallFile($path)
 	{
+		// Check if xml file exists.
+		if (!file_exists($path))
+		{
+			return false;
+		}
+
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);
 

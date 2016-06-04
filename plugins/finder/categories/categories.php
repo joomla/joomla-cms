@@ -199,7 +199,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			 */
 			foreach ($pks as $pk)
 			{
-				$query = clone($this->getStateQuery());
+				$query = clone $this->getStateQuery();
 				$query->where('a.id = ' . (int) $pk);
 
 				$this->db->setQuery($query);

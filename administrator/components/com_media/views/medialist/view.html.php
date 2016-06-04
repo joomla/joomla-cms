@@ -21,7 +21,7 @@ class MediaViewMediaList extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.0
 	 */
@@ -46,7 +46,7 @@ class MediaViewMediaList extends JViewLegacy
 		// Check for invalid folder name
 		if (empty($state->folder))
 		{
-			$dirname = JRequest::getVar('folder', '', '', 'string');
+			$dirname = JFactory::getApplication()->input->getPath('folder', '');
 
 			if (!empty($dirname))
 			{

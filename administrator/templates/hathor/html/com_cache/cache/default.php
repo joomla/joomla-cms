@@ -25,11 +25,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<fieldset id="filter-bar">
 		<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-select fltrt">
-			<label class="selectlabel" for="filter_client_id">
+			<label class="selectlabel" for="client_id">
 				<?php echo JText::_('COM_CACHE_SELECT_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" id="filter_client_id">
-				<?php echo JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'));?>
+			<select name="client_id" id="client_id">
+				<?php echo JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('client_id'));?>
 			</select>
 
 			<button type="submit" id="filter-go">
