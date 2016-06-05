@@ -53,18 +53,12 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
-		if ($this->enabled)
+		if ($this->enabled && !$this->collect_urls_enabled)
 		{
-			if ($this->collect_urls_enabled)
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-			}
-			else
-			{
-				JFactory::getApplication()->enqueueMessage(JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'warning');
-			}
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
 		}
-		else
+		else if (!$this->enabled)
 		{
 			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
 			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
