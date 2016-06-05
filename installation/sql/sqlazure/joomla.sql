@@ -1,4 +1,3 @@
-__menu_type
 /****** Object:  Table [#__assets] ******/
 SET QUOTED_IDENTIFIER ON;
 
