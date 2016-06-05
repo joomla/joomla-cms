@@ -1,3 +1,4 @@
+__menu_type
 /****** Object:  Table [#__assets] ******/
 SET QUOTED_IDENTIFIER ON;
 
@@ -1857,6 +1858,7 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__languages](
 	[lang_id] [bigint] IDENTITY(1,1) NOT NULL,
+	[asset_id] [bigint] NOT NULL DEFAULT 0,
 	[lang_code] [nvarchar](7) NOT NULL,
 	[title] [nvarchar](50) NOT NULL,
 	[title_native] [nvarchar](50) NOT NULL,
