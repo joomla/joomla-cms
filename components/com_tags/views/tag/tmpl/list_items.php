@@ -22,8 +22,6 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 
-<?php print_r($this->item); ?>
-
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
