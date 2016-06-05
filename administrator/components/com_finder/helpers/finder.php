@@ -66,6 +66,7 @@ class FinderHelper
 			->where($db->quoteName('folder') . ' = ' . $db->quote('content'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
 		$db->setQuery($query);
+
 		try
 		{
 			$result = (int) $db->loadResult();
@@ -74,6 +75,7 @@ class FinderHelper
 		{
 			JError::raiseWarning(500, $e->getMessage());
 		}
+
 		return $result;
 	}
 
