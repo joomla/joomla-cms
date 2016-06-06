@@ -192,8 +192,8 @@
 			<field
 				name="num_links"
 				type="text"
-				description="JGLOBAL_NUM_LINKS_DESC"
 				label="JGLOBAL_NUM_LINKS_LABEL"
+				description="JGLOBAL_NUM_LINKS_DESC"
 				size="3"
 			/>
 

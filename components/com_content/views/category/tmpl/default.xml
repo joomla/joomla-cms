@@ -294,10 +294,12 @@
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 
-			<field name="show_pagination_results" type="list"
+			<field
+				name="show_pagination_results"
+				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-
+				description="JGLOBAL_PAGINATION_RESULTS_DESC"
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -306,8 +308,8 @@
 			<field
 				name="display_num"
 				type="list"
-				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
 				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
 				default="10"
 				>
 				<option value="5">J5</option>
