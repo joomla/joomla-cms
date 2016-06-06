@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @method  JDate|bool  add(DateInterval $interval)  Adds an amount of days, months, years, hours, minutes and seconds to a JDate object.
  * @method  JDate|bool  sub(DateInterval $interval)  Subtracts an amount of days, months, years, hours, minutes and seconds from a JDate object.
- * @method  JDate|bool  modify(string $modify)       Alter the timestamp of this object by incrementing/decrementing in a format accepted by strtotime().
+ * @method  JDate|bool  modify(string $modify)       Alter the timestamp of this object by incre/decre-menting in a format accepted by strtotime().
  *
  * @property-read  string   $daysinmonth   t - Number of days in the given month.
  * @property-read  string   $dayofweek     N - ISO-8601 numeric representation of the day of the week.
