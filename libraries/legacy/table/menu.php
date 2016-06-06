@@ -106,9 +106,46 @@ class JTableMenu extends JTableNested
 		// If the alias field is empty, set it to the title.
 		$this->alias = trim($this->alias);
 
-		if ((empty($this->alias)) && ($this->type != 'alias' && $this->type != 'url'))
+		if (empty($this->alias))
 		{
-			$this->alias = $this->title;
+			if ($this->type != 'alias' && $this->type != 'url')
+			{
+				$this->alias = $this->title;
+			}
+			elseif ($this->type == 'alias')
+			{
+				// If menu type alias test first if an alias already exists.
+				$table      = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+				$testAlias  = JApplicationHelper::stringURLSafe($this->title);
+
+				$itemSearch = array('alias' => $testAlias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
+
+				// Is a multilingual site.
+				if (JLanguageMultilang::isEnabled())
+				{
+					$itemSearchAll                 = $itemSearch;
+					$itemSearchAll['language']     = '*';
+					$itemSearchCurrent             = $itemSearch;
+					$itemSearchCurrent['language'] = $this->language;
+
+					// If not exists a menu item at the same level with the same alias (in All language or in the same language).
+					if (!$table->load($itemSearchAll) && !$table->load($itemSearchCurrent))
+					{
+						// Use the title as alias.
+						$this->alias = $this->title;
+					}
+				}
+				// Is a monolingual site.
+				else
+				{
+					// If not exists a menu item at the same level with the same alias (in any language).
+					if (!$table->load($itemSearch))
+					{
+						// Use the title as alias.
+						$this->alias = $this->title;
+					}
+				}
+			}
 		}
 
 		// Check for a path.

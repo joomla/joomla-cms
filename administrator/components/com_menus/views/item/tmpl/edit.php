@@ -92,11 +92,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		<div class="row-fluid">
 			<div class="span9">
 				<?php
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->getControlGroup('aliastip');
-				}
-
 				echo $this->form->getControlGroup('type');
 
 				if ($this->item->type == 'alias')
