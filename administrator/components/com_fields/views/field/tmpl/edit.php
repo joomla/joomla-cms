@@ -24,7 +24,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	{
 		if (task == "field.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
 		{
-			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 		}
 	};
@@ -66,8 +65,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					}
 				}
 
-				echo $this->form->getLabel('description');
-				echo $this->form->getInput('description');
+				echo $this->form->renderField('description');
 				?>
 			</div>
 			<div class="span3">
