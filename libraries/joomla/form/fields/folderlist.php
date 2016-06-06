@@ -201,7 +201,7 @@ class JFormFieldFolderList extends JFormFieldList
 		}
 
 		// Get a list of folders in the search path with the given filter.
-		$folders = JFolder::folders($path, $this->filter, $this->recursive, $this->recursive);
+		$folders = JFolder::folders($path, $this->filter, $this->recursive, true);
 
 		// Build the options list from the list of folders.
 		if (is_array($folders))
@@ -217,10 +217,8 @@ class JFormFieldFolderList extends JFormFieldList
 					}
 				}
 
-				if ($this->recursive)
-				{
-					$folder = str_replace($path, '', $folder);
-				}
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), '/');
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}
