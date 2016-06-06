@@ -438,8 +438,7 @@ class ContentModelArticles extends JModelList
 				if ($authorAlias)
 				{
 					$type = $this->getState('filter.author_alias.include', true) ? 'IN' : 'NOT IN';
-					$authorAliasWhere = 'a.created_by_alias ' . $type . ' (' . $authorAlias
-						. ')';
+					$authorAliasWhere = 'a.created_by_alias ' . $type . ' (' . $authorAlias . ')';
 				}
 			}
 		}
@@ -479,8 +478,7 @@ class ContentModelArticles extends JModelList
 				$startDateRange = $db->quote($this->getState('filter.start_date_range', $nullDate));
 				$endDateRange   = $db->quote($this->getState('filter.end_date_range', $nullDate));
 				$query->where(
-					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField
-						. ' <= ' . $endDateRange . ')'
+					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField . ' <= ' . $endDateRange . ')'
 				);
 				break;
 
