@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $msgList    = $displayData['msgQueue'];
-$alertClass = array('notice' => 'alert-info', 'message' => 'alert-success');
+$alertClass = array('message' => 'alert-success', 'notice' => 'alert-info', 'warning' => 'alert-warning', 'error' => 'alert-error');
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
