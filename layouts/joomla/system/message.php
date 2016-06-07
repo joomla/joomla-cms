@@ -9,7 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
-$msgList = $displayData['msgQueue'];
+$msgList    = $displayData['msgQueue'];
+$alertClass = array('notice' => 'alert-info', 'message' => 'alert-success');
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
@@ -17,7 +18,7 @@ $msgList = $displayData['msgQueue'];
 			<?php foreach ($msgList as $groupIdentifier => $msgs) : ?>
 				<?php $options = unserialize($groupIdentifier); ?>
 				<?php $type    = $options['type']; ?>
-				<div class="alert alert-<?php echo $type; ?>">
+				<div class="alert <?php echo isset($alertClass[$type]) ? $alertClass[$type] : 'alert-' . $type; ?>">
 					<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
 					<a class="close" data-dismiss="alert">×</a>
 

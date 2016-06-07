@@ -9,17 +9,16 @@
 
 defined('_JEXEC') or die;
 
-$msgList = $displayData['msgQueue'];
-
-$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-success');
+$msgList    = $displayData['msgQueue'];
+$alertClass = array('notice' => 'alert-info', 'message' => 'alert-success');
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && $msgList) : ?>
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<?php foreach ($msgList as $groupIdentifier => $msgs) : ?>
 			<?php $options = unserialize($groupIdentifier); ?>
 			<?php $type    = $options['type']; ?>
-			<div class="alert <?php echo isset($alert[$type]) ? $alert[$type] : 'alert-' . $type; ?>">
+			<div class="alert <?php echo isset($alertClass[$type]) ? $alertClass[$type] : 'alert-' . $type; ?>">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<?php if ($msgs) : ?>
 					<?php if ($options['showTitle']) : ?>
 						<?php if ($options['customTitle'] !== '') : ?>

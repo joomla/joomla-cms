@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$msgList = $displayData['msgQueue'];
-
-$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-success');
+$msgList    = $displayData['msgQueue'];
+$alertClass = array('notice' => 'alert-info', 'message' => 'alert-success');
 ?>
 <div id="system-message-container">
 	<?php if (is_array($msgList) && !empty($msgList)) : ?>
@@ -19,7 +18,7 @@ $alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-inf
 			<?php foreach ($msgList as $groupIdentifier => $msgs) : ?>
 				<?php $options = unserialize($groupIdentifier); ?>
 				<?php $type    = $options['type']; ?>
-				<div class="alert <?php echo isset($alert[$type]) ? $alert[$type] : 'alert-' . $type; ?>">
+				<div class="alert <?php echo isset($alertClass[$type]) ? $alertClass[$type] : 'alert-' . $type; ?>">
 					<?php // This requires JS so we should add it trough JS. Progressive enhancement and stuff. ?>
 					<a class="close" data-dismiss="alert">×</a>
 
