@@ -115,7 +115,7 @@ JFactory::getDocument()->addStyleDeclaration(
 						);
 						?>
 						<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
-							&nbsp;&nbsp;<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
+							<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
 						<input class="btn" type="button"
 							value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
 							onclick="Joomla.submitbuttonInstallWebInstaller()"/>

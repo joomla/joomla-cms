@@ -9,6 +9,7 @@
 /administrator/cache
 /administrator/logs
 /cache
+/installation/cache
 /tmp
 /configuration.php
 /.htaccess

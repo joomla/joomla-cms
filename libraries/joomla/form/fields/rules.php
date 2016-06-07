@@ -217,7 +217,7 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '<li class="' . $active . '">';
 			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';
 		}
@@ -315,8 +315,7 @@ class JFormFieldRules extends JFormField
 
 					// This is where we show the current effective settings considering currrent group, path and cascade.
 					// Check whether this is a component or global. Change the text slightly.
-
-					if (JAccess::checkGroup($group->value, 'core.admin', $assetId) !== true)
+					if (JAccess::checkGroup($group->value, $action->name, $assetId) !== true)
 					{
 						if ($inheritedRule === null)
 						{
@@ -346,7 +345,7 @@ class JFormFieldRules extends JFormField
 					}
 					else
 					{
-						// Special handling for  groups that have global admin because they can't  be denied.
+						// Special handling for groups that have global admin because they can't be denied.
 						// The admin rights can be changed.
 						if ($action->name === 'core.admin')
 						{

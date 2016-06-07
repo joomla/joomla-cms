@@ -80,7 +80,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	{
 		if ($response->code != 200)
 		{
-			$error = htmlspecialchars($response->body);
+			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 
 			throw new DomainException($error, $response->code);
 		}

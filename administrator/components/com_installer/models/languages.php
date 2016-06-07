@@ -301,7 +301,7 @@ class InstallerModelLanguages extends JModelList
 			}
 
 			// Package installed successfully.
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_LANGUAGE_SUCCESS', $language->name));
 
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))

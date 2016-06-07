@@ -74,13 +74,14 @@ class JApplicationHelper
 	 * safe string or returns a URL safe UTF-8 string
 	 * based on the global configuration
 	 *
-	 * @param   string  $string  String to process
+	 * @param   string  $string    String to process
+	 * @param   string  $language  Language to transliterate to if unicode slugs are disabled
 	 *
 	 * @return  string  Processed string
 	 *
 	 * @since   3.2
 	 */
-	public static function stringURLSafe($string)
+	public static function stringURLSafe($string, $language = '')
 	{
 		if (JFactory::getConfig()->get('unicodeslugs') == 1)
 		{
@@ -88,7 +89,12 @@ class JApplicationHelper
 		}
 		else
 		{
-			$output = JFilterOutput::stringURLSafe($string);
+			if ($language == '*' || $language == '')
+			{
+				$languageParams = JComponentHelper::getParams('com_languages');
+				$language = $languageParams->get('site');
+			}
+			$output = JFilterOutput::stringURLSafe($string, $language);
 		}
 
 		return $output;
