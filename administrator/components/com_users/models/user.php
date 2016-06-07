@@ -33,7 +33,7 @@ class UsersModelUser extends JModelAdmin
 				'event_after_save'    => 'onUserAfterSave',
 				'event_before_delete' => 'onUserBeforeDelete',
 				'event_before_save'   => 'onUserBeforeSave',
-				'events_map'          => array('save' => 'user', 'delete' => 'user')
+				'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user')
 			), $config
 		);
 
