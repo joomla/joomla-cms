@@ -171,10 +171,7 @@ class FieldsHelper
 					 * Event allow plugins to modfify the output of the field before it is prepared
 					 */
 					$dispatcher = JEventDispatcher::getInstance();
-					if ($field->value)
-					{
-						$dispatcher->trigger('onFieldBeforePrepare', array($context, $item, &$field));
-					}
+					$dispatcher->trigger('onFieldBeforePrepare', array($context, $item, &$field));
 
 					if ($output = $field->params->get('output'))
 					{
@@ -204,10 +201,7 @@ class FieldsHelper
 					 * On after field render
 					 * Event allow plugins to modfify the output of the prepared field
 					 */
-					if ($value)
-					{
-						$dispatcher->trigger('onFieldAfterPrepare', array($context, $item, $field, &$value));
-					}
+					$dispatcher->trigger('onFieldAfterPrepare', array($context, $item, $field, &$value));
 					$field->value = $value;
 				}
 
