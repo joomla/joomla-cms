@@ -1120,6 +1120,7 @@ CREATE TABLE "#__finder_types" (
 --
 CREATE TABLE "#__languages" (
   "lang_id" serial NOT NULL,
+  "asset_id" bigint DEFAULT 0 NOT NULL,
   "lang_code" varchar(7) NOT NULL,
   "title" varchar(50) NOT NULL,
   "title_native" varchar(50) NOT NULL,

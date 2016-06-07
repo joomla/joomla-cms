@@ -262,6 +262,22 @@ class TagsViewTags extends JViewLegacy
 			}
 		}
 
+		// Respect configuration Sitename Before/After for TITLE in views All Tags.
+		if (!$title && ($pos = $app->get('sitename_pagetitles', 0)))
+		{
+			$title = $this->document->getTitle();
+
+			if ($pos == 1)
+			{
+				$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			}
+			else
+			{
+				$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			}
+			$this->document->setTitle($title);
+		}
+
 		// Add alternative feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
