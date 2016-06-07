@@ -121,21 +121,18 @@ class PlgSearchTags extends JPlugin
 
 		$query->where('(a.title LIKE ' . $text . ' OR a.alias LIKE ' . $text . ')');
 
+		$query->where($db->qn('a.published') . ' = 1');
+
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		if ($app->isSite())
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
-			$query->where('a.published = 1');
-
-			if (JLanguageMultilang::isEnabled())
-			{
-				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
-			}
+			$tag = JFactory::getLanguage()->getTag();
+			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order($order);
