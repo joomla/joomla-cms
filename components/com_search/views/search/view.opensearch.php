@@ -22,7 +22,7 @@ class SearchViewSearch extends JViewLegacy
 	 * @param   string  $tpl  name of the template
 	 *
 	 * @throws Exception
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 
 	public function display($tpl = null)

@@ -51,7 +51,7 @@ class JReCaptcha
 	 *
 	 * @param string $secret shared secret between site and ReCAPTCHA server.
 	 */
-	function JReCaptcha($secret)
+	public function __construct($secret)
 	{
 		if ($secret == null || $secret == "")
 		{

@@ -17,8 +17,8 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang = JFactory::getLanguage();
-	$myrtl = $params->get('rssrtl');
+	$lang      = JFactory::getLanguage();
+	$myrtl     = $params->get('rssrtl');
 	$direction = " ";
 
 	if ($lang->isRtl() && $myrtl == 0)
@@ -63,7 +63,7 @@ else
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo htmlspecialchars($rssurl); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 					</h2>
 			<?php
@@ -101,7 +101,7 @@ else
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<span class="feed-link">
-						<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
 						<?php echo $feed[$i]->title; ?></a></span>
 					<?php else : ?>
 						<span class="feed-link"><?php  echo $feed[$i]->title; ?></span>

@@ -10,5 +10,5 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($version)) : ?>
-	<p align="center"><?php echo $version; ?></p>
+	<p class="text-center"><?php echo $version; ?></p>
 <?php endif; ?>

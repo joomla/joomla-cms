@@ -30,6 +30,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Toggle HTML5 validation
 		form.noValidate = !validate;
+		form.setAttribute('novalidate', !validate)
 
 		// Submit the form.
 		// Create the input type="submit"
@@ -152,7 +153,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		Joomla.removeMessages();
 
 		var messageContainer = document.getElementById( 'system-message-container' ),
-			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper;
+			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
 
 		for ( type in messages ) {
 			if ( !messages.hasOwnProperty( type ) ) { continue; }
@@ -161,7 +162,20 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			// Create the alert box
 			messagesBox = document.createElement( 'div' );
-			messagesBox.className = 'alert alert-' + type;
+
+			// Message class
+			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
+			alertClass = (type == 'message') ? 'alert-success' : alertClass;
+
+			messagesBox.className = 'alert ' + alertClass;
+
+			// Close button
+			var buttonWrapper = document.createElement( 'button' );
+			buttonWrapper.setAttribute('type', 'button');
+			buttonWrapper.setAttribute('data-dismiss', 'alert');
+			buttonWrapper.className = 'close';
+			buttonWrapper.innerHTML = '×';
+			messagesBox.appendChild( buttonWrapper );
 
 			// Title
 			title = Joomla.JText._( type );
@@ -171,13 +185,12 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				titleWrapper = document.createElement( 'h4' );
 				titleWrapper.className = 'alert-heading';
 				titleWrapper.innerHTML = Joomla.JText._( type );
-
 				messagesBox.appendChild( titleWrapper );
 			}
 
 			// Add messages to the message box
 			for ( i = typeMessages.length - 1; i >= 0; i-- ) {
-				messageWrapper = document.createElement( 'p' );
+				messageWrapper = document.createElement( 'div' );
 				messageWrapper.innerHTML = typeMessages[ i ];
 				messagesBox.appendChild( messageWrapper );
 			}
@@ -498,6 +511,71 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		Joomla.submitform( task );
+	};
+
+	/**
+	 * Add Joomla! loading image layer.
+	 *
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 *          /installation/template/js/installation.js
+	 *
+	 * @param   string  task           The task to do [load, show, hide] (defaults to show).
+	 * @param   object  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 *
+	 * @return  object  The HTML loading layer element.
+	 *
+	 * @since  3.6.0
+	 */
+	Joomla.loadingLayer = function(task, parentElement) {
+		// Set default values.
+		task          = task || 'show';
+		parentElement = parentElement || document.body;
+
+		// Create the loading layer (hidden by default).
+		if (task == 'load')
+		{
+			// Gets the site base path from the body element (defaults to empty - no subfolder)
+			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+
+			var loadingDiv = document.createElement('div');
+
+			loadingDiv.id = 'loading-logo';
+
+			// The loading layer CSS styles are JS hardcoded so they can be used without adding CSS.
+
+			// Loading layer style and positioning.
+			loadingDiv.style['position']              = 'fixed';
+			loadingDiv.style['top']                   = '0';
+			loadingDiv.style['left']                  = '0';
+			loadingDiv.style['width']                 = '100%';
+			loadingDiv.style['height']                = '100%';
+			loadingDiv.style['opacity']               = '0.8';
+			loadingDiv.style['filter']                = 'alpha(opacity=80)';
+			loadingDiv.style['overflow']              = 'hidden';
+			loadingDiv.style['z-index']               = '10000';
+			loadingDiv.style['display']               = 'none';
+			loadingDiv.style['background-color']      = '#fff';
+
+			// Loading logo positioning.
+			loadingDiv.style['background-image']      = 'url("' + basePath + '/media/jui/images/ajax-loader.gif")';
+			loadingDiv.style['background-position']   = 'center';
+			loadingDiv.style['background-repeat']     = 'no-repeat';
+			loadingDiv.style['background-attachment'] = 'fixed';
+
+			parentElement.appendChild(loadingDiv);
+		}
+		// Show or hide the layer.
+		else 
+		{
+			if (!document.getElementById('loading-logo'))
+			{
+				Joomla.loadingLayer('load', parentElement);
+			}
+
+			document.getElementById('loading-logo').style['display'] = (task == 'show') ? 'block' : 'none';
+		}
+
+		return document.getElementById('loading-logo');
 	};
 
 }( Joomla, document ));

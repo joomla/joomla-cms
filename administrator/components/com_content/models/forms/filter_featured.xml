@@ -4,10 +4,9 @@
 		<field
 			name="search"
 			type="text"
-			label="COM_CONTENT_FILTER_SEARCH_DESC"
+			label="COM_CONTENT_FILTER_SEARCH_LABEL"
 			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="published"
@@ -38,6 +37,15 @@
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
+                	name="author_id"
+                	type="author"
+                	label="COM_CONTENT_FILTER_AUTHOR"
+                	description="COM_CONTENT_FILTER_AUTHOR_DESC"
+                	onchange="this.form.submit();"
+                	>
+        		<option value="">JOPTION_SELECT_AUTHOR</option>
+        	</field>
+		<field
 			name="language"
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
@@ -57,28 +65,19 @@
 		>
 			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
-        <field
-                name="author_id"
-                type="author"
-                label="COM_CONTENT_FILTER_AUTHOR"
-                description="COM_CONTENT_FILTER_AUTHOR_DESC"
-                onchange="this.form.submit();"
-                >
-            <option value="">JOPTION_SELECT_AUTHOR</option>
-        </field>
-        <field
-                name="level"
-                type="integer"
-                first="1"
-                last="10"
-                step="1"
-                label="JOPTION_FILTER_LEVEL"
-                languages="*"
-                description="JOPTION_FILTER_LEVEL_DESC"
-                onchange="this.form.submit();"
-                >
-            <option value="">JOPTION_SELECT_MAX_LEVELS</option>
-        </field>
+        	<field
+                	name="level"
+                	type="integer"
+                	first="1"
+                	last="10"
+                	step="1"
+                	label="JOPTION_FILTER_LEVEL"
+                	languages="*"
+                	description="JOPTION_FILTER_LEVEL_DESC"
+                	onchange="this.form.submit();"
+                	>
+        		<option value="">JOPTION_SELECT_MAX_LEVELS</option>
+        	</field>
 	</fields>
 	<fields name="list">
 		<field
@@ -90,14 +89,14 @@
 			default="a.title ASC"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="fp.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="fp.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>
 			<option value="category_title DESC">JCATEGORY_DESC</option>
-			<option value="fp.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option value="fp.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="a.created_by ASC">JAUTHOR_ASC</option>

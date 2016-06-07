@@ -71,7 +71,25 @@ class JSchemaChangeset
 
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+			$changeItem = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
+
+			if ($changeItem->queryType === 'UTF8CNV')
+			{
+				// Execute the special update query for utf8mb4 conversion status reset
+				try
+				{
+					$this->db->setQuery($changeItem->updateQuery)->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+			else
+			{
+				// Normal change item
+				$this->changeItems[] = $changeItem;
+			}
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status

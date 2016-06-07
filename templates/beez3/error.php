@@ -49,11 +49,11 @@ $this->direction = $doc->direction;
 		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
 	<?php endforeach; ?>
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>.css" type="text/css" />
 	<?php if ($this->direction == 'rtl') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template_rtl.css" type="text/css" />
 		<?php if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) : ?>
-			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
+			<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/<?php echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>_rtl.css" type="text/css" />
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>

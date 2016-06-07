@@ -137,7 +137,7 @@ class JControllerForm extends JControllerLegacy
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
+	 * @return  mixed  True if the record can be added, an error object if not.
 	 *
 	 * @since   12.2
 	 */
@@ -527,7 +527,7 @@ class JControllerForm extends JControllerLegacy
 	/**
 	 * Method to load a row from version history
 	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
+	 * @return  mixed  True if the record can be added, an error object if not.
 	 *
 	 * @since   3.2
 	 */

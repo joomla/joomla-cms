@@ -73,17 +73,6 @@ abstract class ModTagsPopularHelper
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
 		->join('INNER', $db->qn('#__ucm_content', 'c') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('c.core_content_id'));
 
-		if ($order_value == 'rand()')
-		{
-			$query->order($query->Rand());
-		}
-		else
-		{
-			$order_value     = $db->quoteName($order_value);
-			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
-			$query->order($order_value . ' ' . $order_direction);
-		}
-
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 
 		// Only return tags connected to published articles
@@ -92,6 +81,42 @@ abstract class ModTagsPopularHelper
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
 				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
+
+		// Set query depending on order_value param
+		if ($order_value == 'rand()')
+		{
+			$query->order($query->Rand());
+		}
+		else
+		{
+			$order_value     = $db->quoteName($order_value);
+			$order_direction = $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+
+			if ($params->get('order_value', 'title') == 'title')
+			{
+				$query->setLimit($maximum);
+				$query->order('count DESC');
+				$equery = $db->getQuery(true)
+					->select(
+						array(
+							'a.tag_id',
+							'a.count',
+							'a.title',
+							'a.access',
+							'a.alias',
+						)
+					)
+					->from('(' . (string) $query . ') AS a')
+					->order('a.title' . ' ' . $order_direction);
+
+				$query = $equery;
+			}
+			else
+			{
+				$query->order($order_value . ' ' . $order_direction);
+			}
+		}
+
 		$db->setQuery($query, 0, $maximum);
 
 		try

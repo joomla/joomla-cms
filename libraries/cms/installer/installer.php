@@ -854,29 +854,12 @@ class JInstaller extends JAdapter
 			return 0;
 		}
 
-		$dbDriver = strtolower($db->name);
-
-		if ($dbDriver == 'mysql' || $dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
-		{
-			$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
-		}
-		else
-		{
-			$doUtf8mb4ToUtf8 = false;
-		}
-
 		$update_count = 0;
 
 		// Process each query in the $queries array (children of $tagName).
 		foreach ($queries as $query)
 		{
-			// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-			if ($doUtf8mb4ToUtf8)
-			{
-				$query = $this->convertUtf8mb4QueryToUtf8($query);
-			}
-
-			$db->setQuery($query);
+			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
 			if (!$db->execute())
 			{
@@ -912,16 +895,9 @@ class JInstaller extends JAdapter
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->name);
 
-		$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
-
 		if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 		{
 			$dbDriver = 'mysql';
-		}
-
-		if ($dbDriver != 'mysql')
-		{
-			$doUtf8mb4ToUtf8 = false;
 		}
 
 		$update_count = 0;
@@ -971,13 +947,7 @@ class JInstaller extends JAdapter
 				// Process each query in the $queries array (split out of sql file).
 				foreach ($queries as $query)
 				{
-					// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-					if ($doUtf8mb4ToUtf8)
-					{
-						$query = $this->convertUtf8mb4QueryToUtf8($query);
-					}
-
-					$db->setQuery($query);
+					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
 					if (!$db->execute())
 					{
@@ -1087,16 +1057,9 @@ class JInstaller extends JAdapter
 			{
 				$dbDriver = strtolower($db->name);
 
-				$doUtf8mb4ToUtf8 = !$this->serverClaimsUtf8mb4Support($dbDriver);
-
 				if ($dbDriver == 'mysqli' || $dbDriver == 'pdomysql')
 				{
 					$dbDriver = 'mysql';
-				}
-
-				if ($dbDriver != 'mysql')
-				{
-					$doUtf8mb4ToUtf8 = false;
 				}
 
 				$schemapath = '';
@@ -1127,7 +1090,7 @@ class JInstaller extends JAdapter
 
 					if (!count($files))
 					{
-						return false;
+						return $update_count;
 					}
 
 					$query = $db->getQuery(true)
@@ -1169,13 +1132,7 @@ class JInstaller extends JAdapter
 							// Process each query in the $queries array (split out of sql file).
 							foreach ($queries as $query)
 							{
-								// If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-								if ($doUtf8mb4ToUtf8)
-								{
-									$query = $this->convertUtf8mb4QueryToUtf8($query);
-								}
-
-								$db->setQuery($query);
+								$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
 								if (!$db->execute())
 								{
@@ -2191,6 +2148,12 @@ class JInstaller extends JAdapter
 	 */
 	public static function parseXMLInstallFile($path)
 	{
+		// Check if xml file exists.
+		if (!file_exists($path))
+		{
+			return false;
+		}
+
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);
 
@@ -2394,86 +2357,5 @@ class JInstaller extends JAdapter
 	public function loadAllAdapters($options = array())
 	{
 		$this->getAdapters($options);
-	}
-
-	/**
-	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
-	 * 
-	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
-	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
-	 * which will still have the old database driver loaded at this point.
-	 *
-	 * @param   string  $format  The type of database connection.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.5.0
-	 */
-	private function serverClaimsUtf8mb4Support($format)
-	{
-		$db = JFactory::getDbo();
-
-		switch ($format)
-		{
-			case 'mysql':
-				$client_version = mysql_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'mysqli':
-				$client_version = mysqli_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'pdomysql':
-				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
-				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
-				break;
-			default:
-				$client_version = false;
-				$server_version = false;
-		}
-
-		if ($client_version && version_compare($server_version, '5.5.3', '>='))
-		{
-			if (strpos($client_version, 'mysqlnd') !== false)
-			{
-				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-				return version_compare($client_version, '5.0.9', '>=');
-			}
-			else
-			{
-				return version_compare($client_version, '5.5.3', '>=');
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
-	 * doesn't support UTF-8 Multibyte.
-	 *
-	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
-	 * people upgrading from a version lower than 3.5.0 through installer which will still have the old database
-	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
-	 * updater elsewhere.
-	 *
-	 * @param   string  $query  The query to convert
-	 *
-	 * @return  string  The converted query
-	 */
-	private function convertUtf8mb4QueryToUtf8($query)
-	{
-		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
-		{
-			return $query;
-		}
-
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
 	}
 }
