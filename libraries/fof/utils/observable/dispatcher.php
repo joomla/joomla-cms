@@ -186,7 +186,6 @@ class FOFUtilsObservableDispatcher extends FOFUtilsObject
             }
 
             $this->_observers[] = $observer;
-            end($this->_observers);
             $methods = array($observer['event']);
         }
         else
@@ -225,6 +224,7 @@ class FOFUtilsObservableDispatcher extends FOFUtilsObject
             //$methods = get_class_methods($observer);
         }
 
+        end($this->_observers);
         $key = key($this->_observers);
 
         foreach ($methods as $method)
