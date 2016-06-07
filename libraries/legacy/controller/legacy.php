@@ -522,6 +522,53 @@ class JControllerLegacy extends JObject
 			$values = (array) $app->getUserState($context . '.id');
 
 			$result = in_array((int) $id, $values);
+			if (!$result)
+			{
+				// Add some fault-tolerance to the system and (re-) calculate edit permission and checkout the record,
+				// NOTE: 3rd party extensions need to re-implement this, only if they need to pass to allowEdit more than just: "id"=>NNN
+				//
+				// CASE 1: The initial "edit-task", failed to update session properly, due to race-conditions
+				// CASE 2: The initial "edit-task", was never called because the HTTP request was cached by the browser for any reason
+				
+				$context_arr = explode(".", $context);
+				$viewName = $this->input->get('view');
+				$optionName = $this->input->get('option');
+				
+				// This IF is not really needed, but it may prevent the code from running in an non-desired, non-foreseen case
+				if ( $optionName == reset($context_arr) && $viewName == end($context_arr) )
+				{
+					$controller_name = ucfirst($this->getName()) .'Controller'. ucfirst($viewName);
+					$controller_path = JPATH::clean(JPATH_COMPONENT.'/controllers/'.$viewName.'.php');
+					
+					if ( file_exists($controller_path) )
+					{
+						require_once( $controller_path );
+						$controller = new $controller_name;
+						$model = $controller->getModel();
+						
+						// Only calculate edit permission if model was found
+						if ( is_object($model) )
+						{
+							$table = $model->getTable();
+							
+							// Determine the name of the primary key for the data.
+							$key = $table->getKeyName();
+							
+							// Access check
+							$allowEdit = $controller->allowEdit(array($key => $id), $key);
+							
+							// Checkout item if possible
+							if ($allowEdit)
+							{
+								$checkin = property_exists($table, 'checked_out');
+								$checkoutOK = !$checkin || $model->checkout($id);
+							}
+							
+							$result = $allowEdit && $checkoutOK;
+						}
+					}
+				}
+			}
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
