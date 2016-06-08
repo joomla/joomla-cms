@@ -126,6 +126,13 @@ JFactory::getDocument()->addStyleDeclaration(
 				<?php $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
 				<?php // Show installation tabs ?>
 				<?php $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array()); ?>
+				<?php foreach ($tabs as $tab) : ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', $tab['name'], $tab['label']); ?>
+					<fieldset class="uploadform">
+						<?php echo $tab['content']; ?>
+					</fieldset>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php endforeach; ?>
 				<?php // Show installation tabs at the end ?>
 				<?php $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
 				<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
