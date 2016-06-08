@@ -1,0 +1,5 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - \Helper\Api
+error_reporting: E_ALL

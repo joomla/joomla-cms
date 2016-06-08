@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/unit/bootstrap.php" colors="false">
+<phpunit bootstrap="tests.phpunit/unit/bootstrap.php" colors="false">
 	<!-- These constants help setup environment configurations for running optional tests.
 	<php>
 		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
@@ -14,22 +14,22 @@
 
 	<testsuites>
 		<testsuite name="libraries-cms">
-			<directory>tests/unit/suites/libraries/cms</directory>
+			<directory>tests.phpunit/unit/suites/libraries/cms</directory>
 		</testsuite>
 		<testsuite name="libraries-platform">
-			<directory>tests/unit/suites/libraries/joomla</directory>
+			<directory>tests.phpunit/unit/suites/libraries/joomla</directory>
 		</testsuite>
 		<testsuite name="libraries-legacy">
-			<directory>tests/unit/suites/libraries/legacy</directory>
+			<directory>tests.phpunit/unit/suites/libraries/legacy</directory>
 		</testsuite>
 		<testsuite name="database">
-			<directory>tests/unit/suites/database</directory>
+			<directory>tests.phpunit/unit/suites/database</directory>
 		</testsuite>
 		<testsuite name="administrator">
-			<directory>tests/unit/suites/administrator</directory>
+			<directory>tests.phpunit/unit/suites/administrator</directory>
 		</testsuite>
 		<testsuite name="FinderIndexer">
-			<directory>tests/unit/suites/finderIndexer</directory>
+			<directory>tests.phpunit/unit/suites/finderIndexer</directory>
 		</testsuite>
 	</testsuites>
 

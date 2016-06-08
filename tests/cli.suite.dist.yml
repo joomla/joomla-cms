@@ -1,0 +1,5 @@
+class_name: CliTester
+modules:
+    enabled:
+        - \Helper\Cli
+error_reporting: E_ALL

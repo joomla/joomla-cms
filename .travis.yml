@@ -13,10 +13,6 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 5.3
-      env: INSTALL_APC="yes"
-    - php: 5.4
-      env: INSTALL_APC="yes"
     - php: 5.5
       env: INSTALL_APCU="yes"
     - php: 5.6
@@ -51,11 +47,11 @@ before_script:
   - composer install
   # Set up databases for testing
   - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql -e 'create database joomla_ut;'; fi
-  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql joomla_ut < tests/unit/schema/mysql.sql; fi
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql joomla_ut < tests.phpunit/unit/schema/mysql.sql; fi
   - if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root -e 'create database joomla_ut;'; fi
-  - if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root joomla_ut < tests/unit/schema/mysql.sql; fi
+  - if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root joomla_ut < tests.phpunit/unit/schema/mysql.sql; fi
   - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests/unit/schema/postgresql.sql
+  - psql -d joomla_ut -a -f tests.phpunit/unit/schema/postgresql.sql
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions

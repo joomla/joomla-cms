@@ -6,6 +6,7 @@
  <exclude-pattern type="relative">build/*</exclude-pattern>
  <exclude-pattern type="relative">docs/*</exclude-pattern>
  <exclude-pattern type="relative">tests/*</exclude-pattern>
+ <exclude-pattern type="relative">tests.phpunit/*</exclude-pattern>
  <exclude-pattern type="relative">cache/*</exclude-pattern>
  <exclude-pattern type="relative">tmp/*</exclude-pattern>
  <exclude-pattern type="relative">logs/*</exclude-pattern>
