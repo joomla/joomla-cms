@@ -208,11 +208,11 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			// Initial Active Tab
-			$active = "";
+			$active = '';
 
-			if ($group->value == 1)
+			if ((int) $group->value === 1)
 			{
-				$active = "active";
+				$active = 'active';
 			}
 
 			$html[] = '<li class="' . $active . '">';
@@ -230,11 +230,11 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group)
 		{
 			// Initial Active Pane
-			$active = "";
+			$active = '';
 
-			if ($group->value == 1)
+			if ((int) $group->value === 1)
 			{
-				$active = " active";
+				$active = ' active';
 			}
 
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
@@ -264,6 +264,9 @@ class JFormFieldRules extends JFormField
 			$html[] = '</thead>';
 			$html[] = '<tbody>';
 
+			// Check if this group has super user permissions
+			$isSuperUser = JAccess::checkGroup($group->value, 'core.admin');
+
 			foreach ($actions as $action)
 			{
 				$html[] = '<tr>';
@@ -281,10 +284,32 @@ class JFormFieldRules extends JFormField
 					. ' id="' . $this->id . '_' . $action->name	. '_' . $group->value . '"'
 					. ' title="' . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
-				$inheritedRule = JAccess::checkGroup($group->value, $action->name, $assetId);
+				/**
+				 * Possible values:
+				 * null = not set means inherited
+				 * false = denied
+				 * true = allowed
+				 */
 
 				// Get the actual setting for the action for this group.
 				$assetRule = $assetRules->allow($action->name, $group->value);
+
+				// Check if this is an inherited rule
+				$inheritedRule = null;
+
+				// Check the setting for the action for all groups
+				$checkGroup = JAccess::checkGroup($group->value, $action->name, $assetId);
+
+				// Not allowed for our own group but allowed in another group
+				if ($assetRule !== false && $checkGroup === true)
+				{
+					$inheritedRule = true;
+				}
+				// We have an explicit deny
+				elseif ($checkGroup === false)
+				{
+					$inheritedRule = false;
+				}
 
 				// Build the dropdowns for the permissions sliders
 
@@ -313,54 +338,54 @@ class JFormFieldRules extends JFormField
 				{
 					$html[] = '<td headers="aclactionth' . $group->value . '">';
 
-					// This is where we show the current effective settings considering currrent group, path and cascade.
-					// Check whether this is a component or global. Change the text slightly.
-					if (JAccess::checkGroup($group->value, $action->name, $assetId) !== true)
-					{
-						if ($inheritedRule === null)
-						{
-							$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
-						}
-						elseif ($inheritedRule === true)
-						{
-							$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
-						}
-						elseif ($inheritedRule === false)
-						{
-							if ($assetRule === false)
-							{
-								$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
-							}
-							else
-							{
-								$html[] = '<span class="label"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
-									. '</span>';
-							}
-						}
-					}
-					elseif (!empty($component))
+					// If we have a super user we do not need to check anything, super users have all the access
+					if ($isSuperUser)
 					{
 						$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span>';
 					}
-					else
+
+					// This is where we show the current effective settings considering current group, path and cascade.
+					// Check whether this is a component or global. Change the text slightly.
+
+					// We are not a super user
+					if (!$isSuperUser)
 					{
-						// Special handling for groups that have global admin because they can't be denied.
-						// The admin rights can be changed.
-						if ($action->name === 'core.admin')
+						// We are explicitly allowed
+						if ($assetRule === true)
 						{
-							$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+							if ($inheritedRule === false)
+							{
+								// A parent group has been set to denied, we cannot overrule that
+								$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span> '
+									. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
+							}
+							else
+							{
+								$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+							}
 						}
-						elseif ($inheritedRule === false)
+						// We are explicitly denied
+						elseif ($assetRule === false)
 						{
-							// Other actions cannot be changed.
-							$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span> '
-								. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
+							$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
 						}
+						// Nothing is explicitly set, check inheritance
 						else
 						{
-							$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
-								. '</span>';
+							if ($inheritedRule === null)
+							{
+								$html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+							}
+							elseif ($inheritedRule === true)
+							{
+								$html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+							}
+							elseif ($inheritedRule === false)
+							{
+								$html[] = '<span class="label"><span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
+									. '</span>';
+							}
 						}
 					}
 
@@ -378,7 +403,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '<div class="clr"></div>';
 		$html[] = '<div class="alert">';
 
-		if ($section == 'component' || $section == null)
+		if ($section === 'component' || $section === null)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
 		}
