@@ -28,6 +28,34 @@ abstract class JModelForm extends JModelLegacy
 	protected $_forms = array();
 
 	/**
+	 * Maps events to plugin groups.
+	 *
+	 * @var array
+	 */
+	protected $events_map = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.6
+	 */
+	public function __construct($config = array())
+	{
+		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
+
+		$this->events_map = array_merge(
+			array(
+				'validate' => 'content'
+			), $config['events_map']
+		);
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to checkin a row.
 	 *
 	 * @param   integer  $pk  The numeric id of the primary key.
@@ -301,6 +329,12 @@ abstract class JModelForm extends JModelLegacy
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Include the plugins for the delete events.
+		JPluginHelper::importPlugin($this->events_map['validate']);
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+
 		// Filter and validate the form data.
 		$data = $form->filter($data);
 		$return = $form->validate($data, $group);
