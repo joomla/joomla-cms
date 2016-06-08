@@ -251,7 +251,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</th>';
 
 			// The calculated setting is not shown for the root group of global configuration.
-			$canCalculateSettings = ($group->parent_id || '' !== $component);
+			$canCalculateSettings = ($group->parent_id || !empty($component));
 
 			if ($canCalculateSettings)
 			{
