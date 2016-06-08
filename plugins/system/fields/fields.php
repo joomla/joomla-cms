@@ -313,7 +313,7 @@ class PlgSystemFields extends JPlugin
 
 		$context = $parts[0] . '.' . $parts[1];
 
-		if (is_string($params))
+		if (is_string($params) || !$params)
 		{
 			$params = new Registry($params);
 		}
