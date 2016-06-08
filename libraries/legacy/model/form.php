@@ -40,7 +40,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   12.2
+	 * @since   3.6
 	 */
 	public function __construct($config = array())
 	{
