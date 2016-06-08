@@ -374,86 +374,70 @@ class ConfigModelApplication extends ConfigModelForm
 	{
 		try
 		{
-			// Load the current settings for this component
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName(array('name', 'rules')))
-				->from($this->db->quoteName('#__assets'))
-				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+			$asset = JTable::getInstance('asset');
+			$result = $asset->loadByName($permission['component']);
 
-			$this->db->setQuery($query);
-
-			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
-			$results = $this->db->loadAssocList();
-
-			if (empty($results))
+			if ($result == false)
 			{
 				$data = array();
 				$data[$permission['action']] = array();
 				$data[$permission['action']] = array($permission['rule'] => $permission['value']);
 
 				$rules = new JAccessRules($data);
-				$asset = JTable::getInstance('asset');
 				$asset->rules = (string) $rules;
 				$asset->name  = (string) $permission['component'];
 				$asset->title = (string) $permission['title'];
 
-				if (!$asset->check() || !$asset->store())
-				{
-					JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
-
-					return false;
-				}
-
-				return true;
 			}
 			else
 			{
 				// Decode the rule settings
-				$temp = json_decode($results[0]['rules'], true);
+				if (is_string($asset->rules))
+				{
+					$asset->rules = json_decode($asset->rules, true);
+				}
 
 				// Check if a new value is to be set
 				if (isset($permission['value']))
 				{
 					// Check if we already have an action entry
-					if (!isset($temp[$permission['action']]))
+					if (!isset($asset->rules[$permission['action']]))
 					{
-						$temp[$permission['action']] = array();
+						$asset->rules[$permission['action']] = array();
 					}
 
 					// Check if we already have a rule entry
-					if (!isset($temp[$permission['action']][$permission['rule']]))
+					if (!isset($asset->rules[$permission['action']][$permission['rule']]))
 					{
-						$temp[$permission['action']][$permission['rule']] = array();
+						$asset->rules[$permission['action']][$permission['rule']] = array();
 					}
 
 					// Set the new permission
-					$temp[$permission['action']][$permission['rule']] = intval($permission['value']);
+					$asset->rules[$permission['action']][$permission['rule']] = intval($permission['value']);
 
 					// Check if we have an inherited setting
 					if (strlen($permission['value']) == 0)
 					{
-						unset($temp[$permission['action']][$permission['rule']]);
+						unset($asset->rules[$permission['action']][$permission['rule']]);
 					}
 				}
 				else
 				{
 					// There is no value so remove the action as it's not needed
-					unset($temp[$permission['action']]);
+					unset($asset->rules[$permission['action']]);
 				}
 
-				// Store the new permissions
-				$temp  = json_encode($temp);
-				$query = $this->db->getQuery(true)
-					->update($this->db->quoteName('#__assets'))
-					->set('rules = ' . $this->db->quote($temp))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
-
-				$this->db->setQuery($query);
-
-				$result = $this->db->execute();
-
-				return (bool) $result;
+				$asset->rules = json_encode($asset->rules);
 			}
+
+			if (!$asset->check() || !$asset->store())
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+
+				return false;
+			}
+
+			return true;
 		}
 		catch (Exception $e)
 		{
