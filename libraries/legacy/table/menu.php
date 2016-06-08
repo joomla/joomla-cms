@@ -189,8 +189,7 @@ class JTableMenu extends JTableNested
 				// If not exists a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
 					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
-					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
-				)
+					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
 				{
 					$errorType = 'MULTILINGUAL';
 				}
