@@ -35,6 +35,7 @@ class JModelFormTest extends TestCase
 		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelForm');
 		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
+		TestReflection::setValue('JPluginHelper', 'plugins', array());
 	}
 
 	/**
@@ -49,6 +50,7 @@ class JModelFormTest extends TestCase
 	{
 		// Reset the dispatcher instance.
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		parent::tearDown();
 	}
