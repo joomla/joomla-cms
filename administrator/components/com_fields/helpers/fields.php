@@ -115,13 +115,13 @@ class FieldsHelper
 			self::$fieldsCache->setState('list.limit', 0);
 		}
 
-		self::$fieldsCache->setState('filter.context', $context);
-		self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
-
 		if (is_array($item))
 		{
 			$item = (object) $item;
 		}
+
+		self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
+		self::$fieldsCache->setState('filter.context', $context);
 
 		/*
 		 *If item has assigned_cat_ids parameter display only fields which
