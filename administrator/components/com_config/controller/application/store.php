@@ -40,13 +40,13 @@ class ConfigControllerApplicationStore extends JControllerBase
 			'title'     => $this->input->get->get('title', '', 'RAW')
 		);
 
-		if (!(substr($permissions['component'], -6) == '.false'))
+		if (!(substr($permissions['component'], -6) === '.false'))
 		{
 			// Load Permissions from Session and send to Model
 			$model    = new ConfigModelApplication;
 			$response = $model->storePermissions($permissions);
-
-			echo new JResponseJson(json_encode($response));
+			
+			echo new JResponseJson(json_encode($response), $response['message']);
 		}
 		else
 		{
