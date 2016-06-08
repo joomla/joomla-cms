@@ -20,7 +20,7 @@
 	"php": ">=5.3.10"
   },
   "require-dev": {
-	"codeception/codeception": "master@dev",
+	"codeception/codeception": "~2.2",
 	"joomla-projects/joomla-browser": "v3.4.8.3",
 	"joomla-projects/selenium-server-standalone": "v2.52.0",
 	"codegyre/robo": "~0.6",
