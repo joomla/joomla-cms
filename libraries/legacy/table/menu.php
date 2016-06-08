@@ -172,7 +172,7 @@ class JTableMenu extends JTableNested
 		$originalAlias = trim($this->alias);
 		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
 		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
-		
+
 		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
 		if (empty($this->alias))
 		{
@@ -190,7 +190,7 @@ class JTableMenu extends JTableNested
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
 					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
 					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
-					)
+				)
 				{
 					$errorType = 'MULTILINGUAL';
 				}
