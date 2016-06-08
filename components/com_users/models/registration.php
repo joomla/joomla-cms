@@ -27,7 +27,7 @@ class UsersModelRegistration extends JModelForm
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @since   3.2
+	 * @since   3.6
 	 *
 	 * @throws  Exception
 	 */
