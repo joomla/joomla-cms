@@ -366,12 +366,19 @@ class ConfigModelApplication extends ConfigModelForm
 	 *
 	 * @param   string  $permission  Need an array with Permissions (component, rule, value and title)
 	 *
-	 * @return  boolean  True on success, false on failure.
+	 * @return  array  A list of result data.
 	 *
 	 * @since   3.5
 	 */
 	public function storePermissions($permission)
 	{
+		$result = array(
+			'text' => '',
+			'class' => '',
+			'result' => true,
+			'message' => '',
+		);
+
 		try
 		{
 			// Load the current settings for this component
@@ -385,6 +392,7 @@ class ConfigModelApplication extends ConfigModelForm
 			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
 			$results = $this->db->loadAssocList();
 
+			// No record found, let's create one
 			if (empty($results))
 			{
 				$data = array();
@@ -399,12 +407,9 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
-
-					return false;
+					$result['message'] = JText::_('SOME_ERROR_CODE');
+					$result['result'] = false;
 				}
-
-				return true;
 			}
 			else
 			{
@@ -427,10 +432,10 @@ class ConfigModelApplication extends ConfigModelForm
 					}
 
 					// Set the new permission
-					$temp[$permission['action']][$permission['rule']] = intval($permission['value']);
+					$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
 
 					// Check if we have an inherited setting
-					if (strlen($permission['value']) == 0)
+					if (strlen($permission['value']) === 0)
 					{
 						unset($temp[$permission['action']][$permission['rule']]);
 					}
@@ -445,20 +450,98 @@ class ConfigModelApplication extends ConfigModelForm
 				$temp  = json_encode($temp);
 				$query = $this->db->getQuery(true)
 					->update($this->db->quoteName('#__assets'))
-					->set('rules = ' . $this->db->quote($temp))
+					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote($temp))
 					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
 
-				$this->db->setQuery($query);
+				$this->db->setQuery($query)->execute();
+			}
 
-				$result = $this->db->execute();
+			if ($result['result'])
+			{
+				// Need to find the asset id by the name of the component.
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__assets'))
+					->where($db->quoteName('name') . ' = ' . $db->quote($permission['component']));
+				$db->setQuery($query);
+				$assetId = (int) $db->loadResult();
 
-				return (bool) $result;
+				// Get the new calculated setting for this action
+				$inheritedRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+
+				// Get the rules for just this asset (non-recursive).
+				$assetRules = JAccess::getAssetRules($assetId);
+
+				// Get the actual setting for the action for this group.
+				$assetRule = $assetRules->allow($permission['action'], $permission['rule']);
+
+				// Check if this group has super user permissions
+				$isSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
+
+				// If we have a super user we do not need to check anything, super users have all the access
+				if ($isSuperUser)
+				{
+					$result['class'] = 'label label-success';
+					$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+				}
+
+				// This is where we show the current effective settings considering current group, path and cascade.
+				// Check whether this is a component or global. Change the text slightly.
+
+				// We are not a super user
+				if (!$isSuperUser)
+				{
+					// We are explicitly allowed
+					if ($assetRule === true)
+					{
+						if ($inheritedRule === false)
+						{
+							// A parent group has been set to denied, we cannot overrule that
+							$result['class'] = 'label label-important';
+							$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT');
+						}
+						else
+						{
+							$result['class'] = 'label label-success';
+							$result['text'] = JText::_('JLIB_RULES_ALLOWED');
+						}
+					}
+					// We are explicitly denied
+					elseif ($assetRule === false)
+					{
+						$result['class'] = 'label label-important';
+						$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
+					}
+					// Nothing is explicitly set, check inheritance
+					else
+					{
+						if ($inheritedRule === null)
+						{
+							$result['class'] = 'label label-important';
+							$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
+						}
+						elseif ($inheritedRule === true)
+						{
+							$result['class'] = 'label label-success';
+							$result['text'] = JText::_('JLIB_RULES_ALLOWED');
+						}
+						elseif ($inheritedRule === false)
+						{
+							$result['class'] = 'label';
+							$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+						}
+					}
+				}
 			}
 		}
 		catch (Exception $e)
 		{
-			return $e->getMessage();
+			$result['message'] = $e->getMessage();
+			$result['result'] = false;
 		}
+
+		return $result;
 	}
 
 	/**
