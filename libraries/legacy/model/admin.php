@@ -157,7 +157,7 @@ abstract class JModelAdmin extends JModelForm
 				'delete'       => 'content',
 				'save'         => 'content',
 				'change_state' => 'content',
-				'validate'     => 'content'
+				'validate'     => 'content',
 			), $config['events_map']
 		);
 
