@@ -45,7 +45,7 @@ class ConfigControllerApplicationStore extends JControllerBase
 			// Load Permissions from Session and send to Model
 			$model    = new ConfigModelApplication;
 			$response = $model->storePermissions($permissions);
-			
+
 			echo new JResponseJson(json_encode($response), $response['message']);
 		}
 		else
