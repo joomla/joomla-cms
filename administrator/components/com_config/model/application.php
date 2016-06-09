@@ -372,7 +372,8 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function storePermissions($permission = null)
 	{
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		if (is_null($permission))
 		{
@@ -389,13 +390,14 @@ class ConfigModelApplication extends ConfigModelForm
 		// Don't do anything
 		if (substr($permission['component'], -6) === '.false')
 		{
+			// TO DO: better message
 			$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
 
 			return false;
 		}
 
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.admin', $permission['component']))
+		if (!$user->authorise('core.admin', $permission['component']))
 		{
 			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
@@ -403,12 +405,17 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check if this group has super user permissions
-		$isSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
+		$isSuperUser = false;
 
-		// Make sure the super user is not changing the super user status
+		if (in_array($permission['rule'], $user->groups))
+		{
+			$isSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
+		}
+
+		// Make sure the super user is not changing his super user status
 		if ($isSuperUser && $permission['action'] === 'core.admin')
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'error');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'warning');
 
 			return false;
 		}
@@ -416,7 +423,7 @@ class ConfigModelApplication extends ConfigModelForm
 		elseif ($isSuperUser)
 		{
 			// TO DO: language var
-			$app->enqueueMessage('A Super User already has access to everything. Action not completed.', 'warning'); 
+			$app->enqueueMessage('A Super User already has access to everything.', 'warning'); 
 
 			return false;
 		}
