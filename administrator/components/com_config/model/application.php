@@ -419,14 +419,6 @@ class ConfigModelApplication extends ConfigModelForm
 
 			return false;
 		}
-		// If we have a super user we do not to change the permission.
-		elseif ($isUserSuperUser)
-		{
-			// TO DO: language var
-			$app->enqueueMessage('A Super User already has access to everything.', 'warning'); 
-
-			return false;
-		}
 
 		try
 		{
