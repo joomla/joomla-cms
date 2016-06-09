@@ -409,18 +409,18 @@ class ConfigModelApplication extends ConfigModelForm
 
 		if (in_array($permission['rule'], $user->groups))
 		{
-			$isSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
+			$isUserSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
 		}
 
 		// Make sure the super user is not changing his super user status
-		if ($isSuperUser && $permission['action'] === 'core.admin')
+		if ($isUserSuperUser && $permission['action'] === 'core.admin')
 		{
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'warning');
 
 			return false;
 		}
 		// If we have a super user we do not to change the permission.
-		elseif ($isSuperUser)
+		elseif ($isUserSuperUser)
 		{
 			// TO DO: language var
 			$app->enqueueMessage('A Super User already has access to everything.', 'warning'); 
@@ -546,6 +546,15 @@ class ConfigModelApplication extends ConfigModelForm
 			'class'   => '',
 			'result'  => true,
 		);
+
+		// If changed group has Super User permission we do not need to check anything, super users have all the access
+		if (JAccess::checkGroup($permission['rule'], 'core.admin'))
+		{
+			$result['class'] = 'label label-success';
+			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+
+			return $result;
+		}
 
 		// Get the new calculated setting for this action
 		$inheritedRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
