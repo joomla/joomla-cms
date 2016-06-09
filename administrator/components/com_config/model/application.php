@@ -389,7 +389,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Don't do anything
 		if (substr($permission['component'], -6) === '.false')
 		{
-			$app->enqueueMessage(JText::_('JLIB_UNKNOWN').$permission['component'], 'error');
+			$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
 
 			return false;
 		}
