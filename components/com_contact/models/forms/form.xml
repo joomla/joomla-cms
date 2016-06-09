@@ -23,9 +23,14 @@
 			size="30"
 		/>
 
-		<field name="user_id" type="user"
-			description="CONTACT_LINKED_USER_DESC"
+		<field
+			name="user_id"
+			type="user"
+			basetype="modal"
 			label="CONTACT_LINKED_USER_LABEL"
+			description="CONTACT_LINKED_USER_DESC"
+			edit="true"
+			new="true"
 		/>
 
 		<field name="published" type="list"

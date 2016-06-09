@@ -155,8 +155,11 @@
 	<field
 		name="created_user_id"
 		type="user"
+		basetype="modal"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
+		description="JGLOBAL_FIELD_CREATED_BY_DESC"
+		edit="true"
+		new="true"
 	/>
 
 	<field
@@ -180,8 +183,9 @@
 	<field
 		name="modified_user_id"
 		type="user"
-		class="readonly"
+		basetype="modal"
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
 		readonly="true"
 		filter="unset"
 	/>
