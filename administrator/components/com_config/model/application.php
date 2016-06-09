@@ -394,6 +394,14 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorise('core.admin'), $permission['component'])
+		{
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return false;
+		}
+
 		// Check if this group has super user permissions
 		$isSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
 

@@ -37,14 +37,6 @@ class ConfigControllerApplicationStore extends JControllerBase
 			$this->app->close();
 		}*/
 
-		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.admin'))
-		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			echo new JResponseJson();
-			$this->app->close();
-		}
-
 		$model = new ConfigModelApplication;
 		echo new JResponseJson($model->storePermissions());
 		$this->app->close();
