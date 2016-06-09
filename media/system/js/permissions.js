@@ -80,7 +80,14 @@ function sendPermissions(event) {
 		{
 			Joomla.renderMessages(response.messages);
 
-			icon.setAttribute('class', 'icon-cancel');
+			if (response.data && response.data.result == true)
+			{
+				icon.setAttribute('class', 'icon-save');
+			}
+			else
+			{
+				icon.setAttribute('class', 'icon-cancel');
+			}
 
 			window.scrollTo(0, 0);
 		}
