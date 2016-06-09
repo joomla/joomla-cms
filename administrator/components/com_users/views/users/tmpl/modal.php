@@ -35,12 +35,13 @@ $userRequired     = (int) $input->get('required', 0, 'int');
 		id="adminForm"
 		name="adminForm"
 		action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&function=' . $function
-			. '&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>"
+			. '&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')
+			); ?>"
 		method="post"
 		>
 
 		<?php if ( ! $userRequired && $basetype != 'modal') : ?>
-		<?php // @deprecated  3.6.0  No User button kept for B/C with Mootools modal ?>
+		<?php // @deprecated  3.6.0  'No User' button kept for B/C with Mootools modal ?>
 			<div class="pull-left">
 				<button
 					class="btn button-select"
