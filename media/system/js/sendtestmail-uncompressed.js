@@ -65,44 +65,17 @@ jQuery(document).ready(function ($)
 			}
 
 			Joomla.renderMessages(msg);
+
+			window.scrollTo(0, 0);
 		})
 		.done(function (response) {
-			var msg = {};
-
-			if (response.data)
+			// Render messages, if any.
+			if (typeof response.messages == 'object')
 			{
-				if (typeof response.messages == 'object')
-				{
-					if (typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
-					{
-						msg.message = [response.messages.success];
-					}
-				}
+				Joomla.renderMessages(response.messages);
+
+				window.scrollTo(0, 0);
 			}
-			else
-			{
-				if (typeof response.messages == 'object')
-				{
-					if (typeof response.messages.error != 'undefined' && response.messages.error.length > 0)
-					{
-						msg.error = [response.messages.error];
-					}
-
-					if (typeof response.messages.notice != 'undefined' && response.messages.notice.length > 0)
-					{
-						msg.notice = [response.messages.notice];
-					}
-
-					if (typeof response.messages.message != 'undefined' && response.messages.message.length > 0)
-					{
-						msg.message = [response.messages.message];
-					}
-				}
-			}
-
-			Joomla.renderMessages(msg);
 		});
-
-		window.scrollTo(0, 0);
 	});
 });
