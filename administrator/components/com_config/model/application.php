@@ -397,7 +397,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'), $permission['component'])
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return false;
 		}
