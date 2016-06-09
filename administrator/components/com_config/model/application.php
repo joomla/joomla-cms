@@ -405,7 +405,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Check if this group has super user permissions
-		$isSuperUser = false;
+		$isUserSuperUser = false;
 
 		if (in_array($permission['rule'], $user->groups))
 		{
