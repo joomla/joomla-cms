@@ -412,6 +412,14 @@ class ConfigModelApplication extends ConfigModelForm
 
 			return false;
 		}
+		// If we have a super user we do not to change the permission.
+		elseif ($isSuperUser)
+		{
+			// TO DO: language var
+			$app->enqueueMessage('A Super User already has access to everything. Action not completed.', 'warning'); 
+
+			return false;
+		}
 
 		try
 		{
@@ -505,7 +513,7 @@ class ConfigModelApplication extends ConfigModelForm
 				return false;
 			}
 		}
-		
+
 		// Need to find the asset id by the name of the component.
 		try
 		{
@@ -541,57 +549,46 @@ class ConfigModelApplication extends ConfigModelForm
 		// Get the actual setting for the action for this group.
 		$assetRule = $assetRules->allow($permission['action'], $permission['rule']);
 
-		// If we have a super user we do not need to check anything, super users have all the access
-		if ($isSuperUser)
-		{
-			$result['class'] = 'label label-success';
-			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
-		}
 
 		// This is where we show the current effective settings considering current group, path and cascade.
 		// Check whether this is a component or global. Change the text slightly.
-		// We are not a super user
-		if (!$isSuperUser)
+		if ($assetRule === true)
 		{
-			// We are explicitly allowed
-			if ($assetRule === true)
+			if ($inheritedRule === false)
 			{
-				if ($inheritedRule === false)
-				{
-					// A parent group has been set to denied, we cannot overrule that
-					$result['class'] = 'label label-important';
-					$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT');
-				}
-				else
-				{
-					$result['class'] = 'label label-success';
-					$result['text'] = JText::_('JLIB_RULES_ALLOWED');
-				}
+				// A parent group has been set to denied, we cannot overrule that
+				$result['class'] = 'label';
+				$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
-			// We are explicitly denied
-			elseif ($assetRule === false)
+			else
+			{
+				$result['class'] = 'label label-success';
+				$result['text'] = JText::_('JLIB_RULES_ALLOWED');
+			}
+		}
+		// We are explicitly denied
+		elseif ($assetRule === false)
+		{
+			$result['class'] = 'label label-important';
+			$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
+		}
+		// Nothing is explicitly set, check inheritance
+		else
+		{
+			if ($inheritedRule === null)
 			{
 				$result['class'] = 'label label-important';
 				$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// Nothing is explicitly set, check inheritance
-			else
+			elseif ($inheritedRule === true)
 			{
-				if ($inheritedRule === null)
-				{
-					$result['class'] = 'label label-important';
-					$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
-				}
-				elseif ($inheritedRule === true)
-				{
-					$result['class'] = 'label label-success';
-					$result['text'] = JText::_('JLIB_RULES_ALLOWED');
-				}
-				elseif ($inheritedRule === false)
-				{
-					$result['class'] = 'label';
-					$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-				}
+				$result['class'] = 'label label-success';
+				$result['text'] = JText::_('JLIB_RULES_ALLOWED');
+			}
+			elseif ($inheritedRule === false)
+			{
+				$result['class'] = 'label';
+				$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

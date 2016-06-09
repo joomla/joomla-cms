@@ -29,6 +29,7 @@ class ConfigControllerApplicationStore extends JControllerBase
 		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
 		$this->app->sendHeaders();
 
+		// TO DO: token check
 		// Check if user token is valid.
 		/*if (!JSession::checkToken('get'))
 		{
