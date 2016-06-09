@@ -507,7 +507,6 @@ class ConfigModelApplication extends ConfigModelForm
 			// Store the new permissions.
 			try
 			{
-				
 				$query = $this->db->getQuery(true)
 					->update($this->db->quoteName('#__assets'))
 					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
@@ -549,6 +548,9 @@ class ConfigModelApplication extends ConfigModelForm
 			'result'  => true,
 		);
 
+		// After permission have changed we need to check again
+		$isSuperUserGroup = JAccess::checkGroup($permission['rule'], 'core.admin');
+
 		// If changed group is a Super User Group we do not need to check anything, super users have all the access.
 		if ($isSuperUserGroup)
 		{
@@ -558,50 +560,52 @@ class ConfigModelApplication extends ConfigModelForm
 			return $result;
 		}
 
-		// Get the new calculated setting for this action
+		// Get the new calculated setting for this action.
 		$inheritedRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
 
-		// Get the rules for just this asset (non-recursive).
-		$assetRules = JAccess::getAssetRules($assetId);
-
-		// Get the actual setting for the action for this group.
-		$assetRule = $assetRules->allow($permission['action'], $permission['rule']);
+		// Get the rules for just this asset (non-recursive) and get the actual setting for the action for this group.
+		$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
 
 		// This is where we show the current effective settings considering current group, path and cascade.
-		// Check whether this is a component or global. Change the text slightly.
+
+		// We are explicitly allowed.
 		if ($assetRule === true)
 		{
+			// Some parent group is denied, we cannot overrule the parent denied permission so "Not Allowed (Locked)".
 			if ($inheritedRule === false)
 			{
-				// A parent group has been set to denied, we cannot overrule that
 				$result['class'] = 'label';
 				$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
+			// Some parent group is allowed or no parent, we can overrule the permission, so "Allowed".
 			else
 			{
 				$result['class'] = 'label label-success';
 				$result['text'] = JText::_('JLIB_RULES_ALLOWED');
 			}
 		}
-		// We are explicitly denied
+		// We are explicitly denied, this as priority over any parent permission, so calculated setting is always "Denied".
 		elseif ($assetRule === false)
 		{
 			$result['class'] = 'label label-important';
 			$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
 		}
-		// Nothing is explicitly set, check inheritance
+		// Nothing is explicitly set, check inheritance.
 		else
 		{
+			// There is no parent, we can overrule the permission, so default to "Not Allowed".
 			if ($inheritedRule === null)
 			{
 				$result['class'] = 'label label-important';
 				$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
+			// Parent group is "Allowed", we can overrule the parent permission, so "Allowed".
 			elseif ($inheritedRule === true)
 			{
 				$result['class'] = 'label label-success';
 				$result['text'] = JText::_('JLIB_RULES_ALLOWED');
 			}
+			// Some parent group is denied, we cannot overrule the parent denied permission, so "Not Allowed (Locked)".
 			elseif ($inheritedRule === false)
 			{
 				$result['class'] = 'label';
