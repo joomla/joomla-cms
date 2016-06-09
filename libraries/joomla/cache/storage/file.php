@@ -265,16 +265,16 @@ class JCacheStorageFile extends JCacheStorage
 
 		$looptime  = $locktime * 10;
 		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "r+b");
+		$_fileopen = @fopen($path, "c+b");
 
-		if ($_fileopen)
+		if (!$_fileopen)
 		{
-			$data_lock = @flock($_fileopen, LOCK_EX);
+			$returning->locked = false;
+
+			return $returning;
 		}
-		else
-		{
-			$data_lock = false;
-		}
+
+		$data_lock = (bool) @flock($_fileopen, LOCK_EX);
 
 		if ($data_lock === false)
 		{
@@ -286,15 +286,15 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				if ($lock_counter > $looptime)
 				{
-					$returning->locked     = false;
-					$returning->locklooped = true;
 					break;
 				}
 
 				usleep(100);
-				$data_lock = @flock($_fileopen, LOCK_EX);
+				$data_lock = (bool) @flock($_fileopen, LOCK_EX);
 				$lock_counter++;
 			}
+
+			$returning->locklooped = true;
 		}
 
 		$returning->locked = $data_lock;
