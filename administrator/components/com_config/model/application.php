@@ -403,15 +403,18 @@ class ConfigModelApplication extends ConfigModelForm
 
 			return false;
 		}
-
+		
 		// Check if changed group has Super User permissions.
 		$isSuperUserGroup = JAccess::checkGroup($permission['rule'], 'core.admin');
 
 		// Check if current user belongs to changed group.
 		$currentUserBelongsToGroup = in_array($permission['rule'], $user->groups) ? true : false;
 
-		// If changed group has Super User permissions.
-		if ($isSuperUserGroup && !$currentUserBelongsToGroup)
+		// Check if current user belongs to changed group.
+		$currentUserSuperUser = $user->authorise('core.admin');
+
+		// If changed group has Super User permissions and current user is not user: can't change.
+		if (!$currentUserSuperUser && $isSuperUserGroup && !$currentUserBelongsToGroup)
 		{
 			// TO DO: language var
 			$app->enqueueMessage('You\'re not allowed to change permissions of a super user group.', 'error');
