@@ -462,7 +462,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if (!$asset->check() || !$asset->store())
 			{
-				$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+				$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
 
 				return false;
 			}
