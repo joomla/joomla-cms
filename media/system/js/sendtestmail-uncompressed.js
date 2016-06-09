@@ -45,23 +45,23 @@ jQuery(document).ready(function ($)
 
 				encodedJson = buf.join('');
 
-				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_PARSE').replace('%s', encodedJson) ];
+				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
 			}
 			else if (textStatus == 'nocontent')
 			{
-				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_NO_CONTENT') ];
+				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
 			}
 			else if (textStatus == 'timeout')
 			{
-				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_TIMEOUT') ];
+				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
 			}
 			else if (textStatus == 'abort')
 			{
-				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_CONNECTION_ABORT') ];
+				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 			}
 			else
 			{
-				msg.error = [ Joomla.JText._('COM_CONFIG_SENDMAIL_JS_ERROR_OTHER').replace('%s', jqXHR.status) ];
+				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
 			}
 
 			Joomla.renderMessages(msg);
@@ -75,7 +75,7 @@ jQuery(document).ready(function ($)
 				{
 					if (typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
 					{
-						msg.success = [response.messages.success];
+						msg.message = [response.messages.success];
 					}
 				}
 			}
