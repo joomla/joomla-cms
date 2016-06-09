@@ -337,7 +337,7 @@ class JFormFieldRules extends JFormField
 					// If we have a super user we do not need to check anything, super users have all the access
 					if ($isSuperUser)
 					{
-						$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+						$html[] = '<span class="label label-success"><span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
 							. '</span>';
 					}
 
@@ -353,7 +353,7 @@ class JFormFieldRules extends JFormField
 							if ($inheritedRule === false)
 							{
 								// A parent group has been set to denied, we cannot overrule that
-								$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span> '
+								$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span>'
 									. JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
 							}
 							else
