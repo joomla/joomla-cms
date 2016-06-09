@@ -37,7 +37,7 @@ jQuery(document).ready(function ($)
 		})
 		.done(function (response) {
 			// Render messages, if any.
-			if (typeof response.messages == 'object')
+			if (typeof response.messages == 'object' && response.messages !== null)
 			{
 				Joomla.renderMessages(response.messages);
 
