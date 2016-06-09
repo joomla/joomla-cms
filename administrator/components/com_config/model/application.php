@@ -405,7 +405,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 		
 		// Check if changed group has Super User permissions.
-		$isSuperUserGroup = JAccess::checkGroup($permission['rule'], 'core.admin');
+		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 
 		// Check if current user belongs to changed group.
 		$currentUserBelongsToGroup = in_array($permission['rule'], $user->groups) ? true : false;
@@ -414,7 +414,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$currentUserSuperUser = $user->authorise('core.admin');
 
 		// If changed group has Super User permissions and current user is not user: can't change.
-		if (!$currentUserSuperUser && $isSuperUserGroup && !$currentUserBelongsToGroup)
+		if (!$currentUserSuperUser && $isSuperUserGroupBefore && !$currentUserBelongsToGroup)
 		{
 			// TO DO: language var
 			$app->enqueueMessage('You\'re not allowed to change permissions of a super user group.', 'error');
@@ -423,7 +423,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 
 		// Make sure the super user is not changing his super user status.
-		if ($isSuperUserGroup && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
+		if ($isSuperUserGroupBefore && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
 		{
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'warning');
 
@@ -522,6 +522,19 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 		}
 
+		// All checks done.
+		$result = array(
+			'text'    => '',
+			'class'   => '',
+			'result'  => true,
+		);
+
+		// Clear access statistics.
+		JAccess::clearStatics();
+
+		// After permission have changed we need to check again if the group is superuser.
+		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
+
 		// Need to find the asset id by the name of the component.
 		try
 		{
@@ -541,76 +554,84 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// All checks done.
-		$result = array(
-			'text'    => '',
-			'class'   => '',
-			'result'  => true,
-		);
-
-		// After permission have changed we need to check again
-		$isSuperUserGroup = JAccess::checkGroup($permission['rule'], 'core.admin');
-
-		// If changed group is a Super User Group we do not need to check anything, super users have all the access.
-		if ($isSuperUserGroup)
+		// Find the parent id of the group.
+		try
 		{
-			$result['class'] = 'label label-success';
-			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+			$query = $this->db->getQuery(true)
+					->select($this->db->quoteName('parent_id'))
+					->from($this->db->quoteName('#__usergroups'))
+					->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
 
-			return $result;
+			$this->db->setQuery($query);
+
+			$parentGroupId = (int) $this->db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
-		// Get the new calculated setting for this action.
-		$inheritedRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+		// Get the group parent_id calculated setting for the chosen action.
+		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
-		// Get the rules for just this asset (non-recursive) and get the actual setting for the action for this group.
-		$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
+		// Show the current effective calculated permission considering current group, path and cascade.
 
-		// This is where we show the current effective settings considering current group, path and cascade.
-
-		// We are explicitly allowed.
-		if ($assetRule === true)
+		// Some parent group across the tree is explicity "Denied", so calculated permission is "Not Allowed (Inherited)", no matter the .
+		if ($inheritedParentGroupRule === false)
 		{
-			// Some parent group is denied, we cannot overrule the parent denied permission so "Not Allowed (Locked)".
-			if ($inheritedRule === false)
-			{
-				$result['class'] = 'label';
-				$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-			}
-			// Some parent group is allowed or no parent, we can overrule the permission, so "Allowed".
-			else
-			{
-				$result['class'] = 'label label-success';
-				$result['text'] = JText::_('JLIB_RULES_ALLOWED');
-			}
+			$result['class'] = 'label';
+			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 		}
-		// We are explicitly denied, this as priority over any parent permission, so calculated setting is always "Denied".
-		elseif ($assetRule === false)
-		{
-			$result['class'] = 'label label-important';
-			$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
-		}
-		// Nothing is explicitly set, check inheritance.
+		// No parent group is explicity "Denied", can overrule.
 		else
 		{
-			// There is no parent, we can overrule the permission, so default to "Not Allowed".
-			if ($inheritedRule === null)
-			{
-				$result['class'] = 'label label-important';
-				$result['text'] = JText::_('JLIB_RULES_NOT_ALLOWED');
-			}
-			// Parent group is "Allowed", we can overrule the parent permission, so "Allowed".
-			elseif ($inheritedRule === true)
+			// If changed group is a Super User Group we override the calculated setting to "Allowed (Super User)".
+			if ($isSuperUserGroupAfter)
 			{
 				$result['class'] = 'label label-success';
-				$result['text'] = JText::_('JLIB_RULES_ALLOWED');
+				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 			}
-			// Some parent group is denied, we cannot overrule the parent denied permission, so "Not Allowed (Locked)".
-			elseif ($inheritedRule === false)
+			else
 			{
-				$result['class'] = 'label';
-				$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				// Get the rules for just this asset (non-recursive) and get the actual setting for the action for this group.
+				$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
+
+				// Asset permission is "Inherited", so calculated permission is the parent permission.
+				if ($assetRule === null)
+				{
+					if ($inheritedParentGroupRule !== true)
+					{
+						$result['class'] = 'label label-important';
+						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
+					}
+					else
+					{
+						$result['class'] = 'label label-success';
+						$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+					}
+				}
+				// Asset permission is "Allowed", so calculated permission is "Allowed".
+				elseif ($assetRule === true)
+				{
+					$result['class'] = 'label label-success';
+					$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+				}
+				// Asset permission is "Denied", so calculated permission is "Not Allowed".
+				else
+				{
+					$result['class'] = 'label label-important';
+					$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
+				}
 			}
+		}
+
+		// If removed or added super user from group, we need to refresh the page to recalculate all settings.
+		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
+		{
+			// TO DO: language var
+			$app->enqueueMessage('Super user permissions changed. Refresh the page to recalculate and permissions.', 'notice');
 		}
 
 		return $result;
