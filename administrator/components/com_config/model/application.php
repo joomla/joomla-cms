@@ -377,7 +377,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		if (is_null($permission))
 		{
-			// Get DATA from input
+			// Get data from input.
 			$permission = array(
 				'component' => $app->input->get('comp'),
 				'action'    => $app->input->get('action'),
@@ -404,16 +404,23 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// Check if this group has super user permissions
-		$isUserSuperUser = false;
+		// Check if changed group has Super User permissions.
+		$isSuperUserGroup = JAccess::checkGroup($permission['rule'], 'core.admin');
 
-		if (in_array($permission['rule'], $user->groups))
+		// Check if current user belongs to changed group.
+		$currentUserBelongsToGroup = in_array($permission['rule'], $user->groups) ? true : false;
+
+		// If changed group has Super User permissions.
+		if ($isSuperUserGroup && !$currentUserBelongsToGroup)
 		{
-			$isUserSuperUser = JAccess::checkGroup($permission['rule'], 'core.admin');
+			// TO DO: language var
+			$app->enqueueMessage('You\'re not allowed to change permissions of a super user group.', 'error');
+
+			return false;
 		}
 
-		// Make sure the super user is not changing his super user status
-		if ($isUserSuperUser && $permission['action'] === 'core.admin')
+		// Make sure the super user is not changing his super user status.
+		if ($isSuperUserGroup && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
 		{
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'warning');
 
@@ -422,7 +429,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		try
 		{
-			// Load the current settings for this component
+			// Load the current settings for this component.
 			$query = $this->db->getQuery(true)
 				->select($this->db->quoteName(array('name', 'rules')))
 				->from($this->db->quoteName('#__assets'))
@@ -440,7 +447,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// No record found, let's create one
+		// No record found, let's create one.
 		if (empty($results))
 		{
 			$data = array();
@@ -461,28 +468,28 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 		else
 		{
-			// Decode the rule settings
+			// Decode the rule settings.
 			$temp = json_decode($results[0]['rules'], true);
 
-			// Check if a new value is to be set
+			// Check if a new value is to be set.
 			if (isset($permission['value']))
 			{
-				// Check if we already have an action entry
+				// Check if we already have an action entry.
 				if (!isset($temp[$permission['action']]))
 				{
 					$temp[$permission['action']] = array();
 				}
 
-				// Check if we already have a rule entry
+				// Check if we already have a rule entry.
 				if (!isset($temp[$permission['action']][$permission['rule']]))
 				{
 					$temp[$permission['action']][$permission['rule']] = array();
 				}
 
-				// Set the new permission
+				// Set the new permission.
 				$temp[$permission['action']][$permission['rule']] = (int) $permission['value'];
 
-				// Check if we have an inherited setting
+				// Check if we have an inherited setting.
 				if (strlen($permission['value']) === 0)
 				{
 					unset($temp[$permission['action']][$permission['rule']]);
@@ -490,11 +497,11 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
-				// There is no value so remove the action as it's not needed
+				// There is no value so remove the action as it's not needed.
 				unset($temp[$permission['action']]);
 			}
 
-			// Store the new permissions
+			// Store the new permissions.
 			try
 			{
 				
@@ -539,8 +546,8 @@ class ConfigModelApplication extends ConfigModelForm
 			'result'  => true,
 		);
 
-		// If changed group has Super User permission we do not need to check anything, super users have all the access
-		if (JAccess::checkGroup($permission['rule'], 'core.admin'))
+		// If changed group is a Super User Group we do not need to check anything, super users have all the access.
+		if ($isSuperUserGroup)
 		{
 			$result['class'] = 'label label-success';
 			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
@@ -556,7 +563,6 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Get the actual setting for the action for this group.
 		$assetRule = $assetRules->allow($permission['action'], $permission['rule']);
-
 
 		// This is where we show the current effective settings considering current group, path and cascade.
 		// Check whether this is a component or global. Change the text slightly.
