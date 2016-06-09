@@ -31,40 +31,7 @@ jQuery(document).ready(function ($)
 			dataType: "json"
 		})
 		.fail(function (jqXHR, textStatus, error) {
-			var msg = {};
-
-			if (textStatus == 'parsererror')
-			{
-				// Html entity encode.
-				var encodedJson = jqXHR.responseText.trim();
-
-				var buf = [];
-				for (var i = encodedJson.length-1; i >= 0; i--) {
-					buf.unshift( [ '&#', encodedJson[i].charCodeAt(), ';' ].join('') );
-				}
-
-				encodedJson = buf.join('');
-
-				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
-			}
-			else if (textStatus == 'nocontent')
-			{
-				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
-			}
-			else if (textStatus == 'timeout')
-			{
-				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
-			}
-			else if (textStatus == 'abort')
-			{
-				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
-			}
-			else
-			{
-				msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
-			}
-
-			Joomla.renderMessages(msg);
+			Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
 
 			window.scrollTo(0, 0);
 		})

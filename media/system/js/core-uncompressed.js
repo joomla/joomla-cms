@@ -218,6 +218,55 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
+	 * Treat AJAX jQuery errors.
+	 * Used by some javascripts such as sentestamail.js and permissions.js
+	 *
+	 * @param   object  jqXHR        See http://api.jquery.com/jquery.ajax/ fail() method.
+	 * @param   object  textStatus   See http://api.jquery.com/jquery.ajax/ fail() method.
+	 * @param   object  error        See http://api.jquery.com/jquery.ajax/ fail() method.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.6.0
+	 */
+	Joomla.ajaxErrorsMessages = function( jqXHR, textStatus, error ) {
+		var msg = {};
+
+		if (textStatus == 'parsererror')
+		{
+			// Html entity encode.
+			var encodedJson = jqXHR.responseText.trim();
+
+			var buf = [];
+			for (var i = encodedJson.length-1; i >= 0; i--) {
+				buf.unshift( [ '&#', encodedJson[i].charCodeAt(), ';' ].join('') );
+			}
+
+			encodedJson = buf.join('');
+
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
+		}
+		else if (textStatus == 'nocontent')
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
+		}
+		else if (textStatus == 'timeout')
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
+		}
+		else if (textStatus == 'abort')
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
+		}
+		else
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
+		}
+
+		return msg;
+	}
+
+	/**
 	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
 	 * administrator/components/com_installer/views/discover/tmpl/default_item.php
 	 * administrator/components/com_installer/views/update/tmpl/default_item.php
