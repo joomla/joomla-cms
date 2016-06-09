@@ -75,7 +75,7 @@ jQuery(document).ready(function ($)
 				{
 					if (typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
 					{
-						msg.success = [response.messages.success];
+						msg.message = [response.messages.success];
 					}
 				}
 			}
