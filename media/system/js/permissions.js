@@ -41,41 +41,47 @@ function sendPermissions(event) {
 
 	// doing ajax request
 	jQuery.ajax({
-		type: 'GET',
+		method: "POST",
 		url: url,
-		datatype: 'JSON'
-	}).success(function (response) {
-		var element = event.target;
-		// Parse the response
-		var resp = JSON.parse(response);
-
-		// Parse the data
-		var data = JSON.parse(resp.data);
-
-		// Check if everything is OK
-		if (data.result == true)
-		{
-			icon.removeAttribute('style');
-			icon.setAttribute('class', 'icon-save');
-
-			jQuery(element).parents().next('td').find('span')
-				.removeClass().addClass(data.class)
-				.html(data.text);
-		}
-		else
-		{
-			var msg = { error: [resp.message] };
-			Joomla.renderMessages(msg);
-			icon.removeAttribute('style');
-			icon.setAttribute('class', 'icon-cancel');
-		}
-	}).fail(function() {
-		//set cancel icon on http failure
-		var msg = { error: [Joomla.JText._('JLIB_RULES_REQUEST_FAILURE')] };
-		Joomla.renderMessages(msg);
+		datatype: 'json'
+	})
+	.fail(function (jqXHR, textStatus, error) {
+		// Remove the spinning icon.
 		icon.removeAttribute('style');
+
+		Joomla.renderMessages(Joomla.ajaxErrorsMessages(jqXHR, textStatus, error));
+
+		window.scrollTo(0, 0);
+
 		icon.setAttribute('class', 'icon-cancel');
 	})
+	.done(function (response) {
+		// Remove the spinning icon.
+		icon.removeAttribute('style');
+
+		if (response.data)
+		{
+			// Check if everything is OK
+			if (response.data.result == true)
+			{
+				icon.setAttribute('class', 'icon-save');
+
+				jQuery(event.target).parents().next('td').find('span')
+					.removeClass().addClass(response.data.class)
+					.html(response.data.text);
+			}
+		}
+
+		// Render messages, if any. There are only message in case of errors.
+		if (typeof response.messages == 'object' && response.messages !== null)
+		{
+			Joomla.renderMessages(response.messages);
+
+			icon.setAttribute('class', 'icon-cancel');
+
+			window.scrollTo(0, 0);
+		}
+	});
 }
 
 /**
