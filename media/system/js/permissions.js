@@ -39,6 +39,9 @@ function sendPermissions(event) {
 	var data = '&comp=' + asset + '&action=' + action + '&rule=' + rule + '&value=' + value + '&title=' + title;
 	var url = 'index.php?option=com_config&task=config.store&format=raw' + data;
 
+	// Remove js messages, if they exist.
+	Joomla.removeMessages();
+
 	// doing ajax request
 	jQuery.ajax({
 		method: "POST",
