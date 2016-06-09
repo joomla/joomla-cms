@@ -27,8 +27,9 @@ class ConfigControllerApplicationStore extends JControllerBase
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			echo new JResponseJson(json_encode(false), JText::_('JERROR_ALERTNOAUTHOR'));
+
+			JFactory::getApplication()->close();
 		}
 
 		// Get Post DATA
@@ -52,5 +53,7 @@ class ConfigControllerApplicationStore extends JControllerBase
 		{
 			echo new JResponseJson(json_encode(false), 0);
 		}
+
+		JFactory::getApplication()->close();
 	}
 }
