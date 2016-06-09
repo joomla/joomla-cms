@@ -24,6 +24,9 @@ jQuery(document).ready(function ($)
 			mailonline: $('input[name="jform[mailonline]"]:checked').val()
 		};
 
+		// Remove js messages, if they exist.
+		Joomla.removeMessages();
+
 		$.ajax({
 			method: "POST",
 			url: sendtestmail_url,
