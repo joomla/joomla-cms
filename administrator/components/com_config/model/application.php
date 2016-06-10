@@ -573,6 +573,25 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
+		// Find the parent id of the group.
+		try
+		{
+			$query = $this->db->getQuery(true)
+					->select('COUNT(' . $this->db->quoteName('id') . ')')
+					->from($this->db->quoteName('#__usergroups'))
+					->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+
+			$this->db->setQuery($query);
+
+			$totalChildGroups = (int) $this->db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
 		// Get the group parent_id calculated setting for the chosen action.
 		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
@@ -631,7 +650,14 @@ class ConfigModelApplication extends ConfigModelForm
 		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
 		{
 			// TO DO: language var
-			$app->enqueueMessage('Super user permissions changed. Refresh the page to recalculate and permissions.', 'notice');
+			$app->enqueueMessage('Super user permissions changed. Press save if you want to recalculate this group permissions.', 'notice');
+		}
+
+		// If this group has child groups, we need to refresh the page to recalculate the child settings.
+		if ($totalChildGroups > 0)
+		{
+			// TO DO: language var
+			$app->enqueueMessage('Group permissions changed. Press save if you want to recalculate the child groups permissions.', 'notice');
 		}
 
 		return $result;
