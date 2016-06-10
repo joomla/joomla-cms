@@ -413,11 +413,20 @@ class ConfigModelApplication extends ConfigModelForm
 		// Check if current user belongs to changed group.
 		$currentUserSuperUser = $user->authorise('core.admin');
 
+		// If user is not Super User cannot change the permissions of a group it belongs to.
+		if (!$currentUserSuperUser && $currentUserBelongsToGroup)
+		{
+			// TO DO: language var
+			$app->enqueueMessage('A user is not allowed to change permissions of his own group(s).'.print_r($user->groups, true), 'error');
+
+			return false;
+		}
+
 		// If changed group has Super User permissions and current user is not user: can't change.
 		if (!$currentUserSuperUser && $isSuperUserGroupBefore && !$currentUserBelongsToGroup)
 		{
 			// TO DO: language var
-			$app->enqueueMessage('You\'re not allowed to change permissions of a super user group.', 'error');
+			$app->enqueueMessage('A user is not allowed to change permissions of a super user group.', 'error');
 
 			return false;
 		}
@@ -425,7 +434,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Make sure the super user is not changing his super user status.
 		if ($isSuperUserGroupBefore && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'warning');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'error');
 
 			return false;
 		}
