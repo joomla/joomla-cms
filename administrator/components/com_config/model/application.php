@@ -422,7 +422,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// If changed group has Super User permissions and current user is not user: can't change.
+		// If user is not Super User cannot change the permissions of a Super User Group.
 		if (!$currentUserSuperUser && $isSuperUserGroupBefore && !$currentUserBelongsToGroup)
 		{
 			// TO DO: language var
@@ -431,7 +431,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// Make sure the super user is not changing his super user status.
+		// If user is not Super User cannot change the Super User permissions in any group it belongs to.
 		if ($isSuperUserGroupBefore && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
 		{
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'error');
@@ -538,15 +538,11 @@ class ConfigModelApplication extends ConfigModelForm
 			'result'  => true,
 		);
 
-		// Clear access statistics.
-		JAccess::clearStatics();
+		// Show the current effective calculated permission considering current group, path and cascade.
 
-		// After permission have changed we need to check again if the group is superuser.
-		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
-
-		// Need to find the asset id by the name of the component.
 		try
 		{
+			// Get the asset id by the name of the component.
 			$query = $this->db->getQuery(true)
 					->select($this->db->quoteName('id'))
 					->from($this->db->quoteName('#__assets'))
@@ -555,17 +551,8 @@ class ConfigModelApplication extends ConfigModelForm
 			$this->db->setQuery($query);
 
 			$assetId = (int) $this->db->loadResult();
-		}
-		catch (Exception $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
-		}
-
-		// Find the parent id of the group.
-		try
-		{
+			// Get the group parent id of the current group.
 			$query = $this->db->getQuery(true)
 					->select($this->db->quoteName('parent_id'))
 					->from($this->db->quoteName('#__usergroups'))
@@ -574,17 +561,8 @@ class ConfigModelApplication extends ConfigModelForm
 			$this->db->setQuery($query);
 
 			$parentGroupId = (int) $this->db->loadResult();
-		}
-		catch (Exception $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
 
-			return false;
-		}
-
-		// Find the parent id of the group.
-		try
-		{
+			// Count the number of child groups of the current group.
 			$query = $this->db->getQuery(true)
 					->select('COUNT(' . $this->db->quoteName('id') . ')')
 					->from($this->db->quoteName('#__usergroups'))
@@ -601,21 +579,25 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// Get the group parent_id calculated setting for the chosen action.
+		// Clear access statistics.
+		JAccess::clearStatics();
+
+		// After current group permission is changed we need to check again if the group has Super User permissions.
+		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
+
+		// Get the group parent id calculated setting for the chosen action.
 		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
-		// Show the current effective calculated permission considering current group, path and cascade.
-
-		// Some parent group across the tree is explicity "Denied", so calculated permission is "Not Allowed (Inherited)", no matter the .
+		// Some parent group across the tree has explicity "Denied" permission, so calculated permission is "Not Allowed (Inherited)".
 		if ($inheritedParentGroupRule === false)
 		{
 			$result['class'] = 'label';
 			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 		}
-		// No parent group is explicity "Denied", can overrule.
+		// No parent group has explicity "Denied" permission, so permission can be overruled.
 		else
 		{
-			// If changed group is a Super User Group we override the calculated setting to "Allowed (Super User)".
+			// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 			if ($isSuperUserGroupAfter)
 			{
 				$result['class'] = 'label label-success';
@@ -623,10 +605,10 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
-				// Get the rules for just this asset (non-recursive) and get the actual setting for the action for this group.
+				// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
 				$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
 
-				// Asset permission is "Inherited", so calculated permission is the parent permission.
+				// Asset permission is "Inherited", so calculated permission is the parent permission "Allowed" or "Not Allowed".
 				if ($assetRule === null)
 				{
 					if ($inheritedParentGroupRule !== true)
@@ -659,14 +641,14 @@ class ConfigModelApplication extends ConfigModelForm
 		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
 		{
 			// TO DO: language var
-			$app->enqueueMessage('Super user permissions changed. Press save if you want to recalculate this group permissions.', 'notice');
+			$app->enqueueMessage('Super user permissions changed. Save or reload to recalculate this group permissions.', 'notice');
 		}
 
 		// If this group has child groups, we need to refresh the page to recalculate the child settings.
 		if ($totalChildGroups > 0)
 		{
 			// TO DO: language var
-			$app->enqueueMessage('Group permissions changed. Press save if you want to recalculate the child groups permissions.', 'notice');
+			$app->enqueueMessage('Permissions changed in a group with child groups. Save or reload to recalculate the child groups permissions.', 'notice');
 		}
 
 		return $result;
