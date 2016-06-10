@@ -24,22 +24,36 @@ class ConfigControllerApplicationStore extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Send json mime type.
-		$this->app->mimeType = 'application/json';
-		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
-		$this->app->sendHeaders();
-
-		// TO DO: token check
-		// Check if user token is valid.
-		/*if (!JSession::checkToken('get'))
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
-			echo new JResponseJson();
-			$this->app->close();
-		}*/
+			echo new JResponseJson(json_encode(false), JText::_('JERROR_ALERTNOAUTHOR'));
 
-		$model = new ConfigModelApplication;
-		echo new JResponseJson($model->storePermissions());
-		$this->app->close();
+			JFactory::getApplication()->close();
+		}
+
+		// Get Post DATA
+		$permissions = array(
+			'component' => $this->input->get->get('comp'),
+			'action'    => $this->input->get->get('action'),
+			'rule'      => $this->input->get->get('rule'),
+			'value'     => $this->input->get->get('value'),
+			'title'     => $this->input->get->get('title', '', 'RAW')
+		);
+
+		if (!(substr($permissions['component'], -6) === '.false'))
+		{
+			// Load Permissions from Session and send to Model
+			$model    = new ConfigModelApplication;
+			$response = $model->storePermissions($permissions);
+
+			echo new JResponseJson(json_encode($response), $response['message']);
+		}
+		else
+		{
+			echo new JResponseJson(json_encode(false), 0);
+		}
+
+		JFactory::getApplication()->close();
 	}
 }
