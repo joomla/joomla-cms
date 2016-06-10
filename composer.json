@@ -14,6 +14,11 @@
         "forum":"http://forum.joomla.org/",
         "docs":"https://docs.joomla.org"
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Pages\\": "tests/_support/Pages/"
+        }
+    },
     "require": {
         "php": ">=5.5",
         "joomla/application": "~1.5",

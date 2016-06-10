@@ -160,3 +160,4 @@ Desktop.ini
 /libraries/vendor/symfony/finder
 /libraries/vendor/symfony/polyfill-mbstring
 
+/tests.phpunit/system/webdriver/tests/logs/
