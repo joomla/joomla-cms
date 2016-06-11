@@ -59,12 +59,14 @@ JFactory::getDocument()->addScriptDeclaration("
 	</div>
 	<div class="col options-section">
 		<?php echo  JHtml::_('sliders.start', 'user-slider', array('useCookie' => 1)); ?>
-		<?php if ($this->grouplist) : ?>
-			<?php echo JHtml::_('sliders.panel', JText::_('COM_USERS_ASSIGNED_GROUPS'), 'groups'); ?>
-			<fieldset class="panelform">
-				<legend class="element-invisible"><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
-				<?php echo $this->loadTemplate('groups'); ?>
-			</fieldset>
+		<?php if ((int) JFactory::getUser()->id != (int) $this->item->id) : ?>
+			<?php if ($this->grouplist) : ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_USERS_ASSIGNED_GROUPS'), 'groups'); ?>
+				<fieldset class="panelform">
+					<legend class="element-invisible"><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
+					<?php echo $this->loadTemplate('groups'); ?>
+				</fieldset>
+			<?php endif; ?>
 		<?php endif; ?>
 		<?php
 		foreach ($fieldsets as $fieldset) :
