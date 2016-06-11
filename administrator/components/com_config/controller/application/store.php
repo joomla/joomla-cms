@@ -24,8 +24,10 @@ class ConfigControllerApplicationStore extends JControllerBase
 	 */
 	public function execute()
 	{
+		$component = $this->input->get->get('comp');
+
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if (!JFactory::getUser()->authorise('core.admin', $component))
 		{
 			echo new JResponseJson(json_encode(false), JText::_('JERROR_ALERTNOAUTHOR'));
 
@@ -34,7 +36,7 @@ class ConfigControllerApplicationStore extends JControllerBase
 
 		// Get Post DATA
 		$permissions = array(
-			'component' => $this->input->get->get('comp'),
+			'component' => $component,
 			'action'    => $this->input->get->get('action'),
 			'rule'      => $this->input->get->get('rule'),
 			'value'     => $this->input->get->get('value'),
