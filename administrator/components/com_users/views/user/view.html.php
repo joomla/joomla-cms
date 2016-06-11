@@ -39,7 +39,6 @@ class UsersViewUser extends JViewLegacy
 	{
 		$this->form      = $this->get('Form');
 		$this->item      = $this->get('Item');
-		$this->grouplist = $this->get('Groups');
 		$this->groups    = $this->get('AssignedGroups');
 		$this->state     = $this->get('State');
 		$this->tfaform   = $this->get('Twofactorform');
