@@ -403,7 +403,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			return false;
 		}
-		
+
 		// Check if changed group has Super User permissions.
 		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 

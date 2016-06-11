@@ -33,7 +33,7 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 		if (!JSession::checkToken('get'))
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
-			echo new JResponseJson();
+			echo new JResponseJson;
 			$this->app->close();
 		}
 
@@ -41,7 +41,7 @@ class ConfigControllerApplicationSendtestmail extends JControllerBase
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			echo new JResponseJson();
+			echo new JResponseJson;
 			$this->app->close();
 		}
 

@@ -33,7 +33,7 @@ class ConfigControllerApplicationStore extends JControllerBase
 		if (!JSession::checkToken('get'))
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
-			echo new JResponseJson();
+			echo new JResponseJson;
 			$this->app->close();
 		}
 

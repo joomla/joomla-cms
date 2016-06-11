@@ -21,7 +21,7 @@ JText::script('ERROR');
 JText::script('WARNING');
 JText::script('NOTICE');
 JText::script('MESSAGE');
- 
+
 // Add strings for JavaScript error translations.
 JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
 JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
