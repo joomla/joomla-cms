@@ -68,12 +68,10 @@ $fieldsets = $this->form->getFieldsets();
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php if ((int) JFactory::getUser()->id != (int) $this->item->id) : ?>
-				<?php if ($this->grouplist) : ?>
-					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS')); ?>
-						<?php echo $this->loadTemplate('groups'); ?>
-					<?php echo JHtml::_('bootstrap.endTab'); ?>
-				<?php endif; ?>
+			<?php if ($this->grouplist) : ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS')); ?>
+					<?php echo $this->loadTemplate('groups'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php

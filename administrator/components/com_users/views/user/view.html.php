@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * User view class.
- * 
+ *
  * @since  1.5
  */
 class UsersViewUser extends JViewLegacy
@@ -51,6 +51,12 @@ class UsersViewUser extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
+		}
+
+		// Prevent user from modifying own group(s)
+		if ((int) JFactory::getUser()->id != (int) $this->item->id)
+		{
+			$this->grouplist = $this->get('Groups');
 		}
 
 		$this->form->setValue('password', null);
