@@ -416,8 +416,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a group it belongs to.
 		if (!$currentUserSuperUser && $currentUserBelongsToGroup)
 		{
-			// TO DO: language var
-			$app->enqueueMessage('A user is not allowed to change permissions of his own group(s).'.print_r($user->groups, true), 'error');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_GROUPS'), 'error');
 
 			return false;
 		}
@@ -425,8 +424,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a Super User Group.
 		if (!$currentUserSuperUser && $isSuperUserGroupBefore && !$currentUserBelongsToGroup)
 		{
-			// TO DO: language var
-			$app->enqueueMessage('A user is not allowed to change permissions of a super user group.', 'error');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_SUPER_USER'), 'error');
 
 			return false;
 		}
@@ -640,15 +638,13 @@ class ConfigModelApplication extends ConfigModelForm
 		// If removed or added super user from group, we need to refresh the page to recalculate all settings.
 		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
 		{
-			// TO DO: language var
-			$app->enqueueMessage('Super user permissions changed. Save or reload to recalculate this group permissions.', 'notice');
+			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_PERMISSIONS'), 'notice');
 		}
 
 		// If this group has child groups, we need to refresh the page to recalculate the child settings.
 		if ($totalChildGroups > 0)
 		{
-			// TO DO: language var
-			$app->enqueueMessage('Permissions changed in a group with child groups. Save or reload to recalculate the child groups permissions.', 'notice');
+			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_CHILDS_PERMISSIONS'), 'notice');
 		}
 
 		return $result;
