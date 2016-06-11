@@ -144,6 +144,9 @@ class JFormFieldRules extends JFormField
 		// Add JText for error messages
 		JText::script('JLIB_RULES_REQUEST_FAILURE');
 
+		JFactory::getDocument()->addScriptDeclaration('
+			var permission_url = "' . addslashes(JUri::base()) . 'index.php?option=com_config&task=config.store&format=json&' . JSession::getFormToken() . '=1";');
+
 		// Initialise some field attributes.
 		$section = $this->section;
 		$component = $this->component;

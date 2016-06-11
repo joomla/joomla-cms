@@ -29,14 +29,13 @@ class ConfigControllerApplicationStore extends JControllerBase
 		$this->app->setHeader('Content-Type', $this->app->mimeType . '; charset=' . $this->app->charSet);
 		$this->app->sendHeaders();
 
-		// TO DO: token check
 		// Check if user token is valid.
-		/*if (!JSession::checkToken('get'))
+		if (!JSession::checkToken('get'))
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			echo new JResponseJson();
 			$this->app->close();
-		}*/
+		}
 
 		$model = new ConfigModelApplication;
 		echo new JResponseJson($model->storePermissions());

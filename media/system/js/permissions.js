@@ -34,10 +34,14 @@ function sendPermissions(event) {
 
 	var id = this.id.replace('jform_rules_', '');
 	var lastUnderscoreIndex = id.lastIndexOf('_');
-	var action = id.substring(0, lastUnderscoreIndex);
-	var rule = id.substring(lastUnderscoreIndex + 1);
-	var data = '&comp=' + asset + '&action=' + action + '&rule=' + rule + '&value=' + value + '&title=' + title;
-	var url = 'index.php?option=com_config&task=config.store&format=raw' + data;
+
+	var permission_data = {
+		comp   : asset,
+		action : id.substring(0, lastUnderscoreIndex),
+		rule   : id.substring(lastUnderscoreIndex + 1),
+		value  : value,
+		title  : title
+	};
 
 	// Remove js messages, if they exist.
 	Joomla.removeMessages();
@@ -45,7 +49,8 @@ function sendPermissions(event) {
 	// doing ajax request
 	jQuery.ajax({
 		method: "POST",
-		url: url,
+		url: permission_url,
+		data: permission_data,
 		datatype: 'json'
 	})
 	.fail(function (jqXHR, textStatus, error) {
