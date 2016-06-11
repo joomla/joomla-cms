@@ -352,7 +352,7 @@ class JFormFieldRules extends JFormField
 						if ($inheritedRule === false)
 						{
 							// A parent group has been set to denied, we cannot overrule that
-							$html[] = '<span class="label"><span class="icon-lock icon-white"></span>'
+							$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span>'
 								. JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED') . '</span>';
 						}
 						else
@@ -378,7 +378,7 @@ class JFormFieldRules extends JFormField
 						}
 						elseif ($inheritedRule === false)
 						{
-							$html[] = '<span class="label"><span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
+							$html[] = '<span class="label label-important"><span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
 								. '</span>';
 						}
 					}

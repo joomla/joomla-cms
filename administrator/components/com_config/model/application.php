@@ -600,7 +600,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Some parent group across the tree has explicity "Denied" permission, so calculated permission is "Not Allowed (Inherited)".
 		if ($inheritedParentGroupRule === false)
 		{
-			$result['class'] = 'label';
+			$result['class'] = 'label label-important';
 			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 		}
 		// No parent group has explicity "Denied" permission, so permission can be overruled.
