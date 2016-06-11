@@ -316,12 +316,6 @@ class JFormFieldRules extends JFormField
 
 				$html[] = '</select>&#160; ';
 
-				// If this asset's rule is allowed, but the inherited rule is deny, we have a conflict.
-				if (($assetRule === true) && ($inheritedRule === false))
-				{
-					$html[] = JText::_('JLIB_RULES_CONFLICT');
-				}
-
 				$html[] = '<span id="icon_' . $this->id . '_' . $action->name . '_' . $group->value . '"' . '></span>';
 				$html[] = '</td>';
 
