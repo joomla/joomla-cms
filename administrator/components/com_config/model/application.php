@@ -408,7 +408,10 @@ class ConfigModelApplication extends ConfigModelForm
 		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 
 		// Check if current user belongs to changed group.
-		$currentUserBelongsToGroup = in_array($permission['rule'], $user->groups) ? true : false;
+		$currentUserBelongsToGroup = in_array((int) $permission['rule'], $user->groups) ? true : false;
+
+		// Get current user groups tree.
+		$currentUserGroupsTree = JAccess::getGroupsByUser($user->id, true);
 
 		// Check if current user belongs to changed group.
 		$currentUserSuperUser = $user->authorise('core.admin');
@@ -417,6 +420,14 @@ class ConfigModelApplication extends ConfigModelForm
 		if (!$currentUserSuperUser && $currentUserBelongsToGroup)
 		{
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_GROUPS'), 'error');
+
+			return false;
+		}
+
+		// If user is not Super User cannot change the permissions of a group it belongs to.
+		if (!$currentUserSuperUser && in_array((int) $permission['rule'], $currentUserGroupsTree))
+		{
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'error');
 
 			return false;
 		}
