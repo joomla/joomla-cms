@@ -30,19 +30,19 @@ $editor    = $app->input->getCmd('editor', '');
  * jSelectArticle creates the link tag, sends it to the editor,
  * and closes the select frame.
  */
-JFactory::getDocument()->addScriptDeclaration("
-		function jSelectArticle(id, title, catid, object, link, lang)
-		{
+JFactory::getDocument()->addScriptDeclaration(
+		"
+		function jSelectArticle(id, title, catid, object, link, lang) {
 			var hreflang = '';
-			if (lang !== '')
-			{
+			if (lang !== '') {
 				var hreflang = ' hreflang = \"' + lang + '\"';
 			}
 			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
 			window.parent.jInsertEditorText(tag, '" . $editor . "');
 			window.parent.jModalClose();
 		}
-");
+		"
+);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&'.JSession::getFormToken().'=1');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
