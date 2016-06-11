@@ -139,18 +139,24 @@ class JFormFieldRules extends JFormField
 		JHtml::_('bootstrap.tooltip');
 
 		// Add Javascript for permission change
-		JHtml::_('script', 'media/system/js/permissions.min.js', false, false, false, false, true);
+		JHtml::_('script', 'system/permissions.js', false, true);
 
-		// Add JText for error messages
-		JText::script('JLIB_RULES_REQUEST_FAILURE');
+		// Load JavaScript message titles
+		JText::script('ERROR');
+		JText::script('WARNING');
+		JText::script('NOTICE');
+		JText::script('MESSAGE');
 
-		$permissionsUri = 'index.php?option=com_config&task=config.store&format=json&' . JSession::getFormToken() . '=1';
-
-		JFactory::getDocument()->addScriptDeclaration('var permission_url = "' . addslashes(JUri::base()) . $permissionsUri . '";');
+		// Add strings for JavaScript error translations.
+		JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+		JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+		JText::script('JLIB_JS_AJAX_ERROR_OTHER');
+		JText::script('JLIB_JS_AJAX_ERROR_PARSE');
+		JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 		// Initialise some field attributes.
-		$section = $this->section;
-		$component = $this->component;
+		$section    = $this->section;
+		$component  = $this->component;
 		$assetField = $this->assetField;
 
 		// Get the actions for the asset.
@@ -193,6 +199,9 @@ class JFormFieldRules extends JFormField
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
+		// Ajax request data.
+		$ajaxUri = JRoute::_('index.php?option=com_config&task=config.store&format=json&' . JSession::getFormToken() . '=1');
+
 		// Prepare output
 		$html = array();
 
@@ -200,7 +209,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
 
 		// Begin tabs
-		$html[] = '<div id="permissions-sliders" class="tabbable tabs-left">';
+		$html[] = '<div class="tabbable tabs-left" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
 
 		// Building tab nav
 		$html[] = '<ul class="nav nav-tabs">';

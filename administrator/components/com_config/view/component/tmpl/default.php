@@ -17,19 +17,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 
-// Load JavaScript message titles
-JText::script('ERROR');
-JText::script('WARNING');
-JText::script('NOTICE');
-JText::script('MESSAGE');
-
-// Add strings for Javascript error translations.
-JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
-JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
-JText::script('JLIB_JS_AJAX_ERROR_OTHER');
-JText::script('JLIB_JS_AJAX_ERROR_PARSE');
-JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
-
 JFactory::getDocument()->addScriptDeclaration(
 	'
 	Joomla.submitbutton = function(task)

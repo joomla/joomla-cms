@@ -29,7 +29,7 @@ jQuery(document).ready(function ($)
 
 		$.ajax({
 			method: "POST",
-			url: sendtestmail_url,
+			url: document.getElementById('sendtestmail').getAttribute('data-ajaxuri'),
 			data: email_data,
 			dataType: "json"
 		})
