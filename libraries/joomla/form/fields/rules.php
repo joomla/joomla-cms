@@ -246,15 +246,9 @@ class JFormFieldRules extends JFormField
 			$html[] = '<span class="acl-action">' . JText::_('JLIB_RULES_SELECT_SETTING') . '</span>';
 			$html[] = '</th>';
 
-			// The calculated setting is not shown for the root group of global configuration.
-			$canCalculateSettings = ($group->parent_id || !empty($component));
-
-			if ($canCalculateSettings)
-			{
-				$html[] = '<th id="aclactionth' . $group->value . '">';
-				$html[] = '<span class="acl-action">' . JText::_('JLIB_RULES_CALCULATED_SETTING') . '</span>';
-				$html[] = '</th>';
-			}
+			$html[] = '<th id="aclactionth' . $group->value . '">';
+			$html[] = '<span class="acl-action">' . JText::_('JLIB_RULES_CALCULATED_SETTING') . '</span>';
+			$html[] = '</th>';
 
 			$html[] = '</tr>';
 			$html[] = '</thead>';
