@@ -29,9 +29,29 @@ JHtml::_('formbehavior.chosen', 'select');
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
 JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
-$function  = $app->input->getCmd('function', 'jSelectArticle');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$editor    = $app->input->getCmd('editor', '');
+
+/*
+ * Javascript to insert the link
+ * View element calls jSelectArticle when an article is clicked
+ * jSelectArticle creates the link tag, sends it to the editor,
+ * and closes the select frame.
+ */
+JFactory::getDocument()->addScriptDeclaration("
+		function jSelectArticle(id, title, catid, object, link, lang)
+		{
+			var hreflang = '';
+			if (lang !== '')
+			{
+				var hreflang = ' hreflang = \"' + lang + '\"';
+			}
+			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
+			window.parent.jInsertEditorText(tag, '" . $editor . "');
+			window.parent.jModalClose();
+		}
+");
 ?>
 <div class="container-popup">
 
@@ -111,7 +131,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 						<td>
-							<a href="javascript:void(0);" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+							<a class="pointer" onclick="jSelectArticle('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 								<?php echo $this->escape($item->title); ?></a>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>

@@ -20,9 +20,29 @@ require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-$function  = $app->input->getCmd('function', 'jSelectArticle');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+$editor    = $app->input->getCmd('editor', '');
+
+/*
+ * Javascript to insert the link
+ * View element calls jSelectArticle when an article is clicked
+ * jSelectArticle creates the link tag, sends it to the editor,
+ * and closes the select frame.
+ */
+JFactory::getDocument()->addScriptDeclaration("
+		function jSelectArticle(id, title, catid, object, link, lang)
+		{
+			var hreflang = '';
+			if (lang !== '')
+			{
+				var hreflang = ' hreflang = \"' + lang + '\"';
+			}
+			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
+			window.parent.jInsertEditorText(tag, '" . $editor . "');
+			window.parent.jModalClose();
+		}
+");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function='.$function.'&'.JSession::getFormToken().'=1');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -101,7 +121,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<th>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>');">
+					<a class="pointer" onclick="jSelectArticle('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 						<?php echo $this->escape($item->title); ?></a>
 				</th>
 				<td class="center">
