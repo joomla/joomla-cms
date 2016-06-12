@@ -291,26 +291,24 @@ abstract class JPluginHelper
 		}
 
 		$user = JFactory::getUser();
-		$cache = JFactory::getCache('com_plugins', '');
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!(static::$plugins = $cache->get($levels)))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('folder AS type, element AS name, params')
-				->from('#__extensions')
-				->where('enabled = 1')
-				->where('type =' . $db->quote('plugin'))
-				->where('state IN (0,1)')
-				->where('access IN (' . $levels . ')')
-				->order('ordering');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('folder AS type, element AS name, params')
+			->from('#__extensions')
+			->where('enabled = 1')
+			->where('type =' . $db->quote('plugin'))
+			->where('state IN (0,1)')
+			->where('access IN (' . $levels . ')')
+			->order('ordering');
+		$db->setQuery($query);
 
-			static::$plugins = $db->setQuery($query)->loadObjectList();
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache('com_plugins', 'callback');
 
-			$cache->store(static::$plugins, $levels);
-		}
+		static::$plugins = $cache->get(array($db, 'loadObjectList'), array(), md5($levels), false);
 
 		return static::$plugins;
 	}
