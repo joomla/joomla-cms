@@ -374,6 +374,9 @@ abstract class JModuleHelper
 		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
+		// Build a cache ID for the resulting data object
+		$cacheId = $groups . $clientId . (int) $Itemid;
+
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
@@ -397,6 +400,7 @@ abstract class JModuleHelper
 		if ($app->isSite() && $app->getLanguageFilter())
 		{
 			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
+			$cacheId .= $lang . '*';
 		}
 
 		$query->order('m.position, m.ordering');
@@ -406,7 +410,10 @@ abstract class JModuleHelper
 
 		try
 		{
-			$modules = $db->loadObjectList();
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_modules', 'callback');
+
+			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
 		catch (RuntimeException $e)
 		{
@@ -505,8 +512,10 @@ abstract class JModuleHelper
 		}
 
 		$user = JFactory::getUser();
-		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 		$conf = JFactory::getConfig();
+
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
