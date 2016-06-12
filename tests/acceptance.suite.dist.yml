@@ -37,3 +37,4 @@ gherkin:
             - AcceptanceTester
             - Step\Acceptance\Administrator\User
             - Page\Acceptance\Administrator\Login
+            - Step\Acceptance\Administrator\Content
