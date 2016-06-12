@@ -320,8 +320,14 @@ class JFormFieldRules extends JFormField
 				// Get the group parent id calculated setting for the chosen action.
 				$inheritedParentGroupRule = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
 
+				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
+				if ($isSuperUserGroup)
+				{
+					$result['class'] = 'label label-success';
+					$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+				}
 				// Some parent group across the tree has explicity "Denied" permission, so calculated permission is "Not Allowed (Inherited)".
-				if ($inheritedParentGroupRule === false && !$isSuperUserGroup)
+				elseif ($inheritedParentGroupRule === false)
 				{
 					$result['class'] = 'label label-important';
 					$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
@@ -329,40 +335,31 @@ class JFormFieldRules extends JFormField
 				// No parent group has explicity "Denied" permission, so permission can be overruled.
 				else
 				{
-					// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
-					if ($isSuperUserGroup)
+					// Asset permission is "Inherited", so calculated permission is the parent permission "Allowed" or "Not Allowed".
+					if ($assetRule === null)
 					{
-						$result['class'] = 'label label-success';
-						$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
-					}
-					else
-					{
-						// Asset permission is "Inherited", so calculated permission is the parent permission "Allowed" or "Not Allowed".
-						if ($assetRule === null)
-						{
-							if ($inheritedParentGroupRule !== true)
-							{
-								$result['class'] = 'label label-important';
-								$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
-							}
-							else
-							{
-								$result['class'] = 'label label-success';
-								$result['text']  = JText::_('JLIB_RULES_ALLOWED');
-							}
-						}
-						// Asset permission is "Allowed", so calculated permission is "Allowed".
-						elseif ($assetRule === true)
-						{
-							$result['class'] = 'label label-success';
-							$result['text']  = JText::_('JLIB_RULES_ALLOWED');
-						}
-						// Asset permission is "Denied", so calculated permission is "Not Allowed".
-						else
+						if ($inheritedParentGroupRule !== true)
 						{
 							$result['class'] = 'label label-important';
 							$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 						}
+						else
+						{
+							$result['class'] = 'label label-success';
+							$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+						}
+					}
+					// Asset permission is "Allowed", so calculated permission is "Allowed".
+					elseif ($assetRule === true)
+					{
+						$result['class'] = 'label label-success';
+						$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+					}
+					// Asset permission is "Denied", so calculated permission is "Not Allowed".
+					else
+					{
+						$result['class'] = 'label label-important';
+						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 					}
 				}
 
