@@ -366,7 +366,7 @@ class JFormFieldRules extends JFormField
 					}
 				}
 
-				$html[] = '<span class="' . $result['class'] . '">' . $result['text'] . '</span>';				
+				$html[] = '<span class="' . $result['class'] . '">' . $result['text'] . '</span>';
 				$html[] = '</td>';
 				$html[] = '</tr>';
 			}
