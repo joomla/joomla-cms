@@ -221,11 +221,11 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Treat AJAX jQuery errors.
 	 * Used by some javascripts such as sentestamail.js and permissions.js
 	 *
-	 * @param   object  jqXHR        See http://api.jquery.com/jquery.ajax/ fail() method.
-	 * @param   object  textStatus   See http://api.jquery.com/jquery.ajax/ fail() method.
-	 * @param   object  error        See http://api.jquery.com/jquery.ajax/ fail() method.
+	 * @param   object  jqXHR        jQuery XHR object. See http://api.jquery.com/jQuery.ajax/#jqXHR
+	 * @param   string  textStatus   Type of error that occurred.
+	 * @param   string  error        Textual portion of the HTTP status.
 	 *
-	 * @return  void
+	 * @return  object  JavaScript object containing the system error message.
 	 *
 	 * @since  3.6.0
 	 */
