@@ -83,7 +83,10 @@ class JMenuSite extends JMenu
 
 		try
 		{
-			$this->_items = $db->loadObjectList('id');
+			/** @var JCacheControllerCallback $cache */
+			$cache = JFactory::getCache('com_menus', 'callback');
+
+			$this->_items = $cache->get(array($db, 'loadObjectList'), array('id'), md5(get_class($this)), false);
 		}
 		catch (RuntimeException $e)
 		{
