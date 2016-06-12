@@ -598,7 +598,7 @@ class ConfigModelApplication extends ConfigModelForm
 		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
 		// Some parent group across the tree has explicity "Denied" permission, so calculated permission is "Not Allowed (Inherited)".
-		if ($inheritedParentGroupRule === false)
+		if ($inheritedParentGroupRule === false && !$isSuperUserGroupAfter)
 		{
 			$result['class'] = 'label label-important';
 			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
