@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Inherited Methods
  * @method void wantToTest($text)
@@ -12,15 +10,150 @@
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = null)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class AcceptanceTester extends \Codeception\Actor
 {
-    use _generated\AcceptanceTesterActions;
+	use _generated\AcceptanceTesterActions;
 
-   /**
-    * Define custom actions here
-    */
+	/**
+	 * Method is to set Wait for page title
+	 *
+	 * @param   string   $title    Page Title text
+	 * @param   integer  $timeout  timeout time
+	 *
+	 * @return  void
+	 */
+	public function waitForPageTitle($title, $timeout = 60)
+	{
+		$I = $this;
+		$I->waitForText($title, $timeout, ['class' => 'page-title']);
+	}
+
+	/**
+	 * Function to check for PHP Notices or Warnings
+	 *
+	 * @param string $page Optional, if not given checks will be done in the current page
+	 *
+	 * @note: doAdminLogin() before
+	 */
+	public function checkForPhpNoticesOrWarnings($page = null)
+	{
+		$I = $this;
+
+		if ($page)
+		{
+			$I->amOnPage($page);
+		}
+
+		$I->dontSeeInPageSource('Notice:');
+		$I->dontSeeInPageSource('<b>Notice</b>:');
+		$I->dontSeeInPageSource('Warning:');
+		$I->dontSeeInPageSource('<b>Warning</b>:');
+		$I->dontSeeInPageSource('Strict standards:');
+		$I->dontSeeInPageSource('<b>Strict standards</b>:');
+		$I->dontSeeInPageSource('The requested page can\'t be found');
+	}
+
+	/**
+	 * Function to select Toolbar buttons in Joomla! Admin Toolbar Panel
+	 *
+	 * @param   string  $button  The full name of the button
+	 */
+	public function clickToolbarButton($button)
+	{
+		$I = $this;
+		$input = strtolower($button);
+
+		// @todo Needs to find way to work with different window size.
+		/*$screenSize = explode("x", $this->config['window_size']);
+		if($screenSize[0] <= 480)
+		{
+			$I->click('Toolbar');
+		}*/
+
+		switch($input)
+		{
+			case "new":
+				$I->click(['xpath' => "//div[@id='toolbar-new']//button"]);
+				break;
+			case "edit":
+				$I->click(['xpath' => "//div[@id='toolbar-edit']//button"]);
+				break;
+			case "publish":
+				$I->click(['xpath' => "//div[@id='toolbar-publish']//button"]);
+				break;
+			case "unpublish":
+				$I->click(['xpath' => "//div[@id='toolbar-unpublish']//button"]);
+				break;
+			case "archive":
+				$I->click(['xpath' => "//div[@id='toolbar-archive']//button"]);
+				break;
+			case "check-in":
+				$I->click(['xpath' => "//div[@id='toolbar-checkin']//button"]);
+				break;
+			case "batch":
+				$I->click(['xpath' => "//div[@id='toolbar-batch']//button"]);
+				break;
+			case "rebuild":
+				$I->click(['xpath' => "//div[@id='toolbar-refresh']//button"]);
+				break;
+			case "trash":
+				$I->click(['xpath' => "//div[@id='toolbar-trash']//button"]);
+				break;
+			case "save":
+				$I->click(['xpath' => "//div[@id='toolbar-apply']//button"]);
+				break;
+			case "save & close":
+				$I->click(['xpath' => "//div[@id='toolbar-save']//button"]);
+				break;
+			case "save & new":
+				$I->click(['xpath' => "//div[@id='toolbar-save-new']//button"]);
+				break;
+			case "cancel":
+				$I->click(['xpath' => "//div[@id='toolbar-cancel']//button"]);
+				break;
+			case "options":
+				$I->click(['xpath' => "//div[@id='toolbar-options']//button"]);
+				break;
+			case "empty trash":
+				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				break;
+		}
+	}
+
+	/**
+	 * Function to select all the item in the Search results in Administrator List
+	 *
+	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
+	 *
+	 * @return void
+	 */
+	public function checkAllResults()
+	{
+		$I = $this;
+		//$this->debug("Selecting Checkall button");
+		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
+	}
+
+	/**
+	 * Selects an option in a Chosen Selector based on its id
+	 *
+	 * @param   string  $selectId  The id of the <select> element
+	 * @param   string  $option    The text in the <option> to be selected in the chosen selector
+	 *
+	 * @return void
+	 */
+	public function selectOptionInChosenById($selectId, $option)
+	{
+		$chosenSelectID = $selectId . '_chzn';
+		$I = $this;
+		//$this->debug("I open the $chosenSelectID chosen selector");
+		$I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
+		//$this->debug("I select $option");
+		$I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
+		$I->wait(1); // Gives time to chosen to close
+	}
 }
