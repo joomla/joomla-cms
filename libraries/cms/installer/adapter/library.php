@@ -364,7 +364,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
-			JLog::add(JText::_('ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
+			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 
 			return false;
 		}
