@@ -2180,8 +2180,8 @@ class JInstaller extends JAdapter
 		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string) $xml->attributes()->type;
 
-		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('Unknown');
-		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('Unknown');
+		$data['creationDate'] = ((string) $xml->creationDate) ? (string) $xml->creationDate : JText::_('JLIB_UNKNOWN');
+		$data['author'] = ((string) $xml->author) ? (string) $xml->author : JText::_('JLIB_UNKNOWN');
 
 		$data['copyright'] = (string) $xml->copyright;
 		$data['authorEmail'] = (string) $xml->authorEmail;
