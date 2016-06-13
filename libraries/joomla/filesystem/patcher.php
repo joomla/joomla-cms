@@ -420,7 +420,7 @@ class JFilesystemPatcher
 			{
 				if ($dst_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_ADD_LINE', key($lines)));
+					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_ADD_LINE', key($lines)));
 				}
 
 				$destin[] = substr($line, 1);
