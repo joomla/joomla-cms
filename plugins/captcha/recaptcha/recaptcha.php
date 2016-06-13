@@ -63,9 +63,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 			// fixing the recaptcha on a danisch contact-form.
 			// See https://developers.google.com/recaptcha/docs/language where for "danisch" the language-key is "da" and not "da-DA".
-				$lang = JFactory::getLanguage()->getTag(); // returns da-DA or en-GB
-				$lang = explode("-", $lang);
+				$langtag = JFactory::getLanguage()->getTag(); // returns da-DA or en-GB
+				$lang = explode("-", $langtag);
 				$lang = $lang[0]; // is "da" or "en" only.
+				if ($lang=="zh") $lang = langtag; // the only exception where the short language-code is not available is "zh" (Chinese)
 				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&hl=' . $lang . '&render=explicit';
 			
 			JHtml::_('script', $file);
