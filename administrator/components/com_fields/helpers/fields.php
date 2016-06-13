@@ -29,7 +29,7 @@ class FieldsHelper
 	 */
 	public static function extract ($contextString)
 	{
-		$parts = explode('.', $contextString);
+		$parts = explode('.', $contextString, 2);
 
 		if (count($parts) < 2)
 		{
