@@ -61,15 +61,12 @@ class PlgCaptchaRecaptcha extends JPlugin
 			// Load callback first for browser compatibility
 			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', false, true);
 
-			/**
-			 * fixing the recaptcha on a danisch contact-form.
-			 * See https://developers.google.com/recaptcha/docs/language where for "danisch" the language-key is "da" and not "da-DA".
-			 * PM RH 13.06.2016
-			 **/
+			// fixing the recaptcha on a danisch contact-form.
+			// See https://developers.google.com/recaptcha/docs/language where for "danisch" the language-key is "da" and not "da-DA".
 				$lang = JFactory::getLanguage()->getTag(); // returns da-DA or en-GB
 				$lang = explode("-", $lang);
-				$lang = $lang[0]; // is "da" or "en" only. 
-				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&hl='.$lang.'&render=explicit';
+				$lang = $lang[0]; // is "da" or "en" only.
+				$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&hl=' . $lang . '&render=explicit';
 			
 			JHtml::_('script', $file);
 		}
