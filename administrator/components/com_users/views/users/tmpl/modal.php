@@ -49,7 +49,7 @@ if ($isMoo)
 		<?php if (!$userRequired) : ?>
 		<div class="pull-left">
 			<button type="button" class="btn button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
-				data-user-field="<?php echo $this->escape($field);?>"><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
+				data-user-field="<?php echo $this->escape($field);?>" <?php if ($isMoo) : ?>value="0" onclick="window.parent.jSelectUser(this)"<?php endif; ?>><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
 		</div>
 		<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
