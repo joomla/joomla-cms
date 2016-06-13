@@ -444,7 +444,7 @@ class JClientFtp
 		{
 			if (($ret = @ftp_systype($this->_conn)) === false)
 			{
-				JLog::add(JText::_('JLIB_CLIENT_ERROR_JFTP_SYS_BAD_RESPONSE_NATIVE'), JLog::WARNING, 'jerror');
+				JLog::add(JText::_('JLIB_CLIENT_ERROR_JFTP_SYST_BAD_RESPONSE_NATIVE'), JLog::WARNING, 'jerror');
 
 				return false;
 			}
