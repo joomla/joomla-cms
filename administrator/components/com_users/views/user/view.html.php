@@ -52,7 +52,9 @@ class UsersViewUser extends JViewLegacy
 		}
 
 		// Prevent user from modifying own group(s)
-		if ((int) JFactory::getUser()->id != (int) $this->item->id || JFactory::getUser()->authorise('core.admin'))
+		$user = JFactory::getUser();
+
+		if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin'))
 		{
 			$this->grouplist = $this->get('Groups');
 			$this->groups    = $this->get('AssignedGroups');
