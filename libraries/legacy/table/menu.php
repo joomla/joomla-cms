@@ -207,7 +207,7 @@ class JTableMenu extends JTableNested
 			// The alias already exists. Send an error message.
 			if ($errorType)
 			{
-				$message .= JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS' . ($this->menutype != $table->menutype ? '_ROOT' : ''));
+				$message = JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS' . ($this->menutype != $table->menutype ? '_ROOT' : ''));
 				$this->setError($message);
 
 				return false;
