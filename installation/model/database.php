@@ -336,7 +336,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
 
 				return false;
 			}
@@ -353,7 +353,7 @@ class InstallationModelDatabase extends JModelBase
 				}
 				catch (RuntimeException $e)
 				{
-					$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+					$app->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
 
 					return false;
 				}
