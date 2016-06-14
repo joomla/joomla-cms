@@ -471,12 +471,7 @@ class JCache
 		{
 			self::$_handler[$hash] = $e;
 
-			$app = JFactory::getApplication();
-
-			if ($app->isAdmin())
-			{
-				$app->enqueueMessage($e->getMessage(), 'error');
-			}
+			JLog::add($e->getMessage(), JLog::WARNING, 'jerror');
 		}
 
 		return self::$_handler[$hash];
