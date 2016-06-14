@@ -205,9 +205,10 @@ class UsersModelUser extends JModelAdmin
 		$user = JUser::getInstance($pk);
 
 		$my = JFactory::getUser();
+		$iAmSuperAdmin = $my->authorise('core.admin');
 
 		// User cannot modify own user groups
-		if ((int) $user->id == (int) $my->id)
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
 		{
 			if ($data['groups'] != null)
 			{
@@ -226,8 +227,6 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Make sure that we are not removing ourself from Super Admin group
-		$iAmSuperAdmin = $my->authorise('core.admin');
-
 		if ($iAmSuperAdmin && $my->get('id') == $pk)
 		{
 			// Check that at least one of our new groups is Super Admin
