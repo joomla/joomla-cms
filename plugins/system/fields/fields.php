@@ -537,14 +537,20 @@ class PlgSystemFields extends JPlugin
 
 	private function getParts($context)
 	{
+		// Some context mapping
+		// @todo needs to be done in a general lookup table on some point
+		$mapping = array('com_users.registration' => 'com_users.user');
+		if (key_exists($context, $mapping))
+		{
+			$context = $mapping[$context];
+		}
+
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
 			return null;
 		}
-
-		$component = $parts[0];
 
 		if ($parts[1] == 'form')
 		{
