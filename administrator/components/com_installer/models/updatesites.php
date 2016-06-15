@@ -361,9 +361,11 @@ class InstallerModelUpdatesites extends InstallerModel
 	{
 		$db  = JFactory::getDbo();
 
-		// Fetch the Joomla core update sites ids.
-		// We search for all update sites ids with extension ids lower than 10000 (core joomla)
-		// See https://github.com/joomla/joomla-cms/blob/staging/installation/sql/mysql/joomla.sql (table #__extensions)
+		/**
+		 * Fetch the Joomla core update sites ids.
+		 * We search for all update sites ids with extension ids lower than 10000 (core joomla)
+		 * See https://github.com/joomla/joomla-cms/blob/staging/installation/sql/mysql/joomla.sql (table #__extensions)
+		 */
 		$query = $db->getQuery(true)
 			->select($db->quoteName('use.update_site_id'))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
