@@ -61,6 +61,8 @@ class AcceptanceTester extends \Codeception\Actor
 	 * Function to select Toolbar buttons in Joomla! Admin Toolbar Panel
 	 *
 	 * @param   string  $button  The full name of the button
+	 *
+	 * @return  void
 	 */
 	public function clickToolbarButton($button)
 	{
@@ -68,13 +70,14 @@ class AcceptanceTester extends \Codeception\Actor
 		$input = strtolower($button);
 
 		// @todo Needs to find way to work with different window size.
-		/*$screenSize = explode("x", $this->config['window_size']);
-		if($screenSize[0] <= 480)
+		$screenSize = explode("x", $this->getConfiguration('window_size'));
+
+		if ($screenSize[0] <= 480)
 		{
 			$I->click('Toolbar');
-		}*/
+		}
 
-		switch($input)
+		switch ($input)
 		{
 			case "new":
 				$I->click(['xpath' => "//div[@id='toolbar-new']//button"]);
@@ -121,6 +124,12 @@ class AcceptanceTester extends \Codeception\Actor
 			case "empty trash":
 				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
 				break;
+			case "Unblock":
+				$I->click(['xpath' => "//div[@id='toolbar-unblock']//button"]);
+				break;
+			case "delete":
+				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				break;
 		}
 	}
 
@@ -150,10 +159,43 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$chosenSelectID = $selectId . '_chzn';
 		$I = $this;
-		//$this->debug("I open the $chosenSelectID chosen selector");
+		$this->comment("I open the $chosenSelectID chosen selector");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
-		//$this->debug("I select $option");
+		$this->comment("I select $option");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
 		$I->wait(1); // Gives time to chosen to close
+	}
+	/**
+	 * Function to Verify the Tabs on a Joomla! screen
+	 *
+	 * @param  Array  $expectedTabs   Expected Tabs on the Page
+	 * @param  Mixed  $tabsLocator    Locator for the Tabs in Edit View
+	 *
+	 * @return void
+	 */
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	{
+		$I = $this;
+		$actualArrayOfTabs = $I->grabMultiple($tabsLocator);
+		$I->comment("Fetch the current list of Tabs in the edit view which is: " . implode(", ", $actualArrayOfTabs));
+		$url = $I->grabFromCurrentUrl();
+		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
+		$I->comment('Verify the Tabs');
+	}
+	/**
+	 * Function to Logout from Administrator Panel in Joomla!
+	 *
+	 * @return void
+	 */
+	public function doAdministratorLogout()
+	{
+		$I = $this;
+		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
+		$this->comment("I click on Top Right corner toggle to Logout from Admin");
+		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
+		$I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
+		$I->waitForElement(['id' => 'mod-login-username'], 60);
+		$I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
+
 	}
 }

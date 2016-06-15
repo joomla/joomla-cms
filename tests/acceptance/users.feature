@@ -8,15 +8,14 @@ Feature: users
     When Login into Joomla administrator with username "admin" and password "admin"
     Then I see administrator dashboard
 
-  Scenario: create a user
+  Scenario: Verify available tabs in com_users
+    Given There is an user link
+    When I see the user edit view tabs
+    Then I check available tabs "Account Details", "Assigned User Groups" and "Basic Settings"
+
+  Scenario: perform a add new user
     Given There is a add user link
-    When I fill mandatory fields for creating User
-      | field             | value                    |
-      | Name              | register                 |
-      | Login Name        | register                 |
-      | Password          | register                 |
-      | Confirm Password  | register                 |
-      | Email             | baldhapiyu@gmail.com     |
+    When I create new user fulfilling mandatory fields: Name, Login Name, Password, Confirm Password and Email
     Then I Save the  user
     And I see the "User successfully saved." message
 
@@ -41,37 +40,18 @@ Feature: users
     When I Delete the user "Editor"
     Then I confirm the user should have been deleted by getting the message "1 user successfully deleted."
 
-  Scenario: Verify available tabs in com_users
-    Given There is a add/edit user link
-    When I check available tabs
-      |     tab              |
-      | Account Details      |
-      | Assigned User Groups |
-      | Basic Settings       |
-
   Scenario: Create super admin and login into the backend
     Given There is a add user link
-    When  I fill mandatory fields for creating User
-      | field             | value                  |
-      | Name              | prital                 |
-      | Login Name        | prital                 |
-      | Password          | prital                 |
-      | Confirm Password  | prital                 |
-      | Email             | baldhapiyu@gmail.com   |
+    When  I create a super admin fulfilling mandatory fields: Name, Login Name, Password, Confirm Password and Email
     And I set assigned user group as an "Administrator"
     Then I Save the  user
-    And I see the "User successfully saved." message
+    And Login in backend with username and password
 
-  Scenario: User without username fails
+  Scenario:create User without username fails
     Given There is a add user link
-    When I fill mandatory fields for creating User but don't fill Login Name
-      | field             | value                  |
-      | Name              | piyu                   |
-      | Password          | piyu                   |
-      | Confirm Password  | piyu                   |
-      | Email             | piyu@gmail.com         |
+    When I don't fill Login Name but fulfill remaining mandatory fields: Name, Password, Confirm Password and Email
     Then I Save the  user
-    And I see the "Invalid field:  Login Name" message
+    And I see the "Invalid field:  Login Name" alert error
 
   Scenario: Create group
     Given There is a add new group link
@@ -88,30 +68,21 @@ Feature: users
   Scenario: Delete Group
     Given I search and select the Group with name "Gsoc_admin"
     When I Delete the Group "Gsoc_admin"
-    Then I confirm the user should have been deleted by getting the message "1 User Group successfully deleted."
+    Then I confirm the group should have been deleted by getting the message "1 User Group successfully deleted."
 
   Scenario: Create ACL level
     Given There is a add viewing access level link
-    When I fill Level Title as a "joomla"
+    When I fill Level Title as a "joomla" and set Access as a public
     And I save the Access Level
-    Then I should see the "Access level successfully saved".
+    Then I should be see the "Access level successfully saved." message
 
   Scenario:  Edit ACL
     Given I search and select the Access Level with name "joomla"
     And I set Access Level title as a "Gsoc_joomla"
     When I save Access Level
-    Then I should see the "Access level successfully saved".
+    Then I should be see the "Access level successfully saved." message
 
   Scenario: Delete ACL
-    Given I search and select the Access Level with name "Gsoc_Joomla"
-    When I Delete the Access le vel "Gsoc_admin"
+    Given I search and select the Access Level with name "Gsoc_joomla"
+    When I Delete the Access level "Gsoc_joomla"
     Then I confirm the  Access Level have been deleted by getting the message "1 View Access Level successfully removed."
-
-
-  Scenario: User settings (mixed with com_config)
-
-
-
-
-
-
