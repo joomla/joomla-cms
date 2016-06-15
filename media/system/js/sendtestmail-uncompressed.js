@@ -69,34 +69,31 @@ jQuery(document).ready(function ($)
 		.done(function (response) {
 			var msg = {};
 
-			if (response.data)
+			if (typeof response.messages == 'object')
 			{
-				if (typeof response.messages == 'object')
+				if (response.data && typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
 				{
-					if (typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
-					{
-						msg.message = [response.messages.success];
-					}
+					msg.success = [response.messages.success];
 				}
-			}
-			else
-			{
-				if (typeof response.messages == 'object')
+
+				if (typeof response.messages.error != 'undefined' && response.messages.error.length > 0)
 				{
-					if (typeof response.messages.error != 'undefined' && response.messages.error.length > 0)
-					{
-						msg.error = [response.messages.error];
-					}
+					msg.error = [response.messages.error];
+				}
 
-					if (typeof response.messages.notice != 'undefined' && response.messages.notice.length > 0)
-					{
-						msg.notice = [response.messages.notice];
-					}
+				if (typeof response.messages.warning != 'undefined' && response.messages.warning.length > 0)
+				{
+					msg.warning = [response.messages.warning];
+				}
 
-					if (typeof response.messages.message != 'undefined' && response.messages.message.length > 0)
-					{
-						msg.message = [response.messages.message];
-					}
+				if (typeof response.messages.notice != 'undefined' && response.messages.notice.length > 0)
+				{
+					msg.notice = [response.messages.notice];
+				}
+
+				if (typeof response.messages.message != 'undefined' && response.messages.message.length > 0)
+				{
+					msg.message = [response.messages.message];
 				}
 			}
 
