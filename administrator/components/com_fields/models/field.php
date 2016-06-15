@@ -119,11 +119,11 @@ class FieldsModelField extends JModelAdmin
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], $data['context'] . '.fields');
 		}
 
 		// Save New Category
-		if ($catid == 0)
+		if ($catid === 0 && is_string($data['catid']) && $data['catid'] != '')
 		{
 			$table = array();
 			$table['title'] = $data['catid'];
@@ -136,7 +136,10 @@ class FieldsModelField extends JModelAdmin
 			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
-
+		if ($data['catid'] === '')
+		{
+			$data['catid'] = '0';
+		}
 		$success = parent::save($data);
 
 		// If the options have changed delete the values
