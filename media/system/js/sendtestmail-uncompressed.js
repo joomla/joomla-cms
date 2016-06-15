@@ -73,7 +73,7 @@ jQuery(document).ready(function ($)
 			{
 				if (response.data && typeof response.messages.success != 'undefined' && response.messages.success.length > 0)
 				{
-					msg.success = [response.messages.success];
+					msg.message = [response.messages.success];
 				}
 
 				if (typeof response.messages.error != 'undefined' && response.messages.error.length > 0)
