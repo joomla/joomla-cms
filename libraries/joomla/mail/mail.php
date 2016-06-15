@@ -558,6 +558,30 @@ class JMail extends PHPMailer
 	}
 
 	/**
+	 * Send messages using $Sendmail.
+	 *
+	 * This overrides the parent class to remove the restriction on the executable's name containing the word "sendmail"
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function isSendmail()
+	{
+		// Prefer the Joomla configured sendmail path and default to the configured PHP path otherwise
+		$sendmail = JFactory::getConfig()->get('sendmail', ini_get('sendmail_path'));
+
+		// And if we still don't have a path, then use the system default for Linux
+		if (empty($sendmail))
+		{
+			$sendmail = '/usr/sbin/sendmail';
+		}
+
+		$this->Sendmail = $sendmail;
+		$this->Mailer   = 'sendmail';
+	}
+
+	/**
 	 * Use sendmail for sending the email
 	 *
 	 * @param   string  $sendmail  Path to sendmail [optional]
@@ -732,7 +756,7 @@ class JMail extends PHPMailer
 		$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
 		$message .= JText::_('JLIB_MAIL_MSG') . "\n";
 
-		if ($this->addRecipient($recipient) === false)
+		if ($this->addRecipient($adminEmail) === false)
 		{
 			return false;
 		}

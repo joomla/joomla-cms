@@ -48,11 +48,11 @@ class PlgSearchContent extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$app    = JFactory::getApplication();
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$tag = JFactory::getLanguage()->getTag();
+		$tag    = JFactory::getLanguage()->getTag();
 
 		require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
@@ -67,13 +67,13 @@ class PlgSearchContent extends JPlugin
 			}
 		}
 
-		$sContent = $this->params->get('search_content', 1);
+		$sContent  = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
-		$limit = $this->params->def('search_limit', 50);
+		$limit     = $this->params->def('search_limit', 50);
 
-		$nullDate = $db->getNullDate();
-		$date = JFactory::getDate();
-		$now = $date->toSql();
+		$nullDate  = $db->getNullDate();
+		$date      = JFactory::getDate();
+		$now       = $date->toSql();
 
 		$text = trim($text);
 
@@ -85,14 +85,14 @@ class PlgSearchContent extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
-				$wheres2 = array();
+				$text      = $db->quote('%' . $db->escape($text, true) . '%', false);
+				$wheres2   = array();
 				$wheres2[] = 'a.title LIKE ' . $text;
 				$wheres2[] = 'a.introtext LIKE ' . $text;
 				$wheres2[] = 'a.fulltext LIKE ' . $text;
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
-				$where = '(' . implode(') OR (', $wheres2) . ')';
+				$where     = '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
 			case 'all':
@@ -103,14 +103,14 @@ class PlgSearchContent extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
-					$wheres2 = array();
+					$word      = $db->quote('%' . $db->escape($word, true) . '%', false);
+					$wheres2   = array();
 					$wheres2[] = 'LOWER(a.title) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.introtext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
-					$wheres[] = implode(' OR ', $wheres2);
+					$wheres[]  = implode(' OR ', $wheres2);
 				}
 
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
@@ -150,15 +150,15 @@ class PlgSearchContent extends JPlugin
 			$query->clear();
 
 			// SQLSRV changes.
-			$case_when = ' CASE WHEN ';
+			$case_when  = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
+			$a_id       = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
+			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('c.id');
@@ -189,6 +189,7 @@ class PlgSearchContent extends JPlugin
 			}
 
 			$db->setQuery($query, 0, $limit);
+
 			try
 			{
 				$list = $db->loadObjectList();
@@ -217,15 +218,15 @@ class PlgSearchContent extends JPlugin
 			$query->clear();
 
 			// SQLSRV changes.
-			$case_when = ' CASE WHEN ';
+			$case_when  = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
+			$a_id       = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
+			$case_when1  = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('c.id');
@@ -259,6 +260,7 @@ class PlgSearchContent extends JPlugin
 			}
 
 			$db->setQuery($query, 0, $limit);
+
 			try
 			{
 				$list3 = $db->loadObjectList();
@@ -280,7 +282,7 @@ class PlgSearchContent extends JPlugin
 					$date = JFactory::getDate($item->created);
 
 					$created_month = $date->format("n");
-					$created_year = $date->format("Y");
+					$created_year  = $date->format("Y");
 
 					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
 				}

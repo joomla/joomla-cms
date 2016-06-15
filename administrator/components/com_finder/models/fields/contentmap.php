@@ -11,6 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('groupedlist');
 
+JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+
 /**
  * Form Field class for the Joomla CMS.
  * Supports a select grouped list of finder content map.
@@ -80,6 +82,8 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 		// Build the grouped list array.
 		if ($contentMap)
 		{
+			$lang = JFactory::getLanguage();
+
 			foreach ($contentMap as $branch)
 			{
 				if ((int) $branch->level === 1)
@@ -90,7 +94,15 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 				{
 					$levelPrefix = str_repeat('- ', max(0, $branch->level - 1));
 
-					$text = $branch->text == '*' ? 'JALL_LANGUAGE' : $branch->text;
+					if (trim($name, '**') == 'Language')
+					{
+						$text = FinderHelperLanguage::branchLanguageTitle($branch->text);
+					}
+					else
+					{
+						$key = FinderHelperLanguage::branchSingular($branch->text);
+						$text = $lang->hasKey($key) ? JText::_($key) : $branch->text;
+					}
 
 					// Initialize the group if necessary.
 					if (!isset($groups[$name]))
@@ -98,7 +110,7 @@ class JFormFieldContentMap extends JFormFieldGroupedList
 						$groups[$name] = array();
 					}
 
-					$groups[$name][] = JHtml::_('select.option', $branch->value, $levelPrefix . JText::_($text));
+					$groups[$name][] = JHtml::_('select.option', $branch->value, $levelPrefix . $text);
 				}
 			}
 		}

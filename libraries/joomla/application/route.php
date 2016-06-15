@@ -94,7 +94,7 @@ class JRoute
 
 		if ($xhtml)
 		{
-			$url = htmlspecialchars($url);
+			$url = htmlspecialchars($url, ENT_COMPAT, 'UTF-8');
 		}
 
 		return $url;

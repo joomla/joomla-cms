@@ -6,8 +6,8 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>3.6.0-dev</version>
-	<creationDate>May 2016</creationDate>
+	<version>3.6.0-beta2-dev</version>
+	<creationDate>June 2016</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
@@ -33,7 +33,6 @@
 			<folder>language</folder>
 			<folder>layouts</folder>
 			<folder>libraries</folder>
-			<folder>logs</folder>
 			<folder>media</folder>
 			<folder>modules</folder>
 			<folder>plugins</folder>
@@ -48,7 +47,7 @@
 	</fileset>
 
 	<updateservers>
-		<server type="collection">https://update.joomla.org/core/list.xml</server>
-		<server type="collection">https://update.joomla.org/jed/list.xml</server>
+		<server name="Joomla! Core" type="collection">https://update.joomla.org/core/list.xml</server>
+		<server name="Joomla! Extension Directory" type="collection">https://update.joomla.org/jed/list.xml</server>
 	</updateservers>
 </extension>

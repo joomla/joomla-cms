@@ -201,7 +201,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   integer  $uid  The id of the language in the #__updates table.
 	 *
