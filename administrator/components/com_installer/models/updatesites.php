@@ -266,20 +266,20 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->delete($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__update_sites_extensions'))
-			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->delete($db->quoteName('#__update_sites_extensions'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__updates'))
-			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->delete($db->quoteName('#__updates'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -310,12 +310,14 @@ class InstallerModelUpdatesites extends InstallerModel
 
 					if (!is_null($manifest))
 					{
+						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
 						$query = $db->getQuery(true)
-							->select($db->qn('extension_id'))
-							->from($db->qn('#__extensions'))
-							->where($db->qn('name') . ' = ' . $db->q($manifest->name))
-							->where($db->qn('type') . ' = ' . $db->q($manifest['type']))
-							->where($db->qn('state') . ' != -1');
+							->select($db->quoteName('extension_id'))
+							->from($db->quoteName('#__extensions'))
+							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
+							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
+							->where($db->quoteName('extension_id') . ' >= 10000')
+							->where($db->quoteName('state') . ' != -1');
 						$db->setQuery($query);
 						$eid = (int) $db->loadResult();
 
@@ -359,11 +361,14 @@ class InstallerModelUpdatesites extends InstallerModel
 	{
 		$db  = JFactory::getDbo();
 
-		// Fetch the Joomla core Joomla update sites ids.
-		$query = $db->getQuery(true);
-		$query->select($db->qn('update_site_id'))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('location') . ' LIKE \'%update.joomla.org%\'');
+		// Fetch the Joomla core update sites ids.
+		// We search for all update sites ids with extension ids lower than 10000 (core joomla)
+		// See https://github.com/joomla/joomla-cms/blob/staging/installation/sql/mysql/joomla.sql (table #__extensions)
+		$query = $db->getQuery(true)
+			->select($db->quoteName('use.update_site_id'))
+			->from($db->quoteName('#__update_sites_extensions', 'use'))
+			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'))
+			->where($db->quoteName('use.extension_id') . ' < 10000');
 		$db->setQuery($query);
 
 		return $db->loadColumn();
