@@ -59,11 +59,11 @@ class InstallerViewDatabase extends InstallerViewDefault
 
 		if ($this->errorCount === 0)
 		{
-			JFactory::getApplication->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
 		}
 		else
 		{
-			JFactory::getApplication->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);
