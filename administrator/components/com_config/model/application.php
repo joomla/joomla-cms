@@ -515,6 +515,7 @@ class ConfigModelApplication extends ConfigModelForm
 				{
 					unset($temp[$permission['action']][$permission['rule']]);
 				}
+
 			}
 			else
 			{
@@ -607,37 +608,58 @@ class ConfigModelApplication extends ConfigModelForm
 			$result['class'] = 'label label-success';
 			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
-		// Some parent group across the tree has explicity "Denied" permission, so calculated permission is "Not Allowed (Inherited)".
+		// Not super user.
 		else
 		{
-			// First get the real recursive calculated setting.
+			// First get the real recursive calculated setting and add (Inherited) to it.
 
-			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed".
+			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
+			{
+				$result['class'] = 'label label-important';
+				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Inherited)';
+			}
+			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
+			else
+			{
+				$result['class'] = 'label label-success';
+				$result['text']  = JText::_('JLIB_RULES_ALLOWED') . ' (Inherited)';
+			}
+
+			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+
+			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
+			if ($assetRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed".
-			else
+			// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
+			elseif ($assetRule === true)
 			{
 				$result['class'] = 'label label-success';
 				$result['text']  = JText::_('JLIB_RULES_ALLOWED');
 			}
 
-			// Second part: Change the calculated setting info for the special cases.
+			// Third part: Overwrite the calculated permissions labels for special cases.
 
-			// Some parent group as a explicit "Denied". Calculated permission is "Not Allowed (Inherited)".
-			if ($inheritedParentGroupRule === false)
+			// We are at root level of com_config and we have "Not Set" permission. Calculated permission is "Not Allowed (Locked)".
+			if (empty($parentGroupId) && (empty($permission['component']) || $permission['component'] === 'root.1') && $assetRule === null)
 			{
 				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Default)';
 			}
-			// We are at root level of a component and exists a explicity permission at Global configuration.
-			elseif ($inheritedParentGroupRule === null && $assetRule === null && $inheritedGroupRule === false)
+			// We are at root level of a component/item and exists a explicit "Denied" permission at Global configuration.
+			elseif (empty($parentGroupId) && $inheritedParentGroupRule === null && $inheritedGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Locked)';
+			}
+			// Some parent group as a explicit "Denied". Calculated permission is "Not Allowed (Locked)".
+			elseif ($inheritedParentGroupRule === false)
+			{
+				$result['class'] = 'label label-important';
+				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Locked)';
 			}
 		}
 
@@ -645,7 +667,7 @@ class ConfigModelApplication extends ConfigModelForm
 		if (JDEBUG)
 		{
 			$result['text'] .= '<br />';
-			$result['text'] .= '<br />- Current Group (Non Recursive): '. var_export($assetRule, true);
+			$result['text'] .= '<br />- Current Group (Non Recursive): ' . var_export($assetRule, true);
 			$result['text'] .= '<br />- Current Group (Recursive): ' . var_export($inheritedGroupRule, true);
 			$result['text'] .= '<br />- Parent Group (Recursive): ' . var_export($inheritedParentGroupRule, true);
 		}
