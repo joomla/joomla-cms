@@ -84,10 +84,9 @@
 		<!-- These exceptions are temporary for now -->
 		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
 		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
 	</rule>
-	
+
 	<!-- Include some additional sniffs from the PEAR standard -->
 	<rule ref="PEAR.Classes.ClassDeclaration" />
 	<rule ref="PEAR.Commenting.InlineComment" />
@@ -128,22 +127,22 @@
 
 	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
 	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
-	
+
 	<!-- Include some additional sniffs from the PSR2 standard -->
 	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
 	<rule ref="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed">
 		<type>error</type>
 	</rule>
-	
+
 	<!-- Include some additional sniffs from the Zend standard -->
 	<rule ref="Zend.Files.ClosingTag">
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 	</rule>
-	
+
 	<!-- Remove the following when the folder limitations are dropped -->
-	
+
 	<rule ref="Joomla.Classes.MethodScope"/>
 
 	<rule ref="Joomla.Commenting.FunctionComment">
