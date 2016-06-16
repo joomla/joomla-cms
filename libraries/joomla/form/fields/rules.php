@@ -337,13 +337,13 @@ class JFormFieldRules extends JFormField
 					if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 					{
 						$result['class'] = 'label label-important';
-						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Inherited)';
+						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 					}
 					// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 					else
 					{
 						$result['class'] = 'label label-success';
-						$result['text']  = JText::_('JLIB_RULES_ALLOWED') . ' (Inherited)';
+						$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 					}
 
 					// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
@@ -367,19 +367,19 @@ class JFormFieldRules extends JFormField
 					if (empty($group->parent_id) && empty($component) && $assetRule === null)
 					{
 						$result['class'] = 'label label-important';
-						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Default)';
+						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
 					// Component/item root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
 					elseif (empty($group->parent_id) && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
 					{
 						$result['class'] = 'label label-important';
-						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Locked)';
+						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 					// Some parent group as a explicit "Denied". Calculated permission is "Not Allowed (Locked)".
 					elseif ($inheritedParentGroupRule === false)
 					{
 						$result['class'] = 'label label-important';
-						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Locked)';
+						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 				}
 
