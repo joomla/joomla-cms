@@ -160,7 +160,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 
 		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds();
+		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
 		// Enable the update site in the table and store it in the database
 		foreach ($ids as $i => $id)
@@ -262,7 +262,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		}
 
 		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds());
+		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
 
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
@@ -285,6 +285,9 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		$count = 0;
 
+		// Gets Joomla core extension Ids.
+		$joomlaCoreExtensionIds = implode(', ', $this->getJoomlaUpdateSitesIds(1));
+print_r($this->getJoomlaUpdateSitesIds(1));
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
 		{
@@ -316,9 +319,10 @@ class InstallerModelUpdatesites extends InstallerModel
 							->from($db->quoteName('#__extensions'))
 							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
 							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
-							->where($db->quoteName('extension_id') . ' >= 10000')
+							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
 							->where($db->quoteName('state') . ' != -1');
 						$db->setQuery($query);
+
 						$eid = (int) $db->loadResult();
 
 						if ($eid && $manifest->updateservers)
@@ -353,27 +357,28 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Fetch the Joomla update sites ids.
 	 *
+	 * @param   integer  $column  Column to return. 0 for update site ids, 1 for extension ids.
+	 *
 	 * @return  array  Array with joomla core update site ids.
 	 *
-	 * @since   3.6
+	 * @since   3.6.0
 	 */
-	protected function getJoomlaUpdateSitesIds()
+	protected function getJoomlaUpdateSitesIds($column = 0)
 	{
 		$db  = JFactory::getDbo();
 
-		/**
-		 * Fetch the Joomla core update sites ids.
-		 * We search for all update sites ids with extension ids lower than 10000 (core joomla)
-		 * See https://github.com/joomla/joomla-cms/blob/staging/installation/sql/mysql/joomla.sql (table #__extensions)
-		 */
+		$coreExtensionsElements = $db->quote('joomla') . ', ' . $db->quote('pkg_en-GB') . ', ' . $db->quote('com_joomlaupdate');
+
+		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
 		$query = $db->getQuery(true)
-			->select($db->quoteName('use.update_site_id'))
+			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
 			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'))
-			->where($db->quoteName('use.extension_id') . ' < 10000');
+			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('use.extension_id'))
+			->where($db->quoteName('e.element') . ' IN (' . $coreExtensionsElements . ')');
 		$db->setQuery($query);
 
-		return $db->loadColumn();
+		return $db->loadColumn($column);
 	}
 
 	/**
