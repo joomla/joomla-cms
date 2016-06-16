@@ -363,14 +363,17 @@ class JFormFieldRules extends JFormField
 
 					// Third part: Overwrite the calculated permissions labels for special cases.
 
+					// Changing global config?
+					$isGlobalConfig = (empty($component) || $component === 'root.1') ? true : false;
+
 					// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
-					if (empty($group->parent_id) && empty($component) && $assetRule === null)
+					if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
 					// Component/item root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-					elseif (empty($group->parent_id) && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
+					elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
