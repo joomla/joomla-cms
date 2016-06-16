@@ -594,53 +594,60 @@ class ConfigModelApplication extends ConfigModelForm
 		// After current group permission is changed we need to check again if the group has Super User permissions.
 		$isSuperUserGroupAfter = JAccess::checkGroup($permission['rule'], 'core.admin');
 
-		// Get the group parent id calculated setting for the chosen action.
+		// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
+		$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
+
+		// Get the group and group parent id calculated setting for the chosen action.
+		$inheritedGroupRule       = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
 		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
-			// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
+		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
 		{
 			$result['class'] = 'label label-success';
-			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Some parent group across the tree has explicity "Denied" permission, so calculated permission is "Not Allowed (Inherited)".
-		elseif ($inheritedParentGroupRule === false)
-		{
-			$result['class'] = 'label label-important';
-			$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-		}
-		// No parent group has explicity "Denied" permission, so permission can be overruled.
 		else
 		{
-			// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
-			$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
+			// First get the real recursive calculated setting.
 
-			// Asset permission is "Inherited", so calculated permission is the parent permission "Allowed" or "Not Allowed".
-			if ($assetRule === null)
-			{
-				if ($inheritedParentGroupRule !== true)
-				{
-					$result['class'] = 'label label-important';
-					$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
-				}
-				else
-				{
-					$result['class'] = 'label label-success';
-					$result['text']  = JText::_('JLIB_RULES_ALLOWED');
-				}
-			}
-			// Asset permission is "Allowed", so calculated permission is "Allowed".
-			elseif ($assetRule === true)
-			{
-				$result['class'] = 'label label-success';
-				$result['text']  = JText::_('JLIB_RULES_ALLOWED');
-			}
-			// Asset permission is "Denied", so calculated permission is "Not Allowed".
-			else
+			// If recursive calculated setting is "Denied" or null set it to "Not Allowed" 
+			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
+			// If recursive calculated setting is "Allowed" or null set it to "Allowed"
+			else
+			{
+				$result['class'] = 'label label-success';
+				$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+			}
+
+			// Second part: Change the calculated setting info for the special cases.
+
+			// Some parent group as a explicit "Denied". Calculated permission is "Not Allowed (Inherited)".
+			if ($inheritedParentGroupRule === false)
+			{
+				$result['class'] = 'label label-important';
+				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+			}
+			// We are at root level of a component and exists a explicity permission at Global configuration.
+			elseif ($inheritedParentGroupRule === null && $assetRule === null && $inheritedGroupRule == false)
+			{
+				$result['class'] = 'label label-important';
+				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+			}
+		}
+
+		// Add debugging information.
+		if (JDEBUG)
+		{
+			$result['text'] .= '<br />';
+			$result['text'] .= '<br />- Current Group (Recursive): '.var_export($inheritedGroupRule, true);
+			$result['text'] .= '<br />- Current Group (Non Recursive): '.var_export($assetRule, true);
+			$result['text'] .= '<br />- Parent Group (Recursive): '.var_export($inheritedParentGroupRule, true);
 		}
 
 		// If removed or added super user from group, we need to refresh the page to recalculate all settings.
