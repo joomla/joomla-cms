@@ -64,7 +64,7 @@ class ContenthistoryModelPreview extends JModelItem
 		}
 
 		// Good to go, finish processing the data
-		if ($return = true)
+		if ($return == true)
 		{
 			$result = new stdClass;
 			$result->save_date = $table->save_date;

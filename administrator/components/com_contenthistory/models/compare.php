@@ -70,7 +70,7 @@ class ContenthistoryModelCompare extends JModelItem
 			}
 
 			// All's well, process the records
-			if ($return = true)
+			if ($return == true)
 			{
 				foreach (array($table1, $table2) as $table)
 				{
