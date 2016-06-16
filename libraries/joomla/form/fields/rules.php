@@ -317,8 +317,9 @@ class JFormFieldRules extends JFormField
 
 				$result = array();
 
-				// Get the group and group parent id calculated setting for the chosen action.
+				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
 				$inheritedGroupRule       = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
+				$inheritedGroupGlobalRule = JAccess::checkGroup((int) $group->value, $action->name);
 				$inheritedParentGroupRule = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
@@ -362,14 +363,14 @@ class JFormFieldRules extends JFormField
 
 					// Third part: Overwrite the calculated permissions labels for special cases.
 
-					// We are at root level of com_config and we have "Not Set" permission. Calculated permission is "Not Allowed (Locked)".
+					// We are at root level of com_config and we have "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 					if (empty($group->parent_id) && empty($component) && $assetRule === null)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Default)';
 					}
-					// We are at root level of a component/item and exists a explicit "Denied" permission at Global configuration.
-					elseif (empty($group->parent_id) && $inheritedParentGroupRule === null && $inheritedGroupRule === false)
+					// We are at root level of a component/item and exists a explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
+					elseif (empty($group->parent_id) && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Locked)';
@@ -386,8 +387,9 @@ class JFormFieldRules extends JFormField
 				if (JDEBUG)
 				{
 					$result['text'] .= '<br />';
-					$result['text'] .= '<br />- Current Group (Non Recursive): ' . var_export($assetRule, true);
-					$result['text'] .= '<br />- Current Group (Recursive): ' . var_export($inheritedGroupRule, true);
+					$result['text'] .= '<br />- Group: ' . var_export($assetRule, true);
+					$result['text'] .= '<br />- Group (Recursive): ' . var_export($inheritedGroupRule, true);
+					$result['text'] .= '<br />- Group - Global Config (Recursive): ' . var_export($inheritedGroupGlobalRule, true);
 					$result['text'] .= '<br />- Parent Group (Recursive): ' . var_export($inheritedParentGroupRule, true);
 				}
 

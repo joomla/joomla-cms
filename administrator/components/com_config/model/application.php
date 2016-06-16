@@ -598,8 +598,9 @@ class ConfigModelApplication extends ConfigModelForm
 		// Get the rule for just this asset (non-recursive) and get the actual setting for the action for this group.
 		$assetRule = JAccess::getAssetRules($assetId)->allow($permission['action'], $permission['rule']);
 
-		// Get the group and group parent id calculated setting for the chosen action.
+		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
 		$inheritedGroupRule       = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+		$inheritedGroupGlobalRule = JAccess::checkGroup($permission['rule'], $permission['action']);
 		$inheritedParentGroupRule = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
@@ -643,14 +644,14 @@ class ConfigModelApplication extends ConfigModelForm
 
 			// Third part: Overwrite the calculated permissions labels for special cases.
 
-			// We are at root level of com_config and we have "Not Set" permission. Calculated permission is "Not Allowed (Locked)".
+			// We are at root level of com_config and we have "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && (empty($permission['component']) || $permission['component'] === 'root.1') && $assetRule === null)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Default)';
 			}
-			// We are at root level of a component/item and exists a explicit "Denied" permission at Global configuration.
-			elseif (empty($parentGroupId) && $inheritedParentGroupRule === null && $inheritedGroupRule === false)
+			// We are at root level of a component/item and exists a explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
+			elseif (empty($parentGroupId) && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Locked)';
@@ -667,8 +668,9 @@ class ConfigModelApplication extends ConfigModelForm
 		if (JDEBUG)
 		{
 			$result['text'] .= '<br />';
-			$result['text'] .= '<br />- Current Group (Non Recursive): ' . var_export($assetRule, true);
-			$result['text'] .= '<br />- Current Group (Recursive): ' . var_export($inheritedGroupRule, true);
+			$result['text'] .= '<br />- Group: ' . var_export($assetRule, true);
+			$result['text'] .= '<br />- Group (Recursive): ' . var_export($inheritedGroupRule, true);
+			$result['text'] .= '<br />- Group - Global Config (Recursive): ' . var_export($inheritedGroupGlobalRule, true);
 			$result['text'] .= '<br />- Parent Group (Recursive): ' . var_export($inheritedParentGroupRule, true);
 		}
 
