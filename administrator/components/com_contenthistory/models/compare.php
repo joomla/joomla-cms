@@ -52,8 +52,17 @@ class ContenthistoryModelCompare extends JModelItem
 				return false;
 			}
 
+			$user = JFactory::getUser();
 			// Access check
-			if (!JFactory::getUser()->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id))
+			if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id))
+			{
+				$return = true;
+			}
+			elseif ($user->authorise('core.edit.own', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id))
+			{
+				$return = true;
+			}
+			else
 			{
 				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 
@@ -61,16 +70,19 @@ class ContenthistoryModelCompare extends JModelItem
 			}
 
 			// All's well, process the records
-			foreach (array($table1, $table2) as $table)
+			if ($return = true)
 			{
-				$object = new stdClass;
-				$object->data = ContenthistoryHelper::prepareData($table);
-				$object->version_note = $table->version_note;
-				$object->save_date = $table->save_date;
-				$result[] = $object;
-			}
+				foreach (array($table1, $table2) as $table)
+				{
+					$object = new stdClass;
+					$object->data = ContenthistoryHelper::prepareData($table);
+					$object->version_note = $table->version_note;
+					$object->save_date = $table->save_date;
+					$result[] = $object;
+				}
 
-			return $result;
+				return $result;
+			}
 		}
 
 		return false;

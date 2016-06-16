@@ -46,8 +46,17 @@ class ContenthistoryModelPreview extends JModelItem
 			return false;
 		}
 
+		$user = JFactory::getUser();
 		// Access check
-		if (!JFactory::getUser()->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id))
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id))
+		{
+			$return = true;
+		}
+		elseif ($user->authorise('core.edit.own', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id))
+		{
+			$return = true;
+		}
+		else
 		{
 			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 
@@ -55,11 +64,14 @@ class ContenthistoryModelPreview extends JModelItem
 		}
 
 		// Good to go, finish processing the data
-		$result = new stdClass;
-		$result->save_date = $table->save_date;
-		$result->version_note = $table->version_note;
-		$result->data = ContenthistoryHelper::prepareData($table);
+		if ($return = true)
+		{
+			$result = new stdClass;
+			$result->save_date = $table->save_date;
+			$result->version_note = $table->version_note;
+			$result->data = ContenthistoryHelper::prepareData($table);
 
-		return $result;
+			return $result;
+		}
 	}
 }

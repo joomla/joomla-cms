@@ -147,6 +147,7 @@ class ContenthistoryModelHistory extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
+		$user = JFactory::getUser();
 
 		if ($items === false)
 		{
@@ -171,15 +172,20 @@ class ContenthistoryModelHistory extends JModelList
 		}
 
 		// Access check
-		if (!JFactory::getUser()->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
+		{
+			return $items;
+		}
+		elseif ($user->authorise('core.edit.own', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
+		{
+			return $items;
+		}
+		else
 		{
 			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
-
-		// All good, return the items array
-		return $items;
 	}
 
 	/**

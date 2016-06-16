@@ -117,7 +117,7 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && ($user->authorise('core.edit') || $user->authorise('core.edit.own')))
 			{
 				JToolbarHelper::versions('com_banners.client', $this->item->id);
 			}
