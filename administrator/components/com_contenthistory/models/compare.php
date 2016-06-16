@@ -53,6 +53,7 @@ class ContenthistoryModelCompare extends JModelItem
 			}
 
 			$user = JFactory::getUser();
+
 			// Access check
 			if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id))
 			{
