@@ -747,11 +747,11 @@ abstract class JFactory
 		$version = new JVersion;
 
 		$attributes = array(
-			'charset' => 'utf-8',
-			'lineend' => 'unix',
-			'tab' => '  ',
-			'language' => $lang->getTag(),
-			'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
+			'charset'      => 'utf-8',
+			'lineend'      => 'unix',
+			'tab'          => "\t",
+			'language'     => $lang->getTag(),
+			'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
 			'mediaversion' => $version->getMediaVersion()
 		);
 
