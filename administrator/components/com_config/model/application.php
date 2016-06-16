@@ -612,13 +612,13 @@ class ConfigModelApplication extends ConfigModelForm
 		{
 			// First get the real recursive calculated setting.
 
-			// If recursive calculated setting is "Denied" or null set it to "Not Allowed" 
+			// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed".
 			if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 			}
-			// If recursive calculated setting is "Allowed" or null set it to "Allowed"
+			// If recursive calculated setting is "Allowed". Calculated permission is "Allowed".
 			else
 			{
 				$result['class'] = 'label label-success';
