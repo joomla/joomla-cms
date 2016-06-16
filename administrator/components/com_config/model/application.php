@@ -634,7 +634,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 			// We are at root level of a component and exists a explicity permission at Global configuration.
-			elseif ($inheritedParentGroupRule === null && $assetRule === null && $inheritedGroupRule == false)
+			elseif ($inheritedParentGroupRule === null && $assetRule === null && $inheritedGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
