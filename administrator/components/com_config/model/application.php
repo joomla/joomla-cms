@@ -680,16 +680,6 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 		}
 
-		// Add debugging information.
-		if (JDEBUG)
-		{
-			$result['text'] .= '<br />';
-			$result['text'] .= '<br />- Group: ' . var_export($assetRule, true);
-			$result['text'] .= '<br />- Group (Recursive): ' . var_export($inheritedGroupRule, true);
-			$result['text'] .= '<br />- Group - Global Config (Recursive): ' . var_export($inheritedGroupGlobalRule, true);
-			$result['text'] .= '<br />- Parent Group (Recursive): ' . var_export($inheritedParentGroupRule, true);
-		}
-
 		// If removed or added super user from group, we need to refresh the page to recalculate all settings.
 		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
 		{

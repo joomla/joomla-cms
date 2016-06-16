@@ -383,16 +383,6 @@ class JFormFieldRules extends JFormField
 					}
 				}
 
-				// Add debugging information.
-				if (JDEBUG)
-				{
-					$result['text'] .= '<br />';
-					$result['text'] .= '<br />- Group: ' . var_export($assetRule, true);
-					$result['text'] .= '<br />- Group (Recursive): ' . var_export($inheritedGroupRule, true);
-					$result['text'] .= '<br />- Group - Global Config (Recursive): ' . var_export($inheritedGroupGlobalRule, true);
-					$result['text'] .= '<br />- Parent Group (Recursive): ' . var_export($inheritedParentGroupRule, true);
-				}
-
 				$html[] = '<span class="' . $result['class'] . '">' . $result['text'] . '</span>';
 				$html[] = '</td>';
 				$html[] = '</tr>';
