@@ -95,7 +95,7 @@
 		<!-- These exceptions are temporary for now -->
 		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
+		<exclude-pattern type="relative">modules/mod_articles_category/helper.php</exclude-pattern>
 		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
 	</rule>
 	<rule ref="PEAR.NamingConventions.ValidClassName">
