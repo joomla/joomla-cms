@@ -9,31 +9,30 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $app              = JFactory::getApplication();
-$doc              = JFactory::getDocument();
-$this->language   = $doc->language;
-$this->direction  = $doc->direction;
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 $fullWidth = 1;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	$doc->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
-	$doc->addStyleDeclaration("
+	$this->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
 		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
 	}");
@@ -42,7 +41,7 @@ if ($this->params->get('googleFont'))
 // Template color
 if ($this->params->get('templateColor'))
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration("
 	body.site {
 		border-top: 3px solid " . $this->params->get('templateColor') . ";
 		background-color: " . $this->params->get('templateBackgroundColor') . ";
@@ -67,7 +66,7 @@ $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
 
 if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
 }
 
 // Load optional RTL Bootstrap CSS

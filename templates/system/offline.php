@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app = JFactory::getApplication();
 
 // Output as HTML5

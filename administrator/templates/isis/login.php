@@ -9,12 +9,13 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app  = JFactory::getApplication();
-$doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
@@ -29,7 +30,7 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -39,7 +40,7 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+	$this->addStyleSheet($file);
 }
 
 // Load custom.css
@@ -47,7 +48,7 @@ $file = 'templates/' . $this->template . '/css/custom.css';
 
 if (is_file($file))
 {
-	$doc->addStyleSheetVersion($file);
+	$this->addStyleSheetVersion($file);
 }
 
 // Detecting Active Variables
@@ -71,14 +72,14 @@ function colorIsLight($color)
 // Background color
 if ($background_color)
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration("
 	.view-login {
 		background-color: " . $background_color . ";
 	}");
 }
 
 // Responsive Styles
-$doc->addStyleDeclaration("
+$this->addStyleDeclaration("
 	@media (max-width: 480px) {
 		.view-login .container {
 			margin-top: -170px;
@@ -92,7 +93,7 @@ $doc->addStyleDeclaration("
 // Check if debug is on
 if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) || $app->get('debug', 0)))
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration("
 	.view-login .container {
 		position: static;
 		margin-top: 20px;

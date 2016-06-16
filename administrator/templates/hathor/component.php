@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 // Get additional language strings prefixed with TPL_HATHOR
 // @todo: Do we realy need this?
 $lang = JFactory::getLanguage();
