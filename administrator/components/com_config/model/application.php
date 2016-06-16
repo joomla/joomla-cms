@@ -660,13 +660,13 @@ class ConfigModelApplication extends ConfigModelForm
 
 			// Third part: Overwrite the calculated permissions labels for special cases.
 
-			// We are at root level of com_config and we have "Not Set" permission. Calculated permission is "Not Allowed (Default)".
+			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && (empty($permission['component']) || $permission['component'] === 'root.1') && $assetRule === null)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED') . ' (Default)';
 			}
-			// We are at root level of a component/item and exists a explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
+			// Component/item root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
 			elseif (empty($parentGroupId) && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
 			{
 				$result['class'] = 'label label-important';
