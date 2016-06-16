@@ -287,7 +287,7 @@ class InstallerModelUpdatesites extends InstallerModel
 
 		// Gets Joomla core extension Ids.
 		$joomlaCoreExtensionIds = implode(', ', $this->getJoomlaUpdateSitesIds(1));
-print_r($this->getJoomlaUpdateSitesIds(1));
+
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
 		{
