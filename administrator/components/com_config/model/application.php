@@ -480,6 +480,22 @@ class ConfigModelApplication extends ConfigModelForm
 			$asset->name  = (string) $permission['component'];
 			$asset->title = (string) $permission['title'];
 
+			// Get the parent asset id so we have a correct tree.
+			$parentAsset = JTable::getInstance('Asset');
+
+			if (strpos($asset->name, '.') !== false)
+			{
+				$assetParts = explode('.', $asset->name);
+				$parentAsset->loadByName($assetParts[0]);
+				$parentAssetId = $parentAsset->id;
+			}
+			else
+			{
+				$parentAssetId = $parentAsset->getRootId();
+			}
+
+			$asset->setLocation($parentAssetId, 'last-child');
+
 			if (!$asset->check() || !$asset->store())
 			{
 				$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
