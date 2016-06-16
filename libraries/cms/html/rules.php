@@ -224,7 +224,7 @@ abstract class JHtmlRules
 		$images['deny-l'] = '<label class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '">' . JText::_('JLIB_RULES_DENIED') . '</label>';
 		$images['allow'] = '<a class="icon-16-allow" title="' . JText::_('JLIB_RULES_ALLOWED') . '"> </a>';
 		$images['deny'] = '<a class="icon-16-deny" title="' . JText::_('JLIB_RULES_DENIED') . '"> </a>';
-		$images['allow-i'] = '<a class="icon-16-allowinactive" title="' . JText::_('JRULE_ALLOWED_INHERITED') . '"> </a>';
+		$images['allow-i'] = '<a class="icon-16-allowinactive" title="' . JText::_('JLIB_RULES_ALLOWED_INHERITED') . '"> </a>';
 		$images['deny-i'] = '<a class="icon-16-denyinactive" title="' . JText::_('JRULE_DENIED_INHERITED') . '"> </a>';
 
 		return $images;
