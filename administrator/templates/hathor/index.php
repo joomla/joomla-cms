@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app   = JFactory::getApplication();
-$doc   = JFactory::getDocument();
 $lang  = JFactory::getLanguage();
 $input = $app->input;
 $user  = JFactory::getUser();
@@ -22,10 +23,10 @@ JHtml::_('jquery.framework');
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
-// Loadtemplate CSS
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+// Load template CSS
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -37,19 +38,19 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load specific language related CSS
@@ -57,7 +58,7 @@ $languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($languageCss);
+	$this->addStyleSheetVersion($languageCss);
 }
 
 // Load custom.css
@@ -65,11 +66,11 @@ $customCss = 'templates/' . $this->template . '/css/custom.css';
 
 if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($customCss);
+	$this->addStyleSheetVersion($customCss);
 }
 
 // Load template javascript
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))

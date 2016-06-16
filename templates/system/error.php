@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentError $this */
+
 if (!isset($this->error))
 {
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }
 
-// Get language and direction
-$doc             = JFactory::getDocument();
-$app             = JFactory::getApplication();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
+$app = JFactory::getApplication();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
