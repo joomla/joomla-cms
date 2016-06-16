@@ -329,7 +329,8 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-			<field
+
+		<field
 			name="urls_position"
 			type="list"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
