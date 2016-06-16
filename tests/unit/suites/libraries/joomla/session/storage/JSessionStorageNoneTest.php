@@ -11,7 +11,7 @@ include_once JPATH_PLATFORM . '/joomla/session/storage.php';
 
 /**
  * Test class for JSessionStorageNone.
- * 
+ *
  * @since  11.1
  */
 class JSessionStorageNoneTest extends PHPUnit_Framework_TestCase
