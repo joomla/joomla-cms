@@ -184,7 +184,7 @@ class PlgAuthenticationJoomla extends JPlugin
 					{
 						/*
 						 * Two factor authentication enabled and no OTEPs defined. The
-						 * user has used them all up. Therefore anything he enters is
+						 * user has used them all up. Therefore anything they enter is
 						 * an invalid OTEP.
 						 */
 						return;
