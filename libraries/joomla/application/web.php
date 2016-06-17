@@ -85,11 +85,11 @@ class JApplicationWeb extends JApplicationBase
 		301 => 'HTTP/1.1 301 Moved Permanently',
 		302 => 'HTTP/1.1 302 Found',
 		303 => 'HTTP/1.1 303 See other',
-		304 => 'Not Modified',
+		304 => 'HTTP/1.1 304 Not Modified',
 		305 => 'HTTP/1.1 305 Use Proxy',
 		306 => 'HTTP/1.1 306 (Unused)',
 		307 => 'HTTP/1.1 307 Temporary Redirect',
-		308 => 'Permanent Redirect'
+		308 => 'HTTP/1.1 308 Permanent Redirect'
 	);
 
 	/**
