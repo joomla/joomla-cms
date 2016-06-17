@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Output as HTML5
-JFactory::getDocument()->setHtml5(true);
+$this->setHtml5(true);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
