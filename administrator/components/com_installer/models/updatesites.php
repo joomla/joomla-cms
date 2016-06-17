@@ -86,9 +86,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.edit.state', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
@@ -133,9 +131,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function delete($ids = array())
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.delete', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
@@ -218,9 +214,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function rebuild()
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.admin', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
 		{
 			throw new Exception(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
