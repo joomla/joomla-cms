@@ -33,7 +33,7 @@ class UsersModelUser extends JModelAdmin
 				'event_after_save'    => 'onUserAfterSave',
 				'event_before_delete' => 'onUserBeforeDelete',
 				'event_before_save'   => 'onUserBeforeSave',
-				'events_map'          => array('save' => 'user', 'delete' => 'user')
+				'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user')
 			), $config
 		);
 
@@ -205,6 +205,19 @@ class UsersModelUser extends JModelAdmin
 		$user = JUser::getInstance($pk);
 
 		$my = JFactory::getUser();
+		$iAmSuperAdmin = $my->authorise('core.admin');
+
+		// User cannot modify own user groups
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		{
+			if ($data['groups'] != null)
+			{
+				// Form was probably tampered with
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+
+				$data['groups'] = null;
+			}
+		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
@@ -214,8 +227,6 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Make sure that we are not removing ourself from Super Admin group
-		$iAmSuperAdmin = $my->authorise('core.admin');
-
 		if ($iAmSuperAdmin && $my->get('id') == $pk)
 		{
 			// Check that at least one of our new groups is Super Admin

@@ -525,3 +525,21 @@ th .tooltip-inner {
 .dropdown-menu {
 	text-align: left;
 }
+
+// Add Bootstrap 3 .alert-link
+.alert-link {
+  font-weight: bold;
+}
+
+.alert-success .alert-link {
+  color: darken(@successText, 10%);
+}
+
+.alert-danger .alert-link,
+.alert-error .alert-link {
+  color: darken(@errorText, 10%);
+}
+
+.alert-info .alert-link {
+  color: darken(@infoText, 10%);
+}
