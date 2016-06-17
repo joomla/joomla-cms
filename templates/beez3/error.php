@@ -15,21 +15,10 @@ $showbottom      = 0;
 
 // Get params
 $app         = JFactory::getApplication();
-$doc         = JFactory::getDocument();
 $params      = $app->getTemplate(true)->params;
 $logo        = $params->get('logo');
 $color       = $params->get('templatecolor');
 $navposition = $params->get('navposition');
-
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
-
-// Get language and direction
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

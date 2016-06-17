@@ -21,7 +21,7 @@ JText::script('TPL_BEEZ3_DECREASE_SIZE');
 JText::script('TPL_BEEZ3_OPENMENU');
 JText::script('TPL_BEEZ3_CLOSEMENU');
 
-JFactory::getDocument()->addScriptDeclaration("
+$this->addScriptDeclaration("
 	var big        = '" . (int) $this->params->get('wrapperLarge') . "%';
 	var small      = '" . (int) $this->params->get('wrapperSmall') . "%';
 	var bildauf    = '" . $this->baseurl . "/templates/" . $this->template . "/images/plus.png';

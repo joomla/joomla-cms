@@ -9,17 +9,16 @@
 
 defined('_JEXEC') or die;
 
-$doc   = JFactory::getDocument();
 $color = $this->params->get('templatecolor');
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
-$doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css', 'text/css', 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', 'text/css', 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', 'text/css', 'print');
+$this->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', 'text/css', 'print');
 
 $files = JHtml::_('stylesheet', 'templates/' . $this->template . '/css/general.css', null, false, true);
 
@@ -32,19 +31,19 @@ if ($files)
 
 	foreach ($files as $file)
 	{
-		$doc->addStyleSheet($file);
+		$this->addStyleSheet($file);
 	}
 }
 
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css');
 
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
 
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css'))
 	{
-		$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css');
+		$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css');
 	}
 }
 ?>

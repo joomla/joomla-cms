@@ -29,7 +29,6 @@ $color          = $this->params->get('templatecolor');
 $logo           = $this->params->get('logo');
 $navposition    = $this->params->get('navposition');
 $headerImage    = $this->params->get('headerImage');
-$doc            = JFactory::getDocument();
 $app            = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 $config         = JFactory::getConfig();
@@ -38,7 +37,7 @@ $jinput         = JFactory::getApplication()->input;
 $option         = $jinput->get('option', '', 'cmd');
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 if (in_array($option, $bootstrap))
 {
@@ -46,25 +45,25 @@ if (in_array($option, $bootstrap))
 	JHtml::_('bootstrap.loadCss', true, $this->direction);
 }
 
-$doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', 'text/css', 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', 'text/css', 'print');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css', 'text/css', 'screen');
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/position.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/layout.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/print.css', 'text/css', 'print');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css', 'text/css', 'screen');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', 'text/css', 'screen');
 
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css'))
 	{
-		$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css');
+		$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css');
 	}
 }
 
 if ($color == 'image')
 {
-	$doc->addStyleDeclaration("
+	$this->addStyleDeclaration("
 	.logoheader {
 		background: url('" . $this->baseurl . "/" . htmlspecialchars($headerImage) . "') no-repeat right;
 	}
@@ -78,14 +77,14 @@ $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
 
 if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
+	$this->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
 }
 
 JHtml::_('bootstrap.framework');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
 
 require __DIR__ . '/jsstrings.php';
 ?>
