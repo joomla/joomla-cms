@@ -1207,7 +1207,7 @@ class UsersModelUser extends JModelAdmin
 				$warnMessage = $options['warn_irq_msg'];
 			}
 
-			// Warn the user if they are  using a secret code but they have not
+			// Warn the user if they are using a secret code but they have not
 			// enabled two factor auth in their account.
 			if (!empty($secretkey) && $warn)
 			{
