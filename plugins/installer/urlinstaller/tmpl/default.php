@@ -36,5 +36,5 @@ JFactory::getDocument()->addScriptDeclaration('
 </div>
 <div class="form-actions">
 	<input type="button" class="btn btn-primary" id="installbutton_url"
-		value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonurl()" />'
+		value="<?php echo JText::_('PLG_INSTALLER_URLINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonurl()" />
 </div>
