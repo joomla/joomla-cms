@@ -16,10 +16,9 @@ $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 || $lang->load('tpl_hathor', JPATH_ADMINISTRATOR . '/templates/hathor/language');
 
 $app = JFactory::getApplication();
-$doc = JFactory::getDocument();
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
@@ -28,10 +27,10 @@ JHtml::_('jquery.framework');
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
+$this->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -43,21 +42,21 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+	$this->addStyleSheet($file);
 }
 
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load specific language related CSS
@@ -65,17 +64,17 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag().'.css';
 
 if (JFile::exists($file))
 {
-	$doc->addStyleSheet($file);
+	$this->addStyleSheet($file);
 }
 
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load template javascript
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))

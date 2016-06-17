@@ -10,13 +10,6 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$doc = JFactory::getDocument();
-
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
