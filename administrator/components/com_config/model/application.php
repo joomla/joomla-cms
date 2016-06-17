@@ -387,11 +387,10 @@ class ConfigModelApplication extends ConfigModelForm
 			);
 		}
 
-		// Don't do anything
+		// We are creating a new item so we don't have an item id so don't allow.
 		if (substr($permission['component'], -6) === '.false')
 		{
-			// TO DO: better message
-			$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
+			$app->enqueueMessage(JText::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
 			return false;
 		}
