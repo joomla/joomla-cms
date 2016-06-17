@@ -219,7 +219,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 	/**
 	 * Treat AJAX jQuery errors.
-	 * Used by some javascripts such as sentestamail.js and permissions.js
+	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
 	 * @param   object  jqXHR        jQuery XHR object. See http://api.jquery.com/jQuery.ajax/#jqXHR
 	 * @param   string  textStatus   Type of error that occurred.
