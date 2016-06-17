@@ -10,20 +10,19 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$doc = JFactory::getDocument();
 
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 // Styles
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
 
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline_rtl.css');
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline_rtl.css');
 }
 
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');

@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$doc = JFactory::getDocument();
-
 // Output as HTML5
-$doc->setHtml5(true);
+$this->setHtml5(true);
 
 // Styles
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

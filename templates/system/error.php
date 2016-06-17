@@ -16,16 +16,7 @@ if (!isset($this->error))
 }
 
 // Get language and direction
-$doc             = JFactory::getDocument();
-$app             = JFactory::getApplication();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
-
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
+$app = JFactory::getApplication();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
