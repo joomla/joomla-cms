@@ -367,15 +367,18 @@ class InstallerModelUpdatesites extends InstallerModel
 	{
 		$db  = JFactory::getDbo();
 
-		$coreExtensionsElements = $db->quote('joomla') . ', ' . $db->quote('pkg_en-GB') . ', ' . $db->quote('com_joomlaupdate');
-
 		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
 			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'))
 			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('use.extension_id'))
-			->where($db->quoteName('e.element') . ' IN (' . $coreExtensionsElements . ')');
+			->where('('
+				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
+				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
+				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
+				. ')');
+		
 		$db->setQuery($query);
 
 		return $db->loadColumn($column);
