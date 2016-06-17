@@ -233,7 +233,7 @@ class InstallerModelUpdatesites extends InstallerModel
 					->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 					->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
 					->where($db->quoteName('folder') . ' = ' . $db->quote('extension'));
-					$db->setQuery($query);
+				$db->setQuery($query);
 
 				$pluginId = (int) $db->loadResult();
 			}
