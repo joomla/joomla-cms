@@ -674,7 +674,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
-			// Some parent group as a explicit "Denied". Calculated permission is "Not Allowed (Locked)".
+			// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
 			elseif ($inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
