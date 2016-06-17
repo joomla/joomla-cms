@@ -222,6 +222,32 @@ class InstallerModelUpdatesites extends InstallerModel
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
+		// Check if Joomla Extension plugin is enabled.
+		if (!JPluginHelper::isEnabled('extension', 'joomla'))
+		{
+			try
+			{
+				$query = $db->getQuery(true)
+					->select($db->quoteName('extension_id'))
+					->from($db->quoteName('#__extensions'))
+					->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+					->where($db->quoteName('folder') . ' = ' . $db->quote('extension'));
+					$db->setQuery($query);
+
+				$pluginId = (int) $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new Exception($e->getMessage(), 500);
+			}
+
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
+
+			return;
+		}
+
 		$clients               = array(JPATH_SITE, JPATH_ADMINISTRATOR);
 		$extensionGroupFolders = array('components', 'modules', 'plugins', 'templates', 'language', 'manifests');
 
