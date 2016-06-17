@@ -619,6 +619,11 @@ class JDocumentHtml extends JDocument
 			$template = 'system';
 		}
 
+		if (!file_exists($directory . '/' . $template . '/' . $file))
+		{
+			$file = 'index.php';
+		}
+
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
 

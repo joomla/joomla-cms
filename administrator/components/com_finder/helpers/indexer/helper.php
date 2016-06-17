@@ -440,22 +440,14 @@ class FinderIndexerHelper
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
 
-		try
-		{
-			// Trigger the event.
-			$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
+		// Trigger the event.
+		$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
 
-			// Check the returned results. This is for plugins that don't throw
-			// exceptions when they encounter serious errors.
-			if (in_array(false, $results))
-			{
-				throw new Exception($dispatcher->getError(), 500);
-			}
-		}
-		catch (Exception $e)
+		// Check the returned results. This is for plugins that don't throw
+		// exceptions when they encounter serious errors.
+		if (in_array(false, $results))
 		{
-			// Handle a caught exception.
-			throw $e;
+			throw new Exception($dispatcher->getError(), 500);
 		}
 
 		return true;

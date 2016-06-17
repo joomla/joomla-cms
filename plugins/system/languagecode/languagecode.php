@@ -55,7 +55,7 @@ class PlgSystemLanguagecode extends JPlugin
 			else
 			{
 				$patterns = array();
-				$replace = array();
+				$replace  = array();
 			}
 
 			// Replace codes in <link hreflang="" /> attributes.
@@ -81,6 +81,20 @@ class PlgSystemLanguagecode extends JPlugin
 				if ($new_code)
 				{
 					$patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*/>)' . chr(1) . 'i';
+					$replace[] = '${1}' . $new_code . '${3}';
+				}
+			}
+
+			// Replace codes in itemprop content
+			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+
+			foreach ($matches[2] as $match)
+			{
+				$new_code = $this->params->get(strtolower($match));
+
+				if ($new_code)
+				{
+					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*/>)' . chr(1) . 'i';
 					$replace[] = '${1}' . $new_code . '${3}';
 				}
 			}

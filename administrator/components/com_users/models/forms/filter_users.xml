@@ -7,7 +7,6 @@
 			label="COM_USERS_SEARCH_USERS"
 			description="COM_USERS_SEARCH_IN_NAME"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="state"
@@ -35,6 +34,15 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
+		</field>
+		<field
+				name="lastvisitrange"
+				type="lastvisitdaterange"
+				label="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+				description="COM_USERS_OPTION_FILTER_LAST_VISIT_DATE"
+				onchange="this.form.submit();"
+		>
+			<option value="">COM_USERS_OPTION_FILTER_LAST_VISIT_DATE</option>
 		</field>
 		<field
 			name="range"

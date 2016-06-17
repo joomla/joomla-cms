@@ -73,7 +73,7 @@ class JFilterInput extends InputFilter
 				// And now we can decide if we should strip USCs
 				$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
 			}
-			catch (Exception $e)
+			catch (RuntimeException $e)
 			{
 				// Could not connect to MySQL. Strip USC to be on the safe side.
 				$this->stripUSC = 1;

@@ -175,7 +175,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @return  mixed
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function update($id)
 	{
@@ -199,7 +199,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	private function getUpdateSites($eid = 0)
 	{
@@ -245,7 +245,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @return  array  The update records. Empty array if no updates are found.
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
 	{
@@ -376,7 +376,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @return  array  The IDs of the update sites with cached updates
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	private function getSitesWithUpdates($timestamp = 0)
 	{
@@ -414,7 +414,7 @@ class JUpdater extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	private function updateLastCheckTimestamp($updateSiteId)
 	{

@@ -1095,7 +1095,7 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Add a ordering column to the ORDER clause of the query.
+	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
 	 * $query->order('foo')->order('bar');
@@ -1383,6 +1383,71 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially
+	 * different logical operator from the one in the current WHERE clause.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->extendWhere('XOR', array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) XOR (c = 3 AND d = 4)
+	 *
+	 * @param   string  $outerGlue   The glue by which to join the conditions to the current WHERE conditions.
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $innerGlue   The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function extendWhere($outerGlue, $conditions, $innerGlue = 'AND')
+	{
+		// Replace the current WHERE with a new one which has the old one as an unnamed child.
+		$this->where = new JDatabaseQueryElement('WHERE', $this->where->setName('()'), " $outerGlue ");
+
+		// Append the new conditions as a new unnamed child.
+		$this->where->append(new JDatabaseQueryElement('()', $conditions, " $innerGlue "));
+
+		return $this;
+	}
+
+	/**
+	 * Extend the WHERE clause with an OR and a single condition or an array of conditions.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->orWhere(array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) OR (c = 3 AND d = 4)
+	 *
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function orWhere($conditions, $glue = 'AND')
+	{
+		return $this->extendWhere('OR', $conditions, $glue);
+	}
+
+	/**
+	 * Extend the WHERE clause with an AND and a single condition or an array of conditions.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->andWhere(array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) AND (c = 3 OR d = 4)
+	 *
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to OR.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function andWhere($conditions, $glue = 'OR')
+	{
+		return $this->extendWhere('AND', $conditions, $glue);
 	}
 
 	/**
