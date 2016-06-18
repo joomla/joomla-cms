@@ -70,6 +70,18 @@ class JImage
 	 */
 	const ORIENTATION_SQUARE = 'square';
 
+	/** NEW
+	 * @var    string  The image type (jpeg, png, gif, etc).
+	 * @since  11.3
+	 */
+	protected $type = null;
+
+	/** NEW
+	 * @var    array  The red, green and blue values for the background fill color
+	 * @since  11.3
+	 */
+	protected $fillColor = null;
+
 	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
@@ -88,7 +100,7 @@ class JImage
 	 */
 	protected static $formats = array();
 
-	/**
+	/** MOD
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -126,6 +138,12 @@ class JImage
 		{
 			// If the source input is not empty, assume it is a path and populate the image handle.
 			$this->loadFile($source);
+		}
+
+		// NEW - Init background fill color with default color 'black'.
+		if (is_null($this->fillColor) || (is_array($this->fillColor) && count($this->fillColor !== 4)))
+		{
+			$this->getFillColor();
 		}
 	}
 
@@ -358,7 +376,7 @@ class JImage
 		return $thumbsCreated;
 	}
 
-	/**
+	/** MOD
 	 * Method to crop the current image.
 	 *
 	 * @param   mixed    $width      The width of the image section to crop in pixels or a percentage.
@@ -414,11 +432,12 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba  = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
+			// MOD: Fetch rgba data from new function ensuring the calculation is color range safe.
+			$rgba  = $this->getColorForIndex($this->handle);
 			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
-			imagecolortransparent($handle, $color);
+			imageColorTransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
 			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
@@ -563,10 +582,10 @@ class JImage
 			throw new LogicException('No valid image was loaded.');
 		}
 
-		return (imagecolortransparent($this->handle) >= 0);
+		return (imageColorTransparent($this->handle) >= 0);
 	}
 
-	/**
+	/** MOD - STEP 1
 	 * Method to load a file into the JImage object as the resource.
 	 *
 	 * @param   string  $path  The filesystem path to load as an image.
@@ -590,6 +609,9 @@ class JImage
 
 		// Get the image properties.
 		$properties = self::getImageFileProperties($path);
+
+		// NEW: Prepare background fill color.
+		$fillColor  = $this->getFillColor();
 
 		// Attempt to load the image based on the MIME-Type
 		switch ($properties->mime)
@@ -617,6 +639,9 @@ class JImage
 				}
 
 				$this->handle = $handle;
+
+				// NEW
+				$this->type = IMAGETYPE_GIF;
 				break;
 
 			case 'image/jpeg':
@@ -642,6 +667,9 @@ class JImage
 				}
 
 				$this->handle = $handle;
+
+				// NEW
+				$this->type = IMAGETYPE_JPEG;
 				break;
 
 			case 'image/png':
@@ -668,6 +696,18 @@ class JImage
 
 				$this->handle = $handle;
 
+				// Set transparency for non-transparent PNGs.
+				if (!$this->isTransparent())
+				{
+					// Assign to black which is default for transparent PNGs
+					// MOD: Replace hardcoded 0 by configured fillColor value
+					$background = imagecolorAllocateAlpha($handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
+
+					imageColorTransparent($handle, $background);
+				}
+
+				// NEW
+				$this->type = IMAGETYPE_PNG;
 				break;
 
 			default:
@@ -680,75 +720,7 @@ class JImage
 		$this->path = $path;
 	}
 
-	/**
-	 * Method to set the background fill color to use for non-transparent images.
-	 *
-	 * @param   array  $color  The RGBA values defining the color to use for background fill
-	 *
-	 * @return  JImage
-	 *
-	 * @since   11.3
-	 */
-	public function setFillColor(array $color = array())
-	{
-		$this->fillColor = array(0, 0, 0, 127);
-
-		if (count($color))
-		{
-			JArrayHelper::toInteger($color);
-
-			// Ensure passed in values are valid
-			$color = array_filter(
-				$color,
-				function(&$value, $i) use(&$defaultColor)
-				{
-					if ($i === 3)
-					{
-						$value = $value > 127 ? 127 : $value;
-					}
-					else
-					{
-						$value = $value > 255 ? 255 : $value;
-					}
-
-					return true;
-				},
-				ARRAY_FILTER_USE_BOTH
-			);
-
-			// Add missing values from the default color.
-			$len = count($color);
-
-			if ($len < 4)
-			{
-				for ($i = $len; $i < 4; $i++)
-				{
-					array_push($color, $this->fillColor[$i]);
-				}
-
-				// Ensure the value for the alpha channel is valid.
-				$color[3] = $color[3] > 127 ? 127 : $color[3];
-			}
-
-			$this->fillColor = $color;
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Method to get the background fill color.
-	 *
-	 * @return  array   The RGBA values defining the color to use for background fill
-	 *
-	 * @since   11.3
-	 */
-	public function getFillColor()
-	{
-		return $this->fillColor;
-	}
-
-	/**
+	/** MOD - STEP 1
 	 * Method to resize the current image.
 	 *
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
@@ -783,6 +755,9 @@ class JImage
 		$offset    = new stdClass;
 		$offset->x = $offset->y = 0;
 
+		// NEW: Prepare background fill color.
+		$fillColor = $this->getFillColor();
+
 		// Center image if needed and create the new truecolor image handle.
 		if ($scaleMethod == self::SCALE_FIT)
 		{
@@ -795,11 +770,11 @@ class JImage
 			// Make image transparent, otherwise cavas outside initial image would default to black
 			if (!$this->isTransparent())
 			{
-				// Get fill color.
-				$fillColor = $this->getFillColor();
+				// Assign to black which is default for transparent PNGs
+				// MOD: Replace hardcoded 0 by configured fillColor value
+				$background = imagecolorAllocateAlpha($this->handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
 
-				$transparency = imagecolorAllocateAlpha($this->handle, $fillColor[0], $fillColor[1], $fillColor[2], $fillColor[3]);
-				imagecolorTransparent($this->handle, $transparency);
+				imagecolorTransparent($this->handle, $background);
 			}
 		}
 		else
@@ -814,11 +789,12 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			$rgba  = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
+			// MOD: Fetch rgba data from new function ensuring the calculation is color range safe.
+			$rgba  = $this->getColorForIndex($this->handle);
 			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
-			imagecolortransparent($handle, $color);
+			imageColorTransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
 			imagecopyresized(
@@ -904,7 +880,7 @@ class JImage
 		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
-	/**
+	/** MOD
 	 * Method to rotate the current image.
 	 *
 	 * @param   mixed    $angle       The angle of rotation for the image
@@ -938,7 +914,7 @@ class JImage
 			imagealphablending($handle, false);
 			imagesavealpha($handle, true);
 
-			$background = imagecolorallocatealpha($handle, 0, 0, 0, 127);
+			$background = imagecolorAllocateAlpha($handle, 0, 0, 0, 127);
 		}
 
 		// Copy the image
@@ -1021,7 +997,7 @@ class JImage
 		return $this;
 	}
 
-	/**
+	/** MOD - STEP 3
 	 * Method to write the current image out to a file.
 	 *
 	 * @param   string   $path     The filesystem path to save the image.
@@ -1042,19 +1018,29 @@ class JImage
 			throw new LogicException('No valid image was loaded.');
 		}
 
+		// NEW: Ensure a passed in quality factor is within the valid range (0-100 for JPEG, but 0-9 for GIF and PNG).
+		$q = array_key_exists('quality', $options) ? (int) $options['quality'] : 100;
+
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
+				// NEW: Adjust quality factor for this specific image type.
+				$q = $q >= 9 ? 9 : $q;
 				return imagegif($this->handle, $path);
 				break;
 
 			case IMAGETYPE_PNG:
-				return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				// NEW: Adjust quality factor for this specific image type.
+				$q = $q >= 9 ? 9 : $q;
+				// return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				return imagepng($this->handle, $path, $q);
 				break;
 
 			case IMAGETYPE_JPEG:
 			default:
-				return imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+				// NEW: Adjust quality factor for this specific image type.
+				$q = $q >= 100 ? 100 : $q;
+				return imagejpeg($this->handle, $path, $q);
 		}
 	}
 
@@ -1249,5 +1235,162 @@ class JImage
 	public function __destruct()
 	{
 		$this->destroy();
+	}
+
+	/** NEW
+	 * Method to set the background fill color to use for non-transparent images.
+	 *
+	 * @param   array   $color   The RGBA values defining the color to use for background fill
+	 *
+	 * @return  JImage
+	 *
+	 * @throws  InvalidArgumentException   If argument is not an array
+	 *
+	 * @since   11.3
+	 */
+	public function setFillColor($color = array())
+	{
+		if (!is_array($color))
+		{
+			throw new InvalidArgumentException('Fill color must be an array and may define "red", "green", "blue" and "alpha" channels.');
+		}
+
+		// Init with default value "black".
+		$this->fillColor = array(
+			'red'   => 0,
+			'green' => 0,
+			'blue'  => 0,
+			'alpha' => 127
+		);
+
+		// If custom color definition has been passed, replace default color.
+		if (count($color))
+		{
+			$this->fillColor = $this->fixFillColor($color);
+		}
+
+		return $this;
+	}
+
+	/** NEW
+	 * Method to properly set a passed background fill color.
+	 *
+	 * @param   array   The RGBA values defining the color to use fix
+	 *
+	 * @return  array   The fixed RGBA values defining the color to use as background fill color
+	 *
+	 * @since   11.3
+	 */
+	public function fixFillColor($color = array())
+	{
+		if (!count($color))
+		{
+			return $color;
+		}
+
+		// Sanitize color values.
+		array_walk($color, function(&$val)
+		{
+			$val = (int) $val;
+		});
+
+		// Ensure passed in values are valid
+		$color = array_filter($color, function(&$val, $key) use(&$defaultColor)
+		{
+			if ($key === 'alpha')
+			{
+				$val = $val > 127 ? 127 : $val;
+			}
+			else
+			{
+				$val = $val > 255 ? 255 : $val;
+			}
+
+			return true;
+
+		}, ARRAY_FILTER_USE_BOTH);
+
+		// Fill up missing values from the default color.
+		if (count($color) < 4)
+		{
+			$tmp = array_merge($this->fillColor, $color);
+
+			// Ensure the value for the alpha channel is valid.
+			$tmp['alpha'] = (int) $tmp['alpha'] > 127 ? 127 : (int) $tmp['alpha'];
+
+			$color = &$tmp;
+		}
+
+		return $color;
+	}
+
+	/** NEW
+	 * Method to get the background fill color.
+	 *
+	 * @return  array   The RGBA values defining the color to use for background fill
+	 *
+	 * @since   11.3
+	 */
+	public function getFillColor()
+	{
+		if (!isset($this->fillColor))
+		{
+			$this->setFillColor(array());
+		}
+
+		return $this->fillColor;
+	}
+
+	/** NEW
+	 * Method to ensure the color index for a given resource is within valid range.
+	 *
+	 * Under some circumstance attempting calling {@link imageColorsForIndex()} on a GIF image
+	 * fails causing a 'Color index out of range' error to be thrown.  This method circumvents
+	 * that issue because the native implementation doesn't check and catch it.
+	 *
+	 * @param   array   An image resource handle
+	 *
+	 * @return  array   The fixed RGBA values defining the color to use as background fill color
+	 *
+	 * @throws  InvalidArgumentException   If argument is not a valid resource handle
+	 *
+	 * @since   11.3
+	 *
+	 * @see     http://stackoverflow.com/q/3874533
+	 */
+	public function getColorForIndex($resource = null)
+	{
+		if (!is_resource($resource))
+		{
+			throw InvalidArgumentException('Argument must be a valid resource handle.');
+		}
+
+		$transparency = imageColorTransparent($resource);
+		$palletsize   = imageColorsTotal($resource);
+
+		if (($this->type === IMAGETYPE_GIF) || ($this->type === IMAGETYPE_PNG))
+		{
+			// Transparency is within valid range.
+			if ($transparency >= 0 && $transparency < $palletsize)
+			{
+				$rgba = imageColorsForIndex($resource, $transparency);
+			}
+			// Transparency is outside valid range - assign maximum.
+			else
+			{
+				$rgba = array(
+					'red'   => 255,
+					'green' => 255,
+					'blue'  => 255,
+					'alpha' => 127
+				);
+			}
+		}
+		else
+		{
+			$rgba = imageColorsForIndex($resource, $transparency);
+		}
+
+		return $rgba;
 	}
 }
