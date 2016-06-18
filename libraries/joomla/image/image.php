@@ -140,7 +140,7 @@ class JImage
 			$this->loadFile($source);
 		}
 
-		// NEW - Init background fill color with default color 'black'.
+		// Init background fill color with default color 'black'.
 		if (is_null($this->fillColor) || (is_array($this->fillColor) && count($this->fillColor !== 4)))
 		{
 			$this->getFillColor();
@@ -432,7 +432,6 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			// MOD: Fetch rgba data from new function ensuring the calculation is color range safe.
 			$rgba  = $this->getColorForIndex($this->handle);
 			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
@@ -610,7 +609,7 @@ class JImage
 		// Get the image properties.
 		$properties = self::getImageFileProperties($path);
 
-		// NEW: Prepare background fill color.
+		// Prepare background fill color.
 		$fillColor  = $this->getFillColor();
 
 		// Attempt to load the image based on the MIME-Type
@@ -640,7 +639,7 @@ class JImage
 
 				$this->handle = $handle;
 
-				// NEW
+				// Keep track of image type. This information is required.
 				$this->type = IMAGETYPE_GIF;
 				break;
 
@@ -668,7 +667,7 @@ class JImage
 
 				$this->handle = $handle;
 
-				// NEW
+				// Keep track of image type. This information is required.
 				$this->type = IMAGETYPE_JPEG;
 				break;
 
@@ -700,13 +699,12 @@ class JImage
 				if (!$this->isTransparent())
 				{
 					// Assign to black which is default for transparent PNGs
-					// MOD: Replace hardcoded 0 by configured fillColor value
 					$background = imagecolorAllocateAlpha($handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
 
 					imageColorTransparent($handle, $background);
 				}
 
-				// NEW
+				// Keep track of image type. This information is required.
 				$this->type = IMAGETYPE_PNG;
 				break;
 
@@ -755,7 +753,7 @@ class JImage
 		$offset    = new stdClass;
 		$offset->x = $offset->y = 0;
 
-		// NEW: Prepare background fill color.
+		// Prepare background fill color.
 		$fillColor = $this->getFillColor();
 
 		// Center image if needed and create the new truecolor image handle.
@@ -771,7 +769,6 @@ class JImage
 			if (!$this->isTransparent())
 			{
 				// Assign to black which is default for transparent PNGs
-				// MOD: Replace hardcoded 0 by configured fillColor value
 				$background = imagecolorAllocateAlpha($this->handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
 
 				imagecolorTransparent($this->handle, $background);
@@ -789,7 +786,6 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			// MOD: Fetch rgba data from new function ensuring the calculation is color range safe.
 			$rgba  = $this->getColorForIndex($this->handle);
 			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
@@ -1018,27 +1014,27 @@ class JImage
 			throw new LogicException('No valid image was loaded.');
 		}
 
-		// NEW: Ensure a passed in quality factor is within the valid range (0-100 for JPEG, but 0-9 for GIF and PNG).
+		// Ensure a passed in quality factor is within the valid range (0-100 for JPEG, but 0-9 for GIF and PNG).
+		// This is not something everybody knows. So we must take care of it.
 		$q = array_key_exists('quality', $options) ? (int) $options['quality'] : 100;
 
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
-				// NEW: Adjust quality factor for this specific image type.
+				// Adjust quality factor for this specific image type.
 				$q = $q >= 9 ? 9 : $q;
 				return imagegif($this->handle, $path);
 				break;
 
 			case IMAGETYPE_PNG:
-				// NEW: Adjust quality factor for this specific image type.
+				// Adjust quality factor for this specific image type.
 				$q = $q >= 9 ? 9 : $q;
-				// return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
 				return imagepng($this->handle, $path, $q);
 				break;
 
 			case IMAGETYPE_JPEG:
 			default:
-				// NEW: Adjust quality factor for this specific image type.
+				// Adjust quality factor for this specific image type.
 				$q = $q >= 100 ? 100 : $q;
 				return imagejpeg($this->handle, $path, $q);
 		}
