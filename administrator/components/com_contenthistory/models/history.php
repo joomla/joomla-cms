@@ -68,13 +68,14 @@ class ContenthistoryModelHistory extends JModelList
 				 */
 				$user   = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
+			}
 
-				// Finally try session (this catch catches edit.own case too)
-				if (!$result)
-				{
-					$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $typeAlias) . '.id');
-					$result = in_array((int) $record->ucm_item_id, $values);
-				}
+			// Finally try session (this catches edit.own case too)
+			if (!$result)
+			{
+				$contentTypeTable->load($record->ucm_type_id);
+				$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}
 
