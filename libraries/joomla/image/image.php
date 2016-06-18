@@ -1236,11 +1236,11 @@ class JImage
 	/**
 	 * Method to set the background fill color to use for non-transparent images.
 	 *
-	 * @param   array   $color   The RGBA values defining the color to use for background fill
+	 * @param   array  $color  The RGBA values defining the color to use for background fill
 	 *
 	 * @return  JImage
 	 *
-	 * @throws  InvalidArgumentException   If argument is not an array
+	 * @throws  InvalidArgumentException  If argument is not an array
 	 *
 	 * @since   11.3
 	 */
@@ -1271,9 +1271,9 @@ class JImage
 	/**
 	 * Method to properly set a passed background fill color.
 	 *
-	 * @param   array   The RGBA values defining the color to use fix
+	 * @param   array  $color  The RGBA values defining the color to use fix
 	 *
-	 * @return  array   The fixed RGBA values defining the color to use as background fill color
+	 * @return  array  The fixed RGBA values defining the color to use as background fill color
 	 *
 	 * @since   11.3
 	 */
@@ -1285,14 +1285,13 @@ class JImage
 		}
 
 		// Sanitize color values.
-		array_walk($color, function(&$val)
-		{
+		array_walk($color, function(&$val) {
 			$val = (int) $val;
-		});
+		}
+		);
 
 		// Ensure passed in values are valid
-		$color = array_filter($color, function(&$val, $key) use(&$defaultColor)
-		{
+		$color = array_filter($color, function(&$val, $key) use(&$defaultColor) {
 			if ($key === 'alpha')
 			{
 				$val = $val > 127 ? 127 : $val;
@@ -1304,7 +1303,9 @@ class JImage
 
 			return true;
 
-		}, ARRAY_FILTER_USE_BOTH);
+		},
+		ARRAY_FILTER_USE_BOTH
+		);
 
 		// Fill up missing values from the default color.
 		if (count($color) < 4)
@@ -1323,7 +1324,7 @@ class JImage
 	/**
 	 * Method to get the background fill color.
 	 *
-	 * @return  array   The RGBA values defining the color to use for background fill
+	 * @return  array  The RGBA values defining the color to use for background fill
 	 *
 	 * @since   11.3
 	 */
@@ -1344,11 +1345,11 @@ class JImage
 	 * fails causing a 'Color index out of range' error to be thrown.  This method circumvents
 	 * that issue because the native implementation doesn't check and catch it.
 	 *
-	 * @param   array   An image resource handle
+	 * @param   array  $resource  An image resource handle
 	 *
-	 * @return  array   The fixed RGBA values defining the color to use as background fill color
+	 * @return  array  The fixed RGBA values defining the color to use as background fill color
 	 *
-	 * @throws  InvalidArgumentException   If argument is not a valid resource handle
+	 * @throws  InvalidArgumentException  If argument is not a valid resource handle
 	 *
 	 * @since   11.3
 	 *
