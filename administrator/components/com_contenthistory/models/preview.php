@@ -49,11 +49,7 @@ class ContenthistoryModelPreview extends JModelItem
 		$user = JFactory::getUser();
 
 		// Access check
-		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id))
-		{
-			$return = true;
-		}
-		elseif ($user->authorise('core.edit.own', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id))
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table->ucm_item_id) || $this->canEdit($table))
 		{
 			$return = true;
 		}
@@ -74,5 +70,47 @@ class ContenthistoryModelPreview extends JModelItem
 
 			return $result;
 		}
+	}
+
+	/**
+	 * Method to test whether a record is editable
+	 *
+	 * @param   JTableContenthistory  $record  A JTable object.
+	 *
+	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.6
+	 */
+	protected function canEdit($record)
+	{
+		$result = false;
+
+		if (!empty($record->ucm_type_id))
+		{
+			// Check that the type id matches the type alias
+			$typeAlias = JFactory::getApplication()->input->get('type_alias');
+
+			/** @var JTableContenttype $contentTypeTable */
+			$contentTypeTable = JTable::getInstance('Contenttype', 'JTable');
+
+			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
+			{
+				/**
+				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+				 * for the content item, not delete permissions for the content history row.
+				 */
+				$user   = JFactory::getUser();
+				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
+
+				// Finally try session (this catch catches edit.own case too)
+				if (!$result)
+				{
+					$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $typeAlias) . '.id');
+					$result = in_array((int) $record->ucm_item_id, $values);
+				}
+			}
+		}
+
+		return $result;
 	}
 }

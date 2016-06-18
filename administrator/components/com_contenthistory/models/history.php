@@ -40,12 +40,11 @@ class ContenthistoryModelHistory extends JModelList
 	}
 
 	/**
-	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
-	 * for the content item row.
+	 * Method to test whether a record is editable
 	 *
 	 * @param   JTableContenthistory  $record  A JTable object.
 	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
 	 * @since   3.2
 	 */
@@ -69,10 +68,32 @@ class ContenthistoryModelHistory extends JModelList
 				 */
 				$user   = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
+
+				// Finally try session (this catch catches edit.own case too)
+				if (!$result)
+				{
+					$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $typeAlias) . '.id');
+					$result = in_array((int) $record->ucm_item_id, $values);
+				}
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
+	 * for the content item row.
+	 *
+	 * @param   JTableContenthistory  $record  A JTable object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.6
+	 */
+	protected function canDelete($record)
+	{
+		return canEdit($record);
 	}
 
 	/**
@@ -172,11 +193,7 @@ class ContenthistoryModelHistory extends JModelList
 		}
 
 		// Access check
-		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
-		{
-			return $items;
-		}
-		elseif ($user->authorise('core.edit.own', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id) || $this->canEdit($items[0]))
 		{
 			return $items;
 		}
