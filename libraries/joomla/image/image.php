@@ -1285,26 +1285,30 @@ class JImage
 		}
 
 		// Sanitize color values.
-		array_walk($color, function(&$val) {
-			$val = (int) $val;
-		}
+		array_walk(
+			$color,
+			function(&$val) {
+				$val = (int) $val;
+			}
 		);
 
 		// Ensure passed in values are valid
-		$color = array_filter($color, function(&$val, $key) use(&$defaultColor) {
-			if ($key === 'alpha')
-			{
-				$val = $val > 127 ? 127 : $val;
-			}
-			else
-			{
-				$val = $val > 255 ? 255 : $val;
-			}
+		$color = array_filter(
+			$color,
+			function(&$val, $key) use(&$defaultColor) {
+				if ($key === 'alpha')
+				{
+					$val = $val > 127 ? 127 : $val;
+				}
+				else
+				{
+					$val = $val > 255 ? 255 : $val;
+				}
 
-			return true;
+				return true;
 
-		},
-		ARRAY_FILTER_USE_BOTH
+			},
+			ARRAY_FILTER_USE_BOTH
 		);
 
 		// Fill up missing values from the default color.
