@@ -70,13 +70,13 @@ class JImage
 	 */
 	const ORIENTATION_SQUARE = 'square';
 
-	/** NEW
+	/**
 	 * @var    string  The image type (jpeg, png, gif, etc).
 	 * @since  11.3
 	 */
 	protected $type = null;
 
-	/** NEW
+	/**
 	 * @var    array  The red, green and blue values for the background fill color
 	 * @since  11.3
 	 */
@@ -100,7 +100,7 @@ class JImage
 	 */
 	protected static $formats = array();
 
-	/** MOD
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
@@ -376,7 +376,7 @@ class JImage
 		return $thumbsCreated;
 	}
 
-	/** MOD
+	/**
 	 * Method to crop the current image.
 	 *
 	 * @param   mixed    $width      The width of the image section to crop in pixels or a percentage.
@@ -584,7 +584,7 @@ class JImage
 		return (imageColorTransparent($this->handle) >= 0);
 	}
 
-	/** MOD - STEP 1
+	/**
 	 * Method to load a file into the JImage object as the resource.
 	 *
 	 * @param   string  $path  The filesystem path to load as an image.
@@ -718,7 +718,7 @@ class JImage
 		$this->path = $path;
 	}
 
-	/** MOD - STEP 1
+	/**
 	 * Method to resize the current image.
 	 *
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
@@ -876,7 +876,7 @@ class JImage
 		return $this->resize($resizewidth, $resizeheight, $createNew)->crop($width, $height, null, null, false);
 	}
 
-	/** MOD
+	/**
 	 * Method to rotate the current image.
 	 *
 	 * @param   mixed    $angle       The angle of rotation for the image
@@ -993,7 +993,7 @@ class JImage
 		return $this;
 	}
 
-	/** MOD - STEP 3
+	/**
 	 * Method to write the current image out to a file.
 	 *
 	 * @param   string   $path     The filesystem path to save the image.
@@ -1233,7 +1233,7 @@ class JImage
 		$this->destroy();
 	}
 
-	/** NEW
+	/**
 	 * Method to set the background fill color to use for non-transparent images.
 	 *
 	 * @param   array   $color   The RGBA values defining the color to use for background fill
@@ -1268,7 +1268,7 @@ class JImage
 		return $this;
 	}
 
-	/** NEW
+	/**
 	 * Method to properly set a passed background fill color.
 	 *
 	 * @param   array   The RGBA values defining the color to use fix
@@ -1320,7 +1320,7 @@ class JImage
 		return $color;
 	}
 
-	/** NEW
+	/**
 	 * Method to get the background fill color.
 	 *
 	 * @return  array   The RGBA values defining the color to use for background fill
@@ -1337,7 +1337,7 @@ class JImage
 		return $this->fillColor;
 	}
 
-	/** NEW
+	/**
 	 * Method to ensure the color index for a given resource is within valid range.
 	 *
 	 * Under some circumstance attempting calling {@link imageColorsForIndex()} on a GIF image
