@@ -1021,14 +1021,12 @@ class JImage
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
-				// Adjust quality factor for this specific image type.
-				$q = $q >= 9 ? 9 : $q;
 				return imagegif($this->handle, $path);
 				break;
 
 			case IMAGETYPE_PNG:
 				// Adjust quality factor for this specific image type.
-				$q = $q >= 9 ? 9 : $q;
+				$q = $q >= 9 ? 0 : $q;
 				return imagepng($this->handle, $path, $q);
 				break;
 
@@ -1277,7 +1275,7 @@ class JImage
 	 *
 	 * @since   11.3
 	 */
-	public function fixFillColor($color = array())
+	protected function fixFillColor($color = array())
 	{
 		if (!count($color))
 		{
@@ -1359,7 +1357,7 @@ class JImage
 	 *
 	 * @see     http://stackoverflow.com/q/3874533
 	 */
-	public function getColorForIndex($resource = null)
+	protected function getColorForIndex($resource = null)
 	{
 		if (!is_resource($resource))
 		{
