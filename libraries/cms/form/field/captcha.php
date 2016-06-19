@@ -145,10 +145,16 @@ class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
 	}
 
 	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
 	 *
-	 * {@inheritDoc}
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
 	 *
-	 * @see JFormField::postProcessDomNode()
+	 * @return void
+	 *
+	 * @since 3.7
 	 */
 	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
 	{
@@ -157,7 +163,7 @@ class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
 		{
 			$fieldNode->setAttribute('plugin', JFactory::getConfig()->get('captcha'));
 		}
-		else if ($input->get('option') == 'com_users' && $input->get('view') == 'profile' && $input->get('layout') != 'edit' &&
+		elseif ($input->get('option') == 'com_users' && $input->get('view') == 'profile' && $input->get('layout') != 'edit' &&
 				$input->get('task') != 'save')
 		{
 			// The user profile page does show the values by creating the form

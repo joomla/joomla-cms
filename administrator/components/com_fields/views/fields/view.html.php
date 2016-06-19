@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,6 +10,11 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.filesystem.file');
 
+/**
+ * Fields View
+ *
+ * @since  3.7
+ */
 class FieldsViewFields extends JViewLegacy
 {
 
@@ -19,6 +24,16 @@ class FieldsViewFields extends JViewLegacy
 
 	protected $state;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   12.2
+	 */
 	public function display ($tpl = null)
 	{
 		$this->state = $this->get('State');
@@ -50,6 +65,11 @@ class FieldsViewFields extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * Adds the toolbar.
+	 *
+	 * @return void
+	 */
 	protected function addToolbar ()
 	{
 		$fieldId = $this->state->get('filter.field_id');
@@ -57,7 +77,7 @@ class FieldsViewFields extends JViewLegacy
 		$component = $this->component;
 		$section = $this->section;
 
-		$canDo = new JObject();
+		$canDo = new JObject;
 		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
 		{
 			$canDo = JHelperContent::getActions($component, 'field', $fieldId);
@@ -75,14 +95,14 @@ class FieldsViewFields extends JViewLegacy
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true) ||
-				 $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+			$lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = strtoupper($component . '_FIELDS_' . ($section ? $section : '')) . '_FIELDS_TITLE'))
 		{
 			$title = JText::_($component_title_key);
 		}
-		else if ($lang->hasKey($component_section_key = strtoupper($component . '_FIELDS_SECTION_' . ($section ? $section : ''))))
+		elseif ($lang->hasKey($component_section_key = strtoupper($component . '_FIELDS_SECTION_' . ($section ? $section : ''))))
 		{
 			// Else if the component section string exits, let's use it
 			$title = JText::sprintf('COM_FIELDS_VIEW_FIELDS_TITLE', $this->escape(JText::_($component_section_key)));
@@ -121,17 +141,19 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.create', $this->context) && $user->authorise('core.edit', $this->context) &&
-				 $user->authorise('core.edit.state', $this->context))
+		if ($user->authorise('core.create', $this->context) && $user->authorise('core.edit', $this->context)
+			&&	$user->authorise('core.edit.state', $this->context))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
 			$layout = new JLayoutFile('joomla.toolbar.batch');
 
-			$dhtml = $layout->render(array(
-					'title' => $title
-			));
+			$dhtml = $layout->render(
+					array(
+						'title' => $title
+					)
+			);
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
@@ -179,6 +201,11 @@ class FieldsViewFields extends JViewLegacy
 		// JComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 
+	/**
+	 * Returns the sort fields.
+	 *
+	 * @return string[]
+	 */
 	protected function getSortFields ()
 	{
 		return array(

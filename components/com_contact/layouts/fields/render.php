@@ -76,11 +76,7 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	echo FieldsHelper::render($context, 'field.render',
-		array(
-				'field' => $field
-		)
-	);
+	echo FieldsHelper::render($context, 'field.render', array('field' => $field));
 }
 
 // Close the container

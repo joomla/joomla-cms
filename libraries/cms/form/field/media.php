@@ -268,6 +268,18 @@ class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 		return array_merge($data, $extraData);
 	}
 
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param   stdClass    $field      The field.
+	 * @param   DOMElement  $fieldNode  The field node.
+	 * @param   JForm       $form       The form.
+	 *
+	 * @return void
+	 *
+	 * @since 3.7
+	 */
 	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
 	{
 		$fieldNode->setAttribute('hide_default', 'true');

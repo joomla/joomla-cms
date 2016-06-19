@@ -67,7 +67,8 @@ class FieldsHelperInternal
 					 * administrator/components/*context* /
 					 * language directory
 					 */
-					$lang->load($component, JPATH_BASE, null, false, true) || $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+					$lang->load($component, JPATH_BASE, null, false, true)
+						|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 					call_user_func(array($cName, 'addSubmenu'), 'fields' . (isset($section) ? '.' . $section : ''));
 				}

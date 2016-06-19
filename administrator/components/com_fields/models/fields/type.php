@@ -13,11 +13,29 @@ use Joomla\String\StringHelper;
 JFormHelper::loadFieldClass('list');
 JLoader::import('joomla.filesystem.folder');
 
+/**
+ * Fields Type
+ *
+ * @since  3.7
+ */
 class JFormFieldType extends JFormFieldList
 {
 
 	public $type = 'Type';
 
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
+	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
@@ -25,6 +43,13 @@ class JFormFieldType extends JFormFieldList
 		return $return;
 	}
 
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   11.1
+	 */
 	protected function getOptions()
 	{
 		$options = parent::getOptions();
@@ -75,10 +100,13 @@ class JFormFieldType extends JFormFieldList
 		}
 
 		// Sorting the fields based on the text which is displayed
-		usort($options, function ($a, $b)
-		{
-			return strcmp($a->text, $b->text);
-		});
+		usort(
+				$options,
+				function ($a, $b)
+				{
+					return strcmp($a->text, $b->text);
+				}
+		);
 
 		// Reload the page when the type changes
 		$uri = clone JUri::getInstance('index.php');
@@ -112,7 +140,8 @@ class JFormFieldType extends JFormFieldList
 	 * Parses the file with the given path. If it is a class starting with the
 	 * name JFormField and implementing JFormDomfieldinterface, then the class name is returned.
 	 *
-	 * @param string $path
+	 * @param   string  $path  The path.
+	 *
 	 * @return string|boolean
 	 */
 	private function getClassNameFromFile($path)
@@ -122,8 +151,8 @@ class JFormFieldType extends JFormFieldList
 		$className = null;
 		for ($i = 2; $i < count($tokens); $i ++)
 		{
-			if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING &&
-					 strpos($tokens[$i][1], 'JFormField') !== false)
+			if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING
+				&& strpos($tokens[$i][1], 'JFormField') !== false)
 			{
 				$className = $tokens[$i][1];
 			}

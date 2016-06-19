@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,7 +15,7 @@ $i = 0;
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_FIELDS_' . $name . '_FIELDSET_LABEL';
-	echo JHtml::_('bootstrap.addSlide', 'fieldOptions', JText::_($label), 'collapse' . $i++);
+	echo JHtml::_('bootstrap.addSlide', 'fieldOptions', JText::_($label), 'collapse' . ($i++));
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
 		echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';

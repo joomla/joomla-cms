@@ -2,12 +2,17 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+/**
+ * Field View
+ *
+ * @since  3.7
+ */
 class FieldsViewField extends JViewLegacy
 {
 
@@ -17,6 +22,16 @@ class FieldsViewField extends JViewLegacy
 
 	protected $state;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::loadTemplate()
+	 * @since   12.2
+	 */
 	public function display ($tpl = null)
 	{
 		$this->form = $this->get('Form');
@@ -36,9 +51,11 @@ class FieldsViewField extends JViewLegacy
 		}
 
 		// Check for tag type
-		$this->checkTags = JHelperTags::getTypes('objectList', array(
-				$this->state->get('field.context') . '.field'
-		), true);
+		$this->checkTags = JHelperTags::getTypes(
+				'objectList',
+				array($this->state->get('field.context') . '.field'),
+				true
+		);
 
 		$input->set('hidemainmenu', true);
 
@@ -52,6 +69,11 @@ class FieldsViewField extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * Adds the toolbar.
+	 *
+	 * @return void
+	 */
 	protected function addToolbar ()
 	{
 		$input = JFactory::getApplication()->input;
@@ -63,7 +85,7 @@ class FieldsViewField extends JViewLegacy
 		$checkedOut = ! ($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Check to see if the type exists
-		$ucmType = new JUcmType();
+		$ucmType = new JUcmType;
 		$this->typeId = $ucmType->getTypeId($context . '.field');
 
 		// Avoid nonsense situation.
@@ -82,7 +104,7 @@ class FieldsViewField extends JViewLegacy
 		// yet.
 		$lang = JFactory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true) ||
-				 $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+			$lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the field helper.
 		require_once JPATH_COMPONENT . '/helpers/fields.php';
@@ -97,10 +119,12 @@ class FieldsViewField extends JViewLegacy
 			$title = JText::_($component_title_key);
 		}
 		// Else if the component section string exits, let's use it
-		else if ($lang->hasKey($component_section_key = $component . '_FIELDS_SECTION_' . ($section ? $section : '')))
+		elseif ($lang->hasKey($component_section_key = $component . '_FIELDS_SECTION_' . ($section ? $section : '')))
 		{
-			$title = JText::sprintf('COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE',
-					$this->escape(JText::_($component_section_key)));
+			$title = JText::sprintf(
+					'COM_FIELDS_VIEW_FIELD_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE',
+						$this->escape(JText::_($component_section_key))
+			);
 		}
 		// Else use the base title
 		else
@@ -112,9 +136,11 @@ class FieldsViewField extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/fields.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title,
+		JToolbarHelper::title(
+				$title,
 				'puzzle field-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-field-' .
-						 ($isNew ? 'add' : 'edit'));
+					($isNew ? 'add' : 'edit')
+		);
 
 		// For new records, check the create permission.
 		if ($isNew)

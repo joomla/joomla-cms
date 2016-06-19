@@ -26,7 +26,11 @@ class FieldsControllerFields extends JControllerAdmin
 	{
 		$return = parent::delete();
 
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . '&context=' . $this->input->getCmd('context', 'com_content.article'), false));
+		$this->setRedirect(
+				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
+					'&context=' . $this->input->getCmd('context', 'com_content.article'), false
+				)
+		);
 
 		return $return;
 	}
@@ -42,7 +46,11 @@ class FieldsControllerFields extends JControllerAdmin
 	{
 		$return = parent::publish();
 
-		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . '&context=' . $this->input->getCmd('context', 'com_content.article'), false));
+		$this->setRedirect(
+				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
+						'&context=' . $this->input->getCmd('context', 'com_content.article'), false
+				)
+		);
 
 		return $return;
 	}

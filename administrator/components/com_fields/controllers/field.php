@@ -37,6 +37,11 @@ class FieldsControllerField extends JControllerForm
 		$this->component = $parts ? $parts[0] : null;
 	}
 
+	/**
+	 * Stores the form data into the user state.
+	 *
+	 * @return void
+	 */
 	public function storeform ()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

@@ -30,6 +30,15 @@ class PlgSystemFields extends JPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	/**
+	 * The save event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 * @param   boolean   $isNew    Is new
+	 *
+	 * @return boolean
+	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
 		// Load the category context based on the extension
@@ -55,7 +64,7 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$params = new Registry();
+		$params = new Registry;
 
 		// Load the item params from the request
 		$data = JFactory::getApplication()->input->post->get('jform', array(), 'array');
@@ -105,6 +114,15 @@ class PlgSystemFields extends JPlugin
 		}
 	}
 
+	/**
+	 * The save event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 * @param   boolean   $isNew    Is new
+	 *
+	 * @return boolean
+	 */
 	public function onContentAfterSave($context, $item, $isNew)
 	{
 		// Load the category context based on the extension
@@ -173,6 +191,16 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
+	/**
+	 * The save event.
+	 *
+	 * @param   array    $userData  The date
+	 * @param   boolean  $isNew     Is new
+	 * @param   boolean  $success   Is success
+	 * @param   string   $msg       The message
+	 *
+	 * @return boolean
+	 */
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
 		// It is not possible to manipulate the user during save events
@@ -197,6 +225,14 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
+	/**
+	 * The delete event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 *
+	 * @return boolean
+	 */
 	public function onContentAfterDelete($context, $item)
 	{
 		$parts = $this->getParts($context);
@@ -217,14 +253,31 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
+	/**
+	 * The user delete event.
+	 *
+	 * @param   stdClass  $user    The context
+	 * @param   boolean   $succes  Is success
+	 * @param   string    $msg     The message
+	 *
+	 * @return boolean
+	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
-		$item     = new stdClass();
+		$item     = new stdClass;
 		$item->id = $user['id'];
 
 		return $this->onContentAfterDelete('com_users.user', $item);
 	}
 
+	/**
+	 * The form event.
+	 *
+	 * @param   JForm     $form  The form
+	 * @param   stdClass  $data  The data
+	 *
+	 * @return boolean
+	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$context = $form->getName();
@@ -272,6 +325,14 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
+	/**
+	 * The prepare data event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $data     The data
+	 *
+	 * @return void
+	 */
 	public function onContentPrepareData($context, $data)
 	{
 		$parts = $this->getParts($context);
@@ -287,21 +348,61 @@ class PlgSystemFields extends JPlugin
 		}
 	}
 
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   number    $limitstart  The start
+	 *
+	 * @return string
+	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
 		return $this->display($context, $item, $params, 1);
 	}
 
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   number    $limitstart  The start
+	 *
+	 * @return string
+	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
 		return $this->display($context, $item, $params, 2);
 	}
 
+	/**
+	 * The display event.
+	 *
+	 * @param   string    $context     The context
+	 * @param   stdClass  $item        The item
+	 * @param   Registry  $params      The params
+	 * @param   number    $limitstart  The start
+	 *
+	 * @return string
+	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
 		return $this->display($context, $item, $params, 3);
 	}
 
+	/**
+	 * Performs the display event.
+	 *
+	 * @param   string    $context      The context
+	 * @param   stdClass  $item         The item
+	 * @param   Registry  $params       The params
+	 * @param   integer   $displayType  The type
+	 *
+	 * @return string
+	 */
 	private function display($context, $item, $params, $displayType)
 	{
 		$parts = $this->getParts($context);
@@ -358,6 +459,14 @@ class PlgSystemFields extends JPlugin
 		return '';
 	}
 
+	/**
+	 * Performs the display event.
+	 *
+	 * @param   string    $context  The context
+	 * @param   stdClass  $item     The item
+	 *
+	 * @return boolean
+	 */
 	public function onContentPrepare ($context, $item)
 	{
 		$parts = $this->getParts($context);
@@ -380,6 +489,13 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
+	/**
+	 * The finder event.
+	 *
+	 * @param   stdClass  $item  The item
+	 *
+	 * @return boolean
+	 */
 	public function onPrepareFinderContent($item)
 	{
 		$section = strtolower($item->layout);
@@ -404,7 +520,7 @@ class PlgSystemFields extends JPlugin
 				}
 
 				// Create a dummy object with the required fields
-				$tmp     = new stdClass();
+				$tmp     = new stdClass;
 				$tmp->id = $item->__get('id');
 
 				if ($item->__get('catid'))
@@ -432,6 +548,13 @@ class PlgSystemFields extends JPlugin
 		return true;
 	}
 
+	/**
+	 * Returns the parts for the context.
+	 *
+	 * @param   string  $context  The context
+	 *
+	 * @return  array
+	 */
 	private function getParts($context)
 	{
 		// Some context mapping

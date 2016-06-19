@@ -8,11 +8,23 @@
  */
 defined('_JEXEC') or die;
 
+/**
+ * Fields Controller
+ *
+ * @since  3.7
+ */
 class FieldsController extends JControllerLegacy
 {
 
 	protected $context;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 * Recognized key values include 'name', 'default_task', 'model_path', and
+	 * 'view_path' (this list is not meant to be comprehensive).
+	 */
 	public function __construct ($config = array())
 	{
 		parent::__construct($config);
@@ -24,6 +36,19 @@ class FieldsController extends JControllerLegacy
 		}
 	}
 
+	/**
+	 * Typical view method for MVC based architecture
+	 *
+	 * This function is provide as a default implementation, in most cases
+	 * you will need to override it in your own controllers.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
+	 *
+	 * @since   12.2
+	 */
 	public function display ($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
@@ -50,9 +75,11 @@ class FieldsController extends JControllerLegacy
 		if ($view = $this->getView($vName, $vFormat))
 		{
 			// Get the model for the view.
-			$model = $this->getModel($vName, 'FieldsModel', array(
-					'name' => $vName . '.' . substr($this->context, 4)
-			));
+			$model = $this->getModel(
+					$vName, 'FieldsModel', array(
+						'name' => $vName . '.' . substr($this->context, 4)
+					)
+			);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,10 +11,15 @@ defined('_JEXEC') or die;
 /**
  * Fields controller class for Fields Component.
  *
- * @since  3.6
+ * @since  3.7
  */
 class FieldsControllerField extends JControllerLegacy
 {
+	/**
+	 * Stores the form content into the user session.
+	 *
+	 * @return void
+	 */
 	public function storeform()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

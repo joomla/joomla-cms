@@ -111,7 +111,7 @@ if ($saveOrder)
 								{
 									$iconClass = ' inactive';
 								}
-								else if (!$saveOrder)
+								elseif (!$saveOrder)
 								{
 									$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
 								}
@@ -163,7 +163,7 @@ if ($saveOrder)
 											{
 												continue;
 											}
-											$buffer .= ' ' . $c->title .',';
+											$buffer .= ' ' . $c->title . ',';
 										}
 										echo trim($buffer, ',');
 									}
