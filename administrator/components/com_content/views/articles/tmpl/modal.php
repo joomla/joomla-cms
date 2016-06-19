@@ -32,14 +32,18 @@ JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searc
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = $app->input->getCmd('editor', '');
+$function  = $app->input->getCmd('function', 'jSelectArticle');
 
-/*
- * Javascript to insert the link
- * View element calls jSelectArticle when an article is clicked
- * jSelectArticle creates the link tag, sends it to the editor,
- * and closes the select frame.
- */
-JFactory::getDocument()->addScriptDeclaration(
+if ($function === 'jSelectArticle')
+{
+	/**
+	 * The function jSelectArticle is used on XTD Article
+	 * Javascript to insert the link
+	 * View element calls jSelectArticle when an article is clicked
+	 * jSelectArticle creates the link tag, sends it to the editor,
+	 * and closes the select frame.
+	 */
+	JFactory::getDocument()->addScriptDeclaration(
 		"
 		function jSelectArticle(id, title, catid, object, link, lang) {
 			var hreflang = '';
@@ -51,11 +55,19 @@ JFactory::getDocument()->addScriptDeclaration(
 			window.parent.jModalClose();
 		}
 		"
-);
+	);
+}
+else
+{
+	/**
+	 * This case is used in administrator component menus
+	 */
+	$function ='if (window.parent) window.parent.' . $function;
+}
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles&layout=modal&tmpl=component&function=' . $function . '&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -131,7 +143,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 						<td>
-							<a href="javascript:void(0);" onclick="jSelectArticle('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>'">
+							<a href="javascript:void(0);" onclick="<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>');">
 								<?php echo $this->escape($item->title); ?></a>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
