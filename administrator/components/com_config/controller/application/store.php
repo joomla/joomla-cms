@@ -27,8 +27,9 @@ class ConfigControllerApplicationStore extends JControllerBase
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
-			$this->app->redirect('index.php');
+			echo new JResponseJson(json_encode(false), JText::_('JERROR_ALERTNOAUTHOR'));
+
+			JFactory::getApplication()->close();
 		}
 
 		// Get Post DATA
@@ -40,17 +41,19 @@ class ConfigControllerApplicationStore extends JControllerBase
 			'title'     => $this->input->get->get('title', '', 'RAW')
 		);
 
-		if (!(substr($permissions['component'], -6) == '.false'))
+		if (!(substr($permissions['component'], -6) === '.false'))
 		{
 			// Load Permissions from Session and send to Model
 			$model    = new ConfigModelApplication;
 			$response = $model->storePermissions($permissions);
 
-			echo new JResponseJson(json_encode($response));
+			echo new JResponseJson(json_encode($response), $response['message']);
 		}
 		else
 		{
 			echo new JResponseJson(json_encode(false), 0);
 		}
+
+		JFactory::getApplication()->close();
 	}
 }
