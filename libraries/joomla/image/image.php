@@ -699,7 +699,7 @@ class JImage
 				if (!$this->isTransparent())
 				{
 					// Assign to black which is default for transparent PNGs
-					$background = imagecolorAllocateAlpha($handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
+					$background = imagecolorallocatealpha($handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
 
 					imagecolortransparent($handle, $background);
 				}
@@ -769,7 +769,7 @@ class JImage
 			if (!$this->isTransparent())
 			{
 				// Assign to black which is default for transparent PNGs
-				$background = imagecolorAllocateAlpha($this->handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
+				$background = imagecolorallocatealpha($this->handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
 
 				imagecolorTransparent($this->handle, $background);
 			}
@@ -910,7 +910,7 @@ class JImage
 			imagealphablending($handle, false);
 			imagesavealpha($handle, true);
 
-			$background = imagecolorAllocateAlpha($handle, 0, 0, 0, 127);
+			$background = imagecolorallocatealpha($handle, 0, 0, 0, 127);
 		}
 
 		// Copy the image
