@@ -119,6 +119,26 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
+			<?php if ($item->language && JLanguageMultilang::isEnabled())
+			{
+				$tag = strlen($item->language);
+				if ($tag == 5)
+				{
+					$lang = substr($item->language, 0, 2);
+				}
+				elseif ($tag == 6)
+				{
+					$lang = substr($item->language, 0, 3);
+				}
+				else {
+					$lang = "";
+				}
+			}
+			elseif (!JLanguageMultilang::isEnabled())
+			{
+				$lang = "";
+			}
+			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<th>
 					<a class="pointer" onclick="jSelectArticle('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getArticleRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
