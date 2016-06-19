@@ -1274,7 +1274,7 @@ class JImage
 		// If custom color definition has been passed, replace default color.
 		if (count($color))
 		{
-			$this->fillColor = $this->fixFillColor($color);
+			$this->fillColor = $this->sanitizeFillColor($color);
 		}
 
 		return $this;
@@ -1306,7 +1306,7 @@ class JImage
 	 *
 	 * @since   11.3
 	 */
-	protected function fixFillColor($color = array())
+	protected function sanitizeFillColor($color = array())
 	{
 		if (!count($color))
 		{
