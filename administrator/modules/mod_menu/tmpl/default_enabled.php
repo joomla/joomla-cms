@@ -309,7 +309,7 @@ if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 
 	if ($ju || $pi || $im)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), '#', 'class:install'), true);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), 'index.php?option=com_joomlaupdate', 'class:install'), true);
 
 		if ($ju)
 		{
@@ -338,7 +338,7 @@ if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 
 	if ($im)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), '#', 'class:install'), $im);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), 'index.php?option=com_installer', 'class:install'), $im);
 
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', 'class:install'));
