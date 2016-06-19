@@ -26,7 +26,7 @@ $buffer = '';
 
 foreach ($value as $path)
 {
-	if (!$path)
+	if (!$path || $path == '-1')
 	{
 		continue;
 	}

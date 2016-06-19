@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JHtmlTel for rendering of telephone numbers
  * @since  11.1
  */
-class JFormFieldTel extends JFormFieldText
+class JFormFieldTel extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -65,5 +65,12 @@ class JFormFieldTel extends JFormFieldText
 		return '<input type="tel" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
 			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'tel');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

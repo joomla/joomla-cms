@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * FieldsHelper
  *
@@ -37,53 +39,6 @@ class FieldsHelper
 		}
 
 		return $parts;
-	}
-
-	/**
-	 * Creates an object of the given type.
-	 *
-	 * @param   string  $type     type
-	 * @param   string  $context  The context of the content passed to the helper
-	 *
-	 * @return FieldsTypeBase
-	 */
-	public static function loadTypeObject ($type, $context)
-	{
-		// Loading the class
-		$class = 'FieldsType' . JString::ucfirst($type);
-
-		if (class_exists($class))
-		{
-			return new $class;
-		}
-
-		// Searching the file
-		$paths = array(
-				JPATH_ADMINISTRATOR . '/components/com_fields/models/types'
-		);
-
-		if ($context)
-		{
-			// Extracting the component and section
-			$parts = self::extract($context);
-
-			if ($parts)
-			{
-				$component = $parts[0];
-
-				$paths[] = JPATH_ADMINISTRATOR . '/components/' . $component . '/models/types';
-			}
-		}
-
-		// Search for the file and load it
-		$file = JPath::find($paths, $type . '.php');
-
-		if ($file !== false)
-		{
-			require_once $file;
-		}
-
-		return class_exists($class) ? new $class : false;
 	}
 
 	/**
@@ -351,8 +306,6 @@ class FieldsHelper
 		$xml = new DOMDocument('1.0', 'UTF-8');
 		$fieldsNode = $xml->appendChild(new DOMElement('form'))->appendChild(new DOMElement('fields'));
 		$fieldsNode->setAttribute('name', 'params');
-		$fieldsNode->setAttribute('addfieldpath', '/administrator/components/com_fields/models/types/fields');
-		$fieldsNode->setAttribute('addrulepath', '/administrator/components/com_fields/models/types/rules');
 
 		// Organizing the fields according to their category
 		$fieldsPerCategory = array(
@@ -436,9 +389,9 @@ class FieldsHelper
 			foreach ($catFields as $field)
 			{
 				// Creating the XML form data
-				$type = self::loadTypeObject($field->type, $field->context);
+				$type = JFormHelper::loadFieldType($field->type);
 
-				if ($type === false)
+				if (!$type)
 				{
 					continue;
 				}

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  com_fields
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -23,7 +23,8 @@ if (!$value)
 
 $value   = (array) $value;
 $texts   = array();
-$options = FieldsHelper::loadTypeObject($field->type, $field->context)->getOptions($field);
+JFormHelper::loadFieldClass('list');
+$options = JFormFieldList::getOptionsFromField($field);
 
 foreach ($options as $index => $optionsValue)
 {

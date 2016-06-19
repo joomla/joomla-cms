@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
  * @since  11.1
  */
-class JFormFieldTextarea extends JFormField
+class JFormFieldTextarea extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -163,5 +163,12 @@ class JFormFieldTextarea extends JFormField
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
 			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . $maxlength . ' >'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('filter', 'JComponentHelper::filterText');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

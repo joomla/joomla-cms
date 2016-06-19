@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  1.6
  */
-class JFormFieldMedia extends JFormField
+class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -266,5 +266,12 @@ class JFormFieldMedia extends JFormField
 		);
 
 		return array_merge($data, $extraData);
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('hide_default', 'true');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

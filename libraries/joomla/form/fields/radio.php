@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
  * @since  11.1
  */
-class JFormFieldRadio extends JFormFieldList
+class JFormFieldRadio extends JFormFieldList implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.

@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleEmail
  * @since  11.1
  */
-class JFormFieldEMail extends JFormFieldText
+class JFormFieldEMail extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -65,5 +65,12 @@ class JFormFieldEMail extends JFormFieldText
 		return '<input type="email" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. htmlspecialchars(JStringPunycode::emailToUTF8($this->value), ENT_COMPAT, 'UTF-8') . '"' . $spellcheck . $size . $disabled . $readonly
 			. $onchange . $autocomplete . $multiple . $maxLength . $hint . $required . $autofocus . ' />';
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'email');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

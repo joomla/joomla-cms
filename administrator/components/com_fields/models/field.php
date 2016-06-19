@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 class FieldsModelField extends JModelAdmin
 {
@@ -625,8 +626,8 @@ class FieldsModelField extends JModelAdmin
 				'alias' => $alias
 		)))
 		{
-			$title = JString::increment($title);
-			$alias = JString::increment($alias, 'dash');
+			$title = StringHelper::increment($title);
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array(
@@ -637,25 +638,13 @@ class FieldsModelField extends JModelAdmin
 
 	private function loadTypeForms (JForm &$form, $type, $component)
 	{
-		// Loading type specific forms
-		$paths = array(
-				JPath::clean(JPATH_ADMINISTRATOR . '/components/com_fields/models/types/forms/' . $type . '.xml')
-		);
-		if ($component)
-		{
-			$paths[] = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/types/forms/' . $type . '.xml');
-		}
+		$type = JFormHelper::loadFieldType($type);
 
-		foreach ($paths as $path)
+		// Load all children that's why we need to define the xpath
+		if (!($type instanceof JFormDomfieldinterface))
 		{
-			if (file_exists($path))
-			{
-				// Load all children that's why we need to define the xpath
-				if (! $form->loadFile($path, true, '/form/*'))
-				{
-					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-				}
-			}
+			return;
 		}
+		$form->load($type->getFormParameters(), true, '/form/*');
 	}
 }

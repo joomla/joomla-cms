@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  2.5
  */
-class JFormFieldCaptcha extends JFormField
+class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
 {
 	/**
 	 * The field type.
@@ -142,5 +142,30 @@ class JFormFieldCaptcha extends JFormField
 		}
 
 		return $captcha->display($this->name, $this->id, $this->class);
+	}
+
+	/**
+	 *
+	 * {@inheritDoc}
+	 *
+	 * @see JFormField::postProcessDomNode()
+	 */
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$input = JFactory::getApplication()->input;
+		if (JFactory::getApplication()->isAdmin())
+		{
+			$fieldNode->setAttribute('plugin', JFactory::getConfig()->get('captcha'));
+		}
+		else if ($input->get('option') == 'com_users' && $input->get('view') == 'profile' && $input->get('layout') != 'edit' &&
+				$input->get('task') != 'save')
+		{
+			// The user profile page does show the values by creating the form
+			// and getting the values from it so we need to disable the field
+			$fieldNode->setAttribute('plugin', null);
+		}
+		$fieldNode->setAttribute('validate', 'captcha');
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

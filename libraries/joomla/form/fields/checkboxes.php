@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JFormFieldCheckbox
  * @since  11.1
  */
-class JFormFieldCheckboxes extends JFormFieldList
+class JFormFieldCheckboxes extends JFormFieldList implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.

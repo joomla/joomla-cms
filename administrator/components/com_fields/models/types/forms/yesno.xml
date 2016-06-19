@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<form>
-	<field name="class" type="textarea" label="COM_FIELDS_FIELD_CLASS_LABEL"
-		class="input-xxlarge" description="COM_FIELDS_FIELD_CLASS_DESC"
-		default="btn-group btn-group-yesno" size="40" />
-	<field name="default_value" type="textarea" filter="raw" default="0"
-		label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL" description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
-		class="input-xxlarge" size="40" />
-</form>

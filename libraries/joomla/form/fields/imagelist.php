@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('filelist');
  *
  * @since  11.1
  */
-class JFormFieldImageList extends JFormFieldFileList
+class JFormFieldImageList extends JFormFieldFileList implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -41,5 +41,13 @@ class JFormFieldImageList extends JFormFieldFileList
 
 		// Get the field options.
 		return parent::getOptions();
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('hide_default', 'true');
+		$fieldNode->setAttribute('directory', '/images/' . $fieldNode->getAttribute('directory'));
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

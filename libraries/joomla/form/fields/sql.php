@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @since  11.1
  */
-class JFormFieldSQL extends JFormFieldList
+class JFormFieldSQL extends JFormFieldList implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -304,5 +304,18 @@ class JFormFieldSQL extends JFormFieldList
 		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('value_field', 'text');
+		$fieldNode->setAttribute('key_field', 'value');
+
+		if (! $fieldNode->getAttribute('query'))
+		{
+			$fieldNode->setAttribute('query', 'select id as value, name as text from #__users');
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }

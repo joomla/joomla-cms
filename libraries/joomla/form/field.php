@@ -1062,4 +1062,92 @@ abstract class JFormField
 	{
 		return ($this->getAttribute('debug', 'false') === 'true');
 	}
+
+	/**
+	 * Transforms the field into an XML element and appends it as child on the given parent. This
+	 * is the default implementation of a field. Form fields which do support to be transformed into
+	 * an XML Element mut implemet the JFormDomfieldinterface.
+	 *
+	 * @param stdClass $field
+	 * @param DOMElement $parent
+	 * @param JForm $form
+	 * @return DOMElement
+	 *
+	 * @since 3.7
+	 * @see JFormDomfieldinterface::appendXMLFieldTag
+	 */
+	public function appendXMLFieldTag ($field, DOMElement $parent, JForm $form)
+	{
+		$app = JFactory::getApplication();
+		if ($field->params->get('show_on') == 1 && $app->isAdmin())
+		{
+			return;
+		}
+		else if ($field->params->get('show_on') == 2 && $app->isSite())
+		{
+			return;
+		}
+		$node = $parent->appendChild(new DOMElement('field'));
+
+		$node->setAttribute('name', $field->alias);
+		$node->setAttribute('type', $field->type);
+		$node->setAttribute('default', $field->default_value);
+		$node->setAttribute('label', $field->label);
+		$node->setAttribute('description', $field->description);
+		$node->setAttribute('class', $field->class);
+		$node->setAttribute('required', $field->required ? 'true' : 'false');
+		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
+
+		// Set the disabled state based on the parameter and the permission
+		$authorizedToEdit = JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
+		if ($field->params->get('disabled', 0) || !$authorizedToEdit)
+		{
+			$node->setAttribute('disabled', 'true');
+		}
+
+		foreach ($field->fieldparams->toArray() as $key => $param)
+		{
+			if (is_array($param))
+			{
+				$param = implode(',', $param);
+			}
+			$node->setAttribute($key, $param);
+		}
+		$this->postProcessDomNode($field, $node, $form);
+
+		return $node;
+	}
+
+	/**
+	 * Function to manipulate the DOM element of the field. The form can be
+	 * manipulated at that point.
+	 *
+	 * @param stdClass $field
+	 * @param DOMElement $fieldNode
+	 * @param JForm $form
+	 *
+	 * @since 3.7
+	 */
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+	}
+
+	/**
+	 * Returns the attributes of the field as an XML string which can be loaded
+	 * into JForm.
+	 *
+	 * @return string
+	 *
+	 * @since 3.7
+	 */
+	public function getFormParameters()
+	{
+		$reflectionClass = new ReflectionClass($this);
+		$fileName = __DIR__ . '/parameters/' . str_replace('.php', '.xml', basename($reflectionClass->getFileName()));
+		if (JFile::exists($fileName))
+		{
+			return JFile::read($fileName);
+		}
+		return '';
+	}
 }

@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('text');
  * @see    JFormRuleUrl for validation of full urls
  * @since  11.1
  */
-class JFormFieldUrl extends JFormFieldText
+class JFormFieldUrl extends JFormFieldText implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
@@ -68,5 +68,16 @@ class JFormFieldUrl extends JFormFieldText
 		return '<input ' . $inputType . ' name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. htmlspecialchars(JStringPunycode::urlToUTF8($this->value), ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
 			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
+	}
+
+	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	{
+		$fieldNode->setAttribute('validate', 'url');
+		if (! $fieldNode->getAttribute('relative'))
+		{
+			$fieldNode->removeAttribute('relative');
+		}
+
+		return parent::postProcessDomNode($field, $fieldNode, $form);
 	}
 }
