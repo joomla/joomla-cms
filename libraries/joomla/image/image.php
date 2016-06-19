@@ -432,7 +432,7 @@ class JImage
 		if ($this->isTransparent())
 		{
 			// Get the transparent color values for the current image.
-			//$rgba  = $this->getColorForIndex($this->handle);
+			// $rgba  = $this->getColorForIndex($this->handle);
 
 			// FIXME: Consider there's a desired fillColor - shouldn't this goes over transparency?
 			$rgba  = &$fillColor;
