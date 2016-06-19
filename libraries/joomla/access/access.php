@@ -562,12 +562,13 @@ class JAccess
 	 *
 	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
 	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
+	 * @param   boolean  $component  True to calculate the rule also based on component rules.
 	 *
 	 * @return  JAccessRules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
 	 */
-	public static function getAssetRules($asset, $recursive = false)
+	public static function getAssetRules($asset, $recursive = false, $component = true)
 	{
 		// Get instance of the Profiler:
 		$_PROFILER = JProfiler::getInstance('Application');
@@ -635,7 +636,7 @@ class JAccess
 				->from('#__assets AS a');
 
 			$extensionString = '';
-			if ($extensionName !== $asset || is_numeric($asset))
+			if ($component && ($extensionName !== $asset || is_numeric($asset)))
 			{
 				$extensionString = ' OR a.name = ' . $db->quote($extensionName);
 			}
@@ -681,6 +682,7 @@ class JAccess
 				$result = $db->loadResult();
 				$result = array($result);
 			}
+
 			// Instantiate and return the JAccessRules object for the asset rules.
 			$rules = new JAccessRules;
 			$rules->mergeCollection($result);

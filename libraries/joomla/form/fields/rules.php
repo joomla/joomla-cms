@@ -172,29 +172,54 @@ class JFormFieldRules extends JFormField
 			}
 		}
 
-		// Get the explicit rules for this asset.
-		if ($section == 'component')
+		// Get the asset id.
+		// Note that for global configuration, com_config injects asset_id = 1 into the form.
+		$assetId          = $this->form->getValue($assetField);
+		$newItem          = false;
+		$componentAssetId = null;
+
+		// Fetch the asset name.
+
+		// Global config or component config.
+		if (empty($component) || $component === 'root.1' || $section === 'component')
 		{
-			// Need to find the asset id by the name of the component.
+			$assetName = $component;
+		}
+		// Creating a ACL item, fallback to component ACL.
+		elseif (empty($assetId))
+		{
+			$assetName = $component;
+
+			// Get the component asset id as fallback.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = ' . $db->quote($assetName));
+			$db->setQuery($query);
+			$assetId = (int) $db->loadResult();
+
+			$newItem = true;
+		}
+		// Editing a ACL item, use the item ACL.
+		else
+		{
+			$assetName = $component . '.' . $section . '.' . $assetId;
+
+			// In this case we need to get the component rules too.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
 				->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
-			$assetId = (int) $db->loadResult();
-		}
-		else
-		{
-			// Find the asset id of the content.
-			// Note that for global configuration, com_config injects asset_id = 1 into the form.
-			$assetId = $this->form->getValue($assetField);
+			$componentAssetId = (int) $db->loadResult();
 		}
 
 		// Full width format.
 
 		// Get the rules for just this asset (non-recursive).
-		$assetRules = JAccess::getAssetRules($assetId);
+		$assetRules = JAccess::getAssetRules($assetId, false, false);
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
@@ -297,14 +322,20 @@ class JFormFieldRules extends JFormField
 				// Get the actual setting for the action for this group.
 				$assetRule = $assetRules->allow($action->name, $group->value);
 
+				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
+				$inheritedGroupRule          = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
+				$inheritedGroupComponentRule = $componentAssetId !== null ? JAccess::checkGroup((int) $group->value, $action->name, $componentAssetId) : null;
+				$inheritedGroupGlobalRule    = JAccess::checkGroup((int) $group->value, $action->name);
+				$inheritedParentGroupRule    = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
+
 				// Build the dropdowns for the permissions sliders
 
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
-				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>'
+				$html[] = '<option value=""' . ($assetRule === null || $newItem ? ' selected="selected"' : '') . '>'
 					. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
-				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
+				$html[] = '<option value="1"' . ($assetRule === true && !$newItem ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
 					. '</option>';
-				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
+				$html[] = '<option value="0"' . ($assetRule === false && !$newItem ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
 					. '</option>';
 
 				$html[] = '</select>&#160; ';
@@ -316,11 +347,6 @@ class JFormFieldRules extends JFormField
 				$html[] = '<td headers="aclactionth' . $group->value . '">';
 
 				$result = array();
-
-				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-				$inheritedGroupRule       = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-				$inheritedGroupGlobalRule = JAccess::checkGroup((int) $group->value, $action->name);
-				$inheritedParentGroupRule = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
@@ -346,19 +372,22 @@ class JFormFieldRules extends JFormField
 						$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 					}
 
-					// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+					// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
-					// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
-					if ($assetRule === false)
+					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
+					if (!$newItem)
 					{
-						$result['class'] = 'label label-important';
-						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
-					}
-					// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
-					elseif ($assetRule === true)
-					{
-						$result['class'] = 'label label-success';
-						$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+						if ($assetRule === false)
+						{
+							$result['class'] = 'label label-important';
+							$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
+						}
+						// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
+						elseif ($assetRule === true)
+						{
+							$result['class'] = 'label label-success';
+							$result['text']  = JText::_('JLIB_RULES_ALLOWED');
+						}
 					}
 
 					// Third part: Overwrite the calculated permissions labels for special cases.
@@ -372,8 +401,14 @@ class JFormFieldRules extends JFormField
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
-					// Component/item root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
+					// Component root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
 					elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
+					{
+						$result['class'] = 'label label-important';
+						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+					}
+					// Item root level with explicit "Denied" permission at Global configuration or Component. Calculated permission is "Not Allowed (Locked)".
+					elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && ($inheritedGroupComponentRule === false || ($newItem && $assetRule === false)))
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
