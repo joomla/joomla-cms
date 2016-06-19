@@ -73,13 +73,6 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		// Add strings for translations in Javascript.
-		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_CONNECTION_ABORT');
-		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_NO_CONTENT');
-		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_OTHER');
-		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_PARSE');
-		JText::script('COM_CONFIG_SENDMAIL_JS_ERROR_TIMEOUT');
-
 		$this->addToolbar();
 
 		return parent::render();
