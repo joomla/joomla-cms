@@ -71,7 +71,7 @@ class JImage
 	const ORIENTATION_SQUARE = 'square';
 
 	/**
-	 * @var    string  The image type (jpeg, png, gif, etc).
+	 * @var    int  The image type (IMAGETYPE_GIF, IMAGETYPE_JPEG, etc.)
 	 * @since  11.3
 	 */
 	protected $type = null;
@@ -433,10 +433,10 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba  = $this->getColorForIndex($this->handle);
-			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
-			imageColorTransparent($handle, $color);
+			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
 			imagecopyresized($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
@@ -581,7 +581,7 @@ class JImage
 			throw new LogicException('No valid image was loaded.');
 		}
 
-		return (imageColorTransparent($this->handle) >= 0);
+		return (imagecolortransparent($this->handle) >= 0);
 	}
 
 	/**
@@ -701,7 +701,7 @@ class JImage
 					// Assign to black which is default for transparent PNGs
 					$background = imagecolorAllocateAlpha($handle, $fillColor['red'], $fillColor['green'], $fillColor['blue'], $fillColor['alpha']);
 
-					imageColorTransparent($handle, $background);
+					imagecolortransparent($handle, $background);
 				}
 
 				// Keep track of image type. This information is required.
@@ -787,10 +787,10 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba  = $this->getColorForIndex($this->handle);
-			$color = imageColorAllocateAlpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
+			$color = imagecolorallocatealpha($handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
-			imageColorTransparent($handle, $color);
+			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
 			imagecopyresized(
@@ -1343,7 +1343,7 @@ class JImage
 	/**
 	 * Method to ensure the color index for a given resource is within valid range.
 	 *
-	 * Under some circumstance attempting calling {@link imageColorsForIndex()} on a GIF image
+	 * Under some circumstance attempting calling {@link imagecolorsforindex()} on a GIF image
 	 * fails causing a 'Color index out of range' error to be thrown.  This method circumvents
 	 * that issue because the native implementation doesn't check and catch it.
 	 *
@@ -1364,15 +1364,15 @@ class JImage
 			throw InvalidArgumentException('Argument must be a valid resource handle.');
 		}
 
-		$transparency = imageColorTransparent($resource);
-		$palletsize   = imageColorsTotal($resource);
+		$transparency = imagecolortransparent($resource);
+		$palletsize   = imagecolorstotal($resource);
 
 		if (($this->type === IMAGETYPE_GIF) || ($this->type === IMAGETYPE_PNG))
 		{
 			// Transparency is within valid range.
 			if ($transparency >= 0 && $transparency < $palletsize)
 			{
-				$rgba = imageColorsForIndex($resource, $transparency);
+				$rgba = imagecolorsforindex($resource, $transparency);
 			}
 			// Transparency is outside valid range - assign maximum.
 			else
@@ -1387,9 +1387,23 @@ class JImage
 		}
 		else
 		{
-			$rgba = imageColorsForIndex($resource, $transparency);
+			$rgba = imagecolorsforindex($resource, $transparency);
 		}
 
 		return $rgba;
+	}
+
+	/**
+	 * Method to get the type of image currently loaded.
+	 *
+	 * @return  int  The image type (IMAGETYPE_GIF, IMAGETYPE_JPEG, etc.)
+	 *
+	 * @since   11.3
+	 *
+	 * @see     http://php.net/manual/de/function.imagetypes.php
+	 */
+	public function getType()
+	{
+		return $this->type;
 	}
 }
