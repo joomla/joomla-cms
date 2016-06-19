@@ -126,8 +126,6 @@
 				<option value="0">JNO</option>
 				<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			</field>
-			<field name="output" type="editor"
-				label="COM_FIELDS_FIELD_OUTPUT_LABEL" description="COM_FIELDS_FIELD_OUTPUT_DESC" />
 		</fieldset>
 	</fields>
 </form>

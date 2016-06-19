@@ -11,12 +11,6 @@
         },
         "vendor-dir": "libraries/vendor"
     },
-    "support": {
-        "issues":"https://issues.joomla.org",
-        "irc":"http://irc.lc/freenode/joomla/",
-        "forum":"http://forum.joomla.org/",
-        "docs":"https://docs.joomla.org"
-    },
     "require": {
         "php": ">=5.3.10",
         "joomla/application": "~1.5",
@@ -32,9 +26,7 @@
         "paragonie/random_compat": "~1.0",
         "phpmailer/phpmailer": "5.2.14",
         "symfony/polyfill-php56": "~1.0",
-        "symfony/yaml": "2.*",
-        "simplepie/simplepie": "1.3.1",
-        "mustache/mustache": "2.8.0"
+        "symfony/yaml": "2.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",
