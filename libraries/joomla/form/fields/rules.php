@@ -156,7 +156,7 @@ class JFormFieldRules extends JFormField
 
 		// Initialise some field attributes.
 		$section    = $this->section;
-		$component  = $this->component;
+		$component  = empty($this->component) ? 'root.1' : $this->component;
 		$assetField = $this->assetField;
 
 		// Get the actions for the asset.
@@ -181,21 +181,26 @@ class JFormFieldRules extends JFormField
 		// Fetch the asset name.
 
 		// Global config or component config.
-		if (empty($component) || $component === 'root.1' || $section === 'component')
+		if ($component === 'root.1' || $section === 'component')
 		{
-			$assetName = $component;
-		}
-		// Creating a ACL item, fallback to component ACL.
-		elseif (empty($assetId))
-		{
-			$assetName = $component;
-
 			// Get the component asset id as fallback.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($assetName));
+				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$db->setQuery($query);
+			$assetId = (int) $db->loadResult();
+		}
+		// Creating a ACL item, fallback to component ACL.
+		elseif (empty($assetId))
+		{
+			// Get the component asset id as fallback.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 
@@ -204,8 +209,6 @@ class JFormFieldRules extends JFormField
 		// Editing a ACL item, use the item ACL.
 		else
 		{
-			$assetName = $component . '.' . $section . '.' . $assetId;
-
 			// In this case we need to get the component rules too.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
