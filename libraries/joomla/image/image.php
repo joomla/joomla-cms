@@ -1232,6 +1232,20 @@ class JImage
 	}
 
 	/**
+	 * Method to get the type of image currently loaded.
+	 *
+	 * @return  int  The image type (IMAGETYPE_GIF, IMAGETYPE_JPEG, etc.)
+	 *
+	 * @since   11.3
+	 *
+	 * @see     http://php.net/manual/de/function.imagetypes.php
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+
+	/**
 	 * Method to set the background fill color to use for non-transparent images.
 	 *
 	 * @param   array  $color  The RGBA values defining the color to use for background fill
@@ -1264,6 +1278,23 @@ class JImage
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Method to get the background fill color.
+	 *
+	 * @return  array  The RGBA values defining the color to use for background fill
+	 *
+	 * @since   11.3
+	 */
+	public function getFillColor()
+	{
+		if (!isset($this->fillColor))
+		{
+			$this->setFillColor(array());
+		}
+
+		return $this->fillColor;
 	}
 
 	/**
@@ -1324,23 +1355,6 @@ class JImage
 	}
 
 	/**
-	 * Method to get the background fill color.
-	 *
-	 * @return  array  The RGBA values defining the color to use for background fill
-	 *
-	 * @since   11.3
-	 */
-	public function getFillColor()
-	{
-		if (!isset($this->fillColor))
-		{
-			$this->setFillColor(array());
-		}
-
-		return $this->fillColor;
-	}
-
-	/**
 	 * Method to ensure the color index for a given resource is within valid range.
 	 *
 	 * Under some circumstance attempting calling {@link imagecolorsforindex()} on a GIF image
@@ -1391,19 +1405,5 @@ class JImage
 		}
 
 		return $rgba;
-	}
-
-	/**
-	 * Method to get the type of image currently loaded.
-	 *
-	 * @return  int  The image type (IMAGETYPE_GIF, IMAGETYPE_JPEG, etc.)
-	 *
-	 * @since   11.3
-	 *
-	 * @see     http://php.net/manual/de/function.imagetypes.php
-	 */
-	public function getType()
-	{
-		return $this->type;
 	}
 }
