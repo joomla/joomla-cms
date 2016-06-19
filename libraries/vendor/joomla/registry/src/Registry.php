@@ -58,8 +58,11 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		if (is_array($data) || is_object($data))
 		{
 			$this->bindData($this->data, $data);
+
+			return;
 		}
-		elseif (!empty($data) && is_string($data))
+
+		if (!empty($data) && is_string($data))
 		{
 			$this->loadString($data);
 		}
@@ -249,8 +252,8 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @return  Registry  The Registry object.
 	 *
-	 * @since   1.0
 	 * @deprecated  2.0  Instantiate a new Registry instance instead
+	 * @since   1.0
 	 */
 	public static function getInstance($id)
 	{
@@ -278,7 +281,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	}
 
 	/**
-	 * Load an associative array of values into the default namespace
+	 * Load a associative array of values into the default namespace
 	 *
 	 * @param   array    $array      Associative array of value to load
 	 * @param   boolean  $flattened  Load from a one-dimensional array
