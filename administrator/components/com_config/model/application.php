@@ -403,7 +403,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		$permission['component'] = empty($permission['component']) ? 'root.1' ? $permission['component'];
+		$permission['component'] = empty($permission['component']) ? 'root.1' : $permission['component'];
 
 		// Check if changed group has Super User permissions.
 		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
