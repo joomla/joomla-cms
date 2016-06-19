@@ -1254,7 +1254,7 @@ class JImage
 			'red'   => 0,
 			'green' => 0,
 			'blue'  => 0,
-			'alpha' => 127
+			'alpha' => 0
 		);
 
 		// If custom color definition has been passed, replace default color.
