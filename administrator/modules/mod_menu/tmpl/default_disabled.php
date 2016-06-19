@@ -78,7 +78,7 @@ $lm = $user->authorise('core.manage', 'com_languages');
 
 if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MANAGE'), null, 'disabled'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), null, 'disabled'));
 }
 
 /**
