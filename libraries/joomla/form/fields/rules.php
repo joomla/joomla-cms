@@ -404,14 +404,20 @@ class JFormFieldRules extends JFormField
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
-					// Component root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-					elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
+					// Item root level with explicit "Denied" permission at Global configuration or Component. Calculated permission is "Not Allowed (Locked)".
+					elseif ($isGlobalConfig === false && $newItem && $assetRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
-					// Item root level with explicit "Denied" permission at Global configuration or Component. Calculated permission is "Not Allowed (Locked)".
-					elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && ($inheritedGroupComponentRule === false || ($newItem && $assetRule === false)))
+					// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
+					elseif ($isGlobalConfig === false && $inheritedGroupGlobalRule === false)
+					{
+						$result['class'] = 'label label-important';
+						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+					}
+					// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
+					elseif ($isGlobalConfig === false && $inheritedGroupComponentRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');

@@ -403,6 +403,8 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
+		$permission['component'] = empty($permission['component']) ? 'root.1' ? $permission['component'];
+
 		// Check if changed group has Super User permissions.
 		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 
@@ -581,7 +583,7 @@ class ConfigModelApplication extends ConfigModelForm
 			$componentAssetId = null;
 
 			// Global config or component config.
-			if (!empty($permission['component']) && $permission['component'] !== 'root.1' && strpos($permission['component'], '.') !== false)
+			if ($permission['component'] !== 'root.1' && strpos($permission['component'], '.') !== false)
 			{
 				$assetNameParts = explode('.', $permission['component']);
 
@@ -678,7 +680,7 @@ class ConfigModelApplication extends ConfigModelForm
 			// Third part: Overwrite the calculated permissions labels for special cases.
 
 			// User in in global config Root (Public)?
-			$isGlobalConfig = (empty($permission['component']) || $permission['component'] === 'root.1') ? true : false;
+			$isGlobalConfig = $permission['component'] === 'root.1';
 
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
@@ -686,14 +688,14 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
-			// Component root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-			elseif (empty($parentGroupId) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
+			// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
+			elseif ($isGlobalConfig === false && $inheritedGroupGlobalRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
-			// Item root level with explicit "Denied" permission at Global configuration or Component. Calculated permission is "Not Allowed (Locked)".
-			elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupComponentRule === false)
+			// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
+			elseif ($isGlobalConfig === false && $inheritedGroupComponentRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
