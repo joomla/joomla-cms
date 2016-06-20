@@ -400,12 +400,19 @@ class JFormFieldRules extends JFormField
 					}
 				}
 
+				// Debugging information.
 				if (JDEBUG)
 				{
-					$tooltip = 'Asset Explict Rule: ' . var_export($assetRule, true) . '<br/>';
-					$tooltip.= 'Parent Asset Inhreited Rule: ' . ($isGlobalConfig === false ? var_export($inheritedGroupParentAssetRule, true) : '-') . '<br/>';
-					$tooltip.= 'Parent Group Inhreited Rule: ' . (!empty($group->parent_id) ? var_export($inheritedParentGroupRule, true) : '-') . '<br/>';
-
+					$calculatedValues = array(
+											'NULL'  => 'Inherited',
+											'false' => 'Not Allowed',
+											'true'  => 'Allowed',
+											);
+					$tooltip = '<strong>Asset Related Rules</strong><br/>';
+					$tooltip.= '- Current Asset (non-recursive): ' . $calculatedValues[(string) var_export($assetRule, true)] . '<br/>';
+					$tooltip.= '- Parent Group (recursive): ' . (!empty($group->parent_id) ? $calculatedValues[(string) var_export($inheritedParentGroupRule, true)] : '-') . '<br/>';
+					$tooltip.= '- Parent Asset (recursive): ' . ($isGlobalConfig === false ? $calculatedValues[(string) var_export($inheritedGroupParentAssetRule, true)] : '-') . '<br/><br/>';
+					$tooltip.= '<strong>Calculated Rule</strong>: ' . $calculatedValues[(string) var_export($inheritedGroupRule, true)];
 					$result['text'] = '<span class="hasTooltip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $result['text'] . '</span>';
 				}
 
