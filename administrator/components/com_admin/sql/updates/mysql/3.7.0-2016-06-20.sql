@@ -9,8 +9,6 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `label` varchar(255) NOT NULL DEFAULT '',
   `default_value` text NOT NULL DEFAULT '',
   `type` varchar(255) NOT NULL DEFAULT 'text',
-  `render_class` varchar(255) NOT NULL DEFAULT '',
-  `class` varchar(255) NOT NULL DEFAULT '',
   `options` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
