@@ -155,8 +155,9 @@ class JFormFieldRules extends JFormField
 		JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 		// Initialise some field attributes.
-		$section    = $this->section;
-		$component  = empty($this->component) ? 'root.1' : $this->component;
+		$section        = $this->section;
+		$component      = empty($this->component) ? 'root.1' : $this->component;
+		$isGlobalConfig = $component === 'root.1';
 		$assetField = $this->assetField;
 
 		// Get the actions for the asset.
@@ -181,7 +182,7 @@ class JFormFieldRules extends JFormField
 		// Fetch the asset name.
 
 		// Global config or component config.
-		if ($component === 'root.1' || $section === 'component')
+		if ($isGlobalConfig || $section === 'component')
 		{
 			// Get the component asset id as fallback.
 			$db = JFactory::getDbo();
@@ -325,17 +326,11 @@ class JFormFieldRules extends JFormField
 				// Get the actual setting for the action for this group.
 				$assetRule = $assetRules->allow($action->name, $group->value);
 
-				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-				$inheritedGroupRule          = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-				$inheritedGroupComponentRule = $componentAssetId !== null ? JAccess::checkGroup((int) $group->value, $action->name, $componentAssetId) : null;
-				$inheritedGroupGlobalRule    = JAccess::checkGroup((int) $group->value, $action->name);
-				$inheritedParentGroupRule    = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
-
 				// Build the dropdowns for the permissions sliders
 
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
 				$html[] = '<option value=""' . ($assetRule === null || $newItem ? ' selected="selected"' : '') . '>'
-					. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
+					. JText::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
 				$html[] = '<option value="1"' . ($assetRule === true && !$newItem ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
 					. '</option>';
 				$html[] = '<option value="0"' . ($assetRule === false && !$newItem ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
@@ -350,6 +345,12 @@ class JFormFieldRules extends JFormField
 				$html[] = '<td headers="aclactionth' . $group->value . '">';
 
 				$result = array();
+
+				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
+				$inheritedGroupRule          = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
+				$inheritedGroupComponentRule = $componentAssetId !== null ? JAccess::checkGroup((int) $group->value, $action->name, $componentAssetId) : null;
+				$inheritedGroupGlobalRule    = JAccess::checkGroup((int) $group->value, $action->name);
+				$inheritedParentGroupRule    = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
@@ -394,9 +395,6 @@ class JFormFieldRules extends JFormField
 					}
 
 					// Third part: Overwrite the calculated permissions labels for special cases.
-
-					// Changing global config?
-					$isGlobalConfig = (empty($component) || $component === 'root.1') ? true : false;
 
 					// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 					if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)

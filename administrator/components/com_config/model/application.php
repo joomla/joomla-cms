@@ -405,6 +405,9 @@ class ConfigModelApplication extends ConfigModelForm
 
 		$permission['component'] = empty($permission['component']) ? 'root.1' : $permission['component'];
 
+		// User in in global config Root (Public)?
+		$isGlobalConfig = $permission['component'] === 'root.1';
+
 		// Check if changed group has Super User permissions.
 		$isSuperUserGroupBefore = JAccess::checkGroup($permission['rule'], 'core.admin');
 
@@ -583,7 +586,7 @@ class ConfigModelApplication extends ConfigModelForm
 			$componentAssetId = null;
 
 			// Global config or component config.
-			if ($permission['component'] !== 'root.1' && strpos($permission['component'], '.') !== false)
+			if ($isGlobalConfig && strpos($permission['component'], '.') !== false)
 			{
 				$assetNameParts = explode('.', $permission['component']);
 
@@ -678,9 +681,6 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 
 			// Third part: Overwrite the calculated permissions labels for special cases.
-
-			// User in in global config Root (Public)?
-			$isGlobalConfig = $permission['component'] === 'root.1';
 
 			// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 			if (empty($parentGroupId) && $isGlobalConfig === true && $assetRule === null)
