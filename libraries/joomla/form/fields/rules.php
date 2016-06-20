@@ -156,12 +156,12 @@ class JFormFieldRules extends JFormField
 
 		// Initialise some field attributes.
 		$section        = $this->section;
-		$component      = empty($this->component) ? 'root.1' : $this->component;
-		$isGlobalConfig = $component === 'root.1';
+		$assetName      = empty($this->component) ? 'root.1' : $this->component;
+		$isGlobalConfig = $assetName === 'root.1';
 		$assetField = $this->assetField;
 
 		// Get the actions for the asset.
-		$actions = JAccess::getActions($component, $section);
+		$actions = JAccess::getActions($assetName, $section);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -176,36 +176,22 @@ class JFormFieldRules extends JFormField
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
 		$assetId       = $this->form->getValue($assetField);
-		$newItem       = false;
+		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
 		// Fetch the asset name.
 
-		// Global config or component config.
-		if ($isGlobalConfig || $section === 'component')
+		// If the asset id is empty (component or new item).
+		if (empty($assetId))
 		{
 			// Get the component asset id as fallback.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+				->where($db->quoteName('name') . ' = ' . $db->quote($assetName));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
-		}
-		// Creating a ACL item, fallback to component ACL.
-		elseif (empty($assetId))
-		{
-			// Get the component asset id as fallback.
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('id'))
-				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($component));
-			$db->setQuery($query);
-			$assetId = (int) $db->loadResult();
-
-			$newItem = true;
 		}
 
 		// If not in global config we need the parent_id asset to calculate permissions.
