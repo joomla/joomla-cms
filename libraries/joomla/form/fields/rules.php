@@ -207,8 +207,9 @@ class JFormFieldRules extends JFormField
 
 			$newItem = true;
 		}
-		// Editing a ACL item, use the item ACL.
-		else
+
+		// If not in global config we need the parent_id asset to calculate permissions.
+		if (!$isGlobalConfig)
 		{
 			// In this case we need to get the component rules too.
 			$db = JFactory::getDbo();

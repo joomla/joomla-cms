@@ -585,8 +585,8 @@ class ConfigModelApplication extends ConfigModelForm
 			// Fetch the parent asset id.
 			$parentAssetId = null;
 
-			// Global config or component config.
-			if ($isGlobalConfig === false && strpos($permission['component'], '.') !== false)
+			// If not in global config we need the parent_id asset to calculate permissions.
+			if (!$isGlobalConfig)
 			{
 				// In this case we need to get the component rules too.
 				$query = $this->db->getQuery(true)
