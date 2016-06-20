@@ -141,7 +141,7 @@ class JFormFieldRepeatable extends JFormField
 		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
 		JHtml::_('script', 'system/repeatable.js', true, true);
 
-		$javascript = 'jQuery(function() {jQuery("#'.$this->id . '_table tbody").sortable();})';
+		$javascript = 'jQuery(function() {jQuery("#'. $this->id . '_table tbody").sortable();})';
 
 		JFactory::getDocument()->addScriptDeclaration($javascript);
 
