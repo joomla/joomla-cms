@@ -15,7 +15,7 @@ require_once __DIR__ . '/helper.php';
 $headerText = trim($params->get('header_text'));
 $footerText = trim($params->get('footer_text'));
 
-require_once JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php';
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 BannersHelper::updateReset();
 $list = &ModBannersHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');

@@ -120,8 +120,8 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		// Unfortunately Joomla! MVC doesn't allow us to autoload classes, hence the need for an ugly require_once
-		require_once JPATH_ADMINISTRATOR . '/components/com_installer/models/update.php';
+		// Unfortunately Joomla! MVC doesn't allow us to autoload classes
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
 
 		// Get the update model and retrieve the Joomla! core updates
 		$model = JModelLegacy::getInstance('Update', 'InstallerModel');

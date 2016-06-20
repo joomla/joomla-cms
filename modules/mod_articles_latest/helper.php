@@ -9,16 +9,14 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_articles_latest
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_latest
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesLatestHelper
 {

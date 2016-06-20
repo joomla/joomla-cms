@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_users/helpers/route.php';
+JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helpers/route.php');
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');

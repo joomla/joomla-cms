@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-// Load the base adapter.
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Finder adapter for Joomla Tag.
@@ -275,7 +274,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/components/com_tags/helpers/route.php';
+		JLoader::register('TagsHelperRoute', JPATH_SITE . '/components/com_tags/helpers/route.php');
 
 		return true;
 	}

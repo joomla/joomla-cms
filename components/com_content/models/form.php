@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 // Base this model on the backend version.
-require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
+JLoader::register('ContentModelArticle', JPATH_ADMINISTRATOR . '/components/com_content/models/article.php');
 
 /**
  * Content Component Article Model

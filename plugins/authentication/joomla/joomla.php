@@ -90,7 +90,7 @@ class PlgAuthenticationJoomla extends JPlugin
 		// Check the two factor authentication
 		if ($response->status == JAuthentication::STATUS_SUCCESS)
 		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+			JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 
 			$methods = UsersHelper::getTwoFactorMethods();
 
@@ -100,9 +100,10 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-			require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 
-			$model = new UsersModelUser;
+			/** @var UsersModelUser $model */
+			$model = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
