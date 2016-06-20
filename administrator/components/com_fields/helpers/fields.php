@@ -8,12 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-
 /**
  * FieldsHelper
  *
- * @since  3.6
+ * @since  3.7
  */
 class FieldsHelper
 {
@@ -368,7 +366,7 @@ class FieldsHelper
 			}
 
 			$fieldset->setAttribute('label', $label);
-			$fieldset->setAttribute('description', $description);
+			$fieldset->setAttribute('description', strip_tags($description));
 
 			// Looping trough the fields for that context
 			foreach ($catFields as $field)
