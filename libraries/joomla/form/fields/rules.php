@@ -175,9 +175,9 @@ class JFormFieldRules extends JFormField
 
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
-		$assetId          = $this->form->getValue($assetField);
-		$newItem          = false;
-		$componentAssetId = null;
+		$assetId       = $this->form->getValue($assetField);
+		$newItem       = false;
+		$parentAssetId = null;
 
 		// Fetch the asset name.
 
@@ -213,11 +213,11 @@ class JFormFieldRules extends JFormField
 			// In this case we need to get the component rules too.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName('id'))
+				->select($db->quoteName('parent_id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+				->where($db->quoteName('id') . ' = ' . $assetId);
 			$db->setQuery($query);
-			$componentAssetId = (int) $db->loadResult();
+			$parentAssetId = (int) $db->loadResult();
 		}
 
 		// Full width format.
@@ -347,10 +347,10 @@ class JFormFieldRules extends JFormField
 				$result = array();
 
 				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-				$inheritedGroupRule          = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-				$inheritedGroupComponentRule = $componentAssetId !== null ? JAccess::checkGroup((int) $group->value, $action->name, $componentAssetId) : null;
-				$inheritedGroupGlobalRule    = JAccess::checkGroup((int) $group->value, $action->name);
-				$inheritedParentGroupRule    = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
+				$inheritedGroupRule            = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
+				$inheritedGroupParentAssetRule = $parentAssetId !== null ? JAccess::checkGroup((int) $group->value, $action->name, $parentAssetId) : null;
+				$inheritedGroupGlobalRule      = JAccess::checkGroup((int) $group->value, $action->name);
+				$inheritedParentGroupRule      = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
@@ -406,7 +406,7 @@ class JFormFieldRules extends JFormField
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 					// Item with explicit "Denied" permission at Global configuration or Component configuration. Calculated permission is "Not Allowed (Locked)".
-					elseif ($isGlobalConfig === false && $inheritedGroupComponentRule === false)
+					elseif ($isGlobalConfig === false && $inheritedGroupParentAssetRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
