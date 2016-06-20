@@ -348,9 +348,8 @@ class JFormFieldRules extends JFormField
 
 				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
 				$inheritedGroupRule            = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-				$inheritedGroupParentAssetRule = $parentAssetId !== null ? JAccess::checkGroup((int) $group->value, $action->name, $parentAssetId) : null;
-				$inheritedGroupGlobalRule      = JAccess::checkGroup((int) $group->value, $action->name);
-				$inheritedParentGroupRule      = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
+				$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($group->value, $action->name, $parentAssetId) : null;
+				$inheritedParentGroupRule      = !empty($group->parent_id) ? JAccess::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
@@ -399,13 +398,7 @@ class JFormFieldRules extends JFormField
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
-					// Component/item with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-					elseif ($isGlobalConfig === false && $inheritedGroupGlobalRule === false)
-					{
-						$result['class'] = 'label label-important';
-						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-					}
-					// Item with explicit "Denied" permission at Global configuration or Component configuration. Calculated permission is "Not Allowed (Locked)".
+					// Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration. Calculated permission is "Not Allowed (Locked)".
 					elseif ($isGlobalConfig === false && $inheritedGroupParentAssetRule === false)
 					{
 						$result['class'] = 'label label-important';

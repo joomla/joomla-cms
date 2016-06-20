@@ -635,9 +635,8 @@ class ConfigModelApplication extends ConfigModelForm
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
 		$inheritedGroupRule            = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
-		$inheritedGroupParentAssetRule = $parentAssetId !== null ? JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId) : null;
-		$inheritedGroupGlobalRule      = JAccess::checkGroup($permission['rule'], $permission['action']);
-		$inheritedParentGroupRule      = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
+		$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId) : null;
+		$inheritedParentGroupRule      = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
@@ -686,13 +685,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
-			// Component/item with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-			elseif ($isGlobalConfig === false && $inheritedGroupGlobalRule === false)
-			{
-				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-			}
-			// Item with explicit "Denied" permission at Global configuration or parent configuration. Calculated permission is "Not Allowed (Locked)".
+			// Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration. Calculated permission is "Not Allowed (Locked)".
 			elseif ($isGlobalConfig === false && $inheritedGroupParentAssetRule === false)
 			{
 				$result['class'] = 'label label-important';
