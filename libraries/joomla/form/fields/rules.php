@@ -156,12 +156,12 @@ class JFormFieldRules extends JFormField
 
 		// Initialise some field attributes.
 		$section        = $this->section;
-		$assetName      = empty($this->component) ? 'root.1' : $this->component;
-		$isGlobalConfig = $assetName === 'root.1';
+		$component      = empty($this->component) ? 'root.1' : $this->component;
+		$isGlobalConfig = $component === 'root.1';
 		$assetField = $this->assetField;
 
 		// Get the actions for the asset.
-		$actions = JAccess::getActions($assetName, $section);
+		$actions = JAccess::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
@@ -189,9 +189,14 @@ class JFormFieldRules extends JFormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($assetName));
+				->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
+
+			// TO DO:
+			// FOR NEW ITEM WE NEED TO GET THE ASSET FROM PARENT COMPONENT OR SECTION TO GET THE CALCULATED PERMISSIONS.
+			// OR JUST HIDE THE FORM.
+			// AS IT IS THE CALCULATED PERMISSIONS ARE EQUAL TO THE PARENT COMPONENT RULES.
 		}
 
 		// If not in global config we need the parent_id asset to calculate permissions.
