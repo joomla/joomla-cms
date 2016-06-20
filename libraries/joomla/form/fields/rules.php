@@ -400,6 +400,15 @@ class JFormFieldRules extends JFormField
 					}
 				}
 
+				if (JDEBUG)
+				{
+					$tooltip = 'Asset Explict Rule: ' . var_export($assetRule, true) . '<br/>';
+					$tooltip.= 'Parent Asset Inhreited Rule: ' . ($isGlobalConfig === false ? var_export($inheritedGroupParentAssetRule, true) : '-') . '<br/>';
+					$tooltip.= 'Parent Group Inhreited Rule: ' . (!empty($group->parent_id) ? var_export($inheritedParentGroupRule, true) : '-') . '<br/>';
+
+					$result['text'] = '<span class="hasTooltip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $result['text'] . '</span>';
+				}
+
 				$html[] = '<span class="' . $result['class'] . '">' . $result['text'] . '</span>';
 				$html[] = '</td>';
 				$html[] = '</tr>';
