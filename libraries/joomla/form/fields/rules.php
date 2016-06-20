@@ -427,7 +427,7 @@ class JFormFieldRules extends JFormField
 					{
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true)
-								->select($db->quoteName('title'))
+								->select($db->quoteName('name'))
 								->from($db->quoteName('#__assets'))
 								->where($db->quoteName('id') . ' = ' . $parentAssetId);
 						$db->setQuery($query);
