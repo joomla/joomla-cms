@@ -872,7 +872,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php';
+		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 		return parent::validate($form, $data, $group);
 	}

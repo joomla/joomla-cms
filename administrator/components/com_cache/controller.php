@@ -28,7 +28,7 @@ class CacheController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/cache.php';
+		JLoader::register('CacheHelper', JPATH_COMPONENT . '/helpers/cache.php');
 
 		// Get the document object.
 		$document = JFactory::getDocument();

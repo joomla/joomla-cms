@@ -34,7 +34,7 @@ class SearchController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/search.php';
+		JLoader::register('SearchHelper', JPATH_COMPONENT . '/helpers/search.php');
 
 		// Load the submenu.
 		SearchHelper::addSubmenu($this->input->get('view', 'searches'));

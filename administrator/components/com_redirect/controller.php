@@ -34,7 +34,7 @@ class RedirectController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/redirect.php';
+		JLoader::register('RedirectHelper', JPATH_COMPONENT . '/helpers/redirect.php');
 
 		// Load the submenu.
 		RedirectHelper::addSubmenu($this->input->get('view', 'links'));

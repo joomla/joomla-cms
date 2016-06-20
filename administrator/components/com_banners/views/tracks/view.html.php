@@ -66,8 +66,6 @@ class BannersViewTracks extends JViewLegacy
 
 		$this->addToolbar();
 
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
-
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);

@@ -94,7 +94,7 @@ class LanguagesControllerOverride extends JControllerForm
 		}
 
 		// Require helper for filter functions called by JForm.
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_COMPONENT . '/helpers/languages.php');
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);

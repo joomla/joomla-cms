@@ -89,7 +89,7 @@ class CategoriesController extends JControllerLegacy
 			$view->document = $document;
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT . '/helpers/categories.php';
+			JLoader::register('CategoriesHelper', JPATH_COMPONENT . '/helpers/categories.php');
 
 			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();

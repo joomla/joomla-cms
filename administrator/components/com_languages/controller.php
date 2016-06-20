@@ -34,7 +34,7 @@ class LanguagesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_COMPONENT . '/helpers/languages.php');
 
 		$view   = $this->input->get('view', 'languages');
 		$layout = $this->input->get('layout', 'default');

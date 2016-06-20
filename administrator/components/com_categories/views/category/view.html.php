@@ -129,7 +129,7 @@ class CategoriesViewCategory extends JViewLegacy
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the category helper.
-		require_once JPATH_COMPONENT . '/helpers/categories.php';
+		JLoader::register('CategoriesHelper', JPATH_COMPONENT . '/helpers/categories.php');
 
 		// Get the results for each action.
 		$canDo = $this->canDo;

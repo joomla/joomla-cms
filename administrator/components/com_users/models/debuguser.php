@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/debug.php';
+JLoader::register('UsersHelperDebug', JPATH_COMPONENT . '/helpers/debug.php');
 
 /**
  * Methods supporting a list of user records.
