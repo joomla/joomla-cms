@@ -324,7 +324,7 @@ class JFormFieldRules extends JFormField
 				 */
 
 				// Get the actual setting for the action for this group.
-				$assetRule = $newItem === false : $assetRules->allow($action->name, $group->value) : null;
+				$assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null;
 
 				// Build the dropdowns for the permissions sliders
 
