@@ -405,7 +405,7 @@ class JFormFieldRules extends JFormField
 				{
 					$calculatedValues = array(
 											'NULL'  => 'Inherited',
-											'false' => 'Not Allowed',
+											'false' => 'Denied',
 											'true'  => 'Allowed',
 											);
 											
@@ -435,6 +435,13 @@ class JFormFieldRules extends JFormField
 						$parentAssetName = $db->loadResult();
 						$tooltip.= '- Parent Asset [' . $parentAssetId . ':' . $parentAssetName . '] (recursive): ' . $calculatedValues[(string) var_export($inheritedGroupParentAssetRule, true)] . '<br/>';
 					}
+
+					$calculatedValues = array(
+											'NULL'  => 'Not Allowed (Inherited)',
+											'false' => 'Not Allowed',
+											'true'  => 'Allowed',
+											);
+
 					$tooltip.= '<br/><strong>Calculated Rule</strong>: ' . $calculatedValues[(string) var_export($inheritedGroupRule, true)];
 					$result['text'] = '<span class="hasTooltip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $result['text'] . '</span>';
 				}
