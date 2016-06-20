@@ -56,6 +56,8 @@ class JFormFieldRepeatable extends JFormField
 		// Build a Table
 		$head_row_str = array();
 		$body_row_str = array();
+		$head_row_str[] = '<th></th>';
+		$body_row_str[] = '<td><span class="sortable-handler " style="cursor: move;"><i class="icon-menu"></i></span></td>';
 		foreach ($subForm->getFieldset() as $field)
 		{
 			// Reset name to simple
@@ -131,7 +133,19 @@ class JFormFieldRepeatable extends JFormField
 
 		// Add scripts
 		JHtml::_('bootstrap.framework');
+
+		// Depends on jQuery UI
+		JHtml::_('jquery.ui', array('core', 'sortable'));
+
+		JHtml::_('script', 'jui/sortablelist.js', false, true);
+		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
 		JHtml::_('script', 'system/repeatable.js', true, true);
+
+		$str[] = '<script type="text/javascript">';
+		$str[] = 'jQuery(function() {';
+		$str[] = 'jQuery("#'.$this->id . '_table tbody").sortable();';
+		$str[] = '});';
+		$str[] = '</script>';
 
 		return implode("\n", $str);
 	}
