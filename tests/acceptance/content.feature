@@ -9,11 +9,8 @@ Feature: content
     Then I see administrator dashboard
 
   Scenario: Create an Article
-    Given There is a Add Content link
-    When I fill mandatory fields for creating article
-      | field   | value                    |
-      | title   | My_Article               |
-      | content | This is my First Article |
+    Given There is a add content link
+    When I create new content fulfilling mandatory fields: title and content
     And I save an article
     Then I should see the "Article successfully saved." message
 

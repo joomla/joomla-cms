@@ -1,44 +1,30 @@
 <?php
 namespace Step\Acceptance\Administrator;
 
+use Page\Acceptance\Administrator\AdminPage;
+use Page\Acceptance\Administrator\ArticleManagerPage;
+
 class Content extends \AcceptanceTester
 {
 	/**
-	 * @Given There is a Add Content link
+	 * @Given There is a add content link
 	 */
 	public function thereIsAAddContentLink()
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_content&view=articles');
+		$I->amOnPage(ArticleManagerPage::$pageURL);
 		$I->clickToolbarButton('New');
 	}
 
 	/**
-	 * @When I fill mandatory fields for creating article
+	 * @When I create new content fulfilling mandatory fields: title and content
 	 */
-	public function iFillMandatoryFieldsForCreatingArticle(\Behat\Gherkin\Node\TableNode $fields)
+	public function iCreateNewContent()
 	{
-
 		$I = $this;
-		// iterate over all rows
-		foreach ($fields->getRows() as $index => $row) {
-			if ($index === 0) { // first row to define fields
-				$keys = $row;
-				continue;
-			}
-			else
-			{
-				if ($row[0] == "title")
-				{
-					$I->fillField(['id' => 'jform_title'], $row[1]);
-				}
-				if ($row[0] == "content")
-				{
-					$I->click('Toggle editor');
-					$I->fillField(['id' => 'jform_articletext'], $row[1]);
-				}
-			}
-		}
+		$I->fillField(ArticleManagerPage::$articleTitleField,"My_Article");
+		$I->click(ArticleManagerPage::$toggleEditor);
+		$I->fillField(ArticleManagerPage::$articleContentField,"this is my first article");
 	}
 
 	/**
@@ -57,7 +43,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Articles');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -66,9 +52,9 @@ class Content extends \AcceptanceTester
 	public function iSearchAndSelectContentArticleWithTitle($title)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_content&view=articles');
-		$I->fillField(['id' => 'filter_search'], $title);
-		$I->click('.icon-search');
+		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->fillField(ArticleManagerPage::$filterSearch, $title);
+		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
 	}
 
@@ -78,7 +64,7 @@ class Content extends \AcceptanceTester
 	public function iFeatureTheContentWithTitle()
 	{
 		$I = $this;
-		$I->click(['xpath' => "//div[@id='toolbar-featured']//button"]);
+		$I->clickToolbarButton('featured');
 	}
 
 	/**
@@ -88,7 +74,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Articles');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -97,11 +83,11 @@ class Content extends \AcceptanceTester
 	public function iSelectTheContentArticleWithTitle($title)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_content&view=articles');
-		$I->fillField(['id' => 'filter_search'], $title);
-		$I->click('.icon-search');
+		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->fillField(ArticleManagerPage::$filterSearch, $title);
+		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
-		$I->click(['xpath' => "//div[@id='toolbar-edit']/button"]);
+		$I->clickToolbarButton('edit');
 	}
 
 	/**
@@ -128,9 +114,9 @@ class Content extends \AcceptanceTester
 	public function iHaveArticleWithName($title)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_content&view=articles');
-		$I->fillField(['id' => 'filter_search'], $title);
-		$I->click('.icon-search');
+		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->fillField(ArticleManagerPage::$filterSearch, $title);
+		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
 	}
 
@@ -149,7 +135,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Articles');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 
@@ -159,9 +145,9 @@ class Content extends \AcceptanceTester
 	public function iHaveContentArticleWhichNeedsToBeTrash($title)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_content&view=articles');
-		$I->fillField(['id' => 'filter_search'], $title);
-		$I->click('.icon-search');
+		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->fillField(ArticleManagerPage::$filterSearch, $title);
+		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
 	}
 
@@ -181,6 +167,6 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Articles');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 }
