@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,6 @@ class JFeedLinkTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedLink::__construct
 	 * @since   12.3
 	 */
 	public function testConstruct()
@@ -41,12 +40,11 @@ class JFeedLinkTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedLink::__construct
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
 	public function testConstructWithInvalidLength()
 	{
-		$link = new JFeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
+		new JFeedLink('URI', 'self', 'application/x-pdf', 'en-GB', 'My Link', 'foobar');
 	}
 }

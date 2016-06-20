@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Controller class to install additional languages for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerInstallLanguages extends JControllerBase
 {
@@ -30,7 +28,6 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-		JFactory::$session = null;
 	}
 
 	/**
@@ -65,6 +62,7 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		{
 			// Install selected languages
 			$model->install($lids);
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'));
 		}
 
 		// Redirect to the page.

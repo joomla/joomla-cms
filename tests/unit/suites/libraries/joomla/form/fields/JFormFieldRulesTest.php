@@ -3,38 +3,33 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('rules');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldRules.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
-class JFormFieldRulesTest extends TestCase
+class JFormFieldRulesTest extends TestCaseDatabase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Sets up dependencies for the test.
 	 *
 	 * @return void
 	 */
 	protected function setUp()
 	{
-		jimport('joomla.environment.request');
-		require_once JPATH_PLATFORM . '/joomla/form/fields/rules.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		parent::setUp();
 
 		$this->saveFactoryState();
 
-		$_SERVER['HTTP_HOST'] = 'localhost';
-		$_SERVER['SCRIPT_NAME'] = '';
-
-		JFactory::$application = $this->getMockApplication();
-		JFactory::$config = $this->getMockConfig();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -46,6 +41,24 @@ class JFormFieldRulesTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   12.1
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -55,10 +68,10 @@ class JFormFieldRulesTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="rules" type="rules" /></form>'),
+			$form->load('<form><field name="rules" type="rules" section="component" component="com_content" /></form>'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
@@ -70,8 +83,6 @@ class JFormFieldRulesTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),

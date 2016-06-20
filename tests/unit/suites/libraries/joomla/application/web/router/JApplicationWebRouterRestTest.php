@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,6 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterRest::setHttpMethodSuffix
 	 * @since   12.3
 	 */
 	public function testSetHttpMethodSuffix()
@@ -48,7 +47,6 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterRest::fetchControllerSuffix
 	 * @since   12.3
 	 */
 	public function testFetchControllerSuffixWithMissingSuffixMap()
@@ -56,7 +54,7 @@ class JApplicationWebRouterRestTest extends TestCase
 		$_SERVER['REQUEST_METHOD'] = 'FOOBAR';
 
 		$this->setExpectedException('RuntimeException');
-		$suffix = TestReflection::invoke($this->_instance, 'fetchControllerSuffix');
+		TestReflection::invoke($this->_instance, 'fetchControllerSuffix');
 	}
 
 	/**
@@ -119,7 +117,6 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JApplicationWebRouterRest::fetchControllerSuffix
 	 * @dataProvider  seedFetchControllerSuffixData
 	 * @since         12.3
 	 */
@@ -151,8 +148,6 @@ class JApplicationWebRouterRestTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterRest::setMethodInPostRequest
-	 * @covers  JApplicationWebRouterRest::isMethodInPostRequest
 	 * @since   12.3
 	 */
 	public function testMethodInPostRequest()

@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -77,11 +83,13 @@ abstract class AdminEditPage extends AdminPage
 		$return = array();
 		if (count($tabIds) > 0)
 		{
+			// Get header fields
+			$return = $this->getInputFieldsForHeader();
 			foreach ($tabIds as $tabId)
 			{
+
 				$tabLink = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . $tabId . "')]"));
 				$tabLink->click();
-				$div = $this->driver->findElement(By::id($tabId));
 
 				// If there are accordian groups inside this tab, loop through each group
 				if (isset($this->groups[$tabId]))
@@ -89,12 +97,12 @@ abstract class AdminEditPage extends AdminPage
 					foreach ($this->groups[$tabId] as $groupLabel)
 					{
 						$this->expandAccordionGroup($groupLabel);
-						$return = array_merge($return, $this->getInputFieldsForTab($tabId, $div, $groupLabel));
+						$return = array_merge($return, $this->getInputFieldsForTab($tabId, $groupLabel));
 					}
 				}
 				else
 				{
-					$return = array_merge($return, $this->getInputFieldsForTab($tabId, $div));
+					$return = array_merge($return, $this->getInputFieldsForTab($tabId));
 				}
 
 			}
@@ -102,7 +110,7 @@ abstract class AdminEditPage extends AdminPage
 		else
 		{
 			$labels = $this->driver->findElements(By::xPath("//fieldset/div[@class='control-group']/div/label"));
-			$tabId = 'none';
+			$tabId = 'header';
 			foreach ($labels as $label)
 			{
 				$return[] = $this->getInputField($tabId, $label);
@@ -111,10 +119,21 @@ abstract class AdminEditPage extends AdminPage
 		return $return;
 	}
 
-	protected function getInputFieldsForTab($tabId, $div, $groupLabel = null)
+	protected function getInputFieldsForTab($tabId, $groupLabel = null)
+	{
+		$labels = $this->driver->findElements(By::xPath("//div[@id='" . $tabId . "']//div/label"));
+		return $this->getInputFieldObjects($labels, $tabId, $groupLabel);
+	}
+
+	protected function getInputFieldsForHeader()
+	{
+		$labels = $this->driver->findElements(By::xPath("//div[contains(@class, 'form-inline')]//div/label"));
+		return $this->getInputFieldObjects($labels, 'header');
+	}
+
+	protected function getInputFieldObjects($labels, $tabId, $groupLabel = null)
 	{
 		$return = array();
-		$labels = $div->findElements(By::xPath("//div[@id='" . $tabId . "']//div/label"));
 		foreach ($labels as $label)
 		{
 			if ($object = $this->getInputField($tabId, $label))
@@ -311,7 +330,7 @@ abstract class AdminEditPage extends AdminPage
 
 	public function selectTab($label, $group = null)
 	{
-		if ($label == 'none')
+		if ($label == 'header')
 		{
 			return;
 		}
@@ -382,11 +401,19 @@ abstract class AdminEditPage extends AdminPage
 			$type = $container->getAttribute('class');
 			if (strpos($type, 'chzn-container-single-nosearch') > 0)
 			{
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
+				$selectElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"));
+				if (!$selectElement->isDisplayed())
+				{
+					$selectElement->getLocationOnScreenOnceScrolledIntoView();
+				}
+				$selectElement->click();
 
 				// Click the last element in the list to make sure they are all in view
 				$lastElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[last()]"));
-				$lastElement->getLocationOnScreenOnceScrolledIntoView();
+				if (!$lastElement->isDisplayed())
+				{
+					$lastElement->getLocationOnScreenOnceScrolledIntoView();
+				}
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
 			}
 			elseif (strpos($type, 'chzn-container-single') > 0)
@@ -425,8 +452,9 @@ abstract class AdminEditPage extends AdminPage
 		{
 			$guiEditor = $this->driver->findElements(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"));
 		}
-		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1)
+		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1 && $guiEditor[0]->isDisplayed())
 		{
+			$this->driver->executeScript("window.scrollBy(0,400)");
 			$guiEditor[0]->click();
 		}
 
@@ -434,10 +462,12 @@ abstract class AdminEditPage extends AdminPage
 		$inputElement->clear();
 		$inputElement->sendKeys($values['value']);
 
-		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1)
+		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1 && $guiEditor[0]->isDisplayed())
 		{
+			$this->driver->executeScript("window.scrollBy(0,400)");
 			$guiEditor[0]->click();
 		}
+		$this->driver->executeScript("window.scrollTo(0,0)");
 	}
 
 	/**

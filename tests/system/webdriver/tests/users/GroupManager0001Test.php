@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -9,9 +16,14 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the  Manager: Add / Edit  Screen
- * @author Mark
+ * This class tests the  Control panel.
  *
+ * @package     Joomla.Tests
+ * @subpackage  Test
+ *
+ * @copyright   Copyright (c) 2005 - 2016 Open Source Matters, Inc.   All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       Joomla 3.3
  */
 class GroupManager0001Test extends JoomlaWebdriverTestCase
 {
@@ -19,8 +31,15 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	 *
 	 * @var GroupManagerPage
 	 */
-	protected $groupManagerPage = null; // Global configuration page
+	protected $groupManagerPage = null; /* Global configuration page*/
 
+	/**
+	 * Login to back end and navigate to menu Language Manager.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +47,13 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$this->groupManagerPage = $cpPage->clickMenu('Groups', 'GroupManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -35,6 +61,10 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * open edit screen
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_GroupEditOpened()
@@ -46,12 +76,20 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * Gets the actual input fields and checks them against the $inputFields property.
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
 		$this->groupManagerPage->clickButton('toolbar-new');
 		$groupEditPage = $this->getPageObject('GroupEditPage');
+
+		/* Option to print actual element array
+		/* @var $groupEditPage GroupEditPage */
+		// 	 	$groupEditPage->printFieldArray($groupEditPage->getAllInputFields($groupEditPage->tabs));
 
 		$testElements = $groupEditPage->getAllInputFields();
 		$actualFields = $this->getActualFieldsFromElements($testElements);
@@ -61,6 +99,10 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add group with default values
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function add_WithFieldDefaults_Added()
@@ -75,6 +117,10 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add a group with given values
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addGroup_WithGivenFields_GroupAdded()
@@ -94,6 +140,10 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit the values of input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editGroup_ChangeFields_FieldsChanged()
@@ -111,6 +161,10 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * test to order the groups
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestOrdering_ShouldOrderGroups()

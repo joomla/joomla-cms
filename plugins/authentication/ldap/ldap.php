@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * LDAP Authentication Plugin
  *
- * @package     Joomla.Plugin
- * @subpackage  Authentication.ldap
- * @since       1.5
+ * @since  1.5
  */
 class PlgAuthenticationLdap extends JPlugin
 {
@@ -38,6 +36,9 @@ class PlgAuthenticationLdap extends JPlugin
 		// For JLog
 		$response->type = 'LDAP';
 
+		// Strip null bytes from the password
+		$credentials['password'] = str_replace(chr(0), '', $credentials['password']);
+
 		// LDAP does not like Blank passwords (tries to Anon Bind which is bad)
 		if (empty($credentials['password']))
 		{
@@ -48,10 +49,10 @@ class PlgAuthenticationLdap extends JPlugin
 		}
 
 		// Load plugin params info
-		$ldap_email		= $this->params->get('ldap_email');
-		$ldap_fullname	= $this->params->get('ldap_fullname');
-		$ldap_uid		= $this->params->get('ldap_uid');
-		$auth_method	= $this->params->get('auth_method');
+		$ldap_email    = $this->params->get('ldap_email');
+		$ldap_fullname = $this->params->get('ldap_fullname');
+		$ldap_uid      = $this->params->get('ldap_uid');
+		$auth_method   = $this->params->get('auth_method');
 
 		$ldap = new JClientLdap($this->params);
 
@@ -146,12 +147,14 @@ class PlgAuthenticationLdap extends JPlugin
 			if (isset($userdetails[0][$ldap_fullname][0]))
 			{
 				$response->fullname = $userdetails[0][$ldap_fullname][0];
-			} else {
+			}
+			else
+			{
 				$response->fullname = $credentials['username'];
 			}
 
 			// Were good - So say so.
-			$response->status		= JAuthentication::STATUS_SUCCESS;
+			$response->status        = JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
 

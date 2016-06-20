@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ endif;
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
@@ -45,7 +45,7 @@ endif;
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&a_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
-		<legend><?php echo JText::_('JEDITOR'); ?></legend>
+		<legend><?php echo JText::_('COM_CONTENT_ARTICLE_CONTENT'); ?></legend>
 
 			<div class="control-group">
 				<div class="control-label">
@@ -218,6 +218,14 @@ endif;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('catid'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('tags'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('tags'); ?>
 				</div>
 			</div>
 			<div class="control-group">

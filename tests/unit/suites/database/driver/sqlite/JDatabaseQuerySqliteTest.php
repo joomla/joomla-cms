@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once __DIR__ . '/JDatabaseQuerySqliteInspector.php';
 
 /**
  * Test class for JDatabaseQuerySqlite.
@@ -19,7 +17,7 @@ require_once __DIR__ . '/JDatabaseQuerySqliteInspector.php';
 class JDatabaseQuerySqliteTest extends TestCase
 {
 	/**
-	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
+	 * @var    JDatabaseDriverSqlite  A mock of the JDatabaseDriver object for testing purposes.
 	 * @since  13.1
 	 */
 	protected $dbo;
@@ -31,7 +29,6 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 * @since  12.3
 	 */
 	private $_instance;
-
 
 	/**
 	 * Sets up the fixture.
@@ -46,12 +43,12 @@ class JDatabaseQuerySqliteTest extends TestCase
 	{
 		parent::setUp();
 
-		$this->dbo = $this->getMockDatabase();
+		$this->dbo = $this->getMockDatabase('Sqlite');
 
-		$this->_instance = new JDatabaseQuerySqliteInspector($this->dbo);
+		$this->_instance = new JDatabaseQuerySqlite($this->dbo);
 	}
 
-/**
+	/**
 	 * Data for the testDateAdd test.
 	 *
 	 * @return  array
@@ -61,12 +58,12 @@ class JDatabaseQuerySqliteTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-				// date, interval, datepart, expected
-				'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
-				'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
-				'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
-				'Add microseconds'	=> array('2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+0.053 seconds')"),
-				);
+			// date, interval, datepart, expected
+			'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
+			'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
+			'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
+			'Add microseconds'	=> array('2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+0.053 seconds')"),
+		);
 	}
 
 	/**
@@ -84,9 +81,25 @@ class JDatabaseQuerySqliteTest extends TestCase
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
-		$this->assertThat(
-				$this->_instance->dateAdd($date, $interval, $datePart),
-				$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			$this->_instance->dateAdd($date, $interval, $datePart)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuerySqlite::currentTimestamp method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuerySqlite::currentTimestamp
+	 * @since   3.4
+	 */
+	public function testCurrentTimestamp()
+	{
+		$this->assertEquals(
+			'CURRENT_TIMESTAMP',
+			$this->_instance->currentTimestamp()
 		);
 	}
 }

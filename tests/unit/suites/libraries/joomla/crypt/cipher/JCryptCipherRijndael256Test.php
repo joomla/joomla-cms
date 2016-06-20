@@ -3,13 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher/rijndael256.php';
 
 /**
  * Test class for JCryptCipherRijndael256.
@@ -141,7 +137,7 @@ class JCryptCipherRijndael256Test extends TestCase
 	 */
 	public function testGenerateKey()
 	{
-		$key = $this->_cipher->generateKey();
+		$key = $this->_cipher->generateKey(array('password' => 'J00ml@R0cks!'));
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);

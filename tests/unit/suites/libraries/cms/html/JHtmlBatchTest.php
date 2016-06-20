@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$language = JLanguage::getInstance('en-GB', false);
 
 		$this->backupServer = $_SERVER;
@@ -85,45 +85,173 @@ class JHtmlBatchTest extends TestCaseDatabase
 
 	/**
 	 * Tests the access method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	public function testAccess()
 	{
-		$this->assertThat(
-			JHtmlBatch::access(),
-			$this->StringContains('<option value="1">Public</option>')
+		$result = JHtmlBatch::access();
+
+		// Build the container to check the <label> element
+		$matcher = array(
+			'id'      => 'batch-access-lbl',
+			'tag'     => 'label',
+			'content' => 'JLIB_HTML_BATCH_ACCESS_LABEL'
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <label> with id "batch-access-lbl"'
+		);
+
+		// Build the container to check the <select> element
+		$matcher = array(
+			'id'    => 'batch-access',
+			'tag'   => 'select',
+			'child' => array(
+				'tag'        => 'option',
+				'content'    => 'Public',
+				'attributes' => array('value' => '1')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <select> element with id "batch-access" containing a child <option value="1">Public</option>'
 		);
 	}
 
 	/**
 	 * Tests the item method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	public function testItem()
 	{
-		$this->assertThat(
-			JHtmlBatch::item('com_content'),
-			$this->StringContains('<option value="9">Uncategorised</option>')
+		$result = JHtmlBatch::item('com_content');
+
+		// Build the container to check the <label> element
+		$matcher = array(
+			'id'      => 'batch-choose-action-lbl',
+			'tag'     => 'label',
+			'content' => 'JLIB_HTML_BATCH_MENU_LABEL'
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <label> with id "batch-choose-action-lbl"'
+		);
+
+		// Build the container to check the <div> element
+		$matcher = array(
+			'id'    => 'batch-choose-action',
+			'tag'   => 'div',
+			'child' => array(
+				'id'    => 'batch-category-id',
+				'tag'   => 'select',
+				'child' => array(
+					'tag'=> 'option',
+					'content'    => '- - - Modules',
+					'attributes' => array('value' => '22'),
+				)
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected <div id="batch-choose-action"> containing child <select id="batch-category-id"> with <option value="22">- - - Modules</option>'
 		);
 	}
 
 	/**
 	 * Tests the language method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	public function testLanguage()
 	{
-		$this->assertThat(
-			JHtmlBatch::language(),
-			$this->StringContains('<option value="en-GB">English (UK)</option>')
+		$result = JHtmlBatch::language();
+
+		// Build the container to check the <label> element
+		$matcher = array(
+			'id'      => 'batch-language-lbl',
+			'tag'     => 'label',
+			'content' => 'JLIB_HTML_BATCH_LANGUAGE_LABEL'
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <label> with id "batch-language-lbl"'
+		);
+
+		// Build the container to check the <select> element
+		$matcher = array(
+			'id'    => 'batch-language-id',
+			'tag'   => 'select',
+			'child' => array(
+				'tag'        => 'option',
+				'content'    => 'English (UK)',
+				'attributes' => array('value' => 'en-GB')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <select> element with id "batch-language-id" containing a child <option value="en-GB">English (UK)</option>'
 		);
 	}
 
 	/**
 	 * Tests the user method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	public function testUser()
 	{
-		$this->assertThat(
-			JHtmlBatch::user(true),
-			$this->StringContains('<option value="42">Super User</option>')
+		$result = JHtmlBatch::user(true);
+
+		// Build the container to check the <label> element
+		$matcher = array(
+			'id'      => 'batch-user-lbl',
+			'tag'     => 'label',
+			'content' => 'JLIB_HTML_BATCH_USER_LABEL'
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <label> with id "batch-user-lbl"'
+		);
+
+		// Build the container to check the <select> element
+		$matcher = array(
+			'id'    => 'batch-user-id',
+			'tag'   => 'select',
+			'child' => array(
+				'tag'        => 'option',
+				'content'    => 'Super User',
+				'attributes' => array('value' => '42')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'Expected a <select> element with id "batch-user-id" containing a child <option value="42">Super User</option>'
 		);
 	}
 }

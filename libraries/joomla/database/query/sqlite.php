@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,27 +12,25 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  12.1
  */
 class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
-	 * @var integer
-	 * @since 12.1
-	 */
-	protected $limit;
-
-	/**
-	 * @var integer
-	 * @since 12.1
+	 * @var    integer  The offset for the result set.
+	 * @since  12.1
 	 */
 	protected $offset;
 
 	/**
-	 * @var mixed
-	 * @since 12.1
+	 * @var    integer  The limit for the result set.
+	 * @since  12.1
+	 */
+	protected $limit;
+
+	/**
+	 * @var    array  Bounded object array
+	 * @since  12.1
 	 */
 	protected $bounded = array();
 
@@ -48,7 +46,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @param   integer         $length         The length of the variable. Usually required for OUTPUT parameters.
 	 * @param   array           $driverOptions  Optional driver options to be used.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  JDatabaseQuerySqlite
 	 *
 	 * @since   12.1
 	 */
@@ -112,11 +110,32 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	}
 
 	/**
+	 * Gets the number of characters in a string.
+	 *
+	 * Note, use 'length' to find the number of bytes in a string.
+	 *
+	 * Usage:
+	 * $query->select($query->charLength('a'));
+	 *
+	 * @param   string  $field      A value.
+	 * @param   string  $operator   Comparison operator between charLength integer value and $condition
+	 * @param   string  $condition  Integer value to compare charLength with.
+	 *
+	 * @return  string  The required char length call.
+	 *
+	 * @since   13.1
+	 */
+	public function charLength($field, $operator = null, $condition = null)
+	{
+		return 'length(' . $field . ')' . (isset($operator) && isset($condition) ? ' ' . $operator . ' ' . $condition : '');
+	}
+
+	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
 	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -132,6 +151,31 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		parent::clear($clause);
 
 		return $this;
+	}
+
+	/**
+	 * Concatenates an array of column names or values.
+	 *
+	 * Usage:
+	 * $query->select($query->concatenate(array('a', 'b')));
+	 *
+	 * @param   array   $values     An array of values to concatenate.
+	 * @param   string  $separator  As separator to place between each value.
+	 *
+	 * @return  string  The concatenated values.
+	 *
+	 * @since   11.1
+	 */
+	public function concatenate($values, $separator = null)
+	{
+		if ($separator)
+		{
+			return implode(' || ' . $this->quote($separator) . ' || ', $values);
+		}
+		else
+		{
+			return implode(' || ', $values);
+		}
 	}
 
 	/**
@@ -169,7 +213,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @param   integer  $limit   The limit for the result set
 	 * @param   integer  $offset  The offset for the result set
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -213,5 +257,20 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		{
 			return "datetime('" . $date . "', '" . $interval . " " . $datePart . "')";
 		}
+	}
+
+	/**
+	 * Gets the current date and time.
+	 *
+	 * Usage:
+	 * $query->where('published_up < '.$query->currentTimestamp());
+	 *
+	 * @return  string
+	 *
+	 * @since   3.4
+	 */
+	public function currentTimestamp()
+	{
+		return 'CURRENT_TIMESTAMP';
 	}
 }

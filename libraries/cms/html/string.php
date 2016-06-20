@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering manipulated strings.
  *
- * @package     Joomla.Platform
- * @subpackage  HTML
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlString
 {
@@ -99,7 +97,7 @@ abstract class JHtmlString
 				$openedTags = array_values($openedTags);
 
 				// Put all closed tags into an array
-				preg_match_all("#</([a-z]+)>#iU", $tmp, $result);
+				preg_match_all("#</([a-z][a-z0-9]*)\b(?:[^>]*?)>#iU", $tmp, $result);
 				$closedTags = $result[1];
 
 				$numOpened = count($openedTags);
@@ -141,24 +139,24 @@ abstract class JHtmlString
 	}
 
 	/**
-	* Method to extend the truncate method to more complex situations
-	*
-	* The goal is to get the proper length plain text string with as much of
-	* the html intact as possible with all tags properly closed.
-	*
-	* @param   string   $html       The content of the introtext to be truncated
-	* @param   integer  $maxLength  The maximum number of characters to render
-	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
-	*
-	* @return  string  The truncated string. If the string is truncated an ellipsis
-	*                  (...) will be appended.
-	*
-	* @note    If a maximum length of 3 or less is selected and the text has more than
-	*          that number of characters an ellipsis will be displayed.
-	*          This method will not create valid HTML from malformed HTML.
-	*
-	* @since   3.1
-	*/
+	 * Method to extend the truncate method to more complex situations
+	 *
+	 * The goal is to get the proper length plain text string with as much of
+	 * the html intact as possible with all tags properly closed.
+	 *
+	 * @param   string   $html       The content of the introtext to be truncated
+	 * @param   integer  $maxLength  The maximum number of characters to render
+	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
+	 *
+	 * @return  string  The truncated string. If the string is truncated an ellipsis
+	 *                  (...) will be appended.
+	 *
+	 * @note    If a maximum length of 3 or less is selected and the text has more than
+	 *          that number of characters an ellipsis will be displayed.
+	 *          This method will not create valid HTML from malformed HTML.
+	 *
+	 * @since   3.1
+	 */
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
 		// Start with some basic rules.

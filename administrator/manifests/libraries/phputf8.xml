@@ -11,7 +11,7 @@
 	<authorEmail>hfuecks@gmail.com</authorEmail>
 	<authorUrl>http://sourceforge.net/projects/phputf8</authorUrl>
 	<packager>Joomla!</packager>
-	<packagerurl>http://www.joomla.org</packagerurl>
+	<packagerurl>https://www.joomla.org</packagerurl>
 	<files folder="libraries">
 		<folder>phputf8</folder>
 	</files>

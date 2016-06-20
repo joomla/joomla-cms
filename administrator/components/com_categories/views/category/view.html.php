@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,44 +12,73 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Categories component
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
- * @since       1.6
+ * @since  1.6
  */
 class CategoriesViewCategory extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
 	protected $state;
 
+	/**
+	 * Flag if an association exists
+	 *
+	 * @var  boolean
+	 */
 	protected $assoc;
 
 	/**
-	 * Display the view
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  JObject
+	 */
+	protected $canDo;
+
+	/**
+	 * Display the view.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
+		$section = $this->state->get('category.section') ? $this->state->get('category.section') . '.' : '';
+		$this->canDo = JHelperContent::getActions($this->state->get('category.component'), $section . 'category', $this->item->id);
 		$this->assoc = $this->get('Assoc');
-
-		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		// Check for tag type
 		$this->checkTags = JHelperTags::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true);
 
-		$input->set('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		if ($this->getLayout() == 'modal')
 		{
@@ -58,20 +87,22 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		$this->addToolbar();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
-		$extension = $input->get('extension');
+		$extension = JFactory::getApplication()->input->get('extension');
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
+		$userId = $user->id;
 
 		$isNew = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -90,19 +121,18 @@ class CategoriesViewCategory extends JViewLegacy
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 		$section = (count($parts) > 1) ? $parts[1] : null;
+		$componentParams = JComponentHelper::getParams($component);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-		$lang->load($component, JPATH_BASE, null, false, false)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-		|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
+		$lang->load($component, JPATH_BASE, null, false, true)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the category helper.
 		require_once JPATH_COMPONENT . '/helpers/categories.php';
 
 		// Get the results for each action.
-		$canDo = CategoriesHelper::getActions($component, $this->item->id);
+		$canDo = $this->canDo;
 
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = $component . ($section ? "_$section" : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE'))
@@ -124,7 +154,11 @@ class CategoriesViewCategory extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'category-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit'));
+		JToolbarHelper::title(
+			$title,
+			'folder category-' . ($isNew ? 'add' : 'edit')
+				. ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit')
+		);
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
@@ -139,6 +173,7 @@ class CategoriesViewCategory extends JViewLegacy
 		{
 			JToolbarHelper::apply('category.apply');
 			JToolbarHelper::save('category.save');
+
 			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::save2new('category.save2new');
@@ -157,6 +192,12 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 		else
 		{
+			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				$typeAlias = $extension . '.category';
+				JToolbarHelper::versions($typeAlias, $this->item->id);
+			}
+
 			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
@@ -168,10 +209,11 @@ class CategoriesViewCategory extends JViewLegacy
 			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 		}
 
-		// Get help for the category/section view for the component by
-		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
-		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
-		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		/* Get help for the category/section view for the component by
+		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
+		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
+		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		 */
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
@@ -182,6 +224,7 @@ class CategoriesViewCategory extends JViewLegacy
 		{
 			$url = null;
 		}
-		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
+
+		JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
 	}
 }

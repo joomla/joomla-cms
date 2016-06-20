@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,7 @@ defined('_JEXEC') or die;
  * Plug-in to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
- * @package     Joomla.Plugin
- * @subpackage  Content.loadmodule
- * @since       1.5
+ * @since  1.5
  */
 class PlgContentLoadmodule extends JPlugin
 {
@@ -50,12 +48,12 @@ class PlgContentLoadmodule extends JPlugin
 		}
 
 		// Expression to search for (positions)
-		$regex		= '/{loadposition\s(.*?)}/i';
-		$style		= $this->params->def('style', 'none');
+		$regex = '/{loadposition\s(.*?)}/i';
+		$style = $this->params->def('style', 'none');
 
 		// Expression to search for(modules)
-		$regexmod	= '/{loadmodule\s(.*?)}/i';
-		$stylemod	= $this->params->def('style', 'none');
+		$regexmod = '/{loadmodule\s(.*?)}/i';
+		$stylemod = $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition
 		// $matches[0] is full pattern match, $matches[1] is the position
@@ -134,10 +132,10 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _load($position, $style = 'none')
 	{
 		self::$modules[$position] = '';
-		$document	= JFactory::getDocument();
-		$renderer	= $document->loadRenderer('module');
-		$modules	= JModuleHelper::getModules($position);
-		$params		= array('style' => $style);
+		$document = JFactory::getDocument();
+		$renderer = $document->loadRenderer('module');
+		$modules  = JModuleHelper::getModules($position);
+		$params   = array('style' => $style);
 		ob_start();
 
 		foreach ($modules as $module)
@@ -165,15 +163,15 @@ class PlgContentLoadmodule extends JPlugin
 	protected function _loadmod($module, $title, $style = 'none')
 	{
 		self::$mods[$module] = '';
-		$document	= JFactory::getDocument();
-		$renderer	= $document->loadRenderer('module');
-		$mod		= JModuleHelper::getModule($module, $title);
+		$document = JFactory::getDocument();
+		$renderer = $document->loadRenderer('module');
+		$mod      = JModuleHelper::getModule($module, $title);
 
 		// If the module without the mod_ isn't found, try it with mod_.
 		// This allows people to enter it either way in the content
 		if (!isset($mod))
 		{
-			$name = 'mod_'.$module;
+			$name = 'mod_' . $module;
 			$mod  = JModuleHelper::getModule($name, $title);
 		}
 

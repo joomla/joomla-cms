@@ -3,20 +3,20 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
+
+use Joomla\Registry\Registry;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
- * Finder adapter for com_content.
+ * Smart Search adapter for com_content.
  *
- * @package     Joomla.Plugin
- * @subpackage  Finder.Content
- * @since       2.5
+ * @since  2.5
  */
 class PlgFinderContent extends FinderIndexerAdapter
 {
@@ -83,7 +83,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onFinderCategoryChangeState($extension, $pks, $value)
 	{
-		// Make sure we're handling com_content categories
+		// Make sure we're handling com_content categories.
 		if ($extension == 'com_content')
 		{
 			$this->categoryStateChange($pks, $value);
@@ -115,16 +115,20 @@ class PlgFinderContent extends FinderIndexerAdapter
 		{
 			return true;
 		}
-		// Remove the items.
+
+		// Remove item from the index.
 		return $this->remove($id);
 	}
 
 	/**
-	 * Method to determine if the access level of an item changed.
+	 * Smart Search after save content method.
+	 * Reindexes the link information for an article that has been saved.
+	 * It also makes adjustments if the access level of an item or the
+	 * category to which it belongs has changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
-	 * @param   boolean  $isNew    If the content has just been created
+	 * @param   JTable   $row      A JTable object.
+	 * @param   boolean  $isNew    True if the content has just been created.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -133,24 +137,24 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
-		// We only want to handle articles here
+		// We only want to handle articles here.
 		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
-			// Check if the access levels are different
+			// Check if the access levels are different.
 			if (!$isNew && $this->old_access != $row->access)
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
 			}
 
-			// Reindex the item
+			// Reindex the item.
 			$this->reindex($row->id);
 		}
 
-		// Check for access changes in the category
+		// Check for access changes in the category.
 		if ($context == 'com_categories.category')
 		{
-			// Check if the access levels are different
+			// Check if the access levels are different.
 			if (!$isNew && $this->old_cataccess != $row->access)
 			{
 				$this->categoryAccessChange($row);
@@ -161,13 +165,12 @@ class PlgFinderContent extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to reindex the link information for an item that has been saved.
-	 * This event is fired before the data is actually saved so we are going
-	 * to queue the item to be indexed later.
+	 * Smart Search before content save method.
+	 * This event is fired before the data is actually saved.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row     A JTable object
-	 * @param   boolean  $isNew    If the content is just about to be created
+	 * @param   JTable   $row      A JTable object.
+	 * @param   boolean  $isNew    If the content is just about to be created.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -176,20 +179,20 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
-		// We only want to handle articles here
+		// We only want to handle articles here.
 		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);
 			}
 		}
 
-		// Check for access levels from the category
+		// Check for access levels from the category.
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item isn't new.
 			if (!$isNew)
 			{
 				$this->checkCategoryAccess($row);
@@ -205,7 +208,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * unpublished, archived, or unarchived from the list view.
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
+	 * @param   array    $pks      An array of primary key ids of the content that has changed state.
 	 * @param   integer  $value    The value of the state that the content has been changed to.
 	 *
 	 * @return  void
@@ -214,12 +217,13 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 */
 	public function onFinderChangeState($context, $pks, $value)
 	{
-		// We only want to handle articles here
+		// We only want to handle articles here.
 		if ($context == 'com_content.article' || $context == 'com_content.form')
 		{
 			$this->itemStateChange($pks, $value);
 		}
-		// Handle when the plugin is disabled
+
+		// Handle when the plugin is disabled.
 		if ($context == 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
@@ -230,7 +234,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
 	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
-	 * @param   string               $format  The item format
+	 * @param   string               $format  The item format.  Not used.
 	 *
 	 * @return  void
 	 *
@@ -241,19 +245,19 @@ class PlgFinderContent extends FinderIndexerAdapter
 	{
 		$item->setLanguage();
 
-		// Check if the extension is enabled
+		// Check if the extension is enabled.
 		if (JComponentHelper::isEnabled($this->extension) == false)
 		{
 			return;
 		}
 
-		// Initialize the item parameters.
-		$registry = new JRegistry;
+		// Initialise the item parameters.
+		$registry = new Registry;
 		$registry->loadString($item->params);
 		$item->params = JComponentHelper::getParams('com_content', true);
 		$item->params->merge($registry);
 
-		$registry = new JRegistry;
+		$registry = new Registry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
@@ -262,8 +266,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->body = FinderIndexerHelper::prepareContent($item->body, $item->params);
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
@@ -337,6 +341,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
+
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
@@ -353,7 +358,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
@@ -362,7 +367,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$c_id = $query->castAsChar('c.id');
 		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
-		$case_when_category_alias .= $c_id.' END as catslug';
+		$case_when_category_alias .= $c_id . ' END as catslug';
 		$query->select($case_when_category_alias)
 
 			->select('u.name AS author')

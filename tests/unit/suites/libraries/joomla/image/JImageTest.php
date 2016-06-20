@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
  * Test class for JImage.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
 class JImageTest extends TestCase
@@ -28,13 +28,13 @@ class JImageTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
 		// Verify that GD support for PHP is available.
 		if (!extension_loaded('gd'))
 		{
 			$this->markTestSkipped('No GD support so skipping JImage tests.');
 		}
+
+		parent::setUp();
 
 		$this->testFile = __DIR__ . '/stubs/koala.jpg';
 
@@ -43,19 +43,6 @@ class JImageTest extends TestCase
 		$this->testFilePng = __DIR__ . '/stubs/koala.png';
 
 		$this->testFileBmp = __DIR__ . '/stubs/koala.bmp';
-	}
-
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.3
-	 */
-	protected function tearDown()
-	{
-		parent::tearDown();
 	}
 
 	/**
@@ -679,7 +666,7 @@ class JImageTest extends TestCase
 	 */
 	public function testCrop($startHeight, $startWidth, $cropHeight, $cropWidth, $cropTop, $cropLeft, $transparent = false)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($startWidth, $startHeight);
 
 		// If the transparent flag is true set black to transparent.
@@ -754,7 +741,7 @@ class JImageTest extends TestCase
 	 */
 	public function testRotate()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(101, 101);
 
 		// Define red and white.
@@ -859,7 +846,7 @@ class JImageTest extends TestCase
 	 */
 	public function testPrepareDimensions($inputHeight, $inputWidth, $inputScale, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
 		// Create a new JImageInspector from the image handle.
@@ -882,13 +869,13 @@ class JImageTest extends TestCase
 	 */
 	public function testPrepareDimensionsWithInvalidScale()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Create a new JImageInspector from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		$dimensions = $image->prepareDimensions(123, 456, 42);
+		$image->prepareDimensions(123, 456, 42);
 	}
 
 	/**
@@ -908,7 +895,7 @@ class JImageTest extends TestCase
 	 */
 	public function testSanitizeHeight($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
 		// Create a new JImageInspector from the image handle.
@@ -935,7 +922,7 @@ class JImageTest extends TestCase
 	 */
 	public function testSanitizeWidth($inputHeight, $inputWidth, $imageHeight, $imageWidth, $expectedHeight, $expectedWidth)
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor($imageWidth, $imageHeight);
 
 		// Create a new JImageInspector from the image handle.

@@ -2,7 +2,8 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +14,7 @@ include_once __DIR__ . '/../default/view.php';
 /**
  * Language installer view
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       2.5.7
+ * @since  2.5.7
  */
 class InstallerViewLanguages extends InstallerViewDefault
 {
@@ -35,7 +34,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   null  $tpl  template to display
 	 *
@@ -43,15 +42,22 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
+		// Run findLanguages from the model
+		$this->model = $this->getModel('languages');
+		$this->model->findLanguages();
+
+		// Get data from the model.
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -65,17 +71,17 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo = InstallerHelper::getActions();
-		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
+		$canDo = JHelperContent::getActions('com_installer');
+		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::custom('languages.install', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_INSTALL', true, false);
-			JToolBarHelper::custom('languages.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_LANGUAGES', false, false);
+			JToolBarHelper::custom('languages.install', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_INSTALL', true);
+			JToolBarHelper::custom('languages.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_LANGUAGES', false);
 			JToolBarHelper::divider();
 			parent::addToolbar();
 
-			// TODO: this help screen will need to be created
+			// TODO: this help screen will need to be created.
 			JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
 		}
 	}

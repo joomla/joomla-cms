@@ -19,12 +19,11 @@
 		<field
 			name="message"
 			type="editor"
-			class="inputbox"
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
 			description="COM_MESSAGES_FIELD_MESSAGE_DESC"
 			required="true"
 			filter="JComponentHelper::filterText"
 			buttons="true"
-			hide="readmore,pagebreak,image,article" />
+			hide="readmore,pagebreak,image,article,module" />
 	</fieldset>
 </form>

@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * JCategories Class.
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategories
 {
@@ -106,6 +106,8 @@ class JCategories
 		$this->_statefield = (isset($options['statefield'])) ? $options['statefield'] : 'state';
 		$options['access'] = (isset($options['access'])) ? $options['access'] : 'true';
 		$options['published'] = (isset($options['published'])) ? $options['published'] : 1;
+		$options['countItems'] = (isset($options['countItems'])) ? $options['countItems'] : 0;
+		$options['currentlang'] = JLanguageMultilang::isEnabled() ? JFactory::getLanguage()->getTag() : 0;
 		$this->_options = $options;
 
 		return true;
@@ -138,6 +140,7 @@ class JCategories
 		if (!class_exists($classname))
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
+
 			if (is_file($path))
 			{
 				include_once $path;
@@ -207,6 +210,7 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
@@ -239,6 +243,12 @@ class JCategories
 		if ($this->_options['published'] == 1)
 		{
 			$query->where('c.published = 1');
+
+			$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
+				'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+				' AND parent.published != 1 GROUP BY cat.id) ';
+			$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
+				->where('badcats.id is null');
 		}
 
 		$query->order('c.lft');
@@ -247,31 +257,42 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
-				->where('s.id=' . (int) $id);
-		}
+			$query->where('s.id=' . (int) $id);
 
-		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
-			' AND parent.published != 1 GROUP BY cat.id) ';
-		$query->join('LEFT', $subQuery . 'AS badcats ON badcats.id = c.id')
-			->where('badcats.id is null');
-
-		// Note: i for item
-		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
-		{
-			if ($this->_options['published'] == 1)
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->join(
-					'LEFT',
-					$db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
-				);
+				$query->join('LEFT', '#__categories AS s ON (s.lft < c.lft AND s.rgt > c.rgt AND c.language in (' . $db->quote(JFactory::getLanguage()->getTag())
+					. ',' . $db->quote('*') . ')) OR (s.lft >= c.lft AND s.rgt <= c.rgt)');
 			}
 			else
 			{
-				$query->join('LEFT', $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id');
+				$query->join('LEFT', '#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
+			}
+		}
+		else
+		{
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			}
+		}
+
+		// Note: i for item
+		if ($this->_options['countItems'] == 1)
+		{
+			$queryjoin = $db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id';
+
+			if ($this->_options['published'] == 1)
+			{
+				$queryjoin .= ' AND i.' . $this->_statefield . ' = 1';
 			}
 
+			if ($this->_options['currentlang'] !== 0)
+			{
+				$queryjoin .= ' AND (i.language = ' . $db->quote('*') . ' OR i.language = ' . $db->quote($this->_options['currentlang']) . ')';
+			}
+
+			$query->join('LEFT', $queryjoin);
 			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
 		}
 
@@ -343,7 +364,9 @@ class JCategories
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					if (!isset($this->_nodes[$result->parent_id]))
+					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove the node from the list
+					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;
@@ -367,9 +390,7 @@ class JCategories
 /**
  * Helper class to load Categorytree
  *
- * @package     Joomla.Legacy
- * @subpackage  Categories
- * @since       11.1
+ * @since  11.1
  */
 class JCategoryNode extends JObject
 {
@@ -664,6 +685,7 @@ class JCategoryNode extends JObject
 		if ($category)
 		{
 			$this->setProperties($category);
+
 			if ($constructor)
 			{
 				$this->_constructor = $constructor;
@@ -709,6 +731,7 @@ class JCategoryNode extends JObject
 				{
 					$this->_path = $parent->getPath();
 				}
+
 				$this->_path[] = $this->id . ':' . $this->alias;
 			}
 
@@ -769,6 +792,7 @@ class JCategoryNode extends JObject
 		if (!$this->_allChildrenloaded)
 		{
 			$temp = $this->_constructor->get($this->id, true);
+
 			if ($temp)
 			{
 				$this->_children = $temp->getChildren();
@@ -781,11 +805,13 @@ class JCategoryNode extends JObject
 		if ($recursive)
 		{
 			$items = array();
+
 			foreach ($this->_children as $child)
 			{
 				$items[] = $child;
 				$items = array_merge($items, $child->getChildren(true));
 			}
+
 			return $items;
 		}
 
@@ -884,15 +910,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category parameters
 	 *
-	 * @return  JRegistry
+	 * @return  Registry
 	 *
 	 * @since   11.1
 	 */
 	public function getParams()
 	{
-		if (!($this->params instanceof JRegistry))
+		if (!($this->params instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->params);
 			$this->params = $temp;
 		}
@@ -903,15 +929,15 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the category metadata
 	 *
-	 * @return  JRegistry  A JRegistry object containing the metadata
+	 * @return  Registry  A Registry object containing the metadata
 	 *
 	 * @since   11.1
 	 */
 	public function getMetadata()
 	{
-		if (!($this->metadata instanceof JRegistry))
+		if (!($this->metadata instanceof Registry))
 		{
-			$temp = new JRegistry;
+			$temp = new Registry;
 			$temp->loadString($this->metadata);
 			$this->metadata = $temp;
 		}
@@ -960,6 +986,7 @@ class JCategoryNode extends JObject
 	public function setAllLoaded()
 	{
 		$this->_allChildrenloaded = true;
+
 		foreach ($this->_children as $child)
 		{
 			$child->setAllLoaded();

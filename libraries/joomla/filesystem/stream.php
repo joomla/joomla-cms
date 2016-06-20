@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,37 +16,35 @@ defined('JPATH_PLATFORM') or die;
  * where as the legacy JFile static class treated files in a rather
  * atomic manner.
  *
- * @package     Joomla.Platform
- * @subpackage  FileSystem
- *
- * This class adheres to the stream wrapper operations:
- *
- * @see         http://php.net/manual/en/function.stream-get-wrappers.php
- * @see         http://php.net/manual/en/intro.stream.php PHP Stream Manual
- * @see         http://php.net/manual/en/wrappers.php Stream Wrappers
- * @see         http://php.net/manual/en/filters.php Stream Filters
- * @see         http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
- * @since       11.1
+ * @note   This class adheres to the stream wrapper operations:
+ * @see    http://php.net/manual/en/function.stream-get-wrappers.php
+ * @see    http://php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @see    http://php.net/manual/en/wrappers.php Stream Wrappers
+ * @see    http://php.net/manual/en/filters.php Stream Filters
+ * @see    http://php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @since  11.1
  */
 class JStream extends JObject
 {
-	// Publicly settable vars (protected to let our parent read them)
 	/**
 	 * File Mode
+	 *
 	 * @var    integer
 	 * @since  11.1
-	 * */
+	 */
 	protected $filemode = 0644;
 
 	/**
 	 * Directory Mode
-	 * @var   integer
+	 *
+	 * @var    integer
 	 * @since  11.1
-	 * */
+	 */
 	protected $dirmode = 0755;
 
 	/**
 	 * Default Chunk Size
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -54,6 +52,7 @@ class JStream extends JObject
 
 	/**
 	 * Filename
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -61,6 +60,7 @@ class JStream extends JObject
 
 	/**
 	 * Prefix of the connection for writing
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -68,15 +68,15 @@ class JStream extends JObject
 
 	/**
 	 * Prefix of the connection for reading
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $readprefix;
 
 	/**
-	 *
-	 *Read Processing method
-	 * @var   string  gz, bz, f
+	 * Read Processing method
+	 * @var    string  gz, bz, f
 	 * If a scheme is detected, fopen will be defaulted
 	 * To use compression with a network stream use a filter
 	 * @since  11.1
@@ -85,6 +85,7 @@ class JStream extends JObject
 
 	/**
 	 * Filters applied to the current stream
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -92,6 +93,7 @@ class JStream extends JObject
 
 	/**
 	 * File Handle
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */
@@ -99,28 +101,32 @@ class JStream extends JObject
 
 	/**
 	 * File size
+	 *
 	 * @var    integer
 	 * @since  12.1
 	 */
 	protected $filesize;
 
 	/**
-	 *Context to use when opening the connection
-	 * @var
+	 * Context to use when opening the connection
+	 *
+	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $context = null;
 
 	/**
 	 * Context options; used to rebuild the context
-	 * @var
+	 *
+	 * @var    array
 	 * @since  12.1
 	 */
 	protected $contextOptions;
 
 	/**
 	 * The mode under which the file was opened
-	 * @var
+	 *
+	 * @var    string
 	 * @since  12.1
 	 */
 	protected $openmode;
@@ -182,6 +188,7 @@ class JStream extends JObject
 		if (!$filename)
 		{
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILENAME'));
+
 			return false;
 		}
 
@@ -262,6 +269,7 @@ class JStream extends JObject
 				{
 					$this->fh = fopen($filename, $mode, $use_include_path);
 				}
+
 				break;
 		}
 
@@ -296,6 +304,7 @@ class JStream extends JObject
 		if (!$this->fh)
 		{
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
+
 			return true;
 		}
 
@@ -627,7 +636,7 @@ class JStream extends JObject
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see http://php.net/manual/en/function.fseek.php
+	 * @see     http://php.net/manual/en/function.fseek.php
 	 * @since   11.1
 	 */
 	public function seek($offset, $whence = SEEK_SET)
@@ -927,7 +936,7 @@ class JStream extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @see       http://php.net/stream_context_create
+	 * @see     http://php.net/stream_context_create
 	 * @since   11.1
 	 */
 	public function setContextOptions($context)

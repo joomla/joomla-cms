@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,45 +89,6 @@ class JDatabaseDriverTest extends TestCaseDatabase
 			$this->isNull(),
 			'Tests for an unknown method.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test__construct().
-	 *
-	 * @return void
-	 */
-	public function test__construct()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetInstance().
-	 *
-	 * @return void
-	 */
-	public function testGetInstance()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement test__destruct().
-	 *
-	 * @return void
-	 */
-	public function test__destruct()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -229,32 +190,6 @@ class JDatabaseDriverTest extends TestCaseDatabase
 			),
 			'splitSql method should split a string of multiple queries into an array.'
 		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetErrorNum().
-	 *
-	 * @return void
-	 */
-	public function testGetErrorNum()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetErrorMsg().
-	 *
-	 * @return void
-	 */
-	public function testGetErrorMsg()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -377,24 +312,18 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testReplacePrefix()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'SELECT * FROM &dbtest',
 			$this->db->replacePrefix('SELECT * FROM #__dbtest'),
-			$this->equalTo('SELECT * FROM &dbtest'),
 			'replacePrefix method should return the query string with the #__ prefix replaced by the actual table prefix.'
 		);
-	}
 
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testStderr().
-	 *
-	 * @return void
-	 */
-	public function testStderr()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('Deprecated method');
+		// Prefix in quoted values not replaced, see https://github.com/joomla/joomla-cms/issues/7162
+		$this->assertEquals(
+			"SHOW TABLE STATUS LIKE '#__table'",
+			$this->db->replacePrefix("SHOW TABLE STATUS LIKE '#__table'"),
+			'replacePrefix method should not change the #__ prefix in a quoted value.'
+		);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,11 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since  11.1
  */
-class JDatabaseQuerySqlsrv extends JDatabaseQuery
+class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -25,7 +23,6 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 *
 	 * @since  11.1
 	 */
 	protected $name_quotes = '`';
@@ -35,10 +32,21 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 *
 	 * @since  11.1
 	 */
 	protected $null_date = '1900-01-01 00:00:00';
+
+	/**
+	 * @var    integer  The affected row limit for the current SQL statement.
+	 * @since  3.2
+	 */
+	protected $limit = 0;
+
+	/**
+	 * @var    integer  The affected row offset to apply for the current SQL statement.
+	 * @since  3.2
+	 */
+	protected $offset = 0;
 
 	/**
 	 * Magic function to convert the query to a string.
@@ -53,6 +61,46 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 
 		switch ($this->type)
 		{
+			case 'select':
+				$query .= (string) $this->select;
+				$query .= (string) $this->from;
+
+				if ($this->join)
+				{
+					// Special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+
+				if ($this->group)
+				{
+					$query .= (string) $this->group;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+
+				if ($this->having)
+				{
+					$query .= (string) $this->having;
+				}
+
+				if ($this instanceof JDatabaseQueryLimitable && ($this->limit > 0 || $this->offset > 0))
+				{
+					$query = $this->processLimit($query, $this->limit, $this->offset);
+				}
+
+				break;
+
 			case 'insert':
 				$query .= (string) $this->insert;
 
@@ -84,6 +132,57 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 					{
 						$query .= (string) $this->where;
 					}
+				}
+
+				break;
+
+			case 'delete':
+				$query .= (string) $this->delete;
+				$query .= (string) $this->from;
+
+				if ($this->join)
+				{
+					// Special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+
+				break;
+
+			case 'update':
+				$query .= (string) $this->update;
+
+				if ($this->join)
+				{
+					// Special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
+				$query .= (string) $this->set;
+
+				if ($this->where)
+				{
+					$query .= (string) $this->where;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
 				}
 
 				break;
@@ -121,7 +220,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -195,5 +294,175 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	public function dateAdd($date, $interval, $datePart)
 	{
 		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
+	}
+
+	/**
+	 * Method to modify a query already in string format with the needed
+	 * additions to make the query limited to a particular number of
+	 * results, or start at a particular offset.
+	 *
+	 * @param   string   $query   The query in string format
+	 * @param   integer  $limit   The limit for the result set
+	 * @param   integer  $offset  The offset for the result set
+	 *
+	 * @return  string
+	 *
+	 * @since   12.1
+	 */
+	public function processLimit($query, $limit, $offset = 0)
+	{
+		if ($limit == 0 && $offset == 0)
+		{
+			return $query;
+		}
+
+		$start = $offset + 1;
+		$end   = $offset + $limit;
+
+		$orderBy = stristr($query, 'ORDER BY');
+
+		if (is_null($orderBy) || empty($orderBy))
+		{
+			$orderBy = 'ORDER BY (select 0)';
+		}
+
+		$query = str_ireplace($orderBy, '', $query);
+
+		$rowNumberText = ', ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
+
+		$query = preg_replace('/\sFROM\s/i', $rowNumberText, $query, 1);
+		$query = 'SELECT * FROM (' . $query . ') A WHERE A.RowNumber BETWEEN ' . $start . ' AND ' . $end;
+
+		return $query;
+	}
+
+	/**
+	 * Sets the offset and limit for the result set, if the database driver supports it.
+	 *
+	 * Usage:
+	 * $query->setLimit(100, 0); (retrieve 100 rows, starting at first record)
+	 * $query->setLimit(50, 50); (retrieve 50 rows, starting at 50th record)
+	 *
+	 * @param   integer  $limit   The limit for the result set
+	 * @param   integer  $offset  The offset for the result set
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   12.1
+	 */
+	public function setLimit($limit = 0, $offset = 0)
+	{
+		$this->limit  = (int) $limit;
+		$this->offset = (int) $offset;
+
+		return $this;
+	}
+
+	/**
+	 * Add a grouping column to the GROUP clause of the query.
+	 *
+	 * Usage:
+	 * $query->group('id');
+	 *
+	 * @param   mixed  $columns  A string or array of ordering columns.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function group($columns)
+	{
+		// Transform $columns into an array for filtering purposes
+		is_string($columns) && $columns = explode(',', str_replace(" ", "", $columns));
+
+		// Get the _formatted_ FROM string and remove everything except `table AS alias`
+		$fromStr = str_replace(array("[","]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
+
+		// Start setting up an array of alias => table
+		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+
+		$tmpCols = $this->db->getTableColumns(trim($table));
+		$cols = array();
+
+		foreach ($tmpCols as $name => $type)
+		{
+			$cols[] = $alias . "." . $name;
+		}
+
+		// Now we need to get all tables from any joins
+		// Go through all joins and add them to the tables array
+		foreach ($this->join as $join)
+		{
+			$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/.*(#.+\sAS\s[^\s]*).*/i", "$1", (string) $join)));
+
+			list($table, $alias) = preg_split("/\sAS\s/i", $joinTbl);
+
+			$tmpCols = $this->db->getTableColumns(trim($table));
+
+			foreach ($tmpCols as $name => $tmpColType)
+			{
+				array_push($cols, $alias . "." . $name);
+			}
+		}
+
+		$selectStr = str_replace("SELECT ", "", (string) $this->select);
+
+		// Remove any functions (e.g. COUNT(), SUM(), CONCAT())
+		$selectCols = preg_replace("/([^,]*\([^\)]*\)[^,]*,?)/", "", $selectStr);
+
+		// Remove any "as alias" statements
+		$selectCols = preg_replace("/(\sas\s[^,]*)/i", "", $selectCols);
+
+		// Remove any extra commas
+		$selectCols = preg_replace("/,{2,}/", ",", $selectCols);
+
+		// Remove any trailing commas and all whitespaces
+		$selectCols = trim(str_replace(" ", "", preg_replace("/,?$/", "", $selectCols)));
+
+		// Get an array to compare against
+		$selectCols = explode(",", $selectCols);
+
+		// Find all alias.* and fill with proper table column names
+		foreach ($selectCols as $key => $aliasColName)
+		{
+			if (preg_match("/.+\*/", $aliasColName, $match))
+			{
+				// Grab the table alias minus the .*
+				$aliasStar = preg_replace("/(.+)\.\*/", "$1", $aliasColName);
+
+				// Unset the array key
+				unset($selectCols[$key]);
+
+				// Get the table name
+				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
+				$columns = array_merge($columns, $tableColumns);
+			}
+		}
+
+		// Finally, get a unique string of all column names that need to be included in the group statement
+		$columns = array_unique(array_merge($columns, $selectCols));
+		$columns = implode(',', $columns);
+
+		// Recreate it every time, to ensure we have checked _all_ select statements
+		$this->group = new JDatabaseQueryElement('GROUP BY', $columns);
+
+		return $this;
+	}
+
+	/**
+	 * Return correct rand() function for MSSQL.
+	 *
+	 * Ensure that the rand() function is MSSQL compatible.
+	 *
+	 * Usage:
+	 * $query->Rand();
+	 *
+	 * @return  string  The correct rand function.
+	 *
+	 * @since   3.5
+	 */
+	public function Rand()
+	{
+		return ' NEWID() ';
 	}
 }

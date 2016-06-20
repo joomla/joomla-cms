@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::__get
 	 * @since   12.3
 	 */
 	public function testMagicGetSet()
@@ -46,7 +45,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::__get
 	 * @since   12.3
 	 */
 	public function testMagicGetNull()
@@ -59,7 +57,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetUpdatedDateString()
@@ -76,7 +73,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetUpdatedDateJDateObject()
@@ -95,7 +91,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetAuthorWithPerson()
@@ -115,7 +110,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedEntry::__set
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -129,7 +123,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedEntry::__set
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -143,7 +136,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedEntry::__set
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -157,7 +149,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @since   12.3
 	 */
 	public function testMagicSetGeneral()
@@ -174,7 +165,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::addCategory
 	 * @since   12.3
 	 */
 	public function testAddCategory()
@@ -191,7 +181,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::addContributor
 	 * @since   12.3
 	 */
 	public function testAddContributor()
@@ -219,9 +208,8 @@ class JFeedEntryTest extends TestCase
 	/**
 	 * Tests JFeedEntry->addLink()
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @covers  JFeedEntry::addLink
 	 * @since   12.3
 	 */
 	public function testAddLink()
@@ -252,7 +240,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::removeCategory
 	 * @since   12.3
 	 */
 	public function testRemoveCategory()
@@ -275,7 +262,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::removeContributor
 	 * @since   12.3
 	 */
 	public function testRemoveContributor()
@@ -299,9 +285,8 @@ class JFeedEntryTest extends TestCase
 	/**
 	 * Tests JFeedEntry->removeLink()
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @covers  JFeedEntry::removeLink
 	 * @since   12.3
 	 */
 	public function testRemoveLink()
@@ -327,7 +312,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedEntry::setAuthor
 	 * @since   12.3
 	 */
 	public function testSetAuthor()

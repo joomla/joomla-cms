@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+JFormHelper::loadFieldClass('filelist');
 
 /**
  * Test class for JFormFieldFileList.
@@ -17,21 +19,6 @@
 class JFormFieldFileListTest extends TestCase
 {
 	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/filelist.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void
@@ -40,10 +27,10 @@ class JFormFieldFileListTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="filelist" type="filelist" /></form>'),
+			$form->load('<form><field name="filelist" type="filelist" directory="modules/mod_finder/tmpl" /></form>'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
@@ -61,7 +48,6 @@ class JFormFieldFileListTest extends TestCase
 			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
-
 		// TODO: Should check all the attributes have come in properly.
 	}
 }

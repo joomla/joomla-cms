@@ -3,9 +3,12 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+JFormHelper::loadFieldClass('tel');
+require_once __DIR__ . '/TestHelpers/JHtmlFieldTel-helper-dataset.php';
 
 /**
  * Test class for JFormFieldTel.
@@ -27,41 +30,72 @@ class JFormFieldTelTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/tel.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
-	 * Test the getInput method.
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.1
 	 */
-	public function testGetInput()
+	protected function tearDown()
 	{
-		$form = new JFormInspector('form1');
+		$_SERVER = $this->backupServer;
 
-		$this->assertThat(
-			$form->load('<form><field name="tel" type="tel" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function getInputData()
+	{
+		return JHtmlFieldTelTest_DataSet::$getInputTest;
+	}
+
+	/**
+	 * Test the getInput method where there is no value from the element.
+	 *
+	 * @param   array   $data  	   @todo
+	 * @param   string  $expected  @todo
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 *
+	 * @dataProvider  getInputData
+	 */
+	public function testGetInput($data, $expected)
+	{
+		$formField = new JFormFieldTel;
+
+		TestReflection::setValue($formField, 'element', simplexml_load_string('<field type="tel" />'));
+
+		foreach ($data as $attr => $value)
+		{
+			TestReflection::setValue($formField, $attr, $value);
+		}
+
+		$this->assertEquals(
+			$expected,
+			TestReflection::invoke($formField, 'getInput'),
+			'Line:' . __LINE__ . ' The field did not produce the right html'
 		);
-
-		$field = new JFormFieldTel($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
-		);
-
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

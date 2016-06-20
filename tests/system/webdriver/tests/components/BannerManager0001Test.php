@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Banners.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function setUp()
@@ -47,6 +49,8 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function tearDown()
@@ -56,20 +60,33 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
 		$this->bannerManagerPage->clickButton('toolbar-new');
 		$bannerEditPage = $this->getPageObject('BannerEditPage');
-		$testElements = $bannerEditPage->getAllInputFields(array('details', 'publishing', 'otherparams', 'metadata'));
-		$actualFields = $actualFields = $this->getActualFieldsFromElements($testElements);
+
+		/* Option to print actual element array */
+		/* @var $bannerEditPage BannerEditPage */
+// 	 	$bannerEditPage->printFieldArray($bannerEditPage->getAllInputFields($bannerEditPage->tabs));
+
+		$testElements = $bannerEditPage->getAllInputFields($bannerEditPage->tabs);
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($bannerEditPage->inputFields, $actualFields);
 		$bannerEditPage->clickButton('toolbar-cancel');
 		$this->bannerManagerPage = $this->getPageObject('BannerManagerPage');
 	}
 
 	/**
+	 * check bannner edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_BannerEditOpened()
@@ -81,6 +98,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tab IDs
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
@@ -94,6 +115,10 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add banner with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addBanner_WithFieldDefaults_BannerAdded()
@@ -110,15 +135,19 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add banner with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addBanner_WithGivenFields_BannerAdded()
 	{
 		$salt = rand();
 		$bannerName = 'Banner' . $salt;
-		$client='Joomla!';
-		$TrackClicks='Yes';
-		$width='35';
+		$client = 'Joomla!';
+		$TrackClicks = 'Yes';
+		$width = '35';
 
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should not be present');
 		$this->bannerManagerPage->addBanner($bannerName, array('Client' => $client, 'Track Clicks' => $TrackClicks, 'Width' => $width));
@@ -126,30 +155,38 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
 		$this->assertEquals(1, $this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should be in row 1');
 		$values = $this->bannerManagerPage->getFieldValues('BannerEditPage', $bannerName, array('Name', 'Client', 'Track Clicks', 'Width'));
-		$this->assertEquals(array($bannerName,$client,$TrackClicks,$width), $values, 'Actual name, client, track clicks and width should match expected');
+		$this->assertEquals(array($bannerName, $client, $TrackClicks, $width), $values, 'Actual name, client, track clicks and width should match expected');
 		$this->bannerManagerPage->trashAndDelete($bannerName);
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should not be present');
 	}
 
 	/**
+	 * edit banner and change the value of the fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editBanner_ChangeFields_FieldsChanged()
 	{
 		$salt = rand();
 		$bannerName = 'Banner' . $salt;
-		$client='Joomla!';
-		$TrackClicks='Yes';
-		$width='35';
+		$client = 'Joomla!';
+		$TrackClicks = 'Yes';
+		$width = '35';
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test banner should not be present');
 		$this->bannerManagerPage->addBanner($bannerName, false);
 		$this->bannerManagerPage->editBanner($bannerName, array('Client' => $client, 'Track Clicks' => $TrackClicks, 'Width' => $width));
 		$values = $this->bannerManagerPage->getFieldValues('BannerEditPage', $bannerName, array('Name', 'Client', 'Track Clicks', 'Width'));
-		$this->assertEquals(array($bannerName,$client,$TrackClicks,$width), $values, 'Actual name, client, track clicks and width should match expected');
+		$this->assertEquals(array($bannerName, $client, $TrackClicks, $width), $values, 'Actual name, client, track clicks and width should match expected');
 		$this->bannerManagerPage->trashAndDelete($bannerName);
 	}
 
 	/**
+	 * change the state of the banner
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeBannerState_ChangeEnabledUsingToolbar_EnabledChanged()

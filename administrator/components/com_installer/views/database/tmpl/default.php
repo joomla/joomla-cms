@@ -3,15 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 ?>
-
-<div id="installer-database">
+<div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -38,14 +37,14 @@ defined('_JEXEC') or die;
 				<fieldset class="panelform">
 						<ul>
 						<?php if (!$this->filterParams) : ?>
-							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
+							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 						<?php endif; ?>
 
-						<?php if (!(strncmp($this->schemaVersion, JVERSION, 5) === 0)) : ?>
-							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, JVERSION); ?></li>
+						<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
+							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
 						<?php endif; ?>
 
-						<?php if (($this->updateVersion != JVERSION)) : ?>
+						<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, JVERSION); ?></li>
 						<?php endif; ?>
 
@@ -64,7 +63,7 @@ defined('_JEXEC') or die;
 
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>
@@ -77,6 +76,7 @@ defined('_JEXEC') or die;
 					</fieldset>
 				</div>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />

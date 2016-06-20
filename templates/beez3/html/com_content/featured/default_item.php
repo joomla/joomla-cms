@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,14 @@ $templateparams = $app->getTemplate(true)->params;
 
 ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
+	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate())) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>">
+			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>">
 			<?php echo $this->escape($this->item->title); ?></a>
 		<?php else : ?>
 			<?php echo $this->escape($this->item->title); ?>
@@ -108,15 +109,11 @@ $templateparams = $app->getTemplate(true)->params;
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
-
-			<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
-				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-					JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id=' . $this->item->contactid), $author)
-				); ?>
-
-			<?php else :?>
-				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-			<?php endif; ?>
+		<?php if (!empty($this->item->contact_link ) &&  $params->get('link_author') == true) : ?>
+			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
+		<?php else :?>
+			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+		<?php endif; ?>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_hits')) : ?>
@@ -130,12 +127,12 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
 	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img
 		<?php if ($images->image_intro_caption):
-			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
+			echo 'class="caption"'.' title="' . htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8') .'"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
+		src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
 	</div>
 <?php endif; ?>
 
@@ -143,15 +140,13 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
-		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
+		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 	else :
 		$menu = JFactory::getApplication()->getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
-		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
-		$link = new JUri($link1);
-		$link->setVar('return', base64_encode($returnURL));
+		$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
+		$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 	endif;
 ?>
 		<p class="readmore">
@@ -172,7 +167,8 @@ $templateparams = $app->getTemplate(true)->params;
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
+	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != JFactory::getDbo()->getNullDate())) : ?>
 </div>
 <?php endif; ?>
 

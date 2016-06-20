@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -350,6 +350,22 @@ class JFormDataHelper
 	</fields>
 </form>';
 
+	public static $loadReplacementDocument = '<form>
+	<fields>
+		<fields
+			name="params">
+			<field
+				name="show_title"
+				type="radio"
+				default="2">
+				<option value="2">JDefault</option>
+				<option value="1">JYes</option>
+				<option value="0">JNo</option>
+			</field>
+		</fields>
+	</fields>
+</form>';
+
 	public static $loadFieldDocument = '<form>
 	<fields>
 		<field
@@ -370,6 +386,24 @@ class JFormDataHelper
 			validate="none"
 			label="Title"
 			description="The title." />
+
+		<field
+			name="published_by_true"
+			type="text"
+			disabled="true"
+			readonly="true" />
+
+		<field
+			name="published_by_1"
+			type="text"
+			disabled="1"
+			readonly="1" />
+
+		<field
+			name="published_by_attr"
+			type="text"
+			disabled="disabled"
+			readonly="readonly" />
 
 		<fields
 			name="params">
@@ -566,7 +600,7 @@ class JFormDataHelper
 	 *
 	 * @return void
 	 */
-	public function filter($value)
+	public static function filter($value)
 	{
 		return 'method';
 	}

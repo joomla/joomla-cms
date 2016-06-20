@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,7 +65,6 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterBase::addMap
 	 * @since   12.3
 	 */
 	public function testAddMap()
@@ -90,7 +89,6 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterBase::addMaps
 	 * @since   12.3
 	 */
 	public function testAddMaps()
@@ -141,7 +139,6 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers       JApplicationWebRouterBase::parseRoute
 	 * @dataProvider getParseRouteData
 	 * @since        12.3
 	 */

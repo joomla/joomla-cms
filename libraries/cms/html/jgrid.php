@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.6
+ * @since  1.6
  */
 abstract class JHtmlJGrid
 {
@@ -66,27 +64,26 @@ abstract class JHtmlJGrid
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . ' ' . ($tip ? 'hasTooltip"' : '') . '"';
+			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<i class="icon-' . $active_class . '">';
-			$html[] = '</i>';
+			$html[] = '<span class="icon-' . $active_class . '"></span>';
 			$html[] = '</a>';
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
+			$html[] = '<a class="btn btn-micro disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
 			if ($active_class == "protected")
 			{
-				$html[] = '<i class="icon-lock"></i>';
+				$html[] = '<span class="icon-lock"></span>';
 			}
 			else
 			{
-				$html[] = '<i class="icon-' . $inactive_class . '"></i>';
+				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
 			}
 
 			$html[] = '</a>';
@@ -99,7 +96,7 @@ abstract class JHtmlJGrid
 	 * Returns a state on a grid
 	 *
 	 * @param   array         $states     array of value/state. Each state is an array of the form
-	 *                                    (task, text, title,html active class, HTML inactive class)
+	 *                                    (task, text, active title, inactive title, tip (boolean), HTML active class, HTML inactive class)
 	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
 	 *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
 	 *                                    'inactive_class'=>html inactive class)
@@ -124,6 +121,7 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$task = array_key_exists('task', $state) ? $state['task'] : $state[0];
 		$text = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
@@ -152,7 +150,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return  string  The HTML markup
 	 *
-	 * @see     JHtmlJGrid::state
+	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
@@ -194,7 +192,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->format(JDate::$format, true));
 			}
 
-			$tip = empty($tips) ? false : implode('<br/>', $tips);
+			$tip = empty($tips) ? false : implode('<br />', $tips);
 
 			// Add tips and special titles
 			foreach ($states as $key => $state)
@@ -234,7 +232,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Returns a isDefault state on a grid
+	 * Returns an isDefault state on a grid
 	 *
 	 * @param   integer       $value     The state value.
 	 * @param   integer       $i         The row index
@@ -244,7 +242,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return  string  The HTML markup
 	 *
-	 * @see     JHtmlJGrid::state
+	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb')
@@ -341,13 +339,13 @@ abstract class JHtmlJGrid
 		$inactive_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return static::action(
-			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
-			'checkedout', $enabled, false, $checkbox
+			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
+			html_entity_decode($inactive_title, ENT_QUOTES, 'UTF-8'), true, 'checkedout', 'checkedout', $enabled, false, $checkbox
 		);
 	}
 
 	/**
-	 * Creates a order-up action icon.
+	 * Creates an order-up action icon.
 	 *
 	 * @param   integer       $i         The row index.
 	 * @param   string        $task      An optional task to fire.
@@ -370,11 +368,12 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		return static::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
 	}
 
 	/**
-	 * Creates a order-down action icon.
+	 * Creates an order-down action icon.
 	 *
 	 * @param   integer       $i         The row index.
 	 * @param   string        $task      An optional task to fire.

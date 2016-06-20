@@ -3,16 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormRuleUrl.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormRuleUrlTest extends TestCase
@@ -34,8 +33,7 @@ class JFormRuleUrlTest extends TestCase
 
 		// The field allows you to optionally limit the accepted schemes to a specific list.
 		// Url1 tests without a list, Url2 tests with a list.
-		$xml = simplexml_load_string('<form><field name="url1" />
-		<field name="url2" schemes="gopher" /></form>');
+		$xml = simplexml_load_string('<form><field name="url1" /><field name="url2" schemes="gopher" /></form>');
 
 		if ($xmlfield == '0')
 		{

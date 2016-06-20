@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+JFormHelper::loadFieldClass('groupedlist');
 
 /**
  * Test class for JFormFieldGroupedList.
@@ -17,19 +19,6 @@
 class JFormFieldGroupedListTest extends TestCase
 {
 	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/groupedlist.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void
@@ -38,7 +27,7 @@ class JFormFieldGroupedListTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="groupedlist" type="groupedlist" /></form>'),

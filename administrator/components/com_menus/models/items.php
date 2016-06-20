@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Menu Item List Model for Menus.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusModelItems extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -45,10 +44,12 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'a.ordering'
 			);
 
 			$app = JFactory::getApplication();
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -63,12 +64,20 @@ class MenusModelItems extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
+		$user = JFactory::getUser();
+
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
+		$this->setState('filter.parent_id', $parentId);
 
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -76,32 +85,57 @@ class MenusModelItems extends JModelList
 		$published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
-		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id');
 		$this->setState('filter.parent_id', $parentId);
 
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', null);
+		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
+		$menuType        = $app->input->getString('menutype', $currentMenuType);
+
+		// If selected menu type different from current menu type reset pagination to 0
+		if ($menuType != $currentMenuType)
+		{
+			$app->input->set('limitstart', 0);
+		}
+
 		if ($menuType)
 		{
-			if ($menuType != $app->getUserState($this->context . '.filter.menutype'))
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+						->select($db->qn(array('id', 'title')))
+						->from($db->qn('#__menu_types'))
+						->where($db->qn('menutype') . ' = ' . $db->q($menuType));
+
+			$menuTypeItem = $db->setQuery($query)->loadObject();
+
+			// Check if menu type exists.
+			if (!$menuTypeItem)
 			{
-				$app->setUserState($this->context . '.filter.menutype', $menuType);
-				$app->input->set('limitstart', 0);
+				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+			}
+			// Check if menu type was changed and if valid agains ACL
+			elseif ($user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id))
+			{
+				$app->setUserState($this->context . '.menutype', $menuType);
+				$this->setState('menutypetitle', !empty($menuTypeItem->title) ? $menuTypeItem->title : '');
+				$this->setState('menutypeid', !empty($menuTypeItem->id) ? $menuTypeItem->id : '');
+			}
+			// Nope, not valid
+			else
+			{
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.filter.menutype');
-
-			if (!$menuType)
-			{
-				$menuType = $this->getDefaultMenuType();
-			}
+			$app->setUserState($this->context . '.menutype', '');
+			$this->setState('menutypetitle', '');
+			$this->setState('menutypeid', '');
 		}
 
 		$this->setState('filter.menutype', $menuType);
@@ -124,9 +158,10 @@ class MenusModelItems extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -143,31 +178,11 @@ class MenusModelItems extends JModelList
 	}
 
 	/**
-	 * Finds the default menu type.
-	 *
-	 * In the absence of better information, this is the first menu ordered by title.
-	 *
-	 * @return  string    The default menu type
-	 * @since   1.6
-	 */
-	protected function getDefaultMenuType()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('menutype')
-			->from('#__menu_types')
-			->order('title');
-		$db->setQuery($query, 0, 1);
-		$menuType = $db->loadResult();
-
-		return $menuType;
-	}
-
-	/**
 	 * Builds an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery    A query object.
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -182,31 +197,43 @@ class MenusModelItems extends JModelList
 			$this->getState(
 				'list.select',
 				$db->quoteName(
-					array('a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id', 'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav', 'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'),
-					array(null, null, null, null, null, null, null, null, null, null, 'apublished', null, null, null, null, null, null, null, null, null, null, null, null, null)
+					array(
+						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
+						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+					),
+					array(
+						null, null, null, null, null, null, null, null, null,
+						null, 'a.published', null, null, null, null,
+						null, null, null, null, null, null, null, null, null
+					)
 				)
 			)
 		);
 		$query->select(
-			'CASE a.type' .
-				' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
-				' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
-				' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
-				' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
-				' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
-				' END AS published'
+			'CASE ' .
+				' WHEN a.type = ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
+				' WHEN a.type = ' . $db->quote('url') . 'AND a.published != -2 THEN a.published+2 ' .
+				' WHEN a.type = ' . $db->quote('url') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published != -2 THEN a.published+4 ' .
+				' WHEN a.type = ' . $db->quote('alias') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published != -2 THEN a.published+6 ' .
+				' WHEN a.type = ' . $db->quote('separator') . 'AND a.published = -2 THEN a.published-1 ' .
+				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published != -2 THEN a.published+8 ' .
+				' WHEN a.type = ' . $db->quote('heading') . 'AND a.published = -2 THEN a.published-1 ' .
+			' END AS published '
 		);
 		$query->from($db->quoteName('#__menu') . ' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image as image')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
 		$query->select('u.name AS editor')
 			->join('LEFT', $db->quoteName('#__users') . ' AS u ON u.id = a.checked_out');
 
-		//Join over components
+		// Join over components
 		$query->select('c.element AS componentname')
 			->join('LEFT', $db->quoteName('#__extensions') . ' AS c ON c.extension_id = a.component_id');
 
@@ -215,13 +242,14 @@ class MenusModelItems extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name');
 		}
 
 		// Join over the extensions
@@ -234,6 +262,7 @@ class MenusModelItems extends JModelList
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -254,29 +283,60 @@ class MenusModelItems extends JModelList
 			{
 				if ($search = substr($search, 5))
 				{
-					$search = $db->quote('%' . $db->escape($search, true) . '%');
+					$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 					$query->where('a.link LIKE ' . $search);
 				}
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 				$query->where('(' . 'a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
 		// Filter the items over the parent id if set.
 		$parentId = $this->getState('filter.parent_id');
+
 		if (!empty($parentId))
 		{
-			$query->where('p.id = ' . (int) $parentId);
+			$query->where('a.parent_id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
-		if (!empty($menuType))
+
+		// "" means all
+		if ($menuType == '')
+		{
+			// Load all menu types we have manage access
+			$query2 = $this->getDbo()->getQuery(true)
+				->select($this->getDbo()->qn(array('id', 'menutype')))
+				->from('#__menu_types')
+				->order('title');
+
+			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+
+			$types = array();
+
+			foreach ($menuTypes as $type)
+			{
+				if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
+				{
+					$types[] = $query->q($type->menutype);
+				}
+			}
+
+			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+		}
+		// Default behavior => load all items from a specific menu
+		elseif (strlen($menuType))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
+		}
+		// Empty menu type => error
+		else
+		{
+			$query->where('1 != 1');
 		}
 
 		// Filter on the access level.
@@ -307,7 +367,6 @@ class MenusModelItems extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query)).'<hr/>';
 		return $query;
 	}
 }

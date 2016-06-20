@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -9,18 +16,31 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the User Manager: Add / Edit User Screen
- * @author Mark
+ * This class tests the  Control panel.
  *
+ * @package     Joomla.Tests
+ * @subpackage  Test
+ *
+ * @copyright   Copyright (c) 2005 - 2016 Open Source Matters, Inc.   All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       Joomla 3.3
  */
+
 class UserManager0002Test extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
 	 * @var UserManagerPage
 	 */
-	protected $userManagerPage = null; // Global configuration page
+	protected $userManagerPage = null; /* Global configuration page*/
 
+	/**
+	 * Login to back end and navigate to menu Language Manager.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +48,13 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 		$this->userManagerPage = $cpPage->clickMenu('User Manager', 'UserManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -35,6 +62,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * get the available filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
@@ -45,6 +76,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the execution of the filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
@@ -58,6 +93,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the working of the filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestFilters_ShouldFilterUsers()
@@ -89,7 +128,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should be present');
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should be present');
 
-		$this->userManagerPage->setFilter('Group', 'Group');
+		$this->userManagerPage->searchFor();
 		$this->userManagerPage->delete('Test User');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should not be present');
@@ -97,6 +136,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * ordering the user according to the filter
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestOrdering_ShouldOrderUsers()
@@ -111,7 +154,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 		$this->userManagerPage->changeUserState('Test User1', 'unpublished');
 		$this->userManagerPage->editUser('Test User2', array('Block this User' => 'Yes'));
 
-		$orderings = array('Name', 'User Name', 'Enabled', 'Activated', 'Email', 'Last Visit Date', 'Registration Date', 'ID');
+		$orderings = array('Name', 'Username', 'Enabled', 'Activated', 'Email', 'Last visit date', 'Registration date', 'ID');
 		$rows = array('Super User', 'Test User1', 'Test User2', 'Test User3');
 		$actualRowNumbers = $this->userManagerPage->orderAndGetRowNumbers($orderings, $rows);
 
@@ -127,7 +170,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 
 		$expectedRowNumbers = array(
 			'Name' => array('ascending' => array(1, 2, 3, 4), 'descending' => array(4, 3, 2, 1)),
-			'User Name' => array(
+			'Username' => array(
 					'ascending' => array(
 							array_search($userNames[0], $userNamesSorted) + 1,
 							array_search($userNames[1], $userNamesSorted) + 1,
@@ -157,8 +200,8 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 							array_search($emails[3], $emailsReversed) + 1,
 					)
 			),
-			'Last Visit Date' => array('ascending' => array(4, 1, 3, 2), 'descending' => array(1, 2, 4, 3)),
-			'Registration Date' => array('ascending' => array(1, 2, 4, 3), 'descending' => array(4, 3, 1, 2)),
+			'Last visit date' => array('ascending' => array(4, 1, 3, 2), 'descending' => array(1, 2, 4, 3)),
+			'Registration date' => array('ascending' => array(1, 2, 4, 3), 'descending' => array(4, 3, 1, 2)),
 			'ID' => array('ascending' => array(1, 2, 4, 3), 'descending' => array(4, 3, 1, 2))
 		);
 
@@ -178,6 +221,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 			}
 		}
 
+		$this->userManagerPage->searchFor();
 		$this->userManagerPage->delete('Test User');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should not be present');

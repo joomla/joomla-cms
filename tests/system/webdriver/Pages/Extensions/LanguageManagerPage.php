@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,13 +24,13 @@ use SeleniumClient\WebElement;
  */
 class LanguageManagerPage extends AdminManagerPage
 {
-  /**
+	/**
 	 * XPath string used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_languages&view=languages']";
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_languages&view=languages']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -72,15 +72,15 @@ class LanguageManagerPage extends AdminManagerPage
 	/**
 	 * Add a new Language item in the Language Manager: Component screen.
 	 *
-	 * @param string   $title          Test Language Name
+	 * @param   string   $title          Test Language Name
 	 *
-	 * @param string   $native_title 	 Native Title for the Test Language
+	 * @param   string   $native_title   Native Title for the Test Language
 	 *
-	 * @param string   $url			  URL for the Test Language
+	 * @param   string   $url			 URL for the Test Language
 	 *
-	 * @param string   $image_prefix		  image prefix for the test Language
+	 * @param   string   $image_prefix   image prefix for the test Language
 	 *
-	 * @param string 	$language_tag		Tag for the test language
+	 * @param   string 	 $language_tag    Tag for the test language
 	 *
 	 * @return  LanguageManagerPage
 	 */
@@ -89,7 +89,7 @@ class LanguageManagerPage extends AdminManagerPage
 		$new_name = $title;
 		$this->clickButton('toolbar-new');
 		$languageEditPage = $this->test->getPageObject('LanguageEditPage');
-		$languageEditPage->setFieldValues(array('Title'=>$title, 'Title Native'=>$native_title, 'URL Language Code'=>$url, 'Image Prefix'=>$image_prefix, 'Language Tag'=>$language_tag));
+		$languageEditPage->setFieldValues(array('Title' => $title, 'Title Native' => $native_title, 'URL Language Code' => $url, 'Image Prefix' => $image_prefix, 'Language Tag' => $language_tag));
 		$languageEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('LanguageManagerPage');
 
@@ -125,14 +125,17 @@ class LanguageManagerPage extends AdminManagerPage
 		$result = false;
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+
 		if (strpos($text, 'languages.unpublish') > 0)
 		{
 			$result = 'published';
 		}
+
 		if (strpos($text, 'languages.publish') > 0)
 		{
 			$result = 'unpublished';
 		}
+
 		return $result;
 	}
 
@@ -148,6 +151,7 @@ class LanguageManagerPage extends AdminManagerPage
 	{
 		$this->searchFor($name);
 		$this->checkAll();
+
 		if (strtolower($state) == 'published')
 		{
 			$this->clickButton('toolbar-publish');
@@ -158,7 +162,7 @@ class LanguageManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-unpublish');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+
 		$this->searchFor();
 	}
-
 }

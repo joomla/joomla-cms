@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,23 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache view type object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCacheControllerView extends JCacheController
 {
 	/**
 	 * Get the cached view data
 	 *
-	 * @param   object   &$view       The view object to cache output for
+	 * @param   object   $view        The view object to cache output for
 	 * @param   string   $method      The method name of the view method to cache output for
-	 * @param   string   $id          The cache data id
+	 * @param   mixed    $id          The cache data ID
 	 * @param   boolean  $wrkarounds  True to enable workarounds.
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
 	 * @since   11.1
 	 */
-	public function get( $view, $method = 'display' , $id = false, $wrkarounds = true )
+	public function get($view, $method = 'display', $id = false, $wrkarounds = true)
 	{
 		// If an id is not given generate it from the request
 		if ($id == false)
@@ -40,23 +38,24 @@ class JCacheControllerView extends JCacheController
 
 		$data = $this->cache->get($id);
 
-		$locktest = new stdClass;
-		$locktest->locked = null;
+		$locktest             = new stdClass;
+		$locktest->locked     = null;
 		$locktest->locklooped = null;
 
 		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id, null);
 
-			// If the loop is completed and returned true it means the lock has been set.
-			// If looped is true try to get the cached data again; it could exist now.
+			/*
+			 * If the loop is completed and returned true it means the lock has been set.
+			 * If looped is true try to get the cached data again; it could exist now.
+			 */
 			if ($locktest->locked == true && $locktest->locklooped == true)
 			{
 				$data = $this->cache->get($id);
 			}
 
-			// False means that locking is either turned off or maxtime has been exceeded.
-			// Execute the view.
+			// False means that locking is either turned off or maxtime has been exceeded. Execute the view.
 		}
 
 		if ($data !== false)
@@ -70,7 +69,7 @@ class JCacheControllerView extends JCacheController
 			else
 			{
 				// No workarounds, so all data is stored in one piece
-				echo (isset($data)) ? $data : null;
+				echo isset($data) ? $data : null;
 			}
 
 			if ($locktest->locked == true)
@@ -81,9 +80,7 @@ class JCacheControllerView extends JCacheController
 			return true;
 		}
 
-		/*
-		 * No hit so we have to execute the view
-		 */
+		// No hit so we have to execute the view
 		if (method_exists($view, $method))
 		{
 			// If previous lock failed try again
@@ -96,8 +93,7 @@ class JCacheControllerView extends JCacheController
 			ob_start();
 			ob_implicit_flush(false);
 			$view->$method();
-			$data = ob_get_contents();
-			ob_end_clean();
+			$data = ob_get_clean();
 			echo $data;
 
 			/*
@@ -115,16 +111,17 @@ class JCacheControllerView extends JCacheController
 				$this->cache->unlock($id);
 			}
 		}
+
 		return false;
 	}
 
 	/**
-	 * Generate a view cache id.
+	 * Generate a view cache ID.
 	 *
 	 * @param   object  &$view   The view object to cache output for
 	 * @param   string  $method  The method name to cache for the view object
 	 *
-	 * @return  string  MD5 Hash : view cache id
+	 * @return  string  MD5 Hash
 	 *
 	 * @since   11.1
 	 */

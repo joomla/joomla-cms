@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="system" method="upgrade">
+	<name>plg_twofactorauth_yubikey</name>
+	<author>Joomla! Project</author>
+	<creationDate>September 2013</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.2.0</version>
+	<description>PLG_TWOFACTORAUTH_YUBIKEY_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="yubikey">yubikey.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_twofactorauth_yubikey.ini</language>
+		<language tag="en-GB">en-GB.plg_twofactorauth_yubikey.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="section"
+					type="radio"
+					label="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_LABEL"
+					description="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_DESC"
+					default="3"
+					class="btn-group"
+					>
+					<option value="1">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_SITE</option>
+					<option value="2">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_ADMIN</option>
+					<option value="3">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_BOTH</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

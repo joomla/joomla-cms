@@ -3,12 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/form/fields/plugins.php';
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+JFormHelper::loadFieldClass('plugins');
 
 /**
  * Test class for JFormFieldPlugins.
@@ -36,6 +35,33 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests folder attribute setup by JFormFieldPlugins::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupFolder()
+	{
+		$field = new JFormFieldPlugins;
+		$element = simplexml_load_string(
+			'<field name="editors" type="plugins" folder="editors" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->folder,
+			$this->equalTo("editors"),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void
@@ -44,26 +70,20 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$formField = new JFormFieldPlugins;
 
-		$this->assertThat(
-			$form->load('<form><field name="editors" type="plugins" folder="editors" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldPlugins($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'editors');
+		TestReflection::setValue($formField, 'folder', 'editors');
+		TestReflection::setValue(
+			$formField, 'element',
+			simplexml_load_string('<field name="editors" type="plugins" folder="editors" />')
 		);
 
 		if (!is_null(self::$driver))
 		{
 			$this->assertThat(
-				strlen($field->input),
+				strlen($formField->input),
 				$this->greaterThan(0),
 				'Line:' . __LINE__ . ' The getInput method should return something without error.'
 			);

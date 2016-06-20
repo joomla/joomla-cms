@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::parse
 	 * @since   12.3
 	 */
 	public function testParse()
@@ -57,7 +56,7 @@ class JFeedParserTest extends TestCase
 
 		// Set the XML for the internal reader and move the stream to the <root> element.
 		$xml = '<root xmlns="http://bar.foo" xmlns:namespace="http://foo.bar"><tag1>foobar</tag1><namespace:tag2 attr="value" /></root>';
-		$this->_reader->XML($xml);
+		$this->_reader->Xml($xml);
 
 		// Advance the reader to the first <tag1> element.
 		do
@@ -74,7 +73,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::registerNamespace
 	 * @since   12.3
 	 */
 	public function testRegisterNamespace()
@@ -103,40 +101,10 @@ class JFeedParserTest extends TestCase
 	}
 
 	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a string.
-	 *
-	 * @return  void
-	 *
-	 * @covers             JFeedParser::registerNamespace
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithString()
-	{
-		$this->_instance->registerNamespace('foo', 'bar');
-	}
-
-	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a handler
-	 * that isn't an instance of JFeedParserNamespace.
-	 *
-	 * @return  void
-	 *
-	 * @covers             JFeedParser::registerNamespace
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithObject()
-	{
-		$this->_instance->registerNamespace('foo', new stdClass);
-	}
-
-	/**
 	 * Tests JFeedParser::processElement() with processing a normal element.
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::processElement
 	 * @since   12.3
 	 */
 	public function testProcessElementWithElement()
@@ -172,7 +140,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::processElement
 	 * @since   12.3
 	 */
 	public function testProcessElementWithEntry()
@@ -212,7 +179,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::fetchNamespace
 	 * @since   12.3
 	 */
 	public function testFetchNamespace()
@@ -237,13 +203,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToNextElement
 	 * @since   12.3
 	 */
 	public function testMoveToNextElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
@@ -274,13 +239,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToNextElement
 	 * @since   12.3
 	 */
 	public function testMoveToNextElementByName()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Move to the next <node> element, which should be <node test="first">.
 		TestReflection::invoke($this->_instance, 'moveToNextElement', 'node');
@@ -298,13 +262,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 * @since   12.3
 	 */
 	public function testMoveToClosingElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->XML('<root><child>foobar</child></root>');
+		$this->_reader->Xml('<root><child>foobar</child></root>');
 		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
@@ -321,13 +284,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 * @since   12.3
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
 		do
@@ -369,13 +331,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 * @since   12.3
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->XML('<root><node test="first" /><node test="second"></node></root>');
+		$this->_reader->Xml('<root><node test="first" /><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
 		do

@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,6 +25,62 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+05-Dec-2013 Mark Dexter
+ # Clean up some webdriver tests to hopefully fix intermittent problems.
+
+14-Nov-2013 Mark Dexter
+ # Fix problem with button not being visible on page.
+  
+01-Nov-2013 Mark Dexter
+ # Fix problem with hidden filters in User Manager.
+
+31-Oct-2013 Mark Dexter
+ # Fix problem with category filter in article manager.
+
+30-Oct-2013 Mark Dexter
+ # Fix weblink and newsfeed edit for markup changes.
+
+29-Oct-2013 Mark Dexter
+ # More webdriver fixes for 3.2.
+
+27-Oct-2013 Mark Dexter
+ # More webdriver fixes for 3.2 changes. Most tests working again.
+
+18-Oct-2013 Mark Dexter
+ # Fix Webdriver tests for 3.2 changes.
+
+09-Oct-2013 Mark Dexter
+ # Fix Webdriver page class for markup changes.
+
+03-Oct-2013 Mark Dexter
+ # Fix system tests for code changes.
+ # Fix another system test.
+
+14-Sep-2013 Mark Dexter
+ + Add system tests for categories and articles in the front end. Thanks Puneet Kala.
+
+11-Sep-2013 Mark Dexter
+ # Fix failing system tests.
+
+04-Sep-2013 Mark Dexter
+ + Add some more front-end system tests. Thanks Puneet Kala.
+
+01-Sep-2013 Mark Dexter
+ # Fix problem with renamed test method.
+ # Fix failing system test due to new option in Global Configuration.
+
+27-Aug-2013 Mark Dexter
+ + Add some system tests for front end. Thanks Puneet Kala!
+
+21-Aug-2013 Mark Dexter
+ + Start new front-end tests for articles. Thanks Puneet Kala!
+
+16-Aug-2013 Michael Babker
+ ^ Add a conditional for running app install
+
+15-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
 
 09-Aug-2013 Mark Dexter
  # Fix failing system tests due to markup changes.

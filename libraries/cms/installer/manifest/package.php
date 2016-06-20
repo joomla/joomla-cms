@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Package Manifest File
  *
- * @package     Joomla.Libraries
- * @subpackage  Installer
- * @since       3.1
+ * @since  3.1
  */
 class JInstallerManifestPackage extends JInstallerManifest
 {
@@ -72,6 +70,17 @@ class JInstallerManifestPackage extends JInstallerManifest
 				// NOTE: JInstallerExtension doesn't expect a string.
 				// DO NOT CAST $file
 				$this->filelist[] = new JInstallerExtension($file);
+			}
+		}
+
+		// Handle cases where package contains folders
+		if (isset($xml->files->folder) && count($xml->files->folder))
+		{
+			foreach ($xml->files->folder as $folder)
+			{
+				// NOTE: JInstallerExtension doesn't expect a string.
+				// DO NOT CAST $folder
+				$this->filelist[] = new JInstallerExtension($folder);
 			}
 		}
 	}

@@ -3,22 +3,23 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 /**
  * Test class for JFacebookStatus.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookStatusTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -57,8 +58,6 @@ class JFacebookStatusTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access  protected
-	 *
 	 * @return  void
 	 *
 	 * @since   13.1
@@ -77,7 +76,7 @@ class JFacebookStatusTest extends TestCase
 			'access_token' => 'token',
 			'expires' => '51837673', 'created' => '2443672521');
 
-		$this->options = new JRegistry;
+		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
@@ -90,20 +89,8 @@ class JFacebookStatusTest extends TestCase
 		$this->options->set('redirecturi', $my_url);
 		$this->options->set('sendheaders', true);
 		$this->options->set('authmethod', 'get');
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return   void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**
@@ -252,7 +239,6 @@ class JFacebookStatusTest extends TestCase
 	 */
 	public function testCreateCommentFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$status = '124346363456';
 		$message = 'test message';
@@ -310,7 +296,6 @@ class JFacebookStatusTest extends TestCase
 	 */
 	public function testDeleteCommentFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$comment = '5148941614_12343468';
 
@@ -415,7 +400,6 @@ class JFacebookStatusTest extends TestCase
 	 */
 	public function testCreateLikeFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$status = '124346363456';
 
@@ -468,7 +452,6 @@ class JFacebookStatusTest extends TestCase
 	 */
 	public function testDeleteLikeFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$status = '124346363456';
 

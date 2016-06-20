@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,9 @@ class TestMockLanguage
 	/**
 	 * Creates and instance of the mock JLanguage object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
@@ -76,7 +76,7 @@ class TestMockLanguage
 	 *
 	 * @since  11.3
 	 */
-	public function mock_($string, $jsSafe = false, $interpretBackSlashes = true)
+	public static function mock_($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
 		return $string;
 	}

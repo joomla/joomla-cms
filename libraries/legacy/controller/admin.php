@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @package     Joomla.Legacy
- * @subpackage  Controller
- * @since       12.2
+ * @since  12.2
  */
 class JControllerAdmin extends JControllerLegacy
 {
@@ -90,10 +88,12 @@ class JControllerAdmin extends JControllerLegacy
 		if (empty($this->view_list))
 		{
 			$r = null;
+
 			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
+
 			$this->view_list = strtolower($r[2]);
 		}
 	}
@@ -133,11 +133,12 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			else
 			{
-				$this->setMessage($model->getError());
+				$this->setMessage($model->getError(), 'error');
 			}
+
+			// Invoke the postDelete method to allow for the child class to access the model.
+			$this->postDeleteHook($model, $cid);
 		}
-		// Invoke the postDelete method to allow for the child class to access the model.
-		$this->postDeleteHook($model, $cid);
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
@@ -206,10 +207,19 @@ class JControllerAdmin extends JControllerLegacy
 			try
 			{
 				$model->publish($cid, $value);
+				$errors = $model->getErrors();
 
 				if ($value == 1)
 				{
-					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					if ($errors)
+					{
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
+					}
+					else
+					{
+						$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+					}
 				}
 				elseif ($value == 0)
 				{
@@ -223,14 +233,15 @@ class JControllerAdmin extends JControllerLegacy
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
 				}
+
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 			catch (Exception $e)
 			{
-				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+				$this->setMessage($e->getMessage(), 'error');
 			}
-
 		}
+
 		$extension = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
@@ -249,15 +260,17 @@ class JControllerAdmin extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
-		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
+		$inc = ($this->getTask() == 'orderup') ? -1 : 1;
 
 		$model = $this->getModel();
 		$return = $model->reorder($ids, $inc);
+
 		if ($return === false)
 		{
 			// Reorder failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
 			return false;
 		}
 		else
@@ -265,6 +278,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Reorder succeeded.
 			$message = JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED');
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
 			return true;
 		}
 	}
@@ -300,6 +314,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Reorder failed
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
 			return false;
 		}
 		else
@@ -307,6 +322,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
 			return true;
 		}
 	}
@@ -327,11 +343,13 @@ class JControllerAdmin extends JControllerLegacy
 
 		$model = $this->getModel();
 		$return = $model->checkin($ids);
+
 		if ($return === false)
 		{
 			// Checkin failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
+
 			return false;
 		}
 		else
@@ -339,6 +357,7 @@ class JControllerAdmin extends JControllerLegacy
 			// Checkin succeeded.
 			$message = JText::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', count($ids));
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
+
 			return true;
 		}
 	}

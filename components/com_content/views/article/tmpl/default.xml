@@ -38,8 +38,8 @@
 			label="JGLOBAL_SHOW_TITLE_LABEL"
 			description="JGLOBAL_SHOW_TITLE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -49,8 +49,8 @@
 			label="JGLOBAL_LINKED_TITLES_LABEL"
 			description="JGLOBAL_LINKED_TITLES_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field 
@@ -60,8 +60,8 @@
 			description="JGLOBAL_SHOW_INTRO_DESC"
 			label="JGLOBAL_SHOW_INTRO_LABEL">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -76,6 +76,16 @@
 			<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
 		</field>
 
+		<field
+			name="info_block_show_title"
+			type="list"
+			class="btn-group"
+			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+			description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC">
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="show_category"
@@ -84,8 +94,8 @@
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -95,8 +105,8 @@
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
 			description="JGLOBAL_LINK_CATEGORY_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNO</option>
-			<option	value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -106,8 +116,8 @@
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -117,8 +127,8 @@
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNO</option>
-			<option	value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -128,8 +138,8 @@
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
 			description="JGLOBAL_SHOW_AUTHOR_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -139,8 +149,8 @@
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
 			description="JGLOBAL_LINK_AUTHOR_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNO</option>
-			<option	value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -150,8 +160,8 @@
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 			description="JGLOBAL_SHOW_CREATE_DATE_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -161,8 +171,8 @@
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 			description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -172,8 +182,8 @@
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -183,8 +193,8 @@
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 			description="JGLOBAL_SHOW_NAVIGATION_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
 		</field>
 
 		<field
@@ -194,18 +204,8 @@
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			description="JGLOBAL_SHOW_VOTE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
-		</field>
-
-		<field name="show_tags" 
-			type="radio"
-			class="btn-group"
-			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -215,8 +215,8 @@
 			label="JGLOBAL_SHOW_ICONS_LABEL"
 			description="JGLOBAL_SHOW_ICONS_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -226,8 +226,8 @@
 			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 			description="JGLOBAL_SHOW_PRINT_ICON_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -237,8 +237,8 @@
 			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 			description="JGLOBAL_SHOW_EMAIL_ICON_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -248,8 +248,8 @@
 			label="JGLOBAL_SHOW_HITS_LABEL"
 			description="JGLOBAL_SHOW_HITS_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -259,8 +259,8 @@
 			label="JGLOBAL_SHOW_TAGS_LABEL"
 			description="JGLOBAL_SHOW_TAGS_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -270,8 +270,8 @@
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="urls_position"

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,9 +14,7 @@ jimport('joomla.filesystem.file');
 /**
  * Indexer class supporting PostgreSQL for the Finder indexer package.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       3.0
+ * @since  3.0
  */
 class FinderIndexerDriverPostgresql extends FinderIndexer
 {
@@ -215,7 +213,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 						}
 
 						// Tokenize a string of content and add it to the database.
-						$count += $this->tokenizeToDB($ip, $group, $item->language, $format);
+						$count += $this->tokenizeToDb($ip, $group, $item->language, $format);
 
 						// Check if we're approaching the memory limit of the token table.
 						if ($count > static::$state->options->get('memory_table_limit', 30000))
@@ -239,7 +237,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 					}
 
 					// Tokenize a string of content and add it to the database.
-					$count += $this->tokenizeToDB($item->$property, $group, $item->language, $format);
+					$count += $this->tokenizeToDb($item->$property, $group, $item->language, $format);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > static::$state->options->get('memory_table_limit', 30000))
@@ -266,7 +264,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
 
 				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDB($node->title, static::META_CONTEXT, $item->language, $format);
+				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 
@@ -280,7 +278,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * aggregated data will be inserted into #__finder_tokens_aggregate
 		 * table.
 		 */
-		$query	= 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
+		$query = 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' (' . $db->quoteName('term_id') .
 				', ' . $db->quoteName('term') .
 				', ' . $db->quoteName('stem') .
@@ -328,6 +326,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0'
 		);
+
 		if ($db->loadRow() == null)
 		{
 			$db->setQuery(
@@ -570,7 +569,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function addTokensToDB($tokens, $context = '')
+	protected function addTokensToDb($tokens, $context = '')
 	{
 		// Get the database object.
 		$db = JFactory::getDbo();
@@ -610,6 +609,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			);
 			$values++;
 		}
+
 		$db->setQuery($query);
 		$db->execute();
 

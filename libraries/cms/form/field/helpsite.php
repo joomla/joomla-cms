@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ JFormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6.0
+ * @since  1.6
  */
 class JFormFieldHelpsite extends JFormFieldList
 {
@@ -25,7 +23,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6.0
+	 * @since  1.6
 	 */
 	public $type = 'Helpsite';
 
@@ -34,7 +32,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
@@ -49,14 +47,24 @@ class JFormFieldHelpsite extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	protected function getInput()
 	{
 		JHtml::script('system/helpsite.js', false, true);
 
+		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
+
 		$html = parent::getInput();
-		$button = '<button type="button" class="btn btn-small" id="helpsite-refresh" rel="' . $this->id . '"><span>' . JText::_('COM_CONFIG_HELPREFRESH_BUTTON') . '</span></button>';
+		$button = '<button
+						type="button"
+						class="btn btn-small"
+						id="helpsite-refresh"
+						rel="' . $this->id . '"
+						showDefault="' . $showDefault . '"
+					>
+					<span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
+					</button>';
 
 		return $html . $button;
 	}

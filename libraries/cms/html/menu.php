@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with menu select lists
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtmlMenu
 {
@@ -43,15 +41,16 @@ abstract class JHtmlMenu
 	 */
 	public static function menus()
 	{
-		if (empty(static::$menus))
+		if (is_null(static::$menus))
 		{
 			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
-				->select('menutype AS value, title AS text')
+				->select($db->qn(array('id', 'menutype', 'title'), array('id', 'value', 'text')))
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
-			$db->setQuery($query);
-			static::$menus = $db->loadObjectList();
+
+			static::$menus = $db->setQuery($query)->loadObjectList();
 		}
 
 		return static::$menus;
@@ -70,19 +69,13 @@ abstract class JHtmlMenu
 	{
 		if (empty(static::$items))
 		{
+			$menus = static::menus();
+
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('menutype AS value, title AS text')
-				->from($db->quoteName('#__menu_types'))
-				->order('title');
-			$db->setQuery($query);
-			$menus = $db->loadObjectList();
-
-			$query->clear()
 				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0')
-				->where('a.type <> ' . $db->quote('url'))
 				->where('a.client_id = 0');
 
 			// Filter on the published state
@@ -120,8 +113,22 @@ abstract class JHtmlMenu
 
 			static::$items = array();
 
+			$user = JFactory::getUser();
+
+			$aclcheck = !empty($config['checkacl']) ? (int) $config['checkacl'] : 0;
+
 			foreach ($menus as &$menu)
 			{
+				if ($aclcheck)
+				{
+					$action = $aclcheck == $menu->id ? 'edit' : 'create';
+
+					if (!$user->authorise('core.' . $action, 'com_menus.menu.' . $menu->id))
+					{
+						continue;
+					}
+				}
+
 				// Start group:
 				static::$items[] = JHtml::_('select.optgroup', $menu->text);
 
@@ -229,7 +236,7 @@ abstract class JHtmlMenu
 			->select('m.id, m.parent_id, m.title, m.menutype')
 			->from($db->quoteName('#__menu') . ' AS m')
 			->where($db->quoteName('m.published') . ' = 1')
-			->order('m.menutype, m.parent_id, m.ordering');
+			->order('m.menutype, m.parent_id');
 		$db->setQuery($query);
 
 		$mitems = $db->loadObjectList();
@@ -311,7 +318,7 @@ abstract class JHtmlMenu
 	 * @param   array    &$children  The children of the current item
 	 * @param   integer  $maxlevel   The maximum number of levels in the tree
 	 * @param   integer  $level      The starting level
-	 * @param   string   $type       Type of link: component, URL, alias, separator
+	 * @param   int      $type       Set the type of spacer to use. Use 1 for |_ or 0 for -
 	 *
 	 * @return  array
 	 *

@@ -3,18 +3,18 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Menu table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
- * @since       11.1
+ * @since  11.1
  */
 class JTableMenu extends JTableNested
 {
@@ -25,7 +25,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__menu', 'id', $db);
 
@@ -41,7 +41,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -50,12 +50,15 @@ class JTableMenu extends JTableNested
 		if ($this->home == '1' && $this->language == '*' && ($array['home'] == '0'))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
+
 			return false;
 		}
+
 		// Verify that the default home menu set to "all" languages" is not unset
 		if ($this->home == '1' && $this->language == '*' && ($array['language'] != '*'))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
+
 			return false;
 		}
 
@@ -63,12 +66,13 @@ class JTableMenu extends JTableNested
 		if ($this->home == '1' && $this->language == '*' && $array['published'] != '1')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
+
 			return false;
 		}
 
 		if (isset($array['params']) && is_array($array['params']))
 		{
-			$registry = new JRegistry;
+			$registry = new Registry;
 			$registry->loadArray($array['params']);
 			$array['params'] = (string) $registry;
 		}
@@ -81,23 +85,39 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   11.1
 	 */
 	public function check()
 	{
-		// If the alias field is empty, set it to the title.
-		$this->alias = trim($this->alias);
-		if ((empty($this->alias)) && ($this->type != 'alias' && $this->type != 'url'))
+		// Check for a title.
+		if (trim($this->title) == '')
 		{
-			$this->alias = $this->title;
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MENUITEM'));
+
+			return false;
 		}
 
-		// Make the alias URL safe.
-		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		// Set correct component id to ensure proper 404 messages with separator items
+		if ($this->type == "separator")
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->component_id = 0;
+		}
+
+		// Check for a path.
+		if (trim($this->path) == '')
+		{
+			$this->path = $this->alias;
+		}
+		// Check for params.
+		if (trim($this->params) == '')
+		{
+			$this->params = '{}';
+		}
+		// Check for img.
+		if (trim($this->img) == '')
+		{
+			$this->img = ' ';
 		}
 
 		// Cast the home property to an int for checking.
@@ -107,14 +127,17 @@ class JTableMenu extends JTableNested
 		if ($this->parent_id == 1 && $this->alias == 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+
 			return false;
 		}
 
 		// Verify that a first level menu item alias is not the name of a folder.
 		jimport('joomla.filesystem.folder');
+
 		if ($this->parent_id == 1 && in_array($this->alias, JFolder::folders(JPATH_ROOT)))
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+
 			return false;
 		}
 
@@ -122,6 +145,7 @@ class JTableMenu extends JTableNested
 		if ($this->home && $this->type != 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
+
 			return false;
 		}
 
@@ -135,7 +159,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
-	 * @see     JTable::store
+	 * @see     JTable::store()
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -144,49 +168,95 @@ class JTableMenu extends JTableNested
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id, 'language' => $this->language))
-			&& ($table->id != $this->id || $this->id == 0))
+
+		$originalAlias = trim($this->alias);
+		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
+		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
+
+		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
+		if (empty($this->alias))
 		{
-			if ($this->menutype == $table->menutype)
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+		}
+		else
+		{
+			$itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
+			$errorType  = '';
+
+			// Check if the alias already exists. For multilingual site.
+			if (JLanguageMultilang::isEnabled())
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+				// If not exists a menu item at the same level with the same alias (in the All or the same language).
+				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
+					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
+					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
+				{
+					$errorType = 'MULTILINGUAL';
+				}
 			}
+			// Check if the alias already exists. For monolingual site.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+				// If not exists a menu item at the same level with the same alias (in any language).
+				if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
+				{
+					$errorType = 'MONOLINGUAL';
+				}
 			}
-			return false;
+
+			// The alias already exists. Send an error message.
+			if ($errorType)
+			{
+				$message = JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS' . ($this->menutype != $table->menutype ? '_ROOT' : ''));
+				$this->setError($message);
+
+				return false;
+			}
 		}
-		// Verify that the home page for this language is unique
+
 		if ($this->home == '1')
 		{
-			$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
+			// Verify that the home page for this menu is unique.
+			if ($table->load(
+					array(
+					'menutype' => $this->menutype,
+					'client_id' => (int) $this->client_id,
+					'home' => '1'
+					)
+				)
+				&& ($table->language != $this->language))
+			{
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
+
+				return false;
+			}
+
+			// Verify that the home page for this language is unique
 			if ($table->load(array('home' => '1', 'language' => $this->language)))
 			{
 				if ($table->checked_out && $table->checked_out != $this->checked_out)
 				{
 					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
+
 					return false;
 				}
+
 				$table->home = 0;
 				$table->checked_out = 0;
 				$table->checked_out_time = $db->getNullDate();
 				$table->store();
 			}
-			// Verify that the home page for this menu is unique.
-			if ($table->load(array('home' => '1', 'menutype' => $this->menutype)) && ($table->id != $this->id || $this->id == 0))
-			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
-				return false;
-			}
 		}
+
 		if (!parent::store($updateNulls))
 		{
 			return false;
 		}
+
 		// Get the new path in case the node was moved
 		$pathNodes = $this->getPath();
 		$segments = array();
+
 		foreach ($pathNodes as $node)
 		{
 			// Don't include root in path
@@ -195,6 +265,7 @@ class JTableMenu extends JTableNested
 				$segments[] = $node->alias;
 			}
 		}
+
 		$newPath = trim(implode('/', $segments), ' /\\');
 
 		// Use new path for partial rebuild of table

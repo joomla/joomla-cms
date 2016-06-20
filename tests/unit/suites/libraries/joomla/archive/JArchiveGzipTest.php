@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,17 +47,10 @@ class JArchiveGzipTest extends JArchiveTestCase
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.gz', self::$outputPath . '/logo-gz.png');
-		$this->assertTrue(is_file(self::$outputPath . '/logo-gz.png'));
-
-		if (is_file(self::$outputPath . '/logo-gz.png'))
-		{
-			unlink(self::$outputPath . '/logo-gz.png');
-		}
+		$this->object->extract(__DIR__ . '/logo-gz.png.gz', $this->outputPath . '/logo-gz.png');
+		$this->assertTrue(is_file($this->outputPath . '/logo-gz.png'));
 	}
 
 	/**
@@ -70,17 +63,10 @@ class JArchiveGzipTest extends JArchiveTestCase
 		if (!JArchiveGzip::isSupported())
 		{
 			$this->markTestSkipped('Gzip files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.gz', self::$outputPath . '/logo-gz.png', array('use_streams' => true));
-		$this->assertTrue(is_file(self::$outputPath . '/logo-gz.png'));
-
-		if (is_file(self::$outputPath . '/logo-gz.png'))
-		{
-			unlink(self::$outputPath . '/logo-gz.png');
-		}
+		$this->object->extract(__DIR__ . '/logo-gz.png.gz', $this->outputPath . '/logo-gz.png', array('use_streams' => true));
+		$this->assertTrue(is_file($this->outputPath . '/logo-gz.png'));
 	}
 
 	/**
@@ -93,21 +79,6 @@ class JArchiveGzipTest extends JArchiveTestCase
 		$this->assertEquals(
 			extension_loaded('zlib'),
 			JArchiveGzip::isSupported()
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-     * @todo Implement test_getFilePosition().
-	 *
-	 * @return void
-     */
-	public function test_getFilePosition()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
 		);
 	}
 }

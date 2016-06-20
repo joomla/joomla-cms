@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,9 +24,7 @@ defined('JPATH_PLATFORM') or die();
  * @property  JDate        $updatedDate    The last time the content of the feed changed.
  * @property  string       $uri            Universal, permanent identifier for the feed.
  *
- * @package     Joomla.Platform
- * @subpackage  Feed
- * @since       12.3
+ * @since  12.3
  */
 class JFeed implements ArrayAccess
 {
@@ -209,8 +207,9 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  boolean
 	 *
-	 * @see    ArrayAccess::offsetSet()
-	 * @since  12.3
+	 * @see     ArrayAccess::offsetSet()
+	 * @since   12.3
+	 * @throws  InvalidArgumentException
 	 */
 	public function offsetSet($offset, $value)
 	{
@@ -325,6 +324,19 @@ class JFeed implements ArrayAccess
 
 		$this->properties['author'] = $author;
 
+		return $this;
+	}
+
+	/** Method to reverse the items if display is set to 'oldest first'
+	 *
+	 * @return JFeed
+	 */
+	public function reverseItems()
+	{
+		if (is_array($this->entries) && !empty($this->entries))
+		{
+			$this->entries = array_reverse($this->entries);
+		}
 		return $this;
 	}
 }

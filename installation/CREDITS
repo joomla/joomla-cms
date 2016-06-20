@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 -----Please save file as UTF8
 
--------------------- Joomla! 1.6/1.7/2.5 Credits ---------------------
+-------------------- Joomla! 1.6/1.7/2.5/3.x Credits ---------------------
 
 Code contributors:
 ------------------
@@ -118,14 +118,15 @@ Translation Contributors:
 -------------------------
 Afrikaans (af-ZA) - Gerrit Hoekstra
 Albanian (sq-AL) - Blendi Kraja
-Arabic Unitag (ar-AA) - Arabic Unitag Translation Team - Mahmood Alhaj Kassem
+Arabic Unitag (ar-AA) - Arabic Unitag Translation Team - Mahmood Alhaj Kassem, dr.d.ashraf
 Azeri (az-AZ) - Azeri Translation team - Guluzade Farhad
+Bahasa Indonesia (id-ID) - Hanacaraka Team - Andy Sikumbang, Dwi Rianto
 Basque (eu-ES) - Oinatz Martin
 Belarusian (be-BY) - Dennis Hermacki
 Bosnian (bs-BA) - Bosnian Translation Team - Admir Agic
-Bulgarian (bg-BG) - Stefan Ilivanov
+Bulgarian (bg-BG) - Yuriy Boev, Mihail Semerdzhiev, Stefan Ilivanov
 Brazilian Portuguese (pt-BR) - Joomla! Brasil - FaBMak
-Catalan (ca-ES) - Catalan Translation Team - Damià Verger
+Catalan (ca-ES) - Catalan Translation Team - el_libre@tradu.cat
 Chinese Traditional (zh-TW) - Traditional Chinese Translation Team - Eddy Chang
 Chinese Simplified (zh-CN) - Simplified Chinese Translation Team - Jonathan Chang
 Croatian (hr-HR) - Croatian Translation Team - Hrvoje Jerkovic
@@ -136,7 +137,7 @@ English (en-AU) - AU Australian Translation Team - Leonard Fitzgerald
 English (en-US) - US English Translation Team - Leonard Fitzgerald
 Estonian (et-EE) - Estonian Translation Team - Rivo Zängov
 Flemish (nl-BE) - Dutch (BE) Translation Team - Frank Joris
-Finnish (fi-FI) - Finnish Translation Team - Markku Suominen
+Finnish (fi-FI) - Finnish Translation Team - Joomla.fi
 French (fr-FR) - French Translation Team - joomla.fr
 Galician (gl-ES) - Galician Translation Team - damufo
 Georgian (ka-GE) - Georgian Translation Project - Manana Gedevanishvili
@@ -153,6 +154,7 @@ Kurdish - Soranî (cbk-IQ) - Kurdish Soranî Translation team - Chalak s. Kareem
 Latvian (lv-LV) - Latvian Translation Team - Edgars Piruška, Aivars Ostrovskis
 Laotian (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
 Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys Svabas
+Malay-Bahasa Melayu (ms-MY) - Malay Translation Team - Sam Suresh
 Macedonian (mk-MK) - Macedonian Translation Team - Ilija Iliev Strumjan
 Mongolian (mn-MN) - Mongolian Translation Team, Altansukh T.
 Norwegian Bokmål (nb-NO) - Joomla! i Norge - Rune Rasmussen, Roar Jystad, Jens-Christian Skibakk
@@ -161,16 +163,17 @@ Persian (fa-IR) - Persian Translation Team - Mohsen Firoozmandan, Joomla Farsi T
 Polish (pl-PL) - Polskie Centrum Joomla! 
 Portuguese (pt-BR) - Joomla! Brasil
 Portuguese (pt-PT) - Comunidade Joomla! Portugal - Paulo Izidoro
-Romanian (ro-RO) - Romanian Joomla! Community - Cosmin Lebu
+Romanian (ro-RO) - Romanian Joomla! Community - Horia Negura, Lavinia Negura
 Russian (ru-RU) - Russian Translation Team (joomlaportal.ru) - Sergey Litvinov, Sergey Brovin, Alexey Brin
 Scottish Gaelic (gd-GB) - Scottish Gaelic Translation - Michael Bauer
 Serbian (sr-RS) and Serbian (sr-YU)- Joomla! Serbia team - Svetlana Zec, Nenad Antic, Marko Milenovic
 Slovak (sk-SK) - Slovak Translation Team - Peter Michnica
 Spanish (es-ES) - Spanish Translation Team - Gustavo Raúl Aragón, Rafael Gómez, Leonel Cantón.
+Swahili - East Africa (sw-KE) - Swahili Translation Team - Hassan Abdalla (Ayeko)
 Swedish (sv-SE) - Swedish Translation Team (SvenskJoomla!) - Sune Hultman, Olle Zettergren, Stefan Gagner, Christer Gerhardsson
 Syriac (sy-IQ) - East Syriac Translation Team - Pauls Dinka
-Laotian (lo-LA) - Joomlalaolao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom, Chittavong Keomanyvong
 Tamil India (ta-IN) - Ilagnayeru 'MIG' Manickam, Elango Samy Manim
+Thai (th-TH) - Joomla LaiThai Team (JoomlaCorner) - Akarawuth Tamrareang , Supachai Teasakul
 Turkish (tr-TR) - Joomla! Turkiye - Ümit Kenan Gönüllü
 Ukrainian (uk-UA) - Ukrainian Translation Team - Denys Nosov
 Urdu Pakistan (ur-PK) - Basim

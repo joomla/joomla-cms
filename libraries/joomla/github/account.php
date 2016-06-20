@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Account class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       12.3
+ * @since  12.3
  */
 class JGithubAccount extends JGithubObject
 {
@@ -24,6 +22,8 @@ class JGithubAccount extends JGithubObject
 	 * @param   array   $scopes  A list of scopes that this authorisation is in.
 	 * @param   string  $note    A note to remind you what the OAuth token is for.
 	 * @param   string  $url     A URL to remind you what app the OAuth token is for.
+	 *
+	 * @deprecated  use authorization->create()
 	 *
 	 * @return  object
 	 *
@@ -57,6 +57,8 @@ class JGithubAccount extends JGithubObject
 	 * Method to delete an authorisation
 	 *
 	 * @param   integer  $id  ID of the authorisation to delete
+	 *
+	 * @deprecated  use authorization->delete()
 	 *
 	 * @return  object
 	 *
@@ -92,6 +94,8 @@ class JGithubAccount extends JGithubObject
 	 * @param   string   $note          A note to remind you what the OAuth token is for.
 	 * @param   string   $url           A URL to remind you what app the OAuth token is for.
 	 *
+	 * @deprecated  use authorization->edit()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -109,12 +113,14 @@ class JGithubAccount extends JGithubObject
 			$scopeData = $scopes;
 			$scopesCount++;
 		}
+
 		if (!empty($addScopes))
 		{
 			$scope = 'add_scopes';
 			$scopeData = $addScopes;
 			$scopesCount++;
 		}
+
 		if (!empty($removeScopes))
 		{
 			$scope = 'remove_scopes';
@@ -158,6 +164,8 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @param   integer  $id  ID of the authorisation to retrieve
 	 *
+	 * @deprecated  use authorization->get()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -186,6 +194,8 @@ class JGithubAccount extends JGithubObject
 	/**
 	 * Method to get the authorised applications for the authenticated user.
 	 *
+	 * @deprecated  use authorization->getList()
+	 *
 	 * @return  object
 	 *
 	 * @since   12.3
@@ -213,6 +223,8 @@ class JGithubAccount extends JGithubObject
 
 	/**
 	 * Method to get the rate limit for the authenticated user.
+	 *
+	 * @deprecated  use authorization->getRateLimit()
 	 *
 	 * @return  object
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Helper for mod_menu
  *
- * @package     Joomla.Administrator
- * @subpackage  mod_menu
- * @since       1.5
+ * @since  1.5
  */
 abstract class ModMenuHelper
 {
@@ -27,8 +25,8 @@ abstract class ModMenuHelper
 	 */
 	public static function getMenus()
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db     = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('a.*, SUM(b.home) AS home')
 			->from('#__menu_types AS a')
 			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
@@ -44,7 +42,15 @@ abstract class ModMenuHelper
 
 		$db->setQuery($query);
 
-		$result = $db->loadObjectList();
+		try
+		{
+			$result = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$result = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		return $result;
 	}
@@ -60,11 +66,11 @@ abstract class ModMenuHelper
 	 */
 	public static function getComponents($authCheck = true)
 	{
-		$lang	= JFactory::getLanguage();
-		$user	= JFactory::getUser();
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-		$result	= array();
+		$lang   = JFactory::getLanguage();
+		$user   = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$query  = $db->getQuery(true);
+		$result = array();
 
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')
@@ -82,7 +88,15 @@ abstract class ModMenuHelper
 		$db->setQuery($query);
 
 		// Component list
-		$components	= $db->loadObjectList();
+		try
+		{
+			$components = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$components = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		// Parse the list of extensions.
 		foreach ($components as &$component)
@@ -113,10 +127,8 @@ abstract class ModMenuHelper
 					{
 						// Load the core file then
 						// Load extension-local file.
-						$lang->load($component->element . '.sys', JPATH_BASE, null, false, false)
-					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, false)
-					||	$lang->load($component->element . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, $lang->getDefault(), false, false);
+						$lang->load($component->element . '.sys', JPATH_BASE, null, false, true)
+					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, true);
 					}
 
 					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
@@ -130,14 +142,14 @@ abstract class ModMenuHelper
 					// Add the submenu link if it is defined.
 					if (isset($result[$component->parent_id]->submenu) && !empty($component->link))
 					{
-						$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
+						$component->text                          = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 						$result[$component->parent_id]->submenu[] = &$component;
 					}
 				}
 			}
 		}
 
-		$result = JArrayHelper::sortObjects($result, 'text', 1, true, true);
+		$result = JArrayHelper::sortObjects($result, 'text', 1, false, true);
 
 		return $result;
 	}

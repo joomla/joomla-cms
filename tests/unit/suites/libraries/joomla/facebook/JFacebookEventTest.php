@@ -3,22 +3,23 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 /**
  * Test class for JFacebookEvent.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookEventTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -63,8 +64,6 @@ class JFacebookEventTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access  protected
-	 *
 	 * @return  void
 	 *
 	 * @since   13.1
@@ -81,9 +80,11 @@ class JFacebookEventTest extends TestCase
 		$my_url = "http://localhost/gsoc/joomla-platform/facebook_test.php";
 		$access_token = array(
 			'access_token' => 'token',
-			'expires' => '51837673', 'created' => '2443672521');
+			'expires' => '51837673',
+			'created' => '2443672521'
+		);
 
-		$this->options = new JRegistry;
+		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
@@ -96,20 +97,8 @@ class JFacebookEventTest extends TestCase
 		$this->options->set('redirecturi', $my_url);
 		$this->options->set('sendheaders', true);
 		$this->options->set('authmethod', 'get');
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return   void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**

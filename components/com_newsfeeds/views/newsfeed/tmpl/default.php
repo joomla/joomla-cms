@@ -3,32 +3,31 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-?>
-<?php
+
 if (!empty($this->msg))
 {
 	echo $this->msg;
 }
 else
 {
-	$lang = JFactory::getLanguage();
-	$myrtl = $this->newsfeed->rtl;
+	$lang      = JFactory::getLanguage();
+	$myrtl     = $this->newsfeed->rtl;
 	$direction = " ";
 
-		if ($lang->isRTL() && $myrtl == 0)
+		if ($lang->isRtl() && $myrtl == 0)
 		{
 			$direction = " redirect-rtl";
 		}
-		elseif ($lang->isRTL() && $myrtl == 1)
+		elseif ($lang->isRtl() && $myrtl == 1)
 		{
-				$direction = " redirect-ltr";
+			$direction = " redirect-ltr";
 		}
-		elseif ($lang->isRTL() && $myrtl == 2)
+		elseif ($lang->isRtl() && $myrtl == 2)
 		{
 			$direction = " redirect-rtl";
 		}
@@ -44,7 +43,7 @@ else
 		{
 			$direction = " redirect-rtl";
 		}
-		$images  = json_decode($this->item->images);
+		$images = json_decode($this->item->images);
 	?>
 	<div class="newsfeed<?php echo $this->pageclass_sfx?><?php echo $direction; ?>">
 	<?php if ($this->params->get('display_num')) :  ?>
@@ -68,23 +67,23 @@ else
 	<!-- Show Images from Component -->
 	<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
 	<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
-	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>"> <img
 		<?php if ($images->image_first_caption):
-			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
+			echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
+		src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 	<?php endif; ?>
 
 	<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
 	<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
-	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+	<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
 	<?php if ($images->image_second_caption):
-		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
+		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
+	src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 	<?php endif; ?>
 	<!-- Show Description from Component -->
-<?php echo $this->item->description; ?>
+	<?php echo $this->item->description; ?>
 	<!-- Show Feed's Description -->
 
 	<?php if ($this->params->get('show_feed_description')) : ?>
@@ -104,7 +103,7 @@ else
 	<?php if (!empty($this->rssDoc[0])) { ?>
 	<ol>
 		<?php for ($i = 0; $i < $this->item->numarticles; $i++) { ?>
-
+	<?php if (empty($this->rssDoc[$i])) { break; } ?>
 	<?php
 		$uri = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? $this->rssDoc[$i]->guid : $this->rssDoc[$i]->uri;
 		$uri = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
@@ -115,7 +114,7 @@ else
 					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
 					<?php  echo $this->rssDoc[$i]->title; ?></a>
 				<?php else : ?>
-					<h3><?php  echo '<a target="_blank" href="' .$this->rssDoc[$i]->uri . '">' .$this->rssDoc[$i]->title. '</a>'; ?></h3>
+					<h3><?php  echo '<a target="_blank" href="' . $this->rssDoc[$i]->uri . '">' . $this->rssDoc[$i]->title . '</a>'; ?></h3>
 				<?php  endif; ?>
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">
@@ -126,7 +125,6 @@ else
 					$text = JHtml::_('string.truncate', $text, $this->params->get('feed_character_count'));
 						echo str_replace('&apos;', "'", $text);
 					?>
-
 					</div>
 				<?php endif; ?>
 				</li>

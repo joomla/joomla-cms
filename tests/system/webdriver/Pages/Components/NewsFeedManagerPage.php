@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ class NewsFeedManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_newsfeeds']";
-	
+
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -39,7 +39,7 @@ class NewsFeedManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_newsfeeds';
-	
+
 	/**
 	 * Array of filter id values for this page
 	 *
@@ -53,13 +53,13 @@ class NewsFeedManagerPage extends AdminManagerPage
 			'Select Language' => 'filter_language',
 			'Select Tags' => 'filter_tag'
 			);
-			
+
 	/**
 	 * Array of toolbar id values for this page
 	 *
 	 * @var    array
 	 * @since  3.0
-	 */	
+	 */
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
@@ -73,22 +73,22 @@ class NewsFeedManagerPage extends AdminManagerPage
 			'Options' => 'toolbar-options',
 			'Help' => 'toolbar-help',
 			);
-			
+
 	/**
 	 * Add a new NewsFeed item in the  News Feed Manager: Component screen.
 	 *
 	 * @param string    $name           Test Feed Name
-	 * 
+	 *
 	 * @param string    $link			Test URL for the News Feed
-	 * 
-	 * @param string 	$category 		Test Feed Category 
-	 * 
-	 * @param string 	$description	Test Feed description 
-	 * 
+	 *
+	 * @param string 	$category 		Test Feed Category
+	 *
+	 * @param string 	$description	Test Feed description
+	 *
 	 * @param string 	$caption		Test Feed Image Caption
-	 * 
+	 *
 	 * @param string 	$alt			Test Feed Image Alt
-	 * 
+	 *
 	 * @return  NewsFeedManagerPage
 	 */
 	public function addFeed($name='Test Tag', $link='administrator/index.php/dummysrc', $category= 'Sample Data-Newsfeeds', $description='Sample', $caption='',$alt='')
@@ -100,7 +100,7 @@ class NewsFeedManagerPage extends AdminManagerPage
 		$newsFeedEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('NewsFeedManagerPage');
 	}
-	
+
 	/**
 	 * Edit a News Feed item in the News Feed Manager: Newsfeed Items screen.
 	 *
@@ -118,19 +118,19 @@ class NewsFeedManagerPage extends AdminManagerPage
 		$this->test->getPageObject('NewsFeedManagerPage');
 		$this->searchFor();
 	}
-	
+
 	/**
 	 * Get state  of a News Feed in the News Feed Manager: News Feed Items screen.
 	 *
 	 * @param string   $name	   News Feed Title field
-	 * 
+	 *
 	 * @return  State of the NewsFeed //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'newsfeeds.unpublish') > 0)
 		{
 			$result = 'published';
@@ -141,7 +141,7 @@ class NewsFeedManagerPage extends AdminManagerPage
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Change state of a News Feed item in the News Feed Manager: News Feed Items screen.
 	 *
@@ -149,7 +149,7 @@ class NewsFeedManagerPage extends AdminManagerPage
 	 * @param string   $state      State of the Feed
 	 *
 	 * @return  void
-	 */	
+	 */
 	public function changeFeedState($name, $state = 'published')
 	{
 		$this->searchFor($name);
@@ -164,7 +164,12 @@ class NewsFeedManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-unpublish');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+		elseif (strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
 		$this->searchFor();
 	}
-	
+
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for jQuery JavaScript behaviors
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       3.0
+ * @since  3.0
  */
 abstract class JHtmlJquery
 {
@@ -31,12 +29,13 @@ abstract class JHtmlJquery
 	 *
 	 * @param   boolean  $noConflict  True to load jQuery in noConflict mode [optional]
 	 * @param   mixed    $debug       Is debugging mode on? [optional]
+	 * @param   boolean  $migrate     True to enable the jQuery Migrate plugin
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null)
+	public static function framework($noConflict = true, $debug = null, $migrate = true)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -57,6 +56,12 @@ abstract class JHtmlJquery
 		if ($noConflict)
 		{
 			JHtml::_('script', 'jui/jquery-noconflict.js', false, true, false, false, false);
+		}
+
+		// Check if we are loading Migrate
+		if ($migrate)
+		{
+			JHtml::_('script', 'jui/jquery-migrate.min.js', false, true, false, false, $debug);
 		}
 
 		static::$loaded[__METHOD__] = true;

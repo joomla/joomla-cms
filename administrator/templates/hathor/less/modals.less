@@ -34,8 +34,8 @@ div.modal {
   left: 50%;
   z-index: @zindexModal;
   overflow: auto;
-  width: 560px;
-  margin: -250px 0 0 -280px;
+  width: 80%;
+  margin: -250px 0 0 -40%;
   background-color: @white;
   border: 1px solid #999;
   border: 1px solid rgba(0,0,0,.3);
@@ -53,7 +53,10 @@ div.modal {
   padding: 9px 15px;
   border-bottom: 1px solid #eee;
   // Close icon
-  .close { margin-top: 2px; }
+  .close {
+	float: right;
+	margin-top: 2px;
+  }
 }
 
 // Body (where all modal content resides)
@@ -87,4 +90,19 @@ div.modal {
   .btn-group .btn + .btn {
     margin-left: -1px;
   }
+}
+
+/* Prevent scrolling on the parent window of a modal */
+body.modal-open {
+  overflow: hidden;
+  -ms-overflow-style: none;
+}
+
+/* Buttons bar in modal iframe */
+.modal-buttons {
+  padding: 15px 0px;
+}
+.modal-buttons button {
+  font-size: 1.2em;
+  line-height: 1.6em;
 }

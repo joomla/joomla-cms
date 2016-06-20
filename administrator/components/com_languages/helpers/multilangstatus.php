@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,18 @@ defined('_JEXEC') or die;
 /**
  * Multilang status helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_languages
- * @since       1.7.1
+ * @since  1.7.1
  */
 abstract class MultilangstatusHelper
 {
+	/**
+	 * Method to get the number of published home pages.
+	 *
+	 * @return  integer
+	 */
 	public static function getHomes()
 	{
-		// Check for multiple Home pages
+		// Check for multiple Home pages.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -29,12 +32,18 @@ abstract class MultilangstatusHelper
 			->where('published = 1')
 			->where('client_id = 0');
 		$db->setQuery($query);
+
 		return $db->loadResult();
 	}
 
+	/**
+	 * Method to get the number of published language switcher modules.
+	 *
+	 * @return  integer.
+	 */
 	public static function getLangswitchers()
 	{
-		// Check if switcher is published
+		// Check if switcher is published.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
@@ -43,52 +52,64 @@ abstract class MultilangstatusHelper
 			->where('published = 1')
 			->where('client_id = 0');
 		$db->setQuery($query);
+
 		return $db->loadResult();
 	}
 
+	/**
+	 * Method to return a list of published content languages.
+	 *
+	 * @return  array of language objects.
+	 */
 	public static function getContentlangs()
 	{
-		// Check for published Content Languages
+		// Check for published Content Languages.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.lang_code AS lang_code')
 			->select('a.published AS published')
 			->from('#__languages AS a');
 		$db->setQuery($query);
+
 		return $db->loadObjectList();
 	}
 
+	/**
+	 * Method to return a list of published site languages.
+	 *
+	 * @return  array of language extension objects.
+	 *
+	 * @deprecated  4.0  Use JLanguageMultilang::getSiteLangs() instead.
+	 */
 	public static function getSitelangs()
 	{
-		// check for published Site Languages
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.element AS element')
-			->from('#__extensions AS a')
-			->where('a.type = ' . $db->quote('language'))
-			->where('a.client_id = 0')
-			->where('a.enabled = 1');
-		$db->setQuery($query);
-		return $db->loadObjectList('element');
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteLangs() instead.', JLog::WARNING, 'deprecated');
+
+		return JLanguageMultilang::getSiteLangs();
 	}
 
+	/**
+	 * Method to return a list of language home page menu items.
+	 *
+	 * @return  array of menu objects.
+	 *
+	 * @deprecated  4.0  Use JLanguageMultilang::getSiteHomePages() instead.
+	 */
 	public static function getHomepages()
 	{
-		// Check for Home pages languages
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('language')
-			->from($db->quoteName('#__menu'))
-			->where('home = 1')
-			->where('published = 1')
-			->where('client_id = 0');
-		$db->setQuery($query);
-		return $db->loadObjectList('language');
+		JLog::add(__METHOD__ . ' is deprecated, use JLanguageMultilang::getSiteHomePages() instead.', JLog::WARNING, 'deprecated');
+
+		return JLanguageMultilang::getSiteHomePages();
 	}
 
+	/**
+	 * Method to return combined language status.
+	 *
+	 * @return  array of language objects.
+	 */
 	public static function getStatus()
 	{
-		//check for combined status
+		// Check for combined status.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -98,10 +119,10 @@ abstract class MultilangstatusHelper
 			->select('a.lang_code AS lang_code')
 			->from('#__languages AS a');
 
-		// Select the language home pages
+		// Select the language home pages.
 		$query->select('l.home AS home')
 			->select('l.language AS home_language')
-			->join('LEFT', '#__menu  AS l  ON  l.language = a.lang_code AND l.home=1 AND l.published=1 AND l.language <> \'*\'')
+			->join('LEFT', '#__menu AS l ON l.language = a.lang_code AND l.home=1 AND l.published=1 AND l.language <> \'*\'')
 			->select('e.enabled AS enabled')
 			->select('e.element AS element')
 			->join('LEFT', '#__extensions  AS e ON e.element = a.lang_code')
@@ -110,24 +131,77 @@ abstract class MultilangstatusHelper
 			->where('e.state = 0');
 
 		$db->setQuery($query);
+
 		return $db->loadObjectList();
 	}
 
+	/**
+	 * Method to return a list of contact objects.
+	 *
+	 * @return  array of contact objects.
+	 */
 	public static function getContacts()
 	{
 		$db = JFactory::getDbo();
+		$languages = count(JLanguageHelper::getLanguages());
+
+		// Get the number of contact with all as language
+		$alang = $db->getQuery(true)
+			->select('count(*)')
+			->from('#__contact_details AS cd')
+			->where('cd.user_id=u.id')
+			->where('cd.published=1')
+			->where('cd.language=' . $db->quote('*'));
+
+		// Get the number of languages for the contact
+		$slang = $db->getQuery(true)
+			->select('count(distinct(l.lang_code))')
+			->from('#__languages as l')
+			->join('LEFT', '#__contact_details AS cd ON cd.language=l.lang_code')
+			->where('cd.user_id=u.id')
+			->where('cd.published=1')
+			->where('l.published=1');
+
+		// Get the number of multiple contact/language
+		$mlang = $db->getQuery(true)
+			->select('count(*)')
+			->from('#__languages as l')
+			->join('LEFT', '#__contact_details AS cd ON cd.language=l.lang_code')
+			->where('cd.user_id=u.id')
+			->where('cd.published=1')
+			->where('l.published=1')
+			->group('l.lang_code')
+			->having('count(*) > 1');
+
+		// Get the contacts
 		$query = $db->getQuery(true)
-			->select('u.name, count(cd.language) as counted, MAX(cd.language=' . $db->quote('*') . ') as all_languages')
+			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
 			->from('#__users AS u')
 			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
-			->join('LEFT', '#__languages as l on cd.language=l.lang_code')
-			->where('EXISTS (SELECT * from #__content as c where  c.created_by=u.id)')
-			->where('(l.published=1 or cd.language=' . $db->quote('*') . ')')
-			->where('cd.published=1')
-			->group('u.id')
-			->having('(counted !=' . count(JLanguageHelper::getLanguages()) . ' OR all_languages=1)')
-			->having('(counted !=1 OR all_languages=0)');
+			->where('EXISTS (SELECT 1 from #__content as c where  c.created_by=u.id)')
+			->group('u.id');
+
 		$db->setQuery($query);
-		return $db->loadObjectList();
+		$warnings = $db->loadObjectList();
+
+		foreach ($warnings as $index => $warn)
+		{
+			if (($warn->alang == 1) && ($warn->slang == 0))
+			{
+				unset($warnings[$index]);
+			}
+
+			if (($warn->alang == 0) && (($warn->slang == 0) && (empty($warn->mlang))))
+			{
+				unset($warnings[$index]);
+			}
+
+			if (($warn->alang == 0) && (($warn->slang == $languages) && (empty($warn->mlang))))
+			{
+				unset($warnings[$index]);
+			}
+		}
+
+		return $warnings;
 	}
 }

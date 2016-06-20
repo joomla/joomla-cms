@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,6 +27,14 @@ class JAuthenticationTest extends TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.4.4
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture.
 	 *
 	 * This method is called before a test is executed.
@@ -38,6 +46,11 @@ class JAuthenticationTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 
 		// Mock the event dispatcher.
 		$dispatcher = $this->getMockDispatcher(false);
@@ -80,6 +93,8 @@ class JAuthenticationTest extends TestCase
 		// Reset the loaded plugins.
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
+		$_SERVER = $this->backupServer;
+
 		parent::tearDown();
 	}
 
@@ -93,7 +108,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @since  11.3
 	 */
-	public function mockTrigger($event, $args = array())
+	public static function mockTrigger($event, $args = array())
 	{
 		switch ($event)
 		{

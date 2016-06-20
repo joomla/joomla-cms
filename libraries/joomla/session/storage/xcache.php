@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache session storage handler
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       11.1
+ * @since  11.1
  */
 class JSessionStorageXcache extends JSessionStorage
 {
@@ -71,6 +69,7 @@ class JSessionStorageXcache extends JSessionStorage
 	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_' . $id;
+
 		return xcache_set($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
 	}
 
@@ -102,7 +101,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		return (extension_loaded('xcache'));
 	}

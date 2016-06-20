@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Field to select a user id from a modal list.
+ * Field to select a user ID from a modal list.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6.0
+ * @since  1.6
  */
 class JFormFieldUser extends JFormField
 {
@@ -22,84 +20,86 @@ class JFormFieldUser extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6.0
+	 * @since  1.6
 	 */
 	public $type = 'User';
+
+	/**
+	 * Filtering groups
+	 *
+	 * @var  array
+	 */
+	protected $groups = null;
+
+	/**
+	 * Users to exclude from the list of users
+	 *
+	 * @var  array
+	 */
+	protected $excluded = null;
+
+	/**
+	 * Layout to render
+	 *
+	 * @var  string
+	 */
+	protected $layout = 'joomla.form.field.user';
 
 	/**
 	 * Method to get the user field input markup.
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$groups = $this->getGroups();
-		$excluded = $this->getExcluded();
-		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field=' . $this->id
-			. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
-			. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
+		if (empty($this->layout))
+		{
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
+		}
 
-		// Initialize some field attributes.
-		$attr = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= ($this->element['required'] == 'true') ? ' required="required"' : '';
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 
-		// Initialize JavaScript field attributes.
-		$onchange = (string) $this->element['onchange'];
+	}
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal', 'a.modal_' . $this->id);
-
-		// Build the script.
-		$script = array();
-		$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
-		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
-		$script[] = '		if (old_id != id) {';
-		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '			document.getElementById("' . $this->id . '").value = title;';
-		$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
-		$script[] = '			' . $onchange;
-		$script[] = '		}';
-		$script[] = '		SqueezeBox.close();';
-		$script[] = '	}';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+	/**
+	 * Get the data that is going to be passed to the layout
+	 *
+	 * @return  array
+	 */
+	public function getLayoutData()
+	{
+		// Get the basic field data
+		$data = parent::getLayoutData();
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
 
-		if ($this->value)
+		if (is_numeric($this->value))
 		{
+			$table->load($this->value);
+		}
+		// Handle the special case for "current".
+		elseif (strtoupper($this->value) == 'CURRENT')
+		{
+			// 'CURRENT' is not a reasonable value to be placed in the html
+			$this->value = JFactory::getUser()->id;
+			$data['value'] = $this->value;
 			$table->load($this->value);
 		}
 		else
 		{
-			$table->username = JText::_('JLIB_FORM_SELECT_USER');
+			$table->name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
-		// Create a dummy text field with the user name.
-		$html[] = '<div class="input-append">';
-		$html[] = '	<input type="text" id="' . $this->id . '" value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
-			. 'readonly="readonly"' . $attr . ' />';
+		$extraData = array(
+				'userName'  => $table->name,
+				'groups'    => $this->getGroups(),
+				'excluded'  => $this->getExcluded()
+		);
 
-		// Create the user select button.
-		if ($this->element['readonly'] != 'true')
-		{
-			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '<i class="icon-user"></i></a>';
-		}
-
-		$html[] = '</div>';
-
-		// Create the real field, hidden, that stored the user id.
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . (int) $this->value . '" />';
-
-		return implode("\n", $html);
+		return array_merge($data, $extraData);
 	}
 
 	/**
@@ -107,10 +107,15 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  mixed  array of filtering groups or null.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getGroups()
 	{
+		if (isset($this->element['groups']))
+		{
+			return explode(',', $this->element['groups']);
+		}
+
 		return null;
 	}
 
@@ -119,10 +124,10 @@ class JFormFieldUser extends JFormField
 	 *
 	 * @return  mixed  Array of users to exclude or null to to not exclude them
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getExcluded()
 	{
-		return null;
+		return explode(',', $this->element['exclude']);
 	}
 }

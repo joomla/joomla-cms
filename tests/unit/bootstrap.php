@@ -7,10 +7,22 @@
  *
  * @package     Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
  */
+
+/**
+ * Mock for the global application exit.
+ *
+ * @param   mixed  $message  Exit code or string. Defaults to zero.
+ *
+ * @return  void
+ */
+function jexit($message = 0)
+{
+	return;
+}
 
 define('_JEXEC', 1);
 
@@ -19,8 +31,11 @@ ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');
-error_reporting(E_ALL & ~E_STRICT);
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+// Set fixed precision value to avoid round related issues
+ini_set('precision', 14);
 
 /*
  * Ensure that required path constants are defined.  These can be overridden within the phpunit.xml file
@@ -86,16 +101,22 @@ if (!defined('JPATH_THEMES'))
 {
 	define('JPATH_THEMES', JPATH_BASE . '/templates');
 }
+if (!defined('JDEBUG'))
+{
+	define('JDEBUG', false);
+}
 
 // Import the platform in legacy mode.
 require_once JPATH_PLATFORM . '/import.legacy.php';
-
-// Force library to be in JError legacy mode
-JError::setErrorHandling(E_NOTICE, 'message');
-JError::setErrorHandling(E_WARNING, 'message');
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
 // Register the core Joomla test classes.
 JLoader::registerPrefix('Test', __DIR__ . '/core');
+
+// Register the deprecation handler
+TestHelper::registerDeprecationHandler();
+
+// Register the logger if enabled
+TestHelper::registerLogger();

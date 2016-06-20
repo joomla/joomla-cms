@@ -3,33 +3,21 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('timezone');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldTimezone.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldTimezoneTest extends TestCase
 {
-	/**
-	 * Sets up dependancies for the test.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/timezone.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
 	/**
 	 * Test the getInput method.
 	 *
@@ -37,7 +25,7 @@ class JFormFieldTimezoneTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="timezone" type="timezone" /></form>'),
@@ -52,8 +40,6 @@ class JFormFieldTimezoneTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),

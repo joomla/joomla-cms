@@ -2,11 +2,10 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Date
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/date/date.php';
 
 /**
  * Tests for JDate class.
@@ -17,6 +16,12 @@ require_once JPATH_PLATFORM . '/joomla/date/date.php';
  */
 class JDateTest extends TestCaseDatabase
 {
+	/**
+	 * Object under test
+	 *
+	 * @var    JDate
+	 * @since  11.3
+	 */
 	protected $object;
 
 	/**
@@ -157,8 +162,6 @@ class JDateTest extends TestCaseDatabase
 				false,
 				'122007 164456',
 			),
-			/*
-			@TODO  Need to fix up language string/file dependancies before we can do these properly.
  			'Long' => array(
  				'D F j, Y H:i:s',
 				true,
@@ -189,7 +192,6 @@ class JDateTest extends TestCaseDatabase
  				false,
  				'Thu, 20 Dec 2007 16:44:56 +0000',
  			),
- 			*/
 		);
 	}
 
@@ -200,7 +202,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @since   11.3
 	 */
-	public function casesGetOffsetFromGMT()
+	public function casesGetOffsetFromGmt()
 	{
 		return array(
 			'basic' => array(
@@ -317,13 +319,13 @@ class JDateTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test Cases for toMySQL
+	 * Test Cases for toSQL
 	 *
 	 * @return  array
 	 *
 	 * @since   11.3
 	 */
-	public function casesToSQL()
+	public function casesToSql()
 	{
 		return array(
 			'basic' => array(
@@ -482,19 +484,6 @@ class JDateTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tears down the fixture.
-	 *
-	 * This method is called after a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function tearDown()
-	{
-	}
-
-	/**
 	 * Testing the Constructor
 	 *
 	 * @param   string  $date          What time should be set?
@@ -516,13 +505,10 @@ class JDateTest extends TestCaseDatabase
 			$this->equalTo($expectedTime)
 		);
 
-		/*
-		@TODO - Decouple the language system better.
  		$this->assertThat(
  			$jdate->format('D m/d/Y H:i', true),
  			$this->equalTo($expectedTime)
  		);
-		*/
 	}
 
 	/**
@@ -626,11 +612,11 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider casesGetOffsetFromGMT
+	 * @dataProvider casesGetOffsetFromGmt
 	 * @since   11.3
 	 * @covers  JDate::getOffsetFromGMT
 	 */
-	public function testGetOffsetFromGMT($tz, $setTime, $hours, $expected)
+	public function testGetOffsetFromGmt($tz, $setTime, $hours, $expected)
 	{
 		if (is_null($tz))
 		{
@@ -643,11 +629,11 @@ class JDateTest extends TestCaseDatabase
 
 		if (is_null($hours))
 		{
-			$offset = $testJDate->getOffsetFromGMT();
+			$offset = $testJDate->getOffsetFromGmt();
 		}
 		else
 		{
-			$offset = $testJDate->getOffsetFromGMT($hours);
+			$offset = $testJDate->getOffsetFromGmt($hours);
 		}
 
 		$this->assertThat($offset, $this->equalTo($expected));

@@ -1,7 +1,7 @@
 ##
-# @package		Joomla
-# @copyright	Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
-# @license		GNU General Public License version 2 or later; see LICENSE.txt
+# @package    Joomla
+# @copyright  Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+# @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
 ##
@@ -9,14 +9,18 @@
 #
 # The line just below this section: 'Options +FollowSymLinks' may cause problems
 # with some server configurations.  It is required for use of mod_rewrite, but may already
-# be set by your server administrator in a way that dissallows changing it in
+# be set by your server administrator in a way that disallows changing it in
 # your .htaccess file.  If using it causes your server to error out, comment it out (add # to
 # beginning of line), reload your site in your browser and test your sef url's.  If they work,
 # it has been set by your server administrator and you do not need it set here.
 ##
 
+## No directory listings
+IndexIgnore *
+
 ## Can be commented out if causes errors, see notes above.
-Options +FollowSymLinks
+Options +FollowSymlinks
+Options -Indexes
 
 ## Mod_rewrite in use.
 
@@ -62,10 +66,6 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 # If the requested path and file is not /index.php and the request
 # has not already been internally rewritten to the index.php script
 RewriteCond %{REQUEST_URI} !^/index\.php
-# and the request is for something within the component folder,
-# or for the site root, or for an extensionless URL, or the
-# requested URL ends with one of the listed extensions
-RewriteCond %{REQUEST_URI} /component/|(/[^.]*|\.(php|html?|feed|pdf|vcf|raw))$ [NC]
 # and the requested path and file doesn't directly match a physical file
 RewriteCond %{REQUEST_FILENAME} !-f
 # and the requested path and file doesn't directly match a physical folder

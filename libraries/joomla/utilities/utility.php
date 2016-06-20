@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JUtility is a utility functions class
  *
- * @package     Joomla.Platform
- * @subpackage  Utilities
- * @since       11.1
+ * @since  11.1
  */
 class JUtility
 {
@@ -38,6 +36,7 @@ class JUtility
 		if (is_array($attr))
 		{
 			$numPairs = count($attr[1]);
+
 			for ($i = 0; $i < $numPairs; $i++)
 			{
 				$retarray[$attr[1][$i]] = $attr[2][$i];

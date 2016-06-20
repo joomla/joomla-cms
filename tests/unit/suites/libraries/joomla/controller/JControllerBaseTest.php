@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,16 +29,15 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::__construct
 	 * @since   12.1
 	 */
 	public function test__construct()
 	{
-		// New controller with no dependancies.
+		// New controller with no dependencies.
 		$this->assertEquals('default', TestReflection::getValue($this->_instance, 'app')->input, 'Checks the mock application came from the factory.');
 		$this->assertAttributeEquals('default', 'input', $this->_instance, 'Checks the input came from the application.');
 
-		// New controller with dependancies
+		// New controller with dependencies
 		$app = TestMockApplicationWeb::create($this);
 		$app->test = 'ok';
 
@@ -52,7 +51,6 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::getApplication
 	 * @since   12.1
 	 */
 	public function testGetApplication()
@@ -66,7 +64,6 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::getInput
 	 * @since   12.1
 	 */
 	public function testGetInput()
@@ -80,7 +77,6 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::serialize
 	 * @since   12.1
 	 */
 	public function testSerialise()
@@ -93,7 +89,6 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::unserialize
 	 * @since   12.1
 	 */
 	public function testUnserialise()
@@ -109,9 +104,7 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::unserialize
 	 * @since   12.1
-	 *
 	 * @expectedException  UnexpectedValueException
 	 */
 	public function testUnserialise_exception()
@@ -124,7 +117,6 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::loadApplication
 	 * @since   12.1
 	 */
 	public function testLoadApplication()
@@ -138,7 +130,6 @@ class JControllerBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JControllerBase::loadInput
 	 * @since   12.1
 	 */
 	public function testLoadInput()

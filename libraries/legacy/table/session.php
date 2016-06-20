@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Session table
  *
- * @package     Joomla.Legacy
- * @subpackage  Table
  * @since       11.1
+ * @deprecated  13.3 (Platform) & 4.0 (CMS) -  Use SQL queries to interact with the session table.
  */
 class JTableSession extends JTable
 {
@@ -24,9 +23,11 @@ class JTableSession extends JTable
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
+		JLog::add('JTableSession is deprecated. Use SQL queries directly to interact with the session table.', JLog::WARNING, 'deprecated');
 		parent::__construct('#__session', 'session_id', $db);
 
 		$this->guest = 1;
@@ -42,6 +43,7 @@ class JTableSession extends JTable
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
 	public function insert($sessionId, $clientId)
 	{
@@ -54,6 +56,7 @@ class JTableSession extends JTable
 		if (!$ret)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
+
 			return false;
 		}
 		else
@@ -70,6 +73,7 @@ class JTableSession extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
 	public function update($updateNulls = false)
 	{
@@ -79,6 +83,7 @@ class JTableSession extends JTable
 		if (!$ret)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', strtolower(get_class($this)), $this->_db->stderr()));
+
 			return false;
 		}
 		else
@@ -96,6 +101,7 @@ class JTableSession extends JTable
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
 	public function destroy($userId, $clientIds = array())
 	{
@@ -110,6 +116,7 @@ class JTableSession extends JTable
 		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->stderr());
+
 			return false;
 		}
 
@@ -124,6 +131,7 @@ class JTableSession extends JTable
 	 * @return  mixed  Resource on success, null on fail
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
 	public function purge($maxLifetime = 1440)
 	{
@@ -137,13 +145,14 @@ class JTableSession extends JTable
 	}
 
 	/**
-	 * Find out if a user has a one or more active sessions
+	 * Find out if a user has one or more active sessions
 	 *
 	 * @param   integer  $userid  The identifier of the user
 	 *
 	 * @return  boolean  True if a session for this user exists
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
 	public function exists($userid)
 	{
@@ -156,6 +165,7 @@ class JTableSession extends JTable
 		if (!$result = $this->_db->loadResult())
 		{
 			$this->setError($this->_db->stderr());
+
 			return false;
 		}
 
@@ -172,10 +182,12 @@ class JTableSession extends JTable
 	 * @return  mixed  True if successful otherwise an error message
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use SQL queries to interact with the session table.
 	 */
 	public function delete($oid = null)
 	{
 		$k = $this->_tbl_key;
+
 		if ($oid)
 		{
 			$this->$k = $oid;
@@ -187,6 +199,7 @@ class JTableSession extends JTable
 		$this->_db->setQuery($query);
 
 		$this->_db->execute();
+
 		return true;
 	}
 }

@@ -3,29 +3,66 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('file');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldFile.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
-class JFormFieldFileTest extends TestCase
+class JFormFieldFileTest extends TestCaseDatabase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Backup of the SERVER superglobal
 	 *
-	 * @return void
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/file.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -35,7 +72,7 @@ class JFormFieldFileTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="file" type="file" /></form>'),
@@ -51,14 +88,10 @@ class JFormFieldFileTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$this->markTestIncomplete('Problems encountered in next assertion');
-
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),
 			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 }

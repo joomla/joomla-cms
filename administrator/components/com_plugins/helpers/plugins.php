@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugins component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.6
+ * @since  1.6
  */
 class PluginsHelper
 {
@@ -23,7 +21,9 @@ class PluginsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -34,19 +34,16 @@ class PluginsHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$assetName = 'com_plugins';
+		// Log usage of deprecated function.
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
+		// Get list of actions.
+		$result = JHelperContent::getActions('com_plugins');
 
 		return $result;
 	}
@@ -94,12 +91,21 @@ class PluginsHelper
 		return $options;
 	}
 
+	/**
+	 * Parse the template file.
+	 *
+	 * @param   string  $templateBaseDir  Base path to the template directory.
+	 * @param   string  $templateDir      Template directory.
+	 *
+	 * @return  JObject
+	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
-		// Check of the xml file exists
+		// Check of the xml file exists.
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);

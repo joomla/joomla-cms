@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+JFormHelper::loadFieldClass('folderlist');
 
 /**
  * Test class for JFormFieldFolderList.
@@ -17,21 +19,6 @@
 class JFormFieldFolderListTest extends TestCase
 {
 	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/folderlist.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void
@@ -40,10 +27,10 @@ class JFormFieldFolderListTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="folderlist" type="folderlist" /></form>'),
+			$form->load('<form><field name="folderlist" type="folderlist" directory="modules" /></form>'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);

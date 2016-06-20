@@ -3,119 +3,191 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 /**
- * Joomla! SEF Plugin
+ * Joomla! SEF Plugin.
  *
- * @package     Joomla.Plugin
- * @subpackage  System.sef
- * @since       1.5
+ * @since  1.5
  */
 class PlgSystemSef extends JPlugin
 {
 	/**
-	 * Add the canonical uri to the head
+	 * Application object.
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.5
+	 */
+	protected $app;
+
+	/**
+	 * Add the canonical uri to the head.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.5
 	 */
-	public function onAfterRoute()
+	public function onAfterDispatch()
 	{
-		$app = JFactory::getApplication();
-		$doc = JFactory::getDocument();
+		$doc = $this->app->getDocument();
 
-		if ($app->getName() != 'site' || $doc->getType() !== 'html')
+		if (!$this->app->isSite() || $doc->getType() !== 'html')
 		{
-			return true;
+			return;
 		}
 
-		$router = $app->getRouter();
+		$sefDomain = $this->params->get('domain', '');
 
-		$uri     = clone JUri::getInstance();
-		$domain  = $this->params->get('domain');
-
-		if ($domain === null || $domain === '')
+		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
+		if (empty($sefDomain))
 		{
-			$domain = $uri->toString(array('scheme', 'host', 'port'));
+			return;
 		}
 
-		$parsed = $router->parse($uri);
-		$fakelink = 'index.php?' . http_build_query($parsed);
-		$link = $domain . JRoute::_($fakelink, false);
+		// Check if a canonical html tag already exists (for instance, added by a component).
+		$canonical = '';
 
-		if ($uri !== $link)
+		foreach ($doc->_links as $linkUrl => $link)
 		{
-			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
+			if (isset($link['relation']) && $link['relation'] === 'canonical')
+			{
+				$canonical = $linkUrl;
+				break;
+			}
 		}
+
+		// If a canonical html tag already exists get the canonical and change it to use the SEF plugin domain field.
+		if (!empty($canonical))
+		{
+			// Remove current canonical link.
+			unset($doc->_links[$canonical]);
+
+			// Set the current canonical link but use the SEF system plugin domain field.
+			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+		}
+		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
+		else
+		{
+			$canonical = $sefDomain . JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+		}
+
+		// Add the canonical link.
+		$doc->addHeadLink(htmlspecialchars($canonical), 'canonical');
 	}
 
 	/**
-	 * Converting the site URL to fit to the HTTP request
+	 * Convert the site URL to fit to the HTTP request.
 	 *
 	 * @return  void
 	 */
 	public function onAfterRender()
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->getName() != 'site' || $app->getCfg('sef') == '0')
+		if (!$this->app->isSite() || $this->app->get('sef', '0') == '0')
 		{
-			return true;
+			return;
 		}
 
-		// Replace src links
-		$base   = JUri::base(true).'/';
-		$buffer = JResponse::getBody();
+		// Replace src links.
+		$base   = JUri::base(true) . '/';
+		$buffer = $this->app->getBody();
 
-		$regex  = '#href="index.php\?([^"]*)#m';
-		$buffer = preg_replace_callback($regex, array('PlgSystemSef', 'route'), $buffer);
-		$this->checkBuffer($buffer);
+		// For feeds we need to search for the URL with domain.
+		$prefix = $this->app->getDocument()->getType() === 'feed' ? JUri::root() : '';
 
-		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
-		$regex     = '#(src|href|poster)="(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer    = preg_replace($regex, "$1=\"$base\$2\"", $buffer);
-		$this->checkBuffer($buffer);
+		// Replace index.php URI by SEF URI.
+		if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false)
+		{
+			preg_match_all('#href="' . $prefix . 'index.php\?([^"]+)"#m', $buffer, $matches);
 
-		$regex  = '#(onclick="window.open\(\')(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
-		$buffer = preg_replace($regex, '$1' . $base . '$2', $buffer);
-		$this->checkBuffer($buffer);
+			foreach ($matches[1] as $urlQueryString)
+			{
+				$buffer = str_replace(
+					'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
+					'href="' . trim($prefix, '/') . JRoute::_('index.php?' . $urlQueryString) . '"',
+					$buffer
+				);
+			}
 
-		// ONMOUSEOVER / ONMOUSEOUT
-		$regex  = '#(onmouseover|onmouseout)="this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
-		$buffer = preg_replace($regex, '$1="this.src=$2' . $base .'$3$4"', $buffer);
-		$this->checkBuffer($buffer);
+			$this->checkBuffer($buffer);
+		}
 
-		// Background image
-		$regex  = '#style\s*=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-		$buffer = preg_replace($regex, 'style="$1: url(\'' . $base .'$2$3\')', $buffer);
-		$this->checkBuffer($buffer);
+		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
+		$protocols  = '[a-zA-Z0-9\-]+:';
+		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
 
-		// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag
-		$regex  = '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer = preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
-		$this->checkBuffer($buffer);
+		foreach ($attributes as $attribute)
+		{
+			if (strpos($buffer, $attribute) !== false)
+			{
+				$regex  = '#\s+' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+				$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
+				$this->checkBuffer($buffer);
+			}
+		}
 
-		// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag
-		$regex  = '#(<param\s+[^>]*)value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
-		$buffer = preg_replace($regex, '<param value="' . $base .'$2" name="$3"', $buffer);
-		$this->checkBuffer($buffer);
+		// Replace all unknown protocals in javascript window open events.
+		if (strpos($buffer, 'window.open(') !== false)
+		{
+			$regex  = '#onclick="window.open\(\'(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
+			$buffer = preg_replace($regex, 'onclick="window.open(\'' . $base . '$1', $buffer);
+			$this->checkBuffer($buffer);
+		}
 
-		// OBJECT data="xx" attribute -- fix it only in the object tag
-		$regex  = '#(<object\s+[^>]*)data\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
-		$buffer = preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
-		$this->checkBuffer($buffer);
+		// Replace all unknown protocols in onmouseover and onmouseout attributes.
+		$attributes = array('onmouseover=', 'onmouseout=');
 
-		JResponse::setBody($buffer);
-		return true;
+		foreach ($attributes as $attribute)
+		{
+			if (strpos($buffer, $attribute) !== false)
+			{
+				$regex  = '#' . $attribute . '"this.src=([\']+)(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
+				$buffer = preg_replace($regex, $attribute . '"this.src=$1' . $base . '$2"', $buffer);
+				$this->checkBuffer($buffer);
+			}
+		}
+
+		// Replace all unknown protocols in CSS background image.
+		if (strpos($buffer, 'style=') !== false)
+		{
+			$regex  = '#style=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
+			$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
+			$this->checkBuffer($buffer);
+		}
+
+		// Replace all unknown protocols in OBJECT param tag.
+		if (strpos($buffer, '<param') !== false)
+		{
+			// OBJECT <param name="xx", value="yy"> -- fix it only inside the <param> tag.
+			$regex  = '#(<param\s+)name\s*=\s*"(movie|src|url)"[^>]\s*value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+			$buffer = preg_replace($regex, '$1name="$2" value="' . $base . '$3"', $buffer);
+			$this->checkBuffer($buffer);
+
+			// OBJECT <param value="xx", name="yy"> -- fix it only inside the <param> tag.
+			$regex  = '#(<param\s+[^>]*)value\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"\s*name\s*=\s*"(movie|src|url)"#m';
+			$buffer = preg_replace($regex, '<param value="' . $base . '$2" name="$3"', $buffer);
+			$this->checkBuffer($buffer);
+		}
+
+		// Replace all unknown protocols in OBJECT tag.
+		if (strpos($buffer, '<object') !== false)
+		{
+			$regex  = '#(<object\s+[^>]*)data\s*=\s*"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
+			$buffer = preg_replace($regex, '$1data="' . $base . '$2"', $buffer);
+			$this->checkBuffer($buffer);
+		}
+
+		// Use the replaced HTML body.
+		$this->app->setBody($buffer);
 	}
 
 	/**
-	 * @param   string  $buffer
+	 * Check the buffer.
+	 *
+	 * @param   string  $buffer  Buffer to be checked.
 	 *
 	 * @return  void
 	 */
@@ -137,22 +209,27 @@ class PlgSystemSef extends JPlugin
 				default:
 					$message = "Unknown PCRE error calling PCRE function";
 			}
+
 			throw new RuntimeException($message);
 		}
 	}
 
 	/**
-	 * Replaces the matched tags
+	 * Replace the matched tags.
 	 *
-	 * @param   array  &$matches  An array of matches (see preg_match_all)
+	 * @param   array  &$matches  An array of matches (see preg_match_all).
 	 *
 	 * @return  string
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	protected static function route(&$matches)
 	{
+		JLog::add(__METHOD__ . ' is deprecated, no replacement.', JLog::WARNING, 'deprecated');
+
 		$url   = $matches[1];
 		$url   = str_replace('&amp;', '&', $url);
-		$route = JRoute::_('index.php?'.$url);
+		$route = JRoute::_('index.php?' . $url);
 
 		return 'href="' . $route;
 	}

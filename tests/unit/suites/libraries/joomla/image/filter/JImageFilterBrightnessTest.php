@@ -1,14 +1,11 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/image/filter.php';
-require_once JPATH_PLATFORM . '/joomla/image/filter/brightness.php';
 
 /**
  * Test class for JImage.
@@ -28,26 +25,13 @@ class JImageFilterBrightnessTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
 		// Verify that GD support for PHP is available.
 		if (!extension_loaded('gd'))
 		{
 			$this->markTestSkipped('No GD support so skipping JImage tests.');
 		}
-	}
 
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.4
-	 */
-	protected function tearDown()
-	{
-		parent::tearDown();
+		parent::setUp();
 	}
 
 	/**
@@ -61,7 +45,7 @@ class JImageFilterBrightnessTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Define red.
@@ -93,7 +77,7 @@ class JImageFilterBrightnessTest extends TestCase
 	 */
 	public function testExecuteInvalidArgument()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		// Define red.
@@ -106,5 +90,4 @@ class JImageFilterBrightnessTest extends TestCase
 
 		$filter->execute(array());
 	}
-
 }

@@ -3,12 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once __DIR__ . '/JEventInspector.php';
-require_once __DIR__ . '/JEventDispatcherInspector.php';
 require_once __DIR__ . '/JEventStub.php';
 
 /**
@@ -29,11 +28,11 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__construct()
 	{
-		$dispatcher = new JEventDispatcherInspector;
+		$dispatcher = new JEventDispatcher;
 		$event = new JEventInspector($dispatcher);
 
 		$this->assertThat(
-			$event->_subject,
+			TestReflection::getValue($event, '_subject'),
 			$this->equalTo($dispatcher)
 		);
 	}
@@ -47,7 +46,7 @@ class JEventTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUpdate()
 	{
-		$dispatcher = new JEventDispatcherInspector;
+		$dispatcher = new JEventDispatcher;
 		$event = new JEventInspector($dispatcher);
 
 		$args = array('event' => 'onTestEvent');

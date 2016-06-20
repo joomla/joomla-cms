@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mediawiki
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -129,6 +129,28 @@ class JMediawikiCategoriesTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->object->getCategoriesInfo(array('Main Page')),
+			$this->equalTo(simplexml_load_string($this->sampleString))
+		);
+	}
+
+	/**
+	 * Tests the getCategoryMembers method
+	 *
+	 * @return void
+	 */
+	public function testGetCategoryMembers()
+	{
+		$returnData = new stdClass;
+		$returnData->code = 200;
+		$returnData->body = $this->sampleString;
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with('/api.php?action=query&list=categorymembers&cmtitle=Category:Help&format=xml')
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->getCategoryMembers('Category:Help'),
 			$this->equalTo(simplexml_load_string($this->sampleString))
 		);
 	}

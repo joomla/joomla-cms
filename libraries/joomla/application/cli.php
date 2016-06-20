@@ -3,26 +3,27 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Cli\CliOutput;
+use Joomla\Registry\Registry;
+
 /**
  * Base class for a Joomla! command line application.
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.4
+ * @since  11.4
  */
 class JApplicationCli extends JApplicationBase
 {
 	/**
-	 * @var    JRegistry  The application configuration object.
-	 * @since  11.1
+	 * @var    CliOutput  The output type.
+	 * @since  3.3
 	 */
-	protected $config;
+	protected $output;
 
 	/**
 	 * @var    JApplicationCli  The application instance.
@@ -33,21 +34,21 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
+	 * @param   JInputCli         $input       An optional argument to provide dependency injection for the application's
+	 *                                         input object.  If the argument is a JInputCli object that object will become
+	 *                                         the application's input object, otherwise a default input object is created.
+	 * @param   Registry          $config      An optional argument to provide dependency injection for the application's
+	 *                                         config object.  If the argument is a Registry object that object will become
+	 *                                         the application's config object, otherwise a default config object is created.
+	 * @param   JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                                         event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
+	 *                                         will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     loadDispatcher()
+	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -57,7 +58,7 @@ class JApplicationCli extends JApplicationBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;
@@ -67,19 +68,19 @@ class JApplicationCli extends JApplicationBase
 		{
 			if (class_exists('JInput'))
 			{
-				$this->input = new JInputCLI;
+				$this->input = new JInputCli;
 			}
 		}
 
 		// If a config object is given use it.
-		if ($config instanceof JRegistry)
+		if ($config instanceof Registry)
 		{
 			$this->config = $config;
 		}
 		// Instantiate a new configuration object.
 		else
 		{
-			$this->config = new JRegistry;
+			$this->config = new Registry;
 		}
 
 		$this->loadDispatcher($dispatcher);
@@ -93,21 +94,6 @@ class JApplicationCli extends JApplicationBase
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $key      The name of the property.
-	 * @param   mixed   $default  The default value (optional) if none is set.
-	 *
-	 * @return  mixed   The value of the configuration.
-	 *
-	 * @since   11.3
-	 */
-	public function get($key, $default = null)
-	{
-		return $this->config->get($key, $default);
 	}
 
 	/**
@@ -195,7 +181,44 @@ class JApplicationCli extends JApplicationBase
 	 */
 	public function out($text = '', $nl = true)
 	{
-		fwrite(STDOUT, $text . ($nl ? "\n" : null));
+		$output = $this->getOutput();
+		$output->out($text, $nl);
+
+		return $this;
+	}
+
+	/**
+	 * Get an output object.
+	 *
+	 * @return  CliOutput
+	 *
+	 * @since   3.3
+	 */
+	public function getOutput()
+	{
+		if (!$this->output)
+		{
+			// In 4.0, this will convert to throwing an exception and you will expected to
+			// initialize this in the constructor. Until then set a default.
+			$default = new Joomla\Application\Cli\Output\Xml;
+			$this->setOutput($default);
+		}
+
+		return $this->output;
+	}
+
+	/**
+	 * Set an output object.
+	 *
+	 * @param   CliOutput  $output  CliOutput object
+	 *
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 *
+	 * @since   3.3
+	 */
+	public function setOutput(CliOutput $output)
+	{
+		$this->output = $output;
 
 		return $this;
 	}
@@ -211,24 +234,6 @@ class JApplicationCli extends JApplicationBase
 	public function in()
 	{
 		return rtrim(fread(STDIN, 8192), "\n");
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $key    The name of the property.
-	 * @param   mixed   $value  The value of the property to set (optional).
-	 *
-	 * @return  mixed   Previous value of the property
-	 *
-	 * @since   11.3
-	 */
-	public function set($key, $value = null)
-	{
-		$previous = $this->config->get($key);
-		$this->config->set($key, $value);
-
-		return $previous;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Template styles list controller class.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
+ * @since  1.6
  */
 class TemplatesControllerStyles extends JControllerAdmin
 {
 	/**
 	 * Method to clone and existing template style.
+	 *
+	 * @return  void
 	 */
 	public function duplicate()
 	{
@@ -52,16 +52,25 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JModelLegacy
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Style', $prefix = 'TemplatesModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+
 		return $model;
 	}
 
 	/**
 	 * Method to set the home template for a client.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -86,7 +95,6 @@ class TemplatesControllerStyles extends JControllerAdmin
 			$model = $this->getModel();
 			$model->setHome($id);
 			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
-
 		}
 		catch (Exception $e)
 		{
@@ -95,8 +103,11 @@ class TemplatesControllerStyles extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
 	}
+
 	/**
 	 * Method to unset the default template for a client and for a language
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -120,7 +131,6 @@ class TemplatesControllerStyles extends JControllerAdmin
 			$model = $this->getModel();
 			$model->unsetHome($id);
 			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
-
 		}
 		catch (Exception $e)
 		{

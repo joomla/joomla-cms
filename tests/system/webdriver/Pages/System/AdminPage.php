@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -112,16 +118,13 @@ abstract class AdminPage
 			'Joomla! Update'		=> 'administrator/index.php?option=com_joomlaupdate',
 			'Messaging'				=> 'administrator/index.php?option=com_messages',
 			'New Private Message'	=> 'administrator/index.php?option=com_messages&task=message.add',
-			'Read Private Messages'	=> 'administrator/index.php?option=com_messages',
 			'Newsfeeds'				=> 'administrator/index.php?option=com_newsfeeds',
 			'Feeds'					=> 'administrator/index.php?option=com_newsfeeds',
 			'Newsfeeds Categories'	=> 'administrator/index.php?option=com_categories&extension=com_newsfeeds',
+	'Post-installation Messages'	=> 'administrator/index.php?option=com_postinstall',
 			'Redirect'				=> 'administrator/index.php?option=com_redirect',
 			'Search'				=> 'administrator/index.php?option=com_search',
 			'Smart Search'			=> 'administrator/index.php?option=com_finder',
-			'Weblinks'				=> 'administrator/index.php?option=com_weblinks',
-			'Links'					=> 'administrator/index.php?option=com_weblinks',
-			'Weblinks Categories'	=> 'administrator/index.php?option=com_categories&extension=com_weblinks',
 			'Extensions'			=> 'administrator/index.php#',
 			'Extension Manager'		=> 'administrator/index.php?option=com_installer',
 			'Module Manager'		=> 'administrator/index.php?option=com_modules',
@@ -131,7 +134,7 @@ abstract class AdminPage
 			'Help'					=> 'administrator/index.php#',
 			'Joomla Help'			=> 'administrator/index.php?option=com_admin&view=help',
 		'Official Support Forum'	=> 'http://forum.joomla.org/',
-			'Documentation Wiki'	=> 'http://docs.joomla.org/',
+			'Documentation Wiki'	=> 'https://docs.joomla.org/',
 			'Useful Joomla Links'	=> 'administrator/index.php#',
 			'Joomla Extensions'		=> 'http://extensions.joomla.org/',
 			'Joomla Translations'	=> 'http://community.joomla.org/translations.html',

@@ -3,33 +3,21 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('integer');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldInteger.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldIntegersTest extends TestCase
 {
-	/**
-	 * Sets up dependancies for the test.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/integer.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
 	/**
 	 * Test the getInput method.
 	 *
@@ -37,7 +25,7 @@ class JFormFieldIntegersTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" /></form>'),
@@ -71,7 +59,7 @@ class JFormFieldIntegersTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="integer" type="integer" first="1" last="-5" step="1"/></form>'),

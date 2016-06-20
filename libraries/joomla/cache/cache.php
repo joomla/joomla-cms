@@ -3,29 +3,33 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Joomla! Cache base object
  *
- * @package     Joomla.Platform
- * @subpackage  Cache
- * @since       11.1
+ * @since  11.1
  */
 class JCache
 {
 	/**
-	 * @var    object  Storage handler
+	 * Storage handler
+	 *
+	 * @var    JCacheStorage[]
 	 * @since  11.1
 	 */
 	public static $_handler = array();
 
 	/**
-	 * @var    array  Options
+	 * Cache options
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $_options;
@@ -33,7 +37,7 @@ class JCache
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  options
+	 * @param   array  $options  Cache options
 	 *
 	 * @since   11.1
 	 */
@@ -42,15 +46,16 @@ class JCache
 		$conf = JFactory::getConfig();
 
 		$this->_options = array(
-			'cachebase' => $conf->get('cache_path', JPATH_CACHE),
-			'lifetime' => (int) $conf->get('cachetime'),
-			'language' => $conf->get('language', 'en-GB'),
-			'storage' => $conf->get('cache_handler', ''),
+			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'lifetime'     => (int) $conf->get('cachetime'),
+			'language'     => $conf->get('language', 'en-GB'),
+			'storage'      => $conf->get('cache_handler', ''),
 			'defaultgroup' => 'default',
-			'locking' => true,
-			'locktime' => 15,
-			'checkTime' => true,
-			'caching' => ($conf->get('caching') >= 1) ? true : false);
+			'locking'      => true,
+			'locktime'     => 15,
+			'checkTime'    => true,
+			'caching'      => ($conf->get('caching') >= 1) ? true : false
+		);
 
 		// Overwrite default options with given options
 		foreach ($options as $option => $value)
@@ -73,7 +78,7 @@ class JCache
 	 * @param   string  $type     The cache object type to instantiate
 	 * @param   array   $options  The array of options
 	 *
-	 * @return  JCache  A JCache object
+	 * @return  JCacheController
 	 *
 	 * @since   11.1
 	 */
@@ -85,7 +90,7 @@ class JCache
 	/**
 	 * Get the storage handlers
 	 *
-	 * @return  array    An array of available storage handlers
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
@@ -96,15 +101,13 @@ class JCache
 		// Get an iterator and loop trough the driver classes.
 		$iterator = new DirectoryIterator(__DIR__ . '/storage');
 
+		/** @type  $file  DirectoryIterator */
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-			if (!$file->isFile()
-				|| substr($fileName, strrpos($fileName, '.') + 1) != 'php'
-				|| $fileName == 'helper.php')
+			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'helper.php')
 			{
 				continue;
 			}
@@ -146,7 +149,7 @@ class JCache
 	/**
 	 * Get caching state
 	 *
-	 * @return  boolean  Caching state
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -170,12 +173,12 @@ class JCache
 	}
 
 	/**
-	 * Get cached data by id and group
+	 * Get cached data by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  mixed  boolean  False on failure or a cached data string
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
@@ -186,17 +189,19 @@ class JCache
 
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->get($id, $group, $this->_options['checkTime']);
 		}
+
 		return false;
 	}
 
 	/**
 	 * Get a list of all cached data
 	 *
-	 * @return  mixed    Boolean false on failure or an object with a list of cache groups and data
+	 * @return  mixed  Boolean false on failure or an object with a list of cache groups and data
 	 *
 	 * @since   11.1
 	 */
@@ -204,21 +209,23 @@ class JCache
 	{
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->getAll();
 		}
+
 		return false;
 	}
 
 	/**
-	 * Store the cached data by id and group
+	 * Store the cached data by ID and group
 	 *
 	 * @param   mixed   $data   The data to store
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True if cache stored
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -229,21 +236,22 @@ class JCache
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
-			$handler->_lifetime = $this->_options['lifetime'];
 			return $handler->store($id, $group, $data);
 		}
+
 		return false;
 	}
 
 	/**
-	 * Remove a cached data entry by id and group
+	 * Remove a cached data entry by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -254,18 +262,20 @@ class JCache
 
 		// Get the storage
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->remove($id, $group);
 		}
+
 		return false;
 	}
 
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * group mode       : cleans all cache in the group
-	 * notgroup mode    : cleans all cache not in the group
+	 * group mode    : cleans all cache in the group
+	 * notgroup mode : cleans all cache not in the group
 	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
@@ -281,17 +291,19 @@ class JCache
 
 		// Get the storage handler
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->clean($group, $mode);
 		}
+
 		return false;
 	}
 
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -299,21 +311,23 @@ class JCache
 	{
 		// Get the storage handler
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception))
 		{
 			return $handler->gc();
 		}
+
 		return false;
 	}
 
 	/**
 	 * Set lock flag on cached item
 	 *
-	 * @param   string  $id        The cache data id
+	 * @param   string  $id        The cache data ID
 	 * @param   string  $group     The cache data group
 	 * @param   string  $locktime  The default locktime for locking the cache.
 	 *
-	 * @return  object  Properties are lock and locklooped
+	 * @return  stdClass  Object with properties of lock and locklooped
 	 *
 	 * @since   11.1
 	 */
@@ -328,12 +342,16 @@ class JCache
 		// Get the default locktime
 		$locktime = ($locktime) ? $locktime : $this->_options['locktime'];
 
-		// Allow storage handlers to perform locking on their own
-		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
+		/*
+		 * Allow storage handlers to perform locking on their own
+		 * NOTE drivers with lock need also unlock or unlocking will fail because of false $id
+		 */
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
+
 			if ($locked !== false)
 			{
 				return $locked;
@@ -347,16 +365,15 @@ class JCache
 		$this->_options['lifetime'] = $locktime;
 
 		$looptime = $locktime * 10;
-		$id2 = $id . '_lock';
+		$id2      = $id . '_lock';
 
 		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$data_lock = $this->get($id2, $group);
-
 		}
 		else
 		{
-			$data_lock = false;
+			$data_lock         = false;
 			$returning->locked = false;
 		}
 
@@ -364,11 +381,9 @@ class JCache
 		{
 			$lock_counter = 0;
 
-			// Loop until you find that the lock has been released.
-			// That implies that data get from other thread has finished
+			// Loop until you find that the lock has been released. That implies that data get from other thread has finished
 			while ($data_lock !== false)
 			{
-
 				if ($lock_counter > $looptime)
 				{
 					$returning->locked = false;
@@ -396,10 +411,10 @@ class JCache
 	/**
 	 * Unset lock flag on cached item
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -412,9 +427,11 @@ class JCache
 
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
+
 		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
+
 			if ($unlocked !== false)
 			{
 				return $unlocked;
@@ -433,7 +450,7 @@ class JCache
 	/**
 	 * Get the cache storage handler
 	 *
-	 * @return  JCacheStorage   A JCacheStorage object
+	 * @return  JCacheStorage
 	 *
 	 * @since   11.1
 	 */
@@ -447,6 +464,7 @@ class JCache
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+
 		return self::$_handler[$hash];
 	}
 
@@ -462,12 +480,13 @@ class JCache
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		$app = JFactory::getApplication();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
-		$body = null;
+		$body     = null;
 
 		// Get the document head out of the cache.
-		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head']))
+		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])
+			&& method_exists($document, 'mergeHeadData'))
 		{
 			$document->mergeHeadData($data['head']);
 		}
@@ -476,12 +495,17 @@ class JCache
 			$document->setHeadData($data['head']);
 		}
 
+		// Get the document MIME encoding out of the cache
+		if (isset($data['mime_encoding']))
+		{
+			$document->setMimeEncoding($data['mime_encoding'], true);
+		}
+
 		// If the pathway buffer is set in the cache data, get it.
 		if (isset($data['pathway']) && is_array($data['pathway']))
 		{
 			// Push the pathway data into the pathway object.
-			$pathway = $app->getPathWay();
-			$pathway->setPathway($data['pathway']);
+			$app->getPathway()->setPathway($data['pathway']);
 		}
 
 		// @todo check if the following is needed, seems like it should be in page cache
@@ -498,22 +522,21 @@ class JCache
 		// Set cached headers.
 		if (isset($data['headers']) && $data['headers'])
 		{
-			foreach($data['headers'] as $header)
+			foreach ($data['headers'] as $header)
 			{
-				JResponse::setHeader($header['name'], $header['value']);
+				$app->setHeader($header['name'], $header['value']);
 			}
 		}
-		
-		// The following code searches for a token in the cached page and replaces it with the
-		// proper token.
+
+		// The following code searches for a token in the cached page and replaces it with the proper token.
 		if (isset($data['body']))
 		{
-			$token 			= JSession::getFormToken();
-			$search 		= '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
-			$replacement 	= '<input type="hidden" name="' . $token . '" value="1" />';
-			
+			$token       = JSession::getFormToken();
+			$search      = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
+			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
+
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
-			$body = $data['body'];
+			$body         = $data['body'];
 		}
 
 		// Get the document body out of the cache.
@@ -521,7 +544,7 @@ class JCache
 	}
 
 	/**
-	 * Create workarounded data to be cached
+	 * Create workarounds for data to be cached
 	 *
 	 * @param   string  $data     Cached data
 	 * @param   array   $options  Array of options
@@ -533,10 +556,10 @@ class JCache
 	public static function setWorkarounds($data, $options = array())
 	{
 		$loptions = array(
-			'nopathway' 	=> 0,
-			'nohead' 		=> 0,
-			'nomodules' 	=> 0,
-			'modulemode' 	=> 0,
+			'nopathway'  => 0,
+			'nohead'     => 0,
+			'nomodules'  => 0,
+			'modulemode' => 0,
 		);
 
 		if (isset($options['nopathway']))
@@ -559,18 +582,19 @@ class JCache
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		$app = JFactory::getApplication();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		if ($loptions['nomodules'] != 1)
 		{
 			// Get the modules buffer before component execution.
 			$buffer1 = $document->getBuffer();
+
 			if (!is_array($buffer1))
 			{
 				$buffer1 = array();
 			}
-	
+
 			// Make sure the module buffer is an array.
 			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
 			{
@@ -584,11 +608,10 @@ class JCache
 		// Document head data
 		if ($loptions['nohead'] != 1 && method_exists($document, 'getHeadData'))
 		{
-
 			if ($loptions['modulemode'] == 1)
 			{
 				$headnow = $document->getHeadData();
-				$unset = array('title', 'description', 'link', 'links', 'metaTags');
+				$unset   = array('title', 'description', 'link', 'links', 'metaTags');
 
 				foreach ($unset as $un)
 				{
@@ -604,10 +627,29 @@ class JCache
 					if (isset($options['headerbefore'][$now]))
 					{
 						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
-						$nowvalue = array_map('serialize', $headnow[$now]);
+						$nowvalue    = array_map('serialize', $headnow[$now]);
 						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
+
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
+
+						// Special treatment for script and style declarations.
+						if (($now == 'script' || $now == 'style') && is_array($newvalue) && is_array($options['headerbefore'][$now]))
+						{
+							foreach ($newvalue as $type => $currentScriptStr)
+							{
+								if (isset($options['headerbefore'][$now][strtolower($type)]))
+								{
+									$oldScriptStr = $options['headerbefore'][$now][strtolower($type)];
+
+									if ($oldScriptStr != $currentScriptStr)
+									{
+										// Save only the appended declaration.
+										$newvalue[strtolower($type)] = StringHelper::substr($currentScriptStr, StringHelper::strlen($oldScriptStr));
+									}
+								}
+							}
+						}
 					}
 					else
 					{
@@ -619,7 +661,6 @@ class JCache
 						$cached['head'][$now] = $newvalue;
 					}
 				}
-
 			}
 			else
 			{
@@ -627,11 +668,13 @@ class JCache
 			}
 		}
 
+		// Document MIME encoding
+		$cached['mime_encoding'] = $document->getMimeEncoding();
+
 		// Pathway data
 		if ($app->isSite() && $loptions['nopathway'] != 1)
 		{
-			$pathway = $app->getPathWay();
-			$cached['pathway'] = isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
+			$cached['pathway'] = is_array($data) && isset($data['pathway']) ? $data['pathway'] : $app->getPathway()->getPathway();
 		}
 
 		if ($loptions['nomodules'] != 1)
@@ -639,6 +682,7 @@ class JCache
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
+
 			if (!is_array($buffer2))
 			{
 				$buffer2 = array();
@@ -653,26 +697,28 @@ class JCache
 			// Compare the second module buffer against the first buffer.
 			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
 		}
-		
+
 		// Headers data
 		if (isset($options['headers']) && $options['headers'])
 		{
-			$cached['headers'] = JResponse::getHeaders();
+			$cached['headers'] = $app->getHeaders();
 		}
-		
+
 		return $cached;
 	}
 
 	/**
-	 * Create safe id for cached data from url parameters set by plugins and framework
+	 * Create a safe ID for cached data from URL parameters
 	 *
-	 * @return  string   md5 encoded cacheid
+	 * @return  string  MD5 encoded cache ID
 	 *
 	 * @since   11.1
 	 */
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
+
+		$registeredurlparams = new stdClass;
 
 		// Get url parameters set by plugins
 		if (!empty($app->registeredurlparams))
@@ -681,12 +727,23 @@ class JCache
 		}
 
 		// Platform defaults
-		$registeredurlparams->format = 'WORD';
-		$registeredurlparams->option = 'WORD';
-		$registeredurlparams->view = 'WORD';
-		$registeredurlparams->layout = 'WORD';
-		$registeredurlparams->tpl = 'CMD';
-		$registeredurlparams->id = 'INT';
+		$defaulturlparams = array(
+			'format' => 'WORD',
+			'option' => 'WORD',
+			'view'   => 'WORD',
+			'layout' => 'WORD',
+			'tpl'    => 'CMD',
+			'id'     => 'INT'
+		);
+
+		// Use platform defaults if parameter doesn't already exist.
+		foreach ($defaulturlparams as $param => $type)
+		{
+			if (!property_exists($registeredurlparams, $param))
+			{
+				$registeredurlparams->$param = $type;
+			}
+		}
 
 		$safeuriaddon = new stdClass;
 
@@ -699,10 +756,34 @@ class JCache
 	}
 
 	/**
-	 * Add a directory where JCache should search for handlers. You may
-	 * either pass a string or an array of directories.
+	 * Set a prefix cache key if device calls for separate caching
 	 *
-	 * @param   string  $path  A path to search.
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public static function getPlatformPrefix()
+	{
+		// No prefix when Global Config is set to no platfom specific prefix
+		if (!JFactory::getConfig()->get('cache_platformprefix', '0'))
+		{
+			return '';
+		}
+
+		$webclient = new JApplicationWebClient;
+
+		if ($webclient->mobile)
+		{
+			return 'M-';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Add a directory where JCache should search for handlers. You may either pass a string or an array of directories.
+	 *
+	 * @param   array|string  $path  A path to search.
 	 *
 	 * @return  array   An array with directory elements
 	 *
@@ -716,11 +797,13 @@ class JCache
 		{
 			$paths = array();
 		}
+
 		if (!empty($path) && !in_array($path, $paths))
 		{
 			jimport('joomla.filesystem.path');
 			array_unshift($paths, JPath::clean($path));
 		}
+
 		return $paths;
 	}
 }

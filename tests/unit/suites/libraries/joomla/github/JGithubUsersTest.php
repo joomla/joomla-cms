@@ -3,13 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/github/github.php';
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/github/issues.php';
 
 /**
  * Test class for JGithubIssues.
@@ -34,7 +30,13 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 	protected $client;
 
 	/**
-	 * @var    JGithubUsers  Object under test.
+	 * @var    JHttpResponse  Mock response object.
+	 * @since  12.3
+	 */
+	protected $response;
+
+	/**
+	 * @var    JGithubPackageUsers  Object under test.
 	 * @since  11.4
 	 */
 	protected $object;
@@ -53,8 +55,9 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 
 		$this->options = new JRegistry;
 		$this->client  = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->response = $this->getMock('JHttpResponse');
 
-		$this->object = new JGithubUsers($this->options, $this->client);
+		$this->object = new JGithubPackageUsers($this->options, $this->client);
 	}
 
 	/**
@@ -64,9 +67,8 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUser()
 	{
-		$returnData       = new stdClass;
-		$returnData->code = 200;
-		$returnData->body = '{
+		$this->response->code = 200;
+		$this->response->body = '{
   "login": "octocat",
   "id": 1,
   "avatar_url": "https://github.com/images/error/octocat_happy.gif",
@@ -91,11 +93,11 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 		$this->client->expects($this->once())
 			->method('get')
 			->with('/users/joomla', 0, 0)
-			->will($this->returnValue($returnData));
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getUser('joomla'),
-			$this->equalTo(json_decode($returnData->body))
+			$this->equalTo(json_decode($this->response->body))
 		);
 	}
 
@@ -107,18 +109,17 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUserFailure()
 	{
-		$returnData       = new stdClass;
-		$returnData->code = 404;
-		$returnData->body = '{"message":"Not Found"}';
+		$this->response->code = 404;
+		$this->response->body = '{"message":"Not Found"}';
 
 		$this->client->expects($this->once())
 			->method('get')
 			->with('/users/nonexistentuser', 0, 0)
-			->will($this->returnValue($returnData));
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getUser('nonexistentuser'),
-			$this->equalTo(json_decode($returnData->body))
+			$this->equalTo(json_decode($this->response->body))
 		);
 	}
 
@@ -129,9 +130,8 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAuthenticatedUser()
 	{
-		$returnData       = new stdClass;
-		$returnData->code = 200;
-		$returnData->body = '{
+		$this->response->code = 200;
+		$this->response->body = '{
   "login": "octocat",
   "id": 1,
   "avatar_url": "https://github.com/images/error/octocat_happy.gif",
@@ -167,11 +167,11 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 		$this->client->expects($this->once())
 			->method('get')
 			->with('/user', 0, 0)
-			->will($this->returnValue($returnData));
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getAuthenticatedUser('joomla'),
-			$this->equalTo(json_decode($returnData->body))
+			$this->equalTo(json_decode($this->response->body))
 		);
 	}
 
@@ -184,18 +184,17 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAuthenticatedUserFailure()
 	{
-		$returnData       = new stdClass;
-		$returnData->code = 401;
-		$returnData->body = '{"message":"Requires authentication"}';
+		$this->response->code = 401;
+		$this->response->body = '{"message":"Requires authentication"}';
 
 		$this->client->expects($this->once())
 			->method('get')
 			->with('/user', 0, 0)
-			->will($this->returnValue($returnData));
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getAuthenticatedUser(),
-			$this->equalTo(json_decode($returnData->body))
+			$this->equalTo(json_decode($this->response->body))
 		);
 	}
 
@@ -206,9 +205,8 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetUsers()
 	{
-		$returnData       = new stdClass;
-		$returnData->code = 200;
-		$returnData->body = '[
+		$this->response->code = 200;
+		$this->response->body = '[
   {
     "login": "octocat",
     "id": 1,
@@ -229,11 +227,11 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 		$this->client->expects($this->once())
 			->method('get')
 			->with('/users', 0, 0)
-			->will($this->returnValue($returnData));
+			->will($this->returnValue($this->response));
 
 		$this->assertThat(
 			$this->object->getUsers(),
-			$this->equalTo(json_decode($returnData->body))
+			$this->equalTo(json_decode($this->response->body))
 		);
 	}
 }

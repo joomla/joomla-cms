@@ -5,7 +5,7 @@
 			<field name="db_type" type="databaseconnection"
 				id="db_type" class="inputbox"
 				label="INSTL_DATABASE_TYPE_LABEL"
-				supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
+				supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
 				required="true"
 				default="mysqli"
 				filter="string"
@@ -22,6 +22,7 @@
 			/>
 			<field name="db_pass" type="password" id="db_pass" class="inputbox"
 				label="INSTL_DATABASE_PASSWORD_LABEL"
+				autocomplete="off"
 				filter="raw"
 			/>
 			<field name="db_name" type="text" id="db_name" class="inputbox"
@@ -40,10 +41,10 @@
 				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
 				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
 			</field>
-			<field name="db_prefix" type="prefix" id="db_prefix" class="inputbox"
+			<field name="db_prefix" type="installation.prefix" id="db_prefix" class="inputbox"
 				label="INSTL_DATABASE_PREFIX_LABEL"
 				required="true"
-				validate="prefix"
+				validate="installation.prefix"
 				message="INSTL_DATABASE_PREFIX_MSG"
 			/>
 		</fieldset>

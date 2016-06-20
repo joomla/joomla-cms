@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,9 +32,7 @@ jimport('joomla.filesystem.folder');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package     Joomla.Platform
- * @subpackage  Archive
- * @since       11.1
+ * @since  11.1
  */
 class JArchiveZip implements JArchiveExtractable
 {
@@ -128,24 +126,34 @@ class JArchiveZip implements JArchiveExtractable
 	{
 		if (!is_file($archive))
 		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseWarning(100, 'Archive does not exist');
-			}
-			else
-			{
-				throw new RuntimeException('Archive does not exist');
-			}
+			return $this->raiseWarning(100, 'Archive does not exist');
 		}
 
 		if ($this->hasNativeSupport())
 		{
 			return $this->extractNative($archive, $destination);
 		}
-		else
+
+		return $this->extractCustom($archive, $destination);
+	}
+
+	/**
+	 * Temporary private method to isolate JError from the extract method
+	 * This code should be removed when JError is removed.
+	 *
+	 * @param   int     $code  The application-internal error code for this error
+	 * @param   string  $msg   The error message, which may also be shown the user if need be.
+	 *
+	 * @return mixed JError object or Runtime Exception
+	 */
+	private function raiseWarning($code, $msg)
+	{
+		if (class_exists('JError'))
 		{
-			return $this->extractCustom($archive, $destination);
+			return JError::raiseWarning($code, $msg);
 		}
+
+		throw new RuntimeException($msg);
 	}
 
 	/**
@@ -187,10 +195,8 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		return true;
 	}
 
 	/**
@@ -211,40 +217,19 @@ class JArchiveZip implements JArchiveExtractable
 
 		if (!extension_loaded('zlib'))
 		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseWarning(100, 'Zlib not supported');
-			}
-			else
-			{
-				throw new RuntimeException('Zlib not supported');
-			}
+			return $this->raiseWarning(100, 'Zlib not supported');
 		}
 
 		$this->_data = file_get_contents($archive);
 
 		if (!$this->_data)
 		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseWarning(100, 'Unable to read archive (zip)');
-			}
-			else
-			{
-				throw new RuntimeException('Unable to read archive (zip)');
-			}
+			return $this->raiseWarning(100, 'Unable to read archive (zip)');
 		}
 
 		if (!$this->_readZipInfo($this->_data))
 		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseWarning(100, 'Get ZIP Information failed');
-			}
-			else
-			{
-				throw new RuntimeException('Get ZIP Information failed');
-			}
+			return $this->raiseWarning(100, 'Get ZIP Information failed');
 		}
 
 		for ($i = 0, $n = count($this->_metadata); $i < $n; $i++)
@@ -259,26 +244,12 @@ class JArchiveZip implements JArchiveExtractable
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path)))
 				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to create destination');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to create destination');
-					}
+					return $this->raiseWarning(100, 'Unable to create destination');
 				}
 
 				if (JFile::write($path, $buffer) === false)
 				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to write entry');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to write entry');
-					}
+					return $this->raiseWarning(100, 'Unable to write entry');
 				}
 			}
 		}
@@ -301,71 +272,39 @@ class JArchiveZip implements JArchiveExtractable
 	{
 		$zip = zip_open($archive);
 
-		if (is_resource($zip))
+		if (!is_resource($zip))
 		{
-			// Make sure the destination folder exists
-			if (!JFolder::create($destination))
-			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseWarning(100, 'Unable to create destination');
-				}
-				else
-				{
-					throw new RuntimeException('Unable to create destination');
-				}
-			}
-
-			// Read files in the archive
-			while ($file = @zip_read($zip))
-			{
-				if (zip_entry_open($zip, $file, "r"))
-				{
-					if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
-					{
-						$buffer = zip_entry_read($file, zip_entry_filesize($file));
-
-						if (JFile::write($destination . '/' . zip_entry_name($file), $buffer) === false)
-						{
-							if (class_exists('JError'))
-							{
-								return JError::raiseWarning(100, 'Unable to write entry');
-							}
-							else
-							{
-								throw new RuntimeException('Unable to write entry');
-							}
-						}
-
-						zip_entry_close($file);
-					}
-				}
-				else
-				{
-					if (class_exists('JError'))
-					{
-						return JError::raiseWarning(100, 'Unable to read entry');
-					}
-					else
-					{
-						throw new RuntimeException('Unable to read entry');
-					}
-				}
-			}
-
-			@zip_close($zip);
+			return $this->raiseWarning(100, 'Unable to open archive');
 		}
-		else
+
+		// Make sure the destination folder exists
+		if (!JFolder::create($destination))
 		{
-			if (class_exists('JError'))
+			return $this->raiseWarning(100, 'Unable to create destination');
+		}
+
+		// Read files in the archive
+		while ($file = @zip_read($zip))
+		{
+			if (!zip_entry_open($zip, $file, "r"))
 			{
-				return JError::raiseWarning(100, 'Unable to open archive');
+				return $this->raiseWarning(100, 'Unable to read entry');
 			}
-			else
+
+			if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/")
 			{
-				throw new RuntimeException('Unable to open archive');
+				$buffer = zip_entry_read($file, zip_entry_filesize($file));
+
+				if (JFile::write($destination . '/' . zip_entry_name($file), $buffer) === false)
+				{
+					return $this->raiseWarning(100, 'Unable to write entry');
+				}
+
+				zip_entry_close($file);
 			}
 		}
+
+		@zip_close($zip);
 
 		return true;
 	}
@@ -403,6 +342,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			$last = $fhLast;
 		}
+
 		while (($fhLast = strpos($data, $this->_ctrlDirEnd, $fhLast + 1)) !== false);
 
 		// Find the central directory offset
@@ -426,14 +366,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			if ($dataLength < $fhStart + 31)
 			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseWarning(100, 'Invalid Zip Data');
-				}
-				else
-				{
-					throw new RuntimeException('Invalid Zip Data');
-				}
+				return $this->raiseWarning(100, 'Invalid Zip Data');
 			}
 
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart + 10, 20));
@@ -463,14 +396,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			if ($dataLength < $fhStart + 43)
 			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseWarning(100, 'Invalid ZIP data');
-				}
-				else
-				{
-					throw new RuntimeException('Invalid ZIP data');
-				}
+				return $this->raiseWarning(100, 'Invalid ZIP data');
 			}
 
 			$info = unpack('vInternal/VExternal/VOffset', substr($data, $fhStart + 36, 10));
@@ -485,14 +411,7 @@ class JArchiveZip implements JArchiveExtractable
 
 			if ($dataLength < $lfhStart + 34)
 			{
-				if (class_exists('JError'))
-				{
-					return JError::raiseWarning(100, 'Invalid Zip Data');
-				}
-				else
-				{
-					throw new RuntimeException('Invalid Zip Data');
-				}
+				return $this->raiseWarning(100, 'Invalid Zip Data');
 			}
 
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart + 8, 25));
@@ -502,6 +421,7 @@ class JArchiveZip implements JArchiveExtractable
 			// Bump the max execution time because not using the built in php zip libs makes this process slow.
 			@set_time_limit(ini_get('max_execution_time'));
 		}
+
 		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart + 46)) !== false));
 
 		$this->_metadata = array_values($entries);
@@ -520,22 +440,25 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	private function _getFileData($key)
 	{
-		if ($this->_metadata[$key]['_method'] == 0x8)
+		$method = $this->_metadata[$key]['_method'];
+
+		if ($method == 0x12 && !extension_loaded('bz2'))
 		{
-			return gzinflate(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
+			return '';
 		}
-		elseif ($this->_metadata[$key]['_method'] == 0x0)
+
+		switch ($method)
 		{
-			/* Files that aren't compressed. */
-			return substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']);
-		}
-		elseif ($this->_metadata[$key]['_method'] == 0x12)
-		{
-			// If bz2 extension is loaded use it
-			if (extension_loaded('bz2'))
-			{
+			case 0x8:
+				return gzinflate(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
+
+			case 0x0:
+				// Files that aren't compressed.
+				return substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']);
+
+			case 0x12:
+
 				return bzdecompress(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
-			}
 		}
 
 		return '';
@@ -710,9 +633,7 @@ class JArchiveZip implements JArchiveExtractable
 		{
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Tags.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function setUp()
@@ -47,6 +49,8 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function tearDown()
@@ -56,12 +60,22 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
+
+		// Option to print actual element array
+
+		/* @var $tagEditPage TagEditPage */
+// 	 	$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
 		$testElements = $tagEditPage->getAllInputFields($tagEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($tagEditPage->inputFields, $actualFields);
@@ -70,6 +84,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tag edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_TagEditOpened()
@@ -81,6 +99,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tab Ids
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
@@ -89,7 +111,8 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$tagEditPage = $this->getPageObject('TagEditPage');
 		$textArray = $tagEditPage->getTabIds();
 
- 		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+
 // 		$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
 
 		$this->assertEquals($tagEditPage->tabs, $textArray, 'Tab labels should match expected values.');
@@ -98,6 +121,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add tag with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addTag_WithFieldDefaults_TagAdded()
@@ -108,34 +135,44 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->addTag($tagName);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
-		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test Tag should be in row 2');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be present');
 		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 	}
 
 	/**
+	 * add tag with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addTag_WithGivenFields_TagAdded()
 	{
+		// Other than the Default Value
+
 		$salt = rand();
 		$tagName = 'Tag' . $salt;
-		$caption = 'Sample'. $salt;
+		$caption = 'Sample' . $salt;
 		$alt = 'alt' . $salt;
-		$float = 'Right'; //Other than the Default Value
+		$float = 'Right';
 
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
-		$this->tagManagerPage->addTag($tagName,$caption,$alt,$float);
+		$this->tagManagerPage->addTag($tagName, $caption, $alt, $float);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tags successfully saved') >= 0, 'Tag save should return success');
-		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be in row 1');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be present');
 		$values = $this->tagManagerPage->getFieldValues('TagEditPage', $tagName, array('Title', 'Caption'));
-		$this->assertEquals(array($tagName,$caption), $values, 'Actual name, caption should match expected');
+		$this->assertEquals(array($tagName, $caption), $values, 'Actual name, caption should match expected');
 		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 	}
 
 	/**
+	 * edit tag and change the value of the fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editTag_ChangeFields_FieldsChanged()
@@ -154,6 +191,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the state of the tag
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeTagState_ChangeEnabledUsingToolbar_EnabledChanged()

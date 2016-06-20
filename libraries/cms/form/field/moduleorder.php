@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla! CMS.
  *
- * @package     Joomla.Libraries
- * @subpackage  Form
- * @since       1.6
+ * @since  1.6
  */
 class JFormFieldModuleOrder extends JFormField
 {
@@ -39,12 +37,12 @@ class JFormFieldModuleOrder extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		$html[] = '<script type="text/javascript">';
 
@@ -56,14 +54,15 @@ class JFormFieldModuleOrder extends JFormField
 		$html[] = 'var originalPos = "' . $position . '";';
 		$html[] = 'var orders = new Array();';
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
 			->where('client_id = ' . (int) $clientId)
 			->order('ordering');
 
 		$db->setQuery($query);
+
 		try
 		{
 			$orders = $db->loadObjectList();
@@ -71,16 +70,19 @@ class JFormFieldModuleOrder extends JFormField
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
-			return false;
+
+			return '';
 		}
 
 		$orders2 = array();
+
 		for ($i = 0, $n = count($orders); $i < $n; $i++)
 		{
 			if (!isset($orders2[$orders[$i]->position]))
 			{
 				$orders2[$orders[$i]->position] = 0;
 			}
+
 			$orders2[$orders[$i]->position]++;
 			$ord = $orders2[$orders[$i]->position];
 			$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, addslashes($orders[$i]->title));

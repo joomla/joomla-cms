@@ -3,13 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/github/github.php';
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/github/gists.php';
 
 /**
  * Test class for JGithubGists.
@@ -34,7 +30,13 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 	protected $client;
 
 	/**
-	 * @var    JGithubGists  Object under test.
+	 * @var    JHttpResponse  Mock response object.
+	 * @since  12.3
+	 */
+	protected $response;
+
+	/**
+	 * @var    JGithubPackageGists  Object under test.
 	 * @since  11.4
 	 */
 	protected $object;
@@ -65,8 +67,9 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->response = $this->getMock('JHttpResponse');
 
-		$this->object = new JGithubGists($this->options, $this->client);
+		$this->object = new JGithubPackageGists($this->options, $this->client);
 	}
 
 	/**
@@ -138,7 +141,7 @@ class JGithubGistsTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->create(
 				array(
-					JPATH_TESTS . '/tmp/gittest'
+					JPATH_TEST_STUBS . '/gittest'
 				),
 				true,
 				'This is a gist'

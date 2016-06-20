@@ -85,7 +85,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="show_category_heading_title"
+			<field name="show_category_heading_title_text"
 					type="list"
  					label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
 					description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC">
@@ -111,6 +111,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_cat_tags" type="list"
+				label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
+				description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="page_subheading" type="text"
 				description="JGLOBAL_SUBHEADING_DESC"
 				label="JGLOBAL_SUBHEADING_LABEL"
@@ -120,7 +129,6 @@
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-
 			<field name="show_pagination_limit" type="list"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
@@ -139,6 +147,7 @@
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
+        			<option value="tag">JTAG</option>
 			</field>
 
 			<field name="show_headings" type="list"
@@ -216,6 +225,7 @@
 				<option value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
 				<option value="hits">JGLOBAL_MOST_HITS</option>
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
+				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				<option value="order">JGLOBAL_ORDERING</option>
 			</field>
 
@@ -262,6 +272,15 @@
 				<option value="0">JALL</option>
 		</field>
 
+		<field name="show_featured" type="list" default=""
+			   label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
+			   description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
+				>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="show">JSHOW</option>
+			<option value="hide">JHIDE</option>
+			<option value="only">JONLY</option>
+		</field>
 </fieldset>
 
 <fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
@@ -458,7 +477,7 @@
 				<option value="1">JYES</option>
 			</field>
 </fieldset>
-		<fieldset name="integration"
+		<fieldset name="integration" label="COM_MENUS_INTEGRATION_FIELDSET_LABEL"
 		>
 
 			<field name="show_feed_link" type="list"

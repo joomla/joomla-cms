@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,7 +126,7 @@ class ContactManagerPage extends AdminManagerPage
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'contacts.unpublish') > 0)
 		{
 			$result = 'published';
@@ -158,6 +158,11 @@ class ContactManagerPage extends AdminManagerPage
 		elseif (strtolower($state) == 'unpublished')
 		{
 			$this->clickButton('toolbar-unpublish');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 		$this->searchFor();

@@ -19,15 +19,26 @@
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
 
 			<field name="menu_text" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
 				default="1" filter="integer"
 			>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
-
+			<field
+				name="menu_show"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				default="1"
+				filter="integer"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 
 		<fieldset name="page-options"
@@ -39,14 +50,15 @@
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
 
-			<field name="show_page_heading" type="radio"
-				class="btn-group"
+			<field name="show_page_heading" type="list"
+				class="chzn-color"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
-				default="0" filter="integer"
+				default=""
 			>
-				<option value="0" class="no">JNO</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1" class="yes">JYES</option>
+				<option value="0" class="no">JNO</option>
 			</field>
 
 			<field name="page_heading" type="text"
@@ -83,7 +95,6 @@
 		</field>
 
 			<field name="secure" type="list"
-				class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
 				default="0" filter="integer"
 			>

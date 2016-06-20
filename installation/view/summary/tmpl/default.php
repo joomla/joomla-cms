@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,12 @@ $path = JPATH_CONFIGURATION . '/configuration.php';
 $useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 $prev = $useftp ? 'ftp' : 'database';
 ?>
-<?php echo JHtml::_('installation.stepbar'); ?>
+<?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
-			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 
@@ -282,6 +282,9 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
+			<p class="install-text">
+				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
+			</p>
 			<table class="table table-striped table-condensed">
 				<tbody>
 				<?php foreach ($this->phpoptions as $option) : ?>
@@ -293,7 +296,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice):?>
-								<i class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></i>
+								<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
 							</span>
 						</td>
@@ -310,9 +313,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
-			<p class="install-text">
-				<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
-			</p>
+			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
@@ -354,16 +355,24 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
+	<div class="row-fluid">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
+				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			</div>
+		</div>
+	</div>
 
 	<input type="hidden" name="task" value="summary" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
 <script type="text/javascript">
-	window.addEvent('domready', function() {
-		document.getElements('input[name=jform[summary_email]]').each(function(el){
-			el.addEvent('click', function(){Install.toggle('email_passwords', 'summary_email', 1);});
-		});
-		Install.toggle('email_passwords', 'summary_email', 1);
-	});
+	jQuery('input[name="jform[summary_email]"]').each(function(index, el) {
+        jQuery(el).on('click', function() {
+            Install.toggle('email_passwords', 'summary_email', 1);
+        });
+        Install.toggle('email_passwords', 'summary_email', 1);
+    });
 </script>

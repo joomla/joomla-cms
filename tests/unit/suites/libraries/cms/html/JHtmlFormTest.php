@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,6 +16,14 @@
  */
 class JHtmlFormTest extends TestCase
 {
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -31,6 +39,11 @@ class JHtmlFormTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$session = $this->getMockSession();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
@@ -44,6 +57,8 @@ class JHtmlFormTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+
 		$this->restoreFactoryState();
 
 		parent::tearDown();

@@ -1,10 +1,9 @@
 <?php
-
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +11,7 @@
  * Inspector for the JImage class.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
 class JImageInspector extends JImage
@@ -31,6 +30,7 @@ class JImageInspector extends JImage
 	 * @return  mixed  The value of the class variable.
 	 *
 	 * @since   11.3
+	 * @throws  Exception
 	 */
 	public function getClassProperty($name)
 	{
@@ -53,6 +53,7 @@ class JImageInspector extends JImage
 	 * @return  void.
 	 *
 	 * @since   11.3
+	 * @throws  Exception
 	 */
 	public function setClassProperty($name, $value)
 	{

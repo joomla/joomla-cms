@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM . '/joomla/factory.php';
  * @subpackage  Utilities
  * @since       11.3
  */
-class JFactoryTest extends TestCase
+class JFactoryTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up the fixture.
@@ -50,30 +50,11 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplication method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @covers  JFactory::getApplication
-	 * @todo    Implement testGetApplication().
-	 */
-	public function testGetApplication()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFactory::getConfig method.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JFactory::getConfig
-	 * @covers  JFactory::createConfig
 	 */
 	public function testGetConfig()
 	{
@@ -82,7 +63,7 @@ class JFactoryTest extends TestCase
 		JFactory::$config = null;
 
 		$this->assertInstanceOf(
-			'JRegistry',
+			'\\Joomla\\Registry\\Registry',
 			JFactory::getConfig(JPATH_TESTS . '/config.php'),
 			'Line: ' . __LINE__
 		);
@@ -96,21 +77,20 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getLangauge
-	 * @covers  JFactory::createLanguage
-	 * @todo    Implement testGetLanguage().
 	 */
 	public function testGetLanguage()
 	{
+		// Temporarily override the language cache in JFactory.
+		$temp = JFactory::$language;
+		JFactory::$language = null;
+
 		$this->assertInstanceOf(
 			'JLanguage',
 			JFactory::getLanguage(),
 			'Line: ' . __LINE__
 		);
 
-		$this->markTestIncomplete(
-			'This test has not been implemented completely yet.'
-		);
+		JFactory::$language = $temp;
 	}
 
 	/**
@@ -119,9 +99,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getDocument
-	 * @covers  JFactory::createDocument
-	 * @todo    Implement testGetDocument().
 	 */
 	public function testGetDocument()
 	{
@@ -134,10 +111,6 @@ class JFactoryTest extends TestCase
 		);
 
 		JFactory::$application = null;
-
-		$this->markTestIncomplete(
-			'This test has not been implemented completely yet.'
-		);
 	}
 
 	/**
@@ -146,8 +119,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getCache
-	 * @todo    Implement testGetCache().
 	 */
 	public function testGetCache()
 	{
@@ -168,10 +139,6 @@ class JFactoryTest extends TestCase
 			JFactory::getCache('', 'view', null),
 			'Line: ' . __LINE__
 		);
-
-		$this->markTestIncomplete(
-			'This test has not been implemented completely yet.'
-		);
 	}
 
 	/**
@@ -180,13 +147,12 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getACL
 	 */
-	public function testGetACL()
+	public function testGetAcl()
 	{
 		$this->assertInstanceOf(
 			'JAccess',
-			JFactory::getACL(),
+			JFactory::getAcl(),
 			'Line: ' . __LINE__
 		);
 	}
@@ -197,13 +163,12 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getURI
 	 */
 	public function testGetUri()
 	{
 		$this->assertInstanceOf(
 			'JUri',
-			JFactory::getURI('http://www.joomla.org'),
+			JFactory::getUri('https://www.joomla.org'),
 			'Line: ' . __LINE__
 		);
 	}
@@ -214,11 +179,10 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.2
-	 * @covers  JFactory::getXML
 	 */
 	public function testGetXml()
 	{
-		$xml = JFactory::getXML('<foo />', false);
+		$xml = JFactory::getXml('<foo />', false);
 
 		$this->assertInstanceOf(
 			'SimpleXMLElement',
@@ -233,7 +197,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateUnchanged()
 	{
@@ -251,10 +214,11 @@ class JFactoryTest extends TestCase
 	/**
 	 * Tests the JFactory::getDate method.
 	 *
+	 * @medium
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateNow()
 	{
@@ -277,7 +241,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateUTC1()
 	{
@@ -299,7 +262,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateUTC2()
 	{
@@ -321,10 +283,11 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getUser
 	 */
 	public function testGetUserInstance()
 	{
+		JFactory::$session = $this->getMockSession();
+
 		$this->assertInstanceOf(
 			'JUser',
 			JFactory::getUser(),

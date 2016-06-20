@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,23 +11,15 @@ defined('_JEXEC') or die;
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('../media/jui/css/bootstrap.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-responsive.css');
-$doc->addStyleSheet('template/css/template.css');
-
-if ($this->direction === 'rtl')
-{
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-}
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css');
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidation');
-JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
+JHtml::_('behavior.formvalidator');
+JHtml::_('script', 'installation/template/js/installation.js');
 
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
@@ -41,21 +33,32 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<script src="../media/jui/js/html5.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
-			window.addEvent('domready', function()
-			{
-				window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			jQuery(function()
+			{	// Delay instantiation after document.formvalidation and other dependencies loaded
+				window.setTimeout(function(){
+					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			   	}, 500);
+
 			});
 		</script>
 	</head>
-	<body>
+	<body data-basepath="<?php echo JURI::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
 			<hr />
 			<h5>
 				<?php
-				$joomla = '<a href="http://www.joomla.org">Joomla!<sup>&#174;</sup></a>';
-				$license = '<a data-toggle="modal" href="#licenseModal">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
+				// Fix wrong display of Joomla!® in RTL language
+				if (JFactory::getLanguage()->isRtl())
+				{
+					$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+				}
+				else
+				{
+					$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+				}
+				$license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license);
 				?>
 			</h5>
@@ -63,19 +66,17 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<!-- Container -->
 		<div class="container">
 			<jdoc:include type="message" />
+			<div id="javascript-warning">
+				<noscript>
+					<div class="alert alert-error">
+						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+					</div>
+				</noscript>
+			</div>
 			<div id="container-installation">
 				<jdoc:include type="component" />
 			</div>
 			<hr />
-		</div>
-		<div id="licenseModal" class="modal fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				<h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
-			</div>
-			<div class="modal-body">
-				<iframe src="gpl.html" class="thumbnail span6 license" height="250" marginwidth="25" scrolling="auto"></iframe>
-			</div>
 		</div>
 		<script>
 			function initElements()
@@ -111,7 +112,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				            input.prop('checked', true);
 				        }
 				    });
-				    $(".btn-group input[checked=checked]").each(function()
+				    $(".btn-group input[checked='checked']").each(function()
 					{
 						if ($(this).val()== '')
 						{

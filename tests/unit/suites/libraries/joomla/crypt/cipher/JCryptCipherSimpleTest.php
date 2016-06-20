@@ -3,13 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/crypt/key.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher.php';
-require_once JPATH_PLATFORM . '/joomla/crypt/cipher/simple.php';
 
 /**
  * Test class for JCryptCipherSimple.

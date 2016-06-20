@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -133,7 +139,7 @@ class InstallationPage extends AdminPage
 		$this->setField('Table Prefix', $cfg->db_prefix);
 
 		$this->driver->findElement(By::xPath("//label[@for='jform_db_old1']"))->click();
-
+		
 		$this->driver->findElement(By::xPath("//li[@id='summary']/a"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//li[@id='summary'][@class='step active']"));
 
@@ -148,7 +154,7 @@ class InstallationPage extends AdminPage
 		}
 
 		$this->driver->findElement(By::xPath("//a[@title='Install']"))->click();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"));
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"), 60);
 
 	}
 }

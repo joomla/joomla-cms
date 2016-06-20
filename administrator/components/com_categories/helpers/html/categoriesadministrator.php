@@ -3,17 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_categories
+ * Administrator category HTML
+ *
+ * @since  3.2
  */
 abstract class JHtmlCategoriesAdministrator
 {
@@ -24,6 +27,9 @@ abstract class JHtmlCategoriesAdministrator
 	 * @param   string   $extension  Category Extension
 	 *
 	 * @return  string   The language HTML
+	 *
+	 * @since   3.2
+	 * @throws  Exception
 	 */
 	public static function association($catid, $extension = 'com_content')
 	{
@@ -33,7 +39,7 @@ abstract class JHtmlCategoriesAdministrator
 		// Get the associations
 		if ($associations = CategoriesHelper::getAssociations($catid, $extension))
 		{
-			JArrayHelper::toInteger($associations);
+			$associations = ArrayHelper::toInteger($associations);
 
 			// Get the associated categories
 			$db = JFactory::getDbo();
@@ -53,7 +59,7 @@ abstract class JHtmlCategoriesAdministrator
 			}
 			catch (RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500);
+				throw new Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -64,7 +70,8 @@ abstract class JHtmlCategoriesAdministrator
 					$url = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
 					$tooltipParts = array(
 						JHtml::_(
-							'image', 'mod_languages/' . $item->image . '.gif',
+							'image',
+							'mod_languages/' . $item->image . '.gif',
 							$item->language_title,
 							array('title' => $item->language_title),
 							true
@@ -72,7 +79,16 @@ abstract class JHtmlCategoriesAdministrator
 						$item->title
 					);
 
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
+					$item->link = JHtml::_(
+						'tooltip',
+						implode(' ', $tooltipParts),
+						null,
+						null,
+						$text,
+						$url,
+						null,
+						'hasTooltip label label-association label-' . $item->lang_sef
+					);
 				}
 			}
 

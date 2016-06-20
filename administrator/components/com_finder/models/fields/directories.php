@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
 
@@ -17,9 +17,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
 /**
  * Renders a list of directories.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class JFormFieldDirectories extends JFormFieldList
 {
@@ -40,7 +38,7 @@ class JFormFieldDirectories extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$values = array();
+		$values  = array();
 		$options = array();
 		$exclude = array(
 			JPATH_ADMINISTRATOR,
@@ -53,8 +51,8 @@ class JFormFieldDirectories extends JFormFieldList
 			JPATH_SITE . '/language',
 			JPATH_SITE . '/modules',
 			JPATH_THEMES,
-			JFactory::getApplication()->getCfg('log_path'),
-			JFactory::getApplication()->getCfg('tmp_path')
+			JFactory::getApplication()->get('log_path'),
+			JFactory::getApplication()->get('tmp_path')
 		);
 
 		// Get the base directories.

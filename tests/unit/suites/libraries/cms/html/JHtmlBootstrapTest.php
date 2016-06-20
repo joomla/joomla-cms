@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,9 +38,11 @@ class JHtmlBootstrapTest extends TestCase
 		JHtmlBootstrapInspector::resetLoaded();
 		JHtmlJqueryInspector::resetLoaded();
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -62,15 +64,35 @@ class JHtmlBootstrapTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
-	 * @todo   Implement testAffix().
+	 * Tests the affix method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testAffix()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the affix script
+		JHtmlBootstrap::affix();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $("#affix").affix({"offset": 10}); });',
+			'Verify that the affix script is initialised'
 		);
 	}
 
@@ -97,7 +119,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.alert').alert();\n\t\t\t\t})(jQuery);",
+			'jQuery(function($){ $(".alert").alert(); });',
 			'Verify that the alert script is initialised'
 		);
 	}
@@ -125,18 +147,36 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.button').button();\n\t\t\t\t})(jQuery);",
+			'jQuery(function($){ $(".button").button(); });',
 			'Verify that the button script is initialised'
 		);
 	}
 
 	/**
-	 * @todo   Implement testCarousel().
+	 * Tests the carousel method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testCarousel()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the carousel script
+		JHtmlBootstrap::carousel();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $(".carousel").carousel({"interval": 5000,"pause": "hover"}); });',
+			'Verify that the carousel script is initialised'
 		);
 	}
 
@@ -163,7 +203,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.dropdown-toggle').dropdown();\n\t\t\t\t})(jQuery);",
+			'jQuery(function($){ $(".dropdown-toggle").dropdown(); });',
 			'Verify that the dropdown script is initialised'
 		);
 	}
@@ -197,72 +237,223 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testModal().
+	 * Tests the modal method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testModal()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the modal script
+		JHtmlBootstrap::modal();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $("#modal").modal({"backdrop": true,"keyboard": true,"show": false,"remote": ""}); });',
+			'Verify that the modal script is initialised'
 		);
 	}
 
 	/**
-	 * @todo   Implement testRenderModal().
+	 * Tests the renderModal method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testRenderModal()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Get the rendered output.
+		$modal = JHtmlBootstrap::renderModal();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		// Check the modal's html structure
+		$matcher = array(
+			'id'         => 'modal',
+			'tag'        => 'div',
+			'attributes' => array('class' => 'modal hide fade'),
+			'child'      => array(
+				'attributes' => array('class' => 'modal-header'),
+				'tag' => 'div'
+			),
+			'children'   => array('count' => 2)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$modal,
+			'Verify that the html structure of the modal is correct'
 		);
 	}
 
 	/**
-	 * @todo   Implement testPopover().
+	 * Tests the popover method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testPopover()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the popover script
+		JHtmlBootstrap::popover();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $(".hasPopover").popover({"html": true,"trigger": "hover focus","container": "body"}); });',
+			'Verify that the popover script is initialised'
 		);
 	}
 
 	/**
-	 * @todo   Implement testScrollspy().
+	 * Tests the scrollspy method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testScrollspy()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the scrollspy script
+		JHtmlBootstrap::scrollspy();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $("#navbar").scrollspy({"offset": 10}); });',
+			'Verify that the scrollspy script is initialised'
 		);
 	}
 
 	/**
-	 * @todo   Implement testTooltip().
+	 * Tests the tooltip method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testTooltip()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the tooltip script
+		JHtmlBootstrap::tooltip();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $(".hasTooltip").tooltip({"html": true,"container": "body"}); });',
+			'Verify that the tooltip script is initialised'
 		);
 	}
 
 	/**
-	 * @todo   Implement testTypeahead().
+	 * Tests the typeahead method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testTypeahead()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the typeahead script
+		JHtmlBootstrap::typeahead();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $(".typeahead").typeahead({"items": 8,"minLength": 1}); });',
+			'Verify that the typeahead script is initialised'
 		);
 	}
 
 	/**
-	 * @todo   Implement testStartAccordion().
+	 * Tests the startAccordion method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testStartAccordion()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the startAccordion script
+		$html = JHtmlBootstrap::startAccordion();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": false,"toggle": false})' . "\n" . '});',
+			'Verify that the startAccordion script is initialised'
+		);
+
+		// Check the modal's html structure
+		$matcher = array(
+			'id'         => 'myAccordian',
+			'tag'        => 'div',
+			'attributes' => array('class' => 'accordion')
+		);
+
+		$this->assertTag(
+			$matcher,
+			$html,
+			'Verify that the html structure of the accordion is correct'
 		);
 	}
 
@@ -282,12 +473,49 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testAddSlide().
+	 * Tests the addSlide method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
-	public function testAddSlide()
+	public function testaddSlide()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Must start an accordion first
+		JHtmlBootstrap::startAccordion();
+
+		// Initialise the addSlide script
+		$html = JHtmlBootstrap::addSlide('myAccordian', 'myText', 'mySlide');
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){' . "\n\t" . '$(\'#myAccordian\').collapse({"parent": false,"toggle": false})' . "\n" . '});',
+			'Verify that the addSlide script is initialised'
+		);
+
+		// Check the modal's html structure
+		$matcher = array(
+			'tag'        => 'div',
+			'attributes' => array('class' => 'accordion-group'),
+			'child'      => array(
+				'tag'        => 'div',
+				'attributes' => array('class' => 'accordion-heading')
+			)
+		);
+
+		$this->assertTag(
+			$matcher,
+			$html,
+			'Verify that the html structure of the slide is correct'
 		);
 	}
 
@@ -307,12 +535,42 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testStartTabSet().
+	 * Tests the startTabSet method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testStartTabSet()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Initialise the startTabSet script
+		$html = JHtmlBootstrap::startTabSet();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			'jQuery(function($){ $("#myTab a").click(function (e) {e.preventDefault();$(this).tab("show");});});',
+			'Verify that the startTabSet script is initialised'
+		);
+
+		// Check the tab set's html structure
+		$matcher = array(
+			'id'  => 'myTabTabs',
+			'tag' => 'ul'
+		);
+
+		$this->assertTag(
+			$matcher,
+			$html,
+			'Verify that the html structure of the TabSet is correct'
 		);
 	}
 
@@ -325,19 +583,58 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo("\n</div>")
+			"\n</div>"
 		);
 	}
 
 	/**
-	 * @todo   Implement testAddTab().
+	 * Tests the addTab method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
 	 */
 	public function testAddTab()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		// Must start a tabset first
+		JHtmlBootstrap::startTabSet();
+
+		// Add a tab
+		$html = JHtmlBootstrap::addTab('myTab', 'myTabItem', 'myTitle');
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the alert method initialises Bootstrap as well'
+		);
+
+		$li = "<li class=\\\"\\\"><a href=\\\"#myTabItem\\\" data-toggle=\\\"tab\\\">myTitle<\/a><\/li>";
+		$script = 'jQuery(function($){ $("#myTab a").click(function (e) {e.preventDefault();$(this).tab("show");});});';
+		$script .= chr(13);
+		$script .= 'jQuery(function($){ $("#myTabTabs").append($("' . $li . '")); });';
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			$script,
+			'Verify that the startTabSet script is initialised'
+		);
+
+		// Check the tab set's html structure
+		$matcher = array(
+			'id'         => 'myTabItem',
+			'tag'        => 'div',
+			'attributes' => array('class' => 'tab-pane')
+		);
+
+		$this->assertTag(
+			$matcher,
+			$html,
+			'Verify that the html structure of the Tab is correct'
 		);
 	}
 
@@ -350,19 +647,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo("\n</div>")
-		);
-	}
-
-	/**
-	 * @todo   Implement testStartPane().
-	 */
-	public function testStartPane()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+			"\n</div>"
 		);
 	}
 
@@ -375,19 +662,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPane()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo("\n</div>")
-		);
-	}
-
-	/**
-	 * @todo   Implement testAddPanel().
-	 */
-	public function testAddPanel()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+			"\n</div>"
 		);
 	}
 
@@ -400,9 +677,9 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPanel()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo("\n</div>")
+			"\n</div>"
 		);
 	}
 

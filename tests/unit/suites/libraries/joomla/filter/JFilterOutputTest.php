@@ -3,19 +3,15 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/string/string.php';
-require_once JPATH_PLATFORM . '/joomla/filter/output.php';
 
 /**
  * FilterTestObject
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- *
  * @since       11.1
  */
 class FilterTestObject
@@ -43,7 +39,6 @@ class FilterTestObject
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- *
  * @since       11.1
  */
 class JFilterOutputTest extends PHPUnit_Framework_TestCase
@@ -66,19 +61,11 @@ class JFilterOutputTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JFilterOutput;
 		$this->safeObject = new FilterTestObject;
 		$this->safeObjectArrayTest = new FilterTestObject;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

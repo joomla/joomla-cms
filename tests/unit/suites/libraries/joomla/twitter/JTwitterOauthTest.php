@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JLinkedinOauth.
@@ -78,8 +76,8 @@ class JTwitterOauthTest extends TestCase
 		$my_url = "http://127.0.0.1/twitter_test.php";
 
 		$this->options = new JRegistry;
-		$this->input = new JInput;
-		$this->application = new JApplicationWebInspector;
+		$this->input = $this->getMockInput();
+		$this->application = $this->getMockWeb();
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
 		$this->options->set('consumer_key', $key);

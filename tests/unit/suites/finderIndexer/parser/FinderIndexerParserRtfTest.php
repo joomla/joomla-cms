@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,11 +38,9 @@ class FinderIndexerParserRtfTest extends PHPUnit_Framework_TestCase
 
 		$input = file_get_contents(dirname(__DIR__) . '/data/parseHtml.txt');
 
-		$parsed = $this->object->parse($input);
-
 		$this->assertContains(
 			$testResult,
-			$parsed
+			$this->object->parse($input)
 		);
 	}
 }

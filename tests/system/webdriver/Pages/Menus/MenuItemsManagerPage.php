@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -11,7 +17,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +36,7 @@ class MenuItemsManagerPage extends AdminManagerPage
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_menus&view=items']";
+	protected $waitForXpath = "//ul/li/a[@href='index.php?option=com_menus&view=items']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -101,11 +107,13 @@ class MenuItemsManagerPage extends AdminManagerPage
 	public function addMenuItem($title='Test Menu Item', $menuItemType='List All Categories', $menuLocation = 'Main Menu', array $otherFields = array())
 	{
 		/* @var $menuItemEditPage MenuItemEditPage */
+		$this->setFilter('Menu', $menuLocation);
 		$this->clickButton('toolbar-new');
 		$menuItemEditPage = $this->test->getPageObject('MenuItemEditPage');
 		$menuItemEditPage->setMenuItemType($menuItemType);
 
 		$fields = array('Menu title' => $title, 'Menu Location' => $menuLocation);
+
 		if (count($otherFields) > 0)
 		{
 			$fields = array_merge($fields, $otherFields);
@@ -114,6 +122,7 @@ class MenuItemsManagerPage extends AdminManagerPage
 		$menuItemEditPage->setFieldValues($fields);
 
 		$menuItemEditPage->clickButton('toolbar-save');
+
 		return $this->test->getPageObject('MenuItemsManagerPage');
 	}
 
@@ -137,4 +146,39 @@ class MenuItemsManagerPage extends AdminManagerPage
 		$this->searchFor();
 	}
 
+	/**
+	 * function to get current value
+	 *
+	 * @return String
+	 */
+	public function getCurrentMenu()
+	{
+		$el = $this->driver->findElement(By::xPath("//div[@id='menutype_chzn']/a/span"));
+
+		return $el->getText();
+	}
+
+	/**
+	 * function to delete menu Item
+	 *
+	 * @param   String  $name  stores the name
+	 *
+	 * @return void
+	 */
+	public function trashAndDelete($name)
+	{
+		$currentMenu = $this->getCurrentMenu();
+		$this->searchFor($name);
+		$this->checkAll();
+		$this->driver->findElement(By::id('filter_search'))->click();
+		$this->clickButton('toolbar-trash');
+		$this->test->getPageObject('MenuItemsManagerPage');
+		$this->setFilter('Status', 'Trashed');
+		$this->checkAll();
+		$this->driver->findElement(By::id('filter_search'))->click();
+		$this->clickButton('toolbar-delete');
+		$this->test->getPageObject('MenuItemsManagerPage');
+		$this->setFilter('Status', 'Select Status');
+		$this->test->getPageObject('MenuItemsManagerPage');
+	}
 }

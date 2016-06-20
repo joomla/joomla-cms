@@ -3,18 +3,16 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for implementing UCM
  *
- * @package     Joomla.Libraries
- * @subpackage  UCM
- * @since       3.1
+ * @since  3.1
  */
 class JUcmContent extends JUcmBase
 {
@@ -27,22 +25,6 @@ class JUcmContent extends JUcmBase
 	protected $table;
 
 	/**
-	 * The UCM type object
-	 *
-	 * @var    JUcmType
-	 * @since  3.1
-	 */
-	public $type;
-
-	/**
-	 * The alias for the content table
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $alias;
-
-	/**
 	 * The UCM data array
 	 *
 	 * @var    array
@@ -53,19 +35,15 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Instantiate JUcmContent.
 	 *
-	 * @param   JTable    $table  The table object
-	 * @param   sring     $alias  The type alias
-	 * @param   JUcmType  $type   The type object
+	 * @param   JTableInterface  $table  The table object
+	 * @param   string           $alias  The type alias
+	 * @param   JUcmType         $type   The type object
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(JTable $table = null, $alias = null, JUcmType $type = null)
+	public function __construct(JTableInterface $table = null, $alias = null, JUcmType $type = null)
 	{
-		// Setup dependencies.
-		$input = JFactory::getApplication()->input;
-		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
-
-		$this->type = isset($type) ? $type : $this->getType();
+		parent::__construct($alias, $type);
 
 		if ($table)
 		{
@@ -143,7 +121,7 @@ class JUcmContent extends JUcmBase
 	 * @param   array     $original  The original data array
 	 * @param   JUcmType  $type      Type object for this data
 	 *
-	 * @return  object  $ucmData  The mapped UCM data
+	 * @return  array  $ucmData  The mapped UCM data
 	 *
 	 * @since   3.1
 	 */
@@ -194,15 +172,15 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Store data to the appropriate table
 	 *
-	 * @param   array    $data        Data to be stored
-	 * @param   JTable   $table       JTable Object
-	 * @param   boolean  $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
+	 * @param   array            $data        Data to be stored
+	 * @param   JTableInterface  $table       JTable Object
+	 * @param   boolean          $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
-	 * @return  Boolean  true on success
+	 * @return  boolean  true on success
 	 *
 	 * @since   3.1
 	 */
-	protected function store($data, JTable $table = null, $primaryKey = null)
+	protected function store($data, JTableInterface $table = null, $primaryKey = null)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 

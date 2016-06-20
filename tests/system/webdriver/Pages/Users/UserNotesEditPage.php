@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -10,10 +16,12 @@ use SeleniumClient\WebElement;
 /**
  * Class for the back-end control panel screen.
  *
+ * @since Joomla 3.0
  */
 class UserNotesEditPage extends AdminEditPage
 {
 	protected $waitForXpath = "//form[@id='note-form']";
+
 	protected $url = 'administrator/index.php?option=com_users&view=note&layout=edit';
 
 	/**
@@ -22,29 +30,39 @@ class UserNotesEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'ID', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'none'),
-			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'none'),
-			array('label' => 'Review time', 'id' => 'jform_review_time', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'Note', 'id' => 'jform_body', 'type' => 'textarea', 'tab' => 'none'),
+			array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'header'),
+			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'header'),
+			array('label' => 'Review Date', 'id' => 'jform_review_time', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Note', 'id' => 'jform_body', 'type' => 'textarea', 'tab' => 'header'),
 	);
 
+	/**
+	 * function to get all input fields
+	 *
+	 * @param   array  $tabIds  array to store all the tab IDs
+	 *
+	 * @return array
+	 */
 	public function getAllInputFields($tabIds = array())
 	{
 		$return = array();
 		$labels = $this->driver->findElements(By::xPath("//fieldset/div[@class='control-group']/div/label"));
-		$tabId = 'none';
+		$tabId = 'header';
+
 		foreach ($labels as $label)
 		{
 			$labelText = $label->getText();
+
 			if (($inputField = $this->getInputField($tabId, $label)) !== false)
 			{
 				$return[] = $inputField;
 			}
 			elseif ($labelText == 'ID *')
 			{
-				$object = new stdClass();
+				$object = new stdClass;
 				$object->tab = $tabId;
 				$object->tag = 'input';
 				$object->labelText = 'ID';
@@ -55,9 +73,17 @@ class UserNotesEditPage extends AdminEditPage
 				$return[] = $object;
 			}
 		}
+
 		return $return;
 	}
 
+	/**
+	 * function to set the field values of user
+	 *
+	 * @param   string  $userName  title of the user
+	 *
+	 * @return void
+	 */
 	public function setUser($userName)
 	{
 		$linkXpath = "//a[contains(@href, 'view=users&layout=modal')]";
@@ -74,8 +100,16 @@ class UserNotesEditPage extends AdminEditPage
 		$this->driver->findElement(By::xPath("//a[contains(@onclick, '" . $userName . "')]"))->click();
 		$this->driver->waitForElementUntilIsNotPresent(By::xPath($frameXpath));
 		$this->driver->switchTo()->getDefaultFrame();
+		$this->driver->executeScript("window.scrollTo(0,0)");
 	}
 
+	/**
+	 * function to set the field values
+	 *
+	 * @param   array  $fields  stores values of the input fields
+	 *
+	 * @return $this|void
+	 */
 	public function setFieldValues(array $fields)
 	{
 		foreach ($fields as $label => $value)
@@ -91,9 +125,17 @@ class UserNotesEditPage extends AdminEditPage
 		}
 	}
 
+	/**
+	 * function to get input field values
+	 *
+	 * @param   string  $label  stores label
+	 *
+	 * @return bool|String
+	 */
 	public function getFieldValue($label)
 	{
 		$result = false;
+
 		if ($label == 'ID')
 		{
 			$result = $this->driver->findElement(By::id('jform_user_id'))->getAttribute('value');
@@ -102,6 +144,7 @@ class UserNotesEditPage extends AdminEditPage
 		{
 			$result = parent::getFieldValue($label);
 		}
+
 		return $result;
 	}
 }

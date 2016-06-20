@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,14 @@ defined('_JEXEC') or die;
 /**
  * Setup model for the Joomla Core Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Model
- * @since       3.1
+ * @since  3.1
  */
 class InstallationModelSetup extends JModelBase
 {
 	/**
 	 * Get the current setup options from the session.
 	 *
-	 * @return  array  An array of options from the session
+	 * @return  array  An array of options from the session.
 	 *
 	 * @since   3.1
 	 */
@@ -36,9 +34,9 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Store the current setup options in the session.
 	 *
-	 * @param   array  $options  The installation options
+	 * @param   array  $options  The installation options.
 	 *
-	 * @return  array  An array of options from the session
+	 * @return  array  An array of options from the session.
 	 *
 	 * @since   3.1
 	 */
@@ -54,6 +52,8 @@ class InstallationModelSetup extends JModelBase
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
 
+		$options['helpurl'] = $session->get('setup.helpurl', null);
+
 		// Merge the new setup options into the current ones and store in the session.
 		$options = array_merge($old, (array) $options);
 		$session->set('setup.options', $options);
@@ -64,9 +64,9 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Method to get the form.
 	 *
-	 * @param   string  $view  The view being processed
+	 * @param   string  $view  The view being processed.
 	 *
-	 * @return  mixed  JForm object on success, false on failure.
+	 * @return  JForm|boolean  JForm object on success, false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -82,8 +82,6 @@ class InstallationModelSetup extends JModelBase
 
 		// Get the form.
 		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
 
 		try
 		{
@@ -92,6 +90,7 @@ class InstallationModelSetup extends JModelBase
 		catch (Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 
@@ -108,11 +107,11 @@ class InstallationModelSetup extends JModelBase
 	}
 
 	/**
-	 * Method to check the form data
+	 * Method to check the form data.
 	 *
-	 * @param   string  $page  The view being checked
+	 * @param   string  $page  The view being checked.
 	 *
-	 * @return  array  Validated form data
+	 * @return  array  Validated form data.
 	 *
 	 * @since   3.1
 	 */
@@ -124,9 +123,9 @@ class InstallationModelSetup extends JModelBase
 
 		// Get the posted values from the request and validate them.
 		$data   = $app->input->post->get('jform', array(), 'array');
-		$return	= $this->validate($data, $page);
+		$return = $this->validate($data, $page);
 
-		// Attempt to save the data before validation
+		// Attempt to save the data before validation.
 		$form = $this->getForm();
 		$data = $form->filter($data);
 		unset($data['admin_password2']);
@@ -150,9 +149,9 @@ class InstallationModelSetup extends JModelBase
 	}
 
 	/**
-	 * Generate a panel of language choices for the user to select their language
+	 * Generate a panel of language choices for the user to select their language.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean True if successful.
 	 *
 	 * @since	3.1
 	 */
@@ -191,7 +190,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
-	 * @return	boolean  True if the method exists
+	 * @return	boolean  True if the method exists.
 	 *
 	 * @since	3.1
 	 */
@@ -201,7 +200,7 @@ class InstallationModelSetup extends JModelBase
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions black list
+			// Attempt to detect them in the disable_functions black list.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 
@@ -234,8 +233,8 @@ class InstallationModelSetup extends JModelBase
 
 		// Check the PHP Version.
 		$option = new stdClass;
-		$option->label  = JText::_('INSTL_PHP_VERSION') . ' >= 5.3.1';
-		$option->state  = version_compare(PHP_VERSION, '5.3.1', '>=');
+		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', JOOMLA_MINIMUM_PHP);
+		$option->state  = version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '>=');
 		$option->notice = null;
 		$options[] = $option;
 
@@ -295,24 +294,34 @@ class InstallationModelSetup extends JModelBase
 			$options[] = $option;
 		}
 
-		// Check for a missing native parse_ini_file implementation
+		// Check for a missing native parse_ini_file implementation.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_PARSE_INI_FILE_AVAILABLE');
 		$option->state  = $this->getIniParserAvailability();
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for missing native json_encode / json_decode support
+		// Check for missing native json_encode / json_decode support.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_JSON_SUPPORT_AVAILABLE');
 		$option->state  = function_exists('json_encode') && function_exists('json_decode');
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for configuration file writeable.
+		// Check for mcrypt support
+		$option = new stdClass;
+		$option->label  = JText::_('INSTL_MCRYPT_SUPPORT_AVAILABLE');
+		$option->state  = is_callable('mcrypt_encrypt');
+		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMCRYPTNOTAVAILABLE');
+		$options[] = $option;
+
+		// Check for configuration file writable.
+		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
+			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+
 		$option = new stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
-		$option->state  = (is_writable(JPATH_CONFIGURATION . '/configuration.php') || (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+		$option->state  = $writable;
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
@@ -320,9 +329,9 @@ class InstallationModelSetup extends JModelBase
 	}
 
 	/**
-	 * Checks if all of the mandatory PHP options are met
+	 * Checks if all of the mandatory PHP options are met.
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
@@ -395,7 +404,7 @@ class InstallationModelSetup extends JModelBase
 		$setting->recommended = false;
 		$settings[] = $setting;
 
-		// Check for native ZIP support
+		// Check for native ZIP support.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_ZIP_SUPPORT_AVAILABLE');
 		$setting->state = function_exists('zip_open') && function_exists('zip_read');
@@ -411,7 +420,7 @@ class InstallationModelSetup extends JModelBase
 	 * @param   array   $data  The form data.
 	 * @param   string  $view  The view.
 	 *
-	 * @return  mixed   Array of filtered data if valid, false otherwise.
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
 	 * @since	3.1
 	 */
@@ -437,6 +446,7 @@ class InstallationModelSetup extends JModelBase
 		if ($return instanceof Exception)
 		{
 			$app->enqueueMessage($return->getMessage(), 'warning');
+
 			return false;
 		}
 

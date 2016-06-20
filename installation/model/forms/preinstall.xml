@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field name="language" type="language" id="language"
+		<field name="language" type="installation.language" id="language"
 			class="chzn-select-deselect"
 			label="INSTL_LANGUAGE_LABEL"
 			size="20"

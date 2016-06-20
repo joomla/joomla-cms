@@ -3,17 +3,16 @@
  * @package     Joomla.UnitTest
  * @subpackage  Hash
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
 
 /**
  * Test class for JCryptPasswordSimple.
  *
- * @package  Joomla.UnitTest
- *
- * @since    11.1
+ * @package     Joomla.UnitTest
+ * @subpackage  Crypt
+ * @since       11.1
  */
 class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 {
@@ -63,8 +62,6 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @param   string   $salt      The salt to be used
 	 * @param   string   $expected  The expected result
 	 * @param   integer  $cost      The cost value
-	 *
-	 * @covers  JCryptPasswordSimple::create
 	 *
 	 * @expectedException  InvalidArgumentException
 	 *
@@ -147,7 +144,6 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $hash         The hash
 	 * @param   string  $expectation  The expected result
 	 *
-	 * @covers        JCryptPasswordSimple::verify
 	 * @dataProvider  verifyData
 	 *
 	 * @return void
@@ -181,7 +177,6 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $type         The proposed default type
 	 * @param   string  $expectation  The expected value of $this->defaultType
 	 *
-	 * @covers        JCryptPasswordSimple::setDefaultType
 	 * @dataProvider  defaultTypeData
 	 *
 	 * @return void
@@ -204,7 +199,6 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 * @param   string  $type         The proposed default type
 	 * @param   string  $expectation  The expected value of $this->defaultType
 	 *
-	 * @covers        JCryptPasswordSimple::getDefaultType
 	 * @dataProvider  defaultTypeData
 	 *
 	 * @return void

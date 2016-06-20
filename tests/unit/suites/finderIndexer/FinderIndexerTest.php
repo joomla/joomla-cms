@@ -3,11 +3,13 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
+
+use Joomla\Registry\Registry;
 
 /**
  * Test class for FinderIndexer.
@@ -15,20 +17,6 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/index
  */
 class FinderIndexerTest extends TestCaseDatabase
 {
-	/**
-	 * The mock database object
-	 *
-	 * @var  JDatabaseDriver
-	 */
-	protected $db;
-
-	/**
-	 * The factory database object
-	 *
-	 * @var  JDatabaseDriver
-	 */
-	protected $factoryDb;
-
 	/**
 	 * @var FinderIndexer
 	 */
@@ -40,15 +28,14 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		// Store the factory state so we can mock the necessary objects
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$database    = $this->getMockDatabase('Mysqli');
 		JFactory::$session     = $this->getMockSession();
-
-		// Set up our mock database
-		$this->db = JFactory::getDbo();
-		$this->db->name = 'mysqli';
 
 		// Register the object
 		$this->object = FinderIndexer::getInstance();
@@ -62,6 +49,8 @@ class FinderIndexerTest extends TestCaseDatabase
 	{
 		// Restore the factory state
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -81,31 +70,6 @@ class FinderIndexerTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Method to override the factory database instance
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function saveFactoryDatabase()
-	{
-		$this->factoryDb = JFactory::$database;
-		JFactory::$database = $this->db;
-	}
-
-	/**
-	 * Method to restore the factory database instance
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function restoreFactoryDatabase()
-	{
-		JFactory::$database = $this->factoryDb;
-	}
-
-	/**
 	 * Tests the getInstance method
 	 *
 	 * @return  void
@@ -114,16 +78,10 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstance()
 	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
-		$this->assertThat(
-			FinderIndexer::getInstance(),
-			$this->isInstanceOf('FinderIndexerDriverMysql')
+		$this->assertInstanceOf(
+			'FinderIndexerDriverMysql',
+			FinderIndexer::getInstance()
 		);
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
 	}
 
 	/**
@@ -135,18 +93,12 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceSqlazure()
 	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
 		JFactory::$database->name = 'sqlazure';
 
-		$this->assertThat(
-			FinderIndexer::getInstance(),
-			$this->isInstanceOf('FinderIndexerDriverSqlsrv')
+		$this->assertInstanceOf(
+			'FinderIndexerDriverSqlsrv',
+			FinderIndexer::getInstance()
 		);
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
 	}
 
 	/**
@@ -155,20 +107,13 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetInstanceException()
 	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
 		JFactory::$database->name = 'nosql';
 
-		$this->setExpectedException('RuntimeException');
-
 		FinderIndexer::getInstance();
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
 	}
 
 	/**
@@ -180,9 +125,9 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetState()
 	{
-		$this->assertThat(
-			FinderIndexer::getState(),
-			$this->isInstanceOf('JObject')
+		$this->assertInstanceOf(
+			'JObject',
+			FinderIndexer::getState()
 		);
 	}
 
@@ -195,30 +140,23 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testSetState()
 	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
 		// Set up our test object
 		$test = new JObject;
 		$test->string = 'Testing FinderIndexer::setState()';
 
 		// First, assert we can successfully set the state
-		$this->assertThat(
-			FinderIndexer::setState($test),
-			$this->isTrue()
+		$this->assertTrue(
+			FinderIndexer::setState($test)
 		);
 
 		// Set the session data to test retrieval
 		FinderIndexer::setState($test);
 
 		// Now assert we can successfully get the state data we just stored
-		$this->assertThat(
-			FinderIndexer::getState(),
-			$this->isInstanceOf('JObject')
+		$this->assertInstanceOf(
+			'JObject',
+			FinderIndexer::getState()
 		);
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
 	}
 
 	/**
@@ -230,22 +168,15 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testSetStateBadData()
 	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
 		// Set up our test object
-		$test = new JRegistry;
+		$test = new Registry;
 		$test->set('string', 'Testing FinderIndexer::setState()');
 
 		// Attempt to set the state
-		$this->assertThat(
+		$this->assertFalse(
 			FinderIndexer::setState($test),
-			$this->isFalse(),
-			'setState method is not compatible with JRegistry'
+			'setState method is not compatible with Registry'
 		);
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
 	}
 
 	/**
@@ -257,19 +188,12 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testResetState()
 	{
-		// Override the database in this method
-		$this->saveFactoryDatabase();
-
 		// Reset the state
 		FinderIndexer::resetState();
 
 		// Test we get a null object
-		$this->assertThat(
-			JFactory::getSession()->get('_finder.state', null),
-			$this->isNull()
+		$this->assertNull(
+			JFactory::getSession()->get('_finder.state', null)
 		);
-
-		// Restore the database
-		$this->restoreFactoryDatabase();
 	}
 }

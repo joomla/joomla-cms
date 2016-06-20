@@ -2,12 +2,12 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Class to mock JRules.
+ * Class to mock JAccessRules.
  *
  * @package  Joomla.Test
  * @since    12.1
@@ -15,11 +15,11 @@
 class TestMockRules
 {
 	/**
-	 * Creates an instance of the mock JDatabase object.
+	 * Creates an instance of the mock JAccessRules object.
 	 *
-	 * @param   object  $test  A test object.
+	 * @param   PHPUnit_Framework_TestCase  $test  A test object.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   11.3
 	 */
@@ -32,7 +32,7 @@ class TestMockRules
 
 		// Create the mock.
 		$mockObject = $test->getMock(
-			'JRules',
+			'JAccessRules',
 			$methods,
 			// Constructor arguments.
 			array(),
@@ -62,7 +62,7 @@ class TestMockRules
 	 *
 	 * @since   11.3
 	 */
-	public function mockAllow($action, $identity)
+	public static function mockAllow($action, $identity)
 	{
 		switch ($action)
 		{
@@ -76,7 +76,6 @@ class TestMockRules
 					// Odds return true, evens false.
 					return (boolean) ($identity % 2);
 				}
-				return false;
 
 			case 'walk':
 				if ($identity == 0)

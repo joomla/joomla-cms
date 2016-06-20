@@ -6,10 +6,10 @@
 			type="radio"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			description="COM_TEMPLATES_FIELD_HOME_ADMINISTRATOR_DESC"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0">
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 	</fieldset>
 </form>

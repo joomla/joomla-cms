@@ -1758,6 +1758,25 @@
 		</row>
 		<row>
 			<value>67</value>
+			<value>Content - Contact</value>
+			<value>plugin</value>
+			<value>contact</value>
+			<value>content</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value></value>
+			<value>{&quot;mode&quot;:&quot;1&quot;}</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>68</value>
 			<value>Content - Email Cloaking</value>
 			<value>plugin</value>
 			<value>emailcloak</value>
@@ -1776,7 +1795,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>68</value>
+			<value>69</value>
 			<value>Content - Code Highlighter (GeSHi)</value>
 			<value>plugin</value>
 			<value>geshi</value>
@@ -1795,7 +1814,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>69</value>
+			<value>70</value>
 			<value>Content - Load Modules</value>
 			<value>plugin</value>
 			<value>loadmodule</value>
@@ -1814,7 +1833,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>70</value>
+			<value>71</value>
 			<value>Content - Pagebreak</value>
 			<value>plugin</value>
 			<value>pagebreak</value>
@@ -1833,7 +1852,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>71</value>
+			<value>72</value>
 			<value>Content - Page Navigation</value>
 			<value>plugin</value>
 			<value>pagenavigation</value>
@@ -1852,7 +1871,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>72</value>
+			<value>73</value>
 			<value>Content - Vote</value>
 			<value>plugin</value>
 			<value>vote</value>
@@ -1871,7 +1890,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>73</value>
+			<value>74</value>
 			<value>Editor - CodeMirror</value>
 			<value>plugin</value>
 			<value>codemirror</value>
@@ -1890,7 +1909,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>74</value>
+			<value>75</value>
 			<value>Editor - None</value>
 			<value>plugin</value>
 			<value>none</value>
@@ -1909,7 +1928,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>75</value>
+			<value>76</value>
 			<value>Editor - TinyMCE 3</value>
 			<value>plugin</value>
 			<value>tinymce</value>
@@ -1928,7 +1947,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>76</value>
+			<value>77</value>
 			<value>Button - Article</value>
 			<value>plugin</value>
 			<value>article</value>
@@ -1947,7 +1966,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>77</value>
+			<value>78</value>
 			<value>Button - Image</value>
 			<value>plugin</value>
 			<value>image</value>
@@ -1966,7 +1985,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>78</value>
+			<value>79</value>
 			<value>Button - Pagebreak</value>
 			<value>plugin</value>
 			<value>pagebreak</value>
@@ -1985,7 +2004,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>79</value>
+			<value>80</value>
 			<value>Button - Readmore</value>
 			<value>plugin</value>
 			<value>readmore</value>
@@ -2004,7 +2023,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>80</value>
+			<value>81</value>
 			<value>Search - Categories</value>
 			<value>plugin</value>
 			<value>categories</value>
@@ -2023,7 +2042,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>81</value>
+			<value>82</value>
 			<value>Search - Contacts</value>
 			<value>plugin</value>
 			<value>contacts</value>
@@ -2042,7 +2061,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>82</value>
+			<value>83</value>
 			<value>Search - Content</value>
 			<value>plugin</value>
 			<value>content</value>
@@ -2061,7 +2080,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>83</value>
+			<value>84</value>
 			<value>Search - Newsfeeds</value>
 			<value>plugin</value>
 			<value>newsfeeds</value>
@@ -2080,7 +2099,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>84</value>
+			<value>85</value>
 			<value>Search - Weblinks</value>
 			<value>plugin</value>
 			<value>weblinks</value>
@@ -2099,7 +2118,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>85</value>
+			<value>86</value>
 			<value>System - Cache</value>
 			<value>plugin</value>
 			<value>cache</value>
@@ -2118,7 +2137,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>86</value>
+			<value>87</value>
 			<value>System - Debug</value>
 			<value>plugin</value>
 			<value>debug</value>
@@ -2137,7 +2156,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>87</value>
+			<value>88</value>
 			<value>System - Log</value>
 			<value>plugin</value>
 			<value>log</value>
@@ -2156,7 +2175,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>88</value>
+			<value>89</value>
 			<value>System - Redirect</value>
 			<value>plugin</value>
 			<value>redirect</value>
@@ -2175,7 +2194,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>89</value>
+			<value>90</value>
 			<value>System - Remember Me</value>
 			<value>plugin</value>
 			<value>remember</value>
@@ -2194,7 +2213,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>90</value>
+			<value>91</value>
 			<value>System - SEF</value>
 			<value>plugin</value>
 			<value>sef</value>
@@ -2213,7 +2232,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>91</value>
+			<value>92</value>
 			<value>User - Contact Creator</value>
 			<value>plugin</value>
 			<value>contactcreator</value>
@@ -2232,7 +2251,7 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>92</value>
+			<value>93</value>
 			<value>User - Joomla!</value>
 			<value>plugin</value>
 			<value>joomla</value>
@@ -2394,7 +2413,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value></value>
-			<value>{&quot;allowUserRegistration&quot;:&quot;1&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
+			<value>{&quot;allowUserRegistration&quot;:&quot;0&quot;,&quot;new_usertype&quot;:&quot;2&quot;,&quot;useractivation&quot;:&quot;1&quot;,&quot;frontend_userparams&quot;:&quot;1&quot;,&quot;mailSubjectPrefix&quot;:&quot;&quot;,&quot;mailBodySuffix&quot;:&quot;&quot;}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>

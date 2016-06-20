@@ -3,22 +3,23 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+use Joomla\Registry\Registry;
 
 /**
  * Test class for JFacebookGroup.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookGroupTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
+	 * @var    Registry  Options for the Facebook object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -63,8 +64,6 @@ class JFacebookGroupTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access  protected
-	 *
 	 * @return  void
 	 *
 	 * @since   13.1
@@ -83,7 +82,7 @@ class JFacebookGroupTest extends TestCase
 			'access_token' => 'token',
 			'expires' => '51837673', 'created' => '2443672521');
 
-		$this->options = new JRegistry;
+		$this->options = new Registry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
@@ -96,20 +95,8 @@ class JFacebookGroupTest extends TestCase
 		$this->options->set('redirecturi', $my_url);
 		$this->options->set('sendheaders', true);
 		$this->options->set('authmethod', 'get');
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return   void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**
@@ -418,7 +405,6 @@ class JFacebookGroupTest extends TestCase
 	 */
 	public function testCreateLinkFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$group = '156174391080008';
 		$link = 'www.example.com';
@@ -478,7 +464,6 @@ class JFacebookGroupTest extends TestCase
 	 */
 	public function testDeleteLinkFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$link = '156174391080008_235345346';
 
@@ -623,7 +608,6 @@ class JFacebookGroupTest extends TestCase
 	 */
 	public function testDeletePostFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$post = '5148941614_234324';
 
@@ -738,7 +722,6 @@ class JFacebookGroupTest extends TestCase
 	 */
 	public function testDeleteStatusFailure()
 	{
-		$exception = false;
 		$token = $this->oauth->getToken();
 		$status = '2457344632_5148941614';
 

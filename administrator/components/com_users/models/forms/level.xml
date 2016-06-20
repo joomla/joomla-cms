@@ -8,7 +8,7 @@
 		/>
 
 		<field name="title" type="text"
-			class="inputbox" required="true"
+			required="true"
 			description="COM_USERS_LEVEL_FIELD_TITLE_DESC"
 			label="COM_USERS_LEVEL_FIELD_TITLE_LABEL"
 			size="50"

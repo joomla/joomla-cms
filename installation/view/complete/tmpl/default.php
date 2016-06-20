@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,10 +25,10 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="btn-toolbar">
 		<div class="btn-group">
-			<a class="btn" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><i class="icon-eye-open"></i> <?php echo JText::_('JSITE'); ?></a>
+			<a class="btn" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
 		</div>
 		<div class="btn-group">
-			<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><i class="icon-lock icon-white"></i> <?php echo JText::_('JADMINISTRATOR'); ?></a>
+			<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="icon-lock icon-white"></span> <?php echo JText::_('JADMINISTRATOR'); ?></a>
 		</div>
 	</div>
 	<div class="row-fluid">
@@ -65,11 +65,10 @@ defined('_JEXEC') or die;
 			<h3><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></h3>
 			<hr class="hr-condensed" />
 			<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
-			<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
+			<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
 			<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 		</div>
 	</div>
-
 	<?php if ($this->config) : ?>
 	<div class="alert alert-error">
 		<h3 class="alert-heading"><?php echo JText::_('JNOTICE'); ?></h3>
@@ -77,6 +76,5 @@ defined('_JEXEC') or die;
 		<textarea rows="10" cols="80" style="width: 100%;" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();"><?php echo $this->config; ?></textarea>
 	</div>
 	<?php endif; ?>
-
 	<?php echo JHtml::_('form.token'); ?>
 </form>

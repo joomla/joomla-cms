@@ -3,12 +3,16 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JToolbar.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Toolbar
+ * @since       3.0
  */
 class JToolbarTest extends TestCase
 {
@@ -30,9 +34,11 @@ class JToolbarTest extends TestCase
 	{
 		$this->object = new JToolbar('toolbar');
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -160,19 +166,6 @@ class JToolbarTest extends TestCase
 		);
 	}
 
-	/**
-	 * @todo   Implement testRenderButton().
-	 */
-	public function testRenderButton()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testLoadButtonType().
-	 */
 	public function testLoadButtonType()
 	{
 		$this->assertThat(

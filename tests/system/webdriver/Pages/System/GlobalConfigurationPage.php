@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -43,12 +49,13 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Offline Message', 'id' => 'jform_display_offline_message', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Custom Message', 'id' => 'jform_offline_message', 'type' => 'textarea', 'tab' => 'page-site'),
 			array('label' => 'Offline Image', 'id' => 'jform_offline_image', 'type' => 'input', 'tab' => 'page-site'),
+			array('label' => 'Mouse-over Edit Icons for', 'id' => 'jform_frontediting', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Default Editor', 'id' => 'jform_editor', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Default Captcha', 'id' => 'jform_captcha', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Default Access Level', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Default List Limit', 'id' => 'jform_list_limit', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Default Feed Limit', 'id' => 'jform_feed_limit', 'type' => 'select', 'tab' => 'page-site'),
-			array('label' => 'Feed email', 'id' => 'jform_feed_email', 'type' => 'select', 'tab' => 'page-site'),
+			array('label' => 'Feed Email Address', 'id' => 'jform_feed_email', 'type' => 'select', 'tab' => 'page-site'),
 			array('label' => 'Site Meta Description', 'id' => 'jform_MetaDesc', 'type' => 'textarea', 'tab' => 'page-site'),
 			array('label' => 'Site Meta Keywords', 'id' => 'jform_MetaKeys', 'type' => 'textarea', 'tab' => 'page-site'),
 			array('label' => 'Robots', 'id' => 'jform_robots', 'type' => 'select', 'tab' => 'page-site'),
@@ -56,7 +63,7 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Show Author Meta Tag', 'id' => 'jform_MetaAuthor', 'type' => 'fieldset', 'tab' => 'page-site'),
 			array('label' => 'Show Joomla! Version', 'id' => 'jform_MetaVersion', 'type' => 'fieldset', 'tab' => 'page-site'),
 			array('label' => 'Search Engine Friendly URLs', 'id' => 'jform_sef', 'type' => 'fieldset', 'tab' => 'page-site'),
-			array('label' => 'Use URL rewriting', 'id' => 'jform_sef_rewrite', 'type' => 'fieldset', 'tab' => 'page-site'),
+			array('label' => 'Use URL Rewriting', 'id' => 'jform_sef_rewrite', 'type' => 'fieldset', 'tab' => 'page-site'),
 			array('label' => 'Adds Suffix to URL', 'id' => 'jform_sef_suffix', 'type' => 'fieldset', 'tab' => 'page-site'),
 			array('label' => 'Unicode Aliases', 'id' => 'jform_unicodeslugs', 'type' => 'fieldset', 'tab' => 'page-site'),
 			array('label' => 'Include Site Name in Page Titles', 'id' => 'jform_sitename_pagetitles', 'type' => 'select', 'tab' => 'page-site'),
@@ -77,27 +84,18 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Force SSL', 'id' => 'jform_force_ssl', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Server Time Zone', 'id' => 'jform_offset', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Enable FTP', 'id' => 'jform_ftp_enable', 'type' => 'fieldset', 'tab' => 'page-server'),
-// 			array('label' => 'FTP Host', 'id' => 'jform_ftp_host', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'FTP Port', 'id' => 'jform_ftp_port', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'FTP Username', 'id' => 'jform_ftp_user', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'FTP Password', 'id' => 'jform_ftp_pass', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'FTP Root', 'id' => 'jform_ftp_root', 'type' => 'input', 'tab' => 'page-server'),
+			array('label' => 'Enable Proxy', 'id' => 'jform_proxy_enable', 'type' => 'fieldset', 'tab' => 'page-server'),
 			array('label' => 'Database Type', 'id' => 'jform_dbtype', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Host', 'id' => 'jform_host', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Username', 'id' => 'jform_user', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Name', 'id' => 'jform_db', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Tables Prefix', 'id' => 'jform_dbprefix', 'type' => 'input', 'tab' => 'page-server'),
+			array('label' => 'Send Mail', 'id' => 'jform_mailonline', 'type' => 'fieldset', 'tab' => 'page-server'),
 			array('label' => 'Mailer', 'id' => 'jform_mailer', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'From email', 'id' => 'jform_mailfrom', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'From Name', 'id' => 'jform_fromname', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'Sendmail Path', 'id' => 'jform_sendmail', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'SMTP Authentication', 'id' => 'jform_smtpauth', 'type' => 'fieldset', 'tab' => 'page-server'),
-// 			array('label' => 'SMTP Security', 'id' => 'jform_smtpsecure', 'type' => 'select', 'tab' => 'page-server'),
-// 			array('label' => 'SMTP Port', 'id' => 'jform_smtpport', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'SMTP Username', 'id' => 'jform_smtpuser', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'SMTP Password', 'id' => 'jform_smtppass', 'type' => 'input', 'tab' => 'page-server'),
-// 			array('label' => 'SMTP Host', 'id' => 'jform_smtphost', 'type' => 'input', 'tab' => 'page-server'),
-	);
+			array('label' => 'Disable Mass Mail', 'id' => 'jform_massmailoff', 'type' => 'fieldset', 'tab' => 'page-server')
+			);
 
 	public $permissions = array('core.login.site', 'core.login.admin', 'core.login.offline', 'core.admin', 'core.manage', 'core.create', 'core.delete', 'core.edit', 'core.edit.state', 'core.edit.own');
 
@@ -136,7 +134,7 @@ class GlobalConfigurationPage extends AdminEditPage
 
 	public function getTabIds()
 	{
-		$tabs = $this->driver->findElements(By::xPath("//div[@id='myTabContent']/div"));
+		$tabs = $this->driver->findElements(By::xPath("//div[@id='config-document']/div"));
 		$return = array();
 		foreach ($tabs as $tab)
 		{
@@ -237,4 +235,32 @@ class GlobalConfigurationPage extends AdminEditPage
 		return $helpText;
 	}
 
+	/**
+	 * Change Editor Mode from the Configuration Page
+	 *
+	 * @param string   $mode	   Editor Mode that the user wants to set
+	 *
+	 */
+	public function changeEditorMode($mode='No Editor')
+	{
+
+		switch (strtoupper($mode))
+		{
+			case 'NO EDITOR':
+			case 'NONE':
+				$select = 'Editor - None';
+				break;
+
+			case 'CODEMIRROR':
+				$select = 'Editor - CodeMirror';
+
+			case 'TINYMCE':
+			case 'TINY':
+			default:
+				$select = 'Editor - TinyMCE';
+				break;
+		}
+		$this->setFieldValues(array('Default Editor'=>$select));
+		$this->clickButton('Save & Close');
+	}
 }

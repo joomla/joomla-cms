@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Filter model class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderModelFilter extends JModelAdmin
 {
@@ -70,6 +68,7 @@ class FinderModelFilter extends JModelAdmin
 		if ($return === false && $filter->getError())
 		{
 			$this->setError($filter->getError());
+
 			return false;
 		}
 
@@ -87,6 +86,7 @@ class FinderModelFilter extends JModelAdmin
 		if ($this->_db->getErrorNum())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -152,5 +152,24 @@ class FinderModelFilter extends JModelAdmin
 		$this->preprocessData('com_finder.filter', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Method to get the total indexed items
+	 *
+	 * @return  number the number of indexed items
+	 *
+	 * @since  3.5
+	 */
+	public function getTotal()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('MAX(link_id)')
+			->from('#__finder_links');
+		$db->setQuery($query);
+		$total = $db->loadResult();
+
+		return $total;
 	}
 }

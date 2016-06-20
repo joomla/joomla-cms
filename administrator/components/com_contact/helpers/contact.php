@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,18 +12,17 @@ defined('_JEXEC') or die;
 /**
  * Contact component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @since  1.6
  */
-class ContactHelper
+class ContactHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	$vName	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -33,57 +32,65 @@ class ContactHelper
 			'index.php?option=com_contact&view=contacts',
 			$vName == 'contacts'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTACT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
-
-		if ($vName == 'categories')
-		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_contact')),
-				'contact-categories');
-		}
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
+	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   integer  The category ID.
-	 * @param   integer  The contact ID.
+	 * @param   stdClass[]  &$items  The banner category objects
 	 *
-	 * @return  JObject
-	 * @since   1.6
+	 * @return  stdClass[]
+	 *
+	 * @since   3.5
 	 */
-	public static function getActions($categoryId = 0, $contactId = 0)
+	public static function countItems(&$items)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$db = JFactory::getDbo();
 
-		if (empty($contactId) && empty($categoryId))
+		foreach ($items as $item)
 		{
-			$assetName = 'com_contact';
-			$level = 'component';
-		}
-		elseif (empty($contactId))
-		{
-			$assetName = 'com_contact.category.'.(int) $categoryId;
-			$level = 'category';
-		}
-		else
-		{
-			$assetName = 'com_contact.contact.'.(int) $contactId;
-			$level = 'category';
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('published AS state, count(*) AS count')
+				->from($db->qn('#__contact_details'))
+				->where('catid = ' . (int) $item->id)
+				->group('published');
+			$db->setQuery($query);
+			$contacts = $db->loadObjectList();
+
+			foreach ($contacts as $contact)
+			{
+				if ($contact->state == 1)
+				{
+					$item->count_published = $contact->count;
+				}
+
+				if ($contact->state == 0)
+				{
+					$item->count_unpublished = $contact->count;
+				}
+
+				if ($contact->state == 2)
+				{
+					$item->count_archived = $contact->count;
+				}
+
+				if ($contact->state == -2)
+				{
+					$item->count_trashed = $contact->count;
+				}
+			}
 		}
 
-		$actions = JAccess::getActions('com_contact', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
+		return $items;
 	}
 }

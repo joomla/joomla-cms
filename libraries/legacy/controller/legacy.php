@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Controller (Controllers are where you put all the actual code.) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @package     Joomla.Legacy
- * @subpackage  Controller
- * @since       12.2
+ * @since  12.2
  */
 class JControllerLegacy extends JObject
 {
@@ -142,6 +140,14 @@ class JControllerLegacy extends JObject
 	 * @since  12.2
 	 */
 	protected static $instance;
+
+	/**
+	 * Instance container containing the views.
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected static $views;
 
 	/**
 	 * Adds to the stack of model paths in LIFO order.
@@ -396,7 +402,7 @@ class JControllerLegacy extends JObject
 			}
 			else
 			{
-				$this->model_prefix = $this->name . 'Model';
+				$this->model_prefix = ucfirst($this->name) . 'Model';
 			}
 		}
 
@@ -431,7 +437,6 @@ class JControllerLegacy extends JObject
 		{
 			$this->default_view = $this->getName();
 		}
-
 	}
 
 	/**
@@ -635,7 +640,7 @@ class JControllerLegacy extends JObject
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default');
+		$viewLayout = $this->input->get('layout', 'default', 'string');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
@@ -703,6 +708,7 @@ class JControllerLegacy extends JObject
 		$this->task = $task;
 
 		$task = strtolower($task);
+
 		if (isset($this->taskMap[$task]))
 		{
 			$doTask = $this->taskMap[$task];
@@ -765,6 +771,7 @@ class JControllerLegacy extends JObject
 				}
 			}
 		}
+
 		return $model;
 	}
 
@@ -784,10 +791,12 @@ class JControllerLegacy extends JObject
 		if (empty($this->name))
 		{
 			$r = null;
+
 			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
+
 			$this->name = strtolower($r[1]);
 		}
 
@@ -833,11 +842,10 @@ class JControllerLegacy extends JObject
 	 */
 	public function getView($name = '', $type = '', $prefix = '', $config = array())
 	{
-		static $views;
-
-		if (!isset($views))
+		// @note We use self so we only access stuff in this class rather than in all classes.
+		if (!isset(self::$views))
 		{
-			$views = array();
+			self::$views = array();
 		}
 
 		if (empty($name))
@@ -850,19 +858,35 @@ class JControllerLegacy extends JObject
 			$prefix = $this->getName() . 'View';
 		}
 
-		if (empty($views[$name]))
+		if (empty(self::$views[$name][$type][$prefix]))
 		{
 			if ($view = $this->createView($name, $prefix, $type, $config))
 			{
-				$views[$name] = & $view;
+				self::$views[$name][$type][$prefix] = & $view;
 			}
 			else
 			{
-				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), 500);
+				$response = 500;
+				$app = JFactory::getApplication();
+
+				/*
+				 * With URL rewriting enabled on the server, all client
+				 * requests for non-existent files are being forwarded to
+				 * Joomla.  Return a 404 response here and assume the client
+				 * was requesting a non-existent file for which there is no
+				 * view type that matches the file's extension (the most
+				 * likely scenario).
+				 */
+				if ($app->get('sef_rewrite'))
+				{
+					$response = 404;
+				}
+
+				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix), $response);
 			}
 		}
 
-		return $views[$name];
+		return self::$views[$name][$type][$prefix];
 	}
 
 	/**
@@ -915,7 +939,12 @@ class JControllerLegacy extends JObject
 		if ($this->redirect)
 		{
 			$app = JFactory::getApplication();
-			$app->redirect($this->redirect, $this->message, $this->messageType);
+
+			// Enqueue the redirect message
+			$app->enqueueMessage($this->message, $this->messageType);
+
+			// Execute the redirect
+			$app->redirect($this->redirect);
 		}
 
 		return false;
@@ -1065,6 +1094,7 @@ class JControllerLegacy extends JObject
 	public function setRedirect($url, $msg = null, $type = null)
 	{
 		$this->redirect = $url;
+
 		if ($msg !== null)
 		{
 			// Controller may have set this directly

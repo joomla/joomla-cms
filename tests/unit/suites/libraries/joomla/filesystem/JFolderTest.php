@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,56 +19,6 @@ JLoader::register('JFolder', JPATH_PLATFORM . '/joomla/filesystem/folder.php');
 class JFolderTest extends TestCase
 {
 	/**
-	 * @var JFolder
-	 */
-	protected $object;
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCopy().
-	 *
-	 * @return void
-	 */
-	public function testCopy()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testCreate().
-	 *
-	 * @return void
-	 */
-	public function testCreate()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testDelete().
-	 *
-	 * @return void
-	 */
-	public function testDelete()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFolder::delete method with an array as an input
 	 *
 	 * @return  void
@@ -83,23 +33,6 @@ class JFolderTest extends TestCase
 
 	/**
 	 * Test...
-	 *
-	 * @todo Implement testMove().
-	 *
-	 * @return void
-	 */
-	public function testMove()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @covers JFile::exists
 	 *
 	 * @return void
 	 */
@@ -116,9 +49,6 @@ class JFolderTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @covers  JFolder::files
-	 * @covers  JFolder::_items
 	 */
 	public function testFiles()
 	{
@@ -208,9 +138,6 @@ class JFolderTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @covers  JFolder::files
-	 * @covers  JFolder::_items
 	 */
 	public function testFolders()
 	{
@@ -337,28 +264,11 @@ class JFolderTest extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testListFolderTree().
-	 *
-	 * @return void
-	 */
-	public function testListFolderTree()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
-	}
-
-	/**
 	 * Tests the JFolder::makeSafe method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @covers  JFolder::makeSafe
 	 */
 	public function testMakeSafe()
 	{

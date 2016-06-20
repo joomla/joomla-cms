@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleCategory
 	 * @since   12.3
 	 */
 	public function testHandleCategory()
@@ -91,7 +90,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleCloud
 	 * @since   12.3
 	 */
 	public function testHandleCloud()
@@ -132,7 +130,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleCopyright
 	 * @since   12.3
 	 */
 	public function testHandleCopyright()
@@ -154,7 +151,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleDescription
 	 * @since   12.3
 	 */
 	public function testHandleDescription()
@@ -176,7 +172,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleGenerator
 	 * @since   12.3
 	 */
 	public function testHandleGenerator()
@@ -198,7 +193,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleImage
 	 * @since   12.3
 	 */
 	public function testHandleImage()
@@ -233,7 +227,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleLanguage
 	 * @since   12.3
 	 */
 	public function testHandleLanguage()
@@ -255,7 +248,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleLastBuildDate
 	 * @since   12.3
 	 */
 	public function testHandleLastBuildDate()
@@ -278,20 +270,20 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleLink
 	 * @since   12.3
 	 */
 	public function testHandleLink()
 	{
 		// Setup the inputs.
-		$el   = new SimpleXMLElement('<link>http://domain.com/path/to/resource</link>');
+		$el   = new SimpleXMLElement('<link href="http://domain.com/path/to/resource" />');
 		$feed = new JFeed;
 
 		TestReflection::invoke($this->_instance, 'handleLink', $feed, $el);
 
+		$expected = new JFeedLink('http://domain.com/path/to/resource');
 		$this->assertEquals(
-			'http://domain.com/path/to/resource',
-			$feed->uri
+			$expected,
+			$feed->link
 		);
 	}
 
@@ -300,7 +292,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleManagingEditor
 	 * @since   12.3
 	 */
 	public function testHandleManagingEditor()
@@ -322,7 +313,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handlePubDate
 	 * @since   12.3
 	 */
 	public function testHandlePubDate()
@@ -345,7 +335,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleSkipDays
 	 * @since   12.3
 	 */
 	public function testHandleSkipDays()
@@ -370,7 +359,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleSkipHours
 	 * @since   12.3
 	 */
 	public function testHandleSkipHours()
@@ -395,7 +383,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleTitle
 	 * @since   12.3
 	 */
 	public function testHandleTitle()
@@ -417,7 +404,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleTtl
 	 * @since   12.3
 	 */
 	public function testHandleTtl()
@@ -439,7 +425,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::handleWebmaster
 	 * @since   12.3
 	 */
 	public function testHandleWebmaster()
@@ -462,14 +447,13 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JFeedParserRss::initialise
 	 * @dataProvider  seedInitialise
 	 * @since         12.3
 	 */
 	public function testInitialise($expected, $xml)
 	{
 		// Set the XML for the internal reader.
-		$this->_reader->XML($xml);
+		$this->_reader->Xml($xml);
 
 		// Advance the reader to the first element.
 		do
@@ -503,7 +487,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRss::processFeedEntry
 	 * @since   12.3
 	 */
 	public function testProcessFeedEntry()
@@ -548,7 +531,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JFeedParserRss::processPerson
 	 * @dataProvider  seedProcessPerson
 	 * @since         12.3
 	 */

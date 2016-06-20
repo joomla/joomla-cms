@@ -9,23 +9,23 @@
 // All icons receive the styles of the <i> tag with a base class
 // of .i and are then given a unique class to add width, height,
 // and background-position. Your resulting HTML will look like
-// <i class="icon-inbox"></i>.
+// <span class="icon-inbox"></span>.
 
 // For the white version of the icons, just add the .icon-white class:
-// <i class="icon-inbox icon-white"></i>
+// <span class="icon-inbox icon-white"></span>
 
 [class^="icon-"],
 [class*=" icon-"] {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  .ie7-restore-right-whitespace();
-  line-height: 14px;
-  vertical-align: text-top;
-  background-image: url("@{iconSpritePath}");
-  background-position: 14px 14px;
-  background-repeat: no-repeat;
-  margin-top: 1px;
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: .25em;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url("@{iconSpritePath}");
+	background-position: 14px 14px;
+	background-repeat: no-repeat;
+	margin-top: 1px;
 }
 
 /* White icons with optional class, or on hover/focus/active states of certain elements */

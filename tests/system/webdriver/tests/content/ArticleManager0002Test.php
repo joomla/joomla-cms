@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,18 +24,20 @@ use SeleniumClient\DesiredCapabilities;
  */
 class ArticleManager0002Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     ArticleManagerPage
 	 * @since   3.0
 	 */
 	protected $articleManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Tags.
 	 *
 	 * @since   3.0
+	 *
+	 * @return void
 	 */
 	public function setUp()
 	{
@@ -48,14 +50,20 @@ class ArticleManager0002Test extends JoomlaWebdriverTestCase
 	 * Logout and close test.
 	 *
 	 * @since   3.0
+	 *
+	 * @return void
 	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
+	 * check the availability of filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
@@ -64,8 +72,12 @@ class ArticleManager0002Test extends JoomlaWebdriverTestCase
 		$expectedIds = array_values($this->articleManagerPage->filters);
 		$this->assertEquals($expectedIds, $actualIds, 'Filter ids should match expected');
 	}
-	
+
 	/**
+	 * set values to the filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
@@ -82,40 +94,78 @@ class ArticleManager0002Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->trashAndDelete($articleName);
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName), 'Article should not be present');
 	}
-	
+
 	/**
+	 * creating two articles one published and one unpublished and the verifying its existence
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestFilters_ShouldFilterTags()
 	{
-		$articleName_1 = 'ABC_TEST_1';
-		$articleName_2 = 'ABC_TEST_2';
-		
+		$salt = rand();
+		$articleName_1 = 'ABC_TEST_1' . $salt;
+		$articleName_2 = 'ABC_TEST_2' . $salt;
+
 		$this->articleManagerPage->addArticle($articleName_1);
 		$message = $this->articleManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
 		$state = $this->articleManagerPage->getState($articleName_1);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-		
-	
+
 		$this->articleManagerPage->addArticle($articleName_2);
 		$message = $this->articleManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
 		$state = $this->articleManagerPage->getState($articleName_2);
 		$this->assertEquals('published', $state, 'Initial state should be published');
 		$this->articleManagerPage->changeArticleState($articleName_2, 'unpublished');
-		
+
 		$test = $this->articleManagerPage->setFilter('filter_published', 'Unpublished');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName_1), 'Article should not show');
 		$this->assertEquals(1, $this->articleManagerPage->getRowNumber($articleName_2), 'Article should be in row 1');
-		
+
 		$test = $this->articleManagerPage->setFilter('filter_published', 'Published');
 		$this->assertFalse($this->articleManagerPage->getRowNumber($articleName_2), 'Article should not show');
 		$this->assertEquals(1, $this->articleManagerPage->getRowNumber($articleName_1), 'Article should be in row 1');
-		
+
 		$this->articleManagerPage->setFilter('Select Status', 'Select Status');
 		$this->articleManagerPage->trashAndDelete($articleName_1);
 		$this->articleManagerPage->trashAndDelete($articleName_2);
 	}
-	
+
+    /**
+     * create an archived article and then verify its creation
+     *
+     * @return void
+     *
+     * @test
+     */
+    public function setFilter_TestFilters_ShouldFilterTags2()
+	{
+		$salt = rand();
+	    $articleName_1 = 'ABC_TEST_1' . $salt;
+	    $articleName_2 = 'ABC_TEST_2' . $salt;
+
+	    $this->articleManagerPage->addArticle($articleName_1);
+	    $message = $this->articleManagerPage->getAlertMessage();
+	    $this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
+	    $state = $this->articleManagerPage->getState($articleName_1);
+	    $this->assertEquals('published', $state, 'Initial state should be published');
+	    $this->articleManagerPage->addArticle($articleName_2);
+	    $message = $this->articleManagerPage->getAlertMessage();
+	    $this->assertTrue(strpos($message, 'Article successfully saved') >= 0, 'Article save should return success');
+	    $state = $this->articleManagerPage->getState($articleName_2);
+	    $this->assertEquals('published', $state, 'Initial state should be published');
+	    $this->articleManagerPage->changeArticleState($articleName_2, 'Archived');
+	    $this->articleManagerPage->setFilter('filter_published', 'Archived');
+	    $this->assertFalse($this->articleManagerPage->getRowNumber($articleName_1), 'Article should not show');
+	    $this->assertGreaterThanOrEqual(1, $this->articleManagerPage->getRowNumber($articleName_2), 'Test Article should be present');
+	    $this->articleManagerPage->setFilter('filter_published', 'Published');
+	    $this->assertFalse($this->articleManagerPage->getRowNumber($articleName_2), 'Article should not show');
+	    $this->assertGreaterThanOrEqual(1, $this->articleManagerPage->getRowNumber($articleName_1), 'Test Article should be present');
+	    $this->articleManagerPage->setFilter('Select Status', 'Select Status');
+	    $this->articleManagerPage->trashAndDelete($articleName_1);
+	    $this->articleManagerPage->trashAndDelete($articleName_2);
+    }
 }

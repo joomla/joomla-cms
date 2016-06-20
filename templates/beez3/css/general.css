@@ -125,8 +125,19 @@ div.toggle-editor {
 	margin-left:auto;
 	margin-right:auto;
 }
-
-
+/* New captions */
+figure {
+	display: table;
+}
+figure.pull-center,
+img.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+}
 /* Calendar */
 #jform_publish_down_img {
 	width: 18px;
@@ -410,4 +421,57 @@ span.optional
 	margin-left: -5px;
 	border-width: 0 5px 5px;
 	border-bottom-color: #000;
+}
+.element-invisible {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+#filter-search {
+	vertical-align: top;
+}
+.input-mini {
+	width: 60px;
+}
+
+/* Bootstrap overrides anhiliation
+ * @since 3.2
+ */
+body#shadow {
+    line-height: 1.5em;
+}
+body .nav-pills > .active > a, body .nav-pills > .active > a:hover, body .nav-pills > .active > a:focus {
+    background-color: transparent;
+}
+body .nav-pills > li > a {
+    border-radius: 0px;
+    line-height: 1.5em;
+}
+body a {
+    text-decoration: underline;
+}
+body input[type="text"].search-query {
+    line-height: 1.5em;
+    height: auto;
+    border-radius: 4px;
+
+}
+/* Text alignments */
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
 }

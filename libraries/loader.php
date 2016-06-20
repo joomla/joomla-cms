@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,6 +41,22 @@ abstract class JLoader
 	protected static $prefixes = array();
 
 	/**
+	 * Holds proxy classes and the class names the proxy.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected static $classAliases = array();
+
+	/**
+	 * Holds the inverse lookup for proxy classes and the class names the proxy.
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	protected static $classAliasesInverse = array();
+
+	/**
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
@@ -76,13 +92,13 @@ abstract class JLoader
 				$iterator = new DirectoryIterator($parentPath);
 			}
 
+			/* @type  $file  DirectoryIterator */
 			foreach ($iterator as $file)
 			{
 				$fileName = $file->getFilename();
 
 				// Only load for php files.
-				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
-				if ($file->isFile() && substr($fileName, strrpos($fileName, '.') + 1) == 'php')
+				if ($file->isFile() && $file->getExtension() == 'php')
 				{
 					// Get the class name and full path for each file.
 					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
@@ -272,6 +288,8 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
+
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -295,6 +313,44 @@ abstract class JLoader
 	}
 
 	/**
+	 * Offers the ability for "just in time" usage of `class_alias()`.
+	 * You cannot overwrite an existing alias.
+	 *
+	 * @param   string  $alias     The alias name to register.
+	 * @param   string  $original  The original class to alias.
+	 *
+	 * @return  boolean  True if registration was successful. False if the alias already exists.
+	 *
+	 * @since   3.2
+	 */
+	public static function registerAlias($alias, $original)
+	{
+		if (!isset(self::$classAliases[$alias]))
+		{
+			self::$classAliases[$alias] = $original;
+
+			// Remove the root backslash if present.
+			if ($original[0] == '\\')
+			{
+				$original = substr($original, 1);
+			}
+
+			if (!isset(self::$classAliasesInverse[$original]))
+			{
+				self::$classAliasesInverse[$original] = array($alias);
+			}
+			else
+			{
+				self::$classAliasesInverse[$original][] = $alias;
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
 	 * @param   string   $namespace  A case sensitive Namespace to register.
@@ -313,6 +369,8 @@ abstract class JLoader
 		// Verify the library path exists.
 		if (!file_exists($path))
 		{
+			$path = (str_replace(JPATH_ROOT, '', $path) == $path) ? basename($path) : str_replace(JPATH_ROOT, '', $path);
+
 			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
 		}
 
@@ -351,7 +409,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function setup($enablePsr = false, $enablePrefixes = true, $enableClasses = true)
+	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
 		if ($enableClasses)
 		{
@@ -372,6 +430,7 @@ abstract class JLoader
 		{
 			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
 	}
 
@@ -433,6 +492,63 @@ abstract class JLoader
 	}
 
 	/**
+	 * Method to autoload classes that have been aliased using the registerAlias method.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public static function loadByAlias($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		if (isset(self::$classAliases[$class]))
+		{
+			// Force auto-load of the regular class
+			class_exists(self::$classAliases[$class], true);
+
+			// Normally this shouldn't execute as the autoloader will execute applyAliasFor when the regular class is
+			// auto-loaded above.
+			if (!class_exists($class, false) && !interface_exists($class, false))
+			{
+				class_alias(self::$classAliases[$class], $class);
+			}
+		}
+	}
+
+	/**
+	 * Applies a class alias for an already loaded class, if a class alias was created for it.
+	 *
+	 * @param   string  $class  We'll look for and register aliases for this (real) class name
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	public static function applyAliasFor($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		if (isset(self::$classAliasesInverse[$class]))
+		{
+			foreach (self::$classAliasesInverse[$class] as $alias)
+			{
+				class_alias($class, $alias);
+			}
+		}
+	}
+
+	/**
 	 * Autoload a class based on name.
 	 *
 	 * @param   string  $class  The class to be loaded.
@@ -470,9 +586,7 @@ abstract class JLoader
 	{
 		// Split the class name into parts separated by camelCase.
 		$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
-
-		// If there is only one part we want to duplicate that part for generating the path.
-		$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
+		$partsCount = count($parts);
 
 		foreach ($lookup as $base)
 		{
@@ -484,39 +598,59 @@ abstract class JLoader
 			{
 				return include $path;
 			}
+
+			// Backwards compatibility patch
+
+			// If there is only one part we want to duplicate that part for generating the path.
+			if ($partsCount === 1)
+			{
+				// Generate the path based on the class name parts.
+				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
+
+				// Load the file if it exists.
+				if (file_exists($path))
+				{
+					return include $path;
+				}
+			}
 		}
 
 		return false;
 	}
 }
 
-/**
- * Global application exit.
- *
- * This function provides a single exit point for the platform.
- *
- * @param   mixed  $message  Exit code or string. Defaults to zero.
- *
- * @return  void
- *
- * @codeCoverageIgnore
- * @since   11.1
- */
-function jexit($message = 0)
+// Check if jexit is defined first (our unit tests mock this)
+if (!function_exists('jexit'))
 {
-	exit($message);
+	/**
+	 * Global application exit.
+	 *
+	 * This function provides a single exit point for the platform.
+	 *
+	 * @param   mixed  $message  Exit code or string. Defaults to zero.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	function jexit($message = 0)
+	{
+		exit($message);
+	}
 }
 
 /**
  * Intelligent file importer.
  *
  * @param   string  $path  A dot syntax path.
+ * @param   string  $base  Search this directory for the class.
  *
  * @return  boolean  True on success.
  *
  * @since   11.1
  */
-function jimport($path)
+function jimport($path, $base = null)
 {
-	return JLoader::import($path);
+	return JLoader::import($path, $base);
 }

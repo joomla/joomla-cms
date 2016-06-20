@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Default controller class for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerDefault extends JControllerBase
 {
@@ -92,11 +90,8 @@ class InstallationControllerDefault extends JControllerBase
 
 		if ($vName != $default_view && ($checkOptions && empty($options)))
 		{
-			$this->setRedirect('index.php');
+			$app->redirect('index.php');
 		}
-
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helper/html');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;

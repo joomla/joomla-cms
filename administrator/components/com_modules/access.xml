@@ -7,5 +7,12 @@
 		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
 		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
 		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+		<action name="module.edit.frontend" title="COM_MODULES_ACTION_EDITFRONTEND" description="COM_MODULES_ACTION_EDITFRONTEND_COMPONENT_DESC" />
+	</section>
+	<section name="module">
+		<action name="core.delete" title="JACTION_DELETE" description="JACTION_DELETE_COMPONENT_DESC" />
+		<action name="core.edit" title="JACTION_EDIT" description="JACTION_EDIT_COMPONENT_DESC" />
+		<action name="core.edit.state" title="JACTION_EDITSTATE" description="JACTION_EDITSTATE_COMPONENT_DESC" />
+		<action name="module.edit.frontend" title="COM_MODULES_ACTION_EDITFRONTEND" description="COM_MODULES_ACTION_EDITFRONTEND_COMPONENT_DESC" />
 	</section>
 </access>

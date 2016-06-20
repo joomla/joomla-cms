@@ -4,8 +4,12 @@
 // Core variables and mixins
 @import "../../../../media/jui/less/mixins.less";
 
+// Bootstrap Component Animations
+@import "../../../../media/jui/less/component-animations.less";
+
 // Bootstrap Modals
-//@import "../../../../media/jui/less/modals.less";
+@import "modals.less";
+//@import "../../../../media/jui/less/modals.joomla.less";
 
 // Icon Font
 @import "icomoon.less";
@@ -57,6 +61,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body, td, th, span, a {
@@ -483,6 +489,15 @@ input#mm_subject {
 textarea#mm_message {
 	width: 100%;
 }
+textarea {
+	resize:both;
+}
+textarea.vert {
+	resize:vertical;
+}
+textarea.noResize {
+	resize:none;
+}
 
 /**
  * Pane Slider pane Toggler styles
@@ -675,12 +690,6 @@ p.tab-description {
 /**
  * Login Settings
  */
-#login-page form .inputbox {
-	width: 190px;
-	margin-left: 5px;
-	margin-bottom: 15px;
-}
-
 #login-page input, #login-page select {
 	float: right;
 	clear: none;
@@ -799,7 +808,8 @@ p.tab-description {
 #cpanel div.icon a, .cpanel div.icon a {
 	display: block;
 	float: left;
-	height: 97px;
+	height: auto;
+	min-height: 97px;
 	width: 108px;
 	color: #2c2c2c;
 	vertical-align: middle;
@@ -808,13 +818,14 @@ p.tab-description {
 }
 
 #cpanel img, .cpanel img {
-	padding: 10px 0;
+	padding: 10px;
 	margin: 0 auto;
 }
 
 #cpanel span, .cpanel span {
 	display: block;
 	text-align: center;
+	padding: 0 0 5px;
 }
 
 div.cpanel-icons {
@@ -1263,6 +1274,11 @@ table.admintable td.key.vtop {
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
 	overflow: hidden;
+}
+
+.adminformlist .btn.modal{
+	float: left;
+	margin-top: 7px;
 }
 
 ul.adminformlist,
@@ -1832,7 +1848,7 @@ table.adminlist .pagination button {
  * MCE Editor
  */
 div.toggle-editor {
-	margin-top: 27px;
+	margin-top: 9px;
 }
 
 /**
@@ -3032,6 +3048,12 @@ ul.helpmenu li {
 	background-image: url(../images/menu/icon-16-tags.png);
 }
 
+.menu-postinstall {
+	background-image: url(../images/menu/icon-16-generic.png);
+}
+.icon-32-cog {
+	background-image: url(../images/toolbar/icon-32-cog.png);
+}
 
 /**
  * Extra positioning rules for limited noscript keyboard accessibility
@@ -3459,6 +3481,11 @@ table.adminlist .item-associations li a  {
 	color: #ffffff;
 }
 
+.hidden {
+	display: none;
+	visibility: hidden;
+}
+
 // Bootstrap Tooltips (need to load last, something is overriding these styles in the CSS, debug later ;-) )
 @import "../../../../media/jui/less/tooltip.less";
 
@@ -3479,4 +3506,28 @@ th .tooltip-inner {
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
+}
+//Toggle editor button
+div.toggle-editor {
+	float: right;
+}
+
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+.module-edit {
+	display: inline-block;
+}
+.break-word {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+.muted {
+	color: #999;
 }

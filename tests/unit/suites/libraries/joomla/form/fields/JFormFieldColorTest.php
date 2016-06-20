@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+JFormHelper::loadFieldClass('color');
 
 /**
  * Test class for JFormFieldColor.
@@ -14,21 +16,37 @@
  * @subpackage  Form
  * @since       12.1
  */
-class JFormFieldColorTest extends TestCase
+class JFormFieldColorTest extends TestCaseDatabase
 {
 	/**
-	 * Sets up dependencies for the test.
+	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.2
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/color.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
+	}
+
+	/**
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -40,7 +58,7 @@ class JFormFieldColorTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="color" type="color" disabled="true" onchange="window.reload()" class="inputbox" /></form>'),
@@ -56,7 +74,6 @@ class JFormFieldColorTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$this->markTestSkipped('Unexpected test failure in CMS environment');
 		$this->assertThat(
 			strlen($field->input),
 			$this->greaterThan(0),

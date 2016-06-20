@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ModMenuHelper
 	/**
 	 * Get a list of the menu items.
 	 *
-	 * @param  JRegistry   $params  The module options.
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
 	 * @return  array
 	 *
@@ -39,15 +39,16 @@ class ModMenuHelper
 		asort($levels);
 		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 		$cache = JFactory::getCache('mod_menu', '');
+
 		if (!($items = $cache->get($key)))
 		{
-			$path    = $base->tree;
-			$start   = (int) $params->get('startLevel');
-			$end     = (int) $params->get('endLevel');
-			$showAll = $params->get('showAllChildren');
-			$items   = $menu->getItems('menutype', $params->get('menutype'));
-
-			$lastitem = 0;
+			$path           = $base->tree;
+			$start          = (int) $params->get('startLevel');
+			$end            = (int) $params->get('endLevel');
+			$showAll        = $params->get('showAllChildren');
+			$items          = $menu->getItems('menutype', $params->get('menutype'));
+			$hidden_parents = array();
+			$lastitem       = 0;
 
 			if ($items)
 			{
@@ -58,6 +59,14 @@ class ModMenuHelper
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
 						|| ($start > 1 && !in_array($item->tree[$start - 2], $path)))
 					{
+						unset($items[$i]);
+						continue;
+					}
+
+					// Exclude item with menu item option set to exclude from menu modules
+					if (($item->params->get('menu_show', 1) == 0) || in_array($item->parent_id, $hidden_parents))
+					{
+						$hidden_parents[] = $item->id;
 						unset($items[$i]);
 						continue;
 					}
@@ -96,20 +105,11 @@ class ModMenuHelper
 							break;
 
 						case 'alias':
-							// If this is an alias use the item id stored in the parameters to make the link.
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
 							break;
 
 						default:
-							$router = JSite::getRouter();
-							if ($router->getMode() == JROUTER_MODE_SEF)
-							{
-								$item->flink = 'index.php?Itemid=' . $item->id;
-							}
-							else
-							{
-								$item->flink .= '&Itemid=' . $item->id;
-							}
+							$item->flink = 'index.php?Itemid=' . $item->id;
 							break;
 					}
 
@@ -127,7 +127,9 @@ class ModMenuHelper
 					$item->title        = htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_css   = htmlspecialchars($item->params->get('menu-anchor_css', ''), ENT_COMPAT, 'UTF-8', false);
 					$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''), ENT_COMPAT, 'UTF-8', false);
-					$item->menu_image   = $item->params->get('menu_image', '') ? htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
+					$item->anchor_rel = htmlspecialchars($item->params->get('menu-anchor_rel', ''), ENT_COMPAT, 'UTF-8', false);
+					$item->menu_image   = $item->params->get('menu_image', '') ?
+						htmlspecialchars($item->params->get('menu_image', ''), ENT_COMPAT, 'UTF-8', false) : '';
 				}
 
 				if (isset($items[$lastitem]))
@@ -140,21 +142,21 @@ class ModMenuHelper
 
 			$cache->store($items, $key);
 		}
+
 		return $items;
 	}
 
 	/**
 	 * Get base menu item.
 	 *
-	 * @param   JRegistry  $params  The module options.
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
-	 * @return   object
+	 * @return  object
 	 *
 	 * @since	3.0.2
 	 */
 	public static function getBase(&$params)
 	{
-
 		// Get base menu item from parameters
 		if ($params->get('base'))
 		{
@@ -177,7 +179,7 @@ class ModMenuHelper
 	/**
 	 * Get active menu item.
 	 *
-	 * @param   JRegistry  $params  The module options.
+	 * @param   \Joomla\Registry\Registry  &$params  The module options.
 	 *
 	 * @return  object
 	 *
@@ -187,7 +189,27 @@ class ModMenuHelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 
-		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
+		return $menu->getActive() ? $menu->getActive() : self::getDefault();
 	}
 
+	/**
+	 * Get default menu item (homepage) for current language.
+	 *
+	 * @return  object
+	 */
+	public static function getDefault()
+	{
+		$menu = JFactory::getApplication()->getMenu();
+		$lang = JFactory::getLanguage();
+
+		// Look for the home menu
+		if (JLanguageMultilang::isEnabled())
+		{
+			return $menu->getDefault($lang->getTag());
+		}
+		else
+		{
+			return $menu->getDefault();
+		}
+	}
 }

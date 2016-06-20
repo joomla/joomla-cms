@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,34 +28,6 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 			array("'%_abc123", false, "''%_abc123"),
 			array("'%_abc123", true, "''%[_]abc123"),
 		);
-	}
-
-	/**
-	 * Tests the destructor
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement test__destruct().
-	 */
-	public function test__destruct()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test the connected method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testConnected().
-	 */
-	public function testConnected()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -101,7 +73,6 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @todo    Implement testGetAffectedRows().
 	 */
 	public function testGetAffectedRows()
 	{
@@ -113,62 +84,6 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 		self::$driver->execute();
 
 		$this->assertThat(self::$driver->getAffectedRows(), $this->equalTo(4), __LINE__);
-	}
-
-	/**
-	 * Tests the getCollation method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetCollation().
-	 */
-	public function testGetCollation()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Tests the getExporter method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetExporter().
-	 */
-	public function testGetExporter()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('Implement this test when the exporter is added.');
-	}
-
-	/**
-	 * Tests the getImporter method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetImporter().
-	 */
-	public function testGetImporter()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('Implement this test when the importer is added.');
-	}
-
-	/**
-	 * Tests the getNumRows method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetNumRows().
-	 */
-	public function testGetNumRows()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -185,20 +100,6 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 			$this->isType('string'),
 			'A blank string is returned since this is not supported on SQL Server.'
 		);
-	}
-
-	/**
-	 * Tests the getTableColumns method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testGetTableColumns().
-	 */
-	public function testGetTableColumns()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -247,20 +148,6 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 			$this->isType('string'),
 		'Line:' . __LINE__ . ' The getVersion method should return a string containing the driver version.'
 		);
-	}
-
-	/**
-	 * Tests the insertid method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testInsertid().
-	 */
-	public function testInsertid()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
@@ -506,34 +393,6 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	}
 
 	/**
-	 * Tests the select method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testSelect().
-	 */
-	public function testSelect()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Tests the setUTF method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testSetUTF().
-	 */
-	public function testSetUTF()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Tests the isSupported method
 	 *
 	 * @return  void
@@ -547,19 +406,5 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 			$this->isTrue(),
 			__LINE__
 		);
-	}
-
-	/**
-	 * Tests the updateObject method
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 * @todo    Implement testUpdateObject().
-	 */
-	public function testUpdateObject()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }

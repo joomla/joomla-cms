@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,9 +17,7 @@ jimport('joomla.utilities.arrayhelper');
 /**
  * Utility class for all HTML drawing classes
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @since  1.5
  */
 abstract class JHtml
 {
@@ -86,7 +84,7 @@ abstract class JHtml
 	 *                        prefix and class are optional and can be used to load custom
 	 *                        html helpers.
 	 *
-	 * @return  mixed  JHtml::call($function, $args) or False on error
+	 * @return  mixed  Result of JHtml::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
@@ -239,13 +237,13 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <a></a> element
+	 * Write a `<a>` element
 	 *
 	 * @param   string  $url      The relative URL to use for the href attribute
 	 * @param   string  $text     The target attribute to use
 	 * @param   array   $attribs  An associative array of attributes to add
 	 *
-	 * @return  string  <a></a> string
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -260,14 +258,14 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <iframe></iframe> element
+	 * Write a `<iframe>` element
 	 *
 	 * @param   string  $url       The relative URL to use for the src attribute.
 	 * @param   string  $name      The target attribute to use.
 	 * @param   array   $attribs   An associative array of attributes to add.
 	 * @param   string  $noFrames  The message to display if the iframe tag is not supported.
 	 *
-	 * @return  string  <iframe></iframe> element or message if not supported.
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -298,7 +296,7 @@ abstract class JHtml
 	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
 	{
 		// If http is present in filename
-		if (strpos($file, 'http') === 0)
+		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
 		{
 			$includes = array($file);
 		}
@@ -405,7 +403,7 @@ abstract class JHtml
 										break;
 									}
 
-									// Try to deal with classical file in a a media subfolder called element
+									// Try to deal with classical file in a media subfolder called element
 									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
 
 									if (file_exists($path))
@@ -552,7 +550,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <img></img> element
+	 * Write a `<img>` element
 	 *
 	 * @param   string   $file      The relative or absolute URL to use for the src attribute.
 	 * @param   string   $alt       The alt text.
@@ -586,14 +584,14 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <link rel="stylesheet" style="text/css" /> element
+	 * Write a `<link>` element to load a CSS file
 	 *
 	 * @param   string   $file            path to file
 	 * @param   array    $attribs         attributes to be added to the stylesheet
 	 * @param   boolean  $relative        path to file is relative to /media folder
 	 * @param   boolean  $path_only       return the path to the file only
 	 * @param   boolean  $detect_browser  detect browser to include specific browser css files
-	 *                                    will try to include file, file_*browser*, file_*browser*_*major*, file_*browser*_*major*_*minor*
+	 *                                    will try to include file, `file_*browser*`, `file_*browser*_*major*`, `file_*browser*_*major*_*minor*`
 	 *                                    <table>
 	 *                                       <tr><th>Navigator</th>                  <th>browser</th>	<th>major.minor</th></tr>
 	 *
@@ -616,7 +614,6 @@ abstract class JHtml
 	 *
 	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
 	 *                                    </table>
-	 *                                    a lot of others
 	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
@@ -657,7 +654,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <script></script> element
+	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string   $file            path to file.
 	 * @param   boolean  $framework       load the JS framework.
@@ -668,7 +665,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
-	 * @see     JHtml::stylesheet
+	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
@@ -712,13 +709,13 @@ abstract class JHtml
 	/**
 	 * Set format related options.
 	 *
-	 * Updates the formatOptions array with all valid values in the passed
-	 * array. See {@see JHtml::$formatOptions} for details.
+	 * Updates the formatOptions array with all valid values in the passed array.
 	 *
 	 * @param   array  $options  Option key/value pairs.
 	 *
 	 * @return  void
 	 *
+	 * @see     JHtml::$formatOptions
 	 * @since   1.5
 	 */
 	public static function setFormatOptions($options)
@@ -814,7 +811,7 @@ abstract class JHtml
 	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
 	 * @param   string  $image    The image for the tip, if no text is provided.
 	 * @param   string  $text     The text for the tip.
-	 * @param   string  $href     An URL that will be used to create the link.
+	 * @param   string  $href     A URL that will be used to create the link.
 	 * @param   string  $alt      The alt attribute for img tag.
 	 * @param   string  $class    CSS class for the tool tip.
 	 *
@@ -892,52 +889,53 @@ abstract class JHtml
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
-		// Return empty in no title or content is given.
-		if ($title == '' && $content == '')
+		// Initialise return value.
+		$result = '';
+
+		// Don't process empty strings
+		if ($content != '' || $title != '')
 		{
-			return '';
+			// Split title into title and content if the title contains '::' (old Mootools format).
+			if ($content == '' && !(strpos($title, '::') === false))
+			{
+				list($title, $content) = explode('::', $title, 2);
+			}
+
+			// Pass texts through JText if required.
+			if ($translate)
+			{
+				$title = JText::_($title);
+				$content = JText::_($content);
+			}
+
+			// Use only the content if no title is given.
+			if ($title == '')
+			{
+				$result = $content;
+			}
+			// Use only the title, if title and text are the same.
+			elseif ($title == $content)
+			{
+				$result = '<strong>' . $title . '</strong>';
+			}
+			// Use a formatted string combining the title and content.
+			elseif ($content != '')
+			{
+				$result = '<strong>' . $title . '</strong><br />' . $content;
+			}
+			else
+			{
+				$result = $title;
+			}
+
+			// Escape everything, if required.
+			if ($escape)
+			{
+				$result = htmlspecialchars($result);
+			}
 		}
 
-		// Split title into title and content if the title contains '::' (old Mootools format).
-		if ($content == '' && !(strpos($title, '::') === false))
-		{
-			list($title, $content) = explode('::', $title, 2);
-		}
-
-		// Pass texts through the JText.
-		if ($translate)
-		{
-			$title = JText::_($title);
-			$content = JText::_($content);
-		}
-
-		// Escape the texts.
-		if ($escape)
-		{
-			$title = str_replace('"', '&quot;', $title);
-			$content = str_replace('"', '&quot;', $content);
-		}
-
-		// Return only the content if no title is given.
-		if ($title == '')
-		{
-			return $content;
-		}
-
-		// Return only the title if title and text are the same.
-		if ($title == $content)
-		{
-			return '<strong>' . $title . '</strong>';
-		}
-
-		// Return the formated sting combining the title and  content.
-		if ($content != '')
-		{
-			return '<strong>' . $title . '</strong><br />' . $content;
-		}
-
-		// Return only the title.
-		return $title;
+		return $result;
 	}
 
 	/**
@@ -947,7 +945,7 @@ abstract class JHtml
 	 * @param   string  $name     The name of the text field
 	 * @param   string  $id       The id of the text field
 	 * @param   string  $format   The date format
-	 * @param   array   $attribs  Additional HTML attributes
+	 * @param   mixed   $attribs  Additional HTML attributes
 	 *
 	 * @return  string  HTML markup for a calendar field
 	 *
@@ -967,47 +965,61 @@ abstract class JHtml
 
 		if (is_array($attribs))
 		{
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
+			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
 		static::_('bootstrap.tooltip');
 
-		if (!$readonly && !$disabled)
+		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
+		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
-			// Load the calendar behavior
-			static::_('behavior.calendar');
-
-			// Only display the triggers once for each control.
-			if (!in_array($id, $done))
-			{
-				$document = JFactory::getDocument();
-				$document
-					->addScriptDeclaration(
-					'window.addEvent(\'domready\', function() {Calendar.setup({
-				// Id of the input field
-				inputField: "' . $id . '",
-				// Format of the input field
-				ifFormat: "' . $format . '",
-				// Trigger for the calendar (button ID)
-				button: "' . $id . '_img",
-				// Alignment (defaults to "Bl")
-				align: "Tl",
-				singleClick: true,
-				firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-				});});'
-				);
-				$done[] = $id;
-			}
-			return '<div class="input-append"><input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
+			$tz = date_default_timezone_get();
+			date_default_timezone_set('UTC');
+			$inputvalue = strftime($format, strtotime($value));
+			date_default_timezone_set($tz);
 		}
 		else
 		{
-			return '<input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? static::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+			$inputvalue = '';
 		}
+
+		// Load the calendar behavior
+		static::_('behavior.calendar');
+
+		// Only display the triggers once for each control.
+		if (!in_array($id, $done))
+		{
+			$document = JFactory::getDocument();
+			$document
+				->addScriptDeclaration(
+				'jQuery(document).ready(function($) {Calendar.setup({
+			// Id of the input field
+			inputField: "' . $id . '",
+			// Format of the input field
+			ifFormat: "' . $format . '",
+			// Trigger for the calendar (button ID)
+			button: "' . $id . '_img",
+			// Alignment (defaults to "Bl")
+			align: "Tl",
+			singleClick: true,
+			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
+			});});'
+			);
+			$done[] = $id;
+		}
+
+		// Hide button using inline styles for readonly/disabled fields
+		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
+		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
+
+		return '<div' . $div_class . '>'
+				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
+				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
+			. '</div>';
 	}
 
 	/**
@@ -1044,10 +1056,14 @@ abstract class JHtml
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
+	 * @deprecated 4.0 use json_encode or JRegistry::toString('json')
+	 *
 	 * @since   3.0
 	 */
 	public static function getJSObject(array $array = array())
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use json_encode instead.', JLog::WARNING, 'deprecated');
+
 		$elements = array();
 
 		foreach ($array as $k => $v)

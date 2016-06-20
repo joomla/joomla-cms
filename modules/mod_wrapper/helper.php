@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,10 +50,6 @@ class ModWrapperHelper
 			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
 			{
 				$url = 'http://' . $url;
-			}
-			else
-			{
-				$url = $url;
 			}
 		}
 

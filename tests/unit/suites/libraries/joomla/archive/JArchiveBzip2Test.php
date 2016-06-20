@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,17 +47,10 @@ class JArchiveBzip2Test extends JArchiveTestCase
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.bz2', self::$outputPath . '/logo-bz2.png');
-		$this->assertTrue(is_file(self::$outputPath . '/logo-bz2.png'));
-
-		if (is_file(self::$outputPath . '/logo-bz2.png'))
-		{
-			unlink(self::$outputPath . '/logo-bz2.png');
-		}
+		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', $this->outputPath . '/logo-bz2.png');
+		$this->assertFileExists($this->outputPath . '/logo-bz2.png');
 	}
 
 	/**
@@ -70,17 +63,10 @@ class JArchiveBzip2Test extends JArchiveTestCase
 		if (!JArchiveBzip2::isSupported())
 		{
 			$this->markTestSkipped('Bzip2 files can not be extracted.');
-
-			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.bz2', self::$outputPath . '/logo-bz2.png', array('use_streams' => true));
-		$this->assertTrue(is_file(self::$outputPath . '/logo-bz2.png'));
-
-		if (is_file(self::$outputPath . '/logo-bz2.png'))
-		{
-			unlink(self::$outputPath . '/logo-bz2.png');
-		}
+		$this->object->extract(__DIR__ . '/logo-bz2.png.bz2', $this->outputPath . '/logo-bz2.png', array('use_streams' => true));
+		$this->assertFileExists($this->outputPath . '/logo-bz2.png');
 	}
 
 	/**

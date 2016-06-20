@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,6 +59,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		self::$cache['imported']   = TestReflection::getValue('JLoader', 'imported');
 		self::$cache['prefixes']   = TestReflection::getValue('JLoader', 'prefixes');
 		self::$cache['namespaces'] = TestReflection::getValue('JLoader', 'namespaces');
+		self::$cache['classAliases'] = TestReflection::getValue('JLoader', 'classAliases');
 	}
 
 	/**
@@ -75,6 +76,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		TestReflection::setValue('JLoader', 'imported', self::$cache['imported']);
 		TestReflection::setValue('JLoader', 'prefixes', self::$cache['prefixes']);
 		TestReflection::setValue('JLoader', 'namespaces', self::$cache['namespaces']);
+		TestReflection::setValue('JLoader', 'classAliases', self::$cache['classAliases']);
 	}
 
 	/**
@@ -114,7 +116,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JLoader::discover
 	 */
 	public function testDiscover()
 	{
@@ -190,7 +191,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JLoader::getClassList
 	 */
 	public function testGetClassList()
 	{
@@ -203,7 +203,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JLoader::load
 	 */
 	public function testLoad()
 	{
@@ -221,6 +220,41 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JLoader::load method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadForSinglePart()
+	{
+		JLoader::registerPrefix('Joomla', JPATH_TEST_STUBS . '/loader', true);
+
+		$this->assertTrue(class_exists('JoomlaPatch'), 'Tests that a class with a single part is loaded in the base path.');
+		$this->assertTrue(class_exists('JoomlaPatchTester'), 'Tests that a class with multiple parts is loaded from the correct path.');
+		$this->assertTrue(class_exists('JoomlaTester'), 'Tests that a class with a single part is loaded from a folder (legacy behavior).');
+		$this->assertFalse(class_exists('JoomlaNotPresent'), 'Tests that a non-existing class is not found.');
+	}
+
+	/**
+	 * Tests if JLoader::applyAliasFor runs automatically when loading a class by its real name
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testApplyAliasForAutorun()
+	{
+		JLoader::discover('Shuttle', JPATH_TEST_STUBS . '/discover2', true);
+
+		JLoader::registerAlias('ShuttleOV105', 'ShuttleEndeavour');
+
+		$this->assertThat(JLoader::load('ShuttleEndeavour'), $this->isTrue(), 'Tests that the class file was loaded.');
+
+		$this->assertTrue(class_exists('ShuttleOV105'), 'Tests that loading a class also loads its aliases');
+	}
+
+	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
 	 * @param   string   $filePath     Path to object
@@ -234,7 +268,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider casesImport
 	 * @since   11.1
-	 * @covers  JLoader::import
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -273,7 +306,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JLoader::register
 	 */
 	public function testRegister()
 	{
@@ -300,7 +332,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
 	 */
 	public function testRegisterNamespace()
 	{
@@ -327,7 +358,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
@@ -350,7 +380,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
 	 * @expectedException  RuntimeException
 	 */
 	public function testRegisterNamespaceException()
@@ -364,7 +393,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JLoader::registerPrefix
 	 */
 	public function testRegisterPrefix()
 	{
@@ -398,12 +426,65 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JLoader::registerAlias method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testRegisterAlias()
+	{
+		// Clear the prefixes array for this test
+		TestReflection::setValue('JLoader', 'classAliases', array());
+		TestReflection::setValue('JLoader', 'classAliasesInverse', array());
+
+		JLoader::registerAlias('foo', 'bar');
+
+		// Get the current prefixes array
+		$aliases = TestReflection::getValue('JLoader', 'classAliases');
+		$aliasesInverse = TestReflection::getValue('JLoader', 'classAliasesInverse');
+
+		$this->assertEquals(
+			$aliases['foo'],
+			'bar',
+			'Assert the alias is set in the classAlias array.'
+		);
+
+		$this->assertArrayHasKey(
+			'bar',
+			$aliasesInverse,
+			'Assert the real class is set in the classAliasInverse array.'
+		);
+
+		$this->assertEquals(
+			array('foo'),
+			$aliasesInverse['bar'],
+			'Assert the alias is set in the classAliasInverse array for the real class.'
+		);
+
+		JLoader::registerAlias('baz', 'bar');
+
+		$aliasesInverse = TestReflection::getValue('JLoader', 'classAliasesInverse');
+
+		$this->assertEquals(
+			array('foo', 'baz'),
+			$aliasesInverse['bar'],
+			'Assert you can assign multiple aliases for each real class.'
+		);
+
+		$this->assertEquals(
+			JLoader::registerAlias('foo', 'bar'),
+			false,
+			'Assert adding an existing alias will return false.'
+		);
+	}
+
+	/**
 	 * Tests the exception thrown by the JLoader::registerPrefix method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JLoader::registerPrefix
 	 * @expectedException RuntimeException
 	 */
 	public function testRegisterPrefixException()
@@ -418,7 +499,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupDefaultParameters()
 	{
@@ -437,6 +517,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$foundLoad = false;
 		$foundAutoload = false;
 		$foundLoadByPsr0 = false;
+		$foundLoadByAlias = false;
 
 		// We search the list of autoload functions to see if our methods are there.
 		foreach ($newLoaders as $loader)
@@ -457,6 +538,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 				{
 					$foundLoadByPsr0 = true;
 				}
+
+				if ($loader[1] === 'loadByAlias')
+				{
+					$foundLoadByAlias = true;
+				}
 			}
 		}
 
@@ -470,8 +556,11 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// Assert the prefix loader is found.
 		$this->assertTrue($foundAutoload);
 
-		// Assert the PSR-0 loader is not found.
-		$this->assertFalse($foundLoadByPsr0);
+		// Assert the PSR-0 loader is found.
+		$this->assertTrue($foundLoadByPsr0);
+
+		// Assert the Alias loader is found.
+		$this->assertTrue($foundLoadByAlias);
 	}
 
 	/**
@@ -480,7 +569,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupWithoutClasses()
 	{
@@ -517,7 +605,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupWithoutPrefixes()
 	{
@@ -562,7 +649,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupPsr0()
 	{
@@ -576,6 +662,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$loaders = spl_autoload_functions();
 
 		$foundLoadPsr0 = false;
+		$foundLoadAlias = false;
 
 		// We search the list of autoload functions to see if our method is here.
 		foreach ($loaders as $loader)
@@ -586,11 +673,19 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 				{
 					$foundLoadPsr0 = true;
 				}
+
+				if ($loader[1] === 'loadByAlias')
+				{
+					$foundLoadAlias = true;
+				}
 			}
 		}
 
 		// We expect to find it.
 		$this->assertTrue($foundLoadPsr0);
+
+		// We expect to find it.
+		$this->assertTrue($foundLoadAlias);
 	}
 
 	/**
@@ -611,7 +706,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			if (is_array($loader) && $loader[0] === 'JLoader'
 				&& ($loader[1] === 'load'
 				|| $loader[1] === '_autoload'
-				|| $loader[1] === 'loadByPsr0'))
+				|| $loader[1] === 'loadByPsr0'
+				|| $loader[1] === 'loadByAlias'))
 			{
 				spl_autoload_unregister($loader);
 			}

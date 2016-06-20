@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,9 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package     Joomla.Legacy
- * @subpackage  Model
- * @since       12.2
+ * @since  12.2
  */
 abstract class JModelLegacy extends JObject
 {
@@ -32,7 +30,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * Database Connector
 	 *
-	 * @var    object
+	 * @var    JDatabaseDriver
 	 * @since  12.2
 	 */
 	protected $_db;
@@ -56,7 +54,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    string
+	 * @var    JObject
 	 * @since  12.2
 	 */
 	protected $state;
@@ -103,14 +101,22 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 
-			if (!in_array($path, $paths[$prefix]))
+			if (!is_array($path))
 			{
-				array_unshift($paths[$prefix], JPath::clean($path));
+				$path = array($path);
 			}
 
-			if (!in_array($path, $paths['']))
+			foreach ($path as $includePath)
 			{
-				array_unshift($paths[''], JPath::clean($path));
+				if (!in_array($includePath, $paths[$prefix]))
+				{
+					array_unshift($paths[$prefix], JPath::clean($includePath));
+				}
+
+				if (!in_array($includePath, $paths['']))
+				{
+					array_unshift($paths[''], JPath::clean($includePath));
+				}
 			}
 		}
 
@@ -150,8 +156,8 @@ abstract class JModelLegacy extends JObject
 			case 'model':
 				$filename = strtolower($parts['name']) . '.php';
 				break;
-
 		}
+
 		return $filename;
 	}
 
@@ -175,10 +181,12 @@ abstract class JModelLegacy extends JObject
 		{
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+
 			if (!$path)
 			{
 				$path = JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
+
 			if ($path)
 			{
 				require_once $path;
@@ -186,6 +194,7 @@ abstract class JModelLegacy extends JObject
 				if (!class_exists($modelClass))
 				{
 					JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -259,11 +268,14 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->addTablePath($config['table_path']);
 		}
+		// @codeCoverageIgnoreStart
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+
+		// @codeCoverageIgnoreEnd
 
 		// Set the internal state marker - used to ignore setting state from the request
 		if (!empty($config['ignore_request']))
@@ -280,7 +292,6 @@ abstract class JModelLegacy extends JObject
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
-
 	}
 
 	/**
@@ -314,20 +325,31 @@ abstract class JModelLegacy extends JObject
 	 */
 	protected function _getListCount($query)
 	{
-		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+		// Use fast COUNT(*) on JDatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof JDatabaseQuery
 			&& $query->type == 'select'
 			&& $query->group === null
+			&& $query->union === null
+			&& $query->unionAll === null
 			&& $query->having === null)
 		{
 			$query = clone $query;
-			$query->clear('select')->clear('order')->select('COUNT(*)');
+			$query->clear('select')->clear('order')->clear('limit')->clear('offset')->select('COUNT(*)');
 
 			$this->_db->setQuery($query);
+
 			return (int) $this->_db->loadResult();
 		}
 
 		// Otherwise fall back to inefficient way of counting all results.
+
+		// Remove the limit and offset part if it's a JDatabaseQuery object
+		if ($query instanceof JDatabaseQuery)
+		{
+			$query = clone $query;
+			$query->clear('limit')->clear('offset');
+		}
+
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -344,7 +366,7 @@ abstract class JModelLegacy extends JObject
 	 * @return  mixed  Model object or boolean false if failed
 	 *
 	 * @since   12.2
-	 * @see     JTable::getInstance
+	 * @see     JTable::getInstance()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
@@ -387,10 +409,12 @@ abstract class JModelLegacy extends JObject
 		if (empty($this->name))
 		{
 			$r = null;
+
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
+
 			$this->name = strtolower($r[1]);
 		}
 
@@ -446,6 +470,57 @@ abstract class JModelLegacy extends JObject
 		}
 
 		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+	}
+
+	/**
+	 * Method to load a row for editing from the version history table.
+	 *
+	 * @param   integer  $version_id  Key to the version history table.
+	 * @param   JTable   &$table      Content table object being loaded.
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   12.2
+	 */
+	public function loadHistory($version_id, JTable &$table)
+	{
+		// Only attempt to check the row in if it exists, otherwise do an early exit.
+		if (!$version_id)
+		{
+			return false;
+		}
+
+		// Get an instance of the row to checkout.
+		$historyTable = JTable::getInstance('Contenthistory');
+
+		if (!$historyTable->load($version_id))
+		{
+			$this->setError($historyTable->getError());
+
+			return false;
+		}
+
+		$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+		$typeId   = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+
+		if ($historyTable->ucm_type_id != $typeId)
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+
+			$key = $table->getKeyName();
+
+			if (isset($rowArray[$key]))
+			{
+				$table->checkIn($rowArray[$key]);
+			}
+
+			return false;
+		}
+
+		$this->setState('save_date', $historyTable->save_date);
+		$this->setState('version_note', $historyTable->version_note);
+
+		return $table->bind($rowArray);
 	}
 
 	/**

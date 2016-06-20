@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -102,78 +102,6 @@ class JApplicationDaemonTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationDaemon::changeIdentity method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testChangeIdentity()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::daemonize method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testDaemonize()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::fork method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testFork()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::gc method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGc()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::isActive method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testIsActive()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::loadConfiguration method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testLoadConfiguration()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
 	 * Tests the JApplicationDaemon::setupSignalHandlers method.
 	 *
 	 * @return  void
@@ -220,42 +148,6 @@ class JApplicationDaemonTest extends TestCase
 			$this->equalTo(false),
 			'Check that only setupSignalHandlers return is false.'
 		);
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::shutdown method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testShutdown()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::signal method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSignal()
-	{
-		$this->markTestIncomplete();
-	}
-
-	/**
-	 * Tests the JApplicationDaemon::execute method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testExecute()
-	{
-		$this->markTestIncomplete();
 	}
 
 	/**

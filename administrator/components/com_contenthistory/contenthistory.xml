@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.2" method="upgrade">
+	<name>com_contenthistory</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2013</creationDate>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.2.0</version>
+	<description>COM_CONTENTHISTORY_XML_DESCRIPTION</description>
+	<files folder="site">
+		<filename>contenthistory.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<administration>
+		<files folder="admin">
+			<filename>controller.php</filename>
+			<filename>contenthistory.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>media</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_contenthistory.ini</language>
+			<language tag="en-GB">language/en-GB.com_contenthistory.sys.ini</language>
+		</languages>
+	</administration>
+</extension>
+

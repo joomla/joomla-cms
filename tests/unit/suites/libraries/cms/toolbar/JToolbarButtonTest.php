@@ -3,14 +3,18 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
  * Test class for JToolbarButton.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Toolbar
+ * @since       3.0
  */
-class JToolbarButtonTest extends TestCase
+class JToolbarButtonTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JToolbar
@@ -25,6 +29,14 @@ class JToolbarButtonTest extends TestCase
 	 * @since  3.0
 	 */
 	protected $object;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -43,7 +55,12 @@ class JToolbarButtonTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
@@ -56,6 +73,8 @@ class JToolbarButtonTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -92,12 +111,25 @@ class JToolbarButtonTest extends TestCase
 	}
 
 	/**
-	 * @todo   Implement testRender().
+	 * Tests the render method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
 	 */
 	public function testRender()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		$type = array('Standard', 'test');
+
+		$expected = "<div class=\"btn-wrapper\"  id=\"toolbar-test\">" . PHP_EOL
+			. "\t<button onclick=\"if (document.adminForm.boxchecked.value==0){alert('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');}else{ Joomla.submitbutton('')}\" class=\"btn btn-small\">" . PHP_EOL
+			. "\t<span class=\"icon-test\"></span>" . PHP_EOL
+			. "\t</button>" . PHP_EOL
+			. "</div>" . PHP_EOL;
+
+		$this->assertEquals(
+			$expected,
+			$this->object->render($type)
 		);
 	}
 

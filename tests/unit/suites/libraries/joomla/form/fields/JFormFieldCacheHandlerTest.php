@@ -3,9 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+JFormHelper::loadFieldClass('cachehandler');
 
 /**
  * Test class for JFormFieldCacheHandler.
@@ -17,21 +19,6 @@
 class JFormFieldCacheHandlerTest extends TestCase
 {
 	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/cachehandler.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
-	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void
@@ -40,7 +27,7 @@ class JFormFieldCacheHandlerTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="cachehandler" type="cachehandler" /></form>'),
