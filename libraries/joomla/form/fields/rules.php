@@ -437,7 +437,7 @@ class JFormFieldRules extends JFormField
 					}
 
 					$calculatedValues = array(
-											'NULL'  => 'Not Allowed (Inherited)',
+											'NULL'  => 'Not Allowed',
 											'false' => 'Not Allowed',
 											'true'  => 'Allowed',
 											);
