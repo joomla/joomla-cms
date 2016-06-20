@@ -582,21 +582,19 @@ class ConfigModelApplication extends ConfigModelForm
 
 			$assetId = (int) $this->db->loadResult();
 
-			// Fetch the component asset id.
-			$componentAssetId = null;
+			// Fetch the parent asset id.
+			$parentAssetId = null;
 
 			// Global config or component config.
-			if ($isGlobalConfig && strpos($permission['component'], '.') !== false)
+			if ($isGlobalConfig === false && strpos($permission['component'], '.') !== false)
 			{
-				$assetNameParts = explode('.', $permission['component']);
-
 				// In this case we need to get the component rules too.
 				$query = $this->db->getQuery(true)
-					->select($this->db->quoteName('id'))
+					->select($this->db->quoteName('parent_id'))
 					->from($this->db->quoteName('#__assets'))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($assetNameParts[0]));
+					->where($this->db->quoteName('id') . ' = ' . $assetId);
 				$this->db->setQuery($query);
-				$componentAssetId = (int) $this->db->loadResult();
+				$parentAssetId = (int) $this->db->loadResult();
 			}
 			
 			// Get the group parent id of the current group.
@@ -636,10 +634,10 @@ class ConfigModelApplication extends ConfigModelForm
 		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule          = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
-		$inheritedGroupComponentRule = $componentAssetId !== null ? JAccess::checkGroup($permission['rule'], $permission['action'], $componentAssetId) : null;
-		$inheritedGroupGlobalRule    = JAccess::checkGroup($permission['rule'], $permission['action']);
-		$inheritedParentGroupRule    = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
+		$inheritedGroupRule            = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+		$inheritedGroupParentAssetRule = $parentAssetId !== null ? JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId) : null;
+		$inheritedGroupGlobalRule      = JAccess::checkGroup($permission['rule'], $permission['action']);
+		$inheritedParentGroupRule      = JAccess::checkGroup($parentGroupId, $permission['action'], $assetId);
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
@@ -694,8 +692,8 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
-			// Item with explicit "Denied" permission at Global configuration or Component configuration. Calculated permission is "Not Allowed (Locked)".
-			elseif ($isGlobalConfig === false && $inheritedGroupComponentRule === false)
+			// Item with explicit "Denied" permission at Global configuration or parent configuration. Calculated permission is "Not Allowed (Locked)".
+			elseif ($isGlobalConfig === false && $inheritedGroupParentAssetRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
