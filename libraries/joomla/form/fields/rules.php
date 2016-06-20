@@ -408,11 +408,34 @@ class JFormFieldRules extends JFormField
 											'false' => 'Not Allowed',
 											'true'  => 'Allowed',
 											);
+											
 					$tooltip = '<strong>Asset Related Rules</strong><br/>';
 					$tooltip.= '- Current Asset (non-recursive): ' . $calculatedValues[(string) var_export($assetRule, true)] . '<br/>';
-					$tooltip.= '- Parent Group (recursive): ' . (!empty($group->parent_id) ? $calculatedValues[(string) var_export($inheritedParentGroupRule, true)] : '-') . '<br/>';
-					$tooltip.= '- Parent Asset (recursive): ' . ($isGlobalConfig === false ? $calculatedValues[(string) var_export($inheritedGroupParentAssetRule, true)] : '-') . '<br/><br/>';
-					$tooltip.= '<strong>Calculated Rule</strong>: ' . $calculatedValues[(string) var_export($inheritedGroupRule, true)];
+					if (!empty($group->parent_id))
+					{
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true)
+								->select($db->quoteName('title'))
+								->from($db->quoteName('#__usergroups'))
+								->where($db->quoteName('id') . ' = ' . $group->parent_id);
+						$db->setQuery($query);
+
+						$parentGroupName = $db->loadResult();
+						$tooltip.= '- Parent Group [' . $group->parent_id . ':' . $parentGroupName . '] (recursive): ' . $calculatedValues[(string) var_export($inheritedParentGroupRule, true)] . '<br/>';
+					}
+					if (!empty($parentAssetId))
+					{
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true)
+								->select($db->quoteName('title'))
+								->from($db->quoteName('#__assets'))
+								->where($db->quoteName('id') . ' = ' . $parentAssetId);
+						$db->setQuery($query);
+
+						$parentAssetName = $db->loadResult();
+						$tooltip.= '- Parent Asset [' . $parentAssetId . ':' . $parentAssetName . '] (recursive): ' . $calculatedValues[(string) var_export($inheritedGroupParentAssetRule, true)] . '<br/>';
+					}
+					$tooltip.= '<br/><strong>Calculated Rule</strong>: ' . $calculatedValues[(string) var_export($inheritedGroupRule, true)];
 					$result['text'] = '<span class="hasTooltip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $result['text'] . '</span>';
 				}
 
