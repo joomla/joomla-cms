@@ -324,16 +324,16 @@ class JFormFieldRules extends JFormField
 				 */
 
 				// Get the actual setting for the action for this group.
-				$assetRule = $assetRules->allow($action->name, $group->value);
+				$assetRule = $newItem === false : $assetRules->allow($action->name, $group->value) : null;
 
 				// Build the dropdowns for the permissions sliders
 
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
-				$html[] = '<option value=""' . ($assetRule === null || $newItem ? ' selected="selected"' : '') . '>'
+				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>'
 					. JText::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
-				$html[] = '<option value="1"' . ($assetRule === true && !$newItem ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
+				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
 					. '</option>';
-				$html[] = '<option value="0"' . ($assetRule === false && !$newItem ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
+				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
 					. '</option>';
 
 				$html[] = '</select>&#160; ';
@@ -379,19 +379,16 @@ class JFormFieldRules extends JFormField
 					// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
 					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
-					if (!$newItem)
+					if ($assetRule === false)
 					{
-						if ($assetRule === false)
-						{
-							$result['class'] = 'label label-important';
-							$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
-						}
-						// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
-						elseif ($assetRule === true)
-						{
-							$result['class'] = 'label label-success';
-							$result['text']  = JText::_('JLIB_RULES_ALLOWED');
-						}
+						$result['class'] = 'label label-important';
+						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
+					}
+					// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
+					elseif ($assetRule === true)
+					{
+						$result['class'] = 'label label-success';
+						$result['text']  = JText::_('JLIB_RULES_ALLOWED');
 					}
 
 					// Third part: Overwrite the calculated permissions labels for special cases.
@@ -401,12 +398,6 @@ class JFormFieldRules extends JFormField
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
-					}
-					// Item root level with explicit "Denied" permission at Global configuration or Component. Calculated permission is "Not Allowed (Locked)".
-					elseif ($isGlobalConfig === false && $newItem && $assetRule === false)
-					{
-						$result['class'] = 'label label-important';
-						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 					// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
 					elseif ($isGlobalConfig === false && $inheritedGroupGlobalRule === false)
