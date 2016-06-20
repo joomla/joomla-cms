@@ -685,14 +685,10 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
-			// Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration. Calculated permission is "Not Allowed (Locked)".
-			elseif ($isGlobalConfig === false && $inheritedGroupParentAssetRule === false)
-			{
-				$result['class'] = 'label label-important';
-				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-			}
-			// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
-			elseif ($inheritedParentGroupRule === false)
+			// Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
+			// Or some parent group has an explicit "Denied".
+			// Calculated permission is "Not Allowed (Locked)".
+			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'label label-important';
 				$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
