@@ -560,15 +560,15 @@ class JAccess
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
-	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
-	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
-	 * @param   boolean  $component  True to calculate the rule also based on component rules.
+	 * @param   mixed    $asset                 Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive             True to return the rules object with inherited rules.
+	 * @param   boolean  $recursiveParentAsset  True to calculate the rule also based on inherited component/extension rules.
 	 *
 	 * @return  JAccessRules   JAccessRules object for the asset.
 	 *
 	 * @since   11.1
 	 */
-	public static function getAssetRules($asset, $recursive = false, $component = true)
+	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = true)
 	{
 		// Get instance of the Profiler:
 		$_PROFILER = JProfiler::getInstance('Application');
@@ -577,7 +577,7 @@ class JAccess
 
 		// Almost all calls should have recursive set to true
 		// so we'll get to take advantage of preloading:
-		if ($recursive && isset(self::$assetPermissionsByName[$extensionName]) && isset(self::$assetPermissionsByName[$extensionName][$asset]))
+		if ($recursive && $recursiveParentAsset && isset(self::$assetPermissionsByName[$extensionName]) && isset(self::$assetPermissionsByName[$extensionName][$asset]))
 		{
 			// Mark in the profiler.
 			JDEBUG ? $_PROFILER->mark('Start JAccess::getAssetRules New (' . $asset . ')') : null;
@@ -636,7 +636,7 @@ class JAccess
 				->from('#__assets AS a');
 
 			$extensionString = '';
-			if ($component && ($extensionName !== $asset || is_numeric($asset)))
+			if ($recursiveParentAsset && ($extensionName !== $asset || is_numeric($asset)))
 			{
 				$extensionString = ' OR a.name = ' . $db->quote($extensionName);
 			}
