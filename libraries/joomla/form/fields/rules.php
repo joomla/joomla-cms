@@ -195,10 +195,12 @@ class JFormFieldRules extends JFormField
 
 			$assetId = (int) $db->loadResult();
 
-			// @to do: incorrect info
-			// When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
-			// But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
-			// Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+			/**
+			 * @to do: incorrect info
+			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
+			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
+			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+			 */
 		}
 
 		// If not in global config we need the parent_id asset to calculate permissions.
@@ -374,9 +376,11 @@ class JFormFieldRules extends JFormField
 
 					// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
-					// @to do: incorect info
-					// If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
-					// we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
+					/**
+					 * @to do: incorrect info
+					 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+					 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
+					 */
 
 					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 					if ($assetRule === false)
@@ -399,9 +403,11 @@ class JFormFieldRules extends JFormField
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
-					// Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
-					// Or some parent group has an explicit "Denied".
-					// Calculated permission is "Not Allowed (Locked)".
+					/**
+					 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
+					 * Or some parent group has an explicit "Denied".
+					 * Calculated permission is "Not Allowed (Locked)".
+					 */
 					elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 					{
 						$result['class'] = 'label label-important';
