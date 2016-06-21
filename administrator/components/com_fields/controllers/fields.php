@@ -16,6 +16,26 @@ defined('_JEXEC') or die;
 class FieldsControllerFields extends JControllerAdmin
 {
 	/**
+	 * Check in of one or more records.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   12.2
+	 */
+	public function checkin()
+	{
+		$return = parent::checkin();
+
+		$this->setRedirect(
+				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list .
+						'&context=' . $this->input->getCmd('context', 'com_content.article'), false
+						)
+				);
+
+		return $return;
+	}
+
+	/**
 	 * Removes an item
 	 *
 	 * @return  void
