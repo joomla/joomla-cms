@@ -38,12 +38,6 @@ class UsersModelUser extends JModelAdmin
 		);
 
 		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 	}
 
 	/**
