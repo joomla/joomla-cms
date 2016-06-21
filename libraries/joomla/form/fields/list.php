@@ -169,9 +169,9 @@ class JFormFieldList extends JFormField implements JFormDomfieldinterface
 			$options = json_decode($options);
 		}
 		$data = array();
-		if (isset($options->key))
+		if (isset($options->name))
 		{
-			foreach ($options->key as $index => $key)
+			foreach ($options->name as $index => $key)
 			{
 				$data[$key] = $options->value[$index];
 			}
@@ -193,9 +193,9 @@ class JFormFieldList extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
-		foreach (self::getOptionsFromField($field) as $index => $value)
+		foreach (self::getOptionsFromField($field) as $index => $name)
 		{
-			$element = $fieldNode->appendChild(new DOMElement('option', $value));
+			$element = $fieldNode->appendChild(new DOMElement('option', $name));
 			$element->setAttribute('value', $index);
 		}
 
