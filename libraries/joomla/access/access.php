@@ -577,7 +577,8 @@ class JAccess
 
 		// Almost all calls should have recursive set to true
 		// so we'll get to take advantage of preloading:
-		if ($recursive && $recursiveParentAsset && isset(self::$assetPermissionsByName[$extensionName]) && isset(self::$assetPermissionsByName[$extensionName][$asset]))
+		if ($recursive && $recursiveParentAsset && isset(self::$assetPermissionsByName[$extensionName])
+			&& isset(self::$assetPermissionsByName[$extensionName][$asset]))
 		{
 			// Mark in the profiler.
 			JDEBUG ? $_PROFILER->mark('Start JAccess::getAssetRules New (' . $asset . ')') : null;

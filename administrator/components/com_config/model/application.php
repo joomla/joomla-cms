@@ -501,7 +501,8 @@ class ConfigModelApplication extends ConfigModelForm
 			// @to do: incorrect ACL stored
 			// When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
 			// This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
-			// But doesn't work properly for item <-> section(s) <-> component <-> global config scenario because a wrong parent asset id (the component) is stored.
+			// But doesn't work properly for item <-> section(s) <-> component <-> global config scenario,
+			// because a wrong parent asset id (the component) is stored.
 			// Happens when there is no row in the asset table (ex: deleted or not created on update).
 
 			$asset->setLocation($parentAssetId, 'last-child');
