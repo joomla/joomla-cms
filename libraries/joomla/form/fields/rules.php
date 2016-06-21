@@ -404,52 +404,6 @@ class JFormFieldRules extends JFormField
 					}
 				}
 
-				// Debugging information.
-				if (JDEBUG)
-				{
-					$calculatedValues = array(
-											'NULL'  => 'Inherited',
-											'false' => 'Denied',
-											'true'  => 'Allowed',
-											);
-											
-					$tooltip = '<strong>Asset Related Rules</strong><br/>';
-					$tooltip.= '- Current Asset (non-recursive): ' . $calculatedValues[(string) var_export($assetRule, true)] . '<br/>';
-					if (!empty($group->parent_id))
-					{
-						$db = JFactory::getDbo();
-						$query = $db->getQuery(true)
-								->select($db->quoteName('title'))
-								->from($db->quoteName('#__usergroups'))
-								->where($db->quoteName('id') . ' = ' . $group->parent_id);
-						$db->setQuery($query);
-
-						$parentGroupName = $db->loadResult();
-						$tooltip.= '- Parent Group [' . $group->parent_id . ':' . $parentGroupName . '] (recursive): ' . $calculatedValues[(string) var_export($inheritedParentGroupRule, true)] . '<br/>';
-					}
-					if (!empty($parentAssetId))
-					{
-						$db = JFactory::getDbo();
-						$query = $db->getQuery(true)
-								->select($db->quoteName('name'))
-								->from($db->quoteName('#__assets'))
-								->where($db->quoteName('id') . ' = ' . $parentAssetId);
-						$db->setQuery($query);
-
-						$parentAssetName = $db->loadResult();
-						$tooltip.= '- Parent Asset [' . $parentAssetId . ':' . $parentAssetName . '] (recursive): ' . $calculatedValues[(string) var_export($inheritedGroupParentAssetRule, true)] . '<br/>';
-					}
-
-					$calculatedValues = array(
-											'NULL'  => 'Not Allowed',
-											'false' => 'Not Allowed',
-											'true'  => 'Allowed',
-											);
-
-					$tooltip.= '<br/><strong>Calculated Rule</strong>: ' . $calculatedValues[(string) var_export($inheritedGroupRule, true)];
-					$result['text'] = '<span class="hasTooltip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $result['text'] . '</span>';
-				}
-
 				$html[] = '<span class="' . $result['class'] . '">' . $result['text'] . '</span>';
 				$html[] = '</td>';
 				$html[] = '</tr>';
