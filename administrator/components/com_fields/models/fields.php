@@ -184,7 +184,7 @@ class FieldsModelFields extends JModelList
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the categories.
-		$query->select('c.title as category_title, c.access')->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title as category_title, c.access, c.published')->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Filter by context
 		if ($context = $this->getState('filter.context'))
@@ -250,11 +250,11 @@ class FieldsModelFields extends JModelList
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where('a.state = ' . (int) $published . ' AND (c.id IS NULL OR c.published = ' . (int) $published . ')');
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.state IN (0, 1))');
+			$query->where('a.state IN (0, 1) AND (c.id IS NULL OR c.published IN (0, 1))');
 		}
 
 		// Filter by search in title
