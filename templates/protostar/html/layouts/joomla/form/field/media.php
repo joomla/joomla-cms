@@ -119,7 +119,7 @@ $url    = ($readonly ? ''
 	JHtml::_('script', 'media/mediafield.min.js', false, true, false, false, true);
 	?>
 	<?php if ($showPreview && !$showAsTooltip) : ?>
-	<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>; height: <?php echo $previewHeight; ?>;"></div>
+	<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; height: <?php echo $previewHeight; ?>px;"></div>
 	<?php endif; ?>
 	<div class="input-prepend input-append">
 		<?php if ($showPreview && $showAsTooltip) : ?>

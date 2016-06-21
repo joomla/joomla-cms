@@ -103,7 +103,7 @@
 				var imgPreview = new Image(this.options.previewWidth, this.options.previewHeight);
 				imgPreview.src = this.options.basepath + value;
 
-				this.$containerPreview.prepend($('<img>',{src: imgPreview.src}));
+				this.$containerPreview.html($('<img>',{src: imgPreview.src}));
 			}
 		} else {
 			// Reset tooltip and preview
