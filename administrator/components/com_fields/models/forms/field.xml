@@ -90,6 +90,9 @@
 			<field name="label" type="text" label="COM_FIELDS_FIELD_LABEL_LABEL"
 				description="COM_FIELDS_FIELD_LABEL_DESC" class="input-xxlarge"
 				size="40" required="true" />
+			<field name="hint" type="text" label="COM_FIELDS_FIELD_HINT_LABEL"
+				description="COM_FIELDS_FIELD_HINT_DESC" class="input-xxlarge"
+				size="40" />
 			<field name="image" type="media" label="COM_FIELDS_FIELD_IMAGE_LABEL"
 				description="COM_FIELDS_FIELD_IMAGE_DESC" />
 			<field name="image_alt" type="text"
