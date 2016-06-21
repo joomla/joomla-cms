@@ -74,7 +74,7 @@ class LoginController extends JControllerLegacy
 			}
 		}
 
-		parent::display();
+		$this->display();
 	}
 
 	/**
