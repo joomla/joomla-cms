@@ -305,6 +305,9 @@ class FieldsHelper
 			$fieldsPerCategory[$field->catid][] = $field;
 		}
 
+		// On the front, sometimes the admin fields path is not included
+		JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/fields');
+
 		// Looping trough the categories
 		foreach ($fieldsPerCategory as $catid => $catFields)
 		{
