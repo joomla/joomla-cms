@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 // Include the tags_similar functions only once
 JLoader::register('ModTagssimilarHelper', __DIR__ . '/helper.php');
-require_once __DIR__ . '/helper.php';
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'safeuri';
