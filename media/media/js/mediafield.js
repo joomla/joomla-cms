@@ -94,20 +94,33 @@
 			return;
 		}
 
-		// Reset tooltip and preview
-		this.$containerPreview.popover('destroy');
-		this.$input.tooltip('destroy');
+		if (this.options.preview && !this.options.showAsTooltip) {
+			var value = this.$input.val();
 
-		var value = this.$input.val();
+			if (!value) {
+				this.$containerPreview.append('');
+			} else {
+				var imgPreview = new Image(this.options.previewWidth, this.options.previewHeight);
+				imgPreview.src = this.options.basepath + value;
 
-		if (!value) {
-			this.$containerPreview.popover();
+				this.$containerPreview.prepend($('<img>',{src: imgPreview.src}));
+			}
 		} else {
-			var imgPreview = new Image(this.options.previewWidth, this.options.previewHeight);
-			imgPreview.src = this.options.basepath + value;
+			// Reset tooltip and preview
+			this.$containerPreview.popover('destroy');
+			this.$input.tooltip('destroy');
 
-			this.$containerPreview.popover({content: imgPreview});
-			this.$input.tooltip({placement: 'top', title: value});
+			var value = this.$input.val();
+
+			if (!value) {
+				this.$containerPreview.popover();
+			} else {
+				var imgPreview = new Image(this.options.previewWidth, this.options.previewHeight);
+				imgPreview.src = this.options.basepath + value;
+
+				this.$containerPreview.popover({content: imgPreview});
+				this.$input.tooltip({placement: 'top', title: value});
+			}
 		}
 	};
 
@@ -119,6 +132,7 @@
 		buttonSaveSelected: '.button-save-selected', // selector for button to save the selected value
 		input: '.field-media-input', // selector for the input
 		preview: true, // whether use the preview
+		previewAsTooltip: true, // whether use the preview
 		previewContainer: '.field-media-preview', // selector for the preview container
 		previewWidth: 200, // preview width
 		previewHeight: 200, // preview height
@@ -133,7 +147,7 @@
 			var $el = $(this), instance = $el.data('fieldMedia');
 			if(!instance){
 				var options = options || {},
-						data = $el.data();
+					data = $el.data();
 
 				// Check options in the element
 				for (var p in data) {

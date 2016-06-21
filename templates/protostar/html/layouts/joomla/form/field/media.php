@@ -59,6 +59,8 @@ switch ($preview)
 	case 'yes': // Deprecated parameter value
 	case 'true':
 	case 'show':
+		$showPreview = true;
+		$showAsTooltip = false;
 		break;
 	case 'tooltip':
 	default:
@@ -98,6 +100,7 @@ $url    = ($readonly ? ''
 	data-button-clear=".button-clear"
 	data-button-save-selected=".button-save-selected"
 	data-preview="<?php echo $showPreview ? 'true' : 'false'; ?>"
+	data-previewAsTooltip="<?php echo $showAsTooltip ? 'true' : 'false'; ?>"
 	data-preview-container=".field-media-preview"
 	data-preview-width="<?php echo $previewWidth; ?>"
 	data-preview-height="<?php echo $previewHeight; ?>"
@@ -115,8 +118,11 @@ $url    = ($readonly ? ''
 
 	JHtml::_('script', 'media/mediafield.min.js', false, true, false, false, true);
 	?>
-	<?php if ($showPreview) : ?>
+	<?php if ($showPreview && !$showAsTooltip) : ?>
+	<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>; height: <?php echo $previewHeight; ?>;"></div>
+	<?php endif; ?>
 	<div class="input-prepend input-append">
+		<?php if ($showPreview && $showAsTooltip) : ?>
 		<span rel="popover" class="add-on pop-helper field-media-preview"
 			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
