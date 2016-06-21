@@ -8304,3 +8304,11 @@ body.modal-open {
 .modal-header {
 	text-align: left;
 }
+#permissions table td,
+#page-permissions table td {
+	vertical-align: middle;
+}
+#permissions table select,
+#page-permissions table select {
+	margin-bottom: 0;
+}
