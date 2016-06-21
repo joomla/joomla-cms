@@ -155,10 +155,12 @@ class JFormFieldRules extends JFormField
 		JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 		// Initialise some field attributes.
-		$section        = $this->section;
-		$component      = empty($this->component) ? 'root.1' : $this->component;
-		$isGlobalConfig = $component === 'root.1';
+		$section    = $this->section;
 		$assetField = $this->assetField;
+		$component  = empty($this->component) ? 'root.1' : $this->component;
+
+		// Current view is global config?
+		$isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
 		$actions = JAccess::getActions($component, $section);
@@ -178,8 +180,6 @@ class JFormFieldRules extends JFormField
 		$assetId       = $this->form->getValue($assetField);
 		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
-
-		// Fetch the asset name.
 
 		// If the asset id is empty (component or new item).
 		if (empty($assetId))

@@ -405,7 +405,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		$permission['component'] = empty($permission['component']) ? 'root.1' : $permission['component'];
 
-		// User in in global config Root (Public)?
+		// Current view is global config?
 		$isGlobalConfig = $permission['component'] === 'root.1';
 
 		// Check if changed group has Super User permissions.
