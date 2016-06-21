@@ -14,11 +14,14 @@
 		<field
 			name="user_id"
 			type="user"
-			size="50"
-			class="input-medium"
-			required="true"
+			basetype="modal"
 			label="COM_USERS_FIELD_USER_ID_LABEL"
-			/>
+			class="input-medium"
+			size="50"
+			required="true"
+			edit="true"
+			new="true"
+		/>
 
 		<field
 			name="catid"

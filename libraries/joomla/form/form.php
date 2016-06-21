@@ -1776,8 +1776,11 @@ class JForm
 			return false;
 		}
 
+		// Get the field base type.
+		$basetype = $element['basetype'] ? (string) $element['basetype'] . '_' : '';
+
 		// Get the field type.
-		$type = $element['type'] ? (string) $element['type'] : 'text';
+		$type = $element['type'] ? $basetype . (string) $element['type'] : 'text';
 
 		// Load the JFormField object for the field.
 		$field = $this->loadFieldType($type);
