@@ -190,7 +190,9 @@ class JFormFieldRules extends JFormField
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
 				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+
 			$db->setQuery($query);
+
 			$assetId = (int) $db->loadResult();
 
 			// @to do: incorrect info
@@ -204,11 +206,14 @@ class JFormFieldRules extends JFormField
 		{
 			// In this case we need to get the component rules too.
 			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))
 				->from($db->quoteName('#__assets'))
 				->where($db->quoteName('id') . ' = ' . $assetId);
+
 			$db->setQuery($query);
+
 			$parentAssetId = (int) $db->loadResult();
 		}
 

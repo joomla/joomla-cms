@@ -459,6 +459,7 @@ class ConfigModelApplication extends ConfigModelForm
 				->select($this->db->quoteName(array('name', 'rules')))
 				->from($this->db->quoteName('#__assets'))
 				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
 			$this->db->setQuery($query);
 
 			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
@@ -555,6 +556,7 @@ class ConfigModelApplication extends ConfigModelForm
 					->update($this->db->quoteName('#__assets'))
 					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
 					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
 				$this->db->setQuery($query)->execute();
 			}
 			catch (Exception $e)
@@ -581,6 +583,7 @@ class ConfigModelApplication extends ConfigModelForm
 				->select($this->db->quoteName('id'))
 				->from($this->db->quoteName('#__assets'))
 				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
+
 			$this->db->setQuery($query);
 
 			$assetId = (int) $this->db->loadResult();
@@ -601,6 +604,7 @@ class ConfigModelApplication extends ConfigModelForm
 					->select($this->db->quoteName('parent_id'))
 					->from($this->db->quoteName('#__assets'))
 					->where($this->db->quoteName('id') . ' = ' . $assetId);
+
 				$this->db->setQuery($query);
 
 				$parentAssetId = (int) $this->db->loadResult();
@@ -611,6 +615,7 @@ class ConfigModelApplication extends ConfigModelForm
 				->select($this->db->quoteName('parent_id'))
 				->from($this->db->quoteName('#__usergroups'))
 				->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
+
 			$this->db->setQuery($query);
 
 			$parentGroupId = (int) $this->db->loadResult();
@@ -620,6 +625,7 @@ class ConfigModelApplication extends ConfigModelForm
 				->select('COUNT(' . $this->db->quoteName('id') . ')')
 				->from($this->db->quoteName('#__usergroups'))
 				->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+
 			$this->db->setQuery($query);
 
 			$totalChildGroups = (int) $this->db->loadResult();
