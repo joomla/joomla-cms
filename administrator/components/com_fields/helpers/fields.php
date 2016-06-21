@@ -219,11 +219,11 @@ class FieldsHelper
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
 
-		if (! $assignedCatids && $form->getField('assigned_cat_ids'))
+		if (! $assignedCatids && $form->getField('catid'))
 		{
 			// Choose the first category available
 			$xml     = new DOMDocument;
-			$xml->loadHTML($form->getField('assigned_cat_ids')->__get('input'));
+			$xml->loadHTML($form->getField('catid')->__get('input'));
 			$options = $xml->getElementsByTagName('option');
 
 			if ($firstChoice = $options->item(0))
