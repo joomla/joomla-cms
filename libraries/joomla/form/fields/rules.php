@@ -193,10 +193,10 @@ class JFormFieldRules extends JFormField
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 
-			// TO DO:
-			// FOR NEW ITEM WE NEED TO GET THE ASSET FROM PARENT COMPONENT OR SECTION TO GET THE CALCULATED PERMISSIONS.
-			// OR JUST HIDE THE FORM.
-			// AS IT IS THE CALCULATED PERMISSIONS ARE EQUAL TO THE PARENT COMPONENT RULES.
+			// @to do: incorrect info
+			// When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
+			// But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
+			// Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
 		}
 
 		// If not in global config we need the parent_id asset to calculate permissions.
@@ -368,6 +368,10 @@ class JFormFieldRules extends JFormField
 					}
 
 					// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
+
+					// @to do: incorect info
+					// If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+					// we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 
 					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 					if ($assetRule === false)

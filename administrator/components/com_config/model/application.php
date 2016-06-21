@@ -498,6 +498,12 @@ class ConfigModelApplication extends ConfigModelForm
 				$parentAssetId = $parentAsset->getRootId();
 			}
 
+			// @to do: incorrect ACL stored
+			// When changing a permission of an item that doesn't have a row in the asset table the row a new row is created.
+			// This works fine for item <-> component <-> global config scenario and component <-> global config scenario.
+			// But doesn't work properly for item <-> section(s) <-> component <-> global config scenario because a wrong parent asset id (the component) is stored.
+			// Happens when there is no row in the asset table (ex: deleted or not created on update).
+
 			$asset->setLocation($parentAssetId, 'last-child');
 
 			if (!$asset->check() || !$asset->store())
@@ -585,6 +591,11 @@ class ConfigModelApplication extends ConfigModelForm
 			// Fetch the parent asset id.
 			$parentAssetId = null;
 
+			// @to do: incorrect info
+			// When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
+			// But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
+			// Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+
 			// If not in global config we need the parent_id asset to calculate permissions.
 			if (!$isGlobalConfig)
 			{
@@ -663,6 +674,10 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 
 			// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+
+			// @to do: incorect info
+			// If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+			// we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
 
 			// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
 			if ($assetRule === false)
