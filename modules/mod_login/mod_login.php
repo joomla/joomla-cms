@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the login functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModLoginHelper', __DIR__ . '/helper.php');
 
 $params->def('greeting', 1);
 

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the random image functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModRandomImageHelper', __DIR__ . '/helper.php');
 
 $link   = $params->get('link');
 $folder = ModRandomImageHelper::getFolder($params);
