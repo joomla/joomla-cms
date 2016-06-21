@@ -459,7 +459,6 @@ class ConfigModelApplication extends ConfigModelForm
 				->select($this->db->quoteName(array('name', 'rules')))
 				->from($this->db->quoteName('#__assets'))
 				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
-
 			$this->db->setQuery($query);
 
 			// Load the results as a list of stdClass objects (see later for more options on retrieving data).
@@ -552,11 +551,10 @@ class ConfigModelApplication extends ConfigModelForm
 			// Store the new permissions.
 			try
 			{
-				$query = $this->db->getQuery(true)
+				$query->clear()
 					->update($this->db->quoteName('#__assets'))
 					->set($this->db->quoteName('rules') . ' = ' . $this->db->quote(json_encode($temp)))
 					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
-
 				$this->db->setQuery($query)->execute();
 			}
 			catch (Exception $e)
@@ -579,11 +577,10 @@ class ConfigModelApplication extends ConfigModelForm
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->db->getQuery(true)
-					->select($this->db->quoteName('id'))
-					->from($this->db->quoteName('#__assets'))
-					->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
-
+			$query->clear()
+				->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__assets'))
+				->where($this->db->quoteName('name') . ' = ' . $this->db->quote($permission['component']));
 			$this->db->setQuery($query);
 
 			$assetId = (int) $this->db->loadResult();
@@ -600,30 +597,29 @@ class ConfigModelApplication extends ConfigModelForm
 			if (!$isGlobalConfig)
 			{
 				// In this case we need to get the component rules too.
-				$query = $this->db->getQuery(true)
+				$query->clear()
 					->select($this->db->quoteName('parent_id'))
 					->from($this->db->quoteName('#__assets'))
 					->where($this->db->quoteName('id') . ' = ' . $assetId);
 				$this->db->setQuery($query);
+
 				$parentAssetId = (int) $this->db->loadResult();
 			}
 			
 			// Get the group parent id of the current group.
-			$query = $this->db->getQuery(true)
-					->select($this->db->quoteName('parent_id'))
-					->from($this->db->quoteName('#__usergroups'))
-					->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
-
+			$query->clear()
+				->select($this->db->quoteName('parent_id'))
+				->from($this->db->quoteName('#__usergroups'))
+				->where($this->db->quoteName('id') . ' = ' . (int) $permission['rule']);
 			$this->db->setQuery($query);
 
 			$parentGroupId = (int) $this->db->loadResult();
 
 			// Count the number of child groups of the current group.
-			$query = $this->db->getQuery(true)
-					->select('COUNT(' . $this->db->quoteName('id') . ')')
-					->from($this->db->quoteName('#__usergroups'))
-					->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
-
+			$query->clear()
+				->select('COUNT(' . $this->db->quoteName('id') . ')')
+				->from($this->db->quoteName('#__usergroups'))
+				->where($this->db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
 			$this->db->setQuery($query);
 
 			$totalChildGroups = (int) $this->db->loadResult();
