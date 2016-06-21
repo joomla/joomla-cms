@@ -121,13 +121,14 @@ $url    = ($readonly ? ''
 	<?php if ($showPreview && !$showAsTooltip) : ?>
 	<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; height: <?php echo $previewHeight; ?>px;"></div>
 	<?php endif; ?>
+	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
-		<?php if ($showPreview && $showAsTooltip) : ?>
 		<span rel="popover" class="add-on pop-helper field-media-preview"
 			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
 			<i class="icon-eye"></i>
 		</span>
+	</div>
 	<?php else: ?>
 	<div class="input-append">
 		<?php endif; ?>
