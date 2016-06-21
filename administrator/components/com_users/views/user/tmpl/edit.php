@@ -75,32 +75,8 @@ $fieldsets = $this->form->getFieldsets();
 			<?php endif; ?>
 
 			<?php
-			foreach ($fieldsets as $fieldset) :
-				if ($fieldset->name == 'user_details') :
-					continue;
-				endif;
-			?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label)); ?>
-				<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-					<?php if ($field->hidden) : ?>
-						<div class="control-group">
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-						</div>
-					<?php else: ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $field->label; ?>
-							</div>
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-				<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endforeach; ?>
+			$this->ignore_fieldsets = array('user_details');
+			echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id): ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
