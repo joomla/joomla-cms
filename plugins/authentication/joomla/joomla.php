@@ -142,12 +142,6 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-			// Load the Joomla! RAD layer
-			if (!defined('FOF_INCLUDED'))
-			{
-				include_once JPATH_LIBRARIES . '/fof/include.php';
-			}
-
 			// Try to validate the OTP
 			FOFPlatform::getInstance()->importPlugin('twofactorauth');
 
