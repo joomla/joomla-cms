@@ -584,7 +584,6 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0  Sessions should be managed by dependency injection or created by the application object
 	 */
 	protected static function createSession(array $options = array())
 	{
