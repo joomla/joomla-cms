@@ -58,6 +58,9 @@ class JFormFieldAliastag extends JFormFieldList
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 
+		// Sort by language value
+		usort($options, function($a, $b) {return $a->text > $b->text;});
+
 		return $options;
 	}
 }
