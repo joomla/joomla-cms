@@ -39,8 +39,7 @@ class JFormFieldAliastag extends JFormFieldList
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('Distinct type_alias AS value, type_alias AS text')
-				->from('#__contentitem_tag_map')
-				->order('text');
+				->from('#__contentitem_tag_map');
 			$db->setQuery($query);
 
 			$options = $db->loadObjectList();
