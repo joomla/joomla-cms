@@ -157,7 +157,7 @@ class JApplicationCms extends JApplicationWeb
 		 * 1) The database handler is in use and the session is new
 		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
 		 */
-		if (($session->storeName != 'database' && ($time % 2 || $session->isNew())) || ($session->storeName == 'database' && $session->isNew()))
+		if (($session->storeName != 'database' && (time() % 2 || $session->isNew())) || ($session->storeName == 'database' && $session->isNew()))
 		{
 			$this->checkSession($session);
 		}
