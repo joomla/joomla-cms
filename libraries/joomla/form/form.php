@@ -2105,7 +2105,7 @@ class JForm
 	 *
 	 * @param   SimpleXMLElement  $source  The source element on which to append.
 	 * @param   SimpleXMLElement  $new     The new element to append.
-	 * @param   string            $path	   Tree elements a dot separated list where we add the node.
+	 * @param   string            $path    Tree elements a dot separated list where we add the node.
 	 *
 	 * @return  void
 	 *
