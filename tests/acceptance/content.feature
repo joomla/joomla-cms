@@ -10,7 +10,7 @@ Feature: content
 
   Scenario: Create an Article
     Given There is a add content link
-    When I create new content fulfilling mandatory fields: title and content
+    When I create new content with field title as "My_Article" and content as a "This is my first article"
     And I save an article
     Then I should see the "Article successfully saved." message
 

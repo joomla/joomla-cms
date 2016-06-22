@@ -17,14 +17,14 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I create new content fulfilling mandatory fields: title and content
+	 * @When I create new content with field title as :title and content as a :content
 	 */
-	public function iCreateNewContent()
+	public function iCreateNewContent($title, $content)
 	{
 		$I = $this;
-		$I->fillField(ArticleManagerPage::$articleTitleField,"My_Article");
+		$I->fillField(ArticleManagerPage::$articleTitleField, $title);
 		$I->click(ArticleManagerPage::$toggleEditor);
-		$I->fillField(ArticleManagerPage::$articleContentField,"this is my first article");
+		$I->fillField(ArticleManagerPage::$articleContentField, $content);
 	}
 
 	/**
