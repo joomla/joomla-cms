@@ -151,6 +151,48 @@ class JApplicationCms extends JApplicationWeb
 			$this->registerEvent('onAfterRender', array($this, 'cleanupSessionMetadata'));
 		}
 
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($session->storeName != 'database' && ($time % 2 || $session->isNew())) || ($session->storeName == 'database' && $session->isNew()))
+		{
+			$this->checkSession($session);
+		}
+	}
+
+	/**
+	 * Checks the user session.
+	 *
+	 * If the session record doesn't exist, initialise it.
+	 * If session is new, create session variables
+	 *
+	 * @param   JSession  $session  The session to check.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @throws  RuntimeException
+	 */
+	public function checkSession(JSession $session = null)
+	{
+		/*
+		 * Prior to 3.6 this method had no parameters; for B/C pull the session from JFactory if one is not given.
+		 * @deprecated  4.0  The $session parameter will be required
+		 */
+		if ($session === null)
+		{
+			JLog::add(
+				sprintf('As of 3.6, %s() accepts an optional JSession instance as a parameter and this will be required as of 4.0', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+
+			$session = JFactory::getSession();
+		}
+
 		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 
@@ -163,7 +205,7 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$exists = $db->setQuery($query, 0, 1)->loadResult();
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
 		}
@@ -171,59 +213,64 @@ class JApplicationCms extends JApplicationWeb
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
-			$query->clear();
+			// Get the session handler from the configuration.
+			$handler = $session->storeName;
 
 			if ($session->isNew())
 			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(implode(', ', $db->quoteName(array('session_id', 'client_id', 'time'))))
-					->values(implode(', ', array($db->quote($session->getId()), $this->getClientId(), $db->quote((int) time()))));
+				// Default column/value set
+				$columns = array($db->quoteName('session_id'), $db->quoteName('client_id'));
+				$values  = array($db->quote($session->getId()), (int) $this->getClientId());
+
+				// If the database session handler is not in use, append the time to the row
+				if ($handler != 'database')
+				{
+					$columns[] = $db->quoteName('time');
+					$values[]  = (int) time();
+				}
 			}
 			else
 			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(implode(', ', $db->quoteName(array('session_id', 'client_id', 'guest', 'time', 'userid', 'username'))))
-					->values(
-						implode(
-							', ',
-							array(
-								$db->quote($session->getId()),
-								$this->getClientId(),
-								(int) $user->guest,
-								(int) $session->get('session.timer.start'),
-								(int) $user->id,
-								$db->quote($user->get('username'))
-							)
-						)
-					);
+				// Default column/value set
+				$columns = array(
+					$db->quoteName('session_id'),
+					$db->quoteName('client_id'),
+					$db->quoteName('guest'),
+					$db->quoteName('userid'),
+					$db->quoteName('username')
+				);
+
+				$values = array(
+					$db->quote($session->getId()),
+					(int) $this->getClientId(),
+					(int) $user->guest,
+					(int) $user->id,
+					$db->quote($user->username)
+				);
+
+				// If the database session handler is not in use, append the time to the row
+				if ($handler != 'database')
+				{
+					$columns[] = $db->quoteName('time');
+					$values[]  = (int) $session->get('session.timer.start');
+				}
 			}
 
 			// If the insert failed, exit the application.
 			try
 			{
-				$db->setQuery($query)->execute();
+				$db->setQuery(
+					$db->getQuery(true)
+						->insert($db->quoteName('#__session'))
+						->columns($columns)
+						->values(implode(', ', $values))
+				)->execute();
 			}
-			catch (RuntimeException $e)
+			catch (JDatabaseExceptionExecuting $e)
 			{
 				throw new RuntimeException(JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
 			}
 		}
-	}
-
-	/**
-	 * Checks the user session.
-	 *
-	 * If the session record doesn't exist, initialise it.
-	 * If session is new, create session variables
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @throws  RuntimeException
-	 * @deprecated  4.0  Functionality moved to plugin event listeners
-	 */
-	public function checkSession()
-	{
 	}
 
 	/**
@@ -247,15 +294,18 @@ class JApplicationCms extends JApplicationWeb
 			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $this->getSession()->getExpire())));
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) $time));
 
 			try
 			{
 				$db->setQuery($query)->execute();
 			}
-			catch (RuntimeException $e)
+			catch (JDatabaseExceptionExecuting $e)
 			{
-				// Not a fatal error, and the database API logs errors, carry on
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+				 */
 			}
 		}
 	}
