@@ -72,8 +72,8 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Initialize session
 	 *
-	 * @param   string  $save_path   The path where to store/retrieve the session
-	 * @param   string  $id  The session id
+	 * @param   string  $save_path  The path where to store/retrieve the session
+	 * @param   string  $id         The session id
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
