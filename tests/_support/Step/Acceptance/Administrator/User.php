@@ -1,6 +1,10 @@
 <?php
 namespace Step\Acceptance\Administrator;
 
+use Page\Acceptance\Administrator\AdminPage;
+use Page\Acceptance\Administrator\LoginPage;
+use  Page\Acceptance\Administrator\UserManagerPage;
+
 class User extends \AcceptanceTester
 {
 	/**
@@ -9,21 +13,21 @@ class User extends \AcceptanceTester
 	public function thereIsAAddUserLink()
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=users');
+		$I->amOnPage(UserManagerPage::$pageURL);
 		$I->clickToolbarButton('New');
 	}
 
 	/**
-	 * @When I create new user fulfilling mandatory fields: Name, Login Name, Password, Confirm Password and Email
+	 * @When I create new user with fields Name :name, Login Name :username, Password :password and Email :email
 	 */
-	public function iCreateNewUser()
+	public function iCreateNewUser($name, $username, $password, $email)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_name'], 'register');
-		$I->fillField(['id' => 'jform_username'], 'register');
-		$I->fillField(['id' => 'jform_password'], 'register');
-		$I->fillField(['id' => 'jform_password2'], 'register');
-		$I->fillField(['id' => 'jform_email'], 'register@gmail.com');
+		$I->fillField(UserManagerPage::$nameField, $name);
+		$I->fillField(UserManagerPage::$usernameField, $username);
+		$I->fillField(UserManagerPage::$passwordField, $password);
+		$I->fillField(UserManagerPage::$password2Field, $password);
+		$I->fillField(UserManagerPage::$emailField, $email);
 	}
 
 	/**
@@ -42,29 +46,29 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Users');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message,AdminPage::$systemMessageContainer);
 	}
 
 	/**
-	 * @Given I search and select the user with user name :arg1
+	 * @Given I search and select the user with user name :username
 	 */
 	public function iSearchAndSelectTheUserWithUserName($username)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=users');
-		$I->fillField(['id' => 'filter_search'], $username);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 		$I->clickToolbarButton('edit');
 	}
 
 	/**
-	 *  @When I set name as an :arg1 and User Group as :arg1
+	 *  @When I set name as an :name and User Group as :arg1
 	 */
 	public function iAssignedNameAndUserGroup($name, $userGroup)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_name'], $name);
+		$I->fillField(UserManagerPage::$nameField, $name);
 		$I->click('Assigned User Groups');
 
 		// @todo use $userGroup variable to select user group dynamically
@@ -79,7 +83,7 @@ class User extends \AcceptanceTester
 		$I = $this;
 		$I->clickToolbarButton('Save & Close');
 		$I->waitForPageTitle('Users');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -88,9 +92,9 @@ class User extends \AcceptanceTester
 	public function iHaveAUserWithUserName($username)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=users');
-		$I->fillField(['id' => 'filter_search'], $username);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 	}
 
@@ -110,7 +114,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Users');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -119,9 +123,9 @@ class User extends \AcceptanceTester
 	public function iHaveABlockedUserWithUserName($username)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=users');
-		$I->fillField(['id' => 'filter_search'], $username);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 	}
 
@@ -132,7 +136,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Users');
-		$I->click(['xpath' => "//div[@id='toolbar-unblock']//button"]);
+		$I->clickToolbarButton('unblock');
 	}
 
 	/**
@@ -142,7 +146,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Users');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -151,9 +155,9 @@ class User extends \AcceptanceTester
 	public function iDeleteTheUser($username)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=users');
-		$I->fillField(['id' => 'filter_search'], $username);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 		$I->clickToolbarButton('delete');
 		$I->acceptPopup();
@@ -166,7 +170,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->checkForPhpNoticesOrWarnings();
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);;
 	}
 
 	/**
@@ -175,7 +179,7 @@ class User extends \AcceptanceTester
 	public function thereIsAnUserLink()
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=users');
+		$I->amOnPage(UserManagerPage::$pageURL);
 	}
 
 	/**
@@ -198,22 +202,22 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I create a super admin fulfilling mandatory fields: Name, Login Name, Password, Confirm Password and Email
+	 * @When I create a super admin with fields Name :name, Login Name :username, Password :password, and Email :email
 	 */
-	public function iCreateASuperAdmin()
+	public function iCreateASuperAdmin($name, $username, $password, $email)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_name'], 'prital');
-		$I->fillField(['id' => 'jform_username'], 'prital');
-		$I->fillField(['id' => 'jform_password'], 'prital');
-		$I->fillField(['id' => 'jform_password2'], 'prital');
-		$I->fillField(['id' => 'jform_email'], 'prital@gmail.com');
+		$I->fillField(UserManagerPage::$nameField, $name);
+		$I->fillField(UserManagerPage::$usernameField, $username);
+		$I->fillField(UserManagerPage::$passwordField, $password);
+		$I->fillField(UserManagerPage::$password2Field, $password);
+		$I->fillField(UserManagerPage::$emailField, $email);
 	}
 
 	/**
-	 * @When I set assigned user group as an :arg1
+	 * @When I set assigned user group as an Administrator
 	 */
-	public function iSetAssignedUserGroupAsAn($arg1)
+	public function iSetAssignedUserGroupAsAnAdministrator()
 	{
 		$I = $this;
 		$I->click('Assigned User Groups');
@@ -221,36 +225,36 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then Login in backend with username and password
+	 * @Then Login in backend with username :username and password :password
 	 */
-	public function loginInBackendWithUsernameAndPassword()
+	public function loginInBackend($username, $password)
 	{
 		$I = $this;
 		$I->doAdministratorLogout();
-		$I->fillField(['id' => 'mod-login-username'], 'prital');
-		$I->fillField(['id' => 'mod-login-password'], 'prital');
+		$I->fillField(LoginPage::$usernameField, $username);
+		$I->fillField(LoginPage::$passwordField, $password);
 		$I->click('Log in');
 	}
 
 	/**
-	 * @When I don't fill Login Name but fulfill remaining mandatory fields: Name, Password, Confirm Password and Email
+	 * @When I don't fill Login Name but fulfill remaining mandatory fields: Name :name, Password :password and Email :email
 	 */
-	public function iDontFillLoginName()
+	public function iDontFillLoginName($name, $password, $email)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_name'], 'piyu');
-		$I->fillField(['id' => 'jform_password'], 'piyu');
-		$I->fillField(['id' => 'jform_password2'], 'piyu');
-		$I->fillField(['id' => 'jform_email'], 'piyu@gmail.com');
+		$I->fillField(UserManagerPage::$nameField, $name);
+		$I->fillField(UserManagerPage::$passwordField, $password);
+		$I->fillField(UserManagerPage::$password2Field, $password);
+		$I->fillField(UserManagerPage::$emailField, $email);
 	}
 
 	/**
-	 * @Then I see the :arg1 alert error
+	 * @Then I see the :error alert error
 	 */
-	public function iSeeTheAlertError($arg1)
+	public function iSeeTheAlertError($error)
 	{
 		$I = $this;
-		$I->see('Invalid field:  Login Name', ['id' => 'system-message-container']);
+		$I->see($error,AdminPage::$systemMessageContainer);
 	}
 
 
@@ -260,7 +264,7 @@ class User extends \AcceptanceTester
 	public function thereIsAAddNewGroupLink()
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=groups');
+		$I->amOnPage(UserManagerPage::$groupPageURL);
 		$I->clickToolbarButton('New');
 	}
 
@@ -270,7 +274,7 @@ class User extends \AcceptanceTester
 	public function iFillGroupTitleAsA($GroupTitle)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_title'], $GroupTitle);
+		$I->fillField(UserManagerPage::$title, $GroupTitle);
 	}
 
 	/**
@@ -289,7 +293,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Users: Groups');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -298,9 +302,9 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheGroupWithName($GroupTitle)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=groups');
-		$I->fillField(['id' => 'filter_search'], $GroupTitle);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$groupPageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $GroupTitle);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 		$I->clickToolbarButton('edit');
 	}
@@ -311,7 +315,7 @@ class User extends \AcceptanceTester
 	public function iSetGroupTitleAsA($GroupTitle)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_title'], $GroupTitle);
+		$I->fillField(UserManagerPage::$title, $GroupTitle);
 	}
 
 	/**
@@ -320,9 +324,9 @@ class User extends \AcceptanceTester
 	public function iDeleteTheGroup($GroupTitle)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=groups');
-		$I->fillField(['id' => 'filter_search'], $GroupTitle);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$groupPageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $GroupTitle);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 		$I->clickToolbarButton('delete');
 		$I->acceptPopup();
@@ -335,7 +339,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->checkForPhpNoticesOrWarnings();
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -344,17 +348,17 @@ class User extends \AcceptanceTester
 	public function thereIsAAddViewingAccessLevelLink()
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=levels');
+		$I->amOnPage(UserManagerPage::$aclPageURL);
 		$I->clickToolbarButton('New');
 	}
 
 	/**
-	 * @When I fill Level Title as a :arg1 and set Access as a public
+	 * @When I fill Level Title as a :levelTitle and set Access as a public
 	 */
-	public function iFillAccessLevelDetail($LevelTitle)
+	public function iFillAccessLevelDetail($levelTitle)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_title'], $LevelTitle);
+		$I->fillField(UserManagerPage::$title, $levelTitle);
 		$I->checkOption('#1group_1');
 	}
 
@@ -374,7 +378,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->waitForPageTitle('Users: Viewing Access Levels');
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -383,9 +387,9 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheAccessLevelWithName($LevelTitle)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=levels');
-		$I->fillField(['id' => 'filter_search'], $LevelTitle);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$aclPageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $LevelTitle);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 		$I->clickToolbarButton('edit');
 	}
@@ -396,7 +400,7 @@ class User extends \AcceptanceTester
 	public function iSetAccessLevelTitleAsA($LevelTitle)
 	{
 		$I = $this;
-		$I->fillField(['id' => 'jform_title'], $LevelTitle);
+		$I->fillField(UserManagerPage::$title, $LevelTitle);
 	}
 
 	/**
@@ -414,9 +418,9 @@ class User extends \AcceptanceTester
 	public function iDeleteTheAccessLeVel($LevelTitle)
 	{
 		$I = $this;
-		$I->amOnPage('administrator/index.php?option=com_users&view=levels');
-		$I->fillField(['id' => 'filter_search'], $LevelTitle);
-		$I->click('.icon-search');
+		$I->amOnPage(UserManagerPage::$aclPageURL);
+		$I->fillField(UserManagerPage::$filterSearch, $LevelTitle);
+		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
 		$I->clickToolbarButton('delete');
 		$I->acceptPopup();
@@ -429,6 +433,6 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->checkForPhpNoticesOrWarnings();
-		$I->see($message, ['id' => 'system-message-container']);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 }

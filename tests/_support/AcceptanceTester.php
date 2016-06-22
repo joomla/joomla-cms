@@ -1,4 +1,9 @@
 <?php
+
+use Page\Acceptance\Administrator\LoginPage;
+
+use Page\Acceptance\Administrator\AdminPage;
+
 /**
  * Inherited Methods
  * @method void wantToTest($text)
@@ -19,6 +24,37 @@ class AcceptanceTester extends \Codeception\Actor
 	use _generated\AcceptanceTesterActions;
 
 	/**
+	 * Install joomla CMS
+	 *
+	 * @Given Joomla CMS is installed
+	 */
+	public function joomlaCMSIsInstalled()
+	{
+		// throw new \Codeception\Exception\Incomplete("Step `Joomla CMS is installed` is not defined");
+	}
+
+	/**
+	 * @When Login into Joomla administrator with username :arg1 and password :arg1
+	 */
+	public function loginIntoJoomlaAdministrator($username, $password)
+	{
+		$I = $this;
+		$I->amOnPage('administrator/');
+		$I->fillField(LoginPage::$usernameField, $username);
+		$I->fillField(LoginPage::$passwordField, $password);
+		$I->click(LoginPage::$loginButton);
+	}
+
+	/**
+	 * @Then I see administrator dashboard
+	 */
+	public function iSeeAdministratorDashboard()
+	{
+		$I = $this;
+		$I->waitForText(AdminPage::$controlPanelText, 4, AdminPage::$pageTitle);
+	}
+
+	/**
 	 * Method is to set Wait for page title
 	 *
 	 * @param   string   $title    Page Title text
@@ -29,7 +65,7 @@ class AcceptanceTester extends \Codeception\Actor
 	public function waitForPageTitle($title, $timeout = 60)
 	{
 		$I = $this;
-		$I->waitForText($title, $timeout, ['class' => 'page-title']);
+		$I->waitForText($title, $timeout, AdminPage::$pageTitle);
 	}
 
 	/**
@@ -124,11 +160,14 @@ class AcceptanceTester extends \Codeception\Actor
 			case "empty trash":
 				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
 				break;
-			case "Unblock":
+			case "unblock":
 				$I->click(['xpath' => "//div[@id='toolbar-unblock']//button"]);
 				break;
 			case "delete":
 				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
+				break;
+			case "featured":
+				$I->click(['xpath' => "//div[@id='toolbar-featured']//button"]);
 				break;
 		}
 	}
@@ -143,7 +182,7 @@ class AcceptanceTester extends \Codeception\Actor
 	public function checkAllResults()
 	{
 		$I = $this;
-		//$this->debug("Selecting Checkall button");
+		$this->comment("Selecting Checkall button");
 		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
 
