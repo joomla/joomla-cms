@@ -145,12 +145,6 @@ class JApplicationCms extends JApplicationWeb
 	{
 		parent::afterSessionStart($session);
 
-		// If we are logging session metadata, validate the state
-		if ($this->get('use_session_metadata', '1') == '0')
-		{
-			return;
-		}
-
 		// If not using the database store, register the cleanup function to run at the end of the application cycle
 		if ($this->get('session_handler', 'none') != 'database')
 		{
