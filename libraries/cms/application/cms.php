@@ -240,7 +240,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function cleanupSessionMetadata()
 	{

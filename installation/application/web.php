@@ -56,7 +56,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function afterSessionStart(JSession $session)
 	{

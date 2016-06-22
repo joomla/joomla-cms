@@ -21,7 +21,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Flag whether gc() has been called
 	 *
 	 * @var    boolean
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	private $gcCalled = false;
 
@@ -29,7 +29,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Lifetime for garbage collection
 	 *
 	 * @var    integer
-	 * @since  3.5
+	 * @since  3.6
 	 */
 	private $gcLifetime;
 
@@ -38,7 +38,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function close()
 	{
@@ -77,7 +77,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.5
+	 * @since   3.6
 	 */
 	public function open($save_path, $id)
 	{
