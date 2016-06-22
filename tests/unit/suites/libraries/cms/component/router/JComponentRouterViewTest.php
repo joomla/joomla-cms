@@ -41,6 +41,10 @@ class JComponentRouterViewTest extends TestCaseDatabase
 		parent::setUp();
 
 		$app = $this->getMockCmsApp();
+
+		JFactory::$application = $app;
+		JFactory::$session = $this->getMockSession();
+
 		$this->object = new JComponentRouterViewInspector($app, $app->getMenu());
 	}
 
