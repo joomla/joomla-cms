@@ -258,7 +258,7 @@ class UsersHelper
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner tag objects
+	 * @param   stdClass[]  &$items     The user note tag objects
 	 * @param   string      $extension  The name of the active view.
 	 *
 	 * @return  stdClass[]
@@ -278,11 +278,11 @@ class UsersHelper
 			$query = $db->getQuery(true);
 			$query->select('published as state, count(*) AS count')
 				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = '. (int) $item->id )
+				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->q($extension))
 				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
 				->group('c.published');
-				
+
 			$db->setQuery($query);
 			$users = $db->loadObjectList();
 
