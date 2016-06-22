@@ -146,7 +146,7 @@ class JApplicationCms extends JApplicationWeb
 		parent::afterSessionStart($session);
 
 		// If not using the database store, register the cleanup function to run at the end of the application cycle
-		if ($this->get('session_handler', 'none') != 'database')
+		if ($session->storeName != 'database')
 		{
 			$this->registerEvent('onAfterRender', array($this, 'cleanupSessionMetadata'));
 		}
