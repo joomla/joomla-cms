@@ -7533,11 +7533,23 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
-	padding: 2px 10px 4px 10px;
+	padding: 4px 10px;
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	color: #626262;
+}
+#status .btn-group {
+	margin-top: 0;
+}
+#status .btn-group.separator:after {
+	content: ' ';
+	display: block;
+	float: left;
+	background: #ADADAD;
+	margin: 0 10px;
+	height: 15px;
+	width: 1px;
 }
 #status .btn-toolbar,
 #status p {
