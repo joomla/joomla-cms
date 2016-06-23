@@ -9,6 +9,7 @@ modules:
     enabled:
         - JoomlaBrowser
         - AcceptanceHelper
+        - Asserts
     config:
         JoomlaBrowser:
             url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms

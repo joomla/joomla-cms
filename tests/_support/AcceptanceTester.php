@@ -1,8 +1,5 @@
 <?php
 
-use Page\Acceptance\Administrator\LoginPage;
-
-use Page\Acceptance\Administrator\AdminPage;
 
 /**
  * Inherited Methods
@@ -160,7 +157,7 @@ class AcceptanceTester extends \Codeception\Actor
 			case "empty trash":
 				$I->click(['xpath' => "//div[@id='toolbar-delete']//button"]);
 				break;
-			case "Unblock":
+			case "unblock":
 				$I->click(['xpath' => "//div[@id='toolbar-unblock']//button"]);
 				break;
 			case "delete":
@@ -212,7 +209,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @return void
 	 */
-	/*public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
 	{
 		$I = $this;
 		$actualArrayOfTabs = $I->grabMultiple($tabsLocator);
@@ -220,13 +217,13 @@ class AcceptanceTester extends \Codeception\Actor
 		$url = $I->grabFromCurrentUrl();
 		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
 		$I->comment('Verify the Tabs');
-	}*/
+	}
 	/**
 	 * Function to Logout from Administrator Panel in Joomla!
 	 *
 	 * @return void
 	 */
-	/*public function doAdministratorLogout()
+	public function doAdministratorLogout()
 	{
 		$I = $this;
 		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
@@ -236,5 +233,5 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->waitForElement(['id' => 'mod-login-username'], 60);
 		$I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
 
-	}*/
+	}
 }
