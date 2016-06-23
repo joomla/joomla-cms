@@ -19,7 +19,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-<?php if ($this->params->get('show_pagination_limit')) : ?>
+<?php if ($this->params->get('show_pagination_limit',1)) : ?>
 	<fieldset class="filters">
 	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 
@@ -33,7 +33,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
 
-			<?php if ($this->params->get('show_image_heading')) : ?>
+			<?php if ($this->params->get('show_image_heading',1)) : ?>
 			<th class="item-image">
 			</th>
 			<?php endif; ?>
@@ -98,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 				<?php endif; ?>
 
-					<?php if ($this->params->get('show_image_heading')) : ?>
+					<?php if ($this->params->get('show_image_heading',1)) : ?>
 						<td class="item-image">
 							<?php if ($this->items[$i]->image) : ?>
 								<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?>
