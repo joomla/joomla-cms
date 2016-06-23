@@ -24,8 +24,8 @@ if ($params->get('show_viewsite', 1))
 		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
-		. '</div>'
-		. '<span class="btn-group separator"></span>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 // Print the link to open a new Administrator window.
@@ -35,8 +35,8 @@ if ($params->get('show_viewadmin', 0))
 		. '<a href="' . JUri::base() . 'index.php" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
-		. '</div>'
-		. '<span class="btn-group separator"></span>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 // Print the frontend logged in  users.
@@ -45,8 +45,8 @@ if ($params->get('show_loggedin_users', 1))
 	$output[] = '<div class="btn-group loggedin-users">'
 		. '<span class="badge">' . $online_num . '</span> '
 		. JText::plural('MOD_STATUS_USERS', $online_num)
-		. '</div>'
-		. '<span class="btn-group separator"></span>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 // Print the back-end logged in users.
@@ -55,8 +55,8 @@ if ($params->get('show_loggedin_users_admin', 1))
 	$output[] = '<div class="btn-group backloggedin-users">'
 		. '<span class="badge">' . $count . '</span> '
 		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
-		. '</div>'
-		. '<span class="btn-group separator"></span>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 //  Print the inbox message.
