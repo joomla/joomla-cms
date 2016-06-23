@@ -94,7 +94,7 @@ class JFormRuleUrl extends JFormRule
 		}
 
 		// For some schemes here must be two slashes.
-		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
+		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'ftps' || $urlScheme == 'gopher'
 			|| $urlScheme == 'wais' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
 			&& ((substr($value, strlen($urlScheme), 3)) !== '://'))
 		{
