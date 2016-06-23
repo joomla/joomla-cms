@@ -1,5 +1,6 @@
 <?php
-
+use Page\Acceptance\Administrator\LoginPage;
+use Page\Acceptance\Administrator\AdminPage;
 
 /**
  * Inherited Methods
