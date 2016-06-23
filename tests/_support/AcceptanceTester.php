@@ -1,7 +1,5 @@
 <?php
-
 use Page\Acceptance\Administrator\LoginPage;
-
 use Page\Acceptance\Administrator\AdminPage;
 
 /**
@@ -105,10 +103,10 @@ class AcceptanceTester extends \Codeception\Actor
 		$I = $this;
 		$input = strtolower($button);
 
-		// @todo Needs to find way to work with different window size.
-		$screenSize = explode("x", $this->getConfiguration('window_size'));
+		$suiteConfiguration = $I->getSuiteConfiguration();
+		$screenWidth = explode("x", $suiteConfiguration['modules']['config']['JoomlaBrowser']['window_size']);
 
-		if ($screenSize[0] <= 480)
+		if ($screenWidth[0] <= 480)
 		{
 			$I->click('Toolbar');
 		}

@@ -8,7 +8,7 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - JoomlaBrowser
-        - AcceptanceHelper        
+        - AcceptanceHelper
         - Asserts
     config:
         JoomlaBrowser:
@@ -38,3 +38,4 @@ gherkin:
             - AcceptanceTester
             - Step\Acceptance\Administrator\User
             - Page\Acceptance\Administrator\Login
+            - Step\Acceptance\Administrator\Content
