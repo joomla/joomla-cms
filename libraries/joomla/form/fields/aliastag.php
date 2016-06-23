@@ -58,7 +58,13 @@ class JFormFieldAliastag extends JFormFieldList
 		$options = array_merge(parent::getOptions(), $options);
 
 		// Sort by language value
-		usort($options, function($a, $b) {return $a->text > $b->text;});
+		usort(
+			$options,
+			function($a, $b)
+			{
+				return $a->text > $b->text;
+			}
+		);
 
 		return $options;
 	}
