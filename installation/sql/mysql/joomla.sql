@@ -1395,7 +1395,7 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 
 CREATE TABLE IF NOT EXISTS `#__modules_menu` (
   `moduleid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
-  `menuid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `menuid` bigint(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`moduleid`,`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

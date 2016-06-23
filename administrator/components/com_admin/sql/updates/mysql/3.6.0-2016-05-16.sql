@@ -15,7 +15,7 @@ ALTER TABLE `#__finder_taxonomy` MODIFY `access` bigint(10) UNSIGNED NOT NULL DE
 ALTER TABLE `#__menu` MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__modules` MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__modules_menu` MODIFY `moduleid` bigint(10) UNSIGNED NOT NULL DEFAULT '0';
-ALTER TABLE `#__modules_menu` MODIFY `menuid` bigint(10) UNSIGNED NOT NULL DEFAULT '0';
+ALTER TABLE `#__modules_menu` MODIFY `menuid` bigint(10) NOT NULL DEFAULT '0';
 ALTER TABLE `#__newsfeeds` MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__newsfeeds` MODIFY `catid` bigint(10) UNSIGNED NOT NULL DEFAULT '0';
 ALTER TABLE `#__newsfeeds` MODIFY `access` bigint(10) UNSIGNED NOT NULL DEFAULT '0';
