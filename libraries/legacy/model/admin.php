@@ -1224,12 +1224,12 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			// Show an error if the item isn't assigned to a language but we have associations.
+			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && ($table->language == '*'))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
-					'error'
+					'warning'
 				);
 			}
 
