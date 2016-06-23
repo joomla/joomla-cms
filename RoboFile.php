@@ -278,6 +278,15 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
+			->arg('tests/acceptance/users.feature')
+			->run()
+			->stopOnFail();
+
+	/*	$this->taskCodecept($pathToCodeception)
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->arg('--env ' . $opts['env'])
 			->arg('tests/acceptance/administrator/')
 			->run()
 			->stopOnFail();
@@ -289,7 +298,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--env ' . $opts['env'])
 			->arg('tests/acceptance/frontend/')
 			->run()
-			->stopOnFail();
+			->stopOnFail();*/
 
 		/*
 		// Uncomment this lines if you need to debug selenium errors
