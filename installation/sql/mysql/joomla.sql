@@ -12,11 +12,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `#__assets` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set parent.',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
-  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set parent.',
+  `lft` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
+  `rgt` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `level` bigint(10) UNSIGNED NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
@@ -91,7 +91,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 --
 
 CREATE TABLE IF NOT EXISTS `#__associations` (
-  `id` int(11) NOT NULL COMMENT 'A reference to the associated item.',
+  `id` bigint(10) NOT NULL COMMENT 'A reference to the associated item.',
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
   `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
   PRIMARY KEY (`context`,`id`),
@@ -105,21 +105,21 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banners` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `cid` int(11) unsigned NOT NULL DEFAULT 0,
-  `type` int(11) NOT NULL DEFAULT 0,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `type` bigint(10) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `imptotal` int(11) NOT NULL DEFAULT 0,
-  `impmade` int(11) NOT NULL DEFAULT 0,
-  `clicks` int(11) NOT NULL DEFAULT 0,
+  `imptotal` bigint(10) NOT NULL DEFAULT 0,
+  `impmade` bigint(10) NOT NULL DEFAULT 0,
+  `clicks` bigint(10) NOT NULL DEFAULT 0,
   `clickurl` varchar(200) NOT NULL DEFAULT '',
   `state` tinyint(3) NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `catid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `description` text NOT NULL,
   `custombannercode` varchar(2048) NOT NULL,
-  `sticky` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `sticky` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   `metakey` text NOT NULL,
   `params` text NOT NULL,
   `own_prefix` tinyint(1) NOT NULL DEFAULT 0,
@@ -127,18 +127,18 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `reset` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` char(7) NOT NULL DEFAULT '',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `modified_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_state` (`state`),
   KEY `idx_own_prefix` (`own_prefix`),
@@ -154,13 +154,13 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banner_clients` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `contact` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
   `extrainfo` text NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `metakey` text NOT NULL,
   `own_prefix` tinyint(4) NOT NULL DEFAULT 0,
@@ -181,9 +181,9 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
 
 CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
   `track_date` datetime NOT NULL,
-  `track_type` int(10) unsigned NOT NULL,
-  `banner_id` int(10) unsigned NOT NULL,
-  `count` int(10) unsigned NOT NULL DEFAULT 0,
+  `track_type` bigint(10) UNSIGNED NOT NULL,
+  `banner_id` bigint(10) UNSIGNED NOT NULL,
+  `count` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
   KEY `idx_track_date` (`track_date`),
   KEY `idx_track_type` (`track_type`),
@@ -197,12 +197,12 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__categories` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `lft` int(11) NOT NULL DEFAULT 0,
-  `rgt` int(11) NOT NULL DEFAULT 0,
-  `level` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `parent_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `lft` bigint(10) NOT NULL DEFAULT 0,
+  `rgt` bigint(10) NOT NULL DEFAULT 0,
+  `level` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `path` varchar(400) NOT NULL DEFAULT '',
   `extension` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
@@ -210,20 +210,20 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `cat_idx` (`extension`,`published`,`access`),
   KEY `idx_access` (`access`),
@@ -253,7 +253,7 @@ INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level
 --
 
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `con_position` varchar(255) DEFAULT NULL,
@@ -267,15 +267,15 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `misc` mediumtext,
   `image` varchar(255) DEFAULT NULL,
   `email_to` varchar(255) DEFAULT NULL,
-  `default_con` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `default_con` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   `params` text NOT NULL,
-  `user_id` int(11) unsigned NOT NULL DEFAULT 0,
-  `catid` int(11) unsigned NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `catid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `webpage` varchar(255) NOT NULL DEFAULT '',
   `sortname1` varchar(255) NOT NULL,
@@ -283,10 +283,10 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `sortname3` varchar(255) NOT NULL,
   `language` char(7) NOT NULL,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
@@ -294,8 +294,8 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
@@ -314,34 +314,34 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `catid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
   `attribs` varchar(5120) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `featured` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   PRIMARY KEY (`id`),
@@ -362,8 +362,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
-  `content_id` int(11) unsigned NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `content_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -374,9 +374,9 @@ CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_rating` (
-  `content_id` int(11) unsigned NOT NULL DEFAULT 0,
-  `rating_sum` int(10) unsigned NOT NULL DEFAULT 0,
-  `rating_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `content_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `rating_sum` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `rating_count` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `lastip` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -388,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `#__content_rating` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_types` (
-  `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `type_title` varchar(255) NOT NULL DEFAULT '',
   `type_alias` varchar(400) NOT NULL DEFAULT '',
   `table` varchar(255) NOT NULL DEFAULT '',
@@ -427,9 +427,9 @@ INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, 
 
 CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   `type_alias` varchar(255) NOT NULL DEFAULT '',
-  `core_content_id` int(10) unsigned NOT NULL COMMENT 'PK from the core content table',
-  `content_item_id` int(11) unsigned NOT NULL COMMENT 'PK from the content type table',
-  `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
+  `core_content_id` bigint(10) UNSIGNED NOT NULL COMMENT 'PK from the core content table',
+  `content_item_id` bigint(10) UNSIGNED NOT NULL COMMENT 'PK from the content type table',
+  `tag_id` bigint(10) UNSIGNED NOT NULL COMMENT 'PK from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
   `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
   UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
@@ -446,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 
 CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
   `search_term` varchar(128) NOT NULL DEFAULT '',
-  `hits` int(10) unsigned NOT NULL DEFAULT 0
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -456,23 +456,23 @@ CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__extensions` (
-  `extension_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `extension_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
   `folder` varchar(100) NOT NULL,
   `client_id` tinyint(3) NOT NULL,
   `enabled` tinyint(3) NOT NULL DEFAULT 1,
-  `access` int(10) unsigned NOT NULL DEFAULT 1,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
   `protected` tinyint(3) NOT NULL DEFAULT 0,
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) DEFAULT 0,
-  `state` int(11) DEFAULT 0,
+  `ordering` bigint(10) DEFAULT 0,
+  `state` bigint(10) DEFAULT 0,
   PRIMARY KEY (`extension_id`),
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
@@ -630,18 +630,18 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_filters` (
-  `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `filter_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT 1,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL,
+  `created_by` bigint(10) UNSIGNED NOT NULL,
   `created_by_alias` varchar(255) NOT NULL,
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `map_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `map_count` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `data` text NOT NULL,
   `params` mediumtext,
   PRIMARY KEY (`filter_id`)
@@ -654,7 +654,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
-  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `link_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
   `route` varchar(255) NOT NULL,
   `title` varchar(400) DEFAULT NULL,
@@ -663,15 +663,15 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `md5sum` varchar(32) DEFAULT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 1,
   `state` int(5) DEFAULT 1,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `language` varchar(8) NOT NULL,
   `publish_start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `list_price` double unsigned NOT NULL DEFAULT 0,
-  `sale_price` double unsigned NOT NULL DEFAULT 0,
-  `type_id` int(11) NOT NULL,
+  `list_price` double UNSIGNED NOT NULL DEFAULT 0,
+  `sale_price` double UNSIGNED NOT NULL DEFAULT 0,
+  `type_id` bigint(10) NOT NULL,
   `object` mediumblob NOT NULL,
   PRIMARY KEY (`link_id`),
   KEY `idx_type` (`type_id`),
@@ -689,9 +689,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms0` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -704,9 +704,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms0` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms1` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -719,9 +719,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms1` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms2` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -734,9 +734,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms2` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms3` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -749,9 +749,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms3` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms4` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -764,9 +764,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms4` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms5` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -779,9 +779,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms5` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms6` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -794,9 +794,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms6` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms7` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -809,9 +809,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms7` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms8` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -824,9 +824,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms8` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms9` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -839,9 +839,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms9` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsa` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -854,9 +854,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsa` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsb` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -869,9 +869,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsb` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsc` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -884,9 +884,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsc` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsd` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -899,9 +899,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsd` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_termse` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -914,9 +914,9 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termse` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
-  `link_id` int(10) unsigned NOT NULL,
-  `term_id` int(10) unsigned NOT NULL,
-  `weight` float unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
+  `weight` float UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`term_id`),
   KEY `idx_term_weight` (`term_id`,`weight`),
   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
@@ -929,12 +929,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `ordering` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(1) UNSIGNED NOT NULL DEFAULT 1,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ordering` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `state` (`state`),
@@ -957,8 +957,8 @@ INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `access`,
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
-  `link_id` int(10) unsigned NOT NULL,
-  `node_id` int(10) unsigned NOT NULL,
+  `link_id` bigint(10) UNSIGNED NOT NULL,
+  `node_id` bigint(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`link_id`,`node_id`),
   KEY `link_id` (`link_id`),
   KEY `node_id` (`node_id`)
@@ -971,14 +971,14 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
-  `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `term_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `common` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `phrase` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `weight` float UNSIGNED NOT NULL DEFAULT 0,
   `soundex` varchar(75) NOT NULL,
-  `links` int(10) NOT NULL DEFAULT 0,
+  `links` bigint(10) NOT NULL DEFAULT 0,
   `language` char(3) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `idx_term` (`term`),
@@ -1130,10 +1130,10 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`) VALUES
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `weight` float unsigned NOT NULL DEFAULT 1,
-  `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
+  `common` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `phrase` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `weight` float UNSIGNED NOT NULL DEFAULT 1,
+  `context` tinyint(1) UNSIGNED NOT NULL DEFAULT 2,
   `language` char(3) NOT NULL DEFAULT '',
   KEY `idx_word` (`term`),
   KEY `idx_context` (`context`)
@@ -1146,16 +1146,16 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
-  `term_id` int(10) unsigned NOT NULL,
+  `term_id` bigint(10) UNSIGNED NOT NULL,
   `map_suffix` char(1) NOT NULL,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `term_weight` float unsigned NOT NULL,
-  `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
-  `context_weight` float unsigned NOT NULL,
-  `total_weight` float unsigned NOT NULL,
+  `common` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `phrase` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
+  `term_weight` float UNSIGNED NOT NULL,
+  `context` tinyint(1) UNSIGNED NOT NULL DEFAULT 2,
+  `context_weight` float UNSIGNED NOT NULL,
+  `total_weight` float UNSIGNED NOT NULL,
   `language` char(3) NOT NULL DEFAULT '',
   KEY `token` (`term`),
   KEY `keyword_id` (`term_id`)
@@ -1168,7 +1168,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `mime` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
@@ -1182,8 +1182,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_types` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__languages` (
-  `lang_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
+  `lang_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` bigint(10) UNSIGNED NOT NULL,
   `lang_code` char(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
@@ -1193,9 +1193,9 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `sitename` varchar(1024) NOT NULL DEFAULT '',
-  `published` int(11) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `published` bigint(10) NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`lang_id`),
   UNIQUE KEY `idx_sef` (`sef`),
   UNIQUE KEY `idx_image` (`image`),
@@ -1218,7 +1218,7 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 --
 
 CREATE TABLE IF NOT EXISTS `#__menu` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
   `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
@@ -1227,19 +1227,19 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
   `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
   `published` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The published state of the menu link.',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'The parent menu item in the menu tree.',
-  `level` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.',
-  `component_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__extensions.id',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__users.id',
+  `parent_id` bigint(10) UNSIGNED NOT NULL DEFAULT 1 COMMENT 'The parent menu item in the menu tree.',
+  `level` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.',
+  `component_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to #__extensions.id',
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to #__users.id',
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.',
-  `access` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
-  `template_style_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `template_style_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `params` text NOT NULL COMMENT 'JSON encoded data for the menu item.',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
-  `home` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.',
+  `lft` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
+  `rgt` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `home` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.',
   `language` char(7) NOT NULL DEFAULT '',
   `client_id` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
@@ -1286,8 +1286,8 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 --
 
 CREATE TABLE IF NOT EXISTS `#__menu_types` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` bigint(10) UNSIGNED NOT NULL,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
@@ -1309,13 +1309,13 @@ INSERT INTO `#__menu_types` (`id`, `menutype`, `title`, `description`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__messages` (
-  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
-  `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
-  `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `message_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id_from` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `user_id_to` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `folder_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
   `date_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `state` tinyint(1) NOT NULL DEFAULT 0,
-  `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `priority` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `subject` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
   PRIMARY KEY (`message_id`),
@@ -1329,7 +1329,7 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `cfg_name` varchar(100) NOT NULL DEFAULT '',
   `cfg_value` varchar(255) NOT NULL DEFAULT '',
   UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
@@ -1342,21 +1342,21 @@ CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `asset_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   `position` varchar(50) NOT NULL DEFAULT '',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `module` varchar(50) DEFAULT NULL,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT 1,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `showtitle` tinyint(3) UNSIGNED NOT NULL DEFAULT 1,
   `params` text NOT NULL,
   `client_id` tinyint(4) NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL,
@@ -1394,8 +1394,8 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules_menu` (
-  `moduleid` int(11) unsigned NOT NULL DEFAULT 0,
-  `menuid` int(11) unsigned NOT NULL DEFAULT 0,
+  `moduleid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `menuid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`moduleid`,`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -1429,26 +1429,26 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
-  `catid` int(11) unsigned NOT NULL DEFAULT 0,
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `catid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `link` varchar(2048) NOT NULL DEFAULT '',
   `published` tinyint(1) NOT NULL DEFAULT 0,
-  `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
-  `cache_time` int(10) unsigned NOT NULL DEFAULT 3600,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `numarticles` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
+  `cache_time` bigint(10) UNSIGNED NOT NULL DEFAULT 3600,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   `rtl` tinyint(4) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
@@ -1456,8 +1456,8 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `description` text NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `images` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
@@ -1476,7 +1476,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__overrider` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `constant` varchar(255) NOT NULL,
   `string` text NOT NULL,
   `file` varchar(255) NOT NULL,
@@ -1490,8 +1490,8 @@ CREATE TABLE IF NOT EXISTS `#__overrider` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__postinstall_messages` (
-  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `extension_id` bigint(20) unsigned NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
+  `postinstall_message_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `extension_id` bigint(20) UNSIGNED NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
   `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
   `action_key` varchar(255) NOT NULL DEFAULT '',
@@ -1524,12 +1524,12 @@ INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description
 --
 
 CREATE TABLE IF NOT EXISTS `#__redirect_links` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `old_url` varchar(2048) NOT NULL,
   `new_url` varchar(2048),
   `referer` varchar(2048) NOT NULL,
   `comment` varchar(255) NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `published` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1546,7 +1546,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__schemas` (
-  `extension_id` int(11) unsigned NOT NULL,
+  `extension_id` bigint(10) UNSIGNED NOT NULL,
   `version_id` varchar(20) NOT NULL,
   PRIMARY KEY (`extension_id`,`version_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -1559,11 +1559,11 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
 
 CREATE TABLE IF NOT EXISTS `#__session` (
   `session_id` varchar(191) NOT NULL DEFAULT '',
-  `client_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `guest` tinyint(4) unsigned DEFAULT 1,
+  `client_id` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `guest` tinyint(4) UNSIGNED DEFAULT 1,
   `time` varchar(14) DEFAULT '',
   `data` mediumtext,
-  `userid` int(11) unsigned DEFAULT 0,
+  `userid` bigint(10) UNSIGNED DEFAULT 0,
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`),
   KEY `userid` (`userid`),
@@ -1577,34 +1577,34 @@ CREATE TABLE IF NOT EXISTS `#__session` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `lft` int(11) NOT NULL DEFAULT 0,
-  `rgt` int(11) NOT NULL DEFAULT 0,
-  `level` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parent_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `lft` bigint(10) NOT NULL DEFAULT 0,
+  `rgt` bigint(10) NOT NULL DEFAULT 0,
+  `level` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `path` varchar(400) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
@@ -1631,9 +1631,9 @@ INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`
 --
 
 CREATE TABLE IF NOT EXISTS `#__template_styles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
-  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `client_id` tinyint(1) UNSIGNED NOT NULL DEFAULT 0,
   `home` char(7) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
   `params` text NOT NULL,
@@ -1659,10 +1659,10 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 --
 
 CREATE TABLE IF NOT EXISTS `#__ucm_base` (
-  `ucm_id` int(10) unsigned NOT NULL,
-  `ucm_item_id` int(10) unsigned NOT NULL,
-  `ucm_type_id` int(11) unsigned NOT NULL,
-  `ucm_language_id` int(11) NOT NULL,
+  `ucm_id` bigint(10) UNSIGNED NOT NULL,
+  `ucm_item_id` bigint(10) UNSIGNED NOT NULL,
+  `ucm_type_id` bigint(10) UNSIGNED NOT NULL,
+  `ucm_language_id` bigint(10) NOT NULL,
   PRIMARY KEY (`ucm_id`),
   KEY `idx_ucm_item_id` (`ucm_item_id`),
   KEY `idx_ucm_type_id` (`ucm_type_id`),
@@ -1676,38 +1676,38 @@ CREATE TABLE IF NOT EXISTS `#__ucm_base` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__ucm_content` (
-  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `core_content_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(400) NOT NULL,
   `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `core_body` mediumtext NOT NULL,
   `core_state` tinyint(1) NOT NULL DEFAULT 0,
   `core_checked_out_time` varchar(255) NOT NULL DEFAULT '',
-  `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `core_access` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_checked_out_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `core_access` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `core_params` text NOT NULL,
-  `core_featured` tinyint(4) unsigned NOT NULL DEFAULT 0,
+  `core_featured` tinyint(4) UNSIGNED NOT NULL DEFAULT 0,
   `core_metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `core_created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_created_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `core_created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `core_created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
+  `core_modified_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
   `core_modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `core_language` char(7) NOT NULL,
   `core_publish_up` datetime NOT NULL,
   `core_publish_down` datetime NOT NULL,
-  `core_content_item_id` int(10) unsigned COMMENT 'ID from the individual type table',
-  `asset_id` int(10) unsigned COMMENT 'FK to the #__assets table.',
+  `core_content_item_id` bigint(10) UNSIGNED COMMENT 'ID from the individual type table',
+  `asset_id` bigint(10) UNSIGNED COMMENT 'FK to the #__assets table.',
   `core_images` text NOT NULL,
   `core_urls` text NOT NULL,
-  `core_hits` int(10) unsigned NOT NULL DEFAULT 0,
-  `core_version` int(10) unsigned NOT NULL DEFAULT 1,
-  `core_ordering` int(11) NOT NULL DEFAULT 0,
+  `core_hits` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `core_version` bigint(10) UNSIGNED NOT NULL DEFAULT 1,
+  `core_ordering` bigint(10) NOT NULL DEFAULT 0,
   `core_metakey` text NOT NULL,
   `core_metadesc` text NOT NULL,
-  `core_catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_catid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `core_type_id` int(10) unsigned,
+  `core_type_id` bigint(10) UNSIGNED,
   PRIMARY KEY (`core_content_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
@@ -1730,13 +1730,13 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__ucm_history` (
-  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ucm_item_id` int(10) unsigned NOT NULL,
-  `ucm_type_id` int(10) unsigned NOT NULL,
+  `version_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ucm_item_id` bigint(10) UNSIGNED NOT NULL,
+  `ucm_type_id` bigint(10) UNSIGNED NOT NULL,
   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
   `save_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `editor_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `character_count` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Number of characters in this version.',
+  `editor_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `character_count` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Number of characters in this version.',
   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
   `keep_forever` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=auto delete; 1=keep',
@@ -1752,9 +1752,9 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__updates` (
-  `update_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `update_site_id` int(11) unsigned DEFAULT 0,
-  `extension_id` int(11) unsigned DEFAULT 0,
+  `update_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `update_site_id` bigint(10) UNSIGNED DEFAULT 0,
+  `extension_id` bigint(10) UNSIGNED DEFAULT 0,
   `name` varchar(100) DEFAULT '',
   `description` text NOT NULL,
   `element` varchar(100) DEFAULT '',
@@ -1776,11 +1776,11 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites` (
-  `update_site_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `update_site_id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
-  `enabled` int(11) DEFAULT 0,
+  `enabled` bigint(10) DEFAULT 0,
   `last_check_timestamp` bigint(20) DEFAULT 0,
   `extra_query` varchar(1000) DEFAULT '',
   PRIMARY KEY (`update_site_id`)
@@ -1803,8 +1803,8 @@ INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `en
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
-  `update_site_id` int(11) unsigned NOT NULL DEFAULT 0,
-  `extension_id` int(11) unsigned NOT NULL DEFAULT 0,
+  `update_site_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `extension_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`update_site_id`,`extension_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Links extensions to update sites';
 
@@ -1825,10 +1825,10 @@ INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Adjacency List Reference Id',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `parent_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Adjacency List Reference Id',
+  `lft` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
+  `rgt` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
@@ -1859,7 +1859,7 @@ INSERT INTO `#__usergroups` (`id`, `parent_id`, `lft`, `rgt`, `title`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__users` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(400) NOT NULL DEFAULT '',
   `username` varchar(150) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
@@ -1871,7 +1871,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `lastResetTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Date of last password reset',
-  `resetCount` int(11) NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
+  `resetCount` bigint(10) NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
   `requireReset` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Require user to reset password on next login',
@@ -1889,7 +1889,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_keys` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` varchar(150) NOT NULL,
   `token` varchar(255) NOT NULL,
   `series` varchar(191) NOT NULL,
@@ -1910,17 +1910,17 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_notes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
+  `catid` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `subject` varchar(100) NOT NULL DEFAULT '',
   `body` text NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_user_id` int(10) unsigned NOT NULL,
+  `modified_user_id` bigint(10) UNSIGNED NOT NULL,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1937,10 +1937,10 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_profiles` (
-  `user_id` int(11) unsigned NOT NULL,
+  `user_id` bigint(10) UNSIGNED NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Simple user profile storage table';
 
@@ -1951,8 +1951,8 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__usergroups.id',
+  `user_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__users.id',
+  `group_id` bigint(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__usergroups.id',
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -1975,9 +1975,9 @@ INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
 --
 
 CREATE TABLE IF NOT EXISTS `#__viewlevels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` bigint(10) NOT NULL DEFAULT 0,
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
