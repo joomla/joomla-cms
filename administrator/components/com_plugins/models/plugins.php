@@ -149,7 +149,7 @@ class PluginsModelPlugins extends JModelList
 			}
 
 			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
+			$result = ArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
