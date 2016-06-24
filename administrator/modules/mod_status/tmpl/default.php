@@ -43,7 +43,7 @@ if ($params->get('show_viewadmin', 0))
 if ($params->get('show_loggedin_users', 1))
 {
 	$output[] = '<div class="btn-group loggedin-users">'
-		. '<span class="badge">' . $online_num . '</span> '
+		. '<span class="badge">' . $online_num . '</span>'
 		. JText::plural('MOD_STATUS_USERS', $online_num)
 		. '<span class="btn-group separator"></span>'
 		. '</div>';
@@ -53,7 +53,7 @@ if ($params->get('show_loggedin_users', 1))
 if ($params->get('show_loggedin_users_admin', 1))
 {
 	$output[] = '<div class="btn-group backloggedin-users">'
-		. '<span class="badge">' . $count . '</span> '
+		. '<span class="badge">' . $count . '</span>'
 		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
 		. '<span class="btn-group separator"></span>'
 		. '</div>';
@@ -65,7 +65,7 @@ if ($params->get('show_messages', 1))
 	$active   = $unread ? ' badge-warning' : '';
 	$output[] = '<div class="btn-group ' . $inboxClass . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<span class="badge' . $active . '">' . $unread . '</span> '
+		. '<span class="badge' . $active . '">' . $unread . '</span>'
 		. JText::plural('MOD_STATUS_MESSAGES_LABEL', $unread)
 		. ($hideLinks ? '' : '</a>')
 		. '<span class="btn-group separator"></span>'

@@ -7540,7 +7540,7 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	color: #626262;
 }
 #status .btn-group {
-	margin-top: 0;
+	margin: 0;
 }
 #status .btn-group.separator:after {
 	content: ' ';
@@ -7561,6 +7561,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 #status a {
 	color: #626262;
+}
+#status .badge {
+	margin-right: .25em;
 }
 #status.status-top {
 	background: #1a3867;
