@@ -874,9 +874,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 * the table rows based on the filter.  The ordering filter is an instance property name.  The rows that will be reordered
 	 * are those whose value matches the JTable instance for the property specified.
 	 *
-	 * @param   array|object   $src             An associative array or object to bind to the JTable instance.
-	 * @param   string         $orderingFilter  Filter for the order updating
-	 * @param   array|string   $ignore          An optional array or space separated list of properties to ignore while binding.
+	 * @param   array|object  $src             An associative array or object to bind to the JTable instance.
+	 * @param   string        $orderingFilter  Filter for the order updating
+	 * @param   array|string  $ignore          An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  boolean  True on success.
 	 *
