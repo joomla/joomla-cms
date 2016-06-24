@@ -214,7 +214,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @see     http://php.net/manual/en/function.call-user-func-array.php
+	 * @see     https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
