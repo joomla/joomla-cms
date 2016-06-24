@@ -195,9 +195,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
