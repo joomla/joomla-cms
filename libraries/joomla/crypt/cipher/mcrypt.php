@@ -143,7 +143,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 *
 	 * @return  string  The derived key.
 	 *
-	 * @see     http://en.wikipedia.org/wiki/PBKDF2
+	 * @see     https://en.wikipedia.org/wiki/PBKDF2
 	 * @see     http://www.ietf.org/rfc/rfc2898.txt
 	 * @since   12.1
 	 */
