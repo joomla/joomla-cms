@@ -63,8 +63,7 @@ if ($params->get('show_loggedin_users_admin', 1))
 if ($params->get('show_messages', 1))
 {
 	$active   = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
-		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
+	$output[] = '<div class="btn-group ' . $inboxClass . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
 		. '<span class="badge' . $active . '">' . $unread . '</span> '
 		. JText::plural('MOD_STATUS_MESSAGES_LABEL', $unread)
