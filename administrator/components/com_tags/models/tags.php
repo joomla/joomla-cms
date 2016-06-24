@@ -360,10 +360,12 @@ class TagsModelTags extends JModelList
 		$component = $parts[0];
 		$section = null;
 
-		if (count($parts) > 1)
+		if (count($parts) < 2)
 		{
-			$section = $parts[1];
+			return;
 		}
+
+		$section = $parts[1];
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
