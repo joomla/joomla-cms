@@ -296,7 +296,7 @@ abstract class JPluginHelper
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('folder AS type, element AS name, params')
+			->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
 			->from('#__extensions')
 			->where('enabled = 1')
 			->where('type =' . $db->quote('plugin'))
