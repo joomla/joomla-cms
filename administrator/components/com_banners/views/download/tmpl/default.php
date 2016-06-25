@@ -20,10 +20,8 @@ defined('_JEXEC') or die;
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>
 			<?php if ($field->hidden) : ?>
-				<div class="control-group">
-					<div class="controls"><?php echo $field->input; ?></div>
-				</div>
-			<?php else: ?>
+					<?php echo $field->input; ?></div>
+				<?php else: ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $field->label; ?></div>
 					<div class="controls"><?php echo $field->input; ?></div>
