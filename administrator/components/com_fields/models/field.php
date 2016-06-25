@@ -10,6 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Field Model
@@ -215,7 +216,7 @@ class FieldsModelField extends JModelAdmin
 		if ($success)
 		{
 			$pks = (array) $pks;
-			JArrayHelper::toInteger($pks);
+			$pks = ArrayHelper::toInteger($pks);
 			$this->_db->setQuery('delete from #__fields_values where field_id in (' . implode(',', $pks) . ')');
 			$this->_db->query();
 		}

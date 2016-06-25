@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Fields Model
@@ -197,7 +198,7 @@ class FieldsModelFields extends JModelList
 		{
 			if (is_array($access))
 			{
-				JArrayHelper::toInteger($access);
+				$access = ArrayHelper::toInteger($access);
 				$query->where('a.access in (' . implode(',', $access) . ')');
 			}
 			else
