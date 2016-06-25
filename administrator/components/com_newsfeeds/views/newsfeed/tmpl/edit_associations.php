@@ -15,5 +15,5 @@ if ($this->item->id != 0 && $this->item->language != '*')
 }
 else
 {
-	echo '<div class="alert alert-no-items">' . JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE') . '</div>';
+	echo '<div class="alert alert-info">' . JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE') . '</div>';
 }
