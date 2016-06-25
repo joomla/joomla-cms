@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields list controller class.
  *
- * @since  3.6
+ * @since  3.7
  */
 class FieldsControllerFields extends JControllerAdmin
 {
@@ -20,7 +20,7 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   12.2
+	 * @since   3.7
 	 */
 	public function checkin()
 	{
@@ -40,9 +40,9 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since  12.2
+	 * @since   3.7
 	 */
-	public function delete ()
+	public function delete()
 	{
 		$return = parent::delete();
 
@@ -60,9 +60,9 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since  12.2
+	 * @since   3.7
 	 */
-	public function publish ()
+	public function publish()
 	{
 		$return = parent::publish();
 
@@ -84,12 +84,10 @@ class FieldsControllerFields extends JControllerAdmin
 	 *
 	 * @return  JModel
 	 *
-	 * @since   1.6
+	 * @since   3.7
 	 */
-	public function getModel ($name = 'Field', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Field', $prefix = 'FieldsModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }
