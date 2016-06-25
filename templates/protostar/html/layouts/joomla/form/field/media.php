@@ -118,9 +118,6 @@ $url    = ($readonly ? ''
 
 	JHtml::_('script', 'media/mediafield.min.js', false, true, false, false, true);
 	?>
-	<?php if ($showPreview && !$showAsTooltip) : ?>
-	<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; height: <?php echo $previewHeight; ?>px;"></div>
-	<?php endif; ?>
 	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
 		<span rel="popover" class="add-on pop-helper field-media-preview"
@@ -128,14 +125,16 @@ $url    = ($readonly ? ''
 			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
 			<i class="icon-eye"></i>
 		</span>
-	</div>
 	<?php else: ?>
 	<div class="input-append">
-		<?php endif; ?>
+	<?php endif; ?>
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
 		<?php if ($disabled != true) : ?>
 			<a class="btn add-on button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
 			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
 		<?php endif; ?>
 	</div>
+	<?php if ($showPreview && !$showAsTooltip) : ?>
+		<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; max-height: <?php echo $previewHeight; ?>px;margin-top:10px;"></div>
+	<?php endif; ?>
 </div>

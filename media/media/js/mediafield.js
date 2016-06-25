@@ -100,10 +100,13 @@
 			if (!value) {
 				this.$containerPreview.append('');
 			} else {
-				var imgPreview = new Image(this.options.previewWidth, this.options.previewHeight);
+				var imgPreview = new Image();
 				imgPreview.src = this.options.basepath + value;
-
-				this.$containerPreview.html($('<img>',{src: imgPreview.src}));
+				if (imgPreview.width > imgPreview.height) {
+					this.$containerPreview.html($('<img>',{src: imgPreview.src, style: 'width: ' + this.options.previewWidth + 'px'}));
+				} else {
+					this.$containerPreview.html($('<img>',{src: imgPreview.src, style: 'height: ' + this.options.previewHeight + 'px'}));
+				}
 			}
 		} else {
 			// Reset tooltip and preview
