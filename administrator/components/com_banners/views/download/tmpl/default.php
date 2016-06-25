@@ -19,10 +19,16 @@ defined('_JEXEC') or die;
 		<legend><?php echo JText::_('COM_BANNERS_TRACKS_DOWNLOAD'); ?></legend>
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>
-			<?php if (!$field->hidden) : ?>
-				<?php echo $field->label; ?>
+			<?php if ($field->hidden) : ?>
+				<div class="control-group">
+					<div class="controls"><?php echo $field->input; ?></div>
+				</div>
+			<?php else: ?>
+				<div class="control-group">
+					<div class="control-label"><?php echo $field->label; ?></div>
+					<div class="controls"><?php echo $field->input; ?></div>
+				</div>
 			<?php endif; ?>
-			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 		<div class="clr"></div>
 		<button type="button" class="btn" onclick="this.form.submit();window.top.setTimeout('window.parent.jQuery(\'#modal-download\').modal(\'hide\')', 700);"><?php echo JText::_('COM_BANNERS_TRACKS_EXPORT'); ?></button>
