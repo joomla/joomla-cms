@@ -94,7 +94,7 @@
 			return;
 		}
 
-		if (this.options.preview && !this.options.showAsTooltip) {
+		if (this.options.preview && !this.options.previewAsTooltip) {
 			var value = this.$input.val();
 
 			if (!value) {
@@ -142,7 +142,7 @@
 		url: 'index.php?option=com_media&tmpl=component', // url for load the iframe
 		modal: '.modal', // modal selector
 		modalWidth: '100%', // modal width
-		modalHeight: '300px' // modal height
+		modalHeight: '300px', // modal height
 	};
 
 	$.fn.fieldMedia = function(options){
