@@ -27,7 +27,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::validateToken('post');
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;

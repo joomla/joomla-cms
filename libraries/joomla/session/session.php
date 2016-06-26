@@ -335,6 +335,39 @@ class JSession implements IteratorAggregate
 	}
 
 	/**
+	 * Checks for a form token in the request.
+	 *
+	 * Use in conjunction with getFormToken.
+	 *
+	 * @param   string   $method    The request method in which to look for the token key.
+	 * @param   boolean  $redirect  Whether to implicitly redirect user to the referrer page.
+	 *
+	 * @return  boolean  True if found and valid, otherwise return false or redirect to referrer page.
+	 *
+	 * @since   1.0
+	 */
+	public static function validateToken($method = 'post', $redirect = true)
+	{
+		$valid = static::checkToken($method);
+
+		if (!$valid && $redirect)
+		{
+			$app = JFactory::getApplication();
+			$referrer = $app->input->server->getString('HTTP_REFERER');
+
+			if (!JUri::isInternal($referrer))
+			{
+				$referrer = 'index.php';
+			}
+
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'warning');
+			$app->redirect($referrer);
+		}
+
+		return $valid;
+	}
+
+	/**
 	 * Get session name
 	 *
 	 * @return  string  The session name
