@@ -196,30 +196,55 @@ class FieldsTableField extends JTable
 		$parts = FieldsHelper::extract($this->context);
 		$component = $parts ? $parts[0] : null;
 
-		if ($component)
+		if ($parts && $this->catid)
 		{
-			// Build the query to get the asset id for the parent category.
-			$query = $this->_db->getQuery(true)
-				->select($this->_db->quoteName('id'))
-				->from($this->_db->quoteName('#__assets'))
-				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($component));
-
-			// Get the asset id from the database.
-			$this->_db->setQuery($query);
-
-			$assetId = null;
-
-			if ($result = $this->_db->loadResult())
+			$assetId = $this->getAssetId($parts[0] . '.' . $parts[1] . '.fields.category.' . $this->catid);
+			if ($assetId !== false)
 			{
-				$assetId = (int) $result;
-
-				if ($assetId)
-				{
-					return $assetId;
-				}
+				return $assetId;
+			}
+		}
+		elseif ($component)
+		{
+			$assetId = $this->getAssetId($component);
+			if ($assetId !== false)
+			{
+				return $assetId;
 			}
 		}
 
 		return parent::_getAssetParentId($table, $id);
+	}
+
+	/**
+	 * Returns an asset id for the given name or false.
+	 *
+	 * @param   string  $name  The asset name
+	 *
+	 * @return number|boolean
+	 */
+	private function getAssetId($name)
+	{
+		// Build the query to get the asset id for the name.
+		$query = $this->_db->getQuery(true)
+		->select($this->_db->quoteName('id'))
+		->from($this->_db->quoteName('#__assets'))
+		->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+
+		// Get the asset id from the database.
+		$this->_db->setQuery($query);
+
+		$assetId = null;
+
+		if ($result = $this->_db->loadResult())
+		{
+			$assetId = (int) $result;
+
+			if ($assetId)
+			{
+				return $assetId;
+			}
+		}
+		return false;
 	}
 }

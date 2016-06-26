@@ -75,4 +75,17 @@ class FieldsHelperInternal
 			}
 		}
 	}
+
+	/**
+	 * Return a boolean if the actual logged in user can edit the given field value.
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return boolean
+	 */
+	public static function canEditFieldValue($field)
+	{
+		$user = JFactory::getUser();
+		return $user->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
+	}
 }

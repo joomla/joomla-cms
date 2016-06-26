@@ -296,7 +296,8 @@ class PlgSystemFields extends JPlugin
 			return true;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$app = JFactory::getApplication();
+		$input = $app->input;
 
 		// If we are on the save command we need the actual data
 		$jformData = $input->get('jform', array(), 'array');
@@ -313,7 +314,7 @@ class PlgSystemFields extends JPlugin
 
 		if ((!isset($data->catid) || !$data->catid) && JFactory::getApplication()->isSite() && $component = 'com_content')
 		{
-			$activeMenu = JFactory::getApplication()->getMenu()->getActive();
+			$activeMenu = $app->getMenu()->getActive();
 			if ($activeMenu && $activeMenu->params)
 			{
 				$data->catid = $activeMenu->params->get('catid');
@@ -321,6 +322,13 @@ class PlgSystemFields extends JPlugin
 		}
 
 		FieldsHelper::prepareForm($parts[0] . '.' . $parts[1], $form, $data);
+
+		if ($app->isAdmin() && $input->get('option') == 'com_categories' && strpos($input->get('extension'), 'fields') !== false)
+		{
+			// Set the right permission extension
+			$form->setFieldAttribute('rules', 'component', 'com_fields');
+			$form->setFieldAttribute('rules', 'section', 'category');
+		}
 
 		return true;
 	}

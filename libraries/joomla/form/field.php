@@ -1101,8 +1101,7 @@ abstract class JFormField
 		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
 
 		// Set the disabled state based on the parameter and the permission
-		$authorizedToEdit = JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
-		if ($field->params->get('disabled', 0) || !$authorizedToEdit)
+		if ($field->params->get('disabled', 0) || !FieldsHelperInternal::canEditFieldValue($field))
 		{
 			$node->setAttribute('disabled', 'true');
 		}

@@ -590,7 +590,7 @@ class FieldsModelField extends JModelAdmin
 
 		// Don't save the value when the field is disabled or the user is
 		// not authorized to change it
-		if (! $field || $params->get('disabled', 0) || ! JFactory::getUser()->authorise('core.edit.value', $context . '.field.' . (int) $field->id))
+		if (! $field || $params->get('disabled', 0) || ! FieldsHelperInternal::canEditFieldValue($field))
 		{
 			return false;
 		}
