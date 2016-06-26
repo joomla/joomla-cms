@@ -46,7 +46,6 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
         });
     });
 
-    
     describe('validate method on #validate-disabled', function () {
         var res = document.formvalidator.validate(element.find('#validate-disabled'))
 
