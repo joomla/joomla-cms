@@ -25,7 +25,10 @@ require.config({
 	},
 
 	shim: {
-		jasmineJquery: ['jquery']
+		jasmineJquery: ['jquery'],
+		'libs/validate': {
+			deps: ['jquery']
+		}
 	},
 
 	// dynamically load all test files
