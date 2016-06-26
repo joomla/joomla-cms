@@ -83,6 +83,27 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 		<?php endif; ?>
+
+		<?php // Load the export form ?>
+		<?php echo JHtml::_(
+			'bootstrap.renderModal',
+			'downloadModal',
+			array(
+				'title'       => JText::_('COM_BANNERS_TRACKS_DOWNLOAD'),
+				'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
+				'width'       => '300px',
+				'height'      => '350px',
+				'bodyHeight'  => '50',
+				'modalWidth'  => '40',
+				'footer'      => '<button class="btn" data-dismiss="modal" type="button"'
+						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
+						. JText::_("COM_BANNERS_CANCEL") . '</button>'
+						. '<button class="btn btn-success" type="button"'
+						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
+						. JText::_("COM_BANNERS_TRACKS_EXPORT") . '</button>',
+			)
+		); ?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
