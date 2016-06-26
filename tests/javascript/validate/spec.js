@@ -138,10 +138,18 @@ define(['jquery', 'testsRoot/validate/spec-setup', 'jasmineJquery'], function ($
     });
 
     describe('isValid method on button click', function () {
-        Joomla.renderMessages = function() {
-            return true;
-        };
-        $('#button').trigger( "click" );
+        beforeAll(function () {
+            fn = Joomla.renderMessages;
+
+            Joomla.renderMessages = function() {
+                return true;
+            };
+            $('#button').trigger( "click" );
+        });
+
+        afterAll(function () {
+            Joomla.renderMessages = fn;
+        });
 
         it('should add class invalid to element #isvalid-numeric-nan', function () {
             expect(element.find('#isvalid-numeric-nan')).toHaveClass('invalid');
