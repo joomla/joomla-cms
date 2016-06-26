@@ -14,9 +14,9 @@ JHtml::_('behavior.core');
 $selector = $displayData['selector'];
 $class    = isset($displayData['class']) ? $displayData['class'] : 'toolbar';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : '';
-$title    = isset($displayData['title']) ? $displayData['title'] : '';
+$text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 <a class="<?php echo $class; ?>" data-toggle="modal" data-target="#<?php echo $selector; ?>">
-	<span class="icon-32-<?php echo $icon; ?>"<?php echo ( ! $title ? ' title="' . $selector . '"' : ''); ?>></span>
-	<?php echo $title; ?>
+	<span class="icon-32-<?php echo $icon; ?>"></span>
+	<?php echo $text; ?>
 </a>
