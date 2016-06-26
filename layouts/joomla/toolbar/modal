@@ -1,0 +1,22 @@
+<?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  Layout
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('JPATH_BASE') or die;
+
+JHtml::_('behavior.core');
+
+$selector = $displayData['selector'];
+$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-small';
+$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'out-3';
+$title    = isset($displayData['title']) ? $displayData['title'] : '';
+?>
+<button class="<?php echo $class; ?>" data-toggle="modal" data-target="#<?php echo $selector; ?>">
+	<span class="icon-<?php echo $icon_class; ?>" title="<?php echo $selector; ?>"></span>
+	<?php echo $title; ?>
+</button>
