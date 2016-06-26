@@ -88,12 +88,12 @@ class ContentViewArticle extends JViewLegacy
 
 		$linkArticle = "";
 
-		if (!$checkedOut)
+		if (!$isNew)
 		{
 			$linkArticle = '<a href="' . JRoute::_(
 					JURI::root() . 'index.php?option=com_content&view=article&id='
 			. (int) $this->item->id
-				) . '" title="' . JText::_('JGLOBAL_LINK_ITEM') . '" target="_blank"><span class="icon-out-2"></span></a>';
+				) . '" title="' . JText::_('JGLOBAL_LINK_FRONTEND_ITEM') . '" target="_blank"><span class="icon-out-2"></span></a>';
 		}
 
 		JToolbarHelper::title(
