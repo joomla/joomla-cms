@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component"
+	<fieldset
+		name="component"
 		label="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_LABEL"
-		description="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_DESC">
+		description="COM_BANNERS_FIELDSET_CONFIG_CLIENT_OPTIONS_DESC"
+		>
+
 		<field
-			id="purchase_type"
 			name="purchase_type"
 			type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
+			id="purchase_type"
 			default="0"
 			>
-			<option
-				value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
-			<option
-				value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
-			<option
-				value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
-			<option
-				value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
-			<option
-				value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_YEARLY</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_MONTHLY</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_WEEKLY</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_DAILY</option>
 		</field>
 
 		<field
 			name="track_impressions"
 			type="radio"
+			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
+			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
 			name="track_clicks"
 			type="radio"
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
+			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			class="btn-group btn-group-yesno"
 			default="0"
-			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
-			description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -51,34 +49,35 @@
 			name="metakey_prefix"
 			type="text"
 			label="COM_BANNERS_FIELD_METAKEYWORDPREFIX_LABEL"
-			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC" />
-
+			description="COM_BANNERS_FIELD_METAKEYWORDPREFIX_DESC"
+		/>
 	</fieldset>
-	<fieldset name="banners"
+	<fieldset
+		name="banners"
 		label="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_LABEL"
-		description="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_DESC">
-	
+		description="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_DESC"
+		>
+
 		<field
 			name="save_history"
 			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
 			>
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
-			filter="integer"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			filter="integer"
 			default="5"
+			showon="save_history:1"
 		/>
 	</fieldset>
 
@@ -95,6 +94,7 @@
 			filter="rules"
 			validate="rules"
 			component="com_banners"
-			section="component" />
+			section="component"
+		/>
 	</fieldset>
 </config>

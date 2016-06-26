@@ -7,8 +7,9 @@
 
 # Local System Files (i.e. cache, logs, etc.) #
 /administrator/cache
+/administrator/logs
 /cache
-/logs
+/installation/cache
 /tmp
 /configuration.php
 /.htaccess
@@ -131,3 +132,13 @@ Desktop.ini
 /libraries/vendor/symfony/yaml/composer.json
 /libraries/vendor/symfony/yaml/phpunit.xml.dist
 /libraries/vendor/symfony/yaml/README.md
+/libraries/vendor/simplepie/simplepie/demo
+/libraries/vendor/simplepie/simplepie/tests
+/libraries/vendor/simplepie/simplepie/README.markdown
+/libraries/vendor/simplepie/simplepie/phpunit.xml.dist
+/libraries/vendor/simplepie/simplepie/.gitignore
+/libraries/vendor/simplepie/simplepie/.travis.yml
+/libraries/vendor/simplepie/simplepie/compatibility_test
+/libraries/vendor/simplepie/simplepie/build
+/libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
+/libraries/vendor/simplepie/simplepie/composer.json

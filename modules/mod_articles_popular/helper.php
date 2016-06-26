@@ -33,10 +33,10 @@ abstract class ModArticlesPopularHelper
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model     = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$app = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
@@ -77,7 +77,7 @@ abstract class ModArticlesPopularHelper
 
 		foreach ($items as &$item)
 		{
-			$item->slug = $item->id . ':' . $item->alias;
+			$item->slug    = $item->id . ':' . $item->alias;
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))

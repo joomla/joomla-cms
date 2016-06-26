@@ -1336,8 +1336,8 @@ textarea.noResize {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
 /* Corrects the modals padding */
@@ -1357,4 +1357,22 @@ body.modal-open {
 /* Clear div after modal-body rendering */
 .modal-footer {
 	clear: both;
+}
+
+/* Modal Header text align left even if parent container centered */
+.modal-header {
+	text-align: left;
+}
+
+/* ACL Permission page */
+#permissions,
+#page-permissions {
+	table {
+		td {
+			vertical-align: middle;
+		}
+		select {
+			margin-bottom: 0;
+		}
+	}
 }

@@ -96,7 +96,7 @@ class TagsTableTag extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -242,7 +242,7 @@ class TagsTableTag extends JTableNested
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Tag', 'TagsTable');
+		$table = JTable::getInstance('Tag', 'TagsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{

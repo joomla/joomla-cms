@@ -3454,6 +3454,10 @@ fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+fieldset.uploadform .control-group,
+fieldset.uploadform .form-actions {
+	display: inline-block;
+}
 #installer-database,
 #installer-discover,
 #installer-update,

@@ -99,14 +99,19 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 			$canCreate = $user->authorise('core.create',     'com_menus');
 			$canEdit   = $user->authorise('core.edit',       'com_menus');
 			$canChange = $user->authorise('core.edit.state', 'com_menus');
+			$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype) ?> ">
+					<?php if ($canManageItems) : ?>
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
 						<?php echo $this->escape($item->title); ?></a>
+					<?php else : ?>
+						<?php echo $this->escape($item->title); ?>
+					<?php endif; ?>
 					<p class="smallsub">(<span><?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL') ?></span>
 						<?php if ($canEdit) : ?>
 							<?php echo '<a href="'.JRoute::_('index.php?option=com_menus&task=menu.edit&id='.$item->id).' title='.$this->escape($item->description).'">'.

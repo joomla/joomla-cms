@@ -36,7 +36,7 @@ class JoomlaInstallerScript
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
-		$this->convertTablesToUtf8mb4();
+		$this->convertTablesToUtf8mb4(true);
 		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
@@ -235,13 +235,13 @@ class JoomlaInstallerScript
 			array('component', 'com_config', '', 1),
 			array('component', 'com_redirect', '', 1),
 			array('component', 'com_users', '', 1),
+			array('component', 'com_finder', '', 1),
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
-			array('library', 'phpmailer', '', 0),
-			array('library', 'simplepie', '', 0),
 			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
@@ -341,6 +341,9 @@ class JoomlaInstallerScript
 			array('plugin', 'updatenotification', 'system', 0),
 			array('plugin', 'module', 'editors-xtd', 0),
 			array('plugin', 'stats', 'system', 0),
+			array('plugin', 'packageinstaller','installer',0),
+			array('plugin', 'folderinstaller','installer', 0),
+			array('plugin', 'urlinstaller','installer', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -356,7 +359,7 @@ class JoomlaInstallerScript
 			array('file', 'joomla', '', 0),
 
 			// Packages
-			// None in core at this time
+			array('package', 'pkg_en-GB', '', 0),
 		);
 
 		// Attempt to refresh manifest caches
@@ -1409,6 +1412,18 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/xml/xml.php',
 			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
 			'/administrator/components/com_joomlaupdate/helpers/download.php',
+			// Joomla 3.6.0
+			'/libraries/simplepie/README.txt',
+			'/libraries/simplepie/simplepie.php',
+			'/libraries/simplepie/LICENSE.txt',
+			'/libraries/simplepie/idn/LICENCE',
+			'/libraries/simplepie/idn/ReadMe.txt',
+			'/libraries/simplepie/idn/idna_convert.class.php',
+			'/libraries/simplepie/idn/npdata.ser',
+			'/administrator/manifests/libraries/simplepie.xml',
+			'/administrator/templates/isis/js/jquery.js',
+			'/administrator/templates/isis/js/bootstrap.min.js',
+			'/media/system/js/permissions.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1502,6 +1517,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
+			// Joomla 3.6
+			'/libraries/simplepie/idn',
+			'/libraries/simplepie',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1617,8 +1635,8 @@ class JoomlaInstallerScript
 		$session = JFactory::getSession();
 
 		/**
-		 * Restarting the Session require a new login for the current user so lets check if we have a active session
-		 * and only if not restart it.
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
 		 * For B/C reasons we need to use getState as isActive is not available in 2.5
 		 */
 		if ($session->getState() !== 'active')
@@ -1666,32 +1684,27 @@ class JoomlaInstallerScript
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
-	 * Note that this is a modified of InstallerModelDatabase::convertTablesToUtf8mb4()
-	 * that doesn't use JDatabase functions introduced in 3.5.0 which would cause errors
-	 * when upgrading from a version before 3.5.0
+	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function convertTablesToUtf8mb4()
+	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
 		$db = JFactory::getDbo();
 
 		// This is only required for MySQL databases
-		$name = $db->getName();
+		$serverType = $db->getServerType();
 
-		if (stristr($name, 'mysql') === false)
+		if ($serverType != 'mysql')
 		{
 			return;
 		}
 
-		// Check if utf8mb4 is supported and set required conversion status
-		$utf8mb4Support = false;
-
-		if ($this->serverClaimsUtf8mb4Support($name))
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
 		{
-			$utf8mb4Support = true;
 			$converted = 2;
 		}
 		else
@@ -1710,7 +1723,14 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			// Render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
 
 			return;
 		}
@@ -1757,15 +1777,9 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries2 as $query2)
 				{
-					// Downgrade the query if utf8mb4 isn't supported
-					if (!$utf8mb4Support)
-					{
-						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
-					}
-
 					try
 					{
-						$db->setQuery($query2)->execute();
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
 					}
 					catch (Exception $e)
 					{
@@ -1778,8 +1792,7 @@ class JoomlaInstallerScript
 			}
 		}
 
-		// Show if there was some error
-		if ($converted == 0)
+		if ($doDbFixMsg && $converted == 0)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
@@ -1788,89 +1801,6 @@ class JoomlaInstallerScript
 		// Set flag in database if the update is done.
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
 			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
-	}
-
-	/**
-	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
-	 * 
-	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
-	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
-	 * which will still have the old database driver loaded at this point.
-	 *
-	 * @param   string  $format  The type of database connection.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.5.0
-	 */
-	private function serverClaimsUtf8mb4Support($format)
-	{
-		$db = JFactory::getDbo();
-
-		switch ($format)
-		{
-			case 'mysql':
-				$client_version = mysql_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'mysqli':
-				$client_version = mysqli_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'pdomysql':
-				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
-				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
-				break;
-			default:
-				$client_version = false;
-				$server_version = false;
-		}
-
-		if ($client_version && version_compare($server_version, '5.5.3', '>='))
-		{
-			if (strpos($client_version, 'mysqlnd') !== false)
-			{
-				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-				return version_compare($client_version, '5.0.9', '>=');
-			}
-			else
-			{
-				return version_compare($client_version, '5.5.3', '>=');
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
-	 * doesn't support UTF-8 Multibyte.
-	 *
-	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
-	 * people upgrading from a version lower than 3.5.0 through extension manager which will still have the old database
-	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
-	 * updater elsewhere.
-	 *
-	 * @param   string  $query  The query to convert
-	 *
-	 * @return  string  The converted query
-	 *
-	 * @since   3.5
-	 */
-	private function convertUtf8mb4QueryToUtf8($query)
-	{
-		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
-		{
-			return $query;
-		}
-
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
 	}
 
 	/**

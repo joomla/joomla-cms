@@ -54,13 +54,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_REDIRECT_HEADING_STATUS_CODE', 'a.header', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="8">
+						<td colspan="9">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -68,13 +71,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 				<?php foreach ($this->items as $i => $item) :
 					$canEdit   = $user->authorise('core.edit',       'com_redirect');
+					$canChange = $user->authorise('core.edit.state', 'com_redirect');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td class="center">
-							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
+							<div class="btn-group">
+								<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
+								<?php // Create dropdown items and render the dropdown list.
+								if ($canChange)
+								{
+									JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'links');
+									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'links');
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->old_url));
+								}
+								?>
+							</div>
 						</td>
 						<td class="break-word">
 							<?php if ($canEdit) : ?>
@@ -95,6 +109,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->hits; ?>
+						</td>
+						<td class="hidden-phone">
+							<?php echo (int) $item->header; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>

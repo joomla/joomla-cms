@@ -103,6 +103,17 @@
 				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
 			</field>
 
+			<field
+				name="info_block_show_title"
+				type="list"
+				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+
 			<field name="show_category" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"

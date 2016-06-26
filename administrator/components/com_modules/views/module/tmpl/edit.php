@@ -48,9 +48,11 @@ $script .= "
 						var updPosition = jQuery('#jform_position').chosen().val(),
 							updTitle = jQuery('#jform_title').val(),
 							updMenus = jQuery('#jform_assignment').chosen().val(),
+							updStatus = jQuery('#jform_published').chosen().val(),
 							updAccess = jQuery('#jform_access').chosen().val(),
 							tmpMenu = jQuery('#menus-" . $this->item->id . "', parent.document),
 							tmpRow = jQuery('#tr-" . $this->item->id . "', parent.document);
+							tmpStatus = jQuery('#status-" . $this->item->id . "', parent.document);
 							window.parent.inMenus = new Array();
 							window.parent.numMenus = jQuery(':input[name=\"jform[assigned][]\"]').length;
 
@@ -118,27 +120,49 @@ $script .= "
 								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
-
+						if (updStatus == 1) {
+							tmpStatus.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
+						}
+						if (updStatus == 0) {
+							tmpStatus.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
+						}
+						if (updStatus == -2) {
+							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTrashed") . "</span>');
+							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
+						}
+						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
 							jQuery('#title-" . $this->item->id . "', parent.document).text(updTitle);
 							jQuery('#position-" . $this->item->id . "', parent.document).text(updPosition);
 							jQuery('#access-" . $this->item->id . "', parent.document).html(parent.viewLevels[updAccess]);
+						}
 					}
-					window.parent.jQuery('#module" . $this->item->id . "Modal').modal('hide');
+				}
+
+				if (task !== 'module.apply')
+				{
+					window.parent.jQuery('#module" . ((int) $this->item->id == 0 ? 'Add' : 'Edit' . (int) $this->item->id) . "Modal').modal('hide');
 				}
 			}
 	};";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
+// In case of modal
+$isModal = JFactory::getApplication()->input->get('layout') == 'modal' ? true : false;
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal ? '&tmpl=component' : '';
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MODULES_MODULE', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MODULES_MODULE')); ?>
 
 		<div class="row-fluid">
 			<div class="span9">
@@ -180,7 +204,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<p><?php echo $short_description; ?></p>
 							<?php if ($long_description) : ?>
 								<p class="readmore">
-									<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
+									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
 										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 									</a>
 								</p>
@@ -231,19 +255,19 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if (isset($long_description) && $long_description != '') : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
 			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->item->client_id == 0) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_MODULES_MENU_ASSIGNMENT', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
 			<?php echo $this->loadTemplate('assignment'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MODULES_FIELDSET_RULES', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MODULES_FIELDSET_RULES')); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
