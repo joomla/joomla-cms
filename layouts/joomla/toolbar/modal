@@ -17,6 +17,6 @@ $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'out-3';
 $title    = isset($displayData['title']) ? $displayData['title'] : '';
 ?>
 <button class="<?php echo $class; ?>" data-toggle="modal" data-target="#<?php echo $selector; ?>">
-	<span class="icon-<?php echo $icon_class; ?>" title="<?php echo $selector; ?>"></span>
+	<span class="icon-<?php echo $icon; ?>" title="<?php echo $selector; ?>"></span>
 	<?php echo $title; ?>
 </button>
