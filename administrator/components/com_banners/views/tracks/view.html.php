@@ -89,14 +89,13 @@ class BannersViewTracks extends JViewLegacy
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Instantiate a new JLayoutFile instance and render the export button
-		$title  = JText::_('JTOOLBAR_EXPORT');
 		$layout = new JLayoutFile('joomla.toolbar.modal');
 
 		$dhtml  = $layout->render(
 			array(
 				'selector' => 'downloadModal',
 				'icon'     => 'download',
-				'title'    => JText::_('JTOOLBAR_EXPORT'),
+				'text'     => JText::_('JTOOLBAR_EXPORT'),
 			)
 		);
 
