@@ -19,14 +19,12 @@ define(['jquery', 'text!testsRoot/permissions/fixtures/fixture.html', 'libs/perm
 		success: {
 			status: 200,
 			statusText: 'HTTP/1.1 200 OK',
-			contentType: 'text/plain',
-			responseText: '{"data": "true", "message": "0"}'
+			responseText: '{"data": {"result": true, "class": "test-class", "text": "Sample text"}, "messages": {}}'
 		},
 		fail: {
 			status: 404,
 			statusText: 'HTTP/1.1 404 Not Found',
-			contentType: 'text/plain',
-			responseText: ''
+			responseText: 'Error'
 		}
 	};
 });
