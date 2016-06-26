@@ -37,12 +37,12 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should see the :arg1 message
+	 * @Then I wait for the title :title and  see the message :message
 	 */
-	public function iShouldSeeTheMessage($message)
+	public function iShouldSeeTheMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Articles');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
@@ -70,12 +70,12 @@ class Content extends \AcceptanceTester
 	/**
 	 * @Then I save and see the :arg1 message
 	 */
-	public function iSaveAndSeeTheMessage($message)
+	/*public function iSaveAndSeeTheMessage($message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Articles');
+		$I->waitForPageTitle($message, AdminPage::$systemMessageContainer);
 		$I->see($message, AdminPage::$systemMessageContainer);
-	}
+	}*/
 
 	/**
 	 * @Given I select the content article with title :arg1
@@ -129,12 +129,12 @@ class Content extends \AcceptanceTester
 		$I->clickToolbarButton('unpublish');
 	}
 	/**
-	 * @Then I see article unpublish message :arg1
+	 * @Then I wait for title :title and see the unpublish message :message
 	 */
-	public function iSeeArticleUnpublishMessage($message)
+	public function iSeeArticleUnpublishMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Articles');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
@@ -161,12 +161,12 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I see article trash message :arg1
+	 * @Then I wait for the title :title and see article trash message :message
 	 */
-	public function iSeeArticleTrashMessage($message)
+	public function iSeeArticleTrashMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Articles');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 }

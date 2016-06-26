@@ -31,7 +31,7 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I Save the  user
+	 * @When I Save the  user
 	 */
 	public function iSaveTheUser()
 	{
@@ -40,13 +40,13 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I see the :arg1 message
+	 * @Then I should wait for the title :title and see the message :message
 	 */
-	public function iSeeTheMessage($message)
+	public function iSeeTheMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Users');
-		$I->see($message,AdminPage::$systemMessageContainer);
+		$I->waitForPageTitle($title);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 *  @When I set name as an :name and User Group as :arg1
+	 *  @When I set name as an :name and User Group as :usergroup
 	 */
 	public function iAssignedNameAndUserGroup($name, $userGroup)
 	{
@@ -76,18 +76,18 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should display the :arg1 message
+	 * @Then I should wait for :arg1 title and see the :arg2 message
 	 */
-	public function iShouldDisplayTheMessage($message)
+	public function iShouldDisplayTheMessage($title, $message)
 	{
 		$I = $this;
 		$I->clickToolbarButton('Save & Close');
-		$I->waitForPageTitle('Users');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
-	 * @Given I have a user with user name :arg1
+	 * @Given I have a user with user name :username
 	 */
 	public function iHaveAUserWithUserName($username)
 	{
@@ -108,17 +108,17 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should see the user block message :arg1
+	 * @Then I wait for the title :title and see the message :message
 	 */
-	public function iShouldSeeTheUserBlockMessage($message)
+	public function iShouldSeeTheUserBlockMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Users');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
-	 * @Given I have a blocked user with user name :arg1
+	 * @Given I have a blocked user with user name :username
 	 */
 	public function iHaveABlockedUserWithUserName($username)
 	{
@@ -140,17 +140,17 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should see the user unblock message :arg1
+	 * @Then I should see the user unblock message :message
 	 */
-	public function iShouldSeeTheUserUnblockMessage($message)
+	/*public function iShouldSeeTheUserUnblockMessage($message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Users');
+		$I->waitForPageTitle($message, AdminPage::$systemMessageContainer);
 		$I->see($message, AdminPage::$systemMessageContainer);
-	}
+	}*/
 
 	/**
-	 * @When I Delete the user :arg1
+	 * @When I Delete the user :username
 	 */
 	public function iDeleteTheUser($username)
 	{
@@ -164,13 +164,14 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I confirm the user should have been deleted by getting the message :arg1
+	 * @Then I confirm the user should have been deleted by getting the title :title and see the message :message
 	 */
-	public function iConfirmTheUserDeleteSucessfully($message)
+	public function iConfirmTheUserDeleteSucessfully($title, $message)
 	{
 		$I = $this;
 		$I->checkForPhpNoticesOrWarnings();
-		$I->see($message, AdminPage::$systemMessageContainer);;
+		$I->waitForPageTitle($title);
+		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
@@ -202,7 +203,7 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I create a super admin with fields Name :name, Login Name :username, Password :password, and Email :email
+	 * @Given I fill a super admin with fields Name :name, Login Name :username, Password :password, and Email :email
 	 */
 	public function iCreateASuperAdmin($name, $username, $password, $email)
 	{
@@ -249,12 +250,21 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I see the :error alert error
+	 * @Then I see the title :title
+	 */
+	public function iSeeTheTitle($title)
+	{
+		$I = $this;
+		$I->waitForPageTitle($title);
+	}
+
+	/**
+	 * @Then I see the alert error :error
 	 */
 	public function iSeeTheAlertError($error)
 	{
 		$I = $this;
-		$I->see($error,AdminPage::$systemMessageContainer);
+		$I->see($error, AdminPage::$systemMessageContainer);
 	}
 
 
@@ -269,7 +279,7 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I fill Group Title as a :arg1
+	 * @When I fill Group Title as a :grouptitle
 	 */
 	public function iFillGroupTitleAsA($GroupTitle)
 	{
@@ -287,17 +297,17 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should see the :arg1 message
+	 * @Then I should wait for :title title and see the message :message
 	 */
-	public function iShouldSeeTheMessage($message)
+	public function iShouldSeeTheMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Users: Groups');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
-	 * @Given I search and select the Group with name :arg1
+	 * @Given I search and select the Group with name :grouptitle
 	 */
 	public function iSearchAndSelectTheGroupWithName($GroupTitle)
 	{
@@ -310,13 +320,14 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Given I set group Title as a :arg1
+	 * @Given I set group Title as a :grouptitle
 	 */
 	public function iSetGroupTitleAsA($GroupTitle)
 	{
 		$I = $this;
 		$I->fillField(UserManagerPage::$title, $GroupTitle);
 	}
+	
 
 	/**
 	 * @When I Delete the Group :arg1
@@ -333,12 +344,13 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I confirm the group should have been deleted by getting the message :arg1
+	 * @Then I confirm the group should have been deleted by getting the title :title and see the message :message
 	 */
-	public function iDeleteUserGroup($message)
+	public function iDeleteUserGroup($title, $message)
 	{
 		$I = $this;
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
@@ -372,17 +384,17 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should be see the :arg1 message
+	 * @Then I wait for the title :title see the message :message
 	 */
-	public function iShouldBeSeeTheMessage($message)
+	public function iShouldBeSeeTheMessage($title, $message)
 	{
 		$I = $this;
-		$I->waitForPageTitle('Users: Viewing Access Levels');
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
 	/**
-	 * @Given I search and select the Access Level with name :arg1
+	 * @Given I search and select the Access Level with name :leveltitle
 	 */
 	public function iSearchAndSelectTheAccessLevelWithName($LevelTitle)
 	{
@@ -395,7 +407,7 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Given I set Access Level title as a :arg1
+	 * @Given I set Access Level title as a :leveltitle
 	 */
 	public function iSetAccessLevelTitleAsA($LevelTitle)
 	{
@@ -413,7 +425,7 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I Delete the Access level :arg1
+	 * @When I Delete the Access level :leveltitle
 	 */
 	public function iDeleteTheAccessLeVel($LevelTitle)
 	{
@@ -427,12 +439,61 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I confirm the  Access Level have been deleted by getting the message :arg1
+	 * @Then I confirm the  Access Level have been deleted by getting the title :title and see the message :message
 	 */
-	public function iDeleteAccessLevel($message)
+	public function iDeleteAccessLevel($title, $message)
 	{
 		$I = $this;
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForPageTitle($title);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
+	/**
+	 * @Given There is a User link
+	 */
+	public function thereIsAUserLink()
+	{
+		$I = $this;
+		$I->amOnPage(UserManagerPage::$pageURL);
+	}
+
+	/**
+	 * @Given I goto the option setting
+	 */
+	public function iGotoTheOptionSetting()
+	{
+		$I = $this;
+		$I->clickToolbarButton('options');
+	}
+
+	/**
+	 * @When I set Allow User Registration as a yes
+	 */
+	public function iSetAllowUserRegistrationAsAYes()
+	{
+		$I = $this;
+		$I->selectOptionInRadioField('Allow User Registration', 'Yes');
+	}
+
+	/**
+	 * @When I save the setting
+	 */
+	public function iSaveTheSetting()
+	{
+		$I = $this;
+		$I->clickToolbarButton('Save');
+
+	}
+
+
+	/**
+	 * @Then I should be see the link Create an account in frontend
+	 */
+	public function iShouldBeSeeTheLinkCreateAnAccountInFrontend()
+	{
+		$I = $this;
+		$I->click(['class' => 'brand visible-desktop visible-tablet']);
+	}
+
+
 }

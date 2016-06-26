@@ -12,26 +12,26 @@ Feature: content
     Given There is a add content link
     When I create new content with field title as "My_Article" and content as a "This is my first article"
     And I save an article
-    Then I should see the "Article successfully saved." message
+    Then I wait for the title "Articles" and  see the message "Article successfully saved."
 
   Scenario: Feature an Article
     Given I search and select content article with title "My_Article"
     When I featured the article
-    Then I save and see the "1 article featured." message
+    Then I wait for the title "Articles" and see the message "1 article featured."
 
   Scenario: Modify an article
     Given I select the content article with title "My_Article"
     And I set access level as a "Registered"
     When I save the article
-    Then I should see the "Article successfully saved" message
+    Then I wait for the title "Articles" and  see the message "Article successfully saved."
 
   Scenario: Unpublish an article
     Given I have article with name "My_Article"
     When I unpublish the article
-    Then I see article unpublish message "1 article unpublished."
+    Then I wait for title "Articles" and see the unpublish message "1 article unpublished."
 
   Scenario: Trash an article
     Given I have "My_Article" content article which needs to be Trash
     When  I Trash the article
-    Then  I see article trash message "1 article trashed."
+    Then  I wait for the title "Articles" and see article trash message "1 article trashed."
 
