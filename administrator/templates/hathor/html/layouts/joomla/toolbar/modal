@@ -17,6 +17,6 @@ $icon     = isset($displayData['icon']) ? $displayData['icon'] : '';
 $title    = isset($displayData['title']) ? $displayData['title'] : '';
 ?>
 <a class="<?php echo $class; ?>" data-toggle="modal" data-target="#<?php echo $selector; ?>">
-	<span class="icon-32-<?php echo $icon; ?>" title="<?php echo $selector; ?>"></span>
+	<span class="icon-32-<?php echo $icon; ?>"<?php echo ( ! $title ? ' title="' . $selector . '"' : ''); ?>></span>
 	<?php echo $title; ?>
 </a>
