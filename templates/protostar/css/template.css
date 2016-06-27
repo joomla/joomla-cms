@@ -175,6 +175,9 @@ textarea {
 .rtl .categories-list .collapse {
 	margin: 0 20px 0 0;
 }
+.rtl .modal-footer button {
+	float: left;
+}
 .clearfix {
 	*zoom: 1;
 }
@@ -6184,6 +6187,19 @@ th .tooltip-inner {
 }
 .dropdown-menu {
 	text-align: left;
+}
+.alert-link {
+	font-weight: bold;
+}
+.alert-success .alert-link {
+	color: #356635;
+}
+.alert-danger .alert-link,
+.alert-error .alert-link {
+	color: #953b39;
+}
+.alert-info .alert-link {
+	color: #2d6987;
 }
 div.modal {
 	position: fixed;

@@ -145,7 +145,7 @@ class JFormFieldTextarea extends JFormField
 		$columns      = $this->columns ? ' cols="' . $this->columns . '"' : '';
 		$rows         = $this->rows ? ' rows="' . $this->rows . '"' : '';
 		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
+		$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus    = $this->autofocus ? ' autofocus' : '';

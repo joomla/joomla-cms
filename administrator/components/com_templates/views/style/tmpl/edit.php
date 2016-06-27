@@ -53,7 +53,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					?>
 					<?php if ($description) : ?>
 						<p class="readmore">
-							<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
+							<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
 								<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
 							</a>
 						</p>
