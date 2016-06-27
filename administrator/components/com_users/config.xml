@@ -129,6 +129,7 @@
 			step="1"
 			default="10">
 			</field>
+
 		<field
 			name="reset_time"
 			type="integer"
@@ -139,6 +140,7 @@
 			step="1"
 			default="1">
 			</field>
+
 		<field
 			name="minimum_length"
 			type="integer"
@@ -149,6 +151,7 @@
 			step="1"
 			default="4">
 			</field>
+
 		<field
 			name="minimum_integers"
 			type="integer"
@@ -159,6 +162,7 @@
 			step="1"
 			default="0">
 			</field>
+
 		<field
 			name="minimum_symbols"
 			type="integer"
@@ -169,6 +173,7 @@
 			step="1"
 			default="0">
 			</field>
+
 		<field
 			name="minimum_uppercase"
 			type="integer"
@@ -180,6 +185,7 @@
 			default="0">
 			</field>
 	</fieldset>	
+
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
