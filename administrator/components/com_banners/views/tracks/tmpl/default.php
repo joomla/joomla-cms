@@ -91,9 +91,8 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 			array(
 				'title'       => JText::_('COM_BANNERS_TRACKS_DOWNLOAD'),
 				'url'         => JRoute::_('index.php?option=com_banners&amp;view=download&amp;tmpl=component'),
+				'height'      => '370px',
 				'width'       => '300px',
-				'height'      => '350px',
-				'bodyHeight'  => '50',
 				'modalWidth'  => '40',
 				'footer'      => '<button class="btn" data-dismiss="modal" type="button"'
 						. ' onclick="jQuery(\'#downloadModal iframe\').contents().find(\'#closeBtn\').click();">'
