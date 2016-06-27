@@ -169,7 +169,7 @@ class PlgSystemRedirect extends JPlugin
 
 		foreach ($redirects as $redirect)
 		{
-			$oldUrls[] = $redirect->old_url;
+			$oldUrls[] = $redirect['old_url'];
 		}
 
 		foreach ($possibleMatches as $match)
