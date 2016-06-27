@@ -165,9 +165,16 @@ class PlgSystemRedirect extends JPlugin
 			array($url, $urlRel, $urlWithoutQuery, $urlRelWithoutQuery)
 		);
 
+		$oldUrls = array();
+
+		foreach ($redirects as $redirect)
+		{
+			$oldUrls[] = $redirect->old_url;
+		}
+
 		foreach ($possibleMatches as $match)
 		{
-			if (($index = array_search($match, array_column($redirects, 'old_url'))) !== false)
+			if (($index = array_search($match, $oldUrls)) !== false)
 			{
 				$redirect = (object) $redirects[$index];
 
