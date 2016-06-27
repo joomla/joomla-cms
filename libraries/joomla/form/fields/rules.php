@@ -156,8 +156,11 @@ class JFormFieldRules extends JFormField
 
 		// Initialise some field attributes.
 		$section    = $this->section;
-		$component  = $this->component;
 		$assetField = $this->assetField;
+		$component  = empty($this->component) ? 'root.1' : $this->component;
+
+		// Current view is global config?
+		$isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
 		$actions = JAccess::getActions($component, $section);
@@ -172,29 +175,54 @@ class JFormFieldRules extends JFormField
 			}
 		}
 
-		// Get the explicit rules for this asset.
-		if ($section == 'component')
+		// Get the asset id.
+		// Note that for global configuration, com_config injects asset_id = 1 into the form.
+		$assetId       = $this->form->getValue($assetField);
+		$newItem       = empty($assetId) && $isGlobalConfig === false && $section !== 'component';
+		$parentAssetId = null;
+
+		// If the asset id is empty (component or new item).
+		if (empty($assetId))
 		{
-			// Need to find the asset id by the name of the component.
+			// Get the component asset id as fallback.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
 				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+
 			$db->setQuery($query);
+
 			$assetId = (int) $db->loadResult();
+
+			/**
+			 * @to do: incorrect info
+			 * When creating a new item (not saving) it uses the calculated permissions from the component (item <-> component <-> global config).
+			 * But if we have a section too (item <-> section(s) <-> component <-> global config) this is not correct.
+			 * Also, currently it uses the component permission, but should use the calculated permissions for achild of the component/section.
+			 */
 		}
-		else
+
+		// If not in global config we need the parent_id asset to calculate permissions.
+		if (!$isGlobalConfig)
 		{
-			// Find the asset id of the content.
-			// Note that for global configuration, com_config injects asset_id = 1 into the form.
-			$assetId = $this->form->getValue($assetField);
+			// In this case we need to get the component rules too.
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('parent_id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('id') . ' = ' . $assetId);
+
+			$db->setQuery($query);
+
+			$parentAssetId = (int) $db->loadResult();
 		}
 
 		// Full width format.
 
 		// Get the rules for just this asset (non-recursive).
-		$assetRules = JAccess::getAssetRules($assetId);
+		$assetRules = JAccess::getAssetRules($assetId, false, false);
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
@@ -295,13 +323,13 @@ class JFormFieldRules extends JFormField
 				 */
 
 				// Get the actual setting for the action for this group.
-				$assetRule = $assetRules->allow($action->name, $group->value);
+				$assetRule = $newItem === false ? $assetRules->allow($action->name, $group->value) : null;
 
 				// Build the dropdowns for the permissions sliders
 
 				// The parent group has "Not Set", all children can rightly "Inherit" from that.
 				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>'
-					. JText::_(empty($group->parent_id) && empty($component) ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
+					. JText::_(empty($group->parent_id) && $isGlobalConfig ? 'JLIB_RULES_NOT_SET' : 'JLIB_RULES_INHERITED') . '</option>';
 				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_ALLOWED')
 					. '</option>';
 				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' . JText::_('JLIB_RULES_DENIED')
@@ -318,9 +346,9 @@ class JFormFieldRules extends JFormField
 				$result = array();
 
 				// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-				$inheritedGroupRule       = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
-				$inheritedGroupGlobalRule = JAccess::checkGroup((int) $group->value, $action->name);
-				$inheritedParentGroupRule = JAccess::checkGroup((int) $group->parent_id, $action->name, $assetId);
+				$inheritedGroupRule            = JAccess::checkGroup((int) $group->value, $action->name, $assetId);
+				$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($group->value, $action->name, $parentAssetId) : null;
+				$inheritedParentGroupRule      = !empty($group->parent_id) ? JAccess::checkGroup($group->parent_id, $action->name, $assetId) : null;
 
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
@@ -346,15 +374,21 @@ class JFormFieldRules extends JFormField
 						$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 					}
 
-					// Second part: Overwrite the calculated permissions labels if there is an explicity permission in the current group.
+					// Second part: Overwrite the calculated permissions labels if there is an explicit permission in the current group.
 
-					// If there is an explicity permission "Not Allowed". Calculated permission is "Not Allowed".
+					/**
+					 * @to do: incorrect info
+					 * If a component as a permission that doesn't exists in global config (ex: frontend editing in com_modules) by default
+					 * we get "Not Allowed (Inherited)" when we should get "Not Allowed (Default)".
+					 */
+
+					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 					if ($assetRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 					}
-					// If there is an explicity permission is "Allowed". Calculated permission is "Allowed".
+					// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 					elseif ($assetRule === true)
 					{
 						$result['class'] = 'label label-success';
@@ -363,23 +397,18 @@ class JFormFieldRules extends JFormField
 
 					// Third part: Overwrite the calculated permissions labels for special cases.
 
-					// Changing global config?
-					$isGlobalConfig = (empty($component) || $component === 'root.1') ? true : false;
-
 					// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 					if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
-					// Component/item root level with explicit "Denied" permission at Global configuration. Calculated permission is "Not Allowed (Locked)".
-					elseif (empty($group->parent_id) && $isGlobalConfig === false && $inheritedParentGroupRule === null && $inheritedGroupGlobalRule === false)
-					{
-						$result['class'] = 'label label-important';
-						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
-					}
-					// Some parent group has an explicit "Denied". Calculated permission is "Not Allowed (Locked)".
-					elseif ($inheritedParentGroupRule === false)
+					/**
+					 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
+					 * Or some parent group has an explicit "Denied".
+					 * Calculated permission is "Not Allowed (Locked)".
+					 */
+					elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 					{
 						$result['class'] = 'label label-important';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
