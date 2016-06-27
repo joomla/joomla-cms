@@ -756,7 +756,7 @@ class JMail extends PHPMailer
 		$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
 		$message .= JText::_('JLIB_MAIL_MSG') . "\n";
 
-		if ($this->addRecipient($recipient) === false)
+		if ($this->addRecipient($adminEmail) === false)
 		{
 			return false;
 		}

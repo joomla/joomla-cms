@@ -58,7 +58,8 @@ class FinderViewIndex extends JViewLegacy
 
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{

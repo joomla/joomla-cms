@@ -99,7 +99,7 @@ class BannersModelClients extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$defaultPurchase = JComponentHelper::getParams('com_banners')->get('purchase_type', 3);
@@ -108,14 +108,14 @@ class BannersModelClients extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id,' .
-				'a.name AS name,' .
-				'a.contact AS contact,' .
-				'a.checked_out AS checked_out,' .
-				'a.checked_out_time AS checked_out_time, ' .
-				'a.state AS state,' .
-				'a.metakey AS metakey,' .
-				'a.purchase_type as purchase_type'
+				'a.id AS id,'
+				. 'a.name AS name,'
+				. 'a.contact AS contact,'
+				. 'a.checked_out AS checked_out,'
+				. 'a.checked_out_time AS checked_out_time, '
+				. 'a.state AS state,'
+				. 'a.metakey AS metakey,'
+				. 'a.purchase_type as purchase_type'
 			)
 		);
 

@@ -8,7 +8,7 @@
 		onchange="this.form.submit();"
 		accesstype="manage"
 		>
-		<option value="*">COM_MENUS_SELECT_MENU</option>
+		<option value="">COM_MENUS_SELECT_MENU</option>
 	</field>
 	<fields name="filter">
 		<field

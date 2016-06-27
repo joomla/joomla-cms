@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @see    http://php.net/manual/en/book.mysqli.php
+ * @see    https://secure.php.net/manual/en/book.mysqli.php
  * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
@@ -557,18 +557,18 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_object($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+		}
+
+		if (!is_object($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -646,7 +646,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -657,7 +657,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 			}
 		}
 

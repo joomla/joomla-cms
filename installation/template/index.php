@@ -112,7 +112,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				            input.prop('checked', true);
 				        }
 				    });
-				    $(".btn-group input[checked=checked]").each(function()
+				    $(".btn-group input[checked='checked']").each(function()
 					{
 						if ($(this).val()== '')
 						{
