@@ -184,7 +184,7 @@
 			step="1"
 			default="0">
 			</field>
-	</fieldset>	
+	</fieldset>
 
 	<fieldset
 		name="user_notes_history"
