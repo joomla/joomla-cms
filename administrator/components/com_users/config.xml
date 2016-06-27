@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset 
+		name="user_options"
+		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
 			name="allowUserRegistration"
 			type="radio"
@@ -111,6 +113,12 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
+	</fieldset>
+
+	<fieldset
+		name="password_options"
+		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
 		<field
 			name="reset_count"
 			type="integer"
@@ -131,7 +139,6 @@
 			step="1"
 			default="1">
 			</field>
-
 		<field
 			name="minimum_length"
 			type="integer"
@@ -142,7 +149,6 @@
 			step="1"
 			default="4">
 			</field>
-
 		<field
 			name="minimum_integers"
 			type="integer"
@@ -153,7 +159,6 @@
 			step="1"
 			default="0">
 			</field>
-
 		<field
 			name="minimum_symbols"
 			type="integer"
@@ -174,8 +179,7 @@
 			step="1"
 			default="0">
 			</field>
-	</fieldset>
-
+	</fieldset>	
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
