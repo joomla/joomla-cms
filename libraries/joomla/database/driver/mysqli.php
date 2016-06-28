@@ -626,7 +626,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$this->errorNum = $this->getErrorNumber();
-			$this->errorMsg = $this->getErrorMessage($query);
+			$this->errorMsg = (string) mysqli_error($this->connection);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -642,11 +642,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = (string) mysqli_error($this->connection);
 
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($query, JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -657,7 +657,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			{
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($query, JText::_('JERROR_AN_ERROR_HAS_OCCURRED'));
 			}
 		}
 
