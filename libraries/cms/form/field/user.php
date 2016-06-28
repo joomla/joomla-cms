@@ -78,7 +78,7 @@ class JFormFieldUser extends JFormField
 
 		if (is_numeric($this->value))
 		{
-			$name = JFactory::getUser($this->value)->name;
+			$name = JUser::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
