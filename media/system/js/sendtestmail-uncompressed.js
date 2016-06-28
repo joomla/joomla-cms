@@ -7,8 +7,10 @@
 /**
  * Calls the sending process of the config class
  */
-var sendTestMail = function()
+var sendTestMail = function ()
 {
+	$ = jQuery;
+
 	var email_data = {
 		smtpauth  : $('input[name="jform[smtpauth]"]:checked').val(),
 		smtpuser  : $('input[name="jform[smtpuser]"]').val(),
