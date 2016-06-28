@@ -3,6 +3,8 @@ namespace Step\Acceptance\Administrator;
 
 use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\LoginPage;
+use Page\Acceptance\Administrator\UserAclPage;
+use Page\Acceptance\Administrator\UserGroupPage;
 use  Page\Acceptance\Administrator\UserManagerPage;
 
 class User extends \AcceptanceTester
@@ -264,7 +266,7 @@ class User extends \AcceptanceTester
 	public function thereIsAAddNewGroupLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$groupPageURL);
+		$I->amOnPage(UserGroupPage::$groupPageURL);
 		$I->clickToolbarButton('New');
 	}
 
@@ -302,7 +304,7 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheGroupWithName($GroupTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$groupPageURL);
+		$I->amOnPage(UserGroupPage::$groupPageURL);
 		$I->fillField(UserManagerPage::$filterSearch, $GroupTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -324,7 +326,7 @@ class User extends \AcceptanceTester
 	public function iDeleteTheGroup($GroupTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$groupPageURL);
+		$I->amOnPage(UserGroupPage::$groupPageURL);
 		$I->fillField(UserManagerPage::$filterSearch, $GroupTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -348,7 +350,7 @@ class User extends \AcceptanceTester
 	public function thereIsAAddViewingAccessLevelLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$aclPageURL);
+		$I->amOnPage(UserAclPage::$aclPageURL);
 		$I->clickToolbarButton('New');
 	}
 
@@ -387,7 +389,7 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheAccessLevelWithName($LevelTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$aclPageURL);
+		$I->amOnPage(UserAclPage::$aclPageURL);
 		$I->fillField(UserManagerPage::$filterSearch, $LevelTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -418,7 +420,7 @@ class User extends \AcceptanceTester
 	public function iDeleteTheAccessLeVel($LevelTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$aclPageURL);
+		$I->amOnPage(UserAclPage::$aclPageURL);
 		$I->fillField(UserManagerPage::$filterSearch, $LevelTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
