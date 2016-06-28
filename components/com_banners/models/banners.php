@@ -223,7 +223,7 @@ class BannersModelBanners extends JModelList
 	public function impress()
 	{
 		$params = JComponentHelper::getParams('com_banners');
-		$track_frequency = $params->get('$track_frequency', 'hourly');
+		$track_frequency = $params->get('track_frequency', 'hourly');
 
 		if ($track_frequency == 'hourly')
 		{
