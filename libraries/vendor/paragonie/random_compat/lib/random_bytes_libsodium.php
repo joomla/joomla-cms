@@ -48,11 +48,13 @@ function random_bytes($bytes)
             'random_bytes(): $bytes must be an integer'
         );
     }
+
     if ($bytes < 1) {
         throw new Error(
             'Length must be greater than 0'
         );
     }
+
     /**
      * \Sodium\randombytes_buf() doesn't allow more than 2147483647 bytes to be
      * generated in one invocation.
@@ -79,6 +81,6 @@ function random_bytes($bytes)
      * If we reach here, PHP has failed us.
      */
     throw new Exception(
-        'PHP failed to generate random data.'
+        'Could not gather sufficient random data'
     );
 }

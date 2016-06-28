@@ -76,7 +76,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
-				$footer = '<button class="btn" data-dismiss="modal" aria-hidden="true">'
+				$footer = '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
 					. JText::_('JTOOLBAR_CLOSE') . '</a>';
 
 				$html .= JHtml::_(

@@ -89,6 +89,15 @@ class JViewCategory extends JViewLegacy
 	protected $defaultPageTitle;
 
 	/**
+	 * Whether to run the standard Joomla plugin events.
+	 * Off by default for b/c
+	 *
+	 * @var    bool
+	 * @since  3.5
+	 */
+	protected $runPlugins = false;
+
+	/**
 	 * Method with common display elements used in category list displays
 	 *
 	 * @return  void
@@ -145,31 +154,34 @@ class JViewCategory extends JViewLegacy
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		foreach ($items as $itemElement)
+		if ($this->runPlugins)
 		{
-			$itemElement = (object) $itemElement;
-			$itemElement->event = new stdClass;
-
-			// For some plugins.
-			!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
-
-			$dispatcher = JEventDispatcher::getInstance();
-			JPluginHelper::importPlugin('content');
-
-			$dispatcher->trigger('onContentPrepare', array ($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
-
-			$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
-			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
-
-			$results = $dispatcher->trigger('onContentBeforeDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
-			$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
-
-			$results = $dispatcher->trigger('onContentAfterDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
-			$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
-
-			if ($itemElement->text)
+			foreach ($items as $itemElement)
 			{
-				$itemElement->description = $itemElement->text;
+				$itemElement = (object) $itemElement;
+				$itemElement->event = new stdClass;
+
+				// For some plugins.
+				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+
+				$dispatcher = JEventDispatcher::getInstance();
+				JPluginHelper::importPlugin('content');
+
+				$dispatcher->trigger('onContentPrepare', array ($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
+
+				$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentBeforeDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentAfterDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+				if ($itemElement->text)
+				{
+					$itemElement->description = $itemElement->text;
+				}
 			}
 		}
 
@@ -210,7 +222,7 @@ class JViewCategory extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
 	 */

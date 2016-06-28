@@ -33,6 +33,12 @@ class ContentRouter extends JComponentRouterBase
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 
+		// Unset limitstart=0 since it's pointless
+		if (isset($query['limitstart']) && $query['limitstart'] == 0)
+		{
+			unset($query['limitstart']);
+		}
+
 		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
@@ -309,16 +315,6 @@ class ContentRouter extends JComponentRouterBase
 			{
 				$vars['id'] = $segments[$count - 1];
 			}
-
-			return $vars;
-		}
-
-		// First handle archive view
-		if ($item->query['view'] == 'archive')
-		{
-			$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
-			$vars['month'] = $segments[$count - 1];
-			$vars['view']  = 'archive';
 
 			return $vars;
 		}

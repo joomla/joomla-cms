@@ -19,12 +19,12 @@ jQuery(function() {
         });
 
         var activateTab = function(href) {
-            var $el = $('a[data-toggle="tab"]a[href*=' + href + ']');
+            var $el = $('a[data-toggle="tab"]a[href*="' + href + '"]');
             $el.tab('show');
         };
 
         var hasTab = function(href){
-            return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
+            return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
         };
 
         if (localStorage.getItem('tab-href')) {

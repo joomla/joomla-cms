@@ -269,7 +269,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// If neither is supported, then the user cannot use MySQL; throw an exception
 			if (!$mysqliSupported && !$pdoMysqlSupported)
 			{
-				throw new RuntimeException(
+				throw new JDatabaseExceptionUnsupported(
 					'The PHP `ext/mysql` extension is removed in PHP 7, cannot use the `mysql` driver.'
 					. ' Also, this system does not support MySQLi or PDO MySQL.  Cannot instantiate database driver.'
 				);
@@ -310,7 +310,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 			if (!class_exists($class))
 			{
-				throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
+				throw new JDatabaseExceptionUnsupported(sprintf('Unable to load Database Driver: %s', $options['driver']));
 			}
 
 			// Create our new JDatabaseDriver connector based on the options given.
@@ -320,7 +320,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			catch (RuntimeException $e)
 			{
-				throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
+				throw new JDatabaseExceptionConnecting(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 			}
 
 			// Set the new connector to the global instances based on signature.
@@ -332,6 +332,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
+	 * Single line or line end comments and multi line comments are stripped off.
 	 *
 	 * @param   string  $sql  Input SQL string with which to split into individual queries.
 	 *
@@ -343,16 +344,26 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$start = 0;
 		$open = false;
-		$char = '';
+		$comment = false;
+		$endString = '';
 		$end = strlen($sql);
 		$queries = array();
+		$query = '';
 
 		for ($i = 0; $i < $end; $i++)
 		{
 			$current = substr($sql, $i, 1);
+			$current2 = substr($sql, $i, 2);
+			$current3 = substr($sql, $i, 3);
+			$lenEndString = strlen($endString);
+			$testEnd = substr($sql, $i, $lenEndString);
 
-			if (($current == '"' || $current == '\''))
+			if ($current == '"' || $current == "'" || $current2 == '--'
+				|| ($current2 == '/*' && $current3 != '/*!' && $current3 != '/*+')
+				|| ($current == '#' && $current3 != '#__')
+				|| ($comment && $testEnd == $endString))
 			{
+				// Check if quoted with previous backslash
 				$n = 2;
 
 				while (substr($sql, $i - $n + 1, 1) == '\\' && $n < $i)
@@ -360,29 +371,84 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					$n++;
 				}
 
+				// Not quoted
 				if ($n % 2 == 0)
 				{
 					if ($open)
 					{
-						if ($current == $char)
+						if ($testEnd == $endString)
 						{
+							if ($comment)
+							{
+								$comment = false;
+								if ($lenEndString > 1)
+								{
+									$i += ($lenEndString - 1);
+									$current = substr($sql, $i, 1);
+								}
+								$start = $i + 1;
+							}
 							$open = false;
-							$char = '';
+							$endString = '';
 						}
 					}
 					else
 					{
 						$open = true;
-						$char = $current;
+						if ($current2 == '--')
+						{
+							$endString = "\n";
+							$comment = true;
+						}
+						elseif ($current2 == '/*')
+						{
+							$endString = '*/';
+							$comment = true;
+						}
+						elseif ($current == '#')
+						{
+							$endString = "\n";
+							$comment = true;
+						}
+						else
+						{
+							$endString = $current;
+						}
+						if ($comment && $start < $i)
+						{
+							$query = $query . substr($sql, $start, ($i - $start));
+						}
 					}
 				}
 			}
 
-			if (($current == ';' && !$open) || $i == $end - 1)
+			if ($comment)
 			{
-				$queries[] = substr($sql, $start, ($i - $start + 1));
 				$start = $i + 1;
 			}
+
+			if (($current == ';' && !$open) || $i == $end - 1)
+			{
+				if ($start <= $i)
+				{
+					$query = $query . substr($sql, $start, ($i - $start + 1));
+				}
+				$query = trim($query);
+
+				if ($query)
+				{
+					if (($i == $end - 1) && ($current != ';'))
+					{
+						$query = $query . ';';
+					}
+					$queries[] = $query;
+				}
+
+				$query = '';
+				$start = $i + 1;
+			}
+
+			$endComment = false;
 		}
 
 		return $queries;
@@ -733,7 +799,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getAlterTableCharacterSet($tableName)
 	{
 		$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
-		$collation = $charset . '_general_ci';
+		$collation = $charset . '_unicode_ci';
 
 		$quotedTableName = $this->quoteName($tableName);
 
@@ -761,8 +827,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 					continue;
 				}
 
-				// Default new collation: utf8_general_ci or utf8mb4_general_ci
-				$newCollation = $charset . '_general_ci';
+				// Default new collation: utf8_unicode_ci or utf8mb4_unicode_ci
+				$newCollation = $charset . '_unicode_ci';
 				$collationParts = explode('_', $col->Collation);
 
 				/**
@@ -824,16 +890,13 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
+		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i', $query))
 		{
 			return $query;
 		}
 
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
+		// Replace utf8mb4 with utf8 if not within single or double quotes or name quotes
+		return preg_replace('/[`"\'][^`"\']*[`"\'](*SKIP)(*FAIL)|utf8mb4/i', 'utf8', $query);
 	}
 
 	/**
@@ -853,8 +916,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if ($utf)
 		{
 			$charset = $this->utf8mb4 ? 'utf8mb4' : 'utf8';
+			$collation = $charset . '_unicode_ci';
 
-			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '`';
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `' . $charset . '` COLLATE `' . $collation . '`';
 		}
 
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
@@ -1029,7 +1093,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database Exporter not found.');
+			throw new JDatabaseExceptionUnsupported('Database Exporter not found.');
 		}
 
 		$o = new $class;
@@ -1055,7 +1119,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database Importer not found');
+			throw new JDatabaseExceptionUnsupported('Database Importer not found');
 		}
 
 		$o = new $class;
@@ -1153,7 +1217,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			if (!class_exists($class))
 			{
 				// If it doesn't exist we are at an impasse so throw an exception.
-				throw new RuntimeException('Database Query Class not found.');
+				throw new JDatabaseExceptionUnsupported('Database Query Class not found.');
 			}
 
 			return new $class($this);
@@ -1184,7 +1248,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		if (!class_exists($iteratorClass))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException(sprintf('class *%s* is not defined', $iteratorClass));
+			throw new JDatabaseExceptionUnsupported(sprintf('class *%s* is not defined', $iteratorClass));
 		}
 
 		// Return a new iterator

@@ -35,6 +35,12 @@ class UsersModelProfile extends JModelForm
 	 */
 	public function __construct($config = array())
 	{
+		$config = array_merge(
+			array(
+				'events_map' => array('validate' => 'user')
+			), $config
+		);
+
 		parent::__construct($config);
 
 		// Load the Joomla! RAD layer
@@ -398,8 +404,9 @@ class UsersModelProfile extends JModelForm
 		// Load the users plugin group.
 		JPluginHelper::importPlugin('user');
 
-		// Null the user groups so they don't get overwritten
-		$user->groups = null;
+		// Retrieve the user groups so they don't get overwritten
+		unset ($user->groups);
+		$user->groups = JAccess::getGroupsByUser($user->id, false);
 
 		// Store the data.
 		if (!$user->save())

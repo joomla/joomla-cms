@@ -8,6 +8,18 @@
 
 defined('_JEXEC') or die;
 
+JFactory::getDocument()->addScriptDeclaration(
+<<<JS
+	jQuery(document).ready(function($) {
+		$(':input[name="jform[activateMultilanguage]"]').each(function(el){
+			$(this).click(function(){Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);});
+			$(this).click(function(){Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);});
+		});
+		Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
+		Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
+	});
+JS
+);
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
@@ -36,7 +48,6 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 		</div>
 	</div>
-
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?></h3>
 	<hr class="hr-condensed" />
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_DESC'); ?></p>
@@ -75,8 +86,6 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 	</div>
-
-
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_ADMINISTRATOR'); ?></h3>
 	<hr class="hr-condensed" />
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
@@ -104,7 +113,7 @@ defined('_JEXEC') or die;
 						name="administratorlang"
 						value="<?php echo $lang->language; ?>"
 						<?php if ($lang->published) echo 'checked="checked"'; ?>
-						/>
+					/>
 				</td>
 				<td align="center">
 					<label for="admin-language-cb<?php echo $i; ?>">
@@ -145,7 +154,7 @@ defined('_JEXEC') or die;
 						name="frontendlang"
 						value="<?php echo $lang->language; ?>"
 						<?php if ($lang->published) echo 'checked="checked"'; ?>
-						/>
+					/>
 				</td>
 				<td align="center">
 					<label for="site-language-cb<?php echo $i; ?>">
@@ -189,14 +198,3 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="task" value="setdefaultlanguage" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-
-<script type="text/javascript">
-	window.addEvent('domready', function() {
-		document.getElements('input[name=jform[activateMultilanguage]]').each(function(el){
-			el.addEvent('click', function(){Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);});
-			el.addEvent('click', function(){Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);});
-		});
-		Install.toggle('installLocalisedContent', 'activateMultilanguage', 1);
-		Install.toggle('activatePluginLanguageCode', 'activateMultilanguage', 1);
-	});
-</script>

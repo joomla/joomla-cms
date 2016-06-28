@@ -109,11 +109,11 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @testdox  Test retrieving an instance of JDocumentHTML
+	 * @testdox  Test retrieving an instance of JDocumentHtml
 	 */
 	public function testRetrievingAnInstanceOfTheHtmlDocument()
 	{
-		$this->assertInstanceOf('JDocumentHTML', JDocument::getInstance());
+		$this->assertInstanceOf('JDocumentHtml', JDocument::getInstance());
 	}
 
 	/**
@@ -559,7 +559,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	public function testEnsureLoadRendererReturnsCorrectObject()
 	{
 		$this->object->setType('html');
-		$this->assertInstanceOf('JDocumentRendererHead', $this->object->loadRenderer('head'));
+		$this->assertInstanceOf('JDocumentRendererHtmlHead', $this->object->loadRenderer('head'));
 	}
 
 	/**
@@ -572,7 +572,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	public function testEnsureLoadRendererThrowsException()
 	{
 		$this->object->setType('html');
-		$this->assertInstanceOf('JDocumentRendererHead', $this->object->loadRenderer('unknown'));
+		$this->object->loadRenderer('unknown');
 	}
 
 	/**

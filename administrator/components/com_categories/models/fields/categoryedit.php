@@ -21,12 +21,91 @@ JFormHelper::loadFieldClass('list');
 class JFormFieldCategoryEdit extends JFormFieldList
 {
 	/**
+	 * To allow creation of new categories.
+	 *
+	 * @var    int
+	 * @since  3.6
+	 */
+	protected $allowAdd;
+
+	/**
 	 * A flexible category list that respects access controls
 	 *
 	 * @var    string
 	 * @since  1.6
 	 */
 	public $type = 'CategoryEdit';
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   3.2
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		if ($return)
+		{
+			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.6
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'allowAdd':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function __set($name, $value)
+	{
+		$value = (string) $value;
+
+		switch ($name)
+		{
+			case 'allowAdd':
+				$value = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
+			default:
+				parent::__set($name, $value);
+		}
+	}
 
 	/**
 	 * Method to get a list of categories that respects access controls and can be used for
@@ -139,6 +218,16 @@ class JFormFieldCategoryEdit extends JFormFieldList
 				}
 			}
 
+			// Displays language code if not set to All
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('language'))
+				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
+				->from($db->quoteName('#__categories'));
+
+			$db->setQuery($query);
+			$language = $db->loadResult();
+
 			if ($options[$i]->published == 1)
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
@@ -146,6 +235,11 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			else
 			{
 				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
+			}
+
+			if ($language !== '*')
+			{
+				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
 			}
 		}
 
@@ -228,5 +322,86 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		// Merge any additional options in the XML definition.
 		return array_merge(parent::getOptions(), $options);
+	}
+
+	/**
+	 * Method to get the field input markup for a generic list.
+	 * Use the multiple attribute to enable multiselect.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.6
+	 */
+	protected function getInput()
+	{
+		$html = array();
+		$class = array();
+		$attr = '';
+
+		// Initialize some field attributes.
+		$class[] = !empty($this->class) ? $this->class : '';
+
+		if ($this->allowAdd)
+		{
+			$customGroupText = JText::_('JGLOBAL_CUSTOM_CATEGORY');
+
+			$class[] = 'chzn-custom-value';
+			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
+					. 'data-no_results_text="' . JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
+					. 'data-placeholder="' . JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+		}
+
+		if ($class)
+		{
+			$attr .= 'class="' . implode(' ', $class) . '"';
+		}
+
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
+
+		// To avoid user's confusion, readonly="true" should imply disabled="true".
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		{
+			$attr .= ' disabled="disabled"';
+		}
+
+		// Initialize JavaScript field attributes.
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+
+		// Get the field options.
+		$options = (array) $this->getOptions();
+
+		// Create a read-only list (no name) with hidden input(s) to store the value(s).
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
+		{
+			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+
+			// E.g. form field type tag sends $this->value as array
+			if ($this->multiple && is_array($this->value))
+			{
+				if (!count($this->value))
+				{
+					$this->value[] = '';
+				}
+
+				foreach ($this->value as $value)
+				{
+					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
+				}
+			}
+			else
+			{
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
+			}
+		}
+		else
+			// Create a regular list.
+		{
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+		}
+
+		return implode($html);
 	}
 }

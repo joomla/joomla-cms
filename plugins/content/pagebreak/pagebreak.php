@@ -127,6 +127,11 @@ class PlgContentPagebreak extends JPlugin
 		// Split the text around the plugin.
 		$text = preg_split($regex, $row->text);
 
+		if (!isset($text[$page]))
+		{
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
+
 		// Count the number of pages.
 		$n = count($text);
 

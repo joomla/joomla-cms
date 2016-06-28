@@ -113,7 +113,7 @@ class UsersViewUsers extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'users.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 

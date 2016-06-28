@@ -44,7 +44,7 @@
 			name="source_formats" type="text"
 			label="COM_TEMPLATES_CONFIG_SOURCE_LABEL"
 			description="COM_TEMPLATES_CONFIG_SOURCE_DESC"
-			default="txt,less,ini,xml,js,php,css"
+			default="txt,less,ini,xml,js,php,css,sass,scss"
 			extension="com_templates"
 		/>
 

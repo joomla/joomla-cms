@@ -17,7 +17,6 @@ JHtml::_('stylesheet', 'installation/template/css/template.css');
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
@@ -43,7 +42,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
 		</script>
 	</head>
-	<body>
+	<body data-basepath="<?php echo JURI::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
@@ -113,7 +112,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				            input.prop('checked', true);
 				        }
 				    });
-				    $(".btn-group input[checked=checked]").each(function()
+				    $(".btn-group input[checked='checked']").each(function()
 					{
 						if ($(this).val()== '')
 						{

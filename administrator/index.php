@@ -16,6 +16,10 @@ if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 	die('Your host needs to use PHP ' . JOOMLA_MINIMUM_PHP . ' or higher to run this version of Joomla!');
 }
 
+// Saves the start time and memory usage.
+$startTime = microtime(1);
+$startMem  = memory_get_usage();
+
 /**
  * Constant that is checked in included files to prevent direct access.
  * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
@@ -37,8 +41,8 @@ require_once JPATH_BASE . '/includes/framework.php';
 require_once JPATH_BASE . '/includes/helper.php';
 require_once JPATH_BASE . '/includes/toolbar.php';
 
-// Mark afterLoad in the profiler.
-JDEBUG ? $_PROFILER->mark('afterLoad') : null;
+// Set profiler start time and memory usage and mark afterLoad in the profiler.
+JDEBUG ? $_PROFILER->setStart($startTime, $startMem)->mark('afterLoad') : null;
 
 // Instantiate the application.
 $app = JFactory::getApplication('administrator');

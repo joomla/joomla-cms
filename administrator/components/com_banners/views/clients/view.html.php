@@ -44,7 +44,7 @@ class BannersViewClients extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -103,7 +103,7 @@ class BannersViewClients extends JViewLegacy
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
@@ -128,12 +128,12 @@ class BannersViewClients extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'a.status' => JText::_('JSTATUS'),
-			'a.name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact' => JText::_('COM_BANNERS_HEADING_CONTACT'),
+			'a.status'    => JText::_('JSTATUS'),
+			'a.name'      => JText::_('COM_BANNERS_HEADING_CLIENT'),
+			'contact'     => JText::_('COM_BANNERS_HEADING_CONTACT'),
 			'client_name' => JText::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners' => JText::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'nbanners'    => JText::_('COM_BANNERS_HEADING_ACTIVE'),
+			'a.id'        => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

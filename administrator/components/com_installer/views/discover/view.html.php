@@ -29,12 +29,24 @@ class InstallerViewDiscover extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		// Run discover from the model.
+		if (!$this->checkExtensions())
+		{
+			$this->getModel('discover')->discover();
+		}
+
 		// Get data from the model.
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->filterForm = $this->get('FilterForm');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			throw new Exception(implode("\n", $errors), 500);
+		}
 
 		parent::display($tpl);
 	}
@@ -59,5 +71,27 @@ class InstallerViewDiscover extends InstallerViewDefault
 
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
+	}
+
+	/**
+	 * Check extensions.
+	 *
+	 * Checks uninstalled extensions in extensions table.
+	 *
+	 * @return  boolean  True if there are discovered extensions on the database.
+	 *
+	 * @since   3.5
+	 */
+	public function checkExtensions()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('state') . ' = -1');
+		$db->setQuery($query);
+		$discoveredExtensions = $db->loadObjectList();
+
+		return (count($discoveredExtensions) === 0) ? false : true;
 	}
 }

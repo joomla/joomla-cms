@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+JHtml::_('jquery.framework');
 JHtmlBehavior::core();
 
 JFactory::getDocument()->addScriptDeclaration('

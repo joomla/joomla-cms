@@ -258,6 +258,8 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
+		$app->triggerEvent('onAfterRenderModule', array(&$module, &$attribs));
+
 		if (JDEBUG)
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');

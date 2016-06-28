@@ -686,7 +686,7 @@ class JMicrodata
 	 * In which way to display the Property:
 	 * normal -> itemprop="name"
 	 * nested -> itemprop="director" itemscope itemtype="https://schema.org/Person"
-	 * meta   -> <meta itemprop="datePublished" content="1991-05-01">
+	 * meta   -> `<meta itemprop="datePublished" content="1991-05-01">`
 	 *
 	 * @param   string  $type      The Type where to find the Property
 	 * @param   string  $property  The Property to process
@@ -769,7 +769,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return Microdata semantics in a <meta> tag with content for machines.
+	 * Return Microdata semantics in a `<meta>` tag with content for machines.
 	 *
 	 * @param   string   $content   The machine content to display
 	 * @param   string   $property  The Property
@@ -786,7 +786,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return Microdata semantics in a <span> tag.
+	 * Return Microdata semantics in a `<span>` tag.
 	 *
 	 * @param   string   $content   The human content
 	 * @param   string   $property  Optional, the human content to display
@@ -803,7 +803,7 @@ class JMicrodata
 	}
 
 	/**
-	 * Return Microdata semantics in a <div> tag.
+	 * Return Microdata semantics in a `<div>` tag.
 	 *
 	 * @param   string   $content   The human content
 	 * @param   string   $property  Optional, the human content to display

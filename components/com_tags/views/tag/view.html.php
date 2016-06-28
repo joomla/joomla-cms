@@ -37,7 +37,7 @@ class TagsViewTag extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.1
 	 */
@@ -260,11 +260,6 @@ class TagsViewTag extends JViewLegacy
 			if ($this->params->get('robots'))
 			{
 				$this->document->setMetadata('robots', $this->params->get('robots'));
-			}
-
-			if ($app->get('MetaAuthor') == '1')
-			{
-				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
 		}
 

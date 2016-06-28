@@ -226,6 +226,30 @@ body .navbar-fixed-top {
 	.nav-user {
 		font-size: 13px;
 	}
+	.nav > li ul {
+		overflow-y: auto;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		-o-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+		height: auto;
+		max-height: 500px;
+		margin: 0;
+		&::-webkit-scrollbar {
+			-webkit-appearance: none;
+			width: 7px;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 4px;
+			background-color: rgba(0,0,0,.5);
+			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+		}
+	}
+	.empty-nav {
+		display: none;
+	}
 }
 
 .navbar-fixed-top,
@@ -293,9 +317,10 @@ body .navbar-fixed-top {
 }
 
 .logo {
-	width: 100%;
-	max-width: 143px;
-	height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 36px;
+    height: auto;
 }
 
 /* Page Title */
@@ -368,7 +393,7 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
-	/* Fix ios scrolling inside boottrap modals */
+	/* Fix ios scrolling inside bootstrap modals */
 	body {
 		-webkit-overflow-scrolling: touch;
 	}
@@ -449,13 +474,21 @@ h6 {
 }
 
 /* Sidebar */
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
 .sidebar-nav .nav-list > li > a {
 	color: #555;
+	padding: 3px 25px;
+	margin-left: -25px;
+	margin-right: -25px;
 }
 
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
-	margin-right: -16px;
+	margin-right: -26px;
 }
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
@@ -485,8 +518,8 @@ h6 {
 }
 
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 
 .quick-icons [class^="icon-"]:before, .quick-icons [class*=" icon-"]:before {
@@ -760,6 +793,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	padding: 3px 20px;
 }
 
+.nav-collapse .dropdown-menu > li {
+	img {
+		max-width: none;
+	}
+}
+
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -1017,6 +1056,10 @@ ul.treeselect ul.dropdown-menu li {
 	border: none;
 }
 /* Tables */
+table label {
+	margin: 0;
+}
+
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
@@ -1068,7 +1111,7 @@ th .tooltip-inner {
 }
 /* Component pop-up */
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 /* Min-width on buttons */
 .controls .btn-group > .btn {
@@ -1164,6 +1207,7 @@ a.grid_true {
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 10px;
+	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
 	border-right: 1px solid darken(@wellBackground, 7%);
@@ -1292,12 +1336,43 @@ textarea.noResize {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
-/*Corrects the modals padding*/
+/* Corrects the modals padding */
 .field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+
+/* Clear div after modal-body rendering */
+.modal-footer {
+	clear: both;
+}
+
+/* Modal Header text align left even if parent container centered */
+.modal-header {
+	text-align: left;
+}
+
+/* ACL Permission page */
+#permissions,
+#page-permissions {
+	table {
+		td {
+			vertical-align: middle;
+		}
+		select {
+			margin-bottom: 0;
+		}
+	}
 }

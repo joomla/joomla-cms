@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile  $installer  The class calling this method
+	 * @param   JInstallerAdapterFile  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -31,12 +31,13 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
-		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
+		$this->convertTablesToUtf8mb4(true);
+		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
 		// LOGOUT ALL THE USERS
@@ -234,13 +235,13 @@ class JoomlaInstallerScript
 			array('component', 'com_config', '', 1),
 			array('component', 'com_redirect', '', 1),
 			array('component', 'com_users', '', 1),
+			array('component', 'com_finder', '', 1),
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
-			array('library', 'phpmailer', '', 0),
-			array('library', 'simplepie', '', 0),
 			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
@@ -340,6 +341,9 @@ class JoomlaInstallerScript
 			array('plugin', 'updatenotification', 'system', 0),
 			array('plugin', 'module', 'editors-xtd', 0),
 			array('plugin', 'stats', 'system', 0),
+			array('plugin', 'packageinstaller','installer',0),
+			array('plugin', 'folderinstaller','installer', 0),
+			array('plugin', 'urlinstaller','installer', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -355,7 +359,7 @@ class JoomlaInstallerScript
 			array('file', 'joomla', '', 0),
 
 			// Packages
-			// None in core at this time
+			array('package', 'pkg_en-GB', '', 0),
 		);
 
 		// Attempt to refresh manifest caches
@@ -406,18 +410,29 @@ class JoomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
+			// Joomla 1.6 - 1.7 - 2.5
 			'/libraries/cms/cmsloader.php',
+			'/libraries/joomla/database/databaseexception.php',
+			'/libraries/joomla/database/databasequery.php',
+			'/libraries/joomla/environment/response.php',
 			'/libraries/joomla/form/fields/templatestyle.php',
 			'/libraries/joomla/form/fields/user.php',
 			'/libraries/joomla/form/fields/menu.php',
 			'/libraries/joomla/form/fields/helpsite.php',
+			'/libraries/joomla/github/gists.php',
+			'/libraries/joomla/github/issues.php',
+			'/libraries/joomla/github/pulls.php',
+			'/libraries/joomla/log/logentry.php',
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.0.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
+			'/administrator/components/com_content/models/fields/filters.php',
 			'/administrator/components/com_users/controllers/config.php',
+			'/administrator/components/com_users/helpers/levels.php',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
 			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
+			'/administrator/modules/mod_quickicon/tmpl/default_button.php',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin_src.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin_src.js',
@@ -1386,7 +1401,29 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ExceptionInterface.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/ParseException.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception/RuntimeException.php',
-			'/administrator/components/com_tags/helpers/tags.php',
+			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
+			'/libraries/joomla/document/error/error.php',
+			'/libraries/joomla/document/feed/feed.php',
+			'/libraries/joomla/document/html/html.php',
+			'/libraries/joomla/document/image/image.php',
+			'/libraries/joomla/document/json/json.php',
+			'/libraries/joomla/document/opensearch/opensearch.php',
+			'/libraries/joomla/document/raw/raw.php',
+			'/libraries/joomla/document/xml/xml.php',
+			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
+			'/administrator/components/com_joomlaupdate/helpers/download.php',
+			// Joomla 3.6.0
+			'/libraries/simplepie/README.txt',
+			'/libraries/simplepie/simplepie.php',
+			'/libraries/simplepie/LICENSE.txt',
+			'/libraries/simplepie/idn/LICENCE',
+			'/libraries/simplepie/idn/ReadMe.txt',
+			'/libraries/simplepie/idn/idna_convert.class.php',
+			'/libraries/simplepie/idn/npdata.ser',
+			'/administrator/manifests/libraries/simplepie.xml',
+			'/administrator/templates/isis/js/jquery.js',
+			'/administrator/templates/isis/js/bootstrap.min.js',
+			'/media/system/js/permissions.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1474,8 +1511,15 @@ class JoomlaInstallerScript
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
 			'/libraries/vendor/symfony/yaml/Symfony/Component',
 			'/libraries/vendor/symfony/yaml/Symfony',
-			'/administrator/components/com_tags/helpers',
-			'/libraries/vendor/phpmailer/phpmailer/extras/class.html2text.php',
+			'/libraries/joomla/document/error',
+			'/libraries/joomla/document/image',
+			'/libraries/joomla/document/json',
+			'/libraries/joomla/document/opensearch',
+			'/libraries/joomla/document/raw',
+			'/libraries/joomla/document/xml',
+			// Joomla 3.6
+			'/libraries/simplepie/idn',
+			'/libraries/simplepie',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1588,7 +1632,17 @@ class JoomlaInstallerScript
 		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
 		 * have a valid session.
 		 */
-		JFactory::getSession()->restart();
+		$session = JFactory::getSession();
+
+		/**
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
+		 * For B/C reasons we need to use getState as isActive is not available in 2.5
+		 */
+		if ($session->getState() !== 'active')
+		{
+			$session->restart();
+		}
 
 		// If $_SESSION['__default'] is no longer set we do not have a migrated session, therefore we can quit.
 		if (!isset($_SESSION['__default']))
@@ -1606,13 +1660,13 @@ class JoomlaInstallerScript
 				case 'pdomysql':
 				case 'mysql':
 				case 'mysqli':
-					$db->truncateTable($db->qn('#__sessions'));
+					$db->truncateTable('#__session');
 					break;
 
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__sessions'));
+						->delete($db->qn('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}
@@ -1625,5 +1679,141 @@ class JoomlaInstallerScript
 		}
 
 		return true;
+	}
+
+	/**
+	 * Converts the site's database tables to support UTF-8 Multibyte.
+	 *
+	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public function convertTablesToUtf8mb4($doDbFixMsg = false)
+	{
+		$db = JFactory::getDbo();
+
+		// This is only required for MySQL databases
+		$serverType = $db->getServerType();
+
+		if ($serverType != 'mysql')
+		{
+			return;
+		}
+
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
+		{
+			$converted = 2;
+		}
+		else
+		{
+			$converted = 1;
+		}
+
+		// Check conversion status in database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__utf8_conversion')
+			);
+
+		try
+		{
+			$convertedDB = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			// Render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
+
+			return;
+		}
+
+		// Nothing to do, saved conversion status from DB is equal to required
+		if ($convertedDB == $converted)
+		{
+			return;
+		}
+
+		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
+		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+
+		if (is_file($fileName1))
+		{
+			$fileContents1 = @file_get_contents($fileName1);
+			$queries1 = $db->splitSql($fileContents1);
+
+			if (!empty($queries1))
+			{
+				foreach ($queries1 as $query1)
+				{
+					try
+					{
+						$db->setQuery($query1)->execute();
+					}
+					catch (Exception $e)
+					{
+						// If the query fails we will go on. It just means the index to be dropped does not exist.
+					}
+				}
+			}
+		}
+
+		// Step 2: Perform the index modifications and conversions
+		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2 = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				foreach ($queries2 as $query2)
+				{
+					try
+					{
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+					}
+					catch (Exception $e)
+					{
+						$converted = 0;
+
+						// Still render the error message from the Exception object
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					}
+				}
+			}
+		}
+
+		if ($doDbFixMsg && $converted == 0)
+		{
+			// Show an error message telling to check database problems
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+		}
+
+		// Set flag in database if the update is done.
+		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+	}
+
+	/**
+	 * This method clean the Joomla Cache using the method `clean` from the com_cache model
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
+	 */
+	private function cleanJoomlaCache()
+	{
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
+		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+		$model->clean();
 	}
 }

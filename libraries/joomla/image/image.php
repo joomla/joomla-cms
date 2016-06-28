@@ -227,7 +227,7 @@ class JImage
 	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping | 5 resize then crop
 	 *
-	 * @return  array
+	 * @return  array    returns the generated thumb in the results array
 	 *
 	 * @since   12.2
 	 * @throws  LogicException
@@ -298,7 +298,7 @@ class JImage
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
 	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
 	 *
-	 * @return  array
+	 * @return  array    An array of JImage objects with thumb paths.
 	 *
 	 * @since   12.2
 	 * @throws  LogicException
@@ -668,15 +668,6 @@ class JImage
 
 				$this->handle = $handle;
 
-				// Set transparency for non-transparent PNGs.
-				if (!$this->isTransparent())
-				{
-					// Assign to black which is default for transparent PNGs
-					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
-
-					imagecolortransparent($handle, $transparency);
-				}
-
 				break;
 
 			default:
@@ -910,9 +901,8 @@ class JImage
 	/**
 	 * Method to flip the current image.
 	 *
-	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
-	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
-	 *                               the current image will be flipped and returned.
+	 * @param   integer  $mode       The flip mode for flipping the image {@link https://secure.php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else the current image will be flipped and returned.
 	 *
 	 * @return  JImage
 	 *
@@ -968,7 +958,7 @@ class JImage
 	 *
 	 * @return  boolean
 	 *
-	 * @see     http://www.php.net/manual/image.constants.php
+	 * @see     https://secure.php.net/manual/image.constants.php
 	 * @since   11.3
 	 * @throws  LogicException
 	 */

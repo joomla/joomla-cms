@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Filter table class for the Finder package.
@@ -79,13 +80,19 @@ class FinderTableFilter extends JTable
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
-		// Check the end date is not earlier than start up.
-		if ($this->d2 > $this->_db->getNullDate() && $this->d2 < $this->d1)
+		$params = new Registry($this->params);
+
+		$nullDate = $this->_db->getNullDate();
+		$d1 = $params->get('d1', $nullDate);
+		$d2 = $params->get('d2', $nullDate);
+
+		// Check the end date is not earlier than the start date.
+		if ($d2 > $nullDate && $d2 < $d1)
 		{
 			// Swap the dates.
-			$temp = $this->d1;
-			$this->d1 = $this->d2;
-			$this->d2 = $temp;
+			$params->set('d1', $d2);
+			$params->set('d2', $d1);
+			$this->params = (string) $params;
 		}
 
 		return true;
@@ -110,7 +117,7 @@ class FinderTableFilter extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 
