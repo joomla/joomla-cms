@@ -76,7 +76,8 @@ $fieldsets = $this->form->getFieldsets();
 
 			<?php
 			$this->ignore_fieldsets = array('user_details');
-			echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+			echo JLayoutHelper::render('joomla.edit.params', $this);
+			?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id): ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>

@@ -373,7 +373,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function group($columns)
 	{
 		// Transform $columns into an array for filtering purposes
-		$columns = explode(',', str_replace(" ", "", $columns));
+		is_string($columns) && $columns = explode(',', str_replace(" ", "", $columns));
 
 		// Get the _formatted_ FROM string and remove everything except `table AS alias`
 		$fromStr = str_replace(array("[","]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));

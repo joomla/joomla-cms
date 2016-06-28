@@ -35,6 +35,12 @@ class UsersModelProfile extends JModelForm
 	 */
 	public function __construct($config = array())
 	{
+		$config = array_merge(
+			array(
+				'events_map' => array('validate' => 'user')
+			), $config
+		);
+
 		parent::__construct($config);
 
 		// Load the Joomla! RAD layer

@@ -6199,6 +6199,19 @@ th .tooltip-inner {
 .dropdown-menu {
 	text-align: left;
 }
+.alert-link {
+	font-weight: bold;
+}
+.alert-success .alert-link {
+	color: #2b542c;
+}
+.alert-danger .alert-link,
+.alert-error .alert-link {
+	color: #843534;
+}
+.alert-info .alert-link {
+	color: #245269;
+}
 div.modal {
 	position: fixed;
 	top: 5%;
@@ -8291,4 +8304,15 @@ body.modal-open {
 }
 .modal-footer {
 	clear: both;
+}
+.modal-header {
+	text-align: left;
+}
+#permissions table td,
+#page-permissions table td {
+	vertical-align: middle;
+}
+#permissions table select,
+#page-permissions table select {
+	margin-bottom: 0;
 }

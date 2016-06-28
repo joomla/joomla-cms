@@ -47,7 +47,7 @@ class ModFinderHelper
 		// Add a field for Itemid if we need one.
 		if ($needId)
 		{
-			$id = $paramItem ? $paramItem : JFactory::getApplication()->input->get('Itemid', '0', 'int');
+			$id       = $paramItem ? $paramItem : JFactory::getApplication()->input->get('Itemid', '0', 'int');
 			$fields[] = '<input type="hidden" name="Itemid" value="' . $id . '" />';
 		}
 
@@ -65,10 +65,10 @@ class ModFinderHelper
 	 */
 	public static function getQuery($params)
 	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
+		$app     = JFactory::getApplication();
+		$input   = $app->input;
 		$request = $input->request;
-		$filter = JFilterInput::getInstance();
+		$filter  = JFilterInput::getInstance();
 
 		// Get the static taxonomy filters.
 		$options = array();

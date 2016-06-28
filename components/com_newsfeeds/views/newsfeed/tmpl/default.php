@@ -102,20 +102,28 @@ else
 	<!-- Show items -->
 	<?php if (!empty($this->rssDoc[0])) { ?>
 	<ol>
-		<?php for ($i = 0; $i < $this->item->numarticles; $i++) { ?>
-	<?php if (empty($this->rssDoc[$i])) { break; } ?>
-	<?php
-		$uri = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? $this->rssDoc[$i]->guid : $this->rssDoc[$i]->uri;
-		$uri = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
-		$text = !empty($this->rssDoc[$i]->content) || !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
-	?>
+	<?php for ($i = 0; $i < $this->item->numarticles; $i++)
+	{
+		if (empty($this->rssDoc[$i]))
+		{
+			break;
+		}
+		?>
+		<?php
+			$uri   = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? trim($this->rssDoc[$i]->guid) : trim($this->rssDoc[$i]->uri);
+			$uri   = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
+			$text  = !empty($this->rssDoc[$i]->content) || !is_null($this->rssDoc[$i]->content) ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description);
+			$title = trim($this->rssDoc[$i]->title);
+		?>
 			<li>
-				<?php if (!empty($this->rssDoc[$i]->uri)) : ?>
-					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
-					<?php  echo $this->rssDoc[$i]->title; ?></a>
+				<?php if (!empty($uri)) : ?>
+					<h3 class="feed-link">
+					<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+					<?php echo $title; ?></a></h3>
 				<?php else : ?>
-					<h3><?php  echo '<a target="_blank" href="' . $this->rssDoc[$i]->uri . '">' . $this->rssDoc[$i]->title . '</a>'; ?></h3>
+					<h3 class="feed-link"><?php  echo $title; ?></h3>
 				<?php  endif; ?>
+
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">
 					<?php if ($this->params->get('show_feed_image', 0) == 0)

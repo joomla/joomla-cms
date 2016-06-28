@@ -358,7 +358,7 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filters     = (array) $app->getUserState('com_banners.banners.filter');
 				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
 
 				$data->set('catid', $app->input->getInt('catid', $filterCatId));
@@ -500,11 +500,11 @@ class BannersModelBanner extends JModelAdmin
 		// Save New Category
 		if ($catid == 0)
 		{
-			$table = array();
-			$table['title'] = $data['catid'];
+			$table              = array();
+			$table['title']     = $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_banners';
-			$table['language'] = $data['language'];
+			$table['language']  = $data['language'];
 			$table['published'] = 1;
 
 			// Create new category and get catid back
@@ -521,8 +521,8 @@ class BannersModelBanner extends JModelAdmin
 			if ($data['name'] == $origTable->name)
 			{
 				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name'] = $name;
-				$data['alias'] = $alias;
+				$data['name']       = $name;
+				$data['alias']      = $alias;
 			}
 			else
 			{
