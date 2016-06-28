@@ -428,8 +428,6 @@ class ContentModelArticles extends JModelList
 
 			if (!empty($first))
 			{
-				$authorAlias = ArrayHelper::toString($authorAlias);
-
 				foreach ($authorAlias as $key => $alias)
 				{
 					$authorAlias[$key] = $db->quote($alias);
