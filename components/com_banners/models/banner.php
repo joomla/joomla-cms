@@ -78,6 +78,14 @@ class BannersModelBanner extends JModelLegacy
 
 		if ($trackClicks > 0)
 		{
+			$params = JComponentHelper::getParams('com_banners');
+			$track_frequency = $params->get('$track_frequency', 'hourly');
+
+			if ($track_frequency == 'hourly')
+			{
+				$trackDate = JFactory::getDate()->format('Y-m-d H');
+			}
+
 			$trackDate = JFactory::getDate()->format('Y-m-d');
 
 			$query->clear()

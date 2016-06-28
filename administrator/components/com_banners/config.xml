@@ -46,6 +46,18 @@
 		</field>
 
 		<field
+			name="track_frequency"
+			type="radio"
+			label="COM_BANNERS_FIELD_TRACKFREQUENCY_LABEL"
+			description="COM_BANNERS_FIELD_TRACKFREQUENCY_DESC"
+			class="btn-group"
+			default="hourly"
+			>
+			<option value="hourly">COM_BANNERS_FIELD_TRACKFREQUENCY_HOURLY</option>
+			<option value="daily">COM_BANNERS_FIELD_TRACKFREQUENCY_DAILY</option>
+		</field>
+
+		<field
 			name="metakey_prefix"
 			type="text"
 			label="COM_BANNERS_FIELD_METAKEYWORDPREFIX_LABEL"
