@@ -131,7 +131,12 @@
 			step="1"
 			default="1">
 			</field>
-
+	</fieldset>
+	
+	<fieldset
+		name="password"
+		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
+		
 		<field
 			name="minimum_length"
 			type="integer"
@@ -175,7 +180,77 @@
 			default="0">
 			</field>
 	</fieldset>
+	
+	<fieldset
+		name="username"
+		label="COM_USERS_CONFIG_USERNAME_OPTIONS" >
+		
+		<field
+			name="minimum_length_username"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
+			first="0"
+			last="99"
+			step="1">
+			</field>
+			
+		<field
+			name="maximum_length_username"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC"
+			first="0"
+			last="99"
+			step="1">
+			</field>
 
+		<field 
+			name="allowed_chars_username_preset" 
+			type="list"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_DESC"
+			filter="integer"
+			defaut="0"
+			>
+			<option value="0">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_DISABLECHECK
+			</option>
+			<option value="1">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM_ALLOWED
+			</option>
+			<option value="2">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM_FORBIDDEN
+			</option>
+			<option value="3">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM_REGEXP
+			</option>
+			<option value="4">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_ALPHANUMERIC
+			</option>
+			<option value="5">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_LATIN
+			</option>
+			<option value="6">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_UNICODE_HIGHLY_RESTRICTIVE
+			</option>
+			<option value="7">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_EMAIL
+			</option>
+		</field>
+
+		<field 
+			name="custom_chars_username" 
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_DESC" 
+			rows="4" 
+			cols="50"
+			filter="string"
+			>
+			</field>
+	</fieldset>
+	
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
