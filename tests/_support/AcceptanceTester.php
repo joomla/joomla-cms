@@ -60,7 +60,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @return  void
 	 */
-	public function waitForPageTitle($title, $timeout = 60)
+	public function waitForPageTitle($title, $timeout = 20)
 	{
 		$I = $this;
 		$I->waitForText($title, $timeout, AdminPage::$pageTitle);
@@ -234,5 +234,20 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->waitForElement(['id' => 'mod-login-username'], 60);
 		$I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
 
+	}
+
+	/**
+	 * Selects an option in a Joomla Radio Field based on its label
+	 *
+	 * @return void
+	 */
+	public function selectOptionInRadioField($label, $option)
+	{
+		$I = $this;
+		$I->comment("Trying to select the $option from the $label");
+		$label = $webDriver->findField(['xpath' => "//label[contains(normalize-space(string(.)), '" . $label . "')]"]);
+		$radioId = $label->getAttribute('for');
+
+		$I->click(['xpath' => "//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]"]);
 	}
 }
