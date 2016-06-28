@@ -7,7 +7,7 @@
 /**
  * Calls the sending process of the config class
  */
-var sendTestmail = function()
+var sendTestMail = function()
 {
 	var email_data = {
 		smtpauth  : $('input[name="jform[smtpauth]"]:checked').val(),
@@ -49,5 +49,5 @@ var sendTestmail = function()
 
 jQuery(document).ready(function ($)
 {
-	$('#sendtestmail').click();
+	$('#sendtestmail').click(sendTestMail);
 });
