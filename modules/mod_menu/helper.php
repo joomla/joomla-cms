@@ -54,6 +54,12 @@ class ModMenuHelper
 			{
 				foreach ($items as $i => $item)
 				{
+					$item->parent = false;
+					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id)
+					{
+						$items[$lastitem]->parent = true;
+					}
+
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
@@ -73,8 +79,6 @@ class ModMenuHelper
 						$items[$lastitem]->shallower  = ($item->level < $items[$lastitem]->level);
 						$items[$lastitem]->level_diff = ($items[$lastitem]->level - $item->level);
 					}
-
-					$item->parent = (boolean) ($item->rgt > $item->lft + 1) && $menu->getItems('parent_id', (int) $item->id, true);
 
 					$lastitem     = $i;
 					$item->active = false;
