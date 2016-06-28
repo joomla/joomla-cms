@@ -736,7 +736,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = $this->getErrorMessage($query);
+			$errorMsg = pg_last_error($this->connection);
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -751,12 +751,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = $this->getErrorMessage($query);
+					$this->errorMsg = pg_last_error($this->connection);
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, null, $e);
+					throw new JDatabaseExceptionExecuting($query, JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -772,7 +772,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new JDatabaseExceptionExecuting($query, $this->errorMsg);
+				throw new JDatabaseExceptionExecuting($query, JText::_('JERROR_AN_ERROR_HAS_OCCURRED'));
 			}
 		}
 
