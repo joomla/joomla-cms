@@ -26,7 +26,7 @@ jimport('joomla.filesystem.folder');
  * Peter Listiak <mlady@users.sourceforge.net>
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
- * The Horde Project <http://www.horde.org>
+ * The Horde Project <https://www.horde.org>
  *
  * @contributor  Chuck Hagenbuch <chuck@horde.org>
  * @contributor  Michael Slusarz <slusarz@horde.org>
@@ -605,7 +605,7 @@ class JArchiveZip implements JArchiveExtractable
 	/**
 	 * Creates the ZIP file.
 	 *
-	 * Official ZIP file format: http://www.pkware.com/appnote.txt
+	 * Official ZIP file format: https://support.pkware.com/display/PKZIP/APPNOTE
 	 *
 	 * @param   array   &$contents  An array of existing zipped files.
 	 * @param   array   &$ctrlDir   An array of central directory information.
