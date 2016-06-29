@@ -13,5 +13,5 @@ class LoginPage extends AdminPage
     
     public static $loginButton = ['css' => 'button[data-tests="log in"]'];
     
-    public static $pageURL = "/administrator/index.php";
+    public static $url = "/administrator/index.php";
 }

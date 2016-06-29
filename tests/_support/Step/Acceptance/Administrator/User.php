@@ -15,7 +15,7 @@ class User extends \AcceptanceTester
 	public function thereIsAAddUserLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 		$I->clickToolbarButton('New');
 	}
 
@@ -57,7 +57,7 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheUserWithUserName($username)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $username);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -83,7 +83,7 @@ class User extends \AcceptanceTester
 	public function iHaveAUserWithUserName($username)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $username);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -104,7 +104,7 @@ class User extends \AcceptanceTester
 	public function iHaveABlockedUserWithUserName($username)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $username);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -125,7 +125,7 @@ class User extends \AcceptanceTester
 	public function iDeleteTheUser($username)
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $username);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -139,7 +139,7 @@ class User extends \AcceptanceTester
 	public function thereIsAnUserLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 	}
 
 	/**
@@ -233,7 +233,7 @@ class User extends \AcceptanceTester
 	public function thereIsAAddNewGroupLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserGroupPage::$groupPageURL);
+		$I->amOnPage(UserGroupPage::$url);
 		$I->clickToolbarButton('New');
 	}
 
@@ -261,7 +261,7 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheGroupWithName($GroupTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserGroupPage::$groupPageURL);
+		$I->amOnPage(UserGroupPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $GroupTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -283,7 +283,7 @@ class User extends \AcceptanceTester
 	public function iDeleteTheGroup($GroupTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserGroupPage::$groupPageURL);
+		$I->amOnPage(UserGroupPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $GroupTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -297,7 +297,7 @@ class User extends \AcceptanceTester
 	public function thereIsAAddViewingAccessLevelLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserAclPage::$aclPageURL);
+		$I->amOnPage(UserAclPage::$url);
 		$I->clickToolbarButton('New');
 	}
 
@@ -326,7 +326,7 @@ class User extends \AcceptanceTester
 	public function iSearchAndSelectTheAccessLevelWithName($LevelTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserAclPage::$aclPageURL);
+		$I->amOnPage(UserAclPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $LevelTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -348,7 +348,7 @@ class User extends \AcceptanceTester
 	public function iDeleteTheAccessLeVel($LevelTitle)
 	{
 		$I = $this;
-		$I->amOnPage(UserAclPage::$aclPageURL);
+		$I->amOnPage(UserAclPage::$url);
 		$I->fillField(UserManagerPage::$filterSearch, $LevelTitle);
 		$I->click(UserManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -362,7 +362,7 @@ class User extends \AcceptanceTester
 	public function thereIsAUserLink()
 	{
 		$I = $this;
-		$I->amOnPage(UserManagerPage::$pageURL);
+		$I->amOnPage(UserManagerPage::$url);
 	}
 
 	/**

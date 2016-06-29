@@ -15,6 +15,6 @@ class ArticleManagerPage extends AdminPage
 
     public static $iconSearch = ['class' => 'icon-search'];
     
-    public static $pageURL = "/administrator/index.php?option=com_content&view=articles";
+    public static $url = "/administrator/index.php?option=com_content&view=articles";
 
 }
