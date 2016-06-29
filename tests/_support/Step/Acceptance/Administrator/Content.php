@@ -68,16 +68,6 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I save an article
-	 */
-	/*public function iSavearticle()
-	{
-		$I = $this;
-		$I->clickToolbarButton('save');
-
-	}*/
-
-	/**
 	 * @Given I select the content article with title :arg1
 	 */
 	public function iSelectTheContentArticleWithTitle($title)

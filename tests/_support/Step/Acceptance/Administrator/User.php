@@ -78,17 +78,6 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should wait for :arg1 title and see the :arg2 message
-	 */
-	/*public function iShouldDisplayTheMessage($title, $message)
-	{
-		$I = $this;
-		$I->clickToolbarButton('Save & Close');
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
-
-	/**
 	 * @Given I have a user with user name :username
 	 */
 	public function iHaveAUserWithUserName($username)
@@ -108,16 +97,6 @@ class User extends \AcceptanceTester
 		$I = $this;
 		$I->clickToolbarButton('unpublish');
 	}
-
-	/**
-	 * @Then I should see the user block message :arg1
-	 */
-	/*public function iShouldSeeTheUserBlockMessage($message)
-	{
-		$I = $this;
-		$I->waitForText($message, 60, AdminPage::$systemMessageContainer);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
 
 	/**
 	 * @Given I have a blocked user with user name :username
@@ -141,16 +120,6 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I should see the user unblock message :message
-	 */
-	/*public function iShouldSeeTheUserUnblockMessage($message)
-	{
-		$I = $this;
-		$I->waitForPageTitle($message, AdminPage::$systemMessageContainer);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
-
-	/**
 	 * @When I Delete the user :username
 	 */
 	public function iDeleteTheUser($username)
@@ -163,17 +132,6 @@ class User extends \AcceptanceTester
 		$I->clickToolbarButton('delete');
 		$I->acceptPopup();
 	}
-
-	/**
-	 * @Then I confirm the user should have been deleted by getting the title :title and see the message :message
-	 */
-	/*public function iConfirmTheUserDeleteSucessfully($title, $message)
-	{
-		$I = $this;
-		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
 
 	/**
 	 * @Given There is an user link
@@ -334,17 +292,6 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I confirm the group should have been deleted by getting the title :title and see the message :message
-	 */
-	/*public function iDeleteUserGroup($title, $message)
-	{
-		$I = $this;
-		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
-
-	/**
 	 * @Given There is a add viewing access level link
 	 */
 	public function thereIsAAddViewingAccessLevelLink()
@@ -374,16 +321,6 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I wait for the title :title see the message :message
-	 */
-	/*public function iShouldBeSeeTheMessage($title, $message)
-	{
-		$I = $this;
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
-
-	/**
 	 * @Given I search and select the Access Level with name :leveltitle
 	 */
 	public function iSearchAndSelectTheAccessLevelWithName($LevelTitle)
@@ -406,15 +343,6 @@ class User extends \AcceptanceTester
 	}
 
 	/**
-	 * @When I save Access Level
-	 */
-	/*public function iSaveAccessLevel()
-	{
-		$I = $this;
-		$I->clickToolbarButton('Save & Close');
-	}*/
-
-	/**
 	 * @When I Delete the Access level :leveltitle
 	 */
 	public function iDeleteTheAccessLeVel($LevelTitle)
@@ -428,16 +356,6 @@ class User extends \AcceptanceTester
 		$I->acceptPopup();
 	}
 
-	/**
-	 * @Then I confirm the  Access Level have been deleted by getting the title :title and see the message :message
-	 */
-	/*public function iDeleteAccessLevel($title, $message)
-	{
-		$I = $this;
-		$I->checkForPhpNoticesOrWarnings();
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
 	/**
 	 * @Given There is a User link
 	 */
@@ -484,6 +402,4 @@ class User extends \AcceptanceTester
 		$I = $this;
 		$I->click(['class' => 'brand visible-desktop visible-tablet']);
 	}
-
-
 }
