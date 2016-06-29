@@ -66,7 +66,7 @@ $this->direction = $doc->direction;
 							<?php // Reference $this->_error in this loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
 							<?php $this->setError($this->_error->getPrevious()); ?>
 							<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-							<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+							<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 							<?php echo $this->renderBacktrace(); ?>
 							<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 						<?php endwhile; ?>
