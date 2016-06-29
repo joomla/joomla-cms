@@ -736,7 +736,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the error number and message before we execute any more queries.
 			$errorNum = $this->getErrorNumber();
-			$errorMsg = pg_last_error($this->connection);
+			$errorMsg = $this->getErrorMessage();
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -751,12 +751,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				catch (RuntimeException $e)
 				{
 					$this->errorNum = $this->getErrorNumber();
-					$this->errorMsg = pg_last_error($this->connection);
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new JDatabaseExceptionExecuting($query, JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -772,7 +772,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new JDatabaseExceptionExecuting($query, JText::_('JERROR_AN_ERROR_HAS_OCCURRED'));
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg);
 			}
 		}
 
@@ -1507,13 +1507,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Return the actual SQL Error message
 	 *
-	 * @param   string  $query  The SQL Query that fails
-	 *
 	 * @return  string  The SQL Error message
 	 *
 	 * @since   3.4.6
 	 */
-	protected function getErrorMessage($query)
+	protected function getErrorMessage()
 	{
 		$errorMessage = (string) pg_last_error($this->connection);
 
@@ -1521,10 +1519,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if (!$this->debug)
 		{
 			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
-			$query        = str_replace($this->tablePrefix, '#__', $query);
 		}
 
-		return $errorMessage . "SQL=" . $query;
+		return $errorMessage;
 	}
 
 	/**
