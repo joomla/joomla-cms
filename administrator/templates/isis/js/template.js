@@ -14,17 +14,19 @@
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
-		$('.btn-group label:not(.active)').click(function(evt)
+
+		$('fieldset').each(function() {
+			// Handle disabled property
+			if ($(this).hasClass('btn-group-yesno') && $(this).prop('disabled')) {
+				$(this).addClass('disabled').css('pointer-events', 'none').off('click');
+
+			}
+		});
+
+		$('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
-
-			// Handle disabled property
-			if (input.prop('disabled')) {
-				label.addClass('disabled');
-				evt.stopPropagation();
-				return false;
-			}
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
