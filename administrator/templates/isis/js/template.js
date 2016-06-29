@@ -17,7 +17,7 @@
 
 		$('fieldset').each(function() {
 			// Handle disabled property
-			if ($(this).hasClass('btn-group-yesno') && $(this).prop('disabled')) {
+			if ($(this).hasClass('btn-group') && $(this).prop('disabled')) {
 				$(this).addClass('disabled').css('pointer-events', 'none').off('click');
 
 			}
