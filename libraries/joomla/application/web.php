@@ -848,6 +848,9 @@ class JApplicationWeb extends JApplicationBase
 			$scheme = 'http://';
 		}
 
+		// Try to acquire the server host, if set. Gracefully fallback to the server name in case of HTTP 1.0, where HTTP_HOST is not set.
+		$host = $this->input->server->getString('HTTP_HOST', $this->input->server->getString('SERVER_NAME'));
+
 		/*
 		 * There are some differences in the way that Apache and IIS populate server environment variables.  To
 		 * properly detect the requested URI we need to adjust our algorithm based on whether or not we are getting
@@ -860,13 +863,13 @@ class JApplicationWeb extends JApplicationBase
 		if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 		{
 			// The URI is built from the HTTP_HOST and REQUEST_URI environment variables in an Apache environment.
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$uri = $scheme . $host . $_SERVER['REQUEST_URI'];
 		}
 		// If not in "Apache Mode" we will assume that we are in an IIS environment and proceed.
 		elseif (isset($_SERVER['HTTP_HOST']))
 		{
 			// IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
-			$uri = $scheme . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+			$uri = $scheme . $host . $_SERVER['SCRIPT_NAME'];
 
 			// If the QUERY_STRING variable exists append it to the URI string.
 			if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))

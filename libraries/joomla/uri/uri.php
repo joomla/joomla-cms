@@ -72,6 +72,9 @@ class JUri extends Uri
 					$https = '://';
 				}
 
+				// Try to acquire the server host, if set. Gracefully fallback to the server name in case of HTTP 1.0, where HTTP_HOST is not set.
+				$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
+				
 				/*
 				 * Since we are assigning the URI from the server variables, we first need
 				 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
@@ -82,7 +85,7 @@ class JUri extends Uri
 				{
 					// To build the entire URI we need to prepend the protocol, and the http host
 					// to the URI string.
-					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+					$theURI = 'http' . $https . $host . $_SERVER['REQUEST_URI'];
 				}
 				else
 				{
@@ -93,7 +96,7 @@ class JUri extends Uri
 					 *
 					 * IIS uses the SCRIPT_NAME variable instead of a REQUEST_URI variable... thanks, MS
 					 */
-					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
+					$theURI = 'http' . $https . $host . $_SERVER['SCRIPT_NAME'];
 
 					// If the query string exists append it to the URI string
 					if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']))
