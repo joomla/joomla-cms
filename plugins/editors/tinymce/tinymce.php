@@ -1003,7 +1003,7 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
-		$editor = '<div class="editor">';
+		$editor = '<div class="editor clearfix">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
