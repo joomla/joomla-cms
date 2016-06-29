@@ -14,10 +14,17 @@
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
-		$('.btn-group label:not(.active)').click(function()
+		$('.btn-group label:not(.active)').click(function(evt)
 		{
 			var label = $(this);
 			var input = $('#' + label.attr('for'));
+
+			// Handle disabled property
+			if (input.prop('disabled')) {
+				label.addClass('disabled');
+				evt.stopPropagation();
+				return false;
+			}
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
