@@ -51,7 +51,7 @@ class JFormRuleUrl extends JFormRule
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{
-			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
+			$scheme = array('http', 'https', 'ftp', 'ftps', 'sftp', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
 				'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
 		}
 		else
@@ -94,7 +94,7 @@ class JFormRuleUrl extends JFormRule
 		}
 
 		// For some schemes here must be two slashes.
-		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'ftps' || $urlScheme == 'gopher'
+		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'ftps' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
 			|| $urlScheme == 'wais' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
 			&& ((substr($value, strlen($urlScheme), 3)) !== '://'))
 		{
