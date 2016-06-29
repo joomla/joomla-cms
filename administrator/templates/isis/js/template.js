@@ -15,11 +15,10 @@
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
 
-		$('fieldset').each(function() {
+		$('fieldset .btn-group').each(function() {
 			// Handle disabled property
-			if ($(this).hasClass('btn-group') && $(this).prop('disabled')) {
+			if ($(this).prop('disabled')) {
 				$(this).addClass('disabled').css('pointer-events', 'none').off('click');
-
 			}
 		});
 
