@@ -55,6 +55,7 @@ class ModMenuHelper
 				foreach ($items as $i => $item)
 				{
 					$item->parent = false;
+
 					if (isset($items[$lastitem]) && $items[$lastitem]->id == $item->parent_id)
 					{
 						$items[$lastitem]->parent = true;
