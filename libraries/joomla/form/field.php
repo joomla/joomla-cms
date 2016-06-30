@@ -1095,7 +1095,7 @@ abstract class JFormField
 		$node->setAttribute('default', $field->default_value);
 		$node->setAttribute('label', $field->label);
 		$node->setAttribute('description', $field->description);
-		$node->setAttribute('class', $field->class);
+		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint', 0));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
 		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
