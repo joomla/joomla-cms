@@ -321,7 +321,7 @@
 			type="plugins"
 			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
 			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
-			default=""
+			default="0"
 			folder="captcha"
 			filter="cmd"
 			>
