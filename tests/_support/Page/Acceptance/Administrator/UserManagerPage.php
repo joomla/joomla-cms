@@ -21,5 +21,5 @@ class UserManagerPage extends AdminPage
 
     public static $title = ['id' => 'jform_title'];
     
-    public static $pageURL = "administrator/index.php?option=com_users&view=users";
+    public static $url = "administrator/index.php?option=com_users&view=users";
 }

@@ -6,6 +6,6 @@ use Page\Acceptance\Administrator\AdminPage;
 class UserAclPage extends AdminPage
 {
     // include url of current page
-    public static $aclPageURL = 'administrator/index.php?option=com_users&view=levels';
+    public static $url = 'administrator/index.php?option=com_users&view=levels';
 
 }

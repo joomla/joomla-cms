@@ -12,7 +12,7 @@ class Content extends \AcceptanceTester
 	public function thereIsAAddContentLink()
 	{
 		$I = $this;
-		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->amOnPage(ArticleManagerPage::$url);
 		$I->clickToolbarButton('New');
 	}
 
@@ -52,7 +52,7 @@ class Content extends \AcceptanceTester
 	public function iSearchAndSelectContentArticleWithTitle($title)
 	{
 		$I = $this;
-		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->amOnPage(ArticleManagerPage::$url);
 		$I->fillField(ArticleManagerPage::$filterSearch, $title);
 		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -73,7 +73,7 @@ class Content extends \AcceptanceTester
 	public function iSelectTheContentArticleWithTitle($title)
 	{
 		$I = $this;
-		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->amOnPage(ArticleManagerPage::$url);
 		$I->fillField(ArticleManagerPage::$filterSearch, $title);
 		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -104,7 +104,7 @@ class Content extends \AcceptanceTester
 	public function iHaveArticleWithName($title)
 	{
 		$I = $this;
-		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->amOnPage(ArticleManagerPage::$url);
 		$I->fillField(ArticleManagerPage::$filterSearch, $title);
 		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
@@ -135,7 +135,7 @@ class Content extends \AcceptanceTester
 	public function iHaveContentArticleWhichNeedsToBeTrash($title)
 	{
 		$I = $this;
-		$I->amOnPage(ArticleManagerPage::$pageURL);
+		$I->amOnPage(ArticleManagerPage::$url);
 		$I->fillField(ArticleManagerPage::$filterSearch, $title);
 		$I->click(ArticleManagerPage::$iconSearch);
 		$I->checkAllResults();
