@@ -295,6 +295,18 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+
+		<field
+			name="track_frequency"
+			type="list"
+			label="COM_BANNERS_FIELD_TRACKFREQUENCY_LABEL"
+			description="COM_BANNERS_FIELD_TRACKFREQUENCY_DESC"
+			default="hourly"
+			>
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
+			<option value="hourly">COM_BANNERS_FIELD_TRACKFREQUENCY_HOURLY</option>
+			<option value="daily">COM_BANNERS_FIELD_TRACKFREQUENCY_DAILY</option>
+		</field>
 	</fieldset>
 
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
