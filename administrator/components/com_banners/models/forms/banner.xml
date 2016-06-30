@@ -301,6 +301,7 @@
 			type="list"
 			label="COM_BANNERS_FIELD_TRACKFREQUENCY_LABEL"
 			description="COM_BANNERS_FIELD_TRACKFREQUENCY_DESC"
+			class="chzn-color"
 			default="hourly"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
