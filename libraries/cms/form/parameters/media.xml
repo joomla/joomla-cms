@@ -3,7 +3,6 @@
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field name="directory" type="text" default="" class="input-xxlarge"
-				required="true"
 				label="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_LABEL"
 				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC" />
 			<field name="preview" type="list" class="btn-group" default="tooltip"
@@ -11,6 +10,11 @@
 				<option value="tooltip">COM_FIELDS_FIELD_MEDIA_PREVIEW_TOOLTIP</option>
 				<option value="true">COM_FIELDS_FIELD_MEDIA_PREVIEW_INLINE</option>
 				<option value="false">JNO</option>
+			</field>
+			<field name="home" type="radio" class="btn-group" default="0"
+				label="COM_FIELDS_FIELD_MEDIA_HOME_LABEL" description="COM_FIELDS_FIELD_MEDIA_HOME_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="image_class" type="textarea"
 				label="COM_FIELDS_FIELD_MEDIA_IMAGE_CLASS_LABEL" description="COM_FIELDS_FIELD_MEDIA_IMAGE_CLASS_DESC"
