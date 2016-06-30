@@ -198,6 +198,20 @@ class ContactControllerContact extends JControllerForm
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
 			$body   = $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
+			// Load the custom fields
+			if ($data['params'] && $fields = FieldsHelper::getFields('com_contact.mail', $contact, true, $data['params']))
+			{
+				$output = FieldsHelper::render(
+							'com_contact.mail',
+							'fields.render',
+							array('context' => 'com_contact.mail', 'item' => $contact, 'fields' => $fields)
+				);
+				if ($output)
+				{
+					$body  .= "\r\n\r\n" . $output;
+				}
+			}
+
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
 			$mail->addReplyTo($email, $name);

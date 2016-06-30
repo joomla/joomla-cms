@@ -32,7 +32,7 @@ class JFormFieldSection extends JFormAbstractlist
 
 		foreach (JHtmlSidebar::getEntries() as $entry)
 		{
-			if (strpos($entry[1], 'com_categories') === false)
+			if (strpos($entry[1], 'com_categories') === false || strpos($entry[1], '.fields') === false)
 			{
 				continue;
 			}

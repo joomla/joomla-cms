@@ -49,14 +49,17 @@ class FieldsHelper
 	 * category will be returned.
 	 * Should the value being prepared to be shown in an HTML context then
 	 * prepareValue must be set to true. No further escaping needs to be done.
+	 * The values of the fields can be overridden by an associative array where the keys
+	 * can be an id or an alias and it's corresponding value.
 	 *
-	 * @param   string    $context       The context of the content passed to the helper
-	 * @param   stdClass  $item          item
-	 * @param   boolean   $prepareValue  prepareValue
+	 * @param   string    $context           The context of the content passed to the helper
+	 * @param   stdClass  $item              item
+	 * @param   boolean   $prepareValue      prepareValue
+	 * @param   array     $valuesToOverride  The values to override
 	 *
 	 * @return array
 	 */
-	public static function getFields ($context, $item = null, $prepareValue = false)
+	public static function getFields ($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
 	{
 		if (self::$fieldsCache === null)
 		{
@@ -108,7 +111,19 @@ class FieldsHelper
 				 * always reference to the same object
 				 */
 				$field = clone $original;
-				$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
+
+				if ($valuesToOverride && key_exists($field->alias, $valuesToOverride))
+				{
+					$field->value = $valuesToOverride[$field->alias];
+				}
+				elseif ($valuesToOverride && key_exists($field->id, $valuesToOverride))
+				{
+					$field->value = $valuesToOverride[$field->id];
+				}
+				else
+				{
+					$field->value = self::$fieldCache->getFieldValue($field->id, $field->context, $item->id);
+				}
 
 				if (! $field->value)
 				{

@@ -64,8 +64,11 @@ if (key_exists('container-class', $displayData) && $displayData['container-class
 	$class = $displayData['container-class'];
 }
 
-// Print the container tag
-echo '<' . $container . ' class="fields-container ' . $class . '">';
+if ($fields[0]->context != 'com_contact.mail')
+{
+	// Print the container tag
+	echo '<' . $container . ' class="fields-container ' . $class . '">';
+}
 
 // Loop through the fields and print them
 foreach ($fields as $field)
@@ -79,5 +82,8 @@ foreach ($fields as $field)
 	echo FieldsHelper::render($context, 'field.render', array('field' => $field));
 }
 
-// Close the container
-echo '</' . $container . '>';
+if ($fields[0]->context != 'com_contact.mail')
+{
+	// Close the container
+	echo '</' . $container . '>';
+}
