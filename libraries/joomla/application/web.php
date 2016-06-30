@@ -849,7 +849,7 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		// Try to acquire the server host, if set.
-		$host = $this->input->server->getString('HTTP_HOST');
+		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 
 		/*
 		 * There are some differences in the way that Apache and IIS populate server environment variables.  To
