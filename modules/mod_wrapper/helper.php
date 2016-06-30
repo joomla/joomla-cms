@@ -44,8 +44,8 @@ class ModWrapperHelper
 			// Adds 'http://' if none is set
 			if (substr($url, 0, 1) == '/')
 			{
-				// Relative url in component. use server http_host, if set. Gracefully fallback to the server name in case of HTTP 1.0, where HTTP_HOST is not set.
-				$host = JFactory::getApplication()->input->server->getString('HTTP_HOST', JFactory::getApplication()->input->server->getString('SERVER_NAME'));
+				// Relative url in component. use server http_host, if set.
+				$host = JFactory::getApplication()->input->server->getString('HTTP_HOST');
 				$url = 'http://' . $host . $url;
 			}
 			elseif (!strstr($url, 'http') && !strstr($url, 'https'))

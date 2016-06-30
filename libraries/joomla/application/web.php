@@ -848,8 +848,8 @@ class JApplicationWeb extends JApplicationBase
 			$scheme = 'http://';
 		}
 
-		// Try to acquire the server host, if set. Gracefully fallback to the server name in case of HTTP 1.0, where HTTP_HOST is not set.
-		$host = $this->input->server->getString('HTTP_HOST', $this->input->server->getString('SERVER_NAME'));
+		// Try to acquire the server host, if set.
+		$host = $this->input->server->getString('HTTP_HOST');
 
 		/*
 		 * There are some differences in the way that Apache and IIS populate server environment variables.  To

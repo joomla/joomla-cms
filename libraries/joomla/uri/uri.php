@@ -72,8 +72,8 @@ class JUri extends Uri
 					$https = '://';
 				}
 
-				// Try to acquire the server host, if set. Gracefully fallback to the server name in case of HTTP 1.0, where HTTP_HOST is not set.
-				$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
+				// Try to acquire the server host, if set.
+				$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 				
 				/*
 				 * Since we are assigning the URI from the server variables, we first need
