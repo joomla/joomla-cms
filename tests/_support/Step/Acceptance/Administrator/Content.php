@@ -37,12 +37,12 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @Then I wait for the title :title and  see the message :message
+	 * @Then I should see the :arg1 message
 	 */
-	public function iShouldSeeTheMessage($title, $message)
+	public function iShouldSeeTheMessage($message)
 	{
 		$I = $this;
-		$I->waitForPageTitle($title);
+		$I->waitForText($message, 60, AdminPage::$systemMessageContainer);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
@@ -66,16 +66,6 @@ class Content extends \AcceptanceTester
 		$I = $this;
 		$I->clickToolbarButton('featured');
 	}
-
-	/**
-	 * @Then I save and see the :arg1 message
-	 */
-	/*public function iSaveAndSeeTheMessage($message)
-	{
-		$I = $this;
-		$I->waitForPageTitle($message, AdminPage::$systemMessageContainer);
-		$I->see($message, AdminPage::$systemMessageContainer);
-	}*/
 
 	/**
 	 * @Given I select the content article with title :arg1
@@ -109,7 +99,7 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @Given I have article with name :arg1
+	 * @Given I have article with name :title
 	 */
 	public function iHaveArticleWithName($title)
 	{
