@@ -21,6 +21,18 @@ $params = $this->state->get('params');
 // This checks if the editor config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params->show_publishing_options);
 
+$captchaEnabled = false;
+$captchaSet = $this->params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
+foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+{
+	if ($captchaSet === $plugin->name)
+	{
+		$captchaEnabled = true;
+		break;
+	}
+}
+
 if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
@@ -47,23 +59,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
-		<div class="btn-toolbar">
-			<div class="btn-group">
-				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
-				</button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
-				</button>
-			</div>
-			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
-			<div class="btn-group">
-				<?php echo $this->form->getInput('contenthistory'); ?>
-			</div>
-			<?php endif; ?>
-		</div>
 		<fieldset>
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#editor" data-toggle="tab"><?php echo JText::_('COM_CONTENT_ARTICLE_CONTENT') ?></a></li>
@@ -87,6 +82,10 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php endif; ?>
 
 					<?php echo $this->form->getInput('articletext'); ?>
+
+					<?php if ($captchaEnabled) : ?>
+						<?php echo $this->form->renderField('captcha'); ?>
+					<?php endif; ?>
 				</div>
 				<?php if ($params->get('show_urls_images_frontend')): ?>
 				<div class="tab-pane" id="images">
@@ -165,5 +164,22 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
+					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
+				</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
+					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
+				</button>
+			</div>
+			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
+			<div class="btn-group">
+				<?php echo $this->form->getInput('contenthistory'); ?>
+			</div>
+			<?php endif; ?>
+		</div>
 	</form>
 </div>
