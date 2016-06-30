@@ -11,14 +11,12 @@ defined('JPATH_BASE') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Framework.
  *
  * @since  1.6
  */
-class JFormFieldCategoryEdit extends JFormFieldList
+class JFormFieldCategoryEdit extends JFormAbstractlist
 {
 	/**
 	 * To allow creation of new categories.

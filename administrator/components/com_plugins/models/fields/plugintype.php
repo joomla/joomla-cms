@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
-
 require_once __DIR__ . '/../../helpers/plugins.php';
 
 /**
@@ -18,7 +16,7 @@ require_once __DIR__ . '/../../helpers/plugins.php';
  *
  * @since  3.5
  */
-class JFormFieldPluginType extends JFormFieldList
+class JFormFieldPluginType extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

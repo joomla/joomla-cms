@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
-
 require_once __DIR__ . '/../../helpers/modules.php';
 
 /**
@@ -18,7 +16,7 @@ require_once __DIR__ . '/../../helpers/modules.php';
  *
  * @since  3.4.2
  */
-class JFormFieldModulesModule extends JFormFieldList
+class JFormFieldModulesModule extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

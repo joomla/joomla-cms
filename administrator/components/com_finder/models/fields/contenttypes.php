@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die();
 
-JFormHelper::loadFieldClass('list');
-
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
@@ -20,7 +18,7 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
  *
  * @since  3.6.0
  */
-class JFormFieldContentTypes extends JFormFieldList
+class JFormFieldContentTypes extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

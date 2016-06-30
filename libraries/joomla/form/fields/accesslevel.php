@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of access levels. Access levels control what users in specific
@@ -19,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * @see    JAccess
  * @since  11.1
  */
-class JFormFieldAccessLevel extends JFormFieldList
+class JFormFieldAccessLevel extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

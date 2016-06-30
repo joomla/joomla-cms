@@ -10,8 +10,6 @@
 // No direct access
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Supports an HTML select list of fonts
  *
@@ -19,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends JFormFieldList
+class JFormFieldFonts extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

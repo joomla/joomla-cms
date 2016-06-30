@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
-
 JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messages/helpers/messages.php');
 
 /**
@@ -18,7 +16,7 @@ JLoader::register('MessagesHelper', JPATH_ADMINISTRATOR . '/components/com_messa
  *
  * @since  3.6.0
  */
-class JFormFieldMessageStates extends JFormFieldList
+class JFormFieldMessageStates extends JFormAbstractlist
 {
 	/**
 	 * The form field type.

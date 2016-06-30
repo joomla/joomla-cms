@@ -9,8 +9,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
-
-JFormHelper::loadFieldClass('list');
 JLoader::import('joomla.filesystem.folder');
 
 /**
@@ -18,10 +16,12 @@ JLoader::import('joomla.filesystem.folder');
  *
  * @since  3.7
  */
-class JFormFieldType extends JFormFieldList
+class JFormFieldType extends JFormAbstractlist
 {
 
 	public $type = 'Type';
+
+	public static $BLACKLIST = array('moduleposition');
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -77,11 +77,23 @@ class JFormFieldType extends JFormFieldList
 			// Looping trough the types
 			foreach (JFolder::files($path, 'php', true, true) as $filePath)
 			{
-				$className = $this->getClassNameFromFile($filePath);
-				if ($className === false)
-				{
-					continue;
-				}
+				$name = str_replace('.php', '', basename($filePath));
+ 				if (in_array(strtolower($name), self::$blacklist))
+ 				{
+ 					continue;
+ 				}
+
+				$className = JFormHelper::loadFieldClass($name);
+ 				if ($className === false)
+ 				{
+ 					continue;
+ 				}
+
+ 				// Check if the field implements JFormField and JFormDomFieldInterface
+ 				if (!is_subclass_of($className, 'JFormField') || !is_subclass_of($className, 'JFormDomfieldinterface'))
+			 	{
+ 					continue;
+ 				}
 
 				// Adjust the name
 				$name = strtolower(str_replace('JFormField', '', $className));

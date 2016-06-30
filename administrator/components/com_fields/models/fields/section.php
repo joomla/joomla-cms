@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
-
-JFormHelper::loadFieldClass('list');
 JLoader::import('joomla.filesystem.folder');
 
 /**
@@ -16,7 +14,7 @@ JLoader::import('joomla.filesystem.folder');
  *
  * @since  3.7
  */
-class JFormFieldSection extends JFormFieldList
+class JFormFieldSection extends JFormAbstractlist
 {
 
 	public $type = 'Section';

@@ -9,14 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
-
 /**
  * Supports an custom SQL select list
  *
  * @since  11.1
  */
-class JFormFieldSQL extends JFormFieldList implements JFormDomfieldinterface
+class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 {
 	/**
 	 * The form field type.
