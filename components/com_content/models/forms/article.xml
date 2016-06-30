@@ -210,7 +210,8 @@
 			label="COM_CONTENT_CAPTCHA_LABEL"
 			description="COM_CONTENT_CAPTCHA_DESC"
 			validate="captcha"
-			namespace="article" />
+			namespace="article" 
+		/>
 	</fieldset>
 		<fields name="images">
 		<fieldset name="image-intro">
