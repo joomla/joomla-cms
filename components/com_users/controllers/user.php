@@ -200,18 +200,13 @@ class UsersControllerUser extends UsersController
 			}
 
 			$return = 'index.php?Itemid=' . $return . $lang;
-		}
-		else
-		{
-			// Don't redirect to an external URL.
-			if (!JUri::isInternal($data['return']))
+
+			// Redirect to internal URLs only
+			if (JUri::isInternal($return))
 			{
-				$data['return'] = '';
+				$app->redirect(JRoute::_($return, false));
 			}
 		}
-
-		// Redirect the user.
-		$app->redirect(JRoute::_($return, false));
 	}
 
 	/**
