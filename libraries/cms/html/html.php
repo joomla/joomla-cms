@@ -320,8 +320,12 @@ abstract class JHtml
 
 				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
-				$potential = array($strip, $strip . '_' . $browser,  $strip . '_' . $browser . '_' . $major,
-					$strip . '_' . $browser . '_' . $major . '_' . $minor);
+				$potential = array(
+					$strip,
+					$strip . '_' . $browser,
+					$strip . '_' . $browser . '_' . $major,
+					$strip . '_' . $browser . '_' . $major . '_' . $minor,
+				);
 			}
 			else
 			{
@@ -631,7 +635,7 @@ abstract class JHtml
 		{
 			if (count($includes) == 0)
 			{
-				return null;
+				return;
 			}
 			elseif (count($includes) == 1)
 			{
@@ -684,7 +688,7 @@ abstract class JHtml
 		{
 			if (count($includes) == 0)
 			{
-				return null;
+				return;
 			}
 			elseif (count($includes) == 1)
 			{

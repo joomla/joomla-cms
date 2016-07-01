@@ -34,6 +34,6 @@ class JFormFieldUserState extends JFormFieldPredefinedList
 	 */
 	protected $predefinedOptions = array(
 		'0'  => 'JENABLED',
-		'1'  => 'JDISABLED'
+		'1'  => 'JDISABLED',
 	);
 }

@@ -190,6 +190,6 @@ class JMenuSite extends JMenu
 			return $this->_items[$this->_default['*']];
 		}
 
-		return null;
+		return;
 	}
 }
