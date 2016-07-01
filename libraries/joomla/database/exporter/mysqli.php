@@ -94,7 +94,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   11.1
+	 * @since   3.6
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlData()
@@ -108,7 +108,6 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
-			$keys = $this->db->getTableKeys($table);
 			$query = $this->db->getQuery(true);
 			$query->select($query->qn(array_keys($fields)))
 				->from($query->qn($table));
