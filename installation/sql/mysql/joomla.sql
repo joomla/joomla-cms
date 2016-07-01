@@ -128,6 +128,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  `track_frequency` VARCHAR(6) NOT NULL DEFAULT 'hourly',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -169,6 +170,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  `track_frequency` VARCHAR(6) NOT NULL DEFAULT 'hourly',
   PRIMARY KEY (`id`),
   KEY `idx_own_prefix` (`own_prefix`),
   KEY `idx_metakey_prefix` (`metakey_prefix`(100))

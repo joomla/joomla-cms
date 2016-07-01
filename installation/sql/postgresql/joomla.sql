@@ -134,6 +134,7 @@ CREATE TABLE "#__banners" (
   "purchase_type" smallint DEFAULT -1 NOT NULL,
   "track_clicks" smallint DEFAULT -1 NOT NULL,
   "track_impressions" smallint DEFAULT -1 NOT NULL,
+  "track_frequency" VARCHAR(6) DEFAULT 'hourly' NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
@@ -173,6 +174,7 @@ CREATE TABLE "#__banner_clients" (
   "purchase_type" smallint DEFAULT -1 NOT NULL,
   "track_clicks" smallint DEFAULT -1 NOT NULL,
   "track_impressions" smallint DEFAULT -1 NOT NULL,
+  "track_frequency" VARCHAR(6) DEFAULT 'hourly' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__banner_clients_idx_own_prefix" ON "#__banner_clients" ("own_prefix");

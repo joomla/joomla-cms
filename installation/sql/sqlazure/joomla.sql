@@ -141,6 +141,7 @@ CREATE TABLE "#__banners" (
   "purchase_type" smallint NOT NULL DEFAULT -1,
   "track_clicks" smallint NOT NULL DEFAULT -1,
   "track_impressions" smallint NOT NULL DEFAULT -1,
+  "track_frequency" nvarchar(6) NOT NULL DEFAULT 'hourly',
   "checked_out" bigint NOT NULL DEFAULT 0,
   "checked_out_time" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
   "publish_up" datetime2(0) NOT NULL DEFAULT '1900-01-01 00:00:00',
@@ -208,6 +209,7 @@ CREATE TABLE "#__banner_clients" (
   "purchase_type" smallint NOT NULL DEFAULT -1,
   "track_clicks" smallint NOT NULL DEFAULT -1,
   "track_impressions" smallint NOT NULL DEFAULT -1,
+  "track_frequency" nvarchar(6) NOT NULL DEFAULT 'hourly',
  CONSTRAINT "PK_#__banner_clients_id" PRIMARY KEY CLUSTERED
 (
   "id" ASC
