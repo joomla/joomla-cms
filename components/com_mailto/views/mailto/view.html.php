@@ -52,8 +52,7 @@ class MailtoViewMailto extends JViewLegacy
 		$app  = JFactory::getApplication();
 		$data = new stdClass;
 
-		$input      = $app->input;
-		$data->link = urldecode($input->get('link', '', 'BASE64'));
+		$data->link = urldecode($app->input->get('link', '', 'BASE64'));
 
 		if ($data->link == '')
 		{
