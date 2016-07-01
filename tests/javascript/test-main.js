@@ -18,6 +18,7 @@ require.config({
 
 	paths: {
 		'jquery': 'tests/javascript/node_modules/jquery/dist/jquery.min',
+		'bootstrap': 'media/jui/js/bootstrap.min',
 		'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
 		'libs': 'media/system/js',
 		'testsRoot': 'tests/javascript',
@@ -26,6 +27,10 @@ require.config({
 
 	shim: {
 		jasmineJquery: ['jquery'],
+		bootstrap: ['jquery'],
+		'libs/repeatable': {
+			deps: ['bootstrap', 'jquery']
+		},
 		'libs/validate': {
 			deps: ['jquery']
 		}

@@ -15,6 +15,7 @@ module.exports = function (config) {
 			{pattern: 'tests/javascript/node_modules/jquery/dist/jquery.min.js', included: false},
 			{pattern: 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery.js', included: false},
 			{pattern: 'tests/javascript/node_modules/text/text.js', included: false},
+			{pattern: 'media/jui/js/bootstrap.min.js', included: false},
 			{pattern: 'media/system/js/*.js', included: false},
 			{pattern: 'tests/javascript/**/fixture.html', included: false},
 			{pattern: 'tests/javascript/**/spec.js', included: false},
