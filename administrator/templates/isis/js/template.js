@@ -74,7 +74,7 @@
 			var $self    = $(this);
 			var dropdown = $self.next('.dropdown-menu');
 			var offset   = $self.offset();
-			var scroll   = $(window).scrollTop() + 5;
+			var scroll   = $(window).scrollTop() + 8;
 			var width    = menuWidth - 13;
 
 			// Set the submenu position
