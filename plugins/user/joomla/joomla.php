@@ -121,14 +121,30 @@ class PlgUserJoomla extends JPlugin
 					);
 
 					// Compute the mail body.
-					$emailBody = JText::sprintf(
-						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
-						$user['name'],
-						$this->app->get('sitename'),
-						JUri::root(),
-						$user['username'],
-						$user['password_clear']
-					);
+					$body_template = 'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY';
+
+					if ($this->params->get('include_password_in_mail_to_user', 1))
+					{
+						$emailBody = JText::sprintf(
+								$body_template,
+								$user['name'],
+								$this->app->get('sitename'),
+								JUri::root(),
+								$user['username'],
+								$user['password_clear']
+							);
+					}
+					else
+					{
+						$body_template .= "_NOPW";
+						$emailBody = JText::sprintf(
+								$body_template,
+								$user['name'],
+								$this->app->get('sitename'),
+								JUri::root(),
+								$user['username']
+							);
+					}
 
 					// Assemble the email data...the sexy way!
 					$mail = JFactory::getMailer()
