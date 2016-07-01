@@ -344,8 +344,13 @@ class JPagination
 				$itemOverride = true;
 			}
 
+			/*
+			 * @deprecated The list rendering is now a layout.
+			 * @see JPagination::_list_render()
+			 */
 			if (function_exists('pagination_list_render'))
 			{
+				JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', JLog::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
@@ -683,21 +688,7 @@ class JPagination
 	 */
 	protected function _list_render($list)
 	{
-		// Reverse output rendering for right-to-left display.
-		$html = '<ul>';
-		$html .= '<li class="pagination-start">' . $list['start']['data'] . '</li>';
-		$html .= '<li class="pagination-prev">' . $list['previous']['data'] . '</li>';
-
-		foreach ($list['pages'] as $page)
-		{
-			$html .= '<li>' . $page['data'] . '</li>';
-		}
-
-		$html .= '<li class="pagination-next">' . $list['next']['data'] . '</li>';
-		$html .= '<li class="pagination-end">' . $list['end']['data'] . '</li>';
-		$html .= '</ul>';
-
-		return $html;
+		return JLayoutHelper::render('joomla.pagination.list', array('list' => $list));
 	}
 
 	/**
