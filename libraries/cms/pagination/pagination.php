@@ -335,6 +335,10 @@ class JPagination
 				$itemOverride = true;
 			}
 
+			/*
+			 * @deprecated The list rendering is now a layout.
+			 * @see JPagination::_list_render()
+			 */
 			if (function_exists('pagination_list_render'))
 			{
 				$listOverride = true;
