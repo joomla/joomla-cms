@@ -341,6 +341,7 @@ class JPagination
 			 */
 			if (function_exists('pagination_list_render'))
 			{
+				JLog::add('pagination_list_render is deprecated. Use the layout joomla.pagination.list instead.', JLog::WARNING, 'deprecated');
 				$listOverride = true;
 			}
 		}
