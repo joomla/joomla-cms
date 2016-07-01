@@ -1,3 +1,4 @@
+<<<<<<< fde55e9cede48db34b526ea1a107a8e9b93d6299
 --
 -- Table structure for table `#__banners`
 --
@@ -25,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  `track_frequency` VARCHAR(6) NOT NULL DEFAULT 'hourly',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -49,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
 -- Table structure for table `#__banner_clients`
 --
 
+<<<<<<< fde55e9cede48db34b526ea1a107a8e9b93d6299
 CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -64,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  `track_frequency` VARCHAR(6) NOT NULL DEFAULT 'hourly'
   PRIMARY KEY (`id`),
   KEY `idx_own_prefix` (`own_prefix`),
   KEY `idx_metakey_prefix` (`metakey_prefix`(100))
