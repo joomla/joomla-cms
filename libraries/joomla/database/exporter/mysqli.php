@@ -34,6 +34,11 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 
 		$buffer = array_merge($buffer, $this->buildXmlStructure());
 
+		if ($this->options->withData)
+		{
+			$buffer = array_merge($buffer, $this->buildXmlData());
+		}
+
 		$buffer[] = ' </database>';
 		$buffer[] = '</mysqldump>';
 
@@ -79,6 +84,57 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 			}
 
 			$buffer[] = '  </table_structure>';
+		}
+
+		return $buffer;
+	}
+
+	/**
+	 * Builds the XML data to export.
+	 *
+	 * @return  array  An array of XML lines (strings).
+	 *
+	 * @since   11.1
+	 * @throws  Exception if an error occurs.
+	 */
+	protected function buildXmlData()
+	{
+		$buffer = array();
+
+		foreach ($this->from as $table)
+		{
+			// Replace the magic prefix if found.
+			$table = $this->getGenericTableName($table);
+
+			// Get the details columns information.
+			$fields = $this->db->getTableColumns($table, false);
+			$keys = $this->db->getTableKeys($table);
+			$query = $this->db->getQuery(true);
+			$query->select($query->qn(array_keys($fields)))
+				->from($query->qn($table));
+			$this->db->setQuery($query);
+			$rows = $this->db->loadObjectList();
+
+			if (!count($rows))
+			{
+				continue;
+			}
+
+			$buffer[] = '  <table_data name="' . $table . '">';
+
+			foreach ($rows as $row)
+			{
+				$buffer[] = '   <row>';
+
+				foreach ($row as $key => $value)
+				{
+					$buffer[] = '    <field name="' . $key . '">' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '</field>';
+				}
+
+				$buffer[] = '   </row>';
+			}
+
+			$buffer[] = '  </table_data>';
 		}
 
 		return $buffer;
