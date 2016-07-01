@@ -166,7 +166,7 @@ abstract class JArrayHelper
 		}
 		else
 		{
-			return null;
+			return;
 		}
 	}
 

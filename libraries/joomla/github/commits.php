@@ -85,7 +85,7 @@ class JGithubCommits extends JGithubObject
 				'commit_id' => $sha,
 				'line' => (int) $line,
 				'path' => $filepath,
-				'position' => (int) $position
+				'position' => (int) $position,
 			)
 		);
 
@@ -156,7 +156,7 @@ class JGithubCommits extends JGithubObject
 
 		$data = json_encode(
 			array(
-				'body' => $comment
+				'body' => $comment,
 			)
 		);
 

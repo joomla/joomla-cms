@@ -23,9 +23,7 @@ class JGithubPackageOrgs extends JGithubPackage
 {
 	protected $name = 'Orgs';
 
-	protected $packages = array(
-		'members', 'teams'
-	);
+	protected $packages = array('members', 'teams');
 
 	/**
 	 * List User Organizations.

@@ -941,7 +941,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys AS $key)
+			foreach ($this->_tbl_keys as $key)
 			{
 				$pk[$key] = $this->$key;
 			}
@@ -951,7 +951,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys AS $key)
+		foreach ($this->_tbl_keys as $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1030,7 +1030,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys AS $key)
+			foreach ($this->_tbl_keys as $key)
 			{
 				$pk[$key] = $this->$key;
 			}
@@ -1040,7 +1040,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys AS $key)
+		foreach ($this->_tbl_keys as $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1096,7 +1096,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys AS $key)
+			foreach ($this->_tbl_keys as $key)
 			{
 				$pk[$this->$key] = $this->$key;
 			}
@@ -1106,7 +1106,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys AS $key)
+		foreach ($this->_tbl_keys as $key)
 		{
 			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1199,7 +1199,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys AS $key)
+			foreach ($this->_tbl_keys as $key)
 			{
 				$pk[$key] = $this->$key;
 			}
@@ -1209,7 +1209,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys AS $key)
+		foreach ($this->_tbl_keys as $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1306,7 +1306,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$max = (int) $this->_db->loadResult();
 
 		// Return the largest ordering value + 1.
-		return ($max + 1);
+		return $max + 1;
 	}
 
 	/**
@@ -1527,7 +1527,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys AS $key)
+			foreach ($this->_tbl_keys as $key)
 			{
 				if ($this->$key)
 				{
@@ -1598,7 +1598,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// If the JTable instance value is in the list of primary keys that were set, set the instance.
 			$ours = true;
 
-			foreach ($this->_tbl_keys AS $key)
+			foreach ($this->_tbl_keys as $key)
 			{
 				if ($this->$key != $pk[$key])
 				{

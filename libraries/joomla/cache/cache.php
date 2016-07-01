@@ -54,7 +54,7 @@ class JCache
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($conf->get('caching') >= 1) ? true : false
+			'caching'      => ($conf->get('caching') >= 1) ? true : false,
 		);
 
 		// Overwrite default options with given options
@@ -733,7 +733,7 @@ class JCache
 			'view'   => 'WORD',
 			'layout' => 'WORD',
 			'tpl'    => 'CMD',
-			'id'     => 'INT'
+			'id'     => 'INT',
 		);
 
 		// Use platform defaults if parameter doesn't already exist.

@@ -1,5 +1,20 @@
 <?php
 
+$topFilesFinder = Symfony\CS\Finder\DefaultFinder::create()
+	->in(array(__DIR__ . '/libraries'))
+	->files()
+	->depth(0);
+
+$mainFinder = Symfony\CS\Finder\DefaultFinder::create()
+	->in(
+		array(
+			__DIR__ . '/libraries/cms',
+			__DIR__ . '/libraries/joomla',
+			__DIR__ . '/libraries/legacy',
+		)
+	)
+	->append($topFilesFinder);
+
 return Symfony\CS\Config\Config::create()
     ->setUsingLinter(false)
     ->setUsingCache(true)
@@ -47,11 +62,4 @@ return Symfony\CS\Config\Config::create()
 		    'long_array_syntax',
         )
     )
-    ->finder(
-        Symfony\CS\Finder\DefaultFinder::create()
-            ->in(
-	            array(
-		            __DIR__ . '/libraries/cms',
-	            )
-            )
-    );
+    ->finder($mainFinder);
