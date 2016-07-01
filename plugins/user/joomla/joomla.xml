@@ -43,6 +43,18 @@
 					<option value="0">JNO</option>
 				</field>
 
+				<field name="include_password_in_mail_to_user"
+					type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					showon="mail_to_user:1"
+					label="PLG_USER_JOOMLA_FIELD_INCLUDEPASSWORD_LABEL"
+					description="PLG_USER_JOOMLA_FIELD_INCLUDEPASSWORD_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field
 					name="forceLogout"
 					type="radio"
