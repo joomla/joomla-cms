@@ -56,10 +56,9 @@ class UsersModelLogin extends JModelForm
 		$data = $app->getUserState('users.login.form.data', array());
 
 		$input = $app->input;
-		$method = $input->getMethod();
 
 		// Check for return URL from the request first
-		if ($return = $input->$method->get('return', '', 'BASE64'))
+		if ($return = $input->get('return', '', 'BASE64'))
 		{
 			$data['return'] = base64_decode($return);
 
