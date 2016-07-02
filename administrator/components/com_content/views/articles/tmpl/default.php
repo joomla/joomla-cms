@@ -199,7 +199,14 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo (int) $item->hits; ?>
+							<span class="badge badge-info">
+								<?php echo (int) $item->hits; ?>
+							</span>
+						</td>
+						<td class="hidden-phone">
+							<span class="badge badge-success" title="<?php echo (int) $item->rating; ?>">
+								<?php echo (int) $item->rating_count; ?>
+							</span>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
