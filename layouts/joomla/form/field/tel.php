@@ -52,7 +52,7 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 
-$attributes = [
+$attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	!empty($maxLength) ? ' maxlength="' . $maxLength . '"' : '',
 	!empty($class) ? ' class="' . $class . '"' : '',
@@ -64,7 +64,7 @@ $attributes = [
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : ' spellcheck="false"',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
-];
+);
 ?>
 <input type="tel" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 echo htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?>/>
