@@ -8962,6 +8962,7 @@ input[type="url"] {
 }
 .navbar .nav > .dropdown.open:after {
 	right: 10px;
+	width: 0;
 }
 .navbar .empty-nav {
 	display: none;
