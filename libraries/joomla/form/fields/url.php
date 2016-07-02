@@ -33,7 +33,7 @@ class JFormFieldUrl extends JFormFieldText
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  3.7
 	 */
 	protected $layout = 'joomla.form.field.url';
 
@@ -55,7 +55,7 @@ class JFormFieldUrl extends JFormFieldText
 	 *
 	 * @return  array
 	 *
-	 * @since 3.5
+	 * @since 3.7
 	 */
 	protected function getLayoutData()
 	{
