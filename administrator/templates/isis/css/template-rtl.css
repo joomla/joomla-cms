@@ -8960,6 +8960,9 @@ input[type="url"] {
 	background-color: rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
 }
+.navbar .nav > .dropdown.open:after {
+	right: 10px;
+}
 .navbar .empty-nav {
 	display: none;
 }
