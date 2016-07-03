@@ -131,38 +131,23 @@ class PlgEditorTinymce extends JPlugin
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$idField  = str_replace('[', '_', substr($name, 0, -1));
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin
-		if ($app->isSite())
+		$skin = 'lightgray';
+		if ($app->isSite() && (int) $this->params->get('skin', 0) < count($skindirs))
 		{
-			if ((int) $this->params->get('skin', 0) < count($skindirs))
-			{
-				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
-			}
+			$skin =  basename($skindirs[(int) $this->params->get('skin', 0)]);
 		}
 
 		// Set the selected administrator skin
-		elseif ($app->isAdmin())
+		elseif ($app->isAdmin() && (int) $this->params->get('skin_admin', 0) < count($skindirs))
 		{
-			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
-			{
-				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
-			}
+			$skin = basename($skindirs[(int) $this->params->get('skin_admin', 0)]);
 		}
 
-		$entity_encoding = $this->params->get('entity_encoding', 'raw');
 		$langMode        = $this->params->get('lang_mode', 0);
 		$langPrefix      = $this->params->get('lang_code', 'en');
 
@@ -214,7 +199,7 @@ class PlgEditorTinymce extends JPlugin
 			return;
 		}
 
-		$content_css    = '';
+		$content_css    = null;
 		$templates_path = JPATH_SITE . '/templates';
 
 		// Loading of css file for 'styles' dropdown
@@ -223,13 +208,13 @@ class PlgEditorTinymce extends JPlugin
 			// If URL, just pass it to $content_css
 			if (strpos($content_css_custom, 'http') !== false)
 			{
-				$content_css = 'content_css : "' . $content_css_custom . '",';
+				$content_css = $content_css_custom;
 			}
 
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom . '",';
+				$content_css = JUri::root(true) . '/templates/' . $template . '/css/' . $content_css_custom;
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -255,40 +240,14 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root(true) . '/templates/system/css/editor.css",';
+						$content_css = JUri::root(true) . '/templates/system/css/editor.css';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root(true) . '/templates/' . $template . '/css/editor.css",';
+					$content_css = JUri::root(true) . '/templates/' . $template . '/css/editor.css';
 				}
 			}
-		}
-
-// 		$relative_urls = $this->params->get('relative_urls', '1');
-
-// 		if ($relative_urls)
-// 		{
-// 			// Relative
-// 			$relative_urls = "true";
-// 		}
-// 		else
-// 		{
-// 			// Absolute
-// 			$relative_urls = "false";
-// 		}
-
-		$newlines = $this->params->get('newlines', 0);
-
-		if ($newlines)
-		{
-			// Break
-			$forcenewline = "force_br_newlines : true, force_p_newlines : false, forced_root_block : '',";
-		}
-		else
-		{
-			// Paragraph
-			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
 
 		// Text filtering
@@ -352,16 +311,16 @@ class PlgEditorTinymce extends JPlugin
 		{
 			if ($resize_horizontal || $resize_horizontal == 'true')
 			{
-				$resizing = 'resize: "both",';
+				$resizing = 'both';
 			}
 			else
 			{
-				$resizing = 'resize: true,';
+				$resizing = true;
 			}
 		}
 		else
 		{
-			$resizing = 'resize: false,';
+			$resizing = false;
 		}
 
 		$toolbar1_add   = array();
@@ -589,6 +548,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Template
 		$template = $this->params->get('template', 1);
+		$templates = array();
 
 		if (isset($access[$template]))
 		{
@@ -602,26 +562,27 @@ class PlgEditorTinymce extends JPlugin
 				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
 
 				// Find from one [ to the last ]
+				$matches = array();
 				preg_match_all('/\[.*\]/', $str, $matches);
-
-				$templates = "templates: [";
 
 				// Set variables
 				foreach ($matches['0'] as $match)
 				{
+					$values = array();
 					preg_match_all('/\".*\"/', $match, $values);
 					$result       = trim($values["0"]["0"], '"');
 					$final_result = explode(',', $result);
-					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '"
-						. trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
+
+					$templates[] = array(
+						'title' => trim($final_result['0'], ' " '),
+						'description' => trim($final_result['2'], ' " '),
+						'url' => JUri::root(true) . '/' . trim($final_result['1'], ' " '),
+					);
 				}
 
-				$templates .= "],";
 			}
 			else
 			{
-				$templates = 'templates: [';
-
 				foreach (glob(JPATH_ROOT . '/media/editors/tinymce/templates/*.html') as $filename)
 				{
 					$filename = basename($filename, '.html');
@@ -642,17 +603,14 @@ class PlgEditorTinymce extends JPlugin
 							$description = JText::_('PLG_TINY_TEMPLATE_' . strtoupper($filename) . '_DESC');
 						}
 
-						$templates .= '{title: \'' . $title . '\', description: \'' . $description . '\', url:\''
-							. JUri::root() . 'media/editors/tinymce/templates/' . $filename . '.html\'},';
+						$templates[] = array(
+							'title' => $title,
+							'description' => $description,
+							'url' => JUri::root(true) . '/media/editors/tinymce/templates/' . $filename . '.html',
+						);
 					}
 				}
-
-				$templates .= '],';
 			}
-		}
-		else
-		{
-			$templates = '';
 		}
 
 		// Print
@@ -802,99 +760,66 @@ class PlgEditorTinymce extends JPlugin
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
 
-		/**
-		 * Shrink the buttons if not on a mobile or if mobile view is off.
-		 * If mobile view is on force into simple mode and enlarge the buttons
-		 **/
-		if (!$this->app->client->mobile)
-		{
-			$smallButtons = 'toolbar_items_size: "small",';
-		}
-		elseif ($mobileVersion == false)
-		{
-			$smallButtons = '';
-		}
-		else
-		{
-			$smallButtons = '';
-			$mode         = 0;
-		}
-
 		$scriptOptions = array(
 			'suffix'  => '.min',
 			'baseURL' => JUri::root(true) . '/media/editors/tinymce',
 			'directionality' => $text_direction,
-			//'selector' => '#' . $id,
 			'language' => $langPrefix,
-			//'mode'     => 'specific_textareas',
 			'autosave_restore_when_empty' => false,
-			//'skin' => '', // @TODO: configure skin
+			'skin'   => $skin,
 			'theme'  => $theme,
 			'schema' => 'html5',
 
 			// Cleanup/Output
 			'inline_styles'    => true,
 			'gecko_spellcheck' => true,
-			'entity_encoding'  => $entity_encoding,
-			// @TODO: $forcenewline, $smallButtons
+			'entity_encoding'  => $this->params->get('entity_encoding', 'raw'),
 
 			// URL
 			'relative_urls'      => (bool) $this->params->get('relative_urls', true),
 			'remove_script_host' => false,
 
 			// Layout
-			// @TODO $content_css
-			'document_base_url' => JUri::root(true) . '/',
-			'paste_data_images' => $allowImgPaste,
-			// @TODO setup: function (editor) {$tinyBtns}
+			'content_css'        => $content_css,
+			'document_base_url'  => JUri::root(true) . '/',
+			'paste_data_images'  => $allowImgPaste,
+
+			// @TODO make it better, do not generate JavaScript in PHP !!!
+			'setupCallbacString' => $tinyBtns,
 		);
 
-		$script = '';
+		if ($this->params->get('newlines'))
+		{
+			// Break
+			$scriptOptions['force_br_newlines'] = true;
+			$scriptOptions['force_p_newlines']  = false;
+			$scriptOptions['forced_root_block'] = '';
+		}
+		else
+		{
+			// Paragraph
+			$scriptOptions['force_br_newlines'] = false;
+			$scriptOptions['force_p_newlines']  = true;
+			$scriptOptions['forced_root_block'] = 'p';
+		}
 
-		// First line is for Mootools b/c
-		$script .= "
-		window.getSize = window.getSize || function(){return {x: jQuery(window).width(), y: jQuery(window).height()};};
-		tinymce.suffix = '.min';
-		tinymce.baseURL = '" . JUri::root() . "media/editors/tinymce';
-		tinymce.init({
-		";
-
-		// General
-		$script .= "
-		directionality: \"$text_direction\",
-		selector: \"textarea#$id\",
-		language : \"$langPrefix\",
-		mode : \"specific_textareas\",
-		autosave_restore_when_empty: false,
-		$skin
-		theme : \"$theme\",
-		schema: \"html5\",
-		";
-
-		// Cleanup/Output
-		$script .= "
-		inline_styles : true,
-		gecko_spellcheck : true,
-		entity_encoding : \"$entity_encoding\",
-		$forcenewline
-		$smallButtons
-		";
-
-		// URL
-		$script .= "
-		relative_urls : boolval($this->params->get('relative_urls', 1)),
-		remove_script_host : false,
-		";
-
-		// Layout
-		$script .= "
-		$content_css
-		document_base_url : \"" . JUri::root() . "\",
-		setup: function (editor) {
-			$tinyBtns
-		},
-		paste_data_images: $allowImgPaste,
-		";
+		/**
+		 * Shrink the buttons if not on a mobile or if mobile view is off.
+		 * If mobile view is on force into simple mode and enlarge the buttons
+		 **/
+		if (!$this->app->client->mobile)
+		{
+			$scriptOptions['toolbar_items_size'] = 'small';
+		}
+		elseif ($mobileVersion == false)
+		{
+			//$smallButtons = '';
+		}
+		else
+		{
+			//$smallButtons = '';
+			$mode         = 0;
+		}
 
 		switch ($mode)
 		{
@@ -903,12 +828,6 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | ' . $toolbar5 . ' | code';
 				$scriptOptions['plugins']  = $dragDropPlg . ' code';
 
-				$script .= "
-			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
-			plugins: \"$dragDropPlg code\",
-		});
-		";
 				break;
 
 			case 1:
@@ -925,25 +844,8 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['importcss_append']  = true;
 				$scriptOptions['height'] = $html_height;
 				$scriptOptions['width']  = $html_width;
-				// @TODO: $resizing
+				$scriptOptions['resize'] = $resizing;
 
-				$script .= "
-			valid_elements : \"$valid_elements\",
-			extended_valid_elements : \"$elements\",
-			invalid_elements : \"$invalid_elements\",
-			// Plugins
-			plugins : \"table link code hr charmap autolink lists importcss $dragDropPlg\",
-			// Toolbar
-			toolbar1: \"$toolbar1 | $toolbar5\",
-			removed_menuitems: \"newdocument\",
-			// Layout
-			importcss_append: true,
-			// Advanced Options
-			$resizing
-			height : \"$html_height\",
-			width : \"$html_width\"
-		});
-			";
 				break;
 
 			case 2: /* Extended mode*/
@@ -970,55 +872,13 @@ class PlgEditorTinymce extends JPlugin
 				);
 				$scriptOptions['importcss_append'] = true;
 				$scriptOptions['image_advtab']     = $image_advtab;
-				$scriptOptions['height'] = $html_height;
-				$scriptOptions['width']  = $html_width;
-				// @TODO: $templates $resizing
+				$scriptOptions['height']    = $html_height;
+				$scriptOptions['width']     = $html_width;
+				$scriptOptions['resize']    = $resizing;
+				$scriptOptions['templates'] = $templates;
 
-				$script .= "
-			valid_elements : \"$valid_elements\",
-			extended_valid_elements : \"$elements\",
-			invalid_elements : \"$invalid_elements\",
-			// Plugins
-			plugins : \"$plugins $dragDropPlg\",
-			// Toolbar
-			toolbar1: \"$toolbar1\",
-			removed_menuitems: \"newdocument\",
-			// URL
-			rel_list : [
-				{title: 'Alternate', value: 'alternate'},
-				{title: 'Author', value: 'author'},
-				{title: 'Bookmark', value: 'bookmark'},
-				{title: 'Help', value: 'help'},
-				{title: 'License', value: 'license'},
-				{title: 'Lightbox', value: 'lightbox'},
-				{title: 'Next', value: 'next'},
-				{title: 'No Follow', value: 'nofollow'},
-				{title: 'No Referrer', value: 'noreferrer'},
-				{title: 'Prefetch', value: 'prefetch'},
-				{title: 'Prev', value: 'prev'},
-				{title: 'Search', value: 'search'},
-				{title: 'Tag', value: 'tag'}
-			],
-			//Templates
-			" . $templates . "
-			// Layout
-			importcss_append: true,
-			// Advanced Options
-			$resizing
-			image_advtab: $image_advtab,
-			height : \"$html_height\",
-			width : \"$html_width\",
-		});
-		";
 				break;
 		}
-
-		$script .= "
-		function jInsertEditorText( text, editor )
-		{
-			tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
-		}
-		";
 
 		if (!empty($btnsNames))
 		{
@@ -1052,7 +912,6 @@ class PlgEditorTinymce extends JPlugin
 			);
 		}
 
-		//$doc->addScriptDeclaration($script);
 		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
 		$doc->addScriptOptions('plg_editor_tinymce', array(
 			'tinyMCE' => $scriptOptions,

@@ -30,22 +30,28 @@
 	 * Initialize TinyMCE instance
 	 */
 	Joomla.initializeEditorTinyMCE = Joomla.initializeEditorTinyMCE || function (element, tinyMCEOptions) {
-		var options = tinyMCEOptions.tinyMCE || {};
+		var options = tinyMCEOptions ? tinyMCEOptions.tinyMCE || {} : {};
 
 		if (element) {
 			options.selector = null;
 			options.target   = element;
 		}
 
+		if (options.setupCallbacString && !options.setup) {
+			options.setup = new Function('editor', options.setupCallbacString);
+		}
+
 		tinyMCE.init(options);
 	}
 
 	// Init on doomready
-	$(document).ready(Joomla.setupEditorsTinyMCE);
+	$(document).ready(function(){
+		Joomla.setupEditorsTinyMCE();
 
-	// Init in subform field
-	$(document).on('subform-row-add', '.subform-repeatable', function(row){
-		Joomla.setupEditorsTinyMCE(row);
-	})
+    	// Init in subform field
+    	$(document).on('subform-row-add', function(event, row){
+    		Joomla.setupEditorsTinyMCE(row);
+    	})
+	});
 
 }(tinyMCE, Joomla, jQuery, window, document));
