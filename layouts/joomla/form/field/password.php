@@ -44,7 +44,7 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-if ($this->meter)
+if ($meter)
 {
 	// Load script on document load.
 	JFactory::getDocument()->addScriptDeclaration(
