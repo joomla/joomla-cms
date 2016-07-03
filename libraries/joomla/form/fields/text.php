@@ -50,6 +50,15 @@ class JFormFieldText extends JFormField
 	 */
 	protected $dirname;
 
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.text';
+
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
@@ -217,21 +226,24 @@ class JFormFieldText extends JFormField
 	protected function getLayoutData()
 	{
 		$data = parent::getLayoutData();
+
 		// Initialize some field attributes.
 		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$pattern      = !empty($this->pattern) ? ' pattern="' . $this->pattern . '"' : '';
 		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+
 		/* Get the field options for the datalist.
-Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
 		$options  = (array) $this->getSuggestions();
+
 		$extraData = array(
 			'maxLength' => $maxLength,
-			'pattern'   => $pattern,
+			'pattern'   => $this->pattern,
 			'inputmode' => $inputmode,
 			'dirname'   => $dirname,
 			'options'   => $options,
 		);
+
 		return array_merge($data, $extraData);
 	}
 }
