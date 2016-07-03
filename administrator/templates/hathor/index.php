@@ -99,7 +99,7 @@ else
 	<![endif]-->
 	</head>
 <body id="minwidth-body">
-<div id="containerwrap">
+<div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
 	<!-- Header Logo -->
 	<div id="header">
 		<!-- Site Title and Skip to Content -->

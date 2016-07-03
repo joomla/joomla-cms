@@ -23,6 +23,12 @@ if (($tagId = $params->get('tag_id', '')))
 {
 	$class = 'item-' . $item->id;
 
+	if ($item->id == $default_id)
+	{
+		$class .= ' default';
+	}
+
+
 	if (($item->id == $active_id) || ($item->type == 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';

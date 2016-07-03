@@ -47,6 +47,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -236,7 +237,9 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
 
 		// Get the menu title
@@ -245,7 +248,14 @@ class MenusViewItems extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		if ($menuTypeTitle)
+		{
+			JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+		}
 
 		if ($canDo->get('core.create'))
 		{

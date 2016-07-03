@@ -79,11 +79,15 @@ class JFormFieldFilters extends JFormField
 			$group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
 			$html[] = '	<tr>';
-			$html[] = '		<th class="acl-groups left">';
-			$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $group->level) . $group->text;
-			$html[] = '		</th>';
+			$html[] = '		<td class="acl-groups left">';
+			$html[] = '			' . JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<select name="' . $this->name . '[' . $group->value . '][filter_type]" id="' . $this->id . $group->value . '_filter_type">';
+			$html[] = '				<select'
+				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'
+				. ' id="' . $this->id . $group->value . '_filter_type"'
+				. ' class="novalidate"'
+				. '>';
 			$html[] = '					<option value="BL"' . ($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '') . '>'
 				. JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST') . '</option>';
 			$html[] = '					<option value="CBL"' . ($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '') . '>'
@@ -100,7 +104,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_tags]"'
 				. ' type="text"'
-				. ' id="' . $this->id . $group->value . '_filter_tags"'
+				. ' id="' . $this->id . $group->value . '_filter_tags" class="novalidate"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '"'
 				. ' value="' . $group_filter['filter_tags'] . '"'
 				. '/>';
@@ -109,7 +113,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				<input'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_attributes]"'
 				. ' type="text"'
-				. ' id="' . $this->id . $group->value . '_filter_attributes"'
+				. ' id="' . $this->id . $group->value . '_filter_attributes" class="novalidate"'
 				. ' title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '"'
 				. ' value="' . $group_filter['filter_attributes'] . '"'
 				. '/>';

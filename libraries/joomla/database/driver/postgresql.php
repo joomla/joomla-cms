@@ -116,9 +116,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Make sure the postgresql extension for PHP is installed and enabled.
-		if (!function_exists('pg_connect'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('PHP extension pg_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('PHP extension pg_connect is not available.');
 		}
 
 		// Build the DSN for the connection.
@@ -134,7 +134,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
 		{
-			throw new RuntimeException('Error connecting to PGSQL database.');
+			throw new JDatabaseExceptionConnecting('Error connecting to PGSQL database.');
 		}
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
@@ -287,7 +287,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
 	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
-	 * To retrieve the number of rows affected by a INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
 	 *
@@ -320,7 +320,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Make sure we have a query class for this driver.
 			if (!class_exists('JDatabaseQueryPostgresql'))
 			{
-				throw new RuntimeException('JDatabaseQueryPostgresql Class not found.');
+				throw new JDatabaseExceptionUnsupported('JDatabaseQueryPostgresql Class not found.');
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
@@ -668,18 +668,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
+		}
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -756,7 +756,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new RuntimeException($this->errorMsg, null, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -772,7 +772,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new RuntimeException($this->errorMsg);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg);
 			}
 		}
 

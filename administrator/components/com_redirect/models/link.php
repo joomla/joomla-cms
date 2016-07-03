@@ -207,7 +207,7 @@ class RedirectModelLink extends JModelAdmin
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
-	 * @since   3.5
+	 * @since   3.6.0
 	 */
 	public function duplicateUrls(&$pks, $url, $comment = null)
 	{

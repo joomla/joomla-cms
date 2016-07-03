@@ -35,12 +35,28 @@ class JFormFieldColor extends JFormField
 	protected $control = 'hue';
 
 	/**
+	 * The format.
+	 *
+	 * @var    string
+	 * @since  3.6.0
+	 */
+	protected $format = 'hex';
+
+	/**
+	 * The keywords (transparent,initial,inherit).
+	 *
+	 * @var    string
+	 * @since  3.6.0
+	 */
+	protected $keywords = '';
+
+	/**
 	 * The position.
 	 *
 	 * @var    mixed
 	 * @since  3.2
 	 */
-	protected $position = 'right';
+	protected $position = 'default';
 
 	/**
 	 * The colors.
@@ -72,6 +88,8 @@ class JFormFieldColor extends JFormField
 		switch ($name)
 		{
 			case 'control':
+			case 'format':
+			case 'keywords':
 			case 'exclude':
 			case 'colors':
 			case 'split':
@@ -98,6 +116,12 @@ class JFormFieldColor extends JFormField
 			case 'split':
 				$value = (int) $value;
 			case 'control':
+			case 'format':
+				$this->$name = (string) $value;
+				break;
+			case 'keywords':
+				$this->$name = (string) $value;
+				break;
 			case 'exclude':
 			case 'colors':
 				$this->$name = (string) $value;
@@ -129,7 +153,9 @@ class JFormFieldColor extends JFormField
 		if ($return)
 		{
 			$this->control  = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
-			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'right';
+			$this->format   = isset($this->element['format']) ? (string) $this->element['format'] : 'hex';
+			$this->keywords = isset($this->element['keywords']) ? (string) $this->element['keywords'] : '';
+			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
 			$this->colors   = (string) $this->element['colors'];
 			$this->split    = isset($this->element['split']) ? (int) $this->element['split'] : 3;
 		}
@@ -146,14 +172,19 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
+		$lang = JFactory::getLanguage();
+
 		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Control value can be: hue (default), saturation, brightness, wheel or simple
 		$control = $this->control;
 
-		// Position of the panel can be: right (default), left, top or bottom
-		$position = ' data-position="' . $this->position . '"';
+		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
+		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
+
+		// Validation of data can be: color (hex color value). Keep for B/C (minicolors.js already auto-validates color)
+		$validate = $this->validate ? ' data-validate="' . $this->validate . '"' : '';
 
 		$onchange  = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 		$class     = $this->class;
@@ -162,20 +193,21 @@ class JFormFieldColor extends JFormField
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		$color = strtolower($this->value);
-
-		if (!$color || in_array($color, array('none', 'transparent')))
-		{
-			$color = 'none';
-		}
-		elseif ($color['0'] != '#')
-		{
-			$color = '#' . $color;
-		}
+		$color = ! $color ? '' : $color;
 
 		if ($control == 'simple')
 		{
 			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 			JHtml::_('behavior.simplecolorpicker');
+
+			if (in_array($color, array('none', 'transparent')))
+			{
+				$color = 'none';
+			}
+			elseif ($color['0'] != '#')
+			{
+				$color = '#' . $color;
+			}
 
 			$colors = strtolower($this->colors);
 
@@ -242,11 +274,27 @@ class JFormFieldColor extends JFormField
 		}
 		else
 		{
-			$class        = ' class="' . trim('minicolors ' . $class) . '"';
+			if (in_array($this->format, array('rgb', 'rgba')) && $this->validate != 'color')
+			{
+				$alpha = ($this->format == 'rgba') ? true : false;
+				$placeholder = $alpha ? 'rgba(0, 0, 0, 0.5)' : 'rgb(0, 0, 0)';
+			}
+			else
+			{
+				$placeholder = '#rrggbb';
+			}
+
+			$inputclass   = ($this->keywords && ! in_array($this->format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $this->format;
+			$class        = ' class="' . trim('minicolors ' . $class) . ($this->validate == 'color' ? '' : $inputclass) . '"';
 			$control      = $control ? ' data-control="' . $control . '"' : '';
+			$format       = $this->format ? ' data-format="' . $this->format . '"' : '';
+			$keywords     = $this->keywords ? ' data-keywords="' . $this->keywords . '"' : '';
 			$readonly     = $this->readonly ? ' readonly' : '';
-			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
-			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
+			$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+			$autocomplete = ! $this->autocomplete ? ' autocomplete="off"' : '';
+
+			// Force LTR input value in RTL, due to display issues with rgba/hex colors
+			$direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
 			// Including fallback code for HTML5 non supported browsers.
 			JHtml::_('jquery.framework');
@@ -256,7 +304,8 @@ class JFormFieldColor extends JFormField
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control
-				. $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . '/>';
+				. $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus
+				. $format . $keywords . $direction . $validate . '/>';
 		}
 	}
 }

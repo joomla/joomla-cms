@@ -129,7 +129,7 @@ class SiteContentFeaturedPage extends SitePage
 	}
 
 	/**
-	 * Function to check if the unpublished tag is present for a article or not
+	 * Function to check if the unpublished tag is present for an article or not
 	 *
 	 * @param   string  $articleTitle  stores the name of the article
 	 *

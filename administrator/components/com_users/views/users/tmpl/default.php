@@ -17,7 +17,7 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -41,7 +41,7 @@ $loggeduser = JFactory::getUser();
 						<th width="1%" class="nowrap center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th class="left">
+						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
@@ -56,13 +56,13 @@ $loggeduser = JFactory::getUser();
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
@@ -72,7 +72,7 @@ $loggeduser = JFactory::getUser();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="15">
+						<td colspan="10">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -114,7 +114,7 @@ $loggeduser = JFactory::getUser();
 								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id);?>">
+								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 								<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
 							<?php endif; ?>
 						</td>
@@ -144,17 +144,17 @@ $loggeduser = JFactory::getUser();
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone break-word">
+						<td class="hidden-phone break-word hidden-tablet">
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
 								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 							<?php else:?>
 								<?php echo JText::_('JNEVER'); ?>
 							<?php endif;?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-phone hidden-tablet">
 							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 						</td>
 						<td class="hidden-phone">

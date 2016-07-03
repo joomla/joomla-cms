@@ -135,6 +135,11 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	foreach ($menuTypes as $menuType)
 	{
+		if (!$user->authorise('core.manage', 'com_menus.menu.' . (int) $menuType->id))
+		{
+			continue;
+		}
+
 		$alt = '*' .$menuType->sef. '*';
 		if ($menuType->home == 0)
 		{
@@ -161,9 +166,11 @@ if ($user->authorise('core.manage', 'com_menus'))
 			}
 		}
 		$menu->addChild(
-			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
+			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon),
+				$user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id)
 		);
-		if ($createMenu)
+
+		if ($user->authorise('core.create', 'com_menus.menu.' . (int) $menuType->id))
 		{
 			$menu->addChild(
 				new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType->menutype, 'class:newarticle')

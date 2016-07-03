@@ -70,7 +70,7 @@ class CategoriesViewCategories extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -109,8 +109,25 @@ class CategoriesViewCategories extends JViewLegacy
 			JHtml::_('select.option', '10', JText::_('J10')),
 		);
 
-		$this->addToolbar();
-		$this->sidebar = JHtmlSidebar::render();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+			$this->sidebar = JHtmlSidebar::render();
+		}
+		else
+		{
+			// In article associations modal we need to remove language filter if forcing a language.
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+			{
+				// If the language is forced we can't allow to select the language, so transform the language selector filter into an hidden field.
+				$languageXml = new SimpleXMLElement('<field name="language" type="hidden" default="' . $forcedLanguage . '" />');
+				$this->filterForm->setField($languageXml, 'filter', true);
+
+				// Also, unset the active language filter so the search tools is not open by default with this filter.
+				unset($this->activeFilters['language']);
+			}
+		}
 
 		return parent::display($tpl);
 	}

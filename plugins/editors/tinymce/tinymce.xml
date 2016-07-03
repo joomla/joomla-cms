@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.3.3</version>
+	<version>4.3.12</version>
 	<creationDate>2005-2016</creationDate>
 	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
@@ -22,84 +22,103 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/plugins/editors/tinymce/fields">
-				<field name="skins" type="note"
+			<fieldset name="basic">
+				<field
+					name="skins"
+					type="note"
 					label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
 					description="PLG_TINY_FIELD_SKIN_INFO_DESC"
 				/>
 
-				<field name="skin" type="skins"
-					description="PLG_TINY_FIELD_SKIN_DESC"
+				<field
+					name="skin"
+					type="skins"
 					label="PLG_TINY_FIELD_SKIN_LABEL"
-				>
-				</field>
+					description="PLG_TINY_FIELD_SKIN_DESC"
+				/>
 
-				<field name="skin_admin" type="skins"
-					description="PLG_TINY_FIELD_SKIN_ADMIN_DESC"
+				<field
+					name="skin_admin"
+					type="skins"
 					label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
-				>
-				</field>
+					description="PLG_TINY_FIELD_SKIN_ADMIN_DESC"
+				/>
 
-				<field name="mode" type="list"
-					default="2"
-					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
+				<field
+					name="mode"
+					type="list"
 					label="PLG_TINY_FIELD_FUNCTIONALITY_LABEL"
-				>
+					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
+					default="2"
+					>
 					<option value="0">PLG_TINY_FIELD_VALUE_SIMPLE</option>
 					<option value="1">PLG_TINY_FIELD_VALUE_ADVANCED</option>
 					<option value="2">PLG_TINY_FIELD_VALUE_EXTENDED</option>
 				</field>
 
-				<field name="mobile" type="radio"
+				<field
+					name="mobile"
+					type="radio"
+					label="PLG_TINY_FIELD_MOBILE_LABEL"
+					description="PLG_TINY_FIELD_MOBILE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					description="PLG_TINY_FIELD_MOBILE_DESC"
-					label="PLG_TINY_FIELD_MOBILE_LABEL"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
-				<field name="drag_drop" type="radio"
+
+				<field
+					name="drag_drop"
+					type="radio"
+					label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
+					description="PLG_TINY_FIELD_DRAG_DROP_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_TINY_FIELD_DRAG_DROP_DESC"
-					label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="path" type="text"
+				<field
+					name="path"
+					type="text"
+					label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
+					description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
 					size="30"
 					showon="drag_drop:1"
-					description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
-					label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
 				/>
 
-				<field name="entity_encoding" type="list"
-					default="raw"
-					description="PLG_TINY_FIELD_ENCODING_DESC"
+				<field
+					name="entity_encoding"
+					type="list"
 					label="PLG_TINY_FIELD_ENCODING_LABEL"
-				>
+					description="PLG_TINY_FIELD_ENCODING_DESC"
+					default="raw"
+					>
 					<option value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
 					<option value="numeric">PLG_TINY_FIELD_VALUE_NUMERIC</option>
 					<option value="raw">PLG_TINY_FIELD_VALUE_RAW</option>
 				</field>
 
-				<field name="lang_mode" type="radio"
+				<field
+					name="lang_mode"
+					type="radio"
+					label="PLG_TINY_FIELD_LANGSELECT_LABEL"
+					description="PLG_TINY_FIELD_LANGSELECT_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_TINY_FIELD_LANGSELECT_DESC"
-					label="PLG_TINY_FIELD_LANGSELECT_LABEL"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="lang_code" type="filelist"
-					class="inputbox"
-					description="PLG_TINY_FIELD_LANGCODE_DESC"
+				<field
+					name="lang_code"
+					type="filelist"
 					label="PLG_TINY_FIELD_LANGCODE_LABEL"
+					description="PLG_TINY_FIELD_LANGCODE_DESC"
+					class="inputbox"
 					stripext="1"
 					directory="media/editors/tinymce/langs/"
 					hide_none="1"
@@ -107,340 +126,441 @@
 					hide_default="1"
 					filter="\.js$"
 					size="10"
+					showon="lang_mode:0"
 				/>
 
-				<field name="text_direction" type="list"
-					default="ltr"
-					description="PLG_TINY_FIELD_DIRECTION_DESC"
+				<field
+					name="text_direction"
+					type="list"
 					label="PLG_TINY_FIELD_DIRECTION_LABEL"
-				>
+					description="PLG_TINY_FIELD_DIRECTION_DESC"
+					default="ltr"
+					>
 					<option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
 					<option value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
 				</field>
 
-				<field name="content_css" type="radio"
+				<field
+					name="content_css"
+					type="radio"
+					label="PLG_TINY_FIELD_CSS_LABEL"
+					description="PLG_TINY_FIELD_CSS_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_TINY_FIELD_CSS_DESC"
-					label="PLG_TINY_FIELD_CSS_LABEL"
-				>
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="content_css_custom" type="text"
-					size="30"
-					description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
+				<field
+					name="content_css_custom"
+					type="text"
 					label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
+					description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
+					size="30"
 				/>
 
-				<field name="relative_urls" type="list"
-					default="1"
-					description="PLG_TINY_FIELD_URLS_DESC"
+				<field
+					name="relative_urls"
+					type="list"
 					label="PLG_TINY_FIELD_URLS_LABEL"
-				>
+					description="PLG_TINY_FIELD_URLS_DESC"
+					default="1"
+					>
 					<option value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
 					<option value="1">PLG_TINY_FIELD_VALUE_RELATIVE</option>
 				</field>
 
-				<field name="newlines" type="list"
-					default="0"
-					description="PLG_TINY_FIELD_NEWLINES_DESC"
+				<field
+					name="newlines"
+					type="list"
 					label="PLG_TINY_FIELD_NEWLINES_LABEL"
-				>
+					description="PLG_TINY_FIELD_NEWLINES_DESC"
+					default="0"
+					>
 					<option value="1">PLG_TINY_FIELD_VALUE_BR</option>
 					<option value="0">PLG_TINY_FIELD_VALUE_P</option>
 				</field>
 
-				<field name="invalid_elements" type="textarea"
-					cols="30"
-					default="script,applet,iframe"
-					description="PLG_TINY_FIELD_PROHIBITED_DESC"
+				<field
+					name="use_config_textfilters"
+					type="radio"
+					label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
+					description="PLG_TINY_CONFIG_TEXTFILTER_ACL_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field
+					name="invalid_elements"
+					type="textarea"
 					label="PLG_TINY_FIELD_PROHIBITED_LABEL"
+					description="PLG_TINY_FIELD_PROHIBITED_DESC"
+					showon="use_config_textfilters:0"
+					default="script,applet,iframe"
+					cols="30"
 					rows="2"
 				/>
 
-				<field name="valid_elements" type="textarea"
-					cols="30"
-					description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
+				<field
+					name="valid_elements"
+					type="textarea"
 					label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
-					rows="2"
-				/>
-
-				<field name="extended_elements" type="textarea"
+					description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
+					showon="use_config_textfilters:0"
 					cols="30"
-					description="PLG_TINY_FIELD_ELEMENTS_DESC"
+					rows="2"
+				/>
+
+				<field
+					name="extended_elements"
+					type="textarea"
 					label="PLG_TINY_FIELD_ELEMENTS_LABEL"
+					description="PLG_TINY_FIELD_ELEMENTS_DESC"
+					showon="use_config_textfilters:0"
+					cols="30"
 					rows="2"
 				/>
 			</fieldset>
 
-			<fieldset name="advanced"
-				label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS"
-			>
-				<field name="html_height" type="text"
-					default="550"
-					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
+			<fieldset name="advanced" label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">
+				<field
+					name="html_height"
+					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
+					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
+					default="550"
 				/>
 
-				<field name="html_width" type="text"
-					default=""
-					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
+				<field
+					name="html_width"
+					type="text"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
+					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
+					default=""
 				/>
 
-				<field name="resizing" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_TINY_FIELD_RESIZING_DESC"
+				<field
+					name="resizing"
+					type="radio"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
-				>
+					description="PLG_TINY_FIELD_RESIZING_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="resize_horizontal" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
+				<field
+					name="resize_horizontal"
+					type="radio"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
-				>
-					<option value="1">JON</option>
-					<option value="0">JOFF</option>
-				</field>
-
-				<field name="element_path" type="radio"
+					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_TINY_FIELD_PATH_DESC"
-					label="PLG_TINY_FIELD_PATH_LABEL"
-				>
+					showon="resizing:1"
+					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="spacer" type="spacer" class="text"
+				<field
+					name="element_path"
+					type="radio"
+					label="PLG_TINY_FIELD_PATH_LABEL"
+					description="PLG_TINY_FIELD_PATH_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field
+					name="spacer"
+					type="spacer"
 					label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
+					class="text"
 				/>
 
-				<field name="fonts" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_FONTS_DESC"
+				<field
+					name="fonts"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_FONTS_LABEL"
-				>
+					description="PLG_TINY_FIELD_FONTS_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="paste" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_PASTE_DESC"
+				<field
+					name="paste"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_PASTE_LABEL"
-				>
+					description="PLG_TINY_FIELD_PASTE_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="searchreplace" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC"
+				<field
+					name="searchreplace"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_SEARCH-REPLACE_LABEL"
-				>
+					description="PLG_TINY_FIELD_SEARCH-REPLACE_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="insertdate" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_DATE_DESC"
+				<field
+					name="insertdate"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_DATE_LABEL"
-				>
+					description="PLG_TINY_FIELD_DATE_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="colors" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_COLORS_DESC"
+				<field
+					name="colors"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_COLORS_LABEL"
-				>
+					description="PLG_TINY_FIELD_COLORS_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="table" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_TABLE_DESC"
+				<field
+					name="table"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_TABLE_LABEL"
-				>
+					description="PLG_TINY_FIELD_TABLE_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="smilies" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_SMILIES_DESC"
+				<field
+					name="smilies"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_SMILIES_LABEL"
-				>
+					description="PLG_TINY_FIELD_SMILIES_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="hr" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_HR_DESC"
+				<field
+					name="hr"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_HR_LABEL"
-				>
+					description="PLG_TINY_FIELD_HR_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="link" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_LINK_DESC"
+				<field
+					name="link"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_LINK_LABEL"
-				>
+					description="PLG_TINY_FIELD_LINK_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="media" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_MEDIA_DESC"
+				<field
+					name="media"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_MEDIA_LABEL"
-				>
+					description="PLG_TINY_FIELD_MEDIA_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="print" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_PRINT_DESC"
+				<field
+					name="print"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_PRINT_LABEL"
-				>
+					description="PLG_TINY_FIELD_PRINT_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="directionality" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_RTL_DESC"
+				<field
+					name="directionality"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_RTL_LABEL"
-				>
+					description="PLG_TINY_FIELD_RTL_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="fullscreen" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_FULLSCREEN_DESC"
+				<field
+					name="fullscreen"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_FULLSCREEN_LABEL"
-				>
+					description="PLG_TINY_FIELD_FULLSCREEN_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="alignment" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_ALIGN_DESC"
+				<field
+					name="alignment"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_ALIGN_LABEL"
-				>
+					description="PLG_TINY_FIELD_ALIGN_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="visualchars" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
+				<field
+					name="visualchars"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_VISUALCHARS_LABEL"
-				>
+					description="PLG_TINY_FIELD_VISUALCHARS_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="visualblocks" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_VISUALBLOCKS_DESC"
+				<field
+					name="visualblocks"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_VISUALBLOCKS_LABEL"
-				>
+					description="PLG_TINY_FIELD_VISUALBLOCKS_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="nonbreaking" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_NONBREAKING_DESC"
+				<field
+					name="nonbreaking"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_NONBREAKING_LABEL"
-				>
+					description="PLG_TINY_FIELD_NONBREAKING_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="template" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_TEMPLATE_DESC"
+				<field
+					name="template"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_TEMPLATE_LABEL"
-				>
+					description="PLG_TINY_FIELD_TEMPLATE_DESC"
+					default="1"
+					>
 					<option value="0">JHIDE</option>
 				</field>
 
-				<field name="blockquote" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_BLOCKQUOTE_DESC"
+				<field
+					name="blockquote"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_BLOCKQUOTE_LABEL"
+					description="PLG_TINY_FIELD_BLOCKQUOTE_DESC"
+					default="1"
 				>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="wordcount" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_WORDCOUNT_DESC"
+				<field
+					name="wordcount"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
-				>
+					description="PLG_TINY_FIELD_WORDCOUNT_DESC"
+					default="1"
+					>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="image_advtab" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_ADVIMAGE_DESC"
+				<field
+					name="image_advtab"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
-				>
+					description="PLG_TINY_FIELD_ADVIMAGE_DESC"
+					default="1"
+					>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="code_sample" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_CODESAMPLE_DESC"
+				<field
+					name="code_sample"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_CODESAMPLE_LABEL"
-				>
+					description="PLG_TINY_FIELD_CODESAMPLE_DESC"
+					default="1"
+					>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="advlist" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_ADVLIST_DESC"
+				<field
+					name="advlist"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_ADVLIST_LABEL"
-				>
+					description="PLG_TINY_FIELD_ADVLIST_DESC"
+					default="1"
+					>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="autosave" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_SAVEWARNING_DESC"
+				<field
+					name="autosave"
+					type="accesslevel"
 					label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
-				>
-					<option value="0">JOFF</option>
-				</field>
-				<field name="contextmenu" type="accesslevel"
+					description="PLG_TINY_FIELD_SAVEWARNING_DESC"
 					default="1"
-					description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
-					label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
-				>
-					<option value="0">JOFF</option>
-				</field>
-				<field name="inlinepopups" type="accesslevel"
-					default="1"
-					description="PLG_TINY_FIELD_INLINEPOPUPS_DESC"
-					label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"
-				>
+					>
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="custom_plugin" type="text"
-					description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
+				<field
+					name="contextmenu"
+					type="accesslevel"
+					label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
+					description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
+					default="1"
+					>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field
+					name="inlinepopups"
+					type="accesslevel"
+					label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"
+					description="PLG_TINY_FIELD_INLINEPOPUPS_DESC"
+					default="1"
+					>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field
+					name="custom_plugin"
+					type="text"
 					label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
+					description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
 				/>
 
-				<field name="custom_button" type="text"
-					description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
+				<field
+					name="custom_button"
+					type="text"
 					label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
+					description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
 				/>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

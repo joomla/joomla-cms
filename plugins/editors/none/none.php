@@ -77,7 +77,6 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onGetInsertMethod($id)
 	{
-
 		return null;
 	}
 

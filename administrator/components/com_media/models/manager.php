@@ -101,7 +101,7 @@ class MediaModelManager extends JModelLegacy
 		// so both string and integer are supported.
 		if ($asset == 0)
 		{
-			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))));
+			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))), ENT_COMPAT, 'UTF-8');
 		}
 
 		$author = $input->get('author', 0, 'integer');

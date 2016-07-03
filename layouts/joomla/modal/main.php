@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+// Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
+JHtml::_('bootstrap.tooltipExtended');
+
 extract($displayData);
 
 /**
@@ -22,10 +25,12 @@ extract($displayData);
  *                             - keyboard     boolean  Closes the modal when escape key is pressed (default = true)
  *                             - closeButton  boolean  Display modal close button (default = true)
  *                             - animation    boolean  Fade in from the top of the page (default = true)
- *                             - footer       string   Optional markup for the modal footer
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
+ *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
+ *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
+ *                             - footer       string   Optional markup for the modal footer
  * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
  *
  */
@@ -35,6 +40,13 @@ $modalClasses = array('modal', 'hide');
 if (!isset($params['animation']) || $params['animation'])
 {
 	array_push($modalClasses, 'fade');
+}
+
+$modalWidth = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
+
+if ($modalWidth && $modalWidth > 0 && $modalWidth <= 100)
+{
+	array_push($modalClasses, 'jviewport-width' . $modalWidth);
 }
 
 $modalAttributes = array(
@@ -69,25 +81,9 @@ if (isset($params['keyboard']))
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   $('#" . $selector . "').on('shown.bs.modal', function() {";
+$script[] = "   $('#" . $selector . "').on('show.bs.modal', function() {";
 
 $script[] = "       $('body').addClass('modal-open');";
-
-// Get height of the modal elements.
-$script[] = "       var modalHeaderHeight = $('div.modal-header:visible').outerHeight(true);";
-$script[] = "       var modalBodyHeightOuter = $('div.modal-body:visible').outerHeight(true);";
-$script[] = "       var modalBodyHeight = $('div.modal-body:visible').height();";
-$script[] = "       var modalFooterHeight = $('div.modal-footer:visible').outerHeight(true);";
-
-// Get padding top (jQuery position().top not working on iOS devices and webkit browsers, so use of Javascript instead)
-$script[] = "       var padding = document.getElementById('" . $selector . "').offsetTop;";
-
-// Calculate max-height of the modal, adapted to window viewport height.
-$script[] = "       var maxModalHeight = ($(window).height()-(padding*2));";
-
-// Calculate max-height for modal-body.
-$script[] = "       var modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight);";
-$script[] = "       var maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);";
 
 if (isset($params['url']))
 {
@@ -97,7 +93,39 @@ if (isset($params['url']))
 	$script[] = "       var modalBody = $(this).find('.modal-body');";
 	$script[] = "       modalBody.find('iframe').remove();";
 	$script[] = "       modalBody.prepend('" . trim($iframeHtml) . "');";
+}
+else
+{
+	// Set modalTooltip container to modal ID (selector), and placement to top-left if no data attribute (bootstrap-tooltip-extended.js)
+	$script[] = "       $('.modalTooltip').each(function(){;";
+	$script[] = "           var attr = $(this).attr('data-placement');";
+	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
+	$script[] = "       });";
+	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
+}
 
+// Adapt modal body max-height to window viewport if needed, when the modal has been made visible to the user.
+$script[] = "   }).on('shown.bs.modal', function() {";
+
+// Get height of the modal elements.
+$script[] = "       var modalHeight = $('div.modal:visible').outerHeight(true),";
+$script[] = "           modalHeaderHeight = $('div.modal-header:visible').outerHeight(true),";
+$script[] = "           modalBodyHeightOuter = $('div.modal-body:visible').outerHeight(true),";
+$script[] = "           modalBodyHeight = $('div.modal-body:visible').height(),";
+$script[] = "           modalFooterHeight = $('div.modal-footer:visible').outerHeight(true),";
+
+// Get padding top (jQuery position().top not working on iOS devices and webkit browsers, so use of Javascript instead)
+$script[] = "           padding = document.getElementById('" . $selector . "').offsetTop,";
+
+// Calculate max-height of the modal, adapted to window viewport height.
+$script[] = "           maxModalHeight = ($(window).height()-(padding*2)),";
+
+// Calculate max-height for modal-body.
+$script[] = "           modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight),";
+$script[] = "           maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);";
+
+if (isset($params['url']))
+{
 	// Set max-height for iframe if needed, to adapt to viewport height.
 	$script[] = "       var iframeHeight = $('.iframe').height();";
 	$script[] = "       if (iframeHeight > maxModalBodyHeight){;";
@@ -108,7 +136,7 @@ if (isset($params['url']))
 else
 {
 	// Set max-height for modal-body if needed, to adapt to viewport height.
-	$script[] = "       if (modalBodyHeight > maxModalBodyHeight){;";
+	$script[] = "       if (modalHeight > maxModalHeight){;";
 	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
 	$script[] = "       }";
 }
@@ -116,6 +144,7 @@ else
 $script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
+$script[] = "       $('.modalTooltip').tooltip('destroy');";
 $script[] = "   });";
 $script[] = "});";
 
