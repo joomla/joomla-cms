@@ -51,13 +51,14 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
+$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
-	$autocomplete == 'autocomplete="on"' ? '' : $autocomplete,
+	$autocomplete,
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
