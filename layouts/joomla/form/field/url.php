@@ -64,7 +64,8 @@ $attributes = array(
 	$required ? ' required aria-required="true"' : '',
 );
 ?>
-<input type="<?php echo $inputType; ?>" name="<?php
+<input <?php
+echo $inputType; ?> name="<?php
 echo $name; ?>" <?php
 echo !empty($class) ? ' class="' . $class . '"' : ''; ?> id="<?php
 echo $id; ?>" value="<?php
