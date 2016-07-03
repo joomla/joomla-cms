@@ -170,6 +170,7 @@ class JFormFieldPassword extends JFormField
 			'maxLength' => $this->maxLength,
 			'meter'     => $this->meter,
 			'threshold' => $this->threshold,
+			'meter'     => $this->meter,
 		);
 
 		return array_merge($data, $extraData);
