@@ -46,7 +46,8 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
+		JHtml::_('script', $this->_basePath . '/tinymce.min.js', false, false, false, false, false);
+		JHtml::_('script', 'editors/tinymce/tinymce-init.js', false, true);
 
 		return;
 	}
@@ -126,6 +127,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$app      = JFactory::getApplication();
+		$doc      = JFactory::getDocument();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
@@ -263,18 +265,18 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		$relative_urls = $this->params->get('relative_urls', '1');
+// 		$relative_urls = $this->params->get('relative_urls', '1');
 
-		if ($relative_urls)
-		{
-			// Relative
-			$relative_urls = "true";
-		}
-		else
-		{
-			// Absolute
-			$relative_urls = "false";
-		}
+// 		if ($relative_urls)
+// 		{
+// 			// Relative
+// 			$relative_urls = "true";
+// 		}
+// 		else
+// 		{
+// 			// Absolute
+// 			$relative_urls = "false";
+// 		}
 
 		$newlines = $this->params->get('newlines', 0);
 
@@ -331,15 +333,15 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Image advanced options
-		$image_advtab = $this->params->get('image_advtab', 1);
+		$image_advtab = $this->params->get('image_advtab', true);
 
 		if (isset($access[$image_advtab]))
 		{
-			$image_advtab = "true";
+			$image_advtab = true;
 		}
 		else
 		{
-			$image_advtab = "false";
+			$image_advtab = false;
 		}
 
 		// The param is true for vertical resizing only, false or both
@@ -735,14 +737,14 @@ class PlgEditorTinymce extends JPlugin
 		$tinyBtns  = $btns['script'];
 
 		// Drag and drop Images
-		$allowImgPaste = "false";
+		$allowImgPaste = false;
 		$dragDropPlg   = '';
 		$dragdrop      = $this->params->get('drag_drop', 1);
 		$user          = JFactory::getUser();
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$allowImgPaste = "true";
+			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
 			$uploadUrl     = JUri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
@@ -773,7 +775,7 @@ class PlgEditorTinymce extends JPlugin
 			$dragDropPlg = 'jdragdrop';
 
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
-			JFactory::getDocument()->addScriptDeclaration(
+			$doc->addScriptDeclaration(
 				"
 		var setCustomDir    = '" . $isSubDir . "';
 		var mediaUploadPath = '" . $tempPath . "';
@@ -818,6 +820,35 @@ class PlgEditorTinymce extends JPlugin
 			$mode         = 0;
 		}
 
+		$scriptOptions = array(
+			'suffix'  => '.min',
+			'baseURL' => JUri::root(true) . '/media/editors/tinymce',
+			'directionality' => $text_direction,
+			//'selector' => '#' . $id,
+			'language' => $langPrefix,
+			//'mode'     => 'specific_textareas',
+			'autosave_restore_when_empty' => false,
+			//'skin' => '', // @TODO: configure skin
+			'theme'  => $theme,
+			'schema' => 'html5',
+
+			// Cleanup/Output
+			'inline_styles'    => true,
+			'gecko_spellcheck' => true,
+			'entity_encoding'  => $entity_encoding,
+			// @TODO: $forcenewline, $smallButtons
+
+			// URL
+			'relative_urls'      => (bool) $this->params->get('relative_urls', true),
+			'remove_script_host' => false,
+
+			// Layout
+			// @TODO $content_css
+			'document_base_url' => JUri::root(true) . '/',
+			'paste_data_images' => $allowImgPaste,
+			// @TODO setup: function (editor) {$tinyBtns}
+		);
+
 		$script = '';
 
 		// First line is for Mootools b/c
@@ -851,7 +882,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// URL
 		$script .= "
-		relative_urls : $relative_urls,
+		relative_urls : boolval($this->params->get('relative_urls', 1)),
 		remove_script_host : false,
 		";
 
@@ -868,6 +899,10 @@ class PlgEditorTinymce extends JPlugin
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
+				$scriptOptions['menubar']  = false;
+				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | ' . $toolbar5 . ' | code';
+				$scriptOptions['plugins']  = $dragDropPlg . ' code';
+
 				$script .= "
 			menubar: false,
 			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
@@ -880,6 +915,17 @@ class PlgEditorTinymce extends JPlugin
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
 					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
+
+				$scriptOptions['valid_elements'] = $valid_elements;
+				$scriptOptions['extended_valid_elements'] = $elements;
+				$scriptOptions['invalid_elements'] = $invalid_elements;
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . $dragDropPlg;
+				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
+				$scriptOptions['removed_menuitems'] = 'newdocument';
+				$scriptOptions['importcss_append']  = true;
+				$scriptOptions['height'] = $html_height;
+				$scriptOptions['width']  = $html_width;
+				// @TODO: $resizing
 
 				$script .= "
 			valid_elements : \"$valid_elements\",
@@ -901,6 +947,33 @@ class PlgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
+				$scriptOptions['valid_elements'] = $valid_elements;
+				$scriptOptions['extended_valid_elements'] = $elements;
+				$scriptOptions['invalid_elements'] = $invalid_elements;
+				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
+				$scriptOptions['toolbar1'] = $toolbar1;
+				$scriptOptions['removed_menuitems'] = 'newdocument';
+				$scriptOptions['rel_list'] = array(
+					array('title' => 'Alternate', 'value' => 'alternate'),
+					array('title' => 'Author', 'value' => 'author'),
+					array('title' => 'Bookmark', 'value' => 'bookmark'),
+					array('title' => 'Help', 'value' => 'help'),
+					array('title' => 'License', 'value' => 'license'),
+					array('title' => 'Lightbox', 'value' => 'lightbox'),
+					array('title' => 'Next', 'value' => 'next'),
+					array('title' => 'No Follow', 'value' => 'nofollow'),
+					array('title' => 'No Referrer', 'value' => 'noreferrer'),
+					array('title' => 'Prefetch', 'value' => 'prefetch'),
+					array('title' => 'Prev', 'value' => 'prev'),
+					array('title' => 'Search', 'value' => 'search'),
+					array('title' => 'Tag', 'value' => 'tag'),
+				);
+				$scriptOptions['importcss_append'] = true;
+				$scriptOptions['image_advtab']     = $image_advtab;
+				$scriptOptions['height'] = $html_height;
+				$scriptOptions['width']  = $html_width;
+				// @TODO: $templates $resizing
+
 				$script .= "
 			valid_elements : \"$valid_elements\",
 			extended_valid_elements : \"$elements\",
@@ -949,7 +1022,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			JFactory::getDocument()->addScriptDeclaration(
+			$doc->addScriptDeclaration(
 				"
 		if (jModalClose === undefined && typeof(jModalClose) != 'function') {
 			var jModalClose;
@@ -979,8 +1052,11 @@ class PlgEditorTinymce extends JPlugin
 			);
 		}
 
-		JFactory::getDocument()->addScriptDeclaration($script);
-		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+		//$doc->addScriptDeclaration($script);
+		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+		$doc->addScriptOptions('plg_editor_tinymce', array(
+			'tinyMCE' => $scriptOptions,
+		));
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
@@ -997,6 +1073,7 @@ class PlgEditorTinymce extends JPlugin
 		$textarea = new stdClass;
 		$textarea->name    = $name;
 		$textarea->id      = $id;
+		$textarea->class   = 'mce_editable joomla-editor-tinymce';
 		$textarea->cols    = $col;
 		$textarea->rows    = $row;
 		$textarea->width   = $width;
