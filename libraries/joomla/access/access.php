@@ -592,6 +592,11 @@ class JAccess
 			$collected = array();
 			foreach ($ancestors as $id)
 			{
+				if (!isset(self::$assetPermissionsById[$extensionName][$id]))
+				{
+					continue;
+				}
+
 				$collected[] = self::$assetPermissionsById[$extensionName][$id]->rules;
 			}
 
