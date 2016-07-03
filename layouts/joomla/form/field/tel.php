@@ -53,16 +53,16 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 
 $attributes = array(
-	!empty($size) ? ' size="' . $size . '"' : '',
-	$disabled ? ' disabled' : '',
-	$readonly ? ' readonly' : '',
-	strlen($hint) ? ' placeholder="' . $hint . '"' : '',
-	$autocomplete == ' autocomplete="on"' ? '' : $autocomplete,
+	!empty($size) ? 'size="' . $size . '"' : '',
+	$disabled ? 'disabled' : '',
+	$readonly ? 'readonly' : '',
+	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
+	$autocomplete == 'autocomplete="on"' ? '' : $autocomplete,
 	$autofocus ? ' autofocus' : '',
-	$spellcheck ? '' : ' spellcheck="false"',
+	$spellcheck ? '' : 'spellcheck="false"',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
-	!empty($maxLength) ? ' maxlength="' . $maxLength . '"' : '',
-	$required ? ' required aria-required="true"' : '',
+	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
+	$required ? 'required aria-required="true"' : '',
 );
 ?>
 <input type="tel" name="<?php
