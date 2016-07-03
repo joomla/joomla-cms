@@ -72,7 +72,5 @@ $attributes = array(
 <textarea name="<?php
 echo $name; ?>" id="<?php
 echo $id; ?>" <?php
-echo
-	$columns . $rows . $class
-. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . $maxlength ; ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
+echo implode(' ', $attributes); ?> ><?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?></textarea>
 
