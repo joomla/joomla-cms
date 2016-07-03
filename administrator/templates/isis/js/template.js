@@ -16,9 +16,10 @@
 		$('.radio.btn-group label').addClass('btn');
 
 		$('fieldset.btn-group').each(function() {
-			// Handle disabled property
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
 			if ($(this).prop('disabled')) {
-				$(this).addClass('disabled').css('pointer-events', 'none').off('click');
+				$(this).css('pointer-events', 'none').off('click');
+				$(this).find('.btn').addClass('disabled');
 			}
 		});
 
