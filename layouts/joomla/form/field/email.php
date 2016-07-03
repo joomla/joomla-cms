@@ -72,4 +72,4 @@ echo $name; ?>"<?php
 echo !empty($class) ? ' class="validate-email ' . $class . '"' : ' class="validate-email"'; ?> id="<?php
 echo $id; ?>" value="<?php
 echo htmlspecialchars(JStringPunycode::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
-<?php echo implode(' ', $atributes); ?> />
+<?php echo implode(' ', $attributes); ?> />
