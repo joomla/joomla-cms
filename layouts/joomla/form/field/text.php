@@ -50,11 +50,6 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 
 $list = '';
 
-/* Get the field options for the datalist.
-Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
-$options  = (array) $this->getSuggestions();
-
-
 if ($options)
 {
 	$list = 'list="' . $id . '_datalist"';
