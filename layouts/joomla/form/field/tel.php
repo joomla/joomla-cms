@@ -62,7 +62,7 @@ $attributes = array(
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
-	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
+	!empty($maxLength) ? $maxLength : '',
 	$required ? 'required aria-required="true"' : '',
 );
 ?>
