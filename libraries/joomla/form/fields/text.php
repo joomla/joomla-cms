@@ -50,7 +50,6 @@ class JFormFieldText extends JFormField
 	 */
 	protected $dirname;
 
-
 	/**
 	 * Name of the layout being used to render the field
 	 *
