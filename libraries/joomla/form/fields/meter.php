@@ -60,7 +60,6 @@ class JFormFieldMeter extends JFormFieldNumber
 	 */
 	protected $color;
 
-
 	/**
 	 * Name of the layout being used to render the field
 	 *
