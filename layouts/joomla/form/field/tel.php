@@ -41,7 +41,6 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
- * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   integer  $maxLength       The maximum length that the field shall accept.
  */
