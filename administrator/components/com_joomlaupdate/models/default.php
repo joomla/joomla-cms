@@ -913,8 +913,6 @@ ENDDATA;
 		}
 
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response     = $authenticate->authenticate($credentials);
 
