@@ -294,17 +294,26 @@ class PlgEditorTinymce extends JPlugin
 		{
 			// Use filters from com_config
 			$filter = static::getGlobalFilters();
+			
+			// No filter
+			if ($filter === false)
+			{
+				$valid_elements = '*[*]';
+				$invalid_elements = '';
+			}
+			else
+			{
+				$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
+				$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
+				$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
+				$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
 
-			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
-			$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
-			$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
-			$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
+				$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
 
-			$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
-
-			// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
-			$default_filter = JFilterInput::getInstance();
-			$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
+				// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
+				$default_filter = JFilterInput::getInstance();
+				$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
+			}
 
 			$extended_elements = '';
 		}
@@ -1263,6 +1272,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($unfiltered)
 		{
 			// Dont apply filtering.
+			return false;
 		}
 		else
 		{
