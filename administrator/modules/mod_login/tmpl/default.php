@@ -41,7 +41,7 @@ JHtml::_('formbehavior.chosen');
 							<?php echo JText::_('JGLOBAL_PASSWORD'); ?>
 						</label>
 					</span>
-					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"/>
+					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD'); ?>" size="15"  autocapitalize="none"/>
 					<a href="<?php echo JUri::root(); ?>index.php?option=com_users&view=reset" class="btn width-auto hasTooltip" title="<?php echo JText::_('MOD_LOGIN_RESET'); ?>">
 						<span class="icon-help"></span>
 					</a>
