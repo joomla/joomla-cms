@@ -288,6 +288,8 @@ class PlgEditorTinymce extends JPlugin
 			// Paragraph
 			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
+		
+		$ignore_filter = false;
 
 		// Text filtering
 		if ($this->params->get('use_config_textfilters', 0))
@@ -295,25 +297,18 @@ class PlgEditorTinymce extends JPlugin
 			// Use filters from com_config
 			$filter = static::getGlobalFilters();
 			
-			// No filter
-			if ($filter === false)
-			{
-				$valid_elements = '*[*]';
-				$invalid_elements = '';
-			}
-			else
-			{
-				$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
-				$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
-				$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
-				$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
+			$ignore_filter = $filter === false;
 
-				$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
+			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
+			$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
+			$tagArray      = !empty($filter->tagArray) ? $filter->tagArray : array();
+			$attrArray     = !empty($filter->attrArray) ? $filter->attrArray : array();
 
-				// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
-				$default_filter = JFilterInput::getInstance();
-				$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
-			}
+			$invalid_elements  = implode(',', array_merge($tagBlacklist, $attrBlacklist, $tagArray, $attrArray));
+
+			// Valid elements are all whitelist entries in com_config, which are now missing in the tagBlacklist
+			$default_filter = JFilterInput::getInstance();
+			$valid_elements =	implode(',', array_diff($default_filter->tagBlacklist, $tagBlacklist));
 
 			$extended_elements = '';
 		}
@@ -854,6 +849,7 @@ class PlgEditorTinymce extends JPlugin
 		inline_styles : true,
 		gecko_spellcheck : true,
 		entity_encoding : \"$entity_encoding\",
+		verify_html: " . ($ignore_filter ? 'false' : 'true') . ",
 		$forcenewline
 		$smallButtons
 		";
