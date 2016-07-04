@@ -165,14 +165,15 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 												'bootstrap.renderModal',
 												'moduleEdit' . $module->id . 'Modal',
 												array(
-													'url'         => $link,
 													'title'       => JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'),
 													'backdrop'    => 'static',
+													'keyboard'    => false,
 													'closeButton' => false,
+													'url'         => $link,
 													'height'      => '400px',
 													'width'       => '800px',
-													'modalWidth'  => '80',
 													'bodyHeight'  => '70',
+													'modalWidth'  => '80',
 													'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 															. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
@@ -181,7 +182,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 															. JText::_("JSAVE") . '</button>'
 															. '<button type="button" class="btn btn-success" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
-															. JText::_("JAPPLY") . '</button>'
+															. JText::_("JAPPLY") . '</button>',
 												)
 											); ?>
 									<?php endif; ?>
@@ -193,14 +194,15 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										'bootstrap.renderModal',
 										'moduleAddModal',
 										array(
-											'url'         => $link,
 											'title'       => JText::_('COM_MENUS_ADD_MENU_MODULE'),
 											'backdrop'    => 'static',
+											'keyboard'    => false,
 											'closeButton' => false,
+											'url'         => $link,
 											'height'      => '400px',
 											'width'       => '800px',
-											'modalWidth'  => '80',
 											'bodyHeight'  => '70',
+											'modalWidth'  => '80',
 											'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
 													. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
@@ -209,7 +211,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 													. JText::_("JSAVE") . '</button>'
 													. '<button type="button" class="btn btn-success" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#applyBtn\').click();">'
-													. JText::_("JAPPLY") . '</button>'
+													. JText::_("JAPPLY") . '</button>',
 										)
 									); ?>
 							<?php endif; ?>
