@@ -416,8 +416,15 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			// TODO - This creates an implicit hard requirement on the JApplicationCms constructor... If we ever get around to "true" DI, this'll go away anyway
-			static::$instances[$name] = new $classname(null, null, null, $container);
+			if ($container && $container->exists($classname))
+			{
+				static::$instances[$name] = $container->get($classname);
+			}
+			else
+			{
+				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor... If we ever get around to "true" DI, this'll go away anyway
+				static::$instances[$name] = new $classname(null, null, null, $container);
+			}
 		}
 
 		return static::$instances[$name];

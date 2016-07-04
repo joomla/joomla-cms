@@ -29,4 +29,4 @@ require_once dirname(__FILE__) . '/application/bootstrap.php';
 JFactory::$container = new \Joomla\DI\Container;
 
 // Instantiate and execute the application
-JApplicationCms::getInstance('web', 'InstallationApplication', JFactory::getContainer())->execute();
+JFactory::getApplication('web', array(), 'InstallationApplication')->execute();

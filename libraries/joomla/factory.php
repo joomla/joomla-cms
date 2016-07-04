@@ -616,12 +616,13 @@ abstract class JFactory
 	 */
 	protected static function createContainer()
 	{
-		$container = new Container;
+		$container = (new Container)
+			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Application);
 
 		return $container;
 	}
 
-/**
+	/**
 	 * Create a session object
 	 *
 	 * @param   array  $options  An array containing session options

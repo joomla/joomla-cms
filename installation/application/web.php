@@ -51,9 +51,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Register the config to JFactory.
 		JFactory::$config = $this->config;
 
-		// Register the application to JFactory.
-		JFactory::$application = $this;
-
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
 		array_pop($parts);

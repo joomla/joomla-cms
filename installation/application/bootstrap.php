@@ -21,3 +21,7 @@ JLoader::registerPrefix('Installation', JPATH_INSTALLATION);
 
 // Register the application's router due to non-standard include
 JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
+
+// Instantiate the dependency injection container
+JFactory::$container = (new \Joomla\DI\Container)
+	->registerServiceProvider(new InstallationServiceProviderApplication);
