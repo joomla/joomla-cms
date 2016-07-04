@@ -460,6 +460,25 @@
 		/>
 
 		<field
+			name="replyto"
+			type="email"
+			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_EMAIL_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+		/>
+
+		<field
+			name="replytoname"
+			type="text"
+			label="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_DESC"
+			filter="string"
+			size="30"
+		/>
+
+		<field
 			name="mailer"
 			type="list"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
