@@ -8,6 +8,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
 /**
@@ -40,6 +41,14 @@ abstract class JFactory
 	 * @since  11.1
 	 */
 	public static $config = null;
+
+	/**
+	 * Global container object
+	 *
+	 * @var    Container
+	 * @since  4.0
+	 */
+	public static $container = null;
 
 	/**
 	 * Container for JDate instances
@@ -103,9 +112,10 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
-	 * @param   mixed   $id      A client identifier or name.
-	 * @param   array   $config  An optional associative array of configuration settings.
-	 * @param   string  $prefix  Application prefix
+	 * @param   mixed      $id         A client identifier or name.
+	 * @param   array      $config     An optional associative array of configuration settings.
+	 * @param   string     $prefix     Application prefix
+	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
 	 * @return  JApplicationCms object
 	 *
@@ -113,7 +123,7 @@ abstract class JFactory
 	 * @since   11.1
 	 * @throws  Exception
 	 */
-	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
+	public static function getApplication($id = null, array $config = array(), $prefix = 'JApplication', Container $container = null)
 	{
 		if (!self::$application)
 		{
@@ -122,7 +132,9 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplicationCms::getInstance($id);
+			$container = $container ?: self::getContainer();
+
+			self::$application = JApplicationCms::getInstance($id, $prefix, $container);
 		}
 
 		return self::$application;
@@ -155,6 +167,25 @@ abstract class JFactory
 		}
 
 		return self::$config;
+	}
+
+	/**
+	 * Get a container object
+	 *
+	 * Returns the global service container object, only creating it if it doesn't already exist.
+	 *
+	 * @return  Container
+	 *
+	 * @since   4.0
+	 */
+	public static function getContainer()
+	{
+		if (!self::$container)
+		{
+			self::$container = self::createContainer();
+		}
+
+		return self::$container;
 	}
 
 	/**
@@ -577,6 +608,20 @@ abstract class JFactory
 	}
 
 	/**
+	 * Create a container object
+	 *
+	 * @return  Container
+	 *
+	 * @since   4.0
+	 */
+	protected static function createContainer()
+	{
+		$container = new Container;
+
+		return $container;
+	}
+
+/**
 	 * Create a session object
 	 *
 	 * @param   array  $options  An array containing session options

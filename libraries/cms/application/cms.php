@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\DI\Container;
+use Joomla\DI\ContainerAwareInterface;
+use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
 
 /**
@@ -16,8 +19,10 @@ use Joomla\Registry\Registry;
  *
  * @since  3.2
  */
-class JApplicationCms extends JApplicationWeb
+class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 {
+	use ContainerAwareTrait;
+
 	/**
 	 * Array of options for the JDocument object
 	 *
@@ -88,21 +93,25 @@ class JApplicationCms extends JApplicationWeb
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInput                 $input   An optional argument to provide dependency injection for the application's
-	 *                                          input object.  If the argument is a JInput object that object will become
-	 *                                          the application's input object, otherwise a default input object is created.
-	 * @param   Registry               $config  An optional argument to provide dependency injection for the application's
-	 *                                          config object.  If the argument is a Registry object that object will become
-	 *                                          the application's config object, otherwise a default config object is created.
-	 * @param   JApplicationWebClient  $client  An optional argument to provide dependency injection for the application's
-	 *                                          client object.  If the argument is a JApplicationWebClient object that object will become
-	 *                                          the application's client object, otherwise a default client object is created.
+	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
+	 *                                             input object.  If the argument is a JInput object that object will become
+	 *                                             the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
+	 *                                             config object.  If the argument is a Registry object that object will become
+	 *                                             the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                             the application's client object, otherwise a default client object is created.
+	 * @param   Container              $container  Dependency injection container.
 	 *
 	 * @since   3.2
 	 */
-	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null)
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
 	{
-		parent::__construct($input, $config, $client);
+		$container = $container ?: new Container;
+		$this->setContainer($container);
+
+		parent::__construct($input, $config, $client, $container);
 
 		// Load and set the dispatcher
 		$this->loadDispatcher();
@@ -386,26 +395,29 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * This method must be invoked as: $web = JApplicationCms::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string     $name       The name (optional) of the JApplicationCms class to instantiate.
+	 * @param   string     $prefix     The class name prefix of the object.
+	 * @param   Container  $container  An optional dependency injection container to inject into the application.
 	 *
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
 	 * @throws  RuntimeException
 	 */
-	public static function getInstance($name = null)
+	public static function getInstance($name = null, $prefix = 'JApplication', Container $container = null)
 	{
 		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
-			$classname = 'JApplication' . ucfirst($name);
+			$classname = $prefix . ucfirst($name);
 
 			if (!class_exists($classname))
 			{
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = new $classname;
+			// TODO - This creates an implicit hard requirement on the JApplicationCms constructor... If we ever get around to "true" DI, this'll go away anyway
+			static::$instances[$name] = new $classname(null, null, null, $container);
 		}
 
 		return static::$instances[$name];

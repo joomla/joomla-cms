@@ -25,8 +25,8 @@ define('_JEXEC', 1);
 // Bootstrap the application
 require_once dirname(__FILE__) . '/application/bootstrap.php';
 
-// Get the application
-$app = JApplicationWeb::getInstance('InstallationApplicationWeb');
+// Instantiate the dependency injection container
+JFactory::$container = new \Joomla\DI\Container;
 
-// Execute the application
-$app->execute();
+// Instantiate and execute the application
+JApplicationCms::getInstance('web', 'InstallationApplication', JFactory::getContainer())->execute();

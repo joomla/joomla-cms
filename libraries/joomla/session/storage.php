@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @todo   When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
  * @since  11.1
  */
-abstract class JSessionStorage
+abstract class JSessionStorage implements SessionHandlerInterface
 {
 	/**
 	 * @var    JSessionStorage[]  JSessionStorage instances container.
@@ -95,11 +95,7 @@ abstract class JSessionStorage
 	 */
 	public function register()
 	{
-		// Use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc')
-		);
+		session_set_save_handler($this, false);
 	}
 
 	/**
