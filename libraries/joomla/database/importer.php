@@ -185,7 +185,7 @@ abstract class JDatabaseImporter
 			{
 				if ($row->getName() == 'row')
 				{
-					$entry = new stdClass();
+					$entry = new stdClass;
 
 					foreach ($row->children() as $data)
 					{
