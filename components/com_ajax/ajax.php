@@ -137,11 +137,10 @@ elseif ($input->get('plugin'))
 	$group      = $input->get('group', 'ajax');
 	JPluginHelper::importPlugin($group);
 	$plugin     = ucfirst($input->get('plugin'));
-	$dispatcher = JEventDispatcher::getInstance();
 
 	try
 	{
-		$results = $dispatcher->trigger('onAjax' . $plugin);
+		$results = JFactory::getApplication()->triggerEvent('onAjax' . $plugin);
 	}
 	catch (Exception $e)
 	{

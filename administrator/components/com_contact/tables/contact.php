@@ -35,10 +35,8 @@ class ContactTableContact extends JTable
 	 */
 	public function __construct(&$db)
 	{
+		$this->typeAlias = 'com_contact.contact';
 		parent::__construct('#__contact_details', 'id', $db);
-
-		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_contact.contact'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_contact.contact'));
 	}
 
 	/**
@@ -132,6 +130,17 @@ class ContactTableContact extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->default_con = (int) $this->default_con;
 
 		if (JFilterInput::checkAttribute(array('href', $this->webpage)))

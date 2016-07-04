@@ -37,6 +37,17 @@ class RedirectTableLink extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->old_url = trim(rawurldecode($this->old_url));
 		$this->new_url = trim(rawurldecode($this->new_url));
 

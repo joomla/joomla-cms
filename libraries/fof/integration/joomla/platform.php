@@ -547,7 +547,11 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 
 			// IMPORTANT: DO NOT REPLACE THIS INSTANCE OF JDispatcher WITH ANYTHING ELSE. WE NEED JOOMLA!'S PLUGIN EVENT
 			// DISPATCHER HERE, NOT OUR GENERIC EVENTS DISPATCHER
-			if (class_exists('JEventDispatcher'))
+			if (version_compare($this->version, '4.0', 'ge'))
+			{
+				return JFactory::getApplication()->triggerEvent($event, $data);
+			}
+			elseif (version_compare($this->version, '3.0', 'ge') && class_exists('JEventDispatcher'))
 			{
 				$dispatcher = JEventDispatcher::getInstance();
 			}

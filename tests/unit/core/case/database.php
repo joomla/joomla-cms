@@ -181,21 +181,6 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	}
 
 	/**
-	 * Gets a mock application object.
-	 *
-	 * @return  JApplication
-	 *
-	 * @since   12.1
-	 */
-	public function getMockApplication()
-	{
-		// Attempt to load the real class first.
-		class_exists('JApplication');
-
-		return TestMockApplication::create($this);
-	}
-
-	/**
 	 * Gets a mock CMS application object.
 	 *
 	 * @param   array  $options      A set of options to configure the mock.
@@ -250,14 +235,14 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @param   boolean  $defaults  Add default register and trigger methods for testing.
 	 *
-	 * @return  JEventDispatcher
+	 * @return  \Joomla\Event\DispatcherInterface
 	 *
 	 * @since   12.1
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
-		// Attempt to load the real class first.
-		class_exists('JEventDispatcher');
+		// Attempt to load the real interface first.
+		class_exists('Joomla\\Event\\DispatcherInterface');
 
 		return TestMockDispatcher::create($this, $defaults);
 	}

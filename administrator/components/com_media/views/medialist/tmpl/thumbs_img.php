@@ -13,8 +13,7 @@ use Joomla\Registry\Registry;
 
 $user       = JFactory::getUser();
 $params     = new Registry;
-$dispatcher = JEventDispatcher::getInstance();
-$dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_media.file', &$this->_tmp_img, &$params));
 ?>
 
 <li class="imgOutline thumbnail height-80 width-80 center">
@@ -34,4 +33,4 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 		<a href="<?php echo COM_MEDIA_BASEURL . '/' . $this->_tmp_img->path_relative; ?>" title="<?php echo $this->_tmp_img->name; ?>" class="preview"><?php echo JHtml::_('string.truncate', $this->_tmp_img->name, 10, false); ?></a>
 	</div>
 </li>
-<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
+<?php JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));

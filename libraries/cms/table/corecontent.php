@@ -93,6 +93,17 @@ class JTableCorecontent extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		if (trim($this->core_title) == '')
 		{
 			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));

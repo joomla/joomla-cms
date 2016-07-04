@@ -32,9 +32,14 @@ class JModelFormTest extends TestCase
 	 */
 	public function setUp()
 	{
+		$this->saveFactoryState();
 		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelForm');
-		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
 		TestReflection::setValue('JPluginHelper', 'plugins', array());
 	}
 
@@ -48,8 +53,9 @@ class JModelFormTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
+
 		// Reset the dispatcher instance.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
 		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		parent::tearDown();

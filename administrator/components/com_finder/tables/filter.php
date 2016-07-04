@@ -68,6 +68,17 @@ class FinderTableFilter extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		if (trim($this->alias) == '')
 		{
 			$this->alias = $this->title;

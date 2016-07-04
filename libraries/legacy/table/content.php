@@ -28,10 +28,8 @@ class JTableContent extends JTable
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
+		$this->typeAlias = 'com_content.article';
 		parent::__construct('#__content', 'id', $db);
-
-		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_content.article'));
 
 		// Set the alias since the column is called state
 		$this->setColumnAlias('published', 'state');
@@ -173,6 +171,17 @@ class JTableContent extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));

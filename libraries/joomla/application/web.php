@@ -208,7 +208,7 @@ class JApplicationWeb extends JApplicationBase
 	 *                              object, and if it is null then the default language object will be created based
 	 *                              on the application's loadLanguage() method.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a DispatcherInterface object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
@@ -221,7 +221,7 @@ class JApplicationWeb extends JApplicationBase
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.3
 	 */
-	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
+	public function initialise($session = null, $document = null, $language = null, DispatcherInterface $dispatcher = null)
 	{
 		// Create the session based on the application logic.
 		if ($session !== false)

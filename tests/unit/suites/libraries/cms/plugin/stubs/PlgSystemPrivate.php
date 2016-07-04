@@ -49,7 +49,7 @@ class PlgSystemPrivate extends JPlugin
 		$config['type']   = 'System';
 		$config['params'] = new Registry;
 
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher = JFactory::getApplication()->getDispatcher();
 
 		// Call the parent constructor
 		parent::__construct($dispatcher, $config);

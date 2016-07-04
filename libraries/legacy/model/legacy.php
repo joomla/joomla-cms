@@ -588,6 +588,6 @@ abstract class JModelLegacy extends JObject
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		JEventDispatcher::getInstance()->trigger($this->event_clean_cache, $options);
+		JFactory::getApplication()->triggerEvent($this->event_clean_cache, $options);
 	}
 }

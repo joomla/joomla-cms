@@ -662,6 +662,9 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->set('editor', $editor);
 
+		// Load the behaviour plugins
+		JPluginHelper::importPlugin('behaviour');
+
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');

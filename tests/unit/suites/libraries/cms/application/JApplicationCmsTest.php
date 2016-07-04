@@ -118,9 +118,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher instance.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
-
 		// Reset some web inspector static settings.
 		JApplicationCmsInspector::$headersSent = false;
 		JApplicationCmsInspector::$connectionAlive = true;
@@ -166,7 +163,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
 		$this->assertAttributeInstanceOf('JApplicationWebClient', 'client', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
 	}
 
 	/**

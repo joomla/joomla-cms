@@ -27,11 +27,8 @@ class JTableCategory extends JTableNested
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
+		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
-
-		JTableObserverTags::createObserver($this, array('typeAlias' => '{extension}.category'));
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => '{extension}.category'));
-
 		$this->access = (int) JFactory::getConfig()->get('access');
 	}
 
@@ -133,6 +130,17 @@ class JTableCategory extends JTableNested
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check for a title.
 		if (trim($this->title) == '')
 		{

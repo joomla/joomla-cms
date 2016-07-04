@@ -9,13 +9,20 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Dispatcher;
+
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
  * @since  11.1
  */
-class JAuthentication extends JObject
+class JAuthentication implements DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	// Shared success status
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
@@ -62,30 +69,6 @@ class JAuthentication extends JObject
 	const STATUS_UNKNOWN = 32;
 
 	/**
-	 * An array of Observer objects to notify
-	 *
-	 * @var    array
-	 * @since  12.1
-	 */
-	protected $observers = array();
-
-	/**
-	 * The state of the observable object
-	 *
-	 * @var    mixed
-	 * @since  12.1
-	 */
-	protected $state = null;
-
-	/**
-	 * A multi dimensional array of [function][] = key for observers
-	 *
-	 * @var    array
-	 * @since  12.1
-	 */
-	protected $methods = array();
-
-	/**
 	 * @var    JAuthentication  JAuthentication instances container.
 	 * @since  11.3
 	 */
@@ -94,10 +77,20 @@ class JAuthentication extends JObject
 	/**
 	 * Constructor
 	 *
+	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
+	 *
 	 * @since   11.1
 	 */
-	public function __construct()
+	public function __construct(DispatcherInterface $dispatcher = null)
 	{
+		// Set the dispatcher
+		if (!is_object($dispatcher))
+		{
+			$dispatcher = new Dispatcher();
+		}
+
+		$this->setDispatcher($dispatcher);
+
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded)
@@ -125,120 +118,6 @@ class JAuthentication extends JObject
 	}
 
 	/**
-	 * Get the state of the JAuthentication object
-	 *
-	 * @return  mixed    The state of the object.
-	 *
-	 * @since   11.1
-	 */
-	public function getState()
-	{
-		return $this->state;
-	}
-
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   object  $observer  An observer object to attach
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function attach($observer)
-	{
-		if (is_array($observer))
-		{
-			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler']))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this array as an observer
-			foreach ($this->observers as $check)
-			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
-				{
-					return;
-				}
-			}
-
-			$this->observers[] = $observer;
-			end($this->observers);
-			$methods = array($observer['event']);
-		}
-		else
-		{
-			if (!($observer instanceof JAuthentication))
-			{
-				return;
-			}
-
-			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
-
-			foreach ($this->observers as $check)
-			{
-				if ($check instanceof $class)
-				{
-					return;
-				}
-			}
-
-			$this->observers[] = $observer;
-			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
-		}
-
-		$key = key($this->observers);
-
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
-
-			if (!isset($this->methods[$method]))
-			{
-				$this->methods[$method] = array();
-			}
-
-			$this->methods[$method][] = $key;
-		}
-	}
-
-	/**
-	 * Detach an observer object
-	 *
-	 * @param   object  $observer  An observer object to detach.
-	 *
-	 * @return  boolean  True if the observer object was detached.
-	 *
-	 * @since   11.1
-	 */
-	public function detach($observer)
-	{
-		$retval = false;
-
-		$key = array_search($observer, $this->observers);
-
-		if ($key !== false)
-		{
-			unset($this->observers[$key]);
-			$retval = true;
-
-			foreach ($this->methods as &$method)
-			{
-				$k = array_search($key, $method);
-
-				if ($k !== false)
-				{
-					unset($method[$k]);
-				}
-			}
-		}
-
-		return $retval;
-	}
-
-	/**
 	 * Finds out if a set of login credentials are valid by asking all observing
 	 * objects to run their respective authentication routines.
 	 *
@@ -256,6 +135,7 @@ class JAuthentication extends JObject
 		$plugins = JPluginHelper::getPlugin('authentication');
 
 		// Create authentication response
+		JLoader::register('JAuthenticationResponse', __DIR__ . '/response.php');
 		$response = new JAuthenticationResponse;
 
 		/*
@@ -271,7 +151,8 @@ class JAuthentication extends JObject
 
 			if (class_exists($className))
 			{
-				$plugin = new $className($this, (array) $plugin);
+				$dispatcher = $this->getDispatcher();
+				$plugin = new $className($dispatcher, (array) $plugin);
 			}
 			else
 			{
@@ -319,7 +200,7 @@ class JAuthentication extends JObject
 	 * @param   JAuthenticationResponse  $response  response including username of the user to authorise
 	 * @param   array                    $options   list of options
 	 *
-	 * @return  array[JAuthenticationResponse]  results of authorisation
+	 * @return  JAuthenticationResponse[]  results of authorisation
 	 *
 	 * @since  11.2
 	 */
@@ -329,127 +210,8 @@ class JAuthentication extends JObject
 		JPluginHelper::importPlugin('user');
 
 		JPluginHelper::importPlugin('authentication');
-		$dispatcher = JEventDispatcher::getInstance();
-		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
+		$results = JFactory::getApplication()->triggerEvent('onUserAuthorisation', array($response, $options));
 
 		return $results;
 	}
-}
-
-/**
- * Authentication response class, provides an object for storing user and error details
- *
- * @since  11.1
- */
-class JAuthenticationResponse
-{
-	/**
-	 * Response status (see status codes)
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $status = JAuthentication::STATUS_FAILURE;
-
-	/**
-	 * The type of authentication that was successful
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $type = '';
-
-	/**
-	 *  The error message
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $error_message = '';
-
-	/**
-	 * Any UTF-8 string that the End User wants to use as a username.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $username = '';
-
-	/**
-	 * Any UTF-8 string that the End User wants to use as a password.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $password = '';
-
-	/**
-	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $email = '';
-
-	/**
-	 * UTF-8 string free text representation of the End User's full name.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $fullname = '';
-
-	/**
-	 * The End User's date of birth as YYYY-MM-DD. Any values whose representation uses
-	 * fewer than the specified number of digits should be zero-padded. The length of this
-	 * value MUST always be 10. If the End User user does not want to reveal any particular
-	 * component of this value, it MUST be set to zero.
-	 *
-	 * For instance, if an End User wants to specify that their date of birth is in 1980, but
-	 * not the month or day, the value returned SHALL be "1980-00-00".
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $birthdate = '';
-
-	/**
-	 * The End User's gender, "M" for male, "F" for female.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $gender = '';
-
-	/**
-	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $postcode = '';
-
-	/**
-	 * The End User's country of residence as specified by ISO3166.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $country = '';
-
-	/**
-	 * End User's preferred language as specified by ISO639.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $language = '';
-
-	/**
-	 * ASCII string from TimeZone database
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	public $timezone = '';
 }

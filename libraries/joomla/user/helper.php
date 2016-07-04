@@ -176,12 +176,12 @@ abstract class JUserHelper
 		// Store the user object.
 		$user->save();
 
-		if (session_id())
-		{
-			// Set the group data for any preloaded user objects.
-			$temp = JFactory::getUser((int) $userId);
-			$temp->groups = $user->groups;
+		// Set the group data for any preloaded user objects.
+		$temp = JFactory::getUser((int) $userId);
+		$temp->groups = $user->groups;
 
+		if (JFactory::getSession()->getId())
+		{
 			// Set the group data for the user object in the session.
 			$temp = JFactory::getUser();
 
@@ -212,14 +212,13 @@ abstract class JUserHelper
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
 		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
+		JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}

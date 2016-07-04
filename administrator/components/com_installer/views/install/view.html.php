@@ -40,8 +40,7 @@ class InstallerViewInstall extends InstallerViewDefault
 
 		JPluginHelper::importPlugin('installer');
 
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
+		JFactory::getApplication()->triggerEvent('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
 
 		parent::display($tpl);
 	}

@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\Event\Event;
+
 /**
  * CodeMirror Editor Plugin.
  *
@@ -58,10 +60,9 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Codemirror shall have its own group of plugins to modify and extend its behavior
 		$result = JPluginHelper::importPlugin('editors_codemirror');
-		$dispatcher	= JEventDispatcher::getInstance();
 
 		// At this point, params can be modified by a plugin before going to the layout renderer.
-		$dispatcher->trigger('onCodeMirrorBeforeInit', array(&$this->params));
+		JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeInit', array(&$this->params));
 
 		$displayData = (object) array('params'  => $this->params);
 
@@ -91,7 +92,7 @@ class PlgEditorCodemirror extends JPlugin
 		JLayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		$dispatcher->trigger('onCodeMirrorAfterInit', array(&$this->params));
+		JFactory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
 	}
 
 	/**
@@ -270,14 +271,12 @@ class PlgEditorCodemirror extends JPlugin
 				'buttons' => $buttons
 			);
 
-		$dispatcher = JEventDispatcher::getInstance();
-
 		// At this point, displayData can be modified by a plugin before going to the layout renderer.
-		$results = $dispatcher->trigger('onCodeMirrorBeforeDisplay', array(&$displayData));
+		$results = JFactory::getApplication()->triggerEvent('onCodeMirrorBeforeDisplay', array(&$displayData));
 
 		$results[] = JLayoutHelper::render('editors.codemirror.element', $displayData, __DIR__ . '/layouts', array('debug' => JDEBUG));
 
-		foreach ($dispatcher->trigger('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
+		foreach (JFactory::getApplication()->triggerEvent('onCodeMirrorAfterDisplay', array(&$displayData)) as $result)
 		{
 			$results[] = $result;
 		}
@@ -304,9 +303,14 @@ class PlgEditorCodemirror extends JPlugin
 			'event' => 'onGetInsertMethod'
 		);
 
-		$results = (array) $this->update($args);
+		$onGetInsertMethodEvent = new Event('onGetInsertMethod', [
+			'name' => $name,
+		]);
 
-		if ($results)
+		$rawResults = $this->getDispatcher()->dispatch('onGetInsertMethod', $onGetInsertMethodEvent);
+		$results    = $rawResults['result'];
+
+		if (is_array($results) && !empty($results))
 		{
 			foreach ($results as $result)
 			{
@@ -319,7 +323,13 @@ class PlgEditorCodemirror extends JPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttonsEvent = new Event('getButtons', [
+				'name'    => $this->_name,
+				'buttons' => $buttons,
+			]);
+
+			$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
+			$buttons       = $buttonsResult['result'];
 
 			$return .= JLayoutHelper::render('joomla.editors.buttons', $buttons);
 		}

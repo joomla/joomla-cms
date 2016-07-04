@@ -115,16 +115,13 @@ class JApplicationBaseTest extends TestCase
 	 * @testdox  Tests that the global dispatcher is loaded by loadDispatcher() when no object is injected.
 	 *
 	 * @covers  JApplicationBase::loadDispatcher
-	 * @uses    JEventDispatcher
+	 * @uses    \Joomla\Event\DispatcherInterface
 	 */
 	public function testLoadDispatcherWithNoInjection()
 	{
 		$this->class->loadDispatcher();
 
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
-
-		// Reset the global state for JEventDispatcher
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		$this->assertAttributeInstanceOf('Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
 	}
 
 	/**

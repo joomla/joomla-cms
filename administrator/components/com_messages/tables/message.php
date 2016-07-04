@@ -37,6 +37,17 @@ class MessagesTableMessage extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Check the to and from users.
 		$user = new JUser($this->user_id_from);
 

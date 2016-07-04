@@ -30,6 +30,7 @@ class TestMockApplicationBase
 			'triggerEvent',
 			'loadDispatcher',
 			'loadIdentity',
+			'getDispatcher',
 		);
 	}
 

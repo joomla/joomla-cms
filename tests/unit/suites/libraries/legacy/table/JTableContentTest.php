@@ -40,6 +40,11 @@ class JTableContentTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$session = $this->getMockSession();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
 
 		$this->object = new JTableContent(self::$driver);
 	}

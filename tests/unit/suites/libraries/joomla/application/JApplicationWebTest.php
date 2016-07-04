@@ -132,7 +132,6 @@ class JApplicationWebTest extends TestCase
 	protected function tearDown()
 	{
 		// Reset the dispatcher and session instances.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
 		TestReflection::setValue('JSession', 'instance', null);
 
 		// Reset some web inspector static settings.
@@ -801,7 +800,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
 		$this->assertAttributeInstanceOf('JLanguage', 'language', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
 	}
 
 	/**
@@ -847,10 +846,10 @@ class JApplicationWebTest extends TestCase
 			->method('test')
 			->willReturnSelf();
 
-		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMock('\\Joomla\\Event\\DispatcherInterface', array('addListener', 'dispatch', 'removeListener'), array(), '', false);
 		$mockDispatcher
 			->expects($this->any())
-			->method('test')
+			->method('dispatch')
 			->willReturnSelf();
 
 		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
@@ -858,7 +857,7 @@ class JApplicationWebTest extends TestCase
 		$this->assertSame($mockSession, $this->class->getSession()->test());
 		$this->assertSame($mockDocument, $this->class->getDocument()->test());
 		$this->assertSame($mockLanguage, $this->class->getLanguage()->test());
-		$this->assertSame($mockDispatcher, TestReflection::getValue($this->class, 'dispatcher')->test());
+		$this->assertSame($mockDispatcher, TestReflection::getValue($this->class, 'dispatcher')->dispatch('foo'));
 	}
 
 	/**
@@ -893,9 +892,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadDocument()
 	{
-		// Inject the mock dispatcher into the JEventDispatcher singleton.
-		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
-
 		$this->class->loadDocument();
 
 		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);

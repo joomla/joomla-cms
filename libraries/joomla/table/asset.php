@@ -95,6 +95,17 @@ class JTableAsset extends JTableNested
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->parent_id = (int) $this->parent_id;
 
 		if (empty($this->rules))

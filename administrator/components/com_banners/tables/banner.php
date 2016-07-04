@@ -28,9 +28,8 @@ class BannersTableBanner extends JTable
 	 */
 	public function __construct(&$db)
 	{
+		$this->typeAlias = 'com_banners.banner';
 		parent::__construct('#__banners', 'id', $db);
-
-		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.banner'));
 
 		$this->created = JFactory::getDate()->toSql();
 		$this->setColumnAlias('published', 'state');
@@ -61,6 +60,17 @@ class BannersTableBanner extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		// Set name
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
