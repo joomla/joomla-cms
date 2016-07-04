@@ -9,7 +9,7 @@ defined('JPATH_BASE') or die;
 /**
  * Form Rule class for the admin_user field.
  *
- * @since  3.5
+ * @since  3.7
  */
 class InstallationFormRuleUsername extends JFormRule
 {
@@ -17,14 +17,16 @@ class InstallationFormRuleUsername extends JFormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  3.6
+	 * @since  3.7
 	 */
 	protected $regex = '^[^<>"\'%;()&\\\\]*$';
+
 	/**
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var    string
-	 * @since  3.6
+	 * @since  3.7
 	 */
 	protected $modifiers = 'i';
+
 }
