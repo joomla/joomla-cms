@@ -36,7 +36,7 @@ class Application implements ServiceProviderInterface
 			'JApplicationAdministrator',
 			function (Container $container)
 			{
-				return new JApplicationAdministrator(null, null, null, $container);
+				return new \JApplicationAdministrator(null, null, null, $container);
 			},
 			true
 		);
@@ -45,7 +45,7 @@ class Application implements ServiceProviderInterface
 			'JApplicationSite',
 			function (Container $container)
 			{
-				return new JApplicationSite(null, null, null, $container);
+				return new \JApplicationSite(null, null, null, $container);
 			},
 			true
 		);

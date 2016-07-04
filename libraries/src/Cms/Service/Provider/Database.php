@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Event\Dispatcher;
 
 /**
  * Service provider for the application's database dependency
@@ -39,7 +38,7 @@ class Database implements ServiceProviderInterface
 			'JDatabaseDriver',
 			function (Container $container)
 			{
-				$conf = JFactory::getConfig();
+				$conf = \JFactory::getConfig();
 
 				$options = array(
 					'driver'   => $conf->get('dbtype'),
@@ -52,7 +51,7 @@ class Database implements ServiceProviderInterface
 
 				try
 				{
-					$db = JDatabaseDriver::getInstance($options);
+					$db = \JDatabaseDriver::getInstance($options);
 				}
 				catch (\RuntimeException $e)
 				{
