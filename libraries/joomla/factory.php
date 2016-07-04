@@ -96,6 +96,7 @@ abstract class JFactory
 	 *
 	 * @var    JDatabaseDriver
 	 * @since  11.1
+	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	public static $database = null;
 
@@ -357,7 +358,14 @@ abstract class JFactory
 	{
 		if (!self::$database)
 		{
-			self::$database = self::createDbo();
+			if (self::getContainer()->exists('JDatabaseDriver'))
+			{
+				self::$database = self::getContainer()->get('JDatabaseDriver');
+			}
+			else
+			{
+				self::$database = self::createDbo();
+			}
 		}
 
 		return self::$database;
@@ -617,7 +625,8 @@ abstract class JFactory
 	protected static function createContainer()
 	{
 		$container = (new Container)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Application);
+			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Application)
+			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Database);
 
 		return $container;
 	}
@@ -658,9 +667,14 @@ abstract class JFactory
 	 *
 	 * @see     JDatabaseDriver
 	 * @since   11.1
+	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	protected static function createDbo()
 	{
+		JLog::add(
+			__METHOD__ . '() is deprecated, register a service provider to create a JDatabaseDriver instance instead.', JLog::WARNING, 'deprecated'
+		);
+
 		$conf = self::getConfig();
 
 		$host = $conf->get('host');
