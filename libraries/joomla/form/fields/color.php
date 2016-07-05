@@ -279,26 +279,26 @@ class JFormFieldColor extends JFormField
 		$split = $this->split ? $this->split : 3;
 
 		return array(
-			'colors'   => $colors,
-			'split'    => $split,
+			'colors' => $colors,
+			'split'  => $split,
 		);
 	}
 
 	/**
 	 * Method to get the data for the advanced mode to be passed to the layout for rendering.
 	 *
-	 * @param   object $lang The language object
+	 * @param   object  $lang  The language object
 	 *
 	 * @return  array
 	 *
-	 * @since 3.5
+	 * @since   3.5
 	 */
 	protected function getAdvancedModeLayoutData($lang)
 	{
 		return array(
-			'colors'   => $this->colors,
-			'control'  => $this->control,
-			'lang'     => $lang,
+			'colors'  => $this->colors,
+			'control' => $this->control,
+			'lang'    => $lang,
 		);
 	}
 }
