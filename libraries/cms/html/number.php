@@ -59,7 +59,7 @@ abstract class JHtmlNumber
 		// If no unit is requested return early
 		if ($unit === '')
 		{
-			return $oBytes;
+			return (string) $oBytes;
 		}
 
 		$suffixes = array('b', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
