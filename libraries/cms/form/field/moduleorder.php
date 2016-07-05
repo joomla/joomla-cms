@@ -27,7 +27,7 @@ class JFormFieldModuleOrder extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string
+	 * @return  string  Empty div that will be replaced by the included javascript
 	 *
 	 * @since   1.6
 	 */
