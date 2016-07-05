@@ -7,7 +7,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'libs/caption', 'jasmineJquery'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'libs/caption'], function ($, fixture) {
 	$('body').append(fixture);
 
 	new JCaption('#single img.test');
