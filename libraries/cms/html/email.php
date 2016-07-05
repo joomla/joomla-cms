@@ -89,19 +89,8 @@ abstract class JHtmlEmail
 			$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += addy" . $rand . ";";
 		}
 
-		$doc          = JFactory::getDocument();
-		$commentStart = '';
-		$commentEnd   = '';
-
-		if ($doc->getType() != 'html')
-		{
-			$commentStart = '\n //<!--\n';
-			$commentEnd   = '\n //--> \n';
-		}
-
-		$doc->addScriptDeclaration(
+		JFactory::getDocument()->addScriptDeclaration(
 		"
-		$commentStart
 		document.onreadystatechange = function () {
 			if (document.readyState == 'interactive') {
 				document.getElementById('cloak" . $rand . "').innerHTML = '';
@@ -112,7 +101,6 @@ abstract class JHtmlEmail
 				$tmpScript
 			}
 		};
-		$commentEnd
 		"
 		);
 
