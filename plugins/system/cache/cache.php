@@ -114,7 +114,7 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		// If any pagecache plugins return false for onPageCacheSetCaching, do not cache.
+		// If any pagecache plugins return false for onPageCacheSetCaching, do not use the cache.
 		JPluginHelper::importPlugin('pagecache');
 
 		$results = JEventDispatcher::getInstance()->trigger('onPageCacheSetCaching');
