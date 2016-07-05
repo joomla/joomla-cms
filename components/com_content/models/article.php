@@ -173,7 +173,15 @@ class ContentModelArticle extends JModelItem
 				$registry = new Registry;
 				$registry->loadString($data->attribs);
 
-				$data->params = clone $this->getState('params');
+				//$data->params = clone $this->getState('params');
+				//let's check if the state params is a object. if not take care.
+				$tempparams = $this->getState('params');
+		                if(is_object($tempparams)){
+		                    $data->params = clone $tempparams;
+		                }
+		                else{
+		                    $data->params = new Registry;
+		                }
 				$data->params->merge($registry);
 
 				$registry = new Registry;
