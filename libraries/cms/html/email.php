@@ -47,12 +47,12 @@ abstract class JHtmlEmail
 		// Convert mail
 		$mail = static::convertEncoding($mail);
 
+		// Random hash
+		$rand = md5($mail . rand(1, 100000));
+
 		// Split email by @ symbol
 		$mail       = explode('@', $mail);
 		$mail_parts = explode('.', $mail[1]);
-
-		// Random number
-		$rand       = rand(1, 100000);
 
 		if ($mailto)
 		{
@@ -75,18 +75,18 @@ abstract class JHtmlEmail
 					$tmpScript = "var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$tmpScript .= "document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+				$tmpScript .= "document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
 					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$tmpScript = "document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+				$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
 					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else
 		{
-			$tmpScript = "document.getElementById('cloak$rand').innerHTML += addy" . $rand . ";";
+			$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += addy" . $rand . ";";
 		}
 
 		$doc          = JFactory::getDocument();
