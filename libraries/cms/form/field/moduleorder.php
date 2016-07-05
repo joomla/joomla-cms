@@ -27,7 +27,7 @@ class JFormFieldModuleOrder extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string
 	 *
 	 * @since   1.6
 	 */
@@ -44,15 +44,9 @@ class JFormFieldModuleOrder extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		$html[] = '<script type="text/javascript">';
-
 		$ordering = $this->form->getValue('ordering');
 		$position = $this->form->getValue('position');
 		$clientId = $this->form->getValue('client_id');
-
-		$html[] = 'var originalOrder = "' . $ordering . '";';
-		$html[] = 'var originalPos = "' . $position . '";';
-		$html[] = 'var orders = new Array();';
 
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -90,9 +84,26 @@ class JFormFieldModuleOrder extends JFormField
 			$html[] = 'orders[' . $i . '] =  new Array("' . $orders[$i]->position . '","' . $ord . '","' . $title . '");';
 		}
 
-		$html[] = 'writeDynaList(\'name="' . $this->name . '" id="' . $this->id . '"' . $attr . '\', orders, originalPos, originalPos, originalOrder);';
-		$html[] = '</script>';
+		$orders3 = implode("\n ", $html);
+		$name    = $this->name;
+		$id      = $this->id;
 
-		return implode("\n", $html);
+		JFactory::getDocument()->addScriptDeclaration(
+<<<JS
+		document.onreadystatechange = function () {
+		    if (document.readyState == "interactive") {
+				var elem = document.getElementById("$id");
+				console.log(elem);
+				var originalOrder = "$ordering";
+				var originalPos = "$position";
+				var orders = new Array();
+				$orders3
+				writeDynaList('name="$name" id="$id"$attr', orders, originalPos, originalPos, originalOrder, elem);
+			}
+		}
+JS
+		);
+
+		return '<div id="' . $id . '" ></div>';
 	}
 }
