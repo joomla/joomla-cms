@@ -67,15 +67,15 @@ abstract class JHtmlEmail
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
-					$tmpScriptA = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
+					$tmpScript = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
 						. "';";
 				}
 				else
 				{
-					$tmpScriptA = "var addy_text" . $rand . " = '" . $text . "';";
+					$tmpScript = "var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$tmpScript = "document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+				$tmpScript .= "document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
 					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
@@ -99,7 +99,7 @@ abstract class JHtmlEmail
 			$commentEnd   = '\n //--> \n';
 		}
 
-		JFactory::getDocument()->addScriptDeclaration(
+		$doc->addScriptDeclaration(
 		"
 		$commentStart
 		document.onreadystatechange = function () {
@@ -109,7 +109,6 @@ abstract class JHtmlEmail
 				var path = 'hr' + 'ef' + '=';
 				var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';
 				addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';
-				$tmpScriptA
 				$tmpScript
 			}
 		};
