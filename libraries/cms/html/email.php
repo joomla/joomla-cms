@@ -93,7 +93,7 @@ abstract class JHtmlEmail
 		$commentStart = '';
 		$commentEnd   = '';
 
-		if ($doc->_type != 'html')
+		if ($doc->getType() != 'html')
 		{
 			$commentStart = '\n //<!--\n';
 			$commentEnd   = '\n //--> \n';
@@ -104,7 +104,7 @@ abstract class JHtmlEmail
 		$commentStart
 		document.onreadystatechange = function () {
 			if (document.readyState == 'interactive') {
-				document.getElementById('cloak$rand').innerHTML = '';
+				document.getElementById('cloak" . $rand . "').innerHTML = '';
 				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
 				var path = 'hr' + 'ef' + '=';
 				var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';
