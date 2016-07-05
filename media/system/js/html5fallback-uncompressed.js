@@ -380,7 +380,7 @@
 				isType = /^(number|range)$/i.test( type ),
 				min, max, step, value, attributes, $select, $option, i;
 
-			if ( !isInput || !isType || ( type == "number" && features.fields.number ) || ( type == "range" && features.fields.range ) ) {
+			if ( !isInput || !isType || ( type == "number" && features.types.number ) || ( type == "range" && features.types.range ) ) {
 				return;
 			}
 
