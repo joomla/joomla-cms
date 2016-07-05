@@ -66,13 +66,30 @@ class PlgSystemCache extends JPlugin
 		}
 
 		$this->_cache = JCache::getInstance('page', $options);
+	}
 
-		JPluginHelper::importPlugin('pagecache');
+	/**
+	 * Get a cache key for the current page based on the url and possible other factors.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7
+	 */
+	protected function getCacheKey()
+	{
+		static $key;
 
-		$parts = JEventDispatcher::getInstance()->trigger('onPageCacheGetKey');
-		$parts[] = JUri::getInstance()->toString();
+		if (!$key)
+		{
+			JPluginHelper::importPlugin('pagecache');
 
-		$this->_cache_key = serialize($parts);
+			$parts = JEventDispatcher::getInstance()->trigger('onPageCacheGetKey');
+			$parts[] = JUri::getInstance()->toString();
+
+			$key = serialize($parts);
+		}
+
+		return $key;
 	}
 
 	/**
@@ -97,12 +114,18 @@ class PlgSystemCache extends JPlugin
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() === 'GET')
+		// If any pagecache plugins return false for onPageCacheSetCaching, do not cache.
+		JPluginHelper::importPlugin('pagecache');
+
+		$results = JEventDispatcher::getInstance()->trigger('onPageCacheSetCaching');
+		$caching = !in_array(false, $results, true);
+
+		if ($caching && $user->get('guest') && $app->input->getMethod() == 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
 
-		$data = $this->_cache->get($this->_cache_key);
+		$data = $this->_cache->get($this->getCacheKey());
 
 		if ($data !== false)
 		{
@@ -146,7 +169,7 @@ class PlgSystemCache extends JPlugin
 		if ($user->get('guest') && !$this->isExcluded())
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
-			$this->_cache->store(null, $this->_cache_key);
+			$this->_cache->store(null, $this->getCacheKey());
 		}
 	}
 
@@ -198,6 +221,16 @@ class PlgSystemCache extends JPlugin
 					}
 				}
 			}
+		}
+
+		// If any pagecache plugins return true for onPageCacheIsExcluded, exclude.
+		JPluginHelper::importPlugin('pagecache');
+
+		$results = JEventDispatcher::getInstance()->trigger('onPageCacheIsExcluded');
+
+		if (in_array(true, $results, true))
+		{
+			return true;
 		}
 
 		return false;
