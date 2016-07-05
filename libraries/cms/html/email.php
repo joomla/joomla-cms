@@ -48,19 +48,11 @@ abstract class JHtmlEmail
 		$mail = static::convertEncoding($mail);
 
 		// Split email by @ symbol
-		$mail = explode('@', $mail);
+		$mail       = explode('@', $mail);
 		$mail_parts = explode('.', $mail[1]);
 
 		// Random number
-		$rand = rand(1, 100000);
-
-		$replacement = '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . "<script type='text/javascript'>";
-		$replacement .= "\n //<!--";
-		$replacement .= "\n document.getElementById('cloak$rand').innerHTML = '';";
-		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
-		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
-		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
-		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
+		$rand       = rand(1, 100000);
 
 		if ($mailto)
 		{
@@ -75,32 +67,57 @@ abstract class JHtmlEmail
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
-					$replacement .= "\n var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
+					$tmpScriptA = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
 						. "';";
 				}
 				else
 				{
-					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
+					$tmpScriptA = "var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+				$tmpScript = "document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
 					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
 			}
 			else
 			{
-				$replacement .= "\n document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+				$tmpScript = "document.getElementById('cloak$rand').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
 					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
 			}
 		}
 		else
 		{
-			$replacement .= "\n document.getElementById('cloak$rand').innerHTML += addy" . $rand . ";";
+			$tmpScript = "document.getElementById('cloak$rand').innerHTML += addy" . $rand . ";";
 		}
 
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
+		$doc          = JFactory::getDocument();
+		$commentStart = '';
+		$commentEnd   = '';
 
-		return $replacement;
+		if ($doc->_type != 'html')
+		{
+			$commentStart = '\n //<!--\n';
+			$commentEnd   = '\n //--> \n';
+		}
+
+		JFactory::getDocument()->addScriptDeclaration(
+		"
+		$commentStart
+		document.onreadystatechange = function () {
+			if (document.readyState == 'interactive') {
+				document.getElementById('cloak$rand').innerHTML = '';
+				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
+				var path = 'hr' + 'ef' + '=';
+				var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';
+				addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';
+				$tmpScriptA
+				$tmpScript
+			}
+		};
+		$commentEnd
+		"
+		);
+
+		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>';
 	}
 
 	/**
