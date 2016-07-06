@@ -232,7 +232,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @param   array  $cids  Array of keys to delete.
 	 *
-	 * @return  integer Number of successfully deleted overrides, boolean false if an error occured.
+	 * @return  integer Number of successfully deleted overrides, boolean false if an error occurred.
 	 *
 	 * @since		2.5
 	 */

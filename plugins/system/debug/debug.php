@@ -336,7 +336,7 @@ class PlgSystemDebug extends JPlugin
 	 * General display method.
 	 *
 	 * @param   string  $item    The item to display.
-	 * @param   array   $errors  Errors occured during execution.
+	 * @param   array   $errors  Errors occurred during execution.
 	 *
 	 * @return  string
 	 *
@@ -1284,7 +1284,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				elseif ($k == 'Error')
 				{
-					// An error in the EXPLAIN query occured, display it instead of the result (means original query had syntax error most probably).
+					// An error in the EXPLAIN query occurred, display it instead of the result (means original query had syntax error most probably).
 					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
 					$hasWarnings = true;
 				}
