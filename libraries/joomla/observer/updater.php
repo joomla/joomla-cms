@@ -72,8 +72,10 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 */
 	public function detachObserver($observer)
 	{
-		if(isset($this->observers[$observer]))
+		if (isset($this->observers[$observer]))
+		{
 			unset($this->observers[$observer]);
+		}
 	}
 
 	/**
