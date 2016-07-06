@@ -1,1 +1,636 @@
-Joomla=window.Joomla||{},Joomla.editors=Joomla.editors||{},Joomla.editors.instances=Joomla.editors.instances||{},function(e,t){"use strict";e.submitform=function(e,n,o){n||(n=t.getElementById("adminForm")),e&&(n.task.value=e),n.noValidate=!o,n.setAttribute("novalidate",!o);var r=t.createElement("input");r.style.display="none",r.type="submit",n.appendChild(r).click(),n.removeChild(r)},e.submitbutton=function(t){e.submitform(t)},e.JText={strings:{},_:function(e,t){return"undefined"!=typeof this.strings[e.toUpperCase()]?this.strings[e.toUpperCase()]:t},load:function(e){for(var t in e)e.hasOwnProperty(t)&&(this.strings[t.toUpperCase()]=e[t]);return this}},e.replaceTokens=function(e){if(/^[0-9A-F]{32}$/i.test(e)){var n,o,r,i=t.getElementsByTagName("input");for(n=0,r=i.length;r>n;n++)o=i[n],"hidden"==o.type&&"1"==o.value&&32==o.name.length&&(o.name=e)}},e.isEmail=function(e){var t=/^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;return t.test(e)},e.checkAll=function(e,t){if(!e.form)return!1;t=t?t:"cb";var n,o,r,i=0;for(n=0,r=e.form.elements.length;r>n;n++)o=e.form.elements[n],o.type==e.type&&0===o.id.indexOf(t)&&(o.checked=e.checked,i+=o.checked?1:0);return e.form.boxchecked&&(e.form.boxchecked.value=i),!0},e.renderMessages=function(n){e.removeMessages();var o,r,i,a,l,s,d,c,u=t.getElementById("system-message-container");for(o in n)if(n.hasOwnProperty(o)){r=n[o],i=t.createElement("div"),c="notice"==o?"alert-info":"alert-"+o,c="message"==o?"alert-success":c,i.className="alert "+c;var f=t.createElement("button");for(f.setAttribute("type","button"),f.setAttribute("data-dismiss","alert"),f.className="close",f.innerHTML="×",i.appendChild(f),a=e.JText._(o),"undefined"!=typeof a&&(l=t.createElement("h4"),l.className="alert-heading",l.innerHTML=e.JText._(o),i.appendChild(l)),s=r.length-1;s>=0;s--)d=t.createElement("div"),d.innerHTML=r[s],i.appendChild(d);u.appendChild(i)}},e.removeMessages=function(){for(var e=t.getElementById("system-message-container");e.firstChild;)e.removeChild(e.firstChild);e.style.display="none",e.offsetHeight,e.style.display=""},e.ajaxErrorsMessages=function(t,n){var o={};if("parsererror"==n){for(var r=t.responseText.trim(),i=[],a=r.length-1;a>=0;a--)i.unshift(["&#",r[a].charCodeAt(),";"].join(""));r=i.join(""),o.error=[e.JText._("JLIB_JS_AJAX_ERROR_PARSE").replace("%s",r)]}else"nocontent"==n?o.error=[e.JText._("JLIB_JS_AJAX_ERROR_NO_CONTENT")]:"timeout"==n?o.error=[e.JText._("JLIB_JS_AJAX_ERROR_TIMEOUT")]:"abort"==n?o.error=[e.JText._("JLIB_JS_AJAX_ERROR_CONNECTION_ABORT")]:o.error=[e.JText._("JLIB_JS_AJAX_ERROR_OTHER").replace("%s",t.status)];return o},e.isChecked=function(e,n){if("undefined"==typeof n&&(n=t.getElementById("adminForm")),n.boxchecked.value=e?parseInt(n.boxchecked.value)+1:parseInt(n.boxchecked.value)-1,n.elements["checkall-toggle"]){var o,r,i,a=!0;for(o=0,i=n.elements.length;i>o;o++)if(r=n.elements[o],"checkbox"==r.type&&"checkall-toggle"!=r.name&&!r.checked){a=!1;break}n.elements["checkall-toggle"].checked=a}},e.popupWindow=function(e,t,n,o,r){var i=(screen.width-n)/2,a=(screen.height-o)/2,l="height="+o+",width="+n+",top="+a+",left="+i+",scrollbars="+r+",resizable";window.open(e,t,l).window.focus()},e.tableOrdering=function(n,o,r,i){"undefined"==typeof i&&(i=t.getElementById("adminForm")),i.filter_order.value=n,i.filter_order_Dir.value=o,e.submitform(r,i)},window.writeDynaList=function(e,n,o,r,i){var a,l,s,d="<select "+e+">",c=o==r,u=0;for(l in n)n.hasOwnProperty(l)&&(s=n[l],s[0]==o&&(a="",(c&&i==s[1]||!c&&0===u)&&(a='selected="selected"'),d+='<option value="'+s[1]+'" '+a+">"+s[2]+"</option>",u++));d+="</select>",t.writeln(d)},window.changeDynaList=function(e,n,o,r,i){for(var a,l,s,d,c=t.adminForm[e],u=o==r;c.firstChild;)c.removeChild(c.firstChild);a=0;for(l in n)n.hasOwnProperty(l)&&(s=n[l],s[0]==o&&(d=new Option,d.value=s[1],d.text=s[2],(u&&i==d.value||!u&&0===a)&&(d.selected=!0),c.options[a++]=d));c.length=a},window.radioGetCheckedValue=function(e){if(!e)return"";var t,n=e.length;if(void 0===n)return e.checked?e.value:"";for(t=0;n>t;t++)if(e[t].checked)return e[t].value;return""},window.getSelectedValue=function(e,n){var o=t[e][n],r=o.selectedIndex;return null!==r&&r>-1?o.options[r].value:null},window.listItemTask=function(e,n){var o,r=t.adminForm,i=0,a=r[e];if(!a)return!1;for(;;){if(o=r["cb"+i],!o)break;o.checked=!1,i++}return a.checked=!0,r.boxchecked.value=1,window.submitform(n),!1},window.submitbutton=function(t){e.submitbutton(t)},window.submitform=function(t){e.submitform(t)},window.saveorder=function(e,t){window.checkAll_button(e,t)},window.checkAll_button=function(n,o){o=o?o:"saveorder";var r,i;for(r=0;n>=r;r++){if(i=t.adminForm["cb"+r],!i)return void alert("You cannot change the order of items, as an item in the list is `Checked Out`");i.checked=!0}e.submitform(o)},e.loadingLayer=function(n,o){if(n=n||"show",o=o||t.body,"load"==n){var r=t.getElementsByTagName("body")[0].getAttribute("data-basepath")||"",i=t.createElement("div");i.id="loading-logo",i.style.position="fixed",i.style.top="0",i.style.left="0",i.style.width="100%",i.style.height="100%",i.style.opacity="0.8",i.style.filter="alpha(opacity=80)",i.style.overflow="hidden",i.style["z-index"]="10000",i.style.display="none",i.style["background-color"]="#fff",i.style["background-image"]='url("'+r+'/media/jui/images/ajax-loader.gif")',i.style["background-position"]="center",i.style["background-repeat"]="no-repeat",i.style["background-attachment"]="fixed",o.appendChild(i)}else t.getElementById("loading-logo")||e.loadingLayer("load",o),t.getElementById("loading-logo").style.display="show"==n?"block":"none";return t.getElementById("loading-logo")}}(Joomla,document);
+/**
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// Only define the Joomla namespace if not defined.
+Joomla = window.Joomla || {};
+
+// Only define editors if not defined
+Joomla.editors = Joomla.editors || {};
+
+// An object to hold each editor instance on page, only define if not defined.
+Joomla.editors.instances = Joomla.editors.instances || {};
+
+(function( Joomla, document ) {
+	"use strict";
+
+	/**
+	 * Generic submit form
+	 */
+	Joomla.submitform = function(task, form, validate) {
+
+		if (!form) {
+			form = document.getElementById('adminForm');
+		}
+
+		if (task) {
+			form.task.value = task;
+		}
+
+		// Toggle HTML5 validation
+		form.noValidate = !validate;
+		form.setAttribute('novalidate', !validate)
+
+		// Submit the form.
+		// Create the input type="submit"
+		var button = document.createElement('input');
+		button.style.display = 'none';
+		button.type = 'submit';
+
+		// Append it and click it
+		form.appendChild(button).click();
+
+		// If "submit" was prevented, make sure we don't get a build up of buttons
+		form.removeChild(button);
+	};
+
+	/**
+	 * Default function. Usually would be overriden by the component
+	 */
+	Joomla.submitbutton = function( pressbutton ) {
+		Joomla.submitform( pressbutton );
+	};
+
+	/**
+	 * Custom behavior for JavaScript I18N in Joomla! 1.6
+	 *
+	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
+	 */
+	Joomla.JText = {
+		strings: {},
+		'_': function( key, def ) {
+			return typeof this.strings[ key.toUpperCase() ] !== 'undefined' ? this.strings[ key.toUpperCase() ] : def;
+		},
+		load: function( object ) {
+			for ( var key in object ) {
+				if (!object.hasOwnProperty(key)) continue;
+				this.strings[ key.toUpperCase() ] = object[ key ];
+			}
+			return this;
+		}
+	};
+
+	/**
+	 * Method to replace all request tokens on the page with a new one.
+	 * Used in Joomla Installation
+	 */
+	Joomla.replaceTokens = function( newToken ) {
+		if (!/^[0-9A-F]{32}$/i.test(newToken)) { return; }
+
+		var els = document.getElementsByTagName( 'input' ),
+			i, el, n;
+
+		for ( i = 0, n = els.length; i < n; i++ ) {
+			el = els[i];
+
+			if ( el.type == 'hidden' && el.value == '1' && el.name.length == 32 ) {
+				el.name = newToken;
+			}
+		}
+	};
+
+	/**
+	 * USED IN: administrator/components/com_banners/views/client/tmpl/default.php
+	 * Actually, probably not used anywhere. Can we deprecate in favor of <input type="email">?
+	 *
+	 * Verifies if the string is in a valid email format
+	 *
+	 * @param string
+	 * @return boolean
+	 */
+	Joomla.isEmail = function( text ) {
+		var regex = /^[\w.!#$%&‚Äô*+\/=?^`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]{2,})+$/i;
+		return regex.test( text );
+	};
+
+	/**
+	 * USED IN: all list forms.
+	 *
+	 * Toggles the check state of a group of boxes
+	 *
+	 * Checkboxes must have an id attribute in the form cb0, cb1...
+	 *
+	 * @param   mixed   The number of box to 'check', for a checkbox element
+	 * @param   string  An alternative field name
+	 */
+	Joomla.checkAll = function( checkbox, stub ) {
+		if (!checkbox.form) return false;
+
+		stub = stub ? stub : 'cb';
+
+		var c = 0,
+			i, e, n;
+
+		for ( i = 0, n = checkbox.form.elements.length; i < n; i++ ) {
+			e = checkbox.form.elements[ i ];
+
+			if ( e.type == checkbox.type && e.id.indexOf( stub ) === 0 ) {
+				e.checked = checkbox.checked;
+				c += e.checked ? 1 : 0;
+			}
+		}
+
+		if ( checkbox.form.boxchecked ) {
+			checkbox.form.boxchecked.value = c;
+		}
+
+		return true;
+	};
+
+	/**
+	 * Render messages send via JSON
+	 * Used by some javascripts such as validate.js
+	 *
+	 * @param   object  messages    JavaScript object containing the messages to render. Example:
+	 *                              var messages = {
+	 *                              	"message": ["Message one", "Message two"],
+	 *                              	"error": ["Error one", "Error two"]
+	 *                              };
+	 * @return  void
+	 */
+	Joomla.renderMessages = function( messages ) {
+		Joomla.removeMessages();
+
+		var messageContainer = document.getElementById( 'system-message-container' ),
+			type, typeMessages, messagesBox, title, titleWrapper, i, messageWrapper, alertClass;
+
+		for ( type in messages ) {
+			if ( !messages.hasOwnProperty( type ) ) { continue; }
+			// Array of messages of this type
+			typeMessages = messages[ type ];
+
+			// Create the alert box
+			messagesBox = document.createElement( 'div' );
+
+			// Message class
+			alertClass = (type == 'notice') ? 'alert-info' : 'alert-' + type;
+			alertClass = (type == 'message') ? 'alert-success' : alertClass;
+
+			messagesBox.className = 'alert ' + alertClass;
+
+			// Close button
+			var buttonWrapper = document.createElement( 'button' );
+			buttonWrapper.setAttribute('type', 'button');
+			buttonWrapper.setAttribute('data-dismiss', 'alert');
+			buttonWrapper.className = 'close';
+			buttonWrapper.innerHTML = '×';
+			messagesBox.appendChild( buttonWrapper );
+
+			// Title
+			title = Joomla.JText._( type );
+
+			// Skip titles with untranslated strings
+			if ( typeof title != 'undefined' ) {
+				titleWrapper = document.createElement( 'h4' );
+				titleWrapper.className = 'alert-heading';
+				titleWrapper.innerHTML = Joomla.JText._( type );
+				messagesBox.appendChild( titleWrapper );
+			}
+
+			// Add messages to the message box
+			for ( i = typeMessages.length - 1; i >= 0; i-- ) {
+				messageWrapper = document.createElement( 'div' );
+				messageWrapper.innerHTML = typeMessages[ i ];
+				messagesBox.appendChild( messageWrapper );
+			}
+
+			messageContainer.appendChild( messagesBox );
+		}
+	};
+
+
+	/**
+	 * Remove messages
+	 *
+	 * @return  void
+	 */
+	Joomla.removeMessages = function() {
+		var messageContainer = document.getElementById( 'system-message-container' );
+
+		// Empty container with a while for Chrome performance issues
+		while ( messageContainer.firstChild ) messageContainer.removeChild( messageContainer.firstChild );
+
+		// Fix Chrome bug not updating element height
+		messageContainer.style.display = 'none';
+		messageContainer.offsetHeight;
+		messageContainer.style.display = '';
+	};
+
+	/**
+	 * Treat AJAX jQuery errors.
+	 * Used by some javascripts such as sendtestmail.js and permissions.js
+	 *
+	 * @param   object  jqXHR        jQuery XHR object. See http://api.jquery.com/jQuery.ajax/#jqXHR
+	 * @param   string  textStatus   Type of error that occurred.
+	 * @param   string  error        Textual portion of the HTTP status.
+	 *
+	 * @return  object  JavaScript object containing the system error message.
+	 *
+	 * @since  3.6.0
+	 */
+	Joomla.ajaxErrorsMessages = function( jqXHR, textStatus, error ) {
+		var msg = {};
+
+		if (textStatus == 'parsererror')
+		{
+			// Html entity encode.
+			var encodedJson = jqXHR.responseText.trim();
+
+			var buf = [];
+			for (var i = encodedJson.length-1; i >= 0; i--) {
+				buf.unshift( [ '&#', encodedJson[i].charCodeAt(), ';' ].join('') );
+			}
+
+			encodedJson = buf.join('');
+
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
+		}
+		else if (textStatus == 'nocontent')
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
+		}
+		else if (textStatus == 'timeout')
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
+		}
+		else if (textStatus == 'abort')
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
+		}
+		else
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
+		}
+
+		return msg;
+	}
+
+	/**
+	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
+	 * administrator/components/com_installer/views/discover/tmpl/default_item.php
+	 * administrator/components/com_installer/views/update/tmpl/default_item.php
+	 * administrator/components/com_languages/helpers/html/languages.php
+	 * libraries/joomla/html/html/grid.php
+	 *
+	 * @param isitchecked
+	 * @param form
+	 * @return
+	 */
+	Joomla.isChecked = function( isitchecked, form ) {
+		if ( typeof form  === 'undefined' ) {
+			form = document.getElementById( 'adminForm' );
+		}
+
+		form.boxchecked.value = isitchecked ? parseInt(form.boxchecked.value) + 1 : parseInt(form.boxchecked.value) - 1;
+
+		// If we don't have a checkall-toggle, done.
+		if ( !form.elements[ 'checkall-toggle' ] ) return;
+
+		// Toggle main toggle checkbox depending on checkbox selection
+		var c = true,
+			i, e, n;
+
+		for ( i = 0, n = form.elements.length; i < n; i++ ) {
+			e = form.elements[ i ];
+
+			if ( e.type == 'checkbox' && e.name != 'checkall-toggle' && !e.checked ) {
+				c = false;
+				break;
+			}
+		}
+
+		form.elements[ 'checkall-toggle' ].checked = c;
+	};
+
+	/**
+	 * USED IN: libraries/joomla/html/toolbar/button/help.php
+	 *
+	 * Pops up a new window in the middle of the screen
+	 */
+	Joomla.popupWindow = function( mypage, myname, w, h, scroll ) {
+		var winl = ( screen.width - w ) / 2,
+			wint = ( screen.height - h ) / 2,
+			winprops = 'height=' + h +
+				',width=' + w +
+				',top=' + wint +
+				',left=' + winl +
+				',scrollbars=' + scroll +
+				',resizable';
+
+		window.open( mypage, myname, winprops )
+			.window.focus();
+	};
+
+	/**
+	 * USED IN: libraries/joomla/html/html/grid.php
+	 * In other words, on any reorderable table
+	 */
+	Joomla.tableOrdering = function( order, dir, task, form ) {
+		if ( typeof form  === 'undefined' ) {
+			form = document.getElementById( 'adminForm' );
+		}
+
+		form.filter_order.value = order;
+		form.filter_order_Dir.value = dir;
+		Joomla.submitform( task, form );
+	};
+
+	/**
+	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
+	 *
+	 * Writes a dynamically generated list
+	 *
+	 * @param string
+	 *          The parameters to insert into the <select> tag
+	 * @param array
+	 *          A javascript array of list options in the form [key,value,text]
+	 * @param string
+	 *          The key to display for the initial state of the list
+	 * @param string
+	 *          The original key that was selected
+	 * @param string
+	 *          The original item value that was selected
+	 * @param string
+	 *          The elem where the list will be written
+	 */
+	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+		var html = '<select ' + selectParams + '>',
+			hasSelection = key == orig_key,
+			i = 0,
+			selected, x, item;
+
+		for ( x in source ) {
+			if (!source.hasOwnProperty(x)) { continue; }
+
+			item = source[ x ];
+
+			if ( item[ 0 ] != key ) { continue; }
+
+			selected = '';
+
+			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
+				selected = 'selected="selected"';
+			}
+
+			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
+
+			i++;
+		}
+		html += '</select>';
+
+		if (element) {
+			element.innerHTML = html;
+		} else {
+			document.writeln( html );
+		}
+	};
+
+	/**
+	 * USED IN: administrator/components/com_content/views/article/view.html.php
+	 * actually, probably not used anywhere.
+	 *
+	 * Changes a dynamically generated list
+	 *
+	 * @param string
+	 *          The name of the list to change
+	 * @param array
+	 *          A javascript array of list options in the form [key,value,text]
+	 * @param string
+	 *          The key to display
+	 * @param string
+	 *          The original key that was selected
+	 * @param string
+	 *          The original item value that was selected
+	 */
+	window.changeDynaList = function ( listname, source, key, orig_key, orig_val ) {
+		var list = document.adminForm[ listname ],
+			hasSelection = key == orig_key,
+			i, x, item, opt;
+
+		// empty the list
+		while ( list.firstChild ) list.removeChild( list.firstChild );
+
+		i = 0;
+
+		for ( x in source ) {
+			if (!source.hasOwnProperty(x)) { continue; }
+
+			item = source[x];
+
+			if ( item[ 0 ] != key ) { continue; }
+
+			opt = new Option();
+			opt.value = item[ 1 ];
+			opt.text = item[ 2 ];
+
+			if ( ( hasSelection && orig_val == opt.value ) || (!hasSelection && i === 0) ) {
+				opt.selected = true;
+			}
+
+			list.options[ i++ ] = opt;
+		}
+
+		list.length = i;
+	};
+
+	/**
+	 * USED IN: administrator/components/com_menus/views/menus/tmpl/default.php
+	 * Probably not used at all
+	 *
+	 * @param radioObj
+	 * @return
+	 */
+	// return the value of the radio button that is checked
+	// return an empty string if none are checked, or
+	// there are no radio buttons
+	window.radioGetCheckedValue = function ( radioObj ) {
+		if ( !radioObj ) { return ''; }
+
+		var n = radioObj.length,
+			i;
+
+		if ( n === undefined ) {
+			return radioObj.checked ? radioObj.value : '';
+		}
+
+		for ( i = 0; i < n; i++ ) {
+			if ( radioObj[ i ].checked ) {
+				return radioObj[ i ].value;
+			}
+		}
+
+		return '';
+	};
+
+	/**
+	 * USED IN: administrator/components/com_users/views/mail/tmpl/default.php
+	 * Let's get rid of this and kill it
+	 *
+	 * @param frmName
+	 * @param srcListName
+	 * @return
+	 */
+	window.getSelectedValue = function ( frmName, srcListName ) {
+		var srcList = document[ frmName ][ srcListName ],
+			i = srcList.selectedIndex;
+
+		if ( i !== null && i > -1 ) {
+			return srcList.options[ i ].value;
+		} else {
+			return null;
+		}
+	};
+
+	/**
+	 * USED IN: all over :)
+	 *
+	 * @param id
+	 * @param task
+	 * @return
+	 */
+	window.listItemTask = function ( id, task ) {
+		var f = document.adminForm,
+			i = 0, cbx,
+			cb = f[ id ];
+
+		if ( !cb ) return false;
+
+		while ( true ) {
+			cbx = f[ 'cb' + i ];
+
+			if ( !cbx ) break;
+
+			cbx.checked = false;
+
+			i++;
+		}
+
+		cb.checked = true;
+		f.boxchecked.value = 1;
+		window.submitform( task );
+
+		return false;
+	};
+
+	/**
+	 * Default function. Usually would be overriden by the component
+	 *
+	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
+	 */
+	window.submitbutton = function ( pressbutton ) {
+		Joomla.submitbutton( pressbutton );
+	};
+
+	/**
+	 * Submit the admin form
+	 *
+	 * @deprecated  12.1 This function will be removed in a future version. Use Joomla.submitform() instead.
+	 */
+	window.submitform = function ( pressbutton ) {
+		Joomla.submitform(pressbutton);
+	};
+
+	// needed for Table Column ordering
+	/**
+	 * USED IN: libraries/joomla/html/html/grid.php
+	 * There's a better way to do this now, can we try to kill it?
+	 */
+	window.saveorder = function ( n, task ) {
+		window.checkAll_button( n, task );
+	};
+
+	/**
+	 * Checks all the boxes unless one is missing then it assumes it's checked out.
+	 * Weird. Probably only used by ^saveorder
+	 *
+	 * @param   integer  n     The total number of checkboxes expected
+	 * @param   string   task  The task to perform
+	 *
+	 * @return  void
+	 */
+	window.checkAll_button = function ( n, task ) {
+		task = task ? task : 'saveorder';
+
+		var j, box;
+
+		for ( j = 0; j <= n; j++ ) {
+			box = document.adminForm[ 'cb' + j ];
+
+			if ( box ) {
+				box.checked = true;
+			} else {
+				alert( "You cannot change the order of items, as an item in the list is `Checked Out`" );
+				return;
+			}
+		}
+
+		Joomla.submitform( task );
+	};
+
+	/**
+	 * Add Joomla! loading image layer.
+	 *
+	 * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+	 *          /installation/template/js/installation.js
+	 *
+	 * @param   string  task           The task to do [load, show, hide] (defaults to show).
+	 * @param   object  parentElement  The HTML element where we are appending the layer (defaults to body).
+	 *
+	 * @return  object  The HTML loading layer element.
+	 *
+	 * @since  3.6.0
+	 */
+	Joomla.loadingLayer = function(task, parentElement) {
+		// Set default values.
+		task          = task || 'show';
+		parentElement = parentElement || document.body;
+
+		// Create the loading layer (hidden by default).
+		if (task == 'load')
+		{
+			// Gets the site base path from the body element (defaults to empty - no subfolder)
+			var basePath = document.getElementsByTagName('body')[0].getAttribute('data-basepath') || '';
+
+			var loadingDiv = document.createElement('div');
+
+			loadingDiv.id = 'loading-logo';
+
+			// The loading layer CSS styles are JS hardcoded so they can be used without adding CSS.
+
+			// Loading layer style and positioning.
+			loadingDiv.style['position']              = 'fixed';
+			loadingDiv.style['top']                   = '0';
+			loadingDiv.style['left']                  = '0';
+			loadingDiv.style['width']                 = '100%';
+			loadingDiv.style['height']                = '100%';
+			loadingDiv.style['opacity']               = '0.8';
+			loadingDiv.style['filter']                = 'alpha(opacity=80)';
+			loadingDiv.style['overflow']              = 'hidden';
+			loadingDiv.style['z-index']               = '10000';
+			loadingDiv.style['display']               = 'none';
+			loadingDiv.style['background-color']      = '#fff';
+
+			// Loading logo positioning.
+			loadingDiv.style['background-image']      = 'url("' + basePath + '/media/jui/images/ajax-loader.gif")';
+			loadingDiv.style['background-position']   = 'center';
+			loadingDiv.style['background-repeat']     = 'no-repeat';
+			loadingDiv.style['background-attachment'] = 'fixed';
+
+			parentElement.appendChild(loadingDiv);
+		}
+		// Show or hide the layer.
+		else
+		{
+			if (!document.getElementById('loading-logo'))
+			{
+				Joomla.loadingLayer('load', parentElement);
+			}
+
+			document.getElementById('loading-logo').style['display'] = (task == 'show') ? 'block' : 'none';
+		}
+
+		return document.getElementById('loading-logo');
+	};
+
+}( Joomla, document ));

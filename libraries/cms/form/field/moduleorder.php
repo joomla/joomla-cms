@@ -27,13 +27,12 @@ class JFormFieldModuleOrder extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string  Empty div that will be replaced by the included javascript
 	 *
 	 * @since   1.6
 	 */
 	protected function getInput()
 	{
-		$html = array();
 		$attr = '';
 
 		// Initialize some field attributes.
@@ -44,55 +43,51 @@ class JFormFieldModuleOrder extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		$html[] = '<script type="text/javascript">';
-
 		$ordering = $this->form->getValue('ordering');
-		$position = $this->form->getValue('position');
 		$clientId = $this->form->getValue('client_id');
+		$name     = $this->name;
+		$id       = $this->id;
+		$token    = JSession::getFormToken() .'=1';
 
-		$html[] = 'var originalOrder = "' . $ordering . '";';
-		$html[] = 'var originalPos = "' . $position . '";';
-		$html[] = 'var orders = new Array();';
+		JHtml::_('jquery.framework');
 
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('position, ordering, title')
-			->from('#__modules')
-			->where('client_id = ' . (int) $clientId)
-			->order('ordering');
-
-		$db->setQuery($query);
-
-		try
-		{
-			$orders = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-
-			return '';
-		}
-
-		$orders2 = array();
-
-		for ($i = 0, $n = count($orders); $i < $n; $i++)
-		{
-			if (!isset($orders2[$orders[$i]->position]))
-			{
-				$orders2[$orders[$i]->position] = 0;
+		JFactory::getDocument()->addScriptDeclaration(
+<<<JS
+		jQuery(document).ready(function($) {
+			var client_id = "$clientId";
+			var elem = document.getElementById("parent_$id");
+			var originalOrder = "$ordering";
+			var originalPos = $("#jform_position").chosen().val();
+			var orders = new Array();
+			var getNewOrder = function() {
+				$.ajax({
+					type: "GET",
+					dataType: "json",
+					url: "index.php?option=com_modules&task=module.orderPosition&$token",
+					data: { "client_id": client_id,
+							"position": originalPos
+					 },
+					success:function(response) {
+					 	console.log(response.data);
+						for (key in response.data) {
+							orders[key] =  response.data[key].split(',');
+						}
+						writeDynaList('name="$name" id="$id"$attr', orders, originalPos, originalPos, originalOrder, elem);
+					}
+				});
 			}
+			getNewOrder();
 
-			$orders2[$orders[$i]->position]++;
-			$ord = $orders2[$orders[$i]->position];
-			$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, addslashes($orders[$i]->title));
+			$("#jform_position").chosen().change( function() {
+				originalPos = $("#jform_position").chosen().val();
 
-			$html[] = 'orders[' . $i . '] =  new Array("' . $orders[$i]->position . '","' . $ord . '","' . $title . '");';
-		}
+				getNewOrder();
+			});
+		});
 
-		$html[] = 'writeDynaList(\'name="' . $this->name . '" id="' . $this->id . '"' . $attr . '\', orders, originalPos, originalPos, originalOrder);';
-		$html[] = '</script>';
+JS
+		);
 
-		return implode("\n", $html);
+		return '<div id="parent_' . $id . '" ></div>';
 	}
 }
