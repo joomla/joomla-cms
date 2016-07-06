@@ -247,6 +247,20 @@ body .navbar-fixed-top {
 			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 		}
 	}
+	.nav > li > .dropdown-menu:after {
+		display: none;
+	}
+	.nav > .dropdown.open:after {
+		content: '';
+		display: inline-block;
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-bottom: 6px solid #fff;
+		position: absolute;
+		top: 25px;
+		left: 10px;
+		z-index: 1001;
+	}
 	.empty-nav {
 		display: none;
 	}
