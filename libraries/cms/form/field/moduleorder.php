@@ -47,7 +47,7 @@ class JFormFieldModuleOrder extends JFormField
 		$clientId = $this->form->getValue('client_id');
 		$name     = $this->name;
 		$id       = $this->id;
-		$token    = JSession::getFormToken() .'=1';
+		$token    = JSession::getFormToken() . '=1';
 
 		JHtml::_('jquery.framework');
 
