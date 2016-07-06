@@ -26,10 +26,10 @@ $item_heading = $params->get('item_heading', 'h4');
 <?php endif; ?>
 
 <?php if (!$params->get('intro_only')) : ?>
-	<?php echo $item->afterDisplayTitle; ?>
+    <?php echo $item->afterDisplayTitle; ?>
 <?php endif; ?>
 
-<?php echo $item->beforeDisplayContent; ?>
+<?php echo $item->beforeDisplayContent; ?>    
 
 <?php echo $item->introtext; ?>
 
