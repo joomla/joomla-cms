@@ -447,9 +447,7 @@ class JPaginationTest extends TestCase
 
 		$result = $pagination->getPagesLinks();
 
-		$replaces = array("\n", "\r"," ", "\t");
-
-		$this->assertEquals(str_replace($replaces, '', $result), str_replace($replaces, '', $expected), 'The expected output of the pagination is incorrect');
+		$this->assertXmlStringEqualsXmlString($result, $expected, 'The expected output of the pagination is incorrect');
 
 		unset($pagination);
 	}
@@ -653,9 +651,7 @@ class JPaginationTest extends TestCase
 
 		$string = TestReflection::invoke($pagination, '_list_render', $list);
 
-		$replaces = array("\n", "\r"," ", "\t");
-
-		$this->assertEquals(str_replace($replaces, '', $string), str_replace($replaces, '', $expected), 'The list render method is not outputting the expected results');
+		$this->assertXmlStringEqualsXmlString($string, $expected, 'The list render method is not outputting the expected results');
 
 		unset($pagination);
 	}
