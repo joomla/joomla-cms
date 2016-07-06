@@ -103,7 +103,7 @@ abstract class JHtmlEmail
 		};
 		";
 
-		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
 		{
 			// Use inline script for ajax calls
 			$inlineScript = "<script>" . $script . "</script>";
