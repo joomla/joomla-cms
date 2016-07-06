@@ -89,7 +89,6 @@ abstract class JHtmlEmail
 			$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += addy" . $rand . ";";
 		}
 
-		$input        = JFactory::getApplication()->input;
 		$inlineScript = '';
 		$script       = "
 		document.onreadystatechange = function () {
@@ -104,7 +103,7 @@ abstract class JHtmlEmail
 		};
 		";
 
-		if ($input->getCmd('option') == 'com_ajax' || $input->getCmd('tmpl') == 'component')
+		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
 		{
 			// Use inline script for ajax calls
 			$inlineScript = "<script>" . $script . "</script>";
