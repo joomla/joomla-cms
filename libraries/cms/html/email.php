@@ -89,8 +89,9 @@ abstract class JHtmlEmail
 			$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += addy" . $rand . ";";
 		}
 
-		JFactory::getDocument()->addScriptDeclaration(
-		"
+		$input        = JFactory::getApplication()->input;
+		$inlineScript = '';
+		$script       = "
 		document.onreadystatechange = function () {
 			if (document.readyState == 'interactive') {
 				document.getElementById('cloak" . $rand . "').innerHTML = '';
@@ -101,10 +102,19 @@ abstract class JHtmlEmail
 				$tmpScript
 			}
 		};
-		"
-		);
+		";
 
-		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>';
+		if ($input->getCmd('option') == 'com_ajax' || $input->getCmd('tmpl') == 'component')
+		{
+			// Use inline script for ajax calls
+			$inlineScript = "<script>" . $script . "</script>";
+		}
+		else
+		{
+			JFactory::getDocument()->addScriptDeclaration($script);
+		}
+
+		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
 	}
 
 	/**
