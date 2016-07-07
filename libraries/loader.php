@@ -62,7 +62,13 @@ abstract class JLoader
 	 * @var    array
 	 * @since  12.3
 	 */
-	protected static $namespaces = array();
+	protected static $namespaces = array(
+		'Admin' => array(JPATH_ROOT),
+		'Administrator' => array(JPATH_ROOT),
+		'Components' => array(JPATH_ROOT),
+		'Libriaries' => array(JPATH_ROOT),
+		'Plugins' => array(JPATH_ROOT)
+	);
 
 	/**
 	 * Method to discover classes of a given type in a given path.
@@ -474,6 +480,24 @@ abstract class JLoader
 		{
 			if (strpos($class, $ns) === 0)
 			{
+				if(in_array($ns,array('Admin','Administrator')))
+				{
+					$classPath = explode(DIRECTORY_SEPARATOR,$classPath);
+					if(stripos($classPath[2], 'com_') !== 0)
+					{
+						$classPath[2] = 'com_'.$classPath[2]; 	
+					}
+					$classPath = implode(DIRECTORY_SEPARATOR, $classPath);
+				}elseif($ns=='Components')
+				{
+					$classPath = explode(DIRECTORY_SEPARATOR,$classPath);
+					if(stripos($classPath[1], 'com_') !== 0)
+					{
+						$classPath[1] = 'com_'.$classPath[1];
+					}
+					$classPath = implode(DIRECTORY_SEPARATOR, $classPath);
+				}
+				
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
