@@ -409,7 +409,7 @@ abstract class JHtmlBehavior
 			SqueezeBox.close();
 		};
 		// Patch for tinyMCE
-		if (tinyMCE != undefined) {
+		if (typeof tinyMCE != 'undefined' && tinyMCE) {
 			var oldClose = jModalClose;
 			jModalClose = function () {
 				oldClose.apply(this, arguments);
