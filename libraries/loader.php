@@ -479,18 +479,19 @@ abstract class JLoader
 		{
 			if (strpos($class, $ns) === 0)
 			{
-				if($ns=='Admin')
+				if ($ns=='Admin')
 				{
-					$classPath = explode(DIRECTORY_SEPARATOR,$classPath);
-					if(stripos($classPath[2], 'com_') !== 0)
+					$classPath = explode(DIRECTORY_SEPARATOR, $classPath);
+					if (stripos($classPath[2], 'com_') !== 0)
 					{
 						$classPath[2] = 'com_'.$classPath[2]; 	
 					}
 					$classPath = implode(DIRECTORY_SEPARATOR, $classPath);
-				}elseif($ns=='Components')
+				}
+				elseif ($ns=='Components')
 				{
-					$classPath = explode(DIRECTORY_SEPARATOR,$classPath);
-					if(stripos($classPath[1], 'com_') !== 0)
+					$classPath = explode(DIRECTORY_SEPARATOR, $classPath);
+					if (stripos($classPath[1], 'com_') !== 0)
 					{
 						$classPath[1] = 'com_'.$classPath[1];
 					}
