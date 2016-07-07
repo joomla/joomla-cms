@@ -42,7 +42,7 @@ class Content extends \AcceptanceTester
 	public function iShouldSeeTheMessage($message)
 	{
 		$I = $this;
-		$I->waitForText($message, 60, AdminPage::$systemMessageContainer);
+		$I->waitForText($message, TIMEOUT, AdminPage::$systemMessageContainer);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
