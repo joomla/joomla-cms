@@ -296,6 +296,7 @@
 					<option value="a.publish_down">MOD_ARTICLES_CATEGORY_OPTION_FINISHPUBLISHING_VALUE</option>
 					<option value="random">MOD_ARTICLES_CATEGORY_OPTION_RANDOM_VALUE</option>
 					<option value="rating_count">MOD_ARTICLES_CATEGORY_OPTION_VOTE_VALUE</option>
+					<option value="rating">MOD_ARTICLES_CATEGORY_OPTION_RATING_VALUE</option>
 				</field>
 
 				<field
