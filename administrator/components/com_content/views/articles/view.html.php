@@ -42,6 +42,7 @@ class ContentViewArticles extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->params        = JComponentHelper::getParams('com_content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
