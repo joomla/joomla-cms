@@ -18,7 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = $this->escape($this->state->get('list.fullordering', 'a.id'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
@@ -27,6 +27,21 @@ if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+}
+
+$vote = false;
+
+if ((JPluginHelper::isEnabled('content', 'vote')) && ($this->params->get('show_vote', 0)))
+{
+	$vote = true;
+}
+
+$votes  = ($listOrder == 'rating_count DESC')||($listOrder == 'rating_count ASC');
+$rating = ($listOrder == 'rating DESC')||($listOrder == 'rating ASC');
+
+if (!(($votes)||($rating)))
+{
+	$vote = false;
 }
 
 $assoc = JLanguageAssociations::isEnabled();
@@ -89,6 +104,16 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 						</th>
+					<?php if ($vote) : ?>
+						<?php $columns++; ?>
+						<th width="1%" class="nowrap hidden-phone">
+						<?php if($rating) : ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+						<?php else : ?>
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+						<?php endif;?>
+						</th>
+					<?php endif;?>	
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -206,11 +231,19 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo (int) $item->hits; ?>
 							</span>
 						</td>
-						<td class="hidden-phone">
-							<span class="badge badge-success" title="<?php echo (int) $item->rating; ?>">
-								<?php echo (int) $item->rating_count; ?>
-							</span>
-						</td>
+						<?php if ($vote) : ?>
+							<td class="hidden-phone">
+								<?php if($rating) : ?>
+									<span class="badge badge-success" title="<?php echo JText::_('JGLOBAL_VOTES') . (int) $item->rating_count; ?>">
+									<?php echo (int) $item->rating; ?>
+									</span>
+								<?php else: ?>
+									<span class="badge badge-success" title="<?php echo JText::_('JGLOBAL_RATINGS') . (int) $item->rating; ?>">
+									<?php echo (int) $item->rating_count; ?>
+									</span>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
