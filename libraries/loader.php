@@ -64,9 +64,8 @@ abstract class JLoader
 	 */
 	protected static $namespaces = array(
 		'Admin' => array(JPATH_ROOT),
-		'Administrator' => array(JPATH_ROOT),
 		'Components' => array(JPATH_ROOT),
-		'Libriaries' => array(JPATH_ROOT),
+		'Libraries' => array(JPATH_ROOT),
 		'Plugins' => array(JPATH_ROOT)
 	);
 
@@ -480,7 +479,7 @@ abstract class JLoader
 		{
 			if (strpos($class, $ns) === 0)
 			{
-				if(in_array($ns,array('Admin','Administrator')))
+				if($ns=='Admin')
 				{
 					$classPath = explode(DIRECTORY_SEPARATOR,$classPath);
 					if(stripos($classPath[2], 'com_') !== 0)
