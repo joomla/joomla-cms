@@ -60,10 +60,10 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @return  void
 	 */
-	public function waitForPageTitle($title, $timeout = 20)
+	public function waitForPageTitle($title)
 	{
 		$I = $this;
-		$I->waitForText($title, $timeout, AdminPage::$pageTitle);
+		$I->waitForText($title, TIMEOUT, AdminPage::$pageTitle);
 	}
 
 	/**
@@ -229,10 +229,10 @@ class AcceptanceTester extends \Codeception\Actor
 		$I = $this;
 		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
 		$this->comment("I click on Top Right corner toggle to Logout from Admin");
-		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], 60);
+		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], TIMEOUT);
 		$I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
-		$I->waitForElement(['id' => 'mod-login-username'], 60);
-		$I->waitForText('Log in', 60, ['xpath' => "//fieldset[@class='loginform']//button"]);
+		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
+		$I->waitForText('Log in', TIMEOUT, ['xpath' => "//fieldset[@class='loginform']//button"]);
 
 	}
 
@@ -247,7 +247,6 @@ class AcceptanceTester extends \Codeception\Actor
 		$I->comment("Trying to select the $option from the $label");
 		$label = $webDriver->findField(['xpath' => "//label[contains(normalize-space(string(.)), '" . $label . "')]"]);
 		$radioId = $label->getAttribute('for');
-
 		$I->click(['xpath' => "//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]"]);
 	}
 }
