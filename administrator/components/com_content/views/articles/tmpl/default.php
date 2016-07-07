@@ -101,9 +101,6 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-						</th>
 					<?php if ($vote) : ?>
 						<?php $columns++; ?>
 						<th width="1%" class="nowrap hidden-phone">
