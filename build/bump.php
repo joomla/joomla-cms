@@ -52,6 +52,26 @@ $languageXmlFiles = array(
 
 $languagePackXmlFile = '/administrator/manifests/packages/pkg_en-GB.xml';
 
+$antJobFile = '/build.xml';
+
+$readMeFiles = array(
+			'/README.md',
+			'/README.txt',
+			);
+
+// Change copyright date exclusions.
+$copyrightDateExcludeDirectories = array(
+			'/libraries/vendor/',
+			'/libraries/phputf8/',
+			'/libraries/php-encryption/',
+			'/libraries/phpass/',
+			'/libraries/idna_convert/',
+			'/libraries/fof/',
+			);
+
+$copyrightDateExcludeFiles = array(
+			);
+
 // Check arguments (exit if incorrect cli arguments).
 $opts = getopt("v:c:");
 
@@ -216,6 +236,83 @@ if (file_exists($rootPath . $languagePackXmlFile))
 	$fileContents = preg_replace('#<version>[^<]*</version>#', '<version>' . $version['release'] . '.1</version>', $fileContents);
 	$fileContents = preg_replace('#<creationDate>[^<]*</creationDate>#', '<creationDate>' . $version['credate'] . '</creationDate>', $fileContents);
 	file_put_contents($rootPath . $languagePackXmlFile, $fileContents);
+}
+
+// Updates the version for the `phpdoc` task in the Ant job file.
+if (file_exists($rootPath . $antJobFile))
+{
+	$fileContents = file_get_contents($rootPath . $antJobFile);
+	$fileContents = preg_replace('#<arg value="Joomla! CMS [^ ]* API" />#', '<arg value="Joomla! CMS ' . $version['main'] . ' API" />', $fileContents);
+	file_put_contents($rootPath . $antJobFile, $fileContents);
+}
+
+// Updates the version in readme files.
+foreach ($readMeFiles as $readMeFile)
+{
+	if (file_exists($rootPath . $readMeFile))
+	{
+		$fileContents = file_get_contents($rootPath . $readMeFile);
+		$fileContents = preg_replace('#Joomla! [0-9]+\.[0-9]+ (|\[)version#', 'Joomla! ' . $version['main'] . ' $1version', $fileContents);
+		$fileContents = preg_replace('#Joomla_[0-9]+\.[0-9]+_version#', 'Joomla_' . $version['main'] . '_version', $fileContents);
+		file_put_contents($rootPath . $readMeFile, $fileContents);
+	}
+}
+
+// Updates the copyright date in core files.
+$changedFiles = 0;
+$year         = date('Y');
+$directory    = new \RecursiveDirectoryIterator($rootPath);
+$iterator     = new \RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
+
+foreach ($iterator as $file)
+{
+	if ($file->isFile())
+	{
+		$filePath     = $file->getPathname();
+		$relativePath = str_replace($rootPath, '', $filePath);
+
+		// Exclude certain extensions.
+		if (preg_match('#\.(png|jpeg|jpg|gif|bmp|ico|webp|svg|woff|woff2|ttf|eot)$#', $filePath))
+		{
+			continue;
+		}
+
+		// Exclude certain files.
+		if (in_array($relativePath, $copyrightDateExcludeFiles))
+		{
+			continue;
+		}
+
+		// Exclude certain directories.
+		$continue = true;
+
+		foreach ($copyrightDateExcludeDirectories as $excludeDirectory)
+		{
+			if (preg_match('#^' . preg_quote($excludeDirectory) . '#', $relativePath))
+			{
+				$continue = false;
+				break;
+			}
+		}
+
+		if ($continue)
+		{
+			$fileContents = file_get_contents($filePath);
+
+			if (preg_match('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', $fileContents) && !preg_match('#2005\s+-\s+' . $year. '\s+Open\s+Source\s+Matters#', $fileContents))
+			{
+				$fileContents = preg_replace('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', '2005 - ' . $year. ' Open Source Matters', $fileContents);
+				file_put_contents($filePath, $fileContents);
+				$changedFiles++;
+			}
+		}
+	}
+}
+
+if ($changedFiles > 0)
+{
+	echo '- Copyright Date changed in ' . $changedFiles . ' files.' . PHP_EOL;
+	echo PHP_EOL;
 }
 
 echo 'Version bump complete!' . PHP_EOL;

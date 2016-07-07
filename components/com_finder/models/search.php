@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 // Register dependent classes.
 define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
 JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
@@ -979,7 +981,7 @@ class FinderModelSearch extends JModelList
 
 		// Sanitize the link ids.
 		$links = array_unique($links);
-		JArrayHelper::toInteger($links);
+		$links = ArrayHelper::toInteger($links);
 
 		// Push the link ids into cache.
 		$this->store($store, $links);

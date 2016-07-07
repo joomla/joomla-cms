@@ -21,7 +21,7 @@ class MediaViewMedia extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.0
 	 */
@@ -74,7 +74,7 @@ class MediaViewMedia extends JViewLegacy
 		// Set the titlebar text
 		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
-		// Add a upload button
+		// Add an upload button
 		if ($user->authorise('core.create', 'com_media'))
 		{
 			// Instantiate a new JLayoutFile instance and render the layout

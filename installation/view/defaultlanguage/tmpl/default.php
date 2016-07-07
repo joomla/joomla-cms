@@ -48,7 +48,6 @@ JS
 			<?php endif; ?>
 		</div>
 	</div>
-
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?></h3>
 	<hr class="hr-condensed" />
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_DESC'); ?></p>
@@ -87,8 +86,6 @@ JS
 			</div>
 		</div>
 	</div>
-
-
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_ADMINISTRATOR'); ?></h3>
 	<hr class="hr-condensed" />
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>

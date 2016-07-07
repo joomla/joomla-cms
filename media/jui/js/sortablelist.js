@@ -61,7 +61,7 @@
 
 				//Proceed nested list
 				if (nestedList){
-					root.hideChildrenNodes(ui.item.attr('item-id'));	
+					root.hideChildrenNodes(ui.item.attr('item-id'));
 					root.hideSameLevelChildrenNodes(ui.item.attr('level'));
 					$(tableWrapper).sortable('refresh');
 				}
@@ -217,36 +217,36 @@
 				if (ui.originalPosition.top > ui.position.top) //if item moved up
 				{
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.next()).attr('value')));
+						$('[name="order[]"]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.next()).attr('value')));
 					}
 					$(range).each(function () {
 						var _top = $(this).position().top;
 						if ( ui.item.get(0) !== $(this).get(0)){
 							if (_top > ui.item.position().top && _top < ui.originalPosition.top + ui.item.outerHeight()) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) + 1;
 								} else {
-									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) - 1;
 								}
 
-								$('[type=text]:hidden', $(this)).attr('value', newValue);
+								$('[name="order[]"]:hidden', $(this)).attr('value', newValue);
 							}
 						}
 					});
 				} else if (ui.originalPosition.top < ui.position.top) {
 					if (ui.item.position().top != ui.originalPosition.top){
-						$('[type=text]:hidden', ui.item).attr('value', parseInt($('[type=text]:hidden', ui.item.prev()).attr('value')));
+						$('[name="order[]"]:hidden', ui.item).attr('value', parseInt($('[name="order[]"]:hidden', ui.item.prev()).attr('value')));
 					}
 					$(range).each(function () {
 						var _top = $(this).position().top;
 						if ( ui.item.get(0) !== $(this).get(0)){
 							if (_top < ui.item.position().top && _top >= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
-									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) - 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) - 1;
 								} else {
-									var newValue = parseInt($('[type=text]:hidden', $(this)).attr('value')) + 1;
+									var newValue = parseInt($('[name="order[]"]:hidden', $(this)).attr('value')) + 1;
 								}
-								$('[type=text]:hidden', $(this)).attr('value', newValue);
+								$('[name="order[]"]:hidden', $(this)).attr('value', newValue);
 							}
 						}
 

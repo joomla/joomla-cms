@@ -51,6 +51,35 @@ class FinderHelper
 	}
 
 	/**
+	 * Gets the finder system plugin extension id.
+	 *
+	 * @return  int  The finder system plugin extension id.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function getFinderPluginId()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('content'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
+		$db->setQuery($query);
+
+		try
+		{
+			$result = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject  A JObject containing the allowed actions.

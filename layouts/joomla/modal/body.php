@@ -26,10 +26,21 @@ extract($displayData);
  *                             - url          string   URL of a resource to be inserted as an <iframe> inside the modal body
  *                             - height       string   height of the <iframe> containing the remote resource
  *                             - width        string   width of the <iframe> containing the remote resource
+ *                             - bodyHeight   int      Optional height of the modal body in viewport units (vh)
+ *                             - modalWidth   int      Optional width of the modal in viewport units (vh)
  * @param   string  $body      Markup for the modal body. Appended after the <iframe> if the url option is set
  *
  */
+
+$bodyClass = 'modal-body';
+
+$bodyHeight = isset($params['bodyHeight']) ? round((int) $params['bodyHeight'], -1) : '';
+
+if ($bodyHeight && $bodyHeight >= 20 && $bodyHeight < 90)
+{
+	$bodyClass .= ' jviewport-height' . $bodyHeight;
+}
 ?>
-<div class="modal-body">
+<div class="<?php echo $bodyClass; ?>">
 	<?php echo $body; ?>
 </div>

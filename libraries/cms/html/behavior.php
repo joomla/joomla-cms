@@ -662,7 +662,7 @@ abstract class JHtmlBehavior
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&amp;format=json';
+			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
 		}
 		else
 		{
@@ -705,6 +705,15 @@ abstract class JHtmlBehavior
 
 		if (isset(static::$loaded[__METHOD__][$sig]))
 		{
+			return;
+		}
+
+		$terms = array_filter($terms, 'strlen');
+
+		// Nothing to Highlight
+		if (empty($terms))
+		{
+			static::$loaded[__METHOD__][$sig] = true;
 			return;
 		}
 

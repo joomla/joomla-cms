@@ -127,7 +127,7 @@ class JStreamString
 	 *
 	 * @return  array
 	 *
-	 * @see     http://www.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @see     https://secure.php.net/manual/en/streamwrapper.stream-stat.php
 	 * @since   11.1
 	 */
 	public function stream_stat()
@@ -143,7 +143,7 @@ class JStreamString
 	 *
 	 * @return  array
 	 *
-	 * @see     http://php.net/manual/en/streamwrapper.url-stat.php
+	 * @see     https://secure.php.net/manual/en/streamwrapper.url-stat.php
 	 * @since   11.1
 	 */
 	public function url_stat($path, $flags = 0)
@@ -179,7 +179,7 @@ class JStreamString
 	 *
 	 * @since   11.1
 	 *
-	 * @see     http://www.php.net/manual/en/streamwrapper.stream-read.php
+	 * @see     https://secure.php.net/manual/en/streamwrapper.stream-read.php
 	 */
 	public function stream_read($count)
 	{
