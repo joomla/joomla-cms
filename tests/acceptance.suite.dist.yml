@@ -16,7 +16,7 @@ modules:
             browser: 'firefox'
             window_size: 1024x768
             capabilities:
-              unexpectedAlertBehaviour: 'accept'
+            unexpectedAlertBehaviour: 'accept'
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
