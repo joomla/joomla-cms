@@ -484,7 +484,7 @@ abstract class JLoader
 					$classPath = explode(DIRECTORY_SEPARATOR, $classPath);
 					if (stripos($classPath[2], 'com_') !== 0)
 					{
-						$classPath[2] = 'com_'.$classPath[2]; 	
+						$classPath[2] = 'com_' . $classPath[2]; 	
 					}
 					$classPath = implode(DIRECTORY_SEPARATOR, $classPath);
 				}
@@ -493,7 +493,7 @@ abstract class JLoader
 					$classPath = explode(DIRECTORY_SEPARATOR, $classPath);
 					if (stripos($classPath[1], 'com_') !== 0)
 					{
-						$classPath[1] = 'com_'.$classPath[1];
+						$classPath[1] = 'com_' . $classPath[1];
 					}
 					$classPath = implode(DIRECTORY_SEPARATOR, $classPath);
 				}
