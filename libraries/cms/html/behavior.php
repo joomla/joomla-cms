@@ -407,7 +407,22 @@ abstract class JHtmlBehavior
 		});
 		function jModalClose() {
 			SqueezeBox.close();
-		}"
+		};
+		// Patch for tinyMCE
+		if (tinyMCE != undefined) {
+			var oldClose = jModalClose;
+			jModalClose = function () {
+				oldClose.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
+
+			var oldSqueezeBox = SqueezeBox.close;
+			SqueezeBox.close = function () {
+				oldSqueezeBox.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
+		}
+		"
 		);
 
 		// Set static array
