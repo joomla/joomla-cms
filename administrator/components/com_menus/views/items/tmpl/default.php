@@ -16,27 +16,33 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user      = JFactory::getUser();
-$app       = JFactory::getApplication();
-$userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
-$ordering  = ($listOrder == 'a.lft');
-$canOrder  = $user->authorise('core.edit.state',	'com_menus');
-$saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$menuType  = (array) $app->getUserState('com_menus.items.menutype');
+$user       = JFactory::getUser();
+$app        = JFactory::getApplication();
+$userId     = $user->get('id');
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$ordering   = ($listOrder == 'a.lft');
+$canOrder   = $user->authorise('core.edit.state',	'com_menus');
+$saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$menuTypeId = (int) $this->state->get('menutypeid');
+$menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
 
-if ($saveOrder && !empty($menuType))
+if ($saveOrder && $menuType)
 {
 	$saveOrderingUrl = 'index.php?option=com_menus&task=items.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 
 $assoc = JLanguageAssociations::isEnabled();
-$colSpan = ($assoc) ? 9 : 8;
+$colSpan = ($assoc) ? 10 : 9;
+
+if ($menuType == '')
+{
+	$colSpan--;
+}
 ?>
 <?php // Set up the filter bar. ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=items'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -57,7 +63,7 @@ $colSpan = ($assoc) ? 9 : 8;
 			<table class="table table-striped" id="itemList">
 				<thead>
 					<tr>
-						<?php if (!empty($menuType)) : ?>
+						<?php if ($menuType) : ?>
 							<th width="1%" class="nowrap center hidden-phone">
 								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 							</th>
@@ -105,10 +111,10 @@ $colSpan = ($assoc) ? 9 : 8;
 				<?php
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
-					$canCreate  = $user->authorise('core.create',     'com_menus');
-					$canEdit    = $user->authorise('core.edit',       'com_menus');
+					$canCreate  = $user->authorise('core.create',     'com_menus.menu.' . $menuTypeId);
+					$canEdit    = $user->authorise('core.edit',       'com_menus.menu.' . $menuTypeId);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-					$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
+					$canChange  = $user->authorise('core.edit.state', 'com_menus.menu.' . $menuTypeId) && $canCheckin;
 
 					// Get the parents of item for sorting
 					if ($item->level > 1)
@@ -139,7 +145,7 @@ $colSpan = ($assoc) ? 9 : 8;
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
-						<?php if (!empty($menuType)) : ?>
+						<?php if ($menuType) : ?>
 							<td class="order nowrap center hidden-phone">
 								<?php
 								$iconClass = '';
@@ -168,7 +174,8 @@ $colSpan = ($assoc) ? 9 : 8;
 							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
 						</td>
 						<td>
-							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
+							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+							<?php echo $prefix; ?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
@@ -189,9 +196,9 @@ $colSpan = ($assoc) ? 9 : 8;
 								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 							<?php endif; ?>
 							</span>
-							<div class="small" title="<?php echo $this->escape($item->path);?>">
-								<?php echo str_repeat('<span class="gtr">&mdash;</span>', $item->level - 1) ?>
-								<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
+							<div title="<?php echo $this->escape($item->path); ?>">
+								<?php echo $prefix; ?>
+								<span class="small"  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
 						</td>

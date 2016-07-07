@@ -75,7 +75,7 @@ jimport('joomla.html.html.bootstrap');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS')); ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -118,7 +118,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM')); ?>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('presentation_style') == 'plain'): ?>
@@ -147,7 +147,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php endif; ?>
 
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES')); ?>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -192,7 +192,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION')); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>';  ?>

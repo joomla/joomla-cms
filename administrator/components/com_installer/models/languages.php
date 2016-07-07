@@ -52,13 +52,11 @@ class InstallerModelLanguages extends JModelList
 		// Get the extension_id of the en-GB package.
 		$db        = $this->getDbo();
 		$extQuery  = $db->getQuery(true);
-		$extType   = 'language';
-		$extElem   = 'en-GB';
 
 		$extQuery->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote($extType))
-			->where($db->quoteName('element') . ' = ' . $db->quote($extElem))
+			->where($db->quoteName('type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('pkg_en-GB'))
 			->where($db->quoteName('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
@@ -121,12 +119,11 @@ class InstallerModelLanguages extends JModelList
 		// This where clause will avoid to list languages already installed.
 		$query->where($db->quoteName('extension_id') . ' = 0');
 
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (!empty($search))
+		// Filter by search in title and language tag.
+		if ($search = $this->getState('filter.search'))
 		{
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ')');
+			$query->where('(LOWER(name) LIKE ' . strtolower($search) . ' OR LOWER(element) LIKE ' . strtolower($search) . ')');
 		}
 
 		// Add the list ordering clause.
@@ -304,7 +301,7 @@ class InstallerModelLanguages extends JModelList
 			}
 
 			// Package installed successfully.
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', $language->name));
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_INSTALL_LANGUAGE_SUCCESS', $language->name));
 
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
@@ -321,7 +318,7 @@ class InstallerModelLanguages extends JModelList
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *

@@ -278,7 +278,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	}
 
 	/**
-	 * Load a associative array of values into the default namespace
+	 * Load an associative array of values into the default namespace
 	 *
 	 * @param   array    $array      Associative array of value to load
 	 * @param   boolean  $flattened  Load from a one-dimensional array

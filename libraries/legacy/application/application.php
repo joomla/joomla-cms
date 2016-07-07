@@ -830,7 +830,7 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
-	 * This method transliterates a string into an URL
+	 * This method transliterates a string into a URL
 	 * safe string or returns a URL safe UTF-8 string
 	 * based on the global configuration
 	 *

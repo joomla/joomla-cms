@@ -6,6 +6,7 @@
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
 		onchange="this.form.submit();"
+		accesstype="manage"
 		>
 		<option value="">COM_MENUS_SELECT_MENU</option>
 	</field>
