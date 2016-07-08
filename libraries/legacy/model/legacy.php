@@ -346,7 +346,8 @@ abstract class JModelLegacy extends JObject
 			$query->clear('limit')->clear('offset');
 		}
 
-		$this->getDbo()->setQuery($query)->execute();
+		$this->getDbo()->setQuery($query);
+		$this->getDbo()->execute();
 
 		return (int) $this->getDbo()->getNumRows();
 	}
