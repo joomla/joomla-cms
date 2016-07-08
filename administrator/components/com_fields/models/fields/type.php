@@ -78,7 +78,7 @@ class JFormFieldType extends JFormAbstractlist
 			foreach (JFolder::files($path, 'php', true, true) as $filePath)
 			{
 				$name = str_replace('.php', '', basename($filePath));
- 				if (in_array(strtolower($name), self::$blacklist))
+ 				if (in_array(strtolower($name), self::$BLACKLIST))
  				{
  					continue;
  				}
