@@ -109,6 +109,21 @@ class ContentHelperQuery
 				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
 				break;
 
+			case 'vote' :
+				$orderby = 'rating_count DESC ';
+				break;
+
+			case 'rvote' :
+				$orderby = 'rating_count ASC ';
+				break;
+
+			case 'rank' :
+				$orderby = 'rating DESC ';
+				break;
+
+			case 'rrank' :
+				$orderby = 'rating ASC ';
+				break;
 			default :
 				$orderby = 'a.ordering';
 				break;
