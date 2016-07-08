@@ -382,7 +382,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$field->Default = preg_replace("/(^(\(\(|\('|\(N'|\()|(('\)|\)\)|\))$))/i", '', $field->Default);
+				$field->Default = preg_replace("/(^(\(\(|\('|\(N'|\()|(('\)|(?<!\()\)\)|\))$))/i", '', $field->Default);
 				$result[$field->Field] = $field;
 			}
 		}
