@@ -264,6 +264,10 @@
 					<option value="rhits">JGLOBAL_LEAST_HITS</option>
 					<option value="random">JGLOBAL_RANDOM_ORDER</option>
 					<option value="order">JGLOBAL_ORDERING</option>
+					<option value="vote">JGLOBAL_VOTES_DESC</option>
+					<option value="rvote">JGLOBAL_VOTES_ASC</option>
+					<option value="rank">JGLOBAL_RATINGS_DESC</option>
+					<option value="rrank">JGLOBAL_RATINGS_ASC</option>
 				</field>
 
 				<field
