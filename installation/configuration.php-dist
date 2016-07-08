@@ -63,7 +63,7 @@ class JConfig {
 	public $mailer      = 'mail';
 	public $mailfrom    = '';
 	public $fromname    = '';
-	public $replyTo     = '';
+	public $replyto     = '';
 	public $replytoname = '';
 	public $sendmail    = '/usr/sbin/sendmail';
 	public $smtpauth    = '0';
