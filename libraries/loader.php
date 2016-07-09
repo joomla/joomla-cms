@@ -462,6 +462,7 @@ abstract class JLoader
 			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
 			$className = substr($class, $pos + 1);
 		}
+
 		// If not, no need to parse path.
 		else
 		{
@@ -471,7 +472,7 @@ abstract class JLoader
 
 		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
-		// root namespaces for PSR-0 loader
+		// Root namespaces for PSR-0 loader
 		$psr0_roots = array(
 			'Admin' => array(JPATH_ROOT),
 			'Components' => array(JPATH_ROOT),
@@ -548,6 +549,7 @@ abstract class JLoader
 			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
 			$className = substr($class, $pos + 1);
 		}
+
 		// If not, no need to parse path.
 		else
 		{
@@ -557,17 +559,19 @@ abstract class JLoader
 
 		$classFile = $className. '.php';
 
-		// applying logic of "vendor - extension type" on path
+		// Applying logic of "vendor - extension type" on path
 
 		$ds = DIRECTORY_SEPARATOR;
-		// system tree
+
+		// System tree
 		$sys_paths = array();
-		// internal extention tree
+
+		// Internal extention tree
 		$int_paths = array();
 
 		$classPathParts = array_filter(explode(DIRECTORY_SEPARATOR, $classPath));
 
-		//Hook to support current (9 july 2016) class naming
+		// Hook to support current (9 july 2016) class naming
 		$classPrefix = '';
 
 		$vendor_check = ucfirst($classPathParts[0]);
@@ -575,18 +579,20 @@ abstract class JLoader
 
 		$isComponent = false;
 		$core = false;
-		if($vendor_check=='Joomla')
+		if ($vendor_check=='Joomla')
 		{
-			// we working with Joomla! vendor
+			// We working with Joomla! vendor
 			$core = true;
-			if($type_check=='Component')
+			if ($type_check=='Component')
 			{
-				// process like standard component
+				// Process like standard component
 				$core = false;
-				// restruct array to act like 3rd party
+
+				// Restruct array to act like 3rd party
 				unset($classPathParts[1]);
 				$classPathParts = array_values($classPathParts);
-				// unset vendor (core components are not vendored in folder naming)
+
+				// Unset vendor (core components are not vendored in folder naming)
 				$classPathParts[0] = '';
 			}
 			elseif ($type_check=='CMS')
@@ -615,7 +621,7 @@ abstract class JLoader
 		}
 
 		// 3rd party component or extension
-		if(!$core)
+		if (!$core)
 		{
 			if ($type_check=='Module')
 			{
@@ -623,9 +629,11 @@ abstract class JLoader
 
 				// (administrator/)modules/mod_name/
 				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[3];
-				// my suggestion is to restrict and not maintain this pattern of folder naming but for now
+
+				// My suggestion is to restrict and not maintain this pattern of folder naming but for now
 				// (administrator/)modules/mod_vendorname/
 				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[0] . $classPathParts[3];
+
 				// (administrator/)modules/mod_vendor_name/
 				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[0] . '_' . $classPathParts[3];
 
@@ -636,22 +644,25 @@ abstract class JLoader
 			elseif ($type_check=='Plugin')
 			{
 
-				// plugins are not vendor prefixed as they are in one group folder
+				// Plugins are not vendor prefixed as they are in one group folder
 				$classPrefix = 'Plg' . $classPathParts[2];
 
-				// if calling plugin main Class
+				// If calling plugin main Class
 				if (count($classPathParts)==3)
 				{
 					$classPathParts[3] = $className;
 				}else{
 					$classPrefix .= $classPathParts[3];
 				}
-				// plugins/target/name/
+
+				// Plugins/target/name/
 				$sys_paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . $classPathParts[3];
-				// my suggestion is to restrict and not maintain this pattern of folder naming but for now
-				// plugins/target/vendorname/
+
+				// My suggestion is to restrict and not maintain this pattern of folder naming but for now
+				// Plugins/target/vendorname/
 				$sys_paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . $classPathParts[0] . $classPathParts[3];
-				// plugins/target/vendor_name/
+
+				// Plugins/target/vendor_name/
 				$sys_paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . $classPathParts[0] . '_' . $classPathParts[3];
 
 				unset($classPathParts[3]);
@@ -661,16 +672,20 @@ abstract class JLoader
 				$isComponent = true;
 
 				$admin_check = (ucfirst($classPathParts[2]) == 'Admin')?true:false;
-				// this one is for AkeebaBackup Like (folder named com_akeeba)
+
+				// This one is for AkeebaBackup Like (folder named com_akeeba)
 				// (administrator/)components/com_vendor/
 				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0];
+
 				// I don't suggest restricting this as for modules, also because native extensions processed here
 				// (administrator/)components/com_vendorname/
 				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0] . $classPathParts[1];
+
 				// (administrator/)components/com_vendor_name/
 				$sys_paths[] = ($admin_check?('administrator' . $ds):'').'components' . $ds . 'com_' . $classPathParts[0] . '_' . $classPathParts[1];
 
-				if(ucfirst($className)=='Helper'){
+				if (ucfirst($className)=='Helper')
+				{
 					//Hook to support current (9 july 2016) class naming
 					$classPathParts[] = 'helper';
 				}
@@ -684,23 +699,29 @@ abstract class JLoader
 
 
 		$int_paths[] = implode(DIRECTORY_SEPARATOR,$classPathParts);
-		// reset indexes
+
+		// Reset indexes
 		$classPathParts = array_values($classPathParts);
-		// treat folder(s)
+
+		// Treat folder(s)
 		$auto_s_folders = array('Model','Table','Controller','View','Helper');
-		// issue with this part is People\Foo\View\View will never attempt components/com_people_foo/views/view/view.html.php
-		// but ignore those `people`
+
+		// Issue with this part is People\Foo\View\View will never attempt components/com_people_foo/views/view/view.html.php
+		// But ignore those `people`
 
 		foreach ($classPathParts as $key => $part){
-			if($isComponent){
-				if(!$key){
+			if ($isComponent)
+			{
+				if (!$key)
+				{
 					$classPrefix .= $part;
 				}
 			}
-			// add support for current views files naming
-			// can be used like Joomla\Component\Content\View\Articles for components/com_content/views/articles/view.html.php
-			// can be used like Joomla\Component\Content\View\ArticlesHtml for components/com_content/views/articles/view.html.php
-			// can be used like Joomla\Component\Content\View\ArticlesFeed for components/com_content/views/articles/view.feed.php
+
+			// Add support for current views files naming
+			// Can be used like Joomla\Component\Content\View\Articles for components/com_content/views/articles/view.html.php
+			// Can be used like Joomla\Component\Content\View\ArticlesHtml for components/com_content/views/articles/view.html.php
+			// Can be used like Joomla\Component\Content\View\ArticlesFeed for components/com_content/views/articles/view.feed.php
 			if ($part=='View')
 			{
 				$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $className);
@@ -714,7 +735,8 @@ abstract class JLoader
 				$classPathParts[$key] .='s';
 			}
 		}
-		if(!$classPathParts){
+		if (!$classPathParts)
+		{
 			$classPathParts[] = $className;
 		}
 		$int_paths[] = implode(DIRECTORY_SEPARATOR,$classPathParts);
@@ -723,27 +745,31 @@ abstract class JLoader
 		foreach ($sys_paths as $path){
 			foreach ($int_paths as $ipath){
 				$classFilePath = JPATH_ROOT . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $ipath . DIRECTORY_SEPARATOR . $classFile;
-				// just check so line would be crisp ( "//" can be met when looking for module helpers for example )
-				// caused by "Hook to support current (9 july 2016) class naming"
-				$classFilePath = str_replace(DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $classFilePath);
-				// We check for class_exists to handle case-sensitive file systems
 
+				// Just check so line would be crisp ( "//" can be met when looking for module helpers for example )
+				// Caused by "Hook to support current (9 july 2016) class naming"
+				$classFilePath = str_replace(DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, $classFilePath);
+
+				// We check for class_exists to handle case-sensitive file systems
 				if (file_exists($classFilePath) && !class_exists($class, false))
 				{
 					$return = include_once $classFilePath;
-					if(!class_exists($class, false)){
+					if (!class_exists($class, false))
+					{
 
-						if(class_exists($className, false)){
+						if (class_exists($className, false))
+						{
 							class_alias($className,$class);
 						}
 
-						if(!$classPathParts && ucfirst($className)=='controller'){
+						if (!$classPathParts && ucfirst($className)=='controller')
+						{
 							//Hook to support current (9 july 2016) class naming
 							$className = $classPrefix.$className;
 						}
 
-						// special treatment for helpers that are in helper folder
-						if(stripos($ipath,'helper') !== false && stripos($classPrefix,$className) !== false)
+						// Special treatment for helpers that are in helper folder
+						if (stripos($ipath,'helper') !== false && stripos($classPrefix,$className) !== false)
 						{
 							$className = $classPrefix;
 						}
@@ -752,14 +778,15 @@ abstract class JLoader
 							$className = $classPrefix.$className;
 						}
 
-						if(class_exists($className, false)){
+						if (class_exists($className, false))
+						{
 							class_alias($className,$class);
 						}
 						else
 						{
-							// try to build full naming with/without J prefix
+							// Try to build full naming with/without J prefix
 							$fullLegacyClassName = str_replace(DIRECTORY_SEPARATOR,'',$ipath).$className;
-							if(class_exists($fullLegacyClassName, false))
+							if (class_exists($fullLegacyClassName, false))
 							{
 								class_alias($fullLegacyClassName,$class);
 							}
@@ -767,8 +794,9 @@ abstract class JLoader
 							{
 								class_alias('J'.$fullLegacyClassName,$class);
 							}
-							//if class not exists (and strpos contains Joomla - try to add J prefix)
-							// but let's just check J prefix as file loaded any way
+
+							// If class not exists (and strpos contains Joomla - try to add J prefix)
+							// But let's just check J prefix as file loaded any way
 							elseif (class_exists('J'.$className, false))
 							{
 								class_alias('J'.$className,$class);
