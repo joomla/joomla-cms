@@ -667,7 +667,7 @@ abstract class JLoader
 		// Loop through paths combinations until we find a match.
 		foreach ($paths as $path){
 			foreach ($int_paths as $ipath){
-				$classFilePath = JPATH_ROOT . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $ipath;
+				$classFilePath = JPATH_ROOT . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $ipath . DIRECTORY_SEPARATOR . $classFile;
 				// We check for class_exists to handle case-sensitive file systems
 				if (file_exists($classFilePath) && !class_exists($class, false))
 				{
