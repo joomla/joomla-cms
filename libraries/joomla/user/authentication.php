@@ -111,7 +111,7 @@ class JAuthentication implements DispatcherAwareInterface
 	{
 		if (empty(self::$instance))
 		{
-			self::$instance = new JAuthentication;
+			self::$instance = new static;
 		}
 
 		return self::$instance;

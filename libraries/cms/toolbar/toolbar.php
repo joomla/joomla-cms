@@ -81,7 +81,7 @@ class JToolbar
 	{
 		if (empty(self::$instances[$name]))
 		{
-			self::$instances[$name] = new JToolbar($name);
+			self::$instances[$name] = new static($name);
 		}
 
 		return self::$instances[$name];
@@ -265,7 +265,15 @@ class JToolbar
 			return false;
 		}
 
-		$this->_buttons[$signature] = new $buttonClass($this);
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($buttonClass))
+		{
+			$this->_buttons[$signature] = JFactory::getContainer()->get($buttonClass);
+		}
+		else
+		{
+			$this->_buttons[$signature] = new $buttonClass($this);
+		}
 
 		return $this->_buttons[$signature];
 	}

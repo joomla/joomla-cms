@@ -150,7 +150,7 @@ class JInstaller extends JAdapter
 	{
 		if (!isset(self::$instances[$basepath]))
 		{
-			self::$instances[$basepath] = new JInstaller($basepath, $classprefix, $adapterfolder);
+			self::$instances[$basepath] = new static($basepath, $classprefix, $adapterfolder);
 
 			// For B/C, we load the first instance into the static $instance container, remove at 4.0
 			if (!isset(self::$instance))
@@ -2362,6 +2362,12 @@ class JInstaller extends JAdapter
 
 		// Ensure the adapter type is part of the options array
 		$options['type'] = $adapter;
+
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($class))
+		{
+			return JFactory::getContainer()->get($class);
+		}
 
 		return new $class($this, $this->getDbo(), $options);
 	}

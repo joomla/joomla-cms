@@ -113,7 +113,7 @@ class JEditor implements DispatcherAwareInterface
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = new JEditor($editor);
+			self::$instances[$signature] = new static($editor);
 		}
 
 		return self::$instances[$signature];

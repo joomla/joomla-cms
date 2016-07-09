@@ -111,6 +111,12 @@ class JCacheController
 			}
 		}
 
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($class))
+		{
+			return JFactory::getContainer()->get($class);
+		}
+
 		return new $class($options);
 	}
 

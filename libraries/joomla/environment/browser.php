@@ -175,7 +175,7 @@ class JBrowser
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = new JBrowser($userAgent, $accept);
+			self::$instances[$signature] = new static($userAgent, $accept);
 		}
 
 		return self::$instances[$signature];

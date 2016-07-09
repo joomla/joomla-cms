@@ -142,7 +142,15 @@ class JMenu
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_MENU_LOAD', $client), 500);
 			}
 
-			self::$instances[$client] = new $classname($options);
+			// Check for a possible service from the container otherwise manually instantiate the class
+			if (JFactory::getContainer()->exists($classname))
+			{
+				self::$instances[$client] = JFactory::getContainer()->get($classname);
+			}
+			else
+			{
+				self::$instances[$client] = new $classname($options);
+			}
 		}
 
 		return self::$instances[$client];

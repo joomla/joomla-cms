@@ -76,7 +76,7 @@ class JMail extends PHPMailer
 	{
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new JMail($exceptions);
+			self::$instances[$id] = new static($exceptions);
 		}
 
 		return self::$instances[$id];

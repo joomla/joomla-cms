@@ -275,7 +275,7 @@ class JUser extends JObject
 			if (!$id = $userHelper->getUserId($identifier))
 			{
 				// If the $identifier doesn't match with any id, just return an empty JUser.
-				return new JUser;
+				return new static;
 			}
 		}
 		else
@@ -287,14 +287,13 @@ class JUser extends JObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new JUser;
+			return new static;
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			$user = new JUser($id, $userHelper);
-			self::$instances[$id] = $user;
+			self::$instances[$id] = new static($id, $userHelper);
 		}
 
 		return self::$instances[$id];

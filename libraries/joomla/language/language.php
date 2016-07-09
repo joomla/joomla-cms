@@ -297,7 +297,7 @@ class JLanguage
 	{
 		if (!isset(self::$languages[$lang . $debug]))
 		{
-			self::$languages[$lang . $debug] = new JLanguage($lang, $debug);
+			self::$languages[$lang . $debug] = new static($lang, $debug);
 		}
 
 		return self::$languages[$lang . $debug];

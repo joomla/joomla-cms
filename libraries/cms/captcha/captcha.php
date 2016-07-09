@@ -86,7 +86,7 @@ class JCaptcha implements DispatcherAwareInterface
 		{
 			try
 			{
-				self::$_instances[$signature] = new JCaptcha($captcha, $options);
+				self::$_instances[$signature] = new static($captcha, $options);
 			}
 			catch (RuntimeException $e)
 			{

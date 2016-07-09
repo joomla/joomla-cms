@@ -295,6 +295,16 @@ class JControllerLegacy extends JObject
 			throw new InvalidArgumentException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class));
 		}
 
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($class))
+		{
+			self::$instance = JFactory::getContainer()->get($class);
+		}
+  		else
+  		{
+			self::$instance = new $class($config);
+  		}
+
 		// Instantiate the class, store it to the static container, and return it
 		return self::$instance = new $class($config);
 	}
@@ -591,6 +601,12 @@ class JControllerLegacy extends JObject
 			{
 				throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
 			}
+		}
+
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($viewClass))
+		{
+			return JFactory::getContainer()->get($viewClass);
 		}
 
 		return new $viewClass($config);
