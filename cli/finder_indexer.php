@@ -42,10 +42,7 @@ if (!defined('_JDEFINES'))
 define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';

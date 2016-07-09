@@ -22,10 +22,7 @@ if (!defined('_JDEFINES'))
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-
-// Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES . '/cms.php';
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);

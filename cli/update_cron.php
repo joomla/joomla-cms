@@ -30,8 +30,8 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-require_once JPATH_LIBRARIES . '/import.legacy.php';
-require_once JPATH_LIBRARIES . '/cms.php';
+// Get the framework.
+require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Load the configuration
 require_once JPATH_CONFIGURATION . '/configuration.php';
