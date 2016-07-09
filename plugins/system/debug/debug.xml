@@ -19,67 +19,83 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="filter_groups" type="usergrouplist"
-					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
+				<field
+					name="filter_groups"
+					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
+					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					multiple="true"
 					size="10"
 				/>
 
-				<field name="profile" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_PROFILING_DESC"
+				<field
+					name="profile"
+					type="radio"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-				>
+					description="PLG_DEBUG_FIELD_PROFILING_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="queries" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_QUERIES_DESC"
+				<field
+					name="queries"
+					type="radio"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-				>
+					description="PLG_DEBUG_FIELD_QUERIES_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="query_types" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
+				<field
+					name="query_types"
+					type="radio"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
-				>
+					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="memory" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_MEMORY_DESC"
+				<field
+					name="memory"
+					type="radio"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field name="logs" type="radio"
+					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_DEBUG_FIELD_LOGS_DESC"
-					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="log_priorities" type="list" multiple="true" default="all"
+				<field
+					name="logs"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LOGS_LABEL"
+					description="PLG_DEBUG_FIELD_LOGS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="log_priorities"
+					type="list"
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
-				>
+					multiple="true"
+					default="all"
+					>
 					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
 					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
 					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
@@ -91,67 +107,87 @@
 					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
 				</field>
 
-				<field name="log_categories" type="text" size="60" default=""
+				<field
+					name="log_categories"
+					type="text"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
+					size="60"
+					default=""
 				/>
 
-				<field name="log_category_mode" type="radio" default="0" class="btn-group btn-group-yesno"
+				<field
+					name="log_category_mode"
+					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
-				>
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
 			</fieldset>
 
-			<fieldset name="language"
-				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL">
+			<fieldset
+				name="language"
+				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
+				>
 
-				<field name="language_errorfiles" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
+				<field
+					name="language_errorfiles"
+					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-				>
+					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="language_files" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
+				<field
+					name="language_files"
+					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-				>
+					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="language_strings" type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
-					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
+				<field
+					name="language_strings"
+					type="radio"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field name="strip-first" type="radio"
+					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
-					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="strip-prefix" type="textarea"
-					cols="30"
-					description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
+				<field
+					name="strip-first"
+					type="radio"
+					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
+					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="strip-prefix"
+					type="textarea"
 					label="PLG_DEBUG_FIELD_STRIP_PREFIX_LABEL"
+					description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
+					cols="30"
 					rows="4"
 				/>
 
@@ -163,35 +199,42 @@
 				/>
 			</fieldset>
 
-			<fieldset name="logging"
-				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL">
-
-				<field name="log-deprecated" type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
+			<fieldset
+				name="logging"
+				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
+				>
+				<field
+					name="log-deprecated"
+					type="radio"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-				>
+					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
-				<field name="log-everything" type="radio"
+				<field
+					name="log-everything"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					description="PLG_DEBUG_FIELD_LOG_EVERYTHING_DESC"
-					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				
-				<field name="log-executed-sql" type="radio"
+
+				<field
+					name="log-executed-sql"
+					type="radio"
+					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
+					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-					description="PLG_DEBUG_FIELD_EXECUTEDSQL_DESC"
-					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

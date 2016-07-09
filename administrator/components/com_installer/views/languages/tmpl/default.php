@@ -16,6 +16,18 @@ JHtml::_('bootstrap.tooltip');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
+// Add spindle-wheel for language installation.
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function($) {
+	Joomla.loadingLayer("load");
+	$("#adminForm").on("submit", function(e) {
+		if (document.getElementsByName("task")[0].value == "languages.install")
+		{
+			Joomla.loadingLayer("show");
+		}
+	});
+});
+');
 ?>
 <div id="installer-languages" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">

@@ -24,7 +24,7 @@ class UsersModelDebuggroup extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function __construct($config = array())
 	{

@@ -19,11 +19,11 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
+				<field
 					name="collect_urls"
 					type="radio"
-					description="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_DESC"
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
+					description="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
 					>

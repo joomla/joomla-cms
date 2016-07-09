@@ -38,8 +38,42 @@ class JFormFieldMenu extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
+		$menus = JHtml::_('menu.menus');
+
+		$accesstype = $this->element['accesstype'];
+
+		if ($accesstype)
+		{
+			$user = JFactory::getUser();
+
+			foreach ($menus as $key => $menu)
+			{
+				switch ($accesstype)
+				{
+					case 'create':
+					case 'manage':
+						if (!$user->authorise('core.' . $accesstype, 'com_menus.menu.' . (int) $menu->id))
+						{
+							unset($menus[$key]);
+						}
+						break;
+
+					// Editing a menu item is a bit tricky, we have to check the current menutype for core.edit and all others for core.create
+					case 'edit':
+
+						$check = $this->value == $menu->value ? 'edit' : 'create';
+
+						if (!$user->authorise('core.' . $check, 'com_menus.menu.' . (int) $menu->id))
+						{
+							unset($menus[$key]);
+						}
+						break;
+				}
+			}
+		}
+
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), JHtml::_('menu.menus'));
+		$options = array_merge(parent::getOptions(), $menus);
 
 		return $options;
 	}

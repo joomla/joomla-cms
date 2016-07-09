@@ -29,7 +29,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @see     http://www.php.net/manual/en/function.curl-setopt.php
+	 * @see     https://secure.php.net/manual/en/function.curl-setopt.php
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
@@ -62,6 +62,8 @@ class JHttpTransportCurl implements JHttpTransport
 	{
 		// Setup the cURL handle.
 		$ch = curl_init();
+
+		$options = array();
 
 		// Set the request method.
 		switch (strtoupper($method))
@@ -182,6 +184,13 @@ class JHttpTransportCurl implements JHttpTransport
 		foreach ($this->options->get('transport.curl', array()) as $key => $value)
 		{
 			$options[$key] = $value;
+		}
+
+		// Authentification, if needed
+		if ($this->options->get('userauth') && $this->options->get('passwordauth'))
+		{
+			$options[CURLOPT_USERPWD] = $this->options->get('userauth') . ':' . $this->options->get('passwordauth');
+			$options[CURLOPT_HTTPAUTH] = CURLAUTH_BASIC;
 		}
 
 		// Set the cURL options.

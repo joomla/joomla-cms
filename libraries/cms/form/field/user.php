@@ -85,6 +85,7 @@ class JFormFieldUser extends JFormField
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
 			$this->value = JFactory::getUser()->id;
+			$data['value'] = $this->value;
 			$table->load($this->value);
 		}
 		else

@@ -283,16 +283,14 @@ class JTableUser extends JTable
 
 	/**
 	 * Method to store a row in the database from the JTable instance properties.
-	 * If a primary key value is set the row with that primary key value will be
-	 * updated with the instance property values.  If no primary key value is set
-	 * a new row will be inserted into the database with the properties from the
-	 * JTable instance.
+	 *
+	 * If a primary key value is set the row with that primary key value will be updated with the instance property values.
+	 * If no primary key value is set a new row will be inserted into the database with the properties from the JTable instance.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    https://docs.joomla.org/JTable/store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -320,32 +318,64 @@ class JTableUser extends JTable
 
 		// Reset groups to the local object.
 		$this->groups = $groups;
-		unset($groups);
 
 		$query = $this->_db->getQuery(true);
 
 		// Store the group data if the user data was saved.
 		if (is_array($this->groups) && count($this->groups))
 		{
-			// Delete the old user group maps.
-			$query->delete($this->_db->quoteName('#__user_usergroup_map'))
-				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+			// Grab all usergroup entries for the user
+			$query -> clear()
+				-> select($this->_db->quoteName('group_id'))
+				-> from($this->_db->quoteName('#__user_usergroup_map'))
+				-> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+
 			$this->_db->setQuery($query);
-			$this->_db->execute();
+			$result = $this->_db->loadObjectList();
 
-			// Set the new user group maps.
-			$query->clear()
-				->insert($this->_db->quoteName('#__user_usergroup_map'))
-				->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
-
-			// Have to break this up into individual queries for cross-database support.
-			foreach ($this->groups as $group)
+			// Loop through them and check if database contains something $this->groups does not
+			if (count($result))
 			{
-				$query->clear('values')
-					->values($this->id . ', ' . $group);
-				$this->_db->setQuery($query);
-				$this->_db->execute();
+				foreach ($result as $map)
+				{
+					if (array_key_exists($map->group_id, $this->groups))
+					{
+						// It already exists, no action required
+						unset($groups[$map->group_id]);
+					}
+					else
+					{
+						// It should be removed
+						$query -> clear()
+							-> delete($this->_db->quoteName('#__user_usergroup_map'))
+							-> where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id)
+							-> where($this->_db->quoteName('group_id') . ' = ' . (int) $map->group_id);
+
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
+				}
 			}
+
+			// If there is anything left in this->groups it needs to be inserted
+			if (count($groups))
+			{
+				// Set the new user group maps.
+				$query->clear()
+					->insert($this->_db->quoteName('#__user_usergroup_map'))
+					->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
+
+				// Have to break this up into individual queries for cross-database support.
+				foreach ($groups as $group)
+				{
+					$query->clear('values')
+						->values($this->id . ', ' . $group);
+					$this->_db->setQuery($query);
+					$this->_db->execute();
+				}
+			}
+
+			unset($groups);
 		}
 
 		// If a user is blocked, delete the cookie login rows
