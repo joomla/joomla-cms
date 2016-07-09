@@ -430,6 +430,8 @@ abstract class JLoader
 		{
 			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+			// Register the PSR-4 based autoloader.
+			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
 	}
@@ -513,6 +515,163 @@ abstract class JLoader
 					{
 						return (bool) include_once $classFilePath;
 					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to autoload classes that are namespaced to the PSR-4 standard.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   13.1
+	 */
+	public static function loadByPsr4($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		// Find the location of the last NS separator.
+		$pos = strrpos($class, '\\');
+
+		// If one is found, we're dealing with a NS'd class.
+		if ($pos !== false)
+		{
+			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
+			$className = substr($class, $pos + 1);
+		}
+		// If not, no need to parse path.
+		else
+		{
+			$classPath = null;
+			$className = $class;
+		}
+
+		$classFile = $className. '.php';
+
+		// applying logic of "vendor - extension type" on path
+
+		$ds = DIRECTORY_SEPARATOR;
+		// system tree
+		$sys_paths = array();
+		// internal extention tree
+		$int_paths = array();
+
+		$classPathParts = explode(DIRECTORY_SEPARATOR, $classPath);
+		$vendor_check = ucfirst($classPathParts[0]);
+		$type_check = ucfirst($classPathParts[1]);
+
+		$core = false;
+		if($vendor_check=='Joomla')
+		{
+			// we working with Joomla! vendor
+			$core = true;
+			if($type_check=='Component')
+			{
+				// process like standard component
+				$core = false;
+				// restruct array to act like 3rd party
+				unset($classPathParts[1]);
+				$classPathParts = array_values($classPathParts);
+				// unset vendor (core components are not vendored in folder naming)
+				$classPathParts[0] = '';
+			}
+			elseif ($type_check=='CMS')
+			{
+				// Joomla! CMS library
+				$paths[] = JPATH_LIBRARIES . $ds . 'cms';
+			}
+			else
+			{
+				// Joomla! Framework library
+				$paths[] = JPATH_LIBRARIES . $ds . 'joomla';
+			}
+		}
+
+		// 3rd party component or extension
+		if(!$core)
+		{
+			if ($type_check=='Module')
+			{
+				$admin_check = (ucfirst($classPathParts[2]) == 'Admin')?true:false;
+
+				// (administrator/)modules/mod_name/
+				$paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[3];
+				// my suggestion is to restrict and not maintain this pattern of folder naming but for now
+				// (administrator/)modules/mod_vendorname/
+				$paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[1] . $classPathParts[3];
+				// (administrator/)modules/mod_vendor_name/
+				$paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[1] . '_' . $classPathParts[3];
+
+				unset($classPathParts[3]);
+			}
+			elseif ($type_check=='Plugin')
+			{
+				// my suggestion is to restrict and not maintain this pattern of folder naming but for now
+				// plugins/target/plg_vendorname/
+				$paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . 'plg_' . $classPathParts[1] . $classPathParts[3];
+				// plugins/target/plg_vendor_name/
+				$paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . 'plg_' . $classPathParts[1] . '_' . $classPathParts[3];
+
+				unset($classPathParts[3]);
+			}
+			else
+			{
+				$admin_check = (ucfirst($classPathParts[2]) == 'Admin')?true:false;
+				// I don't suggest restricting this as for modules, also because native extensions processed here
+				// (administrator/)components/com_vendorname/
+				$paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0] . $classPathParts[1];
+				// (administrator/)components/com_vendor_name/
+				$paths[] = ($admin_check?('administrator' . $ds):'').'components' . $ds . 'com_' . $classPathParts[0] . '_' . $classPathParts[1];
+			}
+			unset($classPathParts[0]);
+			unset($classPathParts[1]);
+			unset($classPathParts[2]);
+		}
+
+
+		$int_paths[] = implode(DIRECTORY_SEPARATOR,$classPathParts);
+		// reset indexes
+		$classPathParts = array_values($classPathParts);
+		// treat folder(s)
+		$auto_s_folders = array('model','table','controller','view','helper');
+		// issue with this part is People\Foo\View\View will never attempt components/com_people_foo/views/view/view.html.php
+		// but ignore those `people`
+		foreach ($classPathParts as &$part){
+			if (in_array($part,$auto_s_folders))
+			{
+				// add support for current views files naming
+				// can be used like Joomla\Component\Content\View\Articles for components/com_content/views/articles/view.html.php
+				// can be used like Joomla\Component\Content\View\ArticlesHtml for components/com_content/views/articles/view.html.php
+				// can be used like Joomla\Component\Content\View\ArticlesFeed for components/com_content/views/articles/view.feed.php
+				if ($part=='view')
+				{
+					$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $className);
+					$view_type = (count($parts)>1)?array_pop($parts):'html';
+					$classPathParts[] = implode('',$parts);
+					$classFile = 'view.' . $view_type . '.php';
+				}
+				$part .='s';
+			}
+		}
+		$int_paths[] = implode(DIRECTORY_SEPARATOR,$classPathParts);
+
+		// Loop through paths combinations until we find a match.
+		foreach ($paths as $path){
+			foreach ($int_paths as $ipath){
+				$classFilePath = JPATH_ROOT . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $ipath;
+				// We check for class_exists to handle case-sensitive file systems
+				if (file_exists($classFilePath) && !class_exists($class, false))
+				{
+					return (bool) include_once $classFilePath;
 				}
 			}
 		}
