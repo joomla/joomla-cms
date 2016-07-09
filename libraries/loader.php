@@ -566,6 +566,15 @@ abstract class JLoader
 		$int_paths = array();
 
 		$classPathParts = explode(DIRECTORY_SEPARATOR, $classPath);
+
+		//Hook to support current (9 july 2016) class naming
+		$classPrefix = '';
+
+		if(ucfirst($className)=='Helper'){
+			//Hook to support current (9 july 2016) class naming
+			$classPathParts[] = 'helper';
+		}
+
 		$vendor_check = ucfirst($classPathParts[0]);
 		$type_check = ucfirst($classPathParts[1]);
 
@@ -587,12 +596,12 @@ abstract class JLoader
 			elseif ($type_check=='CMS')
 			{
 				// Joomla! CMS library
-				$paths[] = JPATH_LIBRARIES . $ds . 'cms';
+				$sys_paths[] = JPATH_LIBRARIES . $ds . 'cms';
 			}
 			else
 			{
 				// Joomla! Framework library
-				$paths[] = JPATH_LIBRARIES . $ds . 'joomla';
+				$sys_paths[] = JPATH_LIBRARIES . $ds . 'joomla';
 			}
 		}
 
@@ -604,12 +613,14 @@ abstract class JLoader
 				$admin_check = (ucfirst($classPathParts[2]) == 'Admin')?true:false;
 
 				// (administrator/)modules/mod_name/
-				$paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[3];
+				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[3];
 				// my suggestion is to restrict and not maintain this pattern of folder naming but for now
 				// (administrator/)modules/mod_vendorname/
-				$paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[1] . $classPathParts[3];
+				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[1] . $classPathParts[3];
 				// (administrator/)modules/mod_vendor_name/
-				$paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[1] . '_' . $classPathParts[3];
+				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'modules' . $ds . 'mod_' . $classPathParts[1] . '_' . $classPathParts[3];
+
+				$classPrefix = 'Mod'.$classPathParts[3];
 
 				unset($classPathParts[3]);
 			}
@@ -617,9 +628,12 @@ abstract class JLoader
 			{
 				// my suggestion is to restrict and not maintain this pattern of folder naming but for now
 				// plugins/target/plg_vendorname/
-				$paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . 'plg_' . $classPathParts[1] . $classPathParts[3];
+				$sys_paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . 'plg_' . $classPathParts[1] . $classPathParts[3];
 				// plugins/target/plg_vendor_name/
-				$paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . 'plg_' . $classPathParts[1] . '_' . $classPathParts[3];
+				$sys_paths[] = 'plugins' . $ds . $classPathParts[2] . $ds . 'plg_' . $classPathParts[1] . '_' . $classPathParts[3];
+
+				// core plugins are not vendor prefixed
+				$classPrefix = (($classPathParts[1]=='Joomla')?'':$classPathParts[1]) . $classPathParts[3];
 
 				unset($classPathParts[3]);
 			}
@@ -628,9 +642,11 @@ abstract class JLoader
 				$admin_check = (ucfirst($classPathParts[2]) == 'Admin')?true:false;
 				// I don't suggest restricting this as for modules, also because native extensions processed here
 				// (administrator/)components/com_vendorname/
-				$paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0] . $classPathParts[1];
+				$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0] . $classPathParts[1];
 				// (administrator/)components/com_vendor_name/
-				$paths[] = ($admin_check?('administrator' . $ds):'').'components' . $ds . 'com_' . $classPathParts[0] . '_' . $classPathParts[1];
+				$sys_paths[] = ($admin_check?('administrator' . $ds):'').'components' . $ds . 'com_' . $classPathParts[0] . '_' . $classPathParts[1];
+
+				$classPrefix = $classPathParts[1];
 			}
 			unset($classPathParts[0]);
 			unset($classPathParts[1]);
@@ -645,6 +661,11 @@ abstract class JLoader
 		$auto_s_folders = array('model','table','controller','view','helper');
 		// issue with this part is People\Foo\View\View will never attempt components/com_people_foo/views/view/view.html.php
 		// but ignore those `people`
+
+		if(!count($classPathParts) && ucfirst($className)=='controller'){
+			//Hook to support current (9 july 2016) class naming
+			$className = $classPrefix.$className;
+		}
 		foreach ($classPathParts as &$part){
 			if (in_array($part,$auto_s_folders))
 			{
@@ -659,13 +680,14 @@ abstract class JLoader
 					$classPathParts[] = implode('',$parts);
 					$classFile = 'view.' . $view_type . '.php';
 				}
+				$className = $classPrefix.ucfirst($part).$className;
 				$part .='s';
 			}
 		}
 		$int_paths[] = implode(DIRECTORY_SEPARATOR,$classPathParts);
 
 		// Loop through paths combinations until we find a match.
-		foreach ($paths as $path){
+		foreach ($sys_paths as $path){
 			foreach ($int_paths as $ipath){
 				$classFilePath = JPATH_ROOT . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $ipath . DIRECTORY_SEPARATOR . $classFile;
 				// We check for class_exists to handle case-sensitive file systems
