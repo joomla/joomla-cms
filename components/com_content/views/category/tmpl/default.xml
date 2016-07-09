@@ -197,7 +197,7 @@
 			<field name="list_show_votes"
 				type="list"
 				class="btn-group btn-group-yesno"
-				default="1"
+				default="0"
 				label="JGLOBAL_LIST_VOTES_LABEL"
 				description="JGLOBAL_LIST_VOTES_DESC"
 			>
@@ -209,7 +209,7 @@
 			<field name="list_show_ratings"
 				type="list"
 				class="btn-group btn-group-yesno"
-				default="1"
+				default="0"
 				label="JGLOBAL_LIST_RATINGS_LABEL"
 				description="JGLOBAL_LIST_RATINGS_DESC"
 			>
