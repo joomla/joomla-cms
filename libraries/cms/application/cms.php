@@ -926,7 +926,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAuthentication::STATUS_SUCCESS)
 		{
-			JLog::add($response->error_message, JLog::WARNING, 'jerror');
+			$this->getLogger()->warning($response->error_message, array('category' => 'jerror'));
 		}
 
 		return false;
@@ -1017,11 +1017,11 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			if (isset($args[1]) && !empty($args[1]) && (!is_bool($args[1]) && !is_int($args[1])))
 			{
 				// Log that passing the message to the function is deprecated
-				JLog::add(
-					'Passing a message and message type to JFactory::getApplication()->redirect() is deprecated. '
-					. 'Please set your message via JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
-					JLog::WARNING,
-					'deprecated'
+				$this->getLogger()->warning(
+					'Passing a message and message type to ' . __METHOD__ . '() is deprecated. '
+					. 'Please set your message via ' . __CLASS__ . '::enqueueMessage() prior to calling ' . __CLASS__
+					. '::redirect().',
+					array('category' => 'deprecated')
 				);
 
 				$message = $args[1];

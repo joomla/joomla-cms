@@ -11,6 +11,7 @@ namespace Joomla\Cms\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use JLog;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -36,7 +37,9 @@ class Application implements ServiceProviderInterface
 			'JApplicationAdministrator',
 			function (Container $container)
 			{
-				return new \JApplicationAdministrator(null, null, null, $container);
+				$app = new \JApplicationAdministrator(null, null, null, $container);
+				$app->setLogger(JLog::createDelegatedLogger());
+				return $app;
 			},
 			true
 		);
@@ -45,7 +48,9 @@ class Application implements ServiceProviderInterface
 			'JApplicationSite',
 			function (Container $container)
 			{
-				return new \JApplicationSite(null, null, null, $container);
+				$app = new \JApplicationSite(null, null, null, $container);
+				$app->setLogger(JLog::createDelegatedLogger());
+				return $app;
 			},
 			true
 		);

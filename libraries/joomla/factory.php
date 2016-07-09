@@ -136,6 +136,9 @@ abstract class JFactory
 			$container = $container ?: self::getContainer();
 
 			self::$application = JApplicationCms::getInstance($id, $prefix, $container);
+
+			// Attach a delegated JLog object to the application
+			self::$application->setLogger(JLog::createDelegatedLogger());
 		}
 
 		return self::$application;
