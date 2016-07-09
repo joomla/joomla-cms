@@ -430,6 +430,7 @@ abstract class JLoader
 		{
 			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+
 			// Register the PSR-4 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr4'));
 			spl_autoload_register(array('JLoader', 'loadByAlias'));
@@ -480,7 +481,7 @@ abstract class JLoader
 			'Plugins' => array(JPATH_ROOT)
 		);
 
-		$namespaces = array_merge(self::$namespaces,$psr0_roots);
+		$namespaces = array_merge(self::$namespaces, $psr0_roots);
 
 		// Loop through registered namespaces until we find a match.
 		foreach ($namespaces as $ns => $paths)
@@ -573,7 +574,7 @@ abstract class JLoader
 
 		// If no $classPathParts then we have nothing to autoload by PSR-4
 		// And everything that have no $classPathParts needs to register namespaces, also processed in PSR-0
-		if($classPathParts)
+		if ($classPathParts)
 		{
 			// Hook to support current (9 july 2016) class naming
 			$classPrefix = '';
@@ -688,11 +689,11 @@ abstract class JLoader
 					$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0] . $classPathParts[1];
 
 					// (administrator/)components/com_vendor_name/
-					$sys_paths[] = ($admin_check?('administrator' . $ds):'').'components' . $ds . 'com_' . $classPathParts[0] . '_' . $classPathParts[1];
+					$sys_paths[] = ($admin_check?('administrator' . $ds):'') . 'components' . $ds . 'com_' . $classPathParts[0] . '_' . $classPathParts[1];
 
 					if (ucfirst($className)=='Helper')
 					{
-						//Hook to support current (9 july 2016) class naming
+						// Hook to support current (9 july 2016) class naming
 						$classPathParts[] = 'helper';
 					}
 
@@ -725,10 +726,12 @@ abstract class JLoader
 					}
 				}
 
-				// Add support for current views files naming
-				// Can be used like Joomla\Component\Content\View\Articles for components/com_content/views/articles/view.html.php
-				// Can be used like Joomla\Component\Content\View\ArticlesHtml for components/com_content/views/articles/view.html.php
-				// Can be used like Joomla\Component\Content\View\ArticlesFeed for components/com_content/views/articles/view.feed.php
+				/*
+				 * Add support for current views files naming
+				 * Can be used like Joomla\Component\Content\View\Articles for components/com_content/views/articles/view.html.php
+				 * Can be used like Joomla\Component\Content\View\ArticlesHtml for components/com_content/views/articles/view.html.php
+				 * Can be used like Joomla\Component\Content\View\ArticlesFeed for components/com_content/views/articles/view.feed.php
+				 */
 				if ($part=='View')
 				{
 					$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $className);
@@ -773,7 +776,7 @@ abstract class JLoader
 
 							if (!$classPathParts && ucfirst($className)=='controller')
 							{
-								//Hook to support current (9 july 2016) class naming
+								// Hook to support current (9 july 2016) class naming
 								$className = $classPrefix . $className;
 							}
 
