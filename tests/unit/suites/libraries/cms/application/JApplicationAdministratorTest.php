@@ -104,7 +104,11 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		// Get a new JApplicationAdministrator instance.
 		$this->class = new JApplicationAdministrator($this->getMockInput(), $config);
+		$this->class->setSession(JFactory::$session);
+		$this->class->setDispatcher($this->getMockDispatcher());
 		TestReflection::setValue('JApplicationCms', 'instances', array('administrator' => $this->class));
+
+		JFactory::$application = $this->class;
 	}
 
 	/**
@@ -262,8 +266,6 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		JFactory::$application = $this->class;
-
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));

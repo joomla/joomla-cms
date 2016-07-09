@@ -13,6 +13,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvent;
 
 /**
  * Joomla! CMS Application class
@@ -113,9 +114,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 		parent::__construct($input, $config, $client, $container);
 
-		// Load and set the dispatcher
-		$this->loadDispatcher();
-
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
 		{
@@ -133,29 +131,64 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 		{
 			$this->config->set('session_name', $this->getName());
 		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-		}
 	}
 
 	/**
 	 * After the session has been started we need to populate it with some default values.
 	 *
+	 * @param   SessionEvent  $event  Session event being triggered
+	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function afterSessionStart()
+	public function afterSessionStart(SessionEvent $event)
 	{
-		$session = JFactory::getSession();
+		$session = $event->getSession();
 
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry('session'));
 			$session->set('user', new JUser);
+		}
+
+		// TODO: At some point we need to get away from having session data always in the db.
+		$db   = JFactory::getDbo();
+		$time = time();
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
+
+		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
+		if ($handler != 'database' && $time % 2)
+		{
+			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
+			try
+			{
+				$db->setQuery(
+					$db->getQuery(true)
+						->delete($db->quoteName('#__session'))
+						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
+				)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				/*
+				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
+				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+				 */
+			}
+		}
+
+		/*
+		 * Check for extra session metadata when:
+		 *
+		 * 1) The database handler is in use and the session is new
+		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
+		 */
+		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
+		{
+			$this->checkSession();
 		}
 	}
 
@@ -187,38 +220,42 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
-			$query->clear();
+			$handler = $this->get('session_handler', 'none');
 
-			$time = $session->isNew() ? time() : $session->get('session.timer.start');
-
+			// Default column/value set
 			$columns = array(
 				$db->quoteName('session_id'),
 				$db->quoteName('client_id'),
 				$db->quoteName('guest'),
-				$db->quoteName('time'),
 				$db->quoteName('userid'),
-				$db->quoteName('username'),
+				$db->quoteName('username')
 			);
 
 			$values = array(
 				$db->quote($session->getId()),
 				(int) $this->getClientId(),
 				(int) $user->guest,
-				$db->quote((int) $time),
 				(int) $user->id,
-				$db->quote($user->username),
+				$db->quote($user->username)
 			);
 
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			$db->setQuery($query);
+			// If the database session handler is not in use, append the time to the row
+			if ($handler != 'database')
+			{
+				$columns[] = $db->quoteName('time');
+				$time = $session->isNew() ? time() : $session->get('session.timer.start');
+				$values[]  = (int) $time;
+			}
 
 			// If the insert failed, exit the application.
 			try
 			{
-				$db->execute();
+				$db->setQuery(
+					$db->getQuery(true)
+						->insert($db->quoteName('#__session'))
+						->columns($columns)
+						->values(implode(', ', $values))
+				)->execute();
 			}
 			catch (RuntimeException $e)
 			{
@@ -723,99 +760,6 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	protected function loadLibraryLanguage()
 	{
 		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
-	}
-
-	/**
-	 * Allows the application to load a custom or default session.
-	 *
-	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create a session,
-	 * if required, based on more specific needs.
-	 *
-	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
-	 *
-	 * @return  JApplicationCms  This method is chainable.
-	 *
-	 * @since   3.2
-	 */
-	public function loadSession(JSession $session = null)
-	{
-		if ($session !== null)
-		{
-			$this->session = $session;
-
-			return $this;
-		}
-
-		// Generate a session name.
-		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name'   => $name,
-			'expire' => $lifetime,
-		);
-
-		switch ($this->getClientId())
-		{
-			case 0:
-				if ($this->get('force_ssl') == 2)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-
-			case 1:
-				if ($this->get('force_ssl') >= 1)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-		}
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
-		$session = JFactory::getSession($options);
-		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
-
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db = JFactory::getDbo();
-
-		// Remove expired sessions from the database.
-		$time = time();
-
-		if ($time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate
-			// but fires the query less than half the time.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
-		{
-			$this->checkSession();
-		}
-
-		// Set the session object.
-		$this->session = $session;
-
-		return $this;
 	}
 
 	/**

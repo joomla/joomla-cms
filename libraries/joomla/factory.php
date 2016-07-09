@@ -136,9 +136,6 @@ abstract class JFactory
 			$container = $container ?: self::getContainer();
 
 			self::$application = JApplicationCms::getInstance($id, $prefix, $container);
-
-			// Attach a delegated JLog object to the application
-			self::$application->setLogger(JLog::createDelegatedLogger());
 		}
 
 		return self::$application;
@@ -203,15 +200,17 @@ abstract class JFactory
 	 *
 	 * @see     JSession
 	 * @since   11.1
+	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	public static function getSession(array $options = array())
 	{
-		if (!self::$session)
-		{
-			self::$session = self::createSession($options);
-		}
+		JLog::add(
+			__METHOD__ . '() is deprecated. Load the session from the dependency injection container or via JFactory::getApplication()->getSession().',
+			JLog::WARNING,
+			'deprecated'
+		);
 
-		return self::$session;
+		return self::getApplication()->getSession();
 	}
 
 	/**
@@ -629,7 +628,9 @@ abstract class JFactory
 	{
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Application)
-			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Database);
+			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Database)
+			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Dispatcher)
+			->registerServiceProvider(new \Joomla\Cms\Service\Provider\Session);
 
 		return $container;
 	}
@@ -642,9 +643,12 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
+	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	protected static function createSession(array $options = array())
 	{
+		JLog::add(__METHOD__ . '() is deprecated. The session should be a service in the dependency injection container.', JLog::WARNING, 'deprecated');
+
 		// Get the Joomla configuration settings
 		$conf    = self::getConfig();
 		$handler = $conf->get('session_handler', 'none');

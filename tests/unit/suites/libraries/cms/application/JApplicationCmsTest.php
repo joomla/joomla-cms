@@ -106,6 +106,10 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Get a new JApplicationCmsInspector instance.
 		$this->class = new JApplicationCmsInspector($this->getMockInput(), $config);
+		$this->class->setSession(JFactory::$session);
+		$this->class->setDispatcher($this->getMockDispatcher());
+
+		JFactory::$application = $this->class;
 	}
 
 	/**
@@ -224,16 +228,12 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testExecuteWithDocument()
 	{
-		JFactory::$application = $this->class;
-
-		$dispatcher = $this->getMockDispatcher();
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
 
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $dispatcher);
-		TestReflection::setValue($this->class, 'document', $document);
+		// Manually inject the document.
+		$this->class->loadDocument($document);
 
 		// Register all the methods so that we can track if they have been fired.
 		$this->class->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
@@ -636,8 +636,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		JFactory::$application = $this->class;
-
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));

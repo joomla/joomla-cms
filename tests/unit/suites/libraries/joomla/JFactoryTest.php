@@ -284,7 +284,7 @@ class JFactoryTest extends TestCaseDatabase
 	 */
 	public function testGetUserInstance()
 	{
-		JFactory::$session = $this->getMockSession();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->assertInstanceOf(
 			'JUser',

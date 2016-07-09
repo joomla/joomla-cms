@@ -761,10 +761,19 @@
 		<field
 			name="session_handler"
 			type="sessionhandler"
-			default="none"
+			default="filesystem"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
 			filter="word" />
+
+		<field
+			name="session_filesystem_path"
+			type="text"
+			default=""
+			label="COM_CONFIG_FIELD_FILESYSTEM_PATH_LABEL"
+			description="COM_CONFIG_FIELD_FILESYSTEM_PATH_DESC"
+			filter="path"
+			showon="session_handler:filesystem" />
 
 		<field
 			name="session_memcache_server_host"

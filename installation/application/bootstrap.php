@@ -24,4 +24,6 @@ JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 
 // Instantiate the dependency injection container
 JFactory::$container = (new \Joomla\DI\Container)
-	->registerServiceProvider(new InstallationServiceProviderApplication);
+	->registerServiceProvider(new InstallationServiceProviderApplication)
+	->registerServiceProvider(new InstallationServiceProviderSession)
+	->registerServiceProvider(new JServiceProviderDispatcher);

@@ -103,12 +103,12 @@ class TestMockDispatcher
 	 */
 	public function mockDispatch($event, $args = array())
 	{
-		if (empty(self::$handlers[ $event ]))
+		if (empty(self::$handlers[$event]))
 		{
 			// Track the events that were triggered, in order.
 			self::$triggered[] = $event;
 
-			return self::$handlers[ $event ];
+			return self::$handlers[$event];
 		}
 
 		return array();
@@ -127,12 +127,12 @@ class TestMockDispatcher
 	 */
 	public static function mockRegister($event, $handler, $return = null)
 	{
-		if (empty(self::$handlers[ $event ]))
+		if (empty(self::$handlers[$event]))
 		{
-			self::$handlers[ $event ] = array();
+			self::$handlers[$event] = array();
 		}
 
-		self::$handlers[ $event ][ print_r($handler, true) ] = $return;
+		self::$handlers[$event][print_r($handler, true)] = $return;
 	}
 
 
@@ -153,7 +153,7 @@ class TestMockDispatcher
 			// Track the events that were triggered, in order.
 			self::$triggered[] = $event;
 
-			return self::$handlers[ $event ];
+			return self::$handlers[$event];
 		}
 
 		return array();

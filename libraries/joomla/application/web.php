@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionInterface;
 use Joomla\String\StringHelper;
 
 /**
@@ -193,7 +194,7 @@ class JApplicationWeb extends JApplicationBase
 	 * Initialise the application.
 	 *
 	 * @param   mixed  $session     An optional argument to provide dependency injection for the application's
-	 *                              session object.  If the argument is a JSession object that object will become
+	 *                              session object.  If the argument is a SessionInterface object that object will become
 	 *                              the application's session object, if it is false then there will be no session
 	 *                              object, and if it is null then the default session object will be created based
 	 *                              on the application's loadSession() method.
@@ -241,7 +242,7 @@ class JApplicationWeb extends JApplicationBase
 			$this->loadLanguage($language);
 		}
 
-		$this->loadDispatcher($dispatcher);
+		$this->setDispatcher($dispatcher);
 
 		return $this;
 	}
@@ -776,12 +777,17 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Method to get the application session object.
 	 *
-	 * @return  JSession  The session object
+	 * @return  SessionInterface  The session object
 	 *
 	 * @since   11.3
 	 */
 	public function getSession()
 	{
+		if ($this->session === null)
+		{
+			throw new RuntimeException('A Joomla\Session\SessionInterface object has not been set.');
+		}
+
 		return $this->session;
 	}
 
@@ -1011,70 +1017,30 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   11.3
+	 * @deprecated  5.0  The session should be injected as a service.
 	 */
 	public function loadSession(JSession $session = null)
 	{
-		if ($session !== null)
-		{
-			$this->session = $session;
-
-			return $this;
-		}
-
-		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('sess_lifetime')) ? $this->get('sess_lifetime') * 60 : 900);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('sess_handler', 'none');
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name' => $name,
-			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl'),
-		);
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		// Set the session object.
-		$this->session = $session;
+		$this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
 
 		return $this;
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
+	 * Sets the session for the application to use, if required.
 	 *
-	 * @return  void
+	 * @param   SessionInterface  $session  A session object.
 	 *
-	 * @since   12.2
+	 * @return  JApplicationWeb This method is chainable.
+	 *
+	 * @since   4.0
 	 */
-	public function afterSessionStart()
+	public function setSession(SessionInterface $session)
 	{
-		$session = JFactory::getSession();
+		$this->session = $session;
 
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry('session'));
-			$session->set('user', new JUser);
-		}
-	}
+		return $this;
+  	}
 
 	/**
 	 * Method to load the system URI strings for the application.

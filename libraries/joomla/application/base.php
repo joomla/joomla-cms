@@ -10,7 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
-use Joomla\Event\Dispatcher;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Event;
 use Joomla\Registry\Registry;
@@ -22,15 +23,9 @@ use Joomla\Registry\Registry;
  *
  * @since  12.1
  */
-abstract class JApplicationBase extends AbstractApplication
+abstract class JApplicationBase extends AbstractApplication implements DispatcherAwareInterface
 {
-	/**
-	 * The application dispatcher object.
-	 *
-	 * @var    DispatcherInterface
-	 * @since  12.1
-	 */
-	protected $dispatcher;
+	use DispatcherAwareTrait;
 
 	/**
 	 * The application identity object.
@@ -84,31 +79,16 @@ abstract class JApplicationBase extends AbstractApplication
 	 */
 	public function registerEvent($event, $handler)
 	{
-		if ($this->dispatcher instanceof DispatcherInterface)
+		try
 		{
-			$this->dispatcher->addListener($event, $handler);
+			$this->getDispatcher()->addListener($event, $handler);
 		}
+		catch (UnexpectedValueException $e)
+  		{
+			// No dispatcher is registered, don't throw an error (mimics old behavior)
+  		}
 
 		return $this;
-	}
-	/**
-	 * Returns the event dispatcher of the application. This is a temporary method added during the Event package
-	 * refactoring.
-	 *
-	 * @deprecated
-	 *
-	 * TODO REFACTOR ME! Remove this and go through a Container.
-	 *
-	 * @return  DispatcherInterface
-	 */
-	public function getDispatcher()
-	{
-		if (!($this->dispatcher instanceof DispatcherInterface))
-		{
-			$this->loadDispatcher();
-		}
-
-		return $this->dispatcher;
 	}
 
 	/**
@@ -155,26 +135,6 @@ abstract class JApplicationBase extends AbstractApplication
 		}
 
 		return;
-	}
-
-	/**
-	 * Allows the application to load a custom or default dispatcher.
-	 *
-	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create event
-	 * dispatchers, if required, based on more specific needs.
-	 *
-	 * @param   DispatcherInterface  $dispatcher  An optional dispatcher object. If omitted, the factory dispatcher is created.
-	 *
-	 * @return  JApplicationBase This method is chainable.
-	 *
-	 * @since   12.1
-	 */
-	public function loadDispatcher(DispatcherInterface $dispatcher = null)
-	{
-		$this->dispatcher = ($dispatcher === null) ? new Dispatcher() : $dispatcher;
-
-		return $this;
 	}
 
 	/**

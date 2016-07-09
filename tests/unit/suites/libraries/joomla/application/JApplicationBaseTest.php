@@ -112,33 +112,6 @@ class JApplicationBaseTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Tests that the global dispatcher is loaded by loadDispatcher() when no object is injected.
-	 *
-	 * @covers  JApplicationBase::loadDispatcher
-	 * @uses    \Joomla\Event\DispatcherInterface
-	 */
-	public function testLoadDispatcherWithNoInjection()
-	{
-		$this->class->loadDispatcher();
-
-		$this->assertAttributeInstanceOf('Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
-	}
-
-	/**
-	 * @testdox  Tests that the injected dispatcher is stored to the application.
-	 *
-	 * @covers  JApplicationBase::loadDispatcher
-	 */
-	public function testLoadDispatcherWithInjection()
-	{
-		$dispatcher = $this->getMockDispatcher();
-
-		$this->class->loadDispatcher($dispatcher);
-
-		$this->assertAttributeSame($dispatcher, 'dispatcher', $this->class);
-	}
-
-	/**
 	 * @testdox  Tests that a JUser object is loaded into the application from the global factory.
 	 *
 	 * @covers  JApplicationBase::loadIdentity
@@ -184,12 +157,12 @@ class JApplicationBaseTest extends TestCase
 	 * @testdox  Tests that an event is registered with the application dispatcher.
 	 *
 	 * @covers  JApplicationBase::registerEvent
-	 * @uses    JApplicationBase::loadDispatcher
+	 * @uses    JApplicationBase::setDispatcher
 	 */
 	public function testRegisterEvent()
 	{
 		// Inject the mock dispatcher into the application
-		$this->class->loadDispatcher($this->getMockDispatcher());
+		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Validate method chaining
 		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', 'function'));
@@ -247,13 +220,13 @@ class JApplicationBaseTest extends TestCase
 	 * @testdox  Tests that an event is triggered with the application dispatcher.
 	 *
 	 * @covers  JApplicationBase::triggerEvent
-	 * @uses    JApplicationBase::loadDispatcher
+	 * @uses    JApplicationBase::setDispatcher
 	 * @uses    JApplicationBase::registerEvent
 	 */
 	public function testTriggerEvent()
 	{
 		// Inject the mock dispatcher into the application
-		$this->class->loadDispatcher($this->getMockDispatcher());
+		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Register our event to be triggered
 		$this->class->registerEvent('onJApplicationBaseTriggerEvent', 'function');

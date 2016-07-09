@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Dispatcher;
 
 /**
  * Authentication class, provides an interface for the Joomla authentication system
@@ -86,7 +85,7 @@ class JAuthentication implements DispatcherAwareInterface
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = new Dispatcher();
+			$dispatcher = JFactory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);

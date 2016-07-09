@@ -34,7 +34,19 @@ class InstallationServiceProviderApplication implements ServiceProviderInterface
 			'InstallationApplicationWeb',
 			function (Container $container)
 			{
-				return new InstallationApplicationWeb(null, null, null, $container);
+				$app = new InstallationApplicationWeb(null, null, null, $container);
+
+				// The session service provider needs JFactory::$application, set it if still null
+				if (JFactory::$application === null)
+				{
+					JFactory::$application = $app;
+				}
+
+				$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+				$app->setLogger(JLog::createDelegatedLogger());
+				$app->setSession($container->get('Joomla\Session\SessionInterface'));
+
+				return $app;
 			},
 			true
 		);
