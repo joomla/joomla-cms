@@ -62,12 +62,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  12.3
 	 */
-	protected static $namespaces = array(
-		'Admin' => array(JPATH_ROOT),
-		'Components' => array(JPATH_ROOT),
-		'Libraries' => array(JPATH_ROOT),
-		'Plugins' => array(JPATH_ROOT)
-	);
+	protected static $namespaces = array();
 
 	/**
 	 * Method to discover classes of a given type in a given path.
@@ -474,8 +469,18 @@ abstract class JLoader
 
 		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
+		// root namespaces for PSR-0 loader
+		$psr0_roots = array(
+			'Admin' => array(JPATH_ROOT),
+			'Components' => array(JPATH_ROOT),
+			'Libraries' => array(JPATH_ROOT),
+			'Plugins' => array(JPATH_ROOT)
+		);
+
+		$namespaces = array_merge(self::$namespaces,$psr0_roots);
+
 		// Loop through registered namespaces until we find a match.
-		foreach (self::$namespaces as $ns => $paths)
+		foreach ($namespaces as $ns => $paths)
 		{
 			if (strpos($class, $ns) === 0)
 			{
