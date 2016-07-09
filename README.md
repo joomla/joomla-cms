@@ -1,9 +1,9 @@
-[Browser Automated Tests for Joomla! CMS(covering Users and Content features - GSoC1 16)](https://summerofcode.withgoogle.com/projects/#5724182314745856)
+[Browser Automated Tests for Joomla! CMS(covering Users and Content features - GSoC 16)](https://summerofcode.withgoogle.com/projects/#5724182314745856)
 ===
 
 Abstract
 ---
-System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend -need for faster design‐develop‐test‐analysis cycle, push for higher quality, increasing complexity of systems and their integration and last but not least ever‐rising costs of manual testing. Software testing itself is very wide field with topics ranging from compliance frameworks.
+System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend need for faster design‐develop‐test‐analysis cycle, push for higher quality, increasing complexity of systems and their integration and last but not least ever‐rising costs of manual testing. Software testing itself is very wide field with topics ranging from compliance frameworks.
 
 Automation Testing means using an automation tool to execute test case suite. The automation software can also enter test data into the System Under Test, compare expected and actual results and generate detailed test reports.
 
@@ -86,7 +86,7 @@ _We are using `composer.json` file for `tests` folder, so that you will have to 
 
 ### Run tests
 
-To run the tests please execute the following commands. We are usin [Robo.li](http://robo.li/) to execute the tests.
+To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute the tests.
 
 #### To execute all the test features you should use.
 
@@ -109,6 +109,8 @@ $ tests/vendor/bin/codecept run tests/acceptance/users.feature
 ```
 
 _If you want to see steps then you can use `--steps` option of codeceptio. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
+
+**Note**:You can modify the timeout time by changing the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The **TIMEOUT** constant located in file tests/acceptance/_bootstrap.php
 
 Do you have suggestions?
 ---
