@@ -794,7 +794,7 @@
 		<field name="list_show_votes"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC">
 				<option value="1">JSHOW</option>
@@ -804,7 +804,7 @@
 		<field name="list_show_ratings"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC">
 				<option value="1">JSHOW</option>
