@@ -220,7 +220,7 @@ if (!empty($this->items))
 								<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
 							</span>
 						</td>
-					<?php endif; ?
+					<?php endif; ?>
 					<?php if ($isEditable) : ?>
 						<td <?php echo $headerEdit; ?> class="list-edit">
 							<?php if ($article->params->get('access-edit')) : ?>
