@@ -155,11 +155,11 @@ class JAdapter extends JObject
 		// Check for a possible service from the container otherwise manually instantiate the class
 		if (JFactory::getContainer()->exists($class))
 		{
-			$adapter = JFactory::getContainer()->get($class);
+			$this->_adapters[$name] = JFactory::getContainer()->get($class);
 		}
 		else
 		{
-			$adapter = new $class($this, $this->_db, $options);
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
 		}
 
 		return true;
