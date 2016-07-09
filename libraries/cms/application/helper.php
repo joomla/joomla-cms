@@ -202,25 +202,6 @@ class JApplicationHelper
 	}
 
 	/**
-	 * Parse a XML install manifest file.
-	 *
-	 * XML Root tag should be 'install' except for languages which use meta file.
-	 *
-	 * @param   string  $path  Full path to XML file.
-	 *
-	 * @return  array  XML metadata.
-	 *
-	 * @since       1.5
-	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
-	 */
-	public static function parseXMLInstallFile($path)
-	{
-		JLog::add('JApplicationHelper::parseXMLInstallFile is deprecated. Use JInstaller::parseXMLInstallFile instead.', JLog::WARNING, 'deprecated');
-
-		return JInstaller::parseXMLInstallFile($path);
-	}
-
-	/**
 	 * Parse a XML language meta file.
 	 *
 	 * XML Root tag  for languages which is meta file.

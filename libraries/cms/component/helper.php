@@ -415,21 +415,6 @@ class JComponentHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use JComponentHelper::load() instead
-	 */
-	protected static function _load($option)
-	{
-		return static::load($option);
-	}
-
-	/**
-	 * Load the installed components into the components property.
-	 *
-	 * @param   string  $option  The element value for the extension
-	 *
-	 * @return  boolean  True on success
-	 *
 	 * @since   3.2
 	 */
 	protected static function load($option)

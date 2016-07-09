@@ -103,15 +103,6 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
-	 * JInstaller instance container.
-	 *
-	 * @var    JInstaller
-	 * @since  3.1
-	 * @deprecated  4.0
-	 */
-	protected static $instance;
-
-	/**
 	 * JInstaller instances container.
 	 *
 	 * @var    JInstaller[]
@@ -151,12 +142,6 @@ class JInstaller extends JAdapter
 		if (!isset(self::$instances[$basepath]))
 		{
 			self::$instances[$basepath] = new static($basepath, $classprefix, $adapterfolder);
-
-			// For B/C, we load the first instance into the static $instance container, remove at 4.0
-			if (!isset(self::$instance))
-			{
-				self::$instance = self::$instances[$basepath];
-			}
 		}
 
 		return self::$instances[$basepath];

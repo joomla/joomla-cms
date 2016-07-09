@@ -505,25 +505,6 @@ class JLayoutFile extends JLayoutBase
 	}
 
 	/**
-	 * Change the layout
-	 *
-	 * @param   string  $layoutId  Layout to render
-	 *
-	 * @return  self
-	 *
-	 * @since   3.2
-	 *
-	 * @deprecated  3.5  Use setLayoutId()
-	 */
-	public function setLayout($layoutId)
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::setLayoutId() instead.', JLog::WARNING, 'deprecated');
-
-		return $this->setLayoutId($layoutId);
-	}
-
-	/**
 	 * Set the active layout id
 	 *
 	 * @param   string  $layoutId  Layout identifier
@@ -536,25 +517,6 @@ class JLayoutFile extends JLayoutBase
 	{
 		$this->layoutId = $layoutId;
 		$this->fullPath = null;
-
-		return $this;
-	}
-
-	/**
-	 * Refresh the list of include paths
-	 *
-	 * @return  self
-	 *
-	 * @since   3.2
-	 *
-	 * @deprecated  3.5  Use JLayoutFile::clearIncludePaths()
-	 */
-	protected function refreshIncludePaths()
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::clearIncludePaths() instead.', JLog::WARNING, 'deprecated');
-
-		$this->clearIncludePaths();
 
 		return $this;
 	}

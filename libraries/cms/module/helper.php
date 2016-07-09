@@ -325,19 +325,6 @@ abstract class JModuleHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use JModuleHelper::load() instead
-	 */
-	protected static function &_load()
-	{
-		return static::load();
-	}
-
-	/**
-	 * Load published modules.
-	 *
-	 * @return  array
-	 *
 	 * @since   3.2
 	 */
 	protected static function &load()

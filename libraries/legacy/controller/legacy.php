@@ -481,23 +481,6 @@ class JControllerLegacy extends JObject
 	}
 
 	/**
-	 * Authorisation check
-	 *
-	 * @param   string  $task  The ACO Section Value to check access on.
-	 *
-	 * @return  boolean  True if authorised
-	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Use JAccess instead.
-	 */
-	public function authorise($task)
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess instead.', JLog::WARNING, 'deprecated');
-
-		return true;
-	}
-
-	/**
 	 * Method to check whether an ID is in the edit list.
 	 *
 	 * @param   string   $context  The context for the session storage.
