@@ -33,7 +33,7 @@ class JRoute
 	 *                                    0: (default) No change, use the protocol currently used in the request
 	 *                                    1: Make URI secure using global secure site URI.
 	 *                                    2: Make URI unsecure using the global unsecure site URI.
-	 * @param   integer  $forcedClient  Force route for a specific client.
+	 * @param   string   $forcedClient  Force route for a specific client.
 	 *                                    null: (default) don't force client.
 	 *                                    site: force site (frontend) client.
 	 *                                    administrator: force administrator (backend) client.
