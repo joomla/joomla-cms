@@ -4,15 +4,14 @@ Feature: Users Frontend
   I need to check user login and registration in joomla! CMS
 
   Background:
-    Given Joomla CMS is installed
-    Then I see the joomla! Home page
+    Given I see the joomla! Home page
 
   Scenario: Create user from frontend (index.php?option=com_users)
     Given I click on the link "Create an account"
     And I create a user with fields Name "patel", Username "patel", Password "patel" and Email "patel@gmail.com"
     When I press the "Register"
     Then I see "Could not instantiate mail function." message
-    But user is created
+    And user is created
 
   Scenario: check the created user in the backend
     Given There is a user manager page in administrator
@@ -27,7 +26,7 @@ Feature: Users Frontend
   Scenario: Check if block and activation are working
     Given There is a user manager page in administrator
     And I unblock the user "patel"
-    And I active the user "patel"
+    And I activate the user "patel"
     When A login user "patel" with password "patel"
     Then He should see the message "Hi patel,"
 
