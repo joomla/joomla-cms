@@ -52,7 +52,7 @@ class JRoute
 
 		if (!isset(self::$_router[$client]))
 		{
-			self::$_router[$client] = JApplicationCms::getInstance($client)->getRouter($client);
+			self::$_router[$client] = $app->getRouter($client);
 
 			// Make sure that we have our router
 			if (!self::$_router[$client])
