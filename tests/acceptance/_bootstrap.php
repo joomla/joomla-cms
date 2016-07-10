@@ -1,3 +1,6 @@
 <?php
-define("TIMEOUT", 60);
-?>
+
+if (!defined('TIMEOUT'))
+{
+	define("TIMEOUT", 60);
+}
