@@ -110,7 +110,7 @@ $ tests/vendor/bin/codecept run tests/acceptance/users.feature
 
 _If you want to see steps then you can use `--steps` option of codeceptio. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
 
-**Note**:You can modify the timeout time by changing the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The **TIMEOUT** constant located in file tests/acceptance/_bootstrap.php
+**Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in file tests/acceptance/_bootstrap.php
 
 Do you have suggestions?
 ---
