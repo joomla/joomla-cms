@@ -28,8 +28,8 @@ Options -Indexes
 RewriteEngine On
 
 ## Begin - Rewrite rules to block out some common exploits.
-# If you experience problems on your site then coment out the operations listed below
-# by adding a # to the beginning of the line.
+# If you experience problems on your site then comment out the operations listed 
+# below by adding a # to the beginning of the line.
 # This attempts to block the most common type of exploit `attempts` on Joomla!
 #
 # Block any script trying to base64_encode data within the URL.
