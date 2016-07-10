@@ -178,7 +178,10 @@ class PlgContentLoadmodule extends JPlugin
 		$params = array('style' => $style);
 		ob_start();
 
-		echo $renderer->render($mod, $params);
+		if ($mod->id)
+		{
+			echo $renderer->render($mod, $params);
+		}
 
 		self::$mods[$module] = ob_get_clean();
 
