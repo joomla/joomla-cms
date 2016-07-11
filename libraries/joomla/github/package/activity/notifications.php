@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Activity Events class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/activity/notifications/
+ * @documentation https://developer.github.com/v3/activity/notifications/
  *
  * @since  3.3 (CMS)
  */
