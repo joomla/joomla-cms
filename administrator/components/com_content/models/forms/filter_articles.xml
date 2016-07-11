@@ -114,10 +114,10 @@
 			<option value="a.featured DESC">JFEATURED_DESC</option>
 			<option value="a.hits ASC">JGLOBAL_HITS_ASC</option>
 			<option value="a.hits DESC">JGLOBAL_HITS_DESC</option>
-			<option value="rating_count ASC">JGLOBAL_VOTES_ASC</option>
-			<option value="rating_count DESC">JGLOBAL_VOTES_DESC</option>
-			<option value="rating ASC">JGLOBAL_RATINGS_ASC</option>
-			<option value="rating DESC">JGLOBAL_RATINGS_DESC</option>
+			<option value="rating_count ASC" requires="vote">JGLOBAL_VOTES_ASC</option>
+			<option value="rating_count DESC" requires="vote">JGLOBAL_VOTES_DESC</option>
+			<option value="rating ASC" requires="vote">JGLOBAL_RATINGS_ASC</option>
+			<option value="rating DESC" requires="vote">JGLOBAL_RATINGS_DESC</option>
 		</field>
 		<field
 			name="limit"
