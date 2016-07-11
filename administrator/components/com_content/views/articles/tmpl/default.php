@@ -29,21 +29,6 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
-$vote = false;
-
-if ((JPluginHelper::isEnabled('content', 'vote')) && ($this->params->get('show_vote', 0)))
-{
-	$vote = true;
-}
-
-$votes  = ($listOrder == 'rating_count DESC')||($listOrder == 'rating_count ASC');
-$rating = ($listOrder == 'rating DESC')||($listOrder == 'rating ASC');
-
-if (!(($votes)||($rating)))
-{
-	$vote = false;
-}
-
 $assoc = JLanguageAssociations::isEnabled();
 ?>
 
@@ -101,10 +86,10 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-					<?php if ($vote) : ?>
+					<?php if ($this->vote) : ?>
 						<?php $columns++; ?>
 						<th width="1%" class="nowrap hidden-phone">
-						<?php if($rating) : ?>
+						<?php if($this->rating) : ?>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 						<?php else : ?>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
@@ -228,9 +213,9 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo (int) $item->hits; ?>
 							</span>
 						</td>
-						<?php if ($vote) : ?>
+						<?php if ($this->vote) : ?>
 							<td class="hidden-phone">
-								<?php if($rating) : ?>
+								<?php if($this->rating) : ?>
 									<span class="badge badge-success" title="<?php echo JText::_('JGLOBAL_VOTES') . (int) $item->rating_count; ?>">
 									<?php echo (int) $item->rating; ?>
 									</span>
