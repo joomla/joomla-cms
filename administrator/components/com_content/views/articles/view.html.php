@@ -42,7 +42,21 @@ class ContentViewArticles extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->params        = JComponentHelper::getParams('com_content');
+		$this->vote          = false;
+		$listOrder           = $this->state->get('list.fullordering', 'a.id');
+
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			$this->vote = true;
+		}
+
+		$votes  = ($listOrder == 'rating_count DESC')||($listOrder == 'rating_count ASC');
+		$this->rating = ($listOrder == 'rating DESC')||($listOrder == 'rating ASC');
+
+		if (!(($votes)||($this->rating)))
+		{
+			$this->vote = false;
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
