@@ -3,8 +3,12 @@
 
 Abstract
 ---
-System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend need for faster design‐develop‐test‐analysis cycle, push for higher quality, increasing complexity of systems and their integration and last but not least ever‐rising costs of manual testing. Software testing itself is very wide field with topics ranging from compliance frameworks.
-
+System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend,
++ Need for faster design‐develop‐test‐analysis cycle
++ Push for higher quality
++ Increasing complexity of systems and their integration and last but not least
++ Ever‐rising costs of manual testing
+ 
 Automation Testing means using an automation tool to execute test case suite. The automation software can also enter test data into the System Under Test, compare expected and actual results and generate detailed test reports.
 
 Test Automation demands considerable investments of money and resources. Successive development cycles will require execution of same test suite repeatedly. Using a test automation tool it's possible to record this test suite and re-play it as required. Once the test suite is automated, no human intervention is required.
@@ -86,7 +90,7 @@ _We are using `composer.json` file for `tests` folder, so that you will have to 
 
 ### Run tests
 
-To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute the tests.
+To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute [PhpUnit](https://phpunit.de/) based [Codeception](http://codeception.com/for/joomla) test suits.
 
 #### To execute all the test features you should use.
 
@@ -110,7 +114,7 @@ $ tests/vendor/bin/codecept run tests/acceptance/users.feature
 
 _If you want to see steps then you can use `--steps` option of codeceptio. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
 
-**Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in file tests/acceptance/_bootstrap.php
+**Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in the file `tests/acceptance/_bootstrap.php`
 
 Do you have suggestions?
 ---
