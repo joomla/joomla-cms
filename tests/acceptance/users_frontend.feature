@@ -3,40 +3,41 @@ Feature: Users Frontend
   As a user
   I need to check user login and registration in joomla! CMS
 
-  Background:
-    Given I see the joomla! Home page
-
   Scenario: Create user from frontend (index.php?option=com_users)
-    Given I click on the link "Create an account"
+    Given that user registration is enabled
+    And there is no user with Username "patel" or Email "patel@gmail.com"
+    When I click on the link "Create an account"
     And I create a user with fields Name "patel", Username "patel", Password "patel" and Email "patel@gmail.com"
-    When I press the "Register"
+    And I press the "Register"
     Then I see "Could not instantiate mail function." message
     And user is created
 
   Scenario: check the created user in the backend
-    Given There is a user manager page in administrator
+    Given I am on the User Manager page
     When I search the user with user name "patel"
     Then I should see the user "prital"
 
-  Scenario: Login with created user to assure it is blocked
-    Given A newly created user "patel" with password "patel"
-    When He press the "login"
-    Then He should see the "Login denied! Your account has either been blocked or you have not activated it yet." warning
+  Scenario: User can not login, if the account has not been activated
+    Given A not yet activated user with username "patel" and password "patel" exists
+    And I am on a frontend page with a login module
+    When I enter username "patel" and password "patel" into the login module
+    And I press the "login" button
+    Then I should see the "Login denied! Your account has either been blocked or you have not activated it yet." warning
 
   Scenario: Check if block and activation are working
-    Given There is a user manager page in administrator
-    And I unblock the user "patel"
+    Given I am on the User Manager page
+    When I unblock the user "patel"
     And I activate the user "patel"
-    When A login user "patel" with password "patel"
-    Then He should see the message "Hi patel,"
+    And I login with user "patel" with password "patel" in frontend
+    Then I should see the message "Hi patel,"
 
   Scenario: Profile changes done in the frontend are available in the backend
     Given I am logged in into the frontend as user "patel"
-    And I press the "Edit Profile" button
+    When I press the "Edit Profile" button
     And I change the name to "patidar"
     And I press the "submit" button
-    When I login to the backend as "admin"
-    And I go to the user manager page
+    And I login to the backend as "admin"
+    And I am on the User Manager page
     And I search the user with name "patidar"
     Then I should see the name "patidar"
 
