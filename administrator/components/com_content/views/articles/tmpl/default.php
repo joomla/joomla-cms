@@ -89,11 +89,11 @@ $assoc = JLanguageAssociations::isEnabled();
 					<?php if ($this->vote) : ?>
 						<?php $columns++; ?>
 						<th width="1%" class="nowrap hidden-phone">
-						<?php if($this->rating) : ?>
-							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
-						<?php else : ?>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
-						<?php endif;?>
+						</th>
+						<?php $columns++; ?>
+						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif;?>	
 						<th width="1%" class="nowrap hidden-phone">
@@ -215,15 +215,14 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 						<?php if ($this->vote) : ?>
 							<td class="hidden-phone">
-								<?php if($this->rating) : ?>
-									<span class="badge badge-success" title="<?php echo JText::_('JGLOBAL_VOTES') . (int) $item->rating_count; ?>">
-									<?php echo (int) $item->rating; ?>
-									</span>
-								<?php else: ?>
-									<span class="badge badge-success" title="<?php echo JText::_('JGLOBAL_RATINGS') . (int) $item->rating; ?>">
-									<?php echo (int) $item->rating_count; ?>
-									</span>
-								<?php endif; ?>
+								<span class="badge badge-success" >
+								<?php echo (int) $item->rating_count; ?>
+								</span>
+							</td>
+							<td class="hidden-phone">
+								<span class="badge badge-warning" >
+								<?php echo (int) $item->rating; ?>
+								</span>
 							</td>
 						<?php endif; ?>
 						<td class="hidden-phone">
