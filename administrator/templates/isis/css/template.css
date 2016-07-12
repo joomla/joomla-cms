@@ -8326,3 +8326,6 @@ body.modal-open {
 #page-permissions table select {
 	margin-bottom: 0;
 }
+div.mce-fullscreen {
+    z-index: 1031;
+}
