@@ -53,6 +53,16 @@ class JInstallerAdapterModule extends JInstallerAdapter
 					'client_id' => $this->clientId
 				)
 			);
+
+			// If it does exist, load it, otherwise consider this a new installation if we're on the update route
+			if ($this->currentExtensionId)
+			{
+				$this->extension->load(array('extension_id' => $this->currentExtensionId));
+			}
+			elseif (!$this->currentExtensionId && $this->getRoute() == 'update')
+			{
+				$this->setRoute('install');
+			}
 		}
 		catch (RuntimeException $e)
 		{

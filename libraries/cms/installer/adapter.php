@@ -148,10 +148,14 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				array('element' => $this->element, 'type' => $this->type)
 			);
 
-			// If it does exist, load it
+			// If it does exist, load it, otherwise consider this a new installation if we're on the update route
 			if ($this->currentExtensionId)
 			{
-				$this->extension->load(array('element' => $this->element, 'type' => $this->type));
+				$this->extension->load(array('extension_id' => $this->currentExtensionId));
+			}
+			elseif (!$this->currentExtensionId && $this->getRoute() == 'update')
+			{
+				$this->setRoute('install');
 			}
 		}
 		catch (RuntimeException $e)
