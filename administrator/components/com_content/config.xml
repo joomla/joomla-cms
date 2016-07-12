@@ -792,23 +792,21 @@
 		</field>
 
 		<field name="list_show_votes"
-			type="radio"
-			class="btn-group btn-group-yesno"
+			type="list"
 			default="0"
 			label="JGLOBAL_LIST_VOTES_LABEL"
 			description="JGLOBAL_LIST_VOTES_DESC">
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
 		</field>
 
 		<field name="list_show_ratings"
-			type="radio"
-			class="btn-group btn-group-yesno"
+			type="list"
 			default="0"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
 			description="JGLOBAL_LIST_RATINGS_DESC">
-				<option value="1">JSHOW</option>
-				<option value="0">JHIDE</option>
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
 		</field>
 
 	</fieldset>
