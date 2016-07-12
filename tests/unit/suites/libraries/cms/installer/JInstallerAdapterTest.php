@@ -116,7 +116,7 @@ class JInstallerAdapterTest extends TestCaseDatabase
 		// Ensure that load is called once the extension ID is found
 		$mockTableExtension->expects($this->once())
 			->method('load')
-			->with(array('element' => $element, 'type' => $type));
+			->with(array('extension_id' => $extensionId));
 
 		TestReflection::setValue($object, 'extension', $mockTableExtension);
 		TestReflection::setValue($object, 'type', $type);
