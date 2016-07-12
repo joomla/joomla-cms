@@ -121,12 +121,12 @@ if (!empty($this->items))
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if ($this->params->get('list_show_votes')) : ?>
+				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
 					<th id="categorylist_header_votes">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if ($this->params->get('list_show_ratings')) : ?>
+				<?php if if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
 					<th id="categorylist_header_ratings">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
@@ -207,14 +207,14 @@ if (!empty($this->items))
 							</span>
 						</td>
 					<?php endif; ?>
-					<?php if ($this->params->get('list_show_votes', 1)) : ?>
+					<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
 						<td <?php echo $headerVotes; ?> class="list-votes">
 							<span class="badge badge-success">
 								<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
 							</span>
 						</td>
 					<?php endif; ?>
-					<?php if ($this->params->get('list_show_ratings', 1)) : ?>
+					<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
 						<td <?php echo $headerRatings; ?> class="list-ratings">
 							<span class="badge badge-warning">
 								<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
