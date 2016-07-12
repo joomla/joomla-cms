@@ -126,7 +126,7 @@ if (!empty($this->items))
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
 					<th id="categorylist_header_ratings">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
