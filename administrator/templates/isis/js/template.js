@@ -103,7 +103,7 @@
 			dropdown.hide();
 			emptyMenu.show().html(dropdown.html());
 
-			// Check if the full element is visivle. If not, adjust the position
+			// Check if the full element is visible. If not, adjust the position
 			if (emptyMenu.Jvisible() !== true)
 			{
 				console.log('something');
