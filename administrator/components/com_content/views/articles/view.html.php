@@ -50,14 +50,6 @@ class ContentViewArticles extends JViewLegacy
 			$this->vote = true;
 		}
 
-		$votes  = ($listOrder == 'rating_count DESC')||($listOrder == 'rating_count ASC');
-		$this->rating = ($listOrder == 'rating DESC')||($listOrder == 'rating ASC');
-
-		if (!(($votes)||($this->rating)))
-		{
-			$this->vote = false;
-		}
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
