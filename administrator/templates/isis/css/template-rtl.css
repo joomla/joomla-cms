@@ -9151,3 +9151,6 @@ a.grid_true {
 .modal-header {
 	text-align: right;
 }
+div.mce-fullscreen {
+    z-index: 1031;
+}
