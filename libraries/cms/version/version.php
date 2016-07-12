@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-rc2';
+	const DEV_LEVEL = '0';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Release Candidate';
+	const DEV_STATUS = 'Stable';
 
 	/**
 	 * Build number.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '6-July-2016';
+	const RELDATE = '12-July-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '22:26';
+	const RELTIME = '21:14';
 
 	/**
 	 * Release timezone.
@@ -86,7 +86,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTZ = 'CET';
+	const RELTZ = 'GMT';
 
 	/**
 	 * Copyright Notice.
