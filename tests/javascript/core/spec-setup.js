@@ -7,6 +7,6 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/core/fixtures/fixture.html', 'libs/core', 'jasmineJquery'], function ($, fixture) {
-    $('body').append(fixture);
+define(['jquery', 'text!testsRoot/core/fixtures/fixture.html', 'libs/core'], function ($, fixture) {
+	$('body').append(fixture);
 });

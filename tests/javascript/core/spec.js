@@ -9,180 +9,191 @@
 
 define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 
-    describe('Joomla.submitform', function () {
-        var form = document.getElementById('adminForm');
-        form.task = {};
+	describe('Core Joomla.submitform', function () {
+		var form = document.getElementById('adminForm');
+		form.task = {};
 
-        beforeEach(function () {
-            form.removeChild = function (element) {
-                return true;
-            };
+		beforeEach(function () {
+			spyOnEvent('#adminForm', 'submit');
+			form.removeChild = jasmine.createSpy('removeChild');
 
-            spyOnEvent('#adminForm', 'submit')
-            spyOn(form, 'removeChild');
+			Joomla.submitform('article.add', form, true);
+		});
 
-            Joomla.submitform('article.add', form, true);
-        });
+		it('should assign task to form.task.value', function () {
+			expect(form.task.value).toEqual('article.add');
+		});
+		it('should set attribute novalidate to false', function () {
+			expect($(form)).toHaveAttr('novalidate', 'false');
+		});
+		it('should add input submit button to DOM', function () {
+			expect($('#adminForm')).toContainElement('input[type="submit"]');
+		});
+		it('should make the added input element invisible', function () {
+			expect($('#adminForm').children('input[type="submit"]')).not.toBeVisible();
+		});
+		it('should click the input element', function () {
+			expect('submit').toHaveBeenTriggeredOn('#adminForm');
+		});
+		it('should remove the input element', function () {
+			expect(form.removeChild).toHaveBeenCalled();
+		});
+	});
 
-        it('should assign task to form.task.value', function () {
-            expect(form.task.value).toEqual('article.add');
-        });
-        it('should set attribute novalidate to false', function () {
-            expect($(form)).toHaveAttr('novalidate', 'false');
-        });
-        it('should add input submit button to DOM', function () {
-            expect($('#adminForm')).toContainElement('input[type="submit"]');
-        });
-        it('should make the added input element invisible', function () {
-            expect($('#adminForm').children('input[type="submit"]')).not.toBeVisible();
-        });
-        it('should click the input element', function () {
-            expect('submit').toHaveBeenTriggeredOn('#adminForm');
-        });
-        it('should remove the input element', function () {
-            expect(form.removeChild).toHaveBeenCalled();
-        });
-    });
+	describe('Core Joomla.JText', function () {
+		var ob = {
+			'JTOGGLE_SHOW_SIDEBAR': 'Show Sidebar',
+			'Jtoggle_Hide_Sidebar': 'Hide Sidebar'
+		};
 
-    describe('Joomla.JText', function () {
-        var ob = {
-            'JTOGGLE_SHOW_SIDEBAR': 'Show Sidebar',
-            'Jtoggle_Hide_Sidebar': 'Hide Sidebar'
-        };
-        Joomla.JText.load(ob);
+		beforeAll(function () {
+			Joomla.JText.load(ob);
+		});
 
-        it('should add content passed via load() to the strings object', function () {
-            expect(Joomla.JText.strings.JTOGGLE_SHOW_SIDEBAR).toEqual('Show Sidebar');
-            expect(Joomla.JText.strings.JTOGGLE_HIDE_SIDEBAR).toEqual('Hide Sidebar');
-        });
-        it('should return \'Show Sidebar\' on calling Joomla.JText._(\'JTOGGLE_SHOW_SIDEBAR\', \'test\')', function () {
-            expect(Joomla.JText._('JTOGGLE_SHOW_SIDEBAR', 'test')).toEqual('Show Sidebar');
-        });
-        it('should return \'Show Sidebar\' on calling Joomla.JText._(\'Jtoggle_Show_Sidebar\', \'test\')', function () {
-            expect(Joomla.JText._('Jtoggle_Show_Sidebar', 'test')).toEqual('Show Sidebar');
-        });
-        it('should return \'test\' on calling Joomla.JText._(\'JTOGGLE_REMOVE_SIDEBAR\', \'test\')', function () {
-            expect(Joomla.JText._('JTOGGLE_REMOVE_SIDEBAR', 'test')).toEqual('test');
-        });
-    });
+		it('should add content passed via load() to the strings object', function () {
+			expect(Joomla.JText.strings.JTOGGLE_SHOW_SIDEBAR).toEqual('Show Sidebar');
+			expect(Joomla.JText.strings.JTOGGLE_HIDE_SIDEBAR).toEqual('Hide Sidebar');
+		});
+		it('should return \'Show Sidebar\' on calling Joomla.JText._(\'JTOGGLE_SHOW_SIDEBAR\', \'test\')', function () {
+			expect(Joomla.JText._('JTOGGLE_SHOW_SIDEBAR', 'test')).toEqual('Show Sidebar');
+		});
+		it('should return \'Show Sidebar\' on calling Joomla.JText._(\'Jtoggle_Show_Sidebar\', \'test\')', function () {
+			expect(Joomla.JText._('Jtoggle_Show_Sidebar', 'test')).toEqual('Show Sidebar');
+		});
+		it('should return \'test\' on calling Joomla.JText._(\'JTOGGLE_REMOVE_SIDEBAR\', \'test\')', function () {
+			expect(Joomla.JText._('JTOGGLE_REMOVE_SIDEBAR', 'test')).toEqual('test');
+		});
+	});
 
-    describe('Joomla.replaceTokens', function () {
-        var newToken = '123456789123456789123456789ABCDE';
-        Joomla.replaceTokens(newToken);
+	describe('Core Joomla.replaceTokens', function () {
+		var newToken = '123456789123456789123456789ABCDE';
 
-        it('should set name of all hidden input elements with value = 1 and name = old token to new token', function () {
-            var elements =$('.replace-tokens-input');
-            expect(elements[0].name).toEqual(newToken);
-            expect(elements[1].name).toEqual(newToken);
-        });
-        it('should not set name of non hidden input elements to new token', function () {
-            expect($('.replace-tokens-input #invalid-type').name).not.toEqual(newToken);
-        });
-        it('should not set name of input elements with value other than 1 to new token', function () {
-            expect($('.replace-tokens-input #invalid-value').name).not.toEqual(newToken);
-        });
-        it('should not set name of input elements with invalid name to new token', function () {
-            expect($('.replace-tokens-input #invalid-name').name).not.toEqual(newToken);
-        });
-    });
+		beforeAll(function () {
+			Joomla.replaceTokens(newToken);
+		});
 
-    describe('Joomla.checkAll', function () {
-        var form = document.getElementById('check-all-form');
-        form.boxchecked = {};
+		it('should set name of all hidden input elements with value = 1 and name = old token to new token', function () {
+			var $elements =$('.replace-tokens-input');
+			expect($elements[0].name).toEqual(newToken);
+			expect($elements[1].name).toEqual(newToken);
+		});
+		it('should not set name of non hidden input elements to new token', function () {
+			expect($('.replace-tokens-input #invalid-type').name).not.toEqual(newToken);
+		});
+		it('should not set name of input elements with value other than 1 to new token', function () {
+			expect($('.replace-tokens-input #invalid-value').name).not.toEqual(newToken);
+		});
+		it('should not set name of input elements with invalid name to new token', function () {
+			expect($('.replace-tokens-input #invalid-name').name).not.toEqual(newToken);
+		});
+	});
 
-        var element = document.getElementById('cb0');
-        Joomla.checkAll(element);
-        
-        it('should return false when input element is not inside a form', function () {
-            expect(Joomla.checkAll(document.getElementById('cb-no-form'))).toEqual(false);
-        });
+	describe('Core Joomla.checkAll', function () {
+		var form = document.getElementById('check-all-form');
+		form.boxchecked = {};
+		var element = document.getElementById('cb0');
 
-        it('should check all the checkboxes that has id starting with \'cb\' inside the form', function () {
-            expect($('#cb0')).toBeChecked();
-            expect($('#cb1')).toBeChecked();
-            expect($('#cb2')).toBeChecked();
-            expect($('#no-cb3')).not.toBeChecked();
-        });
+		beforeAll(function () {
+			Joomla.checkAll(element);
+		});
 
-        it('should set the number of checked boxes in the form to form.boxchecked', function () {
-            expect(form.boxchecked.value).toEqual(3);
-        });
+		it('should return false when input element is not inside a form', function () {
+			expect(Joomla.checkAll(document.getElementById('cb-no-form'))).toEqual(false);
+		});
 
-        it('should use passed in stub to look for input elements', function () {
-            var element = document.getElementById('stub-check-test-1');
-            Joomla.checkAll(element, 'stub');
+		it('should check all the checkboxes that has id starting with \'cb\' inside the form', function () {
+			expect($('#cb0')).toBeChecked();
+			expect($('#cb1')).toBeChecked();
+			expect($('#cb2')).toBeChecked();
+			expect($('#no-cb3')).not.toBeChecked();
+		});
 
-            expect($('#stub-check-test-1')).toBeChecked();
-            expect($('#stub-check-test-2')).toBeChecked();
-        });
-    });
+		it('should set the number of checked boxes in the form to form.boxchecked', function () {
+			expect(form.boxchecked.value).toEqual(3);
+		});
 
-    describe('Joomla.renderMessages and Joomla.removeMessages', function () {
-        var messages = {
-            "message": ["Message one", "Message two"],
-            "error": ["Error one", "Error two"]
-        };
+		it('should use passed in stub to look for input elements', function () {
+			var element = document.getElementById('stub-check-test-1');
+			Joomla.checkAll(element, 'stub');
 
-        beforeAll(function () {
-            Joomla.JText.load({"message": "Message"});
-            Joomla.renderMessages(messages);
-        });
+			expect($('#stub-check-test-1')).toBeChecked();
+			expect($('#stub-check-test-2')).toBeChecked();
+		});
+	});
 
-        it('renderMessages should render titles when translated strings are available', function () {
-            expect($('h4.alert-heading').first()).toContainText('Message');
-        });
+	describe('Core Joomla.renderMessages and Joomla.removeMessages', function () {
+		var messages = {
+			"message": ["Message one", "Message two"],
+			"error": ["Error one", "Error two"]
+		};
 
-        it('renderMessages should render messages inside a div having class alert-message', function () {
-            var messages = $('div.alert-success').children('div');
-            expect(messages[0]).toContainText('Message two');
-            expect(messages[1]).toContainText('Message one');
-        });
+		beforeAll(function () {
+			Joomla.JText.load({"message": "Message"});
+			Joomla.renderMessages(messages);
+		});
 
-        it('renderMessages should render errors inside a div having class alert-error', function () {
-            var messages = $('div.alert-error').children('div');
-            expect(messages[0]).toContainText('Error two');
-            expect(messages[1]).toContainText('Error one');
-        });
+		it('renderMessages should render titles when translated strings are available', function () {
+			expect($('h4.alert-heading').first()).toContainText('Message');
+		});
 
-        it('removeMessages should remove all content from system-message-container', function () {
-            Joomla.removeMessages();
-            expect($("#system-message-container")).toBeEmpty();
-        });
-    });
+		it('renderMessages should render messages inside a div having class alert-message', function () {
+			var $messages = $('div.alert-success').children('div');
+			expect($messages[0]).toContainText('Message two');
+			expect($messages[1]).toContainText('Message one');
+		});
 
-    describe('Joomla.isChecked', function () {
-        var form = document.getElementById('ischecked-test-form');
-        form.boxchecked = {value: 5};
+		it('renderMessages should render errors inside a div having class alert-error', function () {
+			var $messages = $('div.alert-error').children('div');
+			expect($messages[0]).toContainText('Error two');
+			expect($messages[1]).toContainText('Error one');
+		});
 
-        Joomla.isChecked(true, form);
+		it('removeMessages should remove all content from system-message-container', function () {
+			Joomla.removeMessages();
+			expect($("#system-message-container")).toBeEmpty();
+		});
+	});
 
-        it('should increase form.boxchecked.value from 5 to 6', function () {
-            expect(form.boxchecked.value).toEqual(6);
-        });
-        it('should set checkAllToggle.checked to false', function () {
-            expect(form.elements[ 'checkall-toggle' ].checked).toEqual(false);
-        });
-    });
+	describe('Core Joomla.isChecked', function () {
+		var form = document.getElementById('ischecked-test-form');
+		form.boxchecked = {value: 5};
 
-    describe('Joomla.tableOrdering', function () {
-        beforeAll(function () {
-            spyOn(Joomla, 'submitform');
+		beforeAll(function () {
+			Joomla.isChecked(true, form);
+		});
 
-            this.form = document.getElementById('table-ordering-test-form');
-            this.form.filter_order = {};
-            this.form.filter_order_Dir = {};
+		it('should increase form.boxchecked.value from 5 to 6', function () {
+			expect(form.boxchecked.value).toEqual(6);
+		});
+		it('should set checkAllToggle.checked to false', function () {
+			expect(form.elements[ 'checkall-toggle' ].checked).toEqual(false);
+		});
+	});
 
-            Joomla.tableOrdering('order', 'dir', 'task', this.form);
-        });
+	describe('Core Joomla.tableOrdering', function () {
+		beforeAll(function () {
+			submitformFn = Joomla.submitform;
+			Joomla.submitform = jasmine.createSpy('submitform');
 
-        it('should call Joomla.submitform with params task and form', function () {
-            expect(Joomla.submitform).toHaveBeenCalledWith('task', this.form);
-        });
-        it('should set form.filter_order.value = order', function () {
-            expect(this.form.filter_order.value).toEqual('order')
-        });
-        it('should set form.filter_order_Dir.value = dir', function () {
-            expect(this.form.filter_order_Dir.value).toEqual('dir')
-        });
-    });
+			this.form = document.getElementById('table-ordering-test-form');
+			this.form.filter_order = {};
+			this.form.filter_order_Dir = {};
+
+			Joomla.tableOrdering('order', 'dir', 'task', this.form);
+		});
+
+		afterAll(function() {
+			Joomla.submitform = submitformFn;
+		});
+
+		it('should call Joomla.submitform with params task and form', function () {
+			expect(Joomla.submitform).toHaveBeenCalledWith('task', this.form);
+		});
+		it('should set form.filter_order.value = order', function () {
+			expect(this.form.filter_order.value).toEqual('order')
+		});
+		it('should set form.filter_order_Dir.value = dir', function () {
+			expect(this.form.filter_order_Dir.value).toEqual('dir')
+		});
+	});
 });
