@@ -314,7 +314,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.fullordering', 'a.id');
+		$orderCol = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		$query->order($db->escape($orderCol));
