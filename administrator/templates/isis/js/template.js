@@ -106,7 +106,6 @@
 			// Check if the full element is visible. If not, adjust the position
 			if (emptyMenu.Jvisible() !== true)
 			{
-				console.log('something');
 				emptyMenu.css({
 					top : ($w.height() - emptyMenu.outerHeight()) - $('#status').height()
 				});
