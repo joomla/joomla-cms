@@ -1304,3 +1304,6 @@ div.toggle-editor {
 .modal-footer button {
 	float: left;
 }
+div.mce-fullscreen {
+    z-index: 1031;
+}
