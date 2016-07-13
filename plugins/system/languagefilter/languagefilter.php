@@ -85,7 +85,8 @@ class PlgSystemLanguageFilter extends JPlugin
 		// If language filter plugin is executed in a admin page (ex: JRoute site).
 		else
 		{
-			$this->current_lang = $this->default_lang;
+			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
+			$this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
 
 			foreach ($this->sefs as $sef => $language)
 			{
