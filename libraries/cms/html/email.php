@@ -91,26 +91,31 @@ abstract class JHtmlEmail
 
 		$inlineScript = '';
 		$script       = "
-		document.onreadystatechange = function () {
-			if (document.readyState == 'interactive') {
+
 				document.getElementById('cloak" . $rand . "').innerHTML = '';
 				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
 				var path = 'hr' + 'ef' + '=';
 				var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';
 				addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';
 				$tmpScript
-			}
-		};
 		";
 
-		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+		if (strtolower(JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest')
 		{
 			// Use inline script for ajax calls
-			$inlineScript = "<script>" . $script . "</script>";
+			$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
 		}
 		else
 		{
-			JFactory::getDocument()->addScriptDeclaration($script);
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		document.onreadystatechange = function () {
+			if (document.readyState == 'interactive') {
+			" . $script . "
+			}
+		};
+				"
+			);
 		}
 
 		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
