@@ -405,22 +405,22 @@ abstract class JHtmlBehavior
 				parse: 'rel'
 			});
 		});
-		function jModalClose() {
-			SqueezeBox.close();
-		};
-		// Patch for tinyMCE
-		if (typeof tinyMCE != 'undefined' && tinyMCE) {
-			var oldClose = jModalClose;
-			jModalClose = function () {
-				oldClose.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			};
 
-			var oldSqueezeBox = SqueezeBox.close;
-			SqueezeBox.close = function () {
-				oldSqueezeBox.apply(this, arguments);
+		jModalClose = function () {
+			// Patch for tinyMCE
+			if (typeof tinyMCE != 'undefined' && tinyMCE && tinyMCE.activeEditor) {
 				tinyMCE.activeEditor.windowManager.close();
-			};
+			}
+			SqueezeBox.close();
+		}
+		
+		// Patch for tinyMCE
+		if (typeof tinyMCE != 'undefined' && tinyMCE && tinyMCE.activeEditor) {
+			var oldSqueeze_Box = SqueezeBox.close;
+			SqueezeBox.close = function () {
+				tinyMCE.activeEditor.windowManager.close();
+				return oldSqueeze_Box();
+			}
 		}
 		"
 		);

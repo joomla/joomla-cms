@@ -20,15 +20,15 @@ jQuery(window).bind("load", function () {
 	} else {
 		var oldClose = jModalClose;
 		jModalClose = function () {
-			oldClose.apply(this, arguments);
 			tinyMCE.activeEditor.windowManager.close();
+			return oldClose();
 		};
 	}
 	if (SqueezeBox != undefined) {
 		var oldSqueezeBox = SqueezeBox.close;
 		SqueezeBox.close = function () {
-			oldSqueezeBox.apply(this, arguments);
 			tinyMCE.activeEditor.windowManager.close();
+			return oldSqueezeBox();
 		}
 	} else {
 		var SqueezeBox = {};
