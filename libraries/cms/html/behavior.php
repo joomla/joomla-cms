@@ -407,7 +407,22 @@ abstract class JHtmlBehavior
 		});
 		function jModalClose() {
 			SqueezeBox.close();
-		}"
+		};
+		// Patch for tinyMCE
+		if (typeof tinyMCE != 'undefined' && tinyMCE) {
+			var oldClose = jModalClose;
+			jModalClose = function () {
+				oldClose.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
+
+			var oldSqueezeBox = SqueezeBox.close;
+			SqueezeBox.close = function () {
+				oldSqueezeBox.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
+		}
+		"
 		);
 
 		// Set static array
@@ -662,7 +677,7 @@ abstract class JHtmlBehavior
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&amp;format=json';
+			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
 		}
 		else
 		{

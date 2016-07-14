@@ -668,18 +668,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
 		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
+		}
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -756,7 +756,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new JDatabaseExceptionExecuting($this->errorMsg, null, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -772,7 +772,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new JDatabaseExceptionExecuting($this->errorMsg);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg);
 			}
 		}
 

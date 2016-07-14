@@ -22,9 +22,15 @@ $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
 
+// Output document as HTML5.
+if (is_callable(array($doc, 'setHtml5')))
+{
+	$doc->setHtml5(true);
+}
+
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
-$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
 $mainPageUri = $frontEndUri->toString();
 
 // Detecting Active Variables
@@ -65,30 +71,30 @@ $statusFixed   = $params->get('statusFixed', '1');
 $stickyToolbar = $params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
 	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
 		<!-- Load additional CSS styles for debug mode-->
-		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/cms/css/debug.css" type="text/css" />
+		<link href="<?php echo JUri::root(true); ?>/media/cms/css/debug.css" rel="stylesheet" />
 	<?php endif; ?>
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo JUri::root(); ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
 	<?php endif; ?>
 	<?php // Load specific language related CSS ?>
 	<?php $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css'; ?>
 	<?php if (is_file($file)) : ?>
-		<link rel="stylesheet" href="<?php echo $file; ?>" type="text/css" />
+		<link href="<?php echo $file; ?>" rel="stylesheet" />
 	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" type="text/css" />
-	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" rel="stylesheet" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
 	<?php if ($params->get('templateColor')) : ?>
-	<style type="text/css">
+	<style>
 		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
 			background: <?php echo $params->get('templateColor');?>;
@@ -102,7 +108,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php endif; ?>
 	<?php // Template header color ?>
 	<?php if ($params->get('headerColor')) : ?>
-	<style type="text/css">
+	<style>
 		.header
 		{
 			background: <?php echo $params->get('headerColor');?>;
@@ -111,21 +117,18 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php endif; ?>
 	<?php // Sidebar background color ?>
 	<?php if ($params->get('sidebarColor')) : ?>
-		<style type="text/css">
+		<style>
 			.nav-list > .active > a, .nav-list > .active > a:hover {
 				background: <?php echo $params->get('sidebarColor'); ?>;
 			}
 		</style>
 	<?php endif; ?>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js" type="text/javascript"></script>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
-	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js" type="text/javascript"></script>
-	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/jquery-noconflict.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/bootstrap.js"></script>
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js"></script>
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
 <body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " ";?>" data-spy="scroll" data-target=".subhead" data-offset="87">
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">

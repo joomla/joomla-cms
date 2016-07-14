@@ -150,7 +150,7 @@ class JFormFieldNumber extends JFormField
 		$readonly = $this->readonly ? ' readonly' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
-		$hint     = $hint ? ' placeholder="' . $hint . '"' : '';
+		$hint     = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
 
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
