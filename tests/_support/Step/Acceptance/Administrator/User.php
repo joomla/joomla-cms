@@ -1,11 +1,12 @@
 <?php
 namespace Step\Acceptance\Administrator;
 
+use \Codeception\Util\Locator;
 use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\LoginPage;
 use Page\Acceptance\Administrator\UserAclPage;
 use Page\Acceptance\Administrator\UserGroupPage;
-use  Page\Acceptance\Administrator\UserManagerPage;
+use Page\Acceptance\Administrator\UserManagerPage;
 
 class User extends \AcceptanceTester
 {
@@ -47,7 +48,7 @@ class User extends \AcceptanceTester
 	public function iSeeTheMessage($message)
 	{
 		$I = $this;
-		$I->waitForText($message, 60, AdminPage::$systemMessageContainer);
+		$I->waitForText($message, TIMEOUT, AdminPage::$systemMessageContainer);
 		$I->see($message, AdminPage::$systemMessageContainer);
 	}
 
@@ -380,7 +381,7 @@ class User extends \AcceptanceTester
 	public function iSetAllowUserRegistrationAsAYes()
 	{
 		$I = $this;
-		$I->selectOptionInRadioField('Allow User Registration', 'Yes');
+		$I->click(Locator::contains('label', 'Yes'));
 	}
 
 	/**
@@ -393,13 +394,12 @@ class User extends \AcceptanceTester
 
 	}
 
-
 	/**
 	 * @Then I should be see the link Create an account in frontend
 	 */
 	public function iShouldBeSeeTheLinkCreateAnAccountInFrontend()
 	{
 		$I = $this;
-		$I->click(['class' => 'brand visible-desktop visible-tablet']);
+		$I->amOnPage('/');
 	}
 }

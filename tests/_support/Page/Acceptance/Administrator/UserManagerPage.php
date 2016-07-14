@@ -11,15 +11,27 @@ class UserManagerPage extends AdminPage
 
     public static $passwordField = ['id' => 'jform_password'];
 
+    public static $password1Field = ['id' => 'jform_password1'];
+
     public static $password2Field = ['id' => 'jform_password2'];
 
     public static $emailField = ['id' => 'jform_email'];
+
+    public static $email1Field = ['id' => 'jform_email1'];
+    
+    public static $email2Field = ['id' => 'jform_email2'];
     
     public static $filterSearch = ['id' => 'filter_search'];
 
     public static $iconSearch = ['class' => 'icon-search'];
 
     public static $title = ['id' => 'jform_title'];
-    
+
+    public static $seeUserName = ['xpath' => ".//*[@id='userList']//*/tr[1]/td[3]"];
+
+    public static $seeName = ['xpath' => ".//*[@id='userList']//*/tr[1]/td[2]"];
+
+    public static $lastLoginDate = ['xpath' => ".//*[@id='userList']//*/tr[1]/td[8]"];
+
     public static $url = "administrator/index.php?option=com_users&view=users";
 }
