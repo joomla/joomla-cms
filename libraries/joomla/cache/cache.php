@@ -351,6 +351,13 @@ class JCache
 		$returning = new stdClass;
 		$returning->locklooped = false;
 
+		if (!$this->getCaching())
+		{
+			$returning->locked = false;
+
+			return $returning;
+		}
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
@@ -363,7 +370,7 @@ class JCache
 		 */
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->getCaching())
+		if (!($handler instanceof Exception) && $this->_options['locking'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
 
@@ -382,7 +389,7 @@ class JCache
 		$looptime = $locktime * 10;
 		$id2      = $id . '_lock';
 
-		if ($this->_options['locking'] == true && $this->getCaching())
+		if ($this->_options['locking'] == true)
 		{
 			$data_lock = $this->get($id2, $group);
 		}
@@ -412,7 +419,7 @@ class JCache
 			}
 		}
 
-		if ($this->_options['locking'] == true && $this->getCaching())
+		if ($this->_options['locking'] == true)
 		{
 			$returning->locked = $this->store(1, $id2, $group);
 		}
@@ -435,6 +442,11 @@ class JCache
 	 */
 	public function unlock($id, $group = null)
 	{
+		if (!$this->getCaching())
+		{
+			return false;
+		}
+
 		$unlock = false;
 
 		// Get the default group
@@ -443,7 +455,7 @@ class JCache
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->getCaching())
+		if (!($handler instanceof Exception))
 		{
 			$unlocked = $handler->unlock($id, $group);
 
