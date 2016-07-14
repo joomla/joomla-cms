@@ -172,7 +172,7 @@ abstract class ModArticlesCategoryHelper
 		else
 		{
 			$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-			$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+			$articles->setState('list.direction', $params->get('article_ordering_direction', 'DESC'));
 		}
 
 		// New Parameters

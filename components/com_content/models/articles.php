@@ -72,7 +72,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @since   12.2
 	 */
-	protected function populateState($ordering = 'ordering', $direction = 'ASC')
+	protected function populateState($ordering = 'ordering', $direction = 'DESC')
 	{
 		$app = JFactory::getApplication();
 
@@ -95,11 +95,11 @@ class ContentModelArticles extends JModelList
 
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
+		$listOrder = $app->input->get('filter_order_Dir', 'DESC');
 
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
-			$listOrder = 'ASC';
+			$listOrder = 'DESC';
 		}
 
 		$this->setState('list.direction', $listOrder);
