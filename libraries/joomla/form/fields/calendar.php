@@ -238,7 +238,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'weeknumbers'  => $this->weeknumbers,
 			'showtime'     => $this->showtime,
 			'filltable'    => $this->filltable,
-			//'multiple'     => $this->multiple,
 			'timeformat'   => $this->timeformat,
 			'minyear'      => $this->minyear,
 			'maxyear'      => $this->maxyear,
