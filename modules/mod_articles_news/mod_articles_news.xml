@@ -140,7 +140,7 @@
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
-					showon="ordering:a.publish_up,a.created,a.ordering,a.hits"
+					showon="ordering:a.publish_up,a.created,a.modified,a.ordering,a.hits"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
