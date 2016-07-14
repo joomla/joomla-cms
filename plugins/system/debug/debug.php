@@ -1042,7 +1042,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						if ($dup != $id)
 						{
-							$dups[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+							$dups[] = '<a href="'.JUri::getInstance()->toString().'#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 						}
 					}
 
@@ -1107,7 +1107,7 @@ class PlgSystemDebug extends JPlugin
 
 				foreach ($dups as $dup)
 				{
-					$links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+					$links[] = '<a href="'.JUri::getInstance()->toString().'#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
 
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
