@@ -83,7 +83,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'weeknumbers':
 			case 'showtime':
 			case 'filltable':
-			//case 'multiple':
+			// case 'multiple':
 				return $this->$name;
 		}
 
@@ -115,7 +115,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'weeknumbers':
 			case 'showtime':
 			case 'filltable':
-			//case 'multiple':
+			// case 'multiple':
 				$this->$name = (bool) $value;
 				break;
 			case 'format':
@@ -155,7 +155,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->weeknumbers  = (bool) $this->element['weeknumbers'] ? (bool) $this->element['weeknumbers'] : false;
 			$this->showtime     = (bool) $this->element['showtime'] ? (bool) $this->element['showtime'] : false;
 			$this->filltable    = (bool) $this->element['filltable'] ? (bool) $this->element['filltable'] : true;
-			//$this->multiple     = (bool) $this->element['multiple'] ? (bool) $this->element['multiple'] : false;
+			// $this->multiple     = (bool) $this->element['multiple'] ? (bool) $this->element['multiple'] : false;
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->minyear      = (int) $this->element['minyear'] ? (int) $this->element['minyear'] : 1970;
 			$this->maxyear      = (int) $this->element['maxyear'] ? (int) $this->element['maxyear'] : 2050;
