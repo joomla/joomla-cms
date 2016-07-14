@@ -556,6 +556,31 @@ class JAccess
 	}
 
 	/**
+	 * Method to return the ID for a group name
+	 *
+	 * @param   string  $groupname   The group name (title)
+	 *
+	 * @return  integer  the group id (0 if not found)
+	 *
+	 * @todo This method is generic and should probably be in a group helper class
+	 */
+	public static function getGroupId($groupname)
+	{
+		// Set up
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// The query
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__usergroups'));
+		$query->where($db->quoteName('title') . ' = ' . $db->quote($groupname));
+
+		// Get the results
+		$db->setQuery($query, 0, 1);
+		return $db->loadResult();
+	}
+
+	/**
 	 * Method to return the JAccessRules object for an asset.  The returned object can optionally hold
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
@@ -1075,7 +1100,8 @@ class JAccess
 				$actions[] = (object) array(
 					'name' => (string) $action['name'],
 					'title' => (string) $action['title'],
-					'description' => (string) $action['description']
+					'description' => (string) $action['description'],
+					'default' => (string) $action['default']
 				);
 			}
 		}
@@ -1083,4 +1109,457 @@ class JAccess
 		// Finally return the actions array
 		return $actions;
 	}
+
+	/**
+	 * Remove all groups in the array of group IDs that have ancestors that
+	 * are in the provided array of groups.
+	 *
+	 * This has the effect of only leaving the lowest level group on each line
+	 * of descent.
+	 *
+	 * @param  array  $groupsIds array of group IDs to be purged (called 'set of groups' below)
+	 *
+	 * @return a new array of group IDs with descendent groups removed
+	 *
+	 * @todo This method is generic and should probably be in a group helper class
+	 */
+	public static function removeDescendentGroups($groupIds)
+	{
+		// Get the needed info for each group
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'));
+		$query->select($db->quoteName('parent_id'));
+		$query->select($db->quoteName('title'));
+		$query->from($db->quoteName('#__usergroups'));
+		$db->setQuery($query);
+		$group_data = $db->loadObjectList();
+
+		// Construct an array of the parents to simplify later searches
+		$parent = Array();
+		foreach ($group_data as $grp)
+		{
+			$parent[(int)$grp->id] = (int)$grp->parent_id;
+		}
+
+		// Array of the eldest groups (that have no ancestors in the set of groups)
+		$eldest = Array();
+
+		// Check each of the groups to see whether it has descendents in the set of groups
+		$unprocessed = $groupIds;
+		while (count($unprocessed) > 0)
+		{
+			// Check the next group
+			$target_gid = array_pop($unprocessed);
+			
+			// See if it has any ancestors in the set of groups
+			$descendent_found = false;
+			foreach ($groupIds as $check_id)
+			{
+				// Do not check itself
+				if ($check_id == $target_gid)
+				{
+					continue;
+				}
+
+				// See if this group id is an ancestor of $target_gid
+				$check_id = $parent[$target_gid];
+				while ($check_id > 0)
+				{
+					if ( in_array($check_id, $groupIds) )
+					{
+						$descendent_found = true;
+						break 2;
+					}
+
+					// Recurse to its parent
+					$check_id = $parent[$check_id];
+				}
+			}
+
+			if (!$descendent_found)
+			{
+				// If we found no descendents for this target group, we can 
+				// save it to array of known 'eldest' groups (eg, that have 
+				// no ancestors in our set of groups)
+
+				$elders[] = $target_gid;
+			}
+		}
+
+		// Always sort the resulting groups (helps testing)
+		sort($elders);
+
+		// Return the resulting groups
+		return $elders;
+	}
+
+	/**
+	 * Return the least authoritative group from the set of groups
+	 *
+	 * If threre is a choice avoid groups that have permission to do the
+	 * actions core.admin or core.manage.  Otherwise, use a ranking algorithm
+	 * to pick the least authorititative group to do core actions for the
+	 * specified asset.
+	 *
+	 * @param  array   $groupsIds array of group IDs to be processed (called 'set of groups' below)
+	 * @param  string  $asset the name of the asset (eg, component) to be checked
+	 *
+	 * @param  int  least authoritative group ID from the set of groups
+	 */
+	public static function leastAuthoritativeGroup($groupIds, $asset = 'com_content')
+	{
+		// Remove any any descendents 
+		$groupIds = JAccess::removeDescendentGroups($groupIds);
+
+		// Construct sets of groups that will be needed
+		$admin_groups = Array();
+		$manage_groups = Array();
+		$normal_groups = Array();
+		foreach ($groupIds as $group_id)
+		{
+			if (JAccess::checkGroup($group_id, 'core.admin', $asset))
+			{
+				// All groups that have core.admin authority
+				$admin_groups[] = $group_id;
+			}
+			if (JAccess::checkGroup($group_id, 'core.manage', $asset))
+			{
+				// All groups that have core.manage authority
+				$manage_groups[] = $group_id;
+			}
+			if ( !(JAccess::checkGroup($group_id, 'core.admin', $asset) OR
+				   JAccess::checkGroup($group_id, 'core.manage', $asset)) )
+			{
+				// Groups that do not have either core.admin or core.manage
+				$normal_groups[] = $group_id;
+			}
+		}
+
+		// Filter out any groups that have manage or admin authority (if possible)
+		$groups = null;
+		if (empty($normal_groups))
+		{   
+			// The groups have only either admin or manager authority
+
+			if (empty($manage_groups))
+			{
+				// Only admin authority groups left
+				$groups = $admin_groups;
+
+				// NOTE:
+				// Any group with core.admin privilege is functionally a
+				// super-user group so there is no need to try to remove
+				// super-users from this list.
+			}
+			else if (empty($admin_groups))
+			{
+				// Only manage authority groups left, use them
+				$groups = $manage_groups;
+			}
+			else
+			{
+				// There are both admin and manage groups
+				// Only select those that do not have admin authority
+				$groups = array_diff($manage_groups, $admin_groups);
+				if (empty($groups))
+				{
+					// In case all groups here have both admin and manage,
+					// they are equivalent, so use the full set of manage
+					// groups
+					$groups = $manage_groups;
+				}
+			}
+		}
+		else
+		{
+			// These groups are "normal' authority groups.
+			// (Do not have either admin or manage authorty)
+			$groups = $normal_groups;
+		}
+
+		// If we have winnowed it down to 1 group, we are done
+		if (count($groups) == 1)
+		{
+			return $groups[0];
+		}
+
+		// Now we need to rank the remaining groups so we can select which one
+		// to use
+		//
+		// Rank the rules from least authoritative to most authoritative
+		// (somewhat arbitrary).  For each group that can do the required
+		// action, sum the ranks for all core rules that it can do to form a
+		// total 'authority' index.  Then choose the group with the lowest
+		// total 'authority' index.
+		//
+		$core_action_ranking = Array( 'core.create' => 1,
+									  'core.edit.own' => 1,
+									  'core.edit' => 3,
+									  'core.delete' => 3,
+									  'core.edit.state' => 6,
+									  'core.manage' => 10,
+									  'core.admin' => 15
+									  );
+		$best = Array();
+		$best_rank = 999999;
+		foreach ($groups as $group_id)
+		{
+			// Sum the ranks of the permitted core actions
+			$rank_total = 0;
+			foreach ($core_action_ranking as $core_action => $rank)
+			{
+				if (JAccess::checkGroup($group_id, $core_action, $asset))
+				{
+					$rank_total += $rank;
+				}
+			}
+
+			// Check for lowest ranked group so far
+			if ( $rank_total < $best_rank )
+			{
+				$best = Array($group_id);
+				$best_rank = $rank_total;
+			}
+			else if ( $rank_total == $best_rank )
+			{
+				$best[] = $group_id;
+			}
+		}
+
+		// If there is just one best ranked group (least authoritative),
+		// we are done, so just return it
+		if (count($best) == 0)
+		{
+			return $best[0];
+		}
+
+		// We have multiple permitted groups with the same rank total.
+		// Since the groups are ranked the same, just return the lowest
+		// numbered one (somewhat arbitrary, but most likely to be a known
+		// group).
+		return min($best);
+	}
+
+
+	/**
+	 * Replace the default rules for the target component in the root asset record
+	 *
+	 * The access rules for an component reside in an 'access.xml' file
+	 * belonging to that component.
+	 *  
+	 * No defaults are set if the role is not found.   The core rules may not be overriden.
+	 *
+	 * WARNING: Cannot be called before component initialization (ok in install post-flight)
+	 *
+	 * @param   string   $component  name of the target component (eg, 'com_xyz')
+	 * @param   file     A file (full path) for the 'access.xml' file to be used (for testing)
+	 *
+	 * @return  boolean  success or failure
+	 */
+	public static function installComponentDefaultRules($component, $file = null)
+	{
+		// Make sure we do not try to modify any core rules!
+		if (strtolower($component) == 'com_core')
+		{
+			throw new InvalidArgumentException("ERROR: Cannot override core rule defaults (component='$component')");
+		}
+
+		// Create an empty set of rules to receive the rules for the component
+		$new_rules = new JAccessRules();
+
+		// Get the defined actions for this component (which contain the defaults)
+		if ( $file === null )
+		{
+			$actions = JAccess::getActions($component);
+			$file = 'access.xml';
+		}
+		else
+		{
+			// Load the actions from the specified file
+			$actions = self::getActionsFromFile($file, "/access/section[@name='component']/");
+			$file = basename($file);
+		}
+
+		// Process each of the default ules
+		foreach ($actions as $rule_action)
+		{
+			// Process each default
+			if ( $rule_action->default )
+			{
+				$rule_name = $rule_action->name;
+
+				// Make sure the rule is not a core rule
+				if ( strncmp($rule_name, 'core.', 5) === 0 )
+				{
+					throw new Exception("ERROR: Cannot override default core rule '$rule_name' " .
+										"for component '$component'");
+				}
+
+				// Process each comma-separated rule defaults clause 
+				$rule_set = explode(',', $rule_action->default);
+				foreach ($rule_set as $raw_rule)
+				{
+					$group_id = null;
+					$action = null;
+
+					// Parse the rule defaults clause
+					$rule = trim($raw_rule);
+					if (strpos($rule, ':') !== false)
+					{
+						$parts = explode(':', $rule);
+						$asset = trim($parts[0]);
+						$action = trim($parts[1]);
+					}
+					else
+					{
+						// Syntax error (malformed rule syntax)
+						throw new Exception("ERROR: Bad rule in '$file', default syntax for " .
+											"rule '$rule_name'. Should be like: 'com_content:core.edit'");
+					}
+
+					// Make sure the component name is reasonable
+					if (strncmp($asset, 'com_', 4) !== 0)
+					{
+						throw new Exception("ERROR: Error in '$file' rule for rule '$rule_name'. " .
+											"Component name ($asset) does not begin with 'com_' (e.g. 'com_content')");
+					}
+
+					// Deal with the group name hint (if specified)
+					if ( strpos($action, '[') !== false ) 
+					{
+						$parts = explode('[', $action);
+						$action = trim($parts[0]);
+						$group_name = trim(trim($parts[1], '[] '));
+						$group_id = JAccess::getGroupId($group_name);
+
+						// if the group exists, check it
+						if ($group_id == 0)
+						{
+							// The group was not found, ignore it (quietly)
+							$group_id = null;
+						}
+						else
+						{
+							// A group name was specified, check it
+							if ( !JAccess::checkGroup($group_id, $action, $asset) )
+							{
+								// The group does not have the required permission, ignore it (quietly)
+								$group_id = null;
+							}
+						}
+					}
+
+					// Find the necessary group
+					if ( $group_id === null )
+					{
+						// Get the list of groups on this system
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true);
+						$query->select($db->quoteName('id'));
+						$query->from($db->quoteName('#__usergroups'));
+						$db->setQuery($query);
+						$all_groups = $db->loadColumn();
+
+						// Scan through the groups to find all groups with the required permission
+						$good_groups = Array();
+						foreach ($all_groups as $test_gid)
+						{
+							if (JAccess::checkGroup($test_gid, $action, $asset))
+							{
+								$good_groups[] = $test_gid;
+							}
+						}
+
+						// Complain if no groups can do the desired action
+						if (empty($good_groups))
+						{
+							JLog::add("WARNING: For default permission rule '$rule_name' there is no " .
+									  "group with permission to do '$action' for '$asset' on this system!",
+									  JLog::WARNING);
+						}
+
+						// Get the 'least' authoritative group
+						$group_id = JAccess::leastAuthoritativeGroup($good_groups, $asset);
+					}
+
+					// If no suitable rule has been found, skip it
+					if ( $group_id === null )
+					{
+						continue;
+					}
+
+					// Construct the rule for this action
+					$new_rule = new JAccessRules(Array($rule_name => Array($group_id => 1 )));
+
+					// Merge it with the rest of the new rules
+					$new_rules->merge($new_rule);
+				}
+			}
+		}
+
+		// Purge any existing custom rules for this component
+		JAccess::purgeComponentDefaultRules($component);
+
+		// Get the root rules
+		$root = JTable::getInstance('asset');
+		$root->loadByName('root.1');
+		$root_rules = new JAccessRules($root->rules);
+
+		// Merge the new rules into the root default rules and save it
+		$root_rules->merge($new_rules);
+		$root->rules = (string)$root_rules;
+
+		// Save the updated root rule
+		return $root->store();
+	}
+
+
+	/**
+	 * Purge all defaults for custom actions/rules for a specified component
+	 *
+	 * NOTE: For component 'com_xyz', this function will remove all top-level
+	 *       default rules for custom actions that belong to the component, in
+	 *       other words, rules with actions that begin with 'xyz.'
+	 *
+	 * WARNING: this is intended for non-core components and will abort if the
+	 *          user attempts to purge any core rules by passing in 'com_core'.
+	 *
+	 * @param   string   $component  name of the target component (eg, 'com_xyz')
+	 *
+	 * @return  mixed  false for failure, otherwise the updated rules
+	 */
+	public static function purgeComponentDefaultRules($component)
+	{
+		// make sure we do not purge any core rules!
+		if (strtolower($component) == 'com_core')
+		{
+			throw new InvalidArgumentException("Error: Cannot purge core rules!");
+		}
+
+		// Remove the leading 'com_' to get the search prefix
+		$cname = strtolower($component);
+		if (strpos($cname, 'com_', 0) === 0)
+		{
+			$cname = substr($cname, 4);
+		}
+		else
+		{
+			throw new Exception("ERROR: Component name ($component) is malformed; it should be like 'com_xyz'");
+		}
+		
+		// Get the root rules
+		$root = JTable::getInstance('asset');
+		$root->loadByName('root.1');
+		$root_rules = new JAccessRules($root->rules);
+
+		// remove each custom rule for this component
+		$action_pattern = '/^' . $cname . '\./';
+		$root_rules->removeActions($action_pattern);
+
+		// Save the updated root rule
+		$root->rules = (string)$root_rules;
+		return $root->store();
+	}
+
 }

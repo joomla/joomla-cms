@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_test">
+	<section name="component">
+		<action name="test.custom" title="Custom rule for com_test"
+			description="Should default true for editor"
+			default="com_content:core.edit[Editor]" />
+	</section>
+</access>

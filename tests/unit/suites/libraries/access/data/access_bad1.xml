@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_example">
+	<section name="component">
+		<action name="core.edit" title="Override Core.edit rule"
+			description="Try to override core rule (should fail)"
+			default="com_content:core.create" />
+	</section>
+</access>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_example">
+	<section name="component">
+		<action name="core.admin" title="Configure Example Options"
+			description="Example core.admin permissions" />
+
+		<action name="core.manage" title="Access Example Component"
+			description="Example core.manage permissions" />
+
+		<action name="core.create" title="Example create permission" 
+			description="Example core.create permissions" />
+
+		<action name="core.delete" title="Example delete permission" 
+			description="Example core.delete permissions" />
+
+		<action name="core.edit" title="Example edit permission"
+			description="Example core.edit permissions" />
+
+		<action name="core.edit.own" title="Example edit own permission" 
+			description="Example core.edit.own permissions" />
+
+		<action name="core.edit.state" title="Example edit state permission" 
+			description="Example core.edit.state permissions" />
+
+		<action name="example.default" title="Example custom default [Test 1]"
+			description="Defaults to system default permissions (denied)" />
+
+		<action name="example.custom.author1" title="Example custom enable author [Test 2]"
+			description="Should default true for author"
+			default="com_content:core.create" />
+
+		<action name="example.custom.author2" title="Example custom enable author (with hint) [Test 3]"
+			description="Should default true for author"
+			default="com_content:core.create[Author]" />
+
+		<action name="example.custom.editor1" title="Example custom enable editor  [Test 4]"
+			description="Should default true for editor"
+			default="com_content:core.edit" />
+
+		<action name="example.custom.editor2" title="Example custom enable editor (with hint) [Test 5]"
+			description="Should default true for editor"
+			default="com_content:core.edit[Editor]" />
+
+		<action name="example.custom.publisher1" title="Example custom enable publisher [Test 6]"
+			description="Should default true for publisher"
+			default="com_content:core.edit.state" />
+
+		<action name="example.custom.publisher2" title="Example custom enable publisher (with hint) [Test 7]"
+			description="Should default true for publisher"
+			default="com_content:core.edit.state[Publisher]" />
+
+		<action name="example.custom.manager1" title="Example custom enable manager [Test 8]"
+			description="Should default true for manager"
+			default="com_content:core.delete" />
+
+		<action name="example.custom.manager2" title="Example custom enable manager (with hint) [Test 9]"
+			description="Should default true for manager"
+			default="com_content:core.delete[Manager]" />
+
+		<action name="example.custom.authmanage1" title="Example custom enable author+manager (without hint) [Test 10]"
+			description="Should default true for author and manager"
+			default="com_content:core.create,com_content:core.delete" />
+
+		<action name="example.custom.authmanage2" title="Example custom enable author+manager (with hints) [Test 11]"
+			description="Should default true for author and manager"
+			default="com_content:core.create[Author],com_content:core.delete[Manager]" />
+
+		<action name="example.custom.administrator1" title="Example custom enable administrator [Test 12]"
+			description="Should default true for administrator"
+			default="com_content:core.manage" />
+
+		<action name="example.custom.administrator2" title="Example custom enable administrator (with hint) [Test 13]"
+			description="Should default true for administrator"
+			default="com_content:core.manage[Administrator]" />
+
+		<action name="example.custom.superuser1" title="Example custom enable superuser [Test 14]"
+			description="Should default true for superuser"
+			default="com_content:core.admin" />
+
+		<action name="example.custom.superuser2" title="Example custom enable superuser (with hint) [Test 15]"
+			description="Should default true for superuser"
+			default="com_content:core.admin[Super Users]" />
+
+		<action name="example.custom.editor3" title="Example custom enable editor from com_test (without hint) [Test 16]"
+			description="Should default true for editor (based on com_test)"
+			default="com_test:core.edit" />
+
+	</section>
+</access>

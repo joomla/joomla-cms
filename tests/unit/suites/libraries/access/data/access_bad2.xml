@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_example">
+	<section name="component">
+		<action name="example.custom.nocolon" title="Try illegal default syntax (com_content core.edit)"
+			description="Try illegal default syntax (should fail because of syntax error)"
+			default="com_content core.edit" />
+	</section>
+</access>

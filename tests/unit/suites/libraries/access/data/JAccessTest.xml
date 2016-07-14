@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+	<table name="jos_assets">
+		<column>id</column>
+		<column>parent_id</column>
+		<column>lft</column>
+		<column>rgt</column>
+		<column>level</column>
+		<column>name</column>
+		<column>title</column>
+		<column>rules</column>
+		<row>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>80</value>
+			<value>0</value>
+			<value>root.1</value>
+			<value>Root Asset</value>
+			<value>{&quot;core.login.site&quot;:{&quot;6&quot;:1,&quot;2&quot;:1},&quot;core.login.admin&quot;:{&quot;6&quot;:1},&quot;core.admin&quot;:{&quot;8&quot;:1},&quot;core.manage&quot;:{&quot;7&quot;:1},&quot;core.create&quot;:{&quot;6&quot;:1,&quot;3&quot;:1},&quot;core.delete&quot;:{&quot;6&quot;:1},&quot;core.edit&quot;:{&quot;6&quot;:1,&quot;4&quot;:1},&quot;core.edit.state&quot;:{&quot;6&quot;:1,&quot;5&quot;:1},&quot;core.edit.own&quot;:{&quot;6&quot;:1,&quot;3&quot;:1}}</value>
+		</row>
+	</table>
+	<table name="jos_usergroups">
+		<column>id</column>
+		<column>parent_id</column>
+		<column>lft</column>
+		<column>rgt</column>
+		<column>title</column>
+		<row>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>22</value>
+			<value>Public</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>1</value>
+			<value>8</value>
+			<value>19</value>
+			<value>Registered</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>2</value>
+			<value>9</value>
+			<value>16</value>
+			<value>Author</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>3</value>
+			<value>10</value>
+			<value>13</value>
+			<value>Editor</value>
+		</row>
+		<row>
+			<value>5</value>
+			<value>4</value>
+			<value>11</value>
+			<value>12</value>
+			<value>Publisher</value>
+		</row>
+		<row>
+			<value>6</value>
+			<value>1</value>
+			<value>4</value>
+			<value>7</value>
+			<value>Manager</value>
+		</row>
+		<row>
+			<value>7</value>
+			<value>6</value>
+			<value>5</value>
+			<value>6</value>
+			<value>Administrator</value>
+		</row>
+		<row>
+			<value>8</value>
+			<value>1</value>
+			<value>20</value>
+			<value>21</value>
+			<value>Super Users</value>
+		</row>
+		<row>
+			<value>10</value>
+			<value>3</value>
+			<value>14</value>
+			<value>15</value>
+			<value>Invoice Author</value>
+		</row>
+		<row>
+			<value>12</value>
+			<value>2</value>
+			<value>17</value>
+			<value>18</value>
+			<value>Customer Group</value>
+		</row>
+		<row>
+			<value>13</value>
+			<value>1</value>
+			<value>2</value>
+			<value>3</value>
+			<value>Guest</value>
+		</row>
+	</table>
+</dataset>
