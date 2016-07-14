@@ -13,9 +13,25 @@ jQuery(function() {
     var loadTab = function() {
         var $ = jQuery.noConflict();
 
+        // check for localStorage support and disable feature if not present
+        var storage = (function() {
+            var uid = new Date,
+                result;
+            try {
+                localStorage.setItem(uid, uid);
+                result = localStorage.getItem(uid) == uid;
+                localStorage.removeItem(uid);
+                return result && localStorage;
+            } catch(e) {}
+        }());
+
+        if(storage == undefined) {
+            return false;
+        }
+
         jQuery(document).find('a[data-toggle="tab"]').on('click', function(e) {
             // Store the selected tab href in localstorage
-            window.localStorage.setItem('tab-href', $(e.target).attr('href'));
+            storage.setItem('tab-href', $(e.target).attr('href'));
         });
 
         var activateTab = function(href) {
@@ -27,15 +43,15 @@ jQuery(function() {
             return $('a[data-toggle="tab"]a[href*="' + href + '"]').length;
         };
 
-        if (localStorage.getItem('tab-href')) {
+        if (storage.getItem('tab-href')) {
             // When moving from tab area to a different view
-            if(!hasTab(localStorage.getItem('tab-href'))){
-                localStorage.removeItem('tab-href');
+            if(!hasTab(storage.getItem('tab-href'))){
+                storage.removeItem('tab-href');
                 return true;
             }
             // Clean default tabs
             $('a[data-toggle="tab"]').parent().removeClass('active');
-            var tabhref = localStorage.getItem('tab-href');
+            var tabhref = storage.getItem('tab-href');
             // Add active attribute for selected tab indicated by url
             activateTab(tabhref);
             // Check whether internal tab is selected (in format <tabname>-<id>)
