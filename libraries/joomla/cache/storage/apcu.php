@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APCu cache storage handler
  *
- * @see    http://php.net/manual/en/ref.apcu.php
+ * @see    https://secure.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class JCacheStorageApcu extends JCacheStorage

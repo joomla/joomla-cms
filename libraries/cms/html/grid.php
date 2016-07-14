@@ -134,7 +134,7 @@ abstract class JHtmlGrid
 	 *
 	 * @param   integer  $rowNum      The row index
 	 * @param   integer  $recId       The record id
-	 * @param   boolean  $checkedOut  True if item is checke out
+	 * @param   boolean  $checkedOut  True if item is checked out
 	 * @param   string   $name        The name of the form element
 	 * @param   string   $stub        The name of stub identifier
 	 *
@@ -334,12 +334,12 @@ abstract class JHtmlGrid
 			$(\'input.check-all-toggle\').each(function(){
 				$(this).on(\'click\', function(){
 					if (this.checked) {
-						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
 							this.checked = true;
 						})
 					}
 					else {
-						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
 							this.checked = false;
 						})
 					}
