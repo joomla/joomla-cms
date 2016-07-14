@@ -52,6 +52,14 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	protected $filter;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.calendar';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -67,6 +75,15 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'maxlength':
 			case 'format':
 			case 'filter':
+			case 'timeformat':
+			case 'minyear':
+			case 'maxyear':
+			case 'todaybutton':
+			case 'singleheader':
+			case 'weeknumbers':
+			case 'showtime':
+			case 'filltable':
+			//case 'multiple':
 				return $this->$name;
 		}
 
@@ -88,7 +105,19 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		switch ($name)
 		{
 			case 'maxlength':
-				$value = (int) $value;
+			case 'timeformat':
+			case 'minyear':
+			case 'maxyear':
+				$this->$name = (int) $value;
+				break;
+			case 'todaybutton':
+			case 'singleheader':
+			case 'weeknumbers':
+			case 'showtime':
+			case 'filltable':
+			//case 'multiple':
+				$this->$name = (bool) $value;
+				break;
 			case 'format':
 			case 'filter':
 				$this->$name = (string) $value;
@@ -119,9 +148,18 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 
 		if ($return)
 		{
-			$this->maxlength = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
-			$this->format    = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
-			$this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
+			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
+			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
+			$this->todaybutton  = (bool) $this->element['todaybutton'] ? (bool) $this->element['todaybutton'] : true;
+			$this->weeknumbers  = (bool) $this->element['weeknumbers'] ? (bool) $this->element['weeknumbers'] : false;
+			$this->showtime     = (bool) $this->element['showtime'] ? (bool) $this->element['showtime'] : false;
+			$this->filltable    = (bool) $this->element['filltable'] ? (bool) $this->element['filltable'] : true;
+			//$this->multiple     = (bool) $this->element['multiple'] ? (bool) $this->element['multiple'] : false;
+			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
+			$this->minyear      = (int) $this->element['minyear'] ? (int) $this->element['minyear'] : 1970;
+			$this->maxyear      = (int) $this->element['maxyear'] ? (int) $this->element['maxyear'] : 2050;
+			$this->singleheader = (bool) $this->element['singleheader'] ? (bool) $this->element['singleheader'] : false;
 		}
 
 		return $return;
@@ -175,57 +213,39 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 
 		if ($this->required)
 		{
-			$attributes['required'] = '';
-			$attributes['aria-required'] = 'true';
+			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
 		}
 
-		// Handle the special case for "now".
-		if (strtoupper($this->value) == 'NOW')
-		{
-			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
-		}
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		// Get some system objects.
-		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-		// If a known filter is given use it.
-		switch (strtoupper($this->filter))
-		{
-			case 'SERVER_UTC':
-				// Convert a date to UTC based on the server timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
-					$date->setTimezone(new DateTimeZone($config->get('offset')));
+		$extraData = array(
+			'maxLength'    => $this->maxlength,
+			'format'       => $this->format,
+			'filter'       => $this->filter,
+			'todaybutton'  => $this->todaybutton,
+			'weeknumbers'  => $this->weeknumbers,
+			'showtime'     => $this->showtime,
+			'filltable'    => $this->filltable,
+			//'multiple'     => $this->multiple,
+			'timeformat'   => $this->timeformat,
+			'minyear'      => $this->minyear,
+			'maxyear'      => $this->maxyear,
+			'weekenddays'  => $this->weekenddays,
+			'singleheader' => $this->singleheader,
+		);
 
-					// Transform the date string.
-					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
-
-				break;
-
-			case 'USER_UTC':
-				// Convert a date to UTC based on the user timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
-
-					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
-
-					// Transform the date string.
-					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
-
-				break;
-		}
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true));
-
-		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
+		return array_merge($data, $extraData);
 	}
 }
