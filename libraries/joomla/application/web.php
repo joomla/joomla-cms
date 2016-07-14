@@ -839,14 +839,7 @@ class JApplicationWeb extends JApplicationBase
 	protected function detectRequestUri()
 	{
 		// First we need to detect the URI scheme.
-		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
-		{
-			$scheme = 'https://';
-		}
-		else
-		{
-			$scheme = 'http://';
-		}
+		$scheme = self::isSSLConnection() ? 'https://' : 'http://';
 
 		/*
 		 * There are some differences in the way that Apache and IIS populate server environment variables.  To
@@ -970,7 +963,11 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		return ((!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) != 'off')
+			|| (isset($_SERVER['SSL_PROTOCOL']))
+			|| (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
+			|| (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https')
+		);
 	}
 
 	/**
