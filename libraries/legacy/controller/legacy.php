@@ -500,7 +500,7 @@ class JControllerLegacy extends JObject
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
-				JLog::add(
+				$app->getLogger()->info(
 					sprintf(
 						'Checking edit ID %s.%s: %d %s',
 						$context,
@@ -508,8 +508,7 @@ class JControllerLegacy extends JObject
 						(int) $result,
 						str_replace("\n", ' ', print_r($values, 1))
 					),
-					JLog::INFO,
-					'controller'
+					array('category' => 'controller')
 				);
 			}
 
@@ -881,15 +880,14 @@ class JControllerLegacy extends JObject
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
-				JLog::add(
+				$app->getLogger()->info(
 					sprintf(
 						'Holding edit ID %s.%s %s',
 						$context,
 						$id,
 						str_replace("\n", ' ', print_r($values, 1))
 					),
-					JLog::INFO,
-					'controller'
+					array('category' => 'controller')
 				);
 			}
 		}
@@ -995,15 +993,14 @@ class JControllerLegacy extends JObject
 
 			if (defined('JDEBUG') && JDEBUG)
 			{
-				JLog::add(
+				$app->getLogger()->info(
 					sprintf(
 						'Releasing edit ID %s.%s %s',
 						$context,
 						$id,
 						str_replace("\n", ' ', print_r($values, 1))
 					),
-					JLog::INFO,
-					'controller'
+					array('category' => 'controller')
 				);
 			}
 		}

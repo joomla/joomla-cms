@@ -241,9 +241,8 @@ class JUpdaterCollection extends JUpdateAdapter
 				return $this->findUpdate($options);
 			}
 
-			JLog::add("Error parsing url: " . $this->_url, JLog::WARNING, 'updater');
-
 			$app = JFactory::getApplication();
+			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $this->_url), 'warning');
 
 			return false;

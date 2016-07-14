@@ -110,12 +110,14 @@ class JControllerAdmin extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
+		$app = JFactory::getApplication();
+
 		// Get items to remove from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = $app->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+			$app->getLogger()->warning(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
@@ -185,15 +187,17 @@ class JControllerAdmin extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
+		$app = JFactory::getApplication();
+
 		// Get items to publish from the request.
-		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
+		$cid = $app->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'archive' => 2, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
 		$value = JArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
-			JLog::add(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), JLog::WARNING, 'jerror');
+			$app->getLogger()->warning(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), array('category' => 'jerror'));
 		}
 		else
 		{
