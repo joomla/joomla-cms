@@ -38,11 +38,6 @@ services:
 before_script:
   # Make sure all dev dependencies are installed
   - composer install
-  # Set up databases for testing
-  - mysql -e 'create database joomla_ut;'
-  - mysql joomla_ut < tests-phpunit/unit/schema/mysql.sql
-  - psql -c 'create database joomla_ut;' -U postgres
-  - psql -d joomla_ut -a -f tests-phpunit/unit/schema/postgresql.sql
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
@@ -87,8 +82,6 @@ before_script:
   - sudo cp RoboFile.dist.ini RoboFile.ini
 
 script:
-  - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
-  - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
   - sudo cp tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
   - tests/vendor/bin/robo run:tests --use-htaccess
 
