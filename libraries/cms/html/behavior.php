@@ -420,7 +420,7 @@ abstract class JHtmlBehavior
 				if (__tmp_2)  __tmp_2.apply(this, arguments);
 					tinyMCE.activeEditor.windowManager.close();
 				};
-			SqueezeBox_tinyMCE_added = 1;
+			window.SqueezeBox_tinyMCE_added = 1;
 		}
 		"
 		);
