@@ -241,7 +241,18 @@ class ContentModelArticle extends JModelAdmin
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$condition = 'catid = ' . (int) $table->catid . ' AND state >= 0';
+			$table->ordering = $table->getEarlierOrder($condition);
+
+			if ($table->ordering < 1)
+			{
+				// We have to reorder old ordering from 1,2,3, ...
+				// To ... ,2147483644, 2147483645, 2147483646
+				$table->reorder($condition);
+
+				// Get value again
+				$table->ordering = $table->getEarlierOrder($condition);
+			}
 		}
 	}
 
@@ -504,7 +515,7 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Categoryg
+		// Save New Category
 		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
@@ -673,9 +684,22 @@ class ContentModelArticle extends JModelAdmin
 				// Featuring.
 				$tuples = array();
 
+				$ordering = $table->getEarlierOrder();
+
+				if ($ordering < 1)
+				{
+					// We have to reorder old ordering from 1,2,3, ...
+					// To ... ,2147483644, 2147483645, 2147483646
+					$table->reorder();
+
+					// Get value again
+					$ordering = $table->getEarlierOrder();
+				}
+
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = $pk . ', ' . $ordering;
+					$ordering--;
 				}
 
 				if (count($tuples))
@@ -697,8 +721,6 @@ class ContentModelArticle extends JModelAdmin
 
 			return false;
 		}
-
-		$table->reorder();
 
 		$this->cleanCache();
 
