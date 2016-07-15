@@ -949,34 +949,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			JFactory::getDocument()->addScriptDeclaration(
-				"
-		if (jModalClose === undefined && typeof(jModalClose) != 'function') {
-			var jModalClose;
-			jModalClose = function() {
-				tinyMCE.activeEditor.windowManager.close();
-			}
-		} else {
-			var oldClose = jModalClose;
-			jModalClose = function() {
-				oldClose.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			};
-		}
-		if (SqueezeBox != undefined) {
-			var oldSqueezeBox = SqueezeBox.close;
-			SqueezeBox.close = function() {
-				oldSqueezeBox.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			}
-		} else {
-			var SqueezeBox = {};
-			SqueezeBox.close = function() {
-				tinyMCE.activeEditor.windowManager.close();
-			}
-		}
-			"
-			);
+			JFactory::getDocument()->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
 		}
 
 		JFactory::getDocument()->addScriptDeclaration($script);
