@@ -78,7 +78,7 @@ $filltable    = !empty($filltable) ? (bool) $filltable : true;
 $timeformat   = !empty($timeformat) ? (int) $timeformat : 24;
 $minyear      = !empty($minyear) ? (int) $minyear : 1970;
 $maxyear      = !empty($maxyear) ? (int) $maxyear : 2050;
-$singleheader = true; //!empty($singleheader) ?(bool) $singleheader : false;
+$singleheader = !empty($singleheader) ?(bool) $singleheader : false;
 
 if ($required)
 {
