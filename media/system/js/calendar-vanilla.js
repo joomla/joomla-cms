@@ -61,6 +61,10 @@ JoomlaCalendar.addClass = function(el, className) {
 	el.className += " " + className;
 };
 
+JoomlaCalendar.hasClass = function(element, cls) {
+	return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+};
+
 JoomlaCalendar.stopEvent = function(ev) {
 	ev || (ev = window.event);
 	if (JoomlaCalendar.is_ie) {
@@ -142,13 +146,13 @@ JoomlaCalendar.dayMouseDown = function(ev) {
 		} else {
 			// No - try to find the table this way
 			el = el.getParent('TD');
-			if (el.classList.contains('dropdown-menu')) {
+			if (JoomlaCalendar.hasClass(el, 'dropdown-menu')) {
 				el = el.getElementsByTagName('table');
 			}
 		}
 	} else {
 		// Check that the td doesn't have a bootstrap button in it (and is not a day td) - if so ingore the event
-		if (!(target.classList.contains('btn'))  && !el.classList.contains('day') && !el.classList.contains('title')) {
+		if (!(JoomlaCalendar.hasClass(target, 'btn'))  && !JoomlaCalendar.hasClass(el,'day') && !JoomlaCalendar.hasClass(el, 'title')) {
 			return;
 		}
 	}
@@ -309,7 +313,7 @@ JoomlaCalendar.cellClick = function(el, ev) {
 		ev && cal.callHandler();
 	}
 	if (closing) {
-		el.classList.remove("hilite");
+		JoomlaCalendar.removeClass(el, "hilite");
 		ev && cal.callCloseHandler();
 	}
 };
@@ -853,7 +857,7 @@ JoomlaCalendar.prototype._toggleMultipleDate = function(date) {
 				cell.removeClass("table-success");
 				this.multiple[ds] = date;
 			} else {
-				cell.classList.remove("selected");
+				JoomlaCalendar.removeClass(cell, "selected");
 				JoomlaCalendar.addClass(cell, "table-success alert-success");
 				delete this.multiple[ds];
 			}
@@ -953,8 +957,8 @@ JoomlaCalendar.prototype.show = function () {
 		var cells = row.getElementsByTagName("td");
 		for (var j = cells.length; j > 0;) {
 			var cell = cells[--j];
-			cell.classList.remove('alert-info');
-			cell.classList.remove('alert-success');
+			JoomlaCalendar.removeClass(cell, 'alert-info');
+			JoomlaCalendar.removeClass(cell, 'alert-success');
 		}
 	}
 	this.element.style.display = "block";
