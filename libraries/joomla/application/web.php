@@ -480,7 +480,7 @@ class JApplicationWeb extends JApplicationBase
 	public function redirect($url, $status = 303)
 	{
 		// Check for relative internal links.
-		if (preg_match('#^index\.php#', $url))
+		if (empty($url) || preg_match('#^index\.php#', $url))
 		{
 			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
 			$url = JUri::base() . $url;
