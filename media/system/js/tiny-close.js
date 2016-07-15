@@ -12,28 +12,28 @@
  * @version     1.0
  */
 jQuery(window).bind("load", function () {
-	if (jModalClose === undefined && typeof(jModalClose) != 'function') {
-		var jModalClose;
+	if (jModalClose_tinyMCE_added === undefined)
+	{
+		var __tmp = jModalClose !== undefined && typeof(jModalClose) == 'function'  ? jModalClose  :  false;
+
 		jModalClose = function () {
+			if (__tmp)  __tmp.apply(this, arguments);
 			tinyMCE.activeEditor.windowManager.close();
-		}
-	} else {
-		var oldClose = jModalClose;
-		jModalClose = function () {
-			tinyMCE.activeEditor.windowManager.close();
-			return oldClose();
 		};
+
+		window.jModalClose_tinyMCE_added = 1;
 	}
-	if (SqueezeBox != undefined) {
-		var oldSqueezeBox = SqueezeBox.close;
+
+	if (SqueezeBox_tinyMCE_added === undefined)
+	{
+		var __tmp = SqueezeBox !== undefined  ?  SqueezeBox.close  :  false;
+		if (SqueezeBox === undefined)  SqueezeBox = {};
+
 		SqueezeBox.close = function () {
+			if (__tmp)  __tmp.apply(this, arguments);
 			tinyMCE.activeEditor.windowManager.close();
-			return oldSqueezeBox();
-		}
-	} else {
-		var SqueezeBox = {};
-		SqueezeBox.close = function () {
-			tinyMCE.activeEditor.windowManager.close();
-		}
+		};
+
+		SqueezeBox_tinyMCE_added = 1;
 	}
 });

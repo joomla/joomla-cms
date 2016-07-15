@@ -406,21 +406,21 @@ abstract class JHtmlBehavior
 			});
 		});
 
-		jModalClose = function () {
-			// Patch for tinyMCE
-			if (typeof tinyMCE != 'undefined' && tinyMCE && tinyMCE.activeEditor) {
-				tinyMCE.activeEditor.windowManager.close();
-			}
-			SqueezeBox.close();
-		}
-		
 		// Patch for tinyMCE
-		if (typeof tinyMCE != 'undefined' && tinyMCE && tinyMCE.activeEditor) {
-			var oldSqueeze_Box = SqueezeBox.close;
+		if (typeof tinyMCE != 'undefined' && tinyMCE) {
+			var __tmp_2 = SqueezeBox.close;
+
+			jModalClose = function () {
+					SqueezeBox.close();
+					tinyMCE.activeEditor.windowManager.close();
+				};
+			window.jModalClose_tinyMCE_added = 1;
+
 			SqueezeBox.close = function () {
-				tinyMCE.activeEditor.windowManager.close();
-				return oldSqueeze_Box();
-			}
+				if (__tmp_2)  __tmp_2.apply(this, arguments);
+					tinyMCE.activeEditor.windowManager.close();
+				};
+			SqueezeBox_tinyMCE_added = 1;
 		}
 		"
 		);
