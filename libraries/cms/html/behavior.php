@@ -406,29 +406,28 @@ abstract class JHtmlBehavior
 			});
 		});
 
+		jModalClose = function () {
+			SqueezeBox.close();
+		};
+
 		// Patch for tinyMCE
 		if (typeof tinyMCE != 'undefined' && tinyMCE) {
-			var __tmp_2 = SqueezeBox.close;
-
-			if (typeof jModalClose_tinyMCE_added === 'undefined') {
+			if (window.jModalClose_tinyMCE_added === undefined) {
+				var __tmp_1 = jModalClose;
 				jModalClose = function () {
-						SqueezeBox.close();
-						tinyMCE.activeEditor.windowManager.close();
-					};
-				window.jModalClose_tinyMCE_added = 1;
-			}
-
-			if (typeof SqueezeBox_tinyMCE_added === 'undefined') {
-				SqueezeBox.close = function () {
-					if (__tmp_2)  __tmp_2.apply(this, arguments);
-						tinyMCE.activeEditor.windowManager.close();
-					};
+				if (__tmp_1)  __tmp_1.apply(this, arguments);
+				tinyMCE.activeEditor.windowManager.close();
+			};
+			window.jModalClose_tinyMCE_added = 1;
+		}
+		if (window.SqueezeBox_tinyMCE_added === undefined) {
+			var __tmp_2 = SqueezeBox.close;
+			SqueezeBox.close = function () {
+				if (__tmp_2)  __tmp_2.apply(this, arguments);
+					tinyMCE.activeEditor.windowManager.close();
+				};
 				window.SqueezeBox_tinyMCE_added = 1;
 			}
-		} else {
-			jModalClose = function () {
-				SqueezeBox.close();
-			};
 		}
 		"
 		);
