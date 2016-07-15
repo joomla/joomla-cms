@@ -12,8 +12,7 @@
  * @version     1.0
  */
 jQuery(window).bind("load", function () {
-	if (jModalClose_tinyMCE_added === undefined)
-	{
+	if (jModalClose_tinyMCE_added === undefined) {
 		var __tmp = jModalClose !== undefined && typeof(jModalClose) == 'function'  ? jModalClose  :  false;
 
 		jModalClose = function () {
@@ -24,8 +23,7 @@ jQuery(window).bind("load", function () {
 		window.jModalClose_tinyMCE_added = 1;
 	}
 
-	if (SqueezeBox_tinyMCE_added === undefined)
-	{
+	if (SqueezeBox_tinyMCE_added === undefined) {
 		var __tmp = SqueezeBox !== undefined  ?  SqueezeBox.close  :  false;
 		if (SqueezeBox === undefined)  SqueezeBox = {};
 

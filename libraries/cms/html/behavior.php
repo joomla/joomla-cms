@@ -410,17 +410,25 @@ abstract class JHtmlBehavior
 		if (typeof tinyMCE != 'undefined' && tinyMCE) {
 			var __tmp_2 = SqueezeBox.close;
 
-			jModalClose = function () {
-					SqueezeBox.close();
-					tinyMCE.activeEditor.windowManager.close();
-				};
-			window.jModalClose_tinyMCE_added = 1;
+			if (jModalClose_tinyMCE_added === undefined) {
+				jModalClose = function () {
+						SqueezeBox.close();
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				window.jModalClose_tinyMCE_added = 1;
+			}
 
-			SqueezeBox.close = function () {
-				if (__tmp_2)  __tmp_2.apply(this, arguments);
-					tinyMCE.activeEditor.windowManager.close();
-				};
-			window.SqueezeBox_tinyMCE_added = 1;
+			if (SqueezeBox_tinyMCE_added === undefined) {
+				SqueezeBox.close = function () {
+					if (__tmp_2)  __tmp_2.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				window.SqueezeBox_tinyMCE_added = 1;
+			}
+		} else {
+			jModalClose = function () {
+				SqueezeBox.close();
+			};
 		}
 		"
 		);
