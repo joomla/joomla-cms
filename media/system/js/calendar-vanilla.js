@@ -1,12 +1,10 @@
 /** The Calendar object constructor. */
 JoomlaCalendar = function (firstDayOfWeek, dateStr, onSelected, onClose, params) {
 	// Options
-
 	this.firstDayOfWeek   = typeof firstDayOfWeek == "number" ? firstDayOfWeek : 0;   // 0 for Sunday, 1 for Monday, etc.
 	this.dateStr          = dateStr;                                                  // The date string
 	this.onSelected       = onSelected || null;                                       // Function for the event onSelected
 	this.onClose          = onClose || null;                                          // Function for the event onClose
-	this.multiple         = params.multiple ? Boolean(params.multiple) : false;                // Multiple dates
 	this.time24           = params.time24 ? Boolean(params.time24) : false;                    // Use 24/12 hour format
 	this.showsOtherMonths = params.showsOtherMonths ? Boolean(params.showsOtherMonths) : true; // Display previous/next month days as disables
 	this.showsTime        = params.showsTime ? Boolean(params.showsTime) : false;              // Shows hours and minutes drop downs
@@ -106,7 +104,6 @@ JoomlaCalendar.createElement = function(type, parent) {
 	return el;
 };
 
-// CALENDAR STATIC FUNCTIONS
 /** Internal -- adds a set of events to make some element behave like a button. */
 JoomlaCalendar._add_evs = function(el) {
 	with (JoomlaCalendar) {
@@ -217,9 +214,7 @@ JoomlaCalendar.cellClick = function(el, ev) {
 			JoomlaCalendar.removeClass(cal.currentDateEl, "selected");
 			JoomlaCalendar.removeClass(cal.currentDateEl, "alert-success");
 			JoomlaCalendar.addClass(el, "selected alert-success");
-
-			if (!cal.multiple)
-				cal.currentDateEl = el;
+			cal.currentDateEl = el;
 
 			closing = (cal.currentDateEl == el);
 			if (!closing) {
@@ -229,11 +224,8 @@ JoomlaCalendar.cellClick = function(el, ev) {
 		cal.date.setDateOnly(el.caldate);
 		date = cal.date;
 		var other_month = !(cal.dateClicked = !el.otherMonth);
-		if (!other_month && !cal.currentDateEl && cal.multiple)
-			cal._toggleMultipleDate(new Date(date));
-		else
+		if (cal.currentDateEl)
 			newdate = !el.disabled;
-		// a date was clicked
 		if (other_month)
 			cal._init(cal.firstDayOfWeek, date);
 	} else {
@@ -252,7 +244,6 @@ JoomlaCalendar.cellClick = function(el, ev) {
 		// unless "today" was clicked, we assume no date was clicked so
 		// the selected handler will know not to close the calendar when
 		// in single-click mode.
-		// cal.dateClicked = (el.navtype == 0);
 		cal.dateClicked = false;
 		var year = date.getFullYear();
 		var mon = date.getMonth();
@@ -263,7 +254,7 @@ JoomlaCalendar.cellClick = function(el, ev) {
 				date.setDate(max);
 			}
 			date.setMonth(m);
-		};
+		}
 		switch (el.navtype) {
 			case 400:
 				break;
@@ -342,12 +333,20 @@ JoomlaCalendar.prototype.create = function (parent) {
 	}
 
 	div.className = 'dropdown-menu j-calendar';
-	div.style.position = "absolute";
+	div.style.position = "fixed";
 	div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 	div.style.minWidth = parent.width; //this.weekNumbers ? '340px' : '320px';
 	div.style.padding = '0';
-	div.style.top = 'auto';
-	div.style.left = 'auto';
+
+	// Move the calendar to top position if it doesn't fit below
+	elementRect = div.getBoundingClientRect();
+	inputRect = parent.parentNode.getElementsByTagName('INPUT')[0].getBoundingClientRect();
+
+	console.log(inputRect.top);
+
+	// Set the left margin
+	div.style.left = inputRect.left - elementRect.left + "px";
+	div.style.top = inputRect.bottom + 3 + "px"; // - elementRect.left;
 
 	this.wrapper = JoomlaCalendar.createElement('div');
 	this.wrapper.className = 'itemContentPadder';
@@ -572,9 +571,21 @@ JoomlaCalendar.prototype.create = function (parent) {
 	parent.parentNode.parentNode.appendChild(this.element);
 	this.show();
 
-	// Move the calendar to top position if it doesn't fit below
-	// if ((window.innerHeight + window.scrollY) < this.element.getBoundingClientRect().bottom +20) {
-	// 	this.element.style.top = window.innerHeight + window.scrollY - this.element.getBoundingClientRect().bottom + "px";
+	// placement fix for fields near page end
+	// this.containerTop = this.element.getBoundingClientRect().top;
+	// this.containerBottom = this.element.getBoundingClientRect().bottom;
+	// console.log(inputTop);
+	// if ((window.innerHeight + window.scrollY) < this.containerHeight + 20) {
+	// 	topPosition = window.innerHeight - this.containerHeight  + window.scrollY;
+	// 	bottomPosition = topPosition + this.containerHeight;
+	// 	if (bottomPosition <= inputTop) this.element.style.top = inputTop - topPosition + "px";
+	// 	else this.element.style.top = inputTop - topPosition + "px";
+	//
+	// 	console.log(window.innerHeight );
+	// 	console.log(window.scrollY );
+	// 	console.log(window.innerHeight + window.scrollY );
+	// 	console.log(this.containerHeight );
+	// 	console.log(this.element.style.top );
 	// }
 };
 
@@ -672,7 +683,7 @@ JoomlaCalendar._keyEvent = function(ev) {
 	}
 
 	var cal = window.jCalendar;
-	if (!cal || cal.multiple)
+	if (!cal)
 		return false;
 	ev = window.event? event : e;
 	var K = ev.keyCode;
@@ -748,7 +759,6 @@ JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
 	var row = this.tbody.firstChild;
 	var ar_days = this.ar_days = new Array();
 	var weekend = this.stringWEEKEND;
-	var dates = this.multiple ? (this.datesCells = {}) : null;
 	for (var i = 0; i < 6; ++i, row = row.nextSibling) {
 		var cell = row.firstChild;
 		if (this.weekNumbers) {
@@ -783,8 +793,6 @@ JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
 			}
 			cell.disabled = false;
 			cell.innerHTML = this.getDateText ? this.getDateText(date, iday) : iday;
-			if (dates)
-				dates[date.print("%Y%m%d")] = cell;
 			if (this.getDateStatus) {
 				var status = this.getDateStatus(date, year, month, iday);
 				if (status === true) {
@@ -798,7 +806,7 @@ JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
 			}
 			if (!cell.disabled) {
 				cell.caldate = new Date(date);
-				if (!this.multiple && current_month && iday == mday && this.hiliteToday) {
+				if (current_month && iday == mday && this.hiliteToday) {
 					cell.className += " selected table-success alert alert-success";
 					this.currentDateEl = cell;
 				}
@@ -828,41 +836,7 @@ JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
 
 	this.onSetTime();
 	this.table.style.visibility = "visible";
-	this._initMultipleDates();
-};
 
-JoomlaCalendar.prototype._initMultipleDates = function() {
-	if (this.multiple) {
-		for (var i in this.multiple) {
-			var cell = this.datesCells[i];
-			var d = this.multiple[i];
-			if (!d)
-				continue;
-			if (cell) {
-				cell.className += " selected table-success alert-success";
-			}
-		}
-	}
-};
-
-JoomlaCalendar.prototype._toggleMultipleDate = function(date) {
-	if (this.multiple) {
-		var ds = date.print("%Y%m%d");
-		var cell = this.datesCells[ds];
-		if (cell) {
-			var d = this.multiple[ds];
-			if (!d) {
-				JoomlaCalendar.addClass(cell, "selected");
-				cell.removeClass("alert-success");
-				cell.removeClass("table-success");
-				this.multiple[ds] = date;
-			} else {
-				JoomlaCalendar.removeClass(cell, "selected");
-				JoomlaCalendar.addClass(cell, "table-success alert-success");
-				delete this.multiple[ds];
-			}
-		}
-	}
 };
 
 /**
@@ -1238,124 +1212,3 @@ Date.prototype.print = function (str) {
 
 // Global object that remembers the calendar
 window.jCalendar = null;
-
-/*********************************************************************
- *********************************************************************
- ************************** Initialize *******************************
- *********************************************************************
- *********************************************************************/
-document.onreadystatechange = function () {
-	if (document.readyState == "interactive") {
-
-		JoomlaCalendar.setup = function (params, el) {
-
-			// Set the button (caller) and the input field elements
-			params["button"]     = el;
-			params["inputField"] = document.getElementById(params["inputField"]);
-
-			// Initialize only if the button and input field are set
-			if (!(params.inputField || params.button)) {
-				console.log("Calendar.setup:\n  Nothing to setup (no fields found). Please check your code");
-				return false;
-			}
-
-			// Method to set the value for the input field
-			function onSelect(cal) {
-				var p = cal.params;
-				var update = cal.dateClicked;
-				if (p.inputField) {
-					p.inputField.value = cal.date.print(p.ifFormat);
-					if (typeof p.inputField.onchange == "function")
-						p.inputField.onchange();
-				}
-				if (update && typeof p.onUpdate == "function")
-					p.onUpdate(cal);
-				if (update && p.singleClick && cal.dateClicked)
-					cal.callCloseHandler();
-			}
-
-			// Initialize the calendar
-			var dateEl = params.inputField;
-			var dateFmt = params.ifFormat; //params.inputField ? params.ifFormat : params.daFormat;
-			var cal = window.jCalendar;
-
-			// Get the date from the input
-			if (dateEl) {
-				params.date = Date.parseDate(dateEl.value, dateFmt);
-			}
-
-			// Create the calendar
-			window.jCalendar = cal = new JoomlaCalendar(
-				params.firstDay,
-				params.date,
-				params.onSelect || onSelect,
-				params.onClose ||
-				function (cal) {
-					cal.hide();
-				},
-				params);
-
-			// if (params.multiple) {
-			// 	cal.multiple = {};
-			// 	for (var i = params.multiple.length; --i >= 0;) {
-			// 		var d = params.multiple[i];
-			// 		var ds = d.print("%Y%m%d");
-			// 		cal.multiple[ds] = d;
-			// 	}
-			// }
-			cal.params = params;
-			cal.setDateFormat(dateFmt);
-			cal.create(params.inputField);
-			cal.refresh();
-			cal.show();
-			return cal;
-		};
-
-		// Get all the calendar fields
-		var calendars = document.getElementsByClassName("field-calendar");
-
-		// Loop to initialize them all
-		for (index = 0, len = calendars.length; index < len; ++index) {
-			var btn = calendars[index].getElementsByTagName("button");
-			JoomlaCalendar.addEvent(btn[0], "click", function () {
-
-				var params = {
-					inputField   : this.getAttribute("data-inputfield") ? this.getAttribute("data-inputfield") :
-						this.parentNode.getElementsByTagName('INPUT')[0],                                                                       // The related input
-					ifFormat     : this.getAttribute("data-ifformat") ? this.getAttribute("data-ifformat") : "%Y-%m-%d %H:%M:%S",               // The date format
-					button       : this.getAttribute("data-button"),                                                                            // The button associated
-					firstDay     : this.getAttribute("data-firstday") ? parseInt(this.getAttribute("data-firstday")) : 0,                       // First day (from translated strings) integer 0 = Sun
-					todayBtn     : (parseInt(this.getAttribute("data-today_btn")) == 0) ? false : true,                            // Enable today button?
-					onlyMonths   : (parseInt(this.getAttribute("data-only_months_nav")) == 1) ? true : false,               // Month and year in one line?
-					hiliteToday  : (parseInt(this.getAttribute("data-hilite_today")) != 1) ? false : true,                      // Highlight today?
-					minYear      : this.getAttribute("data-min_year") ? parseInt(this.getAttribute("data-min_year")) : 1970,                    // Minimum year
-					maxYear      : this.getAttribute("data-max_year") ? parseInt(this.getAttribute("data-max_year")) : 2050,                    // Maximum year
-					weekNumbers  : (parseInt(this.getAttribute("data-week_numbers")) == 1) ? true : false,                     // Display week numbers column?
-					showsTime    : (parseInt(this.getAttribute("data-shows_time")) == 1) ? true : false,                         // Enable time picker? Make sure that the date format also INCLUDES time
-					time24       : (parseInt(this.getAttribute("data-time_24")) == 24) ? true : false,                               // Use 24 hour format?
-					showOthers   : (parseInt(this.getAttribute("data-show_others")) == 0) ? false : true,                        // Show days form the month before and after?
-
-					stringDN     : this.getAttribute("data-weekdays_full") ? this.getAttribute("data-weekdays_full").split('_') :
-						["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],                                      // Translated full day names
-					stringSDN    : this.getAttribute("data-weekdays_short") ? this.getAttribute("data-weekdays_short").split('_') :
-						["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"],                                                                      // Translated short day names
-					stringMN     : this.getAttribute("data-months_long") ? this.getAttribute("data-months_long").split('_') :
-						["January","February","March","April","May","June","July","August","September","October","November","December"],        // Translated full month names
-					stringSMN    : this.getAttribute("data-months_short") ? this.getAttribute("data-months_short").split('_') :
-						["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],                                              // Translated short month names
-					stringTODAY  : this.getAttribute("data-today_trans") ? this.getAttribute("data-today_trans") : "Today",                     // Traslated string for Today
-					stringWEEKEND: this.getAttribute("data-weekend") ? this.getAttribute("data-weekend").split(',').map(Number) :
-						[0,6],                                                                                                                  // integers comma separated 0,6
-					stringWK     : this.getAttribute("data-wk") ? this.getAttribute("data-wk") : "wk",                                          // Traslated string for wk
-					stringTIME   : this.getAttribute("data-time") ? this.getAttribute("data-time") : "Time:",                                   // Traslated string for Time:
-					stringTIMEAM : this.getAttribute("data-time_am") ? this.getAttribute("data-time_am") : "AM",                                // Traslated string for AM
-					stringTIMEPM : this.getAttribute("data-time_pm") ? this.getAttribute("data-time_pm") : "PM",                                // Traslated string for PM
-
-					multiple : false // this.getAttribute("data-multiple") ? Boolean(this.getAttribute("data-multiple")) : false,     DO WE NEED THIS??????
-				};
-
-				JoomlaCalendar.setup(params, this);
-			})
-		}
-	}
-};
