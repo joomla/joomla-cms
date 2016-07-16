@@ -995,7 +995,6 @@ abstract class JHtml
 		$required     = isset($attribs['required']) && $attribs['required'] == '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
 
-
 		$data = array(
 			'name'         => $name,
 			'value'        => $value,
