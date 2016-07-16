@@ -986,7 +986,7 @@ abstract class JHtml
 	 * @since   1.5
 	 *
 	 */
-	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = null)
+	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
