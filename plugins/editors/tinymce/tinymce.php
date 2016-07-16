@@ -159,7 +159,7 @@ class PlgEditorTinymce extends JPlugin
 		$options  = $doc->getScriptOptions('plg_editor_tinymce');
 
 		// Check whether we alredy have them
-		if(!empty($options['tinyMCE']['default']))
+		if (!empty($options['tinyMCE']['default']))
 		{
 			return $editor;
 		}
@@ -858,14 +858,9 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$scriptOptions['toolbar_items_size'] = 'small';
 		}
-		elseif ($mobileVersion == false)
+		elseif ($mobileVersion)
 		{
-			//$smallButtons = '';
-		}
-		else
-		{
-			//$smallButtons = '';
-			$mode         = 0;
+			$mode = 0;
 		}
 
 		switch ($mode)
