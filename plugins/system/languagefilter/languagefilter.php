@@ -378,8 +378,11 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
-			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-			$this->app->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
+			// Don't cache the redirect in browser.
+			$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+			$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+			$this->app->setHeader('Pragma', 'no-cache');
 			$this->app->sendHeaders();
 
 			if ($this->mode_sef)
