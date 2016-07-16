@@ -791,6 +791,24 @@
 				<option value="0">JHIDE</option>
 		</field>
 
+		<field name="list_show_votes"
+			type="list"
+			default="0"
+			label="JGLOBAL_LIST_VOTES_LABEL"
+			description="JGLOBAL_LIST_VOTES_DESC">
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+		</field>
+
+		<field name="list_show_ratings"
+			type="list"
+			default="0"
+			label="JGLOBAL_LIST_RATINGS_LABEL"
+			description="JGLOBAL_LIST_RATINGS_DESC">
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="shared"

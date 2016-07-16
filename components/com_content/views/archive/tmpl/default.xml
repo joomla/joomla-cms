@@ -30,6 +30,10 @@
 				<option value="hits">JGLOBAL_MOST_HITS</option>
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+				<option value="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank">JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
 			<field name="order_date" type="list"

@@ -194,6 +194,30 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="list_show_votes"
+				type="list"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JGLOBAL_LIST_VOTES_LABEL"
+				description="JGLOBAL_LIST_VOTES_DESC"
+			>
+				<option value="" requires="vote">JGLOBAL_USE_GLOBAL</option>
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+			</field>
+
+			<field name="list_show_ratings"
+				type="list"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="JGLOBAL_LIST_RATINGS_LABEL"
+				description="JGLOBAL_LIST_RATINGS_DESC"
+			>
+				<option value="" requires="vote">JGLOBAL_USE_GLOBAL</option>
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+			</field>
+
 			<field
 			name="spacer1"
 			type="spacer"
@@ -227,6 +251,10 @@
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
 				<option value="random">JGLOBAL_RANDOM_ORDER</option>
 				<option value="order">JGLOBAL_ORDERING</option>
+				<option value="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank">JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
 			<field name="order_date" type="list"

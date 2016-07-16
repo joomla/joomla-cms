@@ -42,6 +42,8 @@ class ContentViewArticles extends JViewLegacy
 		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->vote          = JPluginHelper::isEnabled('content', 'vote');
+		$listOrder           = $this->state->get('list.fullordering', 'a.id');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
