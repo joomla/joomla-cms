@@ -1,9 +1,9 @@
 <?php
 /**
- * @package    Joomla.Installation
+ * @package	Joomla.Installation
  *
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -76,17 +76,29 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			{
 				(function($){
 					$('.hasTooltip').tooltip()
+
 					// Chosen select boxes
 					$("select").chosen({
 						disable_search_threshold : 10,
 						allow_single_deselect : true
 					});
+
 					// Turn radios into btn-group
 					$('.radio.btn-group label').addClass('btn');
+
+					$('fieldset.btn-group').each(function() {
+						// Handle disabled, prevent clicks on the container, and add disabled style to each button
+						if ($(this).prop('disabled')) {
+							$(this).css('pointer-events', 'none').off('click');
+							$(this).find('.btn').addClass('disabled');
+						}
+					});
+
 					$(".btn-group label:not(.active)").click(function()
 					{
 						var label = $(this);
 						var input = $('#' + label.attr('for'));
+
 						if (!input.prop('checked'))
 						{
 							label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
@@ -102,14 +114,14 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 							input.prop('checked', true);
 						}
 					});
-					$(".btn-group input[checked=checked]").each(function()
+					$(".btn-group input[checked='checked']").each(function()
 					{
 						if ($(this).val()== '')
 						{
-							$("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+						   $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
 						} else if($(this).val()==0 || $(this).val()=='remove')
 						{
-							$("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+						   $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
 						} else {
 							$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
 						}
@@ -118,5 +130,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			}
 			initElements();
 		</script>
+
 	</body>
 </html>

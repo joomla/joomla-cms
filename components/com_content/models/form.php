@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // Base this model on the backend version.
 require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
@@ -83,7 +84,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$properties = $table->getProperties(1);
-		$value = JArrayHelper::toObject($properties, 'JObject');
+		$value = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry;

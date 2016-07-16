@@ -73,28 +73,29 @@ class JFormFieldUser extends JFormField
 		// Get the basic field data
 		$data = parent::getLayoutData();
 
-		// Load the current username if available.
-		$table = JTable::getInstance('user');
+		// Initialize value
+		$name = '';
 
 		if (is_numeric($this->value))
 		{
-			$table->load($this->value);
+			$name = JUser::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
-			$this->value = JFactory::getUser()->id;
+			$current = JFactory::getUser();
+			$this->value = $current->id;
 			$data['value'] = $this->value;
-			$table->load($this->value);
+			$name = $current->name;
 		}
 		else
 		{
-			$table->name = JText::_('JLIB_FORM_SELECT_USER');
+			$name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
 		$extraData = array(
-				'userName'  => $table->name,
+				'userName'  => $name,
 				'groups'    => $this->getGroups(),
 				'excluded'  => $this->getExcluded()
 		);

@@ -45,9 +45,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
