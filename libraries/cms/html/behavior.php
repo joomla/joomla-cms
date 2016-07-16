@@ -406,7 +406,7 @@ abstract class JHtmlBehavior
 			});
 		});
 
-		jModalClose = function () {
+		window.jModalClose = function () {
 			SqueezeBox.close();
 		};
 
