@@ -36,7 +36,7 @@
 			options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 		// Avoid unexpected changes
-		options = jQuery.extend(true, {}, options);
+		options = jQuery.extend({}, options);
 
 		if (element) {
 			options.selector = null;

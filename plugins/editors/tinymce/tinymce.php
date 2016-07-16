@@ -47,7 +47,7 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-		JHtml::_('script', 'editors/tinymce/tinymce-init.js', false, true);
+		JHtml::_('script', 'editors/tinymce/tinymce-init.min.js', false, true);
 
 		return;
 	}
