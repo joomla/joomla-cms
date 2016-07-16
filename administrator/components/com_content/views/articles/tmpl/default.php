@@ -83,6 +83,9 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JMODIFIEDDATE', 'a.modified', $listDirn, $listOrder); ?>
+						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
@@ -197,6 +200,9 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
+						</td>
+						<td class="nowrap small hidden-phone">
+							<?php echo JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->hits; ?>
