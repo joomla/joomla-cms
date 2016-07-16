@@ -143,7 +143,6 @@ switch (strtoupper($filter))
 
 JHtml::_('script', $tag . '/calendar-vanilla.js', false, true, false, false, true);
 JHtml::_('script', $tag . '/calendar-setup-vanilla.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/calendar-vanilla.css', array(), true);
 
 // To keep the code simple here, run strings through JText::_() using array_map()
 $callback = array('JText','_');

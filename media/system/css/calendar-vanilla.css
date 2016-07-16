@@ -1,0 +1,178 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.j-calendar {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1050;
+	display: none;
+	float: left;
+	min-width: 160px;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	list-style: none;
+	background-color: #ffffff;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	*border-right-width: 2px;
+	*border-bottom-width: 2px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+}
+
+/* The main calendar widget.  DIV containing a table. */
+div.calendar {
+	position: relative;
+	z-index: 10000;
+	width: 226px;
+}
+
+.j-calendar, .j-calendar table {
+	border: 1px solid #cccccc;
+	font-size: 11px;
+	color: #000;
+	cursor: default;
+	background: #efefef;
+	font-family: arial,verdana,sans-serif;
+}
+
+/* Header part -- contains navigation buttons and day names. */
+.j-calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
+	text-align: center;    /* They are the navigation buttons */
+	padding: 2px;          /* Make the buttons seem like they're pressing */
+}
+
+.j-calendar thead .title { /* This holds the current "month, year" */
+	font-weight: bold;      /* Pressing it will take you to the current date */
+	text-align: center;
+	background: #333333;
+	color: #ffffff;
+	padding: 2px;
+}
+
+.j-calendar thead .headrow { /* Row <TR> containing navigation buttons */
+	background: #dedede;
+	color: #000;
+}
+
+.j-calendar thead .name { /* Cells <TD> containing the day names */
+	border-bottom: 1px solid #cccccc;
+	padding: 2px;
+	text-align: center;
+	color: #000;
+}
+
+.j-calendar thead .weekend { /* How a weekend day name shows in header */
+	color: #999;
+}
+
+.j-calendar thead .hilite { /* How do the buttons in header appear when hover */
+	background: #bbbbbb;
+	color: #000000;
+	border: 1px solid #cccccc;
+	padding: 1px;
+}
+
+.j-calendar thead .active { /* Active (pressed) buttons in header */
+	background: #c77;
+	padding: 2px 0px 0px 2px;
+}
+
+.j-calendar thead .daynames { /* Row <TR> containing the day names */
+	background: #dddddd;
+}
+
+/* The body part -- contains all the days in month. */
+
+.j-calendar tbody .day { /* Cells <TD> containing month days dates */
+	width: 2em;
+	text-align: right;
+	padding: 2px 4px 2px 2px;
+}
+
+.j-calendar table .wn {
+	padding: 2px 3px 2px 2px;
+	border-right: 1px solid #cccccc;
+	background: #dddddd;
+}
+
+.j-calendar tbody .rowhilite td {
+	background: #666666;
+	color: #ffffff;
+}
+
+.j-calendar tbody .rowhilite td.wn {
+	background: #666666;
+	color: #ffffff;
+}
+
+.j-calendar tbody td.active { /* Active (pressed) cells <TD> */
+	background: #000000;
+	color: #ffffff;
+}
+
+.j-calendar tbody td.weekend { /* Cells showing weekend days */
+	color: #999;
+}
+
+.j-calendar tbody td.selected { /* Cell showing today date */
+	font-weight: bold;
+	background: #000000;
+	color: #ffffff;
+}
+
+.j-calendar tbody td.hilite { /* Hovered cells <TD> */
+	background: #999999;
+	color: #ffffff;
+}
+
+.j-calendar tbody td.today {
+	font-weight: bold;
+}
+
+.j-calendar tbody .disabled {
+	color: #999;
+}
+
+.j-calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
+	visibility: hidden;
+}
+
+.j-calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
+	display: none;
+}
+
+/* The footer part -- status bar and "Close" button */
+
+.j-calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
+	text-align: center;
+	background: #cccccc;
+	color: #000;
+}
+
+.j-calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
+	border-top: 1px solid #cccccc;
+	background: #efefef;
+	color: #000000;
+}
+
+.j-calendar tfoot .hilite { /* Hover style for buttons in footer */
+	background: #666666;
+	border: 1px solid #f40;
+	padding: 1px;
+}
+
+.j-calendar tfoot .active { /* Active (pressed) style for buttons in footer */
+	background: #999999;
+	padding: 2px 0px 0px 2px;
+}
