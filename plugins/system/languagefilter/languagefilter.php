@@ -378,6 +378,10 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
+			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+			$this->app->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
+			$this->app->sendHeaders();
+
 			if ($this->mode_sef)
 			{
 				// Use the current language sef or the default one.
