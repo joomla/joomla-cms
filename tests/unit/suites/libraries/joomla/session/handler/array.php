@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for managing HTTP sessions
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       3.4
+ * @since  3.4
  */
 class JSessionHandlerArray implements JSessionHandlerInterface
 {
