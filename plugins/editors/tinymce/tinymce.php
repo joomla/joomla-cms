@@ -250,11 +250,15 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
+		$ignore_filter = false;
+
 		// Text filtering
 		if ($this->params->get('use_config_textfilters', 0))
 		{
 			// Use filters from com_config
 			$filter = static::getGlobalFilters();
+
+			$ignore_filter = $filter === false;
 
 			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
 			$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
@@ -774,6 +778,7 @@ class PlgEditorTinymce extends JPlugin
 			'inline_styles'    => true,
 			'gecko_spellcheck' => true,
 			'entity_encoding'  => $this->params->get('entity_encoding', 'raw'),
+			'verify_html'      => !$ignore_filter,
 
 			// URL
 			'relative_urls'      => (bool) $this->params->get('relative_urls', true),
@@ -882,34 +887,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			$doc->addScriptDeclaration(
-				"
-		if (jModalClose === undefined && typeof(jModalClose) != 'function') {
-			var jModalClose;
-			jModalClose = function() {
-				tinyMCE.activeEditor.windowManager.close();
-			}
-		} else {
-			var oldClose = jModalClose;
-			jModalClose = function() {
-				oldClose.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			};
-		}
-		if (SqueezeBox != undefined) {
-			var oldSqueezeBox = SqueezeBox.close;
-			SqueezeBox.close = function() {
-				oldSqueezeBox.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			}
-		} else {
-			var SqueezeBox = {};
-			SqueezeBox.close = function() {
-				tinyMCE.activeEditor.windowManager.close();
-			}
-		}
-			"
-			);
+			JFactory::getDocument()->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
 		}
 
 		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
@@ -1199,6 +1177,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($unfiltered)
 		{
 			// Dont apply filtering.
+			return false;
 		}
 		else
 		{

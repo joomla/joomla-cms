@@ -105,6 +105,7 @@ class BannersViewClient extends JViewLegacy
 		{
 			JToolbarHelper::save2new('client.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{
@@ -117,7 +118,7 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_banners.client', $this->item->id);
 			}

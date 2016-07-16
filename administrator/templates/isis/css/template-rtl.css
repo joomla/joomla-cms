@@ -2202,6 +2202,22 @@ button.close {
 	border: 0;
 	-webkit-appearance: none;
 }
+.alert-options {
+	float: right;
+	line-height: 18px;
+	color: #000;
+	text-shadow: 0 1px 0 #ffffff;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+.alert-options:hover,
+.alert-options:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.4;
+	filter: alpha(opacity=40);
+}
 .btn {
 	display: inline-block;
 	*display: inline;
@@ -7277,6 +7293,20 @@ body .navbar-fixed-top {
 	background-color: rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
 }
+.navbar .nav > li > .dropdown-menu:after {
+	display: none;
+}
+.navbar .nav > .dropdown.open:after {
+	content: '';
+	display: inline-block;
+	border-left: 6px solid transparent;
+	border-right: 6px solid transparent;
+	border-bottom: 6px solid #fff;
+	position: absolute;
+	top: 25px;
+	left: 10px;
+	z-index: 1001;
+}
 .navbar .empty-nav {
 	display: none;
 }
@@ -8945,6 +8975,10 @@ input[type="url"] {
 	border-radius: 4px;
 	background-color: rgba(0,0,0,0.5);
 	-webkit-box-shadow: 0 0 1px rgba(255,255,255,0.5);
+}
+.navbar .nav > .dropdown.open:after {
+	right: 10px;
+	width: 0;
 }
 .navbar .empty-nav {
 	display: none;

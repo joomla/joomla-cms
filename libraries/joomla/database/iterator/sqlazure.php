@@ -14,6 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  12.1
  */
-class JDatabaseIteratorAzure extends JDatabaseIteratorSqlsrv
+class JDatabaseIteratorSqlazure extends JDatabaseIteratorSqlsrv
 {
 }

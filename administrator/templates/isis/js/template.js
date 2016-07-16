@@ -14,6 +14,15 @@
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($(this).prop('disabled')) {
+				$(this).css('pointer-events', 'none').off('click');
+				$(this).find('.btn').addClass('disabled');
+			}
+		});
+
 		$('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
@@ -64,32 +73,36 @@
 
 		$('#menu > li > a').on('click mouseenter', function() {
 
-			menuWidth = $(this).next('ul').outerWidth();
+			linkWidth        = $(this).outerWidth(true);
+			menuWidth        = $(this).next('ul').width();
+			linkPaddingLeft  = $(this).css('padding-left');
+			offsetLeft       = Math.round($(this).parents('li').offset().left) - parseInt(linkPaddingLeft);
+
 			emptyMenu.empty().hide();
 
 		});
 
 		menuScroll.find('.dropdown-submenu > a').on('mouseenter', function() {
 
-			var $self    = $(this);
-			var dropdown = $self.next('.dropdown-menu');
-			var offset   = $self.offset();
-			var scroll   = $(window).scrollTop() + 5;
-			var width    = menuWidth - 13;
+			var $self        = $(this);
+			var dropdown     = $self.next('ul');
+			var submenuWidth = dropdown.outerWidth();
+			var offsetTop    = $self.offset().top;
+			var scroll       = $(window).scrollTop() + 8;
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
 			{
 				emptyMenu.css({
-					top : offset.top - scroll,
-					left: offset.left - width
+					top : offsetTop - scroll,
+					left: offsetLeft - (menuWidth - linkWidth) - submenuWidth
 				});
 			}
 			else
 			{
 				emptyMenu.css({
-					top : offset.top - scroll,
-					left: offset.left + width
+					top : offsetTop - scroll,
+					left: offsetLeft + menuWidth
 				});
 			}
 
