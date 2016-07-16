@@ -182,7 +182,7 @@ $months_short = array_map(
 	<input type="text" title="<?php echo ($inputvalue ? JHtml::_('date', $value, null, null) : ''); ?>" name="<?php
 	echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 	echo htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
-	placeholder="<?php echo  $description; ?>"/>
+	placeholder="<?php echo empty($description) ? null : $description; ?>"/>
 		<button type="button" class="btn btn-secondary"
 			id="<?php echo  $id; ?>_btn"
 			data-inputfield="<?php echo $id; ?>"

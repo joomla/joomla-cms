@@ -561,6 +561,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0
 	 */
 	public static function calendar()
 	{
@@ -569,6 +571,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
 
 		$document = JFactory::getDocument();
 		$tag      = JFactory::getLanguage()->getTag();
@@ -857,6 +861,8 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript that translates the object
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0
 	 */
 	protected static function calendartranslation()
 	{
