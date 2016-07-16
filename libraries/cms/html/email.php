@@ -91,7 +91,6 @@ abstract class JHtmlEmail
 
 		$inlineScript = '';
 		$script       = "
-
 				document.getElementById('cloak" . $rand . "').innerHTML = '';
 				var prefix = '&#109;a' + 'i&#108;' + '&#116;o';
 				var path = 'hr' + 'ef' + '=';
