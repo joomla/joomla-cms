@@ -126,8 +126,45 @@ class PlgEditorTinymce extends JPlugin
 			$id = $name;
 		}
 
-		$app      = JFactory::getApplication();
+		// Only add "px" to width and height if they are not given as a percentage
+		if (is_numeric($width))
+		{
+			$width .= 'px';
+		}
+
+		if (is_numeric($height))
+		{
+			$height .= 'px';
+		}
+
+		// Data object for the layout
+		$textarea = new stdClass;
+		$textarea->name    = $name;
+		$textarea->id      = $id;
+		$textarea->class   = 'mce_editable joomla-editor-tinymce';
+		$textarea->cols    = $col;
+		$textarea->rows    = $row;
+		$textarea->width   = $width;
+		$textarea->height  = $height;
+		$textarea->content = $content;
+
+		// Render Editor markup
+		$editor = '<div class="editor">';
+		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
+		$editor .= $this->_toogleButton($id);
+		$editor .= '</div>';
+
+		// Setup Default options for the Editor script
 		$doc      = JFactory::getDocument();
+		$options  = $doc->getScriptOptions('plg_editor_tinymce');
+
+		// Check whether we alredy have them
+		if(!empty($options['tinyMCE']['default']))
+		{
+			return $editor;
+		}
+
+		$app      = JFactory::getApplication();
 		$user     = JFactory::getUser();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
@@ -890,41 +927,10 @@ class PlgEditorTinymce extends JPlugin
 				break;
 		}
 
-
+		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
-		$doc->addScriptOptions('plg_editor_tinymce', array(
-			'tinyMCE' => array(
-				'default' => $scriptOptions,
-			)
-		));
-
-		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric($width))
-		{
-			$width .= 'px';
-		}
-
-		if (is_numeric($height))
-		{
-			$height .= 'px';
-		}
-
-		// Data object for the layout
-		$textarea = new stdClass;
-		$textarea->name    = $name;
-		$textarea->id      = $id;
-		$textarea->class   = 'mce_editable joomla-editor-tinymce';
-		$textarea->cols    = $col;
-		$textarea->rows    = $row;
-		$textarea->width   = $width;
-		$textarea->height  = $height;
-		$textarea->content = $content;
-
-		$editor = '<div class="editor">';
-		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
-		$editor .= $this->_toogleButton($id);
-		$editor .= '</div>';
+		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
 	}
