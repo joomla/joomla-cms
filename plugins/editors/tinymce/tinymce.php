@@ -128,6 +128,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$app      = JFactory::getApplication();
 		$doc      = JFactory::getDocument();
+		$user     = JFactory::getUser();
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
@@ -194,7 +195,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return;
 		}
@@ -282,7 +283,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Advanced Options
-		$access = JFactory::getUser()->getAuthorisedViewLevels();
+		$access = $user->getAuthorisedViewLevels();
 
 		// Flip for performance, so we can direct check for the key isset($access[$key])
 		$access = array_flip($access);
@@ -702,7 +703,6 @@ class PlgEditorTinymce extends JPlugin
 		$allowImgPaste = false;
 		$dragDropPlg   = '';
 		$dragdrop      = $this->params->get('drag_drop', 1);
-		$user          = JFactory::getUser();
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
@@ -714,7 +714,7 @@ class PlgEditorTinymce extends JPlugin
 				. '&' . JSession::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
-			if (JFactory::getApplication()->isSite())
+			if ($app->isSite())
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
@@ -887,7 +887,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			JFactory::getDocument()->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
+			$doc->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
 		}
 
 		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
