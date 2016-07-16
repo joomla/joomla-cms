@@ -18,19 +18,25 @@
 	 */
 	Joomla.setupEditorsTinyMCE = Joomla.setupEditorsTinyMCE || function(target){
 		target = target || document;
-		var tinyMCEOptions = Joomla.optionsStorage.plg_editor_tinymce || {},
+		var pluginOptions = Joomla.optionsStorage.plg_editor_tinymce || {},
 			$editors = $(target).find('.joomla-editor-tinymce');
 
 		for(var i = 0, l = $editors.length; i < l; i++) {
-			Joomla.initializeEditorTinyMCE($editors[i], tinyMCEOptions);
+			Joomla.initializeEditorTinyMCE($editors[i], pluginOptions);
 		}
 	}
 
 	/**
 	 * Initialize TinyMCE instance
 	 */
-	Joomla.initializeEditorTinyMCE = Joomla.initializeEditorTinyMCE || function (element, tinyMCEOptions) {
-		var options = tinyMCEOptions ? tinyMCEOptions.tinyMCE || {} : {};
+	Joomla.initializeEditorTinyMCE = Joomla.initializeEditorTinyMCE || function (element, pluginOptions) {
+		var name = element ? $(element).attr('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
+			tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
+			defaultOptions = tinyMCEOptions['default'] || {},
+			options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+
+		// Avoid unexpected changes
+		options = jQuery.extend(true, {}, options);
 
 		if (element) {
 			options.selector = null;

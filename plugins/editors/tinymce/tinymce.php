@@ -699,6 +699,11 @@ class PlgEditorTinymce extends JPlugin
 		$btnsNames = $btns['names'];
 		$tinyBtns  = $btns['script'];
 
+		if (!empty($btnsNames))
+		{
+			$doc->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
+		}
+
 		// Drag and drop Images
 		$allowImgPaste = false;
 		$dragDropPlg   = '';
@@ -885,14 +890,13 @@ class PlgEditorTinymce extends JPlugin
 				break;
 		}
 
-		if (!empty($btnsNames))
-		{
-			$doc->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
-		}
+
 
 		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
 		$doc->addScriptOptions('plg_editor_tinymce', array(
-			'tinyMCE' => $scriptOptions,
+			'tinyMCE' => array(
+				'default' => $scriptOptions,
+			)
 		));
 
 		// Only add "px" to width and height if they are not given as a percentage
