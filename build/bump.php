@@ -60,7 +60,7 @@ $readMeFiles = array(
 			);
 
 // Change copyright date exclusions.
-$copyrightDateExcludeDirectories = array(
+$directoryLoopExcludeDirectories = array(
 			'/libraries/vendor/',
 			'/libraries/phputf8/',
 			'/libraries/php-encryption/',
@@ -69,7 +69,7 @@ $copyrightDateExcludeDirectories = array(
 			'/libraries/fof/',
 			);
 
-$copyrightDateExcludeFiles = array(
+$directoryLoopExcludeFiles = array(
 			);
 
 // Check arguments (exit if incorrect cli arguments).
@@ -259,10 +259,11 @@ foreach ($readMeFiles as $readMeFile)
 }
 
 // Updates the copyright date in core files.
-$changedFiles = 0;
-$year         = date('Y');
-$directory    = new \RecursiveDirectoryIterator($rootPath);
-$iterator     = new \RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
+$changedFilesCopyrightDate = 0;
+$changedFilesSinceVersion  = 0;
+$year                      = date('Y');
+$directory                 = new \RecursiveDirectoryIterator($rootPath);
+$iterator                  = new \RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
 
 foreach ($iterator as $file)
 {
@@ -278,7 +279,7 @@ foreach ($iterator as $file)
 		}
 
 		// Exclude certain files.
-		if (in_array($relativePath, $copyrightDateExcludeFiles))
+		if (in_array($relativePath, $directoryLoopExcludeFiles))
 		{
 			continue;
 		}
@@ -286,7 +287,7 @@ foreach ($iterator as $file)
 		// Exclude certain directories.
 		$continue = true;
 
-		foreach ($copyrightDateExcludeDirectories as $excludeDirectory)
+		foreach ($directoryLoopExcludeDirectories as $excludeDirectory)
 		{
 			if (preg_match('#^' . preg_quote($excludeDirectory) . '#', $relativePath))
 			{
@@ -297,21 +298,47 @@ foreach ($iterator as $file)
 
 		if ($continue)
 		{
+			$changeSinceVersion  = false;
+			$changeCopyrightDate = false;
+
+			// Load the file.
 			$fileContents = file_get_contents($filePath);
 
+			// Check if need to change the copyright date.
 			if (preg_match('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', $fileContents) && !preg_match('#2005\s+-\s+' . $year. '\s+Open\s+Source\s+Matters#', $fileContents))
 			{
+				$changeCopyrightDate = true;
 				$fileContents = preg_replace('#2005\s+-\s+[0-9]{4}\s+Open\s+Source\s+Matters#', '2005 - ' . $year. ' Open Source Matters', $fileContents);
+				$changedFilesCopyrightDate++;
+			}
+
+			// Check if need to change the since version.
+			if ($relativePath !== '/build/bump.php' && preg_match('#__DEPLOY_VERSION__#', $fileContents))
+			{
+				$changeSinceVersion = true;
+				$fileContents = preg_replace('#__DEPLOY_VERSION__#', $version['release'], $fileContents);
+				$changedFilesSinceVersion++;
+			}
+
+			// Save the file.
+			if ($changeCopyrightDate || $changeSinceVersion)
+			{
 				file_put_contents($filePath, $fileContents);
-				$changedFiles++;
 			}
 		}
 	}
 }
 
-if ($changedFiles > 0)
+if ($changedFilesCopyrightDate > 0 || $changedFilesSinceVersion > 0)
 {
-	echo '- Copyright Date changed in ' . $changedFiles . ' files.' . PHP_EOL;
+	if ($changedFilesCopyrightDate > 0)
+	{
+		echo '- Copyright Date changed in ' . $changedFilesCopyrightDate . ' files.' . PHP_EOL;
+	}
+	if ($changedFilesSinceVersion > 0)
+	{
+		echo '- Since Version changed in ' . $changedFilesSinceVersion . ' files.' . PHP_EOL;
+	}
 	echo PHP_EOL;
 }
 
