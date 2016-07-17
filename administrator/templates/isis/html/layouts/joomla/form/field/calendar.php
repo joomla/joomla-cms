@@ -71,7 +71,7 @@ $autocomplete     ? null : $attributes['autocomplete'] = 'off';
  */
 $todaybutton  = !empty($todaybutton) ? (bool) $todaybutton : true;
 $weeknumbers  = !empty($weeknumbers) ? (bool) $weeknumbers : false;
-$showtime     = !empty($showtime) ? (bool) $showtime : false;
+$showtime     = true; //!empty($showtime) ? (bool) $showtime : false;
 $filltable    = !empty($filltable) ? (bool) $filltable : true;
 // $multiple     = !empty($multiple) ? (bool) $multiple : false;  //  Needed??????
 $timeformat   = !empty($timeformat) ? (int) $timeformat : 24;
@@ -132,7 +132,7 @@ switch (strtoupper($filter))
 		break;
 }
 
-JHtml::_('script', $tag . '/calendar-vanilla.js', false, true, false, false, true);
+JHtml::_('script', 'system/calendar-vanilla.js', false, true, false, false, true);
 JHtml::_('script', $tag . '/calendar-setup-vanilla.js', false, true, false, false, true);
 
 // To keep the code simple here, run strings through JText::_() using array_map()
