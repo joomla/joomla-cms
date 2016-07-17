@@ -288,12 +288,16 @@ class PlgEditorTinymce extends JPlugin
 			// Paragraph
 			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
+		
+		$ignore_filter = false;
 
 		// Text filtering
 		if ($this->params->get('use_config_textfilters', 0))
 		{
 			// Use filters from com_config
 			$filter = static::getGlobalFilters();
+			
+			$ignore_filter = $filter === false;
 
 			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
 			$attrBlacklist = !empty($filter->attrBlacklist) ? $filter->attrBlacklist : array();
@@ -845,6 +849,7 @@ class PlgEditorTinymce extends JPlugin
 		inline_styles : true,
 		gecko_spellcheck : true,
 		entity_encoding : \"$entity_encoding\",
+		verify_html: " . ($ignore_filter ? 'false' : 'true') . ",
 		$forcenewline
 		$smallButtons
 		";
@@ -1236,6 +1241,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($unfiltered)
 		{
 			// Dont apply filtering.
+			return false;
 		}
 		else
 		{

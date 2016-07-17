@@ -196,7 +196,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups.
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	public function getTotal()
 	{
