@@ -25,7 +25,7 @@ class LanguagesViewMultilangstatus extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JLoader::register('MultilangstatusHelper', JPATH_COMPONENT . '/helpers/multilangstatus.php');
+		JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 		$this->homes           = MultilangstatusHelper::getHomes();
 		$this->language_filter = JLanguageMultilang::isEnabled();

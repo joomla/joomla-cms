@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Register dependent classes.
-JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/indexer.php');
+JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
 
 /**
  * Indexer controller class for Finder.

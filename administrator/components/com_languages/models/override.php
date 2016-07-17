@@ -89,7 +89,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		JLoader::register('LanguagesHelper', JPATH_COMPONENT . '/helpers/languages.php');
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		$input    = JFactory::getApplication()->input;
 		$pk       = (!empty($pk)) ? $pk : $input->get('id');
@@ -122,7 +122,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function save($data, $opposite_client = false)
 	{
-		JLoader::register('LanguagesHelper', JPATH_COMPONENT . '/helpers/languages.php');
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 		jimport('joomla.filesystem.file');
 
 		$app = JFactory::getApplication();

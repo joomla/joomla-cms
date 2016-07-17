@@ -57,7 +57,7 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JLoader::register('LanguagesHelper', JPATH_COMPONENT . '/helpers/languages.php');
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
