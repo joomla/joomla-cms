@@ -75,11 +75,6 @@ class PlgSystemLanguageFilter extends JPlugin
 					unset($this->sefs[$language->sef]);
 				}
 			}
-
-			$this->app->setLanguageFilter(true);
-
-			// Detect browser feature.
-			$this->app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 		}
 	}
 

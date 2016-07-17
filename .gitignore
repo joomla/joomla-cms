@@ -1,5 +1,6 @@
 # IDE & System Related Files #
 .buildpath
+.editorconfig
 .project
 .settings
 .DS_Store
