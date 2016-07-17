@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.path');
-require_once JPATH_COMPONENT . '/helpers/menus.php';
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/content.php');
 
 /**
  * Menu Item Model for Menus.
