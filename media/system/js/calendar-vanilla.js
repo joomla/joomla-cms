@@ -40,7 +40,6 @@ window.JoomlaCalendar = function (onSelect, onClose, params) {
 	 * Support for different calendars, e.g.: jalali
 	 */
 	this.dateType = params.dateType ? params.dateType : 'gregorian';
-	this.langNumbers = params.langNumbers ? params.langNumbers : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 };
 
 // "static", needed for event handlers.
