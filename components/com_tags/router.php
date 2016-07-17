@@ -103,6 +103,13 @@ class TagsRouter extends JComponentRouterBase
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
+
+			$position = strpos($segments[$i], '-');
+			if ($position)
+			{
+				// Remove id from segment
+				$segments[$i] = substr($segments[$i], $position + 1);
+			}
 		}
 
 		return $segments;
@@ -137,18 +144,64 @@ class TagsRouter extends JComponentRouterBase
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
-			$vars['id']   = $segments[$count - 1];
+			$vars['id']   = $this->fixSegment($segments[$count - 1]);
 
 			return $vars;
 		}
 
-		// From the tags view, we can only jump to a tag.
-		$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-
-		$vars['id'] = $segments[0];
+		$vars['id'] = $this->fixSegment($segments[0]);
 		$vars['view'] = 'tag';
 
 		return $vars;
+	}
+
+	/**
+	 * Try to add missing id to segment
+	 *
+	 * @param   string  $segment  One piece of segment of the URL to parse
+	 *
+	 * @return  string  The segment with founded id
+	 *
+	 * @since   3.6.1
+	*/
+	protected function fixSegment($segment)
+	{
+		$db = JFactory::getDbo();
+
+		// Find or confirm tag id
+		$parts = explode(':', $segment, 2);
+		$alias = implode('-', $parts);
+
+		$query = $db->getQuery(true)
+			->select('id')
+			->from($db->quoteName('#__tags'))
+			->where($db->quoteName('alias') . " = " . $db->quote($alias));
+
+		$id = $db->setQuery($query)->loadResult();
+
+		if (!$id && ctype_digit($parts[0]))
+		{
+			// Alias contains id prefix - old way B/C
+			$alias = $parts[1];
+
+			$query->clear('where')
+				->where($db->quoteName('alias') . " = " . $db->quote($alias));
+
+			$id = $db->setQuery($query)->loadResult();
+
+			if ($parts[0] !== $id)
+			{
+				// Id with incorrect alias
+				return $segment;
+			}
+		}
+
+		if ($id)
+		{
+			$segment = "$id:$alias";
+		}
+
+		return $segment;
 	}
 }
 

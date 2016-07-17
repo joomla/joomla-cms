@@ -94,6 +94,14 @@ class TagsHelperRoute extends JHelperRoute
 			{
 				$link .= '&Itemid=' . $item;
 			}
+			else
+			{
+				$needles = array('tags' => array(0));
+				if ($item = self::_findItem($needles))
+				{
+					$link .= '&Itemid=' . $item;
+				}
+			}
 		}
 
 		return $link;
@@ -152,6 +160,10 @@ class TagsHelperRoute extends JHelperRoute
 									self::$lookup[$lang][$view][$item->query['id'][$position]] = $item->id;
 								}
 							}
+						}
+						elseif ($view == 'tags')
+						{
+							self::$lookup[$lang]['tags'][] = $item->id;
 						}
 					}
 				}
