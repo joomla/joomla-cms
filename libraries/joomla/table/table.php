@@ -1371,6 +1371,17 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
+		// Reorder configuration
+		$uses_single_key = count($this->_tbl_keys == 1);
+		$pk_is_int = false;    // TODO check DB schema and if pk column is integer do not quote ! (minor/medium performance concern)
+		$max_recs = 10000;     // Update in 10,000 records steps, default server config should support 50,000+ records anyway e.g. mySQL has default 1MByte packet size or more
+		$keyname = $this->_tbl_key;
+
+		// Reorder data and counters
+		$when_clauses = array();
+		$reorder_pks  = array();
+		$step = 0;
+		$recs_in_step = 0;
 
 		// Compact the ordering values.
 		foreach ($rows as $i => $row)
@@ -1381,14 +1392,45 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 				// Only update rows that are necessary.
 				if ($row->ordering != $i + 1)
 				{
-					// Update the row ordering field.
-					$query->clear()
-						->update($this->_tbl)
-						->set('ordering = ' . ($i + 1));
-					$this->appendPrimaryKeys($query, $row);
-					$this->_db->setQuery($query);
-					$this->_db->execute();
+					if ($uses_single_key)
+					{
+						if (++$recs_in_step > $max_recs)
+						{
+							$step++;
+						}
+						$pk = $pk_is_int ? $row->$keyname : $this->_db->quote($row->$keyname); // TODO check DB schema and if pk column is integer do not quote ! (minor/medium performance concern)
+						$order_pks[$step][] = $pk;
+						$when_clauses[$step][] = ' WHEN '.$pk.' THEN '.($i + 1);
+					}
+					else
+					{
+						// Update the row ordering field.
+						$query->clear()
+							->update($this->_tbl)
+							->set('ordering = ' . ($i + 1));
+						$this->appendPrimaryKeys($query, $row);
+						$this->_db->setQuery($query);
+						$this->_db->execute();
+					}
 				}
+			}
+		}
+
+		// Update in 'max_recs' records steps, e.g. 10,000 records per step
+		if ($uses_single_key)
+		{
+			foreach($when_clauses as $step => $clauses)
+			{
+				$_tbl = $this->_db->quoteName($this->_tbl);
+				$_tblkey = $this->_db->quoteName($this->_tbl_key);
+
+				$query = 'UPDATE ' . $_tbl . ' SET ordering = CASE ' . $_tblkey
+					. implode(' ', $when_clauses[$step])
+					.' END '
+					.' WHERE ' . $_tblkey . ' IN ('. implode(',', $order_pks[$step]) .')';
+
+				$this->_db->setQuery($query);
+				$this->_db->execute();
 			}
 		}
 
