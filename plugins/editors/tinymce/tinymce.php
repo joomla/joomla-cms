@@ -950,7 +950,7 @@ class PlgEditorTinymce extends JPlugin
 		if (!empty($btnsNames))
 		{
 			$modalFix = JHtml::_('script', 'system/tiny-close.min.js', false, true, true, false, true);
-			JFactory::getDocument()->addScript($modalFix, null, true, false);
+			JFactory::getDocument()->addScript($modalFix, "text/javascript", true, false);
 		}
 
 		JFactory::getDocument()->addScriptDeclaration($script);
