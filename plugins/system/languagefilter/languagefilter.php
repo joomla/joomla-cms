@@ -403,14 +403,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			}
 
 			// Permanent redirect for default language, found for others.
-			$redirectHttpCode = $lang_code === $this->default_lang ? 301 : 302;
-
-			// Don't cache the redirect in browser.
-			$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
-			$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-			$this->app->setHeader('Pragma', 'no-cache');
-			$this->app->sendHeaders();
+			$redirectHttpCode = $lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0) ? 301 : 302;
 
 			// Redirect to language.
 			$this->app->redirect($redirectUri, $redirectHttpCode);
