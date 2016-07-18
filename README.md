@@ -6,6 +6,8 @@ Build Status
 Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)
 Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)
 
+[![Demo on running JavaScript tests](http://img.youtube.com/vi/Tp_mLqMhRuA/0.jpg)](http://www.youtube.com/watch?v=Tp_mLqMhRuA)
+
 What is this?
 ---------------------
 * This is the repository for the Google Summer of Code Joomla JavaScript Testing project.
