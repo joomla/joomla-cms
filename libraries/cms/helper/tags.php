@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tags helper class, provides methods to perform various tasks relevant
  * tagging of content.
@@ -457,7 +459,7 @@ class JHelperTags extends JHelper
 		$ids = (array) $ids;
 		$ids = implode(',', $ids);
 		$ids = explode(',', $ids);
-		JArrayHelper::toInteger($ids);
+		$ids = ArrayHelper::toInteger($ids);
 
 		$db = JFactory::getDbo();
 
@@ -514,7 +516,7 @@ class JHelperTags extends JHelper
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
-		JArrayHelper::toInteger($tagIds);
+		$tagIds = ArrayHelper::toInteger($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -533,7 +535,7 @@ class JHelperTags extends JHelper
 
 		// Sanitize filter states
 		$stateFilters = explode(',', $stateFilter);
-		JArrayHelper::toInteger($stateFilters);
+		$stateFilters = ArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
 		$query
@@ -568,6 +570,9 @@ class JHelperTags extends JHelper
 					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
+
+			// Join over categoris for get only published
+			->join('INNER', '#__categories AS tc ON tc.id = c.core_catid AND tc.published = 1')
 
 			// Join over the users for the author and email
 			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
@@ -646,7 +651,7 @@ class JHelperTags extends JHelper
 
 		if (is_array($tagIds) && count($tagIds) > 0)
 		{
-			JArrayHelper::toInteger($tagIds);
+			$tagIds = ArrayHelper::toInteger($tagIds);
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -747,7 +752,7 @@ class JHelperTags extends JHelper
 			}
 			else
 			{
-				JArrayHelper::toInteger($selectTypes);
+				$selectTypes = ArrayHelper::toInteger($selectTypes);
 
 				$query->where($db->quoteName('type_id') . ' IN (' . implode(',', $selectTypes) . ')');
 			}
@@ -1051,7 +1056,7 @@ class JHelperTags extends JHelper
 
 		if (is_array($tags) && count($tags) > 0)
 		{
-			JArrayHelper::toInteger($tags);
+			$tags = ArrayHelper::toInteger($tags);
 
 			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
 		}

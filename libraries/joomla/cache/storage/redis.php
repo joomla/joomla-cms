@@ -84,7 +84,7 @@ class JCacheStorageRedis extends JCacheStorage
 				$connection = static::$_redis->pconnect($server['host'], $server['port']);
 				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (Exception $e)
+			catch (RedisException $e)
 			{
 				JLog::add($e->getMessage(), JLog::DEBUG);
 			}
@@ -96,7 +96,7 @@ class JCacheStorageRedis extends JCacheStorage
 				$connection = static::$_redis->connect($server['host'], $server['port']);
 				$auth       = (!empty($server['auth'])) ? static::$_redis->auth($server['auth']) : true;
 			}
-			catch (Exception $e)
+			catch (RedisException $e)
 			{
 				JLog::add($e->getMessage(), JLog::DEBUG);
 			}

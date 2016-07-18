@@ -17,34 +17,43 @@
 		<language tag="en-GB">en-GB.plg_system_cache.sys.ini</language>
 	</languages>
 	<config>
-	<fields name="params">
-		<fieldset name="basic">
-			<field	name="browsercache" type="radio"
-				class="btn-group btn-group-yesno"
-				default="0"
-				description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
-				label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
-			>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
-			<field name="exclude_menu_items" type="menuitem"
-				default=""
-				multiple="multiple"
-				description="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_DESC"
-				label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
-			/>
-		</fieldset>
-		<fieldset name="advanced">
-			<field name="exclude" type="textarea"
-				class="input-xxlarge"
-				rows="15"
-				filter="raw"
-				default=""
-				description="PLG_CACHE_FIELD_EXCLUDE_DESC"
-				label="PLG_CACHE_FIELD_EXCLUDE_LABEL"
-			/>
-		</fieldset>
-	</fields>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="browsercache"
+					type="radio"
+					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
+					description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="exclude_menu_items"
+					type="menuitem"
+					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
+					description="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_DESC"
+					default=""
+					multiple="multiple"
+				/>
+
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="exclude"
+					type="textarea"
+					label="PLG_CACHE_FIELD_EXCLUDE_LABEL"
+					description="PLG_CACHE_FIELD_EXCLUDE_DESC"
+					class="input-xxlarge"
+					rows="15"
+					filter="raw"
+					default=""
+				/>
+
+			</fieldset>
+		</fields>
 	</config>
 </extension>

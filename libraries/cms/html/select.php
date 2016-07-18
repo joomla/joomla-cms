@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Utility class for creating HTML select lists
  *
@@ -104,7 +106,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -118,7 +120,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
@@ -229,7 +231,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -243,7 +245,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		// Disable groups in the options.
 		$options['groups'] = false;
@@ -683,7 +685,7 @@ abstract class JHtmlSelect
 
 				if (is_array($attr))
 				{
-					$attr = JArrayHelper::toString($attr);
+					$attr = ArrayHelper::toString($attr);
 				}
 				else
 				{
@@ -748,7 +750,7 @@ abstract class JHtmlSelect
 
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		$id_text = $idtag ? $idtag : $name;

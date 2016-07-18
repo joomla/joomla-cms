@@ -29,11 +29,11 @@ abstract class ModRelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$date = JFactory::getDate();
+		$db      = JFactory::getDbo();
+		$app     = JFactory::getApplication();
+		$user    = JFactory::getUser();
+		$groups  = implode(',', $user->getAuthorisedViewLevels());
+		$date    = JFactory::getDate();
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
@@ -52,16 +52,16 @@ abstract class ModRelatedItemsHelper
 		$articles->setState('params', $appParams);
 
 		$option = $app->input->get('option');
-		$view = $app->input->get('view');
+		$view   = $app->input->get('view');
 
 		$temp = $app->input->getString('id');
 		$temp = explode(':', $temp);
-		$id = $temp[0];
+		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now = $date->toSql();
-		$related = array();
-		$query = $db->getQuery(true);
+		$now      = $date->toSql();
+		$related  = array();
+		$query    = $db->getQuery(true);
 
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
@@ -83,7 +83,7 @@ abstract class ModRelatedItemsHelper
 			}
 
 			// Explode the meta keys on a comma
-			$keys = explode(',', $metakey);
+			$keys  = explode(',', $metakey);
 			$likes = array();
 
 			// Assemble any non-blank word(s)
@@ -103,7 +103,7 @@ abstract class ModRelatedItemsHelper
 				$query->clear()
 					->select('a.id')
 					->select('a.title')
-					->select('DATE(a.created) as created')
+					->select('CAST(a.created AS DATE) as created')
 					->select('a.catid')
 					->select('a.language')
 					->select('cc.access AS cat_access')

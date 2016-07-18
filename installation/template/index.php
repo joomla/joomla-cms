@@ -42,7 +42,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
 		</script>
 	</head>
-	<body>
+	<body data-basepath="<?php echo JURI::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
@@ -92,6 +92,15 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 
 					// Turn radios into btn-group
 				    $('.radio.btn-group label').addClass('btn');
+
+					$('fieldset.btn-group').each(function() {
+						// Handle disabled, prevent clicks on the container, and add disabled style to each button
+						if ($(this).prop('disabled')) {
+							$(this).css('pointer-events', 'none').off('click');
+							$(this).find('.btn').addClass('disabled');
+						}
+					});
+
 				    $(".btn-group label:not(.active)").click(function()
 					{
 				        var label = $(this);
@@ -112,7 +121,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				            input.prop('checked', true);
 				        }
 				    });
-				    $(".btn-group input[checked=checked]").each(function()
+				    $(".btn-group input[checked='checked']").each(function()
 					{
 						if ($(this).val()== '')
 						{

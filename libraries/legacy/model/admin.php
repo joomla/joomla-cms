@@ -67,13 +67,6 @@ abstract class JModelAdmin extends JModelForm
 	protected $event_change_state = null;
 
 	/**
-	 * Maps events to plugin groups.
-	 *
-	 * @var array
-	 */
-	protected $events_map = null;
-
-	/**
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
@@ -163,7 +156,8 @@ abstract class JModelAdmin extends JModelForm
 			array(
 				'delete'       => 'content',
 				'save'         => 'content',
-				'change_state' => 'content'
+				'change_state' => 'content',
+				'validate'     => 'content',
 			), $config['events_map']
 		);
 
@@ -1230,12 +1224,12 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			// Show a notice if the item isn't assigned to a language but we have associations.
+			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && ($table->language == '*'))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
-					'notice'
+					'warning'
 				);
 			}
 

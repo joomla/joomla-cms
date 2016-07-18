@@ -247,6 +247,20 @@ body .navbar-fixed-top {
 			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 		}
 	}
+	.nav > li > .dropdown-menu:after {
+		display: none;
+	}
+	.nav > .dropdown.open:after {
+		content: '';
+		display: inline-block;
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-bottom: 6px solid #fff;
+		position: absolute;
+		top: 25px;
+		left: 10px;
+		z-index: 1001;
+	}
 	.empty-nav {
 		display: none;
 	}
@@ -317,9 +331,10 @@ body .navbar-fixed-top {
 }
 
 .logo {
-	width: 100%;
-	max-width: 143px;
-	height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 36px;
+    height: auto;
 }
 
 /* Page Title */
@@ -517,8 +532,8 @@ h6 {
 }
 
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 
 .quick-icons [class^="icon-"]:before, .quick-icons [class*=" icon-"]:before {
@@ -1055,6 +1070,10 @@ ul.treeselect ul.dropdown-menu li {
 	border: none;
 }
 /* Tables */
+table label {
+	margin: 0;
+}
+
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
@@ -1106,7 +1125,7 @@ th .tooltip-inner {
 }
 /* Component pop-up */
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 /* Min-width on buttons */
 .controls .btn-group > .btn {
@@ -1331,8 +1350,8 @@ textarea.noResize {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
 /* Corrects the modals padding */
@@ -1352,4 +1371,22 @@ body.modal-open {
 /* Clear div after modal-body rendering */
 .modal-footer {
 	clear: both;
+}
+
+/* Modal Header text align left even if parent container centered */
+.modal-header {
+	text-align: left;
+}
+
+/* ACL Permission page */
+#permissions,
+#page-permissions {
+	table {
+		td {
+			vertical-align: middle;
+		}
+		select {
+			margin-bottom: 0;
+		}
+	}
 }

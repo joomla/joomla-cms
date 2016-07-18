@@ -33,10 +33,8 @@ class FinderHelperLanguage
 		{
 			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
 		}
-		else
-		{
-			return $branchName;
-		}
+
+		return $branchName;
 	}
 
 	/**
@@ -56,6 +54,35 @@ class FinderHelperLanguage
 	}
 
 	/**
+	 * Method to return the language name for a language taxonomy branch.
+	 *
+	 * @param   string  $branchName  Language branch name.
+	 *
+	 * @return  string  The language title.
+	 *
+	 * @since   3.6.0
+	 */
+	public static function branchLanguageTitle($branchName)
+	{
+		$title = $branchName;
+
+		if ($branchName == '*')
+		{
+			$title = JText::_('JALL_LANGUAGE');
+		}
+		else
+		{
+			$languages = JLanguageHelper::getLanguages('lang_code');
+			if (isset($languages[$branchName]))
+			{
+				$title = $languages[$branchName]->title;
+			}
+		}
+
+		return $title;
+	}
+
+	/**
 	 * Method to load Smart Search component language file.
 	 *
 	 * @return  void
@@ -64,8 +91,7 @@ class FinderHelperLanguage
 	 */
 	public static function loadComponentLanguage()
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_finder', JPATH_SITE);
+		JFactory::getLanguage()->load('com_finder', JPATH_SITE);
 	}
 
 	/**

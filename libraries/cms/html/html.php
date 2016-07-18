@@ -9,10 +9,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
-jimport('joomla.utilities.arrayhelper');
 
 /**
  * Utility class for all HTML drawing classes
@@ -214,7 +215,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @see     http://php.net/manual/en/function.call-user-func-array.php
+	 * @see     https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
@@ -251,7 +252,7 @@ abstract class JHtml
 	{
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
@@ -273,7 +274,7 @@ abstract class JHtml
 	{
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
@@ -403,7 +404,7 @@ abstract class JHtml
 										break;
 									}
 
-									// Try to deal with classical file in a a media subfolder called element
+									// Try to deal with classical file in a media subfolder called element
 									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
 
 									if (file_exists($path))
@@ -578,7 +579,7 @@ abstract class JHtml
 		else
 		{
 			return '<img src="' . $file . '" alt="' . $alt . '" '
-			. trim((is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) . ' /')
+			. trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs) . ' /')
 			. '>';
 		}
 	}
@@ -811,7 +812,7 @@ abstract class JHtml
 	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
 	 * @param   string  $image    The image for the tip, if no text is provided.
 	 * @param   string  $text     The text for the tip.
-	 * @param   string  $href     An URL that will be used to create the link.
+	 * @param   string  $href     A URL that will be used to create the link.
 	 * @param   string  $alt      The alt attribute for img tag.
 	 * @param   string  $class    CSS class for the tool tip.
 	 *
@@ -968,7 +969,7 @@ abstract class JHtml
 			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
 			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
 
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		static::_('bootstrap.tooltip');

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Content article class.
  *
@@ -43,7 +45,7 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  mixed  True if the record can be added, a error object if not.
+	 * @return  mixed  True if the record can be added, an error object if not.
 	 *
 	 * @since   1.6
 	 */
@@ -68,7 +70,7 @@ class ContentControllerArticle extends JControllerForm
 	protected function allowAdd($data = array())
 	{
 		$user       = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow      = null;
 
 		if ($categoryId)
@@ -195,9 +197,7 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.5" type="plugin" group="editors-xtd" method="upgrade">
+<extension version="3.6" type="plugin" group="editors-xtd" method="upgrade">
 	<name>plg_editors-xtd_module</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2015</creationDate>

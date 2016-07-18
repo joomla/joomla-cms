@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -86,7 +87,8 @@ class ContentModelCategory extends JModelList
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'author', 'a.author'
+				'author', 'a.author',
+				'filter_tag'
 			);
 		}
 
@@ -111,6 +113,9 @@ class ContentModelCategory extends JModelList
 		$pk  = $app->input->getInt('id');
 
 		$this->setState('category.id', $pk);
+
+		$value = $app->input->get('filter_tag', 0, 'uint');
+		$this->setState('filter.tag', $value);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
@@ -236,6 +241,7 @@ class ContentModelCategory extends JModelList
 			$model->setState('list.limit', $limit);
 			$model->setState('list.direction', $this->getState('list.direction'));
 			$model->setState('list.filter', $this->getState('list.filter'));
+			$model->setState('filter.tag', $this->getState('filter.tag'));
 
 			// Filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
@@ -453,8 +459,7 @@ class ContentModelCategory extends JModelList
 
 			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
 			{
-				jimport('joomla.utilities.arrayhelper');
-				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
+				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
 			}
 		}
 

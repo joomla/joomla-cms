@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
  * to the Joomla user and authorisation classes
@@ -153,7 +155,7 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Set the group ids.
-		JArrayHelper::toInteger($groups);
+		$groups = ArrayHelper::toInteger($groups);
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.

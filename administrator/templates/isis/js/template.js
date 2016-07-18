@@ -10,10 +10,21 @@
 {
 	$(document).ready(function()
 	{
+		var $w = $(window);
+
 		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($(this).prop('disabled')) {
+				$(this).css('pointer-events', 'none').off('click');
+				$(this).find('.btn').addClass('disabled');
+			}
+		});
+
 		$('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
@@ -64,38 +75,50 @@
 
 		$('#menu > li > a').on('click mouseenter', function() {
 
-			menuWidth = $(this).next('ul').outerWidth();
+			linkWidth        = $(this).outerWidth(true);
+			menuWidth        = $(this).next('ul').width();
+			linkPaddingLeft  = $(this).css('padding-left');
+			offsetLeft       = Math.round($(this).parents('li').offset().left) - parseInt(linkPaddingLeft);
+
 			emptyMenu.empty().hide();
 
 		});
 
-		menuScroll.find('.dropdown-submenu > a').on('mouseenter', function() {
+		menuScroll.find('.dropdown-submenu > a').on('mouseover', function() {
 
-			var $self    = $(this);
-			var dropdown = $self.next('.dropdown-menu');
-			var offset   = $self.offset();
-			var scroll   = $(window).scrollTop() + 5;
-			var width    = menuWidth - 13;
+			var $self        = $(this);
+			var dropdown     = $self.next('ul');
+			var submenuWidth = dropdown.outerWidth();
+			var offsetTop    = $self.offset().top;
+			var scroll       = $w.scrollTop() + 8;
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
 			{
 				emptyMenu.css({
-					top : offset.top - scroll,
-					left: offset.left - width
+					top : offsetTop - scroll,
+					left: offsetLeft - (menuWidth - linkWidth) - submenuWidth
 				});
 			}
 			else
 			{
 				emptyMenu.css({
-					top : offset.top - scroll,
-					left: offset.left + width
+					top : offsetTop - scroll,
+					left: offsetLeft + menuWidth
 				});
 			}
 
 			// Append items to empty <ul> and show it
 			dropdown.hide();
 			emptyMenu.show().html(dropdown.html());
+
+			// Check if the full element is visible. If not, adjust the position
+			if (emptyMenu.Jvisible() !== true)
+			{
+				emptyMenu.css({
+					top : ($w.height() - emptyMenu.outerHeight()) - $('#status').height()
+				});
+			}
 
 		});
 		menuScroll.find('a.no-dropdown').on('mouseenter', function() {
@@ -109,13 +132,35 @@
 
 		});
 
+		$.fn.Jvisible = function(partial,hidden)
+		{
+			if (this.length < 1)
+			{
+				return;
+			}
+
+			var $t = this.length > 1 ? this.eq(0) : this,
+				t  = $t.get(0)
+
+			var viewTop         = $w.scrollTop(),
+				viewBottom      = (viewTop + $w.height()) - $('#status').height(),
+				offset          = $t.offset(),
+				_top            = offset.top,
+				_bottom         = _top + $t.height(),
+				compareTop      = partial === true ? _bottom : _top,
+				compareBottom   = partial === true ? _top : _bottom;
+
+			return !!t.offsetWidth * t.offsetHeight && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+		};
+
 		/**
 		 * USED IN: All views with toolbar and sticky bar enabled
 		 */
 		var navTop;
 		var isFixed = false;
 
-		if (window.isisStickyToolbar == 1) {
+
+		if (document.getElementById('isisJsData') && document.getElementById('isisJsData').getAttribute('data-tmpl-sticky') == "true") {
 			processScrollInit();
 			processScroll();
 
@@ -125,7 +170,7 @@
 
 		function processScrollInit() {
 			if ($('.subhead').length) {
-				navTop = $('.subhead').length && $('.subhead').offset().top - window.isisOffsetTop;
+				navTop = $('.subhead').length && $('.subhead').offset().top - parseInt(document.getElementById('isisJsData').getAttribute('data-tmpl-offset'));
 
 				// Fix the container top
 				$(".container-main").css("top", $('.subhead').height() + $('nav.navbar').height());
