@@ -5,35 +5,34 @@
 
 /**
  * This is used by tinyMCE in order to allow both mootools and bootstrap modals
- * to close correctly
+ * to close correctly, more tinyMCE related functionality maybe added in the future
  *
  * @package     Joomla
  * @since       3.6
  * @version     1.0
  */
 document.onreadystatechange = function () {
-	if (document.readyState == "interactive") {
-		if (jModalClose_tinyMCE_added === undefined) {
-			var __tmp = jModalClose !== undefined && typeof(jModalClose) == 'function' ? jModalClose : false;
-
+	if (document.readyState == "interactive" && typeof tinyMCE != 'undefined' && tinyMCE)
+	{
+		if (typeof window.jModalClose_no_tinyMCE === 'undefined')
+		{	
+			window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
+			
 			jModalClose = function () {
-				if (__tmp)  __tmp.apply(this, arguments);
+				if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
 				tinyMCE.activeEditor.windowManager.close();
 			};
-
-			window.jModalClose_tinyMCE_added = 1;
 		}
 
-		if (SqueezeBox_tinyMCE_added === undefined) {
-			var __tmp = SqueezeBox !== undefined ? SqueezeBox.close : false;
-			if (SqueezeBox === undefined)  SqueezeBox = {};
+		if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
+		{
+			if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
+			window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
 
 			SqueezeBox.close = function () {
-				if (__tmp)  __tmp.apply(this, arguments);
+				if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
 				tinyMCE.activeEditor.windowManager.close();
 			};
-
-			window.SqueezeBox_tinyMCE_added = 1;
 		}
 	}
 };
