@@ -409,26 +409,33 @@ abstract class JHtmlBehavior
 		window.jModalClose = function () {
 			SqueezeBox.close();
 		};
-
-		// Patch for tinyMCE
-		if (typeof tinyMCE != 'undefined' && tinyMCE) {
-			if (window.jModalClose_tinyMCE_added === undefined) {
-				var __tmp_1 = jModalClose;
-				jModalClose = function () {
-				if (__tmp_1)  __tmp_1.apply(this, arguments);
-				tinyMCE.activeEditor.windowManager.close();
-			};
-			window.jModalClose_tinyMCE_added = 1;
-		}
-		if (window.SqueezeBox_tinyMCE_added === undefined) {
-			var __tmp_2 = SqueezeBox.close;
-			SqueezeBox.close = function () {
-				if (__tmp_2)  __tmp_2.apply(this, arguments);
-					tinyMCE.activeEditor.windowManager.close();
-				};
-				window.SqueezeBox_tinyMCE_added = 1;
+		
+		// Add extra modal close functionality for tinyMCE-based editors
+		document.onreadystatechange = function () {
+			if (document.readyState == "interactive" && typeof tinyMCE != 'undefined' && tinyMCE)
+			{
+				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
+				{	
+					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
+					
+					jModalClose = function () {
+						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+		
+				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
+				{
+					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
+					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
+		
+					SqueezeBox.close = function () {
+						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
 			}
-		}
+		};
 		"
 		);
 
