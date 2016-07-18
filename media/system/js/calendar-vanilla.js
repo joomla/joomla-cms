@@ -3,47 +3,46 @@
 // /** The Calendar object constructor. */
 window.JoomlaCalendar = function (onSelect, onClose, params) {
 
-	this.firstDayOfWeek = params.firstDayOfWeek ? parseInt(params.firstDayOfWeek) : 0;          // 0 for Sunday, 1 for Monday, etc.
-	this.dateStr = params.dateStr ? params.dateStr : '';                                        // The date string
-	this.onSelected = onSelect || null;                                                       // Function for the event onSelected
-	this.onClose = onClose || function (cal) { cal.hide(); };                                   // Function for the event onClose
-	this.time24 = false; //params.time24 ? Boolean(params.time24) : false;                      // Use 24/12 hour format
-	this.showsOtherMonths = params.showsOtherMonths ? Boolean(params.showsOtherMonths) : true;  // Display previous/next month days as disables
-	this.showsTime = true; //params.showsTime ? Boolean(params.showsTime) : false;              // Shows hours and minutes drop downs
-	this.weekNumbers = params.weekNumbers ? Boolean(params.weekNumbers) : false;                // Shows the week number as first column
-	this.todayBtn = params.todayBtn ? Boolean(params.todayBtn) : true;                          // Display a today button
-	this.onlyMonths = params.onlyMonths ? Boolean(params.onlyMonths) : false;                   // Use one line for year month
-	this.minYear = params.minYear ? params.minYear : 1970;                                      // The minimum year
-	this.maxYear = params.maxYear ? params.maxYear : 2050;                                      // The maximum year
-	this.dateFormat = params.dateFormat ? params.dateFormat : "%Y-%m-%d";                       // The date format
-	this.hiliteToday = params.hiliteToday ? Boolean(params.hiliteToday) : true;                 // The date format
+	this.params = {};
+
+	this.onSelected = onSelect || null;                                                                // Function for the event onSelected
+	this.onClose = onClose || function (cal) { cal.hide(); };                                          // Function for the event onClose
+
+	this.params.dateStr = params.dateStr ? params.dateStr : '';                                        // The date string
+	this.params.firstDayOfWeek = params.firstDayOfWeek ? parseInt(params.firstDayOfWeek) : 0;          // 0 for Sunday, 1 for Monday, etc.
+	this.params.time24 = params.time24 ? Boolean(params.time24) : false;                      // Use 24/12 hour format
+	this.params.showsOthers = true; //params.showsOthers ? Boolean(params.showsOthers) : true;  // Display previous/next month days as disables
+	this.params.showsTime = params.showsTime ? Boolean(params.showsTime) : false;              // Shows hours and minutes drop downs
+	this.params.weekNumbers = params.weekNumbers ? Boolean(params.weekNumbers) : false;                // Shows the week number as first column
+	this.params.showsTodayBtn = params.showsTodayBtn ? Boolean(params.showsTodayBtn) : true;                          // Display a today button
+	this.params.compressedHeader = params.compressedHeader ? Boolean(params.compressedHeader) : false;                   // Use one line for year month
+	this.params.minYear = params.minYear ? params.minYear : 1970;                                      // The minimum year
+	this.params.maxYear = params.maxYear ? params.maxYear : 2050;                                      // The maximum year
+	this.params.dateFormat = params.dateFormat ? params.dateFormat : "%Y-%m-%d";                       // The date format
 	/***
 	 * The translated strings come from PHP
 	 */
-	this.stringFD = params.stringFD ? params.stringFD : 0;                                      // 0=>Sun, 1=>Mon etc
-	this.stringTODAY = params.stringTODAY ? params.stringTODAY : "Today";                       // Today
-	this.stringWEEKEND = params.stringWEEKEND ? params.stringWEEKEND : [0, 6];                  // 0,6
-	this.stringWK = params.stringWK ? params.stringWK : "wk";                                   // wk
-	this.stringTIME = params.stringTIME ? params.stringTIME : "Time:";                          // Time:
-	this.stringDN = params.stringDN ? params.stringDN : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-	this.stringSDN = params.stringSDN ? params.stringSDN : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-	this.stringMN = params.stringMN ? params.stringMN : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	this.stringSMN = params.stringSMN ? params.stringSMN : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	this.stringTIME = params.stringTIME ? params.stringTIME : "Time:";
-	this.stringTIMEAM = params.stringTIMEAM ? params.stringTIMEAM : "AM";
-	this.stringTIMEPM = params.stringTIMEPM ? params.stringTIMEPM : "PM";
+	this.params.stringFD = params.stringFD ? params.stringFD : 0;                                      // 0=>Sun, 1=>Mon etc
+	this.params.stringTODAY = params.stringTODAY ? params.stringTODAY : "Today";                       // Today
+	this.params.stringWEEKEND = params.stringWEEKEND ? params.stringWEEKEND : [0, 6];                  // 0,6
+	this.params.stringWK = params.stringWK ? params.stringWK : "wk";                                   // wk
+	this.params.stringTIME = params.stringTIME ? params.stringTIME : "Time:";                          // Time:
+	this.params.stringTIMEAM = params.stringTIMEAM ? params.stringTIMEAM : "AM";
+	this.params.stringTIMEPM = params.stringTIMEPM ? params.stringTIMEPM : "PM";
+	this.params.stringDN = params.stringDN ? params.stringDN : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+	this.params.stringSDN = params.stringSDN ? params.stringSDN : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+	this.params.stringMN = params.stringMN ? params.stringMN : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	this.params.stringSMN = params.stringSMN ? params.stringSMN : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-	// LTR <> RTL
-	(document.dir != undefined) ? this.direction = document.dir
-		: this.direction = document.getElementsByTagName("html")[0].getAttribute("dir");
 	/**
 	 * Support for different calendars, e.g.: jalali
 	 */
-	this.dateType = params.dateType ? params.dateType : 'gregorian';
-};
+	this.params.dateType = params.dateType ? params.dateType : 'gregorian';
 
-// "static", needed for event handlers.
-JoomlaCalendar._JC = null;
+	// LTR <> RTL
+	(document.dir != undefined) ? this.params.direction = document.dir
+		: this.params.direction = document.getElementsByTagName("html")[0].getAttribute("dir");
+};
 
 /** COMPATIBILITY WITH IE 8 **/
 // The functions bellow should be replaced with native javascript once IE 8 is dead
@@ -137,15 +136,15 @@ JoomlaCalendar.findYear = function (el) {
 
 JoomlaCalendar.prototype.convertNumbers = function(str) {
 	var str = str.toString();
-	if (typeof this.localLangNumbers != "undefined") str = str.convertNumbers();
+	if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]') str = str.convertNumbers();
 	return str;
 };
 
 String.prototype.convertNumbers = function() {
 	var str = this.toString();
-	if (typeof JoomlaCalendar.localLangNumbers != "undefined") {
-		for (var i = 0; i < JoomlaCalendar.localLangNumbers.length; i++) {
-			str = str.replace(new RegExp(i, 'g'), JoomlaCalendar.localLangNumbers[i]);
+	if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]') {
+		for (var i = 0; i < Date.localLangNumbers.length; i++) {
+			str = str.replace(new RegExp(i, 'g'), Date.localLangNumbers[i]);
 		}
 	}
 	return str;
@@ -153,7 +152,7 @@ String.prototype.convertNumbers = function() {
 
 /** Time Control */
 JoomlaCalendar.updateTime = function (hours, mins, ampm) {
-	var cal = window.jCalendar;
+	var cal = jCalendar;
 	var date = cal.date;
 	if (ampm) {
 		if (/pm/i.test(ampm) && hours < 12)
@@ -175,13 +174,13 @@ JoomlaCalendar.updateTime = function (hours, mins, ampm) {
 
 /** Dynamically changes weekNumbers property */
 JoomlaCalendar.prototype.setWeekNumbers = function (weekNumbers) {
-	this.weekNumbers = weekNumbers;
+	this.params.weekNumbers = weekNumbers;
 	this.recreate();
 };
 
-/** Dynamically changes showsOtherMonths property */
-JoomlaCalendar.prototype.setOtherMonths = function (showsOtherMonths) {
-	this.showsOtherMonths = showsOtherMonths;
+/** Dynamically changes showsOthers property */
+JoomlaCalendar.prototype.setOtherMonths = function (showsOthers) {
+	this.params.showsOthers = showsOthers;
 	this.refresh();
 };
 
@@ -193,19 +192,19 @@ JoomlaCalendar.prototype.setLocallangNumbers = function (localLangNumbers) {
 
 /** Dynamically changes dateType property */
 JoomlaCalendar.prototype.setDateType = function (dateType) {
-	this.dateType = dateType;
+	this.params.dateType = dateType;
 	this.recreate();
 };
 
 /** Dynamically changes showsTime property */
 JoomlaCalendar.prototype.setShowsTime = function (showsTime) {
-	this.showsTime = showsTime;
+	this.params.showsTime = showsTime;
 	this.recreate();
 };
 
 /** Dynamically changes time24 property */
 JoomlaCalendar.prototype.setTime24 = function (time24) {
-	this.time24 = time24;
+	this.params.time24 = time24;
 	this.recreate();
 };
 
@@ -227,7 +226,7 @@ JoomlaCalendar.prototype.setDate = function (date) {
  *  should * change.
  */
 JoomlaCalendar.prototype.refresh = function () {
-	this._init(this.firstDayOfWeek, this.date);
+	this._init(this.params.firstDayOfWeek, this.date);
 };
 
 /** Modifies the "firstDayOfWeek" parameter (pass 0 for Synday, 1 for Monday, etc.). */
@@ -249,7 +248,7 @@ JoomlaCalendar.prototype.setDateStatusHandler = function (unaryFunction) {
 /** Calls the first user handler (selectedHandler). */
 JoomlaCalendar.prototype.callHandler = function () {
 	if (this.onSelected) {
-		this.onSelected(this, this.date.print(this.dateFormat, this.dateType));
+		this.onSelected(this, this.date.print(this.params.dateFormat, this.params.dateType));
 	}
 };
 
@@ -266,7 +265,6 @@ JoomlaCalendar.prototype.destroy = function () {
 	var el = this.element.parentNode;
 	if (el) {
 		el.removeChild(this.element);
-		JoomlaCalendar._JC = null;
 		window.jCalendar = null;
 	}
 };
@@ -324,7 +322,7 @@ JoomlaCalendar.prototype.hide = function () {
 
 /** Customizes the date format. */
 JoomlaCalendar.prototype.setDateFormat = function (str) {
-	this.dateFormat = str;
+	this.params.dateFormat = str;
 };
 
 /**
@@ -332,16 +330,16 @@ JoomlaCalendar.prototype.setDateFormat = function (str) {
  *  calls this.setDate which moves the calendar to the given date.
  */
 JoomlaCalendar.prototype.parseDate = function(str, fmt, dateType) {
-	if (!fmt) fmt = this.dateFormat;
-	if (!dateType) dateType = this.dateType;
+	if (!fmt) fmt = this.params.dateFormat;
+	if (!dateType) dateType = this.params.dateType;
 	this.setDate(Date.parseDate(str, fmt, dateType));
 };
 
 /** Internal function; it displays the bar with the names of the weekday. */
 JoomlaCalendar.prototype._displayWeekdays = function () {
-	var fdow = this.firstDayOfWeek;
+	var fdow = this.params.firstDayOfWeek;
 	var cell = this.firstdayname;
-	var weekend = this.stringWEEKEND;
+	var weekend = Date.stringWEEKEND;
 	for (var i = 0; i < 7; ++i) {
 		cell.className = "day name";
 		cell.style.textAlign = 'center';
@@ -353,7 +351,7 @@ JoomlaCalendar.prototype._displayWeekdays = function () {
 		if (weekend.indexOf(realday.toString()) != -1) {
 			JoomlaCalendar.addClass(cell, "weekend");
 		}
-		cell.innerHTML = this.stringSDN[(i + fdow) % 7];
+		cell.innerHTML = Date.stringSDN[(i + fdow) % 7];
 		cell = cell.nextSibling;
 	}
 };
@@ -386,8 +384,8 @@ JoomlaCalendar.dayMouseDown = function (ev) {
 		return false;
 	}
 	var cal = el.calendar;
-	JoomlaCalendar._JC = cal;
-	if (el.navtype != 300) { //with (JoomlaCalendar)
+
+	if (typeof el.navtype === "undefined" || el.navtype != 300) {
 		if (el.navtype == 50)
 			el._current = el.innerHTML;
 
@@ -418,17 +416,6 @@ JoomlaCalendar.dayMouseDown = function (ev) {
 			}
 		}
 	}
-	if (el.navtype == -1 || el.navtype == 1) {
-		if (cal.timeout) clearTimeout(cal.timeout);
-	} else if (el.navtype == -2 || el.navtype == 2) {
-		if (cal.timeout) clearTimeout(cal.timeout);
-	} else {
-		if (typeof(el.navtype) === 'undefined') {
-			el.addClass('alert-success');
-			el.removeClass('alert-info');
-		}
-		cal.timeout = null;
-	}
 	return JoomlaCalendar.stopEvent(ev);
 };
 
@@ -454,7 +441,7 @@ JoomlaCalendar.cellClick = function (el, ev) {
 		if (cal.currentDateEl)
 			newdate = !el.disabled;
 		if (other_month)
-			cal._init(cal.firstDayOfWeek, date);
+			cal._init(cal.params.firstDayOfWeek, date);
 	} else {
 		if (el.navtype == 200) {
 			JoomlaCalendar.removeClass(el, "hilite");
@@ -471,56 +458,56 @@ JoomlaCalendar.cellClick = function (el, ev) {
 		// unless "today" was clicked, we assume no date was clicked so
 		// the selected handler will know not to close the calendar
 		cal.dateClicked = false;
-		var year = date.getLocalFullYear(cal.dateType);
-		var mon = date.getLocalMonth(cal.dateType);
+		var year = date.getLocalFullYear(cal.params.dateType);
+		var mon = date.getLocalMonth(cal.params.dateType);
 		switch (el.navtype) {
 			case 400:
 				break;
 			case -2:
-				if (!JoomlaCalendar.onlyMonths)
-					if (year > cal.minYear) {
-						date._calSetLocalFullYear(cal.dateType, year - 1);
+				if (!cal.params.onlyMonths)
+					if (year > cal.params.minYear) {
+						date._calSetLocalFullYear(cal.params.dateType, year - 1);
 					}
 				break;
 			case -1:
 				var day = date.getDate();
 				if (mon > 0) {
-					var max = date.getLocalMonthDays(cal.dateType, mon - 1);
-					if (day > max) date.setLocalDate(cal.dateType, max);
+					var max = date.getLocalMonthDays(cal.params.dateType, mon - 1);
+					if (day > max) date.setLocalDate(cal.params.dateType, max);
 					date.setMonth(mon - 1);
 
-				} else if (year-- > cal.minYear) {
-					date._calSetLocalFullYear(cal.dateType, year);
-					var max = date.getLocalMonthDays(cal.dateType, 11);
-					if (day > max) date.setLocalDate(cal.dateType, max);
+				} else if (year-- > cal.params.minYear) {
+					date._calSetLocalFullYear(cal.params.dateType, year);
+					var max = date.getLocalMonthDays(cal.params.dateType, 11);
+					if (day > max) date.setLocalDate(cal.params.dateType, max);
 					date.setMonth(11);
 				}
 				break;
 			case 1:
 				var day = date.getDate();
 				if (mon < 11) {
-					var max = date.getLocalMonthDays(cal.dateType, mon + 1);
-					if (day > max) date.setLocalDate(cal.dateType, max);
+					var max = date.getLocalMonthDays(cal.params.dateType, mon + 1);
+					if (day > max) date.setLocalDate(cal.params.dateType, max);
 					date.setMonth(mon + 1);
-				} else if (year < cal.maxYear) {
-					date._calSetLocalFullYear(cal.dateType, year + 1);
-					var max = date.getLocalMonthDays(cal.dateType, 0);
-					if (day > max) date.setLocalDate(cal.dateType, max);
+				} else if (year < cal.params.maxYear) {
+					date._calSetLocalFullYear(cal.params.dateType, year + 1);
+					var max = date.getLocalMonthDays(cal.params.dateType, 0);
+					if (day > max) date.setLocalDate(cal.params.dateType, max);
 					date.setMonth(0);
 				}
 				break;
 			case 2:
-				if (!JoomlaCalendar.onlyMonths)
-					if (year < cal.maxYear) {
-						date._calSetLocalFullYear(cal.dateType, year + 1);
+				if (!cal.params.onlyMonths)
+					if (year < cal.params.maxYear) {
+						date._calSetLocalFullYear(cal.params.dateType, year + 1);
 					}
 				break;
 			case 0:
 				// TODAY will bring us here
 				if ((typeof cal.getDateStatus == "function") &&
-					cal.getDateStatus(date, date.getLocalFullYear(cal.dateType),
-						date.getLocalMonth(cal.dateType),
-						date.getLocalDate(cal.dateType))) {
+					cal.getDateStatus(date, date.getLocalFullYear(cal.params.dateType),
+						date.getLocalMonth(cal.params.dateType),
+						date.getLocalDate(cal.params.dateType))) {
 					return false;
 				}
 				break;
@@ -542,7 +529,7 @@ JoomlaCalendar.cellClick = function (el, ev) {
 
 /** This function creates the calendar inside the parent of the given input. */
 JoomlaCalendar.prototype.create = function (parent) {
-	this.date = this.dateStr ? new Date(this.dateStr) : new Date();
+	this.date = this.params.dateStr ? new Date(this.params.dateStr) : new Date();
 
 	var table = JoomlaCalendar.createElement("table");
 	this.table = table;
@@ -555,14 +542,14 @@ JoomlaCalendar.prototype.create = function (parent) {
 
 	var div = JoomlaCalendar.createElement("div");
 	this.element = div;
-	if (this.direction) {
-		this.element.style.direction = this.direction;
+	if (this.params.direction) {
+		this.element.style.direction = this.params.direction;
 	}
 
 	div.className = 'dropdown-menu j-calendar';
 	div.style.position = "fixed";
 	div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
-	div.style.minWidth = parent.width; //this.weekNumbers ? '340px' : '320px';
+	div.style.minWidth = parent.width; //this.params.weekNumbers ? '340px' : '320px';
 	div.style.padding = '0';
 
 	// Move the calendar to top position if it doesn't fit below
@@ -612,14 +599,14 @@ JoomlaCalendar.prototype.create = function (parent) {
 	};
 
 	// Head - year
-	if (this.onlyMonths == false) {
+	if (this.params.compressedHeader == false) {
 		row = JoomlaCalendar.createElement("tr", thead);
 		row.className = "calendar-head-row";
 
 		// Previous year button
 		this._nav_py = hh("<", 1, -2, '', '', 'btn btn-small btn-default pull-left');
 		// Year
-		this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.weekNumbers ? 6 : 5, 300);
+		this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 		this.title.className = "title";
 		// Next year button
 		this._nav_ny = hh(">", 1, 2, '', '', 'btn btn-small btn-default pull-right');
@@ -632,16 +619,16 @@ JoomlaCalendar.prototype.create = function (parent) {
 	// Previous month button
 	this._nav_pm = hh("<", 1, -1, '', '', 'btn btn-small btn-default pull-left');
 	// Month
-	this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
+	this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 	this._nav_month.className = "title";
 	// Next month button
 	this._nav_nm = hh(">", 1, 1, '', '', 'btn btn-small btn-default pull-right');
 
 	// Head - today
-	if (this.todayBtn) {
+	if (this.params.showsTodayBtn) {
 		row = JoomlaCalendar.createElement("tr", thead);
 		row.className = "headrow";
-		this._nav_now = hh('<a class="btn btn-small btn-success" data-action="today" style="display:block;padding:2px 6px;">' + this.stringTODAY + '</a>', this.weekNumbers ? 8 : 7, 0, 'td', {'textAlign': 'center'});
+		this._nav_now = hh('<a class="btn btn-small btn-success" data-action="today" style="display:block;padding:2px 6px;">' + Date.stringTODAY + '</a>', this.params.weekNumbers ? 8 : 7, 0, 'td', {'textAlign': 'center'});
 		// HTML5 version
 		var todaya = row.querySelector('a[data-action=today]');
 		// Support IE8
@@ -665,10 +652,10 @@ JoomlaCalendar.prototype.create = function (parent) {
 	// day names
 	row = JoomlaCalendar.createElement("tr", thead);
 	row.className = "daynames";
-	if (this.weekNumbers) {
+	if (this.params.weekNumbers) {
 		cell = JoomlaCalendar.createElement("td", row);
 		cell.className = "name wn";
-		cell.innerHTML = this.stringWK;
+		cell.innerHTML = Date.stringWK;
 	}
 	for (var i = 7; i > 0; --i) {
 		cell = JoomlaCalendar.createElement("td", row);
@@ -676,7 +663,7 @@ JoomlaCalendar.prototype.create = function (parent) {
 			cell.calendar = this;
 		}
 	}
-	this.firstdayname = (this.weekNumbers) ? row.firstChild.nextSibling : row.firstChild;
+	this.firstdayname = (this.params.weekNumbers) ? row.firstChild.nextSibling : row.firstChild;
 	this._displayWeekdays();
 
 	var tbody = JoomlaCalendar.createElement("tbody", table);
@@ -684,7 +671,7 @@ JoomlaCalendar.prototype.create = function (parent) {
 
 	for (i = 6; i > 0; --i) {
 		row = JoomlaCalendar.createElement("tr", tbody);
-		if (this.weekNumbers) {
+		if (this.params.weekNumbers) {
 			cell = JoomlaCalendar.createElement("td", row);
 		}
 		for (var j = 7; j > 0; --j) {
@@ -694,7 +681,7 @@ JoomlaCalendar.prototype.create = function (parent) {
 		}
 	}
 
-	if (this.showsTime) {
+	if (this.params.showsTime) {
 		row = JoomlaCalendar.createElement("tr", tbody);
 		row.className = "time";
 
@@ -702,7 +689,7 @@ JoomlaCalendar.prototype.create = function (parent) {
 		cell.className = "time time-title";
 		cell.colSpan = 1;
 		cell.style.verticalAlign = 'middle';
-		cell.innerHTML = this.stringTIME || "&#160;";
+		cell.innerHTML = Date.stringTIME || "&#160;";
 
 		var cell1 = JoomlaCalendar.createElement("td", row);
 		cell1.className = "time hours-select";
@@ -733,7 +720,7 @@ JoomlaCalendar.prototype.create = function (parent) {
 
 			var hrs = cal.date.getHours();
 			var mins = cal.date.getMinutes();
-			var t12 = !cal.time24;
+			var t12 = !cal.params.time24;
 			var pm = (hrs > 12);
 			if (t12 && pm) hrs -= 12;
 			var H = makeTimePart("time hour", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1);
@@ -742,14 +729,14 @@ JoomlaCalendar.prototype.create = function (parent) {
 
 			cell = JoomlaCalendar.createElement("td", row);
 			cell.className = "time ampm";
-			cell.colSpan = JoomlaCalendar.weekNumbers ? 1 : 2;
+			cell.colSpan = cal.params.weekNumbers ? 1 : 2;
 			if (t12) {
 				var selAttr = '';
 				if (pm) selAttr = true;
 				var part = JoomlaCalendar.createElement("select", cell);
 				part.style.width = '100%';
-				part.options.add(new Option(jCalendar.stringTIMEPM, "pm", pm ? true : '', pm ? true : ''));
-				part.options.add(new Option(jCalendar.stringTIMEAM, "am", pm ? '' : true, pm ? '' : true));
+				part.options.add(new Option(Date.stringTIMEPM, "pm", pm ? true : '', pm ? true : ''));
+				part.options.add(new Option(Date.stringTIMEAM, "am", pm ? '' : true, pm ? '' : true));
 
 				AP = part;
 
@@ -794,7 +781,7 @@ JoomlaCalendar.prototype.create = function (parent) {
 		};
 	}
 
-	this._init(this.firstDayOfWeek, this.date);
+	this._init(this.params.firstDayOfWeek, this.date);
 	parent.parentNode.parentNode.appendChild(this.element);
 	this.show();
 
@@ -830,13 +817,13 @@ JoomlaCalendar.prototype.recreate = function () {
 JoomlaCalendar._keyEvent = function (ev) {
 	function prevDay() {
 		var date = new Date(cal.date);
-		date.setLocalDate(cal.dateType, date.getLocalDate(cal.dateType) - step);
+		date.setLocalDate(cal.params.dateType, date.getLocalDate(cal.params.dateType) - step);
 		cal.setDate(date);
 	}
 
 	function nextDay() {
 		var date = new Date(cal.date);
-		date.setLocalDate(cal.dateType, date.getLocalDate(cal.dateType) + step);
+		date.setLocalDate(cal.params.dateType, date.getLocalDate(cal.params.dateType) + step);
 		cal.setDate(date);
 	}
 
@@ -860,7 +847,7 @@ JoomlaCalendar._keyEvent = function (ev) {
 	ev = window.event ? event : e;
 	var K = ev.keyCode;
 
-	if (cal.direction == 'rtl') {
+	if (cal.params.direction == 'rtl') {
 		if (K == 37) K = 39;
 		else if (K == 39) K = 37;
 	}
@@ -900,60 +887,59 @@ JoomlaCalendar._keyEvent = function (ev) {
 
 /** (RE)Initializes the calendar to the given date and firstDayOfWeek */
 JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
-
 	var today = new Date(),
-		TY = today.getLocalFullYear(this.dateType),
-		TM = today.getLocalMonth(this.dateType),
-		TD = today.getLocalDate(this.dateType);
+		TY = today.getLocalFullYear(this.params.dateType),
+		TM = today.getLocalMonth(this.params.dateType),
+		TD = today.getLocalDate(this.params.dateType);
 
 	this.table.style.visibility = "hidden";
-	var year = date.getLocalFullYear(this.dateType);
+	var year = date.getLocalFullYear(this.params.dateType);
 
 	// Check min,max year
-	if (year < this.minYear) {
-		year = this.minYear;
-		date._calSetLocalFullYear(this.dateType, year);
-	} else if (year > this.maxYear) {
-		year = this.maxYear;
-		date._calSetLocalFullYear(this.dateType, year);
+	if (year < this.params.minYear) {
+		year = this.params.minYear;
+		date._calSetLocalFullYear(this.params.dateType, year);
+	} else if (year > this.params.maxYear) {
+		year = this.params.maxYear;
+		date._calSetLocalFullYear(this.params.dateType, year);
 	}
 
-	this.firstDayOfWeek = firstDayOfWeek;
+	this.params.firstDayOfWeek = firstDayOfWeek;
 	this.date = new Date(date);
-	var month = date.getLocalMonth(this.dateType);
-	var mday = date.getLocalDate(this.dateType);
-	var no_days = date.getLocalMonthDays(this.dateType);
+	var month = date.getLocalMonth(this.params.dateType);
+	var mday = date.getLocalDate(this.params.dateType);
+	var no_days = date.getLocalMonthDays(this.params.dateType);
 
 	// Compute the first day that would actually be displayed in the calendar, even if it's from the previous month.
-	date.setLocalDate(this.dateType, 1);
-	var day1 = (date.getDay() - this.firstDayOfWeek) % 7;
+	date.setLocalDate(this.params.dateType, 1);
+	var day1 = (date.getDay() - this.params.firstDayOfWeek) % 7;
 	if (day1 < 0)
 		day1 += 7;
-	date.setLocalDate(this.dateType, - day1);
-	date.setLocalDate(this.dateType, date.getLocalDate(this.dateType) + 1);
+	date.setLocalDate(this.params.dateType, - day1);
+	date.setLocalDate(this.params.dateType, date.getLocalDate(this.params.dateType) + 1);
 
 	var row = this.tbody.firstChild;
 	var ar_days = this.ar_days = new Array();
-	var weekend = this.stringWEEKEND;
+	var weekend = Date.stringWEEKEND;
 	for (var i = 0; i < 6; ++i, row = row.nextSibling) {
 		var cell = row.firstChild;
-		if (this.weekNumbers) {
+		if (this.params.weekNumbers) {
 			cell.className = "day wn";
-			cell.innerHTML = (typeof jCalendar.localLangNumbers != "undefined" && dateType != 'gregorian') ? date.getLocalWeekNumber(this.dateType) : this.convertNumbers(date.getLocalWeekNumber(this.dateType));
+			cell.innerHTML = (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && this.params.dateType != 'gregorian') ? this.convertNumbers(date.getLocalWeekNumber(this.params.dateType)) :date.getLocalWeekNumber(this.params.dateType);
 			cell = cell.nextSibling;
 		}
 		row.className = "daysrow";
 		var hasdays = false, iday, dpos = ar_days[i] = [];
-		for (var j = 0; j < 7; ++j, cell = cell.nextSibling, date.setLocalDate(this.dateType, iday + 1)) {
-			iday = date.getLocalDate(this.dateType);
+		for (var j = 0; j < 7; ++j, cell = cell.nextSibling, date.setLocalDate(this.params.dateType, iday + 1)) {
+			iday = date.getLocalDate(this.params.dateType);
 			var wday = date.getDay();
 			cell.className = "day";
 			cell.style['textAlign'] = 'center';
 			cell.pos = i << 4 | j;
 			dpos[j] = cell;
-			var current_month = (date.getLocalMonth(this.dateType) == month);
+			var current_month = (date.getLocalMonth(this.params.dateType) == month);
 			if (!current_month) {
-				if (this.showsOtherMonths) {
+				if (this.params.showsOthers) {
 					cell.className += " disabled othermonth ";
 					cell.otherMonth = true;
 				} else {
@@ -968,7 +954,7 @@ JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
 				cell.style.cursor = "pointer";
 			}
 			cell.disabled = false;
-			cell.innerHTML = (typeof jCalendar.localLangNumbers != "undefined" && dateType != 'gregorian') ? iday : this.convertNumbers(iday); // translated day number into cell
+			cell.innerHTML = (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && this.params.dateType != 'gregorian') ? this.convertNumbers(iday) : iday; // translated day number for each cell
 			if (this.getDateStatus) {
 				var status = this.getDateStatus(date, year, month, iday);
 				if (status === true) {
@@ -982,31 +968,32 @@ JoomlaCalendar.prototype._init = function (firstDayOfWeek, date) {
 			}
 			if (!cell.disabled) {
 				cell.caldate = new Date(date);
-				if (current_month && iday == mday && this.hiliteToday) {
+				if (current_month && iday == mday) {
 					cell.className += " selected table-success alert alert-success";
 					this.currentDateEl = cell;
 				}
-				if (date.getLocalFullYear(this.dateType) == TY && date.getLocalMonth(this.dateType) == TM && iday == TD) {
+				if (date.getLocalFullYear(this.params.dateType) == TY && date.getLocalMonth(this.params.dateType) == TM && iday == TD) {
 					cell.className += " today";
-					if (this.hiliteToday)
-						cell.className += " table-warning";
+					cell.className += " table-warning";
 				}
 				if (weekend.indexOf(wday.toString()) != -1)
 					cell.className += cell.otherMonth ? " oweekend" : " weekend";
 			}
 		}
-		if (!(hasdays || this.showsOtherMonths)) {
+		if (!(hasdays || this.params.showsOthers)) {
 			row.style.display = 'none';
 			row.className = "emptyrow";
 		} else {
 			row.style.display = '';
 		}
 	}
-	if (!this.onlyMonths) {
-		this._nav_month.getElementsByTagName('span')[0].innerHTML = this.stringMN[month];
-		this.title.getElementsByTagName('span')[0].innerHTML = year;
+	if (!this.params.compressedHeader) {
+		this._nav_month.getElementsByTagName('span')[0].innerHTML = Date.stringMN[month];
+		this.title.getElementsByTagName('span')[0].innerHTML =
+			(Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && this.params.dateType != 'gregorian') ? this.convertNumbers(year) : year;
 	} else {
-		this._nav_month.getElementsByTagName('span')[0].innerHTML = this.stringMN[month] + ' ' + year;
+		var tmpYear =(Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && this.params.dateType != 'gregorian') ? this.convertNumbers(year) : year;
+		this._nav_month.getElementsByTagName('span')[0].innerHTML = " " + Date.stringMN[month] + ' - ' + tmpYear;
 	}
 
 	this.onSetTime();
@@ -1060,9 +1047,9 @@ Date.parseDate = function(str, fmt, dateType) {
 			case "%B":
 				for (j = 0; j < 12; ++j) {
 					if (dateType != 'gregorian') {
-						if (jCalendar.stringLocalMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
+						if (Date.stringLocalMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
 					} else {
-						if (jCalendar.stringMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
+						if (Date.stringMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
 					}
 				}
 				break;
@@ -1100,9 +1087,9 @@ Date.parseDate = function(str, fmt, dateType) {
 			var t = -1;
 			for (j = 0; j < 12; ++j) {
 				if (dateType != 'gregorian') {
-					if (jCalendar.stringLocalMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
+					if (Date.stringLocalMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
 				} else {
-					if (jCalendar.stringMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
+					if (Date.stringMN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
 				}
 			}
 			if (t != -1) {
@@ -1136,7 +1123,7 @@ Date.prototype.getMonthDays = function(month) {
 	if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1) {
 		return 29;
 	} else {
-		if (jCalendar.dateType != 'gregorian') {
+		if (Date.dateType != 'gregorian') {
 			Date.localCal_MD[month];
 		} else {
 			return Date.gregorian_MD[month];
@@ -1339,10 +1326,10 @@ Date.prototype.print = function (str, dateType) {
 		ir = 12;
 	var min = this.getMinutes();
 	var sec = this.getSeconds();
-	s["%a"] = (dateType == 'gregorian') ? jCalendar.stringSDN[w] : jCalendar.stringLocalSDN[w]; // abbreviated weekday name
-	s["%A"] = (dateType == 'gregorian') ? jCalendar.stringDN[w] : jCalendar.stringLocalDN[w];   // full weekday name
-	s["%b"] = (dateType == 'gregorian') ? jCalendar.stringSMN[m] : jCalendar.stringLocalSMN[m]; // abbreviated month name
-	s["%B"] = (dateType == 'gregorian') ? jCalendar.stringMN[m] : jCalendar.stringLocalMN[m];   // full month name
+	s["%a"] = (dateType == 'gregorian') ? Date.stringSDN[w] : Date.stringLocalSDN[w]; // abbreviated weekday name
+	s["%A"] = (dateType == 'gregorian') ? Date.stringDN[w] : Date.stringLocalDN[w];   // full weekday name
+	s["%b"] = (dateType == 'gregorian') ? Date.stringSMN[m] : Date.stringLocalSMN[m]; // abbreviated month name
+	s["%B"] = (dateType == 'gregorian') ? Date.stringMN[m] : Date.stringLocalMN[m];   // full month name
 	// FIXME: %c : preferred date and time representation for the current locale
 	s["%C"] = 1 + Math.floor(y / 100);                                                          // the century number
 	s["%d"] = (d < 10) ? ("0" + d) : d;                                                         // the day of the month (range 01 to 31)
@@ -1377,7 +1364,7 @@ Date.prototype.print = function (str, dateType) {
 	var re = /%./g;
 
 	var tmpDate = str.replace(re, function (par) { return s[par] || par; });
-	if (typeof jCalendar.localLangNumbers != "undefined" && dateType != 'gregorian')
+	if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && dateType != 'gregorian')
 		tmpDate = tmpDate.convertNumbers();
 
 	return tmpDate;

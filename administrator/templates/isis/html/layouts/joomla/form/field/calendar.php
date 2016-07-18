@@ -175,7 +175,7 @@ $months_short = array_map(
 		<button type="button" class="btn btn-secondary"
 			id="<?php echo  $id; ?>_btn"
 			data-inputfield="<?php echo $id; ?>"
-			data-ifformat="<?php echo $format; ?>"
+			data-dayformat="<?php echo $format; ?>"
 			data-button="<?php echo $id; ?>_btn"
 			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
 			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
