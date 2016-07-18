@@ -412,7 +412,7 @@ abstract class JHtmlBehavior
 		
 		// Add extra modal close functionality for tinyMCE-based editors
 		document.onreadystatechange = function () {
-			if (document.readyState == "interactive" && typeof tinyMCE != 'undefined' && tinyMCE)
+			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
 			{
 				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
 				{	
