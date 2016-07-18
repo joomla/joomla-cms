@@ -402,11 +402,8 @@ class PlgSystemLanguageFilter extends JPlugin
 				$redirectUri = $uri->base() . 'index.php?' . $uri->getQuery();
 			}
 
-			// 301 Permanent Redirect for default language with remove_default_prefix, 302 Found for other redirects.
-			$redirectHttpCode = $lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0) ? 301 : 302;
-
 			// Redirect to language.
-			$this->app->redirect($redirectUri, $redirectHttpCode);
+			$this->app->redirect($redirectUri, 302);
 		}
 
 		// We have found our language and now need to set the cookie and the language value in our system
