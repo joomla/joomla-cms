@@ -949,7 +949,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			JFactory::getDocument()->addScript(JUri::root(true) . '/media/system/js/tiny-close.min.js', null, true, false);
+			JFactory::getDocument()->addScript(JUri::root(true) . '/media/system/js/tiny-close' . JDEBUG ? '.js' : '.min.js', null, true, false);
 		}
 
 		JFactory::getDocument()->addScriptDeclaration($script);

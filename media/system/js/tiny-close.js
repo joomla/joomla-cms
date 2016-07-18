@@ -8,7 +8,7 @@
  * to close correctly, more tinyMCE related functionality maybe added in the future
  *
  * @package     Joomla
- * @since       3.6
+ * @since       3.5.1
  * @version     1.0
  */
 document.onreadystatechange = function () {
