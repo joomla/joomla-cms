@@ -54,6 +54,7 @@ class PlgContentMenu extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
+
 		if ($app->isAdmin())
 		{
 			// Add the fields to the form.
