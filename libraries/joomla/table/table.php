@@ -1371,6 +1371,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
+
 		// Reorder configuration
 		$uses_single_key = count($this->_tbl_keys) == 1;
 		$pk_is_int = false;    // TODO check DB schema and if pk column is integer do not quote ! (minor/medium performance concern)
