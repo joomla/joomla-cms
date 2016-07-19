@@ -405,7 +405,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			// Get the redirect code from plugin parameters. Defaults to 302.
 			$redirectHttpCode = (int) $this->params->get('redirect_code', 302);
 
-			// If redirect code is cachable by default (300, 301 or 308), don't cache the redirect in browser.
+			// If redirect code is cachable by default (301 or 308), don't cache the redirect in browser.
 			if (in_array($redirectHttpCode, array(301, 308))
 			{
 				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
