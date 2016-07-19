@@ -48,14 +48,18 @@ class PlgContentMenu extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_content.article')))
+		if (!in_array($name, array('com_content.article','com_contact.contact')))
 		{
 			return true;
 		}
 
-		// Add the fields to the form.
-		JForm::addFormPath(__DIR__ . '/forms');
-		$form->loadFile('menu', false);
+		$app = JFactory::getApplication();
+		if ($app->isAdmin())
+		{
+			// Add the fields to the form.
+			JForm::addFormPath(__DIR__ . '/forms');
+			$form->loadFile('menu', false);
+		}
 
 		return true;
 	}
