@@ -402,8 +402,21 @@ class PlgSystemLanguageFilter extends JPlugin
 				$redirectUri = $uri->base() . 'index.php?' . $uri->getQuery();
 			}
 
+			// Get the redirect code form plugin parameters. Defaults to 302.
+			$redirectHttpCode = (int) $this->params->get('redirect_code', 302);
+  
+			// If redirect code is 301, don't cache the redirect in browser.
+			if ($redirectHttpCode === 301)
+			{
+				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+				$this->app->setHeader('Pragma', 'no-cache');
+				$this->app->sendHeaders();
+			}
+
 			// Redirect to language.
-			$this->app->redirect($redirectUri, 302);
+			$this->app->redirect($redirectUri, $redirectHttpCode);
 		}
 
 		// We have found our language and now need to set the cookie and the language value in our system
