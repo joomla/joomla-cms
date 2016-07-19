@@ -29,7 +29,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	protected $mode_sef;
 
 	/**
-	 * Available sef languages.
+	 * Available languages by sef.
 	 *
 	 * @var    array
 	 * @since  1.6
@@ -37,7 +37,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	protected $sefs;
 
 	/**
-	 * Available language codes languages.
+	 * Available languages by language codes.
 	 *
 	 * @var    array
 	 * @since  2.5
