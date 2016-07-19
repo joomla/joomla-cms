@@ -1420,11 +1420,11 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		// Update in 'max_recs' records steps, e.g. 10,000 records per step
 		if ($uses_single_key)
 		{
+			$_tbl = $this->_db->quoteName($this->_tbl);
+			$_tblkey = $this->_db->quoteName($this->_tbl_key);
+
 			foreach($when_clauses as $step => $clauses)
 			{
-				$_tbl = $this->_db->quoteName($this->_tbl);
-				$_tblkey = $this->_db->quoteName($this->_tbl_key);
-
 				$query = 'UPDATE ' . $_tbl . ' SET ordering = CASE ' . $_tblkey
 					. implode(' ', $when_clauses[$step])
 					.' END '
