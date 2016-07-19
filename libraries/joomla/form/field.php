@@ -940,6 +940,47 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
+		if ($gshowonstring = $this->getAttribute('globalshowon'))
+		{
+			$config = JFactory::getConfig();
+			
+			$result = null;
+			$lastop = null;
+			
+			foreach (preg_split('%\[(AND|OR)\]%', $gshowonstring, -1, PREG_SPLIT_DELIM_CAPTURE) as $gshowonfield)
+			{
+				if ($gshowonfield == 'AND' or $gshowonfield == 'OR')
+				{
+					$lastop = $gshowonfield;
+				}
+				else
+				{
+					$gshowon = explode(':', $gshowonfield, 2);
+					$gsetting = $config->get($gshowon[0], null);
+					$values = explode(',', $gshowon[1]);
+					if ($gsetting !== null and in_array($gsetting, $values))
+					{
+						if ($result === null or $lastop == 'OR')
+						{
+							$result = true;
+						}
+					}
+					else
+					{
+						if ($result === null or $lastop == 'AND')
+						{
+							$result = false;
+						}
+					}
+				}
+			}
+			
+			if ($result === false)
+			{
+				return '';
+			}
+		}
+		
 		if ($showonstring = $this->getAttribute('showon'))
 		{
 			$showonarr = array();
