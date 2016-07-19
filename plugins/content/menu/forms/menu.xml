@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="menulink" label="PLG_CONTENT_MENU_LINK_OPTIONS" addfieldpath="/administrator/components/com_menus/models/fields">
-
+	<fieldset name="menulink" label="PLG_CONTENT_MENU_LINK_OPTIONS" addfieldpath="/administrator/components/com_menus/models/fields">
 		<field
 				name="menutitle"
 				type="text"
@@ -52,6 +51,5 @@
 				PLG_CONTENT_MENU_MENUS_ITEM_ROOT
 			</option>
 		</field>
-
-	</fields>
+	</fieldset>
 </form>
