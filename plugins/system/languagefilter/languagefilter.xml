@@ -120,7 +120,7 @@
 					default="302"
 					class="btn-group btn-group-yesno"
 					>
-					<option value="300">Multiple Choices</option>
+					<option value="300">300 Multiple Choices</option>
 					<option value="301">301 Moved Permanently</option>
 					<option value="302">302 Found</option>
 					<option value="303">303 See other</option>
