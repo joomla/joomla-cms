@@ -102,7 +102,6 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-
 				<field
 					name="lang_cookie"
 					type="list"
@@ -112,6 +111,24 @@
 					>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
+				</field>
+				<field
+					name="redirect_code"
+					type="list"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REDIRECT_CODE_LABEL"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REDIRECT_CODE_DESC"
+					default="302"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="300">Multiple Choices</option>
+					<option value="301">301 Moved Permanently</option>
+					<option value="302">302 Found</option>
+					<option value="303">303 See other</option>
+					<option value="304">304 Not Modified</option>
+					<option value="305">305 Use Proxy</option>
+					<option value="306">306 (Unused)</option>
+					<option value="307">307 Temporary Redirect</option>
+					<option value="308">308 Permanent Redirect</option>
 				</field>
 			</fieldset>
 		</fields>
