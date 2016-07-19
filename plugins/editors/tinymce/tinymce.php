@@ -129,7 +129,7 @@ class PlgEditorTinymce extends JPlugin
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$idField  = str_replace('[', '_', substr($name, 0, -1));
+		$id       = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
