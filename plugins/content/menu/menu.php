@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.6
  */
-class PlgUserProfile extends JPlugin
+class PlgContentMenu extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -53,8 +53,8 @@ class PlgUserProfile extends JPlugin
 			return true;
 		}
 
-		// Add the registration fields to the form.
-		JForm::addFormPath(__DIR__ . '/menus');
+		// Add the fields to the form.
+		JForm::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('menu', false);
 
 		return true;
