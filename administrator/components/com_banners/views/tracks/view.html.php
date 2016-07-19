@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View class for a list of tracks.
@@ -65,8 +65,6 @@ class BannersViewTracks extends JViewLegacy
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
-
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 
 		$this->sidebar = JHtmlSidebar::render();
 

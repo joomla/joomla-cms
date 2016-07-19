@@ -888,7 +888,7 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName = JFile::makeSafe($file['name']);
 
 			$err = null;
-			JLoader::register('TemplateHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php');
+			JLoader::register('TemplateHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/template.php');
 
 			if (!TemplateHelper::canUpload($file, $err))
 			{

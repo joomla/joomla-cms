@@ -36,7 +36,7 @@ class FinderController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		include_once JPATH_COMPONENT . '/helpers/finder.php';
+		JLoader::register('FinderHelper', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/finder.php');
 
 		$view   = $this->input->get('view', 'index', 'word');
 		$layout = $this->input->get('layout', 'index', 'word');
