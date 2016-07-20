@@ -81,9 +81,9 @@ document.onreadystatechange = function () {
 					minYear      : element.getAttribute("data-min_year") ? parseInt(element.getAttribute("data-min_year")) : 1970,              // Minimum year
 					maxYear      : element.getAttribute("data-max_year") ? parseInt(element.getAttribute("data-max_year")) : 2050,              // Maximum year
 					weekNumbers  : (parseInt(element.getAttribute("data-week_numbers")) == 1) ? true : false,                                   // Display week numbers column?
-					showsTime    : true, //(parseInt(element.getAttribute("data-shows_time")) == 1) ? true : false,                                     // Enable time picker? Make sure that the date format also INCLUDES time
+					showsTime    : true, //(parseInt(element.getAttribute("data-shows_time")) == 1) ? true : false,                             // Enable time picker? Make sure that the date format also INCLUDES time
 					time24       : (parseInt(element.getAttribute("data-time_24")) == 24) ? true : false,                                       // Use 24 hour format?
-					showsOthers   : (parseInt(element.getAttribute("data-show_others")) == 0) ? false : true,                                    // Show days form the month before and after?
+					showsOthers   : (parseInt(element.getAttribute("data-show_others")) == 0) ? false : true,                                   // Show days form the month before and after?
 					/**
 					 * Support for different calendars, e.g.: jalali
 					 */
@@ -97,35 +97,24 @@ document.onreadystatechange = function () {
 				}
 
 				// Initialize the calendar
-				var dateEl = params.inputField;
-				var cal = window.jCalendar;
 
-				// Method to set the value for the input field
-				function onSelect(cal) {
-					var p = cal.params;
-					var update = cal.dateClicked;
-					if (p.inputField) {
-						p.inputField.value = cal.date.print(p.dateFormat, params.dateType);
-						if (typeof p.inputField.onchange == "function")
-							p.inputField.onchange();
-					}
-					if (update && typeof p.onUpdate == "function")
-						p.onUpdate(cal);
-					if (update && cal.dateClicked)
-						cal.callCloseHandler();
-				}
+				//
+				// // Get the date from the input
+				// if (dateEl) {
+				// 	params.dateStr = Date.parseDate(element.parentNode.getElementsByTagName('INPUT')[0].value, params.dateFormat, params.dateType);
+				// }
 
-				// Get the date from the input
-				if (dateEl) {
-					params.dateStr = Date.parseDate(params.inputField.value, params.dateFormat, params.dateType);
-				}
-
+				console.log(params.dateStr);
 				// Create the calendar
-				window.jCalendar = cal = new JoomlaCalendar(onSelect, null, params);
-				cal.params = params;
-				cal.setDateFormat(params.dateFormat);
-				cal.create(params.inputField);
-				cal.refresh();
+
+				window.jCalendar = new JoomlaCalendar(params);
+				jCalendar.params = params;
+
+				jCalendar.setDateFormat(params.dateFormat);
+				jCalendar.create(params.inputField);
+				jCalendar.date = params.dateStr;
+				console.log(cal.date);
+				jCalendar.refresh();
 				cal.show();
 				return cal;
 			})

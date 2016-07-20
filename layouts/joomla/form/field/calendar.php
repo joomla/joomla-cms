@@ -199,6 +199,8 @@ $months_short = array_map(
 			data-time_am="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_AM'); ?>"
 			data-time_pm="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_PM'); ?>"
 		><span class="icon-calendar"></span></button>
+		<input type="hidden" id="hidden_<?php echo $id; ?>" value="<?php
+		echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
 	</div>
 </div>
 <?php endif; ?>

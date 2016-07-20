@@ -132,8 +132,10 @@ switch (strtoupper($filter))
 		break;
 }
 
+JHtml::_('script', 'system/date.js', false, true, false, false, true);
 JHtml::_('script', 'system/calendar-vanilla.js', false, true, false, false, true);
-JHtml::_('script', $tag . '/calendar-setup-vanilla.js', false, true, false, false, true);
+
+//JHtml::_('script', $tag . '/calendar-setup-vanilla.js', false, true, false, false, true);
 
 // To keep the code simple here, run strings through JText::_() using array_map()
 $callback = array('JText','_');
@@ -164,14 +166,16 @@ $months_short = array_map(
 <?php if ($readonly || $disabled) : ?>
 	<input type="text" title="<?php echo ($inputvalue ? JHtml::_('date', $value, null, null) : ''); ?>" name="<?php
 	echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-	echo htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?> />
+	echo htmlspecialchars(($inputvalue ? JHtml::_('date', $value, null, null) : ''), ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?> />
 <?php else : ?>
 <div class="field-calendar">
 	<div class="input-append">
-	<input type="text" title="<?php echo ($inputvalue ? JHtml::_('date', $value, null, null) : ''); ?>" name="<?php
+	<input type="text" title="<?php echo $inputvalue ? JHtml::_('date', $value, null, null) : ''; ?>" name="<?php
 	echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-	echo htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
-	placeholder="<?php echo empty($description) ? null : $description; ?>"/>
+	echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
+	placeholder="<?php
+	echo empty($description) ? null : $description; ?>" data-alt-value="<?php
+	echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8') ?>"/>
 		<button type="button" class="btn btn-secondary"
 			id="<?php echo  $id; ?>_btn"
 			data-inputfield="<?php echo $id; ?>"
