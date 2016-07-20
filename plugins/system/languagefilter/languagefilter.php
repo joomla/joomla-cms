@@ -20,16 +20,52 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  */
 class PlgSystemLanguageFilter extends JPlugin
 {
+	/**
+	 * The routing mode.
+	 *
+	 * @var    boolean
+	 * @since  2.5
+	 */
 	protected $mode_sef;
 
+	/**
+	 * Available languages by sef.
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
 	protected $sefs;
 
+	/**
+	 * Available languages by language codes.
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
 	protected $lang_codes;
 
+	/**
+	 * The current language code.
+	 *
+	 * @var    string
+	 * @since  3.4.2
+	 */
 	protected $current_lang;
 
+	/**
+	 * The default language code.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
 	protected $default_lang;
 
+	/**
+	 * The logged user language code.
+	 *
+	 * @var    string
+	 * @since  3.3.1
+	 */
 	private $user_lang_code;
 
 	/**
