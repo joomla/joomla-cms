@@ -1671,6 +1671,7 @@ legend + .control-group {
 .form-horizontal .form-actions {
 	padding-left: 180px;
 }
+.control-label .hasPopover,
 .control-label .hasTooltip {
 	display: inline-block;
 }
@@ -8902,8 +8903,17 @@ body {
 #mediamanager-form .dimensions {
 	direction: ltr;
 }
+.popover,
 .tooltip-inner {
 	text-align: right;
+}
+.popover.top .arrow,
+.popover.bottom .arrow {
+	margin-right: -11px;
+}
+.popover.top .arrow:after,
+.popover.bottom .arrow:after {
+	margin-right: -10px;
 }
 @media (max-width: 480px) {
 	.btn-toolbar .btn-wrapper {
