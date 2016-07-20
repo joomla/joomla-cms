@@ -82,6 +82,11 @@ class PlgContentPagebreak extends JPlugin
 		// Simple performance check to determine whether bot should process further.
 		if (JString::strpos($row->text, 'class="system-pagebreak') === false)
 		{
+			if ($page > 0)
+			{
+				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+			}
+			
 			return true;
 		}
 
