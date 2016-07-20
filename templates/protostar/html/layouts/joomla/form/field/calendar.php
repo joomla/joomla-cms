@@ -164,40 +164,42 @@ $months_short = array_map(
 <?php if ($readonly || $disabled) : ?>
 	<input type="text" title="<?php echo ($inputvalue ? JHtml::_('date', $value, null, null) : ''); ?>" name="<?php
 	echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-	echo htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?> />
+	echo htmlspecialchars(($inputvalue ? JHtml::_('date', $value, null, null) : ''), ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?> />
 <?php else : ?>
-<div class="field-calendar">
-	<div class="input-append">
-	<input type="text" title="<?php echo ($inputvalue ? JHtml::_('date', $value, null, null) : ''); ?>" name="<?php
-	echo $name; ?>" id="<?php echo $id; ?>" value="<?php
-	echo htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
-	placeholder="<?php echo empty($description) ? null : $description; ?>"/>
-		<button type="button" class="btn btn-secondary"
-			id="<?php echo  $id; ?>_btn"
-			data-inputfield="<?php echo $id; ?>"
-			data-dayformat="<?php echo $format; ?>"
-			data-button="<?php echo $id; ?>_btn"
-			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
-			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
-			data-today_btn="<?php echo ($todaybutton === true) ? 1 : 0; ?>"
-			data-week_numbers="<?php echo ($weeknumbers === true) ? 1 : 0; ?>"
-			data-shows_time="<?php echo ($showtime === true) ? 1 : 0; ?>"
-			data-show_others="<?php echo ($filltable === true) ? 1 : 0; ?>"
-			data-time_24="<?php echo $timeformat; ?>"
-			data-min_year="<?php echo $minyear; ?>"
-			data-max_year="<?php echo $maxyear; ?>"
-			data-only_months_nav="<?php echo ($singleheader === true) ? 1 : 0; ?>"
-			data-today_trans="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TODAY'); ?>"
-			data-weekdays_full="<?php echo implode("_", $weekdays_full); ?>"
-			data-weekdays_short="<?php echo implode("_", $weekdays_short); ?>"
-			data-months_long="<?php echo implode("_", $months_long); ?>"
-			data-months_short="<?php echo implode("_", $months_short); ?>"
-			data-day_first="<?php echo JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'); ?>"
-			data-wk="<?php echo JText::_('JLIB_HTML_BEHAVIOR_WK'); ?>"
-			data-time="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME'); ?>"
-			data-time_am="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_AM'); ?>"
-			data-time_pm="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_PM'); ?>"
-		><span class="icon-calendar"></span></button>
+	<div class="field-calendar">
+		<div class="input-append">
+			<input type="text" title="<?php echo $inputvalue ? JHtml::_('date', $value, null, null) : ''; ?>" name="<?php
+			echo $name; ?>" id="<?php echo $id; ?>" value="<?php
+			echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
+				placeholder="<?php
+				echo empty($description) ? null : $description; ?>" data-alt-value="<?php
+			echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8') ?>"/>
+			<button type="button" class="btn btn-secondary"
+				id="<?php echo  $id; ?>_btn"
+				data-inputfield="<?php echo $id; ?>"
+				data-dayformat="<?php echo $format; ?>"
+				data-button="<?php echo $id; ?>_btn"
+				data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
+				data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
+				data-today_btn="<?php echo ($todaybutton === true) ? 1 : 0; ?>"
+				data-week_numbers="<?php echo ($weeknumbers === true) ? 1 : 0; ?>"
+				data-shows_time="<?php echo ($showtime === true) ? 1 : 0; ?>"
+				data-show_others="<?php echo ($filltable === true) ? 1 : 0; ?>"
+				data-time_24="<?php echo $timeformat; ?>"
+				data-min_year="<?php echo $minyear; ?>"
+				data-max_year="<?php echo $maxyear; ?>"
+				data-only_months_nav="<?php echo ($singleheader === true) ? 1 : 0; ?>"
+				data-today_trans="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TODAY'); ?>"
+				data-weekdays_full="<?php echo implode("_", $weekdays_full); ?>"
+				data-weekdays_short="<?php echo implode("_", $weekdays_short); ?>"
+				data-months_long="<?php echo implode("_", $months_long); ?>"
+				data-months_short="<?php echo implode("_", $months_short); ?>"
+				data-day_first="<?php echo JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'); ?>"
+				data-wk="<?php echo JText::_('JLIB_HTML_BEHAVIOR_WK'); ?>"
+				data-time="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME'); ?>"
+				data-time_am="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_AM'); ?>"
+				data-time_pm="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_PM'); ?>"
+			><span class="icon-calendar"></span></button>
+		</div>
 	</div>
-</div>
 <?php endif; ?>
