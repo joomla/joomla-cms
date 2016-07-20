@@ -73,7 +73,6 @@ class BannersViewBanners extends JViewLegacy
 		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -92,7 +91,7 @@ class BannersViewBanners extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
+		JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 		$canDo = JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = JFactory::getUser();

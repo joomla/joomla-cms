@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Update Sites Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       3.4
+ * @since  3.4
  */
 class InstallerModelUpdatesites extends InstallerModel
 {
