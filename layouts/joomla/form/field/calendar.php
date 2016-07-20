@@ -200,6 +200,7 @@ $months_short = array_map(
 				data-time="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME'); ?>"
 				data-time_am="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_AM'); ?>"
 				data-time_pm="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_PM'); ?>"
+				data-cal-type="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_TYPE'); ?>"
 			><span class="icon-calendar"></span></button>
 		</div>
 	</div>
