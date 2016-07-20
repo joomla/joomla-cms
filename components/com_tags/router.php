@@ -103,8 +103,8 @@ class TagsRouter extends JComponentRouterBase
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
+			$position     = strpos($segments[$i], '-');
 
-			$position = strpos($segments[$i], '-');
 			if ($position)
 			{
 				// Remove id from segment
@@ -162,15 +162,14 @@ class TagsRouter extends JComponentRouterBase
 	 *
 	 * @return  string  The segment with founded id
 	 *
-	 * @since   3.6.1
+	 * @since   3.7
 	*/
 	protected function fixSegment($segment)
 	{
 		$db = JFactory::getDbo();
 
-		// Find or confirm tag id
-		$parts = explode(':', $segment, 2);
-		$alias = implode('-', $parts);
+		// Try to find tag id
+		$alias = str_replace(':', '-', $segment);
 
 		$query = $db->getQuery(true)
 			->select('id')
@@ -178,23 +177,6 @@ class TagsRouter extends JComponentRouterBase
 			->where($db->quoteName('alias') . " = " . $db->quote($alias));
 
 		$id = $db->setQuery($query)->loadResult();
-
-		if (!$id && ctype_digit($parts[0]))
-		{
-			// Alias contains id prefix - old way B/C
-			$alias = $parts[1];
-
-			$query->clear('where')
-				->where($db->quoteName('alias') . " = " . $db->quote($alias));
-
-			$id = $db->setQuery($query)->loadResult();
-
-			if ($parts[0] !== $id)
-			{
-				// Id with incorrect alias
-				return $segment;
-			}
-		}
 
 		if ($id)
 		{

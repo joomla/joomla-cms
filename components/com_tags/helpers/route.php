@@ -96,12 +96,36 @@ class TagsHelperRoute extends JHelperRoute
 			}
 			else
 			{
-				$needles = array('tags' => array(0));
+				$needles = array('tags' => array(1, 0));
+
 				if ($item = self::_findItem($needles))
 				{
 					$link .= '&Itemid=' . $item;
 				}
 			}
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Tries to load the router for the tags view.
+	 *
+	 * @return  string  URL link to pass to JRoute
+	 *
+	 * @since   3.7
+	 */
+	public static function getTagsRoute()
+	{
+		$needles = array(
+			'tags'  => array(0)
+		);
+
+		$link = 'index.php?option=com_tags&view=tags';
+
+		if ($item = self::_findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
