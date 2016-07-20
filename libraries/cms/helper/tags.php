@@ -210,7 +210,7 @@ class JHelperTags extends JHelper
 			foreach ($tags as $key => $tag)
 			{
 				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && JFactory::getUser()->authorise('core.create', 'com_tags'))
+				if (strpos($tag, '#new#') !== false && !JFactory::getUser()->authorise('core.create', 'com_tags'))
 				{
 					continue;
 				}
