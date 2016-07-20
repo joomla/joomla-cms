@@ -378,13 +378,6 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
-			// Don't cache the redirect in browser.
-			$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
-			$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-			$this->app->setHeader('Pragma', 'no-cache');
-			$this->app->sendHeaders();
-
 			if ($this->mode_sef)
 			{
 				// Use the current language sef or the default one.
@@ -401,13 +394,29 @@ class PlgSystemLanguageFilter extends JPlugin
 					$uri->setPath('index.php/' . $uri->getPath());
 				}
 
-				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), 301);
+				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
 			}
 			else
 			{
 				$uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
-				$this->app->redirect($uri->base() . 'index.php?' . $uri->getQuery(), 301);
+				$redirectUri = $uri->base() . 'index.php?' . $uri->getQuery();
 			}
+
+			// Get the redirect code from plugin parameters. Defaults to 302.
+			$redirectHttpCode = (int) $this->params->get('redirect_code', 302);
+
+			// If redirect code is cachable by default (301 or 308), don't cache the redirect in browser.
+			if (in_array($redirectHttpCode, array(301, 308))
+			{
+				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+				$this->app->setHeader('Pragma', 'no-cache');
+				$this->app->sendHeaders();
+			}
+
+			// Redirect to language.
+			$this->app->redirect($redirectUri, $redirectHttpCode);
 		}
 
 		// We have found our language and now need to set the cookie and the language value in our system
