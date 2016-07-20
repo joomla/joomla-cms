@@ -15,8 +15,6 @@ jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Utility class for all HTML drawing classes
  *
