@@ -68,31 +68,31 @@ JoomlaCalendar.init = function (elem) {
 			direction       : (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir")
 		};
 
-		Date.stringDN = ( element.getAttribute("data-weekdays_full")
-		&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-weekdays_full").split('_') :
-			["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];                                      // Translated full day names
-		Date.stringSDN = (element.getAttribute("data-weekdays_short")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-weekdays_short").split('_') :
-			["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"];                                                                      // Translated short day names
-		Date.stringMN  = (element.getAttribute("data-months_long")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-months_long").split('_') :
-			["January","February","March","April","May","June","July","August","September","October","November","December"];        // Translated full month names
-		Date.stringSMN = (element.getAttribute("data-months_short")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-months_short").split('_') :
-			["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];                                              // Translated short month names
-		Date.stringTODAY  = (element.getAttribute("data-today_trans")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-today_trans") : "Today";                       // Translated string for Today
-		Date.stringWEEKEND = (element.getAttribute("data-weekend")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-weekend").split(',').map(Number) :
-			[0,6];                                                                                                                  // integers comma separated 0,6
-		Date.stringWK   = (element.getAttribute("data-wk")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-wk") : "wk";                                   // Translated string for wk
-		Date.stringTIME  = (element.getAttribute("data-time")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-time") : "Time:";                              // Translated string for Time:
-		Date.stringTIMEAM = (element.getAttribute("data-time_am")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-time_am") : "AM";                              // Translated string for AM
-		Date.stringTIMEPM = (element.getAttribute("data-time_pm")
-			&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-time_pm") : "PM";                              // Translated string for PM
+	Date.stringDN = ( element.getAttribute("data-weekdays_full")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-weekdays_full").split('_') :
+		["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];                                      // Translated full day names
+	Date.stringSDN = (element.getAttribute("data-weekdays_short")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-weekdays_short").split('_') :
+		["Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"];                                                                      // Translated short day names
+	Date.stringMN  = (element.getAttribute("data-months_long")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-months_long").split('_') :
+		["January","February","March","April","May","June","July","August","September","October","November","December"];        // Translated full month names
+	Date.stringSMN = (element.getAttribute("data-months_short")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-months_short").split('_') :
+		["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];                                              // Translated short month names
+	Date.stringTODAY  = (element.getAttribute("data-today_trans")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-today_trans") : "Today";                       // Translated string for Today
+	Date.stringWEEKEND = (element.getAttribute("data-weekend")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-weekend").split(',').map(Number) :
+		[0,6];                                                                                                                  // integers comma separated 0,6
+	Date.stringWK   = (element.getAttribute("data-wk")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-wk") : "wk";                                   // Translated string for wk
+	Date.stringTIME  = (element.getAttribute("data-time")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-time") : "Time:";                              // Translated string for Time:
+	Date.stringTIMEAM = (element.getAttribute("data-time_am")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-time_am") : "AM";                              // Translated string for AM
+	Date.stringTIMEPM = (element.getAttribute("data-time_pm")
+	&& instanceParams.dateType == 'gregorian' ) ? element.getAttribute("data-time_pm") : "PM";                              // Translated string for PM
 
 	/** COMPATIBILITY WITH IE 8 **/
 	var hasClass = function (element, className) {
@@ -180,7 +180,7 @@ JoomlaCalendar.init = function (elem) {
 	};
 
 	/** Time Control */
-	var updateTime = function (hours, mins, ampm) {
+	var updateTime = function (hours, mins, secs, ampm) {
 		var date = self.date;
 		if (ampm) {
 			if (/pm/i.test(ampm) && hours < 12)
@@ -193,6 +193,7 @@ JoomlaCalendar.init = function (elem) {
 		var y = self.date.getFullYear();
 		date.setHours(hours);
 		date.setMinutes(parseInt(mins, 10));
+		date.setSeconds(date.getSeconds());
 		date.setFullYear(y);
 		date.setMonth(m);
 		date.setDate(d);
@@ -293,9 +294,16 @@ JoomlaCalendar.init = function (elem) {
 		addCalEvent(document, "mousedown", documentClick);
 
 		// Check if user changed the date and reset it
-		if (self.params.inputField.value != self.date ) {
+		if (Date.parseDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType)) {
+			if (Date.parseDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType) !=  Date.parseDate(self.params.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType)) {
+				self.date = Date.parseDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType);
+			} else {
+				self.date = Date.parseDate(self.params.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType);
+			}
+		} else {
 			self.date = new Date();
 		}
+
 		refresh();
 	};
 
@@ -395,8 +403,8 @@ JoomlaCalendar.init = function (elem) {
 				removeClass(self.currentDateEl, "alert-success");
 				addClass(el, "selected alert-success");
 				self.currentDateEl = el;
-
 				closing = (self.currentDateEl == el);
+
 				if (!closing) {
 					self.currentDateEl = el;
 				}
@@ -500,10 +508,10 @@ JoomlaCalendar.init = function (elem) {
 		// Get the input date (from the data-alt-value
 		if (self.params.inputField.getAttribute('data-alt-value') != '0000-00-00 00:00:00') {
 			if (self.params.dateType == 'gregorian') {
-				self.date = Date.parseDate(self.params.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', self.params.dateType);
+				self.date = Date.parseDate(self.params.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType);
 			} else {
 
-				self.date = Date.parseDate(self.params.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', self.params.dateType);
+				self.date = Date.parseDate(self.params.inputField.getAttribute('data-alt-value'), self.params.dateFormat, self.params.dateType);
 				self.date = DateToLocal(tmpLocalDate);
 			}
 		} else {
