@@ -110,12 +110,6 @@ class ContentViewForm extends JViewLegacy
 			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
-		// If user not allowed to create tags, don't allow.
-		if (!$user->authorise('core.create', 'com_tags'))
-		{
-			$this->form->setFieldAttribute('tags', 'custom', 'deny');
-		}
-
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
