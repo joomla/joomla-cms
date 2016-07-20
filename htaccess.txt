@@ -7,12 +7,13 @@
 ##
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
-# The line just below this section: 'Options +FollowSymLinks' may cause problems
-# with some server configurations.  It is required for use of mod_rewrite, but may already
-# be set by your server administrator in a way that disallows changing it in
-# your .htaccess file.  If using it causes your server to error out, comment it out (add # to
-# beginning of line), reload your site in your browser and test your sef url's.  If they work,
-# it has been set by your server administrator and you do not need it set here.
+# The line 'Options +FollowSymLinks' may cause problems with some server configurations.
+# It is required for the use of mod_rewrite, but it may have already been set by your 
+# server administrator in a way that disallows changing it in this .htaccess file.
+# If using it causes your site to produce an error, comment it out (add # to the 
+# beginning of the line), reload your site in your browser and test your sef urls. If 
+# they work, then it has been set by your server administrator and you do not need to 
+# set it here.
 ##
 
 ## No directory listings
@@ -27,16 +28,17 @@ Options -Indexes
 RewriteEngine On
 
 ## Begin - Rewrite rules to block out some common exploits.
-# If you experience problems on your site block out the operations listed below
-# This attempts to block the most common type of exploit `attempts` to Joomla!
+# If you experience problems on your site then comment out the operations listed 
+# below by adding a # to the beginning of the line.
+# This attempts to block the most common type of exploit `attempts` on Joomla!
 #
-# Block out any script trying to base64_encode data within the URL.
+# Block any script trying to base64_encode data within the URL.
 RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
-# Block out any script that includes a <script> tag in URL.
+# Block any script that includes a <script> tag in URL.
 RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
-# Block out any script trying to set a PHP GLOBALS variable via URL.
+# Block any script trying to set a PHP GLOBALS variable via URL.
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
-# Block out any script trying to modify a _REQUEST variable via URL.
+# Block any script trying to modify a _REQUEST variable via URL.
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
 # Return 403 Forbidden header and show the content of the root homepage
 RewriteRule .* index.php [F]
@@ -52,7 +54,7 @@ RewriteRule .* index.php [F]
 ## End - Custom redirects
 
 ##
-# Uncomment following line if your webserver's URL
+# Uncomment the following line if your webserver's URL
 # is not directly related to physical file paths.
 # Update Your Joomla! Directory (just / for root).
 ##

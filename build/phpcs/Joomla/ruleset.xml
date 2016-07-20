@@ -26,14 +26,6 @@
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
 
 	<!-- Include all sniffs in an external standard directory -->
-	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
-		<!-- These exceptions are temporary for now -->
-		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/joomla/*</exclude-pattern>
-	</rule>
 	<rule ref="Generic.Files.EndFileNewline">
 		<!-- These exceptions are temporary for now, possibly permanent -->
 		<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
@@ -95,7 +87,7 @@
 		<!-- These exceptions are temporary for now -->
 		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">modules/*</exclude-pattern>
+		<exclude-pattern type="relative">modules/mod_articles_category/helper.php</exclude-pattern>
 		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
 	</rule>
 	<rule ref="PEAR.NamingConventions.ValidClassName">

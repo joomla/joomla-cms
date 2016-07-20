@@ -25,7 +25,6 @@ class MenusTableMenu extends JTableMenu
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @see     https://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

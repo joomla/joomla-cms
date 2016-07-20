@@ -129,7 +129,7 @@ class CategoriesViewCategory extends JViewLegacy
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the category helper.
-		require_once JPATH_COMPONENT . '/helpers/categories.php';
+		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 		// Get the results for each action.
 		$canDo = $this->canDo;
@@ -166,33 +166,34 @@ class CategoriesViewCategory extends JViewLegacy
 			JToolbarHelper::apply('category.apply');
 			JToolbarHelper::save('category.save');
 			JToolbarHelper::save2new('category.save2new');
+			JToolbarHelper::cancel('category.cancel');
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
-		{
-			JToolbarHelper::apply('category.apply');
-			JToolbarHelper::save('category.save');
-
-			if ($canDo->get('core.create'))
-			{
-				JToolbarHelper::save2new('category.save2new');
-			}
-		}
-
-		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('category.save2copy');
-		}
-
-		if (empty($this->item->id))
-		{
-			JToolbarHelper::cancel('category.cancel');
-		}
 		else
 		{
-			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
+			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId);
+
+			// Can't save the record if it's checked out and editable
+			if (!$checkedOut && $itemEditable)
+			{
+				JToolbarHelper::apply('category.apply');
+				JToolbarHelper::save('category.save');
+
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('category.save2new');
+				}
+			}
+
+			// If an existing item, can save to a copy.
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2copy('category.save2copy');
+			}
+
+			if ($componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);
