@@ -204,13 +204,14 @@ class JHelperTags extends JHelper
 		{
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable = JTable::getInstance('Tag', 'TagsTable');
-			$newTags = array();
+			$tagTable  = JTable::getInstance('Tag', 'TagsTable');
+			$newTags   = array();
+			$canCreate = JFactory::getUser()->authorise('core.create', 'com_tags');
 
 			foreach ($tags as $key => $tag)
 			{
 				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && !JFactory::getUser()->authorise('core.create', 'com_tags'))
+				if (strpos($tag, '#new#') !== false && !$canCreate)
 				{
 					continue;
 				}
