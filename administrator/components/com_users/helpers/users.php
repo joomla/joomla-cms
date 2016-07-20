@@ -193,12 +193,6 @@ class UsersHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
 		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
 
