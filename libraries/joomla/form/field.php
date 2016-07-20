@@ -940,25 +940,33 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($gshowonstring = $this->getAttribute('globalshowon'))
+		if ($eshowonstring = $this->getAttribute('showon_ext'))
 		{
-			$config = JFactory::getConfig();
-			
 			$result = null;
 			$lastop = null;
 			
-			foreach (preg_split('%\[(AND|OR)\]%', $gshowonstring, -1, PREG_SPLIT_DELIM_CAPTURE) as $gshowonfield)
+			foreach (preg_split('%\[(AND|OR)\]%', $eshowonstring, -1, PREG_SPLIT_DELIM_CAPTURE) as $eshowonfield)
 			{
-				if ($gshowonfield == 'AND' or $gshowonfield == 'OR')
+				if ($eshowonfield == 'AND' or $eshowonfield == 'OR')
 				{
-					$lastop = $gshowonfield;
+					$lastop = $eshowonfield;
 				}
 				else
 				{
-					$gshowon = explode(':', $gshowonfield, 2);
-					$gsetting = $config->get($gshowon[0], null);
-					$values = explode(',', $gshowon[1]);
-					if ($gsetting !== null and in_array($gsetting, $values))
+					// Split field into 3 items: "global" or component name, parameter name, list of expected value
+					$eshowon = explode(':', $eshowonfield, 3);
+					
+					// Get global config if first part is 'global' otherwise it is a component name
+					$config = ($eshowon[0] == 'global') ?
+						JFactory::getConfig() :
+						JComponentHelper::getParams($eshowon[0]);
+						
+					// Get parameter value
+					$esetting = $config->get($eshowon[1], null);
+					
+					// Get showon_ext expected values and compare with parameter value
+					$evalues = explode(',', $eshowon[2]);
+					if ($esetting !== null and in_array($esetting, $evalues))
 					{
 						if ($result === null or $lastop == 'OR')
 						{
