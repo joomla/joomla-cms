@@ -10,9 +10,9 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.utilities.arrayhelper');
 
 /**
  * Form Class for the Joomla Platform.
@@ -173,7 +173,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($level, $v);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || ArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array, hand it off to the recursive bind level method.
 				$this->bindLevel($level, $v);
@@ -1266,7 +1266,7 @@ class JForm
 
 				$value = is_array($value) ? $value : array($value);
 
-				JArrayHelper::toInteger($value);
+				$value = ArrayHelper::toInteger($value);
 				$return = $value;
 				break;
 
