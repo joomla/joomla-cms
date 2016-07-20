@@ -43,7 +43,7 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout = $isModal ? 'modal' : 'edit';
-$tmpl = $isModal ? '&tmpl=component' : '';
+$tmpl = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
