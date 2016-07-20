@@ -38,12 +38,6 @@ class UsersModelUser extends JModelAdmin
 		);
 
 		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 	}
 
 	/**
@@ -205,6 +199,19 @@ class UsersModelUser extends JModelAdmin
 		$user = JUser::getInstance($pk);
 
 		$my = JFactory::getUser();
+		$iAmSuperAdmin = $my->authorise('core.admin');
+
+		// User cannot modify own user groups
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		{
+			if ($data['groups'] != null)
+			{
+				// Form was probably tampered with
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+
+				$data['groups'] = null;
+			}
+		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
@@ -214,8 +221,6 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Make sure that we are not removing ourself from Super Admin group
-		$iAmSuperAdmin = $my->authorise('core.admin');
-
 		if ($iAmSuperAdmin && $my->get('id') == $pk)
 		{
 			// Check that at least one of our new groups is Super Admin
@@ -1219,12 +1224,6 @@ class UsersModelUser extends JModelAdmin
 		$credentials = array(
 			'secretkey' => $secretkey,
 		);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 
 		// Try to validate the OTP
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');

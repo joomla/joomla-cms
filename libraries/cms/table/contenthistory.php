@@ -78,8 +78,12 @@ class JTableContenthistory extends JTable
 			$this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
 		}
 
-		$this->set('editor_user_id', JFactory::getUser()->id);
-		$this->set('save_date', JFactory::getDate()->toSql());
+		// Modify author and date only when not toggling Keep Forever
+		if (is_null($this->get('keep_forever')))
+		{
+			$this->set('editor_user_id', JFactory::getUser()->id);
+			$this->set('save_date', JFactory::getDate()->toSql());
+		}
 
 		return parent::store($updateNulls);
 	}

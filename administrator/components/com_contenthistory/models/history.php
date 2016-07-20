@@ -40,12 +40,11 @@ class ContenthistoryModelHistory extends JModelList
 	}
 
 	/**
-	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
-	 * for the content item row.
+	 * Method to test whether a record is editable
 	 *
 	 * @param   JTableContenthistory  $record  A JTable object.
 	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
 	 * @since   3.2
 	 */
@@ -70,9 +69,32 @@ class ContenthistoryModelHistory extends JModelList
 				$user   = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
 			}
+
+			// Finally try session (this catches edit.own case too)
+			if (!$result)
+			{
+				$contentTypeTable->load($record->ucm_type_id);
+				$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$result = in_array((int) $record->ucm_item_id, $typeEditables);
+			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
+	 * for the content item row.
+	 *
+	 * @param   JTableContenthistory  $record  A JTable object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.6
+	 */
+	protected function canDelete($record)
+	{
+		return canEdit($record);
 	}
 
 	/**
@@ -147,6 +169,7 @@ class ContenthistoryModelHistory extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
+		$user = JFactory::getUser();
 
 		if ($items === false)
 		{
@@ -171,15 +194,16 @@ class ContenthistoryModelHistory extends JModelList
 		}
 
 		// Access check
-		if (!JFactory::getUser()->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id))
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id) || $this->canEdit($items[0]))
+		{
+			return $items;
+		}
+		else
 		{
 			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return false;
 		}
-
-		// All good, return the items array
-		return $items;
 	}
 
 	/**

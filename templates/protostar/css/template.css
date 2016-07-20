@@ -1689,6 +1689,7 @@ legend + .control-group {
 .form-horizontal .form-actions {
 	padding-left: 180px;
 }
+.control-label .hasPopover,
 .control-label .hasTooltip {
 	display: inline-block;
 }
@@ -2219,6 +2220,22 @@ button.close {
 	background: transparent;
 	border: 0;
 	-webkit-appearance: none;
+}
+.alert-options {
+	float: right;
+	line-height: 18px;
+	color: #000;
+	text-shadow: 0 1px 0 #ffffff;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+.alert-options:hover,
+.alert-options:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+	opacity: 0.4;
+	filter: alpha(opacity=40);
 }
 .btn {
 	display: inline-block;
