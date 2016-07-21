@@ -368,8 +368,11 @@ class JLanguage
 		}
 		elseif ($interpretBackSlashes)
 		{
-			// Interpret \n and \t characters
-			$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			if (strpos($string, '\\') !== false)
+			{
+				// Interpret \n and \t characters
+				$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			}
 		}
 
 		return $string;
