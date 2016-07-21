@@ -874,9 +874,13 @@ class JInstaller extends JAdapter
 		{
 			$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
-			if (!$db->execute())
+			try
 			{
-				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+				$db->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
+			{
+				JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -962,9 +966,13 @@ class JInstaller extends JAdapter
 				{
 					$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
-					if (!$db->execute())
+					try
 					{
-						JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+						$db->execute();
+					}
+					catch (JDatabaseExceptionExecuting $e)
+					{
+						JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), JLog::WARNING, 'jerror');
 
 						return false;
 					}
@@ -1147,18 +1155,20 @@ class JInstaller extends JAdapter
 							{
 								$db->setQuery($db->convertUtf8mb4QueryToUtf8($query));
 
-								if (!$db->execute())
+								try
 								{
-									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+									$db->execute();
+								}
+								catch (JDatabaseExceptionExecuting $e)
+								{
+									JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $e->getMessage()), JLog::WARNING, 'jerror');
 
 									return false;
 								}
-								else
-								{
-									$queryString = (string) $query;
-									$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
-									JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
-								}
+
+								$queryString = (string) $query;
+								$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+								JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
 
 								$update_count++;
 							}
