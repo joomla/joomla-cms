@@ -39,12 +39,6 @@ class UsersModelUser extends JModelAdmin
 		);
 
 		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 	}
 
 	/**
@@ -1231,12 +1225,6 @@ class UsersModelUser extends JModelAdmin
 		$credentials = array(
 			'secretkey' => $secretkey,
 		);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 
 		// Try to validate the OTP
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');

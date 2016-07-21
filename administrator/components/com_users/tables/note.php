@@ -77,7 +77,6 @@ class UsersTableNote extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    https://docs.joomla.org/JTable/publish
 	 * @since   2.5
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)

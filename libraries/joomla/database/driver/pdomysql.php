@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver supporting PDO based connections
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/manual/en/ref.pdo-mysql.php
- * @since       3.4
+ * @see    https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @since  3.4
  */
 class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 {

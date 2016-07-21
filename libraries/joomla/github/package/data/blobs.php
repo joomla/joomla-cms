@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * takes an encoding parameter that can be either utf-8 or base64. If your data cannot be
  * losslessly sent as a UTF-8 string, you can base64 encode it.
  *
- * @documentation http://developer.github.com/v3/git/blobs/
+ * @documentation https://developer.github.com/v3/git/blobs/
  *
  * @since  11.3
  */
