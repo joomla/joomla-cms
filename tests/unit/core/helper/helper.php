@@ -174,7 +174,13 @@ class TestHelper
 	{
 		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
 		{
-			JLog::addLogger(array('logger' => 'formattedtext', 'text_file' => 'unit_test.php', 'text_file_path' => JPATH_ROOT . '/logs'));
+			JLog::addLogger(
+				array(
+					'logger'         => 'formattedtext',
+					'text_file'      => 'unit_test.php',
+					'text_file_path' => dirname(dirname(__DIR__)) . '/tmp'
+				)
+			);
 		}
 	}
 
