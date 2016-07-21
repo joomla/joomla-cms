@@ -43,6 +43,8 @@ BDD Testing with Gherkin and Codeception
 * Examples
 
 ### Example
+Create a .feature using command `tests/vendor/bin/codecept generate:feature acceptance content`
+
 File `content.feature` contains,
 
 ```gherkin
@@ -62,6 +64,41 @@ Feature: content
     And I save an article
     Then I should see the "Article successfully saved." message
 ```
+Generate snippets of .featuer file using command `tests/vendor/bin/codecept gherkin:snippets acceptance`
+
+```snippets
+/**
+     * @Given There is a add content link
+     */
+     public function thereIsAAddContentLink()
+     {
+        throw new \Codeception\Exception\Incomplete("Step `There is a add content link` is not defined");
+     }
+     
+    /**
+     * @When I create new content with field title as :arg1 and content as a :arg2
+     */
+     public function iCreateNewContentWithFieldTitleAsAndContentAsA($arg1, $arg2)
+     {
+        throw new \Codeception\Exception\Incomplete("Step `I create new content with field title as :arg1 and content as a :arg2` is not defined");
+     }
+     
+    /**
+     * @When I save an article
+     */
+     public function iSaveAnArticle()
+     {
+        throw new \Codeception\Exception\Incomplete("Step `I save an article` is not defined");
+     }
+     
+```
+Copy the all snippets and put in stepobject file
+
+Create a stepobject file using command `tests/vendor/bin/codecept generate:stepobject acceptance Administrator/content`
+
+Define your step file path in `acceptance.suit.yml file` 
+
+For Example `- Step\Acceptance\Administrator\Content`
 
 ### Installation
 
