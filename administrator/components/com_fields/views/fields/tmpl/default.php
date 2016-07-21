@@ -130,6 +130,7 @@ if ($saveOrder)
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'fields.', $canChange); ?>
 							</td>
 							<td>
+								<div class="pull-left break-word">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'fields.', $canCheckin); ?>
 								<?php endif; ?>
@@ -139,18 +140,24 @@ if ($saveOrder)
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
-								<span class="small">
+								<span class="small break-word">
 									<?php if (empty($item->note)) : ?>
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 									<?php else : ?>
 										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 									<?php endif; ?>
+								</span>
+								<div class="small">
 									<?php
 									$category = JCategories::getInstance(str_replace('com_', '', $this->component));
 									if ($category)
 									{
 										$buffer = JText::_('JCATEGORY') . ': ';
-										$cats = explode(',', $item->assigned_cat_ids);
+										$cats = array_filter(explode(',', $item->assigned_cat_ids));
+										if (empty($cats))
+										{
+											$buffer .= JText::_('JALL');
+										}
 										foreach ($cats as $cat)
 										{
 											if (empty($cat))
@@ -168,7 +175,8 @@ if ($saveOrder)
 										echo trim($buffer, ',');
 									}
 									?>
-								</span>
+								</div>
+								</div>
 							</td>
 							<td class="small">
 								<?php
