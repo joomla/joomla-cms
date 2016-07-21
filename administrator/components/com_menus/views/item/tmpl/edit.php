@@ -75,6 +75,8 @@ Joomla.submitbutton = function(task, type){
 };
 ";
 
+$input = JFactory::getApplication()->input;
+
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
