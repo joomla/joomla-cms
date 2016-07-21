@@ -41,7 +41,7 @@ $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associati
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal ? '&tmpl=component' : '';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">

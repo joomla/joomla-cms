@@ -69,16 +69,34 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		var menuScroll = $('#menu > li > ul')
-		var emptyMenu  = $('#nav-empty');
-		var menuWidth;
+		var menuScroll = $('#menu > li > ul'),
+			emptyMenu  = $('#nav-empty');
 
-		$('#menu > li > a').on('click mouseenter', function() {
+		$('#menu > li').on('click mouseenter', function() {
 
+			// Set max-height (and width if scroll) for dropdown menu, depending of window height
+			var $dropdownMenu    = $(this).children('ul'),
+				windowHeight     = $w.height(),
+				linkHeight       = $(this).outerHeight(true),
+				statusHeight     = $('#status').outerHeight(true),
+				menuHeight       = $dropdownMenu.height(),
+				menuOuterHeight  = $dropdownMenu.outerHeight(true),
+				scrollMenuWidth  = $dropdownMenu.width() + 15,
+				maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
+
+			if (maxHeight < menuHeight) {
+				$dropdownMenu.css('width', scrollMenuWidth);
+			} else if (maxHeight > menuHeight) {
+				$dropdownMenu.css('width', 'auto');
+			}
+
+			$dropdownMenu.css('max-height', maxHeight);
+
+			// Get the submenu position
 			linkWidth        = $(this).outerWidth(true);
-			menuWidth        = $(this).next('ul').width();
-			linkPaddingLeft  = $(this).css('padding-left');
-			offsetLeft       = Math.round($(this).parents('li').offset().left) - parseInt(linkPaddingLeft);
+			menuWidth        = $dropdownMenu.width();
+			linkPaddingLeft  = $(this).children('a').css('padding-left');
+			offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
 
 			emptyMenu.empty().hide();
 
@@ -86,11 +104,12 @@
 
 		menuScroll.find('.dropdown-submenu > a').on('mouseover', function() {
 
-			var $self        = $(this);
-			var dropdown     = $self.next('ul');
-			var submenuWidth = dropdown.outerWidth();
-			var offsetTop    = $self.offset().top;
-			var scroll       = $w.scrollTop() + 8;
+			var $self           = $(this),
+				dropdown        = $self.next('ul'),
+				submenuWidth    = dropdown.outerWidth(),
+				offsetTop       = $self.offset().top,
+				linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($(this).css('padding-top')),
+				scroll          = $w.scrollTop() + linkPaddingTop;
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
