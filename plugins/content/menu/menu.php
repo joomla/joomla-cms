@@ -29,6 +29,45 @@ class PlgContentMenu extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Runs on content preparation
+	 *
+	 * @param   string  $context  The context for the data
+	 * @param   object  $data     An object containing the data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.6
+	 */
+	public function onContentPrepareData($context, $data)
+	{
+		if (!in_array($context, array('com_content.article','com_contact.contact')))
+		{
+			return true;
+		}
+
+		$app = JFactory::getApplication();
+
+		if ($app->isAdmin())
+		{
+			$str = (explode(".", $context));
+
+			$menu      = JFactory::getApplication()->getMenu('site');
+			$menuItems = $menu->getItems('link', 'index.php?option=' . $str[0] . '&view=' . $str[1] . '&id=' . $data->id);
+
+			if (!empty($menuItems))
+			{
+				$data->menuid    = $menuItems[0]->id;
+				$data->menutitle = $menuItems[0]->title;
+				$data->menualias = $menuItems[0]->alias;
+				$data->menutype  = $menuItems[0]->menutype;
+				$data->parent_id = $menuItems[0]->parent_id;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Adds additional fields to the editing form
 	 *
 	 * @param   JForm  $form  The form to be altered.
