@@ -566,7 +566,11 @@ class InstallationModelLanguages extends JModelBase
 
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -591,7 +595,11 @@ class InstallationModelLanguages extends JModelBase
 
 			$db->setQuery($query);
 
-			if (!$db->execute())
+			try
+			{
+				$db->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
 			{
 				return false;
 			}
@@ -989,7 +997,11 @@ class InstallationModelLanguages extends JModelBase
 			->where($db->qn('position') . ' = ' . $db->q('position-7'));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1019,7 +1031,11 @@ class InstallationModelLanguages extends JModelBase
 			->where($db->qn('module') . ' = ' . $db->q($moduleName));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1164,7 +1180,11 @@ class InstallationModelLanguages extends JModelBase
 
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
