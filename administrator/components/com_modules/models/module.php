@@ -375,7 +375,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
 	 *
 	 * @since   1.6
 	 * @throws  Exception
