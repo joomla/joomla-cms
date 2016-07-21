@@ -119,20 +119,44 @@ class InstallationControllerInstallEmail extends JControllerBase
 		}
 
 		$body = implode("\r\n", $body);
+		$send = true;
 
 		$mail = JFactory::getMailer();
-		$mail->addRecipient($email);
-		$mail->addReplyTo($email, $name);
-		$mail->setSender(array($email, $name));
-		$mail->setSubject($subject);
-		$mail->setBody($body);
+
+		if (!$mail->addRecipient($email))
+		{
+			$send = false;
+		}
+
+		if ($send && !$mail->addReplyTo($email, $name))
+		{
+			$send = false;
+		}
+
+		if ($send && !$mail->setSender(array($email, $name)))
+		{
+			$send = false;
+		}
+
+		if ($send)
+		{
+			$mail->setSubject($subject);
+			$mail->setBody($body);
+		}
 
 		$r = new stdClass;
 		$r->view = 'complete';
 
 		try
 		{
-			$mail->Send();
+			if ($send)
+			{
+				$mail->Send();
+			}
+			else
+			{
+				$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'notice');
+			}
 		}
 		catch (Exception $e)
 		{

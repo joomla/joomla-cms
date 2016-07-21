@@ -160,20 +160,46 @@ class UsersModelMail extends JModelAdmin
 		$params = JComponentHelper::getParams('com_users');
 
 		// Build email message format.
-		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
+		if (!$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname'))))
+		{
+			$app->setUserState('com_users.display.mail.data', $data);
+			$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+
+			return false;
+		}
+
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-		$mailer->IsHtml($mode);
+		$mailer->isHtml($mode);
 
 		// Add recipients
 		if ($bcc)
 		{
-			$mailer->addBcc($rows);
-			$mailer->addRecipient($app->get('mailfrom'));
+			if (!$mailer->addBcc($rows))
+			{
+				$app->setUserState('com_users.display.mail.data', $data);
+				$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+
+				return false;
+			}
+
+			if ($mailer->addRecipient($app->get('mailfrom')))
+			{
+				$app->setUserState('com_users.display.mail.data', $data);
+				$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+
+				return false;
+			}
 		}
 		else
 		{
-			$mailer->addRecipient($rows);
+			if (!$mailer->addRecipient($rows))
+			{
+				$app->setUserState('com_users.display.mail.data', $data);
+				$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+
+				return false;
+			}
 		}
 
 		// Send the Mail
@@ -183,34 +209,33 @@ class UsersModelMail extends JModelAdmin
 		if ($rs instanceof Exception)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError($rs->getError());
+			$this->setError($rs->getMessage());
 
 			return false;
 		}
-		elseif (empty($rs))
+
+		if ($rs === false)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 
 			return false;
 		}
-		else
-		{
-			/**
-			 * Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
-			 * when the box is not checked and in this case, the default value would be used instead of the '0'
-			 * one)
-			 */
-			$data['mode']    = $mode;
-			$data['subject'] = $subject;
-			$data['group']   = $grp;
-			$data['recurse'] = $recurse;
-			$data['bcc']     = $bcc;
-			$data['message'] = $message_body;
-			$app->setUserState('com_users.display.mail.data', array());
-			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 
-			return true;
-		}
+		/*
+		 * Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
+		 * when the box is not checked and in this case, the default value would be used instead of the '0'
+		 * one)
+		 */
+		$data['mode']    = $mode;
+		$data['subject'] = $subject;
+		$data['group']   = $grp;
+		$data['recurse'] = $recurse;
+		$data['bcc']     = $bcc;
+		$data['message'] = $message_body;
+		$app->setUserState('com_users.display.mail.data', array());
+		$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
+
+		return true;
 	}
 }

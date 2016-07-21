@@ -131,16 +131,24 @@ class PlgUserJoomla extends JPlugin
 					);
 
 					// Assemble the email data...the sexy way!
-					$mail = JFactory::getMailer()
-						->setSender(
-							array(
-								$this->app->get('mailfrom'),
-								$this->app->get('fromname')
-							)
-						)
-						->addRecipient($user['email'])
-						->setSubject($emailSubject)
-						->setBody($emailBody);
+					$mail = JFactory::getMailer();
+					$send = true;
+
+					if (!$mail->setSender(array($this->app->get('mailfrom'), $this->app->get('fromname'))))
+					{
+						$send = false;
+					}
+
+					if ($send && !$mail->addRecipient($user['email']))
+					{
+						$send = false;
+					}
+
+					if ($send)
+					{
+						$mail->setSubject($emailSubject);
+						$mail->setBody($emailBody);
+					}
 
 					// Set application language back to default if we changed it
 					if ($userLocale != $defaultLocale)
@@ -148,7 +156,8 @@ class PlgUserJoomla extends JPlugin
 						$lang->setLanguage($defaultLocale);
 					}
 
-					if (!$mail->Send())
+					// Enqueue a message if we are able to send the message and sending fails or we are unable to send the message
+					if (($send && $mail->Send() !== true) || !$send)
 					{
 						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 					}

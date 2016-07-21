@@ -236,8 +236,17 @@ class PlgSystemUpdatenotification extends JPlugin
 		foreach ($superUsers as $superUser)
 		{
 			$mailer = JFactory::getMailer();
-			$mailer->setSender(array($mailFrom, $fromName));
-			$mailer->addRecipient($superUser->email);
+
+			if (!$mailer->setSender(array($mailFrom, $fromName)))
+			{
+				continue;
+			}
+
+			if (!$mailer->addRecipient($superUser->email))
+			{
+				continue;
+			}
+
 			$mailer->setSubject($email_subject);
 			$mailer->setBody($email_body);
 			$mailer->Send();
