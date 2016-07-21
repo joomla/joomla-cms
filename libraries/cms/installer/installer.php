@@ -373,7 +373,20 @@ class JInstaller extends JAdapter
 					$query->delete($db->quoteName('#__extensions'))
 						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
-					$stepval = $db->execute();
+
+					try
+					{
+						$db->execute();
+
+						$stepval = true;
+					}
+					catch (JDatabaseExceptionExecuting $e)
+					{
+						// The database API will have already logged the error it caught, we just need to alert the user to the issue
+						JLog::add(JText::_('JLIB_INSTALLER_ABORT_ERROR_DELETING_EXTENSIONS_RECORD'), JLog::WARNING, 'jerror');
+
+						$stepval = false;
+					}
 
 					break;
 
