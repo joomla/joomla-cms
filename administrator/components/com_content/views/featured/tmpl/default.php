@@ -17,7 +17,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = $this->escape($this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
 $saveOrder = $listOrder == 'fp.ordering';
@@ -77,6 +77,14 @@ if ($saveOrder)
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->vote) : ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+							</th>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -184,8 +192,22 @@ if ($saveOrder)
 								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<td class="center hidden-phone">
+								<span class="badge badge-info">
 								<?php echo (int) $item->hits; ?>
+								</span>
 							</td>
+							<?php if ($this->vote) : ?>
+								<td class="hidden-phone">
+									<span class="badge badge-success" >
+									<?php echo (int) $item->rating_count; ?>
+									</span>
+								</td>
+								<td class="hidden-phone">
+									<span class="badge badge-warning" >
+									<?php echo (int) $item->rating; ?>
+									</span>
+								</td>
+							<?php endif; ?>
 							<td class="center hidden-phone">
 								<?php echo (int) $item->id; ?>
 							</td>

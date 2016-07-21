@@ -788,6 +788,24 @@
 				<option value="0">JHIDE</option>
 		</field>
 
+		<field name="list_show_votes"
+			type="list"
+			default="0"
+			label="JGLOBAL_LIST_VOTES_LABEL"
+			description="JGLOBAL_LIST_VOTES_DESC">
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+		</field>
+
+		<field name="list_show_ratings"
+			type="list"
+			default="0"
+			label="JGLOBAL_LIST_RATINGS_LABEL"
+			description="JGLOBAL_LIST_RATINGS_DESC">
+				<option value="1" requires="vote">JSHOW</option>
+				<option value="0" requires="vote">JHIDE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="shared"
@@ -832,6 +850,14 @@
 				value="rhits">JGLOBAL_LEAST_HITS</option>
 			<option
 				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+			<option 
+				value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+			<option 
+				value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+			<option 
+				value="rank" requires="vote"> JGLOBAL_RATINGS_DESC</option>
+			<option 
+				value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 		</field>
 
 		<field name="order_date" type="list"

@@ -253,6 +253,13 @@ class ContentModelArticles extends JModelList
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			// Join on voting table
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
+
 		// Join on voting table
 		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
 			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');

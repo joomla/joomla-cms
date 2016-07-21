@@ -109,6 +109,13 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join on voting table
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{

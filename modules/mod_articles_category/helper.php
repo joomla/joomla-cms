@@ -165,14 +165,22 @@ abstract class ModArticlesCategoryHelper
 		// Ordering
 		$ordering = $params->get('article_ordering', 'a.ordering');
 
-		if (trim($ordering) == 'random')
+		switch ($ordering)
 		{
-			$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
-		}
-		else
-		{
-			$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-			$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+			case 'random':
+				$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+				break;
+
+			case 'rating_count':
+			case 'rating':
+				$articles->setState('list.ordering', 'a.ordering');
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+				break;
+
+			default:
+				$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+				break;
 		}
 
 		// New Parameters

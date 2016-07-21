@@ -199,13 +199,23 @@ class ContentModelArticles extends JModelList
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join on voting table
+		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
+
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, v.rating_sum, v.rating_count';
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
+
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name');
+				->group($assogroup);
 		}
 
 		// Filter by access level.
@@ -310,26 +320,10 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.id');
+		$orderCol = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
 
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
-		{
-			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
-		}
-
-		// SQL server change
-		if ($orderCol == 'language')
-		{
-			$orderCol = 'l.title';
-		}
-
-		if ($orderCol == 'access_level')
-		{
-			$orderCol = 'ag.title';
-		}
-
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($db->escape($orderCol));
 
 		return $query;
 	}
