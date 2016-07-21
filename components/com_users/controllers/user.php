@@ -201,13 +201,25 @@ class UsersControllerUser extends UsersController
 
 			$return = 'index.php?Itemid=' . $return . $lang;
 		}
-		else
+		else 
 		{
-			// Don't redirect to an external URL.
-			if (!JUri::isInternal($return))
+			if ($return!='')
 			{
-				$return = '';
+				// Only URLs on current server
+				$url=parse_url($return);
+				$return=$url['path'];
+				if($url['query']!=''){ $return.='?'.$url['query']; }
+				if($url['fragment']!=''){ $return.='#'.$url['fragment']; }
 			}
+			if($return=='')
+			{
+				// Redirect to default menue item
+				$menu = $app->getMenu();
+				$default=$menu->getDefault();
+				$return = 'index.php?Itemid=' . $default->id;
+				$return=JRoute::_($return, false);
+			}			
+			$app->redirect($return);
 		}
 
 		// Redirect the user.
