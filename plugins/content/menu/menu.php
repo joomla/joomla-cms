@@ -140,6 +140,7 @@ class PlgContentMenu extends JPlugin
 	{
 		$session =& JFactory::getSession();
 		$data = $session->get("formData");
+		$session->clear("formData");
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models', 'MenusModel');
 		$itemModel = JModelAdmin::getInstance('Item', 'MenusModel');
