@@ -819,7 +819,7 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   JDatabaseDriver  $db       Database connector object $db*.
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
