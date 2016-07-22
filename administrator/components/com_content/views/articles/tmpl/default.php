@@ -224,7 +224,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			<?php endif; ?>
 		<?php endif;?>
 
-		<?php echo $this->pagination->getListFooter(); ?>
+		<?php echo $this->pagination->getPaginationLinks(); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
