@@ -23,6 +23,7 @@
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
 			default="hide"
+			class="chzn-color"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
