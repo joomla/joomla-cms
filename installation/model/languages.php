@@ -1194,7 +1194,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Create the language associations.
 	 *
-	 * @param   array  $associations  Array of language associations fro all items.
+	 * @param   array  $groupedAssociations  Array of language associations for all items.
 	 *
 	 * @return  boolean  True on success.
 	 *
