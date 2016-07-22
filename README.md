@@ -1,10 +1,14 @@
-[Browser Automated Tests for Joomla! CMS(covering Users and Content features - GSoC1 16)](https://summerofcode.withgoogle.com/projects/#5724182314745856)
+[Browser Automated Tests for Joomla! CMS(covering Users and Content features - GSoC 16)](https://summerofcode.withgoogle.com/projects/#5724182314745856)
 ===
 
 Abstract
 ---
-System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend -need for faster design‐develop‐test‐analysis cycle, push for higher quality, increasing complexity of systems and their integration and last but not least ever‐rising costs of manual testing. Software testing itself is very wide field with topics ranging from compliance frameworks.
-
+System development nowadays more than ever starts to look for automated test methods. There are several main drivers for this trend,
++ Need for faster design‐develop‐test‐analysis cycle
++ Push for higher quality
++ Increasing complexity of systems and their integration and last but not least
++ Ever‐rising costs of manual testing
+ 
 Automation Testing means using an automation tool to execute test case suite. The automation software can also enter test data into the System Under Test, compare expected and actual results and generate detailed test reports.
 
 Test Automation demands considerable investments of money and resources. Successive development cycles will require execution of same test suite repeatedly. Using a test automation tool it's possible to record this test suite and re-play it as required. Once the test suite is automated, no human intervention is required.
@@ -39,6 +43,8 @@ BDD Testing with Gherkin and Codeception
 * Examples
 
 ### Example
+Create a .feature using command `tests/vendor/bin/codecept generate:feature acceptance content`
+
 File `content.feature` contains,
 
 ```gherkin
@@ -58,6 +64,41 @@ Feature: content
     And I save an article
     Then I should see the "Article successfully saved." message
 ```
+Generate snippets of .featuer file using command `tests/vendor/bin/codecept gherkin:snippets acceptance`
+
+```snippets
+/**
+     * @Given There is a add content link
+     */
+     public function thereIsAAddContentLink()
+     {
+        throw new \Codeception\Exception\Incomplete("Step `There is a add content link` is not defined");
+     }
+     
+    /**
+     * @When I create new content with field title as :arg1 and content as a :arg2
+     */
+     public function iCreateNewContentWithFieldTitleAsAndContentAsA($arg1, $arg2)
+     {
+        throw new \Codeception\Exception\Incomplete("Step `I create new content with field title as :arg1 and content as a :arg2` is not defined");
+     }
+     
+    /**
+     * @When I save an article
+     */
+     public function iSaveAnArticle()
+     {
+        throw new \Codeception\Exception\Incomplete("Step `I save an article` is not defined");
+     }
+     
+```
+Copy the all snippets and put in stepobject file
+
+Create a stepobject file using command `tests/vendor/bin/codecept generate:stepobject acceptance Administrator/content`
+
+Define your step file path in `acceptance.suit.yml file` 
+
+For Example `- Step\Acceptance\Administrator\Content`
 
 ### Installation
 
@@ -86,7 +127,7 @@ _We are using `composer.json` file for `tests` folder, so that you will have to 
 
 ### Run tests
 
-To run the tests please execute the following commands. We are usin [Robo.li](http://robo.li/) to execute the tests.
+To run the tests please execute the following commands. We are using [Robo.li](http://robo.li/) to execute [PhpUnit](https://phpunit.de/) based [Codeception](http://codeception.com/for/joomla) test suits.
 
 #### To execute all the test features you should use.
 
@@ -109,6 +150,8 @@ $ tests/vendor/bin/codecept run tests/acceptance/users.feature
 ```
 
 _If you want to see steps then you can use `--steps` option of codeceptio. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
+
+**Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in the file `tests/acceptance/_bootstrap.php`
 
 Do you have suggestions?
 ---
