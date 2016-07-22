@@ -771,7 +771,7 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallSampleData($db)
 	{
-		// Update the uiser Ids.
+		// Update the user ids.
 		$db->updateUserIds(array(), $db);
 	}
 
