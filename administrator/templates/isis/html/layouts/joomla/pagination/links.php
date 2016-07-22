@@ -42,7 +42,7 @@ $showLimitStart = $options->get('showLimitStart', true);
 			<?php endforeach; ?>
 			<?php
 				echo JLayoutHelper::render('joomla.pagination.link', $pages['next']);
-				$pages['end']['pagOptions'] = array('addText' => JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $pagesTotal, $pagesTotal));
+				$pages['end']['pagOptions'] = array('addText' => ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $pagesTotal, $pagesTotal) . ')');
 				echo JLayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
 		</ul>
 	<?php endif; ?>
