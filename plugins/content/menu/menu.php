@@ -117,7 +117,7 @@ class PlgContentMenu extends JPlugin
 	 * @since   3.6
 	 */
 
-	public function onContentBeforeSave($context,$article)
+	public function onContentBeforeSave($context, $article)
 	{
 		$session =& JFactory::getSession();
 		$session->set("formData", JFactory::getApplication()->input->post->get('jform', array(), 'array'));
@@ -136,7 +136,7 @@ class PlgContentMenu extends JPlugin
 	 * @since   3.6
 	 */
 
-	public function onContentAfterSave($context,$article)
+	public function onContentAfterSave($context, $article)
 	{
 		$session =& JFactory::getSession();
 		$data = $session->get("formData");
