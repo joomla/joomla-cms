@@ -11,9 +11,16 @@ defined('JPATH_BASE') or die;
 
 $item = $displayData['data'];
 
-$options = new Joomla\Registry\Registry($displayData['pagOptions']);
-$liClass = $options->get('liClass');
-$addText = $options->get('addText');
+if (!empty($displayData['pagOptions']))
+{
+	$options = new Joomla\Registry\Registry($displayData['pagOptions']);
+	$liClass = $options->get('liClass', '');
+	$addText = $options->get('addText', '');
+}
+else
+{
+	$liClass = $addText = '';
+}
 
 $display = $item->text;
 
