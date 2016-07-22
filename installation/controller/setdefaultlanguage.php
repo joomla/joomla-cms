@@ -94,7 +94,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Check if user has activated the multilingual site
 		$data = $this->input->post->get('jform', array(), 'array');
 
-		if (int) $data['activateMultilanguage'])
+		if ((int) $data['activateMultilanguage'])
 		{
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
