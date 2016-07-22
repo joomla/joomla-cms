@@ -474,6 +474,30 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
+	 * Allows preprocessing of the JForm object.
+	 *
+	 * @param   JForm   $form   The form object
+	 * @param   array   $data   The data to be merged into the form object
+	 * @param   string  $group  The plugin group to be executed
+	 *
+	 * @return  void
+	 *
+	 * @since    3.0
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		// Check if article is associated
+		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_banners');
+
+		if ($canCreateCategories)
+		{
+			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+		}
+
+		parent::preprocessForm($form, $data, $group);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.

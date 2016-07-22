@@ -503,9 +503,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
+		// Check if article is associated
+		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
+
+		if ($canCreateCategories)
+		{
+			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+		}
+
 		// Association newsfeeds items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
