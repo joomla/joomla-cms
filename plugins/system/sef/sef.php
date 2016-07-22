@@ -40,20 +40,43 @@ class PlgSystemSef extends JPlugin
 			return;
 		}
 
-		$uri     = JUri::getInstance();
-		$domain  = $this->params->get('domain');
+		$sefDomain = $this->params->get('domain', '');
 
-		if ($domain === false || $domain === '')
+		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
+		if (empty($sefDomain))
 		{
-			$domain = $uri->toString(array('scheme', 'host', 'port'));
+			return;
 		}
 
-		$link = $domain . JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()), false);
+		// Check if a canonical html tag already exists (for instance, added by a component).
+		$canonical = '';
 
-		if (rawurldecode($uri->toString()) !== $link)
+		foreach ($doc->_links as $linkUrl => $link)
 		{
-			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
+			if (isset($link['relation']) && $link['relation'] === 'canonical')
+			{
+				$canonical = $linkUrl;
+				break;
+			}
 		}
+
+		// If a canonical html tag already exists get the canonical and change it to use the SEF plugin domain field.
+		if (!empty($canonical))
+		{
+			// Remove current canonical link.
+			unset($doc->_links[$canonical]);
+
+			// Set the current canonical link but use the SEF system plugin domain field.
+			$canonical = $sefDomain . JUri::getInstance($canonical)->toString(array('path', 'query', 'fragment'));
+		}
+		// If a canonical html doesn't exists already add a canonical html tag using the SEF plugin domain field.
+		else
+		{
+			$canonical = $sefDomain . JUri::getInstance()->toString(array('path', 'query', 'fragment'));
+		}
+
+		// Add the canonical link.
+		$doc->addHeadLink(htmlspecialchars($canonical), 'canonical');
 	}
 
 	/**
@@ -72,25 +95,35 @@ class PlgSystemSef extends JPlugin
 		$base   = JUri::base(true) . '/';
 		$buffer = $this->app->getBody();
 
+		// For feeds we need to search for the URL with domain.
+		$prefix = $this->app->getDocument()->getType() === 'feed' ? JUri::root() : '';
+
 		// Replace index.php URI by SEF URI.
-		if (strpos($buffer, 'href="index.php?') !== false)
+		if (strpos($buffer, 'href="' . $prefix . 'index.php?') !== false)
 		{
-			preg_match_all('#href="index.php\?([^"]+)"#m', $buffer, $matches);
+			preg_match_all('#href="' . $prefix . 'index.php\?([^"]+)"#m', $buffer, $matches);
+
 			foreach ($matches[1] as $urlQueryString)
 			{
-				$buffer = str_replace('href="index.php?' . $urlQueryString . '"', 'href="' . JRoute::_('index.php?' . $urlQueryString) . '"', $buffer);
+				$buffer = str_replace(
+					'href="' . $prefix . 'index.php?' . $urlQueryString . '"',
+					'href="' . trim($prefix, '/') . JRoute::_('index.php?' . $urlQueryString) . '"',
+					$buffer
+				);
 			}
+
 			$this->checkBuffer($buffer);
 		}
 
 		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
-		$protocols = '[a-zA-Z0-9\-]+:';
-		$attributes = array('href=', 'src=', 'poster=');
+		$protocols  = '[a-zA-Z0-9\-]+:';
+		$attributes = array('href=', 'src=', 'srcset=', 'poster=');
+
 		foreach ($attributes as $attribute)
 		{
 			if (strpos($buffer, $attribute) !== false)
 			{
-				$regex  = '#\s+' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]+)"#m';
+				$regex  = '#\s+' . $attribute . '"(?!/|' . $protocols . '|\#|\')([^"]*)"#m';
 				$buffer = preg_replace($regex, ' ' . $attribute . '"' . $base . '$1"', $buffer);
 				$this->checkBuffer($buffer);
 			}
@@ -106,6 +139,7 @@ class PlgSystemSef extends JPlugin
 
 		// Replace all unknown protocols in onmouseover and onmouseout attributes.
 		$attributes = array('onmouseover=', 'onmouseout=');
+
 		foreach ($attributes as $attribute)
 		{
 			if (strpos($buffer, $attribute) !== false)

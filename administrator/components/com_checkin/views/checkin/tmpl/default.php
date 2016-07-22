@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+				<?php echo JText::_('COM_CHECKIN_NO_ITEMS'); ?>
 			</div>
 		<?php else : ?>
 			<table id="global-checkin" class="table table-striped">
@@ -58,11 +58,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</label>
 							</td>
 							<td>
-								<?php if ($count > 0) : ?>
-									<span class="label label-warning"><?php echo $count; ?></span>
-								<?php else : ?>
-									<span class="label label-info"><?php echo $count; ?></span>
-								<?php endif; ?>
+								<span class="label label-warning"><?php echo $count; ?></span>
 							</td>
 						</tr>
 						<?php $i++; ?>

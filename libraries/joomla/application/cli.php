@@ -58,7 +58,7 @@ class JApplicationCli extends JApplicationBase
 		}
 		// @codeCoverageIgnoreEnd
 
-		// If a input object is given use it.
+		// If an input object is given use it.
 		if ($input instanceof JInput)
 		{
 			$this->input = $input;

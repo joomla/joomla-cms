@@ -27,7 +27,7 @@ class InstallerControllerDiscover extends JControllerLegacy
 	{
 		$model = $this->getModel('discover');
 		$model->discover();
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover', false), $model->_message);
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=discover', false));
 	}
 
 	/**

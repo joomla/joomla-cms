@@ -134,7 +134,7 @@ class PlgSystemCache extends JPlugin
 		{
 			// Get the current menu item
 			$active = JFactory::getApplication()->getMenu()->getActive();
-			
+
 			if ($active && $active->id && in_array($active->id, (array) $exclusions))
 			{
 				return true;

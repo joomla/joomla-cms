@@ -158,6 +158,13 @@ body.modal-open {
 	overflow: hidden;
 	-ms-overflow-style: none;
 }
+.modal-buttons {
+	padding: 15px 0px;
+}
+.modal-buttons button {
+	font-size: 1.2em;
+	line-height: 1.6em;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
@@ -3446,6 +3453,10 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+fieldset.uploadform .control-group,
+fieldset.uploadform .form-actions {
+	display: inline-block;
 }
 #installer-database,
 #installer-discover,

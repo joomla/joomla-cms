@@ -18,7 +18,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&user_id='.(int) $this->state->get('filter.user_id'));?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $this->state->get('group_id'));?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>

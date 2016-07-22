@@ -29,6 +29,9 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		// Set variables
+		$app = JFactory::getApplication();
+
 		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Items');
@@ -55,6 +58,16 @@ class InstallerViewDatabase extends InstallerViewDefault
 		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
+		}
+
+		// Check error count
+		if ($this->errorCount === 0)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'error');
 		}
 
 		parent::display($tpl);

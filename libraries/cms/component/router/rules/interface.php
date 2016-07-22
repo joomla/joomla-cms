@@ -29,7 +29,7 @@ interface JComponentRouterRulesInterface
 	public function preprocess(&$query);
 
 	/**
-	 * Parses an URI to retrieve informations for the right route through
+	 * Parses a URI to retrieve informations for the right route through
 	 * the component.
 	 * This method should retrieve all its input from its method arguments.
 	 *

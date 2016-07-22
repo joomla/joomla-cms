@@ -29,9 +29,12 @@ JFactory::getDocument()->addScriptDeclaration("
 		};
 ");
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-horizontal">
-	<fieldset>
-		<legend><?php echo JText::_('COM_MENUS_MENU_DETAILS');?></legend>
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
+
+	<div class="form-horizontal">
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS')); ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('title'); ?>
@@ -56,7 +59,18 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->getInput('description'); ?>
 				</div>
 			</div>
-	</fieldset>
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<?php if ($this->canDo->get('core.admin')) : ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MENUS_FIELDSET_RULES')); ?>
+					<?php echo $this->form->getInput('rules'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php endif; ?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
+
+
+	</div>
 </form>

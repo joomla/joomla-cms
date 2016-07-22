@@ -2,7 +2,7 @@
  * @author  ( Angie Radtke  )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -20,6 +20,7 @@ body h1,body h2,body h3,body h4,body h5,body h6 {
 	font-weight: normal;
 	color: inherit;
 	text-rendering: optimizelegibility;
+	word-wrap: break-word;
 }
 
 body h1 {
@@ -57,6 +58,7 @@ body p,body ol,body ul,body dl,body address {
 	margin-bottom: 1.5em;
 	font-size: 1.0em;
 	line-height: 1.5em;
+	word-wrap: break-word;
 }
 
 small {
@@ -187,7 +189,6 @@ p.readmore a,  .mod-articles-category-readmore a {
 	border-radius: 3px;
 	display: inline-block;
 	text-decoration: none;
-	line-height: 1.6em;
 	margin-bottom: 9px;
 	padding: 4px;
 	line-height: 1.6em;
@@ -384,7 +385,7 @@ input[type="checkbox"]:checked+label:before {
 	border-radius: 12px;
 	text-indent: -40px;
 	color: #fff;
-	text-shadow: 0px 10px 6px #fff;
+	text-shadow: 0 10px 6px #fff;
 }
 
 /*
@@ -406,7 +407,7 @@ input[type="radio"]:checked + label:before {
 }
 
 .search-results dt.result-title {
-	padding: 15px 15px 0px 5px;
+	padding: 15px 15px 0 5px;
 	font-weight: bold;
 }
 
@@ -432,6 +433,15 @@ input[type="radio"]:checked + label:before {
 	padding: 10px 15px 5px 5px
 }
 
+/* Com_search break long titles & text */
+dt.result-title {
+	word-wrap: break-word;
+}
+
+dd.result-text {
+	word-wrap: break-word;
+}
+
 .advanced-search-tip {
 	background: #FEFDE2;
 	border-radius: 3px;
@@ -454,7 +464,7 @@ input[type="radio"]:checked + label:before {
 }
 
 #main  .panel h3 {
-	margin: 0px;
+	margin: 0;
 	padding: 0;
 	background: #eee;
 	border: 0;
@@ -463,13 +473,12 @@ input[type="radio"]:checked + label:before {
 
 .panel h3 a {
 	display: block;
-	padding: 6px;
 	text-decoration: none;
 	padding: 6px;
 }
 
 .pane-slider {
-	border: solid 0px;
+	border: solid 0;
 	padding: 10px;
 	margin: 0;
 }
@@ -489,7 +498,6 @@ input[type="radio"]:checked + label:before {
 textarea,.contact-form input[type="text"],.contact-form input[type="email"],.contact-form textarea
 	{
 	width: 80%;
-	border: solid 1px;
 	-moz-box-sizing: border-box;
 	border: 1px solid #DDDDDD;
 	color: #333333;
@@ -574,17 +582,16 @@ form ul {
 
 .pagenav li {
 	display: inline;
-	margin: 0px;
+	margin: 0;
 	padding: 0
 }
 
 .pagenav a,span.pagenav {
 	padding: 0 14px;
 	margin: 0;
-	line-height: 1.9em;
 	text-decoration: none;
 	border: 1px solid #ddd;
-	border-left: 0px solid #ddd;
+	border-left: 0 solid #ddd;
 	display: inline-block;
 	line-height: 1.9em;
 }
@@ -616,7 +623,7 @@ form ul {
 	line-height: 2em;
 	text-decoration: none;
 	border: 1px solid #ddd;
-	border-left: 0px solid #ddd;
+	border-left: 0 solid #ddd;
 	display: inline-block
 }
 
@@ -688,8 +695,8 @@ ul.actions  li {
 .article-info dd span {
 	text-transform: none;
 	display: inline-block;
-	padding: 0 5px 0 0px;
-	margin: 0 10px 0 0px;
+	padding: 0 5px 0 0;
+	margin: 0 10px 0 0;
 }
 
 .article-info dd.create {
@@ -701,7 +708,7 @@ ul.actions  li {
 	padding: 0;
 	margin: 0 20px 0 1px;
 	text-align: right;
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	float: none;
 }
 
@@ -723,7 +730,7 @@ ul.actions  li {
 #fontsize p a {
 	margin: 0 2px;
 	display: inline;
-	padding: 0px 5px;
+	padding: 0 5px;
 }
 
 /* +++++++++++++++  menus ++++++++++++++++++++++++ */
@@ -748,14 +755,12 @@ ul.actions  li {
 	{
 	font-weight: bold;
 	text-decoration: none;
-	padding: 0px 10px;
 	margin: 0;
 	display: inline-block;
-	margin: 0 0 0;
 	padding: 12px 15px;
 	position: relative;
 	border-right: 1px solid #ddd;
-	box-shadow: 1px 0px 0px #f5f5f5;
+	box-shadow: 1px 0 0 #f5f5f5;
 }
 
 #header ul.menu li:first-child a {
@@ -786,7 +791,7 @@ ul.menu a {
 	display: block;
 	margin: 0;
 	text-decoration: none;
-	padding: 5px 0px;
+	padding: 5px 0;
 	border-bottom: solid 1px #ddd;
 }
 
@@ -905,7 +910,7 @@ ul.latestnews li {
 	position: relative;
 	display: block;
 	padding: 5px 10px;
-	margin: 0px;
+	margin: 0;
 	font-size: 1.40em;
 	border-radius: 3px
 }
@@ -913,8 +918,8 @@ ul.latestnews li {
 h3.js_heading a {
 	display: block;
 	position: absolute;
-	right: 0px;
-	top: 0px;
+	right: 0;
+	top: 0;
 	padding: 5px 5px 0 0;
 	text-decoration: none;
 	background: none
@@ -973,11 +978,11 @@ ul.tabs li a:link,ul.tabs li a:visited,dl.tabs dt h3 a:link,dl.tabs dt h3 a:visi
 	{
 	text-decoration: none;
 	padding: 7px 5px;
-	margin: 0px;
+	margin: 0;
 	display: block;
 	font-size: 0.9em;
 	font-weight: normal;
-	border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0 0;
 }
 
 ul.tabs li a.linkopen:link,ul.tabs li a.linkopen:visited,dl.tabs dt.open  h3 a:link,dl.tabs dt.open  h3 a:visited

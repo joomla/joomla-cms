@@ -144,6 +144,13 @@ class JDocument
 	public $_script = array();
 
 	/**
+	 * Array of scripts options
+	 *
+	 *  @var    array
+	 */
+	protected $scriptOptions = array();
+
+	/**
 	 * Array of linked style sheets
 	 *
 	 * @var    array
@@ -371,15 +378,21 @@ class JDocument
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name       Value of name or http-equiv tag
-	 * @param   boolean  $httpEquiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public function getMetaData($name, $httpEquiv = false)
+	public function getMetaData($name, $attribute = 'name')
 	{
+		// B/C old http_equiv parameter.
+		if (!is_string($attribute))
+		{
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
+		}
+
 		if ($name == 'generator')
 		{
 			$result = $this->getGenerator();
@@ -390,14 +403,7 @@ class JDocument
 		}
 		else
 		{
-			if ($httpEquiv == true)
-			{
-				$result = @$this->_metaTags['http-equiv'][$name];
-			}
-			else
-			{
-				$result = @$this->_metaTags['standard'][$name];
-			}
+			$result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
 		}
 
 		return $result;
@@ -406,16 +412,22 @@ class JDocument
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param   string   $name        Value of name or http-equiv tag
-	 * @param   string   $content     Value of the content tag
-	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $content    Value of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false)
+	public function setMetaData($name, $content, $attribute = 'name')
 	{
+		// B/C old http_equiv parameter.
+		if (!is_string($attribute))
+		{
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
+		}
+
 		if ($name == 'generator')
 		{
 			$this->setGenerator($content);
@@ -426,14 +438,7 @@ class JDocument
 		}
 		else
 		{
-			if ($http_equiv == true)
-			{
-				$this->_metaTags['http-equiv'][$name] = $content;
-			}
-			else
-			{
-				$this->_metaTags['standard'][$name] = $content;
-			}
+			$this->_metaTags[$attribute][$name] = $content;
 		}
 
 		return $this;
@@ -512,6 +517,57 @@ class JDocument
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add option for script
+	 *
+	 * @param   string  $key      Name in Storage
+	 * @param   mixed   $options  Scrip options as array or string
+	 * @param   bool    $merge    Whether merge with existing (true) or replace (false)
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.5
+	 */
+	public function addScriptOptions($key, $options, $merge = true)
+	{
+		if (empty($this->scriptOptions[$key]))
+		{
+			$this->scriptOptions[$key] = array();
+		}
+
+		if ($merge && is_array($options))
+		{
+			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+		}
+		else
+		{
+			$this->scriptOptions[$key] = $options;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get script(s) options
+	 *
+	 * @param   string  $key  Name in Storage
+	 *
+	 * @return  array  Options for given $key, or all script options
+	 *
+	 * @since   3.5
+	 */
+	public function getScriptOptions($key = null)
+	{
+		if ($key)
+		{
+			return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
+		}
+		else
+		{
+			return $this->scriptOptions;
+		}
 	}
 
 	/**

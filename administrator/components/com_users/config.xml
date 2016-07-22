@@ -17,7 +17,8 @@
 			type="usergrouplist"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
-			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
+			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
+			showon="allowUserRegistration:1">
 		</field>
 
 		<field
@@ -94,7 +95,9 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
-			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC"
+			showon="frontend_userparams:1"
+		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -196,6 +199,7 @@
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			default="5"
+			showon="save_history:1"
 		/>
 	</fieldset>
 
