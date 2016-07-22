@@ -44,7 +44,6 @@ switch ((string) $item->text)
 
 	// Check for "End" item
 	case JText::_('JLIB_HTML_END') :
-		$item->text .= $addText ? ' (' . $addText . ')' : '';
 		$icon = "icon-forward icon-last";
 		break;
 
@@ -52,6 +51,8 @@ switch ((string) $item->text)
 		$icon = null;
 		break;
 }
+
+$item->text .= $addText ? $addText : '';
 
 if ($icon !== null)
 {
