@@ -771,19 +771,40 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallSampleData($db)
 	{
+		// Update the uiser Ids.
+		$db->updateUserIds(array(), $db);
+	}
+
+	/**
+	 * Method to update the user id of the sample data content to the new rand user id.
+	 *
+	 * @param   array            $options  The options array.
+	 * @param   JDatabaseDriver  $db       Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.6.1
+	 */
+	public function updateUserIds($options = array(), $db = null)
+	{
+		if ($db === null && !$db = $this->initialise($options))
+		{
+			return false;
+		}
+
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
 		// Update all created_by field of the tables with the random user id
 		// categories (created_user_id), contact_details, content, newsfeeds.
 		$updates_array = array(
-			'categories' => 'created_user_id',
+			'categories'      => 'created_user_id',
 			'contact_details' => 'created_by',
-			'content' => 'created_by',
-			'newsfeeds' => 'created_by',
-			'tags' => 'created_user_id',
-			'ucm_content' => 'core_created_user_id',
-			'ucm_history' => 'editor_user_id'
+			'content'         => 'created_by',
+			'newsfeeds'       => 'created_by',
+			'tags'            => 'created_user_id',
+			'ucm_content'     => 'core_created_user_id',
+			'ucm_history'     => 'editor_user_id',
 		);
 
 		foreach ($updates_array as $table => $field)
@@ -794,6 +815,8 @@ class InstallationModelDatabase extends JModelBase
 			);
 			$db->execute();
 		}
+
+		return true;
 	}
 
 	/**
