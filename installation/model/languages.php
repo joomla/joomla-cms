@@ -852,7 +852,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  boolean
+	 * @return  JTable|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -867,7 +867,6 @@ class InstallationModelLanguages extends JModelBase
 		$alias = 'home_' . $itemLanguage->language;
 
 		$menuItem = array(
-			'id'           => 0,
 			'title'        => $title,
 			'alias'        => $alias,
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
@@ -917,7 +916,7 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		return true;
+		return $tableItem;
 	}
 
 	/**
@@ -1048,7 +1047,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable Category Object.
+	 * @return  JTable|boolean Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1110,7 +1109,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   int       $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable Category Object
+	 * @return  JTable|boolean Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1187,6 +1186,45 @@ class InstallationModelLanguages extends JModelBase
 		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
+		}
+
+		return $article;
+	}
+
+	/**
+	 * Create the language associations.
+	 *
+	 * @param   array  $associations  Array of language associations fro all items.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addAssociations($groupedAssociations)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($groupedAssociations as $context => $associations)
+		{
+			$key   = md5(json_encode($associations));
+			$query = $db->getQuery(true)
+				->insert('#__associations');
+
+			foreach ($associations as $language => $id)
+			{
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key));
+			}
+
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				return false;
+			}
 		}
 
 		return true;
