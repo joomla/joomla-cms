@@ -783,7 +783,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.6.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function updateUserIds($options = array(), $db = null)
 	{
