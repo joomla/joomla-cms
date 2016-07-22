@@ -39,23 +39,10 @@ class InstallationControllerInstallDatabase extends JControllerBase
 		$options = $model->getOptions();
 
 		// Get the database model.
-		$dbModel = new InstallationModelDatabase;
+		$db = new InstallationModelDatabase;
 
 		// Attempt to create the database tables.
-		$return = $dbModel->createTables($options);
-
-		// Run Cms data post install to update user ids.
-		if ($return)
-		{
-			if (!$db = $dbModel->initialise($options))
-			{
-				$return = false;
-			}
-			else
-			{
-				$return = $dbModel->postInstallCmsData($db);
-			}
-		}
+		$return = $db->installCmsData($options);
 
 		$r = new stdClass;
 		$r->view = 'install';
