@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+/** @var JPaginationObject $item */
 $item = $displayData['data'];
 
 if (!empty($displayData['pagOptions']))
