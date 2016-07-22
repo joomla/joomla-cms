@@ -346,13 +346,11 @@ CREATE INDEX "#__content_idx_createdby" ON "#__content" ("created_by");
 CREATE INDEX "#__content_idx_featured_catid" ON "#__content" ("featured", "catid");
 CREATE INDEX "#__content_idx_language" ON "#__content" ("language");
 CREATE INDEX "#__content_idx_xreference" ON "#__content" ("xreference");
-CREATE INDEX "#__content_idx_alias" ON "#__content" ("alias");
 
 COMMENT ON COLUMN "#__content"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__content"."featured" IS 'Set if article is featured.';
 COMMENT ON COLUMN "#__content"."language" IS 'The language code for the article.';
 COMMENT ON COLUMN "#__content"."xreference" IS 'A reference to enable linkages to external data sets.';
-COMMENT ON COLUMN "#__content"."xalias" IS 'Speed up the check for unique alias.';
 
 --
 -- Table: #__content_frontpage
