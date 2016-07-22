@@ -205,7 +205,8 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, v.rating_sum, v.rating_count';
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
