@@ -42,7 +42,7 @@ class InstallationControllerInstallDatabase extends JControllerBase
 		$db = new InstallationModelDatabase;
 
 		// Attempt to create the database tables.
-		$return = $db->createTables($options);
+		$return = $db->installCmsData($options);
 
 		$r = new stdClass;
 		$r->view = 'install';
