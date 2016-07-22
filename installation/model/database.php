@@ -776,6 +776,32 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
+	 * Method to install the cms data.
+	 *
+	 * @param   array  $options  The options array.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function installCmsData($options)
+	{
+		// Attempt to create the database tables.
+		if (!$this->createTables($options))
+		{
+			return false;
+		}
+
+		if (!$db = $this->initialise($options))
+		{
+			return false;
+		}
+
+		// Run Cms data post install to update user ids.
+		return $this->postInstallCmsData($db);
+	}
+
+	/**
 	 * Cms tables and data post install process.
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
