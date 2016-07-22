@@ -761,7 +761,7 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to update the user id of the sample data content to the new rand user id.
+	 * Sample data tables and data post install process.
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
@@ -771,27 +771,36 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallSampleData($db)
 	{
-		// Update the user ids.
-		$db->updateUserIds(array(), $db);
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
 	}
 
 	/**
-	 * Method to update the user id of the sample data content to the new rand user id.
+	 * Cms tables and data post install process.
 	 *
-	 * @param   array            $options  The options array.
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postInstallCmsData($db)
+	{
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
+	}
+
+	/**
+	 * Method to update the user id of sql data content to the new rand user id.
+	 *
 	 * @param   JDatabaseDriver  $db       Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function updateUserIds($options = array(), $db = null)
+	protected function updateUserIds($db)
 	{
-		if ($db === null && !$db = $this->initialise($options))
-		{
-			return false;
-		}
-
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
