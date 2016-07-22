@@ -850,8 +850,6 @@ class InstallationModelDatabase extends JModelBase
 			);
 			$db->execute();
 		}
-
-		return true;
 	}
 
 	/**
