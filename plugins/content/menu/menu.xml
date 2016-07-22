@@ -11,6 +11,7 @@
     <description>PLG_CONTENT_MENU_XML_DESCRIPTION</description>
     <files>
         <filename plugin="menu">menu.php</filename>
+	    <folder>forms</folder>
     </files>
     <languages>
         <language tag="en-GB">en-GB.plg_content_menu.ini</language>
