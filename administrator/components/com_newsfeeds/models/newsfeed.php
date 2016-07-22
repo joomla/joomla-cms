@@ -503,7 +503,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Check if article is associated
 		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
 
 		if ($canCreateCategories)

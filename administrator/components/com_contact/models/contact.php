@@ -529,7 +529,6 @@ class ContactModelContact extends JModelAdmin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		// Check if article is associated
 		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_contact');
 
 		if ($canCreateCategories)

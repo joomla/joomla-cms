@@ -482,11 +482,10 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since    3.0
+	 * @since    3.6.1
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Check if article is associated
 		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_banners');
 
 		if ($canCreateCategories)

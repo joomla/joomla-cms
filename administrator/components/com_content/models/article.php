@@ -723,7 +723,7 @@ class ContentModelArticle extends JModelAdmin
 	}
 
 	/**
-     * Allows preprocessing of the JForm object.
+	 * Allows preprocessing of the JForm object.
 	 *
 	 * @param   JForm   $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -735,7 +735,6 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		// Check if article is associated
 		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_content');
 
 		if ($canCreateCategories)
