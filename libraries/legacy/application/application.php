@@ -609,7 +609,7 @@ class JApplication extends JApplicationBase
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
 	 *
 	 * @since   11.1
 	 * @deprecated  4.0
