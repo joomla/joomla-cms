@@ -44,6 +44,12 @@ class InstallationControllerInstallDatabase extends JControllerBase
 		// Attempt to create the database tables.
 		$return = $db->createTables($options);
 
+		// We need to run this to update joomla.sql created user id.
+		if ($return)
+		{
+			$return = $db->updateUserIds($options);
+		}
+
 		$r = new stdClass;
 		$r->view = 'install';
 
