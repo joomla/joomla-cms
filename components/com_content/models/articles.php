@@ -261,10 +261,6 @@ class ContentModelArticles extends JModelList
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
-		// Join on voting table
-		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
