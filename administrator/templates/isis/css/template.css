@@ -6219,6 +6219,9 @@ th .tooltip-inner {
 .alert-link {
 	font-weight: bold;
 }
+.alert .alert-link {
+	color: #66512c;
+}
 .alert-success .alert-link {
 	color: #2b542c;
 }

@@ -315,7 +315,7 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method will return a user object
 	 *
-	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
+	 * If options['autoregister'] is true, if the user doesn't exist yet they will be created
 	 *
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).

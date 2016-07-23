@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_contact/helpers/route.php';
+JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/helpers/route.php');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 

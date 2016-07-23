@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
 
-require_once __DIR__ . '/../../helpers/modules.php';
+JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 
 /**
  * ModulesPosition Field class for the Joomla Framework.
