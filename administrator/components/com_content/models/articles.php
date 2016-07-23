@@ -204,7 +204,7 @@ class ContentModelArticles extends JModelList
 
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, v.rating_sum, v.rating_count';
+			$assogroup .= ', v.rating_sum, v.rating_count';
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
@@ -326,10 +326,11 @@ class ContentModelArticles extends JModelList
 
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$orderCol = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
+			$orderCol  = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
+			$orderDirn = '';
 		}
 
-		$query->order($db->escape($orderCol));
+		$query->order($db->escape($orderCol) . ' '. $orderDirn);
 
 		return $query;
 	}
