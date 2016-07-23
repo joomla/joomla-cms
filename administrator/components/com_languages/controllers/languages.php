@@ -29,9 +29,7 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	 */
 	public function getModel($name = 'Language', $prefix = 'LanguagesModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

@@ -10,10 +10,21 @@
 {
 	$(document).ready(function()
 	{
+		var $w = $(window);
+
 		$('*[rel=tooltip]').tooltip();
 
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
+
+		$('fieldset.btn-group').each(function() {
+			// Handle disabled, prevent clicks on the container, and add disabled style to each button
+			if ($(this).prop('disabled')) {
+				$(this).css('pointer-events', 'none').off('click');
+				$(this).find('.btn').addClass('disabled');
+			}
+		});
+
 		$('.btn-group label:not(.active)').click(function()
 		{
 			var label = $(this);
@@ -58,28 +69,47 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		var menuScroll = $('#menu > li > ul')
-		var emptyMenu  = $('#nav-empty');
-		var menuWidth;
+		var menuScroll = $('#menu > li > ul'),
+			emptyMenu  = $('#nav-empty');
 
-		$('#menu > li > a').on('click mouseenter', function() {
+		$('#menu > li').on('click mouseenter', function() {
 
+			// Set max-height (and width if scroll) for dropdown menu, depending of window height
+			var $dropdownMenu    = $(this).children('ul'),
+				windowHeight     = $w.height(),
+				linkHeight       = $(this).outerHeight(true),
+				statusHeight     = $('#status').outerHeight(true),
+				menuHeight       = $dropdownMenu.height(),
+				menuOuterHeight  = $dropdownMenu.outerHeight(true),
+				scrollMenuWidth  = $dropdownMenu.width() + 15,
+				maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
+
+			if (maxHeight < menuHeight) {
+				$dropdownMenu.css('width', scrollMenuWidth);
+			} else if (maxHeight > menuHeight) {
+				$dropdownMenu.css('width', 'auto');
+			}
+
+			$dropdownMenu.css('max-height', maxHeight);
+
+			// Get the submenu position
 			linkWidth        = $(this).outerWidth(true);
-			menuWidth        = $(this).next('ul').width();
-			linkPaddingLeft  = $(this).css('padding-left');
-			offsetLeft       = Math.round($(this).parents('li').offset().left) - parseInt(linkPaddingLeft);
+			menuWidth        = $dropdownMenu.width();
+			linkPaddingLeft  = $(this).children('a').css('padding-left');
+			offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
 
 			emptyMenu.empty().hide();
 
 		});
 
-		menuScroll.find('.dropdown-submenu > a').on('mouseenter', function() {
+		menuScroll.find('.dropdown-submenu > a').on('mouseover', function() {
 
-			var $self        = $(this);
-			var dropdown     = $self.next('ul');
-			var submenuWidth = dropdown.outerWidth();
-			var offsetTop    = $self.offset().top;
-			var scroll       = $(window).scrollTop() + 8;
+			var $self           = $(this),
+				dropdown        = $self.next('ul'),
+				submenuWidth    = dropdown.outerWidth(),
+				offsetTop       = $self.offset().top,
+				linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($(this).css('padding-top')),
+				scroll          = $w.scrollTop() + linkPaddingTop;
 
 			// Set the submenu position
 			if ($('html').attr('dir') == 'rtl')
@@ -101,6 +131,14 @@
 			dropdown.hide();
 			emptyMenu.show().html(dropdown.html());
 
+			// Check if the full element is visible. If not, adjust the position
+			if (emptyMenu.Jvisible() !== true)
+			{
+				emptyMenu.css({
+					top : ($w.height() - emptyMenu.outerHeight()) - $('#status').height()
+				});
+			}
+
 		});
 		menuScroll.find('a.no-dropdown').on('mouseenter', function() {
 
@@ -112,6 +150,27 @@
 			emptyMenu.empty().hide();
 
 		});
+
+		$.fn.Jvisible = function(partial,hidden)
+		{
+			if (this.length < 1)
+			{
+				return;
+			}
+
+			var $t = this.length > 1 ? this.eq(0) : this,
+				t  = $t.get(0)
+
+			var viewTop         = $w.scrollTop(),
+				viewBottom      = (viewTop + $w.height()) - $('#status').height(),
+				offset          = $t.offset(),
+				_top            = offset.top,
+				_bottom         = _top + $t.height(),
+				compareTop      = partial === true ? _bottom : _top,
+				compareBottom   = partial === true ? _top : _bottom;
+
+			return !!t.offsetWidth * t.offsetHeight && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+		};
 
 		/**
 		 * USED IN: All views with toolbar and sticky bar enabled

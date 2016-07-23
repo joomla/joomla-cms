@@ -78,7 +78,7 @@ if ($menuType == '')
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'a.menutype', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="center nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
@@ -203,7 +203,7 @@ if ($menuType == '')
 							</div>
 						</td>
 						<td class="small hidden-phone">
-							<?php echo $this->escape($item->menutype); ?>
+							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
 						<td class="center hidden-phone">
 							<?php if ($item->type == 'component') : ?>
