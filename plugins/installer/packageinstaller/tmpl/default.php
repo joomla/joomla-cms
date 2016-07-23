@@ -43,15 +43,8 @@ $max_upload_size   = JHtml::_('number.bytes', $max_upload_size_b);
 <div class="control-group">
 	<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 	<div class="controls">
-		<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
-	</div>
-	<div class="controls">
-		<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_EFFECTIVE_SIZE_LIMIT', $max_upload_size, number_format($max_upload_size_b)); ?><br>
-		<span class="small">
-			<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_CONFIG_MEMORY_LIMIT', $ini_memory_limit, number_format($ini_memory_limit_b)); ?><br>
-			<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_CONFIG_POST_MAX_SIZE', $ini_post_max_size, number_format($ini_post_max_size_b)); ?><br>
-			<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_CONFIG_UPLOAD_MAX_SIZE', $ini_upload_max_filesize, number_format($ini_upload_max_filesize_b)); ?><br>
-		</span>
+		<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+		<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_EFFECTIVE_SIZE_LIMIT', $max_upload_size); ?>
 	</div>
 </div>
 <div class="form-actions">
