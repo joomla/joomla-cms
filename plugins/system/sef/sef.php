@@ -153,8 +153,8 @@ class PlgSystemSef extends JPlugin
 		// Replace all unknown protocols in CSS background image.
 		if (strpos($buffer, 'style=') !== false)
 		{
-			$regex  = '#style=\s*[\'\"](.*):\s*url\s*\([\'\"]?(?!/|' . $protocols . '|\#)([^\)\'\"]+)[\'\"]?\)#m';
-			$buffer = preg_replace($regex, 'style="$1: url(\'' . $base . '$2$3\')', $buffer);
+			$regex  = '#style=\s*([\'\"])(.*):\s*url\s*\(([\'\"])?(?!/|' . $protocols . '|\#)([^\)\'\"]+)([\'\"]?)\)#m';
+			$buffer = preg_replace($regex, 'style=$1$2: url($3' . $base . '$4$5$6)', $buffer);
 			$this->checkBuffer($buffer);
 		}
 
