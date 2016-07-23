@@ -27,7 +27,7 @@ Is Joomla! for you?
 
 How to find a Joomla! translation?
 ---------------------
-* Repository of [accredited language packs](http://community.joomla.org/translations.html).
+* Repository of [accredited language packs](https://community.joomla.org/translations.html).
 * You can also [add languages](https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
 * Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site/Installing_New_Language)
 
