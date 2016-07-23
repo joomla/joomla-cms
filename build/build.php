@@ -118,6 +118,10 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
+	// Remove the testing sample data from all packages
+	'installation/sql/mysql/sample_testing.sql',
+	'installation/sql/postgresql/sample_testing.sql',
+	'installation/sql/sqlazure/sample_testing.sql',
 );
 
 /*

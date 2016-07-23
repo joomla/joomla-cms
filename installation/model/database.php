@@ -337,7 +337,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+				JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
 
 				return false;
 			}
@@ -354,7 +354,7 @@ class InstallationModelDatabase extends JModelBase
 				}
 				catch (RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_QUERY'), 'notice');
+					JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
 
 					return false;
 				}
@@ -754,7 +754,7 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to update the user id of the sample data content to the new rand user id.
+	 * Sample data tables and data post install process.
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
@@ -763,6 +763,62 @@ class InstallationModelDatabase extends JModelBase
 	 * @since   3.1
 	 */
 	protected function postInstallSampleData($db)
+	{
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
+	}
+
+	/**
+	 * Method to install the cms data.
+	 *
+	 * @param   array  $options  The options array.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function installCmsData($options)
+	{
+		// Attempt to create the database tables.
+		if (!$this->createTables($options))
+		{
+			return false;
+		}
+
+		if (!$db = $this->initialise($options))
+		{
+			return false;
+		}
+
+		// Run Cms data post install to update user ids.
+		return $this->postInstallCmsData($db);
+	}
+
+	/**
+	 * Cms tables and data post install process.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postInstallCmsData($db)
+	{
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
+	}
+
+	/**
+	 * Method to update the user id of sql data content to the new rand user id.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function updateUserIds($db)
 	{
 		// Create the ID for the root user.
 		$userId = self::getUserId();
