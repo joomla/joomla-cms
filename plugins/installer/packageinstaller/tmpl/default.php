@@ -27,12 +27,31 @@ JFactory::getDocument()->addScriptDeclaration('
 		}
 	};
 ');
+
+// Read INI settings which affects upload size limits
+$ini_memory_limit          = JHtml::_('number.bytes', ini_get('memory_limit'));
+$ini_memory_limit_b        = JHtml::_('number.bytes', $ini_memory_limit, '');
+$ini_post_max_size         = JHtml::_('number.bytes', ini_get('post_max_size'));
+$ini_post_max_size_b       = JHtml::_('number.bytes', $ini_post_max_size, '');
+$ini_upload_max_filesize   = JHtml::_('number.bytes', ini_get('upload_max_filesize'));
+$ini_upload_max_filesize_b = JHtml::_('number.bytes', $ini_upload_max_filesize, '');
+
+$max_upload_size_b = min($ini_memory_limit_b, $ini_post_max_size_b, $ini_upload_max_filesize_b);
+$max_upload_size   = JHtml::_('number.bytes', $max_upload_size_b);
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 <div class="control-group">
 	<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 	<div class="controls">
 		<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+	</div>
+	<div class="controls">
+		<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_EFFECTIVE_SIZE_LIMIT', $max_upload_size, number_format($max_upload_size_b)); ?><br>
+		<span class="small">
+			<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_CONFIG_MEMORY_LIMIT', $ini_memory_limit, number_format($ini_memory_limit_b)); ?><br>
+			<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_CONFIG_POST_MAX_SIZE', $ini_post_max_size, number_format($ini_post_max_size_b)); ?><br>
+			<?php echo JText::sprintf('PLG_INSTALLER_PACKAGEINSTALLER_CONFIG_UPLOAD_MAX_SIZE', $ini_upload_max_filesize, number_format($ini_upload_max_filesize_b)); ?><br>
+		</span>
 	</div>
 </div>
 <div class="form-actions">
