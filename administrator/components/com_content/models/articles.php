@@ -206,7 +206,7 @@ class ContentModelArticles extends JModelList
 		{
 			$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, v.rating_sum, v.rating_count';
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
@@ -321,8 +321,13 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$orderCol = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
+		$orderCol = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
+
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			$orderCol = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
+		}
 
 		$query->order($db->escape($orderCol));
 
