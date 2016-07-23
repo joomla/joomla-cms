@@ -940,33 +940,33 @@ abstract class JFormField
 			$options['hiddenLabel'] = true;
 		}
 
-		if ($eshowonstring = $this->getAttribute('showon_ext'))
+		if ($renderonstring = $this->getAttribute('renderon'))
 		{
 			$result = null;
 			$lastop = null;
 			
-			foreach (preg_split('%\[(AND|OR)\]%', $eshowonstring, -1, PREG_SPLIT_DELIM_CAPTURE) as $eshowonfield)
+			foreach (preg_split('%\[(AND|OR)\]%', $renderonstring, -1, PREG_SPLIT_DELIM_CAPTURE) as $renderonfield)
 			{
-				if ($eshowonfield == 'AND' or $eshowonfield == 'OR')
+				if ($renderonfield == 'AND' or $renderonfield == 'OR')
 				{
-					$lastop = $eshowonfield;
+					$lastop = $renderonfield;
 				}
 				else
 				{
 					// Split field into 3 items: "global" or component name, parameter name, list of expected value
-					$eshowon = explode(':', $eshowonfield, 3);
+					$renderon = explode(':', $renderonfield, 3);
 					
 					// Get global config if first part is 'global' otherwise it is a component name
-					$config = ($eshowon[0] == 'global') ?
+					$config = ($renderon[0] == 'global') ?
 						JFactory::getConfig() :
-						JComponentHelper::getParams($eshowon[0]);
+						JComponentHelper::getParams($renderon[0]);
 						
 					// Get parameter value
-					$esetting = $config->get($eshowon[1], null);
+					$currsetting = $config->get($renderon[1], null);
 					
 					// Get showon_ext expected values and compare with parameter value
-					$evalues = explode(',', $eshowon[2]);
-					if ($esetting !== null and in_array($esetting, $evalues))
+					$onvalues = explode(',', $renderon[2]);
+					if ($currsetting !== null and in_array($currsetting, $onvalues))
 					{
 						if ($result === null or $lastop == 'OR')
 						{
