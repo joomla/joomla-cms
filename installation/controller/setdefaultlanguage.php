@@ -141,6 +141,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					if (!$model->addLanguage($siteLang, $sefLangString))
 					{
 						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name));
+
 						$error = true;
 					}
 				}
@@ -148,18 +149,21 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 				if (!$error && !$model->addMenuGroup($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name));
+
 					$error = true;
 				}
 
 				if (!$error && !$model->addMenuItem($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name));
+
 					$error = true;
 				}
 
 				if (!$error && !$model->addModuleMenu($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang));
+
 					$error = true;
 				}
 
@@ -174,6 +178,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 						if ($tableCategory === false)
 						{
 							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
+
 							$error = true;
 						}
 					}
@@ -185,6 +190,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 						if (!$model->addArticle($siteLang, $categoryId))
 						{
 							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
+
 							$error = true;
 						}
 					}
