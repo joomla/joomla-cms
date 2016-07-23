@@ -92,9 +92,10 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		}
 
 		// Check if user has activated the multilingual site
-		$data = $this->input->post->get('jform', array(), 'array');
+		$data                = $this->input->post->get('jform', array(), 'array');
+		$activeMultilanguage = (int) $data['activateMultilanguage'];
 
-		if ((int) $data['activateMultilanguage'])
+		if ($activeMultilanguage)
 		{
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
@@ -121,11 +122,12 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
-			$siteLanguages       = $model->getInstalledlangsFrontend();
-			$groupedAssociations = array();
+			$siteLanguages = $model->getInstalledlangsFrontend();
 
 			foreach ($siteLanguages as $siteLang)
 			{
+				$error = false;
+
 				// Add Language Manager: Content Languages
 				$tableLanguage = JTable::getInstance('Language');
 
@@ -139,53 +141,60 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					if (!$model->addLanguage($siteLang, $sefLangString))
 					{
 						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name));
-						continue;
+
+						$error = true;
 					}
 				}
 
-				if (!$model->addMenuGroup($siteLang))
+				if (!$error && !$model->addMenuGroup($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name));
-					continue;
+
+					$error = true;
 				}
 
-				if (!$tableMenuItem = $model->addMenuItem($siteLang))
+				if (!$error && !$model->addMenuItem($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name));
-					continue;
+
+					$error = true;
 				}
 
-				$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
-
-				if (!$model->addModuleMenu($siteLang))
+				if (!$error && !$model->addModuleMenu($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang));
-					continue;
+
+					$error = true;
 				}
 
-				if ((int) $data['installLocalisedContent'])
+				$installContent = (int) $data['installLocalisedContent'];
+
+				if ($installContent)
 				{
-					if (!$tableCategory = $model->addCategory($siteLang))
+					if (!$error)
 					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
-						continue;
+						$tableCategory = $model->addCategory($siteLang);
+
+						if ($tableCategory === false)
+						{
+							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
+
+							$error = true;
+						}
 					}
 
-					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
-
-					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
+					if (!$error)
 					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
-						continue;
-					}
+						$categoryId = $tableCategory->id;
 
-					$groupedAssociations['com_content.item'][$siteLang->language] = $tableArticle->id;
+						if (!$model->addArticle($siteLang, $categoryId))
+						{
+							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
+
+							$error = true;
+						}
+					}
 				}
-			}
-
-			if (!$model->addAssociations($groupedAssociations))
-			{
-				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'));
 			}
 
 			if (!$model->disableModuleMainMenu())
