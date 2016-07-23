@@ -330,7 +330,7 @@ class ContentModelArticles extends JModelList
 			$orderDirn = '';
 		}
 
-		$query->order($db->escape($orderCol) . ' '. $orderDirn);
+		$query->order($db->escape($orderCol) . ' ' . $orderDirn);
 
 		return $query;
 	}
