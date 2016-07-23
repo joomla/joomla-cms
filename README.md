@@ -36,7 +36,7 @@ Learn Joomla!
 * Read ['Getting Started with Joomla!'](https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!) to learn the basics.
 * Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Portal:Beginners).
 
-How to extend Joomla?
+What are the benefits of Joomla?
 ---------------------
 * The functionality of a Joomla website can be extended by installing extensions that you can create (or download) to suit your needs.
 * There are many ready-made extensions that you can download and install.
