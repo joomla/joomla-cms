@@ -447,8 +447,8 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url      URL to the linked script.
-	 * @param   array    $attribs  Array of attributes.
+	 * @param   string  $url      URL to the linked script.
+	 * @param   array   $attribs  Array of attributes.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
@@ -488,9 +488,9 @@ class JDocument
 	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string   $url      URL to the linked script.
-	 * @param   string   $version  Version of the script.
-	 * @param   array    $attribs  Array of attributes.
+	 * @param   string  $url      URL to the linked script.
+	 * @param   string  $version  Version of the script.
+	 * @param   array   $attribs  Array of attributes.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
