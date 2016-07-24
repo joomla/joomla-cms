@@ -10,6 +10,15 @@ Date.WEEK   =  7 * Date.DAY;
 /************ START *************/
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 
+/** Sets the date for the current date without h/m/s. */
+Date.prototype.setDateOnly = function (date) {
+	var tmp = new Date(date);
+	this.setDate(1);
+	this.setFullYear(tmp.getFullYear());
+	this.setMonth(tmp.getMonth());
+	this.setDate(tmp.getDate());
+};
+
 /** The number of days per week **/
 Date.prototype.getLocalWeekDays = function (dateType, y) {
 	if (dateType != 'gregorian') {
@@ -351,9 +360,3 @@ Date.prototype.print = function (str, dateType, translate) {
 
 	return tmpDate;
 };
-
-// var ele = document.getElementsByTagName('FORM')
-//
-// if (ele.length > 1) ele = ele[0];
-// if (ele.addEventListener) ele.addEventListener("submitbutton", getJoomlaCalendarValuesFromAlt, false);
-// else if (ele.attachEvent) ele.attachEvent('onsubmit', getJoomlaCalendarValuesFromAlt);
