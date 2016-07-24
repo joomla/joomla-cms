@@ -193,7 +193,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 			// Populate old data for B/C.
 			// @deprecated 4.0 Use addScript('url', array('attrib' => 'value', ...));
-			if (isset($strAttr['mime']) && !is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
+			if (isset($strAttr['mime']) && !is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
@@ -212,7 +212,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			foreach ($strAttr['attribs'] as $attrib => $value)
 			{
 				// Don't add type attribute if document is HTML5 and it's a default mime type.
-				if ($attrib === 'type' && $document->isHtml5() && in_array($value, $defaultMimes))
+				if ($attrib === 'type' && $document->isHtml5() && in_array($value, $defaultJsMimes))
 				{
 					continue;
 				}
