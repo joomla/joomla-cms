@@ -457,6 +457,7 @@ class JDocument
 	public function addScript($url, $attribs = array())
 	{
 		// B/C before __DEPLOY_VERSION__
+		// @deprecated 4.0 Use addScript($url, array('attrib' => 'value', ...));
 		if (!is_array($attribs))
 		{
 			$argList = func_get_args();
