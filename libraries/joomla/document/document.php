@@ -447,20 +447,38 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string   $url      URL to the linked script.
+	 * @param   array    $attribs  Array of attributes.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
+	public function addScript($url, $attribs = array())
 	{
-		$this->_scripts[$url]['mime'] = $type;
-		$this->_scripts[$url]['defer'] = $defer;
-		$this->_scripts[$url]['async'] = $async;
+		// B/C before __DEPLOY_VERSION__
+		if (!is_array($attribs))
+		{
+			$argList = func_get_args();
+			$attribs = array();
+
+			if (!empty($argList[1]))
+			{
+				$attribs['type'] = $argList[1];
+			}
+
+			if (isset($argList[2]) && $argList[2])
+			{
+				$attribs['defer'] = 'defer';
+			}
+
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs['async'] = 'async';
+			}
+		}
+
+		$this->_scripts[$url]['attribs'] = isset($this->_scripts[$url]['attribs']) ? array_replace($this->_scripts[$url]['attribs'], $attribs) : $attribs;
 
 		return $this;
 	}
@@ -469,17 +487,15 @@ class JDocument
 	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string   $url      URL to the linked script
-	 * @param   string   $version  Version of the script
-	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer    Adds the defer attribute.
-	 * @param   boolean  $async    [description]
+	 * @param   string   $url      URL to the linked script.
+	 * @param   string   $version  Version of the script.
+	 * @param   array    $attribs  Array of attributes.
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
 	 */
-	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false)
+	public function addScriptVersion($url, $version = null, $attribs = array())
 	{
 		// Automatic version
 		if ($version === null)
@@ -492,7 +508,30 @@ class JDocument
 			$url .= '?' . $version;
 		}
 
-		return $this->addScript($url, $type, $defer, $async);
+		// B/C before __DEPLOY_VERSION__
+		// @deprecated 4.0 Use addScriptVersion($url, $version, array('attrib' => 'value', ...));
+		if (!is_array($attribs))
+		{
+			$argList = func_get_args();
+			$attribs = array();
+
+			if (!empty($argList[2]))
+			{
+				$attribs['type'] = $argList[2];
+			}
+
+			if (isset($argList[3]) && $argList[3])
+			{
+				$attribs['defer'] = 'defer';
+			}
+
+			if (isset($argList[4]) && $argList[4])
+			{
+				$attribs['async'] = 'async';
+			}
+		}
+
+		return $this->addScript($url, $attribs);
 	}
 
 	/**

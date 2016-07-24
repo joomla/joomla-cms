@@ -657,19 +657,22 @@ abstract class JHtml
 	/**
 	 * Write a `<script>` element to load a JavaScript file
 	 *
-	 * @param   string   $file            path to file.
-	 * @param   boolean  $framework       load the JS framework.
-	 * @param   boolean  $relative        path to file is relative to /media folder.
-	 * @param   boolean  $path_only       return the path to the file only.
-	 * @param   boolean  $detect_browser  detect browser to include specific browser js files.
-	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on.
+	 * @param   string   $file           Path to file.
+	 * @param   boolean  $framework      Load the JS framework.
+	 * @param   boolean  $relative       Path to file is relative to /media folder.
+	 * @param   boolean  $pathOnly       Return the path to the file only.
+	 * @param   boolean  $detectBrowser  Detect browser to include specific browser js files.
+	 * @param   boolean  $detectDebug    Detect debug to search for compressed files if debug is on.
+	 * @param   string   $version        Version of the script. null to auto generate.
+	 * @param   array    $attribs        Attributes of the script tag.
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
-	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
+	public static function script($file, $framework = false, $relative = false, $pathOnly = false, $detectBrowser = true, $detectDebug = true,
+		$version = '', $attribs = array()))
 	{
 		// Include MooTools framework
 		if ($framework)
@@ -702,7 +705,7 @@ abstract class JHtml
 
 			foreach ($includes as $include)
 			{
-				$document->addScript($include);
+				$document->addScriptVersion($include, $version, $attribs);
 			}
 		}
 	}

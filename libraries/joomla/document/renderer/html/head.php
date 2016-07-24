@@ -191,19 +191,33 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
+			// Populate old data for B/C.
+			// @deprecated 4.0 Use addScript('url', array('attrib' => 'value', ...));
+			if (isset($strAttr['mime']) && !is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
 
-			if ($strAttr['defer'])
+			if (isset($strAttr['defer']) && $strAttr['defer'])
 			{
 				$buffer .= ' defer="defer"';
 			}
 
-			if ($strAttr['async'])
+			if (isset($strAttr['async']) && $strAttr['async'])
 			{
 				$buffer .= ' async="async"';
+			}
+
+			// Add script tag attributes.
+			foreach ($strAttr['attribs'] as $attrib => $value)
+			{
+				// Don't add type attribute if document is HTML5 and it's a default mime type.
+				if ($attrib === 'type' && $document->isHtml5() && in_array($value, $defaultMimes))
+				{
+					continue;
+				}
+
+				$buffer .= ' ' . htmlspecialchars($attrib) . '="' . (is_scalar($value) ? htmlspecialchars($value) : htmlspecialchars(json_encode($value)) ) . '"';
 			}
 
 			$buffer .= '></script>' . $lnEnd;
