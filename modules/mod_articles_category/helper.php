@@ -173,12 +173,18 @@ abstract class ModArticlesCategoryHelper
 
 			case 'rating_count':
 			case 'rating':
-				$articles->setState('list.ordering', 'a.ordering');
+				$articles->setState('list.ordering', $ordering);
 				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+
+				if (!JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$articles->setState('list.ordering', 'a.ordering');
+				}
+
 				break;
 
 			default:
-				$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
+				$articles->setState('list.ordering', $ordering);
 				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
 				break;
 		}
