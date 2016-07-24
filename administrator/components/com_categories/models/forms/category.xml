@@ -244,6 +244,14 @@
 		<fieldset name="basic">
 
 			<field
+				directory="/administrator/components/com_categories/"
+				label="Folder Test"
+				name="folderlist_test"
+				description="A test for the folderlist form field"
+				type="folderlist"
+			/>
+
+			<field
 				name="category_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
