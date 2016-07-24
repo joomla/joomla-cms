@@ -187,34 +187,23 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttr)
+		foreach ($document->_scripts as $strSrc => $strAttribs)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
 
-			// Populate old data for B/C.
-			// @deprecated 4.0 Use addScript('url', array('attrib' => 'value', ...));
-			if (isset($strAttr['mime']) && !is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
-			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
-			}
-
-			if (isset($strAttr['defer']) && $strAttr['defer'])
-			{
-				$buffer .= ' defer="defer"';
-			}
-
-			if (isset($strAttr['async']) && $strAttr['async'])
-			{
-				$buffer .= ' async="async"';
-			}
-
 			// Add script tag attributes.
-			foreach ($strAttr['attribs'] as $attrib => $value)
+			foreach ($strAttribs as $attrib => $value)
 			{
-				// Don't add type attribute if document is HTML5 and it's a default mime type.
-				if ($attrib === 'type' && $document->isHtml5() && in_array($value, $defaultJsMimes))
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
 				{
 					continue;
+				}
+
+				// B/C defer and async can be set to yes when using the old method.
+				if (in_array($attrib, array('defer', 'async')) && $value === true)
+				{
+					$value = $attrib;
 				}
 
 				$buffer .= ' ' . htmlspecialchars($attrib) . '="' . (is_scalar($value) ? htmlspecialchars($value) : htmlspecialchars(json_encode($value)) ) . '"';

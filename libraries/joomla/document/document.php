@@ -465,21 +465,21 @@ class JDocument
 
 			if (!empty($argList[1]))
 			{
-				$attribs['type'] = $argList[1];
+				$attribs['mime'] = $argList[1];
 			}
 
 			if (isset($argList[2]) && $argList[2])
 			{
-				$attribs['defer'] = 'defer';
+				$attribs['defer'] = true;
 			}
 
 			if (isset($argList[3]) && $argList[3])
 			{
-				$attribs['async'] = 'async';
+				$attribs['async'] = true;
 			}
 		}
 
-		$this->_scripts[$url]['attribs'] = isset($this->_scripts[$url]['attribs']) ? array_replace($this->_scripts[$url]['attribs'], $attribs) : $attribs;
+		$this->_scripts[$url] = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
 
 		return $this;
 	}
@@ -518,17 +518,17 @@ class JDocument
 
 			if (!empty($argList[2]))
 			{
-				$attribs['type'] = $argList[2];
+				$attribs['mime'] = $argList[2];
 			}
 
 			if (isset($argList[3]) && $argList[3])
 			{
-				$attribs['defer'] = 'defer';
+				$attribs['defer'] = true;
 			}
 
 			if (isset($argList[4]) && $argList[4])
 			{
-				$attribs['async'] = 'async';
+				$attribs['async'] = true;
 			}
 		}
 
