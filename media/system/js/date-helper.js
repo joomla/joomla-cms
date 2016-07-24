@@ -10,6 +10,15 @@ Date.WEEK   =  7 * Date.DAY;
 /************ START *************/
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 
+/** Checks date and time equality */
+Date.prototype.equalsTo = function(date) {
+	return ((this.getFullYear() == date.getFullYear()) &&
+	(this.getMonth() == date.getMonth()) &&
+	(this.getDate() == date.getDate()) &&
+	(this.getHours() == date.getHours()) &&
+	(this.getMinutes() == date.getMinutes()));
+};
+
 /** Sets the date for the current date without h/m/s. */
 Date.prototype.setDateOnly = function (date) {
 	var tmp = new Date(date);
@@ -29,15 +38,6 @@ Date.prototype.getLocalWeekDays = function (dateType, y) {
 	}
 };
 
-/** Checks date and time equality */
-Date.prototype.equalsTo = function(date) {
-	return ((this.getFullYear() == date.getFullYear()) &&
-	(this.getMonth() == date.getMonth()) &&
-	(this.getDate() == date.getDate()) &&
-	(this.getHours() == date.getHours()) &&
-	(this.getMinutes() == date.getMinutes()));
-};
-
 /** Sets the full date for the current date. */
 Date.prototype.setLocalDate = function (dateType, d) {
 	if (dateType != 'gregorian') {
@@ -48,20 +48,6 @@ Date.prototype.setLocalDate = function (dateType, d) {
 	}
 };
 
-/** Sets the date for the current date without h/m/s. */
-Date.prototype.setLocalDateOnly = function (dateType, date) {
-	if (dateType != 'gregorian') {
-		/** Modify to match the current calendar when overriding **/
-		return '';
-	} else {
-		var tmp = new Date(date);
-		this.setDate(1);
-		this.setFullYear(tmp.getFullYear());
-		this.setMonth(tmp.getMonth());
-		this.setDate(tmp.getDate());
-	}
-};
-
 /** Sets the month for the current date. */
 Date.prototype.setLocalMonth = function (dateType, m, d) {
 	if (dateType != 'gregorian') {
@@ -69,7 +55,22 @@ Date.prototype.setLocalMonth = function (dateType, m, d) {
 		return '';
 	} else {
 		if (d == undefined) this.getDate();
-		return this.setMonth(m, d);
+		return this.setMonth(m);
+	}
+};
+
+/** Sets the year for the current date. */
+Date.prototype.setOtherFullYear = function(dateType, y) {
+	if (dateType != 'gregorian') {
+		var date = new Date(this);
+		date.setJalaliUTCFullYear(y);
+		if (date.getJalaliUTCMonth() != this.getJalaliUTCMonth()) this.setJalaliUTCDate(29);
+		return this.setJalaliUTCFullYear(y);
+	} else {
+		var date = new Date(this);
+		date.setFullYear(y);
+		if (date.getMonth() != this.getMonth()) this.setDate(28);
+		return this.setUTCFullYear(y);
 	}
 };
 
@@ -83,6 +84,16 @@ Date.prototype.setLocalFullYear = function (dateType, y) {
 		date.setFullYear(y);
 		if (date.getMonth() != this.getMonth()) this.setDate(28);
 		return this.setFullYear(y);
+	}
+};
+
+/** Returns the year for the current date. */
+Date.prototype.getOtherFullYear = function (dateType) {
+	if (dateType != 'gregorian') {
+		/** Modify to match the current calendar when overriding **/
+		return '';
+	} else {
+		return this.getFullYear();
 	}
 };
 
@@ -103,6 +114,36 @@ Date.prototype.getLocalMonth = function (dateType) {
 		return '';
 	} else {
 		return this.getMonth();
+	}
+};
+
+/** Returns the number of days in the current Jalali month */
+Date.prototype.getJalaliUTCMonthDays = function(month) {
+	var year = this.getJalaliUTCFullYear();
+	if (typeof month == "undefined") {
+		month = this.getJalaliUTCMonth();
+	}
+	if (month == 11 && JalaliDate.checkDate(year, month+1, 30)) {
+		return 30;
+	} else {
+		return Date._JMD[month];
+	}
+};
+
+/** Returns the number of days in the current month */
+Date.prototype.getLocalMonthDays = function(dateType, month) {
+	if (dateType != 'gregorian') {
+		return this.getJalaliUTCMonthDays(month);
+	} else {
+		var year = this.getFullYear();
+		if (typeof month == "undefined") {
+			month = this.getMonth();
+		}
+		if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1) {
+			return 29;
+		} else {
+			return [31,28,31,30,31,30,31,31,30,31,30,31][month];
+		}
 	}
 };
 
@@ -132,23 +173,6 @@ Date.prototype.getLocalDate = function (dateType) {
 	}
 };
 
-/** Returns the number of days for the current month. */
-Date.prototype.getMonthDays = function(dateType, month) {
-	if (dateType != 'gregorian') {
-		/** Modify to match the current calendar when overriding **/
-		return '';
-	} else {
-		var year = this.getFullYear();
-		if (typeof month == "undefined") {
-			month = this.getMonth();
-		}
-		if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1) {
-			return 29;
-		} else {
-			return [31,28,31,30,31,30,31,31,30,31,30,31][month];
-		}
-	}
-};
 
 /** Returns the number of day in the year. */
 Date.prototype.getLocalDayOfYear = function(dateType) {
@@ -184,21 +208,10 @@ Date.gregorianToLocalCal = function(y, m, d) {
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 /************* END **************/
 
-/** Traslates to english numbers a string. */
-String.prototype.toEnglish = function(str) {
-	str = this.toString();
-	var nums = [0,1,2,3,4,5,6,7,8,9];
-	for (var i = 0; i < nums.length; i++) {
-		str = str.replace(new RegExp(nums[i], 'g'), i);
-	}
-
-	return str;
-};
-
 /** Method to parse a string and return a date. **/
 Date.parseFieldDate = function(str, fmt, dateType) {
 	if (dateType != 'gregorian')
-		str = str.toEnglish();
+		str = Date.toEnglish(str);
 
 	var today = new Date();
 	var y = 0;
@@ -209,6 +222,7 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 	var i = 0, j = 0;
 	var hr = 0;
 	var min = 0;
+	var sec = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (!a[i])
 			continue;
@@ -260,8 +274,9 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 	if (isNaN(d)) d = today.getDate();
 	if (isNaN(hr)) hr = today.getHours();
 	if (isNaN(min)) min = today.getMinutes();
+	if (isNaN(sec)) sec = today.getSeconds();
 	if (y != 0 && m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
+		return new Date(y, m, d, hr, min, sec);
 	y = 0; m = -1; d = 0;
 	for (i = 0; i < a.length; ++i) {
 		if (a[i].search(/[a-zA-Z]+/) != -1) {
@@ -287,7 +302,7 @@ Date.parseFieldDate = function(str, fmt, dateType) {
 	if (y == 0)
 		y = today.getFullYear();
 	if (m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
+		return new Date(y, m, d, hr, min, sec);
 	return today;
 };
 
@@ -356,7 +371,7 @@ Date.prototype.print = function (str, dateType, translate) {
 
 	var tmpDate = str.replace(re, function (par) { return s[par] || par; });
 	if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && dateType != 'gregorian' && translate)
-		tmpDate = tmpDate.convertNumbers();
+		tmpDate = Date.convertNumbers(tmpDate);
 
 	return tmpDate;
 };

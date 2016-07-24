@@ -172,7 +172,9 @@
 			/** Output the date **/
 			if (self.params.dateType == 'gregorian') {
 				self.params.inputField.value = self.date.print(self.params.dateFormat, self.params.dateType, true);
+				console.log(self.params.inputField.value); // @TODO Remove
 				self.params.inputField.setAttribute('data-alt-value', self.date.print('%Y-%m-%d %H:%M:%S', self.params.dateType, false));
+				console.log(self.params.inputField.getAttribute('data-alt-value')); // @TODO Remove
 			} else {
 				self.params.inputField.setAttribute('data-alt-value', self.date.print('%Y-%m-%d %H:%M:%S', 'gregorian', false));
 				self.params.inputField.value = self.date.print(self.params.dateFormat, self.params.dateType, true);
@@ -337,46 +339,47 @@
 				}
 
 				self.dateClicked = false;
-				var year = date.getFullYear(), mon = date.getMonth();
+				var year = date.getLocalFullYear(self.params.dateType), mon = date.getLocalMonth(self.params.dateType);
 				switch (el.navtype) {
 					case 400:
 						break;
 					case -2:                                                                             // Prev year
 						if (!self.params.compressedHeader)
 							if (year > self.params.minYear) {
-								date.setFullYear(year - 1);
+								date.setOtherFullYear(self.params.dateType, year - 1);
 							}
 						break;
+
 					case -1:                                                                             // Prev month
-						var day = date.getDate();
+						var day = date.getLocalDate(self.params.dateType);
 						if (mon > 0) {
-							var max = date.getMonthDays(mon - 1);
-							if (day > max) date.setDate(max);
-							date.setMonth(mon - 1);
+							var max = date.getLocalMonthDays(self.params.dateType, mon - 1);
+							if (day > max) date.setLocalDate(self.params.dateType, max);
+							date.setLocalMonth(self.params.dateType, mon - 1);
 						} else if (year-- > self.params.minYear) {
 							date.setFullYear(year);
-							var max = date.getMonthDays(11);
-							if (day > max) date.setDate(max);
-							date.setMonth(11);
+							var max = date.getLocalMonthDays(self.params.dateType, 11);
+							if (day > max) date.setLocalDate(self.params.dateType, max);
+							date.setLocalMonth(self.params.dateType, 11);
 						}
 						break;
 					case 1:                                                                             // Next month
-						var day = date.getDate();
+						var day = date.getLocalDate(self.params.dateType);
 						if (mon < 11) {
-							var max = date.getMonthDays(mon + 1);
-							if (day > max) date.setDate(max);
-							date.setMonth(mon + 1);
+							var max = date.getLocalMonthDays(self.params.dateType, mon + 1);
+							if (day > max) date.setLocalDate(self.params.dateType, max);
+							date.setLocalMonth(self.params.dateType, mon + 1);
 						} else if (year < self.params.maxYear) {
 							date.setFullYear(year + 1);
-							var max = date.getMonthDays(0);
-							if (day > max) date.setDate(max);
-							date.setMonth(0);
+							var max = date.getLocalMonthDays(self.params.dateType, 0);
+							if (day > max) date.setLocalDate(self.params.dateType, max);
+							date.setLocalMonth(self.params.dateType, 0);
 						}
 						break;
 					case 2:                                                                             // Next year
 						if (!self.params.compressedHeader)
 							if (year < self.params.maxYear) {
-								date.setFullYear(year + 1);
+								date.setOtherFullYear(self.params.dateType, year + 1);
 							}
 						break;
 					case 0:                                                                             // Today
@@ -398,27 +401,6 @@
 			if (!self)
 				return false;
 
-			function prevDay() {                        // Go to yesterday
-				var date = new Date(self.date);
-				date.setDate(date.getDate() - step);
-				setDate(date);
-			}
-			function nextDay() {                        // Go to tomorrow
-				var date = new Date(self.date);
-				date.setDate(date.getDate() + step);
-				setDate(date);
-			}
-			function prevWeek() {                       // Go to next week
-				var date = new Date(self.date);
-				date.setDate(date.getDate() - step);
-				setDate(date);
-			}
-			function nextWeek() {                       // Go to previous week
-				var date = new Date(self.date);
-				date.setDate(date.getDate() + step);
-				setDate(date);
-			}
-
 			ev = window.event ? event : e;
 			var K = ev.keyCode;
 			if (self.params.direction == 'rtl') {       // rtl <> ltr exchange keys
@@ -434,16 +416,24 @@
 					close();
 					break;
 				case 37:                                // KEY left
-					prevDay();
+					var date = new Date(self.date);
+					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) - step);
+					setDate(date);
 					break;
 				case 38:                                // KEY up
-					prevWeek();
+					var date = new Date(self.date);
+					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) + step);
+					setDate(date);
 					break;
 				case 39:                                // KEY right
-					nextDay();
+					var date = new Date(self.date);
+					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) + step);
+					setDate(date);
 					break;
 				case 40:                                // KEY down
-					nextWeek();
+					var date = new Date(self.date);
+					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) - step);
+					setDate(date);
 					break;
 				case 13:                                // KEY enter
 					cellClick(self.currentDateEl, ev);
@@ -693,27 +683,27 @@
 				TY = today.getLocalFullYear(self.params.dateType),
 				TM = today.getLocalMonth(self.params.dateType),
 				TD = today.getLocalDate(self.params.dateType);
-			var year = date.getLocalFullYear(self.params.dateType);
+			var year = date.getOtherFullYear(self.params.dateType);
 
 			if (year < self.params.minYear) {                                                                   // Check min,max year
 				year = self.params.minYear;
-				date.setLocalFullYear(self.params.dateType, year);
+				date.getOtherFullYear(self.params.dateType, year);
 			} else if (year > self.params.maxYear) {
 				year = self.params.maxYear;
-				date.setLocalFullYear(self.params.dateType, year);
+				date.getOtherFullYear(self.params.dateType, year);
 			}
 
 			self.params.firstDayOfWeek = firstDayOfWeek;
 			self.date = new Date(date);
-			var month = date.getMonth();
-			var mday = date.getDate();
+			var month = date.getLocalMonth(self.params.dateType);
+			var mday = date.getLocalDate(self.params.dateType);
 
 			// Compute the first day that would actually be displayed in the calendar, even if it's from the previous month.
-			date.setDate(1);
+			date.setLocalDate(self.params.dateType, 1);
 			var day1 = (date.getDay() - self.params.firstDayOfWeek) % 7;
 			if (day1 < 0) { day1 += 7; }
-			date.setDate( - day1);
-			date.setDate(date.getDate() + 1);
+			date.setLocalDate(self.params.dateType, - day1);
+			date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) + 1);
 
 			var row = self.tbody.firstChild;
 			var ar_days = self.ar_days = new Array();
@@ -801,25 +791,21 @@
 		var checkInputs = function () {
 			// Get the date from the input
 			var isNew = false, xdate = '';
-			var inputValueDate = Date.parseFieldDate(self.params.inputField.value, self.params.dateFormat);
-			var inputAltValueDate = Date.parseFieldDate(self.params.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S');
+			console.log(self.params.inputField.value); // @TODO Remove
+			var inputValueDate = Date.parseFieldDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType);
+			var inputAltValueDate = Date.parseFieldDate(self.params.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', self.params.dateType);
 			if (self.params.inputField.value.length) {
-				if (self.params.inputField.value != '0000-00-00 00:00:00' || self.params.inputField.value != '' ) {
+				if (self.params.inputField.getAttribute('data-alt-value') != '0000-00-00 00:00:00' || self.params.inputField.value != '' ) {
 					if (inputValueDate && inputAltValueDate && inputValueDate.equalsTo(inputAltValueDate)) {
-						if (self.params.dateType != 'gregorian') {
-							if (Date.checkLocalDate(inputValueDate.getLocalFullYear(self.params.dateType)), inputValueDate.getLocalMonth(self.params.dateType), inputValueDate.getLocalDay(self.params.dateType)) {
-								self.date = inputValueDate;
-							} else {
-								xdate = inputAltValueDate ? inputAltValueDate : new Date();
-							}
-						} else {
-							self.date = inputValueDate;
-						}
+						console.log('Equality ' + inputValueDate + " " + inputAltValueDate); // @TODO Remove
+						self.date = new Date(inputValueDate);
 					} else {
+						console.log('Non equality '); // @TODO Remove
 						self.date = new Date();
 					}
 				}
 			} else {
+				console.log('Empty input '); // @TODO Remove
 				self.date = new Date();
 			}
 		};
