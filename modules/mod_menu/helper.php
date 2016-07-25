@@ -115,7 +115,16 @@ class ModMenuHelper
 
 					if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false))
 					{
-						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
+						/*
+						 * Translate $items->params->get('secure') into $ssl values for JRoute::_() as follows:
+						 *
+						 * 'secure'			$ssl
+						 *   0 (Ignore)			 0 (no change)
+						 *   1 (On)			 1 (make secure)
+						 *  -1 (Off)			 2 (make unsecure)
+						 */
+						$ssl = $item->params->get('secure') >= 0 ? $item->params->get('secure') : 2;
+						$item->flink = JRoute::_($item->flink, true, $ssl);
 					}
 					else
 					{
