@@ -293,7 +293,7 @@ class JoomlaInstallerScript
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
 
-			// Plug-ins
+			// Plugins
 			array('plugin', 'gmail', 'authentication', 0),
 			array('plugin', 'joomla', 'authentication', 0),
 			array('plugin', 'ldap', 'authentication', 0),

@@ -68,7 +68,7 @@ class PluginManagerPage extends AdminManagerPage
 			);
 
 	/**
-	 * Get state  of a Plugin in the Plug-in Manager: Plugin Items screen.
+	 * Get state  of a Plugin in the Plugin Manager: Plugin Items screen.
 	 *
 	 * @param   string   $name	  Plugin Name
 	 * 
