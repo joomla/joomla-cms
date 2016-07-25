@@ -212,14 +212,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 					$value = $attrib;
 				}
 
-				if (is_scalar($value))
-				{
-					$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-				}
-				else
-				{
-					$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '="' . htmlspecialchars(json_encode($value), ENT_COMPAT, 'UTF-8') . '"';
-				}
+				// Json encode value is it's an array.
+				$value = !is_scalar($value) ? json_encode($value) : $value;
+
+				// Add attribute to script tag output.
+				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 			}
 
 			$buffer .= '></script>' . $lnEnd;
