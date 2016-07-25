@@ -33,6 +33,11 @@ class UsersControllerRemind extends UsersController
 		$model = $this->getModel('Remind', 'UsersModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
+		$uParams = JComponentHelper::getParams('com_users');
+
+		// If "usesecure" is set we have to route back to HTTP protocol
+		$useSSL = ($uParams->get('usesecure') ? 2 : 0);
+
 		// Submit the password reset request.
 		$return = $model->processRemindRequest($data);
 
@@ -47,7 +52,7 @@ class UsersControllerRemind extends UsersController
 
 			// Go back to the request form.
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'notice');
 
 			return false;
 		}
@@ -61,7 +66,7 @@ class UsersControllerRemind extends UsersController
 
 			// Proceed to step two.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(JRoute::_($route, false), $message);
+			$this->setRedirect(JRoute::_($route, false. $useSSL), $message);
 
 			return true;
 		}
