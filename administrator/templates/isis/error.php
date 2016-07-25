@@ -29,9 +29,7 @@ if (is_callable(array($doc, 'setHtml5')))
 }
 
 // Gets the FrontEnd Main page Uri
-$frontEndUri = JUri::getInstance(JUri::root());
-$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
-$mainPageUri = $frontEndUri->toString();
+$mainPageUri = JUri::siteScheme(JUri::root());
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
