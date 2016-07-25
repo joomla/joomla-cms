@@ -29,10 +29,10 @@ Feature: users
     When I block the user
     Then I should see the "User blocked." message
 
-#  Scenario: Unblock user
-#    Given I have a blocked user with user name "register"
-#    When I unblock the user
-#    Then I should see the "User enabled." message
+  Scenario: Unblock user
+    Given I have a blocked user with user name "register"
+    When I unblock the user
+    Then I should see the "User enabled." message
 
   Scenario: Delete user
     Given I have a user with user name "Editor"

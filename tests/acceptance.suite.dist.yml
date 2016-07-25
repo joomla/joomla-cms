@@ -37,4 +37,5 @@ gherkin:
         default:
             - Step\Acceptance\Administrator\Login
             - Step\Acceptance\Administrator\User
+            - Step\Acceptance\Site\UsersFrontend
             - Step\Acceptance\Administrator\Content
