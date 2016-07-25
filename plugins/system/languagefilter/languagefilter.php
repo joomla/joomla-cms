@@ -724,7 +724,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$associations = MenusHelper::getAssociations($active->id);
 				}
 
-				// Check if we are on the homepage
+				// Check if we are on the home page
 				$is_home = ($active->home
 					&& ($active_link == $current_link || $active_link == $current_link . 'index.php' || $active_link . '/' == $current_link));
 			}
