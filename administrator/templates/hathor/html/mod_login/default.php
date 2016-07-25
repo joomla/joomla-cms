@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
+$usersConfig = JComponentHelper::getParams('com_users');
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+<form action="<?php echo JRoute::_('index.php', true, $usersConfig->get('usesecure')); ?>" method="post" id="form-login">
 	<fieldset class="loginform">
 
 		<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
