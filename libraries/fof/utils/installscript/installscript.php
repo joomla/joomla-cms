@@ -1108,7 +1108,7 @@ abstract class FOFUtilsInstallscript
 	 */
 	protected function uninstallSubextensions($parent)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$status = new stdClass();
 		$status->modules = array();
@@ -1515,7 +1515,7 @@ abstract class FOFUtilsInstallscript
 	{
 		JLoader::import('joomla.installer.installer');
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$status = new stdClass();
 		$status->modules = array();
