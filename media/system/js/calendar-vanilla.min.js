@@ -95,7 +95,7 @@
 	/** The Calendar object constructor. */
 	JoomlaCalendar.init = function (elem) {
 		var self = this, hasClass, addClass, removeClass, stopCalEvent, addCalEvent,
-			removeCalEvent, createElement, updateTime,
+			removeCalEvent, createElement, updateTime, moveCursorBy,
 			setDate, element = elem.getElementsByTagName("button")[0],
 			defaultParams = {
 				inputField      : null,                // The input element parentNode.getElementsByTagName('INPUT')[0]
@@ -163,8 +163,21 @@
 
 		/** Method to set the date to the given date object */
 		setDate = function (date) {
-			if (!date.equalsTo(self.date))
+			if (!date.equalsTo(self.date)) {
 				self.date = date;
+				processCalendar(self.params.firstDayOfWeek, date);
+			}
+		};
+
+		/** Method to set the current date by a number, step */
+		moveCursorBy = function (step) {
+			var date = new Date(self.date); // self.date.getLocalDate(self.params.dateType)
+			console.log(date)
+			date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) - step);
+			console.log(date)
+			setDate(date);
+			console.log(date)
+			console.log(self.date)
 		};
 
 		/** Method to set the value for the input field */
@@ -402,44 +415,33 @@
 				return false;
 
 			ev = window.event ? event : e;
-			var K = ev.keyCode;
-			if (self.params.direction == 'rtl') {       // rtl <> ltr exchange keys
-				if (K === 37) K = 39;
-				if (K === 39) K = 37;
+			var K = parseInt(ev.keyCode);
+
+			if (self.params.direction == 'rtl') {
+				if (K == 37) K = 39;
+				else if (K == 39) K = 37;
 			}
-			var step = (K === 37 || K === 39) ? 1 : 7;
-			switch (K) {
-				case 32:                                // KEY space (now)
-					cellClick(self._nav_now);
-					break;
-				case 27:                                // KEY esc
-					close();
-					break;
-				case 37:                                // KEY left
-					var date = new Date(self.date);
-					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) - step);
-					setDate(date);
-					break;
-				case 38:                                // KEY up
-					var date = new Date(self.date);
-					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) + step);
-					setDate(date);
-					break;
-				case 39:                                // KEY right
-					var date = new Date(self.date);
-					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) + step);
-					setDate(date);
-					break;
-				case 40:                                // KEY down
-					var date = new Date(self.date);
-					date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) - step);
-					setDate(date);
-					break;
-				case 13:                                // KEY enter
-					cellClick(self.currentDateEl, ev);
-					break;
-				default:
-					return false;
+
+			if (K === 32) {                                // KEY space (now)
+				cellClick(self._nav_now);
+			}
+			if (K === 27) {                                // KEY esc (close)
+				close();
+			}
+			if (K === 13) {                                // KEY enter (select and close)
+				cellClick(self.currentDateEl, ev);
+			}
+			if (K === 38) {                                // KEY up (previous week)
+				moveCursorBy(7);
+			}
+			if (K === 40) {                                // KEY down (next week)
+				moveCursorBy( -7);
+			}
+			if (K === 37) {                                // KEY left (previous day)
+				moveCursorBy(1);
+			}
+			if (K === 39) {                                // KEY right (next day)
+				moveCursorBy( -1);
 			}
 			return stopCalEvent(ev);
 		};
@@ -746,7 +748,6 @@
 					}
 					cell.disabled = false;
 					cell.innerHTML = Date.convertNumbers(iday);                                                 // translated day number for each cell
-
 					if (!cell.disabled) {
 						cell.caldate = new Date(date);
 						if (current_month && iday == mday) {
