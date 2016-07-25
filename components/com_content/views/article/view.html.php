@@ -139,12 +139,10 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		/*
-		 * Check for no 'access-view' and empty full text,
-		 * - Redirect guest users to login
-		 * - Deny access to registered users with 403 code
-		 * NOTE: we do not recheck no access-view + show_noauth disabled ... since it was checked above
-		 */
+		// Check for no 'access-view' and empty fulltext,
+		// - Redirect guest users to login
+		// - Deny access to logged users with 403 code
+		// NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
 		if ($item->params->get('access-view') == false && !strlen($item->fulltext))
 		{
 			if ( $this->user->get('guest') )
@@ -162,10 +160,8 @@ class ContentViewArticle extends JViewLegacy
 			}
 		}
 
-		/*
-		 * NOTE: we do set the text to contain the fulltext but it is the responsibility
-		 * of the layout to check view-access and only use "introtext" for guests
-		 */
+		// NOTE: The following code (usually) sets the text to contain the fulltext, but it is the
+		// responsibility of the layout to check 'access-view' and only use "introtext" for guests
 		if ($item->params->get('show_intro', '1') == '1')
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
