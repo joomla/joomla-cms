@@ -22,37 +22,6 @@ class AcceptanceTester extends \Codeception\Actor
 	use _generated\AcceptanceTesterActions;
 
 	/**
-	 * Install joomla CMS
-	 *
-	 * @Given Joomla CMS is installed
-	 */
-	public function joomlaCMSIsInstalled()
-	{
-		// throw new \Codeception\Exception\Incomplete("Step `Joomla CMS is installed` is not defined");
-	}
-
-	/**
-	 * @When Login into Joomla administrator with username :arg1 and password :arg1
-	 */
-	public function loginIntoJoomlaAdministrator($username, $password)
-	{
-		$I = $this;
-		$I->amOnPage('administrator/');
-		$I->fillField(LoginPage::$usernameField, $username);
-		$I->fillField(LoginPage::$passwordField, $password);
-		$I->click(LoginPage::$loginButton);
-	}
-
-	/**
-	 * @Then I see administrator dashboard
-	 */
-	public function iSeeAdministratorDashboard()
-	{
-		$I = $this;
-		$I->waitForText(AdminPage::$controlPanelText, 4, AdminPage::$pageTitle);
-	}
-
-	/**
 	 * Method is to set Wait for page title
 	 *
 	 * @param   string   $title    Page Title text
