@@ -10,7 +10,7 @@ The first step to execute the System tests at Joomla-CMS a Joomla website. To do
 ```
 cd tests/codeception
 composer install
-# The following comand uses a Joomla Framework App that downloads the latests Joomla
+# The following command uses a Joomla Framework App that downloads the latests Joomla
 php cli/getjoomlacli.php
 ```
 
