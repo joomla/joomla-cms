@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
+
+$usersConfig = JComponentHelper::getParams('com_users');
+
 ?>
-<form action="<?php echo JRoute::_(htmlspecialchars(JUri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'), true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-vertical">
+<form action="<?php echo JRoute::_('index.php', true, $usersConfig->get('usesecure')); ?>" method="post" id="login-form" class="form-vertical">
 <?php if ($params->get('greeting')) : ?>
 	<div class="login-greeting">
 	<?php if ($params->get('name') == 0) : ?>
