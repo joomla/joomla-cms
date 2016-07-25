@@ -66,25 +66,19 @@ class JRoute
 		/*
 		 * Get the secure/unsecure URLs.
 		 *
-		 * If the first 5 characters of the BASE are 'https', then we are on an ssl connection over
-		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
-		 * 'http', then we need to do a quick string manipulation to switch schemes.
+		 * If the base URL is secure (uses HTTPS), then we need to add 'host', 'scheme' and 'port' to $scheme,
+		 * otherwise we have to set scheme and port according to $ssl (if $ssl is 1 we need HTTPS scheme,
+		 * if $ssl is 2 we need HTTP scheme, for details see JUri::siteScheme()) and we also need to add 'host',
+		 * 'scheme' and 'port' to $scheme.
 		 */
-		if ((int) $ssl || $uri->isSsl())
+		if ($uri->isSsl())
 		{
-			static $host_port;
-
-			if (!is_array($host_port))
-			{
-				$uri2 = JUri::getInstance();
-				$host_port = array($uri2->getHost(), $uri2->getPort());
-			}
-
-			// Determine which scheme we want.
-			$uri->setScheme(((int) $ssl === 1 || $uri->isSsl()) ? 'https' : 'http');
-			$uri->setHost($host_port[0]);
-			$uri->setPort($host_port[1]);
-			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
+			$scheme = array_merge($scheme, array('host', 'scheme', 'port'));
+		}
+		elseif ((int) $ssl)
+		{
+			$uri = JUri::siteScheme($uri, $ssl == 1);
+			$scheme = array_merge($scheme, array('host', 'scheme', 'port'));
 		}
 
 		$url = $uri->toString($scheme);
