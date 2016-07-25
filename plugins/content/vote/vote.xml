@@ -11,6 +11,7 @@
 	<description>PLG_VOTE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="vote">vote.php</filename>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_vote.ini</language>
