@@ -205,9 +205,8 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				{
 					$attrib = 'type';
 				}
-
 				// B/C defer and async can be set to yes when using the old method.
-				if (in_array($attrib, array('defer', 'async')) && $value === true)
+				elseif (in_array($attrib, array('defer', 'async')) && $value === true)
 				{
 					$value = $attrib;
 				}
