@@ -219,14 +219,14 @@ class FinderViewSearch extends JViewLegacy
 			$this->setLayout($layout);
 		}
 
-		// Configure the document meta-description.
+		// Configure the document meta description.
 		if (!empty($this->explained))
 		{
 			$explained = $this->escape(html_entity_decode(strip_tags($this->explained), ENT_QUOTES, 'UTF-8'));
 			$this->document->setDescription($explained);
 		}
 
-		// Configure the document meta-keywords.
+		// Configure the document meta keywords.
 		if (!empty($query->highlight))
 		{
 			$this->document->setMetadata('keywords', implode(', ', $query->highlight));
