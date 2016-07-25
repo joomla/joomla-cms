@@ -100,7 +100,7 @@ class MenuManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * function to check box
+	 * function to checkbox
 	 *
 	 * @param   string  $title  stores value of title
 	 *
