@@ -21,18 +21,6 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
-				<field
-					name="usesecure"
-					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
-					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
-					description="MOD_LOGIN_FIELD_USESECURE_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-			</fieldset>
 			<fieldset
 				name="advanced">
 				<field
