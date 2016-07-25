@@ -10,31 +10,21 @@ Date.WEEK   =  7 * Date.DAY;
 /************ START *************/
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 
-/** Checks date and time equality */
-Date.prototype.equalsTo = function(date) {
-	return ((this.getFullYear() == date.getFullYear()) &&
-	(this.getMonth() == date.getMonth()) &&
-	(this.getDate() == date.getDate()) &&
-	(this.getHours() == date.getHours()) &&
-	(this.getMinutes() == date.getMinutes()));
-};
+/********************** *************************/
+/**************** SETTERS ***********************/
+/********************** *************************/
 
 /** Sets the date for the current date without h/m/s. */
-Date.prototype.setDateOnly = function (date) {
-	var tmp = new Date(date);
-	this.setDate(1);
-	this.setFullYear(tmp.getFullYear());
-	this.setMonth(tmp.getMonth());
-	this.setDate(tmp.getDate());
-};
-
-/** The number of days per week **/
-Date.prototype.getLocalWeekDays = function (dateType, y) {
+Date.prototype.setLocalDateOnly = function (dateType, date) {
 	if (dateType != 'gregorian') {
 		/** Modify to match the current calendar when overriding **/
-		return 6;
+		return '';
 	} else {
-		return 6; // 7 days per week
+		var tmp = new Date(date);
+		this.setDate(1);
+		this.setFullYear(tmp.getFullYear());
+		this.setMonth(tmp.getMonth());
+		this.setDate(tmp.getDate());
 	}
 };
 
@@ -62,10 +52,8 @@ Date.prototype.setLocalMonth = function (dateType, m, d) {
 /** Sets the year for the current date. */
 Date.prototype.setOtherFullYear = function(dateType, y) {
 	if (dateType != 'gregorian') {
-		var date = new Date(this);
-		date.setJalaliUTCFullYear(y);
-		if (date.getJalaliUTCMonth() != this.getJalaliUTCMonth()) this.setJalaliUTCDate(29);
-		return this.setJalaliUTCFullYear(y);
+		/** Modify to match the current calendar when overriding **/
+		return '';
 	} else {
 		var date = new Date(this);
 		date.setFullYear(y);
@@ -84,6 +72,20 @@ Date.prototype.setLocalFullYear = function (dateType, y) {
 		date.setFullYear(y);
 		if (date.getMonth() != this.getMonth()) this.setDate(28);
 		return this.setFullYear(y);
+	}
+};
+
+/********************** *************************/
+/**************** GETTERS ***********************/
+/********************** *************************/
+
+/** The number of days per week **/
+Date.prototype.getLocalWeekDays = function (dateType, y) {
+	if (dateType != 'gregorian') {
+		/** Modify to match the current calendar when overriding **/
+		return 6;
+	} else {
+		return 6; // 7 days per week
 	}
 };
 
@@ -117,23 +119,30 @@ Date.prototype.getLocalMonth = function (dateType) {
 	}
 };
 
-/** Returns the number of days in the current Jalali month */
-Date.prototype.getJalaliUTCMonthDays = function(month) {
-	var year = this.getJalaliUTCFullYear();
-	if (typeof month == "undefined") {
-		month = this.getJalaliUTCMonth();
-	}
-	if (month == 11 && JalaliDate.checkDate(year, month+1, 30)) {
-		return 30;
+/** Returns the date. */
+Date.prototype.getLocalDate = function (dateType) {
+	if (dateType != 'gregorian') {
+		/** Modify to match the current calendar when overriding **/
+		return '';
 	} else {
-		return Date._JMD[month];
+		return this.getDate();
+	}
+};
+
+/** Returns the number of day in the year. */
+Date.prototype.getLocalDay = function(dateType) {
+	if (dateType  != 'gregorian') {
+		return '';
+	} else {
+		return this.getDay();
 	}
 };
 
 /** Returns the number of days in the current month */
 Date.prototype.getLocalMonthDays = function(dateType, month) {
 	if (dateType != 'gregorian') {
-		return this.getJalaliUTCMonthDays(month);
+		/** Modify to match the current calendar when overriding **/
+		return '';
 	} else {
 		var year = this.getFullYear();
 		if (typeof month == "undefined") {
@@ -163,17 +172,6 @@ Date.prototype.getLocalWeekNumber = function(dateType) {
 	}
 };
 
-/** Returns the date. */
-Date.prototype.getLocalDate = function (dateType) {
-	if (dateType != 'gregorian') {
-		/** Modify to match the current calendar when overriding **/
-		return '';
-	} else {
-		return this.getDate();
-	}
-};
-
-
 /** Returns the number of day in the year. */
 Date.prototype.getLocalDayOfYear = function(dateType) {
 	if (dateType  != 'gregorian') {
@@ -186,20 +184,22 @@ Date.prototype.getLocalDayOfYear = function(dateType) {
 	}
 };
 
-/** Returns the number of day in the year. */
-Date.prototype.getLocalDay = function(dateType) {
-	if (dateType  != 'gregorian') {
-		return '';
-	} else {
-		return this.getDay();
-	}
+/** Checks date and time equality */
+Date.prototype.equalsTo = function(date) {
+	return ((this.getFullYear() == date.getFullYear()) &&
+	(this.getMonth() == date.getMonth()) &&
+	(this.getDate() == date.getDate()) &&
+	(this.getHours() == date.getHours()) &&
+	(this.getMinutes() == date.getMinutes()));
 };
 
+/** Converts foreign date to gregorian date. */
 Date.localCalToGregorian = function(y, m, d) {
 	/** Modify to match the current calendar when overriding **/
 	return'';
 };
 
+/** Converts gregorian date to foreign date. */
 Date.gregorianToLocalCal = function(y, m, d) {
 	/** Modify to match the current calendar when overriding **/
 	return '';
@@ -207,6 +207,8 @@ Date.gregorianToLocalCal = function(y, m, d) {
 
 /** INTERFACE METHODS FOR THE CALENDAR PICKER **/
 /************* END **************/
+
+
 
 /** Method to parse a string and return a date. **/
 Date.parseFieldDate = function(str, fmt, dateType) {

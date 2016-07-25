@@ -2,9 +2,6 @@
  * @copyright   Dimitris Grammatikogiannis <d.grammatikogmail.com>
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-/** The Calendar picker **/
-/** https://github.com/dgt41/calendar-picker **/
-/** License GNU **/
 !(function(){
 	'use strict';
 	var JoomlaCalendar = function (selector) {
@@ -293,8 +290,8 @@
 				var date = null;
 				if (mon) {
 					date = new Date(self.date);
-					if (mon.month != date.getMonth()) {
-						date.setMonth(mon.month);
+					if (mon.month != date.getLocalMonth(self.params.dateType)) {
+						date.setLocalMonth(self.params.dateType, mon.month);
 						setDate(date);
 						self.dateClicked = false;
 						callHandler();
@@ -305,8 +302,8 @@
 					if (typeof el.parentNode.year != "undefined") year = target.parentNode;
 					if (year) {
 						date = new Date(self.date);
-						if (year.year != date.getFullYear()) {
-							date.setFullYear(year.year);
+						if (year.year != date.getLocalFullYear(self.params.dateType)) {
+							date.setFullYear(self.params.dateType, year.year);
 							setDate(date);
 							self.dateClicked = false;
 							callHandler();
@@ -331,7 +328,7 @@
 
 					if (!closing) { self.currentDateEl = el; }
 				}
-				self.date.setDateOnly(el.caldate);
+				self.date.setLocalDateOnly(self.params.dateType, el.caldate);
 				date = self.date;
 				var other_month = !(self.dateClicked = !el.otherMonth);
 				if (self.currentDateEl) { newdate = !el.disabled; }
@@ -344,7 +341,7 @@
 				}
 				date = new Date(self.date);
 				if (el.navtype == 0) {
-					self.date.setDateOnly(new Date()); // TODAY
+					self.date.setLocalDateOnly(self.params.dateType, new Date()); // TODAY
 					self.dateClicked = true;
 					callHandler();
 					close();
@@ -702,7 +699,7 @@
 
 			// Compute the first day that would actually be displayed in the calendar, even if it's from the previous month.
 			date.setLocalDate(self.params.dateType, 1);
-			var day1 = (date.getDay() - self.params.firstDayOfWeek) % 7;
+			var day1 = (date.getLocalDay(self.params.dateType) - self.params.firstDayOfWeek) % 7;
 			if (day1 < 0) { day1 += 7; }
 			date.setLocalDate(self.params.dateType, - day1);
 			date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) + 1);
@@ -730,7 +727,7 @@
 					var wday = date.getLocalDate(self.params.dateType);
 					cell.pos = i << 4 | j;
 					dpos[j] = cell;
-					var current_month = (date.getMonth() == month);
+					var current_month = (date.getLocalMonth(self.params.dateType) == month);
 					if (!current_month) {
 						if (self.params.showsOthers) {
 							cell.className += " disabled othermonth ";
