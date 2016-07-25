@@ -200,6 +200,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 					continue;
 				}
 
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if ($attrib === 'mime')
+				{
+					$attrib = 'type';
+				}
+
 				// B/C defer and async can be set to yes when using the old method.
 				if (in_array($attrib, array('defer', 'async')) && $value === true)
 				{
