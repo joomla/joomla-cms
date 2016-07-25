@@ -139,6 +139,33 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
+		/*
+		 * Check for no 'access-view' and empty full text,
+		 * - Redirect guest users to login
+		 * - Deny access to registered users with 403 code
+		 * NOTE: we do not recheck no access-view + show_noauth disabled ... since it was checked above
+		 */
+		if ($item->params->get('access-view') == false && !strlen($item->fulltext))
+		{
+			if ( $this->user->get('guest') )
+			{
+				$return = base64_encode(JUri::getInstance());
+				$login_url_with_return = JRoute::_('index.php?option=com_users&return='.$return);
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
+				$app->redirect($login_url_with_return, 403);
+			}
+			else
+			{
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$app->setHeader('status', 403, true);
+				return;
+			}
+		}
+
+		/*
+		 * NOTE: we do set the text to contain the fulltext but it is the responsibility
+		 * of the layout to check view-access and only use "introtext" for guests
+		 */
 		if ($item->params->get('show_intro', '1') == '1')
 		{
 			$item->text = $item->introtext . ' ' . $item->fulltext;
