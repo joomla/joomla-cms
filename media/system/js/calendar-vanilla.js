@@ -787,6 +787,8 @@
 			} else {
 				addCalEvent(element, 'click', show, false);
 			}
+
+			addCalEvent(element.parentNode.getElementsByTagName('INPUT')[0].form, 'submit', getJoomlaCalendarValuesFromAlt(), true);
 		};
 
 		var checkInputs = function () {
@@ -814,6 +816,7 @@
 		/** Method that initialises the initialises the calendar. **/
 		var init = function() {
 			self.destroy = destroy;
+			console.log('ooops');
 			self.element = elem;
 			self.params = {};
 
