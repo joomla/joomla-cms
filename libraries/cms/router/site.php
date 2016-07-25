@@ -72,8 +72,9 @@ class JRouterSite extends JRouter
 
 		if ($this->app->get('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
 		{
-			// Forward to https
+			// Forward to https (set scheme and port)
 			$uri->setScheme('https');
+			$uri->setPort($this->app->get('https_port'));
 			$this->app->redirect((string) $uri, 301);
 		}
 
