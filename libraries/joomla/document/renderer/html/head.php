@@ -212,8 +212,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 					$value = $attrib;
 				}
 
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '=';
-				$buffer .= '"' . (is_scalar($value) ? htmlspecialchars($value, ENT_COMPAT, 'UTF-8') : htmlspecialchars(json_encode($value), ENT_COMPAT, 'UTF-8')) . '"';
+				if (is_scalar($value))
+				{
+					$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+				}
+				else
+				{
+					$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '="' . htmlspecialchars(json_encode($value), ENT_COMPAT, 'UTF-8') . '"';
+				}
 			}
 
 			$buffer .= '></script>' . $lnEnd;
