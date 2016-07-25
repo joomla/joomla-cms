@@ -97,6 +97,7 @@
 			<field name="secure" type="list"
 				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
 				default="0" filter="integer"
+				renderon="global:force_ssl:1"
 			>
 				<option value="-1">JOFF</option>
 				<option value="1">JON</option>
