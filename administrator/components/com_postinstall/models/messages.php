@@ -174,7 +174,7 @@ class PostinstallModelMessages extends FOFModel
 	}
 
 	/**
-	 * Get the drop-down options for the list of component with post-installation messages
+	 * Get the dropdown options for the list of component with post-installation messages
 	 *
 	 * @since 3.4
 	 *

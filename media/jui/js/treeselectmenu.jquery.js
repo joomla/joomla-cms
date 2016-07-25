@@ -21,7 +21,7 @@ jQuery(function($)
 			// Add classes to Expand/Collapse icons
 			$li.find('span.icon-').addClass('treeselect-toggle icon-minus');
 
-			// Append drop down menu in nodes
+			// Append dropdown menu in nodes
 			$div.find('label:first').after(treeselectmenu);
 
 			if (!$li.find('ul.treeselect-sub ul.treeselect-sub').length) {

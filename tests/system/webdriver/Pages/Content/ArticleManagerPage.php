@@ -274,7 +274,7 @@ class ArticleManagerPage extends AdminManagerPage
 	 * Function that does Batch Process for Articles, Copy, Move articles
 	 *
 	 * @param string $articleName	 	Article for which Batch Processing is to be done
-	 * @param string $searchString	 	Value entered in the drop down to filter the results
+	 * @param string $searchString	 	Value entered in the dropdown to filter the results
 	 * @param string $newCategory		Category to which the Article is to be moved or copied
 	 * @param string $action			Action to be taken, either Move or Copy
 	 *
