@@ -16,7 +16,7 @@ use SeleniumClient\WebElement;
  */
 
 /**
- * Page class for the back-end component Template menu.
+ * Page class for the backend component Template menu.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver

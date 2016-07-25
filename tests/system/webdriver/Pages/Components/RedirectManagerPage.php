@@ -16,7 +16,7 @@ use SeleniumClient\WebElement;
  */
 
 /**
- * Page class for the back-end component newsfeed menu.
+ * Page class for the backend component newsfeed menu.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver

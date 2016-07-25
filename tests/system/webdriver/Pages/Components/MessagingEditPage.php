@@ -15,7 +15,7 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Page class for the back-end Messaging Edit page.
+ * Page class for the backend Messaging Edit page.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver

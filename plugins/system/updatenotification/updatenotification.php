@@ -152,7 +152,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		/**
 		 * Some third party security solutions require a secret query parameter to allow log in to the administrator
-		 * back-end of the site. The link generated above will be invalid and could probably block the user out of their
+		 * backend of the site. The link generated above will be invalid and could probably block the user out of their
 		 * site, confusing them (they can't understand the third party security solution is not part of Joomla! proper).
 		 * So, we're calling the onBuildAdministratorLoginURL system plugin event to let these third party solutions
 		 * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the

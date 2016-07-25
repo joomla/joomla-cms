@@ -48,7 +48,7 @@ if ($params->get('show_loggedin_users', 1))
 		. '</div>';
 }
 
-// Print the back-end logged in users.
+// Print the backend logged in users.
 if ($params->get('show_loggedin_users_admin', 1))
 {
 	$output[] = '<div class="btn-group backloggedin-users">'
