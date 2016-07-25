@@ -48,9 +48,9 @@ class UsersFrontend extends \AcceptanceTester
     }
 
     /**
-     * @When I create a user with fields Name :arg1, Uaername :arg1, Password :arg1 and Email :arg4
+     * @When I create a user with fields Name :arg1, Username :arg1, Password :arg1 and Email :arg4
      */
-    public function iCreateAUserWithFieldsNameUaernamePasswordAndEmail($name, $username, $password, $email)
+    public function iCreateAUserWithFieldsNameUsernamePasswordAndEmail($name, $username, $password, $email)
     {
         $I = $this;
         $I->fillField(UserManagerPage::$nameField, $name);
@@ -123,6 +123,10 @@ class UsersFrontend extends \AcceptanceTester
     {
         $I = $this;
         $I->amOnPage(UserManagerPage::$url);
+        $I->waitForText(UserManagerPage::$pageTitleText, 60, UserManagerPage::$pageTitle);
+        $I->fillField(UserManagerPage::$filterSearch, $username);
+        $I->click(UserManagerPage::$iconSearch);
+        $I->waitForElement(['link' => $username], 60);
         $I->see($username, UserManagerPage::$seeName);
     }
 

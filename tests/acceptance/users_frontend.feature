@@ -11,7 +11,7 @@ Feature: Users Frontend
     Given that user registration is enabled
     And there is no user with Username "patel" or Email "patel@gmail.com"
     When I press on the link "Create an account"
-    And I create a user with fields Name "patel", Uaername "patel", Password "patel" and Email "patel@gmail.com"
+    And I create a user with fields Name "patel", Username "patel", Password "patel" and Email "patel@gmail.com"
     And I press the "Register" button
     Then I should see "Could not instantiate mail function." message
 

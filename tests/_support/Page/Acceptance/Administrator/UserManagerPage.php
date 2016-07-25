@@ -5,6 +5,10 @@ use Page\Acceptance\Administrator\AdminPage;
 
 class UserManagerPage extends AdminPage
 {
+    public static $url = "administrator/index.php?option=com_users&view=users";
+
+    public static $pageTitleText = "Users";
+
     public static $nameField = ['id' => 'jform_name'];
 
     public static $usernameField = ['id' => 'jform_username'];
@@ -18,9 +22,9 @@ class UserManagerPage extends AdminPage
     public static $emailField = ['id' => 'jform_email'];
 
     public static $email1Field = ['id' => 'jform_email1'];
-    
+
     public static $email2Field = ['id' => 'jform_email2'];
-    
+
     public static $filterSearch = ['id' => 'filter_search'];
 
     public static $iconSearch = ['class' => 'icon-search'];
@@ -33,5 +37,4 @@ class UserManagerPage extends AdminPage
 
     public static $lastLoginDate = ['xpath' => "//table[@id='userList']//tr[1]/td[8]"];
 
-    public static $url = "administrator/index.php?option=com_users&view=users";
 }
