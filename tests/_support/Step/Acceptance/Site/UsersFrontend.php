@@ -7,7 +7,7 @@ use Page\Acceptance\Site\Frontpage;
 use Page\Acceptance\Site\Frontendlogin;
 
 
-class users_frontend extends \AcceptanceTester
+class UsersFrontend extends \AcceptanceTester
 {
     /**
      * @Given that user registration is enabled
