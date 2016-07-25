@@ -329,7 +329,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'fax');
 		}
 
-		// Handle the contact e-mail address.
+		// Handle the contact email address.
 		if ($item->params->get('show_email', true))
 		{
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'email');
