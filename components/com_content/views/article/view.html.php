@@ -145,7 +145,7 @@ class ContentViewArticle extends JViewLegacy
 		// NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
 		if ($item->params->get('access-view') == false && !strlen($item->fulltext))
 		{
-			if ( $this->user->get('guest') )
+			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(JUri::getInstance());
 				$login_url_with_return = JRoute::_('index.php?option=com_users&return='.$return);
