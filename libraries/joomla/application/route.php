@@ -66,12 +66,12 @@ class JRoute
 		/*
 		 * Get the secure/unsecure URLs.
 		 *
-		 * If the base URL is secure (uses HTTPS), then we need to add 'host', 'scheme' and 'port' to $scheme,
-		 * otherwise we have to set scheme and port according to $ssl (if $ssl is 1 we need HTTPS scheme,
-		 * if $ssl is 2 we need HTTP scheme, for details see JUri::siteScheme()) and we also need to add 'host',
-		 * 'scheme' and 'port' to $scheme.
+		 * If the base URL is secure (uses HTTPS) and $ssl is not 2, then we need to add 'host', 'scheme' and
+		 * 'port' to $scheme, otherwise we have to set scheme and port according to $ssl (if $ssl is 1 we need
+		 * HTTPS scheme, if $ssl is 2 we need HTTP scheme, for details see JUri::siteScheme()) and we also need
+		 * to add 'host', 'scheme' and 'port' to $scheme.
 		 */
-		if ($uri->isSsl())
+		if ($uri->isSsl() and (int) $ssl != 2)
 		{
 			$scheme = array_merge($scheme, array('host', 'scheme', 'port'));
 		}
