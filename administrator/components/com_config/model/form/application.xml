@@ -741,6 +741,24 @@
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_ENTIRE_SITE</option>
 		</field>
+		
+		<field
+			name="http_port"
+			type="text"
+			label="COM_CONFIG_FIELD_HTTP_PORT_LABEL"
+			description="COM_CONFIG_FIELD_HTTP_PORT_DESC"
+			filter="string"
+			showon="force_ssl:1,2"
+			size="8" />
+		
+		<field
+			name="https_port"
+			type="text"
+			label="COM_CONFIG_FIELD_HTTPS_PORT_LABEL"
+			description="COM_CONFIG_FIELD_HTTPS_PORT_DESC"
+			filter="string"
+			showon="force_ssl:1,2"
+			size="8" />
 	</fieldset>
 
 	<fieldset
