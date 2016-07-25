@@ -357,10 +357,10 @@ class JUri extends Uri
 	/**
 	 * Returns the given site URI with the appropriate scheme and port.
 	 * 
-	 * @param   string   $uri        The site URI string
+	 * @param   string   $uri        The site URI string or object
 	 * @param   boolean  $usesecure  URI shall use HTTPS
 	 * 
-	 * @return  string  The site URI string with the appropriate scheme and port
+	 * @return  string  The site URI string or object with the appropriate scheme and port
 	 */
 	public static function siteScheme($uri, $usesecure = false)
 	{
@@ -371,7 +371,7 @@ class JUri extends Uri
 		// we will not change scheme and port if "Force HTTPS" is "None"
 		if ($force_ssl != 0)
 		{
-			$uriObj = static::getInstance($uri);
+			$uriObj = is_string($uri) ? static::getInstance($uri) : $uri;
 			if ($force_ssl == 1)
 			{
 				// "Force HTTPS" is set to "Administrator Only"
@@ -404,22 +404,22 @@ class JUri extends Uri
 				}
 			}
 			
-			// Build new site URI string
-			$uri = $uriObj->toString();
+			// Build new site URI string if URI string given otherwise return new URI object
+			$uri = is_string($uri) ? $uriObj->toString() : $uriObj;
 		}
 		
-		// Return site URI string
+		// Return site URI string or object
 		return $uri;
 	}
 	
 	/**
 	 * Returns the given administrator URI with the appropriate scheme and port.
 	 * 
-	 * @param   string   $uri        The administrator URI string
+	 * @param   string   $uri        The administrator URI string or object
 	 * 
-	 * @return  string  The administrator URI string with the appropriate scheme and port
+	 * @return  string  The administrator URI string or object with the appropriate scheme and port
 	 */
-	public static function adminScheme($uri, $usesecure = false)
+	public static function adminScheme($uri)
 	{
 		$config = JFactory::getConfig();
 		$force_ssl = $config->get('force_ssl', 0);
@@ -428,7 +428,7 @@ class JUri extends Uri
 		// we will not change scheme and port if "Force HTTPS" is "None"
 		if ($force_ssl != 0)
 		{
-			$uriObj = static::getInstance($uri);
+			$uriObj = is_string($uri) ? static::getInstance($uri) : $uri;
 			
 			// "Force HTTPS" is set to "Administrator Only" or to Entire Site", set HTTPS scheme if not already set
 			if (! $uriObj->isSsl())
@@ -437,11 +437,11 @@ class JUri extends Uri
 				$uriObj->setPort($config->get('https_port'));
 			}
 
-			// Build new administrator URI string
-			$uri = $uriObj->toString();
+			// Build new administrator URI string if URI string given otherwise return new URI object
+			$uri = is_string($uri) ? $uriObj->toString() : $uriObj;
 		}
 		
-		// Return administrator URI string
+		// Return administrator URI string or object
 		return $uri;
 	}
 }
