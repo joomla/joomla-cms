@@ -173,7 +173,7 @@ $months_short = array_map(
 	echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
 	placeholder="<?php
 	echo empty($description) ? null : $description; ?>" data-alt-value="<?php
-	echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8') ?>"/>
+	echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8') ?>" readonly />
 		<button type="button" class="btn btn-secondary"
 			id="<?php echo  $id; ?>_btn"
 			data-inputfield="<?php echo $id; ?>"
