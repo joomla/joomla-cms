@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+$usersConfig = JComponentHelper::getParams('com_users');
 ?>
 <div class="login<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -37,7 +38,7 @@ JHtml::_('behavior.formvalidator');
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal well">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login', true, $usersConfig->get('usesecure')); ?>" method="post" class="form-validate form-horizontal well">
 
 		<fieldset>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
@@ -98,9 +99,7 @@ JHtml::_('behavior.formvalidator');
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
 			<?php echo JText::_('COM_USERS_LOGIN_REMIND'); ?></a>
 		</li>
-		<?php
-		$usersConfig = JComponentHelper::getParams('com_users');
-		if ($usersConfig->get('allowUserRegistration')) : ?>
+		<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 		<li>
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
 				<?php echo JText::_('COM_USERS_LOGIN_REGISTER'); ?></a>
