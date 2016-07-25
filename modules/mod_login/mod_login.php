@@ -14,6 +14,9 @@ require_once __DIR__ . '/helper.php';
 
 $params->def('greeting', 1);
 
+// Copy 'usesecure' from com_users to mod_login params (convenience for 3rd party login/logout form overrides)
+$params->set('usesecure', JComponentHelper::getParams('com_users')->get('usesecure'));
+
 $type	          = ModLoginHelper::getType();
 $return	          = ModLoginHelper::getReturnUrl($params, $type);
 $twofactormethods = ModLoginHelper::getTwoFactorMethods();
