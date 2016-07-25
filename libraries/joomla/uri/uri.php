@@ -133,11 +133,22 @@ class JUri extends Uri
 		{
 			$config = JFactory::getConfig();
 			$uri = static::getInstance();
-			$live_site = ($uri->isSsl()) ? str_replace("http://", "https://", $config->get('live_site')) : $config->get('live_site');
+			$live_site = $config->get('live_site');
 
 			if (trim($live_site) != '')
 			{
+				$isSsl = $uri->isSsl();
 				$uri = static::getInstance($live_site);
+				if ($isSsl)
+				{
+					$uri->setScheme('https');
+					$uri->setPort($config->get('https_port'));
+				}
+				else
+				{
+					$uri->setScheme('http');
+					$uri->setPort($config->get('http_port'));
+				}
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				static::$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
@@ -265,6 +276,18 @@ class JUri extends Uri
 	public static function isInternal($url)
 	{
 		$uri = static::getInstance($url);
+		if ($uri->getScheme())
+		{
+			// The given URL contains a scheme
+			$baseUri = static::getInstance(static::base());
+			if ($uri->getHost() == $baseUri->getHost())
+			{
+				// Same host for the given URL and our base
+				// Assign (for the following tests) the scheme and the port from our base to the given URL
+				$uri->setScheme($baseUri->getScheme());
+				$uri->setPort($baseUri->getPort());
+			}
+		}
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
@@ -329,5 +352,96 @@ class JUri extends Uri
 	protected function _cleanPath($path)
 	{
 		return parent::cleanPath($path);
+	}
+	
+	/**
+	 * Returns the given site URI with the appropriate scheme and port.
+	 * 
+	 * @param   string   $uri        The site URI string
+	 * @param   boolean  $usesecure  URI shall use HTTPS
+	 * 
+	 * @return  string  The site URI string with the appropriate scheme and port
+	 */
+	public static function siteScheme($uri, $usesecure = false)
+	{
+		$config = JFactory::getConfig();
+		$force_ssl = $config->get('force_ssl', 0);
+		
+		// Check whether "Force HTTPS" is "Administrator Only" or "Entire Site"
+		// we will not change scheme and port if "Force HTTPS" is "None"
+		if ($force_ssl != 0)
+		{
+			$uriObj = static::getInstance($uri);
+			if ($force_ssl == 1)
+			{
+				// "Force HTTPS" is set to "Administrator Only"
+				if ($usesecure)
+				{
+					// Secure scheme needed e.g. for login or registration, set if not set already
+					if (! $uriObj->isSsl())
+					{
+						$uriObj->setScheme('https');
+						$uriObj->setPort($config->get('https_port'));
+					}
+				}
+				else
+				{
+					// No secure scheme needed, set HTTP scheme if not set already
+					if ($uriObj->isSsl())
+					{
+						$uriObj->setScheme('http');
+						$uriObj->setPort($config->get('http_port'));
+					}
+				}
+			}
+			else
+			{
+				// "Force HTTPS" is set to "Entire Site", set HTTPS scheme if not already set
+				if (! $uriObj->isSsl())
+				{
+					$uriObj->setScheme('https');
+					$uriObj->setPort($config->get('https_port'));
+				}
+			}
+			
+			// Build new site URI string
+			$uri = $uriObj->toString();
+		}
+		
+		// Return site URI string
+		return $uri;
+	}
+	
+	/**
+	 * Returns the given administrator URI with the appropriate scheme and port.
+	 * 
+	 * @param   string   $uri        The administrator URI string
+	 * 
+	 * @return  string  The administrator URI string with the appropriate scheme and port
+	 */
+	public static function adminScheme($uri, $usesecure = false)
+	{
+		$config = JFactory::getConfig();
+		$force_ssl = $config->get('force_ssl', 0);
+		
+		// Check whether "Force HTTPS" is "Administrator Only" or "Entire Site"
+		// we will not change scheme and port if "Force HTTPS" is "None"
+		if ($force_ssl != 0)
+		{
+			$uriObj = static::getInstance($uri);
+			
+			// "Force HTTPS" is set to "Administrator Only" or to Entire Site", set HTTPS scheme if not already set
+			if (! $uriObj->isSsl())
+			{
+				$uriObj->setScheme('https');
+				$uriObj->setPort($config->get('https_port'));
+			}
+
+			// Build new administrator URI string
+			$uri = $uriObj->toString();
+		}
+		
+		// Return administrator URI string
+		return $uri;
 	}
 }
