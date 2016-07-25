@@ -83,8 +83,8 @@
 			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 			description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
+			<option	value="0">JHIDE</option>
 		</field>
 
 		<field
