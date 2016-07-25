@@ -411,7 +411,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		// Get singular word
 		$single_element = substr($element, 0, strlen($element) - 1);
 
-		// Set the API base, $params is a string with comma seperated values
+		// Set the API base, $params is a string with comma separated values
 		$base = $element . '?' . $element . "=" . $params;
 
 		// Build the request path.
