@@ -212,7 +212,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 					$value = $attrib;
 				}
 
-				// Json encode value is it's an array.
+				// Json encode value if it's an array.
 				$value = !is_scalar($value) ? json_encode($value) : $value;
 
 				// Add attribute to script tag output.
