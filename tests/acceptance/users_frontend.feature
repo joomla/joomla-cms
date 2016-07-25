@@ -4,9 +4,8 @@ Feature: Users Frontend
   I need to check user login and registration in joomla! CMS
 
   Background:
-    Given Joomla CMS is installed
-    When Login into Joomla administrator with username "admin" and password "admin"
-    Then I see administrator dashboard
+    When I Login into Joomla administrator with username "admin" and password "admin"
+    And I see the administrator dashboard
 
   Scenario: Create user from frontend (index.php?option=com_users)
     Given that user registration is enabled

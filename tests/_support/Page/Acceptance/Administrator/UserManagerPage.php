@@ -27,11 +27,11 @@ class UserManagerPage extends AdminPage
 
     public static $title = ['id' => 'jform_title'];
 
-    public static $seeUserName = ['xpath' => ".//*[@id='userList']//*/tr[1]/td[3]"];
+    public static $seeUserName = ['xpath' => "//table[@id='userList']//tr[1]/td[3]"];
 
-    public static $seeName = ['xpath' => ".//*[@id='userList']//*/tr[1]/td[2]"];
+    public static $seeName = ['xpath' => "//table[@id='userList']//tr[1]/td[2]"];
 
-    public static $lastLoginDate = ['xpath' => ".//*[@id='userList']//*/tr[1]/td[8]"];
+    public static $lastLoginDate = ['xpath' => "//table[@id='userList']//tr[1]/td[8]"];
 
     public static $url = "administrator/index.php?option=com_users&view=users";
 }
