@@ -35,7 +35,6 @@ error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
 gherkin:
     contexts:
         default:
-            - AcceptanceTester
+            - Step\Acceptance\Administrator\Login
             - Step\Acceptance\Administrator\User
-            - Page\Acceptance\Administrator\Login
             - Step\Acceptance\Administrator\Content

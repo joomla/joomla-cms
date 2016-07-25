@@ -4,9 +4,8 @@ Feature: content
   I need to create modify trash publish and Unpublish content article
 
   Background:
-    Given Joomla CMS is installed
-    When Login into Joomla administrator with username "admin" and password "admin"
-    Then I see administrator dashboard
+    When I Login into Joomla administrator with username "admin" and password "admin"
+    And I see the administrator dashboard
 
   Scenario: Create an Article
     Given There is a add content link
