@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 JFormHelper::loadRuleClass('email');
 
 /**
- * JFormRule for com_contact to make sure the E-Mail adress is not blocked.
+ * JFormRule for com_contact to make sure the E-Mail address is not blocked.
  *
  * @since  1.6
  */
