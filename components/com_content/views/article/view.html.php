@@ -139,16 +139,17 @@ class ContentViewArticle extends JViewLegacy
 			return;
 		}
 
-		// Check for no 'access-view' and empty fulltext,
-		// - Redirect guest users to login
-		// - Deny access to logged users with 403 code
-		// NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
+		/* Check for no 'access-view' and empty fulltext,
+		 * - Redirect guest users to login
+		 * - Deny access to logged users with 403 code
+		 * NOTE: we do not recheck for no access-view + show_noauth disabled ... since it was checked above
+		 */
 		if ($item->params->get('access-view') == false && !strlen($item->fulltext))
 		{
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(JUri::getInstance());
-				$login_url_with_return = JRoute::_('index.php?option=com_users&return='.$return);
+				$login_url_with_return = JRoute::_('index.php?option=com_users&return=' . $return);
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}
