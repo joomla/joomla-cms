@@ -451,8 +451,9 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
 		{
-			// Forward to https
+			// Forward to https (set scheme and port)
 			$uri->setScheme('https');
+			$uri->setPort($this->get('https_port'));
 			$this->redirect((string) $uri, 301);
 		}
 
