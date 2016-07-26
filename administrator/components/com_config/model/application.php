@@ -122,8 +122,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Check if we can set the Force HTTPS option and the HTTPS port if either was changed
 		if ((int) $data['force_ssl'] !== 0
 			&& ((int) $data['force_ssl'] !== (int) $config->get('force_ssl', '0')
-				|| ((int) $data['https_port'] !== 0 && (int) $data['https_port'] !== (int) $config->get('https_port', '0')))
-		)
+			|| ((int) $data['https_port'] !== 0 && (int) $data['https_port'] !== (int) $config->get('https_port', '0'))))
 		{
 			try
 			{
@@ -171,7 +170,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Check if we can set the HTTP port (do this check only if Force HTTPS is set)
 		if ((int) $data['force_ssl'] !== 0 && (int) $data['http_port'] !== 0 && (int) $data['http_port'] !== (int) $config->get('http_port', '0'))
 		{
-			try:
+			try
 			{
 				// Make an HTTP request to check if the site is available in HTTP.
 				$base    = JUri::getInstance(JUri::root());
