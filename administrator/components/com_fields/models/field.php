@@ -19,7 +19,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 class FieldsModelField extends JModelAdmin
 {
-
 	protected $text_prefix = 'COM_FIELDS';
 
 	public $typeAlias = null;
@@ -101,6 +100,7 @@ class FieldsModelField extends JModelAdmin
 	public function save ($data)
 	{
 		$field = null;
+
 		if (isset($data['id']) && $data['id'])
 		{
 			$field = $this->getItem($data['id']);
@@ -113,6 +113,7 @@ class FieldsModelField extends JModelAdmin
 		else
 		{
 			$cats = (array) $data['assigned_cat_ids'];
+
 			foreach ($cats as $key => $c)
 			{
 				if (empty($c))
@@ -120,17 +121,20 @@ class FieldsModelField extends JModelAdmin
 					unset($cats[$key]);
 				}
 			}
+
 			$data['assigned_cat_ids'] = $cats;
 		}
 
 		if (!isset($data['label']) && isset($data['params']['label']))
 		{
 			$data['label'] = $data['params']['label'];
+
 			unset($data['params']['label']);
 		}
 
 		// Alter the title for save as copy
 		$input  = JFactory::getApplication()->input;
+
 		if ($input->get('task') == 'save2copy')
 		{
 			$origTable = clone $this->getTable();
@@ -182,6 +186,7 @@ class FieldsModelField extends JModelAdmin
 		{
 			$data['catid'] = '0';
 		}
+
 		$success = parent::save($data);
 
 		// If the options have changed delete the values
@@ -189,6 +194,7 @@ class FieldsModelField extends JModelAdmin
 		{
 			$oldParams = json_decode($field->fieldparams['options']);
 			$newParams = json_decode($data['fieldparams']['options']);
+
 			if (is_array($oldParams) && is_array($newParams) && count(array_intersect($oldParams->key, $newParams->key)) != count($oldParams->key))
 			{
 				$this->_db->setQuery(
@@ -213,6 +219,7 @@ class FieldsModelField extends JModelAdmin
 	public function delete (&$pks)
 	{
 		$success = parent::delete($pks);
+
 		if ($success)
 		{
 			$pks = (array) $pks;
@@ -220,6 +227,7 @@ class FieldsModelField extends JModelAdmin
 			$this->_db->setQuery('delete from #__fields_values where field_id in (' . implode(',', $pks) . ')');
 			$this->_db->query();
 		}
+
 		return $success;
 	}
 
@@ -241,6 +249,7 @@ class FieldsModelField extends JModelAdmin
 		{
 			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 		}
+
 		return JTable::getInstance($name, $prefix, $options);
 	}
 
@@ -494,10 +503,12 @@ class FieldsModelField extends JModelAdmin
 			$component = $parts[0];
 
 			$dataObject = $data;
+
 			if (is_array($dataObject))
 			{
 				$dataObject = (object) $dataObject;
 			}
+
 			if (isset($dataObject->type))
 			{
 				$this->loadTypeForms($form, $dataObject->type, $component);
@@ -513,6 +524,7 @@ class FieldsModelField extends JModelAdmin
 
 			// Setting the context for the category field
 			$cat = JCategories::getInstance(str_replace('com_', '', $component));
+
 			if ($cat && $cat->get('root')->hasChildren())
 			{
 				$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
@@ -542,6 +554,7 @@ class FieldsModelField extends JModelAdmin
 	public function getFieldValue ($fieldId, $context, $itemId)
 	{
 		$key = md5($fieldId . $context . $itemId);
+
 		if (! key_exists($key, $this->valueCache))
 		{
 			$this->valueCache[$key] = null;
@@ -551,6 +564,7 @@ class FieldsModelField extends JModelAdmin
 			$query .= 'where field_id = ' . (int) $fieldId . ' and context = ' . $db->q($context) . ' and item_id = ' . $db->q($itemId) . ' ';
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
+
 			if (count($rows) == 1)
 			{
 				$this->valueCache[$key] = $rows[0]->value;
@@ -558,13 +572,16 @@ class FieldsModelField extends JModelAdmin
 			elseif (count($rows) > 1)
 			{
 				$data = array();
+
 				foreach ($rows as $row)
 				{
 					$data[] = $row->value;
 				}
+
 				$this->valueCache[$key] = $data;
 			}
 		}
+
 		return $this->valueCache[$key];
 	}
 
@@ -583,6 +600,7 @@ class FieldsModelField extends JModelAdmin
 		$db = $this->_db;
 		$field = $this->getItem($fieldId);
 		$params = $field->params;
+
 		if (is_array($params))
 		{
 			$params = new Registry($params);
@@ -598,6 +616,7 @@ class FieldsModelField extends JModelAdmin
 		$needsDelete = false;
 		$needsInsert = false;
 		$needsUpdate = false;
+
 		if ($field->default_value == $value)
 		{
 			$needsDelete = true;
@@ -635,6 +654,7 @@ class FieldsModelField extends JModelAdmin
 			$db->setQuery($query);
 			$db->query();
 		}
+
 		if ($needsInsert)
 		{
 			$query = 'insert into #__fields_values (field_id, context, item_id, value) values ';
@@ -643,11 +663,13 @@ class FieldsModelField extends JModelAdmin
 			{
 				$query .= '(' . (int) $fieldId . ', ' . $db->q($context) . ', ' . $db->q($itemId) . ', ' . $db->q($v) . '),';
 			}
+
 			$query = trim($query, ',');
 
 			$db->setQuery($query);
 			$db->query();
 		}
+
 		if ($needsUpdate)
 		{
 			$query = 'update #__fields_values set value = ' . $db->q(reset($value)) . ' where ';
@@ -656,6 +678,7 @@ class FieldsModelField extends JModelAdmin
 			$db->setQuery($query);
 			$db->query();
 		}
+
 		$this->valueCache = array();
 
 		return true;
@@ -808,6 +831,7 @@ class FieldsModelField extends JModelAdmin
 		{
 			return;
 		}
+
 		$form->load($type->getFormParameters(), true, '/form/*');
 	}
 }

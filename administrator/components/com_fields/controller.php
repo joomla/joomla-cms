@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  */
 class FieldsController extends JControllerLegacy
 {
-
 	protected $context;
 
 	/**

@@ -18,7 +18,6 @@ use Joomla\Utilities\ArrayHelper;
  */
 class FieldsModelFields extends JModelList
 {
-
 	/**
 	 * Constructor.
 	 *
@@ -206,21 +205,25 @@ class FieldsModelFields extends JModelList
 				$query->where('a.access = ' . (int) $access);
 			}
 		}
+
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
 			$condition = "a.assigned_cat_ids = '' or find_in_set(0, a.assigned_cat_ids) ";
 			$parts = FieldsHelper::extract($context);
+
 			if ($parts)
 			{
 				// Get the category
 				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+
 				if ($cat)
 				{
 					foreach ($categories as $assignedCatIds)
 					{
 						// Check if we have the actual category
 						$parent = $cat->get($assignedCatIds);
+
 						if ($parent)
 						{
 							$condition .= 'or find_in_set(' . (int) $parent->id . ',a.assigned_cat_ids) ';
@@ -236,6 +239,7 @@ class FieldsModelFields extends JModelList
 					}
 				}
 			}
+
 			$query->where('(' . $condition . ')');
 		}
 
@@ -283,10 +287,12 @@ class FieldsModelFields extends JModelList
 		if ($language = $this->getState('filter.language'))
 		{
 			$language = (array) $language;
+
 			foreach ($language as $key => $l)
 			{
 				$language[$key] = $db->quote($l);
 			}
+
 			$query->where('a.language in (' . implode(',', $language) . ')');
 		}
 
@@ -359,9 +365,11 @@ class FieldsModelFields extends JModelList
 	public function getFilterForm ($data = array(), $loadData = true)
 	{
 		$form = parent::getFilterForm($data, $loadData);
+
 		if ($form)
 		{
 			$path = JPATH_ADMINISTRATOR . '/components/' . $this->getState('filter.component') . '/models/forms/filter_fields.xml';
+
 			if (file_exists($path))
 			{
 				// Load all children that's why we need to define the xpath
@@ -375,6 +383,7 @@ class FieldsModelFields extends JModelList
 			// to display them
 			$form->setValue('section', 'custom', JFactory::getApplication()->input->getCmd('context'));
 		}
+
 		return $form;
 	}
 }

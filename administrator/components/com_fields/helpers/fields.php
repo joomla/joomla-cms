@@ -195,6 +195,7 @@ class FieldsHelper
 			// Trying to render the layout on the component fom the context
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
+
 		if (! $value)
 		{
 			// Trying to render the layout on Fields itself

@@ -18,7 +18,6 @@ JLoader::import('joomla.filesystem.folder');
  */
 class JFormFieldType extends JFormAbstractlist
 {
-
 	public $type = 'Type';
 
 	public static $BLACKLIST = array('moduleposition');
@@ -39,7 +38,9 @@ class JFormFieldType extends JFormAbstractlist
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
+
 		$this->onchange = "typeHasChanged(this);";
+
 		return $return;
 	}
 
@@ -60,6 +61,7 @@ class JFormFieldType extends JFormAbstractlist
 		$component = null;
 
 		$parts = FieldsHelper::extract(JFactory::getApplication()->input->get('context'));
+
 		if ($parts)
 		{
 			$component = $parts[0];
@@ -78,35 +80,40 @@ class JFormFieldType extends JFormAbstractlist
 			foreach (JFolder::files($path, 'php', true, true) as $filePath)
 			{
 				$name = str_replace('.php', '', basename($filePath));
- 				if (in_array(strtolower($name), self::$BLACKLIST))
- 				{
- 					continue;
- 				}
+
+				if (in_array(strtolower($name), self::$BLACKLIST))
+				{
+					continue;
+				}
 
 				$className = JFormHelper::loadFieldClass($name);
- 				if ($className === false)
- 				{
- 					continue;
- 				}
 
- 				// Check if the field implements JFormField and JFormDomFieldInterface
- 				if (!is_subclass_of($className, 'JFormField') || !is_subclass_of($className, 'JFormDomfieldinterface'))
-			 	{
- 					continue;
- 				}
+				if ($className === false)
+				{
+					continue;
+				}
+
+				// Check if the field implements JFormField and JFormDomFieldInterface
+				if (!is_subclass_of($className, 'JFormField') || !is_subclass_of($className, 'JFormDomfieldinterface'))
+				{
+					continue;
+				}
 
 				// Adjust the name
 				$name = strtolower(str_replace('JFormField', '', $className));
 
 				$label = StringHelper::ucfirst($name);
+
 				if (JFactory::getLanguage()->hasKey('COM_FIELDS_TYPE_' . strtoupper($name)))
 				{
 					$label = 'COM_FIELDS_TYPE_' . strtoupper($name);
 				}
+
 				if ($component && JFactory::getLanguage()->hasKey(strtoupper($component) . '_FIELDS_TYPE_' . strtoupper($name)))
 				{
 					$label = strtoupper($component) . '_FIELDS_TYPE_' . strtoupper($name);
 				}
+
 				$options[] = JHtml::_('select.option', $name, JText::_($label));
 			}
 		}
@@ -161,6 +168,7 @@ class JFormFieldType extends JFormAbstractlist
 		$tokens = token_get_all(JFile::read($path));
 
 		$className = null;
+
 		for ($i = 2; $i < count($tokens); $i ++)
 		{
 			if ($tokens[$i - 2][0] == T_CLASS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][0] == T_STRING
@@ -168,11 +176,13 @@ class JFormFieldType extends JFormAbstractlist
 			{
 				$className = $tokens[$i][1];
 			}
+
 			if ($tokens[$i - 2][0] == T_IMPLEMENTS && $tokens[$i - 1][0] == T_WHITESPACE && $tokens[$i][1] == 'JFormDomfieldinterface')
 			{
 				return $className;
 			}
 		}
+
 		return false;
 	}
 }

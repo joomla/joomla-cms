@@ -17,7 +17,6 @@ use Joomla\Registry\Registry;
  */
 class FieldsTableField extends JTable
 {
-
 	/**
 	 * Class constructor.
 	 *
@@ -199,6 +198,7 @@ class FieldsTableField extends JTable
 		if ($parts && $this->catid)
 		{
 			$assetId = $this->getAssetId($parts[0] . '.' . $parts[1] . '.fields.category.' . $this->catid);
+
 			if ($assetId !== false)
 			{
 				return $assetId;
@@ -207,6 +207,7 @@ class FieldsTableField extends JTable
 		elseif ($component)
 		{
 			$assetId = $this->getAssetId($component);
+
 			if ($assetId !== false)
 			{
 				return $assetId;
@@ -245,6 +246,7 @@ class FieldsTableField extends JTable
 				return $assetId;
 			}
 		}
+
 		return false;
 	}
 }
