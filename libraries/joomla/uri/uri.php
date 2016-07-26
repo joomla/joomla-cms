@@ -415,7 +415,7 @@ class JUri extends Uri
 	/**
 	 * Returns the given administrator URI with the appropriate scheme and port.
 	 * 
-	 * @param   string   $uri        The administrator URI string or object
+	 * @param   string  $uri  The administrator URI string or object
 	 * 
 	 * @return  string  The administrator URI string or object with the appropriate scheme and port
 	 */
