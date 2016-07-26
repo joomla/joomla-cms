@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  */
 class FieldsViewField extends JViewLegacy
 {
-
 	protected $form;
 
 	protected $item;

@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  */
 class JFormFieldModal_Field extends JFormField
 {
-
 	protected $type = 'Modal_Field';
 
 	/**

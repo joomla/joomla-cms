@@ -17,7 +17,6 @@ JLoader::import('joomla.filesystem.file');
  */
 class FieldsViewFields extends JViewLegacy
 {
-
 	protected $items;
 
 	protected $pagination;
@@ -52,11 +51,14 @@ class FieldsViewFields extends JViewLegacy
 
 		$this->context = JFactory::getApplication()->input->getCmd('context');
 		$parts = FieldsHelper::extract($this->context);
+
 		if (! $parts)
 		{
 			JError::raiseError(500, 'Invalid context!!');
+
 			return;
 		}
+
 		$this->component = $parts[0];
 		$this->section = $parts[1];
 
@@ -78,6 +80,7 @@ class FieldsViewFields extends JViewLegacy
 		$section = $this->section;
 
 		$canDo = new JObject;
+
 		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
 		{
 			$canDo = JHelperContent::getActions($component, 'field', $fieldId);

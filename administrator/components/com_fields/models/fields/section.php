@@ -16,7 +16,6 @@ JLoader::import('joomla.filesystem.folder');
  */
 class JFormFieldSection extends JFormAbstractlist
 {
-
 	public $type = 'Section';
 
 	/**

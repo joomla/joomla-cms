@@ -315,6 +315,7 @@ class PlgSystemFields extends JPlugin
 		if ((!isset($data->catid) || !$data->catid) && JFactory::getApplication()->isSite() && $component = 'com_content')
 		{
 			$activeMenu = $app->getMenu()->getActive();
+
 			if ($activeMenu && $activeMenu->params)
 			{
 				$data->catid = $activeMenu->params->get('catid');
@@ -571,6 +572,7 @@ class PlgSystemFields extends JPlugin
 				'com_users.registration' => 'com_users.user',
 				'com_content.category'   => 'com_content.article'
 		);
+
 		if (key_exists($context, $mapping))
 		{
 			$context = $mapping[$context];

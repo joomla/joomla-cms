@@ -86,6 +86,7 @@ class FieldsHelperInternal
 	public static function canEditFieldValue($field)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
 	}
 }
