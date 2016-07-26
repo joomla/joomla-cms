@@ -24,7 +24,7 @@ $uri = clone JUri::getInstance();
 $uri->setVar('hitcount', '0');
 
 // Create option list for voting select box
-$options = [];
+$options = array();
 
 for ($i = 1; $i < 6; $i++)
 {
