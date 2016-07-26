@@ -4,6 +4,41 @@
  */
 !(function(){
 	'use strict';
+
+	/** Method to convert numbers to local symbols. */
+	Date.convertNumbers = function(str) {
+		var str = str.toString();
+
+		if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]') {
+			for (var i = 0; i < Date.localLangNumbers.length; i++) {
+				str = str.replace(new RegExp(i, 'g'), Date.localLangNumbers[i]);
+			}
+		}
+		return str;
+	};
+
+	/** Traslates to english numbers a string. */
+	Date.toEnglish = function(str) {
+		str = this.toString();
+		var nums = [0,1,2,3,4,5,6,7,8,9];
+		for (var i = 0; i < nums.length; i++) {
+			str = str.replace(new RegExp(nums[i], 'g'), i);
+		}
+		return str;
+	};
+
+	/** Global method to change input values with the data-alt-value values. **/
+	window.getJoomlaCalendarValuesFromAlt = function() {
+
+		var calendars = document.getElementsByClassName("field-calendar");
+
+		for (var i = 0; i < calendars.length; i++) {
+			var input = calendars[i].getElementsByTagName('INPUT')[0],
+				alt = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
+			input.value = alt;
+		}
+	};
+
 	var JoomlaCalendar = function (selector) {
 		var createInstance, elements, i,  instances = [];
 
@@ -11,7 +46,7 @@
 
 		createInstance = function (element) {
 			if (element._joomlaCalendar)
-				element._joomlaCalendar.destroy();
+				return element._joomlaCalendar;
 
 			element._joomlaCalendar = new JoomlaCalendar.init(element);
 			return element._joomlaCalendar;
@@ -22,7 +57,7 @@
 
 		elements = document.getElementsByClassName(selector);
 
-		if (elements.length > 0) {        // Init the translations only once
+		if (typeof JoomlaCalLocale == "undefined") {        // Init the translations only once
 			var elem = (elements.length === 1) ? elements : elements[0],
 				element = elem.getElementsByTagName("button")[0];
 
@@ -43,40 +78,6 @@
 				am         : (element.getAttribute("data-time_am_lower") && element.getAttribute("data-cal_type") == 'gregorian' ) ? element.getAttribute("data-time_am_lower") : "am",
 				pm         : (element.getAttribute("data-time_pm_lower") && element.getAttribute("data-time_pm_lower") == 'gregorian' ) ? element.getAttribute("data-time_pm_lower") : "pm",
 				dateType   : element.getAttribute("data-cal-type") ? element.getAttribute("data-cal-type") : "gregorian"
-			};
-
-			/** Method to convert numbers to local symbols. */
-			Date.convertNumbers = function(str) {
-				var str = str.toString();
-
-				if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]') {
-					for (var i = 0; i < Date.localLangNumbers.length; i++) {
-						str = str.replace(new RegExp(i, 'g'), Date.localLangNumbers[i]);
-					}
-				}
-				return str;
-			};
-
-			/** Traslates to english numbers a string. */
-			Date.toEnglish = function(str) {
-				str = this.toString();
-				var nums = [0,1,2,3,4,5,6,7,8,9];
-				for (var i = 0; i < nums.length; i++) {
-					str = str.replace(new RegExp(nums[i], 'g'), i);
-				}
-				return str;
-			};
-
-			/** Global method to change input values with the data-alt-value values. **/
-			window.getJoomlaCalendarValuesFromAlt = function() {
-				var calendars = document.getElementsByClassName("field-calendar");
-
-				for (var i = 0; i < calendars.length; i++) {
-					var input = calendars[i].getElementsByTagName('INPUT')[0],
-						value = input.value,
-						alt = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
-					value = value ? value : alt;
-				}
 			};
 		}
 
@@ -106,9 +107,17 @@
 				monthBefore     : false,               // Displays the month before the year
 				minYear         : 1970,                // The minimum year
 				maxYear         : 2050,                // The maximum year
-				dateFormat      : "%Y-%m-%d %H:%M:%S", // The date format
+				dateFormat      : '%Y-%m-%d %H:%M:%S', // The date format
 				dateType        : 'gregorian',         // The calendar type
-				direction       : 'ltr'                // The direction of the document
+				direction       : 'ltr',               // The direction of the document
+				debug           : false,
+				classes         : {
+					containerClass : 'dropdown-menu j-calendar',
+					wrapperClass   : 'calendar-container',
+					day            : 'day',
+
+
+				}
 			},
 			instanceParams = {
 				dateType        : element.getAttribute("data-cal-type") ? element.getAttribute("data-cal-type") : 'gregorian',
@@ -123,7 +132,8 @@
 				minYear         : element.getAttribute("data-min_year") ? parseInt(element.getAttribute("data-min_year")) : 1970,
 				maxYear         : element.getAttribute("data-max_year") ? parseInt(element.getAttribute("data-max_year")) : 2050,
 				dateFormat      : element.getAttribute("data-dayformat") ? element.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S",
-				direction       : (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir")
+				direction       : (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
+
 			};
 
 		/** COMPATIBILITY WITH IE 8 **/
@@ -151,9 +161,9 @@
 			date.setHours(hours);
 			date.setMinutes(parseInt(mins, 10));
 			date.setSeconds(date.getSeconds());
-			date.setFullYear(y);
-			date.setMonth(m);
-			date.setDate(d);
+			date.setLocalFullYear(self.params.dateType, y);
+			date.setLocalMonth(self.params.dateType, m);
+			date.setLocalDate(self.params.dateType, d);
 			self.dateClicked = false;
 			callHandler();
 		};
@@ -169,12 +179,8 @@
 		/** Method to set the current date by a number, step */
 		moveCursorBy = function (step) {
 			var date = new Date(self.date); // self.date.getLocalDate(self.params.dateType)
-			console.log(date)
-			date.setLocalDate(self.params.dateType, date.getLocalDate(self.params.dateType) - step);
-			console.log(date)
+			date.setDate(date.getDate() - step);
 			setDate(date);
-			console.log(date)
-			console.log(self.date)
 		};
 
 		/** Method to set the value for the input field */
@@ -182,9 +188,7 @@
 			/** Output the date **/
 			if (self.params.dateType == 'gregorian') {
 				self.params.inputField.value = self.date.print(self.params.dateFormat, self.params.dateType, true);
-				console.log(self.params.inputField.value); // @TODO Remove
 				self.params.inputField.setAttribute('data-alt-value', self.date.print('%Y-%m-%d %H:%M:%S', self.params.dateType, false));
-				console.log(self.params.inputField.getAttribute('data-alt-value')); // @TODO Remove
 			} else {
 				self.params.inputField.setAttribute('data-alt-value', self.date.print('%Y-%m-%d %H:%M:%S', 'gregorian', false));
 				self.params.inputField.value = self.date.print(self.params.dateFormat, self.params.dateType, true);
@@ -317,18 +321,16 @@
 		/** Method to handle mouse click events (dates) **/
 		var cellClick = function (el, ev) {
 			var closing = false, newdate = false, date = null;
-
 			if (typeof el.navtype == "undefined") {
 				if (self.currentDateEl) {
 					removeClass(self.currentDateEl, "selected");
 					removeClass(self.currentDateEl, "alert-success");
 					addClass(el, "selected alert-success");
-					self.currentDateEl = el;
-					closing = (self.currentDateEl == el);
-
-					if (!closing) { self.currentDateEl = el; }
+					self.currentDateEl = el.caldate;
+					closing = (self.currentDateEl == el.caldate);
+					if (!closing) { self.currentDateEl = el.caldate; }
 				}
-				self.date.setLocalDateOnly(self.params.dateType, el.caldate);
+				self.date.setLocalDateOnly('gregorian', el.caldate);
 				date = self.date;
 				var other_month = !(self.dateClicked = !el.otherMonth);
 				if (self.currentDateEl) { newdate = !el.disabled; }
@@ -341,7 +343,7 @@
 				}
 				date = new Date(self.date);
 				if (el.navtype == 0) {
-					self.date.setLocalDateOnly(self.params.dateType, new Date()); // TODAY
+					self.date.setLocalDateOnly('gregorian', new Date()); // TODAY
 					self.dateClicked = true;
 					callHandler();
 					close();
@@ -349,7 +351,7 @@
 				}
 
 				self.dateClicked = false;
-				var year = date.getLocalFullYear(self.params.dateType), mon = date.getLocalMonth(self.params.dateType);
+				var year = date.getOtherFullYear(self.params.dateType), mon = date.getLocalMonth(self.params.dateType);
 				switch (el.navtype) {
 					case 400:
 						break;
@@ -367,7 +369,7 @@
 							if (day > max) date.setLocalDate(self.params.dateType, max);
 							date.setLocalMonth(self.params.dateType, mon - 1);
 						} else if (year-- > self.params.minYear) {
-							date.setFullYear(year);
+							date.setOtherFullYear(self.params.dateType, year);
 							var max = date.getLocalMonthDays(self.params.dateType, 11);
 							if (day > max) date.setLocalDate(self.params.dateType, max);
 							date.setLocalMonth(self.params.dateType, 11);
@@ -380,7 +382,7 @@
 							if (day > max) date.setLocalDate(self.params.dateType, max);
 							date.setLocalMonth(self.params.dateType, mon + 1);
 						} else if (year < self.params.maxYear) {
-							date.setFullYear(year + 1);
+							date.setOtherFullYear(self.params.dateType, year + 1);
 							var max = date.getLocalMonthDays(self.params.dateType, 0);
 							if (day > max) date.setLocalDate(self.params.dateType, max);
 							date.setLocalMonth(self.params.dateType, 0);
@@ -455,7 +457,7 @@
 			var div = createElement("div");
 			self.element = div;
 			if (self.params.direction) { self.element.style.direction = self.params.direction; }
-			div.className = 'dropdown-menu j-calendar';
+			div.className = self.params.classes.containerClass;
 			div.style.position = "absolute";
 			div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 			div.style.minWidth = parent.width;
@@ -463,7 +465,7 @@
 			div.style.left = "auto";
 			div.style.top = "auto";
 			self.wrapper = createElement('div');
-			self.wrapper.className = 'calendar-container';
+			self.wrapper.className = self.params.classes.wrapperClass;
 			div.appendChild(self.wrapper);
 			self.wrapper.appendChild(table);
 			var thead = createElement("thead", table);
@@ -495,7 +497,7 @@
 			if (self.params.compressedHeader == false) {                                                        // Head - year
 				row = createElement("tr", thead);
 				row.className = "calendar-head-row";
-				self._nav_py = hh("<", 1, -2, '', '', 'btn btn-small btn-default pull-left prev_month_btn');    // Previous year button
+				self._nav_py = hh("<", 1, -2, '', '', 'btn btn-small btn-default pull-left');    // Previous year button
 				self.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', self.params.weekNumbers ? 6 : 5, 300);
 				self.title.className = "title";
 				self._nav_ny = hh(">", 1, 2, '', '', 'btn btn-small btn-default pull-right');                   // Next year button
@@ -503,7 +505,7 @@
 
 			row = createElement("tr", thead);                                                                   // Head - month
 			row.className = "calendar-head-row";
-			self._nav_pm = hh("<", 1, -1, '', '', 'btn btn-small btn-default pull-left next_month_btn');        // Previous month button
+			self._nav_pm = hh("<", 1, -1, '', '', 'btn btn-small btn-default pull-left');        // Previous month button
 			self._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', self.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 			self._nav_month.className = "title";
 			self._nav_nm = hh(">", 1, 1, '', '', 'btn btn-small btn-default pull-right');                       // Next month button
@@ -719,10 +721,9 @@
 				}
 				row.className = "daysrow";
 				var hasdays = false, iday, dpos = ar_days[i] = [], totalDays = monthDays +1;
-				for (var j = 0; j < totalDays; ++j, cell = cell.nextSibling, date.setDate(iday + 1)) {
+				for (var j = 0; j < totalDays; ++j, cell = cell.nextSibling, date.setLocalDate(self.params.dateType, iday + 1)) {
 					cell.className = "day";
 					cell.style['textAlign'] = 'center';
-
 					iday = date.getLocalDate(self.params.dateType);
 					var wday = date.getLocalDate(self.params.dateType);
 					cell.pos = i << 4 | j;
@@ -744,7 +745,7 @@
 						cell.style.cursor = "pointer";
 					}
 					cell.disabled = false;
-					cell.innerHTML = Date.convertNumbers(iday);                                                 // translated day number for each cell
+					cell.innerHTML = self.params.debug ? iday : Date.convertNumbers(iday);                     // translated day number for each cell
 					if (!cell.disabled) {
 						cell.caldate = new Date(date);
 						if (current_month && iday == mday) {
@@ -767,8 +768,8 @@
 				}
 			}
 			if (!self.params.compressedHeader) {
-				self._nav_month.getElementsByTagName('span')[0].innerHTML = JoomlaCalLocale.months[month];
-				self.title.getElementsByTagName('span')[0].innerHTML = Date.convertNumbers(year.toString());
+				self._nav_month.getElementsByTagName('span')[0].innerHTML = self.params.debug ? month + ' ' + JoomlaCalLocale.months[month] : JoomlaCalLocale.months[month];
+				self.title.getElementsByTagName('span')[0].innerHTML = self.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
 			} else {
 				var tmpYear = Date.convertNumbers(year.toString());
 				self._nav_month.getElementsByTagName('span')[0].innerHTML = !self.params.monthBefore  ? JoomlaCalLocale.months[month] + ' - ' + tmpYear : tmpYear + ' - ' + JoomlaCalLocale.months[month] ;
@@ -778,34 +779,23 @@
 
 		/** Method to listen for the click event on the input button. **/
 		var bind = function (element) {
-			if (hasClass(elem.getElementsByTagName("button")[0], 'hidden'))
-			{
-				addCalEvent(element.parentNode.getElementsByTagName('INPUT')[0], 'focus', show, true);
-			} else {
-				addCalEvent(element, 'click', show, false);
-			}
-
-			addCalEvent(element.parentNode.getElementsByTagName('INPUT')[0].form, 'submit', getJoomlaCalendarValuesFromAlt(), true);
+			addCalEvent(element.parentNode.getElementsByTagName('INPUT')[0], 'focus', show, true);
+			addCalEvent(element, 'click', show, false);
+			addCalEvent(element.parentNode.getElementsByTagName('INPUT')[0].form, 'submit', getJoomlaCalendarValuesFromAlt(), false);
 		};
 
 		var checkInputs = function () {
 			// Get the date from the input
-			var isNew = false, xdate = '';
-			console.log(self.params.inputField.value); // @TODO Remove
-			var inputValueDate = Date.parseFieldDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType);
-			var inputAltValueDate = Date.parseFieldDate(self.params.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', self.params.dateType);
+			var inputAltValueDate = Date.parseFieldDate(self.params.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
 			if (self.params.inputField.value.length) {
 				if (self.params.inputField.getAttribute('data-alt-value') != '0000-00-00 00:00:00' || self.params.inputField.value != '' ) {
-					if (inputValueDate && inputAltValueDate && inputValueDate.equalsTo(inputAltValueDate)) {
-						console.log('Equality ' + inputValueDate + " " + inputAltValueDate); // @TODO Remove
-						self.date = new Date(inputValueDate);
-					} else {
-						console.log('Non equality '); // @TODO Remove
-						self.date = new Date();
+					if (self.params.dateType != 'gregorian') {
+						var date = new Date(inputAltValueDate);
+						self.params.inputField.value = date.print(self.params.dateFormat, self.params.dateType, true);
 					}
+					self.date = new Date(inputAltValueDate);
 				}
 			} else {
-				console.log('Empty input '); // @TODO Remove
 				self.date = new Date();
 			}
 		};
@@ -813,7 +803,6 @@
 		/** Method that initialises the initialises the calendar. **/
 		var init = function() {
 			self.destroy = destroy;
-			console.log('ooops');
 			self.element = elem;
 			self.params = {};
 

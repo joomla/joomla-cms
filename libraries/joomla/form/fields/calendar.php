@@ -154,8 +154,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->showtime     = (bool) $this->element['showtime'] ? (bool) $this->element['showtime'] : false;
 			$this->filltable    = (bool) $this->element['filltable'] ? (bool) $this->element['filltable'] : true;
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
-			$this->minyear      = (int) $this->element['minyear'] ? (int) $this->element['minyear'] : 1970;
-			$this->maxyear      = (int) $this->element['maxyear'] ? (int) $this->element['maxyear'] : 2050;
+			$this->minyear      = (int) $this->element['minyear'] ? (int) $this->element['minyear'] : JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_MIN_YEAR');
+			$this->maxyear      = (int) $this->element['maxyear'] ? (int) $this->element['maxyear'] : JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_MAX_YEAR');
 			$this->singleheader = (bool) $this->element['singleheader'] ? (bool) $this->element['singleheader'] : false;
 		}
 
@@ -232,7 +232,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$data['value'] = strftime($this->format , strtotime($this->value));
+			$data['value'] = strftime($this->format, strtotime($this->value));
 			date_default_timezone_set($tz);
 		}
 
