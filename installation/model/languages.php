@@ -1117,10 +1117,7 @@ class InstallationModelLanguages extends JModelBase
 		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
 		$currentDate = JFactory::getDate()->toSql();
 
-<<<<<<< HEAD
-=======
 		// Initialize a new article.
->>>>>>> 16abc7c23b5f01bf9bd5a07fb76263ea6885070d
 		$article = JTable::getInstance('Content');
 
 		$data = array(
