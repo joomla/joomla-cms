@@ -58,9 +58,7 @@ class FieldsModelField extends JModelAdmin
 				return;
 			}
 
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $record->context . '.field.' . (int) $record->id);
+			return JFactory::getUser()->authorise('core.delete', $record->context . '.field.' . (int) $record->id);
 		}
 	}
 
@@ -159,7 +157,7 @@ class FieldsModelField extends JModelAdmin
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
-			// Cast catid to integer for comparison
+		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
 
 		// Check if New Category exists
@@ -224,8 +222,17 @@ class FieldsModelField extends JModelAdmin
 		{
 			$pks = (array) $pks;
 			$pks = ArrayHelper::toInteger($pks);
-			$this->_db->setQuery('delete from #__fields_values where field_id in (' . implode(',', $pks) . ')');
-			$this->_db->query();
+			$pks = array_filter($pks);
+
+			if (!empty($pks))
+			{
+				$query = $this->getDbo()->getQuery(true);
+
+				$query	->delete($query->qn('#__fields_values'))
+						->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+
+				$this->getDbo()->setQuery($query)->execute();
+			}
 		}
 
 		return $success;
@@ -294,7 +301,9 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function getItem ($pk = null)
 	{
-		if ($result = parent::getItem($pk))
+		$result = parent::getItem($pk);
+
+		if ($result)
 		{
 			// Prime required properties.
 			if (empty($result->id))
@@ -322,6 +331,7 @@ class FieldsModelField extends JModelAdmin
 			{
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
+
 				$result->created_time = $date->toSql(true);
 			}
 			else
@@ -333,6 +343,7 @@ class FieldsModelField extends JModelAdmin
 			{
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
+
 				$result->modified_time = $date->toSql(true);
 			}
 			else
@@ -373,7 +384,7 @@ class FieldsModelField extends JModelAdmin
 
 			$this->setState('field.context', $context);
 			$this->setState('field.component', $parts[0]);
-			$this->setState('field.section', @$parts[1]);
+			$this->setState('field.section', isset($parts[1]) ? $parts[1] : '');
 		}
 
 		// Get the form.
@@ -398,7 +409,7 @@ class FieldsModelField extends JModelAdmin
 
 		if (isset($data['type']))
 		{
-			$parts = explode('.', JFactory::getApplication()->input->getCmd('context', $this->getState('field.context')));
+			$parts = explode('.', $jinput->getCmd('context', $this->getState('field.context')));
 			$component = $parts[0];
 			$this->loadTypeForms($form, $data['type'], $component);
 		}
@@ -457,6 +468,7 @@ class FieldsModelField extends JModelAdmin
 				$context = substr($app->getUserState('com_fields.fields.filter.context'), 4);
 				$component = FieldsHelper::extract($context);
 				$component = $component ? $component[0] : null;
+
 				$filters = (array) $app->getUserState('com_fields.fields.' . $component . '.filter');
 
 				$data->set('published', $app->input->getInt('published', (! empty($filters['published']) ? $filters['published'] : null)));
@@ -560,14 +572,19 @@ class FieldsModelField extends JModelAdmin
 			$this->valueCache[$key] = null;
 			$db = $this->_db;
 
-			$query = 'select value from #__fields_values ';
-			$query .= 'where field_id = ' . (int) $fieldId . ' and context = ' . $db->q($context) . ' and item_id = ' . $db->q($itemId) . ' ';
-			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			$query = $this->getDbo()->getQuery(true);
+
+			$query	->select($query->qn('value'))
+					->from($query->qn('#__fields_values'))
+					->where($query->qn('field_id') . ' = ' . (int) $fieldId)
+					->where($query->qn('context') . ' = ' . $query->q($context))
+					->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
 
 			if (count($rows) == 1)
 			{
-				$this->valueCache[$key] = $rows[0]->value;
+				$this->valueCache[$key] = array_shift($rows)->value;
 			}
 			elseif (count($rows) > 1)
 			{
@@ -597,7 +614,6 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function setFieldValue ($fieldId, $context, $itemId, $value)
 	{
-		$db = $this->_db;
 		$field = $this->getItem($fieldId);
 		$params = $field->params;
 
@@ -648,35 +664,42 @@ class FieldsModelField extends JModelAdmin
 		if ($needsDelete)
 		{
 			// Deleting the existing record as it is a reset
-			$query = 'delete from #__fields_values where ';
-			$query .= 'field_id =' . (int) $fieldId . ' and context = ' . $db->q($context) . ' and item_id = ' . $db->q($itemId);
+			$query = $this->getDbo()->getQuery(true);
 
-			$db->setQuery($query);
-			$db->query();
+			$query	->delete($query->qn('#__fields_values'))
+					->where($query->qn('field_id') . ' = ' . (int) $fieldId)
+					->where($query->qn('context') . ' = ' . $query->q($context))
+					->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+			$this->getDbo()->setQuery($query)->execute();
 		}
 
 		if ($needsInsert)
 		{
-			$query = 'insert into #__fields_values (field_id, context, item_id, value) values ';
+			$newObj = new stdClass;
+
+			$newObj->field_id = (int) $fieldId;
+			$newObj->context = $context;
+			$newObj->item_id = $itemId;
 
 			foreach ($value as $v)
 			{
-				$query .= '(' . (int) $fieldId . ', ' . $db->q($context) . ', ' . $db->q($itemId) . ', ' . $db->q($v) . '),';
+				$newObj->value = $v;
+
+				$this->getDbo()->insertObject('#__fields_values', $newObj);
 			}
-
-			$query = trim($query, ',');
-
-			$db->setQuery($query);
-			$db->query();
 		}
 
 		if ($needsUpdate)
 		{
-			$query = 'update #__fields_values set value = ' . $db->q(reset($value)) . ' where ';
-			$query .= 'field_id =' . (int) $fieldId . ' and context = ' . $db->q($context) . ' and item_id = ' . $db->q($itemId);
+			$updateObj = new stdClass;
 
-			$db->setQuery($query);
-			$db->query();
+			$updateObj->field_id = (int) $fieldId;
+			$updateObj->context = $context;
+			$updateObj->item_id = $itemId;
+			$updateObj->value = reset($value);
+
+			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
 		}
 
 		$this->valueCache = array();
@@ -694,9 +717,13 @@ class FieldsModelField extends JModelAdmin
 	 */
 	public function cleanupValues ($context, $itemId)
 	{
-		$db = $this->_db;
-		$db->setQuery('delete from #__fields_values where context = ' . $db->q($context) . ' and item_id = ' . $db->q($itemId));
-		$db->query();
+		$query = $this->getDbo()->getQuery(true);
+
+		$query	->delete($query->qn('#__fields_values'))
+				->where($query->qn('context') . ' = ' . $query->q($context))
+				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+
+		$this->getDbo()->setQuery($query)->execute();
 	}
 
 	/**
