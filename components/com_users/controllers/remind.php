@@ -66,7 +66,7 @@ class UsersControllerRemind extends UsersController
 
 			// Proceed to step two.
 			$message = JText::_('COM_USERS_REMIND_REQUEST_SUCCESS');
-			$this->setRedirect(JRoute::_($route, false. $useSSL), $message);
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message);
 
 			return true;
 		}
