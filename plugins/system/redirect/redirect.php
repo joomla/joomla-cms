@@ -56,15 +56,18 @@ class PlgSystemRedirect extends JPlugin
 	/**
 	 * Method to handle an error condition from JError.
 	 *
-	 * @param   JException  &$error  The JException object to be handled.
+	 * @param   Exception  &$error  The Exception object passed from JError to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function handleError(JException &$error)
+	public static function handleError(&$error)
 	{
-		self::doErrorHandling($error);
+		if (is_object($error) && ($error instanceof Exception))
+		{
+			self::handleException($error);
+		}
 	}
 
 	/**
