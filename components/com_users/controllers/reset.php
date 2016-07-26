@@ -88,7 +88,7 @@ class UsersControllerReset extends UsersController
 			$route  = 'index.php?option=com_users&view=reset&layout=confirm' . $itemid;
 
 			// Proceed to step two.
-			$this->setRedirect(JRoute::_($route, false. $useSSL));
+			$this->setRedirect(JRoute::_($route, false, $useSSL));
 
 			return true;
 		}
