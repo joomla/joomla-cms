@@ -33,6 +33,7 @@ $showLimitStart = $options->get('showLimitStart', true);
 	<?php if ($showPagesLinks && (!empty($pages))) : ?>
 		<ul class="pagination-list">
 			<?php
+				$pages['start']['pagOptions'] = array('addText' => ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', 1, $pagesTotal) . ')');
 				echo JLayoutHelper::render('joomla.pagination.link', $pages['start']);
 				echo JLayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 			<?php foreach ($pages['pages'] as $page) :
