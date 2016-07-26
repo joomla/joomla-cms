@@ -86,9 +86,10 @@ class ContentViewFeatured extends JViewLegacy
 				$item->text = $item->introtext;
 			}
 
+			$item->tags = new JHelperTags;
+
 			if ($item->params->get('show_tags', 1))
 			{
-				$item->tags = new JHelperTags;
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 

@@ -44,6 +44,14 @@ class JHelperTags extends JHelper
 	public $typeAlias = null;
 
 	/**
+	 * Holds a list of item tags
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	public $itemTags = array();
+
+	/**
 	 * Method to add tag rows to mapping table.
 	 *
 	 * @param   integer          $ucmId  ID of the #__ucm_content item being tagged
