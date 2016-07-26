@@ -685,6 +685,12 @@ class ContentModelArticles extends JModelList
 					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
 				}
 			}
+
+			if ($item->params->get('show_tags', 1))
+			{
+				// Init tags only for B/C
+				$item->tags = new JHelperTags;
+			}
 		}
 
 		return $items;
