@@ -585,8 +585,21 @@ final class JApplicationSite extends JApplicationCms
 			$user->groups = array($guestUsergroup);
 		}
 
-		// If a language was specified it has priority, otherwise use user or default language settings
-		JPluginHelper::importPlugin('system', 'languagefilter');
+		/*
+		 * If a language was specified it has priority, otherwise use user or default language settings
+		 * Check this only if the languagefilter plugin is enabled
+		 *
+		 * @TODO - Remove the hardcoded dependency to the languagefilter plugin
+		 */
+		if (JPluginHelper::isEnabled('system', 'languagefilter'))
+		{
+			$plugin = JPluginHelper::getPlugin('system', 'languagefilter');
+
+			$pluginParams = new Registry($plugin->params);
+
+			$this->setLanguageFilter(true);
+			$this->setDetectBrowser($pluginParams->get('detect_browser', '1') == '1');
+		}
 
 		if (empty($options['language']))
 		{
@@ -600,7 +613,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		if ($this->_language_filter && empty($options['language']))
+		if ($this->getLanguageFilter() && empty($options['language']))
 		{
 			// Detect cookie language
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
@@ -624,7 +637,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		if ($this->_detect_browser && empty($options['language']))
+		if ($this->getDetectBrowser() && empty($options['language']))
 		{
 			// Detect browser language
 			$lang = JLanguageHelper::detectLanguage();

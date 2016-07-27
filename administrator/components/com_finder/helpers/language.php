@@ -33,10 +33,8 @@ class FinderHelperLanguage
 		{
 			return 'PLG_FINDER_QUERY_FILTER_BRANCH_P_' . $return;
 		}
-		else
-		{
-			return $branchName;
-		}
+
+		return $branchName;
 	}
 
 	/**
@@ -93,8 +91,7 @@ class FinderHelperLanguage
 	 */
 	public static function loadComponentLanguage()
 	{
-		$lang = JFactory::getLanguage();
-		$lang->load('com_finder', JPATH_SITE);
+		JFactory::getLanguage()->load('com_finder', JPATH_SITE);
 	}
 
 	/**

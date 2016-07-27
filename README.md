@@ -16,14 +16,6 @@ What is this?
 * The `tests\javascript` directory contains all those JavaScript tests.
 * The tests are written using the Jasmine framework and Karma is used as the test runner.
 
-Before you can run the tests, you need to install some programs on your local workstation, as documented below.
-
-Prerequisites
----------------------
-* The testing environment requires your local machine to have Node.js installed in it.
-* To install node.js, please go to the node.js [official website](https://nodejs.org/en/), download the respective setup for your operating system and install it by following the installation wizard.
-* The current testing setup uses Firefox as the browser to run the tests. Please make sure You have Firefox installed in you local machine.
-
 Install dependencies
 ---------------------
 1. Open a command line and navigate to the directory `tests/javascript`

@@ -1224,12 +1224,12 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			// Show a notice if the item isn't assigned to a language but we have associations.
+			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && ($table->language == '*'))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
-					'notice'
+					'warning'
 				);
 			}
 
@@ -1271,7 +1271,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  mixed
+	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
 	 *
 	 * @since   12.2
 	 */

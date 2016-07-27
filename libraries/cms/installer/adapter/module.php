@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.filesystem.folder');
 
 /**
@@ -648,7 +650,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		if (count($modules))
 		{
 			// Ensure the list is sane
-			JArrayHelper::toInteger($modules);
+			$modules = ArrayHelper::toInteger($modules);
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus
