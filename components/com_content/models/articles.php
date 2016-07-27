@@ -690,7 +690,7 @@ class ContentModelArticles extends JModelList
 			if ($item->params->get('show_tags', 1))
 			{
 				$item->tags = new JHelperTags;
-				$item->tags->setItem('com_content.article', $item->id);
+				$item->tags->setItemIdentifier('com_content.article', $item->id);
 			}
 		}
 

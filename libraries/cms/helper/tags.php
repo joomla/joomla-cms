@@ -36,7 +36,7 @@ class JHelperTags extends JHelper
 	protected $replaceTags = false;
 
 	/**
-	 * Holds a list of item tags
+	 * Holds a list of item tags.
 	 *
 	 * @var    array
 	 * @since  3.1
@@ -394,21 +394,16 @@ class JHelperTags extends JHelper
 	 *
 	 * @param   integer  $typeAlias  Content type alias. Dot separated.
 	 * @param   integer  $id         Id of the item to retrieve tags for.
-	 * @param   boolean  $reset      Reset the previous value of itemTags
 	 *
 	 * @return  null
 	 *
 	 * @since   3.7
 	 */
-	public function setItem($typeAlias, $id, $reset = true)
+	public function setItemIdentifier($typeAlias, $id)
 	{
 		$this->typeAlias = $typeAlias;
-		$this->itemId = (int) $id;
-
-		if ($reset)
-		{
-			$this->itemTags = null;
-		}
+		$this->itemId    = (int) $id;
+		$this->itemTags  = null;
 	}
 
 	/**
@@ -441,7 +436,7 @@ class JHelperTags extends JHelper
 	/**
 	 * Method for inspecting protected variables.
 	 *
-	 * @param   string   $name  Property name.
+	 * @param   string  $name  Property name.
 	 *
 	 * @return  boolean  True if variable is not null.
 	 *
