@@ -70,13 +70,24 @@ class JRoute
 		 * 'port' to $scheme, otherwise we have to set scheme and port according to $ssl (if $ssl is 1 we need
 		 * HTTPS scheme, if $ssl is 2 we need HTTP scheme, for details see JUri::siteScheme()) and we also need
 		 * to add 'host', 'scheme' and 'port' to $scheme.
+		 * Note that setting scheme and port is done only if "Force HTTPS" is not "None".
 		 */
+		$force_ssl = JFactory::getConfig()->get('force_ssl', 0);
 		if ($uri->isSsl() and (int) $ssl != 2)
 		{
 			$scheme = array_merge($scheme, array('host', 'scheme', 'port'));
 		}
-		elseif ((int) $ssl)
+		elseif ($force_ssl != 0 and (int) $ssl)
 		{
+			static $host;
+			
+			if (! isset($host))
+			{
+				$uri2 = JUri::getInstance();
+				$host = $uri2->getHost();
+			}
+			
+			$uri->setHost($host);
 			$uri = JUri::siteScheme($uri, $ssl == 1);
 			$scheme = array_merge($scheme, array('host', 'scheme', 'port'));
 		}
