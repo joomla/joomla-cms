@@ -88,13 +88,18 @@
 
 		<field
 			name="memcache_server_port"
-			type="text"
-			default="11211"
+			type="number"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcache"
+			min="1"
+			max="65536"
+			default="11211"
+			hint="11211"
 			filter="integer"
-			size="5" />
+			validate="number"
+			showon="caching:1,2[AND]cache_handler:memcache"
+			size="5"
+		/>
 
 		<field
 			name="memcached_persist"
@@ -134,13 +139,18 @@
 
 		<field
 			name="memcached_server_port"
-			type="text"
-			default="11211"
+			type="number"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
-			showon="caching:1,2[AND]cache_handler:memcached"
+			min="1"
+			max="65536"
+			default="11211"
+			hint="11211"
 			filter="integer"
-			size="5" />
+			validate="number"
+			showon="caching:1,2[AND]cache_handler:memcached"
+			size="5"
+		/>
 
 		<field
 			name="redis_persist"
@@ -167,13 +177,18 @@
 
 		<field
 			name="redis_server_port"
-			type="text"
-			default="6379"
+			type="number"
 			label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+			min="1"
+			max="65536"
+			default="6379"
+			hint="6379"
 			filter="integer"
+			validate="number"
 			showon="caching:1,2[AND]cache_handler:redis"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="redis_server_auth"
@@ -303,12 +318,18 @@
 
 		<field
 			name="ftp_port"
-			type="text"
+			type="number"
 			label="COM_CONFIG_FIELD_FTP_PORT_LABEL"
 			description="COM_CONFIG_FIELD_FTP_PORT_DESC"
-			filter="string"
+			min="1"
+			max="65536"
+			default="21"
+			hint="21"
+			filter="integer"
+			validate="number"
 			showon="ftp_enable:1"
-			size="8" />
+			size="5"
+		/>
 
 		<field
 			name="ftp_user"
@@ -366,12 +387,18 @@
 
 		<field
 			name="proxy_port"
-			type="text"
+			type="number"
 			label="COM_CONFIG_FIELD_PROXY_PORT_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_PORT_DESC"
-			filter="string"
+			min="1"
+			max="65536"
+			default="8080"
+			hint="8080"
+			filter="integer"
+			validate="number"
 			showon="proxy_enable:1"
-			size="8" />
+			size="5"
+		/>
 
 		<field
 			name="proxy_user"
@@ -497,14 +524,18 @@
 
 		<field
 			name="smtpport"
-			type="text"
+			type="number"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PORT_DESC"
+			min="1"
+			max="65536"
 			default="25"
-			showon="mailonline:1[AND]mailer:smtp"
+			hint="25"
+			filter="integer"
+			validate="number"
 			required="true"
-			filter="string"
-			size="6"
+			showon="mailonline:1[AND]mailer:smtp"
+			size="5"
 		/>
 
 		<field
@@ -778,13 +809,19 @@
 
 		<field
 			name="session_memcache_server_port"
-			type="text"
-			default="11211"
+			type="number"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			min="1"
+			max="65536"
+			default="11211"
+			hint="11211"
 			filter="integer"
+			validate="number"
+			required="true"
 			showon="session_handler:memcache"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="session_memcached_server_host"
@@ -798,13 +835,20 @@
 
 		<field
 			name="session_memcached_server_port"
-			type="text"
-			default="11211"
+			type="number"
 			label="COM_CONFIG_FIELD_MEMCACHE_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
+			min="1"
+			max="65536"
+			default="11211"
+			hint="11211"
 			filter="integer"
+			validate="number"
+			required="true"
 			showon="session_handler:memcached"
-			size="5" />
+			size="5"
+		/>
+
 	</fieldset>
 
 	<fieldset
