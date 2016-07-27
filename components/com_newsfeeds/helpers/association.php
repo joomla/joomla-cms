@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
-JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
+JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
 JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
