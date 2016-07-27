@@ -479,6 +479,9 @@ th .tooltip-inner {
 .alert-link {
 	font-weight: bold;
 }
+.alert .alert-link {
+	color: #a47e3c;
+}
 .alert-success .alert-link {
 	color: #356635;
 }
