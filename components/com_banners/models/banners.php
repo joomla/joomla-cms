@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
@@ -120,7 +121,7 @@ class BannersModelBanners extends JModelList
 		}
 		elseif ((is_array($categoryId)) && (count($categoryId) > 0))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 
 			if ($categoryId != '0')

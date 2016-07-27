@@ -1289,6 +1289,7 @@ div.btn-toolbar {
 	float: left;
 }
 
+.popover,
 .tooltip-inner {
 	text-align: right;
 }

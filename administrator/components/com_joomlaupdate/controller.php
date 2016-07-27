@@ -47,10 +47,7 @@ class JoomlaupdateController extends JControllerLegacy
 			$model = $this->getModel('default');
 
 			// Push the Installer Warnings model into the view, if we can load it
-			if (!class_exists('InstallerModelWarnings'))
-			{
-				@include_once JPATH_ADMINISTRATOR . '/components/com_installer/models/warnings.php';
-			}
+			static::addModelPath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
 
 			$warningsModel = $this->getModel('warnings', 'InstallerModel');
 

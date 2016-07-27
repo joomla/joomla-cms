@@ -265,8 +265,7 @@
 			class="btn-group btn-group-yesno"
 			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			default="1"
-			showon="show_icons:1">
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -277,8 +276,7 @@
 			class="btn-group btn-group-yesno"
 			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-			default="1"
-			showon="show_icons:1">
+			default="1">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -695,9 +693,6 @@
 		<field name="spacer1"
 			type="spacer"
 			hr="true"
-			/>
-		<field name="subcategories" type="spacer" class="spacer"
-					label="JGLOBAL_SUBSLIDER_BLOG_EXTENDED_LABEL"
 			/>
 
 		<field name="show_subcategory_content" type="list"

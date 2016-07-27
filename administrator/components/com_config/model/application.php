@@ -127,7 +127,16 @@ class ConfigModelApplication extends ConfigModelForm
 				$host    = JUri::getInstance()->getHost();
 				$options = new \Joomla\Registry\Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
-				$options->set('transport.curl', array(CURLOPT_SSL_VERIFYPEER => false));
+				
+				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
+				$options->set('transport.curl',
+					array(
+						CURLOPT_SSL_VERIFYPEER => false,
+						CURLOPT_SSL_VERIFYHOST => false,
+						CURLOPT_PROXY => null,
+						CURLOPT_PROXYUSERPWD => null,
+					)
+				);
 				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
@@ -778,7 +787,7 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
-				$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'success');
+				$app->enqueueMessage(JText::sprintf('COM_CONFIG_SENDMAIL_SUCCESS', $app->get('mailfrom'), $methodName), 'message');
 			}
 
 			return true;
