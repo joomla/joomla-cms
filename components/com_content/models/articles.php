@@ -686,10 +686,11 @@ class ContentModelArticles extends JModelList
 				}
 			}
 
+			// @deprecated 4.0
 			if ($item->params->get('show_tags', 1))
 			{
-				// Init tags only for B/C
 				$item->tags = new JHelperTags;
+				$item->tags->setItem('com_content.article', $item->id);
 			}
 		}
 

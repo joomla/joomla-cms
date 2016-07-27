@@ -36,20 +36,28 @@ class JHelperTags extends JHelper
 	protected $replaceTags = false;
 
 	/**
+	 * Holds a list of item tags
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $itemTags = null;
+
+	/**
+	 * Item id
+	 *
+	 * @var    integer
+	 * @since  3.7
+	 */
+	protected $itemId = null;
+
+	/**
 	 * Alias for querying mapping and content type table.
 	 *
 	 * @var    string
 	 * @since  3.1
 	 */
 	public $typeAlias = null;
-
-	/**
-	 * Holds a list of item tags
-	 *
-	 * @var    array
-	 * @since  3.1
-	 */
-	public $itemTags = array();
 
 	/**
 	 * Method to add tag rows to mapping table.
@@ -379,6 +387,69 @@ class JHelperTags extends JHelper
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
 		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
+	}
+
+	/**
+	 * Method to set a typeAlias and id of content item.
+	 *
+	 * @param   integer  $typeAlias  Content type alias. Dot separated.
+	 * @param   integer  $id         Id of the item to retrieve tags for.
+	 * @param   boolean  $reset      Reset the previous value of itemTags
+	 *
+	 * @return  null
+	 *
+	 * @since   3.7
+	 */
+	public function setItem($typeAlias, $id, $reset = true)
+	{
+		$this->typeAlias = $typeAlias;
+		$this->itemId = (int) $id;
+
+		if ($reset)
+		{
+			$this->itemTags = null;
+		}
+	}
+
+	/**
+	 * Method for inspecting protected variables.
+	 *
+	 * @param   string  $name  Property name.
+	 *
+	 * @return  mixed   The value of the instance variable.
+	 *
+	 * @since   3.7
+	 */
+	public function __get($name)
+	{
+		if ($name === 'itemTags')
+		{
+			if ($this->itemTags === null && $this->typeAlias && $this->itemId)
+			{
+				return $this->getItemTags($this->typeAlias, $this->itemId);
+			}
+
+			return $this->itemTags;
+		}
+
+		if ($name === 'itemId')
+		{
+			return $this->itemId;
+		}
+	}
+
+	/**
+	 * Method for inspecting protected variables.
+	 *
+	 * @param   string   $name  Property name.
+	 *
+	 * @return  boolean  True if variable is not null.
+	 *
+	 * @since   3.7
+	 */
+	public function __isset($name)
+	{
+		return ($this->__get($name) !== null);
 	}
 
 	/**
