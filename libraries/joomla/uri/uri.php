@@ -377,31 +377,22 @@ class JUri extends Uri
 				// "Force HTTPS" is set to "Administrator Only"
 				if ($usesecure)
 				{
-					// Secure scheme needed e.g. for login or registration, set if not set already
-					if (! $uriObj->isSsl())
-					{
-						$uriObj->setScheme('https');
-						$uriObj->setPort($config->get('https_port'));
-					}
+					// Secure scheme needed e.g. for login or registration
+					$uriObj->setScheme('https');
+					$uriObj->setPort($config->get('https_port'));
 				}
 				else
 				{
-					// No secure scheme needed, set HTTP scheme if not set already
-					if ($uriObj->isSsl())
-					{
-						$uriObj->setScheme('http');
-						$uriObj->setPort($config->get('http_port'));
-					}
+					// No secure scheme needed, set HTTP scheme
+					$uriObj->setScheme('http');
+					$uriObj->setPort($config->get('http_port'));
 				}
 			}
 			else
 			{
-				// "Force HTTPS" is set to "Entire Site", set HTTPS scheme if not already set
-				if (! $uriObj->isSsl())
-				{
-					$uriObj->setScheme('https');
-					$uriObj->setPort($config->get('https_port'));
-				}
+				// "Force HTTPS" is set to "Entire Site", set HTTPS scheme
+				$uriObj->setScheme('https');
+				$uriObj->setPort($config->get('https_port'));
 			}
 			
 			// Build new site URI string if URI string given otherwise return new URI object
@@ -430,12 +421,9 @@ class JUri extends Uri
 		{
 			$uriObj = is_string($uri) ? static::getInstance($uri) : $uri;
 			
-			// "Force HTTPS" is set to "Administrator Only" or to Entire Site", set HTTPS scheme if not already set
-			if (! $uriObj->isSsl())
-			{
-				$uriObj->setScheme('https');
-				$uriObj->setPort($config->get('https_port'));
-			}
+			// "Force HTTPS" is set to "Administrator Only" or to Entire Site", set HTTPS scheme
+			$uriObj->setScheme('https');
+			$uriObj->setPort($config->get('https_port'));
 
 			// Build new administrator URI string if URI string given otherwise return new URI object
 			$uri = is_string($uri) ? $uriObj->toString() : $uriObj;
