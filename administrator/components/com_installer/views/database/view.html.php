@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Extension Manager Manage View
@@ -60,14 +60,13 @@ class InstallerViewDatabase extends InstallerViewDefault
 			$this->errorCount++;
 		}
 
-		// Check error count
 		if ($this->errorCount === 0)
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'error');
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);

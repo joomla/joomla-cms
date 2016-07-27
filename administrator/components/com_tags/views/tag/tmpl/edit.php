@@ -47,6 +47,8 @@ $this->ignore_fieldsets = array('jmetadata');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -58,7 +60,6 @@ $this->ignore_fieldsets = array('jmetadata');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 	</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

@@ -68,6 +68,8 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -92,8 +94,6 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

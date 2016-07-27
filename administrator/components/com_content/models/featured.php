@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * About Page Model

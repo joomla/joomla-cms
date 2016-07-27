@@ -883,6 +883,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			return -1;
+		}
+
 		return pg_set_client_encoding($this->connection, 'UTF8');
 	}
 
