@@ -89,7 +89,7 @@ class ContentViewFeatured extends JViewLegacy
 			if ($item->params->get('show_tags', 1) && !isset($item->tags))
 			{
 				$item->tags = new JHelperTags;
-				$item->tags->setItemIdentifier('com_content.article', $item->id);
+				$item->tags->getItemTags('com_content.article', $item->id);
 			}
 
 			JPluginHelper::importPlugin('content');

@@ -206,6 +206,9 @@ abstract class ModArticlesCategoryHelper
 		// Filter by language
 		$articles->setState('filter.language', $app->getLanguageFilter());
 
+		// Do not load tags
+		$articles->setState('load_tags', false);
+
 		$items = $articles->getItems();
 
 		// Display options

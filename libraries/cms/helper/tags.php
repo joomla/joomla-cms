@@ -36,22 +36,6 @@ class JHelperTags extends JHelper
 	protected $replaceTags = false;
 
 	/**
-	 * Holds a list of item tags.
-	 *
-	 * @var    array
-	 * @since  3.1
-	 */
-	protected $itemTags = null;
-
-	/**
-	 * Item id
-	 *
-	 * @var    integer
-	 * @since  3.7
-	 */
-	protected $itemId = null;
-
-	/**
 	 * Alias for querying mapping and content type table.
 	 *
 	 * @var    string
@@ -387,64 +371,6 @@ class JHelperTags extends JHelper
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
 		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
-	}
-
-	/**
-	 * Method to set a typeAlias and id of content item.
-	 *
-	 * @param   integer  $typeAlias  Content type alias. Dot separated.
-	 * @param   integer  $id         Id of the item to retrieve tags for.
-	 *
-	 * @return  null
-	 *
-	 * @since   3.7
-	 */
-	public function setItemIdentifier($typeAlias, $id)
-	{
-		$this->typeAlias = $typeAlias;
-		$this->itemId    = (int) $id;
-		$this->itemTags  = null;
-	}
-
-	/**
-	 * Method for inspecting protected variables.
-	 *
-	 * @param   string  $name  Property name.
-	 *
-	 * @return  mixed   The value of the instance variable.
-	 *
-	 * @since   3.7
-	 */
-	public function __get($name)
-	{
-		if ($name === 'itemTags')
-		{
-			if ($this->itemTags === null && $this->typeAlias && $this->itemId)
-			{
-				return $this->getItemTags($this->typeAlias, $this->itemId);
-			}
-
-			return $this->itemTags;
-		}
-
-		if ($name === 'itemId')
-		{
-			return $this->itemId;
-		}
-	}
-
-	/**
-	 * Method for inspecting protected variables.
-	 *
-	 * @param   string  $name  Property name.
-	 *
-	 * @return  boolean  True if variable is not null.
-	 *
-	 * @since   3.7
-	 */
-	public function __isset($name)
-	{
-		return ($this->__get($name) !== null);
 	}
 
 	/**

@@ -112,6 +112,9 @@ abstract class ModArticlesLatestHelper
 		$model->setState('list.ordering', $ordering);
 		$model->setState('list.direction', $dir);
 
+		// Do not load tags
+		$model->setState('load_tags', false);
+
 		$items = $model->getItems();
 
 		foreach ($items as &$item)

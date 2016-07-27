@@ -73,6 +73,9 @@ abstract class ModArticlesPopularHelper
 		$model->setState('list.ordering', 'a.hits');
 		$model->setState('list.direction', 'DESC');
 
+		// Do not load tags
+		$model->setState('load_tags', false);
+
 		$items = $model->getItems();
 
 		foreach ($items as &$item)

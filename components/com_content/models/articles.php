@@ -686,11 +686,16 @@ class ContentModelArticles extends JModelList
 				}
 			}
 
+			// Get the tags
 			// @deprecated 4.0
 			if ($item->params->get('show_tags', 1))
 			{
-				$item->tags = new JHelperTags;
-				$item->tags->setItemIdentifier('com_content.article', $item->id);
+				// Defaults to true for B/C with previous versions that always loaded tags data
+				if ($this->getState('load_tags', true))
+				{
+					$item->tags = new JHelperTags;
+					$item->tags->getItemTags('com_content.article', $item->id);
+				}
 			}
 		}
 
