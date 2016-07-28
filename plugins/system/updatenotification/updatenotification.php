@@ -258,7 +258,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	private function getSuperUsers($email = null)
 	{
 		// Get a reference to the database object
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Convert the email list to an array
 		if (!empty($email))
