@@ -7660,3 +7660,6 @@ body.modal-open {
 li {
 	word-wrap: break-word;
 }
+.popover-content {
+	min-height: 33px;
+}
