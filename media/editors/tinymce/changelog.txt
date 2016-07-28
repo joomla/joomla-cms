@@ -1,3 +1,23 @@
+Version 4.4.0 (2016-06-30)
+	Added new inlite theme this is a more lightweight inline UI.
+	Added smarter paste logic that auto detects urls in the clipboard and inserts images/links based on that.
+	Added a better image resize algorithm for better image quality in the imagetools plugin.
+	Fixed bug where it wasn't possible to drag/dropping cE=false elements on FF.
+	Fixed bug where backspace/delete before/after a cE=false block would produce a new paragraph.
+	Fixed bug where list style type css property wasn't preserved when indenting lists.
+	Fixed bug where merging of lists where done even if the list style type was different.
+	Fixed bug where the image_dataimg_filter function wasn't used when pasting images.
+	Fixed bug where nested editable within a non editable element would cause scroll on focus in Chrome.
+	Fixed so invalid targets for inline mode is blocked on initialization. We only support elements that can have children.
+Version 4.3.13 (2016-06-08)
+	Added characters with a diacritical mark to charmap plugin. Patch contributed by Dominik Schilling.
+	Added better error handling if the image proxy service would produce errors.
+	Fixed issue with pasting list items into list items would produce nested list rather than a merged list.
+	Fixed bug where table selection could get stuck in selection mode for inline editors.
+	Fixed bug where it was possible to place the caret inside the resize grid elements.
+	Fixed bug where it wasn't possible to place in elements horizontally adjacent cE=false blocks.
+	Fixed bug where multiple notifications wouldn't be properly placed on screen.
+	Fixed bug where multiple editor instance of the same id could be produces in some specific integrations.
 Version 4.3.12 (2016-05-10)
 	Fixed bug where focus calls couldn't be made inside the editors PostRender event handler.
 	Fixed bug where some translations wouldn't work as expected due to a bug in editor.translate.

@@ -194,7 +194,7 @@ if($this->type == 'font')
 					<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 					<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 					<p>
-						<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+						<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
 							<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 						</a>
 					</p>

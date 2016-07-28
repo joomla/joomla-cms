@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Form Field class for the Joomla Framework.
  *
@@ -129,7 +131,7 @@ class JFormFieldTag extends JFormAbstractlist
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
+			$published = ArrayHelper::toInteger($published);
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
