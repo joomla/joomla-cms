@@ -8373,3 +8373,6 @@ body.modal-open {
 #page-permissions table select {
 	margin-bottom: 0;
 }
+.popover-content {
+	min-height: 33px;
+}

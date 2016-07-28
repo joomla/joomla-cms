@@ -3921,3 +3921,6 @@ div.toggle-editor {
 .muted {
 	color: #999;
 }
+.popover-content {
+	min-height: 33px;
+}
