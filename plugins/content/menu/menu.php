@@ -140,6 +140,11 @@ class PlgContentMenu extends JPlugin
 
 	public function onContentAfterSave($context, $article)
 	{
+		if (in_array($context, array('com_menus.item')))
+		{
+			return true;
+		}
+
 		$session = JFactory::getSession();
 		$data    = $session->get("formData");
 		$session->clear("formData");
