@@ -31,8 +31,9 @@ class PlgEditorCodemirror extends JPlugin
 	 * @var array
 	 */
 	protected $modeAlias = array(
-			'html' => 'htmlmixed',
-			'ini'  => 'properties'
+			'html' => 'text/html',
+			'ini'  => 'text/x-properties',
+			'json' => array('name' => 'javascript', 'json' => true),
 		);
 
 	/**
