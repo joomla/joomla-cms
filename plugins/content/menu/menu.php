@@ -89,7 +89,7 @@ class PlgContentMenu extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array($this->params->get('component_view'))))
+		if (!in_array($name, array($this->params->get('componentview'))))
 		{
 			return true;
 		}
