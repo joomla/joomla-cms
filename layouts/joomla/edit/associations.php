@@ -17,5 +17,5 @@ if ($displayData->getForm()->getValue('id') != 0 && $displayData->getForm()->get
 else
 {
 	echo '<div class="alert alert-info">' . JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE') . '</div>';
-	echo '<div class="hidden">' . $displayData->getForm()->renderFieldset('item_associations') . '<div>';
+	echo '<div class="hidden">' . $displayData->getForm()->renderFieldset('item_associations') . '</div>';
 }
