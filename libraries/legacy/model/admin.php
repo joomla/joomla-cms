@@ -1271,7 +1271,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  mixed
+	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
 	 *
 	 * @since   12.2
 	 */

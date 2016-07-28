@@ -100,7 +100,7 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * Method with common display elements used in category list displays
 	 *
-	 * @return  void
+	 * @return  boolean|JException|void  Boolean false or JException instance on error, nothing otherwise
 	 *
 	 * @since   3.2
 	 */
