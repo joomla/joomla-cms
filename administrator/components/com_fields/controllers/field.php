@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * The Field controller
  *
- * @since  3.6
+ * @since  3.7
  */
 class FieldsControllerField extends JControllerForm
 {

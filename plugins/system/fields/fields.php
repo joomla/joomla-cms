@@ -18,7 +18,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
 /**
  * Fields Plugin
  *
- * @since  3.6
+ * @since  3.7
  */
 class PlgSystemFields extends JPlugin
 {
@@ -26,7 +26,7 @@ class PlgSystemFields extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  3.6
+	 * @since  3.7
 	 */
 	protected $autoloadLanguage = true;
 

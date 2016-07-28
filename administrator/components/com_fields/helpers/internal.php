@@ -13,7 +13,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
 /**
  * Fields component helper.
  *
- * @since  3.6
+ * @since  3.7
  */
 class FieldsHelperInternal
 {
