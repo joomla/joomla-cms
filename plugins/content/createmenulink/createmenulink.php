@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Content.menu
+ * @subpackage  Content.createmenulink
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,11 +14,11 @@ use Joomla\Registry\Registry;
 JLoader::import('joomla.application.component.model');
 
 /**
- * Menu Plugin
+ * Createmenulink Plugin
  *
  * @since  3.6
  */
-class PlgContentMenu extends JPlugin
+class PlgContentCreatemenulink extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -103,7 +103,7 @@ class PlgContentMenu extends JPlugin
 		{
 			// Add the fields to the form.
 			JForm::addFormPath(__DIR__ . '/forms');
-			$form->loadFile('menu', false);
+			$form->loadFile('createmenulink', false);
 		}
 
 		return true;
