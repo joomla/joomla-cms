@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.6" type="plugin" group="content" method="upgrade">
-    <name>PLG_CONTENT_MENU</name>
+    <name>PLG_CONTENT_CREATEMENULINK</name>
     <author>Joomla! Project</author>
     <creationDate>July 2016</creationDate>
     <copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>admin@joomla.org</authorEmail>
     <authorUrl>www.joomla.org</authorUrl>
-    <version>1.0.0</version>
-    <description>PLG_CONTENT_MENU_XML_DESCRIPTION</description>
+    <version>1.1.0</version>
+    <description>PLG_CONTENT_CREATEMENULINK_XML_DESCRIPTION</description>
     <files>
-        <filename plugin="menu">menu.php</filename>
+        <filename plugin="createmenulink">createmenulink.php</filename>
 	    <folder>forms</folder>
     </files>
 	<config>
@@ -19,8 +19,8 @@
 				<field
 					name="componentview"
 				    type="list"
-				    label="PLG_CONTENT_MENU_COMPONENT_OPTION"
-				    description="PLG_CONTENT_MENU_COMPONENT_OPTION_DESC">
+				    label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
+				    description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC">
 				    <option value="com_content.article">com_content.article</option>
 					<option value="com_contact.contact">com_contact.contact</option>
 				</field>
@@ -28,7 +28,7 @@
 		</fields>
 	</config>
     <languages>
-        <language tag="en-GB">en-GB.plg_content_menu.ini</language>
-        <language tag="en-GB">en-GB.plg_content_menu.sys.ini</language>
+        <language tag="en-GB">en-GB.plg_content_createmenulink.ini</language>
+        <language tag="en-GB">en-GB.plg_content_createmenulink.sys.ini</language>
     </languages>
 </extension>

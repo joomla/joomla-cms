@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="menulink" label="PLG_CONTENT_CREATEMENULINK_LINK_OPTIONS" addfieldpath="/administrator/components/com_menus/models/fields">
+		<field
+				name="menutitle"
+				type="text"
+				label="PLG_CONTENT_CREATEMENULINK_ITEM_FIELD_TITLE_LABEL"
+				description="PLG_CONTENT_CREATEMENULINK_ITEM_FIELD_TITLE_DESC"
+				class="input-xxlarge input-large-text"
+				size="40"
+		/>
+
+		<field
+				name="menuid"
+				type="hidden"
+				default="0"
+				label="PLG_CONTENT_CREATEMENULINK_MENUS_MENUID"
+				description="PLG_CONTENT_CREATEMENULINK_MENUS_MENUID_DESC"
+				filter="integer"
+		/>
+
+		<field
+				name="menualias"
+				type="alias"
+				label="JFIELD_ALIAS_LABEL"
+				description="JFIELD_ALIAS_DESC"
+				hint="JFIELD_ALIAS_PLACEHOLDER"
+				size="40"
+		/>
+
+		<field
+				name="menutype"
+				type="menu"
+				label="PLG_CONTENT_CREATEMENULINK_MENUS_MENUNAME_LABEL"
+				description="PLG_CONTENT_CREATEMENULINK_MENUS_MENUNAME_DESC"
+				class="inputbox"
+				required="false"
+				size="1"
+		/>
+
+		<field
+				name="parent_id"
+				type="menuparent"
+				label="PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_FIELD_PARENT_LABEL"
+				description="PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_FIELD_PARENT_DESC"
+				default="1"
+				filter="int"
+				size="1"
+		>
+			<option value="1">
+				PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_ROOT
+			</option>
+		</field>
+	</fieldset>
+</form>
