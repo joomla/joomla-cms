@@ -49,10 +49,13 @@ class PlgContentMenu extends JPlugin
 
 		if ($app->isAdmin())
 		{
-			$str = (explode(".", $context));
+			list($component, $view) = explode('.', $context);
 
 			$menu      = JFactory::getApplication()->getMenu('site');
-			$menuItems = $menu->getItems('link', 'index.php?option=' . $str[0] . '&view=' . $str[1] . '&id=' . $data->id);
+			$menuItems = $menu->getItems(
+							'link',
+							'index.php?option=' . $component . '&view=' . $view . '&id=' . $data->id
+						);
 
 			if (!empty($menuItems))
 			{
@@ -116,7 +119,6 @@ class PlgContentMenu extends JPlugin
 	 *
 	 * @since   3.6
 	 */
-
 	public function onContentBeforeSave($context, $article)
 	{
 		$session = JFactory::getSession();
@@ -139,34 +141,46 @@ class PlgContentMenu extends JPlugin
 	public function onContentAfterSave($context, $article)
 	{
 		$session = JFactory::getSession();
-		$data = $session->get("formData");
+		$data    = $session->get("formData");
 		$session->clear("formData");
+
+		list($component, $view) = explode('.', $context);
+
+		$menuData = array(
+			'id'                => $data['menuid'],
+			'menutype'          => $data['menutype'],
+			'title'             => $data['menutitle'],
+			'alias'             => $data['menualias'],
+			'link'              => 'index.php?option=' . $component . '&view=' . $view . '&id=' . $article->id,
+			'type'              => 'component',
+			'published'         => 1,
+			'parent_id'         => $data['parent_id'],
+			'level'             => 1,
+			'component_id'      => JComponentHelper::getComponent($component)->id,
+			'browserNav'        => 0,
+			'access'            => 1,
+			'template_style_id' => 0,
+			'home'              => 0,
+			'language'          => $data['language'],
+			'client_id'         => 0,
+			// @todo get it dynamically
+			'menuordering'		=> -1,
+		);
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models', 'MenusModel');
 		$itemModel = JModelAdmin::getInstance('Item', 'MenusModel');
 		$itemModel->addTablePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
-		$str = (explode(".", $context));
 
-		$menuData = array(
-			'id' => $data['menuid'],
-			'menutype' => $data['menutype'],
-			'title' => $data['menutitle'],
-			'alias' => $data['menualias'],
-			'link' => 'index.php?option=' . $str[0] . '&view=' . $str[1] . '&id=' . $article->id,
-			'type' => 'component',
-			'published' => 1,
-			'parent_id' => $data['parent_id'],
-			'level' => 1,
-			'component_id' => JComponentHelper::getComponent($str[0])->id,
-			'browserNav' => 0,
-			'access' => 1,
-			'template_style_id' => 0,
-			'home' => 0,
-			'language' => $data['language'],
-			'client_id' => 0
-		);
+		// Attempt to save the data.
+		if (!$itemModel->save($menuData))
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $itemModel->getError()),
+				'error'
+			);
 
-		$itemModel->save($menuData);
+			return false;
+		}
 
 		return true;
 	}
