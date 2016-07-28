@@ -39,7 +39,7 @@ class JFormFieldLimitbox extends JFormFieldList
 	 *
 	 * @var  array
 	 */
-	protected $defaultLimits = array(5, 10, 15, 20, 25, 30, 50, 100);
+	protected $defaultLimits = array(5, 10, 15, 20, 25, 30, 50, 100, 200, 500);
 
 	/**
 	 * Method to get the options to populate to populate list
