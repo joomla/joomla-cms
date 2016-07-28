@@ -137,19 +137,17 @@ $ tests/vendor/bin/robo run:tests
 
 #### You can individual run `feature` using following command.
 
-To run `content` feature use,
-
 ```bash
-$ tests/vendor/bin/codecept run tests/acceptance/content.feature
+$ tests/vendor/bin/robo run:test
 ```
 
-To run `users` feature use,
+Or you can manually run them using codecept command. Check the following example:
 
 ```bash
 $ tests/vendor/bin/codecept run tests/acceptance/users.feature
 ```
 
-_If you want to see steps then you can use `--steps` option of codeceptio. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
+If you want to see steps then you can use `--steps` option of codeception. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
 
 **Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in the file `tests/acceptance/_bootstrap.php`
 
