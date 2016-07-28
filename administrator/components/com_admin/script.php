@@ -1816,6 +1816,12 @@ class JoomlaInstallerScript
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
 		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+
+		// Clean frontend cache
+		$model->clean();
+
+		// Clean admin cache
+		$model->setState('client_id', 1);
 		$model->clean();
 	}
 }
