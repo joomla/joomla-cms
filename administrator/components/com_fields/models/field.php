@@ -851,6 +851,8 @@ class FieldsModelField extends JModelAdmin
 	 */
 	private function loadTypeForms (JForm &$form, $type, $component)
 	{
+		FieldsHelperInternal::loadPlugins();
+
 		$type = JFormHelper::loadFieldType($type);
 
 		// Load all children that's why we need to define the xpath

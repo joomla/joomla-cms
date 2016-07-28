@@ -202,6 +202,15 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
+		if (! $value)
+		{
+			// Trying to render the layout of the plugins
+			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
+			{
+				$value = JLayoutHelper::render($layoutFile, $displayData, $folder['fullname'] . '/layouts');
+			}
+		}
+
 		return $value;
 	}
 
@@ -302,6 +311,8 @@ class FieldsHelper
 		{
 			return true;
 		}
+
+		FieldsHelperInternal::loadPlugins();
 
 		// Creating the dom
 		$xml = new DOMDocument('1.0', 'UTF-8');

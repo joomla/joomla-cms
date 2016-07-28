@@ -89,4 +89,19 @@ class FieldsHelperInternal
 
 		return $user->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
 	}
+
+	/**
+	 * Loads the fields plugins.
+	 *
+	 * @return void
+	 */
+	public static function loadPlugins()
+	{
+		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
+		{
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
+			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
+			JFormHelper::addFieldPath($folder[fullname] . '/fields');
+		}
+	}
 }

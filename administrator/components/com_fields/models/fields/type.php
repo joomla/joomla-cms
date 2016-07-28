@@ -55,6 +55,7 @@ class JFormFieldType extends JFormAbstractlist
 	{
 		$options = parent::getOptions();
 
+		FieldsHelperInternal::loadPlugins();
 		JFormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
 		$paths = JFormHelper::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_fields/models/fields');
 
