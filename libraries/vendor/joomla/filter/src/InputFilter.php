@@ -30,7 +30,7 @@ class InputFilter
 	protected static $instances = array();
 
 	/**
-	 * The array of permitted tags (whitelist).
+	 * The array of permitted tags (white list).
 	 *
 	 * @var    array
 	 * @since  1.0
@@ -38,7 +38,7 @@ class InputFilter
 	public $tagsArray;
 
 	/**
-	 * The array of permitted tag attributes (whitelist).
+	 * The array of permitted tag attributes (white list).
 	 *
 	 * @var    array
 	 * @since  1.0
