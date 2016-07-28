@@ -453,13 +453,15 @@ class JDocument
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @deprecated 4.0  The addScript(url, mime, defer, async) method signature is deprecated, use (url, attributes array) instead.
 	 */
 	public function addScript($url, $attribs = array())
 	{
 		// B/C before __DEPLOY_VERSION__
-		// @deprecated 4.0 Use addScript($url, array('attrib' => 'value', ...));
 		if (!is_array($attribs))
 		{
+			JLog::add('The addScript method signature used is deprecated, use (url, attributes array) instead.', JLog::WARNING, 'deprecated');
+
 			$argList = func_get_args();
 			$attribs = array();
 
@@ -495,6 +497,7 @@ class JDocument
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
+	 * @deprecated 4.0  The addScriptVersion(url, version, mime, defer, async) method signature is deprecated, use (url, version, attributes array) instead.
 	 */
 	public function addScriptVersion($url, $version = null, $attribs = array())
 	{
@@ -510,9 +513,10 @@ class JDocument
 		}
 
 		// B/C before __DEPLOY_VERSION__
-		// @deprecated 4.0 Use addScriptVersion($url, $version, array('attrib' => 'value', ...));
 		if (!is_array($attribs))
 		{
+			JLog::add('The addScriptVersion method signature used is deprecated, use (url, version, attributes array) instead.', JLog::WARNING, 'deprecated');
+
 			$argList = func_get_args();
 			$attribs = array();
 
