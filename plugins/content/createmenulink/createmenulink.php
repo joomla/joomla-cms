@@ -65,6 +65,29 @@ class PlgContentCreatemenulink extends JPlugin
 				$data->menutype  = $menuItems[0]->menutype;
 				$data->parent_id = $menuItems[0]->parent_id;
 			}
+
+			if (empty($menuItems))
+			{
+				JHtml::_('jquery.framework', false);
+				$document = JFactory::getDocument();
+				$document->addScriptDeclaration('
+				(function ($) {
+                    $(document).ready(function() {
+                        $("#jform_title").on("keyup", function() {
+                            $("#jform_menutitle").val($(this).val());
+                        });
+                        
+                        $("#jform_name").on("keyup", function() {
+                            $("#jform_menutitle").val($(this).val());
+                        });
+
+                        $("#jform_alias").on("keyup", function() {
+                            $("#jform_menualias").val($(this).val());
+                        });
+                    });
+				}(jQuery));
+				');
+			}
 		}
 
 		return true;
