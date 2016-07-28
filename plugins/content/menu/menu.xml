@@ -13,6 +13,20 @@
         <filename plugin="menu">menu.php</filename>
 	    <folder>forms</folder>
     </files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="component_view"
+				    type="list"
+				    label="PLG_CONTENT_MENU_COMPONENT_OPTION"
+				    description="PLG_CONTENT_MENU_COMPONENT_OPTION_DESC">
+				    <option value="com_content.article">com_content.article</option>
+					<option value="com_contact.contact">com_contact.contact</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
     <languages>
         <language tag="en-GB">en-GB.plg_content_menu.ini</language>
         <language tag="en-GB">en-GB.plg_content_menu.sys.ini</language>
