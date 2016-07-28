@@ -72,19 +72,19 @@ class PlgContentCreatemenulink extends JPlugin
 				$document = JFactory::getDocument();
 				$document->addScriptDeclaration('
 				(function ($) {
-                    $(document).ready(function() {
-                        $("#jform_title").on("keyup", function() {
-                            $("#jform_menutitle").val($(this).val());
-                        });
+                    			$(document).ready(function() {
+                        			$("#jform_title").on("keyup", function() {
+                            				$("#jform_menutitle").val($(this).val());
+                        			});
                         
-                        $("#jform_name").on("keyup", function() {
-                            $("#jform_menutitle").val($(this).val());
-                        });
+                        			$("#jform_name").on("keyup", function() {
+                            				$("#jform_menutitle").val($(this).val());
+                        			});
 
-                        $("#jform_alias").on("keyup", function() {
-                            $("#jform_menualias").val($(this).val());
-                        });
-                    });
+                        			$("#jform_alias").on("keyup", function() {
+                            				$("#jform_menualias").val($(this).val());
+                        			});
+                    			});
 				}(jQuery));
 				');
 			}
