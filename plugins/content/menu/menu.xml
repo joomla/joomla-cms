@@ -17,7 +17,7 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="component_view"
+					name="componentview"
 				    type="list"
 				    label="PLG_CONTENT_MENU_COMPONENT_OPTION"
 				    description="PLG_CONTENT_MENU_COMPONENT_OPTION_DESC">
