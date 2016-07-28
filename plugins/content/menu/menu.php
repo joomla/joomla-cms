@@ -89,7 +89,7 @@ class PlgContentMenu extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_content.article','com_contact.contact')))
+		if (!in_array($name, array($this->params->get('component_view'))))
 		{
 			return true;
 		}
@@ -119,7 +119,7 @@ class PlgContentMenu extends JPlugin
 
 	public function onContentBeforeSave($context, $article)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$session->set("formData", JFactory::getApplication()->input->post->get('jform', array(), 'array'));
 
 		return true;
@@ -138,7 +138,7 @@ class PlgContentMenu extends JPlugin
 
 	public function onContentAfterSave($context, $article)
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$data = $session->get("formData");
 		$session->clear("formData");
 
