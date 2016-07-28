@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.path');
-require_once JPATH_COMPONENT . '/helpers/menus.php';
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Menu Item Model for Menus.
@@ -1186,7 +1186,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean  False on failure or error, true otherwise.
+	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
 	 *
 	 * @since   1.6
 	 */

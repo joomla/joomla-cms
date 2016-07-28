@@ -80,15 +80,13 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
+			$db->execute();
 
-			if (!$db->execute())
-			{
-				return false;
-			}
-			/* Since $db->execute did not throw an exception, so the query was successful.
-			Either the data changed, or the data was identical.
-			In either case we are done.
-			*/
+			/*
+			 * Since $db->execute did not throw an exception, so the query was successful.
+			 * Either the data changed, or the data was identical.
+			 * In either case we are done.
+			 */
 			return true;
 		}
 		catch (RuntimeException $e)
