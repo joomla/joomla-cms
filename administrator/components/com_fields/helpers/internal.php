@@ -99,6 +99,11 @@ class FieldsHelperInternal
 	{
 		foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
 		{
+			if (!JPluginHelper::isEnabled('fields', $folder['name']))
+			{
+				continue;
+			}
+
 			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
 			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
 			JFormHelper::addFieldPath($folder[fullname] . '/fields');
