@@ -1230,7 +1230,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		// Remove duplicates before processing (because the black list uses both sets of arrays).
+		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
 		$blackListTags        = array_unique($blackListTags);
 		$blackListAttributes  = array_unique($blackListAttributes);
 		$customListTags       = array_unique($customListTags);
@@ -1262,7 +1262,7 @@ class PlgEditorTinymce extends JPlugin
 					$filter->attrBlacklist = $customListAttributes;
 				}
 			}
-			// Black lists take second precedence.
+			// Blacklists take second precedence.
 			elseif ($blackList)
 			{
 				// Remove the white-listed tags and attributes from the black-list.
