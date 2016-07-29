@@ -56,10 +56,28 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function afterSessionStart(JSession $session)
+	public function afterSessionStart(JSession $session = null)
 	{
+		/*
+		 * Prior to __DEPLOY_VERSION__ the parent declaration of this method had no parameters; for B/C pull the session.
+		 * @deprecated  4.0  The $session parameter will be required
+		 */
+		if ($session === null)
+		{
+			JLog::add(
+				sprintf(
+					'As of __DEPLOY_VERSION__, %s() accepts an optional JSession instance as a parameter and this will be required as of 4.0',
+					__METHOD__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+
+			$session = JFactory::getSession();
+		}
+
 		if ($session->isNew())
 		{
 			$session->set('registry', new Registry('session'));

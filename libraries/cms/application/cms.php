@@ -179,13 +179,16 @@ class JApplicationCms extends JApplicationWeb
 	public function checkSession(JSession $session = null)
 	{
 		/*
-		 * Prior to 3.6 this method had no parameters; for B/C pull the session from JFactory if one is not given.
+		 * Prior to __DEPLOY_VERSION__ the parent declaration of this method had no parameters; for B/C pull the session from JFactory.
 		 * @deprecated  4.0  The $session parameter will be required
 		 */
 		if ($session === null)
 		{
 			JLog::add(
-				sprintf('As of 3.6, %s() accepts an optional JSession instance as a parameter and this will be required as of 4.0', __METHOD__),
+				sprintf(
+					'As of __DEPLOY_VERSION__, %s() accepts an optional JSession instance as a parameter and this will be required as of 4.0',
+					__METHOD__
+				),
 				JLog::WARNING,
 				'deprecated'
 			);
@@ -281,17 +284,17 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function cleanupSessionMetadata()
 	{
 		$time = time();
 
+		// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
 		if ($time % 2)
 		{
 			$db = JFactory::getDbo();
 
-			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
 				->where($db->quoteName('time') . ' < ' . $db->quote((int) $time));

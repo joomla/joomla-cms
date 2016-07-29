@@ -21,7 +21,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Flag whether gc() has been called
 	 *
 	 * @var    boolean
-	 * @since  3.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $gcCalled = false;
 
@@ -29,7 +29,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Lifetime for garbage collection
 	 *
 	 * @var    integer
-	 * @since  3.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $gcLifetime;
 
@@ -38,7 +38,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function close()
 	{
@@ -77,7 +77,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function open($save_path, $id)
 	{
@@ -116,7 +116,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return $result;
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return '';
 		}
@@ -170,7 +170,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return true;
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -201,7 +201,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return true;
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
