@@ -22,7 +22,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function setUp()
 	{
@@ -39,7 +39,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function tearDown()
 	{
