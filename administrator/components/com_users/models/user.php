@@ -1201,8 +1201,8 @@ class UsersModelUser extends JModelAdmin
 				$warnMessage = $options['warn_irq_msg'];
 			}
 
-			// Warn the user if he's using a secret code but he has not
-			// enabled two factor auth in his account.
+			// Warn the user if they are using a secret code but they have not
+			// enabled two factor auth in their account.
 			if (!empty($secretkey) && $warn)
 			{
 				try
@@ -1288,7 +1288,7 @@ class UsersModelUser extends JModelAdmin
 			{
 				/**
 				 * Two factor authentication enabled and no OTEPs defined. The
-				 * user has used them all up. Therefore anything he enters is
+				 * user has used them all up. Therefore anything they enter is
 				 * an invalid OTEP.
 				 */
 				return false;

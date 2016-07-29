@@ -31,6 +31,8 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
+		// This needs to stay for 2.5 update compatibility
+		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
@@ -1814,6 +1816,12 @@ class JoomlaInstallerScript
 	{
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
 		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+
+		// Clean frontend cache
+		$model->clean();
+
+		// Clean admin cache
+		$model->setState('client_id', 1);
 		$model->clean();
 	}
 }
