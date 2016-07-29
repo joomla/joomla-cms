@@ -307,44 +307,33 @@ if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), '#'), true);
 
-	if ($ju || $pi || $im)
+	if ($ju)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), 'index.php?option=com_joomlaupdate', 'class:install'), true);
+		$menu->addChild(new JMenuNode(JText::_('COM_JOOMLAUPDATE'), 'index.php?option=com_joomlaupdate', 'class:install'));
+	}
 
-		if ($ju)
-		{
-			$menu->addChild(new JMenuNode(JText::_('COM_JOOMLAUPDATE'), 'index.php?option=com_joomlaupdate', 'class:install'));
-		}
-
-		if ($pi)
-		{
-			$menu->addChild(new JMenuNode(JText::_('COM_POSTINSTALL'), 'index.php?option=com_postinstall', 'class:install'));
-		}
-
-		if (($ju || $pi) && $im)
-		{
-			$menu->addSeparator();
-		}
-
-		if ($im)
-		{
-			$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', 'class:install'));
-			$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', 'class:install'));
-			$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', 'class:install'));
-		}
-
-		$menu->getParent();
+	if ($pi)
+	{
+		$menu->addChild(new JMenuNode(JText::_('COM_POSTINSTALL'), 'index.php?option=com_postinstall', 'class:install'));
 	}
 
 	if ($im)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), 'index.php?option=com_installer', 'class:install'), $im);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), 'index.php?option=com_installer&view=database', 'class:install'), true);
+
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', 'class:install'));
+		$menu->getParent();
+
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), 'index.php?option=com_installer', 'class:install'), true);
 
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover', 'class:install'));
 		$menu->addSeparator();
+
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages', 'class:install'));
 		$menu->getParent();
 	}
