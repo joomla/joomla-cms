@@ -149,6 +149,8 @@ class ContactViewContacts extends JViewLegacy
 		{
 			JToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
+			JToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('contacts.archive');
 			JToolbarHelper::checkin('contacts.checkin');
 		}

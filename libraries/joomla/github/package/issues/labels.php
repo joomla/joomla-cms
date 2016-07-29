@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Milestones class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/issues/labels/
+ * @documentation https://developer.github.com/v3/issues/labels/
  *
  * @since  12.3
  */

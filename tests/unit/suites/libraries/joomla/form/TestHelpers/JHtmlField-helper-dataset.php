@@ -22,7 +22,7 @@ class JHtmlFieldTest_DataSet
 				'name' => 'myName',
 				'value' => 'The text field.',
 				'title' => 'My Title',
-				'label' => '<label id="myId-lbl" for="myId" class="hasTooltip" title="&lt;strong&gt;My Title&lt;/strong&gt;&lt;br /&gt;The description.">My Title</label>',
+				'label' => '<label id="myId-lbl" for="myId" class="hasPopover" title="My Title" data-content="The description.">My Title</label>',
 				'unexisting' => null,
 			),
 			'<field name="myName" type="text" id="myId" label="My Title" description="The description."  value="Text Field" />',
@@ -111,7 +111,7 @@ class JHtmlFieldTest_DataSet
 		'RequiredLabel' => array(
 			array(
 				'required' => true,
-				'label' => '<label id="myId-lbl" for="myId" class="hasTooltip required" title="&lt;strong&gt;My Title&lt;/strong&gt;&lt;br /&gt;The description.">My Title<span class="star">&#160;*</span></label>',
+				'label' => '<label id="myId-lbl" for="myId" class="hasPopover required" title="My Title" data-content="The description.">My Title<span class="star">&#160;*</span></label>',
 			),
 			'<field name="myName" type="text" id="myId" required="true" label="My Title" description="The description." />',
 			'',

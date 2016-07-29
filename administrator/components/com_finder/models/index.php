@@ -38,7 +38,7 @@ class FinderModelIndex extends JModelList
 	 * @param   array  $config  An associative array of configuration settings. [optional]
 	 *
 	 * @since   2.5
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -69,9 +69,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -85,9 +83,7 @@ class FinderModelIndex extends JModelList
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -246,7 +242,7 @@ class FinderModelIndex extends JModelList
 	/**
 	 * Method to get the state of the Smart Search plug-ins.
 	 *
-	 * @return  array   Array of relevant plug-ins and whether they are enabled or not.
+	 * @return  array  Array of relevant plug-ins and whether they are enabled or not.
 	 *
 	 * @since   2.5
 	 */
@@ -260,10 +256,8 @@ class FinderModelIndex extends JModelList
 			->where($db->quoteName('folder') . ' IN (' . $db->quote('system') . ',' . $db->quote('content') . ')')
 			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
 		$db->setQuery($query);
-		$db->execute();
-		$plugins = $db->loadObjectList('name');
 
-		return $plugins;
+		return $db->loadObjectList('name');
 	}
 
 	/**

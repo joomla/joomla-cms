@@ -291,9 +291,9 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		$ret = array();
 
-		$ret['language'] = (string) $xml->forceLang;
-		$ret['helpurl'] = (string) $xml->helpurl;
-		$ret['debug'] = (string) $xml->debug;
+		$ret['language']   = (string) $xml->forceLang;
+		$ret['helpurl']    = (string) $xml->helpurl;
+		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
 		return $ret;
@@ -312,19 +312,20 @@ final class InstallationApplicationWeb extends JApplicationCms
 	public function getLocaliseAdmin($db = false)
 	{
 		// Read the files in the admin area.
-		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
+		$path               = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 		$langfiles['admin'] = JFolder::folders($path);
 
 		// Read the files in the site area.
-		$path = JLanguage::getLanguagePath(JPATH_SITE);
+		$path              = JLanguage::getLanguagePath(JPATH_SITE);
 		$langfiles['site'] = JFolder::folders($path);
 
 		if ($db)
 		{
-			$langfiles_disk = $langfiles;
-			$langfiles = array();
+			$langfiles_disk     = $langfiles;
+			$langfiles          = array();
 			$langfiles['admin'] = array();
-			$langfiles['site'] = array();
+			$langfiles['site']  = array();
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('element','client_id')))
 				->from($db->quoteName('#__extensions'))
@@ -489,7 +490,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				'lineend' => 'unix',
 				'tab' => '  ',
 				'language' => $lang->getTag(),
-				'direction' => $lang->isRtl() ? 'rtl' : 'ltr'
+				'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
 			);
 
 			$document = JDocument::getInstance($type, $attributes);
@@ -531,7 +532,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$options = array(
 			'name' => $name,
 			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl')
+			'force_ssl' => $this->get('force_ssl'),
 		);
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
@@ -566,7 +567,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			'template' => 'template',
 			'file' => $file . '.php',
 			'directory' => JPATH_THEMES,
-			'params' => '{}'
+			'params' => '{}',
 		);
 
 		// Parse the document.

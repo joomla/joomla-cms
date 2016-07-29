@@ -167,7 +167,11 @@ class InstallerModelDatabase extends InstallerModel
 			->values('700, ' . $db->quote($schema));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
