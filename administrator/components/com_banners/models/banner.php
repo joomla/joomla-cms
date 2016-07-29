@@ -486,9 +486,7 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_banners');
-
-		if ($canCreateCategories)
+		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
 		}
@@ -521,7 +519,7 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		// Save New Category
-		if ($catid == 0)
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table              = array();
 			$table['title']     = $data['catid'];
@@ -559,5 +557,17 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Is the user allowed to create an on the fly category?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.1
+	 */
+	private function canCreateCategory()
+	{
+		return JFactory::getUser()->authorise('core.create', 'com_banners');
 	}
 }

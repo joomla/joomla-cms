@@ -504,8 +504,8 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Category
-		if ($catid == 0)
+		// Save New Categoryg
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
 			$table['title'] = $data['catid'];
@@ -735,9 +735,7 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		$canCreateCategories = JFactory::getUser()->authorise('core.create', 'com_content');
-
-		if ($canCreateCategories)
+		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
 		}
@@ -812,5 +810,17 @@ class ContentModelArticle extends JModelAdmin
 	public function hit()
 	{
 		return;
+	}
+
+	/**
+	 * Is the user allowed to create an on the fly category?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.1
+	 */
+	private function canCreateCategory()
+	{
+		return JFactory::getUser()->authorise('core.create', 'com_content');
 	}
 }
