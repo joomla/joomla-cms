@@ -190,7 +190,7 @@ class JFormFieldFolderList extends JFormFieldList
 		}
 
 		$pathObject = new JFilesystemWrapperPath;
-		$path = $pathObject->clean($path);
+		$path = $pathObject->check($path);
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)
