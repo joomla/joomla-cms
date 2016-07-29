@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-/* @var $menu JAdminCSSMenu */
+/* @var  $menu    JAdminCSSMenu */
+/* @var  $params  Joomla\Registry\Registry */
 
-$shownew = (boolean) $params->get('shownew', 1);
+$shownew  = (boolean) $params->get('shownew', 1);
 $showhelp = $params->get('showhelp', 1);
 $user = JFactory::getUser();
 $lang = JFactory::getLanguage();
@@ -229,13 +230,24 @@ if ($user->authorise('core.manage', 'com_content'))
 $components = ModMenuHelper::getComponents(true);
 
 // Check if there are any components, otherwise, don't render the menu
+$ju = false;
+$pi = false;
+
 if ($components)
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), '#'), true);
 
 	foreach ($components as &$component)
 	{
-		if (!empty($component->submenu))
+		if ($component->title == 'com_postinstall')
+		{
+			$pi = true;
+		}
+		elseif ($component->title == 'com_joomlaupdate')
+		{
+			$ju = true;
+		}
+		elseif (!empty($component->submenu))
 		{
 			// This component has a db driven submenu.
 			$menu->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
@@ -262,23 +274,43 @@ $pm = $user->authorise('core.manage', 'com_plugins');
 $tm = $user->authorise('core.manage', 'com_templates');
 $lm = $user->authorise('core.manage', 'com_languages');
 
-if ($im || $mm || $pm || $tm || $lm)
+if ($ju || $pi || $im || $mm || $pm || $tm || $lm)
 {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), '#'), true);
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), '#'), true);
+
+	if ($ju)
+	{
+		$menu->addChild(new JMenuNode(JText::_('COM_JOOMLAUPDATE'), 'index.php?option=com_joomlaupdate', 'class:install'));
+	}
+
+	if ($pi)
+	{
+		$menu->addChild(new JMenuNode(JText::_('COM_POSTINSTALL'), 'index.php?option=com_postinstall', 'class:install'));
+	}
 
 	if ($im)
 	{
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSION_MANAGER'), 'index.php?option=com_installer', 'class:install'), $im);
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), 'index.php?option=com_installer&view=database', 'class:install'), true);
+
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', 'class:install'));
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', 'class:install'));
+		$menu->getParent();
+
+		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_EXTENSIONS_EXTENSIONS'), 'index.php?option=com_installer', 'class:install'), true);
 
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_INSTALL'), 'index.php?option=com_installer', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATE'), 'index.php?option=com_installer&view=update', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_MANAGE'), 'index.php?option=com_installer&view=manage', 'class:install'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DISCOVER'), 'index.php?option=com_installer&view=discover', 'class:install'));
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_DATABASE'), 'index.php?option=com_installer&view=database', 'class:install'));
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_WARNINGS'), 'index.php?option=com_installer&view=warnings', 'class:install'));
+		$menu->addSeparator();
+
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_LANGUAGES'), 'index.php?option=com_installer&view=languages', 'class:install'));
-		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_INSTALLER_SUBMENU_UPDATESITES'), 'index.php?option=com_installer&view=updatesites', 'class:install'));
 		$menu->getParent();
+	}
+
+	if (($ju || $pi || $im) && ($mm || $pm || $tm || $lm))
+	{
 		$menu->addSeparator();
 	}
 
@@ -305,7 +337,6 @@ if ($im || $mm || $pm || $tm || $lm)
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_LANGUAGES_SUBMENU_CONTENT'), 'index.php?option=com_languages&view=languages', 'class:language'));
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_LANGUAGES_SUBMENU_OVERRIDES'), 'index.php?option=com_languages&view=overrides', 'class:language'));
 		$menu->getParent();
-
 	}
 	$menu->getParent();
 }
