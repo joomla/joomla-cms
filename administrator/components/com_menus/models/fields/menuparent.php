@@ -54,7 +54,7 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		// Filter by client id.
-		$clientId = $this->getAttribute('clientid', null);
+		$clientId = $this->getAttribute('clientid');
 
 		if (!is_null($clientId))
 		{
