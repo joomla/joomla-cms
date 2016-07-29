@@ -43,6 +43,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		// Filter by menu type.
 		if ($menuType = $this->form->getValue('menutype'))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
@@ -50,6 +51,14 @@ class JFormFieldMenuParent extends JFormFieldList
 		else
 		{
 			$query->where('a.menutype != ' . $db->quote(''));
+		}
+
+		// Filter by client id.
+		$clientId = $this->getAttribute('clientid', null);
+
+		if (!is_null($clientId))
+		{
+			$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId);
 		}
 
 		// Prevent parenting to children of this item.
