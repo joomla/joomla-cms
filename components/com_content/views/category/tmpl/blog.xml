@@ -205,13 +205,6 @@
 				</field>
 
 				<field
-					name="subcategories"
-					type="spacer"
-					class="spacer"
-					label="JGLOBAL_SUBSLIDER_BLOG_EXTENDED_LABEL"
-				/>
-
-				<field
 					name="show_subcategory_content"
 					type="list"
 					description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
@@ -363,6 +356,18 @@
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+			</field>
+
+			<field
+				name="info_block_show_title"
+				type="list"
+				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
 			</field>
 
 			<field

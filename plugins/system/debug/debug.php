@@ -336,7 +336,7 @@ class PlgSystemDebug extends JPlugin
 	 * General display method.
 	 *
 	 * @param   string  $item    The item to display.
-	 * @param   array   $errors  Errors occured during execution.
+	 * @param   array   $errors  Errors occurred during execution.
 	 *
 	 * @return  string
 	 *
@@ -1042,7 +1042,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						if ($dup != $id)
 						{
-							$dups[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+							$dups[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 						}
 					}
 
@@ -1107,7 +1107,7 @@ class PlgSystemDebug extends JPlugin
 
 				foreach ($dups as $dup)
 				{
-					$links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+					$links[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
 
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
@@ -1284,7 +1284,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				elseif ($k == 'Error')
 				{
-					// An error in the EXPLAIN query occured, display it instead of the result (means original query had syntax error most probably).
+					// An error in the EXPLAIN query occurred, display it instead of the result (means original query had syntax error most probably).
 					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
 					$hasWarnings = true;
 				}
@@ -1782,13 +1782,13 @@ class PlgSystemDebug extends JPlugin
 
 		$showEverything = $this->params->get('log-everything', 0);
 
-		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logEntriesTotal) . '</h4><br />';
+		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br />';
 
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
 			<div class="alert alert-warning">
-				<h4>' . sprintf(JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE'), $logEntriesDeprecated) . '</h4>
+				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
 			</div>
 			<br />';

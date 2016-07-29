@@ -137,7 +137,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	$menu->addSeparator();
 
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS_ALL_ITEMS'), 'index.php?option=com_menus&view=items&menutype=*', 'class:allmenu'));
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS_ALL_ITEMS'), 'index.php?option=com_menus&view=items&menutype=', 'class:allmenu'));
 	$menu->addSeparator();
 
 	// Menu Types

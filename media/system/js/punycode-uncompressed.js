@@ -1,4 +1,4 @@
-/*! https://mths.be/punycode v1.4.1 by @mathias */
+/*! https://mths.be/punycode v1.4.1 by @mathias - do not update to v2 */
 ;(function(root) {
 
 	/** Detect free variables */

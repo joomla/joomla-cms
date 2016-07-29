@@ -28,10 +28,6 @@
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"/>
 
-		<field name="aliastip"
-			type="spacer"
-			label="COM_MENUS_TIP_ALIAS_LABEL"/>
-
 		<field
 			name="note"
 			type="text"

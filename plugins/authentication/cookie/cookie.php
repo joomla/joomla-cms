@@ -57,6 +57,13 @@ class PlgAuthenticationCookie extends JPlugin
 		$cookieName  = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();
 		$cookieValue = $this->app->input->cookie->get($cookieName);
 
+		// Try with old cookieName (pre 3.6.0) if not found
+		if (!$cookieValue)
+		{
+			$cookieName  = JUserHelper::getShortHashedUserAgent();
+			$cookieValue = $this->app->input->cookie->get($cookieName);
+		}
+
 		if (!$cookieValue)
 		{
 			return false;
@@ -224,6 +231,17 @@ class PlgAuthenticationCookie extends JPlugin
 
 			// We need the old data to get the existing series
 			$cookieValue = $this->app->input->cookie->get($cookieName);
+
+			// Try with old cookieName (pre 3.6.0) if not found
+			if (!$cookieValue)
+			{
+				$oldCookieName = JUserHelper::getShortHashedUserAgent();
+				$cookieValue   = $this->app->input->cookie->get($oldCookieName);
+
+				// Destroy the old cookie in the browser
+				$this->app->input->cookie->set($oldCookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
+			}
+
 			$cookieArray = explode('.', $cookieValue);
 
 			// Filter series since we're going to use it in the query
@@ -277,7 +295,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		// Get the parameter values
 		$lifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length	  = $this->params->get('key_length', '16');
+		$length   = $this->params->get('key_length', '16');
 
 		// Generate new cookie
 		$token       = JUserHelper::genRandomPassword($length);
