@@ -784,7 +784,7 @@ abstract class JError
 	/**
 	 * Display a custom error page and exit gracefully
 	 *
-	 * @param   JException  &$error  Exception object
+	 * @param   JException  $error  Exception object
 	 *
 	 * @return  void
 	 *
