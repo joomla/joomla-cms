@@ -791,7 +791,7 @@ abstract class JError
 	 * @deprecated  12.1
 	 * @since   11.1
 	 */
-	public static function customErrorPage(&$error)
+	public static function customErrorPage($error)
 	{
 		JLog::add('JError::customErrorPage() is deprecated, use JErrorPage::render() instead.', JLog::WARNING, 'deprecated');
 
