@@ -141,12 +141,10 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function afterSessionStart()
 	{
-		$session = JFactory::getSession();
-
-		if ($session->isNew())
+		if ($this->getSession()->isNew())
 		{
-			$session->set('registry', new Registry('session'));
-			$session->set('user', new JUser);
+			$this->getSession()->set('registry', new Registry('session'));
+			$this->getSession()->set('user', new JUser);
 		}
 	}
 
@@ -164,7 +162,7 @@ class JApplicationCms extends JApplicationWeb
 	public function checkSession()
 	{
 		$db = JFactory::getDbo();
-		$session = JFactory::getSession();
+		$session = $this->getSession();
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true)
@@ -742,10 +740,20 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
-		$session = JFactory::getSession($options);
-		$session->initialise($this->input, $this->dispatcher);
-		$session->start();
+		/*
+		 * @deprecated  4.0
+		 *
+		 * For backward compatibility on the `afterSessionStart` event when listeners retrieve the session from JFactory register the JSession
+		 * instance to the factory too.
+		 */
+		JFactory::$session = $this->session = JSession::getInstance(
+			$this->get('session_handler', 'none'),
+			$options,
+			new JSessionHandlerJoomla($options)
+		);
+
+		$this->getSession()->initialise($this->input, $this->dispatcher);
+		$this->getSession()->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
 		$db = JFactory::getDbo();
@@ -759,7 +767,7 @@ class JApplicationCms extends JApplicationWeb
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $this->getSession()->getExpire())));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -768,14 +776,11 @@ class JApplicationCms extends JApplicationWeb
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler != 'database' && ($time % 2 || $this->getSession()->isNew()))
+			|| ($handler == 'database' && $this->getSession()->isNew()))
 		{
 			$this->checkSession();
 		}
-
-		// Set the session object.
-		$this->session = $session;
 
 		return $this;
 	}
