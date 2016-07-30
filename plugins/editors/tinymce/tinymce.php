@@ -760,29 +760,8 @@ JS;
 <<<JS
 						{ text: "$name",
 						onclick: function () {
-	
-							ed.on('NodeChange', function(e) {
-							if (e.element.nodeName == 'P') {
-								var spanEl = document.createElement('SPAN');
-								//spanEl.language = "$title";
-								e.element.appendChild(spanEl)
-							}
-							});
-      
-							// ed.onNodeChange.add(function(ed, cm, n, co) {
-							// 	n = ed.dom.getParent(n, 'SPAN');
-							//
-							// 	cm.setDisabled('span', co);
-							// 	cm.setDisabled('attribs', n && n.nodeName == 'BODY');
-							// 	cm.setActive('span', 0);
-							//
-							// 	if (n) {
-							// 		do {
-							// 			cm.setDisabled(n.nodeName.toLowerCase(), 0);
-							// 			cm.setActive(n.nodeName.toLowerCase(), 1);
-							// 		} while (n = n.parentNode);
-							// 	}
-							// });
+							ed.focus();
+							ed.selection.setContent('<span language="' + "$title" + '">' + ed.selection.getContent() + '</span>');
 					} },
 JS;
 			}
@@ -792,11 +771,6 @@ JS;
 		$ltempConstructor .=
 			<<<JS
 					]
-
-		// ed.onPreInit.add(function() {
-		// 	ed.dom.create('span');
-		// });
-	// });
 	});
 	}
 
