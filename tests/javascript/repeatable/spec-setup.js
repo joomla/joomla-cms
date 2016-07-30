@@ -7,7 +7,7 @@
  * @version     1.0.0
  */
 
-define(['jquery', 'text!testsRoot/repeatable/fixtures/fixture.html', 'libs/repeatable', 'jasmineJquery'], function ($, fixture) {
+define(['jquery', 'text!testsRoot/repeatable/fixtures/fixture.html', 'libs/repeatable'], function ($, fixture) {
 	$('body').append(fixture);
 
 	spy_weready = jasmine.createSpy('weready');
