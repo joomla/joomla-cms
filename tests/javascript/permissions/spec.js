@@ -50,7 +50,7 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 		});
 
 		describe("on success with resp.data.result == 'true' & resp.messages an object", function() {
-			var spanContainer = $('#ajax-test');
+			var $spanContainer = $('#ajax-test');
         
 			beforeAll(function() {
 				sendPermissions(event);
@@ -67,11 +67,11 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 			});
 
 			it("should add class in icon to icon-save", function() {
-				expect(spanContainer.find('span')).toHaveClass('test-class');
+				expect($spanContainer.find('span')).toHaveClass('test-class');
 			});
 
 			it("should class in icon to icon-save", function() {
-				expect(spanContainer.find('span')).toContainText('Sample text');
+				expect($spanContainer.find('span')).toContainText('Sample text');
 			});
         
 			it("should call Joomla.renderMessages({})", function() {
@@ -84,8 +84,6 @@ define(['jquery', 'testsRoot/permissions/spec-setup', 'jasmineJquery'], function
 		});
 
 		describe("on success with resp.data.result !== 'true' & resp.messages an object", function() {
-			var spanContainer = $('#ajax-test');
-
 			beforeAll(function() {
 				sendPermissions(event);
 				request = jasmine.Ajax.requests.mostRecent();
