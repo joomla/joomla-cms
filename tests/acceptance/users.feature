@@ -4,9 +4,8 @@ Feature: users
   I need to create edit block unblock and delete user
 
   Background:
-    Given Joomla CMS is installed
-    When Login into Joomla administrator with username "admin" and password "admin"
-    Then I see administrator dashboard
+    When I Login into Joomla administrator with username "admin" and password "admin"
+    And I see the administrator dashboard
 
   Scenario: Verify available tabs in com_users
     Given There is an user link
@@ -30,10 +29,10 @@ Feature: users
     When I block the user
     Then I should see the "User blocked." message
 
-#  Scenario: Unblock user
-#    Given I have a blocked user with user name "register"
-#    When I unblock the user
-#    Then I should see the "User enabled." message
+  Scenario: Unblock user
+    Given I have a blocked user with user name "register"
+    When I unblock the user
+    Then I should see the "User enabled." message
 
   Scenario: Delete user
     Given I have a user with user name "Editor"

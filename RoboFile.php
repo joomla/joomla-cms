@@ -291,6 +291,15 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
+        $this->taskCodecept($pathToCodeception)
+            ->arg('--steps')
+            ->arg('--debug')
+            ->arg('--fail-fast')
+            ->arg('--env ' . $opts['env'])
+            ->arg('tests/acceptance/users_frontend.feature')
+            ->run()
+            ->stopOnFail();
+
 	/*	$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
 			->arg('--debug')
@@ -356,7 +365,9 @@ class RoboFile extends \Robo\Tasks
 			while ($iterator->valid())
 			{
 				if (strripos($iterator->getSubPathName(), 'cept.php')
-					|| strripos($iterator->getSubPathName(), 'cest.php'))
+					|| strripos($iterator->getSubPathName(), 'cest.php')
+					|| strripos($iterator->getSubPathName(), '.feature'))
+
 				{
 					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
 					$tests[$i] = $iterator->getSubPathName();
@@ -374,21 +385,23 @@ class RoboFile extends \Robo\Tasks
 		$pathToTestFile = 'tests/' . $suite . '/' . $test;
 
 		//loading the class to display the methods in the class
-		require 'tests/' . $suite . '/' . $test;
 
 		//logic to fetch the class name from the file name
 		$fileName = explode("/", $test);
-		$className = explode(".", $fileName[1]);
 
-		//if the selected file is cest only than we will give the option to execute individual methods, we don't need this in cept file
+		// If the selected file is cest only then we will give the option to execute individual methods, we don't need this in cept or feature files
 		$i = 1;
 
-		if (strripos($className[0], 'cest'))
+		if (isset($fileName[1]) && strripos($fileName[1], 'cest'))
 		{
+			require 'tests/' . $suite . '/' . $test;
+
+			$className = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
 			$this->say('[' . $i . '] ' . 'All');
 			$methods[$i] = 'All';
 			$i++;
+
 			foreach ($class_methods as $method_name)
 			{
 				$reflect = new ReflectionMethod($className[0], $method_name);
