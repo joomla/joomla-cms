@@ -150,7 +150,7 @@ class MenusModelItem extends JModelAdmin
 		// $value comes as {menutype}.{parent_id}
 		$parts = explode('.', $value);
 		$menuType = $parts[0];
-		$parentId = (int) ArrayHelper::getValue($parts, 1, 0);
+		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table = $this->getTable();
 		$db = $this->getDbo();
@@ -355,7 +355,7 @@ class MenusModelItem extends JModelAdmin
 		// $value comes as {menutype}.{parent_id}
 		$parts    = explode('.', $value);
 		$menuType = $parts[0];
-		$parentId = (int) ArrayHelper::getValue($parts, 1, 0);
+		$parentId = ArrayHelper::getValue($parts, 1, 0, 'int');
 
 		$table = $this->getTable();
 		$db    = $this->getDbo();

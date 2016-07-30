@@ -262,8 +262,7 @@ class MenusModelMenu extends JModelForm
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-		$itemIds = ArrayHelper::toInteger($itemIds);
+		$itemIds = ArrayHelper::toInteger((array) $itemIds);
 
 		// Get a group row instance.
 		$table = $this->getTable();

@@ -72,7 +72,7 @@ class MenusModelMenus extends JModelList
 
 		// Get the menu types of menus in the list.
 		$db = $this->getDbo();
-		$menuTypes = ArrayHelper::getColumn($items, 'menutype');
+		$menuTypes = ArrayHelper::getColumn((array) $items, 'menutype');
 
 		// Quote the strings.
 		$menuTypes = implode(
