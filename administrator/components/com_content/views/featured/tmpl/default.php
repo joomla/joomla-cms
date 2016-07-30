@@ -17,7 +17,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.fullordering'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
 $saveOrder = $listOrder == 'fp.ordering';
