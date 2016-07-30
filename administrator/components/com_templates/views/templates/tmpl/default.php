@@ -71,7 +71,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 						<div>
 						<?php if ($this->preview && $item->client_id == '0') : ?>
-							<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&templateStyle=' . $item->element); ?>" target="_blank">
+							<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
 							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 							</a>
 						<?php elseif ($item->client_id == '1') : ?>
