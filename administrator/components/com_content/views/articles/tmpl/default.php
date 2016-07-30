@@ -18,7 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering', 'a.id'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
