@@ -62,7 +62,7 @@ class PlgSystemRedirect extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public static function handleError(JException &$error)
+	public static function handleError(JException $error)
 	{
 		self::doErrorHandling($error);
 	}
