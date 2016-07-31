@@ -733,10 +733,53 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		// We shall put the XTD button inside tinymce
-		$btns      = $this->tinyButtons($id, $buttons);
-		$btnsNames = $btns['names'];
-		$tinyBtns  = $btns['script'];
+/// LANGS
+		// Get the available languages
+		$langs = JFactory::getLanguage()->getKnownLanguages();
+
+		$ltempConstructor =
+			<<<JS
+			  setup: function(ed) {
+				ed.addButton('langs', {
+				    type: 'menubutton',
+					text: 'Languages',
+					icon: false,
+					menu: [
+JS;
+
+		// Build the script
+		foreach ($langs as $lang)
+		{
+			if ($lang['name'])
+			{
+				// Set some vars
+				$name    = $lang['name'];
+				$title   = $lang['tag'];
+
+				$ltempConstructor .=
+<<<JS
+						{ text: "$name",
+						onclick: function () {
+							ed.focus();
+							ed.selection.setContent('<span language="' + "$title" + '">' + ed.selection.getContent() + '</span>');
+					} },
+JS;
+			}
+
+
+		}
+		$ltempConstructor .=
+			<<<JS
+					]
+	});
+	}
+
+JS;
+/////
+			// We shall put the XTD button inside tinymce
+			$btns      = $this->tinyButtons($id, $buttons);
+			$btnsNames = $btns['names'];
+			$tinyBtns  = $btns['script'];
 
 		// Drag and drop Images
 		$allowImgPaste = "false";
@@ -832,17 +875,17 @@ class PlgEditorTinymce extends JPlugin
 		tinymce.init({
 		";
 
-		// General
-		$script .= "
-		directionality: \"$text_direction\",
-		selector: \"textarea#$id\",
-		language : \"$langPrefix\",
-		mode : \"specific_textareas\",
-		autosave_restore_when_empty: false,
-		$skin
-		theme : \"$theme\",
-		schema: \"html5\",
-		";
+			// General
+			$script .= "
+			directionality: \"$text_direction\",
+			selector: \"textarea#$id\",
+			language : \"$langPrefix\",
+			mode : \"specific_textareas\",
+			autosave_restore_when_empty: false,
+			$skin
+			theme : \"$theme\",
+			schema: \"html5\",
+			";
 
 		// Cleanup/Output
 		$script .= "
@@ -875,16 +918,16 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$script .= "
 			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code langs\",
 			plugins: \"$dragDropPlg code\",
 		});
 		";
 				break;
 
-			case 1:
-			default: /* Advanced mode*/
-				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
+				case 1:
+				default: /* Advanced mode*/
+					$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
+						. "| outdent indent | undo redo | link unlink anchor image code | hr table | subscript superscript | charmap langs";
 
 				$script .= "
 			valid_elements : \"$valid_elements\",
@@ -900,7 +943,8 @@ class PlgEditorTinymce extends JPlugin
 			// Advanced Options
 			$resizing
 			height : \"$html_height\",
-			width : \"$html_width\"
+			width : \"$html_width\",
+			$ltempConstructor
 		});
 			";
 				break;
@@ -911,9 +955,9 @@ class PlgEditorTinymce extends JPlugin
 			extended_valid_elements : \"$elements\",
 			invalid_elements : \"$invalid_elements\",
 			// Plugins
-			plugins : \"$plugins $dragDropPlg\",
+			plugins : \"$plugins $dragDropPlg langs\",
 			// Toolbar
-			toolbar1: \"$toolbar1\",
+			toolbar1: \"$toolbar1 langs\",
 			removed_menuitems: \"newdocument\",
 			// URL
 			rel_list : [
@@ -940,6 +984,7 @@ class PlgEditorTinymce extends JPlugin
 			image_advtab: $image_advtab,
 			height : \"$html_height\",
 			width : \"$html_width\",
+			$ltempConstructor
 		});
 		";
 				break;
@@ -960,6 +1005,8 @@ class PlgEditorTinymce extends JPlugin
 
 		JFactory::getDocument()->addScriptDeclaration($script);
 		JFactory::getDocument()->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+
+
 
 		// Only add "px" to width and height if they are not given as a percentage
 		if (is_numeric($width))
