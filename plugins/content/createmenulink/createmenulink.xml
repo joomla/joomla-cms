@@ -20,7 +20,8 @@
 					name="componentview"
 				    type="list"
 				    label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
-				    description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC">
+				    description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
+					>
 				    <option value="com_content.article">com_content.article</option>
 					<option value="com_contact.contact">com_contact.contact</option>
 				</field>
