@@ -330,8 +330,17 @@ class JPagination
 		{
 			include_once $chromePath;
 
+			/*
+			 * @deprecated Item rendering should use a layout
+			 */
 			if (function_exists('pagination_item_active') && function_exists('pagination_item_inactive'))
 			{
+				JLog::add(
+					'pagination_item_active and pagination_item_inactive are deprecated. Use the layout joomla.pagination.link instead.',
+					JLog::WARNING,
+					'deprecated'
+				);
+
 				$itemOverride = true;
 			}
 
@@ -526,6 +535,8 @@ class JPagination
 
 			if (function_exists('pagination_list_footer'))
 			{
+				JLog::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', JLog::WARNING, 'deprecated');
+
 				return pagination_list_footer($list);
 			}
 		}
@@ -697,6 +708,7 @@ class JPagination
 	 * @return  string  HTML link
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => true])`
 	 */
 	protected function _item_active(JPaginationObject $item)
 	{
@@ -729,6 +741,7 @@ class JPagination
 	 * @return  string
 	 *
 	 * @since   1.5
+	 * @note    As of 4.0 this method will proxy to `JLayoutHelper::render('joomla.pagination.link', ['data' => $item, 'active' => false])`
 	 */
 	protected function _item_inactive(JPaginationObject $item)
 	{
