@@ -40,15 +40,18 @@ class PlgContentCreatemenulink extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		if (!in_array($context, array('com_content.article','com_contact.contact')))
+		if (!in_array($context, array($this->params->get('componentview'))))
 		{
 			return true;
 		}
 
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if (!($app->isAdmin()))
 		{
+			return true;
+		}
+
 			list($component, $view) = explode('.', $context);
 
 			$menu      = JFactory::getApplication()->getMenu('site');
@@ -69,26 +72,8 @@ class PlgContentCreatemenulink extends JPlugin
 			if (empty($menuItems))
 			{
 				JHtml::_('jquery.framework', false);
-				$document = JFactory::getDocument();
-				$document->addScriptDeclaration('
-				(function ($) {
-                    			$(document).ready(function() {
-                        			$("#jform_title").on("keyup", function() {
-                            				$("#jform_menutitle").val($(this).val());
-                        			});
-                        
-                        			$("#jform_name").on("keyup", function() {
-                            				$("#jform_menutitle").val($(this).val());
-                        			});
-
-                        			$("#jform_alias").on("keyup", function() {
-                            				$("#jform_menualias").val($(this).val());
-                        			});
-                    			});
-				}(jQuery));
-				');
+				JHtml::_('script', 'media/system/js/copytitle.js');
 			}
-		}
 
 		return true;
 	}
