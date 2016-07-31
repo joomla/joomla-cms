@@ -161,15 +161,33 @@ for ($num = $release - 1; $num >= 0; $num--)
 			continue;
 		}
 
-		// Don't add deleted files to the list
-		if (substr($file, 0, 1) != 'D')
+		// Act on the file based on the action
+		switch (substr($file, 0, 1))
 		{
-			$filesArray[$fileName] = true;
-		}
-		else
-		{
-			// Add deleted files to the deleted files list
-			$deletedFiles[] = $fileName;
+			// This is a new case with git 2.9 to handle renamed files
+			case 'R':
+				// Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
+				$renamedFileData = explode("\t", $file);
+
+				// Add the new file for packaging
+				$filesArray[$renamedFileData[2]] = true;
+
+				// And flag the old file as deleted
+				$deletedFiles[] = $renamedFileData[1];
+
+				break;
+
+			// Deleted files
+			case 'D':
+				$deletedFiles[] = $fileName;
+
+				break;
+
+			// Regular additions and modifications
+			default:
+				$filesArray[$fileName] = true;
+
+				break;
 		}
 	}
 
