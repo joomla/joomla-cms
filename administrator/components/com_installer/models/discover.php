@@ -237,7 +237,11 @@ class InstallerModelDiscover extends InstallerModel
 			->where($db->quoteName('state') . ' = -1');
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 

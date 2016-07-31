@@ -137,7 +137,9 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * @param   int     $code  The application-internal error code for this error
 	 * @param   string  $msg   The error message, which may also be shown the user if need be.
 	 *
-	 * @return mixed JError object or Runtime Exception
+	 * @return  JException  JException instance if JError class exists
+	 *
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	private function raiseWarning($code, $msg)
 	{

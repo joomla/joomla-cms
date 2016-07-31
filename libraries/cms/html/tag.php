@@ -170,7 +170,7 @@ abstract class JHtmlTag
 		$displayData = array(
 			'minTermLength' => $minTermLength,
 			'selector'      => $selector,
-			'allowCustom'   => $allowCustom
+			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
 		);
 
 		JLayoutHelper::render('joomla.html.tag', $displayData);

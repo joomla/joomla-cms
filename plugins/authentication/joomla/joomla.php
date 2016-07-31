@@ -118,8 +118,8 @@ class PlgAuthenticationJoomla extends JPlugin
 			// Check if the user has enabled two factor authentication
 			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
 			{
-				// Warn the user if he's using a secret code but he has not
-				// enabed two factor auth in his account.
+				// Warn the user if they are using a secret code but they have not
+				// enabed two factor auth in their account.
 				if (!empty($credentials['secretkey']))
 				{
 					try
@@ -184,7 +184,7 @@ class PlgAuthenticationJoomla extends JPlugin
 					{
 						/*
 						 * Two factor authentication enabled and no OTEPs defined. The
-						 * user has used them all up. Therefore anything he enters is
+						 * user has used them all up. Therefore anything they enter is
 						 * an invalid OTEP.
 						 */
 						return;
