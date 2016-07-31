@@ -9,11 +9,4 @@
 
 defined('_JEXEC') or die;
 
-if ($this->item->id != 0 && $this->item->language != '*')
-{
-	echo JLayoutHelper::render('joomla.edit.associations', $this);
-}
-else
-{
-	echo '<div class="alert alert-info">' . JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE') . '</div>';
-}
+echo JLayoutHelper::render('joomla.edit.associations', $this);
