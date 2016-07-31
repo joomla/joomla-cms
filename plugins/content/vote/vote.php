@@ -56,7 +56,7 @@ class PlgContentVote extends JPlugin
 	}
 
 	/**
-	 * Displays the voting area if in an article if displayed at the top of the article
+	 * Displays the voting area when viewing an article and the voting section is displayed before the article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
 	 * @param   object   &$row     The article object
@@ -78,7 +78,7 @@ class PlgContentVote extends JPlugin
 	}
 
 	/**
-	 * Displays the voting area if in an article if displayed at the bottom of the article
+	 * Displays the voting area when viewing an article and the voting section is displayed after the article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
 	 * @param   object   &$row     The article object
@@ -100,7 +100,7 @@ class PlgContentVote extends JPlugin
 	}
 
 	/**
-	 * Displays the voting area if in an article
+	 * Displays the voting area
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
 	 * @param   object   &$row     The article object
