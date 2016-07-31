@@ -72,7 +72,7 @@ class PlgContentCreatemenulink extends JPlugin
 			if (empty($menuItems))
 			{
 				JHtml::_('jquery.framework', false);
-				JHtml::_('script', 'media/system/js/copytitle.js');
+				JHtml::_('script', 'media/plg_content_createmenulink/copytitle.js');
 			}
 
 		return true;
