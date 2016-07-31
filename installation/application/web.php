@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
+use Joomla\DI\Container;
 
 /**
  * Joomla! Installation Application class.
