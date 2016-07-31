@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcached cache storage handler
  *
- * @see    http://php.net/manual/en/book.memcached.php
+ * @see    https://secure.php.net/manual/en/book.memcached.php
  * @since  12.1
  */
 class JCacheStorageMemcached extends JCacheStorage

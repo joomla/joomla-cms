@@ -27,12 +27,6 @@ BDD Testing with Gherkin and Codeception
 
 ### Benefits of Gherkin?
 
-* It reduces time of answering questions about the logic of the application to **developers**, **designers**, **testers**.
-* It can be used as documentation and updated easily.
-* It helps quickly understand the logic of the application.
-* Features are the basis for writing acceptance tests with test-driven development (TDD and BDD).
-* It serves as the basis for writing test cases and test scenarios.
-
 ### Main Keywords In Gherkin
 
 * Feature

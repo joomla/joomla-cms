@@ -9,14 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Update Sites Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       3.4
+ * @since  3.4
  */
 class InstallerModelUpdatesites extends InstallerModel
 {
@@ -86,9 +84,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.edit.state', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
@@ -133,9 +129,7 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function delete($ids = array())
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.delete', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.delete', 'com_installer'))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
@@ -160,7 +154,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 
 		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds();
+		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
 		// Enable the update site in the table and store it in the database
 		foreach ($ids as $i => $id)
@@ -218,15 +212,32 @@ class InstallerModelUpdatesites extends InstallerModel
 	 */
 	public function rebuild()
 	{
-		$user = JFactory::getUser();
-
-		if (!$user->authorise('core.admin', 'com_installer'))
+		if (!JFactory::getUser()->authorise('core.admin', 'com_installer'))
 		{
 			throw new Exception(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
 
 		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
+
+		// Check if Joomla Extension plugin is enabled.
+		if (!JPluginHelper::isEnabled('extension', 'joomla'))
+		{
+			$query = $db->getQuery(true)
+				->select($db->quoteName('extension_id'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('joomla'))
+				->where($db->quoteName('folder') . ' = ' . $db->quote('extension'));
+			$db->setQuery($query);
+
+			$pluginId = (int) $db->loadResult();
+
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
+
+			return;
+		}
 
 		$clients               = array(JPATH_SITE, JPATH_ADMINISTRATOR);
 		$extensionGroupFolders = array('components', 'modules', 'plugins', 'templates', 'language', 'manifests');
@@ -262,28 +273,31 @@ class InstallerModelUpdatesites extends InstallerModel
 		}
 
 		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds());
+		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
 
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__update_sites'))
-			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->delete($db->quoteName('#__update_sites'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__update_sites_extensions'))
-			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->delete($db->quoteName('#__update_sites_extensions'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__updates'))
-			->where($db->qn('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->delete($db->quoteName('#__updates'))
+			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
 		$db->setQuery($query);
 		$db->execute();
 
 		$count = 0;
+
+		// Gets Joomla core extension Ids.
+		$joomlaCoreExtensionIds = implode(', ', $this->getJoomlaUpdateSitesIds(1));
 
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
@@ -310,13 +324,16 @@ class InstallerModelUpdatesites extends InstallerModel
 
 					if (!is_null($manifest))
 					{
+						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
 						$query = $db->getQuery(true)
-							->select($db->qn('extension_id'))
-							->from($db->qn('#__extensions'))
-							->where($db->qn('name') . ' = ' . $db->q($manifest->name))
-							->where($db->qn('type') . ' = ' . $db->q($manifest['type']))
-							->where($db->qn('state') . ' != -1');
+							->select($db->quoteName('extension_id'))
+							->from($db->quoteName('#__extensions'))
+							->where($db->quoteName('name') . ' = ' . $db->quote($manifest->name))
+							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
+							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
+							->where($db->quoteName('state') . ' != -1');
 						$db->setQuery($query);
+
 						$eid = (int) $db->loadResult();
 
 						if ($eid && $manifest->updateservers)
@@ -351,22 +368,31 @@ class InstallerModelUpdatesites extends InstallerModel
 	/**
 	 * Fetch the Joomla update sites ids.
 	 *
+	 * @param   integer  $column  Column to return. 0 for update site ids, 1 for extension ids.
+	 *
 	 * @return  array  Array with joomla core update site ids.
 	 *
-	 * @since   3.6
+	 * @since   3.6.0
 	 */
-	protected function getJoomlaUpdateSitesIds()
+	protected function getJoomlaUpdateSitesIds($column = 0)
 	{
 		$db  = JFactory::getDbo();
 
-		// Fetch the Joomla core Joomla update sites ids.
-		$query = $db->getQuery(true);
-		$query->select($db->qn('update_site_id'))
-			->from($db->qn('#__update_sites'))
-			->where($db->qn('location') . ' LIKE \'%update.joomla.org%\'');
+		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
+			->from($db->quoteName('#__update_sites_extensions', 'use'))
+			->join('LEFT', $db->quoteName('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('use.extension_id'))
+			->where('('
+				. '(' . $db->qn('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('joomla') . ')'
+				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('pkg_en-GB') . ')'
+				. ' OR (' . $db->qn('e.type') . ' = ' . $db->quote('component') . ' AND ' . $db->qn('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
+				. ')');
+		
 		$db->setQuery($query);
 
-		return $db->loadColumn();
+		return $db->loadColumn($column);
 	}
 
 	/**
