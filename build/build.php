@@ -24,15 +24,7 @@
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
-$systemGit = ob_get_clean();
-$gitPath   = '/usr/bin/git';
-
-// Sanity check - Make sure $gitPath is the same path the system recognizes
-if (substr($systemGit, 0, -1) != $gitPath)
-{
-	echo '$gitPath does not match path to local git executable, please set $gitPath to: ' . substr($systemGit, 0, -1) . "\n";
-	exit;
-}
+$systemGit = trim(ob_get_clean());
 
 // Make sure file and folder permissions are set correctly
 umask(022);
@@ -63,7 +55,7 @@ mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-system($gitPath . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
+system($systemGit . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
 
 chdir($tmp);
 system('mkdir diffdocs');
@@ -144,7 +136,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $fullVersion) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-	$command     = $gitPath . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
+	$command     = $systemGit . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
 
 	system($command);
 
