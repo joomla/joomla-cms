@@ -169,8 +169,16 @@ for ($num = $release - 1; $num >= 0; $num--)
 			continue;
 		}
 
+		// Handle renamed files since git 2.9.0
+		if (substr($file, 0, 1) == 'R')
+		{
+			// Get the file before and file after
+			$files = explode("\t", substr($file, 5));
+			$deletedFiles[] = $files[0];
+			$filesArray[$files[1]] = true;
+		}
 		// Don't add deleted files to the list
-		if (substr($file, 0, 1) != 'D')
+		else if (substr($file, 0, 1) != 'D')
 		{
 			$filesArray[$fileName] = true;
 		}
