@@ -142,7 +142,8 @@ class CategoriesViewCategory extends JViewLegacy
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
-			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE', $this->escape(JText::_($component_section_key)));
+			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
+			. '_TITLE', $this->escape(JText::_($component_section_key)));
 		}
 		// Else use the base title
 		else
@@ -205,12 +206,15 @@ class CategoriesViewCategory extends JViewLegacy
 		JToolbarHelper::divider();
 
 		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY'))
+		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : ''))
+		. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY'))
 		{
-			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4)
+			. ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 		}
 
-		/* Get help for the category/section view for the component by
+		/*
+		 * Get help for the category/section view for the component by
 		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
