@@ -78,7 +78,7 @@ if (!empty($this->items))
 		<caption class="hide"><?php echo JText::sprintf('COM_CONTENT_CATEGORY_LIST_TABLE_CAPTION', $this->category->title); ?></caption>
 		<thead>
 			<tr>
-				<th id="categorylist_header_title">
+				<th scope="col" id="categorylist_header_title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
