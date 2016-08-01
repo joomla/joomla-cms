@@ -9,7 +9,6 @@
 namespace Joomla\Registry\Format;
 
 use Joomla\Registry\AbstractRegistryFormat;
-use Joomla\String\StringHelper;
 
 /**
  * JSON format handler for Registry.
@@ -30,7 +29,17 @@ class Json extends AbstractRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		return StringHelper::unicode_to_utf8(json_encode($object));
+		$bitmask = isset($options['bitmask']) ? $options['bitmask'] : 0;
+
+		// The depth parameter is only present as of PHP 5.5
+		if (version_compare(PHP_VERSION, '5.5', '>='))
+		{
+			$depth = isset($options['depth']) ? $options['depth'] : 512;
+
+			return json_encode($object, $bitmask, $depth);
+		}
+
+		return json_encode($object, $bitmask);
 	}
 
 	/**
@@ -51,14 +60,9 @@ class Json extends AbstractRegistryFormat
 
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}'))
 		{
-			$ini = AbstractRegistryFormat::getInstance('Ini');
-			$obj = $ini->stringToObject($data, $options);
-		}
-		else
-		{
-			$obj = json_decode($data);
+			return AbstractRegistryFormat::getInstance('Ini')->stringToObject($data, $options);
 		}
 
-		return $obj;
+		return json_decode($data);
 	}
 }

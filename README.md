@@ -10,30 +10,31 @@ What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).
-* Joomla! 3.5 [version history](https://docs.joomla.org/Joomla_3.5_version_history).
+* Joomla! 3.6 [version history](https://docs.joomla.org/Joomla_3.6_version_history).
 * Detailed changes are in the [changelog](https://github.com/joomla/joomla-cms/commits/master).
 
 What is Joomla?
 ---------------------
-* Joomla is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
-* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find more [details here](https://www.joomla.org/about-joomla.html).
+* [Joomla](https://www.joomla.org/about-joomla.html) is a **Content Management System** (CMS) which enables you to build websites and powerful online applications.
+* It is a simple and powerful web server application which requires a server with PHP and either MySQL, PostgreSQL or SQL Server to run. You can find [full technical requirements here](https://www.joomla.org/about-joomla/technical-requirements.html).
 * Joomla is **free and OpenSource software** distributed under the GNU General Public License version 2 or later.
 
 Is Joomla! for you?
 ---------------------
-* Joomla is [the right solution for most content web projects](https://docs.joomla.org/Joomla_Is_it_for_me%3F).
-* View Joomla's core [features here](https://www.joomla.org/core-features.html).
+* Joomla is [the right solution for most content web projects](https://docs.joomla.org/Portal:Learn_More).
+* View Joomla's [core features here](https://www.joomla.org/core-features.html).
 * Try it out for yourself in our [online demo](https://demo.joomla.org).
 
 How to find a Joomla! translation?
 ---------------------
-* Repository of [accredited language packs](http://community.joomla.org/translations.html).
-* You can also add languages directly to your website via your Joomla! administration panel.
+* Repository of [accredited language packs](https://community.joomla.org/translations.html).
+* You can also [add languages](https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site/Installing_New_Language) directly to your website via your Joomla! administration panel.
+* Learn how to [setup a Multilingual Joomla! Site](https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site)
 
 Learn Joomla!
 ---------------------
 * Read ['Getting Started with Joomla!'](https://docs.joomla.org/J3.x:Getting_Started_with_Joomla!) to learn the basics.
-* Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Beginners).
+* Before installing, read the ['Beginners' Guide'](https://docs.joomla.org/Portal:Beginners).
 
 What are the benefits of Joomla?
 ---------------------
@@ -45,12 +46,12 @@ Is it easy to change the layout display?
 ---------------------
 * The layout is controlled by templates that you can edit.
 * There are a lot of ready-made professional templates that you can download.
-* Template management information is [available here](https://docs.joomla.org/Portal:Administrators#Template_Management).
+* Template management information is [available here](https://docs.joomla.org/Portal:Template_Management).
 
 Ready to install Joomla?
 ---------------------
-* Check the [minimum requirements](https://www.joomla.org/technical-requirements.html). 
-* How do you [install Joomla](https://docs.joomla.org/Installing_Joomla!)?
+* Check the [minimum requirements](https://www.joomla.org/about-joomla/technical-requirements.html). 
+* How do you [install Joomla](https://docs.joomla.org/J3.x:Installing_Joomla)?
 * You could start your Joomla! experience by [building your site on a local test server](https://docs.joomla.org/Installing_Joomla_locally).
 When ready, it can be moved to an on-line hosting account of your choice.
 
@@ -67,20 +68,19 @@ Where can you get support and help?
 * Post questions at [our forums](http://forum.joomla.org);
 * [Joomla Resources Directory](http://resources.joomla.org/) (JRD).
 
-Do you already have a Joomla site that isn't built with Joomla 3.x?
+Do you already have a Joomla! site that isn't built with Joomla! 3.x?
 ---------------------
 * What's [new in Joomla! 3.x](https://www.joomla.org/3)?
 * What are the [main differences between 2.5 and 3.x](https://docs.joomla.org/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
 * How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration).
 * How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration).
-* How to [convert an existing website to Joomla](https://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site).
 
 Do you want to improve Joomla?
 --------------------
-* How do you [request a feature](https://docs.joomla.org/How_do_you_request_a_feature%3F)?
-* How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues)?
-* Get Involved: Joomla! is community developed software. [Join the community](http://volunteers.joomla.org/).
-* Documentation for [Developers](https://docs.joomla.org/Developers).
+* Where to [request a feature](https://issues.joomla.org/)?
+* How do you [report a bug](https://docs.joomla.org/Filing_bugs_and_issues) on the [Issue Tracker](https://issues.joomla.org/)?
+* Get Involved: Joomla! is community developed software. [Join the community](https://volunteers.joomla.org/).
+* Documentation for [Developers](https://docs.joomla.org/Portal:Developers).
 * Documentation for [Web designers](https://docs.joomla.org/Web_designers).
 
 Copyright

@@ -21,7 +21,7 @@ jimport('joomla.utilities.utility');
 class JDocumentHtml extends JDocument
 {
 	/**
-	 * Array of Header <link> tags
+	 * Array of Header `<link>` tags
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -259,11 +259,11 @@ class JDocumentHtml extends JDocument
 	}
 
 	/**
-	 * Adds <link> tags to the head of the document
+	 * Adds `<link>` tags to the head of the document
 	 *
 	 * $relType defaults to 'rel' as it is the most common relation type used.
 	 * ('rev' refers to reverse relation, 'rel' indicates normal, forward relation.)
-	 * Typical tag: <link href="index.php" rel="Start">
+	 * Typical tag: `<link href="index.php" rel="Start">`
 	 *
 	 * @param   string  $href      The link that is being related.
 	 * @param   string  $relation  Relation of link.
@@ -325,7 +325,7 @@ class JDocumentHtml extends JDocument
 	/**
 	 * Returns whether the document is set up to be output as HTML5
 	 *
-	 * @return  Boolean true when HTML5 is used
+	 * @return  boolean true when HTML5 is used
 	 *
 	 * @since   12.1
 	 */
@@ -617,6 +617,11 @@ class JDocumentHtml extends JDocument
 		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
 			$template = 'system';
+		}
+
+		if (!file_exists($directory . '/' . $template . '/' . $file))
+		{
+			$file = 'index.php';
 		}
 
 		// Load the language file for the template

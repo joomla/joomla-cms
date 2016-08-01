@@ -97,18 +97,11 @@ class JTableMenu extends JTableNested
 
 			return false;
 		}
+
 		// Set correct component id to ensure proper 404 messages with separator items
 		if ($this->type == "separator")
 		{
 			$this->component_id = 0;
-		}
-
-		// If the alias field is empty, set it to the title.
-		$this->alias = trim($this->alias);
-
-		if ((empty($this->alias)) && ($this->type != 'alias' && $this->type != 'url'))
-		{
-			$this->alias = $this->title;
 		}
 
 		// Check for a path.
@@ -125,14 +118,6 @@ class JTableMenu extends JTableNested
 		if (trim($this->img) == '')
 		{
 			$this->img = ' ';
-		}
-
-		// Make the alias URL safe.
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Cast the home property to an int for checking.
@@ -184,26 +169,49 @@ class JTableMenu extends JTableNested
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(
-				array(
-				'alias' => $this->alias,
-				'parent_id' => $this->parent_id,
-				'client_id' => (int) $this->client_id,
-				'language' => $this->language
-				)
-			)
-			&& ($table->id != $this->id || $this->id == 0))
+		$originalAlias = trim($this->alias);
+		$this->alias   = !$originalAlias ? $this->title : $originalAlias;
+		$this->alias   = JApplicationHelper::stringURLSafe(trim($this->alias), $this->language);
+
+		// If alias still empty (for instance, new menu item with chinese characters with no unicode alias setting).
+		if (empty($this->alias))
 		{
-			if ($this->menutype == $table->menutype)
+			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+		}
+		else
+		{
+			$itemSearch = array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id);
+			$errorType  = '';
+
+			// Check if the alias already exists. For multilingual site.
+			if (JLanguageMultilang::isEnabled())
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+				// If not exists a menu item at the same level with the same alias (in the All or the same language).
+				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
+					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
+					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
+				{
+					$errorType = 'MULTILINGUAL';
+				}
 			}
+			// Check if the alias already exists. For monolingual site.
 			else
 			{
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+				// If not exists a menu item at the same level with the same alias (in any language).
+				if ($table->load($itemSearch) && ($table->id != $this->id || $this->id == 0))
+				{
+					$errorType = 'MONOLINGUAL';
+				}
 			}
 
-			return false;
+			// The alias already exists. Send an error message.
+			if ($errorType)
+			{
+				$message = JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS' . ($this->menutype != $table->menutype ? '_ROOT' : ''));
+				$this->setError($message);
+
+				return false;
+			}
 		}
 
 		if ($this->home == '1')

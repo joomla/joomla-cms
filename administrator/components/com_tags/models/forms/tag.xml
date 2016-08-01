@@ -173,7 +173,8 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_CREATED_DATE"
-		filter="unset"
+		format="%Y-%m-%d %H:%M:%S"
+		filter="user_utc"
 		readonly="true"
 	/>
 
@@ -191,7 +192,8 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
-		filter="unset"
+		format="%Y-%m-%d %H:%M:%S"
+		filter="user_utc"
 		readonly="true"
 	/>
 

@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.filesystem.folder');
 
 /**
@@ -27,7 +29,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	protected $clientId;
 
 	/**
-	 * <scriptfile> element of the extension manifest
+	 * `<scriptfile>` element of the extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -70,7 +72,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -374,6 +376,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data    = '';
+			$this->extension->system_data    = '';
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			if (!$this->extension->store())
@@ -647,7 +650,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		if (count($modules))
 		{
 			// Ensure the list is sane
-			JArrayHelper::toInteger($modules);
+			$modules = ArrayHelper::toInteger($modules);
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus

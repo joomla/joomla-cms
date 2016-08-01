@@ -15,6 +15,34 @@
 		> li > a {
 			padding: 6px 10px;
 		}
+		> li ul {
+			overflow-y: auto;
+			overflow-x: hidden;
+			-webkit-overflow-scrolling: touch;
+			-moz-overflow-scrolling: touch;
+			-ms-overflow-scrolling: touch;
+			-o-overflow-scrolling: touch;
+			overflow-scrolling: touch;
+			height: auto;
+			max-height: 500px;
+			margin: 0;
+			&::-webkit-scrollbar {
+				-webkit-appearance: none;
+				width: 7px;
+			}
+			&::-webkit-scrollbar-thumb {
+				border-radius: 4px;
+				background-color: rgba(0,0,0,.5);
+				-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+			}
+		}
+	}
+	.nav > .dropdown.open:after {
+		right: 10px;
+		width: 0;
+	}
+	.empty-nav {
+		display: none;
 	}
 }
 
@@ -245,4 +273,19 @@ a.grid_true {
 			width: 229px
 		}
 	}
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-right: 240px;
+}
+
+/* Modal footer */
+.modal-footer button {
+	float: left;
+}
+
+/* Modal Header text align right even if parent container centered */
+.modal-header {
+	text-align: right;
 }

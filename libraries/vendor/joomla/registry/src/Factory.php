@@ -25,7 +25,7 @@ class Factory
 	protected static $formatInstances = array();
 
 	/**
-	 * Returns a AbstractRegistryFormat object, only creating it if it doesn't already exist.
+	 * Returns an AbstractRegistryFormat object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $type     The format to load
 	 * @param   array   $options  Additional options to configure the object

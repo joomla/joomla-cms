@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  Layout
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
@@ -11,19 +11,16 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-$clientIdField = $data['view']->filterForm->getField('client_id');
-JFactory::getDocument()->addScriptDeclaration(
-	"
-		jQuery.fn.clearPositionType = function(){
-			jQuery('#filter_position, #filter_module, #filter_language').val('');
-		};
-	"
-);
-
+if ($data['view'] instanceof ModulesViewModules && JFactory::getApplication()->input->get('layout', '', 'cmd') !== 'modal')
+{
+	// Add the client selector before the form filters.
+	$clientIdField = $data['view']->filterForm->getField('client_id');
 ?>
-<div class="js-stools-field-filter js-stools-client_id hidden-phone hidden-tablet">
-	<?php echo $clientIdField->input; ?>
-</div>
+	<div class="js-stools-field-filter js-stools-client_id">
+		<?php echo $clientIdField->input; ?>
+	</div>
 <?php
-// Display the main joomla layout
+}
+
+// Display the main joomla layout.
 echo JLayoutHelper::render('joomla.searchtools.default.bar', $data, null, array('component' => 'none'));

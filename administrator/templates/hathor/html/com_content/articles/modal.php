@@ -16,7 +16,7 @@ if ($app->isSite())
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
-						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+						<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					<?php endif;?>
 				</td>
 				<td class="center nowrap">

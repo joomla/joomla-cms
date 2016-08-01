@@ -50,18 +50,17 @@ class UsersModelLevels extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.ordering', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.ordering', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -125,7 +124,7 @@ class UsersModelLevels extends JModelList
 		$query->group('a.id');
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -178,7 +177,7 @@ class UsersModelLevels extends JModelList
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  Order position
 	 *
-	 * @return   boolean
+	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
 	 */
 	public function saveorder($pks, $order)
 	{

@@ -405,9 +405,38 @@ abstract class JHtmlBehavior
 				parse: 'rel'
 			});
 		});
-		function jModalClose() {
+
+		window.jModalClose = function () {
 			SqueezeBox.close();
-		}"
+		};
+		
+		// Add extra modal close functionality for tinyMCE-based editors
+		document.onreadystatechange = function () {
+			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
+			{
+				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
+				{	
+					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
+					
+					jModalClose = function () {
+						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+		
+				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
+				{
+					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
+					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
+		
+					SqueezeBox.close = function () {
+						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+			}
+		};
+		"
 		);
 
 		// Set static array
@@ -578,7 +607,15 @@ abstract class JHtmlBehavior
 					jQuery('.minicolors').each(function() {
 						jQuery(this).minicolors({
 							control: jQuery(this).attr('data-control') || 'hue',
-							position: jQuery(this).attr('data-position') || 'right',
+							format: jQuery(this).attr('data-validate') === 'color'
+								? 'hex'
+								: (jQuery(this).attr('data-format') === 'rgba'
+									? 'rgb'
+									: jQuery(this).attr('data-format'))
+								|| 'hex',
+							keywords: jQuery(this).attr('data-keywords') || '',
+							opacity: jQuery(this).attr('data-format') === 'rgba' ? true : false || false,
+							position: jQuery(this).attr('data-position') || 'default',
 							theme: 'bootstrap'
 						});
 					});
@@ -700,6 +737,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		$terms = array_filter($terms, 'strlen');
+
+		// Nothing to Highlight
+		if (empty($terms))
+		{
+			static::$loaded[__METHOD__][$sig] = true;
+			return;
+		}
+
 		// Include core
 		static::core();
 
@@ -708,7 +754,10 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/highlighter.js', false, true);
 
-		$terms = str_replace('"', '\"', $terms);
+		foreach ($terms as $i => $term)
+		{
+			$terms[$i] = JFilterOutput::stringJSSafe($term);
+		}
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
@@ -886,11 +935,14 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive JavaScript support to keep a tab state.
 	 *
-	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
+	 *
+	 * ```
 	 * parent tab = permissions
 	 * child tab = permission-<identifier>
+	 * ```
 	 *
-	 * Each tab header "a" tag also should have a unique href attribute
+	 * Each tab header `<a>` tag also should have a unique href attribute
 	 *
 	 * @return  void
 	 *

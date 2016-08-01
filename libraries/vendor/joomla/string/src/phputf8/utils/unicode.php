@@ -16,7 +16,7 @@
 
 //--------------------------------------------------------------------
 /**
-* Takes an UTF-8 string and returns an array of ints representing the
+* Takes a UTF-8 string and returns an array of ints representing the
 * Unicode characters. Astral planes are supported ie. the ints in the
 * output can be > 0xFFFF. Occurrances of the BOM are ignored. Surrogates
 * are not allowed.

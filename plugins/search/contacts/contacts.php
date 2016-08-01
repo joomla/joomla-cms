@@ -59,9 +59,9 @@ class PlgSearchContacts extends JPlugin
 	{
 		require_once JPATH_SITE . '/components/com_contact/helpers/route.php';
 
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$db     = JFactory::getDbo();
+		$app    = JFactory::getApplication();
+		$user   = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		if (is_array($areas))
@@ -72,10 +72,10 @@ class PlgSearchContacts extends JPlugin
 			}
 		}
 
-		$sContent = $this->params->get('search_content', 1);
+		$sContent  = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
-		$limit = $this->params->def('search_limit', 50);
-		$state = array();
+		$limit     = $this->params->def('search_limit', 50);
+		$state     = array();
 
 		if ($sContent)
 		{
@@ -123,7 +123,7 @@ class PlgSearchContacts extends JPlugin
 		$query = $db->getQuery(true);
 
 		// SQLSRV changes.
-		$case_when = ' CASE WHEN ';
+		$case_when  = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
@@ -131,10 +131,10 @@ class PlgSearchContacts extends JPlugin
 		$case_when .= ' ELSE ';
 		$case_when .= $a_id . ' END as slug';
 
-		$case_when1 = ' CASE WHEN ';
+		$case_when1  = ' CASE WHEN ';
 		$case_when1 .= $query->charLength('c.alias', '!=', '0');
 		$case_when1 .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
+		$c_id        = $query->castAsChar('c.id');
 		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
@@ -181,8 +181,8 @@ class PlgSearchContacts extends JPlugin
 		{
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href = ContactHelperRoute::getContactRoute($row->slug, $row->catslug);
-				$rows[$key]->text = $row->title;
+				$rows[$key]->href  = ContactHelperRoute::getContactRoute($row->slug, $row->catslug);
+				$rows[$key]->text  = $row->title;
 				$rows[$key]->text .= ($row->con_position) ? ', ' . $row->con_position : '';
 				$rows[$key]->text .= ($row->misc) ? ', ' . $row->misc : '';
 			}

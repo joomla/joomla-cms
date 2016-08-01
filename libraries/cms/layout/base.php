@@ -287,12 +287,14 @@ class JLayoutBase implements JLayout
 	 *
 	 * @param   boolean  $debug  Enable / Disable debug
 	 *
-	 * @return  void
+	 * @return  self
 	 *
 	 * @since   3.5
 	 */
 	public function setDebug($debug)
 	{
 		$this->options->set('debug', (boolean) $debug);
+
+		return $this;
 	}
 }

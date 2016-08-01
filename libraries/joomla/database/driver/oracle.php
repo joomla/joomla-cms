@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle database driver
  *
- * @see    http://php.net/pdo
+ * @see    https://secure.php.net/pdo
  * @since  12.1
  */
 class JDatabaseDriverOracle extends JDatabaseDriverPdo
@@ -705,5 +705,36 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		{
 			$this->transactionDepth++;
 		}
+	}
+
+	/**
+	 * Get the query strings to alter the character set and collation of a table.
+	 *
+	 * @param   string  $tableName  The name of the table
+	 *
+	 * @return  string[]  The queries required to alter the table's character set and collation
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getAlterTableCharacterSet($tableName)
+	{
+		return array();
+	}
+
+	/**
+	 * Return the query string to create new Database.
+	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 *                   This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 */
+	protected function getCreateDatabaseQuery($options, $utf)
+	{
+		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 }

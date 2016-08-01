@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.4"
+	version="3.6"
 	client="installation">
 	<name>Dari Persian (فارسی دری)</name>
 	<version>3.4.2</version>
@@ -8,7 +8,6 @@
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Dari language for Joomla! installation.</description>
 	<files>
 		<filename>prs-AF.ini</filename>
 	</files>

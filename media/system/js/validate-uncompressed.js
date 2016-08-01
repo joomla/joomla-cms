@@ -102,20 +102,28 @@ var JFormValidator = function() {
 
  	isValid = function(form) {
  		var fields, valid = true, message, error, label, invalid = [], i, l;
- 	 	// Validate form fields
- 	 	fields = jQuery(form).find('input, textarea, select, fieldset');
+
+ 		// Validate form fields
+ 		fields = jQuery(form).find('input, textarea, select, fieldset');
  	 	for (i = 0, l = fields.length; i < l; i++) {
+ 	 		// Ignore Rule/Filters/Assigned field for spead up validation
+ 	 		// And other fields that has class="novalidate"
+ 	 		if(jQuery(fields[i]).hasClass('novalidate')) {
+ 	 			continue;
+ 	 		}
  	 	 	if (validate(fields[i]) === false) {
  	 	 	 	valid = false;
  	 	 	 	invalid.push(fields[i]);
  	 	 	}
  	 	}
+
  	 	// Run custom form validators if present
  	 	jQuery.each(custom, function(key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
+
  	 	if (!valid && invalid.length > 0) {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
  	 	 	error = {"error": []};
@@ -155,7 +163,7 @@ var JFormValidator = function() {
  	 	 	 	 	 	return validate(this);
  	 	 	 	 	});
  	 	 	 	 	if ($el.hasClass('validate-email') && inputEmail) {
- 	 	 	 	 	 	$el.get(0).type = 'email';
+ 	 	 	 	 		elements[i].setAttribute('type', 'email');
  	 	 	 	 	}
  	 	 	 	}
  	 	 	 	inputFields.push($el);
@@ -188,7 +196,7 @@ var JFormValidator = function() {
  	 	});
  	 	setHandler('email', function(value, element) {
 		    value = punycode.toASCII(value);
- 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+ 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'

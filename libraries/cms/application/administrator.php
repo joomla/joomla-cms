@@ -45,7 +45,7 @@ class JApplicationAdministrator extends JApplicationCms
 		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
+		JUri::root(null, rtrim(dirname(JUri::base(true)), '/\\'));
 	}
 
 	/**
@@ -328,9 +328,13 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!($result instanceof Exception))
 		{
-			$lang = $this->input->getCmd('lang', 'en-GB');
+			$lang = $this->input->getCmd('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-			$this->setUserState('application.lang', $lang);
+
+			if ($lang)
+			{
+				$this->setUserState('application.lang', $lang);
+			}
 
 			static::purgeMessages();
 		}

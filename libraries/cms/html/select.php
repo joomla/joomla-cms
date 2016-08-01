@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Utility class for creating HTML select lists
  *
@@ -31,7 +33,7 @@ abstract class JHtmlSelect
 	 * Generates a yes/no radio list.
 	 *
 	 * @param   string  $name      The value of the HTML name attribute
-	 * @param   array   $attribs   Additional HTML attributes for the <select> tag
+	 * @param   array   $attribs   Additional HTML attributes for the `<select>` tag
 	 * @param   string  $selected  The key that is selected
 	 * @param   string  $yes       Language key for Yes
 	 * @param   string  $no        Language key for no
@@ -54,7 +56,7 @@ abstract class JHtmlSelect
 	 *
 	 * @param   array    $data       An array of objects, arrays, or scalars.
 	 * @param   string   $name       The value of the HTML name attribute.
-	 * @param   mixed    $attribs    Additional HTML attributes for the <select> tag. This
+	 * @param   mixed    $attribs    Additional HTML attributes for the `<select>` tag. This
 	 *                               can be an array of attributes, or an array of options. Treated as options
 	 *                               if it is the last argument passed. Valid options are:
 	 *                               Format options, see {@see JHtml::$formatOptions}.
@@ -104,7 +106,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -118,7 +120,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
@@ -140,7 +142,7 @@ abstract class JHtmlSelect
 	 * @return  string  HTML for the select list
 	 *
 	 * @since       3.2
-	 * @deprecated  4.0  Just create the <datalist> directly instead
+	 * @deprecated  4.0  Just create the `<datalist>` directly instead
 	 */
 	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
@@ -229,7 +231,7 @@ abstract class JHtmlSelect
 		{
 			if (is_array($options['list.attr']))
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$attribs = ArrayHelper::toString($options['list.attr']);
 			}
 			else
 			{
@@ -243,7 +245,7 @@ abstract class JHtmlSelect
 		}
 
 		$id = $options['id'] !== false ? $options['id'] : $name;
-		$id = str_replace(array('[', ']'), '', $id);
+		$id = str_replace(array('[', ']', ' '), '', $id);
 
 		// Disable groups in the options.
 		$options['groups'] = false;
@@ -326,7 +328,7 @@ abstract class JHtmlSelect
 	 * @param   integer  $end       The end integer
 	 * @param   integer  $inc       The increment
 	 * @param   string   $name      The value of the HTML name attribute
-	 * @param   mixed    $attribs   Additional HTML attributes for the <select> tag, an array of
+	 * @param   mixed    $attribs   Additional HTML attributes for the `<select>` tag, an array of
 	 *                              attributes, or an array of options. Treated as options if it is the last
 	 *                              argument passed.
 	 * @param   mixed    $selected  The key that is selected
@@ -683,7 +685,7 @@ abstract class JHtmlSelect
 
 				if (is_array($attr))
 				{
-					$attr = JArrayHelper::toString($attr);
+					$attr = ArrayHelper::toString($attr);
 				}
 				else
 				{
@@ -731,7 +733,7 @@ abstract class JHtmlSelect
 	 *
 	 * @param   array    $data       An array of objects
 	 * @param   string   $name       The value of the HTML name attribute
-	 * @param   string   $attribs    Additional HTML attributes for the <select> tag
+	 * @param   string   $attribs    Additional HTML attributes for the `<select>` tag
 	 * @param   mixed    $optKey     The key that is selected
 	 * @param   string   $optText    The name of the object variable for the option value
 	 * @param   string   $selected   The name of the object variable for the option text
@@ -748,7 +750,7 @@ abstract class JHtmlSelect
 
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		$id_text = $idtag ? $idtag : $name;

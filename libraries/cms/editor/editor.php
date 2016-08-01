@@ -472,10 +472,25 @@ class JEditor extends JObject
 			}
 
 			// Try to authenticate
-			if (method_exists($plugin, 'onDisplay') && $temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			if (!method_exists($plugin, 'onDisplay'))
 			{
-				$result[] = $temp;
+				continue;
 			}
+
+			$button = $plugin->onDisplay($editor, $this->asset, $this->author);
+
+			if (empty($button))
+			{
+				continue;
+			}
+
+			if (is_array($button))
+			{
+				$result = array_merge($result, $button);
+				continue;
+			}
+
+			$result[] = $button;
 		}
 
 		return $result;
