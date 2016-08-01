@@ -628,3 +628,35 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 }( Joomla, document ));
+
+/**
+ * A document ready vanilla implementation.
+ *
+ * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+ *
+ * @param   function  fn       The function that will be executed on document ready.
+ * @param   string    context  The context for the function, defaults to window.
+ *
+ * @since  3.6.1
+ */
+(function(exports, d) {
+	function domReady(fn, context) {
+
+		function onReady(event) {
+			d.removeEventListener("DOMContentLoaded", onReady);
+			fn.call(context || exports, event);
+		}
+
+		function onReadyIe(event) {
+			if (d.readyState === "complete") {
+				d.detachEvent("onreadystatechange", onReadyIe);
+				fn.call(context || exports, event);
+			}
+		}
+
+		d.addEventListener && d.addEventListener("DOMContentLoaded", onReady) ||
+		d.attachEvent      && d.attachEvent("onreadystatechange", onReadyIe);
+	}
+
+	exports.domReady = domReady;
+})(window, document);
