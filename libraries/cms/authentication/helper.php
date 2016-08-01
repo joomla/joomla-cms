@@ -23,7 +23,7 @@ abstract class JAuthenticationHelper
 	 *
 	 * @return  array  Two factor authentication methods.
 	 *
-	 * @since   3.x
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getTwoFactorMethods()
 	{
