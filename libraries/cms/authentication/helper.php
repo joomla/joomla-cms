@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Plugin
+ * @subpackage  Authentication
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Plugin helper class
+ * Authentication helper class
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JAuthenticationHelper
 {
