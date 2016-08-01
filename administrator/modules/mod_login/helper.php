@@ -80,7 +80,7 @@ abstract class ModLoginHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
 
 		return UsersHelper::getTwoFactorMethods();
 	}
