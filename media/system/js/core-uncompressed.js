@@ -632,7 +632,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 /**
  * A document ready vanilla implementation.
  *
- * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
+ * Used in: /libraries/cms/html/email.php
  *
  * @param   function  fn       The function that will be executed on document ready.
  * @param   string    context  The context for the function, defaults to window.
