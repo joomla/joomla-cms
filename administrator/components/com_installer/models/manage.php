@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Manage Model
@@ -34,8 +34,9 @@ class InstallerModelManage extends InstallerModel
 				'status',
 				'name',
 				'client_id',
-				'type',
-				'folder',
+				'client', 'client_translated',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
 				'extension_id',
 			);
 		}
@@ -332,6 +333,8 @@ class InstallerModelManage extends InstallerModel
 		{
 			$query->where('extension_id = ' . (int) substr($search, 3));
 		}
+
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
 	}

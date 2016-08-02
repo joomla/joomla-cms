@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ extract($displayData);
 
 // Set the link for the user selection page
 $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
-	. ($required ? 1 : 0) . '&amp;field={field-user-id}'
+	. ($required ? 1 : 0) . '&amp;field={field-user-id}&amp;ismoo=0'
 	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 

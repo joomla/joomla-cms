@@ -91,7 +91,7 @@ abstract class ModArticlesNewsHelper
 			else
 			{
 				$item->link = new JUri(JRoute::_('index.php?option=com_users&view=login', false));
-				$item->link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language), false)));
+				$item->link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 
@@ -102,11 +102,14 @@ abstract class ModArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
 			$item->afterDisplayTitle = trim(implode("\n", $results));
 
 			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
 			$item->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
+			$item->afterDisplayContent = trim(implode("\n", $results));
 		}
 
 		return $items;

@@ -70,7 +70,7 @@ abstract class JHtmlFormbehavior
 
 		if (!isset($options['placeholder_text_multiple']))
 		{
-			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_SELECT_SOME_OPTIONS');
+			$options['placeholder_text_multiple'] = JText::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS');
 		}
 
 		if (!isset($options['placeholder_text_single']))

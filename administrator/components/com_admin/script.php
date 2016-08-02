@@ -19,7 +19,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile  $installer  The class calling this method
+	 * @param   JInstallerAdapterFile  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -31,13 +31,15 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
+		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
 		$this->updateAssets();
 		$this->clearStatsCache();
-		$this->convertTablesToUtf8mb4();
+		$this->convertTablesToUtf8mb4(true);
+		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
 		// LOGOUT ALL THE USERS
@@ -235,13 +237,13 @@ class JoomlaInstallerScript
 			array('component', 'com_config', '', 1),
 			array('component', 'com_redirect', '', 1),
 			array('component', 'com_users', '', 1),
+			array('component', 'com_finder', '', 1),
 			array('component', 'com_tags', '', 1),
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
+			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
-			array('library', 'phpmailer', '', 0),
-			array('library', 'simplepie', '', 0),
 			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
@@ -341,6 +343,9 @@ class JoomlaInstallerScript
 			array('plugin', 'updatenotification', 'system', 0),
 			array('plugin', 'module', 'editors-xtd', 0),
 			array('plugin', 'stats', 'system', 0),
+			array('plugin', 'packageinstaller','installer',0),
+			array('plugin', 'folderinstaller','installer', 0),
+			array('plugin', 'urlinstaller','installer', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -356,7 +361,7 @@ class JoomlaInstallerScript
 			array('file', 'joomla', '', 0),
 
 			// Packages
-			// None in core at this time
+			array('package', 'pkg_en-GB', '', 0),
 		);
 
 		// Attempt to refresh manifest caches
@@ -1407,6 +1412,20 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch/opensearch.php',
 			'/libraries/joomla/document/raw/raw.php',
 			'/libraries/joomla/document/xml/xml.php',
+			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
+			'/administrator/components/com_joomlaupdate/helpers/download.php',
+			// Joomla 3.6.0
+			'/libraries/simplepie/README.txt',
+			'/libraries/simplepie/simplepie.php',
+			'/libraries/simplepie/LICENSE.txt',
+			'/libraries/simplepie/idn/LICENCE',
+			'/libraries/simplepie/idn/ReadMe.txt',
+			'/libraries/simplepie/idn/idna_convert.class.php',
+			'/libraries/simplepie/idn/npdata.ser',
+			'/administrator/manifests/libraries/simplepie.xml',
+			'/administrator/templates/isis/js/jquery.js',
+			'/administrator/templates/isis/js/bootstrap.min.js',
+			'/media/system/js/permissions.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1500,6 +1519,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
+			// Joomla 3.6
+			'/libraries/simplepie/idn',
+			'/libraries/simplepie',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1526,10 +1548,10 @@ class JoomlaInstallerScript
 		 * Needed for updates post-3.4
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
-		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
+			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
 		{
-			JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
+			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
 	}
 
@@ -1546,9 +1568,9 @@ class JoomlaInstallerScript
 	{
 		jimport('joomla.filesystem.file');
 
-		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		if (JFile::exists(JPATH_ROOT . '/cache/fof/cache.php'))
 		{
-			JFile::delete(JPATH_CACHE . '/fof/cache.php');
+			JFile::delete(JPATH_ROOT . '/cache/fof/cache.php');
 		}
 	}
 
@@ -1615,8 +1637,8 @@ class JoomlaInstallerScript
 		$session = JFactory::getSession();
 
 		/**
-		 * Restarting the Session require a new login for the current user so lets check if we have a active session
-		 * and only if not restart it.
+		 * Restarting the Session require a new login for the current user so lets check if we have an active session
+		 * and only restart it if not.
 		 * For B/C reasons we need to use getState as isActive is not available in 2.5
 		 */
 		if ($session->getState() !== 'active')
@@ -1664,32 +1686,27 @@ class JoomlaInstallerScript
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
-	 * Note that this is a modified of InstallerModelDatabase::convertTablesToUtf8mb4()
-	 * that doesn't use JDatabase functions introduced in 3.5.0 which would cause errors
-	 * when upgrading from a version before 3.5.0
+	 * @param   boolean  $doDbFixMsg  Flag if message to be shown to check db fix
 	 *
 	 * @return  void
 	 *
 	 * @since   3.5
 	 */
-	private function convertTablesToUtf8mb4()
+	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
 		$db = JFactory::getDbo();
 
 		// This is only required for MySQL databases
-		$name = $db->getName();
+		$serverType = $db->getServerType();
 
-		if (stristr($name, 'mysql') === false)
+		if ($serverType != 'mysql')
 		{
 			return;
 		}
 
-		// Check if utf8mb4 is supported and set required conversion status
-		$utf8mb4Support = false;
-
-		if ($this->serverClaimsUtf8mb4Support($name))
+		// Set required conversion status
+		if ($db->hasUTF8mb4Support())
 		{
-			$utf8mb4Support = true;
 			$converted = 2;
 		}
 		else
@@ -1708,7 +1725,14 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			// Render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
 
 			return;
 		}
@@ -1720,7 +1744,7 @@ class JoomlaInstallerScript
 		}
 
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+		$fileName1 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
 
 		if (is_file($fileName1))
 		{
@@ -1744,7 +1768,7 @@ class JoomlaInstallerScript
 		}
 
 		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+		$fileName2 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
 
 		if (is_file($fileName2))
 		{
@@ -1755,15 +1779,9 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries2 as $query2)
 				{
-					// Downgrade the query if utf8mb4 isn't supported
-					if (!$utf8mb4Support)
-					{
-						$query2 = $this->convertUtf8mb4QueryToUtf8($query2);
-					}
-
 					try
 					{
-						$db->setQuery($query2)->execute();
+						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
 					}
 					catch (Exception $e)
 					{
@@ -1776,8 +1794,7 @@ class JoomlaInstallerScript
 			}
 		}
 
-		// Show if there was some error
-		if ($converted == 0)
+		if ($doDbFixMsg && $converted == 0)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
@@ -1789,83 +1806,22 @@ class JoomlaInstallerScript
 	}
 
 	/**
-	 * Does the database server claim to have support for UTF-8 Multibyte (utf8mb4) collation?
-	 * 
-	 * This is a modified version of the function in JDatabase::serverClaimsUtf8mb4Support() - it is
-	 * duplicated here for people upgrading from a version lower than 3.5.0 through extension manager
-	 * which will still have the old database driver loaded at this point.
+	 * This method clean the Joomla Cache using the method `clean` from the com_cache model
 	 *
-	 * @param   string  $format  The type of database connection.
+	 * @return  void
 	 *
-	 * @return  boolean
-	 *
-	 * @since   3.5.0
+	 * @since   3.5.1
 	 */
-	private function serverClaimsUtf8mb4Support($format)
+	private function cleanJoomlaCache()
 	{
-		$db = JFactory::getDbo();
+		JModelLegacy::addIncludePath(JPATH_ROOT . '/administrator/components/com_cache/models');
+		$model = JModelLegacy::getInstance('cache', 'CacheModel');
 
-		switch ($format)
-		{
-			case 'mysql':
-				$client_version = mysql_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'mysqli':
-				$client_version = mysqli_get_client_info();
-				$server_version = $db->getVersion();
-				break;
-			case 'pdomysql':
-				$client_version = $db->getOption(PDO::ATTR_CLIENT_VERSION);
-				$server_version = $db->getOption(PDO::ATTR_SERVER_VERSION);
-				break;
-			default:
-				$client_version = false;
-				$server_version = false;
-		}
+		// Clean frontend cache
+		$model->clean();
 
-		if ($client_version && version_compare($server_version, '5.5.3', '>='))
-		{
-			if (strpos($client_version, 'mysqlnd') !== false)
-			{
-				$client_version = preg_replace('/^\D+([\d.]+).*/', '$1', $client_version);
-
-				return version_compare($client_version, '5.0.9', '>=');
-			}
-			else
-			{
-				return version_compare($client_version, '5.5.3', '>=');
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used when the server
-	 * doesn't support UTF-8 Multibyte.
-	 *
-	 * This is a modified version of the function in JDatabase::convertUtf8mb4QueryToUtf8() - it is duplicated here for
-	 * people upgrading from a version lower than 3.5.0 through extension manager which will still have the old database
-	 * driver loaded at this point. This is missing the check for utf8mb4 in JDatabaseDriver we make this check in the
-	 * updater elsewhere.
-	 *
-	 * @param   string  $query  The query to convert
-	 *
-	 * @return  string  The converted query
-	 */
-	private function convertUtf8mb4QueryToUtf8($query)
-	{
-		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
-		$beginningOfQuery = substr($query, 0, 12);
-		$beginningOfQuery = strtoupper($beginningOfQuery);
-
-		if (!in_array($beginningOfQuery, array('ALTER TABLE ', 'CREATE TABLE')))
-		{
-			return $query;
-		}
-
-		// Replace utf8mb4 with utf8
-		return str_replace('utf8mb4', 'utf8', $query);
+		// Clean admin cache
+		$model->setState('client_id', 1);
+		$model->clean();
 	}
 }

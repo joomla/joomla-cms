@@ -61,7 +61,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Attempt to set the default administrator language
 		if (!$model->setDefault($admin_lang, 'administrator'))
 		{
-			// Create a error response message.
+			// Create an error response message.
 			$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_ADMIN_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else
@@ -82,7 +82,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		// Attempt to set the default site language
 		if (!$model->setDefault($frontend_lang, 'site'))
 		{
-			// Create a error response message.
+			// Create an error response message.
 			$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_FRONTEND_COULDNT_SET_DEFAULT'), 'error');
 		}
 		else
@@ -92,10 +92,9 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		}
 
 		// Check if user has activated the multilingual site
-		$data                = $this->input->post->get('jform', array(), 'array');
-		$activeMultilanguage = (int) $data['activateMultilanguage'];
+		$data = $this->input->post->get('jform', array(), 'array');
 
-		if ($activeMultilanguage)
+		if ((int) $data['activateMultilanguage'])
 		{
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
@@ -122,12 +121,11 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
-			$siteLanguages = $model->getInstalledlangsFrontend();
+			$siteLanguages       = $model->getInstalledlangsFrontend();
+			$groupedAssociations = array();
 
 			foreach ($siteLanguages as $siteLang)
 			{
-				$error = false;
-
 				// Add Language Manager: Content Languages
 				$tableLanguage = JTable::getInstance('Language');
 
@@ -141,54 +139,60 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					if (!$model->addLanguage($siteLang, $sefLangString))
 					{
 						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name));
-						$error = true;
+
+						continue;
 					}
 				}
 
-				if (!$error && !$model->addMenuGroup($siteLang))
+				if (!$model->addMenuGroup($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name));
-					$error = true;
+
+					continue;
 				}
 
-				if (!$error && !$model->addMenuItem($siteLang))
+				if (!$tableMenuItem = $model->addMenuItem($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name));
-					$error = true;
+
+					continue;
 				}
 
-				if (!$error && !$model->addModuleMenu($siteLang))
+				$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+
+				if (!$model->addModuleMenu($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang));
-					$error = true;
+
+					continue;
 				}
 
-				$installContent = (int) $data['installLocalisedContent'];
-
-				if ($installContent)
+				if ((int) $data['installLocalisedContent'])
 				{
-					if (!$error)
+					if (!$tableCategory = $model->addCategory($siteLang))
 					{
-						$tableCategory = $model->addCategory($siteLang);
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
 
-						if ($tableCategory === false)
-						{
-							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
-							$error = true;
-						}
+						continue;
 					}
 
-					if (!$error)
-					{
-						$categoryId = $tableCategory->id;
+					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
-						if (!$model->addArticle($siteLang, $categoryId))
-						{
-							$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
-							$error = true;
-						}
+					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
+
+						continue;
 					}
+
+					$groupedAssociations['com_content.item'][$siteLang->language] = $tableArticle->id;
 				}
+			}
+
+			if (!$model->addAssociations($groupedAssociations))
+			{
+				// TODO: Make this a proper string in 3.6.2 (see https://github.com/joomla/joomla-cms/pull/11263)
+				$app->enqueueMessage(JText::_('JERROR'));
 			}
 
 			if (!$model->disableModuleMainMenu())

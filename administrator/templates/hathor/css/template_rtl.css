@@ -1289,6 +1289,7 @@ div.btn-toolbar {
 	float: left;
 }
 
+.popover,
 .tooltip-inner {
 	text-align: right;
 }
@@ -1300,4 +1301,7 @@ div.toggle-editor {
 }
 div.toggle-editor {
 	margin-top: 14px;
+}
+.modal-footer button {
+	float: left;
 }

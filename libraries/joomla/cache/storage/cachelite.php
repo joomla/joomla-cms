@@ -18,9 +18,9 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageCachelite extends JCacheStorage
 {
 	/**
-	 * Static cache of the Cache_Lite instance
+	 * Singleton Cache_Lite instance
 	 *
-	 * @var    object
+	 * @var    Cache_Lite
 	 * @since  11.1
 	 */
 	protected static $CacheLiteInstance = null;
@@ -47,28 +47,27 @@ class JCacheStorageCachelite extends JCacheStorage
 		$this->_root = $options['cachebase'];
 
 		$cloptions = array(
-			'cacheDir' => $this->_root . '/',
-			'lifeTime' => $this->_lifetime,
-			'fileLocking' => $this->_locking,
+			'cacheDir'                => $this->_root . '/',
+			'lifeTime'                => $this->_lifetime,
+			'fileLocking'             => $this->_locking,
 			'automaticCleaningFactor' => isset($options['autoclean']) ? $options['autoclean'] : 200,
-			'fileNameProtection' => false,
-			'hashedDirectoryLevel' => 0,
-			'caching' => $options['caching']);
+			'fileNameProtection'      => false,
+			'hashedDirectoryLevel'    => 0,
+			'caching'                 => $options['caching']
+		);
 
-		if (self::$CacheLiteInstance === null)
+		if (static::$CacheLiteInstance === null)
 		{
 			$this->initCache($cloptions);
 		}
 	}
 
 	/**
-	 * Instantiates the appropriate CacheLite object.
-	 * Only initializes the engine if it does not already exist.
-	 * Note this is a protected method
+	 * Instantiates the Cache_Lite object. Only initializes the engine if it does not already exist.
 	 *
 	 * @param   array  $cloptions  optional parameters
 	 *
-	 * @return  object
+	 * @return  Cache_Lite
 	 *
 	 * @since   11.1
 	 */
@@ -79,45 +78,44 @@ class JCacheStorageCachelite extends JCacheStorage
 			require_once 'Cache/Lite.php';
 		}
 
-		self::$CacheLiteInstance = new Cache_Lite($cloptions);
+		static::$CacheLiteInstance = new Cache_Lite($cloptions);
 
-		return self::$CacheLiteInstance;
+		return static::$CacheLiteInstance;
 	}
 
 	/**
-	 * Get cached data from a file by id and group
+	 * Get cached data by ID and group
 	 *
-	 * @param   string   $id         The cache data id.
-	 * @param   string   $group      The cache data group.
-	 * @param   boolean  $checkTime  True to verify cache time expiration threshold.
+	 * @param   string   $id         The cache data ID
+	 * @param   string   $group      The cache data group
+	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
-	 * @return  mixed  Boolean false on failure or a cached data string.
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-		$this->_getCacheId($id, $group);
-		$data = self::$CacheLiteInstance->get($this->rawname, $group);
+		static::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 
-		return $data;
+		// This call is needed to ensure $this->rawname is set
+		$this->_getCacheId($id, $group);
+
+		return static::$CacheLiteInstance->get($this->rawname, $group);
 	}
 
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
 	public function getAll()
 	{
-		parent::getAll();
-
-		$path = $this->_root;
+		$path    = $this->_root;
 		$folders = new DirectoryIterator($path);
-		$data = array();
+		$data    = array();
 
 		foreach ($folders as $folder)
 		{
@@ -150,13 +148,13 @@ class JCacheStorageCachelite extends JCacheStorage
 	}
 
 	/**
-	 * Store the data to a file by id and group
+	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data id.
-	 * @param   string  $group  The cache data group.
-	 * @param   string  $data   The data to store in cache.
+	 * @param   string  $id     The cache data ID
+	 * @param   string  $group  The cache data group
+	 * @param   string  $data   The data to store in cache
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -178,55 +176,44 @@ class JCacheStorageCachelite extends JCacheStorage
 			return false;
 		}
 
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-		$this->_getCacheId($id, $group);
-		$success = self::$CacheLiteInstance->save($data, $this->rawname, $group);
+		static::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 
-		if ($success == true)
-		{
-			return $success;
-		}
-		else
-		{
-			return false;
-		}
+		// This call is needed to ensure $this->rawname is set
+		$this->_getCacheId($id, $group);
+
+		return static::$CacheLiteInstance->save($data, $this->rawname, $group);
 	}
 
 	/**
-	 * Remove a cached data file by id and group
+	 * Remove a cached data entry by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
 	public function remove($id, $group)
 	{
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-		$this->_getCacheId($id, $group);
-		$success = self::$CacheLiteInstance->remove($this->rawname, $group);
+		static::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 
-		if ($success == true)
-		{
-			return $success;
-		}
-		else
-		{
-			return false;
-		}
+		// This call is needed to ensure $this->rawname is set
+		$this->_getCacheId($id, $group);
+
+		return static::$CacheLiteInstance->remove($this->rawname, $group);
 	}
 
 	/**
 	 * Clean cache for a group given a mode.
 	 *
-	 * @param   string  $group  The cache data group.
-	 * @param   string  $mode   The mode for cleaning cache [group|notgroup].
 	 * group mode    : cleans all cache in the group
 	 * notgroup mode : cleans all cache not in the group
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @param   string  $group  The cache data group
+	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
+	 *
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -238,16 +225,17 @@ class JCacheStorageCachelite extends JCacheStorage
 		switch ($mode)
 		{
 			case 'notgroup':
-				$clmode = 'notingroup';
-				$success = self::$CacheLiteInstance->clean($group, $clmode);
+				$clmode  = 'notingroup';
+				$success = static::$CacheLiteInstance->clean($group, $clmode);
 				break;
 
 			case 'group':
 				if (is_dir($this->_root . '/' . $group))
 				{
 					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-					$success = self::$CacheLiteInstance->clean($group, $clmode);
+					static::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+					$success = static::$CacheLiteInstance->clean($group, $clmode);
+
 					// Remove sub-folders of folder; disable all filtering
 					$folders = JFolder::folders($this->_root . '/' . $group, '.', false, true, array(), array());
 
@@ -277,8 +265,8 @@ class JCacheStorageCachelite extends JCacheStorage
 				if (is_dir($this->_root . '/' . $group))
 				{
 					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
-					$success = self::$CacheLiteInstance->clean($group, $clmode);
+					static::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
+					$success = static::$CacheLiteInstance->clean($group, $clmode);
 				}
 				else
 				{
@@ -288,29 +276,22 @@ class JCacheStorageCachelite extends JCacheStorage
 				break;
 		}
 
-		if ($success == true)
-		{
-			return $success;
-		}
-		else
-		{
-			return false;
-		}
+		return $success;
 	}
 
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
 	public function gc()
 	{
 		$result = true;
-		self::$CacheLiteInstance->setOption('automaticCleaningFactor', 1);
-		self::$CacheLiteInstance->setOption('hashedDirectoryLevel', 1);
-		$success1 = self::$CacheLiteInstance->_cleanDir($this->_root . '/', false, 'old');
+		static::$CacheLiteInstance->setOption('automaticCleaningFactor', 1);
+		static::$CacheLiteInstance->setOption('hashedDirectoryLevel', 1);
+		$success1 = static::$CacheLiteInstance->_cleanDir($this->_root . '/', false, 'old');
 
 		if (!($dh = opendir($this->_root . '/')))
 		{
@@ -325,7 +306,7 @@ class JCacheStorageCachelite extends JCacheStorage
 
 				if (is_dir($file2))
 				{
-					$result = ($result && (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
+					$result = ($result && (static::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
 				}
 			}
 		}
@@ -336,9 +317,9 @@ class JCacheStorageCachelite extends JCacheStorage
 	}
 
 	/**
-	 * Test to see if the cache storage is available.
+	 * Test to see if the storage handler is available.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */

@@ -12,15 +12,23 @@ defined('_JEXEC') or die;
 // Include jQuery
 JHtml::_('jquery.framework');
 
-JFactory::getDocument()->addStyleDeclaration('.navbar-fixed-bottom {z-index:1050;}');
-
-$link = JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component');
-$footer = '<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">' . JText::_('JTOOLBAR_CLOSE') . '</button>';
+// Use javascript to remove the modal added below from the current div and add it to the end of html body tag.
+JFactory::getDocument()->addScriptDeclaration("
+	jQuery(document).ready(function($) {
+		var multilangueModal = $('#multiLangModal').clone();
+		$('#multiLangModal').remove();
+		$('body').append(multilangueModal);
+	});
+");
 ?>
+
 <div class="btn-group multilanguage">
-	<a href="#multiLangModal" role="button" class="btn btn-link" data-toggle="modal" title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>">
-		<span class="icon-comment"></span>
-		<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
+	<a class="btn btn-link"
+		data-toggle="modal"
+		href="#multiLangModal"
+		title="<?php echo JText::_('MOD_MULTILANGSTATUS'); ?>"
+		role="button">
+		<span class="icon-comment"></span><?php echo JText::_('MOD_MULTILANGSTATUS'); ?>
 	</a>
 </div>
 
@@ -28,13 +36,13 @@ $footer = '<button class="btn" type="button" data-dismiss="modal" aria-hidden="t
 	'bootstrap.renderModal',
 	'multiLangModal',
 	array(
-		'title' => JText::_('MOD_MULTILANGSTATUS'),
-		'backdrop' => 'static',
-		'keyboard' => true,
-		'closeButton' => true,
-		'footer' => $footer,
-		'url' => $link,
-		'height' => '300px',
-		'width' => '500px'
-		)
-	);
+		'title'       => JText::_('MOD_MULTILANGSTATUS'),
+		'url'         => JRoute::_('index.php?option=com_languages&view=multilangstatus&tmpl=component'),
+		'height'      => '400px',
+		'width'       => '800px',
+		'bodyHeight'  => '70',
+		'modalWidth'  => '80',
+		'footer'      => '<button class="btn" data-dismiss="modal" type="button" aria-hidden="true">'
+				. JText::_('JTOOLBAR_CLOSE') . '</button>',
+	)
+);

@@ -1451,6 +1451,15 @@ class JDatabaseQueryTest extends TestCase
 			'Tests rendered value after second use and array input.'
 		);
 
+		// Add more columns but specify different glue.
+		// Note that the change of glue is ignored.
+		$this->_instance->where(array('faz = 4', 'gaz = 5'), 'OR');
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE foo = 1 AND bar = 2 AND goo = 3 AND faz = 4 AND gaz = 5'),
+			'Tests rendered value after third use, array input and different glue.'
+		);
+
 		// Clear the where
 		TestReflection::setValue($this->_instance, 'where', null);
 		$this->_instance->where(array('bar = 2', 'goo = 3'), 'OR');
@@ -1459,6 +1468,156 @@ class JDatabaseQueryTest extends TestCase
 			trim(TestReflection::getValue($this->_instance, 'where')),
 			$this->equalTo('WHERE bar = 2 OR goo = 3'),
 			'Tests rendered value with glue.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::extendWhere method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function testExtendWhere()
+	{
+		$this->assertThat(
+			$this->_instance->where('foo = 1')->extendWhere('ABC', 'bar = 2'),
+			$this->identicalTo($this->_instance),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '(foo = 1) ABC '
+				. PHP_EOL . '(bar = 2)'),
+			'Tests rendered value.'
+		);
+
+		// Add another set of where conditions.
+		$this->_instance->extendWhere('XYZ', array('baz = 3', 'goo = 4'));
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '('
+				. PHP_EOL . '(foo = 1) ABC '
+				. PHP_EOL . '(bar = 2)) XYZ '
+				. PHP_EOL . '(baz = 3 AND goo = 4)'),
+			'Tests rendered value after second use and array input.'
+		);
+
+		// Add another set of where conditions with some different glue.
+		$this->_instance->extendWhere('STU', array('faz = 5', 'gaz = 6'), 'VWX');
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '('
+				. PHP_EOL . '('
+				. PHP_EOL . '(foo = 1) ABC '
+				. PHP_EOL . '(bar = 2)) XYZ '
+				. PHP_EOL . '(baz = 3 AND goo = 4)) STU '
+				. PHP_EOL . '(faz = 5 VWX gaz = 6)'),
+			'Tests rendered value after third use, array input and different glue.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::orWhere method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function testOrWhere()
+	{
+		$this->assertThat(
+			$this->_instance->where('foo = 1')->orWhere('bar = 2'),
+			$this->identicalTo($this->_instance),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '(foo = 1) OR '
+				. PHP_EOL . '(bar = 2)'),
+			'Tests rendered value.'
+		);
+
+		// Add another set of where conditions.
+		$this->_instance->orWhere(array('baz = 3', 'goo = 4'));
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '('
+				. PHP_EOL . '(foo = 1) OR '
+				. PHP_EOL . '(bar = 2)) OR '
+				. PHP_EOL . '(baz = 3 AND goo = 4)'),
+			'Tests rendered value after second use and array input.'
+		);
+
+		// Add another set of where conditions with some different glue.
+		$this->_instance->orWhere(array('faz = 5', 'gaz = 6'), 'XOR');
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '('
+				. PHP_EOL . '('
+				. PHP_EOL . '(foo = 1) OR '
+				. PHP_EOL . '(bar = 2)) OR '
+				. PHP_EOL . '(baz = 3 AND goo = 4)) OR '
+				. PHP_EOL . '(faz = 5 XOR gaz = 6)'),
+			'Tests rendered value after third use, array input and different glue.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::andWhere method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function testAndWhere()
+	{
+		$this->assertThat(
+			$this->_instance->where('foo = 1')->andWhere('bar = 2'),
+			$this->identicalTo($this->_instance),
+			'Tests chaining.'
+		);
+
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '(foo = 1) AND '
+				. PHP_EOL . '(bar = 2)'),
+			'Tests rendered value.'
+		);
+
+		// Add another set of where conditions.
+		$this->_instance->andWhere(array('baz = 3', 'goo = 4'));
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '('
+				. PHP_EOL . '(foo = 1) AND '
+				. PHP_EOL . '(bar = 2)) AND '
+				. PHP_EOL . '(baz = 3 OR goo = 4)'),
+			'Tests rendered value after second use and array input.'
+		);
+
+		// Add another set of where conditions with some different glue.
+		$this->_instance->andWhere(array('faz = 5', 'gaz = 6'), 'XOR');
+		$this->assertThat(
+			trim(TestReflection::getValue($this->_instance, 'where')),
+			$this->equalTo('WHERE '
+				. PHP_EOL . '('
+				. PHP_EOL . '('
+				. PHP_EOL . '(foo = 1) AND '
+				. PHP_EOL . '(bar = 2)) AND '
+				. PHP_EOL . '(baz = 3 OR goo = 4)) AND '
+				. PHP_EOL . '(faz = 5 XOR gaz = 6)'),
+			'Tests rendered value after third use, array input and different glue.'
 		);
 	}
 
