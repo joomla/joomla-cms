@@ -17,7 +17,7 @@ jimport('joomla.filesystem.path');
  * Tar format adapter for the JArchive class
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
- * The Horde Project <http://www.horde.org>
+ * The Horde Project <https://www.horde.org>
  *
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
@@ -66,10 +66,10 @@ class JArchiveTar implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @throws  RuntimeException
 	 * @since   11.1
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	public function extract($archive, $destination, array $options = array())
 	{
@@ -148,18 +148,10 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @param   string  &$data  The Tar archive buffer.
 	 *
-	 * @return   array  Archive metadata array
-	 * <pre>
-	 * KEY: Position in the array
-	 * VALUES: 'attr'  --  File attributes
-	 * 'data'  --  Raw file contents
-	 * 'date'  --  File modification time
-	 * 'name'  --  Filename
-	 * 'size'  --  Original file size
-	 * 'type'  --  File type
-	 * </pre>
+	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @since    11.1
+	 * @since   11.1
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	protected function _getTarInfo(& $data)
 	{

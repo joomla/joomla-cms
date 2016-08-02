@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User class.  Handles all application interaction with a user
@@ -612,7 +613,7 @@ class JUser extends JObject
 				return false;
 			}
 
-			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
+			$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
 			$array['password'] = $this->userHelper->hashPassword($array['password']);
 
@@ -640,7 +641,7 @@ class JUser extends JObject
 					return false;
 				}
 
-				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
+				$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
 				if ($this->requireReset == 1 && $this->userHelper->verifyPassword($this->password_clear, $this->password))
@@ -813,12 +814,6 @@ class JUser extends JObject
 			return false;
 		}
 
-		// Reset the user object in the session on a successful save
-		if ($result === true && JFactory::getUser()->id == $this->id)
-		{
-			JFactory::getSession()->set('user', $this);
-		}
-
 		return $result;
 	}
 
@@ -898,5 +893,45 @@ class JUser extends JObject
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to allow serialize the object with minimal properties.
+	 *
+	 * @return  array  The names of the properties to include in serialization.
+	 *
+	 * @since   3.6.0
+	 */
+	public function __sleep()
+	{
+		return array('id');
+	}
+
+	/**
+	 * Method to recover the full object on unserialize.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function __wakeup()
+	{
+		// Initialise some variables
+		$this->userHelper = new JUserWrapperHelper;
+		$this->_params    = new Registry;
+
+		// Load the user if it exists
+		if (!empty($this->id))
+		{
+			$this->load($this->id);
+		}
+		else
+		{
+			// Initialise
+			$this->id = 0;
+			$this->sendEmail = 0;
+			$this->aid = 0;
+			$this->guest = 1;
+		}
 	}
 }

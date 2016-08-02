@@ -1214,9 +1214,10 @@ class JFormTest extends TestCaseDatabase
 				'id'         => 'title_id-lbl',
 				'tag'        => 'label',
 				'attributes' => array(
-						'for'   => 'title_id',
-						'class' => 'hasTooltip required',
-						'title' => '<strong>Title</strong><br />The title.'
+					'for'          => 'title_id',
+					'class'        => 'hasPopover required',
+					'title'        => 'Title',
+					'data-content' => 'The title.',
 					),
 				'content'    => 'regexp:/Title.*\*/',
 				'child'      => array(

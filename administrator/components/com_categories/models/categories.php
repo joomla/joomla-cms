@@ -387,12 +387,12 @@ class CategoriesModelCategories extends JModelList
 		{
 			require_once $file;
 
-			$prefix = ucfirst(str_replace('com_', '', $component));
+			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{
-				call_user_func(array($cName, 'countItems'), $items, $section);
+				$cName::countItems($items, $section);
 			}
 		}
 	}

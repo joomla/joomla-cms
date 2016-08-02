@@ -118,14 +118,6 @@ function pagination_list_render($list)
 
 	foreach ($list['pages'] as $k => $page)
 	{
-		if (in_array($k, range($range * $step - ($step + 1), $range * $step)))
-		{
-			if (($k % $step == 0 || $k == $range * $step - ($step + 1)) && $k != $currentPage && $k != $range * $step - $step)
-			{
-				$page['data'] = preg_replace('#(<a.*?>).*?(</a>)#', '$1...$2', $page['data']);
-			}
-		}
-
 		$html .= $page['data'];
 	}
 

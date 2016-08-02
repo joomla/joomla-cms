@@ -100,7 +100,7 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * Method with common display elements used in category list displays
 	 *
-	 * @return  void
+	 * @return  boolean|JException|void  Boolean false or JException instance on error, nothing otherwise
 	 *
 	 * @since   3.2
 	 */
@@ -222,7 +222,7 @@ class JViewCategory extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
 	 */

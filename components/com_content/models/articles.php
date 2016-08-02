@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * This models supports retrieving lists of articles.
@@ -217,8 +218,22 @@ class ContentModelArticles extends JModelList
 
 		$query->from('#__content AS a');
 
-		// Join over the frontpage articles.
-		if ($this->context != 'com_content.featured')
+		$params = $this->getState('params');
+		$orderby_sec = $params->get('orderby_sec');
+
+		// Join over the frontpage articles if required.
+		if ($this->getState('filter.frontpage'))
+		{
+			if ($orderby_sec == 'front')
+			{
+				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+			}
+			else
+			{
+				$query->where('a.featured = 1');
+			}
+		}
+		elseif ($orderby_sec == 'front' || $this->getState('list.ordering') == 'fp.ordering')
 		{
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
@@ -287,7 +302,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($published))
 		{
-			JArrayHelper::toInteger($published);
+			$published = ArrayHelper::toInteger($published);
 			$published = implode(',', $published);
 
 			// Use article state if badcats.id is null, otherwise, force 0 for unpublished
@@ -324,7 +339,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($articleId))
 		{
-			JArrayHelper::toInteger($articleId);
+			$articleId = ArrayHelper::toInteger($articleId);
 			$articleId = implode(',', $articleId);
 			$type = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
 			$query->where('a.id ' . $type . ' (' . $articleId . ')');
@@ -367,7 +382,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 
 			if (!empty($categoryId))
@@ -388,7 +403,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($authorId))
 		{
-			JArrayHelper::toInteger($authorId);
+			$authorId = ArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
 
 			if ($authorId)
@@ -413,8 +428,6 @@ class ContentModelArticles extends JModelList
 
 			if (!empty($first))
 			{
-				JArrayHelper::toString($authorAlias);
-
 				foreach ($authorAlias as $key => $alias)
 				{
 					$authorAlias[$key] = $db->quote($alias);
@@ -485,8 +498,6 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Process the filter for list views with user-entered filters
-		$params = $this->getState('params');
-
 		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable

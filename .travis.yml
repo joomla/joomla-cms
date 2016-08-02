@@ -23,6 +23,8 @@ matrix:
       env: RUN_PHPCS="yes" INSTALL_APCU="yes"
     - php: 7.0
       env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+    - php: 7.1
+      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
     - php: hhvm
       sudo: true
       dist: trusty
@@ -36,8 +38,10 @@ matrix:
       services:
         - mysql
         - postgresql
-      env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled items that currently do not work in travis-ci hhvm
+        - redis-server
+      env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" # Disabled items that currently do not work in travis-ci hhvm
   allow_failures:
+    - php: 7.1
     - php: hhvm
 
 services:
@@ -64,7 +68,8 @@ before_script:
   - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 5.* ]]; then printf "\n" | pecl install apcu-4.0.10 && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
   - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 7.* ]]; then printf "\n" | pecl install apcu-beta && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
   - if [[ $INSTALL_APCU_BC_BETA == "yes" ]]; then printf "\n" | pecl install apcu_bc-beta; fi
-  - if [[ $INSTALL_REDIS == "yes" ]]; then phpenv config-add build/travis/phpenv/redis.ini; fi
+  - if [[ $INSTALL_REDIS == "yes" && $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-add build/travis/phpenv/redis.ini; fi
+  - if [[ $INSTALL_REDIS == "yes" && $TRAVIS_PHP_VERSION = hhvm ]]; then cat build/travis/phpenv/redis.ini >> /etc/hhvm/php.ini; fi
 
 script:
   - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml

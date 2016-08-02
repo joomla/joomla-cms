@@ -47,6 +47,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -183,8 +184,8 @@ class MenusViewItems extends JViewLegacy
 								$titleParts[] = $vars['view'];
 							}
 
-							$value = implode(' » ', $titleParts);
 						}
+						$value = implode(' » ', $titleParts);
 					}
 					else
 					{
@@ -236,7 +237,9 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
 
 		// Get the menu title

@@ -47,7 +47,7 @@ abstract class JHtmlLanguages
 			. ' type="radio"'
 			. ' id="cb' . $rowNum . '"'
 			. ' name="cid"'
-			. ' value="' . htmlspecialchars($language) . '"'
+			. ' value="' . htmlspecialchars($language, ENT_COMPAT, 'UTF-8') . '"'
 			. ' onclick="Joomla.isChecked(this.checked);"'
 			. ' title="' . ($rowNum + 1) . '"'
 			. '/>';

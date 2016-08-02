@@ -98,10 +98,10 @@ class UsersControllerProfile extends UsersController
 		$userId = (int) $user->get('id');
 
 		// Get the user data.
-		$data = $app->input->post->get('jform', array(), 'array');
+		$requestData = $app->input->post->get('jform', array(), 'array');
 
 		// Force the ID to this user.
-		$data['id'] = $userId;
+		$requestData['id'] = $userId;
 
 		// Validate the posted data.
 		$form = $model->getForm();
@@ -114,7 +114,7 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Validate the posted data.
-		$data = $model->validate($form, $data);
+		$data = $model->validate($form, $requestData);
 
 		// Check for errors.
 		if ($data === false)
@@ -135,8 +135,12 @@ class UsersControllerProfile extends UsersController
 				}
 			}
 
+			// Unset the passwords.
+			unset($requestData['password1']);
+			unset($requestData['password2']);
+
 			// Save the data in the session.
-			$app->setUserState('com_users.edit.profile.data', $data);
+			$app->setUserState('com_users.edit.profile.data', $requestData);
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');

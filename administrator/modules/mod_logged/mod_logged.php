@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include dependencies.
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModLoggedHelper', __DIR__ . '/helper.php');
 
 $users = ModLoggedHelper::getList($params);
 

@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo htmlspecialchars($this->data->username); ?>
+			<?php echo htmlspecialchars($this->data->username, ENT_COMPAT, 'UTF-8'); ?>
 		</dd>
 		<dt>
 			<?php echo JText::_('COM_USERS_PROFILE_REGISTERED_DATE_LABEL'); ?>
@@ -42,13 +42,11 @@ defined('_JEXEC') or die;
 			<dd>
 				<?php echo JHtml::_('date', $this->data->lastvisitDate); ?>
 			</dd>
-		<?php }
-		else
-		{?>
+		<?php else : ?>
 			<dd>
 				<?php echo JText::_('COM_USERS_PROFILE_NEVER_VISITED'); ?>
 			</dd>
-		<?php } ?>
+		<?php endif; ?>
 
 	</dl>
 </fieldset>

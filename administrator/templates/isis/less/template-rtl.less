@@ -37,6 +37,10 @@
 			}
 		}
 	}
+	.nav > .dropdown.open:after {
+		right: 10px;
+		width: 0;
+	}
 	.empty-nav {
 		display: none;
 	}
@@ -274,4 +278,14 @@ a.grid_true {
 /* Stats plugin */
 .js-pstats-data-details dd {
 	margin-right: 240px;
+}
+
+/* Modal footer */
+.modal-footer button {
+	float: left;
+}
+
+/* Modal Header text align right even if parent container centered */
+.modal-header {
+	text-align: right;
 }

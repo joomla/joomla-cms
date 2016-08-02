@@ -17,6 +17,15 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
+		<field
+			name="http_status"
+			type="Redirect"
+			label="COM_REDIRECT_FILTER_HTTP_HEADER_LABEL"
+			description="COM_REDIRECT_FILTER_HTTP_HEADER_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
@@ -40,6 +49,8 @@
 			<option value="a.created_date DESC">COM_REDIRECT_HEADING_CREATED_DATE_DESC</option>
 			<option value="a.hits ASC">COM_REDIRECT_HEADING_HITS_ASC</option>
 			<option value="a.hits DESC">COM_REDIRECT_HEADING_HITS_DESC</option>
+			<option value="a.header ASC">COM_REDIRECT_HEADING_STATUS_CODE_ASC</option>
+			<option value="a.header DESC">COM_REDIRECT_HEADING_STATUS_CODE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

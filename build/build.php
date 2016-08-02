@@ -89,7 +89,6 @@ $filesArray = array(
 	"language/index.html\n" => true,
 	"layouts/index.html\n" => true,
 	"libraries/index.html\n" => true,
-	"logs/index.html\n" => true,
 	"media/index.html\n" => true,
 	"modules/index.html\n" => true,
 	"plugins/index.html\n" => true,
@@ -119,6 +118,10 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
+	// Remove the testing sample data from all packages
+	'installation/sql/mysql/sample_testing.sql',
+	'installation/sql/postgresql/sample_testing.sql',
+	'installation/sql/sqlazure/sample_testing.sql',
 );
 
 /*
@@ -126,6 +129,7 @@ $doNotPackage = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPatch = array(
+	'administrator/logs',
 	'installation',
 	'images',
 );
@@ -224,8 +228,9 @@ system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_'
 
 system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
 
-// Create full update file without installation folder or sample images.
+// Create full update file without the default logs directory, installation folder, or sample images.
 echo "Build full update package.\n";
+system('rm -r administrator/logs');
 system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');
