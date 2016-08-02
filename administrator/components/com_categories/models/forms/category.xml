@@ -186,7 +186,7 @@
 		name="created_time"
 		type="text"
 		label="JGLOBAL_CREATED_DATE"
-		description="COM_CATEGORIES_CREATED_BY_DESC"
+		description="COM_CATEGORIES_CREATED_DATE_DESC"
 		class="readonly"
 		filter="unset"
 		readonly="true"
