@@ -143,7 +143,8 @@ class CategoriesViewCategory extends JViewLegacy
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
 			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
-			. '_TITLE', $this->escape(JText::_($component_section_key)));
+					. '_TITLE', $this->escape(JText::_($component_section_key))
+					);
 		}
 		// Else use the base title
 		else
@@ -206,11 +207,13 @@ class CategoriesViewCategory extends JViewLegacy
 		JToolbarHelper::divider();
 
 		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : ''))
-		. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY'))
+		if (!$lang->hasKey(
+			$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY'
+			))
 		{
-			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4)
-			. ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
+			$ref_key = 'JHELP_COMPONENTS_'
+						. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
+						. '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT');
 		}
 
 		/*

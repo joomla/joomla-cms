@@ -339,7 +339,8 @@ class CategoriesModelCategory extends JModelAdmin
 				);
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access', $app->input->getInt('access',
-									(!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
+									(!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
+				);
 			}
 		}
 
