@@ -4,9 +4,8 @@ Feature: category
   I need to create modify trash publish and Unpublish category
 
   Background:
-    Given Joomla CMS is installed
-    When Login into Joomla administrator with username "admin" and password "admin"
-    Then I see administrator dashboard
+    When I Login into Joomla administrator with username "admin" and password "admin"
+    And I see the administrator dashboard
 
   Scenario: Verify available tabs in Category
     Given There is an article category link
@@ -19,8 +18,6 @@ Feature: category
       |     Title     |
       |   Category_1  |
       |   Category_2  |
-
-    And I save the category
     Then I should see the "Category successfully saved." message
 
   Scenario: Modify category
@@ -63,7 +60,7 @@ Feature: category
     And I save an article
     And I add the "Category" menu item in main menu
     And I Select menu item type as a "Category List"
-    And I select an category "Category_2"
+    And I select a category "Category_2"
     And I save the menu item
     Then I should see the "Menu item successfully saved." message
 
@@ -80,4 +77,3 @@ Feature: category
     And I set language as a "English (UK)"
     And I save the category
     Then I should see the "Category successfully saved." message
-    
