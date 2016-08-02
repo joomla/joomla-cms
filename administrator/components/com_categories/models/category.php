@@ -73,7 +73,7 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			if ($record->published != -2)
 			{
-				return 0;
+				return false;
 			}
 
 			return JFactory::getUser()->authorise('core.delete', $record->extension . '.category.' . (int) $record->id);
@@ -338,8 +338,9 @@ class CategoriesModelCategory extends JModelAdmin
 					)
 				);
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access',
-							$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
+				$data->set(
+					'access',
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
 				);
 			}
 		}

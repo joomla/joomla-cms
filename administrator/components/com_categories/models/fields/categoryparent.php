@@ -134,8 +134,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			foreach ($options as $i => $option)
 			{
 				/*
-				 * To take save or create in a category you need to have create rights for that category
-				 * Unless the item is already in that category.
+				 * To take save or create in a category you need to have create rights for that category unless the item is already in that category.
 				 * Unset the option if the user isn't authorised for it. In this field assets are always categories.
 				 */
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
@@ -151,7 +150,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			{
 				/*
 				 * If you are only allowed to edit in this category but not edit.state, you should not get any
-				 * Option to change the category parent for a category or the category for a content item,
+				 * option to change the category parent for a category or the category for a content item,
 				 * but you should be able to save in that category.
 				 */
 				if ($user->authorise('core.edit.state', $extension . '.category.' . $oldCat) != true)

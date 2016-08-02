@@ -206,10 +206,11 @@ class CategoriesViewCategory extends JViewLegacy
 
 		JToolbarHelper::divider();
 
-		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey(
-			$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY'
-			))
+		// Compute the ref_key
+		$ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_HELP_KEY';
+
+		// Check if thr computed ref_key does exist in the component
+		if (!$lang->hasKey($ref_key))
 		{
 			$ref_key = 'JHELP_COMPONENTS_'
 						. strtoupper(substr($component, 4) . ($section ? "_$section" : ''))
