@@ -128,11 +128,9 @@ class JFormFieldTextTest extends TestCase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
-		$replaces = array("\n", "\r"," ", "\t");
-
-		$this->assertEquals(
-			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
-			str_replace($replaces, '', $expected),
+		$this->assertXmlStringEqualsXmlString(
+			TestReflection::invoke($formField, 'getInput'),
+			$expected,
 			'Line:' . __LINE__ . ' The field did not produce the right html'
 		);
 	}

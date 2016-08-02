@@ -58,7 +58,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" disabled />',
+			'<input type="text" name="myTestName" id="myTestId" value="" disabled="disabled" />',
 		),
 
 		'Readonly' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" readonly />',
+			'<input type="text" name="myTestName" id="myTestId" value="" readonly="readonly" />',
 		),
 
 		'Hint' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" autofocus />',
+			'<input type="text" name="myTestName" id="myTestId" value="" autofocus="autofocus" />',
 		),
 
 		'Spellcheck' => array(
@@ -130,7 +130,7 @@ class JHtmlFieldTextTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="text" name="myTestName" id="myTestId" value="" required aria-required="true" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" required="required" aria-required="true" />',
 		),
 
 	);

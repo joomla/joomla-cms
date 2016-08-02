@@ -184,19 +184,22 @@ class JFormFieldText extends JFormField
 	{
 		$options = array();
 
-		foreach ($this->element->children() as $option)
+		if (isset($this->element))
 		{
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
+			foreach ($this->element->children() as $option)
 			{
-				continue;
-			}
+				// Only add <option /> elements.
+				if ($option->getName() != 'option')
+				{
+					continue;
+				}
 
-			// Create a new option object based on the <option /> element.
-			$options[] = JHtml::_(
-				'select.option', (string) $option['value'],
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
-			);
+				// Create a new option object based on the <option /> element.
+				$options[] = JHtml::_(
+					'select.option', (string) $option['value'],
+					JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
+				);
+			}
 		}
 
 		return $options;

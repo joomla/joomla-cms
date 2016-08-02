@@ -51,15 +51,15 @@ $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
+	$disabled ? 'disabled="disabled"' : '',
+	$readonly ? 'readonly="readonly"' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	$autocomplete,
 	$multiple ? 'multiple' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
-	$required ? 'required aria-required="true"' : '',
-	$autofocus ? 'autofocus' : '',
+	$required ? 'required="required" aria-required="true"' : '',
+	$autofocus ? 'autofocus="autofocus"' : '',
 );
 
 // Including fallback code for HTML5 non supported browsers.
