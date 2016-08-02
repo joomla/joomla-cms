@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tags helper class, provides methods to perform various tasks relevant
  * tagging of content.
@@ -202,11 +204,18 @@ class JHelperTags extends JHelper
 		{
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable = JTable::getInstance('Tag', 'TagsTable');
-			$newTags = array();
+			$tagTable  = JTable::getInstance('Tag', 'TagsTable');
+			$newTags   = array();
+			$canCreate = JFactory::getUser()->authorise('core.create', 'com_tags');
 
 			foreach ($tags as $key => $tag)
 			{
+				// User is not allowed to create tags, so don't create.
+				if (strpos($tag, '#new#') !== false && !$canCreate)
+				{
+					continue;
+				}
+
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
@@ -457,7 +466,7 @@ class JHelperTags extends JHelper
 		$ids = (array) $ids;
 		$ids = implode(',', $ids);
 		$ids = explode(',', $ids);
-		JArrayHelper::toInteger($ids);
+		$ids = ArrayHelper::toInteger($ids);
 
 		$db = JFactory::getDbo();
 
@@ -514,7 +523,7 @@ class JHelperTags extends JHelper
 		$tagIds = (array) $tagId;
 		$tagIds = implode(',', $tagIds);
 		$tagIds = explode(',', $tagIds);
-		JArrayHelper::toInteger($tagIds);
+		$tagIds = ArrayHelper::toInteger($tagIds);
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -533,7 +542,7 @@ class JHelperTags extends JHelper
 
 		// Sanitize filter states
 		$stateFilters = explode(',', $stateFilter);
-		JArrayHelper::toInteger($stateFilters);
+		$stateFilters = ArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
 		$query
@@ -649,7 +658,7 @@ class JHelperTags extends JHelper
 
 		if (is_array($tagIds) && count($tagIds) > 0)
 		{
-			JArrayHelper::toInteger($tagIds);
+			$tagIds = ArrayHelper::toInteger($tagIds);
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -750,7 +759,7 @@ class JHelperTags extends JHelper
 			}
 			else
 			{
-				JArrayHelper::toInteger($selectTypes);
+				$selectTypes = ArrayHelper::toInteger($selectTypes);
 
 				$query->where($db->quoteName('type_id') . ' IN (' . implode(',', $selectTypes) . ')');
 			}
@@ -1054,7 +1063,7 @@ class JHelperTags extends JHelper
 
 		if (is_array($tags) && count($tags) > 0)
 		{
-			JArrayHelper::toInteger($tags);
+			$tags = ArrayHelper::toInteger($tags);
 
 			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
 		}

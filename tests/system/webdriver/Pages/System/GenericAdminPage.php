@@ -19,6 +19,6 @@ use SeleniumClient\WebElement;
  */
 class GenericAdminPage extends AdminPage
 {
-	protected $waitForXpath =  "//button[contains(@onclick, 'option=com_help&keyref=Help')]";
+	protected $waitForXpath =  "//button[contains(@onclick, 'keyref=Help')]";
 
 }
