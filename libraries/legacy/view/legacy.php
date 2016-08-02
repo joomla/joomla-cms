@@ -831,7 +831,7 @@ class JViewLegacy extends JObject
 	/**
 	 * Sets the document title according to Global Configuration options
 	 *
-	 * @param   string  $title   The page title
+	 * @param   string  $title  The page title
 	 *
 	 * @return  void
 	 *
