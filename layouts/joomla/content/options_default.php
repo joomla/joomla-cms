@@ -8,8 +8,8 @@
  */
 
 defined('JPATH_BASE') or die;
-
 ?>
+
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : 'form-horizontal'; ?>">
 	<legend><?php echo $displayData->name ?></legend>
 
