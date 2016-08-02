@@ -21,7 +21,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 			<h2 itemprop="name">
 				<?php if ($params->get('link_titles') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
 					<a href="<?php echo JRoute::_(
-						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>" itemprop="url">
+						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
+					); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?>
 					</a>
 				<?php else : ?>
@@ -29,7 +30,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 				<?php endif; ?>
 			</h2>
 		<?php endif; ?>
-
+		
 		<?php if ($displayData->state == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -37,7 +38,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		<?php if (strtotime($displayData->publish_up) > strtotime(JFactory::getDate())) : ?>
 			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-
+		
 		<?php if ((strtotime($displayData->publish_down) < strtotime(JFactory::getDate()))
             && $displayData->publish_down != JFactory::getDbo()->getNullDate()) : ?>
 			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
