@@ -40,7 +40,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		<?php endif; ?>
 		
 		<?php if ((strtotime($displayData->publish_down) < strtotime(JFactory::getDate()))
-            && $displayData->publish_down != JFactory::getDbo()->getNullDate()) : ?>
+			&& $displayData->publish_down != JFactory::getDbo()->getNullDate()) : ?>
 			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
