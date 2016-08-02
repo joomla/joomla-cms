@@ -20,16 +20,52 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  */
 class PlgSystemLanguageFilter extends JPlugin
 {
+	/**
+	 * The routing mode.
+	 *
+	 * @var    boolean
+	 * @since  2.5
+	 */
 	protected $mode_sef;
 
+	/**
+	 * Available languages by sef.
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
 	protected $sefs;
 
+	/**
+	 * Available languages by language codes.
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
 	protected $lang_codes;
 
+	/**
+	 * The current language code.
+	 *
+	 * @var    string
+	 * @since  3.4.2
+	 */
 	protected $current_lang;
 
+	/**
+	 * The default language code.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
 	protected $default_lang;
 
+	/**
+	 * The logged user language code.
+	 *
+	 * @var    string
+	 * @since  3.3.1
+	 */
 	private $user_lang_code;
 
 	/**
@@ -75,11 +111,6 @@ class PlgSystemLanguageFilter extends JPlugin
 					unset($this->sefs[$language->sef]);
 				}
 			}
-
-			$this->app->setLanguageFilter(true);
-
-			// Detect browser feature.
-			$this->app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 		}
 	}
 
@@ -399,13 +430,32 @@ class PlgSystemLanguageFilter extends JPlugin
 					$uri->setPath('index.php/' . $uri->getPath());
 				}
 
-				$this->app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')), 301);
+				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
 			}
 			else
 			{
 				$uri->setVar('lang', $this->lang_codes[$lang_code]->sef);
-				$this->app->redirect($uri->base() . 'index.php?' . $uri->getQuery(), 301);
+				$redirectUri = $uri->base() . 'index.php?' . $uri->getQuery();
 			}
+
+			// Set redirect HTTP code to "302 Found".
+			$redirectHttpCode = 302;
+
+			// If selected language is the default language redirect code is "301 Moved Permanently".
+			if ($lang_code === $this->default_lang)
+			{
+				$redirectHttpCode = 301;
+			
+				// We cannot cache this redirect in browser. 301 is cachable by default so we need to force to not cache it in browsers.
+				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+				$this->app->setHeader('Pragma', 'no-cache');
+				$this->app->sendHeaders();
+			}
+			
+			// Redirect to language.
+			$this->app->redirect($redirectUri, $redirectHttpCode);
 		}
 
 		// We have found our language and now need to set the cookie and the language value in our system

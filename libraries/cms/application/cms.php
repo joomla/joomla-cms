@@ -795,7 +795,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
 	 *
 	 * @since   3.2
 	 */
@@ -839,17 +839,11 @@ class JApplicationCms extends JApplicationWeb
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 
-							break;
-
 						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 
-							break;
-
 						default:
 							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
-
-							break;
 					}
 				}
 			}

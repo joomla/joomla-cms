@@ -57,7 +57,7 @@ class ModulesController extends JControllerLegacy
 			return $view->display();
 		}
 
-		require_once JPATH_COMPONENT . '/helpers/modules.php';
+		JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
 
 		$layout = $this->input->get('layout', 'edit');
 		$id     = $this->input->getInt('id');

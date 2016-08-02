@@ -75,12 +75,14 @@ Joomla.submitbutton = function(task, type){
 };
 ";
 
+$input = JFactory::getApplication()->input;
+
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
-
+$tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit' . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

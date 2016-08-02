@@ -247,6 +247,20 @@ body .navbar-fixed-top {
 			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 		}
 	}
+	.nav > li > .dropdown-menu:after {
+		display: none;
+	}
+	.nav > .dropdown.open:after {
+		content: '';
+		display: inline-block;
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-bottom: 6px solid #fff;
+		position: absolute;
+		top: 25px;
+		left: 10px;
+		z-index: 1001;
+	}
 	.empty-nav {
 		display: none;
 	}
@@ -1161,7 +1175,9 @@ input.input-large-text {
 
 .chzn-color.chzn-single[rel="value_1"],
 .chzn-color-reverse.chzn-single[rel="value_0"],
-.chzn-color-state.chzn-single[rel="value_1"] {
+.chzn-color-state.chzn-single[rel="value_1"],
+.chzn-color.chzn-single[rel="value_show_no_link"],
+.chzn-color.chzn-single[rel="value_show_with_link"] {
 	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
 }
 
@@ -1169,7 +1185,8 @@ input.input-large-text {
 .chzn-color-reverse.chzn-single[rel="value_1"],
 .chzn-color-state.chzn-single[rel="value_0"],
 .chzn-color-state.chzn-single[rel="value_-1"],
-.chzn-color-state.chzn-single[rel="value_-2"] {
+.chzn-color-state.chzn-single[rel="value_-2"],
+.chzn-color.chzn-single[rel="value_hide"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
 /* Widen the drop downs for the Permissions Field */
