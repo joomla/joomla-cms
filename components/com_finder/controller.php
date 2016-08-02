@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -48,8 +48,8 @@ class FinderController extends JControllerLegacy
 		}
 
 		$safeurlparams = array(
-			'f' 	=> 'INT',
-			'lang' 	=> 'CMD'
+			'f'    => 'INT',
+			'lang' => 'CMD'
 		);
 
 		return parent::display($cachable, $safeurlparams);

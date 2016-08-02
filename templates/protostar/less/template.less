@@ -3,6 +3,7 @@
 
 // Core variables and mixins
 @import "variables.less"; // Custom for this template
+@import "template_rtl.less"; // Specific for rtl
 @import "../../../media/jui/less/mixins.less";
 
 // Grid system and page structure
@@ -86,6 +87,10 @@
 @import "icomoon.less";
 
 /* Site Body Styles */
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 body.site{
 	border-top:3px solid #0088cc;
 	padding: 20px;
@@ -164,7 +169,8 @@ body.site.fluid{
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {
-  margin: (@baseLineHeight / 1.5) 0;
+  	margin: (@baseLineHeight / 1.5) 0;
+	word-wrap: break-word;
 }
 h1 { font-size: 26px; line-height: 28px; }
 h2 { font-size: 22px; line-height: 24px; }
@@ -179,6 +185,9 @@ h6 { font-size: 12px; line-height: 14px; }
 	border-bottom: 1px solid #eeeeee;
 }
 /* Single Item */
+p {
+	word-wrap: break-word;
+}
 .item-title {
 	margin-bottom:9px;
 }
@@ -221,6 +230,9 @@ h6 { font-size: 12px; line-height: 14px; }
 /* Breadcrumbs */
 .breadcrumb {
 	margin: 10px 0;
+}
+.breadcrumb > li {
+   color: #999;
 }
 /* Caption fixes */
 .img_caption .left {
@@ -294,18 +306,18 @@ figcaption {
 		-webkit-background-clip: padding-box;
 		 -moz-background-clip: padding;
 		      background-clip: padding-box;
-		
+
 		// Aligns the dropdown menu to right
 		&.pull-right {
 			right: 0;
 			left: auto;
 		}
-		
+
 		// Dividers (basically an hr) within the dropdown
 		.divider {
 			.nav-divider(@dropdownDividerTop, @dropdownDividerBottom);
 		}
-		
+
 		// Links within the dropdown menu
 		a {
 			display: block;
@@ -388,6 +400,10 @@ figcaption {
   #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 }
 
+// Category collapse
+.categories-list .collapse {
+	margin-left: 20px;
+}
 @media (max-width: 480px) {
 	.item-info > span {
 		display:block;
@@ -401,7 +417,9 @@ figcaption {
 	}
 }
 @media (max-width: 768px) {
+  /* Fix ios scrolling inside boottrap modals */
 	body {
+		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
 	}
 	.header {
@@ -513,6 +531,13 @@ figcaption {
 		padding: 10px;
 	}
 }
+@media (max-width: 979px) {
+	.nav-collapse.in.collapse {
+		overflow: visible;
+		height: 0;
+		z-index: 100;
+	}
+}
 @media (min-width: 768px) and (max-width: 979px) {
 	#login-form .input-small {
 		width: 62px;
@@ -595,4 +620,56 @@ code {
 	background-color:#FFFFCC;
 	font-weight:bold;
 	padding:1px 4px;
+}
+
+/* Com_search break long titles & text */
+dt.result-title {
+	word-wrap: break-word;
+}
+
+dd.result-text {
+	word-wrap: break-word;
+}
+
+/* Prevent scrolling on the parent window of a modal */
+body.modal-open {
+  overflow: hidden;
+  -ms-overflow-style: none;
+}
+
+/* Align fields for the profile display */
+#users-profile-custom label {
+	display: inline;
+}
+
+/* Corrects the modals padding */
+.field-media-wrapper .modal .modal-body {
+	padding: 5px 10px;
+	overflow: hidden;
+}
+/* Getting rid of scroll bar in smartsearch Advanced search */
+#search-results {
+	clear: both;
+}
+#finder-filter-window {
+	overflow: visible;
+}
+#finder-search .in.collapse {
+	overflow: visible;
+}
+
+/* Fix for select element overflow on browser resizing */
+.well {
+	select,
+	.chzn-container {
+		max-width: 100%;
+	}
+}
+
+/* Component pop-up */
+.container-popup {
+	padding: 28px 10px 10px 10px;
+}
+li {
+	word-wrap: break-word;
 }

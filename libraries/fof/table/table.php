@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  table
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -2472,13 +2472,13 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 * plugin events do NOT get triggered
 	 *
 	 * Example:
-	 * protected function onAfterStore(){
+	 * protected function onBeforeBind(){
 	 *       // Your code here
-	 *     return parent::onAfterStore() && $your_result;
+	 *     return parent::onBeforeBind() && $your_result;
 	 * }
 	 *
-	 * Do not do it the other way around, e.g. return $your_result && parent::onAfterStore()
-	 * Due to  PHP short-circuit boolean evaluation the parent::onAfterStore()
+	 * Do not do it the other way around, e.g. return $your_result && parent::onBeforeBind()
+	 * Due to  PHP short-circuit boolean evaluation the parent::onBeforeBind()
 	 * will not be called if $your_result is false.
 	 *
 	 * @param   object|array  &$from  The data to bind
@@ -3699,7 +3699,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 *
 	 * @return  null
 	 */
-	public function checkContentType($alias)
+	public function checkContentType($alias = null)
 	{
 		$contentType = new JTableContenttype($this->getDbo());
 

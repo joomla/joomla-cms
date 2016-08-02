@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,8 +11,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Version information class for the Joomla Platform.
  *
- * @package  Joomla.Platform
- * @since    11.1
+ * @since       11.1
+ * @deprecated  4.0  Deprecated without replacement
  */
 final class JPlatform
 {
@@ -44,10 +44,10 @@ final class JPlatform
 	const RELEASE_TIME_ZONE = 'GMT';
 
 	// Copyright Notice.
-	const COPYRIGHT = 'Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.';
 
 	// Link text.
-	const LINK_TEXT = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	const LINK_TEXT = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Compares two a "PHP standardized" version number against the current Joomla Platform version.
@@ -56,8 +56,9 @@ final class JPlatform
 	 *
 	 * @return  boolean  True if the version is compatible.
 	 *
-	 * @see     http://www.php.net/version_compare
+	 * @see     https://secure.php.net/version_compare
 	 * @since   11.1
+	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function isCompatible($minimum)
 	{
@@ -70,6 +71,7 @@ final class JPlatform
 	 * @return  string  Version string.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function getShortVersion()
 	{
@@ -82,6 +84,7 @@ final class JPlatform
 	 * @return  string  Complete version string.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function getLongVersion()
 	{

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 require_once 'JoomlaWebdriverTestCase.php';
 
@@ -9,18 +16,31 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the User Manager: Add / Edit User Screen
- * @author Mark
+ * This class tests the  Control panel.
  *
+ * @package     Joomla.Tests
+ * @subpackage  Test
+ *
+ * @copyright   Copyright (c) 2005 - 2016 Open Source Matters, Inc.   All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @since       Joomla 3.3
  */
+
 class UserManager0002Test extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
 	 * @var UserManagerPage
 	 */
-	protected $userManagerPage = null; // Global configuration page
+	protected $userManagerPage = null; /* Global configuration page*/
 
+	/**
+	 * Login to back end and navigate to menu Language Manager.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +48,13 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 		$this->userManagerPage = $cpPage->clickMenu('User Manager', 'UserManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @return void
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -35,6 +62,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * get the available filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
@@ -45,6 +76,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the execution of the filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
@@ -58,6 +93,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check the working of the filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestFilters_ShouldFilterUsers()
@@ -97,6 +136,10 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * ordering the user according to the filter
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestOrdering_ShouldOrderUsers()

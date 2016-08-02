@@ -2,11 +2,13 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filter;
+
+use Joomla\String\StringHelper;
 
 /**
  * InputFilter is a class for filtering input from any data source
@@ -23,6 +25,7 @@ class InputFilter
 	 *
 	 * @var    InputFilter[]
 	 * @since  1.0
+	 * @deprecated  2.0
 	 */
 	protected static $instances = array();
 
@@ -94,7 +97,7 @@ class InputFilter
 		'script',
 		'style',
 		'title',
-		'xml'
+		'xml',
 	);
 
 	/**
@@ -108,11 +111,11 @@ class InputFilter
 		'background',
 		'codebase',
 		'dynsrc',
-		'lowsrc'
+		'lowsrc',
 	);
 
 	/**
-	 * Constructor for inputFilter class. Only first parameter is required.
+	 * Constructor for InputFilter class.
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags
 	 * @param   array    $attrArray   List of user-defined attributes
@@ -142,9 +145,9 @@ class InputFilter
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
 	 * @param   string  $type    The return type for the variable:
-	 *                           INT:       An integer,
-	 *                           UINT:      An unsigned integer,
-	 *                           FLOAT:     A floating point number,
+	 *                           INT:       An integer, or an array of integers,
+	 *                           UINT:      An unsigned integer, or an array of unsigned integers,
+	 *                           FLOAT:     A floating point number, or an array of floating point numbers,
 	 *                           BOOLEAN:   A boolean value,
 	 *                           WORD:      A string containing A-Z or underscores only (not case sensitive),
 	 *                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive),
@@ -153,7 +156,7 @@ class InputFilter
 	 *                           STRING:    A fully decoded and sanitised string (default),
 	 *                           HTML:      A sanitised string,
 	 *                           ARRAY:     An array,
-	 *                           PATH:      A sanitised file path,
+	 *                           PATH:      A sanitised file path, or an array of sanitised file paths,
 	 *                           TRIM:      A string trimmed from normal, non-breaking and multibyte spaces
 	 *                           USERNAME:  Do not use (use an application specific filter),
 	 *                           RAW:       The raw string is returned with no filtering,
@@ -166,27 +169,75 @@ class InputFilter
 	 */
 	public function clean($source, $type = 'string')
 	{
-		// Handle the type constraint
+		// Handle the type constraint cases
 		switch (strtoupper($type))
 		{
 			case 'INT':
 			case 'INTEGER':
-				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = isset($matches[0]) ? (int) $matches[0] : 0;
+				$pattern = '/[-+]?[0-9]+/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (int) $matches[0] : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? (int) $matches[0] : 0;
+				}
+
 				break;
 
 			case 'UINT':
-				// Only use the first integer value
-				preg_match('/-?[0-9]+/', (string) $source, $matches);
-				$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+				$pattern = '/[-+]?[0-9]+/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? abs((int) $matches[0]) : 0;
+				}
+
 				break;
 
 			case 'FLOAT':
 			case 'DOUBLE':
-				// Only use the first floating point value
-				preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
-				$result = isset($matches[0]) ? (float) $matches[0] : 0;
+				$pattern = '/[-+]?[0-9]+(\.[0-9]+)?([eE][-+]?[0-9]+)?/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (float) $matches[0] : 0;
+					}
+				}
+				else
+				{
+					preg_match($pattern, (string) $source, $matches);
+					$result = isset($matches[0]) ? (float) $matches[0] : 0;
+				}
+
 				break;
 
 			case 'BOOL':
@@ -195,28 +246,121 @@ class InputFilter
 				break;
 
 			case 'WORD':
-				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
+				$pattern = '/[^A-Z_]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'ALNUM':
-				$result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
+				$pattern = '/[^A-Z0-9]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'CMD':
-				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
-				$result = ltrim($result, '.');
+				$pattern = '/[^A-Z0-9_\.-]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) preg_replace($pattern, '', $eachString);
+						$result[] = ltrim($cleaned, '.');
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+					$result = ltrim($result, '.');
+				}
+
 				break;
 
 			case 'BASE64':
-				$result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
+				$pattern = '/[^A-Z0-9\/+=]/i';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'STRING':
-				$result = (string) $this->remove($this->decode((string) $source));
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove($this->decode((string) $eachString));
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove($this->decode((string) $source));
+				}
+
 				break;
 
 			case 'HTML':
-				$result = (string) $this->remove((string) $source);
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) $this->remove((string) $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) $this->remove((string) $source);
+				}
+
 				break;
 
 			case 'ARRAY':
@@ -224,19 +368,67 @@ class InputFilter
 				break;
 
 			case 'PATH':
-				$pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-				preg_match($pattern, (string) $source, $matches);
-				$result = isset($matches[0]) ? (string) $matches[0] : '';
+				$pattern = '/^[A-Za-z0-9_\/-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						preg_match($pattern, (string) $eachString, $matches);
+						$result[] = isset($matches[0]) ? (string) $matches[0] : '';
+					}
+				}
+				else
+				{
+					preg_match($pattern, $source, $matches);
+					$result = isset($matches[0]) ? (string) $matches[0] : '';
+				}
+
 				break;
 
 			case 'TRIM':
-				$result = (string) trim($source);
-				$result = trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
-				$result = trim($result, chr(0xC2) . chr(0xA0));
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$cleaned  = (string) trim($eachString);
+						$cleaned  = StringHelper::trim($cleaned, chr(0xE3) . chr(0x80) . chr(0x80));
+						$result[] = StringHelper::trim($cleaned, chr(0xC2) . chr(0xA0));
+					}
+				}
+				else
+				{
+					$result = (string) trim($source);
+					$result = StringHelper::trim($result, chr(0xE3) . chr(0x80) . chr(0x80));
+					$result = StringHelper::trim($result, chr(0xC2) . chr(0xA0));
+				}
+
 				break;
 
 			case 'USERNAME':
-				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
+				$pattern = '/[\x00-\x1F\x7F<>"\'%&]/';
+
+				if (is_array($source))
+				{
+					$result = array();
+
+					// Iterate through the array
+					foreach ($source as $eachString)
+					{
+						$result[] = (string) preg_replace($pattern, '', $eachString);
+					}
+				}
+				else
+				{
+					$result = (string) preg_replace($pattern, '', $source);
+				}
+
 				break;
 
 			case 'RAW':
@@ -268,7 +460,7 @@ class InputFilter
 					}
 					else
 					{
-						// Not an array or string.. return the passed parameter
+						// Not an array or string... return the passed parameter
 						$result = $source;
 					}
 				}

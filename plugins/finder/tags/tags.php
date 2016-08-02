@@ -3,11 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -225,7 +225,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->metadata = $registry;
 
 		// Build the necessary route and path information.
-		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
+		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 		$item->route = TagsHelperRoute::getTagRoute($item->slug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 

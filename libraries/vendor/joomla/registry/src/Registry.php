@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,8 +30,17 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @var    array
 	 * @since  1.0
+	 * @deprecated  2.0  Object caching will no longer be supported
 	 */
 	protected static $instances = array();
+
+	/**
+	 * Path separator
+	 *
+	 * @var    string
+	 * @since  1.4.0
+	 */
+	public $separator = '.';
 
 	/**
 	 * Constructor
@@ -90,14 +99,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	public function count()
 	{
-		$i = 0;
-
-		foreach ($this->data as $item)
-		{
-			$i++;
-		}
-
-		return $i++;
+		return count(get_object_vars($this->data));
 	}
 
 	/**
@@ -143,34 +145,39 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	public function exists($path)
 	{
-		// Explode the registry path into an array
-		$nodes = explode('.', $path);
-
-		if ($nodes)
+		// Return default value if path is empty
+		if (empty($path))
 		{
-			// Initialize the current node to be the registry root.
-			$node = $this->data;
-
-			// Traverse the registry to find the correct node for the result.
-			for ($i = 0, $n = count($nodes); $i < $n; $i++)
-			{
-				if (isset($node->$nodes[$i]))
-				{
-					$node = $node->$nodes[$i];
-				}
-				else
-				{
-					break;
-				}
-
-				if ($i + 1 == $n)
-				{
-					return true;
-				}
-			}
+			return false;
 		}
 
-		return false;
+		// Explode the registry path into an array
+		$nodes = explode($this->separator, $path);
+
+		// Initialize the current node to be the registry root.
+		$node = $this->data;
+		$found = false;
+
+		// Traverse the registry to find the correct node for the result.
+		foreach ($nodes as $n)
+		{
+			if (is_array($node) && isset($node[$n]))
+			{
+				$node = $node[$n];
+				$found = true;
+				continue;
+			}
+
+			if (!isset($node->$n))
+			{
+				return false;
+			}
+
+			$node = $node->$n;
+			$found = true;
+		}
+
+		return $found;
 	}
 
 	/**
@@ -185,15 +192,19 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 */
 	public function get($path, $default = null)
 	{
-		$result = $default;
+		// Return default value if path is empty
+		if (empty($path))
+		{
+			return $default;
+		}
 
-		if (!strpos($path, '.'))
+		if (!strpos($path, $this->separator))
 		{
 			return (isset($this->data->$path) && $this->data->$path !== null && $this->data->$path !== '') ? $this->data->$path : $default;
 		}
 
 		// Explode the registry path into an array
-		$nodes = explode('.', $path);
+		$nodes = explode($this->separator, trim($path));
 
 		// Initialize the current node to be the registry root.
 		$node = $this->data;
@@ -202,24 +213,29 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n)
 		{
-			if (isset($node->$n))
+			if (is_array($node) && isset($node[$n]))
 			{
-				$node = $node->$n;
+				$node = $node[$n];
 				$found = true;
+
+				continue;
 			}
-			else
+
+			if (!isset($node->$n))
 			{
-				$found = false;
-				break;
+				return $default;
 			}
+
+			$node = $node->$n;
+			$found = true;
 		}
 
-		if ($found && $node !== null && $node !== '')
+		if (!$found || $node === null || $node === '')
 		{
-			$result = $node;
+			return $default;
 		}
 
-		return $result;
+		return $node;
 	}
 
 	/**
@@ -234,6 +250,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 * @return  Registry  The Registry object.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0  Instantiate a new Registry instance instead
 	 */
 	public static function getInstance($id)
 	{
@@ -261,17 +278,29 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	}
 
 	/**
-	 * Load a associative array of values into the default namespace
+	 * Load an associative array of values into the default namespace
 	 *
-	 * @param   array  $array  Associative array of value to load
+	 * @param   array    $array      Associative array of value to load
+	 * @param   boolean  $flattened  Load from a one-dimensional array
+	 * @param   string   $separator  The key separator
 	 *
 	 * @return  Registry  Return this object to support chaining.
 	 *
 	 * @since   1.0
 	 */
-	public function loadArray($array)
+	public function loadArray($array, $flattened = false, $separator = null)
 	{
-		$this->bindData($this->data, $array);
+		if (!$flattened)
+		{
+			$this->bindData($this->data, $array);
+
+			return $this;
+		}
+
+		foreach ($array as $k => $v)
+		{
+			$this->set($k, $v, $separator);
+		}
 
 		return $this;
 	}
@@ -324,7 +353,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function loadString($data, $format = 'JSON', $options = array())
 	{
 		// Load a string into the given namespace [or default namespace if not given]
-		$handler = AbstractRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		$obj = $handler->stringToObject($data, $options);
 		$this->loadObject($obj);
@@ -357,7 +386,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	/**
 	 * Method to extract a sub-registry from path
 	 *
-	 * @param   string  $path     Registry path (e.g. joomla.content.showauthor)
+	 * @param   string  $path  Registry path (e.g. joomla.content.showauthor)
 	 *
 	 * @return  Registry|null  Registry object if data is present
 	 *
@@ -435,14 +464,94 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	/**
 	 * Set a registry value.
 	 *
-	 * @param   string  $path   Registry Path (e.g. joomla.content.showauthor)
-	 * @param   mixed   $value  Value of entry
+	 * @param   string  $path       Registry Path (e.g. joomla.content.showauthor)
+	 * @param   mixed   $value      Value of entry
+	 * @param   string  $separator  The key separator
 	 *
 	 * @return  mixed  The value of the that has been set.
 	 *
 	 * @since   1.0
 	 */
-	public function set($path, $value)
+	public function set($path, $value, $separator = null)
+	{
+		if (empty($separator))
+		{
+			$separator = $this->separator;
+		}
+
+		/**
+		 * Explode the registry path into an array and remove empty
+		 * nodes that occur as a result of a double separator. ex: joomla..test
+		 * Finally, re-key the array so they are sequential.
+		 */
+		$nodes = array_values(array_filter(explode($separator, $path), 'strlen'));
+
+		if (!$nodes)
+		{
+			return null;
+		}
+
+		// Initialize the current node to be the registry root.
+		$node = $this->data;
+
+		// Traverse the registry to find the correct node for the result.
+		for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
+		{
+			if (is_object($node))
+			{
+				if (!isset($node->{$nodes[$i]}) && ($i != $n))
+				{
+					$node->{$nodes[$i]} = new \stdClass;
+				}
+
+				// Pass the child as pointer in case it is an object
+				$node = &$node->{$nodes[$i]};
+
+				continue;
+			}
+
+			if (is_array($node))
+			{
+				if (!isset($node[$nodes[$i]]) && ($i != $n))
+				{
+					$node[$nodes[$i]] = new \stdClass;
+				}
+
+				// Pass the child as pointer in case it is an array
+				$node = &$node[$nodes[$i]];
+			}
+		}
+
+		// Get the old value if exists so we can return it
+		switch (true)
+		{
+			case (is_object($node)):
+				$result = $node->{$nodes[$i]} = $value;
+				break;
+
+			case (is_array($node)):
+				$result = $node[$nodes[$i]] = $value;
+				break;
+
+			default:
+				$result = null;
+				break;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Append value to a path in registry
+	 *
+	 * @param   string  $path   Parent registry Path (e.g. joomla.content.showauthor)
+	 * @param   mixed   $value  Value of entry
+	 *
+	 * @return  mixed  The value of the that has been set.
+	 *
+	 * @since   1.4.0
+	 */
+	public function append($path, $value)
 	{
 		$result = null;
 
@@ -459,18 +568,39 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			$node = $this->data;
 
 			// Traverse the registry to find the correct node for the result.
-			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
+			// TODO Create a new private method from part of code below, as it is almost equal to 'set' method
+			for ($i = 0, $n = count($nodes) - 1; $i <= $n; $i++)
 			{
-				if (!isset($node->$nodes[$i]) && ($i != $n))
+				if (is_object($node))
 				{
-					$node->$nodes[$i] = new \stdClass;
-				}
+					if (!isset($node->{$nodes[$i]}) && ($i != $n))
+					{
+						$node->{$nodes[$i]} = new \stdClass;
+					}
 
-				$node = $node->$nodes[$i];
+					// Pass the child as pointer in case it is an array
+					$node = &$node->{$nodes[$i]};
+				}
+				elseif (is_array($node))
+				{
+					if (!isset($node[$nodes[$i]]) && ($i != $n))
+					{
+						$node[$nodes[$i]] = new \stdClass;
+					}
+
+					// Pass the child as pointer in case it is an array
+					$node = &$node[$nodes[$i]];
+				}
 			}
 
-			// Get the old value if exists so we can return it
-			$result = $node->$nodes[$i] = $value;
+			if (!is_array($node))
+			// Convert the node to array to make append possible
+			{
+				$node = get_object_vars($node);
+			}
+
+			array_push($node, $value);
+			$result = $value;
 		}
 
 		return $result;
@@ -513,7 +643,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
-		$handler = AbstractRegistryFormat::getInstance($format);
+		$handler = AbstractRegistryFormat::getInstance($format, $options);
 
 		return $handler->objectToString($this->data, $options);
 	}
@@ -533,14 +663,9 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	protected function bindData($parent, $data, $recursive = true, $allowNull = true)
 	{
 		// Ensure the input data is an array.
-		if (is_object($data))
-		{
-			$data = get_object_vars($data);
-		}
-		else
-		{
-			$data = (array) $data;
-		}
+		$data = is_object($data)
+			? get_object_vars($data)
+			: (array) $data;
 
 		foreach ($data as $k => $v)
 		{
@@ -557,11 +682,11 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 				}
 
 				$this->bindData($parent->$k, $v);
+
+				continue;
 			}
-			else
-			{
-				$parent->$k = $v;
-			}
+
+			$parent->$k = $v;
 		}
 	}
 
@@ -588,11 +713,11 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			if (is_object($v) || is_array($v))
 			{
 				$array[$k] = $this->asArray($v);
+
+				continue;
 			}
-			else
-			{
-				$array[$k] = $v;
-			}
+
+			$array[$k] = $v;
 		}
 
 		return $array;
@@ -607,9 +732,14 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @since   1.3.0
 	 */
-	public function flatten($separator = '.')
+	public function flatten($separator = null)
 	{
 		$array = array();
+
+		if (empty($separator))
+		{
+			$separator = $this->separator;
+		}
 
 		$this->toFlatten($separator, $this->data, $array);
 
@@ -628,9 +758,14 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 	 *
 	 * @since   1.3.0
 	 */
-	protected function toFlatten($separator = '.', $data = null, &$array = array(), $prefix = '')
+	protected function toFlatten($separator = null, $data = null, &$array = array(), $prefix = '')
 	{
 		$data = (array) $data;
+
+		if (empty($separator))
+		{
+			$separator = $this->separator;
+		}
 
 		foreach ($data as $k => $v)
 		{
@@ -639,11 +774,11 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 			if (is_object($v) || is_array($v))
 			{
 				$this->toFlatten($separator, $v, $array, $key);
+
+				continue;
 			}
-			else
-			{
-				$array[$key] = $v;
-			}
+
+			$array[$key] = $v;
 		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ jimport('joomla.filesystem.path');
  * Tar format adapter for the JArchive class
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
- * The Horde Project <http://www.horde.org>
+ * The Horde Project <https://www.horde.org>
  *
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
@@ -33,7 +33,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * @since  11.1
 	 */
 	private $_types = array(
-		0x0 => 'Unix file',
+		0x0  => 'Unix file',
 		0x30 => 'File',
 		0x31 => 'Link',
 		0x32 => 'Symbolic link',
@@ -66,10 +66,10 @@ class JArchiveTar implements JArchiveExtractable
 	 * @param   string  $destination  Path to extract archive into
 	 * @param   array   $options      Extraction options [unused]
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @throws  RuntimeException
 	 * @since   11.1
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	public function extract($archive, $destination, array $options = array())
 	{
@@ -148,18 +148,10 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @param   string  &$data  The Tar archive buffer.
 	 *
-	 * @return   array  Archive metadata array
-	 * <pre>
-	 * KEY: Position in the array
-	 * VALUES: 'attr'  --  File attributes
-	 * 'data'  --  Raw file contents
-	 * 'date'  --  File modification time
-	 * 'name'  --  Filename
-	 * 'size'  --  Original file size
-	 * 'type'  --  File type
-	 * </pre>
+	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @since    11.1
+	 * @since   11.1
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	protected function _getTarInfo(& $data)
 	{
@@ -181,6 +173,17 @@ class JArchiveTar implements JArchiveExtractable
 					"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
 					substr($data, $position)
 				);
+			}
+
+			/**
+			 * This variable has been set in the previous loop,
+			 * meaning that the filename was present in the previous block
+			 * to allow more than 100 characters - see below
+			 */
+			if (isset($longlinkfilename))
+			{
+				$info['filename'] = $longlinkfilename;
+				unset($longlinkfilename);
 			}
 
 			if (!$info)
@@ -211,7 +214,7 @@ class JArchiveTar implements JArchiveExtractable
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35))
 				{
-					/* File or folder. */
+					// File or folder.
 					$file['data'] = $contents;
 
 					$mode = hexdec(substr($info['mode'], 4, 3));
@@ -219,9 +222,18 @@ class JArchiveTar implements JArchiveExtractable
 						(($mode & 0x100) ? 'x' : '-') . (($mode & 0x040) ? 'r' : '-') . (($mode & 0x020) ? 'w' : '-') . (($mode & 0x010) ? 'x' : '-') .
 						(($mode & 0x004) ? 'r' : '-') . (($mode & 0x002) ? 'w' : '-') . (($mode & 0x001) ? 'x' : '-');
 				}
+				elseif (chr($info['typeflag']) == 'L' && $info['filename'] == '././@LongLink')
+				{
+					// GNU tar ././@LongLink support - the filename is actually in the contents,
+					// setting a variable here so we can test in the next loop
+					$longlinkfilename = $contents;
+
+					// And the file contents are in the next block so we'll need to skip this
+					continue;
+				}
 				else
 				{
-					/* Some other type. */
+					// Some other type.
 				}
 
 				$return_array[] = $file;

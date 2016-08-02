@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -133,7 +133,7 @@ abstract class JPlugin extends JEvent
 	{
 		if (empty($extension))
 		{
-			$extension = 'plg_' . $this->_type . '_' . $this->_name;
+			$extension = 'Plg_' . $this->_type . '_' . $this->_name;
 		}
 
 		$lang = JFactory::getLanguage();

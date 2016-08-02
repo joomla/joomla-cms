@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,10 +65,17 @@ class JLogEntry
 	);
 
 	/**
+	 * Call stack and back trace of the logged call.
+	 * @var    array
+	 * @since  12.3
+	 */
+	public $callStack = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   string  $message   The message to log.
-	 * @param   string  $priority  Message priority based on {$this->priorities}.
+	 * @param   int     $priority  Message priority based on {$this->priorities}.
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
@@ -91,6 +98,9 @@ class JLogEntry
 		{
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
+
+		// Get the current call stack and back trace (without args to save memory).
+		$this->callStack = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Get the date as a JDate object.
 		$this->date = new JDate($date ? $date : 'now');

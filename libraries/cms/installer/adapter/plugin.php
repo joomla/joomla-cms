@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
 class JInstallerAdapterPlugin extends JInstallerAdapter
 {
 	/**
-	 * <scriptfile> element of the extension manifest
+	 * `<scriptfile>` element of the extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -27,7 +27,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected $scriptElement = null;
 
 	/**
-	 * <files> element of the old extension manifest
+	 * `<files>` element of the old extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -58,13 +58,15 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -74,7 +76,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function copyBaseFiles()
 	{
 		// Copy all necessary files
-		if ($this->parent->parseFiles($this->manifest->files, -1, $this->oldFiles) === false)
+		if ($this->parent->parseFiles($this->getManifest()->files, -1, $this->oldFiles) === false)
 		{
 			throw new RuntimeException(
 				JText::sprintf(
@@ -193,11 +195,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->manifest->files->children()))
+			if (count($this->getManifest()->files->children()))
 			{
-				$type = (string) $this->manifest->attributes()->type;
+				$type = (string) $this->getManifest()->attributes()->type;
 
-				foreach ($this->manifest->files->children() as $file)
+				foreach ($this->getManifest()->files->children() as $file)
 				{
 					if ((string) $file->attributes()->$type)
 					{
@@ -221,7 +223,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 */
 	protected function getScriptClassName()
 	{
-		return 'plg' . str_replace('-', '', $this->group) . $this->element . 'InstallerScript';
+		return 'Plg' . str_replace('-', '', $this->group) . $this->element . 'InstallerScript';
 	}
 
 	/**
@@ -245,12 +247,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			);
 		}
 
-		$this->manifest = $this->parent->getManifest();
-		$element        = $this->manifest->files;
+		$element = $this->getManifest()->files;
 
 		if ($element)
 		{
-			$group = strtolower((string) $this->manifest->attributes()->group);
+			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
 			if (count($element->children()))
@@ -291,8 +292,8 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected function parseOptionalTags()
 	{
 		// Parse optional tags -- media and language files for plugins go in admin app
-		$this->parent->parseMedia($this->manifest->media, 1);
-		$this->parent->parseLanguages($this->manifest->languages, 1);
+		$this->parent->parseMedia($this->getManifest()->media, 1);
+		$this->parent->parseLanguages($this->getManifest()->languages, 1);
 	}
 
 	/**
@@ -302,7 +303,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		$client   = JApplicationHelper::getClientInfo($this->extension->client_id);
 		$basePath = $client->path . '/plugins/' . $this->extension->folder;
@@ -319,6 +320,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
+		$this->setManifest($this->parent->getManifest());
 	}
 
 	/**
@@ -444,26 +446,6 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	}
 
 	/**
-	 * Custom update method
-	 *
-	 * @return   boolean  True on success
-	 *
-	 * @since    3.1
-	 */
-	public function update()
-	{
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// Set the route for the install
-		$this->route = 'update';
-
-		// Go to install which handles updates properly
-		return $this->install();
-	}
-
-	/**
 	 * Custom uninstall method
 	 *
 	 * @param   integer  $id  The id of the plugin to uninstall
@@ -514,7 +496,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$this->parent->findManifest();
-		$this->manifest = $this->parent->getManifest();
+		$this->setManifest($this->parent->getManifest());
 
 		// Attempt to load the language file; might have uninstall strings
 		$this->parent->setPath('source', JPATH_PLUGINS . '/' . $row->folder . '/' . $row->element);
@@ -527,7 +509,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		 */
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -542,7 +524,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			$folderClass = str_replace('-', '', $row->folder);
 
 			// Set the class name
-			$classname = 'plg' . $folderClass . $row->element . 'InstallerScript';
+			$classname = 'Plg' . $folderClass . $row->element . 'InstallerScript';
 
 			if (class_exists($classname))
 			{
@@ -574,7 +556,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Let's run the queries for the plugin
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
+		$utfresult = $this->parent->parseSQLFiles($this->getManifest()->uninstall->sql);
 
 		if ($utfresult === false)
 		{
@@ -598,11 +580,11 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		ob_end_clean();
 
 		// Remove the plugin files
-		$this->parent->removeFiles($this->manifest->files, -1);
+		$this->parent->removeFiles($this->getManifest()->files, -1);
 
 		// Remove all media and languages as well
-		$this->parent->removeFiles($this->manifest->media);
-		$this->parent->removeFiles($this->manifest->languages, 1);
+		$this->parent->removeFiles($this->getManifest()->media);
+		$this->parent->removeFiles($this->getManifest()->languages, 1);
 
 		// Remove the schema version
 		$query = $db->getQuery(true)

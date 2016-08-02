@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JLanguage
 	/**
 	 * Array of JLanguage objects
 	 *
-	 * @var    array
+	 * @var    JLanguage[]
 	 * @since  11.1
 	 */
 	protected static $languages = array();
@@ -190,7 +190,8 @@ class JLanguage
 			$lang = $this->default;
 		}
 
-		$this->setLanguage($lang);
+		$this->lang = $lang;
+		$this->metadata = $this->getMetadata($this->lang);
 		$this->setDebug($debug);
 
 		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
@@ -796,17 +797,9 @@ class JLanguage
 
 		if ($strings)
 		{
-			if (is_array($strings))
-			{
-				// Sort the underlying heap by key values to optimize merging
-				ksort($strings, SORT_STRING);
-				$this->strings = array_merge($this->strings, $strings);
-			}
-
 			if (is_array($strings) && count($strings))
 			{
-				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
-				$this->strings = array_merge($this->strings, $this->override);
+				$this->strings = array_replace($this->strings, $strings, $this->override);
 				$result = true;
 			}
 		}
@@ -857,7 +850,6 @@ class JLanguage
 
 			// Initialise variables for manually parsing the file for common errors.
 			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$regex = '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-\.]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
 			$errors = array();
 
@@ -866,35 +858,64 @@ class JLanguage
 
 			foreach ($file as $lineNumber => $line)
 			{
-				// Avoid BOM error as BOM is OK when using parse_ini
+				// Avoid BOM error as BOM is OK when using parse_ini.
 				if ($lineNumber == 0)
 				{
 					$line = str_replace("\xEF\xBB\xBF", '', $line);
 				}
 
-				// Check that the key is not in the blacklist and that the line format passes the regex.
+				$line = trim($line);
+
+				// Ignore comment lines.
+				if (!strlen($line) || $line['0'] == ';')
+				{
+					continue;
+				}
+
+				// Ignore grouping tag lines, like: [group]
+				if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
+				{
+					continue;
+				}
+
+				// Remove the "_QQ_" from the equation
+				$line = str_replace('"_QQ_"', '', $line);
+				$realNumber = $lineNumber + 1;
+
+				// Check for any incorrect uses of _QQ_.
+				if (strpos($line, '_QQ_') !== false)
+				{
+					$errors[] = $realNumber;
+					continue;
+				}
+
+				// Check for odd number of double quotes.
+				if (substr_count($line, '"') % 2 != 0)
+				{
+					$errors[] = $realNumber;
+					continue;
+				}
+
+				// Check that the line passes the necessary format.
+				if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+				{
+					$errors[] = $realNumber;
+					continue;
+				}
+
+				// Check that the key is not in the blacklist.
 				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
 
-				// Workaround to reduce regex complexity when matching escaped quotes
-				$line = str_replace('\"', '_QQ_', $line);
-
-				if (!preg_match($regex, $line) || in_array($key, $blacklist))
+				if (in_array($key, $blacklist))
 				{
-					$errors[] = $lineNumber;
+					$errors[] = $realNumber;
 				}
 			}
 
 			// Check if we encountered any errors.
 			if (count($errors))
 			{
-				if (basename($filename) != $this->lang . '.ini')
-				{
-					$this->errorfiles[$filename] = $filename . JText::sprintf('JERROR_PARSING_LANGUAGE_FILE', implode(', ', $errors));
-				}
-				else
-				{
-					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ', $errors);
-				}
+				$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
 			}
 			elseif ($php_errormsg)
 			{
@@ -1041,7 +1062,7 @@ class JLanguage
 	 *
 	 * @since   11.1
 	 */
-	public function isRTL()
+	public function isRtl()
 	{
 		return (bool) $this->metadata['rtl'];
 	}
@@ -1147,7 +1168,7 @@ class JLanguage
 	}
 
 	/**
-	 * Returns a associative array holding the metadata.
+	 * Returns an associative array holding the metadata.
 	 *
 	 * @param   string  $lang  The name of the language.
 	 *
@@ -1224,9 +1245,12 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Instantiate a new JLanguage object instead.', JLog::WARNING, 'deprecated');
+
 		$previous = $this->lang;
 		$this->lang = $lang;
 		$this->metadata = $this->getMetadata($this->lang);
@@ -1297,32 +1321,31 @@ class JLanguage
 	{
 		$languages = array();
 
-		$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir));
-
-		foreach ($iterator as $file)
+		// Search main language directory for subdirectories
+		foreach (glob($dir . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $directory)
 		{
-			$langs    = array();
-			$fileName = $file->getFilename();
-
-			if (!$file->isFile() || !preg_match("/^([-_A-Za-z]*)\.xml$/", $fileName))
+			// But only directories with lang code format
+			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
 			{
-				continue;
-			}
+				$dirPathParts = pathinfo($directory);
+				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
 
-			try
-			{
-				$metadata = self::parseXMLLanguageFile($file->getRealPath());
-
-				if ($metadata)
+				if (!is_file($file))
 				{
-					$lang = str_replace('.xml', '', $fileName);
-					$langs[$lang] = $metadata;
+					continue;
 				}
 
-				$languages = array_merge($languages, $langs);
-			}
-			catch (RuntimeException $e)
-			{
+				try
+				{
+					// Get installed language metadata from xml file and merge it with lang array
+					if ($metadata = self::parseXMLLanguageFile($file))
+					{
+						$languages = array_replace($languages, array($dirPathParts['filename'] => $metadata));
+					}
+				}
+				catch (RuntimeException $e)
+				{
+				}
 			}
 		}
 

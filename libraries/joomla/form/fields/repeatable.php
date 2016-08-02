@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Display a JSON loaded window with a repeatable set of sub fields
  *
- * @since  3.2
+ * @since       3.2
+ *
+ * @deprecated  4.0  Use JFormFieldSubform
  */
 class JFormFieldRepeatable extends JFormField
 {
@@ -34,9 +36,11 @@ class JFormFieldRepeatable extends JFormField
 	 */
 	protected function getInput()
 	{
+		JLog::add('JFormFieldRepeatable is deprecated. Use JFormFieldSubform instead.', JLog::WARNING, 'deprecated');
+
 		// Initialize variables.
 		$subForm = new JForm($this->name, array('control' => 'jform'));
-		$xml = $this->element->children()->asXML();
+		$xml = $this->element->children()->asXml();
 		$subForm->load($xml);
 
 		// Needed for repeating modals in gmaps
@@ -99,7 +103,7 @@ class JFormFieldRepeatable extends JFormField
 
 		// Button for display the modal window
 		$select = (string) $this->element['select'] ? JText::_((string) $this->element['select']) : JText::_('JLIB_FORM_BUTTON_SELECT');
-		$icon = $this->element['icon'] ? '<i class="icon-' . $this->element['icon'] . '"></i> ' : '';
+		$icon = $this->element['icon'] ? '<span class="icon-' . $this->element['icon'] . '"></span> ' : '';
 		$str[] = '<button class="open-modal btn" id="' . $this->id . '_button" >' . $icon . $select . '</button>';
 
 		if (is_array($this->value))

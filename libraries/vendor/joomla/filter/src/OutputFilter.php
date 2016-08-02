@@ -2,14 +2,14 @@
 /**
  * Part of the Joomla Framework Filter Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Filter;
 
 use Joomla\Language\Language;
-use Joomla\String\String;
+use Joomla\String\StringHelper;
 
 /**
  * OutputFilter
@@ -32,7 +32,7 @@ class OutputFilter
 	 *
 	 * @since   1.0
 	 */
-	public static function objectHTMLSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
+	public static function objectHtmlSafe(&$mixed, $quote_style = ENT_QUOTES, $exclude_keys = '')
 	{
 		if (is_object($mixed))
 		{
@@ -66,7 +66,7 @@ class OutputFilter
 	 *
 	 * @since   1.0
 	 */
-	public static function linkXHTMLSafe($input)
+	public static function linkXhtmlSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
 
@@ -74,9 +74,7 @@ class OutputFilter
 			"#$regex#i",
 			function($m)
 			{
-				$rx = '&(?!amp;)';
-
-				return preg_replace('#' . $rx . '#', '&amp;', $m[0]);
+				return preg_replace('#&(?!amp;)#', '&amp;', $m[0]);
 			},
 			$input
 		);
@@ -92,16 +90,15 @@ class OutputFilter
 	 *
 	 * @since   1.0
 	 */
-	public static function stringURLSafe($string)
+	public static function stringUrlSafe($string)
 	{
 		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
-		$lang = Language::getInstance();
-		$str = $lang->transliterate($str);
+		$str = Language::getInstance()->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(String::strtolower($str));
+		$str = trim(StringHelper::strtolower($str));
 
 		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace('/(\s|[^A-Za-z0-9\-])+/', '-', $str);
@@ -121,7 +118,7 @@ class OutputFilter
 	 *
 	 * @since   1.0
 	 */
-	public static function stringURLUnicodeSlug($string)
+	public static function stringUrlUnicodeSlug($string)
 	{
 		// Replace double byte whitespaces by single byte (East Asian languages)
 		$str = preg_replace('/\xE3\x80\x80/', ' ', $string);
@@ -138,7 +135,7 @@ class OutputFilter
 		$str = str_replace('?', '', $str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
-		$str = trim(String::strtolower($str));
+		$str = trim(StringHelper::strtolower($str));
 
 		// Remove any duplicate whitespace and replace whitespaces by hyphens
 		$str = preg_replace('#\x20+#', '-', $str);
@@ -154,8 +151,7 @@ class OutputFilter
 	 * @return  string  Processed string.
 	 *
 	 * @since   1.0
-	 *
-	 * @todo There must be a better way???
+	 * @todo    There must be a better way???
 	 */
 	public static function ampReplace($text)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,16 +13,23 @@ $app  = JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $doc  = JFactory::getDocument();
 
+// Gets the FrontEnd Main page Uri
+$frontEndUri = JUri::getInstance(JUri::root());
+$frontEndUri->setScheme(((int) JFactory::getApplication()->get('force_ssl', 0) === 2) ? 'https' : 'http');
+
+// jQuery needed by template.js
+JHtml::_('jquery.framework');
+
 JHtml::_('behavior.noframes');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheet('templates/system/css/system.css');
+$doc->addStyleSheet($this->baseurl . '/templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -31,10 +38,10 @@ if (!$this->params->get('colourChoice'))
 }
 else
 {
-	$colour = htmlspecialchars($this->params->get('colourChoice'));
+	$colour = htmlspecialchars($this->params->get('colourChoice'), ENT_COMPAT, 'UTF-8');
 }
 
-$doc->addStyleSheet('templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -47,8 +54,8 @@ if (is_file($file))
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet('templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheet('templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load specific language related CSS
@@ -62,7 +69,7 @@ if (JFile::exists($file))
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheet('templates/' . $this->template . '/css/boldtext.css');
+	$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Logo file
@@ -83,14 +90,14 @@ else
 
 <!-- Load additional CSS styles for Internet Explorer -->
 <!--[if IE 7]>
-	<link href="templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <!--[if lt IE 9]>
-	<script src="../media/jui/js/html5.js"></script>
+	<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 
 <!-- Load Template JavaScript -->
-<script type="text/javascript" src="templates/<?php  echo  $this->template;  ?>/js/template.js"></script>
+<script type="text/javascript" src="<?php echo $this->baseurl; ?>/templates/<?php  echo  $this->template;  ?>/js/template.js"></script>
 
 </head>
 <body id="login-page">
@@ -109,7 +116,7 @@ else
 					<div class="login-inst">
 					<p><?php echo JText::_('COM_LOGIN_VALID') ?></p>
 					<div id="lock"></div>
-					<a href="<?php echo JUri::root(); ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+					<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 					</div>
 					<!-- Login Component -->
 					<div class="login-box">
@@ -126,8 +133,18 @@ else
 	<!-- Footer -->
 	<div id="footer">
 		<p class="copyright">
-			<?php $joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!&#174;</a>';
-			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla); ?>
+			<?php
+			// Fix wrong display of Joomla!® in RTL language
+			if (JFactory::getLanguage()->isRtl())
+			{
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
+			}
+			else
+			{
+				$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
+			}
+			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla);
+			?>
 		</p>
 	</div>
 </body>

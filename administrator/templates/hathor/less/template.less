@@ -8,8 +8,11 @@
 @import "../../../../media/jui/less/component-animations.less";
 
 // Bootstrap Modals
-@import "../../../../media/jui/less/modals.less";
-@import "../../../../media/jui/less/modals.joomla.less";
+@import "modals.less";
+//@import "../../../../media/jui/less/modals.joomla.less";
+
+// Bootstrap Popovers
+@import "../../../../media/jui/less/popovers.less";
 
 // Icon Font
 @import "icomoon.less";
@@ -61,6 +64,8 @@ body {
 	font-size: 62.5%;
 	line-height: 1.5em;
 	height: 100%;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body, td, th, span, a {
@@ -486,6 +491,15 @@ input#mm_subject {
 
 textarea#mm_message {
 	width: 100%;
+}
+textarea {
+	resize:both;
+}
+textarea.vert {
+	resize:vertical;
+}
+textarea.noResize {
+	resize:none;
 }
 
 /**
@@ -3039,6 +3053,9 @@ ul.helpmenu li {
 
 .menu-postinstall {
 	background-image: url(../images/menu/icon-16-generic.png);
+}
+.icon-32-cog {
+	background-image: url(../images/toolbar/icon-32-cog.png);
 }
 
 /**

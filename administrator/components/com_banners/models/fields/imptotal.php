@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,8 +19,8 @@ class JFormFieldImpTotal extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'ImpTotal';
 
@@ -33,14 +33,15 @@ class JFormFieldImpTotal extends JFormField
 	 */
 	protected function getInput()
 	{
-		$class		= ' class="validate-numeric text_area"';
-		$onchange	= ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id . '\').value==\'\';"';
-		$onclick	= ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id . '\').value=\'\';"';
-		$value		= empty($this->value) ? '' : $this->value;
-		$checked	= empty($this->value) ? ' checked="checked"' : '';
+		$class    = ' class="validate-numeric text_area"';
+		$onchange = ' onchange="document.getElementById(\'' . $this->id . '_unlimited\').checked=document.getElementById(\'' . $this->id
+			. '\').value==\'\';"';
+		$onclick  = ' onclick="if (document.getElementById(\'' . $this->id . '_unlimited\').checked) document.getElementById(\'' . $this->id
+			. '\').value=\'\';"';
+		$value    = empty($this->value) ? '' : $this->value;
+		$checked  = empty($this->value) ? ' checked="checked"' : '';
 
-		return
-			'<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
 			. '" ' . $class . $onchange . ' />'
 			. '<fieldset class="checkboxes impunlimited"><input id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . ' />'
 			. '<label for="' . $this->id . '_unlimited" id="jform-imp" type="text">' . JText::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';

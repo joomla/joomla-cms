@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,12 +24,6 @@ class JHelperRoute
 	 * @since  3.1
 	 */
 	protected static $lookup;
-
-	/**
-	 * @var    array  Holds the language lookup
-	 * @since  3.2
-	 */
-	protected static $lang_lookup;
 
 	/**
 	 * @var    string  Option for the extension (such as com_content)
@@ -112,20 +106,11 @@ class JHelperRoute
 		// Deal with languages only if needed
 		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
 		{
-			static::buildLanguageLookup();
-
-			if (isset(static::$lang_lookup[$language]))
-			{
-				$link .= '&lang=' . static::$lang_lookup[$language];
-				$needles['language'] = $language;
-			}
+			$link .= '&lang=' . $language;
+			$needles['language'] = $language;
 		}
 
 		if ($item = $this->findItem($needles))
-		{
-			$link .= '&Itemid=' . $item;
-		}
-		elseif ($item = $this->findItem())
 		{
 			$link .= '&Itemid=' . $item;
 		}
@@ -281,68 +266,26 @@ class JHelperRoute
 
 			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 			{
-				static::buildLanguageLookup();
+				$link .= '&lang=' . $language;
+				$needles['language'] = $language;
+			}
 
-				if (isset(static::$lang_lookup[$language]))
-				{
-					$link .= '&lang=' . static::$lang_lookup[$language];
-					$needles['language'] = $language;
-				}
+			// Create the link
+			if ($category)
+			{
+				$catids                = array_reverse($category->getPath());
+				$needles['category']   = $catids;
+				$needles['categories'] = $catids;
+
 			}
 
 			if ($item = static::lookupItem($needles))
 			{
 				$link .= '&Itemid=' . $item;
 			}
-			else
-			{
-				// Create the link
-				if ($category)
-				{
-					$catids                = array_reverse($category->getPath());
-					$needles['category']   = $catids;
-					$needles['categories'] = $catids;
-
-					if ($item = static::lookupItem($needles))
-					{
-						$link .= '&Itemid=' . $item;
-					}
-					elseif ($item = static::lookupItem())
-					{
-						$link .= '&Itemid=' . $item;
-					}
-				}
-			}
 		}
 
 		return $link;
-	}
-
-	/**
-	 * Builds the language lookup array
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected static function buildLanguageLookup()
-	{
-		if (count(static::$lang_lookup) == 0)
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('a.sef AS sef')
-				->select('a.lang_code AS lang_code')
-				->from('#__languages AS a');
-
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-
-			foreach ($langs as $lang)
-			{
-				static::$lang_lookup[$lang->lang_code] = $lang->sef;
-			}
-		}
 	}
 
 	/**

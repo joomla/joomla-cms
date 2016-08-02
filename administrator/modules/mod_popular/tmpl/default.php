@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) : ?>
 			<?php // Calculate popular items ?>
 			<?php $hits = (int) $item->hits; ?>
-			<?php $hits_class = $hits >= 100 ? 'important' : $hits >= 25 ? 'warning' : $hits >= 10 ? 'info' : ''; ?>
+			<?php $hits_class = ($hits >= 10000 ? 'important' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'info' : ''))); ?>
 			<div class="row-fluid">
 				<div class="span9">
 					<span class="badge badge-<?php echo $hits_class; ?> hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_HITS'); ?>"><?php echo $item->hits; ?></span>
@@ -35,7 +35,7 @@ JHtml::_('bootstrap.tooltip');
 				</div>
 				<div class="span3">
 					<span class="small">
-						<i class="icon-calendar"></i>
+						<span class="icon-calendar"></span>
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 					</span>
 				</div>

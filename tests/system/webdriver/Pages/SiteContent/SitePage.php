@@ -3,9 +3,10 @@
  * @package     Joomla.Tests
  * @subpackage  Page
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -13,6 +14,13 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
+/**
+ * Page class for front end page
+ *
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.2
+ */
 abstract class SitePage
 {
 	/**
@@ -54,30 +62,40 @@ abstract class SitePage
 	 * @var  array of top menu text that is visible in all frontend pages
 	 */
 	public $visibleMenuText = array ('Home','Sample Sites','Joomla.org');
-	
+
 	/**
-	 * @param  Webdriver                 $driver    Driver for this test.
-	 * @param  JoomlaWebdriverTestClass  $test      Test class object (needed to create page class objects)
-	 * @param  string                    $url       Optional URL to load when object is created. Only use for initial page load.
+	 * constructor function
+	 *
+	 * @param   Webdriver                 $driver  Driver for this test.
+	 * @param   JoomlaWebdriverTestClass  $test    Test class object (needed to create page class objects)
+	 * @param   string                    $url     Optional URL to load when object is created. Only use for initial page load.
 	 */
 	public function __construct(Webdriver $driver, $test, $url = null)
 	{
 		$this->driver = $driver;
 		/* @var $test JoomlaWebdriverTestCase */
 		$this->test = $test;
-		$cfg = new SeleniumConfig();
-		$this->cfg = $cfg; // save current configuration
+		$cfg = new SeleniumConfig;
+
+		// Save current configuration
+		$this->cfg = $cfg;
+
 		if ($url)
 		{
 			$this->driver->get($url);
 		}
+
 		$element = $driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath), 5);
+
 		if (isset($this->url))
 		{
 			$test->assertContains($this->url, $driver->getCurrentPageUrl(), 'URL for page does not match expected value.');
 		}
 	}
 
+	/**
+	 * @return String
+	 */
 	public function __toString()
 	{
 		return $this->driver->getCurrentPageUrl();
@@ -91,7 +109,7 @@ abstract class SitePage
 	public function checkForNotices()
 	{
 		$haystack = strip_tags($this->driver->pageSource());
+
 		return (bool) (stripos($haystack, "( ! ) Notice") || stripos($haystack, "( ! ) Warning"));
 	}
 }
-?>

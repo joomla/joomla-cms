@@ -268,7 +268,7 @@ CodeMirror.defineMode("perl",function(){
                 chmod                           :1,     // - changes the permissions on a list of files
                 chomp                           :1,     // - remove a trailing record separator from a string
                 chop                            :1,     // - remove the last character from a string
-                chown                           :1,     // - change the owership on a list of files
+                chown                           :1,     // - change the ownership on a list of files
                 chr                             :1,     // - get character this number represents
                 chroot                          :1,     // - make directory new root for path lookups
                 close                           :1,     // - close file (or pipe or socket) handle
@@ -780,16 +780,21 @@ CodeMirror.defineMode("perl",function(){
                                 return "meta";}
                 return null;}
 
-        return{
-                startState:function(){
-                        return{
-                                tokenize:tokenPerl,
-                                chain:null,
-                                style:null,
-                                tail:null};},
-                token:function(stream,state){
-                        return (state.tokenize||tokenPerl)(stream,state);}
-                };});
+        return {
+            startState: function() {
+                return {
+                    tokenize: tokenPerl,
+                    chain: null,
+                    style: null,
+                    tail: null
+                };
+            },
+            token: function(stream, state) {
+                return (state.tokenize || tokenPerl)(stream, state);
+            },
+            lineComment: '#'
+        };
+});
 
 CodeMirror.registerHelper("wordChars", "perl", /[\w$]/);
 

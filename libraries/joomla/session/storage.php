@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Custom session storage handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see    https://secure.php.net/manual/en/function.session-set-save-handler.php
  * @todo   When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
  * @since  11.1
  */
@@ -52,21 +52,34 @@ abstract class JSessionStorage
 
 		if (empty(self::$instances[$name]))
 		{
+			/** @var JSessionStorage $class */
 			$class = 'JSessionStorage' . ucfirst($name);
 
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/storage/' . $name . '.php';
 
-				if (file_exists($path))
-				{
-					require_once $path;
-				}
-				else
+				if (!file_exists($path))
 				{
 					// No attempt to die gracefully here, as it tries to close the non-existing session
 					jexit('Unable to load session storage class: ' . $name);
 				}
+
+				require_once $path;
+
+				// The class should now be loaded
+				if (!class_exists($class))
+				{
+					// No attempt to die gracefully here, as it tries to close the non-existing session
+					jexit('Unable to load session storage class: ' . $name);
+				}
+			}
+
+			// Validate the session storage is supported on this platform
+			if (!$class::isSupported())
+			{
+				// No attempt to die gracefully here, as it tries to close the non-existing session
+				jexit(sprintf('The %s Session Storage is not supported on this platform.', $name));
 			}
 
 			self::$instances[$name] = new $class($options);

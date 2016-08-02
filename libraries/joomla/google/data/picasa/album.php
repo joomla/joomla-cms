@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,7 +77,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;
@@ -270,6 +270,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @return  mixed  Data from Google.
 	 *
 	 * @since   12.3
+	 * @throws  Exception
 	 */
 	public function save($match = '*')
 	{
@@ -286,19 +287,19 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			try
 			{
 				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
-				$jdata = $this->query($url, $this->xml->asXML(), $headers, 'put');
+				$jdata = $this->query($url, $this->xml->asXml(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
 
 				throw $e;
 			}
 
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}
@@ -322,7 +323,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 		{
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}
@@ -346,7 +347,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 		{
 			$url = $this->getLink('http://schemas.google.com/g/2005#feed');
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			if (isset($xml->children()->entry))
 			{
@@ -389,7 +390,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			jimport('joomla.filesystem.file');
 			$title = $title != '' ? $title : JFile::getName($file);
 
-			if (!($type = $this->getMIME($file)))
+			if (!($type = $this->getMime($file)))
 			{
 				throw new RuntimeException("Inappropriate file type.");
 			}
@@ -410,14 +411,14 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 			$post = "Media multipart posting\n";
 			$post .= "--END_OF_PART\n";
 			$post .= "Content-Type: application/atom+xml\n\n";
-			$post .= $xml->asXML() . "\n";
+			$post .= $xml->asXml() . "\n";
 			$post .= "--END_OF_PART\n";
 			$post .= "Content-Type: {$type}\n\n";
 			$post .= $data;
 
 			$jdata = $this->query($this->getLink(), $post, array('GData-Version' => 2, 'Content-Type: multipart/related'), 'post');
 
-			return new JGoogleDataPicasaPhoto($this->safeXML($jdata->body), $this->options, $this->auth);
+			return new JGoogleDataPicasaPhoto($this->safeXml($jdata->body), $this->options, $this->auth);
 		}
 		else
 		{
@@ -435,7 +436,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @since   12.3
 	 * @throws UnexpectedValueException
 	 */
-	protected function getMIME($file)
+	protected function getMime($file)
 	{
 		switch (strtolower(JFile::getExt($file)))
 		{

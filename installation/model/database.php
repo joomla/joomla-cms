@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ class InstallationModelDatabase extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work.
@@ -158,6 +158,16 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
+		// Workaround for UPPERCASE table prefix for postgresql
+		if ($options->db_type == 'postgresql')
+		{
+			if (strtolower($options->db_prefix) != $options->db_prefix)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'notice');
+				return false;
+			}
+		}
+
 		// Get a database object.
 		try
 		{
@@ -203,7 +213,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Check database version.
@@ -243,7 +253,7 @@ class InstallationModelDatabase extends JModelBase
 				// Try to create the database now using the alternate driver
 				try
 				{
-					$this->createDB($altDB, $options, $altDB->hasUTFSupport());
+					$this->createDb($altDB, $options, $altDB->hasUTFSupport());
 				}
 				catch (RuntimeException $e)
 				{
@@ -316,10 +326,38 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// PostgreSQL database older than version 9.0.0 needs to run 'CREATE LANGUAGE' to create function.
-		if (($options->db_type == 'postgresql') && (version_compare($db_version, '9.0.0', '<')))
+		if (($options->db_type == 'postgresql') && (!version_compare($db_version, '9.0.0', '>=')))
 		{
-			$db->setQuery("CREATE LANGUAGE plpgsql");
-			$db->execute();
+			$db->setQuery("select lanpltrusted from pg_language where lanname='plpgsql'");
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
+
+				return false;
+			}
+
+			$column = $db->loadResult();
+
+			if ($column != 't')
+			{
+				$db->setQuery("CREATE LANGUAGE plpgsql");
+
+				try
+				{
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$app->enqueueMessage(JText::_('INSTL_DATABASE_ERROR_POSTGRESQL_QUERY'), 'notice');
+
+					return false;
+				}
+			}
 		}
 
 		// Get database's UTF support.
@@ -333,7 +371,7 @@ class InstallationModelDatabase extends JModelBase
 		catch (RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
-			if ($this->createDB($db, $options, $utfSupport))
+			if ($this->createDb($db, $options, $utfSupport))
 			{
 				$db->select($options->db_name);
 			}
@@ -389,7 +427,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Set the character set to UTF-8 for pre-existing databases.
@@ -442,7 +480,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Check database type.
@@ -477,6 +515,31 @@ class InstallationModelDatabase extends JModelBase
 		if (!$this->populateDatabase($db, $schema))
 		{
 			return false;
+		}
+
+		// Get query object for later database access
+		$query = $db->getQuery(true);
+
+		// MySQL only: Attempt to update the table #__utf8_conversion.
+		$serverType = $db->getServerType();
+
+		if ($serverType === 'mysql')
+		{
+			$query->clear()
+				->update($db->quoteName('#__utf8_conversion'))
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'notice');
+
+				return false;
+			}
 		}
 
 		// Attempt to update the table #__schema.
@@ -514,7 +577,7 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
-		$query = $db->getQuery(true)
+		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
 				array(
@@ -660,7 +723,7 @@ class InstallationModelDatabase extends JModelBase
 			return false;
 		}
 
-		// Get the options as a object for easier handling.
+		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
 		// Build the path to the sample data file.
@@ -698,7 +761,7 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
-	 * Method to update the user id of the sample data content to the new rand user id.
+	 * Sample data tables and data post install process.
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*.
 	 *
@@ -708,19 +771,75 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallSampleData($db)
 	{
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
+	}
+
+	/**
+	 * Method to install the cms data.
+	 *
+	 * @param   array  $options  The options array.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.6.1
+	 */
+	public function installCmsData($options)
+	{
+		// Attempt to create the database tables.
+		if (!$this->createTables($options))
+		{
+			return false;
+		}
+
+		if (!$db = $this->initialise($options))
+		{
+			return false;
+		}
+
+		// Run Cms data post install to update user ids.
+		return $this->postInstallCmsData($db);
+	}
+
+	/**
+	 * Cms tables and data post install process.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.1
+	 */
+	protected function postInstallCmsData($db)
+	{
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
+	}
+
+	/**
+	 * Method to update the user id of sql data content to the new rand user id.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.6.1
+	 */
+	protected function updateUserIds($db)
+	{
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
 		// Update all created_by field of the tables with the random user id
 		// categories (created_user_id), contact_details, content, newsfeeds.
 		$updates_array = array(
-			'categories' => 'created_user_id',
+			'categories'      => 'created_user_id',
 			'contact_details' => 'created_by',
-			'content' => 'created_by',
-			'newsfeeds' => 'created_by',
-			'tags' => 'created_user_id',
-			'ucm_content' => 'core_created_user_id',
-			'ucm_history' => 'editor_user_id'
+			'content'         => 'created_by',
+			'newsfeeds'       => 'created_by',
+			'tags'            => 'created_user_id',
+			'ucm_content'     => 'core_created_user_id',
+			'ucm_history'     => 'editor_user_id',
 		);
 
 		foreach ($updates_array as $table => $field)
@@ -801,7 +920,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	public function createDB($db, $options, $utf)
+	public function createDb($db, $options, $utf)
 	{
 		// Build the create database query.
 		try
@@ -896,6 +1015,23 @@ class InstallationModelDatabase extends JModelBase
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
+				/**
+				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
+				 *
+				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
+				 * necessary, so there's no need to check the conditions in JInstaller.
+				 */
+				$query = $db->convertUtf8mb4QueryToUtf8($query);
+
+				/**
+				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
+				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
+				 */
+				if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
+				{
+					continue;
+				}
+
 				// Execute the query.
 				$db->setQuery($query);
 

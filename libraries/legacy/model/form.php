@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,6 +26,34 @@ abstract class JModelForm extends JModelLegacy
 	 * @since  12.2
 	 */
 	protected $_forms = array();
+
+	/**
+	 * Maps events to plugin groups.
+	 *
+	 * @var array
+	 */
+	protected $events_map = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.6
+	 */
+	public function __construct($config = array())
+	{
+		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
+
+		$this->events_map = array_merge(
+			array(
+				'validate' => 'content'
+			), $config['events_map']
+		);
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to checkin a row.
@@ -240,7 +268,7 @@ abstract class JModelForm extends JModelLegacy
 		JPluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
+		$results = $dispatcher->trigger('onContentPrepareData', array($context, &$data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) > 0 && in_array(false, $results, true))
@@ -301,6 +329,12 @@ abstract class JModelForm extends JModelLegacy
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Include the plugins for the delete events.
+		JPluginHelper::importPlugin($this->events_map['validate']);
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+
 		// Filter and validate the form data.
 		$data = $form->filter($data);
 		$return = $form->validate($data, $group);

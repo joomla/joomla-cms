@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype form model.
@@ -137,7 +139,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
-		$options['control'] = JArrayHelper::getValue($options, 'control', false);
+		$options['control'] = ArrayHelper::getValue($options, 'control', false);
 
 		// Create a signature hash.
 		$hash = sha1($source . serialize($options));
@@ -308,6 +310,11 @@ abstract class ConfigModelForm extends ConfigModelCms
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
+				if ($message instanceof Exception)
+				{
+					$message = $message->getMessage();
+				}
+
 				JFactory::getApplication()->enqueueMessage($message, 'error');
 			}
 

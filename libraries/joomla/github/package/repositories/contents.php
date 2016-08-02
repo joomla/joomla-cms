@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * These API methods let you retrieve the contents of files within a repository as Base64 encoded content.
  * See media types for requesting raw or other formats.
  *
- * @documentation http://developer.github.com/v3/repos/contents
+ * @documentation https://developer.github.com/v3/repos/contents
  *
  * @since  11.3
  */
@@ -43,9 +43,9 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 * "type": "file",
 	 * "encoding": "base64",
 	 * "_links": {
-	 * "git": "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1",
-	 * "self": "https://api.github.com/repos/pengwynn/octokit/contents/README.md",
-	 * "html": "https://github.com/pengwynn/octokit/blob/master/README.md"
+	 * "git": "https://api.github.com/repos/octokit/octokit.rb/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1",
+	 * "self": "https://api.github.com/repos/octokit/octokit.rb/contents/README.md",
+	 * "html": "https://github.com/octokit/octokit.rb/blob/master/README.md"
 	 * },
 	 * "size": 5362,
 	 * "name": "README.md",
@@ -102,9 +102,9 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 * "type": "file",
 	 * "encoding": "base64",
 	 * "_links": {
-	 * "git": "https://api.github.com/repos/pengwynn/octokit/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1",
-	 * "self": "https://api.github.com/repos/pengwynn/octokit/contents/README.md",
-	 * "html": "https://github.com/pengwynn/octokit/blob/master/README.md"
+	 * "git": "https://api.github.com/repos/octokit/octokit.rb/git/blobs/3d21ec53a331a6f037a91c368710b99387d012c1",
+	 * "self": "https://api.github.com/repos/octokit/octokit.rb/contents/README.md",
+	 * "html": "https://github.com/octokit/octokit.rb/blob/master/README.md"
 	 * },
 	 * "size": 5362,
 	 * "name": "README.md",
@@ -164,7 +164,7 @@ class JGithubPackageRepositoriesContents extends JGithubPackage
 	 *
 	 * To follow redirects with curl, use the -L switch:
 	 *
-	 * curl -L https://api.github.com/repos/pengwynn/octokit/tarball > octokit.tar.gz
+	 * curl -L https://api.github.com/repos/octokit/octokit.rb/tarball > octokit.tar.gz
 	 *
 	 * @param   string  $owner           The name of the owner of the GitHub repository.
 	 * @param   string  $repo            The name of the GitHub repository.

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,7 +107,7 @@ abstract class JHtmlIcon
 			$text = JText::_('JGLOBAL_EMAIL');
 		}
 
-		$attribs['title']   = JText::_('JGLOBAL_EMAIL');
+		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
@@ -157,15 +157,28 @@ abstract class JHtmlIcon
 			&& $article->checked_out != $user->get('id'))
 		{
 			$checkoutUser = JFactory::getUser($article->checked_out);
-			$button       = JHtml::_('image', 'system/checked_out.png', null, null, true);
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
-			return '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">' . $button . '</span>';
+			if ($legacy)
+			{
+				$button = JHtml::_('image', 'system/checked_out.png', null, null, true);
+				$text   = '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip . '', 0) . '">'
+					. $button . '</span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+			}
+			else
+			{
+				$text = '<span class="hasTooltip icon-lock" title="' . JHtml::tooltipText($tooltip . '', 0) . '"></span> ' . JText::_('JLIB_HTML_CHECKED_OUT');
+			}
+
+			$output = JHtml::_('link', '#', $text, $attribs);
+
+			return $output;
 		}
 
-		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
 		if ($article->state == 0)
 		{
@@ -206,11 +219,12 @@ abstract class JHtmlIcon
 				$icon = 'eye-close';
 			}
 
-			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0)
+			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0)
 				. '"></span>'
 				. JText::_('JGLOBAL_EDIT');
 		}
 
+		$attribs['title']   = JText::_('JGLOBAL_EDIT_TITLE');
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
 		return $output;
@@ -254,7 +268,7 @@ abstract class JHtmlIcon
 			$text = JText::_('JGLOBAL_PRINT');
 		}
 
-		$attribs['title']   = JText::_('JGLOBAL_PRINT');
+		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,8 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Login to back end and navigate to menu Tags.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function setUp()
@@ -47,6 +49,8 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.0
 	 */
 	public function tearDown()
@@ -56,6 +60,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check all input fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
@@ -64,6 +72,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$tagEditPage = $this->getPageObject('TagEditPage');
 
 		// Option to print actual element array
+
 		/* @var $tagEditPage TagEditPage */
 // 	 	$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
 
@@ -75,6 +84,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tag edit page
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function constructor_OpenEditScreen_TagEditOpened()
@@ -86,6 +99,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * check tab Ids
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
@@ -104,6 +121,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add tag with default fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addTag_WithFieldDefaults_TagAdded()
@@ -120,15 +141,21 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * add tag with given fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function addTag_WithGivenFields_TagAdded()
 	{
+		// Other than the Default Value
+
 		$salt = rand();
 		$tagName = 'Tag' . $salt;
 		$caption = 'Sample' . $salt;
 		$alt = 'alt' . $salt;
-		$float = 'Right'; //Other than the Default Value
+		$float = 'Right';
 
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 		$this->tagManagerPage->addTag($tagName, $caption, $alt, $float);
@@ -142,6 +169,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * edit tag and change the value of the fields
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function editTag_ChangeFields_FieldsChanged()
@@ -160,6 +191,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * change the state of the tag
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function changeTagState_ChangeEnabledUsingToolbar_EnabledChanged()

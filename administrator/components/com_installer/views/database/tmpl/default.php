@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,22 +22,14 @@ defined('_JEXEC') or die;
 		<div id="j-main-container">
 	<?php endif;?>
 		<?php if ($this->errorCount === 0) : ?>
-			<div class="alert alert-info">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?>
-			</div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
-			<div class="alert alert-error">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?>
-			</div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 				<fieldset class="panelform">
 						<ul>
 						<?php if (!$this->filterParams) : ?>
-							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
+							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?></li>
 						<?php endif; ?>
 
 						<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
@@ -63,7 +55,7 @@ defined('_JEXEC') or die;
 
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>
@@ -76,6 +68,7 @@ defined('_JEXEC') or die;
 					</fieldset>
 				</div>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />

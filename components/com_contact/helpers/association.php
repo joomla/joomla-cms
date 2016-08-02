@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
+JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
@@ -29,15 +30,11 @@ abstract class ContactHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @since  3.0
 	 */
-
 	public static function getAssociations($id = 0, $view = null)
 	{
-		jimport('helper.route', JPATH_COMPONENT_SITE);
-
-		$app = JFactory::getApplication();
-		$jinput = $app->input;
-		$view = is_null($view) ? $jinput->get('view') : $view;
-		$id = empty($id) ? $jinput->getInt('id') : $id;
+		$jinput = JFactory::getApplication()->input;
+		$view   = is_null($view) ? $jinput->get('view') : $view;
+		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
 		if ($view == 'contact')
 		{
@@ -49,7 +46,7 @@ abstract class ContactHelperAssociation extends CategoryHelperAssociation
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language);
+					$return[$tag] = ContactHelperRoute::getContactRoute($item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;

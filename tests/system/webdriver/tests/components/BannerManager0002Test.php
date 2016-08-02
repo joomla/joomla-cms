@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,6 @@ use SeleniumClient\DesiredCapabilities;
  */
 class BannerManager0002Test extends JoomlaWebdriverTestCase
 {
-
 	/**
 	 * The page class being tested.
 	 *
@@ -35,6 +34,8 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 
 	/**
 	 * Login to back end and navigate to menu Banner.
+	 *
+	 * @return void
 	 *
 	 * @since   3.2
 	 */
@@ -48,6 +49,8 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	/**
 	 * Logout and close test.
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public function tearDown()
@@ -57,6 +60,10 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * get list of filters and match it with expected IDs
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function getFilters_GetListOfFilters_ShouldMatchExpected()
@@ -67,6 +74,10 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * checking the working of published and unpublished filters
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_SetFilterValues_ShouldExecuteFilter()
@@ -85,6 +96,10 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
+	 * creating two tags one published and one unpublished and the verifying its existence
+	 *
+	 * @return void
+	 *
 	 * @test
 	 */
 	public function setFilter_TestFilters_ShouldFilterBanners()
@@ -97,7 +112,6 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
 		$state = $this->bannerManagerPage->getState($bannerName_1);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-
 
 		$this->bannerManagerPage->addBanner($bannerName_2, false);
 		$message = $this->bannerManagerPage->getAlertMessage();
@@ -119,4 +133,39 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 		$this->bannerManagerPage->trashAndDelete($bannerName_2);
 	}
 
+	/**
+	 * create archived banners and then verify its existence.
+	 *
+	 * @return void
+	 *
+	 * @test
+	 */
+	public function setFilter_TestFilters_ShouldFilterTags2()
+	{
+		$bannerName_1 = 'Test Filter 1';
+		$bannerName_2 = 'Test Filter 2';
+
+		$this->bannerManagerPage->addBanner($bannerName_1, false);
+		$message = $this->bannerManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
+		$state = $this->bannerManagerPage->getState($bannerName_1);
+		$this->assertEquals('published', $state, 'Initial state should be published');
+		$this->bannerManagerPage->addBanner($bannerName_2, false);
+		$message = $this->bannerManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
+		$state = $this->bannerManagerPage->getState($bannerName_2);
+		$this->assertEquals('published', $state, 'Initial state should be published');
+		$this->bannerManagerPage->changeBannerState($bannerName_2, 'Archived');
+
+		$this->bannerManagerPage->setFilter('filter_state', 'Archived');
+		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName_1), 'banner should not show');
+		$this->assertGreaterThanOrEqual(1, $this->bannerManagerPage->getRowNumber($bannerName_2), 'Test banner should be present');
+
+		$this->bannerManagerPage->setFilter('filter_state', 'Published');
+		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName_2), 'Banner should not show');
+		$this->assertGreaterThanOrEqual(1, $this->bannerManagerPage->getRowNumber($bannerName_1), 'Test banner should be present');
+		$this->bannerManagerPage->setFilter('Select Status', 'Select Status');
+		$this->bannerManagerPage->trashAndDelete($bannerName_1);
+		$this->bannerManagerPage->trashAndDelete($bannerName_2);
+	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,16 +61,17 @@ class BannersHelper extends JHelperContent
 	 */
 	public static function updateReset()
 	{
-		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
+		$db       = JFactory::getDbo();
 		$nullDate = $db->getNullDate();
-		$now = JFactory::getDate();
-		$query = $db->getQuery(true)
+		$query    = $db->getQuery(true)
 			->select('*')
 			->from('#__banners')
-			->where($db->quote($now) . ' >= ' . $db->quote('reset'))
-			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!=NULL')
-			->where('(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = ' . (int) $db->quote($user->id) . ')');
+			->where($db->quote(JFactory::getDate()) . ' >= ' . $db->quote('reset'))
+			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!= NULL')
+			->where(
+				'(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = '
+				. (int) $db->quote(JFactory::getUser()->id) . ')'
+			);
 		$db->setQuery($query);
 
 		try
@@ -92,6 +93,7 @@ class BannersHelper extends JHelperContent
 
 			if ($purchase_type < 0 && $row->cid)
 			{
+				/** @var BannersTableClient $client */
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
@@ -161,7 +163,7 @@ class BannersHelper extends JHelperContent
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id As value, name As text')
+			->select('id AS value, name AS text')
 			->from('#__banner_clients AS a')
 			->where('a.state = 1')
 			->order('a.name');
@@ -178,11 +180,62 @@ class BannersHelper extends JHelperContent
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
-		// Merge any additional options in the XML definition.
-		// $options = array_merge(parent::getOptions(), $options);
-
 		array_unshift($options, JHtml::_('select.option', '0', JText::_('COM_BANNERS_NO_CLIENT')));
 
 		return $options;
+	}
+
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   stdClass[]  &$items  The banner category objects
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.5
+	 */
+	public static function countItems(&$items)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, count(*) AS count')
+				->from($db->qn('#__banners'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$banners = $db->loadObjectList();
+
+			foreach ($banners as $banner)
+			{
+				if ($banner->state == 1)
+				{
+					$item->count_published = $banner->count;
+				}
+
+				if ($banner->state == 0)
+				{
+					$item->count_unpublished = $banner->count;
+				}
+
+				if ($banner->state == 2)
+				{
+					$item->count_archived = $banner->count;
+				}
+
+				if ($banner->state == -2)
+				{
+					$item->count_trashed = $banner->count;
+				}
+			}
+		}
+
+		return $items;
 	}
 }

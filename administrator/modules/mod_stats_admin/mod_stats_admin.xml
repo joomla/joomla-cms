@@ -3,7 +3,7 @@
 	<name>mod_stats_admin</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -14,7 +14,6 @@
 		<folder>tmpl</folder>
 		<folder>language</folder>
 		<filename>helper.php</filename>
-		<filename>mod_stats_admin.xml</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_stats.ini</language>

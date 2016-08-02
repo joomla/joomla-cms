@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * This is useful both for display on issue/pull request information pages and also
  * to determine who should be notified of comments.
  *
- * @documentation http://developer.github.com/v3/issues/events/
+ * @documentation https://developer.github.com/v3/issues/events/
  *
  * @since  12.3
  */

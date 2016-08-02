@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -159,8 +159,9 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'red', 'params'),
@@ -195,8 +196,9 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/field[@name="title"]');
+		$title = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -208,9 +210,10 @@ class JFormFieldTest extends TestCaseDatabase
 				'id'         => 'title_id-lbl',
 				'tag'        => 'label',
 				'attributes' => array(
-						'for'   => 'title_id',
-						'class' => 'hasTooltip required',
-						'title' => '<strong>Title</strong><br />The title.'
+					'for'          => 'title_id',
+					'class'        => 'hasPopover required',
+					'title'        => 'Title',
+					'data-content' => 'The title.',
 					),
 				'content'    => 'regexp:/Title.*\*/',
 				'child'      => array(
@@ -227,8 +230,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Not required
-
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
+		$data = $xml->xpath('fields/fields[@name="params"]/field[@name="colours"]');
+		$colours = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($colours, 'id'),
@@ -253,8 +256,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -287,8 +290,9 @@ class JFormFieldTest extends TestCaseDatabase
 
 		// Standard usage.
 
-		$xml = $form->getXML();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+		$xml = $form->getXml();
+		$data = $xml->xpath('fields/field[@name="title"]');
+		$title = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($title, 'The title'),
@@ -303,8 +307,8 @@ class JFormFieldTest extends TestCaseDatabase
 		);
 
 		// Hidden field
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
+		$data = $xml->xpath('fields/field[@name="id"]');
+		$id = array_pop($data);
 
 		$this->assertThat(
 			$field->setup($id, 'id'),
@@ -340,26 +344,6 @@ class JFormFieldTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test an invalid argument for the JFormField::setup method
-	 *
-	 * @expectedException PHPUnit_Framework_Error
-	 *
-	 * @return void
-	 */
-	public function testSetupInvalidElement()
-	{
-		$form = new JFormInspector('form1');
-		$field = new JFormFieldInspector($form);
-
-		$wrong = 'wrong';
-		$this->assertThat(
-			$field->setup($wrong, 0),
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' If not a form object, setup should return false.'
-		);
-	}
-
-	/**
 	 * Tests the name, value, id, title, lalbel property setup by JFormField::setup method
 	 *
 	 * @param   array   $expected  @todo
@@ -387,9 +371,10 @@ class JFormFieldTest extends TestCaseDatabase
 				'id'         => 'myId-lbl',
 				'tag'        => 'label',
 				'attributes' => array(
-						'for'   => 'myId',
-						'class' => 'hasTooltip',
-						'title' => '<strong>My Title</strong><br />The description.'
+					'for'          => 'myId',
+					'class'        => 'hasPopover',
+					'title'        => 'My Title',
+					'data-content' => 'The description.',
 					),
 				'content'    => 'regexp:/My Title/'
 			);

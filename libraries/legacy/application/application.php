@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -609,7 +609,7 @@ class JApplication extends JApplicationBase
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
 	 *
 	 * @since   11.1
 	 * @deprecated  4.0
@@ -804,12 +804,12 @@ class JApplication extends JApplicationBase
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter  A JRouter object
+	 * @return  JRouter|null  A JRouter object
 	 *
 	 * @since   11.1
 	 * @deprecated  4.0
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name))
 		{
@@ -830,7 +830,7 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
-	 * This method transliterates a string into an URL
+	 * This method transliterates a string into a URL
 	 * safe string or returns a URL safe UTF-8 string
 	 * based on the global configuration
 	 *
@@ -841,7 +841,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
 	 */
-	static public function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		return JApplicationHelper::stringURLSafe($string);
 	}
@@ -852,7 +852,7 @@ class JApplication extends JApplicationBase
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway  A JPathway object
+	 * @return  JPathway|null  A JPathway object
 	 *
 	 * @since   11.1
 	 * @deprecated  4.0
@@ -882,7 +882,7 @@ class JApplication extends JApplicationBase
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu  JMenu object.
+	 * @return  JMenu|null  JMenu object.
 	 *
 	 * @since   11.1
 	 * @deprecated  4.0
@@ -1151,7 +1151,7 @@ class JApplication extends JApplicationBase
 	 * @since   11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) Use the IS_WIN constant instead.
 	 */
-	public static function isWinOS()
+	public static function isWinOs()
 	{
 		JLog::add('JApplication::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
 

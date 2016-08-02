@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,8 +79,8 @@ Joomla.overrider.searchStrings = function(more)
 	// was used to start the search (that will be the case if 'more' is null)
 	if (!more)
 	{
-		this.states.searchstring 	= $('#jform_searchstring').val();
-		this.states.searchtype = $('#jform_searchtype') !== null ? $('#jform_searchtype').val() : 'value';
+		this.states.searchstring = $('#jform_searchstring').val();
+		this.states.searchtype   = $('#jform_searchtype') !== null ? $('#jform_searchtype').val() : 'value';
 	}
 
 	if (!this.states.searchstring)
@@ -165,34 +165,35 @@ Joomla.overrider.searchStrings = function(more)
  */
 Joomla.overrider.insertResults = function(results)
 {
-	var $ = jQuery.noConflict();
+	var $ = jQuery.noConflict(), self = this;
 
 	// For creating an individual ID for each result we use a counter
 	this.states.counter = this.states.counter + 1;
 
 	// Create a container into which all the results will be inserted
 	var $results_div = $('<div>', {
-	    id : 'language-results' + this.states.counter,
-	    class : 'language-results',
-	    style : 'display:none;'
+		id : 'language-results' + self.states.counter,
+		class : 'language-results',
+		style : 'display:none;'
 	});
 
 	// Create some elements for each result and insert it into the container
-	Array.each(results, function(item, index) {
+	$.each(results, function(index, item) {
+
 		var $div = $('<div>', {
 			class: 'result row' + index % 2,
-			onclick: 'Joomla.overrider.selectString(' + this.states.counter + index + ');'
+			onclick: 'Joomla.overrider.selectString(' + self.states.counter + index + ');'
 		});
 
 		var $key = $('<div>', {
-			id:  'override_key' + this.states.counter + index,
+			id:  'override_key' + self.states.counter + index,
 			class: 'result-key',
 			html: item.constant,
 			title: item.file
 		});
 
 		var $string = $('<div>',{
-			id: 'override_string' + this.states.counter + index,
+			id: 'override_string' + self.states.counter + index,
 			class:	'result-string',
 			html: item.string
 		});
@@ -201,7 +202,7 @@ Joomla.overrider.insertResults = function(results)
 		$string.appendTo($div);
 		$div.appendTo($results_div);
 
-	}, this);
+	});
 
 	// If there aren't any results display an appropriate message
 	if (!results.length)

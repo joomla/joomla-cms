@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,8 @@
  * @since  1.5
  */
 var JFormValidator = function() {
-	var $, handlers, inputEmail, custom,
+	"use strict";
+	var handlers, inputEmail, custom,
 
  	setHandler = function(name, fn, en) {
  	 	en = (en === '') ? true : en;
@@ -38,17 +39,23 @@ var JFormValidator = function() {
  	},
 
  	handleResponse = function(state, $el) {
+ 		// Get a label
  	 	var $label = $el.data('label');
+ 	 	if ($label === undefined) {
+ 	 		$label = findLabel($el.attr('id'), $el.get(0).form);
+ 	 		$el.data('label', $label);
+ 	 	}
+
  	 	// Set the element and its label (if exists) invalid state
  	 	if (state === false) {
  	 	 	$el.addClass('invalid').attr('aria-invalid', 'true');
- 	 	 	if($label){
- 	 	 	 	$label.addClass('invalid').attr('aria-invalid', 'true');
+ 	 	 	if ($label) {
+ 	 	 	 	$label.addClass('invalid');
  	 	 	}
  	 	} else {
  	 	 	$el.removeClass('invalid').attr('aria-invalid', 'false');
- 	 	 	if($label){
- 	 	 	 	$label.removeClass('invalid').attr('aria-invalid', 'false');
+ 	 	 	if ($label) {
+ 	 	 	 	$label.removeClass('invalid');
  	 	 	}
  	 	}
  	},
@@ -94,29 +101,37 @@ var JFormValidator = function() {
  	},
 
  	isValid = function(form) {
- 	 	var valid = true, i, message, errors, error, label;
- 	 	// Validate form fields
- 	 	jQuery.each(jQuery(form).find('input, textarea, select, fieldset, button'), function(index, el) {
- 	 	 	if (validate(el) === false) {
+ 		var fields, valid = true, message, error, label, invalid = [], i, l;
+
+ 		// Validate form fields
+ 		fields = jQuery(form).find('input, textarea, select, fieldset');
+ 	 	for (i = 0, l = fields.length; i < l; i++) {
+ 	 		// Ignore Rule/Filters/Assigned field for spead up validation
+ 	 		// And other fields that has class="novalidate"
+ 	 		if(jQuery(fields[i]).hasClass('novalidate')) {
+ 	 			continue;
+ 	 		}
+ 	 	 	if (validate(fields[i]) === false) {
  	 	 	 	valid = false;
+ 	 	 	 	invalid.push(fields[i]);
  	 	 	}
- 	 	});
+ 	 	}
+
  	 	// Run custom form validators if present
  	 	jQuery.each(custom, function(key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
- 	 	if (!valid) {
+
+ 	 	if (!valid && invalid.length > 0) {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
- 	 	 	errors = jQuery("input.invalid, textarea.invalid, select.invalid, fieldset.invalid, button.invalid");
- 	 	 	error = {};
- 	 	 	error.error = [];
- 	 	 	for ( i = 0; i < errors.length; i++) {
- 	 	 	 	label = jQuery('label[for=' + errors[i].id + ']').text();
- 	 	 	 	if (label !== 'undefined') {
- 	 	 	 	 	error.error[i] = message + label.replace("*", "");
- 	 	 	 	}
+ 	 	 	error = {"error": []};
+ 	 	 	for (i = invalid.length - 1; i >= 0; i--) {
+ 	 	 		label = jQuery(invalid[i]).data("label");
+ 	 			if (label) {
+ 	 	 			error.error.push(message + label.text().replace("*", ""));
+                		}
  	 	 	}
  	 	 	Joomla.renderMessages(error);
  	 	}
@@ -124,37 +139,40 @@ var JFormValidator = function() {
  	},
 
  	attachToForm = function(form) {
- 	 	var inputFields = [];
+ 	 	var inputFields = [], elements,
+ 	 		$form = jQuery(form);
  	 	// Iterate through the form object and attach the validate method to all input fields.
- 	 	jQuery(form).find('input, textarea, select, fieldset, button').each(function() {
- 	 	 	var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
- 	 	 	if ($el.hasClass('required')) {
- 	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
- 	 	 	}
- 	 	 	if ((tagName === 'input' || tagName === 'button') && $el.attr('type') === 'submit') {
+ 	 	elements = $form.find('input, textarea, select, fieldset, button');
+ 	 	for (var i = 0, l = elements.length; i < l; i++) {
+ 	 	 	var $el = jQuery(elements[i]), tagName = $el.prop("tagName").toLowerCase();
+ 	 	 	// Attach isValid method to submit button
+ 	 	 	if ((tagName === 'input' || tagName === 'button') && ($el.attr('type') === 'submit' || $el.attr('type') === 'image')) {
  	 	 	 	if ($el.hasClass('validate')) {
  	 	 	 	 	$el.on('click', function() {
  	 	 	 	 	 	return isValid(form);
  	 	 	 	 	});
  	 	 	 	}
- 	 	 	} else {
+ 	 	 	}
+ 	 	 	// Attach validate method only to fields
+ 	 	 	else if (tagName !== 'button' && !(tagName === 'input' && $el.attr('type') === 'button')) {
+ 	 	 	 	if ($el.hasClass('required')) {
+ 	 	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
+ 	 	 	 	}
  	 	 	 	if (tagName !== 'fieldset') {
  	 	 	 	 	$el.on('blur', function() {
  	 	 	 	 	 	return validate(this);
  	 	 	 	 	});
  	 	 	 	 	if ($el.hasClass('validate-email') && inputEmail) {
- 	 	 	 	 	 	$el.get(0).type = 'email';
+ 	 	 	 	 		elements[i].setAttribute('type', 'email');
  	 	 	 	 	}
  	 	 	 	}
- 	 	 	 	$el.data('label', findLabel(id, form));
  	 	 	 	inputFields.push($el);
  	 	 	}
- 	 	});
- 	 	$(form).data('inputfields', inputFields);
+ 	 	}
+ 	 	$form.data('inputfields', inputFields);
  	},
 
  	initialize = function() {
- 	 	$ = jQuery.noConflict();
  	 	handlers = {};
  	 	custom = custom || {};
 
@@ -165,26 +183,27 @@ var JFormValidator = function() {
  	 	})();
  	 	// Default handlers
  	 	setHandler('username', function(value, element) {
- 	 	 	regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
+ 	 	 	var regex = new RegExp("[\<|\>|\"|\'|\%|\;|\(|\)|\&]", "i");
  	 	 	return !regex.test(value);
  	 	});
  	 	setHandler('password', function(value, element) {
- 	 	 	regex = /^\S[\S ]{2,98}\S$/;
+ 	 	 	var regex = /^\S[\S ]{2,98}\S$/;
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('numeric', function(value, element) {
- 	 	 	regex = /^(\d|-)?(\d|,)*\.?\d*$/;
+ 	 		var regex = /^(\d|-)?(\d|,)*\.?\d*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('email', function(value, element) {
 		    value = punycode.toASCII(value);
- 	 	 	regex = /^[a-zA-Z0-9.!#$%&’*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+ 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
- 	 	jQuery('form.form-validate').each(function() {
- 	 	 	attachToForm(this);
- 	 	});
+ 	 	var forms = jQuery('form.form-validate');
+ 	 	for (var i = 0, l = forms.length; i < l; i++) {
+ 	 	 	attachToForm(forms[i]);
+ 	 	}
  	};
 
  	// Initialize handlers and attach validation to form

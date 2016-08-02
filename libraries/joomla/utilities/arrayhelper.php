@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -261,7 +261,8 @@ abstract class JArrayHelper
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
-		return ArrayHelper::getValue($array, $name, $default, $type);
+		// Previously we didn't typehint an array. So force any object to be an array
+		return ArrayHelper::getValue((array) $array, $name, $default, $type);
 	}
 
 	/**
@@ -392,7 +393,7 @@ abstract class JArrayHelper
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @param   array  &$a             An array of objects
-	 * @param   mixed  $k              The key (string) or a array of key to sort on
+	 * @param   mixed  $k              The key (string) or an array of keys to sort on
 	 * @param   mixed  $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
 	 * @param   mixed  $caseSensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
 	 * @param   mixed  $locale         Boolean or array of booleans to let sort occur using the locale language or not
@@ -456,8 +457,8 @@ abstract class JArrayHelper
 				$locale = self::$sortLocale[$i];
 			}
 
-			$va = $a->$key[$i];
-			$vb = $b->$key[$i];
+			$va = $a->{$key[$i]};
+			$vb = $b->{$key[$i]};
 
 			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 			{
@@ -493,7 +494,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     http://php.net/manual/en/function.array-unique.php
+	 * @see     https://secure.php.net/manual/en/function.array-unique.php
 	 * @since   11.2
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */

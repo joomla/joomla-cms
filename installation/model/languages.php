@@ -3,14 +3,13 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
-jimport('legacy.component.helper');
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -59,7 +58,13 @@ class InstallationModelLanguages extends JModelBase
 		// Overrides application config and set the configuration.php file so tokens and database works.
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
-		JFactory::$session = null;
+
+		/*
+		 * JFactory::getDbo() gets called during app bootup, and because of the "uniqueness" of the install app, the config doesn't get read
+		 * correctly at that point.  So, we have to reset the factory database object here so that we can get a valid database configuration.
+		 * The day we have proper dependency injection will be a glorious one.
+		 */
+		JFactory::$database = null;
 
 		parent::__construct();
 	}
@@ -79,8 +84,8 @@ class InstallationModelLanguages extends JModelBase
 
 		$extQuery->select($db->qn('extension_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' . $db->q('language'))
-			->where($db->qn('element') . ' = ' . $db->q('en-GB'))
+			->where($db->qn('type') . ' = ' . $db->q('package'))
+			->where($db->qn('element') . ' = ' . $db->q('pkg_en-GB'))
 			->where($db->qn('client_id') . ' = 0');
 
 		$db->setQuery($extQuery);
@@ -101,7 +106,7 @@ class InstallationModelLanguages extends JModelBase
 			$query = $db->getQuery(true);
 
 			// Select the required fields from the updates table.
-			$query->select($db->qn(array('update_id', 'name', 'version')))
+			$query->select($db->qn(array('update_id', 'name', 'element', 'version')))
 				->from($db->qn('#__updates'))
 				->order($db->qn('name'));
 
@@ -196,7 +201,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Gets the manifest file of a selected language from a the language list in a update server.
+	 * Gets the manifest file of a selected language from a the language list in an update server.
 	 *
 	 * @param   integer  $uid  The id of the language in the #__updates table.
 	 *
@@ -225,7 +230,7 @@ class InstallationModelLanguages extends JModelBase
 	protected function getPackageUrl($remote_manifest)
 	{
 		$update = new JUpdate;
-		$update->loadFromXML($remote_manifest);
+		$update->loadFromXml($remote_manifest);
 		$package_url = trim($update->get('downloadurl', false)->_data);
 
 		return $package_url;
@@ -561,7 +566,11 @@ class InstallationModelLanguages extends JModelBase
 
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -586,7 +595,11 @@ class InstallationModelLanguages extends JModelBase
 
 			$db->setQuery($query);
 
-			if (!$db->execute())
+			try
+			{
+				$db->execute();
+			}
+			catch (JDatabaseExceptionExecuting $e)
 			{
 				return false;
 			}
@@ -839,7 +852,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  boolean
+	 * @return  JTable|boolean Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -854,7 +867,6 @@ class InstallationModelLanguages extends JModelBase
 		$alias = 'home_' . $itemLanguage->language;
 
 		$menuItem = array(
-			'id'           => 0,
 			'title'        => $title,
 			'alias'        => $alias,
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
@@ -904,7 +916,7 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		return true;
+		return $tableItem;
 	}
 
 	/**
@@ -984,7 +996,11 @@ class InstallationModelLanguages extends JModelBase
 			->where($db->qn('position') . ' = ' . $db->q('position-7'));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1014,7 +1030,11 @@ class InstallationModelLanguages extends JModelBase
 			->where($db->qn('module') . ' = ' . $db->q($moduleName));
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
 		}
@@ -1027,7 +1047,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable Category Object.
+	 * @return  JTable|boolean Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1038,22 +1058,23 @@ class InstallationModelLanguages extends JModelBase
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category.
-		$category                  = JTable::getInstance('Category');
+		$category = JTable::getInstance('Category');
 
 		$data = array(
-			'extension'    => 'com_content',
-			'title'        => $title . ' (' . strtolower($itemLanguage->language) . ')',
-			'description'  => '',
-			'published'    => 1,
-			'access'       => 1,
-			'params'       => '{"target":"","image":""}',
-			'metadesc'     => '',
-			'metakey'      => '',
-			'metadata'     => '{"page_title":"","author":"","robots":""}',
-			'created_time' => JFactory::getDate()->toSql(),
-			'language'     => $itemLanguage->language,
-			'rules'        => array(),
-			'parent_id'    => 1
+			'extension'       => 'com_content',
+			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'description'     => '',
+			'published'       => 1,
+			'access'          => 1,
+			'params'          => '{"target":"","image":""}',
+			'metadesc'        => '',
+			'metakey'         => '',
+			'metadata'        => '{"page_title":"","author":"","robots":""}',
+			'created_time'    => JFactory::getDate()->toSql(),
+			'created_user_id' => (int) $this->getAdminId(),
+			'language'        => $itemLanguage->language,
+			'rules'           => array(),
+			'parent_id'       => 1,
 		);
 
 		// Set the location in the tree.
@@ -1089,7 +1110,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   int       $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable Category Object
+	 * @return  JTable|boolean Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1098,10 +1119,12 @@ class InstallationModelLanguages extends JModelBase
 		$db = JFactory::getDbo();
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('plg_editors-xtd_article', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
-		$title = $newlanguage->_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
+		$currentDate = JFactory::getDate()->toSql();
 
-		$article                   = JTable::getInstance('Content');
+		// Initialize a new article.
+		$article = JTable::getInstance('Content');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
@@ -1116,16 +1139,16 @@ class InstallationModelLanguages extends JModelBase
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'state'            => 1,
-			'created'          => JFactory::getDate()->toSql(),
-			'created_by'       => $this->getAdminId(),
+			'created'          => $currentDate,
+			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
-			'publish_up'       => JFactory::getDate()->toSql(),
+			'publish_up'       => $currentDate,
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
 			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
 			'metakey'          => '',
-			'metadesc'         => '{"robots":"","author":"","rights":"","xreference":""}',
+			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
 			'featured'         => 1,
 			'attribs'          => array(),
@@ -1159,9 +1182,52 @@ class InstallationModelLanguages extends JModelBase
 
 		$db->setQuery($query);
 
-		if (!$db->execute())
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
 		{
 			return false;
+		}
+
+		return $article;
+	}
+
+	/**
+	 * Create the language associations.
+	 *
+	 * @param   array  $groupedAssociations  Array of language associations for all items.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.6.1
+	 */
+	public function addAssociations($groupedAssociations)
+	{
+		$db = JFactory::getDbo();
+
+		foreach ($groupedAssociations as $context => $associations)
+		{
+			$key   = md5(json_encode($associations));
+			$query = $db->getQuery(true)
+				->insert('#__associations');
+
+			foreach ($associations as $language => $id)
+			{
+				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key));
+			}
+
+			$db->setQuery($query);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				return false;
+			}
 		}
 
 		return true;

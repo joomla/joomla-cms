@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,7 +115,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(JInstaller $parent, $db, $options = array())
+	public function __construct(JInstaller $parent, JDatabaseDriver $db, array $options = array())
 	{
 		parent::__construct($parent, $db, $options);
 
@@ -147,6 +147,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->currentExtensionId = $this->extension->find(
 				array('element' => $this->element, 'type' => $this->type)
 			);
+
+			// If it does exist, load it
+			if ($this->currentExtensionId)
+			{
+				$this->extension->load(array('element' => $this->element, 'type' => $this->type));
+			}
 		}
 		catch (RuntimeException $e)
 		{
@@ -156,7 +162,9 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					'JLIB_INSTALLER_ABORT_ROLLBACK',
 					JText::_('JLIB_INSTALLER_' . $this->route),
 					$e->getMessage()
-				)
+				),
+				$e->getCode(),
+				$e
 			);
 		}
 	}
@@ -174,7 +182,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->isOverwrite() || $this->parent->isUpgrade()))
 		{
 			// Look for an update function or update tag
-			$updateElement = $this->manifest->update;
+			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
@@ -206,7 +214,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -268,29 +276,6 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	public function discover_install()
 	{
-		// Check if this is supported
-		if (!$this->supportsDiscoverInstall)
-		{
-			$this->parent->abort(
-				JText::sprintf('JLIB_INSTALLER_ERROR_DISCOVER_INSTALL_UNSUPPORTED', $this->type)
-			);
-
-			return false;
-		}
-
-		// Prepare the discover install for the adapter
-		try
-		{
-			$this->prepareDiscoverInstall();
-		}
-		catch (RuntimeException $e)
-		{
-			// Install failed, roll back changes
-			$this->parent->abort($e->getMessage());
-
-			return false;
-		}
-
 		// Get the extension's description
 		$description = (string) $this->getManifest()->description;
 
@@ -333,7 +318,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		 */
 
 		$this->setupScriptfile();
-		$this->triggerManifestScript('preflight');
+
+		try
+		{
+			$this->triggerManifestScript('preflight');
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -366,7 +362,17 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		// Run the custom install method
-		$this->triggerManifestScript('install');
+		try
+		{
+			$this->triggerManifestScript('install');
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -387,7 +393,17 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		// And now we run the postflight
-		$this->triggerManifestScript('postflight');
+		try
+		{
+			$this->triggerManifestScript('postflight');
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
 
 		return $this->extension->extension_id;
 	}
@@ -402,24 +418,23 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 */
 	protected function doDatabaseTransactions()
 	{
-		// Get a database connector object
-		$db = $this->parent->getDbo();
+		$route = $this->route == 'discover_install' ? 'install' : $this->route;
 
 		// Let's run the install queries for the component
-		if (isset($this->manifest->{$this->route}->sql))
+		if (isset($this->getManifest()->{$route}->sql))
 		{
-			$result = $this->parent->parseSQLFiles($this->manifest->{$this->route}->sql);
+			$result = $this->parent->parseSQLFiles($this->getManifest()->{$route}->sql);
 
 			if ($result === false)
 			{
 				// Only rollback if installing
-				if ($this->route == 'install')
+				if ($route == 'install')
 				{
 					throw new RuntimeException(
 						JText::sprintf(
 							'JLIB_INSTALLER_ABORT_SQL_ERROR',
 							JText::_('JLIB_INSTALLER_' . strtoupper($this->route)),
-							$db->stderr(true)
+							$this->parent->getDbo()->stderr(true)
 						)
 					);
 				}
@@ -446,6 +461,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	{
 		$lang = JFactory::getLanguage();
 		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
+	}
+
+	/**
+	 * Checks if the adapter supports discover_install
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.4
+	 */
+	public function getDiscoverInstallSupported()
+	{
+		return $this->supportsDiscoverInstall;
 	}
 
 	/**
@@ -477,18 +504,12 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	/**
 	 * Get the manifest object.
 	 *
-	 * @return  object  Manifest object
+	 * @return  SimpleXMLElement  Manifest object
 	 *
 	 * @since   3.4
 	 */
 	public function getManifest()
 	{
-		if (!$this->manifest)
-		{
-			// We are trying to find manifest for the installed extension.
-			$this->manifest = $this->parent->getManifest();
-		}
-
 		return $this->manifest;
 	}
 
@@ -610,6 +631,22 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			return false;
 		}
 
+		// If we are on the update route, run any custom setup routines
+		if ($this->route == 'update')
+		{
+			try
+			{
+				$this->setupUpdates();
+			}
+			catch (RuntimeException $e)
+			{
+				// Install failed, roll back changes
+				$this->parent->abort($e->getMessage());
+
+				return false;
+			}
+		}
+
 		/*
 		 * ---------------------------------------------------------------------------------------------
 		 * Installer Trigger Loading
@@ -617,7 +654,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		 */
 
 		$this->setupScriptfile();
-		$this->triggerManifestScript('preflight');
+
+		try
+		{
+			$this->triggerManifestScript('preflight');
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -685,7 +733,17 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		// Run the custom method based on the route
-		$this->triggerManifestScript($this->route);
+		try
+		{
+			$this->triggerManifestScript($this->route);
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
@@ -706,13 +764,23 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		// And now we run the postflight
-		$this->triggerManifestScript('postflight');
+		try
+		{
+			$this->triggerManifestScript('postflight');
+		}
+		catch (RuntimeException $e)
+		{
+			// Install failed, roll back changes
+			$this->parent->abort($e->getMessage());
+
+			return false;
+		}
 
 		return $this->extension->extension_id;
 	}
 
 	/**
-	 * Method to parse the queries specified in the <sql> tags
+	 * Method to parse the queries specified in the `<sql>` tags
 	 *
 	 * @return  void
 	 *
@@ -722,10 +790,10 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install')))
+		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
-			if (!$this->doDatabaseTransactions('install'))
+			if (!$this->doDatabaseTransactions())
 			{
 				throw new RuntimeException(
 					JText::sprintf(
@@ -737,16 +805,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			}
 
 			// Set the schema version to be the latest update version
-			if ($this->manifest->update)
+			if ($this->getManifest()->update)
 			{
-				$this->parent->setSchemaVersion($this->manifest->update->schemas, $this->extension->extension_id);
+				$this->parent->setSchemaVersion($this->getManifest()->update->schemas, $this->extension->extension_id);
 			}
 		}
 		elseif ($this->route == 'update')
 		{
-			if ($this->manifest->update)
+			if ($this->getManifest()->update)
 			{
-				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $this->extension->extension_id);
+				$result = $this->parent->parseSchemaUpdates($this->getManifest()->update->schemas, $this->extension->extension_id);
 
 				if ($result === false)
 				{
@@ -782,9 +850,25 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	 *
 	 * @since   3.4
 	 */
-	protected function prepareDiscoverInstall()
+	public function prepareDiscoverInstall()
 	{
 		// Adapters may not support discover install or may have overridden the default task and aren't using this
+	}
+
+	/**
+	 * Set the manifest object.
+	 *
+	 * @param   object  $manifest  The manifest object
+	 *
+	 * @return  JInstallerAdapter  Instance of this class to support chaining
+	 *
+	 * @since   3.4
+	 */
+	public function setManifest($manifest)
+	{
+		$this->manifest = $manifest;
+
+		return $this;
 	}
 
 	/**
@@ -822,7 +906,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	protected function setupScriptfile()
 	{
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
-		$manifestScript = (string) $this->manifest->scriptfile;
+		$manifestScript = (string) $this->getManifest()->scriptfile;
 
 		if ($manifestScript)
 		{
@@ -845,6 +929,18 @@ abstract class JInstallerAdapter extends JAdapterInstance
 				$this->manifest_script = $manifestScript;
 			}
 		}
+	}
+
+	/**
+	 * Method to setup the update routine for the adapter
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4
+	 */
+	protected function setupUpdates()
+	{
+		// Some extensions may not have custom setup routines for updates
 	}
 
 	/**
@@ -883,8 +979,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'postflight')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
-							throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE'));
+							throw new RuntimeException(
+								JText::sprintf(
+									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+									JText::_('JLIB_INSTALLER_' . $this->route)
+								)
+							);
 						}
 					}
 					break;
@@ -897,8 +1001,16 @@ abstract class JInstallerAdapter extends JAdapterInstance
 					{
 						if ($method != 'uninstall')
 						{
+							// Clean and close the output buffer
+							ob_end_clean();
+
 							// The script failed, rollback changes
-							throw new RuntimeException(JText::_('JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE'));
+							throw new RuntimeException(
+								JText::sprintf(
+									'JLIB_INSTALLER_ABORT_INSTALL_CUSTOM_INSTALL_FAILURE',
+									JText::_('JLIB_INSTALLER_' . $this->route)
+								)
+							);
 						}
 					}
 					break;
@@ -915,5 +1027,25 @@ abstract class JInstallerAdapter extends JAdapterInstance
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generic update method for extensions
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.4
+	 */
+	public function update()
+	{
+		// Set the overwrite setting
+		$this->parent->setOverwrite(true);
+		$this->parent->setUpgrade(true);
+
+		// And make sure the route is set correctly
+		$this->setRoute('update');
+
+		// Now jump into the install method to run the update
+		return $this->install();
 	}
 }

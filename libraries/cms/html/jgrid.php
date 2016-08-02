@@ -3,11 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for creating HTML Grids
@@ -68,8 +70,7 @@ abstract class JHtmlJGrid
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
-			$html[] = '<i class="icon-' . $active_class . '">';
-			$html[] = '</i>';
+			$html[] = '<span class="icon-' . $active_class . '"></span>';
 			$html[] = '</a>';
 		}
 		else
@@ -80,11 +81,11 @@ abstract class JHtmlJGrid
 
 			if ($active_class == "protected")
 			{
-				$html[] = '<i class="icon-lock"></i>';
+				$html[] = '<span class="icon-lock"></span>';
 			}
 			else
 			{
-				$html[] = '<i class="icon-' . $inactive_class . '"></i>';
+				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
 			}
 
 			$html[] = '</a>';
@@ -97,7 +98,7 @@ abstract class JHtmlJGrid
 	 * Returns a state on a grid
 	 *
 	 * @param   array         $states     array of value/state. Each state is an array of the form
-	 *                                    (task, text, title,html active class, HTML inactive class)
+	 *                                    (task, text, active title, inactive title, tip (boolean), HTML active class, HTML inactive class)
 	 *                                    or ('task'=>task, 'text'=>text, 'active_title'=>active title,
 	 *                                    'inactive_title'=>inactive title, 'tip'=>boolean, 'active_class'=>html active class,
 	 *                                    'inactive_class'=>html inactive class)
@@ -123,7 +124,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[0]);
 		$task = array_key_exists('task', $state) ? $state['task'] : $state[0];
 		$text = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
 		$active_title = array_key_exists('active_title', $state) ? $state['active_title'] : (array_key_exists(2, $state) ? $state[2] : '');
@@ -233,7 +234,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Returns a isDefault state on a grid
+	 * Returns an isDefault state on a grid
 	 *
 	 * @param   integer       $value     The state value.
 	 * @param   integer       $i         The row index
@@ -346,7 +347,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Creates a order-up action icon.
+	 * Creates an order-up action icon.
 	 *
 	 * @param   integer       $i         The row index.
 	 * @param   string        $task      An optional task to fire.
@@ -374,7 +375,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Creates a order-down action icon.
+	 * Creates an order-down action icon.
 	 *
 	 * @param   integer       $i         The row index.
 	 * @param   string        $task      An optional task to fire.

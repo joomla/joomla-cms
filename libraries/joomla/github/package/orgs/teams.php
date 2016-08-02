@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * All actions against teams require at a minimum an authenticated user who is a member
  * of the owner’s team in the :org being managed. Additionally, OAuth users require “user” scope.
  *
- * @documentation http://developer.github.com/v3/orgs/teams/
+ * @documentation https://developer.github.com/v3/orgs/teams/
  *
  * @since  12.3
  */

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,6 @@ defined('_JEXEC') or die;
 abstract class ContentHelperRoute
 {
 	protected static $lookup = array();
-
-	protected static $lang_lookup = array();
 
 	/**
 	 * Get the article route.
@@ -55,13 +53,8 @@ abstract class ContentHelperRoute
 
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			self::buildLanguageLookup();
-
-			if (isset(self::$lang_lookup[$language]))
-			{
-				$link .= '&lang=' . self::$lang_lookup[$language];
-				$needles['language'] = $language;
-			}
+			$link .= '&lang=' . $language;
+			$needles['language'] = $language;
 		}
 
 		if ($item = self::_findItem($needles))
@@ -109,13 +102,8 @@ abstract class ContentHelperRoute
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
-				self::buildLanguageLookup();
-
-				if (isset(self::$lang_lookup[$language]))
-				{
-					$link .= '&lang=' . self::$lang_lookup[$language];
-					$needles['language'] = $language;
-				}
+				$link .= '&lang=' . $language;
+				$needles['language'] = $language;
 			}
 
 			if ($item = self::_findItem($needles))
@@ -149,33 +137,6 @@ abstract class ContentHelperRoute
 		}
 
 		return $link;
-	}
-
-	/**
-	 * Look up language codes.
-	 *
-	 * @return  void.
-	 *
-	 * @since   1.5
-	 */
-	protected static function buildLanguageLookup()
-	{
-		if (count(self::$lang_lookup) == 0)
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('a.sef AS sef')
-				->select('a.lang_code AS lang_code')
-				->from('#__languages AS a');
-
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-
-			foreach ($langs as $lang)
-			{
-				self::$lang_lookup[$lang->lang_code] = $lang->sef;
-			}
-		}
 	}
 
 	/**

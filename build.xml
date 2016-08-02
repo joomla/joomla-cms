@@ -74,7 +74,7 @@
 	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
 		<exec executable="phpdoc">
 			<arg value="-i" />
-			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/*/_Tests/" />
+			<arg path="${basedir}/libraries/vendor/joomla/*/Tests/,${basedir}/libraries/vendor/joomla/string/src/phputf8/,${basedir}/libraries/vendor/composer/,${basedir}/libraries/vendor/joomla/event/vendor/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/_Tests/,${basedir}/libraries/vendor/joomla/session/Joomla/Session/Tests/,${basedir}/libraries/idna_convert/" />
 			<arg value="-d" />
 			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/,${basedir}/libraries/vendor/joomla/" />
 			<arg value="-f" />
@@ -84,7 +84,7 @@
 			<arg value="--template" />
 			<arg value="joomla" />
 			<arg value="--title" />
-			<arg value="Joomla! CMS 3.3 API" />
+			<arg value="Joomla! CMS 3.6 API" />
 		</exec>
 	</target>
 
@@ -149,7 +149,14 @@
 			<fileset dir="${basedir}/administrator/components/com_joomlaupdate" />
 		</copy>
 		<move file="${basedir}/build/com_joomlaupdate-pkg/staging/admin/joomlaupdate.xml" todir="${basedir}/build/com_joomlaupdate-pkg/staging" />
-
+		<echo message="Copy the media folder" />
+		<copy todir="${basedir}/build/com_joomlaupdate-pkg/staging/media/js">
+			<fileset dir="${basedir}/media/com_joomlaupdate/js" />
+		</copy>
+		<echo message="Copy language files" />
+		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language" />
+		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.sys.ini"/>
 		<echo message="Archiving package" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
 		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,10 +31,10 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->item 	= $this->get('Item');
-		$this->form 	= $this->get('Form');
-		$this->state 	= $this->get('State');
-		$this->canDo	= JHelperContent::getActions('com_languages');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
+		$this->state = $this->get('State');
+		$this->canDo = JHelperContent::getActions('com_languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -57,7 +57,7 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
@@ -67,14 +67,7 @@ class LanguagesViewLanguage extends JViewLegacy
 			JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager'
 		);
 
-		// If a new item, can save.
-		if ($isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save('language.save');
-		}
-
-		// If an existing item, allow to Apply and Save.
-		if (!$isNew && $canDo->get('core.edit'))
+		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
 			JToolbarHelper::apply('language.apply');
 			JToolbarHelper::save('language.save');
@@ -97,7 +90,5 @@ class LanguagesViewLanguage extends JViewLegacy
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
-
-		$this->sidebar = JHtmlSidebar::render();
 	}
 }

@@ -3,16 +3,17 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.environment.browser');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.path');
-jimport('joomla.utilities.arrayhelper');
 
 /**
  * Utility class for all HTML drawing classes
@@ -84,7 +85,7 @@ abstract class JHtml
 	 *                        prefix and class are optional and can be used to load custom
 	 *                        html helpers.
 	 *
-	 * @return  mixed  JHtml::call($function, $args) or False on error
+	 * @return  mixed  Result of JHtml::call($function, $args)
 	 *
 	 * @since   1.5
 	 * @throws  InvalidArgumentException
@@ -214,7 +215,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @see     http://php.net/manual/en/function.call-user-func-array.php
+	 * @see     https://secure.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  InvalidArgumentException
 	 */
@@ -237,13 +238,13 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <a></a> element
+	 * Write a `<a>` element
 	 *
 	 * @param   string  $url      The relative URL to use for the href attribute
 	 * @param   string  $text     The target attribute to use
 	 * @param   array   $attribs  An associative array of attributes to add
 	 *
-	 * @return  string  <a></a> string
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -251,21 +252,21 @@ abstract class JHtml
 	{
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		return '<a href="' . $url . '" ' . $attribs . '>' . $text . '</a>';
 	}
 
 	/**
-	 * Write a <iframe></iframe> element
+	 * Write a `<iframe>` element
 	 *
 	 * @param   string  $url       The relative URL to use for the src attribute.
 	 * @param   string  $name      The target attribute to use.
 	 * @param   array   $attribs   An associative array of attributes to add.
 	 * @param   string  $noFrames  The message to display if the iframe tag is not supported.
 	 *
-	 * @return  string  <iframe></iframe> element or message if not supported.
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -273,7 +274,7 @@ abstract class JHtml
 	{
 		if (is_array($attribs))
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		return '<iframe src="' . $url . '" ' . $attribs . ' name="' . $name . '">' . $noFrames . '</iframe>';
@@ -296,7 +297,7 @@ abstract class JHtml
 	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
 	{
 		// If http is present in filename
-		if (strpos($file, 'http') === 0)
+		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
 		{
 			$includes = array($file);
 		}
@@ -403,7 +404,7 @@ abstract class JHtml
 										break;
 									}
 
-									// Try to deal with classical file in a a media subfolder called element
+									// Try to deal with classical file in a media subfolder called element
 									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
 
 									if (file_exists($path))
@@ -550,7 +551,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <img></img> element
+	 * Write a `<img>` element
 	 *
 	 * @param   string   $file      The relative or absolute URL to use for the src attribute.
 	 * @param   string   $alt       The alt text.
@@ -578,20 +579,20 @@ abstract class JHtml
 		else
 		{
 			return '<img src="' . $file . '" alt="' . $alt . '" '
-			. trim((is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) . ' /')
+			. trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs) . ' /')
 			. '>';
 		}
 	}
 
 	/**
-	 * Write a <link rel="stylesheet" style="text/css" /> element
+	 * Write a `<link>` element to load a CSS file
 	 *
 	 * @param   string   $file            path to file
 	 * @param   array    $attribs         attributes to be added to the stylesheet
 	 * @param   boolean  $relative        path to file is relative to /media folder
 	 * @param   boolean  $path_only       return the path to the file only
 	 * @param   boolean  $detect_browser  detect browser to include specific browser css files
-	 *                                    will try to include file, file_*browser*, file_*browser*_*major*, file_*browser*_*major*_*minor*
+	 *                                    will try to include file, `file_*browser*`, `file_*browser*_*major*`, `file_*browser*_*major*_*minor*`
 	 *                                    <table>
 	 *                                       <tr><th>Navigator</th>                  <th>browser</th>	<th>major.minor</th></tr>
 	 *
@@ -614,7 +615,6 @@ abstract class JHtml
 	 *
 	 *                                       <tr><td>Firefox</td>                    <td>mozilla</td>	<td>5.0</td></tr>
 	 *                                    </table>
-	 *                                    a lot of others
 	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific css browser files were detected
@@ -655,7 +655,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Write a <script></script> element
+	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string   $file            path to file.
 	 * @param   boolean  $framework       load the JS framework.
@@ -812,7 +812,7 @@ abstract class JHtml
 	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
 	 * @param   string  $image    The image for the tip, if no text is provided.
 	 * @param   string  $text     The text for the tip.
-	 * @param   string  $href     An URL that will be used to create the link.
+	 * @param   string  $href     A URL that will be used to create the link.
 	 * @param   string  $alt      The alt attribute for img tag.
 	 * @param   string  $class    CSS class for the tool tip.
 	 *
@@ -969,13 +969,13 @@ abstract class JHtml
 			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
 			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
 
-			$attribs = JArrayHelper::toString($attribs);
+			$attribs = ArrayHelper::toString($attribs);
 		}
 
 		static::_('bootstrap.tooltip');
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ((int) $value && $value != JFactory::getDbo()->getNullDate())
+		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
@@ -1013,13 +1013,13 @@ abstract class JHtml
 		}
 
 		// Hide button using inline styles for readonly/disabled fields
-		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
+		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
+		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
 		return '<div' . $div_class . '>'
 				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
+				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
 			. '</div>';
 	}
 
@@ -1057,10 +1057,14 @@ abstract class JHtml
 	 *
 	 * @return  string  JavaScript object notation representation of the array
 	 *
+	 * @deprecated 4.0 use json_encode or JRegistry::toString('json')
+	 *
 	 * @since   3.0
 	 */
 	public static function getJSObject(array $array = array())
 	{
+		JLog::add(__METHOD__ . ' is deprecated. Use json_encode instead.', JLog::WARNING, 'deprecated');
+
 		$elements = array();
 
 		foreach ($array as $k => $v)

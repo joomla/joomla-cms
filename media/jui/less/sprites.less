@@ -9,10 +9,10 @@
 // All icons receive the styles of the <i> tag with a base class
 // of .i and are then given a unique class to add width, height,
 // and background-position. Your resulting HTML will look like
-// <i class="icon-inbox"></i>.
+// <span class="icon-inbox"></span>.
 
 // For the white version of the icons, just add the .icon-white class:
-// <i class="icon-inbox icon-white"></i>
+// <span class="icon-inbox icon-white"></span>
 
 [class^="icon-"],
 [class*=" icon-"] {
@@ -28,15 +28,6 @@
 	margin-top: 1px;
 }
 
-dd > span[class^="icon-"] + time,
-dd > span[class*=" icon-"] + time{
-	margin-left: -.25em;
-}
-dl.article-info dd.hits span[class^="icon-"],
-dl.article-info dd.hits span[class*=" icon-"]{
-	margin-right: 0;
- }
- 
 /* White icons with optional class, or on hover/focus/active states of certain elements */
 .icon-white,
 .nav-pills > .active > a > [class^="icon-"],

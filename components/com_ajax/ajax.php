@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /*
  * References
  *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ * - https://docs.joomla.org/Supporting_plugins_in_your_component
  *
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
@@ -29,7 +29,7 @@ $format = strtolower($input->getWord('format'));
 
 // Initialize default response and module name
 $results = null;
-$parts = null;
+$parts   = null;
 
 // Check for valid format
 if (!$format)
@@ -68,16 +68,18 @@ elseif ($input->get('module'))
 
 		if ($parts)
 		{
-			$class = 'mod';
+			$class = 'Mod';
+
 			foreach ($parts as $part)
 			{
 				$class .= ucfirst($part);
 			}
+
 			$class .= 'Helper';
 		}
 		else
 		{
-			$class = 'mod' . ucfirst($module) . 'Helper';
+			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
 		$method = $input->get('method') ? $input->get('method') : 'get';
@@ -88,6 +90,12 @@ elseif ($input->get('module'))
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load language file for module
+				$basePath = JPATH_BASE;
+				$lang     = JFactory::getLanguage();
+				$lang->load('mod_' . $module, $basePath, null, false, true)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
@@ -145,18 +153,13 @@ elseif ($input->get('plugin'))
 switch ($format)
 {
 	// JSONinzed
-	case 'json':
+	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
-		break;
 
-	// Human-readable format
-	case 'debug':
-		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
 		break;
 
 	// Handle as raw format
-	default:
+	default :
 		// Output exception
 		if ($results instanceof Exception)
 		{

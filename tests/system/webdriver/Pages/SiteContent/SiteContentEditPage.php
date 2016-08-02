@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     Joomla.Tests
+ * @subpackage  Page
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
@@ -11,7 +18,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +37,7 @@ class SiteContentEditPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//textarea[@id='jform_articletext']";
+	protected $waitForXpath = "//textarea[@id='jform_articletext']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -38,12 +45,12 @@ class SiteContentEditPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $url = '/index.php/component/content/?view=form&layout=edit&a_id=';
+	protected $url = '?view=form&layout=edit&a_id=';
 
 	/**
 	 * Function which changes the articles texts and returns back to the siteContentFeaturedPage after saving the changes
 	 *
-	 * @var string articleText
+	 * @param   string  $articleText  Stores article text
 	 *
 	 * @return  null
 	 */

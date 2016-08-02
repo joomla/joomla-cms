@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -592,6 +592,9 @@ class JModelListTest extends TestCaseDatabase
 			)
 		);
 
+		// We've set the state manually, populateState call will overwrite it.
+		TestReflection::setValue($this->object, '__state_set', true);
+
 		$this->assertEquals($expected, $method->invoke($this->object));
 	}
 
@@ -859,7 +862,8 @@ class JModelListTest extends TestCaseDatabase
 			"ordering" => "listcol",
 			"direction" => "DESC",
 			"limit" => "100",
-			"foo" => "bar"
+			"foo" => "bar",
+			"select" => "foo"
 		);
 
 		// Set up a quite complex mock object that checks if the correct calls are made and simulates the user output
@@ -893,6 +897,7 @@ class JModelListTest extends TestCaseDatabase
 		$this->assertEquals('listcol', $this->object->getState('list.ordering'));
 		$this->assertEquals('bar', $this->object->getState('list.foo'));
 		$this->assertEquals('100', $this->object->getState('list.limit'));
+		$this->assertNull($this->object->getState('list.select'), 'The list blacklist does not allow this variable to be set.');
 	}
 
 	/**

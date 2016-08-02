@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -286,7 +286,7 @@ class FinderCli extends JApplicationCli
 				$query
 					->select('t.id')
 					->from($db->qn('#__finder_taxonomy') . ' AS t')
-					->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+					->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
 					->where($db->qn('t.title') . ' = ' . $db->q($element['title']))
 					->where($db->qn('p.title') . ' = ' . $db->q($element['parent']));
 				$taxonomy = $db->setQuery($query)->loadResult();
@@ -355,7 +355,7 @@ class FinderCli extends JApplicationCli
 			$query
 				->select('t.title, p.title AS parent')
 				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+				->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
 				->where($db->qn('t.id') . ' IN (' . $filter->data . ')');
 			$taxonomies = $db->setQuery($query)->loadObjectList();
 
@@ -363,9 +363,9 @@ class FinderCli extends JApplicationCli
 			foreach ($taxonomies as $taxonomy)
 			{
 				$this->filters[$filter->filter_id][] = array(
-					'filter'	=> $filter->title,
-					'title'		=> $taxonomy->title,
-					'parent'	=> $taxonomy->parent,
+					'filter' => $filter->title,
+					'title'  => $taxonomy->title,
+					'parent' => $taxonomy->parent,
 				);
 			}
 		}

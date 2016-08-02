@@ -3,7 +3,7 @@
 	<name>plg_system_log</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -19,12 +19,14 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="log_username" type="radio"
-					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
+				<field
+					name="log_username"
+					type="radio"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
+					description="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
-				>
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>

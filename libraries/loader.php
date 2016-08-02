@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -586,9 +586,7 @@ abstract class JLoader
 	{
 		// Split the class name into parts separated by camelCase.
 		$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
-
-		// If there is only one part we want to duplicate that part for generating the path.
-		$parts = (count($parts) === 1) ? array($parts[0], $parts[0]) : $parts;
+		$partsCount = count($parts);
 
 		foreach ($lookup as $base)
 		{
@@ -600,39 +598,59 @@ abstract class JLoader
 			{
 				return include $path;
 			}
+
+			// Backwards compatibility patch
+
+			// If there is only one part we want to duplicate that part for generating the path.
+			if ($partsCount === 1)
+			{
+				// Generate the path based on the class name parts.
+				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
+
+				// Load the file if it exists.
+				if (file_exists($path))
+				{
+					return include $path;
+				}
+			}
 		}
 
 		return false;
 	}
 }
 
-/**
- * Global application exit.
- *
- * This function provides a single exit point for the platform.
- *
- * @param   mixed  $message  Exit code or string. Defaults to zero.
- *
- * @return  void
- *
- * @codeCoverageIgnore
- * @since   11.1
- */
-function jexit($message = 0)
+// Check if jexit is defined first (our unit tests mock this)
+if (!function_exists('jexit'))
 {
-	exit($message);
+	/**
+	 * Global application exit.
+	 *
+	 * This function provides a single exit point for the platform.
+	 *
+	 * @param   mixed  $message  Exit code or string. Defaults to zero.
+	 *
+	 * @return  void
+	 *
+	 * @codeCoverageIgnore
+	 * @since   11.1
+	 */
+	function jexit($message = 0)
+	{
+		exit($message);
+	}
 }
 
 /**
  * Intelligent file importer.
  *
  * @param   string  $path  A dot syntax path.
+ * @param   string  $base  Search this directory for the class.
  *
  * @return  boolean  True on success.
  *
  * @since   11.1
  */
-function jimport($path)
+function jimport($path, $base = null)
 {
-	return JLoader::import($path);
+	return JLoader::import($path, $base);
 }

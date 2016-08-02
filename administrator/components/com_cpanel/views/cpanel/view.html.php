@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class CpanelViewCpanel extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -47,14 +47,18 @@ class CpanelViewCpanel extends JViewLegacy
 		// Display the cpanel modules
 		$this->modules = JModuleHelper::getModules('cpanel');
 
-		// Load the RAD layer and count the number of post-installation messages
-		if (!defined('FOF_INCLUDED'))
+		try
 		{
-			require_once JPATH_LIBRARIES . '/fof/include.php';
+			$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
+			$messages       = $messages_model->getItemList();
 		}
+		catch (RuntimeException $e)
+		{
+			$messages = array();
 
-		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-		$messages = $messages_model->getItemList();
+			// Still render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
 
 		$this->postinstall_message_count = count($messages);
 

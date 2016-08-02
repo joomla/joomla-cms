@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
 
-require_once __DIR__ . '/../../helpers/banners.php';
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * Bannerclient Field class for the Joomla Framework.
@@ -23,8 +23,8 @@ class JFormFieldBannerClient extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'BannerClient';
 
@@ -37,8 +37,6 @@ class JFormFieldBannerClient extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$options = BannersHelper::getClientOptions();
-
-		return array_merge(parent::getOptions(), $options);
+		return array_merge(parent::getOptions(), BannersHelper::getClientOptions());
 	}
 }

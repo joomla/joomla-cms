@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  mod_tags_popular
+ * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Helper for mod_tags_popular
+ * Helper for mod_tags_similar
  *
  * @package     Joomla.Site
- * @subpackage  mod_tags_popular
+ * @subpackage  mod_tags_similar
  * @since       3.1
  */
 abstract class ModTagssimilarHelper
@@ -135,11 +135,20 @@ abstract class ModTagssimilarHelper
 
 		if ($ordering == 'random' || $ordering == 'countrandom')
 		{
-			$query->order('RAND()');
+			$query->order($query->Rand());
 		}
 
 		$db->setQuery($query, 0, $maximum);
-		$results = $db->loadObjectList();
+
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$results = array();
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+		}
 
 		foreach ($results as $result)
 		{

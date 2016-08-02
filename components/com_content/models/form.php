@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 // Base this model on the backend version.
 require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
@@ -51,7 +52,7 @@ class ContentModelForm extends ContentModelArticle
 		$this->setState('return_page', base64_decode($return));
 
 		// Load the parameters.
-		$params	= $app->getParams();
+		$params = $app->getParams();
 		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->getString('layout'));
@@ -83,16 +84,16 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$properties = $table->getProperties(1);
-		$value = JArrayHelper::toObject($properties, 'JObject');
+		$value = ArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
 		$value->params = new Registry;
 		$value->params->loadString($value->attribs);
 
 		// Compute selected asset permissions.
-		$user	= JFactory::getUser();
-		$userId	= $user->get('id');
-		$asset	= 'com_content.article.' . $value->id;
+		$user   = JFactory::getUser();
+		$userId = $user->get('id');
+		$asset  = 'com_content.article.' . $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))

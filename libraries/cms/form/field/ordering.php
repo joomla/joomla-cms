@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,7 @@ class JFormFieldOrdering extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -149,24 +149,23 @@ class JFormFieldOrdering extends JFormField
 	 */
 	protected function getQuery()
 	{
-		$categoryId	= (int) $this->form->getValue('catid');
-
-		$ucmType = new JUcmType;
-		$ucmRow = $ucmType->getType($ucmType->getTypeId($this->contentType));
+		$categoryId   = (int) $this->form->getValue('catid');
+		$ucmType      = new JUcmType;
+		$ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 
 		if (is_object($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon->core_ordering;
-			$title = $ucmMapCommon->core_title;
+			$title    = $ucmMapCommon->core_title;
 		}
 		elseif (is_array($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon[0]->core_ordering;
-			$title = $ucmMapCommon[0]->core_title;
+			$title    = $ucmMapCommon[0]->core_title;
 		}
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))

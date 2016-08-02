@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -17,19 +17,36 @@ $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
 
+// Output as HTML5
+$doc->setHtml5(true);
+
+// Gets the FrontEnd Main page Uri
+$frontEndUri = JUri::getInstance(JUri::root());
+$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
+$mainPageUri = $frontEndUri->toString();
+
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
+
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
-$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+$languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
-if (is_file($file))
+if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($file);
+	$doc->addStyleSheetVersion($languageCss);
+}
+
+// Load custom.css
+$customCss = 'templates/' . $this->template . '/css/custom.css';
+
+if (file_exists($customCss) && filesize($customCss) > 0)
+{
+	$doc->addStyleSheetVersion($customCss);
 }
 
 // Detecting Active Variables
@@ -41,7 +58,7 @@ $itemid   = $input->get('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 $cpanel   = ($option === 'com_cpanel');
 
-$hidden = JFactory::getApplication()->input->get('hidemainmenu');
+$hidden = $app->input->get('hidemainmenu');
 
 $showSubmenu          = false;
 $this->submenumodules = JModuleHelper::getModules('submenu');
@@ -57,98 +74,133 @@ foreach ($this->submenumodules as $submenumodule)
 	}
 }
 
-// Logo file
-if ($this->params->get('logoFile'))
-{
-	$logo = JUri::root() . $this->params->get('logoFile');
-}
-else
-{
-	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
-}
-
 // Template Parameters
 $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed   = $this->params->get('statusFixed', '1');
 $stickyToolbar = $this->params->get('stickyToolbar', '1');
+
+// Header classes
+$navbar_color = $this->params->get('templateColor') ? $this->params->get('templateColor') : '';
+$header_color = ($displayHeader && $this->params->get('headerColor')) ? $this->params->get('headerColor') : '';
+$navbar_is_light = ($navbar_color && colorIsLight($navbar_color));
+$header_is_light = ($header_color && colorIsLight($header_color));
+
+if ($displayHeader)
+{
+	// Logo file
+	if ($this->params->get('logoFile'))
+	{
+		$logo = JUri::root() . $this->params->get('logoFile');
+	}
+	else
+	{
+		$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo' . ($header_is_light ? '-inverse' : '') . '.png';
+	}
+}
+
+function colorIsLight($color)
+{
+	$r = hexdec(substr($color, 1, 2));
+	$g = hexdec(substr($color, 3, 2));
+	$b = hexdec(substr($color, 5, 2));
+	$yiq = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+
+	return $yiq >= 200;
+}
+
+// Pass some values to javascript
+$offset = 20;
+
+if ($displayHeader || !$statusFixed)
+{
+	$offset = 30;
+}
+
+$stickyBar = 0;
+
+if ($stickyToolbar)
+{
+	$stickyBar = 'true';
+}
+
+// Template color
+if ($navbar_color)
+{
+	$doc->addStyleDeclaration("
+	.navbar-inner,
+	.navbar-inverse .navbar-inner,
+	.dropdown-menu li > a:hover,
+	.dropdown-menu .active > a,
+	.dropdown-menu .active > a:hover,
+	.navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
+	.navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
+	.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle,
+	#status.status-top {
+		background: " . $navbar_color . ";
+	}");
+}
+
+// Template header color
+if ($header_color)
+{
+	$doc->addStyleDeclaration("
+	.header {
+		background: " . $header_color . ";
+	}");
+}
+
+// Sidebar background color
+if ($this->params->get('sidebarColor'))
+{
+	$doc->addStyleDeclaration("
+	.nav-list > .active > a,
+	.nav-list > .active > a:hover {
+		background: " . $this->params->get('sidebarColor') . ";
+	}");
+}
+
+// Link color
+if ($this->params->get('linkColor'))
+{
+	$doc->addStyleDeclaration("
+	a,
+	.j-toggle-sidebar-button {
+		color: " . $this->params->get('linkColor') . ";
+	}");
+}
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-
-	<!-- Template color -->
-	<?php if ($this->params->get('templateColor')) : ?>
-		<style type="text/css">
-			.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top {
-				background: <?php echo $this->params->get('templateColor'); ?>;
-			}
-			.navbar-inner, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
-				-moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-				box-shadow: 0 1px 3px rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(0, 0, 0, .1), inset 0 30px 10px rgba(0, 0, 0, .2);
-			}
-		</style>
-	<?php endif; ?>
-	<!-- Template header color -->
-	<?php if ($this->params->get('headerColor')) : ?>
-		<style type="text/css">
-			.header {
-				background: <?php echo $this->params->get('headerColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
-
-	<!-- Sidebar background color -->
-	<?php if ($this->params->get('sidebarColor')) : ?>
-		<style type="text/css">
-			.nav-list > .active > a, .nav-list > .active > a:hover {
-				background: <?php echo $this->params->get('sidebarColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
-
-	<!-- Link color -->
-	<?php if ($this->params->get('linkColor')) : ?>
-		<style type="text/css">
-			a, .j-toggle-sidebar-button
-			{
-				color: <?php echo $this->params->get('linkColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
-
-	<!--[if lt IE 9]>
-	<script src="../media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" data-basepath="<?php echo JURI::root(true); ?>">
 <!-- Top Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar<?php echo $navbar_is_light ? '' : ' navbar-inverse'; ?> navbar-fixed-top">
 	<div class="navbar-inner">
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
 			<?php endif; ?>
 
-			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '"'); ?>><span class="icon-joomla"></span></a>
+			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '/index.php"'); ?>><span class="icon-joomla"></span></a>
 
-			<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+			<a class="brand hidden-desktop hidden-tablet" href="<?php echo $mainPageUri; ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 				<span class="icon-out-2 small"></span></a>
 
-			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse"' : ''; ?>>
+			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse collapse"' : ''; ?>>
 				<jdoc:include type="modules" name="menu" style="none" />
 				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
-						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-cog"></span>
-							<b class="caret"></b></a>
+						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-user"></span>
+							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<?php if (!$hidden) : ?>
 								<li>
@@ -169,7 +221,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						</ul>
 					</li>
 				</ul>
-				<a class="brand visible-desktop visible-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
+				<a class="brand visible-desktop visible-tablet" href="<?php echo $mainPageUri; ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 					<span class="icon-out-2 small"></span></a>
 			</div>
 			<!--/.nav-collapse -->
@@ -178,7 +230,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 </nav>
 <!-- Header -->
 <?php if ($displayHeader) : ?>
-	<header class="header">
+	<header class="header<?php echo $header_is_light ? ' header-inverse' : ''; ?>">
 		<div class="container-logo">
 			<img src="<?php echo $logo; ?>" class="logo" alt="<?php echo $sitename;?>" />
 		</div>
@@ -200,8 +252,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 <?php if (!$cpanel) : ?>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
-		<i class="icon-wrench"></i></a>
-	<div class="subhead-collapse collapse">
+		<span class="icon-wrench"></span></a>
+	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>
@@ -231,11 +283,6 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 				<div class="span12">
 					<?php endif; ?>
 					<jdoc:include type="message" />
-					<?php
-					// Show the page title here if the header is hidden
-					if (!$displayHeader) : ?>
-						<h1 class="content-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false); ?></h1>
-					<?php endif; ?>
 					<jdoc:include type="component" />
 				</div>
 			</div>
@@ -247,7 +294,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 	<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
 		<footer class="footer">
-			<p align="center">
+			<p class="text-center">
 				<jdoc:include type="modules" name="footer" style="no" />
 				&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
 		</footer>
@@ -270,49 +317,5 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 <?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
-<?php if ($stickyToolbar) : ?>
-	<script>
-		jQuery(function($)
-		{
-
-			var navTop;
-			var isFixed = false;
-
-			processScrollInit();
-			processScroll();
-
-			$(window).on('resize', processScrollInit);
-			$(window).on('scroll', processScroll);
-
-			function processScrollInit()
-			{
-				if ($('.subhead').length) {
-					navTop = $('.subhead').length && $('.subhead').offset().top - <?php echo ($displayHeader || !$statusFixed) ? 30 : 20;?>;
-	
-					// Only apply the scrollspy when the toolbar is not collapsed
-					if (document.body.clientWidth > 480)
-					{
-						$('.subhead-collapse').height($('.subhead').height());
-						$('.subhead').scrollspy({offset: {top: $('.subhead').offset().top - $('nav.navbar').height()}});
-					}
-				}
-			}
-
-			function processScroll()
-			{
-				if ($('.subhead').length) {
-					var scrollTop = $(window).scrollTop();
-					if (scrollTop >= navTop && !isFixed) {
-						isFixed = true;
-						$('.subhead').addClass('subhead-fixed');
-					} else if (scrollTop <= navTop && isFixed) {
-						isFixed = false;
-						$('.subhead').removeClass('subhead-fixed');
-					}
-				}
-			}
-		});
-	</script>
-<?php endif; ?>
 </body>
 </html>

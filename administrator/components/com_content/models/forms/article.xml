@@ -21,6 +21,7 @@
 		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			class="span12"
+			maxlength="255"
 			size="45" />
 
 		<field name="articletext" type="editor"
@@ -41,9 +42,12 @@
 				JTRASHED</option>
 		</field>
 
-		<field name="catid" type="categoryedit"
-			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
+		<field name="catid"
+			   type="categoryedit"
+			label="JCATEGORY"
+			   description="JFIELD_CATEGORY_DESC"
 			required="true"
+			   default=""
 		>
 		</field>
 
@@ -198,6 +202,17 @@
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+			</field>
+
+			<field
+				name="info_block_show_title"
+				type="list"
+				class="chzn-color"
+				label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
 			</field>
 
 			<field

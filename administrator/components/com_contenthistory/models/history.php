@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,23 +40,24 @@ class ContenthistoryModelHistory extends JModelList
 	}
 
 	/**
-	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
-	 * for the content item row.
+	 * Method to test whether a record is editable
 	 *
-	 * @param   object  $record  A JTable object.
+	 * @param   JTableContenthistory  $record  A JTable object.
 	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to edit the record. Defaults to the permission set in the component.
 	 *
 	 * @since   3.2
 	 */
 	protected function canEdit($record)
 	{
+		$result = false;
+
 		if (!empty($record->ucm_type_id))
 		{
-			$result = false;
-
 			// Check that the type id matches the type alias
 			$typeAlias = JFactory::getApplication()->input->get('type_alias');
+
+			/** @var JTableContenttype $contentTypeTable */
 			$contentTypeTable = JTable::getInstance('Contenttype', 'JTable');
 
 			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
@@ -65,12 +66,35 @@ class ContenthistoryModelHistory extends JModelList
 				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
 				 * for the content item, not delete permissions for the content history row.
 				 */
-				$user = JFactory::getUser();
-				$result = $user->authorise('core.edit', $typeAlias . (int) $record->version_id);
+				$user   = JFactory::getUser();
+				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
+			}
+
+			// Finally try session (this catches edit.own case too)
+			if (!$result)
+			{
+				$contentTypeTable->load($record->ucm_type_id);
+				$typeEditables = (array) JFactory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
+				$result = in_array((int) $record->ucm_item_id, $typeEditables);
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Method to test whether a history record can be deleted. Note that we check whether we have edit permissions
+	 * for the content item row.
+	 *
+	 * @param   JTableContenthistory  $record  A JTable object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.6
+	 */
+	protected function canDelete($record)
+	{
+		return canEdit($record);
 	}
 
 	/**
@@ -133,6 +157,53 @@ class ContenthistoryModelHistory extends JModelList
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   3.4.5
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+		$user = JFactory::getUser();
+
+		if ($items === false)
+		{
+			return false;
+		}
+
+		// This should be an array with at least one element
+		if (!is_array($items) || !isset($items[0]))
+		{
+			return $items;
+		}
+
+		// Get the content type's record so we can check ACL
+		/** @var JTableContenttype $contentTypeTable */
+		$contentTypeTable = JTable::getInstance('Contenttype');
+		$ucmTypeId        = $items[0]->ucm_type_id;
+
+		if (!$contentTypeTable->load($ucmTypeId))
+		{
+			// Assume a failure to load the content type means broken data, abort mission
+			return false;
+		}
+
+		// Access check
+		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id) || $this->canEdit($items[0]))
+		{
+			return $items;
+		}
+		else
+		{
+			$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+
+			return false;
+		}
 	}
 
 	/**
@@ -269,8 +340,8 @@ class ContenthistoryModelHistory extends JModelList
 			)
 		)
 		->from($db->quoteName('#__ucm_history') . ' AS h')
-		->where($db->quoteName('h.ucm_item_id') . ' = ' . $this->getState('item_id'))
-		->where($db->quoteName('h.ucm_type_id') . ' = ' . $this->getState('type_id'))
+		->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
+		->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
 
 		// Join over the users for the editor
 		->select('uc.name AS editor')

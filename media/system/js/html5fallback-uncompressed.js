@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,7 @@
 				flen = f.length;
 			if(self.options.formValidationEvent === "onSubmit"){
 				$form.on('submit',function(e){
+					novalidate = !!$form.attr('novalidate');
 					var formnovalidate = this.H5Form.donotValidate != undefined ? this.H5Form.donotValidate : false;
 					if(!formnovalidate && !novalidate && !self.validateForm(self)){
 						//prevent form from submit
@@ -179,13 +180,11 @@
 				$elem.addClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
 				$labelref.addClass(self.options.invalidClass);
-				$labelref.attr('aria-invalid', 'true');
 			}
 			else{
 				$elem.removeClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
 				$labelref.removeClass(self.options.invalidClass)
-				$labelref.attr('aria-invalid', 'false');
 			}
 			return elem.validityState.valid;
 		},

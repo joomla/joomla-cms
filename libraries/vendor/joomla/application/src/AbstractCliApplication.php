@@ -2,15 +2,14 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Application;
 
-use Joomla\Registry\Registry;
 use Joomla\Input;
-use Joomla\Application\Cli\CliOutput;
+use Joomla\Registry\Registry;
 
 /**
  * Base class for a Joomla! command line application.
@@ -20,26 +19,36 @@ use Joomla\Application\Cli\CliOutput;
 abstract class AbstractCliApplication extends AbstractApplication
 {
 	/**
-	 * @var    CliOutput  Output object
+	 * Output object
+	 *
+	 * @var    Cli\CliOutput
 	 * @since  1.0
 	 */
 	protected $output;
 
 	/**
+	 * CLI Input object
+	 *
+	 * @var    Cli\CliInput
+	 * @since  1.6.0
+	 */
+	protected $cliInput;
+
+	/**
 	 * Class constructor.
 	 *
-	 * @param   Input\Cli  $input   An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a InputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   Registry   $config  An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a Registry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 *
-	 * @param   CliOutput  $output  The output handler.
+	 * @param   Input\Cli      $input     An optional argument to provide dependency injection for the application's
+	 *                                    input object.  If the argument is an InputCli object that object will become
+	 *                                    the application's input object, otherwise a default input object is created.
+	 * @param   Registry       $config    An optional argument to provide dependency injection for the application's
+	 *                                    config object.  If the argument is a Registry object that object will become
+	 *                                    the application's config object, otherwise a default config object is created.
+	 * @param   Cli\CliOutput  $output    The output handler.
+	 * @param   Cli\CliInput   $cliInput  The CLI input handler.
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(Input\Cli $input = null, Registry $config = null, CliOutput $output = null)
+	public function __construct(Input\Cli $input = null, Registry $config = null, Cli\CliOutput $output = null, Cli\CliInput $cliInput = null)
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -50,14 +59,13 @@ abstract class AbstractCliApplication extends AbstractApplication
 
 		// @codeCoverageIgnoreEnd
 
-		$this->output = ($output instanceof CliOutput) ? $output : new Cli\Output\Stdout;
+		$this->output = ($output instanceof Cli\CliOutput) ? $output : new Cli\Output\Stdout;
+
+		// Set the CLI input object.
+		$this->cliInput = ($cliInput instanceof Cli\CliInput) ? $cliInput : new Cli\CliInput;
 
 		// Call the constructor as late as possible (it runs `initialise`).
 		parent::__construct($input instanceof Input\Input ? $input : new Input\Cli, $config);
-
-		// Set the execution datetime and timestamp;
-		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
-		$this->set('execution.timestamp', time());
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
@@ -66,13 +74,25 @@ abstract class AbstractCliApplication extends AbstractApplication
 	/**
 	 * Get an output object.
 	 *
-	 * @return  CliOutput
+	 * @return  Cli\CliOutput
 	 *
 	 * @since   1.0
 	 */
 	public function getOutput()
 	{
 		return $this->output;
+	}
+
+	/**
+	 * Get a CLI input object.
+	 *
+	 * @return  Cli\CliInput
+	 *
+	 * @since   1.6.0
+	 */
+	public function getCliInput()
+	{
+		return $this->cliInput;
 	}
 
 	/**
@@ -83,12 +103,11 @@ abstract class AbstractCliApplication extends AbstractApplication
 	 *
 	 * @return  AbstractCliApplication  Instance of $this to allow chaining.
 	 *
-	 * @codeCoverageIgnore
 	 * @since   1.0
 	 */
 	public function out($text = '', $nl = true)
 	{
-		$this->output->out($text, $nl);
+		$this->getOutput()->out($text, $nl);
 
 		return $this;
 	}
@@ -103,6 +122,6 @@ abstract class AbstractCliApplication extends AbstractApplication
 	 */
 	public function in()
 	{
-		return rtrim(fread(STDIN, 8192), "\n\r");
+		return $this->getCliInput()->in();
 	}
 }

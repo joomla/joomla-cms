@@ -8,7 +8,7 @@
 
 namespace Joomla\Utilities;
 
-use Joomla\String\String;
+use Joomla\String\StringHelper;
 
 /**
  * ArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
@@ -139,7 +139,7 @@ final class ArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		if (is_object($p_obj))
+		if (is_object($p_obj) || is_array($p_obj))
 		{
 			return self::arrayFromObject($p_obj, $recurse, $regex);
 		}
@@ -201,26 +201,38 @@ final class ArrayHelper
 	/**
 	 * Extracts a column from an array of arrays or objects
 	 *
-	 * @param   array   $array  The source array
-	 * @param   string  $index  The index of the column or name of object property
+	 * @param   array   $array     The source array
+	 * @param   string  $valueCol  The index of the column or name of object property to be used as value
+	 * @param   string  $keyCol    The index of the column or name of object property to be used as key
 	 *
 	 * @return  array  Column of values from the source array
 	 *
 	 * @since   1.0
+	 * @see     http://php.net/manual/en/language.types.array.php
 	 */
-	public static function getColumn(array $array, $index)
+	public static function getColumn(array $array, $valueCol, $keyCol = null)
 	{
 		$result = array();
 
 		foreach ($array as $item)
 		{
-			if (is_array($item) && isset($item[$index]))
+			// Convert object to array
+			$subject = is_object($item) ? static::fromObject($item) : $item;
+
+			// We process array (and object already converted to array) only.
+			// Only if the value column exists in this item
+			if (is_array($subject) && isset($subject[$valueCol]))
 			{
-				$result[] = $item[$index];
-			}
-			elseif (is_object($item) && isset($item->$index))
-			{
-				$result[] = $item->$index;
+				// Array keys can only be integer or string. Casting will occur as per the PHP Manual.
+				if (isset($keyCol) && isset($subject[$keyCol]) && is_scalar($subject[$keyCol]))
+				{
+					$key          = $subject[$keyCol];
+					$result[$key] = $subject[$valueCol];
+				}
+				else
+				{
+					$result[] = $subject[$valueCol];
+				}
 			}
 		}
 
@@ -230,17 +242,24 @@ final class ArrayHelper
 	/**
 	 * Utility function to return a value from a named array or a specified default
 	 *
-	 * @param   array   $array    A named array
-	 * @param   string  $name     The key to search for
-	 * @param   mixed   $default  The default value to give if no key found
-	 * @param   string  $type     Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
+	 * @param   array|\ArrayAccess  $array    A named array or object that implements ArrayAccess
+	 * @param   string              $name     The key to search for
+	 * @param   mixed               $default  The default value to give if no key found
+	 * @param   string              $type     Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
 	 *
 	 * @return  mixed  The value from the source array
 	 *
+	 * @throws  \InvalidArgumentException
+	 *
 	 * @since   1.0
 	 */
-	public static function getValue(array $array, $name, $default = null, $type = '')
+	public static function getValue($array, $name, $default = null, $type = '')
 	{
+		if (!is_array($array) && !($array instanceof \ArrayAccess))
+		{
+			throw new \InvalidArgumentException('The object must be an array or an object that implements ArrayAccess');
+		}
+
 		$result = null;
 
 		if (isset($array[$name]))
@@ -455,7 +474,7 @@ final class ArrayHelper
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @param   array  $a              An array of objects
-	 * @param   mixed  $k              The key (string) or a array of key to sort on
+	 * @param   mixed  $k              The key (string) or an array of keys to sort on
 	 * @param   mixed  $direction      Direction (integer) or an array of direction to sort in [1 = Ascending] [-1 = Descending]
 	 * @param   mixed  $caseSensitive  Boolean or array of booleans to let sort occur case sensitive or insensitive
 	 * @param   mixed  $locale         Boolean or array of booleans to let sort occur using the locale language or not
@@ -496,8 +515,8 @@ final class ArrayHelper
 						$locale = $sortLocale[$i];
 					}
 
-					$va = $a->$key[$i];
-					$vb = $b->$key[$i];
+					$va = $a->{$key[$i]};
+					$vb = $b->{$key[$i]};
 
 					if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 					{
@@ -505,11 +524,11 @@ final class ArrayHelper
 					}
 					elseif ($caseSensitive)
 					{
-						$cmp = String::strcmp($va, $vb, $locale);
+						$cmp = StringHelper::strcmp($va, $vb, $locale);
 					}
 					else
 					{
-						$cmp = String::strcasecmp($va, $vb, $locale);
+						$cmp = StringHelper::strcasecmp($va, $vb, $locale);
 					}
 
 					if ($cmp > 0)
@@ -574,5 +593,44 @@ final class ArrayHelper
 		}
 
 		return false;
+	}
+
+	/**
+	 * Method to recursively convert data to a one dimension array.
+	 *
+	 * @param   array|object  $array      The array or object to convert.
+	 * @param   string        $separator  The key separator.
+	 * @param   string        $prefix     Last level key prefix.
+	 *
+	 * @return  array
+	 *
+	 * @since   1.3.0
+	 */
+	public static function flatten($array, $separator = '.', $prefix = '')
+	{
+		if ($array instanceof \Traversable)
+		{
+			$array = iterator_to_array($array);
+		}
+		elseif (is_object($array))
+		{
+			$array = get_object_vars($array);
+		}
+
+		foreach ($array as $k => $v)
+		{
+			$key = $prefix ? $prefix . $separator . $k : $k;
+
+			if (is_object($v) || is_array($v))
+			{
+				$array = array_merge($array, static::flatten($v, $separator, $key));
+			}
+			else
+			{
+				$array[$key] = $v;
+			}
+		}
+
+		return $array;
 	}
 }

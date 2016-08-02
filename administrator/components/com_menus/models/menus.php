@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -161,10 +161,9 @@ class MenusModelMenus extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.*'))
+		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description'))
 			->from($db->quoteName('#__menu_types') . ' AS a')
-
-			->group('a.id, a.menutype, a.title, a.description');
+			->where('a.id > 0');
 
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))

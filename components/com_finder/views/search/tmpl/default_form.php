@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -14,50 +14,24 @@ if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosugge
 	JHtml::_('jquery.framework');
 
 	$script = "
-		jQuery(function() {
-		";
+jQuery(function() {";
 	if ($this->params->get('show_advanced', 1))
 	{
-		/*
-		* This segment of code adds the slide effect to the advanced search box.
-		*/
-		$script .= "
-			var searchSlider = jQuery('#advanced-search');
-			if (searchSlider.length)
-			{";
-		if (!$this->params->get('expand_advanced', 0))
-		{
-			$script .= "searchSlider.hide();";
-		}
-
-		$script .= "
-				jQuery('#advanced-search-toggle').on('click', function(e) {
-						e.stopPropagation();
-						e.preventDefault();
-						searchSlider.slideToggle();
-					});
-			}";
 		/*
 		* This segment of code disables select boxes that have no value when the
 		* form is submitted so that the URL doesn't get blown up with null values.
 		*/
 		$script .= "
-			if (jQuery('#finder-search').length) {
-				jQuery('#finder-search').on('submit', function(e){
-					e.stopPropagation();
-					if (searchSlider.length)
-					{
-						// Disable select boxes with no value selected.
-						searchSlider.find('select').each(function(index, el) {
-							var el = jQuery(el);
-							if(!el.val()){
-								el.attr('disabled', 'disabled');
-							}
-						});
-					}
-				});
+	jQuery('#finder-search').on('submit', function(e){
+		e.stopPropagation();
+		// Disable select boxes with no value selected.
+		jQuery('#advancedSearch').find('select').each(function(index, el) {
+			var el = jQuery(el);
+			if(!el.val()){
+				el.attr('disabled', 'disabled');
 			}
-		";
+		});
+	});";
 	}
 	/*
 	* This segment of code sets up the autocompleter.
@@ -67,27 +41,25 @@ if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosugge
 		JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 		$script .= "
-			var suggest = jQuery('#q').autocomplete({
-				serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
-				paramName: 'q',
-				minChars: 1,
-				maxHeight: 400,
-				width: 300,
-				zIndex: 9999,
-				deferRequestBy: 500
-			});
-		";
+	var suggest = jQuery('#q').autocomplete({
+		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+		paramName: 'q',
+		minChars: 1,
+		maxHeight: 400,
+		width: 300,
+		zIndex: 9999,
+		deferRequestBy: 500
+	});";
 	}
 
 	$script .= "
-		});
-		";
+});";
 
 	JFactory::getDocument()->addScriptDeclaration($script);
 }
 ?>
 
-<form id="finder-search" action="<?php echo JRoute::_($this->query->toURI()); ?>" method="get" class="form-inline">
+<form id="finder-search" action="<?php echo JRoute::_($this->query->toUri()); ?>" method="get" class="form-inline">
 	<?php echo $this->getFields(); ?>
 
 	<?php
@@ -114,7 +86,7 @@ if ($this->params->get('show_advanced', 1) || $this->params->get('show_autosugge
 	</fieldset>
 
 	<?php if ($this->params->get('show_advanced', 1)) : ?>
-		<div id="advancedSearch" class="collapse">
+		<div id="advancedSearch" class="collapse<?php if ($this->params->get('expand_advanced', 0)) echo ' in'?>">
 			<hr />
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="advanced-search-tip">

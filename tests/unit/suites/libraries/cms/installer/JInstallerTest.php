@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,22 +31,7 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-		$this->saveFactoryState();
-
-		$this->object = JInstaller::getInstance();
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-
-		parent::tearDown();
+		$this->object = new JInstaller;
 	}
 
 	/**
@@ -72,10 +57,16 @@ class JInstallerTest extends TestCaseDatabase
 	 */
 	public function testGetInstance()
 	{
-		$this->assertThat(
-			$this->object = JInstaller::getInstance(),
-			$this->isInstanceOf('JInstaller'),
-			'JInstaller::getInstance failed'
+		$object1 = JInstaller::getInstance();
+
+		$this->assertInstanceOf(
+			'JInstaller',
+			$object1
+		);
+
+		$this->assertSame(
+			$object1,
+			JInstaller::getInstance()
 		);
 	}
 
@@ -91,21 +82,18 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		$this->object->setOverwrite(false);
 
-		$this->assertThat(
+		$this->assertFalse(
 			$this->object->isOverwrite(),
-			$this->equalTo(false),
 			'Get or Set overwrite failed'
 		);
 
-		$this->assertThat(
+		$this->assertFalse(
 			$this->object->setOverwrite(true),
-			$this->equalTo(false),
 			'setOverwrite did not return the old value properly.'
 		);
 
-		$this->assertThat(
+		$this->assertTrue(
 			$this->object->isOverwrite(),
-			$this->equalTo(true),
 			'getOverwrite did not return the expected value.'
 		);
 	}
@@ -122,9 +110,9 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		$this->object->setRedirectUrl('http://www.example.com');
 
-		$this->assertThat(
+		$this->assertEquals(
 			$this->object->getRedirectUrl(),
-			$this->equalTo('http://www.example.com'),
+			'http://www.example.com',
 			'Get or Set Redirect Url failed'
 		);
 	}
@@ -141,21 +129,18 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		$this->object->setUpgrade(false);
 
-		$this->assertThat(
+		$this->assertFalse(
 			$this->object->isUpgrade(),
-			$this->equalTo(false),
 			'Get or Set Upgrade failed'
 		);
 
-		$this->assertThat(
+		$this->assertFalse(
 			$this->object->setUpgrade(true),
-			$this->equalTo(false),
 			'setUpgrade did not return the old value properly.'
 		);
 
-		$this->assertThat(
+		$this->assertTrue(
 			$this->object->isUpgrade(),
-			$this->equalTo(true),
 			'getUpgrade did not return the expected value.'
 		);
 	}
@@ -169,17 +154,17 @@ class JInstallerTest extends TestCaseDatabase
 	 */
 	public function testGetPath()
 	{
-		$this->assertThat(
+		$this->assertEquals(
 			$this->object->getPath('path1_getpath', 'default_value'),
-			$this->equalTo('default_value'),
+			'default_value',
 			'getPath did not return the default value for an undefined path'
 		);
 
 		$this->object->setPath('path2_getpath', JPATH_BASE . '/required_path');
 
-		$this->assertThat(
+		$this->assertEquals(
 			$this->object->getPath('path2_getpath', 'default_value'),
-			$this->equalTo(JPATH_BASE . '/required_path'),
+			JPATH_BASE . '/required_path',
 			'getPath did not return the previously set value for the path'
 		);
 	}
@@ -195,9 +180,8 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		$this->object->pushStep(array('type' => 'query'));
 
-		$this->assertThat(
-			$this->object->abort(),
-			$this->isFalse()
+		$this->assertFalse(
+			$this->object->abort()
 		);
 	}
 
@@ -221,9 +205,8 @@ class JInstallerTest extends TestCaseDatabase
 
 		$this->object->pushStep(array('type' => 'testtype'));
 
-		$this->assertThat(
-			$this->object->abort(null, 'testadapter'),
-			$this->isTrue()
+		$this->assertTrue(
+			$this->object->abort(null, 'testadapter')
 		);
 	}
 
@@ -238,35 +221,38 @@ class JInstallerTest extends TestCaseDatabase
 	{
 		$this->object->pushStep(array('type' => 'badstep'));
 
-		$this->assertThat(
-			$this->object->abort(null, false),
-			$this->isFalse()
+		$this->assertFalse(
+			$this->object->abort(null, false)
 		);
 	}
 
 	/**
-	 * This test is weak and may need removal at some point
+	 * @testdox  Ensure parseLanguages() returns 0 when there are no children in the language tag
 	 *
-	 * @covers  JInstaller::abort
-	 *
-	 * @expectedException  RuntimeException
-	 *
-	 * @return void
+	 * @covers   JInstaller::parseLanguages
 	 */
-	public function testAbortDebug()
+	public function testParseLanguagesWithNoChildren()
 	{
-		$configMock = $this->getMock('test', array('get'));
+		$emptyXml = new SimpleXMLElement('<languages></languages>');
 
-		$configMock->expects($this->atLeastOnce())
-			->method('get')
-			->with($this->equalTo('debug'))
-			->will($this->returnValue(true));
+		$this->assertEquals(
+			0,
+			$this->object->parseLanguages($emptyXml)
+		);
+	}
 
-		JFactory::$config = $configMock;
+	/**
+	 * @testdox  Ensure parseFiles() returns 0 when there are no children in the files tag
+	 *
+	 * @covers   JInstaller::parseFiles
+	 */
+	public function testParseFilesWithNoChildren()
+	{
+		$emptyXml = new SimpleXMLElement('<files></files>');
 
-		$this->assertThat(
-			$this->object->abort(),
-			$this->isTrue()
+		$this->assertEquals(
+			0,
+			$this->object->parseFiles($emptyXml)
 		);
 	}
 
@@ -282,16 +268,16 @@ class JInstallerTest extends TestCaseDatabase
 		$xml = JInstaller::parseXMLInstallFile(__DIR__ . '/data/pkg_joomla.xml');
 
 		// Verify the method returns an array of data
-		$this->assertThat(
+		$this->assertInternalType(
+			'array',
 			$xml,
-			$this->isType('array'),
 			'Ensure JInstaller::parseXMLInstallFile returns an array'
 		);
 
 		// Verify the version string in the $xml object matches that from the XML file
-		$this->assertThat(
+		$this->assertEquals(
 			$xml['version'],
-			$this->equalTo('2.5.0'),
+			'2.5.0',
 			'The version string should be 2.5.0 as specified in the parsed XML file'
 		);
 	}
@@ -305,9 +291,9 @@ class JInstallerTest extends TestCaseDatabase
 	 */
 	public function testIsManifest()
 	{
-		$this->assertThat(
+		$this->assertInstanceOf(
+			'SimpleXmlElement',
 			$this->object->isManifest(__DIR__ . '/data/pkg_joomla.xml'),
-			$this->isInstanceOf('SimpleXmlElement'),
 			'Ensure JInstaller::isManifest properly tests a valid manifest file'
 		);
 	}

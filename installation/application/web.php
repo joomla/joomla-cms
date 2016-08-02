@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,32 +25,14 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function __construct()
 	{
+		// Register the application name.
+		$this->_name = 'installation';
+
+		// Register the client ID.
+		$this->_clientId = 2;
+
 		// Run the parent constructor.
 		parent::__construct();
-
-		// Load and set the dispatcher.
-		$this->loadDispatcher();
-
-		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
-		{
-			$this->config->set('session', true);
-		}
-
-		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
-		{
-			$this->config->set('session_name', 'installation');
-		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-
-			// Register the session with JFactory.
-			JFactory::$session = $this->getSession();
-		}
 
 		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
@@ -60,12 +42,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Register the application to JFactory.
 		JFactory::$application = $this;
-
-		// Register the application name.
-		$this->_name = 'installation';
-
-		// Register the client ID.
-		$this->_clientId = 2;
 
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
@@ -298,9 +274,9 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		$ret = array();
 
-		$ret['language'] = (string) $xml->forceLang;
-		$ret['helpurl'] = (string) $xml->helpurl;
-		$ret['debug'] = (string) $xml->debug;
+		$ret['language']   = (string) $xml->forceLang;
+		$ret['helpurl']    = (string) $xml->helpurl;
+		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
 		return $ret;
@@ -319,19 +295,20 @@ final class InstallationApplicationWeb extends JApplicationCms
 	public function getLocaliseAdmin($db = false)
 	{
 		// Read the files in the admin area.
-		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
+		$path               = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 		$langfiles['admin'] = JFolder::folders($path);
 
 		// Read the files in the site area.
-		$path = JLanguage::getLanguagePath(JPATH_SITE);
+		$path              = JLanguage::getLanguagePath(JPATH_SITE);
 		$langfiles['site'] = JFolder::folders($path);
 
 		if ($db)
 		{
-			$langfiles_disk = $langfiles;
-			$langfiles = array();
+			$langfiles_disk     = $langfiles;
+			$langfiles          = array();
 			$langfiles['admin'] = array();
-			$langfiles['site'] = array();
+			$langfiles['site']  = array();
+
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('element','client_id')))
 				->from($db->quoteName('#__extensions'))
@@ -453,7 +430,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Check for custom helpurl.
 		if (empty($forced['helpurl']))
 		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
 		}
 		else
 		{
@@ -496,7 +473,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 				'lineend' => 'unix',
 				'tab' => '  ',
 				'language' => $lang->getTag(),
-				'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+				'direction' => $lang->isRtl() ? 'rtl' : 'ltr',
 			);
 
 			$document = JDocument::getInstance($type, $attributes);
@@ -538,7 +515,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$options = array(
 			'name' => $name,
 			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl')
+			'force_ssl' => $this->get('force_ssl'),
 		);
 
 		// Instantiate the session object.
@@ -563,6 +540,9 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Set the session object.
 		$this->session = $session;
 
+		// Register the session with JFactory.
+		JFactory::$session = $session;
+
 		return $this;
 	}
 
@@ -583,7 +563,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			'template' => 'template',
 			'file' => $file . '.php',
 			'directory' => JPATH_THEMES,
-			'params' => '{}'
+			'params' => '{}',
 		);
 
 		// Parse the document.
@@ -598,7 +578,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 	/**
 	 * Method to send a JSON response. The data parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a stdClass for a good response.
 	 *
 	 * @param   mixed  $response  stdClass on success, Exception on failure.

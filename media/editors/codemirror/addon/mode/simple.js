@@ -60,7 +60,7 @@
 
   function ensureState(states, name) {
     if (!states.hasOwnProperty(name))
-      throw new Error("Undefined state " + name + "in simple mode");
+      throw new Error("Undefined state " + name + " in simple mode");
   }
 
   function toRegex(val, caret) {
@@ -116,7 +116,7 @@
       var curState = states[state.state];
       for (var i = 0; i < curState.length; i++) {
         var rule = curState[i];
-        var matches = stream.match(rule.regex);
+        var matches = (!rule.data.sol || stream.sol()) && stream.match(rule.regex);
         if (matches) {
           if (rule.data.next) {
             state.state = rule.data.next;
