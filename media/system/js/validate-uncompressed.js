@@ -95,7 +95,7 @@ var JFormValidator = function() {
  	 	 	 	elValue = $el.val();
  	 	 	}
  	 	 	// Execute the validation handler and return result
- 	 	 	if (elValue && handlers[handler].exec($el.val(), $el) !== true) {
+ 	 	 	if (elValue && handlers[handler].exec(elValue, $el) !== true) {
  	 	 	 	handleResponse(false, $el);
  	 	 	 	return false;
  	 	 	}
