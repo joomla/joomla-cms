@@ -8,7 +8,7 @@
  */
 
 define(['jquery', 'text!testsRoot/validate/fixtures/fixture.html', 'libs/validate', 'libs/core'], function ($, fixture) {
-    $('body').append(fixture);
-    
-    document.formvalidator = new JFormValidator();
+	$('body').append(fixture);
+
+	document.formvalidator = new JFormValidator();
 });
