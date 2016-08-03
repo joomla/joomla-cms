@@ -170,7 +170,9 @@ class JCacheStorage
 		// Validate the cache storage is supported on this platform
 		if (!$class::isSupported())
 		{
-			throw new RuntimeException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
+			JLog::add(sprintf('The %s Cache Storage is not supported on this platform.', $handler), JLog::WARNING, 'cache');
+
+			return self::getInstance('', $options);
 		}
 
 		return new $class($options);
