@@ -345,7 +345,8 @@ class PlgUserJoomla extends JPlugin
 		$instance->set('id', 0);
 		$instance->set('name', $user['fullname']);
 		$instance->set('username', $user['username']);
-		$instance->set('password_clear', $user['password_clear']);
+		$instance->set('password_clear', $user['password']);
+		$instance->set('password', JUserHelper::hashPassword($user['password']));
 
 		// Result should contain an email (check).
 		$instance->set('email', $user['email']);
