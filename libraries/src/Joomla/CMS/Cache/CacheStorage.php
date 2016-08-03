@@ -155,31 +155,40 @@ class CacheStorage
 			$class = 'JCacheStorage' . ucfirst($handler);
 		}
 
-		if (!class_exists($class))
+		try
 		{
-			// Search for the class file in the JCacheStorage include paths.
-			\JLoader::import('joomla.filesystem.path');
-
-			$path = \JPath::find(self::addIncludePath(), strtolower($handler) . '.php');
-
-			if ($path === false)
-			{
-				throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
-			}
-
-			\JLoader::register($class, $path);
-
-			// The class should now be loaded
 			if (!class_exists($class))
 			{
-				throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+				// Search for the class file in the JCacheStorage include paths.
+				\JLoader::import('joomla.filesystem.path');
+
+				$path = \JPath::find(self::addIncludePath(), strtolower($handler) . '.php');
+
+				if ($path === false)
+				{
+					throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+				}
+
+				\JLoader::register($class, $path);
+
+				// The class should now be loaded
+				if (!class_exists($class))
+				{
+					throw new UnsupportedCacheException(sprintf('Unable to load Cache Storage: %s', $handler));
+				}
+			}
+
+			// Validate the cache storage is supported on this platform
+			if (!$class::isSupported())
+			{
+				throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
 			}
 		}
-
-		// Validate the cache storage is supported on this platform
-		if (!$class::isSupported())
+		catch (UnsupportedCacheException $e)
 		{
-			throw new UnsupportedCacheException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
+			Log::add($e->getMessage(), Log::WARNING, 'cache');
+
+			$class = __CLASS__;
 		}
 
 		return new $class($options);
