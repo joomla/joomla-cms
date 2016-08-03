@@ -131,8 +131,8 @@ else
 						$text = JFilterOutput::stripImages($text);
 					}
 					$text = JHtml::_('string.truncate', $text, $this->params->get('feed_character_count'));
-					$domain = preg_replace( "~^(https?://[^/]).$~", "\1/", $this->rssDoc[ $i ]->uri );
-					$text = str_replace( ' src="/', ' src="' . $domain, $text );
+					$domain = preg_replace("~^(https?://[^/]).$~", "\1/", $this->rssDoc[ $i ]->uri);
+					$text = str_replace(' src="/', ' src="' . $domain, $text);
 
 						echo str_replace('&apos;', "'", $text);
 					?>
