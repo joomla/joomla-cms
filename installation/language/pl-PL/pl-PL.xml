@@ -2,7 +2,7 @@
 <metafile
 	version="3.6"
 	client="installation">
-	<name>Polish (Poland) (pl-PL)</name>
+	<name>Polish (Polska)</name>
 	<version>3.6.1</version>
 	<creationDate>03-08-2016</creationDate>
 	<author>Polskie Centrum Joomla! www.joomla.pl</author>
@@ -12,7 +12,7 @@
 		<filename>pl-PL.ini</filename>
 	</files>
 	<metadata>
-		<name>Polish (Poland) (pl-PL)</name>
+		<name>Polish (Polska)</name>
 		<tag>pl-PL</tag>
 		<rtl>0</rtl>
 	</metadata>
