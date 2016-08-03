@@ -17,14 +17,15 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="componentview"
-				    type="list"
-				    label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
-				    description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
-					>
-				    <option value="com_content.article">com_content.article</option>
-					<option value="com_contact.contact">com_contact.contact</option>
-				</field>
+						name="allowedContexts"
+						type="textarea"
+						default="com_content.article"
+						label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
+						description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
+						rows="10"
+						cols="5"
+						filter="raw"
+				/>
 			</fieldset>
 		</fields>
 	</config>

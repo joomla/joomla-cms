@@ -40,7 +40,9 @@ class PlgContentCreatemenulink extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		if (!in_array($context, array($this->params->get('componentview'))))
+		$checkView = explode("\n", $this->params->get('allowedContexts'));
+
+		if (!in_array($context, $checkView))
 		{
 			return true;
 		}
@@ -100,7 +102,9 @@ class PlgContentCreatemenulink extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array($this->params->get('componentview'))))
+		$checkView = explode("\n", $this->params->get('allowedContexts'));
+
+		if (!in_array($name, $checkView))
 		{
 			return true;
 		}
