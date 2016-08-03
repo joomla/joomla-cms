@@ -254,7 +254,7 @@ class PlgUserJoomla extends JPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  object  True on success
+	 * @return  bool  True on success
 	 *
 	 * @since   1.5
 	 */
