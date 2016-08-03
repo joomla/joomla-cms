@@ -69,6 +69,8 @@ class PlgContentCreatemenulink extends JPlugin
 				$data->menualias = $menuItems[0]->alias;
 				$data->menutype  = $menuItems[0]->menutype;
 				$data->parent_id = $menuItems[0]->parent_id;
+				JHtml::_('jquery.framework', false);
+				JHtml::_('script', 'media/plg_content_createmenulink/parentitem.js');
 			}
 
 			if (empty($menuItems))
