@@ -83,7 +83,7 @@
 			description="COM_CONTACT_FIELD_INFORMATION_MISC_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true"
-			hide="readmore,pagebreak,module"
+			hide="readmore,pagebreak"
 			 />
 
 		<field name="created_by" type="user"
