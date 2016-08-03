@@ -34,6 +34,11 @@ class UsersControllerReset extends UsersController
 		$model = $this->getModel('Reset', 'UsersModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
+		$uParams = JComponentHelper::getParams('com_users');
+
+		// If "usesecure" is set we have to route back to HTTP protocol
+		$useSSL = ($uParams->get('usesecure') ? 2 : 0);
+
 		// Submit the password reset request.
 		$return = $model->processResetRequest($data);
 
@@ -56,7 +61,7 @@ class UsersControllerReset extends UsersController
 			$route  = 'index.php?option=com_users&view=reset' . $itemid;
 
 			// Go back to the request form.
-			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'error');
 
 			return false;
 		}
@@ -70,7 +75,7 @@ class UsersControllerReset extends UsersController
 
 			// Go back to the request form.
 			$message = JText::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'notice');
 
 			return false;
 		}
@@ -83,7 +88,7 @@ class UsersControllerReset extends UsersController
 			$route  = 'index.php?option=com_users&view=reset&layout=confirm' . $itemid;
 
 			// Proceed to step two.
-			$this->setRedirect(JRoute::_($route, false));
+			$this->setRedirect(JRoute::_($route, false, $useSSL));
 
 			return true;
 		}
@@ -105,6 +110,11 @@ class UsersControllerReset extends UsersController
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Reset', 'UsersModel');
 		$data  = $this->input->get('jform', array(), 'array');
+
+		$uParams = JComponentHelper::getParams('com_users');
+
+		// If "usesecure" is set we have to route back to HTTP protocol
+		$useSSL = ($uParams->get('usesecure') ? 2 : 0);
 
 		// Confirm the password reset request.
 		$return = $model->processResetConfirm($data);
@@ -128,7 +138,7 @@ class UsersControllerReset extends UsersController
 			$route  = 'index.php?option=com_users&view=reset&layout=confirm' . $itemid;
 
 			// Go back to the confirm form.
-			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'error');
 
 			return false;
 		}
@@ -142,7 +152,7 @@ class UsersControllerReset extends UsersController
 
 			// Go back to the confirm form.
 			$message = JText::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'notice');
 
 			return false;
 		}
@@ -155,7 +165,7 @@ class UsersControllerReset extends UsersController
 			$route  = 'index.php?option=com_users&view=reset&layout=complete' . $itemid;
 
 			// Proceed to step three.
-			$this->setRedirect(JRoute::_($route, false));
+			$this->setRedirect(JRoute::_($route, false, $useSSL));
 
 			return true;
 		}
@@ -176,6 +186,11 @@ class UsersControllerReset extends UsersController
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Reset', 'UsersModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
+
+		$uParams = JComponentHelper::getParams('com_users');
+
+		// If "usesecure" is set we have to route back to HTTP protocol
+		$useSSL = ($uParams->get('usesecure') ? 2 : 0);
 
 		// Complete the password reset request.
 		$return = $model->processResetComplete($data);
@@ -199,7 +214,7 @@ class UsersControllerReset extends UsersController
 			$route  = 'index.php?option=com_users&view=reset&layout=complete' . $itemid;
 
 			// Go back to the complete form.
-			$this->setRedirect(JRoute::_($route, false), $message, 'error');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'error');
 
 			return false;
 		}
@@ -213,7 +228,7 @@ class UsersControllerReset extends UsersController
 
 			// Go back to the complete form.
 			$message = JText::sprintf('COM_USERS_RESET_COMPLETE_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message, 'notice');
 
 			return false;
 		}
@@ -227,7 +242,7 @@ class UsersControllerReset extends UsersController
 
 			// Proceed to the login form.
 			$message = JText::_('COM_USERS_RESET_COMPLETE_SUCCESS');
-			$this->setRedirect(JRoute::_($route, false), $message);
+			$this->setRedirect(JRoute::_($route, false, $useSSL), $message);
 
 			return true;
 		}

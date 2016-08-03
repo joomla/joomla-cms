@@ -32,11 +32,11 @@ class ModLoginHelper
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
 
-		// Stay on the same page
-		$url = JUri::getInstance()->toString();
+		$usersConfig = JComponentHelper::getParams('com_users');
 
 		if ($item)
 		{
+			// Continue with another page
 			$lang = '';
 
 			if (JLanguageMultilang::isEnabled() && $item->language !== '*')
@@ -44,7 +44,14 @@ class ModLoginHelper
 				$lang = '&lang=' . $item->language;
 			}
 
-			$url = 'index.php?Itemid=' . $item->id . $lang;
+			// Build complete URL and switch scheme if "usesecure" is set
+			$url = JUri::base() . 'index.php?Itemid=' . $item->id . $lang;
+			$url = JUri::siteScheme($url, $usersConfig->get('usesecure'));
+		}
+		else
+		{
+			// Stay on the same page, but switch scheme if "usesecure" is set
+			$url = JUri::siteScheme(JUri::getInstance(), $usersConfig->get('usesecure'))->toString();
 		}
 
 		return base64_encode($url);

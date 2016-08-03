@@ -17,8 +17,7 @@ $lang = JFactory::getLanguage();
 $doc->setHtml5(true);
 
 // Gets the FrontEnd Main page Uri
-$frontEndUri = JUri::getInstance(JUri::root());
-$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
+$mainPageUri = JUri::siteScheme(JUri::root());
 
 // Color Params
 $background_color = $this->params->get('loginBackgroundColor') ? $this->params->get('loginBackgroundColor') : '';
@@ -138,7 +137,7 @@ if ($app->get('debug_lang', 1) || $app->get('debug', 1))
 			&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
 		</p>
 		<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>"><span class="icon-joomla"></span></a>
-		<a href="<?php echo $frontEndUri->toString(); ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+		<a href="<?php echo $mainPageUri; ?>" target="_blank" class="pull-left"><span class="icon-out-2"></span><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
 </body>

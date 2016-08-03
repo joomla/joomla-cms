@@ -21,9 +21,7 @@ $user            = JFactory::getUser();
 $doc->setHtml5(true);
 
 // Gets the FrontEnd Main page Uri
-$frontEndUri = JUri::getInstance(JUri::root());
-$frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
-$mainPageUri = $frontEndUri->toString();
+$mainPageUri = JUri::siteScheme(JUri::root());
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');

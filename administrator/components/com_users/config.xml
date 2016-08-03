@@ -32,6 +32,18 @@
 		</field>
 
 		<field
+			name="usesecure"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_USERS_CONFIG_FIELD_USESECURE_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USESECURE_DESC"
+			renderon="global:force_ssl:1">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="sendpassword"
 			type="radio"
 			class="btn-group btn-group-yesno"

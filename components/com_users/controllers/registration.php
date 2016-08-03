@@ -110,10 +110,15 @@ class UsersControllerRegistration extends UsersController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+		$uParams = JComponentHelper::getParams('com_users');
+
+		// If "usesecure" is set we have to route back to HTTP protocol
+		$useSSL = ($uParams->get('usesecure') ? 2 : 0);
+
 		// If registration is disabled - Redirect to login page.
-		if (JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
+		if ($uParams->get('allowUserRegistration') == 0)
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false, $useSSL));
 
 			return false;
 		}
@@ -159,7 +164,7 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $requestData);
 
 			// Redirect back to the registration screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false, $useSSL));
 
 			return false;
 		}
@@ -175,7 +180,7 @@ class UsersControllerRegistration extends UsersController
 
 			// Redirect back to the edit screen.
 			$this->setMessage($model->getError(), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false, $useSSL));
 
 			return false;
 		}
@@ -187,17 +192,17 @@ class UsersControllerRegistration extends UsersController
 		if ($return === 'adminactivate')
 		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false, $useSSL));
 		}
 		elseif ($return === 'useractivate')
 		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false, $useSSL));
 		}
 		else
 		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false, $useSSL));
 		}
 
 		return true;

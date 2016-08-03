@@ -96,13 +96,14 @@ class ConfigModelApplication extends ConfigModelForm
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+		$config = JFactory::getConfig();
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => JFactory::getConfig()->get('password'),
+			'password' => $config->get('password'),
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -118,13 +119,16 @@ class ConfigModelApplication extends ConfigModelForm
 			return false;
 		}
 
-		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) JFactory::getConfig()->get('force_ssl', '0'))
+		// Check if we can set the Force HTTPS option and the HTTPS port if either was changed
+		if ((int) $data['force_ssl'] !== 0
+			&& ((int) $data['force_ssl'] !== (int) $config->get('force_ssl', '0')
+			|| ((int) $data['https_port'] !== 0 && (int) $data['https_port'] !== (int) $config->get('https_port', '0'))))
 		{
 			try
 			{
-				// Make an HTTPS request to check if the site is available in HTTPS.
-				$host    = JUri::getInstance()->getHost();
+				// Make a HTTPS request to check if the site is available in HTTPS.
+				$base    = JUri::getInstance(JUri::root());
+				$host    = $base->getHost();
 				$options = new \Joomla\Registry\Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
 				
@@ -137,23 +141,77 @@ class ConfigModelApplication extends ConfigModelForm
 						CURLOPT_PROXYUSERPWD => null,
 					)
 				);
-				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
+				$base->setScheme('https');
+				$base->setPort($data['https_port']);
+				$response = JHttpFactory::getHttp($options)->get($base->toString(), array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
 				{
-					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_HTTPS_INVALID_CODE'));
 				}
 			}
 			catch (RuntimeException $e)
 			{
-				$data['force_ssl'] = 0;
-
-				// Also update the user state
-				$app->setUserState('com_config.config.global.data.force_ssl', 0);
+				if ((int) $data['force_ssl'] !== (int) $config->get('force_ssl', '0'))
+				{
+					// Reset Force HTTPS to "None"
+					$data['force_ssl'] = 0;
+					
+					// Also update the user state
+					$app->setUserState('com_config.config.global.data.force_ssl', 0);
+				}
+				
+				if ((int) $data['https_port'] !== 0 && (int) $data['https_port'] !== (int) $config->get('https_port', '0'))
+				{
+					// Reset HTTPS port to previous value
+					$data['https_port'] = $config->get('https_port');
+					
+					// Also update the user state
+					$app->setUserState('com_config.config.global.data.https_port', $data['https_port']);
+				}
 
 				// Inform the user
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_HTTPS_NOT_AVAILABLE'), 'warning');
+			}
+		}
+		
+		// Check if we can set the HTTP port (do this check only if Force HTTPS is set)
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['http_port'] !== 0 && (int) $data['http_port'] !== (int) $config->get('http_port', '0'))
+		{
+			try
+			{
+				// Make an HTTP request to check if the site is available in HTTP.
+				$base    = JUri::getInstance(JUri::root());
+				$host    = $base->getHost();
+				$options = new \Joomla\Registry\Registry;
+				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
+				$options->set('transport.curl',
+					array(
+						CURLOPT_PROXY => null,
+						CURLOPT_PROXYUSERPWD => null,
+					)
+				);
+				$base->setScheme('http');
+				$base->setPort($data['http_port']);
+				$response = JHttpFactory::getHttp($options)->get($base->toString(), array('Host' => $host), 10);
+
+				// If available in HTTP check also the status code.
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				{
+					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_HTTP_INVALID_CODE'));
+				}
+			}
+			catch (RuntimeException $e)
+			{
+				// Reset HTTP port to previous value
+				$data['http_port'] = $config->get('http_port');
+					
+				// Also update the user state
+				$app->setUserState('com_config.config.global.data.http_port', $data['http_port']);
+				
+				// Inform the user
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_HTTP_PORT_NOT_AVAILABLE'), 'warning');
 			}
 		}
 
