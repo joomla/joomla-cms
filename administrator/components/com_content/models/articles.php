@@ -144,11 +144,12 @@ class ContentModelArticles extends JModelList
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . serialize($this->getState('filter.access'));
 		$id .= ':' . $this->getState('filter.published');
-		$id .= ':' . $this->getState('filter.category_id');
-		$id .= ':' . $this->getState('filter.author_id');
+		$id .= ':' . serialize($this->getState('filter.category_id'));
+		$id .= ':' . serialize($this->getState('filter.author_id'));
 		$id .= ':' . $this->getState('filter.language');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
@@ -172,7 +173,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
 					', a.publish_up, a.publish_down'
 			)
@@ -209,9 +210,17 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		$access = $this->getState('filter.access');
+
+		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+		elseif(is_array($access))
+		{
+			JArrayHelper::toInteger($access);
+			$access = implode(',', $access);
+			$query->where('a.access IN (' . $access . ')');
 		}
 
 		// Implement View Level Access
@@ -269,6 +278,13 @@ class ContentModelArticles extends JModelList
 			$query->where('a.created_by ' . $type . (int) $authorId);
 		}
 
+		elseif (is_array($authorId))
+		{
+			JArrayHelper::toInteger($categoryId);
+			$authorId = implode(',', $authorId);
+			$query->where('a.created_by IN (' . $authorId . ')');
+		}
+
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
 
@@ -296,17 +312,34 @@ class ContentModelArticles extends JModelList
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
+		// Filter by a single or group of tags.
+		$hasTag = false;
 		$tagId = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
-				);
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		}
+		elseif (is_array($tagId))
+		{
+			JArrayHelper::toInteger($tagId);
+			$tagId = implode(',', $tagId);
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+						. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+						. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+					);
 		}
 
 		// Add the list ordering clause.

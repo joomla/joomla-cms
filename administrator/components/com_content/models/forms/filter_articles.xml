@@ -20,32 +20,35 @@
 		<field
 			name="category_id"
 			type="category"
+			multiple="true"
+			class="multipleCategories"
 			label="JOPTION_FILTER_CATEGORY"
 			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
 			onchange="this.form.submit();"
 			published="0,1,2"
 			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
 		</field>
 		<field
 			name="access"
 			type="accesslevel"
+			multiple="true"
+			class="multipleAccessLevels"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 		<field
-                	name="author_id"
-                	type="author"
-                	label="COM_CONTENT_FILTER_AUTHOR"
-                	description="COM_CONTENT_FILTER_AUTHOR_DESC"
-                	onchange="this.form.submit();"
-                	>
-            		<option value="">JOPTION_SELECT_AUTHOR</option>
-        	</field>
+			name="author_id"
+			type="author"
+			multiple="true"
+			class="multipleAuthors"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			onchange="this.form.submit();"
+			>
+		</field>
 		<field
 			name="language"
 			type="contentlanguage"
@@ -60,11 +63,12 @@
 			name="tag"
 			type="tag"
 			mode="nested"
+			multiple="true"
+			class="multipleTags"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
 			onchange="this.form.submit();"
 		>
-			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
 	        <field
         	        name="level"

@@ -58,6 +58,9 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
+		// Filter by tag
+		$model->setState('filter.tag', $params->get('tag'), array());
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
