@@ -243,7 +243,8 @@ class MenusModelItems extends JModelList
 
 		// Join over the menu types.
 		$query->select($db->quoteName('mt.title', 'menutype_title'))
-			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
+			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'))
+			->group('mt.title');
 
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
