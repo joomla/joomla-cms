@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Plugins
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,15 +14,15 @@ require JPATH_BASE . '/plugins/content/emailcloak/emailcloak.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Plugins
- * @since       3.4
+ * @since       3.6.2
  */
 class PlgContentEmailcloakTest extends TestCaseDatabase
 {
     /**
      * An instance of the class to test.
      *
-     * @var    JApplicationCmsInspector
-     * @since  3.2
+     * @var    PlgContentEmailcloak
+     * @since  3.6.2
      */
     protected $class;
 
@@ -31,7 +31,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
      *
      * @return  void
      *
-     * @since   3.4
+     * @since   3.6.2
      */
     public function setup()
     {
@@ -41,15 +41,20 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
         // force the cloak JS inline so that we can unit test it easier than messing with script head in document
         JFactory::getApplication()->input->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 
-        // Create a mock dispatcher instance
+        /**
+         * Create a mock dispatcher instance
+         *
+         * @var $dispatcher Mock_JEventDispatcher_f5646d4b e.g
+         */
         $dispatcher = TestCaseDatabase::getMockDispatcher();
 
-        $plugin = array();
-        $plugin['name'] = 'emailcloak';
-        $plugin['type'] = 'Content';
-        $plugin['params'] = new JRegistry;
+        $plugin = array(
+            'name'   => 'emailcloak',
+            'type'   => 'Content',
+            'params' => new \JRegistry
+        );
 
-        $this->class = new PlgContentEmailcloak($dispatcher, (array)($plugin));
+        $this->class = new PlgContentEmailcloak($dispatcher, $plugin);
     }
 
     /**
@@ -61,8 +66,8 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
      */
     public function dataTestOnContentPrepare()
     {
-        return [
-            [
+        return array(
+            array(
                 '<a href="http://mce_host/ourdirectory/email@example.org">anytext</a>',
                 "<span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
 				document.getElementById('cloak__HASH__').innerHTML = '';
@@ -73,8 +78,8 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				var addy_text__HASH__ = '&#97;nyt&#101;xt';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
 		</script>
                 "
-            ],
-            [
+            ),
+            array(
                 '<p><a href="mailto:joe@nowhere.com"><span style="font-style: 8pt;">Joe_fontsize8</span></a></p>',
                 "<p><span id=\"cloak__HASH__\">JLIB_HTML_CLOAKING</span><script type='text/javascript'>
                 document.getElementById('cloak__HASH__').innerHTML = '';
@@ -85,7 +90,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 				var addy_text__HASH__ = '<span style=\"font-style: 8pt;\">Joe_fontsize8</span>';document.getElementById('cloak__HASH__').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy__HASH__ + '\'>'+addy_text__HASH__+'<\/a>';
 		</script></p>
                 "
-            ],
+            ),
 //            [
 //                '<p><a href="mailto:joe@nowhere13.com?subject= A text"><span style="font-size: 14pt;">Joe_subject_ fontsize13</span></a></p>',
 //                '<span style="font-style: 8pt;">Joe_fontsize8</span>'
@@ -134,29 +139,34 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 //                '<a href="mailto:email@example.org">email@example.org</a>',
 //                '<a href="mailto:email@example.org">email@example.org</a>'
 //            ],
-        ];
+        );
     }
 
     /**
      * Tests PlgContentEmailcloakTest::_cloak()
      *
-     * @param   string $text The text to test.
-     * @param   string $result The result of the filtering.
+     * @param   string $input The text to test.
+     * @param   string $expected The expectation of the filtering.
      *
      * @return  void
      *
      * @dataProvider  dataTestOnContentPrepare
-     * @since         3.4
+     * @since         3.6.2
      */
-    public function testOnContentPrepareWithRowNoFinder($text, $expected)
+    public function testOnContentPrepareWithRowNoFinder($input, $expected)
     {
-        $row = new stdClass;
-        $row->text = $text;
+        $row = new \stdClass;
+        $row->text = $input;
         $params = new JRegistry;
+
+        // assert we have the correct event
+        $this->assertInstanceOf('PlgContentEmailcloak', $this->class);
+
+        // assert that we are getting a clean process
         $res = $this->class->onContentPrepare('com_content.article', $row, $params);
         $this->assertEquals(1, $res);
 
-        // get the hash
+        // Get the md5 hash
         preg_match("/addy_text([0-9a-z]{32})/", $row->text, $output_array);
         $hash = $output_array[1];
 
@@ -172,7 +182,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
         preg_match_all("/\<script type=\'text\/javascript\'\>(.*)<\/script>/ism", $expected, $innerJS);
         $expected = trim($innerJS[1][0]);
 
-        // assert the render is as the expected render
+        // assert the render is as the expected render with injected hash
         $this->assertEquals(trim(str_replace('__HASH__', $hash, $expected)), $result);
     }
 }
