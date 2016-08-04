@@ -389,7 +389,7 @@ ENDDATA;
 			$ftp_host = $app->input->get('ftp_host', '');
 			$ftp_port = $app->input->get('ftp_port', '21');
 			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = $app->input->get('ftp_pass', '', 'raw');
+			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?

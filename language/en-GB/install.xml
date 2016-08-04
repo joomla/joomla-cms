@@ -2,8 +2,8 @@
 <extension version="3.6" client="site" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.6.1</version>
-	<creationDate>July 2016</creationDate>
+	<version>3.6.2</version>
+	<creationDate>August 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
