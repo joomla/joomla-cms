@@ -99,7 +99,7 @@ abstract class JHtmlEmail
 				$tmpScript
 		";
 
-		// Use inline script for ajax calls
+		// TODO: Use inline script for now
 		$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
 
 		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
