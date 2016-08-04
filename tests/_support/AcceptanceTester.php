@@ -218,4 +218,52 @@ class AcceptanceTester extends \Codeception\Actor
 		$radioId = $label->getAttribute('for');
 		$I->click(['xpath' => "//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]"]);
 	}
+
+    /**
+     * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
+     *
+     * @param   string  $menuTitle     The menu item title
+     * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+     * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+     * @param   string  $menu          The menu where the item should be created
+     * @param   string  $language      If you are using Multilingual feature, the language for the menu
+     */
+    public function selectMenuItemType($menuTitle, $menuCategory, $menuItem, $menu = 'Main Menu', $language = 'All')
+    {
+        $I = $this;
+
+        $I->comment("I open the menus page");
+        $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+        $I->waitForText('Menus', '60', ['css' => 'H1']);
+        $this->checkForPhpNoticesOrWarnings();
+
+        $I->comment("I click in the menu: $menu");
+        $I->click(['link' =>  $menu]);
+        $I->waitForText('Menus: Items', '60', ['css' => 'H1']);
+        $this->checkForPhpNoticesOrWarnings();
+
+        $I->comment("I click new");
+        $I->click("New");
+        $I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
+        $this->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => 'jform_title'], $menuTitle);
+
+        $I->comment("Open the menu types iframe");
+        $I->click(['link' => "Select"]);
+        $I->waitForElement(['id' => 'menuTypeModal'], '60');
+        $I->wait(1);
+        $I->switchToIFrame("Menu Item Type");
+
+        $I->comment("Open the menu category: $menuCategory");
+        // Open the category
+        $I->wait(1);
+        $I->waitForElement(['link' => $menuCategory], '60');
+        $I->click(['link' => $menuCategory]);
+
+        $I->comment("Choose the menu item type: $menuItem");
+        $I->wait(1);
+        $I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
+        $I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
+        $I->comment('I switch back to the main window');
+    }
 }

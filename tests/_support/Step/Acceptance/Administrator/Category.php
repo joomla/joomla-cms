@@ -6,6 +6,7 @@ use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\ArticleManagerPage;
 use Page\Acceptance\Administrator\MenuManagerPage;
 use Step\Acceptance\Administrator\Content;
+use Page\Acceptance\Site\Frontpage;
 
 class Category extends \AcceptanceTester
 {
@@ -85,7 +86,6 @@ class Category extends \AcceptanceTester
         $I->click(CategoryManagerPage::$iconSearch);
         $I->checkAllResults();
         $I->clickToolbarButton('edit');
-
     }
 
     /**
@@ -177,17 +177,7 @@ class Category extends \AcceptanceTester
     public function iAddTheMenuItemInMainMenu($title)
     {
         $I = $this;
-        $I->amOnPage(MenuManagerPage::$url);
-        $I->fillField(MenuManagerPage::$menuFieldTitle, $title);
-    }
-
-    /**
-     * @When I Select menu item type as a :arg1
-     */
-    public function iSelectMenuItemTypeAsA($arg1)
-    {
-        $I = $this;
-        $I->click(MenuManagerPage::$selectMenutype);
+        $I->selectMenuItemType($title, 'Articles', 'Single Article', 'Main Menu');
     }
 
     /**
@@ -196,14 +186,10 @@ class Category extends \AcceptanceTester
     public function iSelectAnArticle($arg1)
     {
         $I = $this;
-        $I->switchToIFrame("Menu Item Type");
-
-        $I->click(MenuManagerPage::$selectMenuTypeArticle);
-        $I->click(MenuManagerPage::$singleArticle);
-        $I->switchToIFrame();
         $I->click(MenuManagerPage::$selectArticle);
-        $I->switchToIFrame("Menu Item Type");
+        $I->switchToIFrame("Select or Change article");
         $I->click(MenuManagerPage::$chooseArticle);
+        $I->switchToIFrame();
     }
 
     /**
@@ -212,6 +198,8 @@ class Category extends \AcceptanceTester
     public function iSaveTheMenuItem()
     {
         $I = $this;
+       // $I->waitForPageTitle('Menus: New Item');
+        $I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
         $I->clickToolbarButton('Save');
     }
 
@@ -241,4 +229,48 @@ class Category extends \AcceptanceTester
         $I->selectOptionInChosenById('jform_language', $english);
     }
 
+    /**
+     * @Given There is joomla home page
+     */
+    public function thereIsJoomlaHomePage()
+    {
+       $I = $this;
+       $I->amOnPage(Frontpage::$url);
+    }
+
+    /**
+     * @When I press on :arg1 menu
+     */
+    public function iPressOnMenu($arg1)
+    {
+        $I = $this;
+        $I->click(MenuManagerPage::$article);
+    }
+
+    /**
+     * @Then I should see the :arg1 in home page
+     */
+    public function iShouldSeeTheInHomePage($arg1)
+    {
+       $I = $this;
+       $I->waitForText('Test_article');
+    }
+    /**
+     * @When I press on :arg1 menu in joomla home page
+     */
+    public function iPressOnMenuInJoomlaHomePage($arg1)
+    {
+       $I = $this;
+       $I->amOnPage(Frontpage::$url);
+       $I->click(MenuManagerPage::$article);
+    }
+
+    /**
+     * @Then I should see the :arg1 error
+     */
+    public function iShouldSeeTheError($error)
+    {
+        $I = $this;
+        $I->see($error, Frontpage::$alertMessage);
+    }
 }

@@ -33,7 +33,7 @@ class Content extends \AcceptanceTester
 	public function iSaveAnArticle()
 	{
 		$I = $this;
-		$I->clickToolbarButton('Save');
+        $I->clickToolbarButton('Save');
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Content extends \AcceptanceTester
 	}
 
 	/**
-	 * @Given I set access level as a :arg1
+	 * @When I set access level as a :arg1
 	 */
 	public function iSetAccessLevelAsA($accessLevel)
 	{

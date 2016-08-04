@@ -47,7 +47,7 @@ Feature: category
     Given There is a add content link
     When I create a new article "Test_article" with content as a "This Article test for menu item"
     And I save an article
-    And I add the "Atricle" menu item in main menu
+    And I add the "Article" menu item in main menu
     And I Select menu item type as a "single article"
     And I select an article "Test_article"
     And I save the menu item
@@ -77,3 +77,18 @@ Feature: category
     And I set language as a "English (UK)"
     And I save the category
     Then I should see the "Category successfully saved." message
+
+  Scenario: Check article if exist in frontend
+    Given There is joomla home page
+    When I press on "Article" menu
+    Then I should see the "Test_article" in home page
+
+  Scenario: Create an article for registered user and ensure is not visible in frontend
+    Given There is a add content link
+    When I select the content article with title "Test_article"
+    And I set access level as a "Registered"
+    And I save the article
+    And I press on "Article" menu in joomla home page
+    Then I should see the "You are not authorised to view this resource." error
+
+

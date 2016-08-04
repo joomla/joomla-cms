@@ -20,8 +20,8 @@ Feature: content
 
   Scenario: Modify an article
     Given I select the content article with title "My_Article"
-    And I set access level as a "Registered"
-    When I save the article
+    When I set access level as a "Registered"
+    And I save the article
     Then I should see the "Article successfully saved." message
 
   Scenario: Unpublish an article
