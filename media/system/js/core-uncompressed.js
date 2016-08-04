@@ -627,36 +627,78 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		return document.getElementById('loading-logo');
 	};
 
-}( Joomla, document ));
+	/**
+	 * Domready listener
+	 * Based on https://github.com/dperini/ContentLoaded by Diego Perini
+	 */
+	Joomla.domReady = Joomla.domReady || function (callback) {
+			var done = false, top = true,
+				root = document.documentElement,
+				modern = document.addEventListener;
 
-/**
- * A document ready vanilla implementation.
- *
- * Used in: /libraries/cms/html/email.php
- *
- * @param   function  fn       The function that will be executed on document ready.
- * @param   string    context  The context for the function, defaults to window.
- *
- * @since  3.6.1
- */
-(function(exports, d) {
-	function domReady(fn, context) {
+			var init = function(e) {
+				if (e.type === 'readystatechange' && document.readyState !== 'complete') {
+					return;
+				}
+				Joomla.removeListener(e.type, init, e.type === 'load' ? window : document);
+				if (!done) {
+					callback.call(window, e.type || e);
+					done = true
+				}
+			};
 
-		function onReady(event) {
-			d.removeEventListener("DOMContentLoaded", onReady);
-			fn.call(context || exports, event);
-		}
+			var poll = function() {
+				try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+				init('poll');
+			};
 
-		function onReadyIe(event) {
-			if (d.readyState === "complete") {
-				d.detachEvent("onreadystatechange", onReadyIe);
-				fn.call(context || exports, event);
+			if (document.readyState === 'complete') {
+				// DOM are ready since a years! call the callback
+				callback.call(window, 'lazyload');
 			}
-		}
+			else {
+				// IE trick
+				if (!modern && root.doScroll) {
+					try { top = !window.frameElement; } catch(e) { }
+					if (top) poll();
+				}
+				// Listen when DOM will become ready
+				Joomla.addListener('DOMContentLoaded', init, document);
+				Joomla.addListener('readystatechange', init, document);
+				Joomla.addListener('load', init, window);
+			}
+		};
 
-		d.addEventListener && d.addEventListener("DOMContentLoaded", onReady) ||
-		d.attachEvent      && d.attachEvent("onreadystatechange", onReadyIe);
-	}
+	/**
+	 * Register the event listener
+	 * @param string  event    Event name
+	 * @param method  callback Callback function
+	 * @param element element  Add listener to element, default is window
+	 */
+	Joomla.addListener = Joomla.addListener || function(event, callback, element) {
+			var element = element || window,
+				modern = document.addEventListener,
+				method = modern ? 'addEventListener' : 'attachEvent',
+				event  = modern ? event : 'on' + event;
 
-	exports.domReady = domReady;
-})(window, document);
+			// Add event listener,
+			element[method](event, callback);
+		};
+
+	/**
+	 * Unregister the event listener
+	 * @param string  event    Event name
+	 * @param method  callback Callback function
+	 * @param element element  DOM object, default is window,
+	 */
+	Joomla.removeListener = Joomla.removeListener || function(event, callback, element){
+			var element = element || window,
+				modern = document.removeEventListener,
+				method = modern ? 'removeEventListener' : 'detachEvent',
+				event  = modern ? event : 'on' + event;
+
+			// Remove event listener,
+			element[method](event, callback);
+		};
+
+}( Joomla, document ));

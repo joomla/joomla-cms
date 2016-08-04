@@ -110,7 +110,7 @@ abstract class JHtmlEmail
 
 			JFactory::getDocument()->addScriptDeclaration(
 				"
-		domReady(function(event) {
+		Joomla.domReady(function() {
 			" . $script . "
 		});
 				"
