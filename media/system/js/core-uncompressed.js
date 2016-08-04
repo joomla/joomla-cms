@@ -663,9 +663,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 					if (top) poll();
 				}
 				// Listen when DOM will become ready
-				Joomla.addListener('DOMContentLoaded', init, document);
-				Joomla.addListener('readystatechange', init, document);
-				Joomla.addListener('load', init, window);
+				Joomla.addListener(document, 'DOMContentLoaded', init);
+				Joomla.addListener(document, 'readystatechange', init);
+				Joomla.addListener(window, 'load', init);
 			}
 		};
 
