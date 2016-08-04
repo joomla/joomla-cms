@@ -675,7 +675,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param method  callback Callback function
 	 * @param element element  Add listener to element, default is window
 	 */
-	Joomla.addListener = Joomla.addListener || function(event, callback, element) {
+	Joomla.addListener = Joomla.addListener || function(element, event, callback){
 			var element = element || window,
 				modern = document.addEventListener,
 				method = modern ? 'addEventListener' : 'attachEvent',
@@ -691,7 +691,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param method  callback Callback function
 	 * @param element element  DOM object, default is window,
 	 */
-	Joomla.removeListener = Joomla.removeListener || function(event, callback, element){
+	Joomla.removeListener = Joomla.removeListener || function(element, event, callback){
 			var element = element || window,
 				modern = document.removeEventListener,
 				method = modern ? 'removeEventListener' : 'detachEvent',
