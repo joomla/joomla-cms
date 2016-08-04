@@ -67,21 +67,36 @@ abstract class JHtmlEmail
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
-					$tmpScript = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
-						. "';";
+					$tmpScript = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" .
+						implode("' + '&#46;' + '", @$text_parts) . "';";
 				}
 				else
 				{
 					$tmpScript = "var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$tmpScript .= "document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
-					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
+				$tmpScript .= "
+				if (typeof repScloak" . $rand . " !== 'undefine') {
+					document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + window.repScloak" . $rand
+					. " + path + '\'' + prefix + ':' + addy" . $rand . " + window.repFcloak" . $rand
+					. " + '\'>'+addy_text" . $rand . "+'<\/a>';
+				} else {
+				document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';
+				}";
 			}
 			else
 			{
-				$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
-					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
+				$tmpScript = "
+				if (typeof repScloak" . $rand . " !== 'undefine') {
+					document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + window.repScloak" . $rand
+					. " + path + '\'' + prefix + ':' + addy" . $rand . " + window.repFcloak" . $rand
+					. " + '\'>'+addy" . $rand . "+'<\/a>';
+				} else {
+				document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';
+				}
+				";
 			}
 		}
 		else
