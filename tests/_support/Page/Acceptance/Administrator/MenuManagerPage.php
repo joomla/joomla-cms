@@ -19,6 +19,4 @@ class MenuManagerPage
     public static $chooseArticle = ['link' => 'Test_article'];
 
     public static $article = ['link' => 'Article'];
-
-
 }

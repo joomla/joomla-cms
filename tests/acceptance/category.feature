@@ -47,8 +47,8 @@ Feature: category
     Given There is a add content link
     When I create a new article "Test_article" with content as a "This Article test for menu item"
     And I save an article
-    And I add the "Article" menu item in main menu
-    And I Select menu item type as a "single article"
+    And I create menu item with title "Article"
+    And I choose menu item type "Articles" and select "Single Article"
     And I select an article "Test_article"
     And I save the menu item
     Then I should see the "Menu item successfully saved." message
@@ -56,11 +56,11 @@ Feature: category
   Scenario: Create menu item for articles belonging to a specific Category
     Given There is a add content link
     When I create a new article "Test_category" with content as a "This Article test for category menu item"
-    And I set category as a "Category_2"
+    And I set category as a "- Category_2"
     And I save an article
-    And I add the "Category" menu item in main menu
-    And I Select menu item type as a "Category List"
-    And I select a category "Category_2"
+    And I create menu item with title "All Categories"
+    And I choose menu item type "Articles" and select "List All Categories"
+    And I select a top level category "Category_2"
     And I save the menu item
     Then I should see the "Menu item successfully saved." message
 
@@ -90,5 +90,3 @@ Feature: category
     And I save the article
     And I press on "Article" menu in joomla home page
     Then I should see the "You are not authorised to view this resource." error
-
-

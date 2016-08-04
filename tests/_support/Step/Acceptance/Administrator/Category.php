@@ -2,10 +2,8 @@
 namespace Step\Acceptance\Administrator;
 
 use Page\Acceptance\Administrator\CategoryManagerPage;
-use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\ArticleManagerPage;
 use Page\Acceptance\Administrator\MenuManagerPage;
-use Step\Acceptance\Administrator\Content;
 use Page\Acceptance\Site\Frontpage;
 
 class Category extends \AcceptanceTester
@@ -172,12 +170,21 @@ class Category extends \AcceptanceTester
     }
 
     /**
-     * @When I add the :arg1 menu item in main menu
+     * @When I create menu item with title :title
      */
-    public function iAddTheMenuItemInMainMenu($title)
+    public function iCreateMenuItemWithTitle($title)
     {
         $I = $this;
-        $I->selectMenuItemType($title, 'Articles', 'Single Article', 'Main Menu');
+        $I->prepareMenuItemCreate($title);
+    }
+
+    /**
+     * @When I choose menu item type :title and select :menuItem
+     */
+    public function iAddTheMenuItemInMainMenu($title, $menuItem)
+    {
+        $I = $this;
+        $I->selectMenuItemType($title, $menuItem);
     }
 
     /**
@@ -188,8 +195,13 @@ class Category extends \AcceptanceTester
         $I = $this;
         $I->click(MenuManagerPage::$selectArticle);
         $I->switchToIFrame("Select or Change article");
+        $I->waitForElement(MenuManagerPage::$chooseArticle, 60);
+        $I->checkForPhpNoticesOrWarnings();
         $I->click(MenuManagerPage::$chooseArticle);
         $I->switchToIFrame();
+
+        // Waiting to close the iframe properly
+        $I->wait(1);
     }
 
     /**
@@ -198,8 +210,7 @@ class Category extends \AcceptanceTester
     public function iSaveTheMenuItem()
     {
         $I = $this;
-       // $I->waitForPageTitle('Menus: New Item');
-        $I->waitForText('Menus: New Item', '30', ['css' => 'h1']);
+        $I->waitForPageTitle('Menus: New Item');
         $I->clickToolbarButton('Save');
     }
 
@@ -213,9 +224,9 @@ class Category extends \AcceptanceTester
     }
 
     /**
-     * @When I select a category :arg1
+     * @When I select a top level category :arg1
      */
-    public function iSelectAnCategory($Category_2)
+    public function iSelectATopLevelCategory($Category_2)
     {
         $I = $this;
         $I->selectOptionInChosenById('jform_request_id', $Category_2);
