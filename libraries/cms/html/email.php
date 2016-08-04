@@ -108,11 +108,11 @@ abstract class JHtmlEmail
 		{
 			JFactory::getDocument()->addScriptDeclaration(
 				"
-		document.onreadystatechange = function () {
+		document.addEventListener('readystatechange',function () {
 			if (document.readyState == 'interactive') {
 			" . $script . "
 			}
-		};
+		}, false);
 				"
 			);
 		}
