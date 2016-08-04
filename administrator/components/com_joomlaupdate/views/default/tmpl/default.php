@@ -39,6 +39,10 @@ jQuery(document).ready(function($) {
 			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'online-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_ONLINE')); ?>
 		<?php endif; ?>
 
+		<?php if ($this->selfUpdate) : ?>
+			<?php // If we have a self update notice to install it first! ?>
+			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
+		<?php endif; ?>
 		<?php if (!isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest']) : ?>
 			<?php // If we have no download URL we can't reinstall or update ?>
 			<?php echo $this->loadTemplate('nodownload'); ?>
@@ -56,14 +60,14 @@ jQuery(document).ready(function($) {
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 
-		<?php // Only Super Users have access to the Update & Install for obvious security reasons ?>
-		<?php if ($this->showUploadAndUpdate) : ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
-			<?php echo $this->loadTemplate('upload'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-		<?php endif; ?>
+	<?php // Only Super Users have access to the Update & Install for obvious security reasons ?>
+	<?php if ($this->showUploadAndUpdate) : ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'joomlaupdate-tabs', 'upload-update', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD')); ?>
+		<?php echo $this->loadTemplate('upload'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php endif; ?>
 
 	<div class="download_message" style="display: none">
 		<p></p>
