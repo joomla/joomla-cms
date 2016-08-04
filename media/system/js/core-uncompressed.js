@@ -435,9 +435,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param radioObj
 	 * @return
 	 */
-		// return the value of the radio button that is checked
-		// return an empty string if none are checked, or
-		// there are no radio buttons
+	// return the value of the radio button that is checked
+	// return an empty string if none are checked, or
+	// there are no radio buttons
 	window.radioGetCheckedValue = function ( radioObj ) {
 		if ( !radioObj ) { return ''; }
 
@@ -614,7 +614,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			parentElement.appendChild(loadingDiv);
 		}
 		// Show or hide the layer.
-		else 
+		else
 		{
 			if (!document.getElementById('loading-logo'))
 			{
@@ -640,7 +640,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				if (e.type === 'readystatechange' && document.readyState !== 'complete') {
 					return;
 				}
-				Joomla.removeListener(e.type, init, e.type === 'load' ? window : document);
+				Joomla.removeListener(e.type === 'load' ? window : document, e.type, init);
 				if (!done) {
 					callback.call(window, e.type || e);
 					done = true
