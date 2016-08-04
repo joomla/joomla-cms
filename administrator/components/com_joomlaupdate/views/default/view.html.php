@@ -141,16 +141,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		}
 
 		$this->selfUpdate = $this->checkForSelfUpdate();
-		
-		try
-		{
-			
-		}
-		catch
-		{
-			
-		}
-		
+
 		// Only Super Users have access to the Update & Install for obvious security reasons
 		$this->showUploadAndUpdate = JFactory::getUser()->authorise('core.admin');
 
