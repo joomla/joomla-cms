@@ -28,15 +28,11 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 JFactory::getDocument()->addScriptDeclaration('
 moduleIns = function(type, name) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };
 modulePosIns = function(position) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadposition " + position + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };');
 ?>
