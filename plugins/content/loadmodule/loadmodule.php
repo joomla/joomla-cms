@@ -178,7 +178,7 @@ class PlgContentLoadmodule extends JPlugin
 		$params = array('style' => $style);
 		ob_start();
 
-		if ($mod->id)
+		if (isset($mod->id))
 		{
 			echo $renderer->render($mod, $params);
 		}
