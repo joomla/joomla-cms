@@ -239,7 +239,7 @@ class ContentModelArticle extends JModelAdmin
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid . ' AND state >= 0');
 		}
 	}
 
@@ -659,10 +659,12 @@ class ContentModelArticle extends JModelAdmin
 
 				// Featuring.
 				$tuples = array();
+				$ordering = $table->getNextOrder();
 
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = $pk . ', ' . $ordering;
+					$ordering++;
 				}
 
 				if (count($tuples))
@@ -683,8 +685,6 @@ class ContentModelArticle extends JModelAdmin
 
 			return false;
 		}
-
-		$table->reorder();
 
 		$this->cleanCache();
 
