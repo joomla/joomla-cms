@@ -68,6 +68,19 @@ class PlgContentEmailcloak extends JPlugin
 	 */
 	protected function _addAttributesToEmail($jsEmail, $before, $after)
 	{
+		if (strtolower(JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) != 'xmlhttprequest')
+		{
+			preg_match('/id="(.+?)\"/s', $jsEmail, $matches);
+			$id = $matches[1];
+
+			JFactory::getDocument()->addScriptDeclaration("
+		window.repS" . $id . " = '$before';
+		window.repF" . $id . " = '$after';"
+			);
+
+			return $jsEmail;
+		}
+
 		if ($before !== "")
 		{
 			$before = str_replace("'", "\'", $before);

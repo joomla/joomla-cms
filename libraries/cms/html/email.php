@@ -67,21 +67,36 @@ abstract class JHtmlEmail
 					// Split email by @ symbol
 					$text = explode('@', $text);
 					$text_parts = explode('.', $text[1]);
-					$tmpScript = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
-						. "';";
+					$tmpScript = "var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" .
+						implode("' + '&#46;' + '", @$text_parts) . "';";
 				}
 				else
 				{
 					$tmpScript = "var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$tmpScript .= "document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
-					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';";
+				$tmpScript .= "
+				if (typeof repScloak" . $rand . " !== 'undefine') {
+					document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + window.repScloak" . $rand
+					. " + path + '\'' + prefix + ':' + addy" . $rand . " + window.repFcloak" . $rand
+					. " + '\'>'+addy_text" . $rand . "+'<\/a>';
+				} else {
+				document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>'+addy_text" . $rand . "+'<\/a>';
+				}";
 			}
 			else
 			{
-				$tmpScript = "document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
-					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';";
+				$tmpScript = "
+				if (typeof repScloak" . $rand . " !== 'undefine') {
+					document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + window.repScloak" . $rand
+					. " + path + '\'' + prefix + ':' + addy" . $rand . " + window.repFcloak" . $rand
+					. " + '\'>'+addy" . $rand . "+'<\/a>';
+				} else {
+				document.getElementById('cloak" . $rand . "').innerHTML += '<a ' + path + '\'' + prefix + ':' + addy"
+					. $rand . " + '\'>' +addy" . $rand . "+'<\/a>';
+				}
+				";
 			}
 		}
 		else
@@ -99,8 +114,23 @@ abstract class JHtmlEmail
 				$tmpScript
 		";
 
-		// TODO: Use inline script for now
-		$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
+		if (strtolower(JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest')
+		{
+			// Use inline script for ajax calls
+			$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
+		}
+		else
+		{
+			JHtml::_('script', 'system/core.js', false, true, false, false, true);
+
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		Joomla.domReady(function() {
+			" . $script . "
+		});
+				"
+			);
+		}
 
 		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
 	}

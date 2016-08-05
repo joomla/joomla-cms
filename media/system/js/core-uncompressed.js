@@ -435,9 +435,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param radioObj
 	 * @return
 	 */
-		// return the value of the radio button that is checked
-		// return an empty string if none are checked, or
-		// there are no radio buttons
+	// return the value of the radio button that is checked
+	// return an empty string if none are checked, or
+	// there are no radio buttons
 	window.radioGetCheckedValue = function ( radioObj ) {
 		if ( !radioObj ) { return ''; }
 
@@ -614,7 +614,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			parentElement.appendChild(loadingDiv);
 		}
 		// Show or hide the layer.
-		else 
+		else
 		{
 			if (!document.getElementById('loading-logo'))
 			{
@@ -626,5 +626,79 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		return document.getElementById('loading-logo');
 	};
+
+	/**
+	 * Domready listener
+	 * Based on https://github.com/dperini/ContentLoaded by Diego Perini
+	 */
+	Joomla.domReady = Joomla.domReady || function (callback) {
+			var done = false, top = true,
+				root = document.documentElement,
+				modern = document.addEventListener;
+
+			var init = function(e) {
+				if (e.type === 'readystatechange' && document.readyState !== 'complete') {
+					return;
+				}
+				Joomla.removeListener(e.type === 'load' ? window : document, e.type, init);
+				if (!done) {
+					callback.call(window, e.type || e);
+					done = true
+				}
+			};
+
+			var poll = function() {
+				try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+				init('poll');
+			};
+
+			if (document.readyState === 'complete') {
+				// DOM are ready since a years! call the callback
+				callback.call(window, 'lazyload');
+			}
+			else {
+				// IE trick
+				if (!modern && root.doScroll) {
+					try { top = !window.frameElement; } catch(e) { }
+					if (top) poll();
+				}
+				// Listen when DOM will become ready
+				Joomla.addListener(document, 'DOMContentLoaded', init);
+				Joomla.addListener(document, 'readystatechange', init);
+				Joomla.addListener(window, 'load', init);
+			}
+		};
+
+	/**
+	 * Register the event listener
+	 * @param string  event    Event name
+	 * @param method  callback Callback function
+	 * @param element element  Add listener to element, default is window
+	 */
+	Joomla.addListener = Joomla.addListener || function(element, event, callback){
+			var element = element || window,
+				modern = document.addEventListener,
+				method = modern ? 'addEventListener' : 'attachEvent',
+				event  = modern ? event : 'on' + event;
+
+			// Add event listener,
+			element[method](event, callback);
+		};
+
+	/**
+	 * Unregister the event listener
+	 * @param string  event    Event name
+	 * @param method  callback Callback function
+	 * @param element element  DOM object, default is window,
+	 */
+	Joomla.removeListener = Joomla.removeListener || function(element, event, callback){
+			var element = element || window,
+				modern = document.removeEventListener,
+				method = modern ? 'removeEventListener' : 'detachEvent',
+				event  = modern ? event : 'on' + event;
+
+			// Remove event listener,
+			element[method](event, callback);
+		};
 
 }( Joomla, document ));
