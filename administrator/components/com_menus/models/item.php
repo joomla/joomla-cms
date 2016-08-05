@@ -1164,11 +1164,12 @@ class MenusModelItem extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'menuitem');
+					$field->addAttribute('type', 'modal_menu');
 					$field->addAttribute('language', $tag);
-					$field->addAttribute('disable', 'separator,alias,heading,url');
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}

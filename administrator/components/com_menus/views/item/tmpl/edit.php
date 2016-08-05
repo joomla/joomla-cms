@@ -60,6 +60,11 @@ Joomla.submitbutton = function(task, type){
 	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
 	{
 		Joomla.submitform(task, document.getElementById('item-form'));
+
+		if (task !== 'item.apply')
+		{
+			window.parent.jQuery('#menuEdit" . (int) $this->item->id . "Modal').modal('hide');
+		}
 	}
 	else
 	{
@@ -79,10 +84,13 @@ $input = JFactory::getApplication()->input;
 
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
-$tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+// In case of modal
+$isModal = $input->get('layout') == 'modal' ? true : false;
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit' . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -145,13 +153,15 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
-		<?php if ($assoc) : ?>
+		<?php if (!$isModal && $assoc) : ?>
 			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
 				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
+		<?php elseif ($isModal && $assoc) : ?>
+			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
