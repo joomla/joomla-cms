@@ -257,6 +257,8 @@
 				<option value="hits">JGLOBAL_MOST_HITS</option>
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ORDERING</option>
+				<option	value="rorder">JGLOBAL_REVERSE_ORDERING</option>
+
 			</field>
 
 			<field name="order_date" type="list"
