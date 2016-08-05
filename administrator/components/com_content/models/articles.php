@@ -92,7 +92,7 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $forcedLanguage;
 		}
 
-        $form_submited = JRequest::getVar('form_submited');
+        $form_submited =  JFactory::getApplication()->input->post->get('form_submited');
 
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
