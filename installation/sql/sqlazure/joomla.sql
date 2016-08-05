@@ -686,6 +686,12 @@ CREATE NONCLUSTERED INDEX [idx_core_content_id] ON [#__contentitem_tag_map]
 	[core_content_id] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
+CREATE NONCLUSTERED INDEX [idx_alias_item_id] ON [#__contentitem_tag_map]
+(
+	[type_alias] ASC,
+	[content_item_id] ASC
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
 /****** Object:  Table [#__core_log_searches] ******/
 SET QUOTED_IDENTIFIER ON;
 
@@ -740,6 +746,12 @@ CREATE NONCLUSTERED INDEX [extension] ON [#__extensions]
 	[element] ASC,
 	[folder] ASC,
 	[client_id] ASC
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_type_ordering] ON [#__extensions]
+(
+	[type] ASC,
+	[ordering] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__extensions]  ON;
@@ -1885,6 +1897,13 @@ CREATE UNIQUE INDEX [idx_access] ON [#__languages]
 	[access] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
+CREATE NONCLUSTERED INDEX [idx_published_ordering] ON [#__languages]
+(
+	[published] ASC,
+	[ordering] ASC
+)
+WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
 SET IDENTITY_INSERT [#__languages]  ON;
 
 INSERT INTO [#__languages] ([lang_id], [lang_code], [title], [title_native], [sef], [image], [description], [metakey], [metadesc], [sitename], [published], [access], [ordering])
@@ -1979,6 +1998,13 @@ CREATE NONCLUSTERED INDEX [idx_template_style_id] ON [#__menu]
 CREATE NONCLUSTERED INDEX [idx_img] ON [#__menu]
 (
 	[img] ASC
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_client_id_published_lft] ON [#__menu]
+(
+	[client_id] ASC,
+	[published] ASC,
+	[lft] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__menu]  ON;
@@ -2520,6 +2546,12 @@ CREATE NONCLUSTERED INDEX [idx_template] ON [#__template_styles]
 	[template] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
+CREATE NONCLUSTERED INDEX [idx_client_id] ON [#__template_styles]
+(
+	[client_id] ASC,
+)
+WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
 SET IDENTITY_INSERT [#__template_styles] ON;
 
 INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params])
@@ -2997,6 +3029,13 @@ CREATE TABLE [#__viewlevels](
 	[title] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
+
+CREATE NONCLUSTERED INDEX [idx_ordering_title] ON [#__viewlevels]
+(
+	[ordering] ASC,
+	[title] ASC
+)
+WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 SET IDENTITY_INSERT [#__viewlevels]  ON;
 

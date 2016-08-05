@@ -155,7 +155,23 @@ class JLanguageHelper
 				{
 					$db = JFactory::getDbo();
 					$query = $db->getQuery(true)
-						->select('*')
+						->select(
+							array(
+								'lang_id',
+								'lang_code',
+								'title',
+								'title_native',
+								'sef',
+								'image',
+								'description',
+								'metakey',
+								'metadesc',
+								'sitename',
+								'published',
+								'access',
+								'ordering'
+							)
+						)
 						->from('#__languages')
 						->where('published=1')
 						->order('ordering ASC');

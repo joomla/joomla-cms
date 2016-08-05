@@ -477,8 +477,7 @@ final class JApplicationSite extends JApplicationCms
 				->select('id, home, template, s.params')
 				->from('#__template_styles as s')
 				->where('s.client_id = 0')
-				->where('e.enabled = 1')
-				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type=' . $db->quote('template') . ' AND e.client_id=s.client_id');
+				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type=' . $db->quote('template') . ' AND e.client_id=0 AND e.enabled = 1');
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');

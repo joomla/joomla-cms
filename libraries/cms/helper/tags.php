@@ -426,7 +426,40 @@ class JHelperTags extends JHelper
 
 		if ($getTagData)
 		{
-			$query->select($db->quoteName('t') . '.*');
+			$query->select(
+				array(
+					'id',
+					'parent_id',
+					'lft',
+					'rgt',
+					'level',
+					'path',
+					'title',
+					'alias',
+					'note',
+					'description',
+					'published',
+					'checked_out',
+					'checked_out_time',
+					'access',
+					'params',
+					'metadesc',
+					'metakey',
+					'metadata',
+					'created_user_id',
+					'created_time',
+					'created_by_alias',
+					'modified_user_id',
+					'modified_time',
+					'images',
+					'urls',
+					'hits',
+					'language',
+					'version',
+					'publish_up',
+					'publish_down'
+				)
+			);
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));

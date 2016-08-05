@@ -425,6 +425,7 @@ CREATE TABLE "#__contentitem_tag_map" (
 CREATE INDEX "#__contentitem_tag_map_idx_tag_type" ON "#__contentitem_tag_map" ("tag_id", "type_id");
 CREATE INDEX "#__contentitem_tag_map_idx_date_id" ON "#__contentitem_tag_map" ("tag_date", "tag_id");
 CREATE INDEX "#__contentitem_tag_map_idx_core_content_id" ON "#__contentitem_tag_map" ("core_content_id");
+CREATE INDEX "#__contentitem_idx_alias_item_id" ON "#__contentitem_tag_map" ("type_alias","content_item_id");
 
 COMMENT ON COLUMN "#__contentitem_tag_map"."core_content_id" IS 'PK from the core content table';
 COMMENT ON COLUMN "#__contentitem_tag_map"."content_item_id" IS 'PK from the content type table';
@@ -468,6 +469,7 @@ CREATE TABLE "#__extensions" (
 CREATE INDEX "#__extensions_element_clientid" ON "#__extensions" ("element", "client_id");
 CREATE INDEX "#__extensions_element_folder_clientid" ON "#__extensions" ("element", "folder", "client_id");
 CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "folder", "client_id");
+CREATE INDEX "#__extensions_idx_type_ordering" ON "#__extensions" ("type","ordering");
 
 -- Components
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -1140,6 +1142,7 @@ CREATE TABLE "#__languages" (
 );
 CREATE INDEX "#__languages_idx_ordering" ON "#__languages" ("ordering");
 CREATE INDEX "#__languages_idx_access" ON "#__languages" ("access");
+CREATE INDEX "#__languages_idx_published_ordering" ON "#__languages" ("published","ordering");
 
 --
 -- Dumping data for table #__languages
@@ -1186,6 +1189,7 @@ CREATE INDEX "#__menu_idx_left_right" ON "#__menu" ("lft", "rgt");
 CREATE INDEX "#__menu_idx_alias" ON "#__menu" ("alias");
 CREATE INDEX "#__menu_idx_path" ON "#__menu" ("path");
 CREATE INDEX "#__menu_idx_language" ON "#__menu" ("language");
+CREATE INDEX "#__menu_idx_client_id_published_lft" ON "#__menu" ("client_id","published","lft");
 
 COMMENT ON COLUMN "#__menu"."menutype" IS 'The type of menu this item belongs to. FK to #__menu_types.menutype';
 COMMENT ON COLUMN "#__menu"."title" IS 'The display title of the menu item.';
@@ -1570,6 +1574,7 @@ CREATE TABLE "#__template_styles" (
 );
 CREATE INDEX "#__template_styles_idx_template" ON "#__template_styles" ("template");
 CREATE INDEX "#__template_styles_idx_home" ON "#__template_styles" ("home");
+CREATE INDEX "#__template_styles_idx_client_id" ON "#__template_styles" ("client_id");
 
 --
 -- Dumping data for table #__template_styles
@@ -1893,6 +1898,7 @@ CREATE TABLE "#__viewlevels" (
 
 COMMENT ON COLUMN "#__viewlevels"."id" IS 'Primary Key';
 COMMENT ON COLUMN "#__viewlevels"."rules" IS 'JSON encoded access control.';
+CREATE INDEX "#__viewlevels_idx_ordering_title" ON "#__viewlevels" ("ordering","title");
 
 --
 -- Dumping data for table #__viewlevels
