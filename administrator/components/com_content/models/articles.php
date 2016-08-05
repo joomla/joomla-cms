@@ -92,20 +92,28 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $forcedLanguage;
 		}
 
+        $form_submited = JRequest::getVar('form_submited');
+
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-		$this->setState('filter.access', $access);
+        $access = $form_submited ?
+            JFactory::getApplication()->input->post->get('access') :
+            $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
+        if ( $form_submited ) $this->setState('filter.access', $access);
 
-		$authorId = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$this->setState('filter.author_id', $authorId);
+        $authorId = $form_submited ?
+            JFactory::getApplication()->input->post->get('author_id') :
+            $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+        if ( $form_submited ) $this->setState('filter.author_id', $authorId);
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$this->setState('filter.category_id', $categoryId);
+        $categoryId = $form_submited ?
+            JFactory::getApplication()->input->post->get('category_id') :
+            $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+        if ( $form_submited ) $this->setState('filter.category_id', $categoryId);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
@@ -113,8 +121,10 @@ class ContentModelArticles extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
+        $tag = $form_submited ?
+            JFactory::getApplication()->input->post->get('tag') :
+            $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+        if ( $form_submited ) $this->setState('filter.tag', $tag);
 
 		// List state information.
 		parent::populateState($ordering, $direction);
