@@ -830,6 +830,8 @@
 				value="rhits">JGLOBAL_LEAST_HITS</option>
 			<option
 				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+			<option
+				value="rorder">JGLOBAL_ARTICLE_MANAGER_REVERSE_ORDER</option>
 		</field>
 
 		<field name="order_date" type="list"
