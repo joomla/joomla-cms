@@ -70,9 +70,8 @@ class PlgContentEmailcloak extends JPlugin
 	{
 		if (strtolower(JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) != 'xmlhttprequest')
 		{
-			// this needs a proper regex
-			$id = str_replace('<span id="', '', $jsEmail);
-			$id = str_replace('">This email address is being protected from spambots. You need JavaScript enabled to view it.</span>', '', $id);
+			preg_match('/id="(.+?)\"/s', $jsEmail, $matches);
+			$id = $matches[1];
 
 			JFactory::getDocument()->addScriptDeclaration("
 		window.repS" . $id . " = '$before';
