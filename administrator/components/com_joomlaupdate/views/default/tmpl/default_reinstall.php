@@ -9,6 +9,14 @@
 
 defined('_JEXEC') or die;
 
+$reinstallUrl = $this->updateInfo['object']->downloadurl->_data;
+
+// Check if there is a special reinstall URL
+if (isset($this->updateInfo['object']->reinstallurl->_data))
+{
+	$reinstallUrl = $this->updateInfo['object']->reinstallurl->_data;
+}
+
 /** @var JoomlaupdateViewDefault $this */
 ?>
 <fieldset>
@@ -31,9 +39,7 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_REINSTALL'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
-						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-					</a>
+					<a href="<?php echo $reinstallUrl; ?>"><?php echo $reinstallUrl; ?></a>
 				</td>
 			</tr>
 			<?php if (isset($this->updateInfo['object']->get('infourl')->_data)
