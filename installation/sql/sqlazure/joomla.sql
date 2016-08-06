@@ -1007,7 +1007,9 @@ SELECT 455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'ins
 UNION ALL
 SELECT 456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
-SELECT 457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0;
+SELECT 457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 3, 0
+UNION ALL
+SELECT 458, 'plg_system_phpversioncheck', 'plugin', 'phpversioncheck', 'system', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT [#__extensions] ([extension_id], [name], [type], [element], [folder], [client_id], [enabled], [access], [protected], [manifest_cache], [params], [custom_data], [system_data], [checked_out], [checked_out_time], [ordering], [state])
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
