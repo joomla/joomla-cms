@@ -204,7 +204,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			catch (RuntimeException $e)
 			{
 				// Something is wrong here!
-				$joomlaUpdateComponentObject = NULL;
+				$joomlaUpdateComponentObject = null;
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
