@@ -163,8 +163,7 @@ class JFormFieldNumber extends JFormField
 		}
 		else
 		{
-			$value = "";
-			$value = (isset($this->min)) ? $this->min : $value;
+			$value = ($this->required and isset($this->min)) ? $this->min : '';
 		}
 
 		// Initialize JavaScript field attributes.
