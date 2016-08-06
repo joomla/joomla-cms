@@ -118,5 +118,7 @@ if (isset($this->updateInfo['object']->reinstallurl->_data))
 			</tfoot>
 		</table>
 	<?php endif; ?>
-
 </fieldset>
+
+<input type="hidden" name="task" value="update.reinstall" />
+<input type="hidden" name="option" value="com_joomlaupdate" />

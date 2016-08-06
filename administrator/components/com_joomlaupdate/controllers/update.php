@@ -17,19 +17,33 @@ defined('_JEXEC') or die;
 class JoomlaupdateControllerUpdate extends JControllerLegacy
 {
 	/**
+	 * Performs the download of the reinstall package
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function reinstall()
+	{
+		$this->download(true);
+	}
+	/**
 	 * Performs the download of the update package
+	 *
+	 * @param   boolean  $reinstall   If true, we check if there is a reinstall URL
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5.4
 	 */
-	public function download()
+	public function download($reinstall = false)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+
 		$user = JFactory::getUser();
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, JVERSION), JLog::INFO, 'Update');
 
@@ -37,9 +51,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('Default');
-		$file = $model->download();
+		$file  = $model->download($reinstall);
 
-		$message = null;
+		$message     = null;
 		$messageType = null;
 
 		if ($file)
