@@ -671,7 +671,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function setUnInstallFlags(array $unInstallFlags)
+	public function setUnInstallFlags(array $unInstallFlags)
 	{
 		$this->unInstallFlags = $unInstallFlags;
 	}
