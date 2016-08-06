@@ -123,5 +123,6 @@ defined('_JEXEC') or die;
 		</tfoot>
 	</table>
 </fieldset>
+
 <input type="hidden" name="task" value="update.download" />
 <input type="hidden" name="option" value="com_joomlaupdate" />

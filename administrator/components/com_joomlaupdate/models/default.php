@@ -255,9 +255,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$packageURL = $updateInfo['object']->downloadurl->_data;
 
 		// Check if there is a special reinstall URL
-		if ($reinstall == true && isset($this->updateInfo['object']->reinstallurl->_data))
+		if ($reinstall == true && isset($updateInfo['object']->reinstallurl->_data))
 		{
-			$packageURL = $this->updateInfo['object']->reinstallurl->_data;
+			$packageURL = $updateInfo['object']->reinstallurl->_data;
 		}
 
 		$basename   = basename($packageURL);
