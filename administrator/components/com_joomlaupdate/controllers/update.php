@@ -30,7 +30,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Performs the download of the update package
 	 *
-	 * @param   boolean  $reinstall   If true, we check if there is a reinstall URL
+	 * @param   boolean  $reinstall  If true, we check if there is a reinstall URL
 	 *
 	 * @return  void
 	 *
