@@ -327,11 +327,16 @@ class PlgEditorTinymce extends JPlugin
 		$access = array_flip($access);
 
 		$html_height = $this->params->get('html_height', '550');
-		if (is_numeric($height)) {
+		
+		if (is_numeric($height))
+		{
 			$html_height = $height;
 		}
+		
 		$html_width  = $this->params->get('html_width', '');
-		if (is_numeric($width)) {
+		
+		if (is_numeric($width))
+		{
 			$html_width = $width;
 		}
 
