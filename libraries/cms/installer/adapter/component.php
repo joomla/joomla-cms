@@ -59,6 +59,14 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	protected $install_script = null;
 
 	/**
+	 * For B/C reasons removing extension's categories is set to true by default
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 * */
+	protected $unInstallFlags = array('delete_cats'=>true);
+
+	/**
 	 * Method to check if the extension is present in the filesystem
 	 *
 	 * @return  boolean
@@ -657,6 +665,18 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	}
 
 	/**
+	 * Method to set uninstallation flags, e.g. at uninstall($parent) methods of script.php of the extension
+	 * usage example: $parent->setUnInstallFlags( array('delete_cats'=>false) );
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function setUnInstallFlags(array $unInstallFlags)
+	{
+		$this->unInstallFlags = $unInstallFlags;
+	}
+
+	/**
 	 * Custom uninstall method for components
 	 *
 	 * @param   integer  $id  The unique extension id of the component to uninstall
@@ -796,13 +816,16 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$asset->delete();
 		}
 
-		// Remove categories for this component
-		$query->clear()
-			->delete('#__categories')
-			->where('extension=' . $db->quote($this->element), 'OR')
-			->where('extension LIKE ' . $db->quote($this->element . '.%'));
-		$db->setQuery($query);
-		$db->execute();
+		// Remove categories for this component, if this flag has not been cleared by: com_componentnameInstallerScript::uninstall()
+		if ($this->unInstallFlags['delete_cats'])
+		{
+			$query->clear()
+				->delete('#__categories')
+				->where('extension=' . $db->quote($this->element), 'OR')
+				->where('extension LIKE ' . $db->quote($this->element . '.%'));
+			$db->setQuery($query);
+			$db->execute();
+		}
 
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
