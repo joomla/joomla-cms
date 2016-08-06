@@ -817,7 +817,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		}
 
 		// Remove categories for this component, if this flag has not been cleared by: com_componentnameInstallerScript::uninstall()
-		if ($this->unInstallFlags['delete_cats'])
+		if (!empty($this->unInstallFlags['delete_cats']))
 		{
 			$query->clear()
 				->delete('#__categories')
