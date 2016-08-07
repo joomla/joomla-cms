@@ -201,6 +201,8 @@
 		<filename>en-GB.plg_system_logout.sys.ini</filename>
 		<filename>en-GB.plg_system_p3p.ini</filename>
 		<filename>en-GB.plg_system_p3p.sys.ini</filename>
+		<filename>en-GB.plg_system_phpversioncheck.ini</filename>
+		<filename>en-GB.plg_system_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
 		<filename>en-GB.plg_system_redirect.sys.ini</filename>
 		<filename>en-GB.plg_system_remember.ini</filename>
