@@ -1005,7 +1005,7 @@ abstract class JHtml
 		}
  		else
  		{
-		$inputvalue = '';
+			$inputvalue = '';
 		}
 
 		$data = array(
