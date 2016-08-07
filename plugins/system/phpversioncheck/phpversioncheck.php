@@ -143,9 +143,29 @@ class PlgSystemPhpVersionCheck extends JPlugin
 
 			if ($phpNotSupported = $today > $phpEndOfSupport)
 			{
+				/*
+				 * Find the oldest PHP version still supported that is newer than the current version,
+				 * this is our recommendation for users on unsupported platforms
+				 */
+				foreach ($phpSupportData as $version => $versionData)
+				{
+					$versionEndOfSupport = new JDate($versionData['eos']);
+
+					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
+					{
+						$recommendedVersion             = $version;
+						$recommendedVersionEndOfSupport = $versionEndOfSupport;
+
+						break;
+					}
+				}
+
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
 				$supportStatus['message'] = JText::sprintf(
-					'PLG_SYSTEM_PHPVERSIONCHECK_UNSUPPORTED', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+					'PLG_SYSTEM_PHPVERSIONCHECK_UNSUPPORTED',
+					PHP_VERSION,
+					$recommendedVersion,
+					$recommendedVersionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
 				);
 			}
 
