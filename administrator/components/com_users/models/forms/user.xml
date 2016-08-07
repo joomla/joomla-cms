@@ -105,7 +105,7 @@
 		<field
 				name="block"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="btn-group btn-group-yesno btn-group-reversed"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
