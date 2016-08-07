@@ -6,6 +6,7 @@
 	<exclude-pattern type="relative">build/*</exclude-pattern>
 	<exclude-pattern type="relative">docs/*</exclude-pattern>
 	<exclude-pattern type="relative">tests/*</exclude-pattern>
+	<exclude-pattern type="relative">tests-phpunit/*</exclude-pattern>
 	<exclude-pattern type="relative">cache/*</exclude-pattern>
 	<exclude-pattern type="relative">tmp/*</exclude-pattern>
 	<exclude-pattern type="relative">logs/*</exclude-pattern>
@@ -25,6 +26,9 @@
 	<exclude-pattern type="relative">configuration.php</exclude-pattern>
 	<exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
 	<exclude-pattern type="relative">plugins/captcha/recaptcha/recaptchalib.php</exclude-pattern>
+
+	<!-- Exclude the RoboFile.php -->
+	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
 
 	<!-- Include all sniffs in an external standard directory -->
 	<rule ref="Generic.Files.EndFileNewline">

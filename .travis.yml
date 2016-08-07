@@ -3,6 +3,7 @@ language: php
 env:
   global:
     - RUN_PHPCS="no"
+    - RUN_CODECEPTION="no"
     - INSTALL_MEMCACHE="yes"
     - INSTALL_MEMCACHED="yes"
     - INSTALL_REDIS="yes"
@@ -10,10 +11,21 @@ env:
 matrix:
   fast_finish: true
   include:
+    - php: 5.3
+      env: INSTALL_APC="yes"
+    - php: 5.4
+      env: INSTALL_APC="yes"
     - php: 5.5
-      env: INSTALL_APCU="yes"
+      env: RUN_CODECEPTION="yes" INSTALL_APCU="yes"
+      sudo: true
     - php: 5.6
-      env: INSTALL_APCU="yes" #RUN_PHPCS="yes"
+      env: RUN_CODECEPTION="yes" RUN_PHPCS="yes" INSTALL_APCU="yes"
+      sudo: true
+    - php: 7.0
+      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+    - php: 7.1
+      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+    - php: hhvm
       sudo: true
       dist: trusty
       group: edge # until the next update
@@ -28,6 +40,9 @@ matrix:
         - postgresql
         - redis-server
       env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" # Disabled items that currently do not work in travis-ci hhvm
+  allow_failures:
+    - php: 7.1
+    - php: hhvm
 
 services:
   - memcache
@@ -35,8 +50,16 @@ services:
   - redis-server
 
 before_script:
+before_script:
   # Make sure all dev dependencies are installed
   - composer install
+  # Set up databases for testing
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql -e 'create database joomla_ut;'; fi
+  - if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql joomla_ut < tests-phpunit/unit/schema/mysql.sql; fi
+  - if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root -e 'create database joomla_ut;'; fi
+  - if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root joomla_ut < tests-phpunit/unit/schema/mysql.sql; fi
+  - psql -c 'create database joomla_ut;' -U postgres
+  - psql -d joomla_ut -a -f tests-phpunit/unit/schema/postgresql.sql
   # Set up Apache
   # - ./build/travis/php-apache.sh
   # Enable additional PHP extensions
@@ -46,43 +69,14 @@ before_script:
   - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 5.* ]]; then printf "\n" | pecl install apcu-4.0.10 && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
   - if [[ $INSTALL_APCU == "yes" && $TRAVIS_PHP_VERSION = 7.* ]]; then printf "\n" | pecl install apcu-beta && phpenv config-add build/travis/phpenv/apcu-$TRAVIS_PHP_VERSION.ini; fi
   - if [[ $INSTALL_APCU_BC_BETA == "yes" ]]; then printf "\n" | pecl install apcu_bc-beta; fi
-  - if [[ $INSTALL_REDIS == "yes" ]]; then phpenv config-add build/travis/phpenv/redis.ini; fi
-  # New system test related changes
-  - sudo apt-get update -qq
-  - sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi php5-curl php5-mysql php5-intl php5-gd > /dev/null
-  - sudo mkdir $(pwd)/.run
-  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo sed -e "s,listen = 127.0.0.1:9000,listen = /tmp/php5-fpm.sock,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo sed -e "s,;listen.owner = nobody,listen.owner = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo sed -e "s,;listen.group = nobody,listen.group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo sed -e "s,;listen.mode = 0660,listen.mode = 0666,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo sed -e "s,user = nobody,;user = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo sed -e "s,group = nobody,;group = $USER,g" --in-place ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo a2enmod rewrite actions fastcgi alias
-  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-  - sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
-  - git submodule update --init --recursive
-  - sudo service apache2 restart
-  # Xvfb
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-  # Fluxbox
-  - sudo apt-get install fluxbox -y --force-yes
-  - fluxbox &
-  - sleep 3 # give fluxbox some time to start
-  # Composer in tests folder
-  - cd tests/
-  - composer install
-  - cd ..
-  - sudo cp RoboFile.dist.ini RoboFile.ini
+  - if [[ $INSTALL_REDIS == "yes" && $TRAVIS_PHP_VERSION != hhvm ]]; then phpenv config-add build/travis/phpenv/redis.ini; fi
+  - if [[ $INSTALL_REDIS == "yes" && $TRAVIS_PHP_VERSION = hhvm ]]; then cat build/travis/phpenv/redis.ini >> /etc/hhvm/php.ini; fi
+  - if [[ $RUN_CODECEPTION == "yes" ]]; then export DISPLAY=:99.0; bash tests/codeception-setup.sh $(pwd); fi
 
 script:
-  - sudo cp tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
-  - tests/vendor/bin/robo run:tests --use-htaccess
+  - libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml
+  - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
+  - if [[ $RUN_CODECEPTION == "yes" ]]; then tests/vendor/bin/robo run:tests --use-htaccess; fi
 
 branches:
   except:

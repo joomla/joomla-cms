@@ -131,7 +131,7 @@ class RoboFile extends \Robo\Tasks
 
 		$this->build();
 
-		$exclude = ["tests"];
+		$exclude = ['tests', 'tests-phpunit', '.run', '.github', '.git'];
 
 		$this->copyJoomla($this->cmsPath, $exclude);
 
@@ -148,6 +148,8 @@ class RoboFile extends \Robo\Tasks
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
 			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms3/,g" -in-place tests/joomla-cms3/.htaccess');
 		}
+
+		$this->taskExec('curl -I http://localhost/tests/joomla-cms3/')->printed(true)->run();
 	}
 
 	/**
