@@ -80,10 +80,10 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		$user = JFactory::getUser();
 
 		// Check if can edit own core.edit.own.
-		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $record->catid) && $item->created_by == $user->id;
+		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $item->catid) && $item->created_by == $user->id;
 
 		// Check the category core.edit permissions.
-		return $canEditOwn || $user->authorise('core.edit', $this->option . '.category.' . (int) $record->catid);
+		return $canEditOwn || $user->authorise('core.edit', $this->option . '.category.' . (int) $item->catid);
 	}
 
 	/**
