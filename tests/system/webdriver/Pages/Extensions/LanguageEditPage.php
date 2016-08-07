@@ -67,7 +67,7 @@ class LanguageEditPage extends AdminEditPage
 			array('label' => 'Title Native', 'id' => 'jform_title_native', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Language Tag', 'id' => 'jform_lang_code', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'URL Language Code', 'id' => 'jform_sef', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Image Prefix', 'id' => 'jform_image', 'type' => 'select', 'tab' => 'details'),
+			array('label' => 'Image', 'id' => 'jform_image', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Description', 'id' => 'jform_description', 'type' => 'textarea', 'tab' => 'details'),
