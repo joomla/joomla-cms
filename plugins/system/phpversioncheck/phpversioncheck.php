@@ -65,12 +65,7 @@ class PlgSystemPhpVersionCheck extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		if (!$this->app->isAdmin() || $this->app->getDocument()->getType() !== 'html')
-		{
-			return;
-		}
-		
-		if (JUri::getInstance()->getVar("tmpl") === "component")
+		if (!$this->displayMessage())
 		{
 			return;
 		}
@@ -167,5 +162,41 @@ class PlgSystemPhpVersionCheck extends JPlugin
 		}
 
 		return $supportStatus;
+	}
+
+	/**
+	 * Determines if the message should be displayed
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function displayMessage()
+	{
+		// Only on admin app
+		if (!$this->app->isAdmin())
+		{
+			return false;
+		}
+
+		// Only if authenticated
+		if (JFactory::getUser()->guest)
+		{
+			return false;
+		}
+
+		// Only on HTML documents
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return false;
+		}
+
+		// Only on full page requests
+		if ($this->app->input->getCmd('tmpl', 'index') === 'component')
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
