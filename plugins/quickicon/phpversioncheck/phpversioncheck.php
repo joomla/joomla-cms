@@ -135,6 +135,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 
 		// Check the PHP version's support status using the minor version
 		$activePhpVersion = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+		$activePhpVersion = '5.3';
 
 		// Do we have the PHP version's data?
 		if (isset($phpSupportData[$activePhpVersion]))
@@ -220,7 +221,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 		}
 
 		// Only to com_cpanel
-		if ($this->app->input->get('option') == 'com_cpanel')
+		if ($this->app->input->get('option') != 'com_cpanel')
 		{
 			return false;
 		}
