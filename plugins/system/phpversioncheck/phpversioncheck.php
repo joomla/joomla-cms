@@ -69,6 +69,11 @@ class PlgSystemPhpVersionCheck extends JPlugin
 		{
 			return;
 		}
+		
+		if (JUri::getInstance()->getVar("tmpl") === "component")
+		{
+			return;
+		}
 
 		$supportStatus = $this->getPhpSupport();
 
