@@ -78,7 +78,7 @@ class LanguageManagerPage extends AdminManagerPage
 	 *
 	 * @param   string   $url			 URL for the Test Language
 	 *
-	 * @param   string   $image_prefix   image name for the test Language
+	 * @param   string   $image_prefix   image prefix for the test Language
 	 *
 	 * @param   string 	 $language_tag    Tag for the test language
 	 *
@@ -89,7 +89,7 @@ class LanguageManagerPage extends AdminManagerPage
 		$new_name = $title;
 		$this->clickButton('toolbar-new');
 		$languageEditPage = $this->test->getPageObject('LanguageEditPage');
-		$languageEditPage->setFieldValues(array('Title' => $title, 'Title Native' => $native_title, 'URL Language Code' => $url, 'Image' => $image_prefix, 'Language Tag' => $language_tag));
+		$languageEditPage->setFieldValues(array('Title' => $title, 'Title Native' => $native_title, 'URL Language Code' => $url, 'Image Prefix' => $image_prefix, 'Language Tag' => $language_tag));
 		$languageEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('LanguageManagerPage');
 
