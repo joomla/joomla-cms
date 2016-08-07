@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.phpversioncheck
+ * @subpackage  Quickicon.phpversioncheck
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgSystemPhpVersionCheck extends JPlugin
+class PlgQuickiconPhpVersionCheck extends JPlugin
 {
 	/**
 	 * Constant representing the active PHP version being fully supported
@@ -59,11 +59,13 @@ class PlgSystemPhpVersionCheck extends JPlugin
 	/**
 	 * Check the PHP version after the admin component has been dispatched.
 	 *
+	 * @param   string  $context  The calling context
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterDispatch()
+	public function onGetIcons($context)
 	{
 		if (!$this->displayMessage())
 		{
@@ -162,7 +164,7 @@ class PlgSystemPhpVersionCheck extends JPlugin
 
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
 				$supportStatus['message'] = JText::sprintf(
-					'PLG_SYSTEM_PHPVERSIONCHECK_UNSUPPORTED',
+					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
 					PHP_VERSION,
 					$recommendedVersion,
 					$recommendedVersionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
@@ -176,7 +178,7 @@ class PlgSystemPhpVersionCheck extends JPlugin
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
 				$supportStatus['message'] = JText::sprintf(
-					'PLG_SYSTEM_PHPVERSIONCHECK_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+					'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
 				);
 			}
 		}
@@ -213,6 +215,12 @@ class PlgSystemPhpVersionCheck extends JPlugin
 
 		// Only on full page requests
 		if ($this->app->input->getCmd('tmpl', 'index') === 'component')
+		{
+			return false;
+		}
+
+		// Only to com_cpanel
+		if ($this->app->input->get('option') == 'com_cpanel')
 		{
 			return false;
 		}

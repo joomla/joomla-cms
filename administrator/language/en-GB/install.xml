@@ -173,6 +173,8 @@
 		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_contacts.ini</filename>
@@ -201,8 +203,6 @@
 		<filename>en-GB.plg_system_logout.sys.ini</filename>
 		<filename>en-GB.plg_system_p3p.ini</filename>
 		<filename>en-GB.plg_system_p3p.sys.ini</filename>
-		<filename>en-GB.plg_system_phpversioncheck.ini</filename>
-		<filename>en-GB.plg_system_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
 		<filename>en-GB.plg_system_redirect.sys.ini</filename>
 		<filename>en-GB.plg_system_remember.ini</filename>
