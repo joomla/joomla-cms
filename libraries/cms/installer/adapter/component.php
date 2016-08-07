@@ -796,15 +796,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 			$asset->delete();
 		}
 
-		// Remove categories for this component
-		$query->clear()
-			->delete('#__categories')
-			->where('extension=' . $db->quote($this->element), 'OR')
-			->where('extension LIKE ' . $db->quote($this->element . '.%'));
-		$db->setQuery($query);
-		$db->execute();
-
-		// Clobber any possible pending updates
+		// Remove any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
 			array(
