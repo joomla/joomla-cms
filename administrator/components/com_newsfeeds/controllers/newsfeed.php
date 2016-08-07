@@ -60,9 +60,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user       = JFactory::getUser();
-		$recordId   = (int) isset($data[$key]) ? $data[$key] : 0;
-		$categoryId = 0;
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 
 		// Since there is no asset tracking, fallback to the component permissions.
 		if (!$recordId)
@@ -78,6 +76,8 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		{
 			return false;
 		}
+
+		$user = JFactory::getUser();
 
 		// Check if can edit own core.edit.own.
 		$canEditOwn = $user->authorise('core.edit.own', $this->option . '.category.' . (int) $record->catid) && $item->created_by == $user->id;

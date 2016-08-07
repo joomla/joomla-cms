@@ -95,7 +95,7 @@ if ($saveOrder)
 					$canCreate  = $user->authorise('core.create',     'com_newsfeeds.category.' . $item->catid);
 					$canEdit    = $user->authorise('core.edit',       'com_newsfeeds.category.' . $item->catid);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
-					$canEditOwn = $user->authorise('core.edit.own',   'com_newsfeeds.category.' . $item->id) && $item->created_by == $user->id;
+					$canEditOwn = $user->authorise('core.edit.own',   'com_newsfeeds.category.' . $item->catid) && $item->created_by == $user->id;
 					$canChange  = $user->authorise('core.edit.state', 'com_newsfeeds.category.' . $item->catid) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
