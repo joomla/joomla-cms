@@ -18,7 +18,6 @@
 
 # Test Related Files #
 /phpunit.xml
-codecept.phar
 
 # phpDocumentor Logs #
 phpdoc-*
