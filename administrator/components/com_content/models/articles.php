@@ -106,10 +106,10 @@ class ContentModelArticles extends JModelList
 
 		$formSubmited = $app->input->post->get('form_submited');
 
-		$access     = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$authorId   = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-		$categoryId = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$tag        = $app->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+		$access     = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$authorId   = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$tag        = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
 		if ($formSubmited)
 		{
@@ -119,10 +119,10 @@ class ContentModelArticles extends JModelList
 			$authorId = $app->input->post->get('author_id');
 			$this->setState('filter.author_id', $authorId)
 
-			$categoryId = JFactory::getApplication()->input->post->get('category_id');
+			$categoryId = $app->input->post->get('category_id');
 			$this->setState('filter.category_id', $categoryId);
 
-			$tag = JFactory::getApplication()->input->post->get('tag')
+			$tag = $app->input->post->get('tag')
 			$this->setState('filter.tag', $tag);
 		}
 
