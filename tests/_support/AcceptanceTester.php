@@ -149,7 +149,7 @@ class AcceptanceTester extends \Codeception\Actor
 	public function checkAllResults()
 	{
 		$I = $this;
-		$this->comment("Selecting Checkall button");
+		$I->comment("Selecting Checkall button");
 		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
 
@@ -165,9 +165,9 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$chosenSelectID = $selectId . '_chzn';
 		$I = $this;
-		$this->comment("I open the $chosenSelectID chosen selector");
+		$I->comment("I open the $chosenSelectID chosen selector");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
-		$this->comment("I select $option");
+		$I->comment("I select $option");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
 		$I->wait(1); // Gives time to chosen to close
 	}
@@ -197,7 +197,7 @@ class AcceptanceTester extends \Codeception\Actor
 	{
 		$I = $this;
 		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
-		$this->comment("I click on Top Right corner toggle to Logout from Admin");
+		$I->comment("I click on Top Right corner toggle to Logout from Admin");
 		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], TIMEOUT);
 		$I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
 		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
@@ -218,4 +218,63 @@ class AcceptanceTester extends \Codeception\Actor
 		$radioId = $label->getAttribute('for');
 		$I->click(['xpath' => "//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]"]);
 	}
+
+    /**
+     * Prepare menu item creation by choosing menu and adding title.
+     *
+     * @param   string  $title  The Menu Item title
+     * @param   string  $menu   The menu in which menu item will be created.
+     *
+     * @since   3.7
+     *
+     * @return  void
+     */
+	public function prepareMenuItemCreate($title, $menu = 'Main Menu')
+    {
+        $I = $this;
+
+        $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+        $I->waitForText('Menus', '60', ['css' => 'H1']);
+        $I->checkForPhpNoticesOrWarnings();
+
+        $I->click(['link' =>  $menu]);
+        $I->waitForText('Menus: Items', '60', ['css' => 'H1']);
+        $I->checkForPhpNoticesOrWarnings();
+
+        $I->click("New");
+        $I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
+        $I->checkForPhpNoticesOrWarnings();
+        $I->fillField(['id' => 'jform_title'], $title);
+    }
+
+    /**
+     * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
+     *
+     * @param   string  $menuTitle     The menu item title
+     * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+     * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+     * @param   string  $menu          The menu where the item should be created
+     */
+    public function selectMenuItemType($menuCategory, $menuItem)
+    {
+        $I = $this;
+
+        $I->comment("Open the menu types iframe");
+        $I->click(['link' => "Select"]);
+        $I->waitForElement(['id' => 'menuTypeModal'], '60');
+        $I->wait(1);
+        $I->switchToIFrame("Menu Item Type");
+
+        $I->comment("Open the menu category: $menuCategory");
+        // Open the category
+        $I->wait(1);
+        $I->waitForElement(['link' => $menuCategory], '60');
+        $I->click(['link' => $menuCategory]);
+
+        $I->comment("Choose the menu item type: $menuItem");
+        $I->wait(1);
+        $I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
+        $I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
+        $I->comment('I switch back to the main window');
+    }
 }
