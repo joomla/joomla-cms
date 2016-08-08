@@ -467,6 +467,7 @@
 			filter="string"
 			size="30"
 			validate="email"
+			showon="mailonline:1"
 		/>
 
 		<field
@@ -476,6 +477,7 @@
 			description="COM_CONFIG_FIELD_MAIL_REPLY_TO_NAME_DESC"
 			filter="string"
 			size="30"
+			showon="mailonline:1"
 		/>
 
 		<field
