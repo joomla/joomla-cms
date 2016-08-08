@@ -962,14 +962,29 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
+	 * Determine if we are using a secure (HTTPS) connection.
+	 *
+	 * @return  boolean  True if using HTTPS, false if not.
+	 *
+	 * @since   12.2
+	 */
+	public function isHttpsConnection()
+	{
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+	}
+
+	/**
 	 * Determine if we are using a secure (SSL) connection.
 	 *
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   12.2
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isHttpsConnection() method.
 	 */
 	public function isSSLConnection()
 	{
+		JLog::add(__CLASS__ . '::isSSLConnection() is deprecated. Use the ' . __CLASS__ . '::isHttpsConnection() instead.', JLog::WARNING, 'deprecated');
+
 		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 

@@ -1337,6 +1337,7 @@ class JApplicationWebTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.2
+	 * @deprecated  4.0 - Replaced by isHttpsConnection().
 	 */
 	public function testIsSSLConnection()
 	{
@@ -1347,5 +1348,23 @@ class JApplicationWebTest extends TestCase
 		$_SERVER['HTTPS'] = 'on';
 
 		$this->assertTrue($this->class->isSSLConnection());
+	}
+
+	/**
+	 * Tests the isHttpsConnection method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	public function testIsHttpsConnection()
+	{
+		unset($_SERVER['HTTPS']);
+
+		$this->assertFalse($this->class->isHttpsConnection());
+
+		$_SERVER['HTTPS'] = 'on';
+
+		$this->assertTrue($this->class->isHttpsConnection());
 	}
 }
