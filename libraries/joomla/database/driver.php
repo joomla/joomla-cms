@@ -876,16 +876,16 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 
 	/**
-	 * Automatically changes the null time in the Query File
+	 * Automatically changes the null date in the Query File
 	 * @param   string  $query  The query to convert
 	 *
 	 * @return  string  The converted query
 	 */
-	public function convertNullTime($query,$nullTime)
+	public function convertNullDate($query,$nullDate)
 	{
-		if($nullTime != '0000-00-00 00:00:00')
+		if($nullDate != '0000-00-00 00:00:00')
 		{
-			$query = str_replace('0000-00-00 00:00:00', $nullTime, $query);
+			$query = str_replace('0000-00-00 00:00:00', $nullDate, $query);
 		}
 		
 		return $query;
