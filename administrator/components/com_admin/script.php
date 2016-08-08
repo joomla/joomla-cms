@@ -39,6 +39,7 @@ class JoomlaInstallerScript
 		$this->updateAssets();
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
+		$this->convertTablesToNewNullDate();
 		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
@@ -1683,6 +1684,96 @@ class JoomlaInstallerScript
 		return true;
 	}
 
+
+    /**
+	 * Converts the site's database tables to the new null Date of mySQL 5.7. Can also be used as reverter
+	 *
+	 * @param   string  $oldNull  the old null date string
+     * @param   string  $newNull  the new null date string
+     *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+    public function convertTablesToNewNullDate($newNull=null,$oldNull=null)
+    {
+	    $db = JFactory::getDbo();
+
+		//Possible Convert Back
+		if($db->serverUsesNewNullTime())
+		{
+			if(is_null($newNull))
+				$newNull='1000-01-01 00:00:00';
+				
+			if(is_null($oldNull))
+				$oldNull='0000-00-00 00:00:00';
+		} else
+		{
+			if(is_null($oldNull))
+				$oldNull='1000-01-01 00:00:00';
+				
+			if(is_null($newNull))
+				$newNull='0000-00-00 00:00:00';
+		}
+		
+		// This is only required for MySQL databases
+		$serverType = $db->getServerType();
+
+		if ($serverType != 'mysql')
+		{
+			return;
+		}
+		
+		// Check conversion status in database
+		$db->setQuery('SELECT ' . $db->quoteName('converted')
+			. ' FROM ' . $db->quoteName('#__nullDate_conversion')
+			);
+
+		$convertedDB = '0000-00-00 00:00:00';
+		
+		try
+		{
+			$convertedDB = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			// Render the error message from the Exception object
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');		
+			return;
+		}
+
+		if($convertedDB == $newNull)
+		{
+			//Already updated - nothing to do
+			return;
+		}
+		
+		$fileName = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/nullDate-conversion.sql";
+		
+		if (is_file($fileName))
+		{
+			$fileContents = @file_get_contents($fileName);
+			$queries = $db->splitSql($fileContents);
+
+			if (!empty($queries))
+			{
+				foreach ($queries as $query)
+				{
+					$query = str_replace(array('#O#','#T#'), array($oldNull,$newNull), $query);
+					
+					try
+					{
+						$db->setQuery($query)->execute();
+					}
+					catch (Exception $e)
+					{
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					}
+				}
+			}
+		}
+    }
+    
 	/**
 	 * Converts the site's database tables to support UTF-8 Multibyte.
 	 *
