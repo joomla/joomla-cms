@@ -121,4 +121,3 @@ if (isset($this->updateInfo['object']->reinstallurl->_data))
 </fieldset>
 
 <input type="hidden" name="task" value="update.reinstall" />
-<input type="hidden" name="option" value="com_joomlaupdate" />

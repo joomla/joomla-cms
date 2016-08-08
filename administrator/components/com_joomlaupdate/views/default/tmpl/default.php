@@ -50,6 +50,7 @@ jQuery(document).ready(function($) {
 			<?php echo $this->loadTemplate('update'); ?>
 		<?php endif; ?>
 
+		<input type="hidden" name="option" value="com_joomlaupdate" />
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 
