@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Categories Component Categories Model
  *
@@ -269,8 +271,9 @@ class CategoriesModelCategories extends JModelList
 		}
 		elseif (is_array($tagId))
 		{
-			JArrayHelper::toInteger($tagId);
+			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;
