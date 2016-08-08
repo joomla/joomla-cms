@@ -119,12 +119,12 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.access', $access);
 
 			$authorId = $app->input->post->get('author_id');
-			$this->setState('filter.author_id', $authorId)
+			$this->setState('filter.author_id', $authorId);
 
 			$categoryId = $app->input->post->get('category_id');
 			$this->setState('filter.category_id', $categoryId);
 
-			$tag = $app->input->post->get('tag')
+			$tag = $app->input->post->get('tag');
 			$this->setState('filter.tag', $tag);
 		}
 

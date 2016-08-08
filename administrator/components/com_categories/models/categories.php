@@ -104,7 +104,7 @@ class CategoriesModelCategories extends JModelList
 
 		if ($formSubmited)
 		{
-			$tag = $app->input->post->get('tag')
+			$tag = $app->input->post->get('tag');
 			$this->setState('filter.tag', $tag);
 		}
 
