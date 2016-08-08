@@ -18,15 +18,15 @@
 
 # Test Related Files #
 /phpunit.xml
-/tests/system/webdriver/tests/logs/		
-/tests/system/servers/configdef.php		
-codecept.phar		
-tests/codeception/_output/*		
-tests/codeception/vendor/*		
-tests/codeception/testingsite*		
-tests/codeception/tests/acceptance.suite.yml		
-tests/codeception/tests/acceptance/*Tester.php		
-tests/codeception/tests/functional/*Tester.php		
+/tests/system/webdriver/tests/logs/
+/tests/system/servers/configdef.php
+codecept.phar
+tests/codeception/_output/*
+tests/codeception/vendor/*
+tests/codeception/testingsite*
+tests/codeception/tests/acceptance.suite.yml
+tests/codeception/tests/acceptance/*Tester.php
+tests/codeception/tests/functional/*Tester.php
 tests/codeception/tests/unit/*Tester.php
 
 # phpDocumentor Logs #
