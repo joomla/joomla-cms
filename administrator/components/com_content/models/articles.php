@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
@@ -226,9 +228,9 @@ class ContentModelArticles extends JModelList
 		{
 			$query->where('a.access = ' . (int) $access);
 		}
-		elseif(is_array($access))
+		elseif (is_array($access))
 		{
-			JArrayHelper::toInteger($access);
+			$access = ArrayHelper::toInteger($access);
 			$access = implode(',', $access);
 			$query->where('a.access IN (' . $access . ')');
 		}
@@ -268,7 +270,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN (' . $categoryId . ')');
 		}
@@ -287,10 +289,9 @@ class ContentModelArticles extends JModelList
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by ' . $type . (int) $authorId);
 		}
-
 		elseif (is_array($authorId))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$authorId = ArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
 			$query->where('a.created_by IN (' . $authorId . ')');
 		}
@@ -324,7 +325,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by a single or group of tags.
 		$hasTag = false;
-		$tagId = $this->getState('filter.tag');
+		$tagId  = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
@@ -334,7 +335,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($tagId))
 		{
-			JArrayHelper::toInteger($tagId);
+			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
 			if (!empty($tagId))
 			{
