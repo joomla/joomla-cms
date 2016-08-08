@@ -197,7 +197,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		
 		//Use different NullTime
 		if($this->serverUsesNewNullTime())
-			$this->nullDate = '1000-01-01 00:00';
+			$this->nullDate = '1000-01-01 00:00:00';
 
 		// Set the character set (needed for MySQL 4.1.2+).
 		$this->utf = $this->setUtf();
@@ -980,7 +980,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	}
 	
 	/**
-	 * Does the database server uses the new null time (1000-01-01 00:00) instead of the old one (0000-00-00 00:00)
+	 * Does the database server uses the new null time (1000-01-01 00:00:00) instead of the old one (0000-00-00 00:00:00)
 	 *
 	 * libmysql uses the new null time since 5.7 (same version as the MySQL server).
 	 *

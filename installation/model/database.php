@@ -1022,7 +1022,14 @@ class InstallationModelDatabase extends JModelBase
 				 * necessary, so there's no need to check the conditions in JInstaller.
 				 */
 				$query = $db->convertUtf8mb4QueryToUtf8($query);
-
+				
+				/**
+				 * If the Driver has set a nullDate which differs from the default (oldschool) nullDate
+				 * replace it in the query
+				 */
+				if(isset($db->nullDate))
+					$query = $db->convertNullDate($query,$db->nullDate);
+					
 				/**
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.

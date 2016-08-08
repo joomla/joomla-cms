@@ -874,6 +874,23 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		return $queries;
 	}
 
+
+	/**
+	 * Automatically changes the null time in the Query File
+	 * @param   string  $query  The query to convert
+	 *
+	 * @return  string  The converted query
+	 */
+	public function convertNullTime($query,$nullTime)
+	{
+		if($nullTime != '0000-00-00 00:00:00')
+		{
+			$query = str_replace('0000-00-00 00:00:00', $nullTime, $query);
+		}
+		
+		return $query;
+	}
+	
 	/**
 	 * Automatically downgrade a CREATE TABLE or ALTER TABLE query from utf8mb4 (UTF-8 Multibyte) to plain utf8. Used
 	 * when the server doesn't support UTF-8 Multibyte.

@@ -145,7 +145,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		 */
 		 
 		if(version_compare($serverVersion, '5.7.0', '>='))
-			$this->nullDate = '1000-01-01 00:00';
+			$this->nullDate = '1000-01-01 00:00:00';
 		
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
