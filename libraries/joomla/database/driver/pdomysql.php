@@ -45,15 +45,6 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	protected $nameQuote = '`';
 
 	/**
-	 * The null or zero representation of a timestamp for the database driver.  This should be
-	 * defined in child classes to hold the appropriate value for the engine.
-	 *
-	 * @var    string
-	 * @since  3.4
-	 */
-	protected $nullDate = '0000-00-00 00:00:00';
-
-	/**
 	 * The minimum supported database version.
 	 *
 	 * @var    string
@@ -130,15 +121,16 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 			parent::connect();
 		}
 
+		$serverVersion = $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION);
 		if ($this->utf8mb4)
 		{
 			/*
  			 * At this point we know the client supports utf8mb4.  Now
  			 * we must check if the server supports utf8mb4 as well.
  			 */
-			$serverVersion = $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+			
 			$this->utf8mb4 = version_compare($serverVersion, '5.5.3', '>=');
-
+			
 			if (!$this->utf8mb4)
 			{
 				// Reconnect with the utf8 character set.
@@ -148,6 +140,13 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 			}
 		}
 
+		/*
+		 * checking if the new null type format of myaql 5.7.0 is used
+		 */
+		 
+		if(version_compare($serverVersion, '5.7.0', '>='))
+			$this->nullDate = '1000-01-01 00:00';
+		
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
 
