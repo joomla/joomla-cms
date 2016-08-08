@@ -148,7 +148,7 @@ $loggeduser = JFactory::getUser();
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
 						<td class="hidden-phone hidden-tablet">
-							<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
+							<?php if ($item->lastvisitDate != $this->db->getNullDate()):?>
 								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 							<?php else:?>
 								<?php echo JText::_('JNEVER'); ?>
