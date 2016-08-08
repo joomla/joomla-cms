@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
@@ -92,28 +94,11 @@ class ContentModelArticles extends JModelList
 			$this->context .= '.' . $forcedLanguage;
 		}
 
-        $form_submited =  JFactory::getApplication()->input->post->get('form_submited');
-
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-        $access = $form_submited ?
-            JFactory::getApplication()->input->post->get('access') :
-            $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
-        if ( $form_submited ) $this->setState('filter.access', $access);
-
-        $authorId = $form_submited ?
-            JFactory::getApplication()->input->post->get('author_id') :
-            $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
-        if ( $form_submited ) $this->setState('filter.author_id', $authorId);
-
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
-
-        $categoryId = $form_submited ?
-            JFactory::getApplication()->input->post->get('category_id') :
-            $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-        if ( $form_submited ) $this->setState('filter.category_id', $categoryId);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
@@ -121,10 +106,27 @@ class ContentModelArticles extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-        $tag = $form_submited ?
-            JFactory::getApplication()->input->post->get('tag') :
-            $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-        if ( $form_submited ) $this->setState('filter.tag', $tag);
+		$formSubmited = $app->input->post->get('form_submited');
+
+		$access     = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$authorId   = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$tag        = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+
+		if ($formSubmited)
+		{
+			$access = $app->input->post->get('access');
+			$this->setState('filter.access', $access);
+
+			$authorId = $app->input->post->get('author_id');
+			$this->setState('filter.author_id', $authorId)
+
+			$categoryId = $app->input->post->get('category_id');
+			$this->setState('filter.category_id', $categoryId);
+
+			$tag = $app->input->post->get('tag')
+			$this->setState('filter.tag', $tag);
+		}
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -226,9 +228,9 @@ class ContentModelArticles extends JModelList
 		{
 			$query->where('a.access = ' . (int) $access);
 		}
-		elseif(is_array($access))
+		elseif (is_array($access))
 		{
-			JArrayHelper::toInteger($access);
+			$access = ArrayHelper::toInteger($access);
 			$access = implode(',', $access);
 			$query->where('a.access IN (' . $access . ')');
 		}
@@ -268,7 +270,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN (' . $categoryId . ')');
 		}
@@ -287,10 +289,9 @@ class ContentModelArticles extends JModelList
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by ' . $type . (int) $authorId);
 		}
-
 		elseif (is_array($authorId))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$authorId = ArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
 			$query->where('a.created_by IN (' . $authorId . ')');
 		}
@@ -324,7 +325,7 @@ class ContentModelArticles extends JModelList
 
 		// Filter by a single or group of tags.
 		$hasTag = false;
-		$tagId = $this->getState('filter.tag');
+		$tagId  = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
@@ -334,7 +335,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($tagId))
 		{
-			JArrayHelper::toInteger($tagId);
+			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
 			if (!empty($tagId))
 			{
