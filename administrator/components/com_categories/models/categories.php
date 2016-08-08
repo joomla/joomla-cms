@@ -96,13 +96,13 @@ class CategoriesModelCategories extends JModelList
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 
-		$form_submited = JFactory::getApplication()->input->post->get('form_submited');
+		$formSubmited = JFactory::getApplication()->input->post->get('form_submited');
 
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 
-		if ($form_submited)
+		if ($formSubmited)
 		{
-			$tag = JFactory::getApplication()->input->post->get('tag')
+			$tag = $app->input->post->get('tag')
 			$this->setState('filter.tag', $tag);
 		}
 
