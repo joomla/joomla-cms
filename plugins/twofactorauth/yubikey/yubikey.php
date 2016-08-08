@@ -45,12 +45,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 	}
 
 	/**
