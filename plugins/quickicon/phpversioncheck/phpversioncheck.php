@@ -67,7 +67,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if (!$this->displayMessage())
+		if (!$this->shouldDisplayMessage())
 		{
 			return;
 		}
@@ -193,7 +193,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function displayMessage()
+	private function shouldDisplayMessage()
 	{
 		// Only on admin app
 		if (!$this->app->isAdmin())
