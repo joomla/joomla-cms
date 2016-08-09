@@ -8,6 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+
+$new_totp = $displayData["new_totp"];
 ?>
 <div class="well">
 	<?php echo JText::_('PLG_TWOFACTORAUTH_YUBIKEY_INTRO') ?>
