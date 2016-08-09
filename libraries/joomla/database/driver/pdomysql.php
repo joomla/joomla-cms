@@ -53,6 +53,15 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	protected static $dbMinimum = '5.0.4';
 
 	/**
+	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $nullDate = '0000-00-00 00:00:00';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
