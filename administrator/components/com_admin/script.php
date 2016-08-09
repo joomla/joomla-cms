@@ -1690,8 +1690,8 @@ class JoomlaInstallerScript
 	 *
 	 * @param   string  $newNull  the old null date string
 	 *
-	 * @param   string  $oldNull  the new null date string
-	 *
+     * @param   string  $oldNull  the new null date string
+     *
 	 * @return  void
 	 *
 	 * @since   12.2
@@ -1752,7 +1752,7 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		if($convertedDB == $newNull)
+		if ($convertedDB == $newNull)
 		{
 			// Already updated - nothing to do
 			return;
