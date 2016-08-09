@@ -60,10 +60,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
 
 		// Check for special update statement to reset utf8mb4 conversion status
-		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
+		if ((($command == 'UPDATE `#__UTF8_CONVERSION`'
 			|| $command == 'UPDATE #__UTF8_CONVERSION')
 			&& strtoupper($wordArray[2]) == 'SET'
-			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted')
+			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted') ||
+			(($command == 'INSERT INTO `#__nullDate_conversion`') && strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted'))
 		{
 			// Statement is special statement to reset conversion status
 			$this->queryType = 'UTF8CNV';
