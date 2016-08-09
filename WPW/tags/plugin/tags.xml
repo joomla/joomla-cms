@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.5" type="plugin" group="tags" method="upgrade">
-	<name>Tags</name>
+	<name>tags</name>
 	<creationDate>09.08.2016</creationDate>
 	<author>Kevin</author>
 	<authorEmail>your@email.com</authorEmail>
@@ -15,8 +15,8 @@
 
 	<!-- Language files -->
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_system_tags.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_system_tags.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_tags_tags.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_tags_tags.sys.ini</language>
 	</languages>
 
 	<!-- Plugin files -->

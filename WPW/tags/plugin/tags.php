@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Tags plugin.
  *
- * @package  tags
+ * @package  Tags
  * @since    1.0
  */
 class plgTagsTags extends JPlugin
