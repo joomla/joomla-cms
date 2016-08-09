@@ -152,9 +152,10 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		/*
 		 * checking if the new null type format of myaql 5.7.0 is used
 		 */
-		 
-		if(version_compare($serverVersion, '5.7.0', '>='))
+		if (version_compare($serverVersion, '5.7.0', '>='))
+		{
 			$this->nullDate = '1000-01-01 00:00:00';
+		}
 		
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
