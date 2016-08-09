@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Categories Component Categories Model
  *
@@ -96,12 +98,15 @@ class CategoriesModelCategories extends JModelList
 		$this->setState('filter.access', $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', '', 'cmd'));
 		$this->setState('filter.language', $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '', 'string'));
 
-        $form_submited = JFactory::getApplication()->input->post->get('form_submited');
+		$formSubmited = JFactory::getApplication()->input->post->get('form_submited');
 
-        $tag = $form_submited ?
-            JFactory::getApplication()->input->post->get('tag') :
-            $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-        if ( $form_submited ) $this->setState('filter.tag', $tag);
+		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+
+		if ($formSubmited)
+		{
+			$tag = $app->input->post->get('tag');
+			$this->setState('filter.tag', $tag);
+		}
 
 		$this->setState('filter.level', $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', '', 'string'));
 
@@ -266,8 +271,9 @@ class CategoriesModelCategories extends JModelList
 		}
 		elseif (is_array($tagId))
 		{
-			JArrayHelper::toInteger($tagId);
+			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;
