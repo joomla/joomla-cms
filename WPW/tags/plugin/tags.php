@@ -45,7 +45,7 @@ class plgTagsTags extends JPlugin
 	/**
 	 * Is called when the tags helper tries to construct a tag item list query
 	 *
-	 * @param   JDatabaseQuery  $query  The database query
+	 * @param   JDatabaseQuery  $query  The database query to be modified
 	 *
 	 * @return  JDatabaseQuery   The modified database query
 	 *
