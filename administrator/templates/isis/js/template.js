@@ -70,7 +70,7 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		if ($w.width() > 768) {
+		if ($w.width() > 767) {
 
 			var menuScroll = $('#menu > li > ul'),
 				emptyMenu  = $('#nav-empty');
