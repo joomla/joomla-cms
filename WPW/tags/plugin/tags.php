@@ -130,8 +130,6 @@ class plgTagsTags extends JPlugin
 	public function onTagListQuery($query)
     {
         //TODO: Replace with functioning code
-        $db = JFactory::getDbo();
-        $query1 = $db->getQuery(true);
-        return $query1;
+        return $query;
     }
 }
