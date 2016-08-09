@@ -25,14 +25,6 @@ class UsersViewProfile extends JViewLegacy
 	protected $state;
 
 	/**
-	 * An instance of JDatabaseDriver.
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.6
-	 */
-	protected $db;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -51,7 +43,6 @@ class UsersViewProfile extends JViewLegacy
 		$this->twofactorform    = $this->get('Twofactorform');
 		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
-		$this->db               = JFactory::getDbo();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

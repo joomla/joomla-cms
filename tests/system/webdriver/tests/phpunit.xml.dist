@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="../bootstrap.php" colors="false">
+	<testsuites>
+		<testsuite name="tests">
+			<directory>installation</directory>
+			<directory>components</directory>
+			<directory>content</directory>
+			<directory>control_panel</directory>
+			<directory>extensions</directory>
+			<directory>menus</directory>
+			<directory>users</directory>	
+			<directory>services</directory>			
+		</testsuite>
+	</testsuites>
+	<logging>
+		<log type="junit" target="logs/junit.xml"
+			logIncompleteSkipped="false" />
+	</logging>
+</phpunit>
