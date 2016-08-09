@@ -1031,7 +1031,7 @@ class InstallationModelDatabase extends JModelBase
 				 */
 				if ($db->getNullDate())
 				{
-					$query = $db->convertNullDate($query,$db->getNullDate());
+					$query = $db->convertNullDate($query, $db->getNullDate());
 				}
 				
 				/**
