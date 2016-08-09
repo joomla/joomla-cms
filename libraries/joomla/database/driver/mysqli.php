@@ -57,7 +57,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @var    string
 	 * @since  12.2
 	 */
-	protected $nullDate = '0000-00-00 00:00:00';
+	public $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * @var    string  The minimum supported database version.

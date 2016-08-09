@@ -652,10 +652,12 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
+		/* in case the nullDate Conversion has to be triggered additionally - remove after testing
 		// Do the nullDate Conversion 
 		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 		$jinstallscript = new JoomlaInstallerScript;
 		$jinstallscript->convertTablesToNewNullDate();
+		*/
 		
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
 		$app = JFactory::getApplication();
@@ -1032,9 +1034,9 @@ class InstallationModelDatabase extends JModelBase
 				 * If the Driver has set a nullDate which differs from the default (oldschool) nullDate
 				 * replace it in the query
 				 */
-				if(isset($db->nullDate))
-					$query = $db->convertNullDate($query,$db->nullDate);
-					
+				if($db->getNullDate())
+					$query = $db->convertNullDate($query,$db->getNullDate());
+				
 				/**
 				 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
 				 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
