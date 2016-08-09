@@ -617,6 +617,11 @@ class JHelperTags extends JHelper
 
 		$query->where('m.type_alias IN (' . implode(',', $typeAliases) . ')');
 
+		JPluginHelper::importPlugin('tags');
+		$dispatcher = JEventDispatcher::getInstance();
+		$results = $dispatcher->trigger('onTagListQuery', array($query));
+		$query = $results[0];
+
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
 			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, name, author_email');
