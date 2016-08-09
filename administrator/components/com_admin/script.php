@@ -1688,9 +1688,8 @@ class JoomlaInstallerScript
     /**
 	 * Converts the site's database tables to the new null Date of mySQL 5.7. Can also be used as reverter
 	 *
-	 * @param   string  $newNull  the old null date string
-	 *
-     * @param   string  $oldNull  the new null date string
+	 * @param   string  $oldNull  the old null date string
+     * @param   string  $newNull  the new null date string
      *
 	 * @return  void
 	 *
@@ -1700,29 +1699,21 @@ class JoomlaInstallerScript
     {
 	    $db = JFactory::getDbo();
 
-		// Possible to Convert Back
-		if ($db->serverUsesNewNullTime())
+		//Possible Convert Back
+		if($db->serverUsesNewNullTime())
 		{
-			if (is_null($newNull))
-			{
+			if(is_null($newNull))
 				$newNull='1000-01-01 00:00:00';
-			}
 				
-			if (is_null($oldNull))
-			{
+			if(is_null($oldNull))
 				$oldNull='0000-00-00 00:00:00';
-			}
 		} else
 		{
-			if (is_null($oldNull))
-			{
+			if(is_null($oldNull))
 				$oldNull='1000-01-01 00:00:00';
-			}
 				
-			if (is_null($newNull))
-			{
+			if(is_null($newNull))
 				$newNull='0000-00-00 00:00:00';
-			}
 		}
 		
 		// This is only required for MySQL databases
@@ -1753,7 +1744,7 @@ class JoomlaInstallerScript
 
 		if($convertedDB == $newNull)
 		{
-			// Already updated - nothing to do
+			//Already updated - nothing to do
 			return;
 		}
 		
@@ -1768,7 +1759,7 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries as $query)
 				{
-					$query = str_replace(array('$O$','$T$'), array("'" . $oldNull . "'","'" . $newNull . "'"), $query);
+					$query = str_replace(array('$O$','$T$'), array("'".$oldNull."'","'".$newNull."'"), $query);
 					
 					try
 					{
