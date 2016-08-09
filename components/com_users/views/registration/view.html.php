@@ -108,7 +108,6 @@ class UsersViewRegistration extends JViewLegacy
 		}
 
 		$this->document->setTitle($title);
-        //this->document
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));

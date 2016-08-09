@@ -17,58 +17,57 @@ require_once JPATH_COMPONENT . '/controller.php';
  */
 class UsersControllerRegistration extends UsersController
 {
-    /**
-     *
-     * Method to validate a username.
-     * @return  void
-     * @since 3.7
-     *
-     */
+	/**
+	 * Method to validate a username.
+	 *
+	 * @return      JResponseJson Array with the information of the user/email
+	 *
+	 * @since
+	 */
+	public function validate()
+	{
+		// Read username from ajax
+		$username = $this->input->get('username', '', 'username');
+		$email = $this->input->get('email', '', 'email');
 
-    public function validate()
-    {
-        //read username from ajax
-        $username = $this->input->get('username', '', 'username');
-        $email = $this->input->get('email', '', 'email');
+		if (!empty($username))
+		{
+			$fieldname = 'username';
+			$field = $username;
+		}
+		elseif (!empty($email))
+		{
+			$fieldname = 'email';
+			$field = $email;
+		}
 
-        //check
-        if(!empty($username))
-        {
-            $fieldname = 'username';
-            $field = $username;
-        }
-        else if(!empty($email))
-        {
-            $fieldname = 'email';
-            $field = $email;
-        }
+		if (isset($fieldname) && isset($field))
+		{
+			$db = JFactory::getDbo();
 
-        if(isset($fieldname) && isset($field))
-        {
-            $db = JFactory::getDbo();
+			$valid = $db->setQuery(
+				$db->getQuery(true)
+					->select($fieldname)
+					->from('#__users')
+					->where($fieldname . ' = ' . $db->quote($field))
+			)->loadResult();
 
-            $valid = $db->setQuery(
-                $db->getQuery(true)
-                    ->select($fieldname)
-                    ->from('#__users')
-                    ->where($fieldname . ' = ' . $db->quote($field))
-            )->loadResult();
+			// Return jsonarray with results
+			$msg = null;
 
-            //return jsonarray with results
-            $msg = null;
-            if(!is_null($valid))
-            {
-                if($fieldname == 'username')
-                {
-                    $msg = JText::_('COM_USERS_REGISTER_USERNAME_MESSAGE');
-                }else if($fieldname == 'email')
-                {
-                    $msg = JText::_('COM_USERS_PROFILE_EMAIL1_MESSAGE');
-                }
-            }
-            echo new JResponseJson($valid, $msg, is_null($valid));
-        }
+			if (!is_null($valid))
+			{
+				if ($fieldname == 'username')
+				{
+					$msg = JText::_('COM_USERS_REGISTER_USERNAME_MESSAGE');
+				}
+				elseif ($fieldname == 'email')
+				{
+					$msg = JText::_('COM_USERS_PROFILE_EMAIL1_MESSAGE');
+				}
+			}
 
-
-    }
+			echo new JResponseJson($valid, $msg, is_null($valid));
+		}
+	}
 }
