@@ -258,7 +258,18 @@
 			cols="50"
 			filter="string"
 			>
-			</field>
+		</field>
+
+		<field
+			name="custom_chars_email"
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_EMAIL_REGEX_LABEL"
+			description="COM_USERS_CONFIG_FIELD_EMAIL_REGEX_DESC"
+			rows="4"
+			cols="50"
+			filter="string"
+			>
+		</field>
 	</fieldset>
 	
 	<fieldset
