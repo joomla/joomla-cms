@@ -988,10 +988,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @since   12.2
 	 */
-	private function serverUsesNewNullTime()
+	public function serverUsesNewNullTime()
 	{
 		$server_version = $this->getVersion();
-		return (version_compare($server_version, '5.7.0', '>='));
+		return version_compare($server_version, '5.7.0', '>=');
 	}
 
 	/**

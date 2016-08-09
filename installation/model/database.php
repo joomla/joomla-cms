@@ -652,6 +652,11 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 
+		// Do the nullDate Conversion 
+		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+		$jinstallscript = new JoomlaInstallerScript;
+		$jinstallscript->convertTablesToNewNullDate();
+		
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
 		$app = JFactory::getApplication();
 		$languages = $app->getLocaliseAdmin($db);

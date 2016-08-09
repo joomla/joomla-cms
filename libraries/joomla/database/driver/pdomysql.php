@@ -165,6 +165,21 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	{
 		return class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers());
 	}
+	
+	/**
+	 * Does the database server uses the new null time (1000-01-01 00:00:00) instead of the old one (0000-00-00 00:00:00)
+	 *
+	 * libmysql uses the new null time since 5.7 (same version as the MySQL server).
+	 *
+	 * @return  boolean
+	 *
+	 * @since   12.2
+	 */
+	public function serverUsesNewNullTime()
+	{
+		return ($this->nullDate == "1000-01-01 00:00:00");
+	}
+
 
 	/**
 	 * Drops a table from the database.

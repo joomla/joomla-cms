@@ -1759,7 +1759,7 @@ class JoomlaInstallerScript
 			{
 				foreach ($queries as $query)
 				{
-					$query = str_replace(array('#O#','#T#'), array($oldNull,$newNull), $query);
+					$query = str_replace(array('$O$','$T$'), array("'".$oldNull."'","'".$newNull."'"), $query);
 					
 					try
 					{
