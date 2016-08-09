@@ -85,7 +85,8 @@ class ContentControllerArticle extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// For new record (id:0) return component permission
+		// Zero record (id:0) return component permission, e.g. show edit btn
+		// for creating new record, allowAdd() must be used instead (core.create)
 		if (!$recordId)
 		{
 			return parent::allowEdit($data, $key);
@@ -108,7 +109,7 @@ class ContentControllerArticle extends JControllerForm
 				return false;
 			}
 
-			// Grant if current user is the owner of the record
+			// Grant if current user is owner of the record, note: zero id is guest
 			return $user->get('id') == $record->created_by;
 		}
 
