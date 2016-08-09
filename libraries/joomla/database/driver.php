@@ -877,9 +877,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Automatically changes the null date in the Query File
 	 *
-	 * @param   string  $query       The query to convert  
+	 * @param   string  $query     The query to convert  
 	 *
-	 * @param   string  $nullDate    The used nullDate 
+	 * @param   string  $nullDate  The used nullDate 
 	 *
 	 * @return  string  The converted query
 	 */
