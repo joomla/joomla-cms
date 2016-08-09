@@ -92,6 +92,24 @@ class JFormRuleEmail extends JFormRule
 			}
 		}
 
+		//Check if the email is blacklisted by the user
+        $params = JComponentHelper::getParams('com_users');
+        $emailPreset = $params->get('custom_chars_email');
+        $presets = preg_split ('/\r\n|\n|\r/', $emailPreset);
+
+        //check all entries
+        foreach ($presets as $regex)
+        {
+            if($regex != '' && $regex != '*') { //skip new lines
+                $regex = '/(.*)@' . $regex . '/';
+                preg_match($regex, $value, $output);
+
+                if ($output) {
+                    return false;
+                }
+            }
+        }
+
 		// Check if we should test for uniqueness. This only can be used if multiple is not true
 		$unique = ((string) $element['unique'] == 'true' || (string) $element['unique'] == 'unique');
 
