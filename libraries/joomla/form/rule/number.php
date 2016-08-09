@@ -39,7 +39,7 @@ class JFormRuleNumber extends JFormRule
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
 		// If the value is empty and the field is not required return True.
-		if (($value === '' || $value === null) and ! $required)
+		if (($value === '' || $value === null) && ! $required)
 		{
 			return true;
 		}
