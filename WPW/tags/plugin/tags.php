@@ -42,9 +42,18 @@ class plgTagsTags extends JPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	/**
+	 * Is called when the tags helper tries to construct a tag item list query
+	 *
+	 * @param   JDatabaseQuery  $query  The database query
+	 *
+	 * @return  JDatabaseQuery   The modified database query
+	 *
+	 * @since 1.0
+	 */
 	public function onTagListQuery($query)
-    {
-        //TODO: Replace with functioning code
-        return $query;
-    }
+	{
+		// TODO: Replace with functioning code
+		return $query;
+	}
 }
