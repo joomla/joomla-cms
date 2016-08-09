@@ -1,308 +1,570 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  AcceptanceTester.Step
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 namespace Step\Acceptance\Site;
 
 use \Codeception\Util\Locator;
 use Page\Acceptance\Administrator\UserManagerPage;
-use Page\Acceptance\Site\Frontpage;
-use Page\Acceptance\Site\Frontendlogin;
+use Page\Acceptance\Site\FrontPage;
+use Page\Acceptance\Site\FrontendLogin;
 
-
+/**
+ * Acceptance Step object class contains suits for User frontend views.
+ *
+ * @package  Step\Acceptance\Administrator
+ *
+ * @since    3.7
+ */
 class UsersFrontend extends \AcceptanceTester
 {
-    /**
-     * @Given that user registration is enabled
-     */
-    public function thatUserRegistrationIsEnabled()
-    {
-        $I = $this;
-        $I->amOnPage(UserManagerPage::$url);
-        $I->clickToolbarButton('options');
-        $I->click(Locator::contains('label', 'Yes'));
-        $I->clickToolbarButton('Save');
-    }
+	/**
+	 * Method to enable user registration
+	 *
+	 * @Given that user registration is enabled
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function thatUserRegistrationIsEnabled()
+	{
+		$I = $this;
 
-    /**
-     * @Given there is no user with Username :arg1 or Email :arg2
-     */
-    public function thereIsNoUserWithUsernameOrEmail($username, $email)
-    {
-        $I = $this;
-        $I->amOnPage(UserManagerPage::$url);
-        $I->fillField(UserManagerPage::$filterSearch, $username);
-        $I->click(UserManagerPage::$iconSearch);
-        $I->see('No Matching Results');
-        $I->fillField(UserManagerPage::$filterSearch, $email);
-        $I->click(UserManagerPage::$iconSearch);
-        $I->see('No Matching Results');
-    }
+		$I->amOnPage(UserManagerPage::$url);
+		$I->clickToolbarButton('options');
+		$I->click(Locator::contains('label', 'Yes'));
+		$I->clickToolbarButton('Save');
+	}
 
-    /**
-     * @When I press on the link :arg1
-     */
-    public function iPressOnTheLink($CreateAccount)
-    {
-        $I = $this;
-        $I->amOnPage(Frontpage::$url);
-        $I->click($CreateAccount);
-        $I->waitForText('User Registration', TIMEOUT);
-    }
+	/**
+	 * Method to confirm user not exist with given info.
+	 *
+	 * @param   string  $username  The username to look for.
+	 * @param   string  $email     The email to look for
+	 *
+	 * @Given there is no user with Username :arg1 or Email :arg2
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function thereIsNoUserWithUsernameOrEmail($username, $email)
+	{
+		$I = $this;
 
-    /**
-     * @When I create a user with fields Name :arg1, Username :arg1, Password :arg1 and Email :arg4
-     */
-    public function iCreateAUserWithFieldsNameUsernamePasswordAndEmail($name, $username, $password, $email)
-    {
-        $I = $this;
-        $I->fillField(UserManagerPage::$nameField, $name);
-        $I->fillField(UserManagerPage::$usernameField, $username);
-        $I->fillField(UserManagerPage::$password1Field, $password);
-        $I->fillField(UserManagerPage::$password2Field, $password);
-        $I->fillField(UserManagerPage::$email1Field, $email);
-        $I->fillField(UserManagerPage::$email2Field, $email);
-    }
+		$I->amOnPage(UserManagerPage::$url);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
+		$I->see('No Matching Results');
 
-    /**
-     * @When I press the :arg1 button
-     */
-    public function iPressTheButton($register)
-    {
-        $I = $this;
-        $I->click($register);
-    }
+		$I->fillField(UserManagerPage::$filterSearch, $email);
+		$I->click(UserManagerPage::$iconSearch);
+		$I->see('No Matching Results');
+	}
 
-    /**
-     * @Then I should see :arg1 message
-     */
-    public function iShouldSeeMessage($message)
-    {
-        $I = $this;
-        $I->see($message, Frontpage::$alertMessage);
-    }
+	/**
+	 * Method to go to link
+	 *
+	 * @param   string  $createAccount  The create account link text
+	 *
+	 * @When I press on the link :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iPressOnTheLink($createAccount)
+	{
+		$I = $this;
 
-    /**
-     * @Then user is created
-     */
-    public function userIsCreated()
-    {
-        $I = $this;
-    }
+		$I->amOnPage(FrontPage::$url);
+		$I->click($createAccount);
 
-    /**
-     * @Given I am on the User Manager page
-     */
-    public function iAmOnTheUserManagerPage()
-    {
-        $I = $this;
-        $I->amOnPage(UserManagerPage::$url);
-    }
+		$I->waitForText('User Registration', TIMEOUT);
+	}
 
-    /**
-     * @When I search the user with user name :arg1
-     */
-    public function iSearchTheUserWithUserName($username)
-    {
-        $I = $this;
-        $I->waitForText('Users', TIMEOUT);
-        $I->fillField(UserManagerPage::$filterSearch, $username);
-        $I->click(UserManagerPage::$iconSearch);
-    }
+	/**
+	 * Method to create user using given info
+	 *
+	 * @param   string  $name      The name of user.
+	 * @param   string  $username  The username of user
+	 * @param   string  $password  The password of user
+	 * @param   string  $email     The email of user
+	 *
+	 * @When I create a user with fields Name :arg1, Username :arg1, Password :arg1 and Email :arg4
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iCreateAUserWithFieldsNameUsernamePasswordAndEmail($name, $username, $password, $email)
+	{
+		$I = $this;
 
-    /**
-     * @Then I should see the user :arg1
-     */
-    public function iShouldSeeTheUser($username)
-    {
-        $I = $this;
-        $I->see($username, UserManagerPage::$seeUserName);
-    }
+		$I->fillField(UserManagerPage::$nameField, $name);
+		$I->fillField(UserManagerPage::$usernameField, $username);
+		$I->fillField(UserManagerPage::$password1Field, $password);
+		$I->fillField(UserManagerPage::$password2Field, $password);
+		$I->fillField(UserManagerPage::$email1Field, $email);
+		$I->fillField(UserManagerPage::$email2Field, $email);
+	}
 
-    /**
-     * @Given A not yet activated user with username :arg1 exists
-     */
-    public function aNotYetActivatedUserWithUsernameExists($username)
-    {
-        $I = $this;
-        $I->amOnPage(UserManagerPage::$url);
-        $I->waitForText(UserManagerPage::$pageTitleText, 60, UserManagerPage::$pageTitle);
-        $I->fillField(UserManagerPage::$filterSearch, $username);
-        $I->click(UserManagerPage::$iconSearch);
-        $I->waitForElement(['link' => $username], 60);
-        $I->see($username, UserManagerPage::$seeName);
-    }
+	/**
+	 * Method to save user
+	 *
+	 * @param   string  $register  The text of register button
+	 *
+	 * @When I press the :arg1 button
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iPressTheButton($register)
+	{
+		$I = $this;
 
-    /**
-     * @Given I am on a frontend page with a login module
-     */
-    public function iAmOnAFrontendPageWithALoginModule()
-    {
-        $I = $this;
-        $I->amOnPage(Frontpage::$url);
-        $I->see('Login Form', Frontendlogin::$mdlLogin);
-    }
+		$I->click($register);
+	}
 
-    /**
-     * @When I enter username :arg1 and password :arg1 into the login module
-     */
-    public function iEnterUsernameAndPasswordIntoTheLoginModule($username, $password)
-    {
-        $I = $this;
-        $I->fillField(Frontendlogin::$modlgnUsername, $username);
-        $I->fillField(Frontendlogin::$modlgnPasswd, $password);
-    }
+	/**
+	 * Method to confirm message
+	 *
+	 * @param   string  $message  The name of the message
+	 *
+	 * @Then I should see :arg1 message
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeMessage($message)
+	{
+		$I = $this;
 
-    /**
-     * @When I press on :arg1
-     */
-    public function iPressOnButton($login)
-    {
-        $I = $this;
-        $I->click($login);
-    }
+		$I->see($message, FrontPage::$alertMessage);
+	}
 
-    /**
-     * @Then I should see the :arg1 warning
-     */
-    public function iShouldSeeTheWarning($warning)
-    {
-        $I = $this;
-        $I->see($warning, Frontpage::$alertMessage);
-    }
+	/**
+	 * Method to declare user is created
+	 *
+	 * @Then user is created
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function userIsCreated()
+	{
+		$I = $this;
+	}
 
-    /**
-     * @When I unblock the user :arg1
-     */
-    public function iUnblockTheUser($username)
-    {
-        $I = $this;
-        $I->fillField(UserManagerPage::$filterSearch, $username);
-        $I->click(UserManagerPage::$iconSearch);
-        $I->checkAllResults();
-        $I->clickToolbarButton('unblock');
-    }
+	/**
+	 * Method to goto user manager page
+	 *
+	 * @Given I am on the User Manager page
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iAmOnTheUserManagerPage()
+	{
+		$I = $this;
 
-    /**
-     * @When I activate the user :arg1
-     */
-    public function iActivateTheUser($username)
-    {
-        $I = $this;
-        $I->fillField(UserManagerPage::$filterSearch, $username);
-        $I->click(UserManagerPage::$iconSearch);
-        $I->checkAllResults();
-        $I->clickToolbarButton('publish');
-    }
+		$I->amOnPage(UserManagerPage::$url);
+	}
 
-    /**
-     * @When I login with user :arg1 with password :arg1 in frontend
-     */
-    public function iLoginWithUserWithPasswordInFrontend($username, $password)
-    {
-        $I = $this;
-        $I->amOnPage(Frontpage::$url);
-        $I->fillField(Frontendlogin::$modlgnUsername, $username);
-        $I->fillField(Frontendlogin::$modlgnPasswd, $password);
-        $I->click('Log in');
-    }
+	/**
+	 * Method to search user with username
+	 *
+	 * @param   string  $username  The username to search for
+	 *
+	 * @When I search the user with user name :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iSearchTheUserWithUserName($username)
+	{
+		$I = $this;
 
-    /**
-     * @Then I should see the message :arg1
-     */
-    public function iShouldSeeTheMessage($message)
-    {
-        $I = $this;
-        $I->see($message, Frontpage::$loginGreeting);
-    }
+		$I->waitForText('Users', TIMEOUT);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
+	}
 
-    /**
-     * @Given I am logged in into the frontend as user :arg1 with password :arg2
-     */
-    public function iAmLoggedInIntoTheFrontendAsUser($username, $password)
-    {
-        $I = $this;
-        $I->amOnPage(Frontpage::$url);
-        $I->fillField(Frontendlogin::$modlgnUsername, $username);
-        $I->fillField(Frontendlogin::$modlgnPasswd, $password);
-        $I->click('Log in');
-    }
+	/**
+	 * Method to see the user
+	 *
+	 * @param   string  $username  The username of the user
+	 *
+	 * @Then I should see the user :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheUser($username)
+	{
+		$I = $this;
 
-    /**
-     * @When I press on the :arg1 button
-     */
-    public function iPressOnTheButton($editProfile)
-    {
-        $I = $this;
-        $I->amOnPage(Frontendlogin::$profile);
-        $I->click($editProfile);
-    }
+		$I->see($username, UserManagerPage::$seeUserName);
+	}
 
-    /**
-     * @When I change the name to :arg1
-     */
-    public function iChangeTheNameTo($name)
-    {
-        $I = $this;
-        $I->waitForText('Edit Your Profile', TIMEOUT);
-        $I->fillField(UserManagerPage::$nameField, $name);
-    }
+	/**
+	 * Method to confirm user is not activated
+	 *
+	 * @param   string  $username  The username to be confirmed
+	 *
+	 * @Given A not yet activated user with username :arg1 exists
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function aNotYetActivatedUserWithUsernameExists($username)
+	{
+		$I = $this;
 
-    /**
-     * @When I press on :arg1 button
-     */
-    public function iPressOn($submit)
-    {
-        $I = $this;
-        $I->click($submit);
-    }
+		$I->amOnPage(UserManagerPage::$url);
+		$I->waitForText(UserManagerPage::$pageTitleText, 60, UserManagerPage::$pageTitle);
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
+		$I->waitForElement(['link' => $username], 60);
+		$I->see($username, UserManagerPage::$seeName);
+	}
 
-    /**
-     * @When I search the user with name :arg1
-     */
-    public function iSearchTheUserWithName($name)
-    {
-        $I = $this;
-        $I->fillField(UserManagerPage::$filterSearch, $name);
-        $I->click(UserManagerPage::$iconSearch);
-    }
+	/**
+	 * Method to goto frontend user login module
+	 *
+	 * @Given I am on a frontend page with a login module
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iAmOnAFrontendPageWithALoginModule()
+	{
+		$I = $this;
 
-    /**
-     * @Then I should see the name :name
-     */
-    public function iShouldSeeTheName($name)
-    {
-        $I = $this;
-        $I->see($name, UserManagerPage::$seeName);
-    }
+		$I->amOnPage(FrontPage::$url);
+		$I->see('Login Form', FrontendLogin::$moduleTitle);
+	}
 
-    /**
-     * @Given Needs to user :arg1 logged in at least once
-     */
-    public function needsToUserLoggedInAtLeastOnce($arg1)
-    {
-        // Do nothing as user will be already logged in previous tests.
-        $I = $this;
-    }
+	/**
+	 * Method to fill login module with detail
+	 *
+	 * @param   string  $username  The username of user to login
+	 * @param   string  $password  The password of user to login
+	 *
+	 * @When I enter username :arg1 and password :arg1 into the login module
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iEnterUsernameAndPasswordIntoTheLoginModule($username, $password)
+	{
+		$I = $this;
 
-    /**
-     * @When I login as a super admin from backend
-     */
-    public function iLoginAsASuperAdminFromBackend()
-    {
-        $I = $this;
-        $I->amOnPage(UserManagerPage::$url);
-    }
+		$I->fillField(FrontendLogin::$moduleUsername, $username);
+		$I->fillField(FrontendLogin::$modulePassword, $password);
+	}
 
-    /**
-     * @Then I should see last login date for :name
-     */
-    public function iShouldSeeLastLoginDate($name)
-    {
-        $I = $this;
+	/**
+	 * Method to click login button from login module
+	 *
+	 * @param   string  $login  Login button name
+	 *
+	 * @When I press on :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iPressOnButton($login)
+	{
+		$I = $this;
 
-        // @TODO needs to create common function to use search.
-        $I->fillField(UserManagerPage::$filterSearch, $name);
-        $I->click(UserManagerPage::$iconSearch);
+		$I->click($login);
+	}
 
-        // Just make sure that we don't see "Never".
-        $I->dontSee('Never', UserManagerPage::$lastLoginDate);
-    }
+	/**
+	 * Method to see warning message
+	 *
+	 * @param   string  $warning  The message of warning
+	 *
+	 * @Then I should see the :arg1 warning
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheWarning($warning)
+	{
+		$I = $this;
+
+		$I->see($warning, FrontPage::$alertMessage);
+	}
+
+	/**
+	 * Method to unblock the user
+	 *
+	 * @param   string  $username  The username to be unblock
+	 *
+	 * @When I unblock the user :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iUnblockTheUser($username)
+	{
+		$I = $this;
+
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
+		$I->checkAllResults();
+		$I->clickToolbarButton('unblock');
+	}
+
+	/**
+	 * Method to activate the user
+	 *
+	 * @param   string  $username  The username to be activated
+	 *
+	 * @When I activate the user :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iActivateTheUser($username)
+	{
+		$I = $this;
+
+		$I->fillField(UserManagerPage::$filterSearch, $username);
+		$I->click(UserManagerPage::$iconSearch);
+		$I->checkAllResults();
+		$I->clickToolbarButton('publish');
+	}
+
+	/**
+	 * Method to login using detail in frontend
+	 *
+	 * @param   string  $username  The username for login
+	 * @param   string  $password  The password for login
+	 *
+	 * @When I login with user :arg1 with password :arg1 in frontend
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iLoginWithUserWithPasswordInFrontend($username, $password)
+	{
+		$I = $this;
+
+		$I->amOnPage(FrontPage::$url);
+		$I->fillField(FrontendLogin::$moduleUsername, $username);
+		$I->fillField(FrontendLogin::$modulePassword, $password);
+		$I->click('Log in');
+	}
+
+	/**
+	 * Method to see the message
+	 *
+	 * @param   string  $message  The message for login greeting
+	 *
+	 * @Then I should see the message :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheMessage($message)
+	{
+		$I = $this;
+
+		$I->see($message, FrontPage::$loginGreeting);
+	}
+
+	/**
+	 * Method to login into frontend as a user
+	 *
+	 * @param   string  $username  The username for frontend user
+	 * @param   string  $password  The password for frontend user
+	 *
+	 * @Given I am logged in into the frontend as user :arg1 with password :arg2
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iAmLoggedInIntoTheFrontendAsUser($username, $password)
+	{
+		$I = $this;
+
+		$I->amOnPage(FrontPage::$url);
+		$I->fillField(FrontendLogin::$moduleUsername, $username);
+		$I->fillField(FrontendLogin::$modulePassword, $password);
+		$I->click('Log in');
+	}
+
+	/**
+	 * Method to click the edit profile button
+	 *
+	 * @param   string  $editProfile  The text of the profile edit button
+	 *
+	 * @When I press on the :arg1 button
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iPressOnTheButton($editProfile)
+	{
+		$I = $this;
+
+		$I->amOnPage(FrontendLogin::$profile);
+		$I->click($editProfile);
+	}
+
+	/**
+	 * Method to change name
+	 *
+	 * @param   string  $name  The name of user to be changed
+	 *
+	 * @When I change the name to :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iChangeTheNameTo($name)
+	{
+		$I = $this;
+
+		$I->waitForText('Edit Your Profile', TIMEOUT);
+		$I->fillField(UserManagerPage::$nameField, $name);
+	}
+
+	/**
+	 * Method to click edit profile button
+	 *
+	 * @param   string  $submit  The text of the submit button
+	 *
+	 * @When I press on :arg1 button
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iPressOn($submit)
+	{
+		$I = $this;
+
+		$I->click($submit);
+	}
+
+	/**
+	 * Method to search using user's name
+	 *
+	 * @param   string  $name  The name of user to search
+	 *
+	 * @When I search the user with name :arg1
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iSearchTheUserWithName($name)
+	{
+		$I = $this;
+
+		$I->fillField(UserManagerPage::$filterSearch, $name);
+		$I->click(UserManagerPage::$iconSearch);
+	}
+
+	/**
+	 * Method to see the user's name
+	 *
+	 * @param   string  $name  The name of user
+	 *
+	 * @Then I should see the name :name
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheName($name)
+	{
+		$I = $this;
+
+		$I->see($name, UserManagerPage::$seeName);
+	}
+
+	/**
+	 * Method to login at least once
+	 *
+	 * @param   string  $name  The name of the user
+	 *
+	 * @Given Needs to user :arg1 logged in at least once
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function needsToUserLoggedInAtLeastOnce($name)
+	{
+		// Do nothing as user will be already logged in previous tests.
+		$I = $this;
+	}
+
+	/**
+	 * Method to login as a super admin in backend
+	 *
+	 * @When I login as a super admin from backend
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iLoginAsASuperAdminFromBackend()
+	{
+		$I = $this;
+
+		$I->amOnPage(UserManagerPage::$url);
+	}
+
+	/**
+	 * Method to see last login date
+	 *
+	 * @param   string  $name  The name of the user to check last login date
+	 *
+	 * @Then I should see last login date for :name
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeLastLoginDate($name)
+	{
+		$I = $this;
+
+		// @TODO needs to create common function to use search.
+		$I->fillField(UserManagerPage::$filterSearch, $name);
+		$I->click(UserManagerPage::$iconSearch);
+
+		// Just make sure that we don't see "Never".
+		$I->dontSee('Never', UserManagerPage::$lastLoginDate);
+	}
 }

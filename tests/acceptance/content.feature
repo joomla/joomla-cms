@@ -33,4 +33,3 @@ Feature: content
     Given I have "My_Article" content article which needs to be Trash
     When  I Trash the article
     Then  I should see the "1 article trashed." message
-

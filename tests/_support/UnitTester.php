@@ -1,8 +1,15 @@
 <?php
-
+/**
+ * @package     Joomla.Test
+ * @subpackage  UnitTester
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 /**
  * Inherited Methods
+ *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)
@@ -15,12 +22,17 @@
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ *
+ * @package     Joomla.Test
+ * @subpackage  FunctionalTester
+ *
+ * @since       3.7
+ */
 class UnitTester extends \Codeception\Actor
 {
-    use _generated\UnitTesterActions;
+	use _generated\UnitTesterActions;
 
-   /**
+	/**
     * Define custom actions here
     */
 }

@@ -10,7 +10,7 @@ Feature: category
   Scenario: Verify available tabs in Category
     Given There is an article category link
     When I check available tabs in category
-    Then I see available tabs "Category", "Publishing", "Permissions" and "Options"
+    Then I see available tabs "Category", "Options", "Publishing" and "Permissions"
 
   Scenario: Create new category
     Given There is an article category link

@@ -1,10 +1,25 @@
 <?php
+/**
+ * @package     Joomla.Test
+ * @subpackage  AcceptanceHelper
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
 namespace Codeception\Module;
 
 use Codeception\Configuration;
 
-// here you can define custom actions
-// all public methods declared in helper class will be available in $I
+/**
+ * Helper class for acceptance tester.
+ * Here you can define custom actions
+ * All public methods declared in helper class will be available in $I
+ *
+ * @package  Codeception\Module
+ *
+ * @since    3.7
+ */
 class AcceptanceHelper extends \Codeception\Module
 {
 	protected static $acceptanceSuiteConfiguration = [];
@@ -12,9 +27,9 @@ class AcceptanceHelper extends \Codeception\Module
 	/**
 	 * Function to get Configuration from the acceptance.suite.yml to be used by a test
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @throws InvalidArgumentException
+	 * @since   3.7
 	 */
 	public function getSuiteConfiguration()
 	{

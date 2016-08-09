@@ -1,8 +1,21 @@
 <?php
-use Page\Acceptance\Administrator\LoginPage;
+/**
+ * @package     Joomla.Test
+ * @subpackage  AcceptanceTester
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
 use Page\Acceptance\Administrator\AdminPage;
 
 /**
+ * Acceptance Tester global class for entry point
+ *
+ * @package     Joomla.Test
+ * @subpackage  AcceptanceTester
+ * @since       3.7
+ *
  * Inherited Methods
  * @method void wantToTest($text)
  * @method void wantTo($text)
@@ -22,10 +35,11 @@ class AcceptanceTester extends \Codeception\Actor
 	use _generated\AcceptanceTesterActions;
 
 	/**
-	 * Method is to set Wait for page title
+	 * Method is to Wait for page title untill default timeout.
 	 *
-	 * @param   string   $title    Page Title text
-	 * @param   integer  $timeout  timeout time
+	 * @param   string  $title  Page Title text
+	 *
+	 * @since   3.7
 	 *
 	 * @return  void
 	 */
@@ -38,9 +52,12 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to check for PHP Notices or Warnings
 	 *
-	 * @param string $page Optional, if not given checks will be done in the current page
+	 * @param   string  $page  Optional, if not given checks will be done in the current page
 	 *
-	 * @note: doAdminLogin() before
+	 * @note    :   doAdminLogin() before
+	 * @since   3.7
+	 *
+	 * @return  void
 	 */
 	public function checkForPhpNoticesOrWarnings($page = null)
 	{
@@ -65,15 +82,17 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @param   string  $button  The full name of the button
 	 *
+	 * @since   3.7
+	 *
 	 * @return  void
 	 */
 	public function clickToolbarButton($button)
 	{
-		$I = $this;
+		$I     = $this;
 		$input = strtolower($button);
 
 		$suiteConfiguration = $I->getSuiteConfiguration();
-		$screenWidth = explode("x", $suiteConfiguration['modules']['config']['JoomlaBrowser']['window_size']);
+		$screenWidth        = explode("x", $suiteConfiguration['modules']['config']['JoomlaBrowser']['window_size']);
 
 		if ($screenWidth[0] <= 480)
 		{
@@ -144,11 +163,14 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
 	 *
-	 * @return void
+	 * @since   3.7
+	 *
+	 * @return  void
 	 */
 	public function checkAllResults()
 	{
 		$I = $this;
+
 		$I->comment("Selecting Checkall button");
 		$I->click(['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"]);
 	}
@@ -159,122 +181,143 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   string  $selectId  The id of the <select> element
 	 * @param   string  $option    The text in the <option> to be selected in the chosen selector
 	 *
-	 * @return void
+	 * @since   3.7
+	 *
+	 * @return  void
 	 */
 	public function selectOptionInChosenById($selectId, $option)
 	{
 		$chosenSelectID = $selectId . '_chzn';
+
 		$I = $this;
 		$I->comment("I open the $chosenSelectID chosen selector");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']/a/div/b"]);
 		$I->comment("I select $option");
 		$I->click(['xpath' => "//div[@id='$chosenSelectID']//li[text()='$option']"]);
-		$I->wait(1); // Gives time to chosen to close
+
+		// Gives time to chosen to close
+		$I->wait(1);
 	}
+
 	/**
 	 * Function to Verify the Tabs on a Joomla! screen
 	 *
-	 * @param  Array  $expectedTabs   Expected Tabs on the Page
-	 * @param  Mixed  $tabsLocator    Locator for the Tabs in Edit View
+	 * @param   array  $expectedTabs  Expected Tabs on the Page
+	 * @param   Mixed  $tabsLocator   Locator for the Tabs in Edit View
 	 *
-	 * @return void
+	 * @since   3.7
+	 *
+	 * @return  void
 	 */
 	public function verifyAvailableTabs($expectedTabs, $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"])
 	{
 		$I = $this;
+
 		$actualArrayOfTabs = $I->grabMultiple($tabsLocator);
-		$I->comment("Fetch the current list of Tabs in the edit view which is: " . implode(", ", $actualArrayOfTabs));
-		$url = $I->grabFromCurrentUrl();
-		$I->assertEquals($expectedTabs, $actualArrayOfTabs, "Tab Labels do not match on edit view of" . $url);
+
+		$I->comment(
+			"Fetch the current list of Tabs in the edit view which is: " . implode(", ", $actualArrayOfTabs)
+		);
+
+		$I->assertEquals(
+			$expectedTabs,
+			$actualArrayOfTabs, "Tab Labels do not match on edit view of" . $I->grabFromCurrentUrl()
+		);
+
 		$I->comment('Verify the Tabs');
 	}
+
 	/**
 	 * Function to Logout from Administrator Panel in Joomla!
 	 *
-	 * @return void
+	 * @since   3.7
+	 *
+	 * @return  void
 	 */
 	public function doAdministratorLogout()
 	{
 		$I = $this;
-		$I->click(['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]);
-		$I->comment("I click on Top Right corner toggle to Logout from Admin");
-		$I->waitForElement(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"], TIMEOUT);
-		$I->click(['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]);
-		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
-		$I->waitForText('Log in', TIMEOUT, ['xpath' => "//fieldset[@class='loginform']//button"]);
+		$I->click(
+			['xpath' => "//ul[@class='nav nav-user pull-right']//li//a[@class='dropdown-toggle']"]
+		);
 
+		$I->comment("I click on Top Right corner toggle to Logout from Admin");
+		$I->waitForElement(
+			['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"],
+			TIMEOUT
+		);
+
+		$I->click(
+			['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]
+		);
+
+		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
+		$I->waitForText(
+			'Log in',
+			TIMEOUT,
+			['xpath' => "//fieldset[@class='loginform']//button"]
+		);
 	}
 
 	/**
-	 * Selects an option in a Joomla Radio Field based on its label
+	 * Prepare menu item creation by choosing menu and adding title.
 	 *
-	 * @return void
+	 * @param   string  $title  The Menu Item title
+	 * @param   string  $menu   The menu in which menu item will be created.
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
 	 */
-	public function selectOptionInRadioField($label, $option)
+	public function prepareMenuItemCreate($title, $menu = 'Main Menu')
 	{
 		$I = $this;
-		$I->comment("Trying to select the $option from the $label");
-		$label = $webDriver->findField(['xpath' => "//label[contains(normalize-space(string(.)), '" . $label . "')]"]);
-		$radioId = $label->getAttribute('for');
-		$I->click(['xpath' => "//fieldset[@id='$radioId']/label[contains(normalize-space(string(.)), '$option')]"]);
+
+		$I->amOnPage('administrator/index.php?option=com_menus&view=menus');
+		$I->waitForText('Menus', '60', ['css' => 'H1']);
+		$I->checkForPhpNoticesOrWarnings();
+
+		$I->click(['link' => $menu]);
+		$I->waitForText('Menus: Items', '60', ['css' => 'H1']);
+		$I->checkForPhpNoticesOrWarnings();
+
+		$I->click("New");
+		$I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
+		$I->checkForPhpNoticesOrWarnings();
+		$I->fillField(['id' => 'jform_title'], $title);
 	}
 
-    /**
-     * Prepare menu item creation by choosing menu and adding title.
-     *
-     * @param   string  $title  The Menu Item title
-     * @param   string  $menu   The menu in which menu item will be created.
-     *
-     * @since   3.7
-     *
-     * @return  void
-     */
-	public function prepareMenuItemCreate($title, $menu = 'Main Menu')
-    {
-        $I = $this;
+	/**
+	 * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
+	 *
+	 * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
+	 * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
+	 *
+	 * @since   3.7
+	 *
+	 * @return  void
+	 */
+	public function selectMenuItemType($menuCategory, $menuItem)
+	{
+		$I = $this;
 
-        $I->amOnPage('administrator/index.php?option=com_menus&view=menus');
-        $I->waitForText('Menus', '60', ['css' => 'H1']);
-        $I->checkForPhpNoticesOrWarnings();
+		$I->comment("Open the menu types iframe");
+		$I->click(['link' => "Select"]);
+		$I->waitForElement(['id' => 'menuTypeModal'], '60');
+		$I->wait(1);
+		$I->switchToIFrame("Menu Item Type");
 
-        $I->click(['link' =>  $menu]);
-        $I->waitForText('Menus: Items', '60', ['css' => 'H1']);
-        $I->checkForPhpNoticesOrWarnings();
+		$I->comment("Open the menu category: $menuCategory");
 
-        $I->click("New");
-        $I->waitForText('Menus: New Item', '60', ['css' => 'h1']);
-        $I->checkForPhpNoticesOrWarnings();
-        $I->fillField(['id' => 'jform_title'], $title);
-    }
+		// Open the category
+		$I->wait(1);
+		$I->waitForElement(['link' => $menuCategory], '60');
+		$I->click(['link' => $menuCategory]);
 
-    /**
-     * Creates a menu item with the Joomla menu manager, only working for menu items without additional required fields
-     *
-     * @param   string  $menuTitle     The menu item title
-     * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
-     * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
-     * @param   string  $menu          The menu where the item should be created
-     */
-    public function selectMenuItemType($menuCategory, $menuItem)
-    {
-        $I = $this;
-
-        $I->comment("Open the menu types iframe");
-        $I->click(['link' => "Select"]);
-        $I->waitForElement(['id' => 'menuTypeModal'], '60');
-        $I->wait(1);
-        $I->switchToIFrame("Menu Item Type");
-
-        $I->comment("Open the menu category: $menuCategory");
-        // Open the category
-        $I->wait(1);
-        $I->waitForElement(['link' => $menuCategory], '60');
-        $I->click(['link' => $menuCategory]);
-
-        $I->comment("Choose the menu item type: $menuItem");
-        $I->wait(1);
-        $I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
-        $I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
-        $I->comment('I switch back to the main window');
-    }
+		$I->comment("Choose the menu item type: $menuItem");
+		$I->wait(1);
+		$I->waitForElement(['xpath' => "//a[contains(text()[normalize-space()], '$menuItem')]"], '60');
+		$I->click(['xpath' => "//div[@id='collapseTypes']//a[contains(text()[normalize-space()], '$menuItem')]"]);
+		$I->comment('I switch back to the main window');
+	}
 }

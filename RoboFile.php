@@ -302,7 +302,16 @@ class RoboFile extends \Robo\Tasks
             ->run()
             ->stopOnFail();
 
-	/*	$this->taskCodecept($pathToCodeception)
+		$this->taskCodecept($pathToCodeception)
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->arg('--env ' . $opts['env'])
+			->arg('tests/acceptance/category.feature')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
@@ -318,12 +327,14 @@ class RoboFile extends \Robo\Tasks
 			->arg('--env ' . $opts['env'])
 			->arg('tests/acceptance/frontend/')
 			->run()
-			->stopOnFail();*/
+			->stopOnFail();
 
 		/*
 		// Uncomment this lines if you need to debug selenium errors
 		$seleniumErrors = file_get_contents('selenium.log');
-		if ($seleniumErrors) {
+
+		if ($seleniumErrors)
+		{
 			$this->say('Printing Selenium Log files');
 			$this->say('------ selenium.log (start) ---------');
 			$this->say($seleniumErrors);
