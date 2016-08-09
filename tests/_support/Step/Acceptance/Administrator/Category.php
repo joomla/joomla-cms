@@ -20,7 +20,7 @@ use Page\Acceptance\Site\FrontPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class Category extends \AcceptanceTester
 {
@@ -29,7 +29,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Given There is an article category link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -45,7 +45,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I check available tabs in category
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -67,7 +67,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Then I see available tabs :arg1, :arg2, :arg3 and :arg4
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -85,7 +85,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I fill mandatory fields for creating Category
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -122,7 +122,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I save the category
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -140,7 +140,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I search and select category with title :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -162,7 +162,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I set the title as a :title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -180,7 +180,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Given I have a category with title :arg1 which needs to be unpublish
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -199,7 +199,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I unpublish the category
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -217,7 +217,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Given I have a category with title :arg1 which needs to be trash
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -236,7 +236,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I trash the category
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -252,7 +252,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I create new category without field title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -273,7 +273,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Then I should see the :error
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -292,7 +292,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I create a new article :title with content as a :content
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -312,7 +312,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I create menu item with title :title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -331,7 +331,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I choose menu item type :title and select :menuItem
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -349,7 +349,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I select an article :title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -373,7 +373,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I save the menu item
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -392,7 +392,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I set category as a :name
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -410,7 +410,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I select a top level category :name
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -428,7 +428,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I set language as a :name
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -444,7 +444,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Given There is joomla home page
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -462,7 +462,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I press on :arg1 menu
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -480,7 +480,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Then I should see the :title in home page
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -498,7 +498,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @When I press on :menuItem menu in joomla home page
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -517,7 +517,7 @@ class Category extends \AcceptanceTester
 	 *
 	 * @Then I should see the :arg1 error
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */

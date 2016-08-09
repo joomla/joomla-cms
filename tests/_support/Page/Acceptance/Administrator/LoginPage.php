@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class LoginPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class LoginPage extends AdminPage
 	 * Locator for username login form textfield
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $usernameField = ['id' => 'mod-login-username'];
 
@@ -30,7 +30,7 @@ class LoginPage extends AdminPage
 	 * Locator for password login form textfield
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $passwordField = ['id' => 'mod-login-password'];
 
@@ -38,7 +38,7 @@ class LoginPage extends AdminPage
 	 * Locator for Log in button
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $loginButton = ['xpath' => "//button[contains(normalize-space(), 'Log in')]"];
 }

@@ -18,7 +18,7 @@ use Codeception\Configuration;
  *
  * @package  Codeception\Module
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class AcceptanceHelper extends \Codeception\Module
 {
@@ -29,7 +29,7 @@ class AcceptanceHelper extends \Codeception\Module
 	 *
 	 * @return  array
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getSuiteConfiguration()
 	{

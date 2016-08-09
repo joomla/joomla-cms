@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class CategoryManagerPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class CategoryManagerPage extends AdminPage
 	 * Link to the article category listing url.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = '/administrator/index.php?option=com_categories&view=categories&extension=com_content';
 
@@ -30,7 +30,7 @@ class CategoryManagerPage extends AdminPage
 	 * Locator for category name field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $name = ['id' => 'jform_title'];
 
@@ -38,7 +38,7 @@ class CategoryManagerPage extends AdminPage
 	 * Locator for category search field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $filterSearch = ['id' => 'filter_search'];
 
@@ -46,7 +46,7 @@ class CategoryManagerPage extends AdminPage
 	 * Locator for category search button
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $iconSearch = ['class' => 'icon-search'];
 
@@ -54,7 +54,7 @@ class CategoryManagerPage extends AdminPage
 	 * Locator for invalid category alert
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $invalidTitle = ['class' => 'alert-error'];
 }

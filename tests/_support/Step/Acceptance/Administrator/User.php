@@ -21,7 +21,7 @@ use Page\Acceptance\Administrator\UserManagerPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class User extends \AcceptanceTester
 {
@@ -30,7 +30,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given There is a add user link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -52,7 +52,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I create new user with fields Name :name, Login Name :username, Password :password and Email :email
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -72,7 +72,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I Save the user
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -90,7 +90,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Then I should see the :arg1 message
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -109,7 +109,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I search and select the user with user name :username
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -132,7 +132,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I set name as an :name and User Group as :usergroup
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -154,7 +154,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I have a user with user name :username
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -173,7 +173,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I block the user
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -191,7 +191,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I have a blocked user with user name :username
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -210,7 +210,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I unblock the user
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -228,7 +228,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I Delete the user :username
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -249,7 +249,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given There is an user link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -265,7 +265,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I see the user edit view tabs
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -286,7 +286,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Then I check available tabs :tab1, :tab2 and :tab3
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -307,7 +307,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I fill a super admin with fields Name :name, Login Name :username, Password :password, and Email :email
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -327,7 +327,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I set assigned user group as an Administrator
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -347,7 +347,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Then Login in backend with username :username and password :password
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -370,7 +370,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I don't fill Login Name but fulfill remaining mandatory fields: Name :name, Password :password and Email :email
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -391,7 +391,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Then I see the title :title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -409,7 +409,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Then I see the alert error :error
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -425,7 +425,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given There is a add new group link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -444,7 +444,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I fill Group Title as a :grouptitle
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -460,7 +460,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I save the Group
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -478,7 +478,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I search and select the Group with name :grouptitle
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -500,7 +500,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I set group Title as a :grouptitle
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -518,7 +518,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I Delete the Group :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -539,7 +539,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given There is a add viewing access level link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -558,7 +558,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I fill Level Title as a :levelTitle and set Access as a public
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -575,7 +575,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I save the Access Level
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -593,7 +593,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I search and select the Access Level with name :leveltitle
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -615,7 +615,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I set Access Level title as a :leveltitle
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -633,7 +633,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I Delete the Access level :leveltitle
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -654,7 +654,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given There is a User link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -670,7 +670,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Given I goto the option setting
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -686,7 +686,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I set Allow User Registration as a yes
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -702,7 +702,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @When I save the setting
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -718,7 +718,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @Then I should be see the link Create an account in frontend
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */

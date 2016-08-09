@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class MenuManagerPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class MenuManagerPage extends AdminPage
 	 * Link to the article category listing url.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = 'administrator/index.php?option=com_menus&view=item&layout=edit&menutype=mainmenu';
 
@@ -30,7 +30,7 @@ class MenuManagerPage extends AdminPage
 	 * Locator for select article for menu item
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $selectArticle = ['class' => 'icon-file'];
 
@@ -38,7 +38,7 @@ class MenuManagerPage extends AdminPage
 	 * Locator to choose article title
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $chooseArticle = ['link' => 'Test_article'];
 
@@ -46,7 +46,7 @@ class MenuManagerPage extends AdminPage
 	 * Locator for article link for menu item
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $article = ['link' => 'Article'];
 }

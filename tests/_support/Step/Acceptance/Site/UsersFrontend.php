@@ -19,7 +19,7 @@ use Page\Acceptance\Site\FrontendLogin;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class UsersFrontend extends \AcceptanceTester
 {
@@ -28,7 +28,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given that user registration is enabled
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -50,7 +50,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given there is no user with Username :arg1 or Email :arg2
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -75,7 +75,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I press on the link :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -99,7 +99,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I create a user with fields Name :arg1, Username :arg1, Password :arg1 and Email :arg4
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -122,7 +122,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I press the :arg1 button
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -140,7 +140,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then I should see :arg1 message
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -156,7 +156,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then user is created
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -170,7 +170,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given I am on the User Manager page
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -188,7 +188,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I search the user with user name :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -208,7 +208,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then I should see the user :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -226,7 +226,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given A not yet activated user with username :arg1 exists
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -247,7 +247,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given I am on a frontend page with a login module
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -267,7 +267,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I enter username :arg1 and password :arg1 into the login module
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -286,7 +286,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I press on :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -304,7 +304,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then I should see the :arg1 warning
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -322,7 +322,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I unblock the user :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -343,7 +343,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I activate the user :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -365,7 +365,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I login with user :arg1 with password :arg1 in frontend
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -386,7 +386,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then I should see the message :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -405,7 +405,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given I am logged in into the frontend as user :arg1 with password :arg2
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -426,7 +426,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I press on the :arg1 button
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -445,7 +445,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I change the name to :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -464,7 +464,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I press on :arg1 button
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -482,7 +482,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I search the user with name :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -501,7 +501,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then I should see the name :name
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -519,7 +519,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Given Needs to user :arg1 logged in at least once
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -534,7 +534,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @When I login as a super admin from backend
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -552,7 +552,7 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @Then I should see last login date for :name
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */

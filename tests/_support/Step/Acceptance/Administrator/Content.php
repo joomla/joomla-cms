@@ -17,7 +17,7 @@ use Page\Acceptance\Administrator\ArticleManagerPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class Content extends \AcceptanceTester
 {
@@ -26,7 +26,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Given   There is a add content link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -46,7 +46,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When    I create new content with field title as :title and content as a :content
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -64,7 +64,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When I save an article
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -82,7 +82,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Then I should see the :message message
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -101,7 +101,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Given I search and select content article with title :title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -120,7 +120,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When I featured the article
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -138,7 +138,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Given I select the content article with title :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -160,7 +160,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When I set access level as a :accessLevel
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -176,7 +176,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When I save the article
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -194,7 +194,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Given I have article with name :title
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -213,7 +213,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When I unpublish the article
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -232,7 +232,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Then I wait for title :title and see the unpublish message :message
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -251,7 +251,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Given I have :title content article which needs to be Trash
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -270,7 +270,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @When I Trash the article
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -289,7 +289,7 @@ class Content extends \AcceptanceTester
 	 *
 	 * @Then I wait for the title :title and see article trash message :message
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */

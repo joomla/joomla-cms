@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class UserGroupPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class UserGroupPage extends AdminPage
 	 * Url to Users Groups listing page
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = 'administrator/index.php?option=com_users&view=groups';
 }

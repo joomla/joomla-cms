@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class ArticleManagerPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class ArticleManagerPage extends AdminPage
 	 * Page object for article title field.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $title = ['id' => 'jform_title'];
 
@@ -38,7 +38,7 @@ class ArticleManagerPage extends AdminPage
 	 * Page object for the toggle button.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $toggleEditor = "Toggle editor";
 
@@ -46,7 +46,7 @@ class ArticleManagerPage extends AdminPage
 	 * Page object for search filter element of article listing page.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $filterSearch = ['id' => 'filter_search'];
 
@@ -54,7 +54,7 @@ class ArticleManagerPage extends AdminPage
 	 * Page object for search icon button of article listing page.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $iconSearch = ['class' => 'icon-search'];
 
@@ -62,7 +62,7 @@ class ArticleManagerPage extends AdminPage
 	 * Link to the article listing page.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = "/administrator/index.php?option=com_content&view=articles";
 }

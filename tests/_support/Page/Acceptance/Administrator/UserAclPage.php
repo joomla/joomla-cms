@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class UserAclPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class UserAclPage extends AdminPage
 	 * Url to Users Viewing Access Levels listing page
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = 'administrator/index.php?option=com_users&view=levels';
 }

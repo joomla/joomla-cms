@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class UserManagerPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class UserManagerPage extends AdminPage
 	 * Url to user manager listing page.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = "administrator/index.php?option=com_users&view=users";
 
@@ -30,7 +30,7 @@ class UserManagerPage extends AdminPage
 	 * Page title of the user manager listing page.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $pageTitleText = "Users";
 
@@ -38,7 +38,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's name input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $nameField = ['id' => 'jform_name'];
 
@@ -46,7 +46,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's username input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $usernameField = ['id' => 'jform_username'];
 
@@ -54,7 +54,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's password input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $passwordField = ['id' => 'jform_password'];
 
@@ -62,7 +62,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's password input field for frontend
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $password1Field = ['id' => 'jform_password1'];
 
@@ -70,7 +70,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's repeat password input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $password2Field = ['id' => 'jform_password2'];
 
@@ -78,7 +78,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's email input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $emailField = ['id' => 'jform_email'];
 
@@ -86,7 +86,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's email input field for frontend
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $email1Field = ['id' => 'jform_email1'];
 
@@ -94,7 +94,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's repeat email input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $email2Field = ['id' => 'jform_email2'];
 
@@ -102,7 +102,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's search input field
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $filterSearch = ['id' => 'filter_search'];
 
@@ -110,7 +110,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's search button icon
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $iconSearch = ['class' => 'icon-search'];
 
@@ -118,7 +118,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's page title
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $title = ['id' => 'jform_title'];
 
@@ -126,7 +126,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's username field in frontend
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $seeUserName = ['xpath' => "//table[@id='userList']//tr[1]/td[3]"];
 
@@ -134,7 +134,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's name field in frontend
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $seeName = ['xpath' => "//table[@id='userList']//tr[1]/td[2]"];
 
@@ -142,7 +142,7 @@ class UserManagerPage extends AdminPage
 	 * Locator for user's last login date field in backend listing.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $lastLoginDate = ['xpath' => "//table[@id='userList']//tr[1]/td[8]"];
 }

@@ -18,7 +18,7 @@ use Page\Acceptance\Administrator\ControlPanelPage;
  *
  * @package  Step\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class Login extends \AcceptanceTester
 {
@@ -30,7 +30,7 @@ class Login extends \AcceptanceTester
 	 *
 	 * @When I Login into Joomla administrator with username :arg1 and password :arg1
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -50,7 +50,7 @@ class Login extends \AcceptanceTester
 	 * @Then I should see the administrator dashboard
 	 * @When I see the administrator dashboard
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */

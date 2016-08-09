@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class AdminPage extends \AcceptanceTester
 {
@@ -22,7 +22,7 @@ class AdminPage extends \AcceptanceTester
 	 * The element id which contains system messages.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $systemMessageContainer = ['id' => 'system-message-container'];
 
@@ -30,7 +30,7 @@ class AdminPage extends \AcceptanceTester
 	 * The element id which contains page title in administrator header.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $pageTitle = ['class' => 'page-title'];
 }

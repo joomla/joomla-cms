@@ -14,7 +14,7 @@ namespace Page\Acceptance\Site;
  *
  * @package  Page\Acceptance\Site
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class FrontPage extends \AcceptanceTester
 {
@@ -22,7 +22,7 @@ class FrontPage extends \AcceptanceTester
 	 * Link to the frontend
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = '/';
 
@@ -30,7 +30,7 @@ class FrontPage extends \AcceptanceTester
 	 * Locator for alert message in frontend.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $alertMessage = ['class' => 'alert-message'];
 
@@ -38,7 +38,7 @@ class FrontPage extends \AcceptanceTester
 	 * Locator for login greeting for the user.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $loginGreeting = ['class' => 'login-greeting'];
 }

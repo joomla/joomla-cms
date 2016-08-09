@@ -14,7 +14,7 @@ namespace Page\Acceptance\Site;
  *
  * @package  Page\Acceptance\Site
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class FrontendLogin extends FrontPage
 {
@@ -22,7 +22,7 @@ class FrontendLogin extends FrontPage
 	 * Link for user's profile page in frontend
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $profile = '/index.php?option=com_users&view=profile';
 
@@ -30,7 +30,7 @@ class FrontendLogin extends FrontPage
 	 * Locator for username input field in frontend login module.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $moduleUsername = ['id' => 'modlgn-username'];
 
@@ -38,7 +38,7 @@ class FrontendLogin extends FrontPage
 	 * Locator for password input field in frontend login module.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $modulePassword = ['id' => 'modlgn-passwd'];
 
@@ -46,7 +46,7 @@ class FrontendLogin extends FrontPage
 	 * Locator for title field in frontend login module.
 	 *
 	 * @var    array
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $moduleTitle = ['xpath' => ".//*[@id='aside']/div[2]/h3"];
 }

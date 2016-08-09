@@ -14,7 +14,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @package  Page\Acceptance\Administrator
  *
- * @since    3.7
+ * @since    __DEPLOY_VERSION__
  */
 class ControlPanelPage extends AdminPage
 {
@@ -22,7 +22,7 @@ class ControlPanelPage extends AdminPage
 	 * Link to the administrator control panel url.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = "/administrator/index.php";
 
@@ -30,7 +30,7 @@ class ControlPanelPage extends AdminPage
 	 * Name of the text to identify the control panel.
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $pageTitle = 'Control Panel';
 }

@@ -14,7 +14,7 @@ use Page\Acceptance\Administrator\AdminPage;
  *
  * @package     Joomla.Test
  * @subpackage  AcceptanceTester
- * @since       3.7
+ * @since       __DEPLOY_VERSION__
  *
  * Inherited Methods
  * @method void wantToTest($text)
@@ -39,7 +39,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @param   string  $title  Page Title text
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -55,7 +55,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   string  $page  Optional, if not given checks will be done in the current page
 	 *
 	 * @note    :   doAdminLogin() before
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -82,7 +82,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @param   string  $button  The full name of the button
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -163,7 +163,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -181,7 +181,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   string  $selectId  The id of the <select> element
 	 * @param   string  $option    The text in the <option> to be selected in the chosen selector
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -205,7 +205,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   array  $expectedTabs  Expected Tabs on the Page
 	 * @param   Mixed  $tabsLocator   Locator for the Tabs in Edit View
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -230,7 +230,7 @@ class AcceptanceTester extends \Codeception\Actor
 	/**
 	 * Function to Logout from Administrator Panel in Joomla!
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -265,7 +265,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   string  $title  The Menu Item title
 	 * @param   string  $menu   The menu in which menu item will be created.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
@@ -293,7 +293,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 * @param   string  $menuCategory  The category of the menu type (for example Weblinks)
 	 * @param   string  $menuItem      The menu item type / link text (for example List all Web Link Categories)
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
