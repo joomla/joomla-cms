@@ -50,7 +50,7 @@ class JHtmlFieldNumberTest_DataSet
 				'required' => 'true',
 				'min' => 2,
 			),
-			'<input type="number" name="myTestName" id="myTestId" value="2" min="2" />',
+			'<input type="number" name="myTestName" id="myTestId" value="2" min="2" required aria-required="true" />',
 		),
 
 		'Max' => array(
