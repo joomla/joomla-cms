@@ -189,7 +189,7 @@ class JFormFieldFolderList extends JFormFieldList
 			$path = JPATH_ROOT . '/' . $path;
 		}
 		
-		// clean input path, fix DS issue on windows
+		// Clean input path, fix DS issue on windows
 		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
