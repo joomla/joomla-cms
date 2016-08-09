@@ -1915,6 +1915,16 @@ fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
 }
+fieldset.adminform .adminformlist .btn.modal,
+fieldset.adminform .input-prepend > *,
+fieldset.adminform .input-append > * {
+	float: none;
+	vertical-align: middle;
+}
+fieldset.adminform .input-prepend,
+fieldset.adminform .input-append {
+	float: left;
+}
 fieldset.panelform-legacy label.radiobtn-jno,
 fieldset.panelform-legacy label.radiobtn-jyes,
 fieldset.panelform-legacy label.radiobtn-show,
