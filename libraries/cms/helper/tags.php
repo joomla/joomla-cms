@@ -620,7 +620,7 @@ class JHelperTags extends JHelper
 		JPluginHelper::importPlugin('tags');
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onTagListQuery', array($query));
-		$query = $results[0];
+		if(count($results)==1) $query = $results[0];
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
