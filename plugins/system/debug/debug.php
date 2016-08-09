@@ -179,6 +179,38 @@ class PlgSystemDebug extends JPlugin
 		{
 			JHtml::_('bootstrap.tooltip');
 			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
+			JHtml::_('jquery.ui', array('core', 'draggable'));
+
+			// Allow drag of the system debug div container and dispaly accordion.
+			JFactory::getDocument()->addScriptDeclaration('jQuery(function () {
+				jQuery("#system-debug").draggable({
+					handle: ".header .drag",
+					start: function( event, ui ) {
+							jQuery("#system-debug").css("left", "auto").css("right", "auto").css("top", "auto").css("bottom", "auto");
+						}
+					});
+	
+				jQuery("#system-debug h1").on("click", function() {
+						var displayMode = jQuery("#system-debug-container").css("display") == "block" ? "none" : "block";
+						jQuery("#system-debug-container").css("display", displayMode);
+						if (displayMode == "none")
+						{
+							jQuery(".dbg-container").css("display", displayMode);
+							jQuery("#system-debug").removeClass("large").addClass("short");
+						}
+						else
+						{
+							jQuery("#system-debug").addClass("large").removeClass("short");
+						}
+					});
+	
+				jQuery(".dbg-header").on("click", function() {
+					var displayMode = jQuery(this).next().css("display") == "block" ? "none" : "block";
+					jQuery(".dbg-container").css("display", "none");
+					jQuery(this).next().css("display", displayMode);
+					return false;
+					});
+				});');
 		}
 	}
 
@@ -231,16 +263,11 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		// Some "mousewheel protecting" JS.
-		$html[] = "<script>function toggleContainer(name)
-		{
-			var e = document.getElementById(name);// MooTools might not be available ;)
-			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
-		}</script>";
+		$html[] = '<div id="system-debug" class="short profiler">';
 
-		$html[] = '<div id="system-debug" class="profiler">';
+		$html[] = '<div class="header"><h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1><div class="drag icon-move"></div></div>';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<div id="system-debug-container">';
 
 		if (JDEBUG)
 		{
@@ -290,6 +317,8 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('untranslated_strings');
 			}
 		}
+
+		$html[] = '</div>';
 
 		$html[] = '</div>';
 
@@ -360,22 +389,12 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
 		}
 
-		$html = '';
-
-		$js = "toggleContainer('dbg_container_" . $item . "');";
-
 		$class = 'dbg-header' . $status;
 
-		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html = '<div class="dbg-header' . $status . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+		$html .= '<div class="dbg-container" id="dbg_container_' . $item . '">' . $this->$fncName() . '</div>';
 
-		// @todo set with js.. ?
-		$style = ' style="display: none;"';
-
-		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
-		$html[] = $this->$fncName();
-		$html[] = '</div>';
-
-		return implode('', $html);
+		return $html;
 	}
 
 	/**
@@ -1339,7 +1358,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '</table>';
 
-		return implode('', $html);
+		return str_replace('&nbsp;', ' ', implode('', $html));
 	}
 
 	/**
@@ -1855,9 +1874,10 @@ class PlgSystemDebug extends JPlugin
 		if (isset($callStack))
 		{
 			$htmlCallStack .= '<div>';
-			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
+			$htmlCallStack .= '<table class="table table-striped table-fixed dbg-query-table">';
 			$htmlCallStack .= '<thead>';
-			$htmlCallStack .= '<th>#</th>';
+			$htmlCallStack .= '<tr>';
+			$htmlCallStack .= '<th style="width: 15px">#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';
 			$htmlCallStack .= '</tr>';

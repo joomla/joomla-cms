@@ -88,21 +88,6 @@ $doc->addStyleDeclaration("
 			padding: 4px 10px 4px;
 		}
 	}");
-
-// Check if debug is on
-if ($app->get('debug_lang', 1) || $app->get('debug', 1))
-{
-	$doc->addStyleDeclaration("
-	.view-login .container {
-		position: static;
-		margin-top: 20px;
-		margin-left: auto;
-		margin-right: auto;
-	}
-	.view-login .navbar-fixed-bottom {
-		display: none;
-	}");
-}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
