@@ -44,13 +44,11 @@ class PlgTwofactorauthTotp extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		parent::__construct($subject, $config);
 
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
+		include_once JPATH_LIBRARIES . '/joomla/encrypt/src/Totp.php';
+		include_once JPATH_LIBRARIES . '/joomla/encrypt/src/Base32.php';
+
+		parent::__construct($subject, $config);
 	}
 
 	/**
@@ -110,7 +108,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		if ($otpConfig->method == $this->methodName)
 		{
@@ -137,18 +135,9 @@ class PlgTwofactorauthTotp extends JPlugin
 		@ob_start();
 
 		// Include the form.php from a template override. If none is found use the default.
-		$path = FOFPlatform::getInstance()->getTemplateOverridePath('plg_twofactorauth_totp', true);
+		$path = '/opt/lampp/htdocs/joomla-cms/plugins/twofactorauth/totp/tmpl/';
 
-		JLoader::import('joomla.filesystem.file');
-
-		if (JFile::exists($path . '/form.php'))
-		{
-			include_once $path . '/form.php';
-		}
-		else
-		{
-			include_once __DIR__ . '/tmpl/form.php';
-		}
+		include_once $path . 'form.php';
 
 		// Stop output buffering and get the form contents
 		$html = @ob_get_clean();
@@ -209,7 +198,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		// Check the security code entered by the user (exact time slot match)
 		$code = $totp->getCode($data['key']);
@@ -291,7 +280,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new FOFEncryptTotp(30, 6, 10);
+		$totp = new Totp(30, 6, 10);
 
 		// Check the code
 		$code = $totp->getCode($otpConfig->config['code']);
