@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+
+$ajaxUri = JRoute::_('index.php?option=com_users&task=registration.validate&format=json&' . JSession::getFormToken() . '=1');
 ?>
 <div class="registration<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -56,6 +58,7 @@ JHtml::_('behavior.formvalidator');
 				<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JREGISTER');?></button>
 				<a class="btn" href="<?php echo JRoute::_('');?>" title="<?php echo JText::_('JCANCEL');?>"><?php echo JText::_('JCANCEL');?></a>
 				<input type="hidden" name="option" value="com_users" />
+				<input type="hidden" data-url="<?php echo $ajaxUri ?>" id="ajax-validation"/>
 				<input type="hidden" name="task" value="registration.register" />
 			</div>
 		</div>

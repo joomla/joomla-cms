@@ -42,6 +42,10 @@ class UsersViewRegistration extends JViewLegacy
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
 
+		JText::script('COM_USERS_PROFILE_EMAIL2_MESSAGE');
+		JText::script('COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE');
+		JHtml::_('script', 'com_users/validate-user.js', false, true);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

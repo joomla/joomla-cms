@@ -13,7 +13,7 @@ require_once JPATH_COMPONENT . '/controller.php';
 /**
  * Profile controller class for Users.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class UsersControllerRegistration extends UsersController
 {
@@ -22,10 +22,13 @@ class UsersControllerRegistration extends UsersController
 	 *
 	 * @return      JResponseJson Array with the information of the user/email
 	 *
-	 * @since
+	 * @since 		__DEPLOY_VERSION__
 	 */
 	public function validate()
 	{
+		// Check for request forgeries.
+		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
 		// Read username from ajax
 		$username = $this->input->get('username', '', 'username');
 		$email = $this->input->get('email', '', 'email');

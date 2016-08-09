@@ -257,6 +257,7 @@
 			rows="4" 
 			cols="50"
 			filter="string"
+			showon="allowed_chars_username_preset:1,2,3"
 			>
 		</field>
 
