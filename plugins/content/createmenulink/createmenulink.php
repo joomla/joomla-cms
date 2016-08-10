@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  *
  * @since  3.6
  */
-class PlgContentCreatemenulink extends JPlugin
+class PlgContentCreateMenulink extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -54,32 +54,33 @@ class PlgContentCreatemenulink extends JPlugin
 			return true;
 		}
 
-			list($component, $view) = explode('.', $context);
+		$jinput    = JFactory::getApplication()->input;
+		$component = $jinput->get('option');
+		$view      = $jinput->get('view');
 
-			$menu      = JFactory::getApplication()->getMenu('site');
-			$menuItems = $menu->getItems(
-							'link',
-							'index.php?option=' . $component . '&view=' . $view . '&id=' . $data->id
-						);
+		$menu      = JFactory::getApplication()->getMenu('site');
+		$menuItems = $menu->getItems(
+			'link',	'index.php?option=' . $component . '&view=' . $view . '&id=' . $data->id
+		);
 
-			if (!empty($menuItems))
-			{
-				$data->menuid    = $menuItems[0]->id;
-				$data->menutitle = $menuItems[0]->title;
-				$data->menualias = $menuItems[0]->alias;
-				$data->menutype  = $menuItems[0]->menutype;
-				$data->parent_id = $menuItems[0]->parent_id;
-				JHtml::_('jquery.framework', false);
-				JHtml::_('script', 'media/plg_content_createmenulink/parentitem.js');
-			}
+		if (!empty($menuItems))
+		{
+			$data->menuid    = $menuItems[0]->id;
+			$data->menutitle = $menuItems[0]->title;
+			$data->menualias = $menuItems[0]->alias;
+			$data->menutype  = $menuItems[0]->menutype;
+			$data->parent_id = $menuItems[0]->parent_id;
+			JHtml::_('jquery.framework', false);
+			JHtml::_('script', 'media/plg_content_createmenulink/parentitem.js');
+		}
 
-			if (empty($menuItems))
-			{
-				JHtml::_('jquery.framework', false);
-				JHtml::_('script', 'media/plg_content_createmenulink/copytitle.js');
-			}
+		if (empty($menuItems))
+		{
+			JHtml::_('jquery.framework', false);
+			JHtml::_('script', 'media/plg_content_createmenulink/copytitle.js');
+		}
 
-		return true;
+	return true;
 	}
 
 	/**
@@ -163,7 +164,9 @@ class PlgContentCreatemenulink extends JPlugin
 		$data    = $session->get("formData");
 		$session->clear("formData");
 
-		list($component, $view) = explode('.', $context);
+		$jinput    = JFactory::getApplication()->input;
+		$component = $jinput->get('option');
+		$view      = $jinput->get('view');
 
 		$menuData = array(
 			'id'                => $data['menuid'],
