@@ -1689,8 +1689,8 @@ class JoomlaInstallerScript
 	 * Converts the site's database tables to the new null Date of mySQL 5.7. Can also be used as reverter
 	 *
 	 * @param   string  $newNull  the old null date string
-     * @param   string  $oldNull  the new null date string
-     *
+	 * @param   string  $oldNull  the new null date string
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
