@@ -105,10 +105,10 @@ class ContentControllerArticle extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// Zero record (id:0) return false, if caller wants component permissions just get them directly
+		// Zero record (id:0), return component edit permission by calling parent controller method
 		if (!$recordId)
 		{
-			return false;
+			return parent::allowEdit($data, $key);
 		}
 
 		// Check edit on the record asset (explicit or inherited)
@@ -128,7 +128,7 @@ class ContentControllerArticle extends JControllerForm
 				return false;
 			}
 
-			// Grant if current user is owner of the record, note: zero id is guest
+			// Grant if current user is owner of the record
 			return $user->get('id') == $record->created_by;
 		}
 
