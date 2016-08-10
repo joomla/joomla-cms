@@ -645,7 +645,6 @@ class JHelperTags extends JHelper
 
 		$query->order($orderBy . ' ' . $orderDir);
 
-		$dump = $query->dump();
 		return $query;
 	}
 
