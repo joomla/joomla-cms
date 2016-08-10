@@ -624,7 +624,7 @@ class JHelperTags extends JHelper
 
 		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, name, author_email');
+			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, ua.name, author_email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
@@ -645,6 +645,7 @@ class JHelperTags extends JHelper
 
 		$query->order($orderBy . ' ' . $orderDir);
 
+		$dump = $query->dump();
 		return $query;
 	}
 
