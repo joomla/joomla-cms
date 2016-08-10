@@ -688,6 +688,41 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Checks if HTTPS is forced in the client configuration.
+	 *
+	 * @param   integer  $clientId  An optional client id (defaults to current application client).
+	 *
+	 * @return  bool  True if is forced for the client, false otherwise.
+	 *
+	 * @since   3.6.0
+	 */
+	public function isHttpsForced($clientId = null)
+	{
+		$clientId = $clientId !== null ? (int) $clientId : (int) $this->getClientId();
+
+		switch ($clientId)
+		{
+			case 0:
+				if ((int) $this->get('force_ssl') === 2)
+				{
+					return true;
+				}
+
+				break;
+
+			case 1:
+				if ((int) $this->get('force_ssl') >= 1)
+				{
+					return true;
+				}
+
+				break;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Allows the application to load a custom or default session.
 	 *
 	 * The logic and options for creating this object are adequately generic for default cases
@@ -717,28 +752,10 @@ class JApplicationCms extends JApplicationWeb
 
 		// Initialize the options for JSession.
 		$options = array(
-			'name'   => $name,
-			'expire' => $lifetime
+			'name'      => $name,
+			'expire'    => $lifetime,
+			'force_ssl' => $this->isHttpsForced(),
 		);
-
-		switch ($this->getClientId())
-		{
-			case 0:
-				if ($this->get('force_ssl') == 2)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-
-			case 1:
-				if ($this->get('force_ssl') >= 1)
-				{
-					$options['force_ssl'] = true;
-				}
-
-				break;
-		}
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
