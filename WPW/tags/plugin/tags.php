@@ -53,7 +53,9 @@ class plgTagsTags extends JPlugin
 	 */
 	public function onTagListQuery($query)
 	{
-		// TODO: Replace with functioning code
+		$query->select('COALESCE(ctnt.attribs, \'\') AS attribs');
+		$query->join('LEFT',  '#__content AS ctnt on ctnt.id=m.content_item_id AND m.type_alias = \'com_content.article\'');
+
 		return $query;
 	}
 }
