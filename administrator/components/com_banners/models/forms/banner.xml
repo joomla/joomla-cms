@@ -39,7 +39,6 @@
 			extension="com_banners"
 			required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields"
-			allowAdd="true"
 			default=""
 		/>
 

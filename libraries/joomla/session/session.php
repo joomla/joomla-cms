@@ -698,6 +698,7 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
+		// Kill session
 		$this->_handler->clear();
 
 		// Create new data storage
@@ -767,9 +768,6 @@ class JSession implements IteratorAggregate
 
 		// Keep session config
 		$cookie = session_get_cookie_params();
-
-		// Kill session
-		$this->_handler->clear();
 
 		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();

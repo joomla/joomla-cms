@@ -1201,7 +1201,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.1
 	 */
 	public function addAssociations($groupedAssociations)
 	{
