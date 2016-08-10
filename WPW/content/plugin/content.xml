@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.5" type="plugin" group="tags" method="upgrade">
-	<name>tags</name>
+	<name>content</name>
 	<creationDate>09.08.2016</creationDate>
 	<author>Kevin</author>
 	<authorEmail>your@email.com</authorEmail>
@@ -8,20 +8,20 @@
 	<copyright>A copyright</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.0</version>
-	<description>PLG_TAGS_XML_DESCRIPTION</description>
+	<description>PLG_CONTENT_XML_DESCRIPTION</description>
 
 	<!-- Scripts to run on installation -->
 	<scriptfile></scriptfile>
 
 	<!-- Language files -->
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_tags_tags.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_tags_tags.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_tags_content.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_tags_content.sys.ini</language>
 	</languages>
 
 	<!-- Plugin files -->
 	<files>
-		<filename plugin="tags">tags.php</filename>
+		<filename plugin="content">content.php</filename>
 		<folder>language</folder>
 	</files>
 
@@ -33,8 +33,8 @@
 					name="sample"
 					type="text"
 					default="42"
-					label="PLG_TAGS_SAMPLE_LABEL"
-					description="PLG_TAGS_SAMPLE_DESCRIPTION"
+					label="PLG_CONTENT_SAMPLE_LABEL"
+					description="PLG_CONTENT_SAMPLE_DESCRIPTION"
 				/>
 			</fieldset>
 		</fields>
@@ -42,6 +42,6 @@
 
 	<!-- Update servers -->
 	<updateservers>
-		<server type="extension" priority="1" name="tags">https://www.example.com/plg_tags.xml</server>
+		<server type="extension" priority="1" name="content">https://www.example.com/plg_content.xml</server>
 	</updateservers>
 </extension>

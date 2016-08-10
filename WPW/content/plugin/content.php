@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    tags
+ * @package    content
  *
  * @author     Kevin <your@email.com>
  * @copyright  A copyright
@@ -11,39 +11,15 @@
 defined('_JEXEC') or die;
 
 /**
- * Tags plugin.
+ * Content plugin.
  *
- * @package  Tags
+ * @package  Content
  * @since    1.0
  */
-class plgTagsTags extends JPlugin
+class plgTagsContent extends JPlugin
 {
 	/**
-	 * Application object
-	 *
-	 * @var    JApplicationCms
-	 * @since  1.0
-	 */
-	protected $app;
-
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  1.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  1.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
-	 * Is called when the tags helper tries to construct a tag item list query
+	 * Is called when the content helper tries to construct a tag item list query
 	 *
 	 * @param   JDatabaseQuery  $query  The database query to be modified
 	 *
