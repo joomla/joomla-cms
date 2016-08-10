@@ -1707,13 +1707,13 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		if (!method_exists($db, 'serverUsesNewNullTime'))
+		if (!method_exists($db, 'serverUsesNewNullDate'))
 		{
 			return;
 		}
 
 		// Possible Convert Back
-		if ($db->serverUsesNewNullTime())
+		if ($db->serverUsesNewNullDate())
 		{
 			if (is_null($newNull))
 			{

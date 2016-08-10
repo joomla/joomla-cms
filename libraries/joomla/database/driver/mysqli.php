@@ -196,7 +196,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
 		
 		// Use different NullTime
-		if ($this->serverUsesNewNullTime())
+		if ($this->serverUsesNewNullDate())
 		{
 			$this->nullDate = '1000-01-01 00:00:00';
 		}
@@ -990,7 +990,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @since   12.2
 	 */
-	public function serverUsesNewNullTime()
+	public function serverUsesNewNullDate()
 	{
 		$server_version = $this->getVersion();
 		return version_compare($server_version, '5.7.0', '>=');
