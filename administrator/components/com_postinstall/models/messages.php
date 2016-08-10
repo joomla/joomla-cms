@@ -9,37 +9,124 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ADMINISTRATOR . '/components/com_postinstall/helpers/postinstall.php';
+
 /**
  * Model class to manage postinstall messages
  *
  * @since  3.2
  */
-class PostinstallModelMessages extends FOFModel
+class PostinstallModelMessages extends JModelLegacy
 {
 	/**
-	 * Builds the SELECT query
+	 * Gets an item with the given id from the database
 	 *
-	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
+	 * @param   integer  $id  The item id
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  Object
 	 *
 	 * @since   3.2
 	 */
-	public function buildQuery($overrideLimits = false)
+	public function getItem($id)
 	{
-		$query = parent::buildQuery($overrideLimits);
-
 		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+		$query->select(
+			$db->quoteName(
+				array
+				('postinstall_message_id',
+					'extension_id',
+					'title_key',
+					'description_key',
+					'action_key',
+					'language_extension',
+					'language_client_id',
+					'type',
+					'action_file',
+					'action',
+					'condition_file',
+					'condition_method',
+					'version_introduced',
+					'enabled')
+			)
+		)->from($db->quoteName('#__postinstall_messages'))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObject();
+
+		return $result;
+	}
+
+	/**
+	 * Unpublishes specified post-install message
+	 *
+	 * @param   integer  $id  The message id
+	 *
+	 * @return   void
+	 */
+	public function unpublishMessage($id)
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__postinstall_messages'))
+			->set($db->qn('enabled') . ' = ' . $db->q(0))->where($db->qn('postinstall_message_id') . ' = ' . $db->q($id));
+		$db->setQuery($query);
+		$db->execute();
+	}
+
+	/**
+	 * Returns a list of messages from the #__postinstall_messages table
+	 *
+	 * @return  Object
+	 *
+	 * @since   3.2
+	 */
+	public function getItems()
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+
+		$query->select(
+			$db->quoteName(
+				array
+			('postinstall_message_id',
+											'extension_id',
+											'title_key',
+											'description_key',
+											'action_key',
+											'language_extension',
+											'language_client_id',
+											'type',
+											'action_file',
+											'action',
+											'condition_file',
+											'condition_method',
+											'version_introduced',
+											'enabled')
+									)
+		);
 
 		// Add a forced extension filtering to the list
 		$eid = $this->getState('eid', 700);
 		$query->where($db->qn('extension_id') . ' = ' . $db->q($eid));
 
 		// Force filter only enabled messages
-		$published = $this->getState('published', 1, 'int');
+		$published = $this->getState('published', 1);
 		$query->where($db->qn('enabled') . ' = ' . $db->q($published));
 
-		return $query;
+		$query->from($db->quoteName('#__postinstall_messages'));
+
+		$db->setQuery($query);
+
+		$result = $db->loadObjectList();
+
+		$this->onProcessList($result);
+
+		return $result;
 	}
 
 	/**
@@ -136,7 +223,8 @@ class PostinstallModelMessages extends FOFModel
 			{
 				jimport('joomla.filesystem.file');
 
-				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
+				$helper = new PostinstallHelper;
+				$file = $helper->parsePath($item->action_file);
 
 				if (JFile::exists($file))
 				{
@@ -371,7 +459,8 @@ class PostinstallModelMessages extends FOFModel
 				throw new Exception('Post-installation message definitions need an action file when they are of type "action"', 500);
 			}
 
-			$file_path = FOFTemplateUtils::parsePath($options['action_file'], true);
+			$helper = new PostinstallHelper;
+			$file_path = $helper->parsePath($options['action_file']);
 
 			if (!@is_file($file_path))
 			{
@@ -400,7 +489,8 @@ class PostinstallModelMessages extends FOFModel
 				throw new Exception('Post-installation message definitions need a condition file when they are of type "' . $options['type'] . '"', 500);
 			}
 
-			$file_path = FOFTemplateUtils::parsePath($options['condition_file'], true);
+			$helper = new PostinstallHelper;
+			$file_path = $helper->parsePath($options['condition_file']);
 
 			if (!@is_file($file_path))
 			{

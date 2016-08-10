@@ -49,8 +49,10 @@ class CpanelViewCpanel extends JViewLegacy
 
 		try
 		{
-			$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel')->eid(700);
-			$messages       = $messages_model->getItemList();
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_postinstall/models');
+			$messages_model = JModelLegacy::getInstance('Messages', 'PostinstallModel', array('ignore_request' => true));
+
+			$messages       = $messages_model->getItems();
 		}
 		catch (RuntimeException $e)
 		{
@@ -59,7 +61,6 @@ class CpanelViewCpanel extends JViewLegacy
 			// Still render the error message from the Exception object
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
-
 		$this->postinstall_message_count = count($messages);
 
 		parent::display($tpl);

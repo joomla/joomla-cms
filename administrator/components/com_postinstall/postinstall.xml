@@ -13,12 +13,12 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>fof.xml</filename>
+			<filename>controller.php</filename>
 			<filename>postinstall.php</filename>
-			<filename>toolbar.php</filename>
 			<folder>controllers</folder>
 			<folder>models</folder>
 			<folder>views</folder>
+			<folder>helpers</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_postinstall.ini</language>

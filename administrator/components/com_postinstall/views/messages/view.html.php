@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.2
  */
-class PostinstallViewMessages extends FOFViewHtml
+class PostinstallViewMessages extends JViewLegacy
 {
 	/**
 	 * Executes before rendering the page for the Browse task.
@@ -25,10 +25,12 @@ class PostinstallViewMessages extends FOFViewHtml
 	 *
 	 * @since   3.2
 	 */
-	protected function onBrowse($tpl = null)
+	public function display($tpl = null)
 	{
 		/** @var PostinstallModelMessages $model */
 		$model = $this->getModel();
+
+		$this->items = $model->getItems();
 
 		$this->eid = (int) $model->getState('eid', '700', 'int');
 
@@ -36,6 +38,8 @@ class PostinstallViewMessages extends FOFViewHtml
 		{
 			$this->eid = 700;
 		}
+
+		$this->toolbar();
 
 		$this->token = JFactory::getSession()->getFormToken();
 		$this->extension_options = $model->getComponentOptions();
@@ -49,6 +53,23 @@ class PostinstallViewMessages extends FOFViewHtml
 
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
 
-		return parent::onBrowse($tpl);
+		return parent::display($tpl);
+	}
+
+	/**
+	 * displays the toolbar
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	private function toolbar()
+	{
+		// Options button.
+		if (JFactory::getUser()->authorise('core.admin', 'com_postinstall'))
+		{
+			JToolBarHelper::preferences('com_postinstall', 550, 875);
+			JToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+		}
 	}
 }

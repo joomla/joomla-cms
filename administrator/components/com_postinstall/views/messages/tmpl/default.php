@@ -37,7 +37,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <div class="hero-unit">
 	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
 	<p><?php echo JText::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
-	<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=reset&amp;eid=<?php echo $this->eid; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-warning btn-large">
+	<a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' .  $this->eid . '&' . $this->token); ?>=1" class="btn btn-warning btn-large">
 		<span class="icon icon-eye-open"></span>
 		<?php echo JText::_('COM_POSTINSTALL_BTN_RESET'); ?>
 	</a>
@@ -56,12 +56,12 @@ JHtml::_('formbehavior.chosen', 'select');
 		<p><?php echo JText::_($item->description_key); ?></p>
 		<div>
 			<?php if ($item->type !== 'message') : ?>
-			<a href="index.php?option=com_postinstall&amp;view=messages&amp;task=action&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-primary">
+			<a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.action&id=' . $item->postinstall_message_id . '&' . $this->token); ?>=1" class="btn btn-primary">
 				<?php echo JText::_($item->action_key); ?>
 			</a>
 			<?php endif; ?>
 			<?php if (JFactory::getUser()->authorise('core.edit.state', 'com_postinstall')) : ?>
-			<a href="index.php?option=com_postinstall&amp;view=message&amp;task=unpublish&amp;id=<?php echo $item->postinstall_message_id; ?>&amp;<?php echo $this->token; ?>=1" class="btn btn-inverse btn-small">
+			<a href="<?php echo JRoute::_('index.php?option=com_postinstall&view=messages&task=message.unpublish&id=' . $item->postinstall_message_id .'&' .  $this->token); ?>=1" class="btn btn-inverse btn-small">
 				<?php echo JText::_('COM_POSTINSTALL_BTN_HIDE'); ?>
 			</a>
 			<?php endif; ?>
