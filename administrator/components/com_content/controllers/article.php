@@ -85,11 +85,10 @@ class ContentControllerArticle extends JControllerForm
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
 
-		// Zero record (id:0) return component permission, e.g. show edit btn
-		// for creating new record, allowAdd() must be used instead (core.create)
+		// Zero record (id:0) return false, if caller wants component permissions just get them directly
 		if (!$recordId)
 		{
-			return parent::allowEdit($data, $key);
+			return false;
 		}
 
 		// Check edit on the record asset (explicit or inherited)
