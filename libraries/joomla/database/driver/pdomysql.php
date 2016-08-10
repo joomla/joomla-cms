@@ -53,6 +53,15 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	protected static $dbMinimum = '5.0.4';
 
 	/**
+	 * The null or zero representation of a timestamp for the database driver.  This should be
+	 * defined in child classes to hold the appropriate value for the engine.
+	 *
+	 * @var    string
+	 * @since  3.4
+	 */
+	protected $nullDate = '0000-00-00 00:00:00';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  Array of database options with keys: host, user, password, database, select.
@@ -143,9 +152,10 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		/*
 		 * checking if the new null type format of myaql 5.7.0 is used
 		 */
-		 
-		if(version_compare($serverVersion, '5.7.0', '>='))
+		if (version_compare($serverVersion, '5.7.0', '>='))
+		{
 			$this->nullDate = '1000-01-01 00:00:00';
+		}
 		
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
@@ -165,6 +175,21 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	{
 		return class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers());
 	}
+	
+	/**
+	 * Does the database server uses the new null time (1000-01-01 00:00:00) instead of the old one (0000-00-00 00:00:00)
+	 *
+	 * libmysql uses the new null time since 5.7 (same version as the MySQL server).
+	 *
+	 * @return  boolean
+	 *
+	 * @since   12.2
+	 */
+	public function serverUsesNewNullTime()
+	{
+		return ($this->nullDate == "1000-01-01 00:00:00");
+	}
+
 
 	/**
 	 * Drops a table from the database.

@@ -195,9 +195,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Pre-populate the UTF-8 Multibyte compatibility flag based on server version
 		$this->utf8mb4 = $this->serverClaimsUtf8mb4Support();
 		
-		//Use different NullTime
-		if($this->serverUsesNewNullTime())
+		// Use different NullTime
+		if ($this->serverUsesNewNullTime())
+		{
 			$this->nullDate = '1000-01-01 00:00:00';
+		}
 
 		// Set the character set (needed for MySQL 4.1.2+).
 		$this->utf = $this->setUtf();
@@ -988,10 +990,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @since   12.2
 	 */
-	private function serverUsesNewNullTime()
+	public function serverUsesNewNullTime()
 	{
 		$server_version = $this->getVersion();
-		return (version_compare($server_version, '5.7.0', '>='));
+		return version_compare($server_version, '5.7.0', '>=');
 	}
 
 	/**
