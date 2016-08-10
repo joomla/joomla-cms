@@ -31,10 +31,11 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	{
 		$msgList     = $this->getData();
 		$displayData = array(
-			'msgList' => $msgList,
-			'name'    => $name,
-			'params'  => $params,
-			'content' => $content
+			'msgList'  => $msgList,
+			'msgQueue' => $this->getData(2),
+			'name'     => $name,
+			'params'   => $params,
+			'content'  => $content
 		);
 
 		$app        = JFactory::getApplication();
@@ -58,11 +59,13 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 	/**
 	 * Get and prepare system message data for output
 	 *
+	 * @param   integer  $version  Type of returned array. 1 for B/C mode.
+	 * 
 	 * @return  array  An array contains system message
 	 *
 	 * @since   3.5
 	 */
-	private function getData()
+	private function getData($version = 1)
 	{
 		// Initialise variables.
 		$lists = array();
@@ -77,7 +80,16 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 			{
 				if (isset($msg['type']) && isset($msg['message']))
 				{
-					$lists[$msg['type']][] = $msg['message'];
+					if ($version === 1)
+					{
+						$groupIdentifier = $msg['type'];
+					}
+					else
+					{
+						$groupIdentifier = serialize(array_replace($msg['options'], array('type' => $msg['type'])));
+					}
+
+					$lists[$groupIdentifier][] = $msg['message'];
 				}
 			}
 		}
