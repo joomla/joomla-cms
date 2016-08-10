@@ -9,8 +9,15 @@
 
 defined('_JEXEC') or die;
 
+JText::script('COM_USERS_PROFILE_EMAIL2_MESSAGE');
+JText::script('COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE');
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+JHtml::_('jquery.framework');
+JHtml::_('script', 'com_users/validate-user.js', false, true);
+
+
 
 $ajaxUri = JRoute::_('index.php?option=com_users&task=registration.validate&format=json&' . JSession::getFormToken() . '=1');
 ?>
