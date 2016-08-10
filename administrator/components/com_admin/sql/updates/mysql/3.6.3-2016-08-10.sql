@@ -1,0 +1,1 @@
+ALTER TABLE `#__menu` CHANGE `checked_out_time` `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';

@@ -1231,7 +1231,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `level` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.',
   `component_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__extensions.id',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__users.id',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
+  `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
   `browserNav` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.',
   `access` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
@@ -1468,6 +1468,23 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__nullDate_conversion`
+--
+
+CREATE TABLE IF NOT EXISTS `#__nullDate_conversion` (
+  `converted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `#__nullDate_conversion`
+--
+
+INSERT INTO `#__nullDate_conversion` (`converted`) VALUES ('0000-00-00 00:00:00');
+
 
 -- --------------------------------------------------------
 
@@ -1968,21 +1985,6 @@ CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
 --
 
 INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
-
---
--- Table structure for table `#__nullDate_conversion`
---
-
-CREATE TABLE IF NOT EXISTS `#__nullDate_conversion` (
-  `converted` datetime NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `#__nullDate_conversion`
---
-
-INSERT INTO `#__nullDate_conversion` (`converted`) VALUES ('0000-00-00 00:00:00');
-
 
 --
 -- Table structure for table `#__viewlevels`
