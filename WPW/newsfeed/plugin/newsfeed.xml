@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.5" type="plugin" group="tags" method="upgrade">
+	<name>Tags - Newsfeed Parameters</name>
+	<creationDate>09.08.2016</creationDate>
+	<author>Kevin</author>
+	<authorEmail>your@email.com</authorEmail>
+	<authorUrl>http://your.url.com</authorUrl>
+	<copyright>A copyright</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.0</version>
+	<description>PLG_NEWSFEED_XML_DESCRIPTION</description>
+
+	<!-- Scripts to run on installation -->
+	<scriptfile></scriptfile>
+
+	<!-- Language files -->
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_tags_newsfeed.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_tags_newsfeed.sys.ini</language>
+	</languages>
+
+	<!-- Plugin files -->
+	<files>
+		<filename plugin="newsfeed">newsfeed.php</filename>
+		<folder>language</folder>
+	</files>
+
+	<!-- Config parameter -->
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="sample"
+					type="text"
+					default="42"
+					label="PLG_NEWSFEED_SAMPLE_LABEL"
+					description="PLG_NEWSFEED_SAMPLE_DESCRIPTION"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+
+	<!-- Update servers -->
+	<updateservers>
+		<server type="extension" priority="1" name="newsfeed">https://www.example.com/plg_newsfeed.xml</server>
+	</updateservers>
+</extension>
