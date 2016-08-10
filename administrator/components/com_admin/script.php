@@ -1688,8 +1688,8 @@ class JoomlaInstallerScript
     /**
 	 * Converts the site's database tables to the new null Date of mySQL 5.7. Can also be used as reverter
 	 *
-	 * @param   string  $oldNull  the old null date string
-     * @param   string  $newNull  the new null date string
+	 * @param   string  $newNull  the old null date string
+     * @param   string  $oldNull  the new null date string
      *
 	 * @return  void
 	 *
@@ -1699,13 +1699,15 @@ class JoomlaInstallerScript
     {
 	    $db = JFactory::getDbo();
 
-		// Check done a lil bit sooner
+		// This is only required for MySQL databases
+		$serverType = $db->getServerType();
+
 		if ($serverType != 'mysql')
 		{
 			return;
 		}
 
-		if (!method_exists($db,'serverUsesNewNullTime'))
+		if (!method_exists($db, 'serverUsesNewNullTime'))
 		{
 			return;
 		}
@@ -1713,24 +1715,28 @@ class JoomlaInstallerScript
 		// Possible Convert Back
 		if ($db->serverUsesNewNullTime())
 		{
-			if(is_null($newNull))
+			if (is_null($newNull))
+			{
 				$newNull='1000-01-01 00:00:00';
-				
-			if(is_null($oldNull))
-				$oldNull='0000-00-00 00:00:00';
+			}
+
+			if (is_null($oldNull))
+			{
+				$oldNull = '0000-00-00 00:00:00';
+			}
 		}
 		else
 		{
-			if(is_null($oldNull))
-				$oldNull='1000-01-01 00:00:00';
+			if (is_null($oldNull))
+			{
+				$oldNull = '1000-01-01 00:00:00';
+			}
 				
-			if(is_null($newNull))
-				$newNull='0000-00-00 00:00:00';
+			if (is_null($newNull))
+			{
+				$newNull = '0000-00-00 00:00:00';
+			}
 		}
-		
-		// This is only required for MySQL databases
-		$serverType = $db->getServerType();
-
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
@@ -1750,9 +1756,9 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		if($convertedDB == $newNull)
+		if ($convertedDB == $newNull)
 		{
-			//Already updated - nothing to do
+			// Already updated - nothing to do
 			return;
 		}
 		
