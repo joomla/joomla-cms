@@ -101,7 +101,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp    = $otpConfig->method != $this->methodName;
 		$layout = new JLayoutFile('plugins.twofactorauth.yubikey.form');
-		$data = ['new_totp' => $new_totp];
+		$data = array('new_totp' => $new_totp);
 		$html = $layout->render($data);
 
 		// Return the form contents
