@@ -153,10 +153,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $this->form->renderField('metakey'); ?>
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
 
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
 			<?php echo JHtml::_("bootstrap.endTabSet"); ?>
 
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
 	</form>
