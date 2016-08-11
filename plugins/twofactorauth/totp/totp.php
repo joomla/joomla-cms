@@ -44,7 +44,6 @@ class PlgTwofactorauthTotp extends JPlugin
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-
 		include_once JPATH_LIBRARIES . '/joomla/encrypt/src/Totp.php';
 		include_once JPATH_LIBRARIES . '/joomla/encrypt/src/Base32.php';
 
@@ -130,16 +129,17 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp = $otpConfig->method != 'totp';
-        // Start output buffering
-        $layout = new JLayoutFile('plugins.twofactorauth.totp.form');
 
-        $data = ['hostname'=>$hostname,
-            'username'=>$username,
-            'secret'=>$secret,
-            'url'=>$url,
-            'new_totp' => $new_totp
-        ];
-        $html = $layout->render($data);
+		// Start output buffering
+		$layout = new JLayoutFile('plugins.twofactorauth.totp.form');
+
+		$data = ['hostname' => $hostname,
+			'username' => $username,
+			'secret' => $secret,
+			'url' => $url,
+			'new_totp' => $new_totp
+		];
+		$html = $layout->render($data);
 
 		// Return the form contents
 		return array(

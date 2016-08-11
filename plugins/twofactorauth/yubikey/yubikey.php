@@ -33,21 +33,6 @@ class PlgTwofactorauthYubikey extends JPlugin
 	protected $methodName = 'yubikey';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   3.2
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * This method returns the identification object for this two factor
 	 * authentication plugin.
 	 *
@@ -115,9 +100,9 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp    = $otpConfig->method != $this->methodName;
-        $layout = new JLayoutFile('plugins.twofactorauth.yubikey.form');
-        $data = ['new_totp' => $new_totp];
-        $html = $layout->render($data);
+		$layout = new JLayoutFile('plugins.twofactorauth.yubikey.form');
+		$data = ['new_totp' => $new_totp];
+		$html = $layout->render($data);
 
 		// Return the form contents
 		return array(
