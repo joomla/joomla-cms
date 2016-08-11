@@ -224,7 +224,7 @@ class PostinstallModelMessages extends JModelLegacy
 				jimport('joomla.filesystem.file');
 
 				$helper = new PostinstallHelper;
-				$file = $helper->parsePath($item->action_file);
+				$file = $helper->parsePath($item->condition_file);
 
 				if (JFile::exists($file))
 				{
