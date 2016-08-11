@@ -6,19 +6,19 @@
         // check if username is already in database
         $('#jform_username').change(function(){
             var name = $(this).val();
+            var message;
             if(name.length){
                 $.ajax({
                     type: 'POST',
                     url: ajaxUrl + '&username=' + name
                 }).done(function(data){
-                    console.log(data);
                     if(data.success){
-                        var message = {
+                        message = {
                             'warning' : [data.message]
                         };
                         Joomla.renderMessages(message);
                     }else if(!data.success && data.message){ //Invalid token
-                        var message = {
+                        message = {
                             'error' : [data.message]
                         };
                         Joomla.renderMessages(message);
@@ -29,18 +29,19 @@
         // check if email is already in database
         $('#jform_email1').change(function(){
             var mail = $(this).val();
+            var message;
             if(mail.length) {
                 $.ajax({
                     type: 'POST',
                     url:  ajaxUrl + '&email=' + mail
                 }).done(function (data) {
                     if (data.success) {
-                        var message = {
+                        message = {
                             'warning': [data.message]
                         };
                         Joomla.renderMessages(message);
                     }else if(!data.success && data.message){ //Invalid token
-                        var message = {
+                        message = {
                             'error' : [data.message]
                         };
                         Joomla.renderMessages(message);

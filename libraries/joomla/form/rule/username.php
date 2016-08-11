@@ -294,7 +294,6 @@ class JFormRuleUsername extends JFormRule
 
 				case 7:
 					// EMAIL
-					jimport('joomla.mail.helper');
 
 					if (!JMailHelper::isEmailAddress($value) )
 					{
