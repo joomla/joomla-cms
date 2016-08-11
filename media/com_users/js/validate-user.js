@@ -14,7 +14,7 @@
                     console.log(data);
                     if(data.success){
                         var message = {
-                            'error' : [data.message]
+                            'warning' : [data.message]
                         };
                         Joomla.renderMessages(message);
                     }else if(!data.success && data.message){ //Invalid token
@@ -36,7 +36,7 @@
                 }).done(function (data) {
                     if (data.success) {
                         var message = {
-                            'error': [data.message]
+                            'warning': [data.message]
                         };
                         Joomla.renderMessages(message);
                     }else if(!data.success && data.message){ //Invalid token
@@ -55,7 +55,7 @@
             if(mail1.length && mail2.length){
                 if(mail1 != mail2){
                     var message = {
-                        'error' : [ Joomla.JText._('COM_USERS_PROFILE_EMAIL2_MESSAGE') ]
+                        'warning' : [ Joomla.JText._('COM_USERS_PROFILE_EMAIL2_MESSAGE') ]
                     };
                     Joomla.renderMessages(message);
                 }
@@ -68,7 +68,7 @@
             if(pass1.length && pass2.length){
                 if(pass1 != pass2){
                     var message = {
-                        'error' : [ Joomla.JText._('COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE')]
+                        'warning' : [ Joomla.JText._('COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE')]
                     };
                     Joomla.renderMessages(message);
                 }

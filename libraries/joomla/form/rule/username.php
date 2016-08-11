@@ -41,14 +41,8 @@ class JFormRuleUsername extends JFormRule
 		$app    = JFactory::getApplication();
 
 		// Load language files
-		if ($app->isSite())
-		{
-			JFactory::getLanguage()->load('com_users', JPATH_SITE, null, true);
-		}
-		elseif ($app->isAdmin())
-		{
-			JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR, null, true);
-		}
+		JFactory::getLanguage()->load('com_users');
+
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -128,7 +122,7 @@ class JFormRuleUsername extends JFormRule
 					// Check if all the $uname chars are valid chars
 					if (!empty($invalid_chars))
 					{
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode('', $invalid_chars)), 'warning');
 						$result = false;
 					}
 					break;
@@ -138,9 +132,9 @@ class JFormRuleUsername extends JFormRule
 					// All that match is rejected
 					$regExp = (string) $params->get('custom_chars_username');
 
-					if (preg_match_all($regExp, $value, $nonRegExpChars))
+					if (preg_match_all($regExp, $value, $regExpChars))
 					{
-						$nonRegExpString = implode(' ', array_unique($nonRegExpChars[0]));
+						$nonRegExpString = preg_replace($regExp, '', $value);
 
 						// Enqueue error message and return false
 						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', $nonRegExpString), 'warning');
@@ -305,7 +299,7 @@ class JFormRuleUsername extends JFormRule
 					if (!JMailHelper::isEmailAddress($value) )
 					{
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED', implode(' ', $invalid_chars)), 'warning');
+						$app->enqueueMessage(JText::_('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED'), 'warning');
 
 						$result = false;
 					}
@@ -313,7 +307,7 @@ class JFormRuleUsername extends JFormRule
 
 				default:
 					// NO OPTION
-					$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
+					$app->enqueueMessage(JText::_('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
 
 					return false;
 			}
