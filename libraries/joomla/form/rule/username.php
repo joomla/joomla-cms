@@ -40,6 +40,15 @@ class JFormRuleUsername extends JFormRule
 		$result = true;
 		$app    = JFactory::getApplication();
 
+		// Load language files
+		if ($app->isSite())
+		{
+			JFactory::getLanguage()->load('com_users', JPATH_SITE, null, true);
+		}
+		elseif ($app->isAdmin())
+		{
+			JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR, null, true);
+		}
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -310,9 +319,6 @@ class JFormRuleUsername extends JFormRule
 			}
 		}
 
-
-
 		return $result;
 	}
 }
-
