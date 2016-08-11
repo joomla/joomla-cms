@@ -11,7 +11,13 @@
                     type: 'POST',
                     url: ajaxUrl + '&username=' + name
                 }).done(function(data){
+                    console.log(data);
                     if(data.success){
+                        var message = {
+                            'error' : [data.message]
+                        };
+                        Joomla.renderMessages(message);
+                    }else if(!data.success && data.message){ //Invalid token
                         var message = {
                             'error' : [data.message]
                         };
@@ -31,6 +37,11 @@
                     if (data.success) {
                         var message = {
                             'error': [data.message]
+                        };
+                        Joomla.renderMessages(message);
+                    }else if(!data.success && data.message){ //Invalid token
+                        var message = {
+                            'error' : [data.message]
                         };
                         Joomla.renderMessages(message);
                     }

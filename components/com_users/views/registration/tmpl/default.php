@@ -17,8 +17,6 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('jquery.framework');
 JHtml::_('script', 'com_users/validate-user.js', false, true);
 
-
-
 $ajaxUri = JRoute::_('index.php?option=com_users&task=registration.validate&format=json&' . JSession::getFormToken() . '=1');
 ?>
 <div class="registration<?php echo $this->pageclass_sfx?>">

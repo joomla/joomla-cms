@@ -27,7 +27,14 @@ class UsersControllerRegistration extends UsersController
 	public function validate()
 	{
 		// Check for request forgeries.
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+		$checkToken = JSession::checkToken('get');
+
+		if ($checkToken === false)
+		{
+			echo new JResponseJson(null, JText::_('JINVALID_TOKEN'), true);
+
+			return false;
+		}
 
 		// Read username from ajax
 		$username = $this->input->get('username', '', 'username');
