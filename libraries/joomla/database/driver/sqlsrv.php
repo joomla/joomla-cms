@@ -382,10 +382,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->Type), "nvarchar"))
-				{
-					$field->Default = "";
-				}
+				$field->Default = preg_replace("/(^(\(\(|\('|\(N'|\()|(('\)|(?<!\()\)\)|\))$))/i", '', $field->Default);
 				$result[$field->Field] = $field;
 			}
 		}
