@@ -1,9 +1,10 @@
 <?php
-/** Part of the Joomla Framework Encrypt Package
+/**
+ * @package     Joomla.Platform
+ * @subpackage  Encrypt
  *
- * @copyright  Copyright (C) 2013 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
- *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 
