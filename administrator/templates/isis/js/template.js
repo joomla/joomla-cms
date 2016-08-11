@@ -66,7 +66,6 @@
 
 		});
 
-
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
