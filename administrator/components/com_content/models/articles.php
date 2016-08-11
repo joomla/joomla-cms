@@ -108,7 +108,7 @@ class ContentModelArticles extends JModelList
 
 		$formSubmited = $app->input->post->get('form_submited');
 
-		$access     = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
+		$access     = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$authorId   = $this->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$tag        = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
