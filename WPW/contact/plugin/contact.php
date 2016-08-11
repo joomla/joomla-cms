@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class plgTagsContact extends JPlugin
 {
 	/**
-	 * Is called when the contact helper tries to construct a tag item list query
+	 * Is called when the tags helper tries to construct a tag item list query
 	 *
 	 * @param   JDatabaseQuery  $query  The database query to be modified
 	 *
@@ -27,9 +27,9 @@ class plgTagsContact extends JPlugin
 	 *
 	 * @since 1.0
 	 */
-	public function onTagListQuery($query)
+	public function onTagItemListQuery($query)
 	{
-		$query->select('COALESCE(cntct.params, \'\') AS params');
+		$query->select('COALESCE(cntct.params, \'\') AS contactparams');
 		$query->join('LEFT',  '#__contact_details AS cntct on cntct.id=m.content_item_id AND m.type_alias = \'com_contact.contact\'');
 
 		return $query;

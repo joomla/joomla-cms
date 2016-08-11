@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class plgTagsCategory extends JPlugin
 {
 	/**
-	 * Is called when the category helper tries to construct a tag item list query
+	 * Is called when the tags helper tries to construct a tag item list query
 	 *
 	 * @param   JDatabaseQuery  $query  The database query to be modified
 	 *
@@ -27,9 +27,9 @@ class plgTagsCategory extends JPlugin
 	 *
 	 * @since 1.0
 	 */
-	public function onTagListQuery($query)
+	public function onTagItemListQuery($query)
 	{
-		$query->select('COALESCE(cat.params, \'\') AS params');
+		$query->select('COALESCE(cat.params, \'\') AS categoryparams');
 		$query->join('LEFT',  '#__categories AS cat on cat.id=m.content_item_id AND m.type_alias LIKE \'%category\'');
 
 		return $query;
