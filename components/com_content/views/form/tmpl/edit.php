@@ -65,9 +65,9 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 		</div>
 		<fieldset>
-			<?php echo JHtml::_("bootstrap.startTabSet", "myTab", array("active" => "editor")); ?>
+			<?php echo JHtml::_("bootstrap.startTabSet", "com-content-form", array("active" => "editor")); ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "myTab", "editor", JText::_("COM_CONTENT_ARTICLE_CONTENT")); ?>
+			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "editor", JText::_("COM_CONTENT_ARTICLE_CONTENT")); ?>
 				<?php echo $this->form->renderField('title'); ?>
 
 				<?php if (is_null($this->item->id)) : ?>
@@ -78,7 +78,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')): ?>
-			<?php echo JHtml::_("bootstrap.addTab", "myTab", "images", JText::_("COM_CONTENT_IMAGES_AND_URLS")); ?>
+			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "images", JText::_("COM_CONTENT_IMAGES_AND_URLS")); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
@@ -112,14 +112,14 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 
 			<?php foreach ($this->form->getFieldsets('params') as $name => $fieldSet) : ?>
-				<?php echo JHtml::_("bootstrap.addTab", "myTab", "params-" . $name, JText::_($fieldSet->label)); ?>
+				<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "params-" . $name, JText::_($fieldSet->label)); ?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				<?php echo JHtml::_("bootstrap.endTab"); ?>
 			<?php endforeach; ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "myTab", "publishing", JText::_("COM_CONTENT_PUBLISHING")); ?>
+			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "publishing", JText::_("COM_CONTENT_PUBLISHING")); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
@@ -144,11 +144,11 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php endif; ?>
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "myTab", "language", JText::_("JFIELD_LANGUAGE_LABEL")); ?>
+			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "language", JText::_("JFIELD_LANGUAGE_LABEL")); ?>
 				<?php echo $this->form->renderField('language'); ?>
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
 
-			<?php echo JHtml::_("bootstrap.addTab", "myTab", "metadata", JText::_("COM_CONTENT_METADATA")); ?>
+			<?php echo JHtml::_("bootstrap.addTab", "com-content-form", "metadata", JText::_("COM_CONTENT_METADATA")); ?>
 				<?php echo $this->form->renderField('metadesc'); ?>
 				<?php echo $this->form->renderField('metakey'); ?>
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
