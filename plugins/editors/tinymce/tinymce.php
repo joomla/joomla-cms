@@ -993,8 +993,8 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
-	        $cssWidth  = ($textarea->width) ? ' style="width: ' . (int) $textarea->width . 'px"' : '';
-	        $editor = '<div class="editor"' . $cssWidth . '>';
+		$cssWidth  = ($textarea->width) ? ' style="width: ' . (int) $textarea->width . 'px"' : '';
+		$editor = '<div class="editor"' . $cssWidth . '>';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
