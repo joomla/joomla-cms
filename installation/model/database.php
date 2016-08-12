@@ -773,6 +773,9 @@ class InstallationModelDatabase extends JModelBase
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
+
+		// Update the sample data created time.
+		$this->updateCreatedDates($db);
 	}
 
 	/**
@@ -812,8 +815,12 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function postInstallCmsData($db)
 	{
-		// Update the sample data user ids.
+		// Update the cms data user ids.
 		$this->updateUserIds($db);
+
+		// Update the cms data created time.
+		$this->updateCreatedDates($db);
+
 	}
 
 	/**
@@ -830,24 +837,58 @@ class InstallationModelDatabase extends JModelBase
 		// Create the ID for the root user.
 		$userId = self::getUserId();
 
-		// Update all created_by field of the tables with the random user id
-		// categories (created_user_id), contact_details, content, newsfeeds.
-		$updates_array = array(
-			'categories'      => 'created_user_id',
-			'contact_details' => 'created_by',
-			'content'         => 'created_by',
-			'newsfeeds'       => 'created_by',
-			'tags'            => 'created_user_id',
-			'ucm_content'     => 'core_created_user_id',
-			'ucm_history'     => 'editor_user_id',
+		// Update all core tables created_by fields of the tables with the random user id.
+		$updatesArray = array(
+			'#__banners'         => 'created_by',
+			'#__categories'      => 'created_user_id',
+			'#__contact_details' => 'created_by',
+			'#__content'         => 'created_by',
+			'#__newsfeeds'       => 'created_by',
+			'#__tags'            => 'created_user_id',
+			'#__ucm_content'     => 'core_created_user_id',
+			'#__ucm_history'     => 'editor_user_id',
+			'#__user_notes'      => 'created_user_id',
 		);
 
-		foreach ($updates_array as $table => $field)
+		foreach ($updatesArray as $table => $field)
 		{
-			$db->setQuery(
-				'UPDATE ' . $db->quoteName('#__' . $table) .
-					' SET ' . $db->quoteName($field) . ' = ' . $db->quote($userId)
-			);
+			$query = $db->getQuery(true)->update($db->quoteName($table))->set($db->quoteName($field) . ' = ' . $db->quote($userId));
+			$db->setQuery($query);
+			$db->execute();
+		}
+	}
+
+	/**
+	 * Method to update the created dates of sql data content to the current date.
+	 *
+	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function updateCreatedDates($db)
+	{
+		// Get the current date.
+		$currentDate = JFactory::getDate()->toSql();
+
+		// Update all core tables created fields of the tables with the current date.
+		$updatesArray = array(
+			'#__banners'         => 'created',
+			'#__categories'      => 'created_time',
+			'#__contact_details' => 'created',
+			'#__content'         => 'created',
+			'#__newsfeeds'       => 'created',
+			'#__tags'            => 'created_time',
+			'#__ucm_content'     => 'core_created_time',
+			'#__ucm_history'     => 'save_date',
+			'#__user_notes'      => 'created_time',
+		);
+
+		foreach ($updatesArray as $table => $field)
+		{
+			$query = $db->getQuery(true)->update($db->quoteName($table))->set($db->quoteName($field) . ' = ' . $db->quote($currentDate));
+			$db->setQuery($query);
 			$db->execute();
 		}
 	}
