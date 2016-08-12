@@ -100,9 +100,23 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp    = $otpConfig->method != $this->methodName;
-		$layout = new JLayoutFile('plugins.twofactorauth.yubikey.form');
-		$data = array('new_totp' => $new_totp);
-		$html = $layout->render($data);
+
+		// Start output buffering
+		@ob_start();
+		$path = JPATH_THEMES . "/" . JFactory::getApplication()->getTemplate() . "/html/plg_twofactorauth_yubikey";
+
+		JLoader::import('joomla.filesystem.file');
+
+		if (JFile::exists($path . '/form.php'))
+		{
+			include_once $path . '/form.php';
+		}
+		else
+		{
+			include_once __DIR__ . '/tmpl/form.php';
+		}
+		// Stop output buffering and get the form contents
+		$html = @ob_get_clean();
 
 		// Return the form contents
 		return array(

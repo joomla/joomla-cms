@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
 ?>
 <input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>" />
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-extract($displayData);
 ?>
 <div class="well">
 	<?php echo JText::_('PLG_TWOFACTORAUTH_YUBIKEY_INTRO') ?>

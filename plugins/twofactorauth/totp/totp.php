@@ -113,15 +113,21 @@ class PlgTwofactorauthTotp extends JPlugin
 		$new_totp = $otpConfig->method != 'totp';
 
 		// Start output buffering
-		$layout = new JLayoutFile('plugins.twofactorauth.totp.form');
+		@ob_start();
+		$path = JPATH_THEMES . "/" . JFactory::getApplication()->getTemplate() . "/html/plg_twofactorauth_totp";
 
-		$data = array('hostname' => $hostname,
-			'username' => $username,
-			'secret' => $secret,
-			'url' => $url,
-			'new_totp' => $new_totp
-		);
-		$html = $layout->render($data);
+		JLoader::import('joomla.filesystem.file');
+
+		if (JFile::exists($path . '/form.php'))
+		{
+			include_once $path . '/form.php';
+		}
+		else
+		{
+			include_once __DIR__ . '/tmpl/form.php';
+		}
+		// Stop output buffering and get the form contents
+		$html = @ob_get_clean();
 
 		// Return the form contents
 		return array(
