@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="totp">totp.php</filename>
 		<folder>postinstall</folder>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_twofactorauth_totp.ini</language>

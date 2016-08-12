@@ -11,6 +11,7 @@
 	<description>PLG_TWOFACTORAUTH_YUBIKEY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="yubikey">yubikey.php</filename>
+		<folder>tmpl</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_twofactorauth_yubikey.ini</language>

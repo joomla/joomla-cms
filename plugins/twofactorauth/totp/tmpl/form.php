@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
 ?>
 <input type="hidden" name="jform[twofactor][totp][key]" value="<?php echo $secret ?>" />
 

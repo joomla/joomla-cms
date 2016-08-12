@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
 ?>
 <div class="well">
 	<?php echo JText::_('PLG_TWOFACTORAUTH_YUBIKEY_INTRO') ?>

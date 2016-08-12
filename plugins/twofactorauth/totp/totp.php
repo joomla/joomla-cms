@@ -114,18 +114,9 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Start output buffering
 		@ob_start();
-		$path = JPATH_THEMES . "/" . JFactory::getApplication()->getTemplate() . "/html/plg_twofactorauth_totp";
 
-		JLoader::import('joomla.filesystem.file');
+		include_once JPluginHelper::getLayoutPath('twofactorauth', 'totp', "form");
 
-		if (JFile::exists($path . '/form.php'))
-		{
-			include_once $path . '/form.php';
-		}
-		else
-		{
-			include_once __DIR__ . '/tmpl/form.php';
-		}
 		// Stop output buffering and get the form contents
 		$html = @ob_get_clean();
 
