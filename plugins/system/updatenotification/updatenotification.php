@@ -112,7 +112,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		// Get any available updates
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates(array($eid), $cache_timeout);
+		$results = $updater->findUpdates(array($eid), $cache_timeout, JUpdater::STABILITY_STABLE, true);
 
 		// If there are no updates our job is done. We need BOTH this check AND the one below.
 		if (!$results)
