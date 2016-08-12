@@ -291,7 +291,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			if (!class_exists($tableClass))
 			{
 				/*
-				* If we were unable to find the class file in the JTable include paths. Return false.
+				* If unable to find the class file in the JTable include paths. Return false.
 				* The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in __DEPLOY_VERSION__.
 				* In 4.0 an Exception (type to be determined) will be thrown.
 				* For more info see https://github.com/joomla/joomla-cms/issues/11570
