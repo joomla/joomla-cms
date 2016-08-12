@@ -33,24 +33,6 @@ class PlgTwofactorauthTotp extends JPlugin
 	protected $methodName = 'totp';
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
-	 *
-	 * @since   3.2
-	 */
-	public function __construct(&$subject, $config = array())
-	{
-		include_once JPATH_LIBRARIES . '/joomla/encrypt/Totp.php';
-		include_once JPATH_LIBRARIES . '/joomla/encrypt/Base32.php';
-
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * This method returns the identification object for this two factor
 	 * authentication plugin.
 	 *
@@ -107,7 +89,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new Totp(30, 6, 10);
+		$totp = new JEncryptTotp(30, 6, 10);
 
 		if ($otpConfig->method == $this->methodName)
 		{
@@ -197,7 +179,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new Totp(30, 6, 10);
+		$totp = new JEncryptTotp(30, 6, 10);
 
 		// Check the security code entered by the user (exact time slot match)
 		$code = $totp->getCode($data['key']);
@@ -279,7 +261,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Create a new TOTP class with Google Authenticator compatible settings
-		$totp = new Totp(30, 6, 10);
+		$totp = new JEncryptTotp(30, 6, 10);
 
 		// Check the code
 		$code = $totp->getCode($otpConfig->config['code']);

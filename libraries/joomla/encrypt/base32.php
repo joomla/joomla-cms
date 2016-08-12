@@ -7,13 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base32
  *
  * @since  1.0
  */
-class Base32
+class JEncryptBase32
 {
 	/**
 	 * CSRFC3548
