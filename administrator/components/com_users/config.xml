@@ -195,7 +195,7 @@
 			label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
 			first="3"
-			last="146"
+			last="150"
 			step="1"
 			default="3">
 			</field>
@@ -206,7 +206,7 @@
 			label="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC"
 			first="0"
-			last="149"
+			last="150"
 			step="1"
 			default="0">
 			</field>

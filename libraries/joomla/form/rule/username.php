@@ -76,7 +76,6 @@ class JFormRuleUsername extends JFormRule
 		// If is set minNumChars and $usernameLength does't achieve minimum lenght
 		if (($minNumChars) && ($usernameLength < $minNumChars))
 		{
-			$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $usernameLength), 'warning');
 			$result = false;
 		}
 
@@ -87,7 +86,6 @@ class JFormRuleUsername extends JFormRule
 		// If is set maxNumChars and $usernameLength surpass maximum length
 		if (($maxNumChars) && ($usernameLength > $maxNumChars))
 		{
-			$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $usernameLength), 'warning');
 			$result = false;
 		}
 
@@ -124,7 +122,6 @@ class JFormRuleUsername extends JFormRule
 					// Check if all the $uname chars are valid chars
 					if (!empty($invalid_chars))
 					{
-						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_CHARSET_REQUIRED', implode('', $invalid_chars)), 'warning');
 						$result = false;
 					}
 					break;
@@ -146,8 +143,6 @@ class JFormRuleUsername extends JFormRule
 						// Enqueue error message and return false
 						if ('' !== $nonRegExpString)
 						{
-							$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_CHARSET_REQUIRED', $nonRegExpString), 'warning');
-
 							$result = false;
 						}
 					}
@@ -159,9 +154,6 @@ class JFormRuleUsername extends JFormRule
                     */
 					if (!ctype_alnum($value))
 					{
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
-
 						$result = false;
 					}
 					break;
@@ -171,9 +163,6 @@ class JFormRuleUsername extends JFormRule
 					if (preg_match_all('/[^\\p{Common}\\p{Latin}]/u', $value, $nonLatinChars))
 					{
 						$nonLatinString = implode(' ', array_unique($nonLatinChars[0]));
-
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_LATIN_REQUIRED', $nonLatinString), 'warning');
 
 						$result = false;
 					}
@@ -203,9 +192,6 @@ class JFormRuleUsername extends JFormRule
 					// If the username comes from more than a recommended script (or permitted combination) throws Error
 					if (!preg_match_all($regexRecommendedScripts, $valueWithoutCommonInherited))
 					{
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_ONESCRIPT_REQUIRED'), 'warning');
-
 						$result = false;
 					}
 
@@ -270,9 +256,6 @@ class JFormRuleUsername extends JFormRule
 							$nonIdentifierProfileString .= 'whitespace';
 						}
 
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_IDPROFILE_REQUIRED', $nonIdentifierProfileString), 'warning');
-
 						$result = false;
 					}
 
@@ -307,17 +290,12 @@ class JFormRuleUsername extends JFormRule
 
 					if (!JMailHelper::isEmailAddress($value) )
 					{
-						// Enqueue error message and return false
-						$app->enqueueMessage(JText::_('JLIB_RULES_FIELD_USERNAME_EMAIL_REQUIRED'), 'warning');
-
 						$result = false;
 					}
 					break;
 
 				default:
 					// NO OPTION
-					$app->enqueueMessage(JText::_('JLIB_RULES_FIELD_USERNAME_NOOPTION'), 'warning');
-
 					return false;
 			}
 		}
