@@ -820,7 +820,6 @@ class InstallationModelDatabase extends JModelBase
 
 		// Update the cms data created time.
 		$this->updateCreatedDates($db);
-
 	}
 
 	/**
