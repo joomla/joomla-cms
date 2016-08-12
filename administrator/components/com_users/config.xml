@@ -140,55 +140,49 @@
 			step="1"
 			default="1">
 			</field>
-	</fieldset>
-	
-	<fieldset
-		name="password"
-		label="COM_USERS_CONFIG_PASSWORD_OPTIONS" >
-		
 		<field
-			name="minimum_length"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
-			first="4"
-			last="99"
-			step="1"
-			default="4">
-			</field>
+				name="minimum_length"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
+				first="4"
+				last="99"
+				step="1"
+				default="4">
+		</field>
 
 		<field
-			name="minimum_integers"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
-			first="0"
-			last="98"
-			step="1"
-			default="0">
-			</field>
+				name="minimum_integers"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
+				first="0"
+				last="98"
+				step="1"
+				default="0">
+		</field>
 
 		<field
-			name="minimum_symbols"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
-			first="0"
-			last="98"
-			step="1"
-			default="0">
-			</field>
+				name="minimum_symbols"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
+				first="0"
+				last="98"
+				step="1"
+				default="0">
+		</field>
 
 		<field
-			name="minimum_uppercase"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
-			first="0"
-			last="98"
-			step="1"
-			default="0">
-			</field>
+				name="minimum_uppercase"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
+				first="0"
+				last="98"
+				step="1"
+				default="0">
+		</field>
 	</fieldset>
 	
 	<fieldset
