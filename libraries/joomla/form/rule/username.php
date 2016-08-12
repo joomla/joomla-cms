@@ -40,9 +40,6 @@ class JFormRuleUsername extends JFormRule
 		$result = true;
 		$app    = JFactory::getApplication();
 
-		// Load language files
-		JFactory::getLanguage()->load('com_users');
-
 		// Get the database object and a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -66,36 +63,37 @@ class JFormRuleUsername extends JFormRule
 		}
 
 		// Get the config params for username
-		$params = JComponentHelper::getParams('com_users');
+		$component = array_key_exists('component', $element) ? (string) $element['component'] : 'com_users';
+		$params = JComponentHelper::getParams($component);
 
 		// CHECK MINIMUM CHARACTER'S NUMBER
 		// Get the number of characters in $username
 		$usernameLength = StringHelper::strlen($value);
 
 		// Get the minimum number of characters
-		$minNumChars = $params->get('minimum_length_username');
+		$minNumChars = $params->get('minimum_length_username', 0);
 
 		// If is set minNumChars and $usernameLength does't achieve minimum lenght
 		if (($minNumChars) && ($usernameLength < $minNumChars))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $usernameLength), 'warning');
+			$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_MINNUMCHARS_REQUIRED', $minNumChars, $usernameLength), 'warning');
 			$result = false;
 		}
 
 		// CHECK MAXIMUM CHARACTER'S NUMBER
 		// Get the maximum number of characters
-		$maxNumChars = $params->get('maximum_length_username');
+		$maxNumChars = $params->get('maximum_length_username', 0);
 
 		// If is set maxNumChars and $usernameLength surpass maximum lenght
 		if (($maxNumChars) && ($usernameLength > $maxNumChars))
 		{
-			$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $usernameLength), 'warning');
+			$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $usernameLength), 'warning');
 			$result = false;
 		}
 
 		// CHECK IF USERNAME SPELLING IN ALLOWED CHARACTER SET
 		// Get preset option
-		$allowed_preset = $params->get('allowed_chars_username_preset');
+		$allowed_preset = $params->get('allowed_chars_username_preset', 0);
 
 		if ($allowed_preset)
 		{
@@ -103,8 +101,12 @@ class JFormRuleUsername extends JFormRule
 			{
 				case 1: // CUSTOM ALLOWED
 				case 2: // CUSTOM FORBIDDEN
-					$customCharsUsername = array_unique(StringHelper::str_split($params->get('custom_chars_username')));
+					$customCharsUsername = array_unique(StringHelper::str_split($params->get('custom_chars_username', '')));
 
+					if ('' === $customCharsUsername)
+					{
+						break;
+					}
 					// Get the username
 					$uname = array_unique(StringHelper::str_split($value));
 
@@ -122,7 +124,7 @@ class JFormRuleUsername extends JFormRule
 					// Check if all the $uname chars are valid chars
 					if (!empty($invalid_chars))
 					{
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', implode('', $invalid_chars)), 'warning');
+						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_CHARSET_REQUIRED', implode('', $invalid_chars)), 'warning');
 						$result = false;
 					}
 					break;
@@ -130,16 +132,24 @@ class JFormRuleUsername extends JFormRule
 				case 3:
 					// CUSTOM IS REGEXP
 					// All that match is rejected
-					$regExp = (string) $params->get('custom_chars_username');
+					$regExp = (string) $params->get('custom_chars_username', '');
+
+					if ('' === $regExp)
+					{
+						break;
+					}
 
 					if (preg_match_all($regExp, $value, $regExpChars))
 					{
 						$nonRegExpString = preg_replace($regExp, '', $value);
 
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_REQUIRED', $nonRegExpString), 'warning');
+						if ('' !== $nonRegExpString)
+						{
+							$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_CHARSET_REQUIRED', $nonRegExpString), 'warning');
 
-						$result = false;
+							$result = false;
+						}
 					}
 					break;
 				case 4:
@@ -150,7 +160,7 @@ class JFormRuleUsername extends JFormRule
 					if (!ctype_alnum($value))
 					{
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
+						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_ALPHANUMERIC_REQUIRED'), 'warning');
 
 						$result = false;
 					}
@@ -163,7 +173,7 @@ class JFormRuleUsername extends JFormRule
 						$nonLatinString = implode(' ', array_unique($nonLatinChars[0]));
 
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_LATIN_REQUIRED', $nonLatinString), 'warning');
+						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_LATIN_REQUIRED', $nonLatinString), 'warning');
 
 						$result = false;
 					}
@@ -194,7 +204,7 @@ class JFormRuleUsername extends JFormRule
 					if (!preg_match_all($regexRecommendedScripts, $valueWithoutCommonInherited))
 					{
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_ONESCRIPT_REQUIRED'), 'warning');
+						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_ONESCRIPT_REQUIRED'), 'warning');
 
 						$result = false;
 					}
@@ -261,7 +271,7 @@ class JFormRuleUsername extends JFormRule
 						}
 
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::sprintf('COM_USERS_CONFIG_FIELD_USERNAME_IDPROFILE_REQUIRED', $nonIdentifierProfileString), 'warning');
+						$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_IDPROFILE_REQUIRED', $nonIdentifierProfileString), 'warning');
 
 						$result = false;
 					}
@@ -298,7 +308,7 @@ class JFormRuleUsername extends JFormRule
 					if (!JMailHelper::isEmailAddress($value) )
 					{
 						// Enqueue error message and return false
-						$app->enqueueMessage(JText::_('COM_USERS_CONFIG_FIELD_USERNAME_EMAIL_REQUIRED'), 'warning');
+						$app->enqueueMessage(JText::_('JLIB_RULES_FIELD_USERNAME_EMAIL_REQUIRED'), 'warning');
 
 						$result = false;
 					}
@@ -306,7 +316,7 @@ class JFormRuleUsername extends JFormRule
 
 				default:
 					// NO OPTION
-					$app->enqueueMessage(JText::_('COM_USERS_CONFIG_FIELD_USERNAME_NOOPTION'), 'warning');
+					$app->enqueueMessage(JText::_('JLIB_RULES_FIELD_USERNAME_NOOPTION'), 'warning');
 
 					return false;
 			}

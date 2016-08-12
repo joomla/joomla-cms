@@ -196,7 +196,8 @@
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
 			first="0"
 			last="99"
-			step="1">
+			step="1"
+			default="0">
 			</field>
 			
 		<field
@@ -206,7 +207,8 @@
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC"
 			first="0"
 			last="99"
-			step="1">
+			step="1"
+			default="0">
 			</field>
 
 		<field 
@@ -252,6 +254,7 @@
 			cols="50"
 			filter="string"
 			showon="allowed_chars_username_preset:1,2,3"
+			default=""
 			>
 		</field>
 
@@ -263,6 +266,7 @@
 			rows="4"
 			cols="50"
 			filter="string"
+			default=""
 			>
 		</field>
 	</fieldset>

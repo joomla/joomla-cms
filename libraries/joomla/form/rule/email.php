@@ -93,8 +93,16 @@ class JFormRuleEmail extends JFormRule
 		}
 
 		// Check if the email is blacklisted by the user
-		$params = JComponentHelper::getParams('com_users');
-		$emailPreset = $params->get('custom_chars_email');
+		$component = array_key_exists('component', $element) ? (string) $element['component'] : 'com_users';
+		$params = JComponentHelper::getParams($component);
+
+		$emailPreset = $params->get('custom_chars_email', '');
+
+		if ('' === $emailPreset)
+		{
+			return true;
+		}
+
 		$presets = preg_split('/\r\n|\n|\r/', $emailPreset);
 
 		// Check all entries
