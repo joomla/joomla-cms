@@ -176,7 +176,15 @@ class JTwitterStatuses extends JTwitterObject
 		$path = '/statuses/update.json';
 
 		// Set POST data.
-		$data = array('status' => utf8_encode($status));
+		// No need to utf8 encode statuses which are already utf8 encoded
+		if (utf8_is_valid($status))
+		{
+			$data = array('status' => $status);
+		}
+		else
+		{
+			$data = array('status' => utf8_encode($status));
+		}
 
 		// Check if in_reply_to_status_id is specified.
 		if ($in_reply_to_status_id)
@@ -510,9 +518,15 @@ class JTwitterStatuses extends JTwitterObject
 		// Set the API request path.
 		$path = '/statuses/update_with_media.json';
 
+		// If the status is not UTF-8 encode it
+		if (!utf8_is_valid($status))
+		{
+			utf8_encode($status);
+		}
+
 		// Set POST data.
 		$data = array(
-			'status' => utf8_encode($status),
+			'status' => $status,
 			'media[]' => "@{$media}"
 		);
 
