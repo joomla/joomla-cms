@@ -71,7 +71,7 @@ class JFormRuleUsername extends JFormRule
 		$usernameLength = StringHelper::strlen($value);
 
 		// Get the minimum number of characters
-		$minNumChars = $params->get('minimum_length_username', 2);
+		$minNumChars = $params->get('minimum_length_username', 3);
 
 		// If is set minNumChars and $usernameLength does't achieve minimum lenght
 		if (($minNumChars) && ($usernameLength < $minNumChars))
