@@ -71,7 +71,7 @@ class JFormRuleUsername extends JFormRule
 		$usernameLength = StringHelper::strlen($value);
 
 		// Get the minimum number of characters
-		$minNumChars = $params->get('minimum_length_username', 0);
+		$minNumChars = $params->get('minimum_length_username', 2);
 
 		// If is set minNumChars and $usernameLength does't achieve minimum lenght
 		if (($minNumChars) && ($usernameLength < $minNumChars))
@@ -84,7 +84,7 @@ class JFormRuleUsername extends JFormRule
 		// Get the maximum number of characters
 		$maxNumChars = $params->get('maximum_length_username', 0);
 
-		// If is set maxNumChars and $usernameLength surpass maximum lenght
+		// If is set maxNumChars and $usernameLength surpass maximum length
 		if (($maxNumChars) && ($usernameLength > $maxNumChars))
 		{
 			$app->enqueueMessage(JText::sprintf('JLIB_RULES_FIELD_USERNAME_MAXNUMCHARS_REQUIRED', $maxNumChars, $usernameLength), 'warning');

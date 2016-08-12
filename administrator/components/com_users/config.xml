@@ -194,10 +194,10 @@
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
-			first="0"
+			first="2"
 			last="99"
 			step="1"
-			default="0">
+			default="2">
 			</field>
 			
 		<field
