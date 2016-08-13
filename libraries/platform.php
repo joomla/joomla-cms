@@ -56,13 +56,13 @@ final class JPlatform
 	 *
 	 * @return  boolean  True if the version is compatible.
 	 *
-	 * @see     http://www.php.net/version_compare
+	 * @see     https://secure.php.net/version_compare
 	 * @since   11.1
 	 * @deprecated  4.0  Deprecated without replacement
 	 */
 	public static function isCompatible($minimum)
 	{
-		return (version_compare(self::getShortVersion(), $minimum, 'eq') == 1);
+		return version_compare(self::getShortVersion(), $minimum, 'eq') == 1;
 	}
 
 	/**

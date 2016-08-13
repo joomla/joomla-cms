@@ -20,13 +20,13 @@ $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
 $suffix = $params->get('moduleclass_sfx');
-$output = '<input type="text" name="q" id="mod-finder-searchword" class="search-query input-medium" size="'
+$output = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="search-query input-medium" size="'
 	. $params->get('field_size', 20) . '" value="' . htmlspecialchars(JFactory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . JText::_('MOD_FINDER_SEARCH_VALUE') . '"/>';
 
 $showLabel  = $params->get('show_label', 1);
 $labelClass = (!$showLabel ? 'element-invisible ' : '') . 'finder' . $suffix;
-$label      = '<label for="mod-finder-searchword" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
+$label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . $labelClass . '">' . $params->get('alt_label', JText::_('JSEARCH_FILTER_SUBMIT')) . '</label>';
 
 switch ($params->get('label_pos', 'left'))
 {
@@ -77,7 +77,7 @@ JHtml::_('stylesheet', 'com_finder/finder.css', false, true, false);
 
 $script = "
 jQuery(document).ready(function() {
-	var value, searchword = jQuery('#mod-finder-searchword');
+	var value, searchword = jQuery('#mod-finder-searchword" . $module->id . "');
 
 		// Get the current value.
 		value = searchword.val();
@@ -104,10 +104,10 @@ jQuery(document).ready(function() {
 			}
 		});
 
-		jQuery('#mod-finder-searchform').on('submit', function (e)
+		jQuery('#mod-finder-searchform" . $module->id . "').on('submit', function (e)
 		{
 			e.stopPropagation();
-			var advanced = jQuery('#mod-finder-advanced');
+			var advanced = jQuery('#mod-finder-advanced" . $module->id . "');
 
 			// Disable select boxes with no value selected.
 			if (advanced.length)
@@ -131,7 +131,7 @@ if ($params->get('show_autosuggest', 1))
 	JHtml::_('script', 'media/jui/js/jquery.autocomplete.min.js', false, false, false, false, true);
 
 	$script .= "
-	var suggest = jQuery('#mod-finder-searchword').autocomplete({
+	var suggest = jQuery('#mod-finder-searchword" . $module->id . "').autocomplete({
 		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component') . "',
 		paramName: 'q',
 		minChars: 1,
@@ -147,7 +147,7 @@ $script .= "});";
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
-<form id="mod-finder-searchform" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
+<form id="mod-finder-searchform<?php echo $module->id; ?>" action="<?php echo JRoute::_($route); ?>" method="get" class="form-search">
 	<div class="finder<?php echo $suffix; ?>">
 		<?php
 		// Show the form fields.
@@ -159,7 +159,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<br />
 			<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
 		<?php elseif ($show_advanced == 1) : ?>
-			<div id="mod-finder-advanced">
+			<div id="mod-finder-advanced<?php echo $module->id; ?>">
 				<?php echo JHtml::_('filter.select', $query, $params); ?>
 			</div>
 		<?php endif; ?>

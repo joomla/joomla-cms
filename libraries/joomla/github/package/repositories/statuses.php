@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/statuses
+ * @documentation https://developer.github.com/v3/repos/statuses
  *
  * @since  12.3
  */
@@ -47,7 +47,7 @@ class JGithubPackageRepositoriesStatuses extends JGithubPackage
 
 		// Build the request data.
 		$data = array(
-			'state' => $state
+			'state' => $state,
 		);
 
 		if (!is_null($targetUrl))

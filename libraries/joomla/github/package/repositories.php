@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  3.3 (CMS)
  *
- * @documentation  http://developer.github.com/v3/repos
+ * @documentation  https://developer.github.com/v3/repos
  *
  * @property-read  JGithubPackageRepositoriesCollaborators  $collaborators  GitHub API object for collaborators.
  * @property-read  JGithubPackageRepositoriesComments       $comments       GitHub API object for comments.
@@ -31,9 +31,7 @@ class JGithubPackageRepositories extends JGithubPackage
 {
 	protected $name = 'Repositories';
 
-	protected $packages = array(
-		'collaborators', 'comments', 'commits', 'contents', 'downloads', 'forks', 'hooks', 'keys', 'merging', 'statuses'
-	);
+	protected $packages = array('collaborators', 'comments', 'commits', 'contents', 'downloads', 'forks', 'hooks', 'keys', 'merging', 'statuses');
 
 	/**
 	 * List your repositories.
@@ -219,7 +217,7 @@ class JGithubPackageRepositories extends JGithubPackage
 			'has_downloads'      => $has_downloads,
 			'team_id'            => $team_id,
 			'auto_init'          => $auto_init,
-			'gitignore_template' => $gitignore_template
+			'gitignore_template' => $gitignore_template,
 		);
 
 		// Send the request.
@@ -278,7 +276,7 @@ class JGithubPackageRepositories extends JGithubPackage
 			'has_issues'     => $has_issues,
 			'has_wiki'       => $has_wiki,
 			'has_downloads'  => $has_downloads,
-			'default_branch' => $default_branch
+			'default_branch' => $default_branch,
 		);
 
 		// Send the request.

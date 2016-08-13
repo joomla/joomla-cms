@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/users
+ * @documentation https://developer.github.com/v3/repos/users
  *
  * @since  12.3
  */
@@ -20,9 +20,7 @@ class JGithubPackageUsers extends JGithubPackage
 {
 	protected $name = 'Users';
 
-	protected $packages = array(
-		'emails', 'followers', 'keys'
-	);
+	protected $packages = array('emails', 'followers', 'keys');
 
 	/**
 	 * Get a single user.
@@ -86,7 +84,7 @@ class JGithubPackageUsers extends JGithubPackage
 			'company'  => $company,
 			'location' => $location,
 			'hireable' => $hireable,
-			'bio'      => $bio
+			'bio'      => $bio,
 		);
 
 		// Build the request path.

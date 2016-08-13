@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * This tags API only deals with tag objects - so only annotated tags, not lightweight tags.
  *
- * @documentation http://developer.github.com/v3/git/tags/
+ * @documentation https://developer.github.com/v3/git/tags/
  *
  * @since  11.3
  */
@@ -76,7 +76,7 @@ class JGithubPackageDataTags extends JGithubPackage
 			'type'         => $type,
 			'tagger_name'  => $tagger_name,
 			'tagger_email' => $tagger_email,
-			'tagger_date'  => $tagger_date
+			'tagger_date'  => $tagger_date,
 		);
 
 		return $this->processResponse(

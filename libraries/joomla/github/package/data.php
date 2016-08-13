@@ -12,11 +12,11 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API DB class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/git/
+ * @documentation https://developer.github.com/v3/git/
  *
  * @since  12.3
  *
- * http://developer.github.com/v3/git/
+ * https://developer.github.com/v3/git/
  * Git DB API
  *
  * The Git Database API gives you access to read and write raw Git objects to your Git database on GitHub and to list
@@ -50,7 +50,5 @@ class JGithubPackageData extends JGithubPackage
 {
 	protected $name = 'Data';
 
-	protected $packages = array(
-		'blobs', 'commits', 'refs', 'tags', 'trees'
-	);
+	protected $packages = array('blobs', 'commits', 'refs', 'tags', 'trees');
 }

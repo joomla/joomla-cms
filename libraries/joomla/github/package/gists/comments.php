@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Gists Comments class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/gists/comments/
+ * @documentation https://developer.github.com/v3/gists/comments/
  *
  * @since  3.3 (CMS)
  */
@@ -101,7 +101,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body
+				'body' => $body,
 			)
 		);
 

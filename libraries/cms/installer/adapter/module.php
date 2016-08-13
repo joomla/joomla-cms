@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.filesystem.folder');
 
 /**
@@ -50,7 +52,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				array(
 					'element'   => $this->element,
 					'type'      => $this->type,
-					'client_id' => $this->clientId
+					'client_id' => $this->clientId,
 				)
 			);
 		}
@@ -118,7 +120,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => 'module',
-				'client_id' => $this->clientId
+				'client_id' => $this->clientId,
 			)
 		);
 
@@ -394,7 +396,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'extension',
-					'extension_id' => $this->extension->extension_id
+					'extension_id' => $this->extension->extension_id,
 				)
 			);
 
@@ -648,7 +650,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 		if (count($modules))
 		{
 			// Ensure the list is sane
-			JArrayHelper::toInteger($modules);
+			$modules = ArrayHelper::toInteger($modules);
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus

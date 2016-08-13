@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Gists class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/gists
+ * @documentation https://developer.github.com/v3/gists
  *
  * @since  11.3
  *
@@ -23,7 +23,7 @@ class JGithubPackageGists extends JGithubPackage
 	protected $name = 'Gists';
 
 	protected $packages = array(
-		'comments'
+		'comments',
 	);
 
 	/**
@@ -48,7 +48,7 @@ class JGithubPackageGists extends JGithubPackage
 			array(
 				'files' => $this->buildFileData((array) $files),
 				'public' => (bool) $public,
-				'description' => $description
+				'description' => $description,
 			)
 		);
 

@@ -14,9 +14,9 @@ defined('JPATH_PLATFORM') or die;
  *
  * The downloads API is for package downloads only.
  * If you want to get source tarballs you should use
- * http://developer.github.com/v3/repos/contents/#get-archive-link instead.
+ * https://developer.github.com/v3/repos/contents/#get-archive-link instead.
  *
- * @documentation http://developer.github.com/v3/repos/downloads
+ * @documentation https://developer.github.com/v3/repos/downloads
  *
  * @since  11.3
  */
@@ -88,7 +88,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 
 		$data = array(
 			'name' => $name,
-			'size' => $size
+			'size' => $size,
 		);
 
 		if ($description)
@@ -164,7 +164,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 			'Policy'                => $policy,
 			'Signature'             => $signature,
 			'Content-Type'          => $content_type,
-			'file'                  => $file
+			'file'                  => $file,
 		);
 
 		// Send the request.

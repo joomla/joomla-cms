@@ -20,8 +20,8 @@ class InstallationFormFieldSample extends JFormFieldRadio
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Sample';
 
@@ -34,9 +34,8 @@ class InstallationFormFieldSample extends JFormFieldRadio
 	 */
 	protected function getOptions()
 	{
-		$lang = JFactory::getLanguage();
 		$options = array();
-		$type = $this->form->getValue('db_type');
+		$type    = $this->form->getValue('db_type');
 
 		// Some database drivers share DDLs; point these drivers to the correct parent
 		if ($type == 'mysqli' || $type == 'pdomysql')
@@ -61,7 +60,7 @@ class InstallationFormFieldSample extends JFormFieldRadio
 		{
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ?
+				$options[] = JHtml::_('select.option', $file, JFactory::getLanguage()->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ?
 					JHtml::_('tooltip', JText::_('INSTL_' . strtoupper($file = JFile::stripExt($file)) . '_SET_DESC'), '', '',
 						JText::_('INSTL_' . ($file = JFile::stripExt($file)) . '_SET')
 					) : $file
@@ -78,7 +77,7 @@ class InstallationFormFieldSample extends JFormFieldRadio
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string   The field input markup.
 	 *
 	 * @since   1.6
 	 */

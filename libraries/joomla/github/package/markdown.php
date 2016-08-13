@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Markdown class.
  *
- * @documentation http://developer.github.com/v3/markdown
+ * @documentation https://developer.github.com/v3/markdown
  *
  * @since  3.3 (CMS)
  */
@@ -50,7 +50,7 @@ class JGithubPackageMarkdown extends JGithubPackage
 				array(
 					'text'    => $text,
 					'mode'    => $mode,
-					'context' => $context
+					'context' => $context,
 				)
 			)
 		);

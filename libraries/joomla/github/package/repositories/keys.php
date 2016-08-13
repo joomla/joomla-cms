@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Forks class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/keys
+ * @documentation https://developer.github.com/v3/repos/keys
  *
  * @since  11.3
  */
@@ -78,7 +78,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(
@@ -107,7 +107,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(

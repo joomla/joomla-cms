@@ -80,8 +80,8 @@ JFactory::getDocument()->addScriptDeclaration('
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
-$layout = $isModal ? 'modal' : 'edit';
-$tmpl = $isModal ? '&tmpl=component' : '';
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -104,20 +104,6 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php // Do not show the publishing options if the edit form is configured not to. ?>
-		<?php if ($params->show_publishing_options == 1) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
-					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-				</div>
-				<div class="span6">
-					<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
-				</div>
-			</div>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endif; ?>
-
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
 		<?php if ($params->show_urls_images_backend == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
@@ -137,6 +123,24 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
+		<?php $this->show_options = $params->show_article_options; ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
+		<?php // Do not show the publishing options if the edit form is configured not to. ?>
+		<?php if ($params->show_publishing_options == 1) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
+			<div class="row-fluid form-horizontal-desktop">
+				<div class="span6">
+					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+				</div>
+				<div class="span6">
+					<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
+				</div>
+			</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
+
+
 		<?php if ( ! $isModal && $assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
@@ -144,9 +148,6 @@ $tmpl = $isModal ? '&tmpl=component' : '';
 		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
-
-		<?php $this->show_options = $params->show_article_options; ?>
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>

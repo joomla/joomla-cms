@@ -13,6 +13,8 @@ JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/he
 
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Helper for mod_articles_latest
  *
@@ -101,7 +103,8 @@ abstract class ModArticlesLatestHelper
 			'p_dsc' => 'a.publish_up',
 			'random' => $db->getQuery(true)->Rand(),
 		);
-		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
+
+		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
 		$dir      = 'DESC';
 
 		$model->setState('list.ordering', $ordering);

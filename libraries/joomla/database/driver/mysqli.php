@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @see    http://php.net/manual/en/book.mysqli.php
+ * @see    https://secure.php.net/manual/en/book.mysqli.php
  * @since  12.1
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
@@ -262,7 +262,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('mysqli_connect'));
+		return function_exists('mysqli_connect');
 	}
 
 	/**
@@ -617,7 +617,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
 				$memoryBefore,
 				memory_get_usage(),
-				is_object($this->cursor) ? $this->getNumRows() : null
+				is_object($this->cursor) ? $this->getNumRows() : null,
 			);
 		}
 

@@ -46,7 +46,7 @@ class JHelpTest extends TestCase
 
 		// Set up our mock config
 		$this->config = JFactory::getConfig();
-		$this->config->set('helpurl', 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
+		$this->config->set('helpurl', 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}');
 
 		// Load the admin en-GB.ini language file
 		JFactory::getLanguage()->load('', JPATH_ADMINISTRATOR);

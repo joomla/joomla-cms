@@ -1,5 +1,6 @@
 # IDE & System Related Files #
 .buildpath
+.editorconfig
 .project
 .settings
 .DS_Store
@@ -14,19 +15,13 @@
 /configuration.php
 /.htaccess
 /web.config
+/.php_cs.cache
 
 # Test Related Files #
 /phpunit.xml
-/tests/system/webdriver/tests/logs/
-/tests/system/servers/configdef.php
-codecept.phar
-tests/codeception/_output/*
-tests/codeception/vendor/*
-tests/codeception/testingsite*
-tests/codeception/tests/acceptance.suite.yml
-tests/codeception/tests/acceptance/*Tester.php
-tests/codeception/tests/functional/*Tester.php
-tests/codeception/tests/unit/*Tester.php
+
+# Node modules #
+node_modules/
 
 # phpDocumentor Logs #
 phpdoc-*
@@ -118,6 +113,8 @@ Desktop.ini
 /libraries/vendor/psr/log/.gitignore
 /libraries/vendor/psr/log/composer.json
 /libraries/vendor/psr/log/README.md
+/libraries/vendor/symfony/polyfill-php55/composer.json
+/libraries/vendor/symfony/polyfill-php55/README.md
 /libraries/vendor/symfony/polyfill-php56/composer.json
 /libraries/vendor/symfony/polyfill-php56/README.md
 /libraries/vendor/symfony/polyfill-util/composer.json

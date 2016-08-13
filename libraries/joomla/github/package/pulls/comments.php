@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Pulls Comments class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/pulls/comments/
+ * @documentation https://developer.github.com/v3/pulls/comments/
  *
  * @since  3.3 (CMS)
  */
@@ -45,7 +45,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 				'body' => $body,
 				'commit_id' => $commitId,
 				'path' => $filePath,
-				'position' => $position
+				'position' => $position,
 			)
 		);
 
@@ -79,7 +79,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 		$data = json_encode(
 			array(
 				'body' => $body,
-				'in_reply_to' => (int) $inReplyTo
+				'in_reply_to' => (int) $inReplyTo,
 			)
 		);
 
@@ -135,7 +135,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body
+				'body' => $body,
 			)
 		);
 

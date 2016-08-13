@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Milestones class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/issues/milestones/
+ * @documentation https://developer.github.com/v3/issues/milestones/
  *
  * @since  12.3
  */
@@ -110,7 +110,7 @@ class JGithubPackageIssuesMilestones extends JGithubPackage
 
 		// Build the request data.
 		$data = array(
-			'title' => $title
+			'title' => $title,
 		);
 
 		if (!is_null($state))
