@@ -1372,11 +1372,13 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
 
-		// Reorder configuration
+		// Reorder configuration,
 		$uses_single_key = count($this->_tbl_keys) == 1;
-		$pk_is_int = false;    // TODO check DB schema and if pk column is integer do not quote ! (minor/medium performance concern)
-		$max_recs = 10000;     // Update in 10,000 records steps, default server config should support 50,000+ records anyway e.g. mySQL has default 1MByte packet size or more
 		$keyname = $this->_tbl_key;
+
+		// Update in 10,000 records steps, default server config should support 50,000+ records anyway e.g. mySQL has default 1MB packet size
+		$max_recs = 10000;
+		$key_is_int = false;
 
 		// Reorder data and counters
 		$when_clauses = array();
@@ -1399,9 +1401,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 						{
 							$step++;
 						}
-						$pk = $pk_is_int ? $row->$keyname : $this->_db->quote($row->$keyname); // TODO check DB schema and if pk column is integer do not quote ! (minor/medium performance concern)
+						$pk = $key_is_int ? $row->$keyname : $this->_db->quote($row->$keyname);
 						$order_pks[$step][] = $pk;
-						$when_clauses[$step][] = ' WHEN '.$pk.' THEN '.($i + 1);
+						$when_clauses[$step][] = ' WHEN ' . $pk . ' THEN ' . ($i + 1);
 					}
 					else
 					{
@@ -1423,12 +1425,12 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$_tbl = $this->_db->quoteName($this->_tbl);
 			$_tblkey = $this->_db->quoteName($this->_tbl_key);
 
-			foreach($when_clauses as $step => $clauses)
+			foreach ($when_clauses as $step => $clauses)
 			{
 				$query = 'UPDATE ' . $_tbl . ' SET ordering = CASE ' . $_tblkey
 					. implode(' ', $when_clauses[$step])
-					.' END '
-					.' WHERE ' . $_tblkey . ' IN ('. implode(',', $order_pks[$step]) .')';
+					. ' END '
+					. ' WHERE ' . $_tblkey . ' IN (' . implode(',', $order_pks[$step]) . ')';
 
 				$this->_db->setQuery($query);
 				$this->_db->execute();
