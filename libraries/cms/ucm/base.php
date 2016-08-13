@@ -131,7 +131,7 @@ class JUcmBase implements JUcm
 		$data = array(
 			'ucm_type_id' => $type->id,
 			'ucm_item_id' => $original[$type->primary_key],
-			'ucm_language_id' => JHelperContent::getLanguageId($original['language'])
+			'ucm_language_id' => JHelperContent::getLanguageId($original['language']),
 		);
 
 		return $data;

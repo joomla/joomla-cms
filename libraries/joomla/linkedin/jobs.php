@@ -32,7 +32,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -71,7 +71,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -110,7 +110,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -148,7 +148,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -183,7 +183,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -249,7 +249,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base

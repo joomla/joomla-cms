@@ -29,7 +29,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -57,7 +57,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -87,7 +87,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -138,7 +138,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
