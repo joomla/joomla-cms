@@ -1426,6 +1426,10 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/jquery.js',
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/media/system/js/permissions.min.js',
+			// Joomla __DEPLOY_VERSION__
+			'/libraries/joomla/data/data.php',
+			'/libraries/joomla/data/dumpable.php',
+			'/libraries/joomla/data/set.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1522,6 +1526,8 @@ class JoomlaInstallerScript
 			// Joomla 3.6
 			'/libraries/simplepie/idn',
 			'/libraries/simplepie',
+			// Joomla __DEPLOY_VERSION__
+			'/libraries/joomla/data',
 		);
 
 		jimport('joomla.filesystem.file');
