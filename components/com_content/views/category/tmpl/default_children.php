@@ -29,7 +29,7 @@ $lang  = JFactory::getLanguage();
 			<?php if ($lang->isRtl()) : ?>
 			<h3 class="page-header item-title">
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS'); ?>">
+					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 						<?php echo $child->getNumItems(true); ?>
 					</span>
 				<?php endif; ?>
@@ -44,7 +44,7 @@ $lang  = JFactory::getLanguage();
 			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS'); ?>">
+					<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTENT_NUM_ITEMS_TIP'); ?>">
 						<?php echo $child->getNumItems(true); ?>
 					</span>
 				<?php endif; ?>
