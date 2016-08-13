@@ -94,6 +94,14 @@ abstract class JModelAdmin extends JModelForm
 	protected $associationsContext = null;
 
 	/**
+	 * The context used for the categories.
+	 *
+	 * @var     string
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $categoriesContext = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
