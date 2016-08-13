@@ -30,7 +30,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Toggle HTML5 validation
 		form.noValidate = !validate;
-		form.setAttribute('novalidate', !validate)
+		form.setAttribute('novalidate', !validate);
 
 		// Submit the form.
 		// Create the input type="submit"
@@ -264,7 +264,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		return msg;
-	}
+	};
 
 	/**
 	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -646,11 +646,11 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * Domready listener. Wait when the initial HTML document has been completely loaded and parsed,
+	 * DOM ready listener. Wait when the initial HTML document has been completely loaded and parsed,
 	 * without waiting for stylesheets, images, and subframes to finish loading.
 	 * Based on https://github.com/dperini/ContentLoaded
 	 *
-	 * @param callback
+	 * @param {Function}  callback  Callback function
 	 *
 	 * @example
 	 *
@@ -703,9 +703,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Method registers the specified listener on the Element.
 	 *
-	 * @param element element   DOM element
-	 * @param string  type      Event type
-	 * @param method  callback  Callback function
+	 * @param {Element}   element   DOM element
+	 * @param {String}    type      Event type
+	 * @param {Function}  callback  Callback function
 	 *
 	 * @example
 	 *
@@ -728,9 +728,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Method removes the event listener previously registered with Joomla.addListener.
 	 *
-	 * @param element element   DOM element
-	 * @param string  type      Event type
-	 * @param method  callback  Callback function
+	 * @param {Element}   element   DOM element
+	 * @param {String}    type      Event type
+	 * @param {Function}  callback  Callback function
 	 *
 	 * @example
 	 *
@@ -804,7 +804,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			// Custom headers
 			if (options.headers){
 				for (var p in options.headers){
-					xhr.setRequestHeader(p, options.headers[p]);
+					if (options.headers.hasOwnProperty(p)) {
+						xhr.setRequestHeader(p, options.headers[p]);
+					}
 				}
 			}
 
