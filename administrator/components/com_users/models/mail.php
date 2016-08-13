@@ -183,7 +183,7 @@ class UsersModelMail extends JModelAdmin
 				return false;
 			}
 
-			if ($mailer->addRecipient($app->get('mailfrom')))
+			if (!$mailer->addRecipient($app->get('mailfrom')))
 			{
 				$app->setUserState('com_users.display.mail.data', $data);
 				$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
