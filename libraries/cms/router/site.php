@@ -212,7 +212,7 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', $this->app->input->getInt('Itemid', null));
 
 		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2 ))
+		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
 		{
 			$item = $this->menu->getItem($this->getVar('Itemid'));
 

@@ -782,7 +782,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.1
 	 */
 	public function installCmsData($options)
 	{
@@ -808,7 +808,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.1
 	 */
 	protected function postInstallCmsData($db)
 	{
@@ -823,7 +823,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.1
 	 */
 	protected function updateUserIds($db)
 	{

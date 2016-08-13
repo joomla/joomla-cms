@@ -22,7 +22,5 @@ class JGithubPackageActivity extends JGithubPackage
 {
 	protected $name = 'Activity';
 
-	protected $packages = array(
-		'events', 'notifications', 'starring', 'watching'
-	);
+	protected $packages = array('events', 'notifications', 'starring', 'watching');
 }

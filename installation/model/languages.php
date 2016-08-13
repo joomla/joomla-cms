@@ -1058,22 +1058,23 @@ class InstallationModelLanguages extends JModelBase
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category.
-		$category                  = JTable::getInstance('Category');
+		$category = JTable::getInstance('Category');
 
 		$data = array(
-			'extension'    => 'com_content',
-			'title'        => $title . ' (' . strtolower($itemLanguage->language) . ')',
-			'description'  => '',
-			'published'    => 1,
-			'access'       => 1,
-			'params'       => '{"target":"","image":""}',
-			'metadesc'     => '',
-			'metakey'      => '',
-			'metadata'     => '{"page_title":"","author":"","robots":""}',
-			'created_time' => JFactory::getDate()->toSql(),
-			'language'     => $itemLanguage->language,
-			'rules'        => array(),
-			'parent_id'    => 1
+			'extension'       => 'com_content',
+			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'description'     => '',
+			'published'       => 1,
+			'access'          => 1,
+			'params'          => '{"target":"","image":""}',
+			'metadesc'        => '',
+			'metakey'         => '',
+			'metadata'        => '{"page_title":"","author":"","robots":""}',
+			'created_time'    => JFactory::getDate()->toSql(),
+			'created_user_id' => (int) $this->getAdminId(),
+			'language'        => $itemLanguage->language,
+			'rules'           => array(),
+			'parent_id'       => 1,
 		);
 
 		// Set the location in the tree.
@@ -1119,9 +1120,11 @@ class InstallationModelLanguages extends JModelBase
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
-		$title = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
+		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
+		$currentDate = JFactory::getDate()->toSql();
 
-		$article                   = JTable::getInstance('Content');
+		// Initialize a new article.
+		$article = JTable::getInstance('Content');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
@@ -1136,10 +1139,10 @@ class InstallationModelLanguages extends JModelBase
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'state'            => 1,
-			'created'          => JFactory::getDate()->toSql(),
-			'created_by'       => $this->getAdminId(),
+			'created'          => $currentDate,
+			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
-			'publish_up'       => JFactory::getDate()->toSql(),
+			'publish_up'       => $currentDate,
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
@@ -1198,7 +1201,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.1
 	 */
 	public function addAssociations($groupedAssociations)
 	{
