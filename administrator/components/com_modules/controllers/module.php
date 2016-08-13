@@ -286,14 +286,14 @@ class ModulesControllerModule extends JControllerForm
 
 				$orders2[$orders[$i]->position]++;
 				$ord = $orders2[$orders[$i]->position];
-				$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, addslashes($orders[$i]->title));
+				$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
 
 				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
 			}
 		}
 		else
 		{
-			$html[] = $position . ',' . 1 . ',' . JText::_('NO_OTHER_MODULE');
+			$html[] = $position . ',' . 1 . ',' . JText::_('JNONE');
 		}
 
 

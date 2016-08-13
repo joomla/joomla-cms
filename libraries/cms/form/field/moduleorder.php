@@ -19,75 +19,123 @@ class JFormFieldModuleOrder extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var     string
 	 * @since   1.6
 	 */
 	protected $type = 'ModuleOrder';
 
 	/**
-	 * Method to get the field input markup.
+	 * Name of the layout being used to render the field
 	 *
-	 * @return  string  Empty div that will be replaced by the included javascript
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.moduleorder';
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @since   1.6
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.7
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'linked':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'linked':
+				$this->$name = (string) $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   3.2
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		if ($return)
+		{
+			$this->linked    = isset($this->element['linked']) ? (int) $this->element['linked'] : 'position';
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to get the field input markup for the file field.
+	 * Field attributes allow specification of a maximum file size and a string
+	 * of accepted file extensions.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @note    The field does not include an upload mechanism.
+	 * @see     JFormFieldMedia
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
-		$attr = '';
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-		// Initialize JavaScript field attributes.
-		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		$ordering = $this->form->getValue('ordering');
-		$clientId = $this->form->getValue('client_id');
-		$name     = $this->name;
-		$id       = $this->id;
-		$token    = JSession::getFormToken() . '=1';
-
-		JHtml::_('jquery.framework');
-
-		JFactory::getDocument()->addScriptDeclaration(
-<<<JS
-		jQuery(document).ready(function($) {
-			var client_id = "$clientId";
-			var elem = document.getElementById("parent_$id");
-			var originalOrder = "$ordering";
-			var originalPos = $("#jform_position").chosen().val();
-			var orders = new Array();
-			var getNewOrder = function() {
-				$.ajax({
-					type: "GET",
-					dataType: "json",
-					url: "index.php?option=com_modules&task=module.orderPosition&$token",
-					data: { "client_id": client_id,
-							"position": originalPos
-					 },
-					success:function(response) {
-					 	console.log(response.data);
-						for (key in response.data) {
-							orders[key] =  response.data[key].split(',');
-						}
-						writeDynaList('name="$name" id="$id"$attr', orders, originalPos, originalPos, originalOrder, elem);
-					}
-				});
-			}
-			getNewOrder();
-
-			$("#jform_position").chosen().change( function() {
-				originalPos = $("#jform_position").chosen().val();
-
-				getNewOrder();
-			});
-		});
-
-JS
+		$extraData = array(
+			'ordering' => $this->form->getValue('ordering'),
+			'clientId' => $this->form->getValue('client_id'),
+			'name'     => $this->name,
+			'token'    => JSession::getFormToken() . '=1',
+			'element'  => $this->form->getName() . '_' . $this->linked
 		);
 
-		return '<div id="parent_' . $id . '" ></div>';
+		return array_merge($data, $extraData);
 	}
 }
