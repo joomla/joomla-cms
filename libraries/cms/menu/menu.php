@@ -212,7 +212,7 @@ class JMenu
 			return $this->_items[$this->_default['*']];
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -234,7 +234,7 @@ class JMenu
 			return $result;
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -253,7 +253,7 @@ class JMenu
 			return $item;
 		}
 
-		return null;
+		return;
 	}
 
 	/**

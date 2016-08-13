@@ -474,7 +474,7 @@ class JInstaller extends JAdapter
 				'method' => 'install',
 				'type' => $this->manifest->attributes()->type,
 				'manifest' => $this->manifest,
-				'extension' => 0
+				'extension' => 0,
 			)
 		);
 
@@ -532,9 +532,7 @@ class JInstaller extends JAdapter
 
 		// Load the adapter(s) for the install manifest
 		$type   = $this->extension->type;
-		$params = array(
-			'extension' => $this->extension, 'route' => 'discover_install'
-		);
+		$params = array('extension' => $this->extension, 'route' => 'discover_install');
 
 		$adapter = $this->getAdapter($type, $params);
 
@@ -580,7 +578,7 @@ class JInstaller extends JAdapter
 				'method' => 'discover_install',
 				'type' => $this->extension->get('type'),
 				'manifest' => null,
-				'extension' => $this->extension->get('extension_id')
+				'extension' => $this->extension->get('extension_id'),
 			)
 		);
 
@@ -1549,7 +1547,7 @@ class JInstaller extends JAdapter
 			if (!count($fieldset->children()))
 			{
 				// Either the tag does not exist or has no children therefore we return zero files processed.
-				return null;
+				return;
 			}
 
 			// Iterating through the fields and collecting the name/default values:
@@ -1965,13 +1963,13 @@ class JInstaller extends JAdapter
 		// If we cannot load the XML file return null
 		if (!$xml)
 		{
-			return null;
+			return;
 		}
 
 		// Check for a valid XML root tag.
 		if ($xml->getName() != 'extension')
 		{
-			return null;
+			return;
 		}
 
 		// Valid manifest file return the object

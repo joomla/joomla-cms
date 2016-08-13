@@ -34,7 +34,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 		'PATCH' => 'Update',
 		'DELETE' => 'Delete',
 		'HEAD' => 'Head',
-		'OPTIONS' => 'Options'
+		'OPTIONS' => 'Options',
 	);
 
 	/**
@@ -123,7 +123,7 @@ class JApplicationWebRouterRest extends JApplicationWebRouterBase
 		}
 
 		// Check if request method is POST
-		if ( $this->methodInPostRequest == true && strcmp(strtoupper($this->input->server->getMethod()), 'POST') === 0)
+		if ($this->methodInPostRequest == true && strcmp(strtoupper($this->input->server->getMethod()), 'POST') === 0)
 		{
 			// Get the method from input
 			$postMethod = $this->input->get->getWord('_method');

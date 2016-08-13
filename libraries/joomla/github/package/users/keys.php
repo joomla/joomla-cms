@@ -96,7 +96,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(
@@ -123,7 +123,7 @@ class JGithubPackageUsersKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(

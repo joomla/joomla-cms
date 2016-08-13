@@ -115,7 +115,8 @@ class JControllerForm extends JControllerLegacy
 				array('/([^aeiouy]|qu)ies$/i', "$1y"),
 				array('/(bu)s$/i', "$1ses"),
 				array('/s$/i', "s"),
-				array('/$/', "s"));
+				array('/$/', "s"),
+			);
 
 			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
@@ -191,7 +192,7 @@ class JControllerForm extends JControllerLegacy
 	{
 		$user = JFactory::getUser();
 
-		return ($user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create')));
+		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
 
 	/**
