@@ -804,6 +804,10 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		$db->setQuery($query);
 		$db->execute();
 
+		// Rebuild the categories for correct lft/rgt
+		$category = JTable::getInstance('category');
+		$category->rebuild();
+
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(

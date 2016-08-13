@@ -200,7 +200,7 @@ class InstallationModelSetup extends JModelBase
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions black list.
+			// Attempt to detect them in the disable_functions blacklist.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 
