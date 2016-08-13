@@ -47,6 +47,7 @@ class JFilterOutput extends OutputFilter
 		{
 			$new_str .= (ord(substr($string, $i, 1)) < 16 ? '\\x0' : '\\x') . dechex(ord(substr($string, $i, 1)));
 		}
+
 		return $new_str;
 	}
 

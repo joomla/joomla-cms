@@ -39,7 +39,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function extract($archive, $destination, array $options = array ())
+	public function extract($archive, $destination, array $options = array())
 	{
 		$this->_data = null;
 
@@ -86,7 +86,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 */
-	protected function extractStream($archive, $destination, $options = array ())
+	protected function extractStream($archive, $destination, $options = array())
 	{
 		// New style! streams!
 		$input = JFactory::getStream();
@@ -137,7 +137,9 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * @param   int     $code  The application-internal error code for this error
 	 * @param   string  $msg   The error message, which may also be shown the user if need be.
 	 *
-	 * @return mixed JError object or Runtime Exception
+	 * @return  JException  JException instance if JError class exists
+	 *
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	private function raiseWarning($code, $msg)
 	{

@@ -50,7 +50,5 @@ class JGithubPackageData extends JGithubPackage
 {
 	protected $name = 'Data';
 
-	protected $packages = array(
-		'blobs', 'commits', 'refs', 'tags', 'trees'
-	);
+	protected $packages = array('blobs', 'commits', 'refs', 'tags', 'trees');
 }

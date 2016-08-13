@@ -155,7 +155,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			array(
 				'element' => $this->element,
 				'type'    => $this->type,
-				'folder'  => $this->group
+				'folder'  => $this->group,
 			)
 		);
 
