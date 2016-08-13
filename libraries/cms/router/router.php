@@ -100,7 +100,7 @@ class JRouter
 		'buildpostprocess' => array(),
 		'parsepreprocess' => array(),
 		'parse' => array(),
-		'parsepostprocess' => array()
+		'parsepostprocess' => array(),
 	);
 
 	/**
@@ -116,7 +116,7 @@ class JRouter
 		'buildpostprocess' => array(),
 		'parsepreprocess' => array(),
 		'parse' => array(),
-		'parsepostprocess' => array()
+		'parsepostprocess' => array(),
 	);
 
 	/**

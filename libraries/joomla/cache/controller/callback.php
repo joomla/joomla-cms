@@ -139,7 +139,7 @@ class JCacheControllerCallback extends JCacheController
 				if (method_exists($document, 'getHeadData'))
 				{
 					$coptions['headerbefore'] = $document->getHeadData();
-				}	
+				}
 			}
 			else
 			{
@@ -158,7 +158,7 @@ class JCacheControllerCallback extends JCacheController
 
 			$cached = array(
 				'output' => ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions),
-				'result' => $result
+				'result' => $result,
 			);
 
 			// Store the cache data
