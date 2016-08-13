@@ -212,7 +212,7 @@ class JComponentRouterViewconfiguration
 
 		return $this;
 	}
-	
+
 	/**
 	 * Remove a layout from this view
 	 *
