@@ -614,7 +614,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			parentElement.appendChild(loadingDiv);
 		}
 		// Show or hide the layer.
-		else 
+		else
 		{
 			if (!document.getElementById('loading-logo'))
 			{
@@ -625,6 +625,112 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		return document.getElementById('loading-logo');
+	};
+
+	/**
+	 * Domready listener. Wait when the initial HTML document has been completely loaded and parsed,
+	 * without waiting for stylesheets, images, and subframes to finish loading.
+	 * Based on https://github.com/dperini/ContentLoaded
+	 *
+	 * @param callback
+	 *
+	 * @example
+	 *
+	 * 	Joomla.domReady(function(){
+	 * 		console.log('DOM is ready!');
+	 * 	});
+	 *
+	 */
+	Joomla.domReady = Joomla.domReady || function (callback) {
+		var done   = false, top = true,
+			root   = document.documentElement,
+			modern = document.addEventListener;
+
+		var init = function(e) {
+			if (e.type === 'readystatechange' && document.readyState !== 'complete') {
+				return;
+			}
+
+			Joomla.removeListener(e.type === 'load' ? window : document, e.type, init);
+
+			if (!done) {
+				callback.call(window, e.type || e);
+				done = true
+			}
+		};
+
+		var poll = function() {
+			try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+			init('poll');
+		};
+
+		if (document.readyState === 'complete') {
+			// DOM are ready since a years! call the callback
+			callback.call(window, 'lazyload');
+		}
+		else {
+			// IE trick
+			if (!modern && root.doScroll) {
+				try { top = !window.frameElement; } catch(e) { }
+				if (top) poll();
+			}
+
+			// Listen when DOM will become ready
+			Joomla.addListener(document, 'DOMContentLoaded', init);
+			Joomla.addListener(document, 'readystatechange', init);
+			Joomla.addListener(window, 'load', init);
+		}
+	};
+
+	/**
+	 * Method registers the specified listener on the Element.
+	 *
+	 * @param element element   DOM element
+	 * @param string  type      Event type
+	 * @param method  callback  Callback function
+	 *
+	 * @example
+	 *
+	 *  Joomla.addListener(document.getElementById('my-button'), 'click', function(event){
+	 *  	console.log('You just clicked', event.target);
+	 *  });
+	 */
+	Joomla.addListener = Joomla.addListener || function(element, type, callback) {
+		var modern = document.addEventListener,
+			method = modern ? 'addEventListener' : 'attachEvent';
+
+		type  = modern ? type : 'on' + type;
+
+		// Add event listener,
+		element[method](type, callback);
+	};
+
+	/**
+	 * Method removes the event listener previously registered with Joomla.addListener.
+	 *
+	 * @param element element   DOM element
+	 * @param string  type      Event type
+	 * @param method  callback  Callback function
+	 *
+	 * @example
+	 *
+	 * // Listener method
+	 * function myClickHandler(event){
+	 * 	  console.log(event);
+	 * }
+	 *
+	 * Joomla.addListener(document.getElementById('my-button'), 'click', myClickHandler); // Add listener
+	 *
+	 * Joomla.removeListener(document.getElementById('my-button'), 'click', myClickHandler); // Remove listener
+	 */
+	Joomla.removeListener = Joomla.removeListener || function(element, type, callback){
+		var modern = document.removeEventListener,
+			method = modern ? 'removeEventListener' : 'detachEvent';
+
+		type  = modern ? type : 'on' + type;
+
+		// Remove event listener,
+		element[method](type, callback);
 	};
 
 }( Joomla, document ));
