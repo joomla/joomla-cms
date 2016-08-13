@@ -86,7 +86,10 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		if ($memcachedtest == false)
 		{
-			throw new RuntimeException('Could not connect to memcached server', 404);
+			// Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again
+			static::$_db = null;
+
+			throw new JCacheExceptionConnecting('Could not connect to memcached server', 404);
 		}
 
 		static::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
@@ -307,17 +310,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		 * GAE and HHVM have both had instances where Memcached the class was defined but no extension was loaded.
 		 * If the class is there, we can assume support.
 		 */
-		if (!class_exists('Memcached'))
-		{
-			return false;
-		}
-
-		// Now check if we can connect to the specified Memcached server
-		$config = JFactory::getConfig();
-
-		$memcached = new Memcached;
-
-		return @$memcached->addServer($config->get('memcached_server_host', 'localhost'), $config->get('memcached_server_port', 11211));
+		return class_exists('Memcached');
 	}
 
 	/**
