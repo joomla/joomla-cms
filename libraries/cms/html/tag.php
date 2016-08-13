@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Utility class for tags
  *
@@ -56,7 +58,7 @@ abstract class JHtmlTag
 				}
 				elseif (is_array($config['filter.published']))
 				{
-					JArrayHelper::toInteger($config['filter.published']);
+					$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
 					$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
 				}
 			}
@@ -126,7 +128,7 @@ abstract class JHtmlTag
 			}
 			elseif (is_array($config['filter.published']))
 			{
-				JArrayHelper::toInteger($config['filter.published']);
+				$config['filter.published'] = ArrayHelper::toInteger($config['filter.published']);
 				$query->where('a.published IN (' . implode(',', $config['filter.published']) . ')');
 			}
 		}
@@ -168,7 +170,7 @@ abstract class JHtmlTag
 		$displayData = array(
 			'minTermLength' => $minTermLength,
 			'selector'      => $selector,
-			'allowCustom'   => $allowCustom
+			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
 		);
 
 		JLayoutHelper::render('joomla.html.tag', $displayData);

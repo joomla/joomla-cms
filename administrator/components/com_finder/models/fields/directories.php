@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 // Load the base adapter.
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Renders a list of directories.

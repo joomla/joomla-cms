@@ -143,7 +143,7 @@ class SearchModelSearches extends JModelList
 			if (!class_exists('JSite'))
 			{
 				// This fools the routers in the search plugins into thinking it's in the frontend
-				JLoader::register('JSite', JPATH_COMPONENT . '/helpers/site.php');
+				JLoader::register('JSite', JPATH_ADMINISTRATOR . '/components/com_search/helpers/site.php');
 			}
 
 			foreach ($items as &$item)

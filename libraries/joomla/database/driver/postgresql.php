@@ -138,8 +138,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
-		pg_query('SET standard_conforming_strings=off');
-		pg_query('SET escape_string_warning=off');
+		pg_query($this->connection, 'SET standard_conforming_strings=off');
+		pg_query($this->connection, 'SET escape_string_warning=off');
 	}
 
 	/**
@@ -882,6 +882,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function setUtf()
 	{
 		$this->connect();
+
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			return -1;
+		}
 
 		return pg_set_client_encoding($this->connection, 'UTF8');
 	}
