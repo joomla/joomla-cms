@@ -294,7 +294,7 @@ class CategoriesModelCategories extends JModelList
 				uc.name, 
 				ag.title, 
 				ua.name'
-			);
+		);
 
 		return $query;
 	}
@@ -360,7 +360,7 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 * 
+	 *
 	 * @param   stdClass[]  &$items     The category items
 	 * @param   string      $extension  The category extension
 	 *

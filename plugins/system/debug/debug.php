@@ -360,7 +360,7 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
 		}
 
-		$html = '';
+		$html = array();
 
 		$js = "toggleContainer('dbg_container_" . $item . "');";
 

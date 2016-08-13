@@ -33,6 +33,18 @@
 					<option value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
 					<option value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
 				</field>
+
+				<field
+					name="filter_groups"
+					type="radio"
+					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
+					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
@@ -61,16 +73,12 @@
 				</field>
 
 				<field
-					name="filter_groups"
-					type="radio"
-					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
-					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
-					class="btn-group btn-group-yesno"
-					default="0"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+					name="cache_time"
+					type="text"
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 			</fieldset>
 		</fields>
 	</config>

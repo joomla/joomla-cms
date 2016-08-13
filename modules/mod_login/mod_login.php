@@ -14,10 +14,10 @@ require_once __DIR__ . '/helper.php';
 
 $params->def('greeting', 1);
 
-$type	          = ModLoginHelper::getType();
-$return	          = ModLoginHelper::getReturnUrl($params, $type);
-$twofactormethods = ModLoginHelper::getTwoFactorMethods();
-$user	          = JFactory::getUser();
+$type             = ModLoginHelper::getType();
+$return           = ModLoginHelper::getReturnUrl($params, $type);
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
+$user             = JFactory::getUser();
 $layout           = $params->get('layout', 'default');
 
 // Logged users must load the logout sublayout
