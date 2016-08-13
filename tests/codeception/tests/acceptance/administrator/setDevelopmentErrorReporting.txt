@@ -1,0 +1,12 @@
+I WANT TO SET JOOMLA ERROR REPORTING TO DEVELOPMENT
+
+I do administrator login('admin', 'admin')
+I am on page '/administrator/index.php?option=com_config'
+I wait for text 'Global Configuration',10,'.page-title'
+I click 'Server'
+I wait for element visible "$globalConfiguration['Error Reporting Dropdown']"
+I click "$globalConfiguration['Error Reporting Dropdown']"
+I click "$globalConfiguration['option: Development']"
+I click 'Save'
+I wait for text 'Global Configuration',10,'.page-title'
+I see 'Configuration successfully saved.','#system-message-container'

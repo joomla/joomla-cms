@@ -81,21 +81,9 @@ class JMenu
 			}
 
 			// Decode the item params
-			try
-			{
-				$result = new Registry;
-				$result->loadString($item->params);
-				$item->params = $result;
-			}
-			catch (RuntimeException $e)
-			{
-				/**
-				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
-				 * error checks. So for now we catch the exception here - but one day we should remove it and require
-				 * valid JSON.
-				 */
-				$item->params = new Registry;
-			}
+			$result = new Registry;
+			$result->loadString($item->params);
+			$item->params = $result;
 		}
 
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
@@ -212,7 +200,7 @@ class JMenu
 			return $this->_items[$this->_default['*']];
 		}
 
-		return;
+		return null;
 	}
 
 	/**
@@ -234,7 +222,7 @@ class JMenu
 			return $result;
 		}
 
-		return;
+		return null;
 	}
 
 	/**
@@ -253,7 +241,7 @@ class JMenu
 			return $item;
 		}
 
-		return;
+		return null;
 	}
 
 	/**

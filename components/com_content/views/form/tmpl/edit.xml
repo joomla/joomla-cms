@@ -23,8 +23,7 @@
 				type="category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				extension="com_content"
-				description="JGLOBAL_CHOOSE_CATEGORY_DESC" 
-				showon="enable_category:1" />
+				description="JGLOBAL_CHOOSE_CATEGORY_DESC" />
 		</fieldset>
 	</fields>
 </metadata>

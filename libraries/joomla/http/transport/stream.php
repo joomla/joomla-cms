@@ -162,7 +162,7 @@ class JHttpTransportStream implements JHttpTransport
 					'verify_peer'   => true,
 					'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
 					'verify_depth'  => 5,
-				),
+				)
 			)
 		);
 

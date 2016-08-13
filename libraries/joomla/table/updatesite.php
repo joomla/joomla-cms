@@ -48,7 +48,6 @@ class JTableUpdatesite extends JTable
 
 			return false;
 		}
-
 		return true;
 	}
 }

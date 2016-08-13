@@ -1,0 +1,179 @@
+<head><title>This is a title</title></head>
+
+<div id="navigation">
+        [stuff]
+    </div>
+    <div id="content">
+        [stuff]
+    </div>
+<p>You could apply styles to <span class="whatever">this text</span> or <span class="whatever">tis thext</span> using the span tag.</p>
+
+<title>Shiny Gongs</title>
+
+<link rel="stylesheet" type="text/css" href="default.css" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="keywords" content="darwin, evolution, natural selection, species, beagle, 1859" />
+<meta scheme="ISBN"  name="identifier" content="0-14-043205-1" />
+
+<h1>Main title</h1>immediately followed by some text.
+
+<h1>The main heading</h1>
+<h2>A subheading</h2>
+<h2>Another subheading</h2>
+<h3>Another subheading</h3>
+<h4>Another subheading</h4>
+<h5>Another subheading</h5>
+<h6>Another subheading</h6>
+
+<p>ra ra ra ra ra</p>
+<p>That's <strong>strong emphasis</strong> ladies and gentlemen.</p>
+<p>That's <em>emphasis</em> ladies and gentlemen.</p>
+<abbr title="HyperText Markup Language">HTML</abbr>
+<acronym title="Cascading Style Sheets">CSS</acronym>
+<address>77 HTML Dog Road, Ealing, London</address>
+<p>The output of this <bdo dir="rtl">word</bdo> will actually be "drow".</p>
+<blockquote cite="http://www.htmldog.com/reference/htmltags/blockquote/">
+    <p>A large quotation. The content of a blockquote element must include block-level elements such as headings, lists, paragraphs or div's.</p>
+    <p>cite can be used to specify the location (in the form of a URI) where the quote has come from.</p>
+</blockquote>
+<p>Bob said <q>sexy pyjamas</q> but Chris said <q>a kimono</q></p>
+<p>You can use the <code><?php echo 'any errors?'; ?></code> tag to define computer code.</p>
+<p>It really was <ins cite="rarara.html" datetime="20031024">very</ins> good.</p>
+<p>It really was<del cite="rarara.html" datetime="20031023">n't</del> very good.</p>
+<p><dfn title="Microsoft web browser">Internet Explorer</dfn> is the most popular browser used underwater.</p>
+<p>Type <kbd>www.htmldog.com</kbd> into your browser.</p>
+
+<pre>
+<code>&lt;html&gt;</code>
+    <code>&lt;head&gt;</code>
+    <code>&lt;/head&gt;</code>
+    <code>&lt;body&gt;</code>
+        <code>[stuff]</code>
+    <code>&lt;/body&gt;</code>
+<code>&lt;/html&gt; </code>
+</pre>
+
+<p>If you select the 'champion' option, you will receive the message <samp>The monkey is not a caterpillar</samp>.</p>
+
+<code><var>wordcount</var> = 6878;</code>
+
+<p>some text ra ra<br />
+and some more ra ra</p>
+
+<p><a href="http://www.htmldog.com">Link to a URI</a></p>
+<p><a href="#content">Link to a page anchor</a></p>
+
+<img src="http://www.htmldog.com/images/logo.gif" alt="HTML Dog" />
+
+<map id ="atlas">
+    <area shape ="rect" coords ="0,0,115,90" href ="northamerica.html" alt="North America" />
+    <area shape ="poly" coords ="113,39,187,21,180,72,141,77,117,86" href ="europe.html" alt="Europe" />
+    <area shape ="poly" coords ="119,80,162,82,175,102,183,102,175,148,122,146" href ="africa.html" alt="Africa" />
+</map>
+
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="someplace/swflash.cab" width="200" height="300" id="penguin">
+    <param name="movie" value="flash/penguin.swf" />
+    <param name="quality" value="high" />
+    <img src="images/penguin.jpg" width="200" height="300" alt="Penguin" />
+</object>
+
+<ul>
+    <li>This</li>
+    <li>That</li>
+    <li>The other</li>
+</ul>
+
+<ol>
+    <li>First item</li>
+    <li>Second item</li>
+    <li>Third item</li>
+</ol>
+
+<dl>
+    <dt>Dog</dt>
+    <dd>A carnivorous mammal of the family Canidae.</dd>
+</dl>
+
+<style>
+.test { background-color: #fff; }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Header 1</th>
+            <th>Header 2</th>
+            <th>Header 3</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td>Footer 1</td>
+            <td>Footer 2</td>
+            <td>Footer 3</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr>
+            <td>Cell data 1</td>
+            <td>Cell data 2</td>
+            <td>Cell data 3</td>
+        </tr>
+        <tr>
+            <td>Cell data 4</td>
+            <td>Cell data 5</td>
+            <td>Cell data 6</td>
+        </tr>
+        <tr>
+            <td>Cell data 7</td>
+            <td>Cell data 8</td>
+            <td>Cell data 9</td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <colgroup span="2" class="columns1and2"></colgroup>
+    <tr>
+        <th>lime</th>
+        <th>lemon</th>
+        <th>orange</th>
+        <th>blood orange</th>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>7</td>
+        <td>12</td>
+        <td>5</td>
+    </tr>
+</table>
+
+<form action="/somedirectory/somformprocessingscript.php" method="post">
+    <div>House number: <input type="text" name="housenumber" /></div>
+    <div>Street: <input type="text" name="street" /></div>
+    <div><input type="submit" /></div>
+</form>
+
+<script type="text/javascript" src="somescript.js"></script>
+<script type="text/javascript">
+    function koala() {
+        alert('KOALA! KOALA!');
+    }
+</script>
+
+<noscript>
+    <p>What? No JavaScript?</p>
+</noscript>
+
+
+<p><b>This is bold</b>, <i>this is italic</i>, <tt>this is teletype</tt>.</p>
+<hr />
+<p><sub>This is subscript</sub>, <sup>this is superscript</sup>, <big>this is big</big>, <small>this is small</small>.</p>
+
+<script>
+	This is contained in an invalid block (end tag does not match start tag).
+</scripts>
+This is after the end of the invalid block.
+
+

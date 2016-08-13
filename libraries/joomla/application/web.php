@@ -89,7 +89,7 @@ class JApplicationWeb extends JApplicationBase
 		305 => 'HTTP/1.1 305 Use Proxy',
 		306 => 'HTTP/1.1 306 (Unused)',
 		307 => 'HTTP/1.1 307 Temporary Redirect',
-		308 => 'HTTP/1.1 308 Permanent Redirect',
+		308 => 'HTTP/1.1 308 Permanent Redirect'
 	);
 
 	/**
@@ -322,7 +322,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'template' => $this->get('theme'),
 			'file' => $this->get('themeFile', 'index.php'),
-			'params' => $this->get('themeParams'),
+			'params' => $this->get('themeParams')
 		);
 
 		if ($this->get('themes.base'))
@@ -359,7 +359,7 @@ class JApplicationWeb extends JApplicationBase
 		$supported = array(
 			'x-gzip' => 'gz',
 			'gzip' => 'gz',
-			'deflate' => 'deflate',
+			'deflate' => 'deflate'
 		);
 
 		// Get the supported encoding.
@@ -811,7 +811,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function checkConnectionAlive()
 	{
-		return connection_status() === CONNECTION_NORMAL;
+		return (connection_status() === CONNECTION_NORMAL);
 	}
 
 	/**
@@ -970,7 +970,7 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 
 	/**
@@ -1048,7 +1048,7 @@ class JApplicationWeb extends JApplicationBase
 		$options = array(
 			'name' => $name,
 			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl'),
+			'force_ssl' => $this->get('force_ssl')
 		);
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));

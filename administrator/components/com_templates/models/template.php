@@ -706,7 +706,7 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		$return = false;
 
-		if (empty($overridePath) || empty($htmlPath))
+		if (empty($htmlPath) || empty($htmlPath))
 		{
 			return $return;
 		}

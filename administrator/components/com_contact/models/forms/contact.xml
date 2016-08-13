@@ -75,6 +75,7 @@
 			description="JFIELD_CATEGORY_DESC"
 			extension="com_contact"
 			required="true"
+			allowAdd="true"
 			default=""
 		/>
 

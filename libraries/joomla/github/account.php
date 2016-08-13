@@ -141,7 +141,7 @@ class JGithubAccount extends JGithubObject
 			array(
 				$scope => $scopeData,
 				'note' => $note,
-				'note_url' => $url,
+				'note_url' => $url
 			)
 		);
 

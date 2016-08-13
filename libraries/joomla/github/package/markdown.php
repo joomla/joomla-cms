@@ -50,7 +50,7 @@ class JGithubPackageMarkdown extends JGithubPackage
 				array(
 					'text'    => $text,
 					'mode'    => $mode,
-					'context' => $context,
+					'context' => $context
 				)
 			)
 		);

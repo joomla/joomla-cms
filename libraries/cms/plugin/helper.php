@@ -127,7 +127,7 @@ abstract class JPluginHelper
 	{
 		$result = static::getPlugin($type, $plugin);
 
-		return !empty($result);
+		return (!empty($result));
 	}
 
 	/**

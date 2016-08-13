@@ -464,7 +464,6 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 		if (empty($this->_objects))
 		{
 			$this->_current = false;
-
 			return;
 		}
 
@@ -482,7 +481,7 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	public function valid()
 	{
 		// Check the current position.
-		return is_scalar($this->_current) && isset($this->_objects[$this->_current]);
+		return (is_scalar($this->_current) && isset($this->_objects[$this->_current]));
 	}
 
 	/**

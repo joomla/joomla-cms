@@ -3,14 +3,13 @@
 	<fieldset>
 		<field
 			name="id"
-			type="hidden"
+			type="text"
+			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
-			class="readonly"
 			default="0"
 			filter="int"
-			readonly="true"
-		/>
+			readonly="true"/>
 
 		<field
 			name="title"
@@ -96,7 +95,6 @@
 			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
 			default="1"
 			filter="int"
-			clientid="0"
 			size="1">
 			<option
 				value="1">COM_MENUS_ITEM_ROOT</option>

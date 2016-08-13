@@ -238,7 +238,7 @@ class JFilesystemPatcher
 		$this->patches[] = array(
 			'udiff' => $udiff,
 			'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
-			'strip' => $strip,
+			'strip' => $strip
 		);
 
 		return $this;

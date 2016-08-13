@@ -39,6 +39,7 @@
 			extension="com_banners"
 			required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields"
+			allowAdd="true"
 			default=""
 		/>
 
@@ -92,7 +93,7 @@
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC"
 			filter="JComponentHelper::filterText"
 			buttons="true"
-			hide="readmore,pagebreak,module"
+			hide="readmore,pagebreak"
 		/>
 
 		<field

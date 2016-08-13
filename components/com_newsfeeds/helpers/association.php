@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
-JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
 JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
@@ -30,11 +29,15 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @since  3.0
 	 */
+
 	public static function getAssociations($id = 0, $view = null)
 	{
-		$jinput = JFactory::getApplication()->input;
-		$view   = is_null($view) ? $jinput->get('view') : $view;
-		$id     = empty($id) ? $jinput->getInt('id') : $id;
+		jimport('helper.route', JPATH_COMPONENT_SITE);
+
+		$app = JFactory::getApplication();
+		$jinput = $app->input;
+		$view = is_null($view) ? $jinput->get('view') : $view;
+		$id = empty($id) ? $jinput->getInt('id') : $id;
 
 		if ($view == 'newsfeed')
 		{

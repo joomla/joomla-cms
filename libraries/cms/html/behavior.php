@@ -743,7 +743,6 @@ abstract class JHtmlBehavior
 		if (empty($terms))
 		{
 			static::$loaded[__METHOD__][$sig] = true;
-
 			return;
 		}
 
@@ -864,28 +863,28 @@ abstract class JHtmlBehavior
 		$jsscript = 1;
 
 		// To keep the code simple here, run strings through JText::_() using array_map()
-		$callback = array('JText', '_');
+		$callback = array('JText','_');
 		$weekdays_full = array_map(
 			$callback, array(
-				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
+				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
 			)
 		);
 		$weekdays_short = array_map(
 			$callback,
 			array(
-				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
+				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
 			)
 		);
 		$months_long = array_map(
 			$callback, array(
 				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
+				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
 			)
 		);
 		$months_short = array_map(
 			$callback, array(
 				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
+				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
 			)
 		);
 
@@ -922,7 +921,7 @@ abstract class JHtmlBehavior
 			'DEF_DATE_FORMAT' => "%Y-%m-%d",
 			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
 			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME'),
+			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME')
 		);
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'

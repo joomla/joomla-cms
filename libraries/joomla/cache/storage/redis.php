@@ -72,7 +72,7 @@ class JCacheStorageRedis extends JCacheStorage
 			'host' => $config->get('redis_server_host', 'localhost'),
 			'port' => $config->get('redis_server_port', 6379),
 			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null),
+			'db'   => (int) $config->get('redis_server_db', null)
 		);
 
 		static::$_redis = new Redis;

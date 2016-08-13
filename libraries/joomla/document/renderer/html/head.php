@@ -198,22 +198,12 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 			if ($strAttr['defer'])
 			{
-				$buffer .= ' defer';
-
-				if (!$document->isHtml5())
-				{
-					$buffer .= '="defer"';
-				}
+				$buffer .= ' defer="defer"';
 			}
 
 			if ($strAttr['async'])
 			{
-				$buffer .= ' async';
-
-				if (!$document->isHtml5())
-				{
-					$buffer .= '="async"';
-				}
+				$buffer .= ' async="async"';
 			}
 
 			$buffer .= '></script>' . $lnEnd;

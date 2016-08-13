@@ -180,7 +180,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		JToolbarHelper::title(JText::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'eye thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)

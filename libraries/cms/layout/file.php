@@ -146,21 +146,21 @@ class JLayoutFile extends JLayoutBase
 		{
 			$this->addDebugMessage('<strong>There is no active layout</strong>');
 
-			return;
+			return null;
 		}
 
 		if (!$includePaths)
 		{
 			$this->addDebugMessage('<strong>There are no folders to search for layouts:</strong> ' . $layoutId);
 
-			return;
+			return null;
 		}
 
 		$hash = md5(
 			json_encode(
 				array(
 					'paths'    => $includePaths,
-					'suffixes' => $suffixes,
+					'suffixes' => $suffixes
 				)
 			)
 		);
@@ -205,7 +205,7 @@ class JLayoutFile extends JLayoutBase
 		{
 			$this->addDebugMessage('<strong>Unable to find layout: </strong> ' . $layoutId);
 
-			return;
+			return null;
 		}
 
 		$this->addDebugMessage('<strong>Found layout:</strong> ' . $foundLayout);

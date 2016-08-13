@@ -54,6 +54,7 @@
 			description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
 			extension="com_newsfeeds"
 			required="true"
+			allowAdd="true"
 			default=""
 		/>
 

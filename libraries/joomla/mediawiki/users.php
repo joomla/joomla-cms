@@ -275,7 +275,7 @@ class JMediawikiUsers extends JMediawikiObject
 			'hidename' => $hidename,
 			'allowusetalk' => $allowusertalk,
 			'reblock' => $reblock,
-			'watchuser' => $watchuser,
+			'watchuser' => $watchuser
 		);
 
 		// Send the request.
@@ -373,7 +373,7 @@ class JMediawikiUsers extends JMediawikiObject
 			'token' => $token,
 			'add' => $add,
 			'remove' => $remove,
-			'reason' => $reason,
+			'reason' => $reason
 		);
 
 		// Send the request.
@@ -408,7 +408,7 @@ class JMediawikiUsers extends JMediawikiObject
 			'token' => $token,
 			'subject' => $subject,
 			'text' => $text,
-			'ccme' => $ccme,
+			'ccme' => $ccme
 		);
 
 		// Send the request.

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.0" client="site" method="upgrade">
+	<name>mod_finder</name>
+	<author>Joomla! Project</author>
+	<creationDate>August 2011</creationDate>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.0.0</version>
+	<description>MOD_FINDER_XML_DESCRIPTION</description>
+	<files>
+		<folder>tmpl</folder>
+		<filename module="mod_finder">mod_finder.php</filename>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_finder.xml</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
+	<config>
+		<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+			<fieldset name="basic">
+				<field
+					name="searchfilter"
+					type="searchfilter"
+					default=""
+					label="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_LABEL"
+					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION" />
+				<field
+					name="show_autosuggest"
+					type="list"
+					default="1"
+					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
+					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
+				</field>
+				<field
+					name="show_advanced"
+					type="list"
+					default="0"
+					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
+					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION">
+					<option
+						value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
+				</field>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					default=""
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="field_size"
+					type="text"
+					default="25"
+					filter="integer"
+					label="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_FIELD_SIZE_DESCRIPTION" />
+				<field
+					name="alt_label"
+					type="text"
+					label="MOD_FINDER_FIELDSET_ADVANCED_ALT_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_ALT_DESCRIPTION" />
+				<field
+					name="show_label"
+					type="radio"
+					class="btn-group"
+					default="1"
+					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION">
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
+				</field>
+				<field
+					name="label_pos"
+					type="list"
+					default="top"
+					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION">
+					<option
+						value="right">JGLOBAL_RIGHT</option>
+					<option
+						value="left">JGLOBAL_LEFT</option>
+					<option
+						value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
+					<option
+						value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
+				</field>
+				<field
+					name="show_button"
+					type="radio"
+					class="btn-group"
+					default="0"
+					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION">
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
+				</field>
+				<field
+					name="button_pos"
+					type="list"
+					default="right"
+					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION">
+					<option
+						value="right">JGLOBAL_RIGHT</option>
+					<option
+						value="left">JGLOBAL_LEFT</option>
+					<option
+						value="top">MOD_FINDER_CONFIG_OPTION_TOP</option>
+					<option
+						value="bottom">MOD_FINDER_CONFIG_OPTION_BOTTOM</option>
+				</field>
+				<field
+					name="opensearch"
+					type="radio"
+					class="btn-group"
+					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
+					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
+					default="1">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+				</field>
+				<field
+					name="opensearch_title"
+					type="text"
+					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
+					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

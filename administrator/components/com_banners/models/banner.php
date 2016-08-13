@@ -474,27 +474,6 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
-	 * Allows preprocessing of the JForm object.
-	 *
-	 * @param   JForm   $form   The form object
-	 * @param   array   $data   The data to be merged into the form object
-	 * @param   string  $group  The plugin group to be executed
-	 *
-	 * @return  void
-	 *
-	 * @since    3.6.1
-	 */
-	protected function preprocessForm(JForm $form, $data, $group = 'content')
-	{
-		if ($this->canCreateCategory())
-		{
-			$form->setFieldAttribute('catid', 'allowAdd', 'true');
-		}
-
-		parent::preprocessForm($form, $data, $group);
-	}
-
-	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -519,7 +498,7 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($catid == 0)
 		{
 			$table              = array();
 			$table['title']     = $data['catid'];
@@ -557,17 +536,5 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		return parent::save($data);
-	}
-
-	/**
-	 * Is the user allowed to create an on the fly category?
-	 *
-	 * @return  bool
-	 *
-	 * @since   3.6.1
-	 */
-	private function canCreateCategory()
-	{
-		return JFactory::getUser()->authorise('core.create', 'com_banners');
 	}
 }

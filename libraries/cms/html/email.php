@@ -99,8 +99,23 @@ abstract class JHtmlEmail
 				$tmpScript
 		";
 
-		// TODO: Use inline script for now
-		$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
+		if (strtolower(JFactory::getApplication()->input->server->get('HTTP_X_REQUESTED_WITH', '')) == 'xmlhttprequest')
+		{
+			// Use inline script for ajax calls
+			$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
+		}
+		else
+		{
+			JFactory::getDocument()->addScriptDeclaration(
+				"
+		document.onreadystatechange = function () {
+			if (document.readyState == 'interactive') {
+			" . $script . "
+			}
+		};
+				"
+			);
+		}
 
 		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
 	}

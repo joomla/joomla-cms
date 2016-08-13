@@ -85,7 +85,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$data = json_encode(
 			array(
 				'name'  => $name,
-				'color' => $color,
+				'color' => $color
 			)
 		);
 
@@ -126,7 +126,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$data = json_encode(
 			array(
 				'name'  => $name,
-				'color' => $color,
+				'color' => $color
 			)
 		);
 
@@ -228,8 +228,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		);
 	}
 
-	/**
-	 * Replace all labels for an issue.
+	/** Replace all labels for an issue.
 	 *
 	 * Sending an empty array ([]) will remove all Labels from the Issue.
 	 *

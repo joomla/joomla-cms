@@ -1,0 +1,46 @@
+<entry xmlns='http://www.w3.org/2005/Atom' xmlns:exif='http://schemas.google.com/photos/exif/2007' xmlns:app='http://www.w3.org/2007/app' xmlns:gphoto='http://schemas.google.com/photos/2007' xmlns:media='http://search.yahoo.com/mrss/' xmlns:gd='http://schemas.google.com/g/2005' gd:etag='9876543210'>
+    <id>https://picasaweb.google.com/data/entry/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890</id>
+    <published>2012-02-02T00:00:00.000Z</published>
+    <updated>2012-02-02T00:00:00.000Z</updated>
+    <app:edited>2012-02-02T00:00:00.000Z</app:edited>
+    <category scheme='http://schemas.google.com/g/2005#kind' term='http://schemas.google.com/photos/2007#photo'/>
+    <title>Photo2.jpg</title>
+    <summary>Summary</summary>
+    <content type='image/jpeg' src='https://lh3.googleusercontent.com/-VQfLCrQyGuw/UAYBmwBJZ3I/AAAAAAAAF-k/8y_1iBPJcdQ/Photo2.jpg'/>
+    <link rel='http://schemas.google.com/g/2005#feed' type='application/atom+xml' href='https://picasaweb.google.com/data/feed/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890'/>
+    <link rel='alternate' type='text/html' href='https://picasaweb.google.com/12345678901234567890/InstantUpload#12345678901234567890'/>
+    <link rel='http://schemas.google.com/photos/2007#canonical' type='text/html' href='https://picasaweb.google.com/lh/photo/HueCGWwvf1aM2RwzDxgHf9MTjNZETYmyPJy0liipFm0'/>
+    <link rel='self' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890'/>
+    <link rel='edit' type='application/atom+xml' href='https://picasaweb.google.com/data/entry/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890'/>
+    <link rel='edit-media' type='image/jpeg' href='https://picasaweb.google.com/data/media/api/user/12345678901234567890/albumid/0123456789012345678/photoid/12345678901234567890'/>
+    <link rel='http://schemas.google.com/photos/2007#report' type='text/html' href='https://picasaweb.google.com/lh/reportAbuse?uname=12345678901234567890&amp;aid=0123456789012345678&amp;iid=12345678901234567890'/>
+    <gphoto:id>12345678901234567890</gphoto:id>
+    <gphoto:albumid>0123456789012345678</gphoto:albumid>
+    <gphoto:access>only_you</gphoto:access>
+    <gphoto:width>2048</gphoto:width>
+    <gphoto:height>1536</gphoto:height>
+    <gphoto:size>648818</gphoto:size>
+    <gphoto:checksum/>
+    <gphoto:timestamp>1328140800000</gphoto:timestamp>
+    <gphoto:imageVersion>5621</gphoto:imageVersion>
+    <gphoto:commentingEnabled>true</gphoto:commentingEnabled>
+    <gphoto:commentCount>0</gphoto:commentCount>
+    <gphoto:streamId>cs_01_3581ed3a4528c8c30dc2949233c0f566</gphoto:streamId>
+    <gphoto:license id='0' name='All Rights Reserved' url=''>ALL_RIGHTS_RESERVED</gphoto:license>
+    <gphoto:organization name='Joomla'/>
+    <exif:tags>
+	<exif:make>Samsung</exif:make>
+	<exif:model>Galaxy Nexus</exif:model>
+	<exif:imageUniqueID>ab409289ef230b509bc0def045b3a2c203</exif:imageUniqueID>
+    </exif:tags>
+    <media:group>
+	<media:content url='https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/Photo2.jpg' height='384' width='512' type='image/jpeg' medium='image'/>
+	<media:credit>Joomla</media:credit>
+	<media:description type='plain'/>
+	<media:keywords/>
+	<media:thumbnail url='https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s72/Photo2.jpg' height='54' width='72'/>
+	<media:thumbnail url='https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s144/Photo2.jpg' height='108' width='144'/>
+	<media:thumbnail url='https://lh3.googleusercontent.com/sdgfdfgsdgf/werewr/aswertrt/vdfderer/s288/Photo2.jpg' height='216' width='288'/>
+	<media:title type='plain'>Photo2.jpg</media:title>
+    </media:group>
+</entry>

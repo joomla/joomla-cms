@@ -49,7 +49,7 @@ switch ($mode)
 		break;
 }
 
-$cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
+$cacheid = md5(serialize(array ($idbase, $module->module)));
 
 $cacheparams               = new stdClass;
 $cacheparams->cachemode    = 'id';

@@ -170,11 +170,8 @@ class JFormFieldRules extends JFormField
 		{
 			if ($el->getName() == 'action')
 			{
-				$actions[] = (object) array(
-					'name' => (string) $el['name'],
-					'title' => (string) $el['title'],
-					'description' => (string) $el['description'],
-				);
+				$actions[] = (object) array('name' => (string) $el['name'], 'title' => (string) $el['title'],
+					'description' => (string) $el['description']);
 			}
 		}
 

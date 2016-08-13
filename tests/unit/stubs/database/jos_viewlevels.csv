@@ -1,0 +1,6 @@
+'id','title','ordering','rules'
+'1','Public','0','[1]'
+'2','Registered','1','[6,2,8]'
+'3','Special','2','[6,3,8]'
+'4','Customer Access Level (Example)','3','[6,3,12]'
+'5','Guest','0','[13]'

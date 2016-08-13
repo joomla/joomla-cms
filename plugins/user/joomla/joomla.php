@@ -182,7 +182,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// If the user is blocked, redirect with an error
-		if ($instance->block == 1)
+		if ($instance->get('block') == 1)
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
@@ -206,25 +206,22 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Mark the user as logged in
-		$instance->guest = 0;
+		$instance->set('guest', 0);
 
+		// Register the needed session variables
 		$session = JFactory::getSession();
-
-		// Grab the current session ID
-		$oldSessionId = $session->getId();
-
-		// Fork the session
-		$session->fork();
-
 		$session->set('user', $instance);
 
-		// Ensure the new session's metadata is written to the database
+		// Check to see the the session already exists.
 		$this->app->checkSession();
 
-		// Purge the old session
+		// Update the user related fields for the Joomla sessions table.
 		$query = $this->db->getQuery(true)
-			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->update($this->db->quoteName('#__session'))
+			->set($this->db->quoteName('guest') . ' = ' . $this->db->quote($instance->guest))
+			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
+			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
 
 		try
 		{
@@ -232,7 +229,7 @@ class PlgUserJoomla extends JPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			// The old session is already invalidated, don't let this block logging in
+			return false;
 		}
 
 		// Hit the user last visit field
@@ -257,7 +254,7 @@ class PlgUserJoomla extends JPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (client, ...).
 	 *
-	 * @return  bool  True on success
+	 * @return  object  True on success
 	 *
 	 * @since   1.5
 	 */
@@ -273,7 +270,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && $options['clientid'] == $this->app->getClientId())
+		if ($my->get('id') == $user['id'] && $options['clientid'] == $this->app->getClientId())
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -323,7 +320,7 @@ class PlgUserJoomla extends JPlugin
 	 * @param   array  $user     Holds the user data.
 	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
-	 * @return  JUser
+	 * @return  object  A JUser object
 	 *
 	 * @since   1.5
 	 */
@@ -345,14 +342,14 @@ class PlgUserJoomla extends JPlugin
 		// Hard coded default to match the default value from com_users.
 		$defaultUserGroup = $config->get('new_usertype', 2);
 
-		$instance->id = 0;
-		$instance->name = $user['fullname'];
-		$instance->username = $user['username'];
-		$instance->password_clear = $user['password_clear'];
+		$instance->set('id', 0);
+		$instance->set('name', $user['fullname']);
+		$instance->set('username', $user['username']);
+		$instance->set('password_clear', $user['password_clear']);
 
 		// Result should contain an email (check).
-		$instance->email = $user['email'];
-		$instance->groups = array($defaultUserGroup);
+		$instance->set('email', $user['email']);
+		$instance->set('groups', array($defaultUserGroup));
 
 		// If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] : $this->params->get('autoregister', 1);

@@ -396,6 +396,7 @@ class JAuthenticationResponse
 	 *
 	 * @var    string
 	 * @since  11.1
+	 *
 	 */
 	public $fullname = '';
 

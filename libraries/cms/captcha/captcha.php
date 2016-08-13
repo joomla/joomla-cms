@@ -108,7 +108,7 @@ class JCaptcha extends JObject
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-				return;
+				return null;
 			}
 		}
 

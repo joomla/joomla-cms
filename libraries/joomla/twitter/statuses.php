@@ -513,7 +513,7 @@ class JTwitterStatuses extends JTwitterObject
 		// Set POST data.
 		$data = array(
 			'status' => utf8_encode($status),
-			'media[]' => "@{$media}",
+			'media[]' => "@{$media}"
 		);
 
 		$header = array('Content-Type' => 'multipart/form-data');

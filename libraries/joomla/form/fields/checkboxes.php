@@ -160,7 +160,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 		$extraData = array(
 			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
 			'hasValue'       => $hasValue,
-			'options'        => $this->getOptions(),
+			'options'        => $this->getOptions()
 		);
 
 		return array_merge($data, $extraData);

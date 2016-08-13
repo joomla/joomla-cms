@@ -82,7 +82,7 @@ abstract class JModelAdmin extends JModelForm
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
+		'tag' => 'batchTag'
 	);
 
 	/**

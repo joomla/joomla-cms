@@ -414,6 +414,13 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 
+			// Don't cache the redirect in browser.
+			$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+			$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+			$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+			$this->app->setHeader('Pragma', 'no-cache');
+			$this->app->sendHeaders();
+
 			if ($this->mode_sef)
 			{
 				// Use the current language sef or the default one.
@@ -446,12 +453,16 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				$redirectHttpCode = 301;
 			
-				// We cannot cache this redirect in browser. 301 is cachable by default so we need to force to not cache it in browsers.
-				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
-				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
-				$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
-				$this->app->setHeader('Pragma', 'no-cache');
-				$this->app->sendHeaders();
+				// If configured to always use a sef prefix for default language we cannot cache this redirect in browser.
+				// 301 is cachable by default so we need to force to not cache it in browsers.
+				if ((int) $this->params->get('remove_default_prefix', 0) === 0)
+				{
+					$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->app->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+					$this->app->setHeader('Pragma', 'no-cache');
+					$this->app->sendHeaders();
+				}
 			}
 			
 			// Redirect to language.

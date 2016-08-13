@@ -77,6 +77,7 @@ class JClientLdap
 	public $username = null;
 
 	/**
+	 *
 	 * @var    string  Password to connect to server
 	 * @since  12.1
 	 */
@@ -89,6 +90,7 @@ class JClientLdap
 	private $_resource = null;
 
 	/**
+	 *
 	 * @var    string  Current DN
 	 * @since  12.1
 	 */
@@ -598,8 +600,7 @@ class JClientLdap
 			'TCP6',
 			'Reserved (12)',
 			'URL',
-			'Count',
-		);
+			'Count');
 		$len = strlen($networkaddress);
 
 		if ($len > 0)

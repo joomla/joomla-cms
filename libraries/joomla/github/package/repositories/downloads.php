@@ -88,7 +88,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 
 		$data = array(
 			'name' => $name,
-			'size' => $size,
+			'size' => $size
 		);
 
 		if ($description)
@@ -164,7 +164,7 @@ class JGithubPackageRepositoriesDownloads extends JGithubPackage
 			'Policy'                => $policy,
 			'Signature'             => $signature,
 			'Content-Type'          => $content_type,
-			'file'                  => $file,
+			'file'                  => $file
 		);
 
 		// Send the request.

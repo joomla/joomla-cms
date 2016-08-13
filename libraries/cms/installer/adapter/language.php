@@ -670,7 +670,6 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			return false;
 		}
-
 		return $this->parent->extension->get('extension_id');
 	}
 
