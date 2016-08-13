@@ -760,10 +760,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @param {Object} options   Request options:
 	 * {
-	 * 	  url:       'index.php',  // Request URL
-	 * 	  method:    'GET',        // Request method GET (default), POST
-	 * 	  data:      null,         // Data to be sent, see https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
-	 * 	  perform:   true,         // Perform the request immediately, or return XMLHttpRequest instance and perform it later
+	 *    url:       'index.php',  // Request URL
+	 *    method:    'GET',        // Request method GET (default), POST
+	 *    data:      null,         // Data to be sent, see https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
+	 *    perform:   true,         // Perform the request immediately, or return XMLHttpRequest instance and perform it later
 	 *    headers:   null,         // Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
 	 *
 	 *    onBefore:  function(xhr){}            // Callback on before the request
@@ -772,6 +772,15 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * }
 	 *
 	 * @return XMLHttpRequest|Boolean
+	 *
+	 * @example
+	 *
+	 * 	Joomla.request({
+	 *		url: 'index.php?option=com_example&view=example',
+	 *		onSuccess: function(response, xhr){
+	 *			console.log(response);
+	 *		}
+	 * 	})
 	 *
 	 * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
      */
