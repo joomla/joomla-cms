@@ -26,20 +26,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	protected static $_db = null;
 
 	/**
-	 * Persistent session flag
-	 *
-	 * @var    boolean
-	 * @since  11.1
-	 */
-	protected static $_persistent = false;
-
-	/**
 	 * Payload compression level
 	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
-	protected static $_compress = 0;
+	protected $_compress = 0;
 
 	/**
 	 * Constructor
@@ -51,6 +43,8 @@ class JCacheStorageMemcache extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
+
+		$this->_compress = JFactory::getConfig()->get('memcache_compress', false) ? MEMCACHE_COMPRESSED : 0;
 
 		if (static::$_db === null)
 		{
@@ -81,11 +75,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		// Create the memcache connection
 		static::$_db = new Memcache;
 
-		// If memcache object is static then $_persistent and $_compress too
-		static::$_persistent = $config->get('memcache_persist', true);
-		static::$_compress   = $config->get('memcache_compress', false) ? MEMCACHE_COMPRESSED : 0;
-
-		if (static::$_persistent)
+		if ($config->get('memcache_persist', true))
 		{
 			$result = @static::$_db->pconnect($host, $port);
 		}
@@ -96,6 +86,8 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if (!$result)
 		{
+			static::$_db = null;
+
 			throw new RuntimeException('Could not connect to memcache server');
 		}
 	}
@@ -195,7 +187,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		static::$_db->set($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();
 
-		static::$_db->set($cache_id, $data, static::$_compress, $this->_lifetime);
+		static::$_db->set($cache_id, $data, $this->_compress, $this->_lifetime);
 
 		return true;
 	}
