@@ -389,7 +389,7 @@ ENDDATA;
 			$ftp_host = $app->input->get('ftp_host', '');
 			$ftp_port = $app->input->get('ftp_port', '21');
 			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = $app->input->get('ftp_pass', '', 'raw');
+			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
@@ -415,7 +415,7 @@ ENDDATA;
 			if (!$writable)
 			{
 				$FTPOptions = JClientHelper::getCredentials('ftp');
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 				if (!@mkdir($tempdir . '/admintools'))
@@ -450,7 +450,7 @@ ENDDATA;
 				if (!is_writable($tempdir))
 				{
 					$FTPOptions = JClientHelper::getCredentials('ftp');
-					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 					if (!@mkdir($tempdir . '/admintools'))
