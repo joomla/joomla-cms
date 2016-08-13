@@ -628,6 +628,24 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
+	 * Method to Extend Objects
+	 *
+	 * @param  {Object}  destination
+	 * @param  {Object}  source
+	 *
+	 * @return Object
+	 */
+	Joomla.extend = function (destination, source) {
+		for (var p in source) {
+			if (source.hasOwnProperty(p)) {
+				destination[p] = source[p];
+			}
+		}
+
+		return destination;
+	};
+
+	/**
 	 * Domready listener. Wait when the initial HTML document has been completely loaded and parsed,
 	 * without waiting for stylesheets, images, and subframes to finish loading.
 	 * Based on https://github.com/dperini/ContentLoaded
@@ -694,8 +712,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *  Joomla.addListener(document.getElementById('my-button'), 'click', function(event){
 	 *  	console.log('You just clicked', event.target);
 	 *  });
+	 *
+	 * @see   https://developer.mozilla.org/docs/Web/API/EventTarget/addEventListener
 	 */
-	Joomla.addListener = Joomla.addListener || function(element, type, callback) {
+	Joomla.addListener = Joomla.addListener || function (element, type, callback) {
 		var modern = document.addEventListener,
 			method = modern ? 'addEventListener' : 'attachEvent';
 
@@ -722,8 +742,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Joomla.addListener(document.getElementById('my-button'), 'click', myClickHandler); // Add listener
 	 *
 	 * Joomla.removeListener(document.getElementById('my-button'), 'click', myClickHandler); // Remove listener
+	 *
+	 * @see   https://developer.mozilla.org/docs/Web/API/EventTarget/removeEventListener
 	 */
-	Joomla.removeListener = Joomla.removeListener || function(element, type, callback){
+	Joomla.removeListener = Joomla.removeListener || function (element, type, callback) {
 		var modern = document.removeEventListener,
 			method = modern ? 'removeEventListener' : 'detachEvent';
 
@@ -731,6 +753,91 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 		// Remove event listener,
 		element[method](type, callback);
+	};
+
+	/**
+	 * Method to perform AJAX request
+	 *
+	 * @param {Object} options   Request options:
+	 * {
+	 * 	  url:       'index.php',  // Request URL
+	 * 	  method:    'GET',        // Request method GET (default), POST
+	 * 	  data:      null,         // Data to be sent, see https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
+	 * 	  perform:   true,         // Perform the request immediately, or return XMLHttpRequest instance and perform it later
+	 *    headers:   null,         // Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+	 *
+	 *    onBefore:  function(xhr){}            // Callback on before the request
+	 *    onSuccess: function(response, xhr){}, // Callback on the request success
+	 *    onError:   function(xhr){},           // Callback on the request error
+	 * }
+	 *
+	 * @return XMLHttpRequest|Boolean
+	 *
+	 * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
+     */
+	Joomla.request = function (options) {
+
+		// Prepare the options
+		options = Joomla.extend({
+			url:    '',
+			method: 'GET',
+			data:    null,
+			perform: true
+		}, options);
+
+		// Use POST for send the data
+		options.method = options.data ? 'POST' : options.method;
+
+		// Set up XMLHttpRequest instance
+		try{
+			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+			xhr.open(options.method, options.url, true);
+
+			// Set the headers
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
+
+			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			}
+
+			// Custom headers
+			if (options.headers){
+				for (var p in options.headers){
+					xhr.setRequestHeader(p, options.headers[p]);
+				}
+			}
+
+			xhr.onreadystatechange = function () {
+				// Request not finished
+				if (xhr.readyState !== 4) return;
+
+				// Request finished and response is ready
+				if (xhr.status === 200) {
+					if(options.onSuccess) {
+						options.onSuccess.call(window, xhr.response, xhr);
+					}
+				} else if(options.onError) {
+					options.onError.call(window, xhr);
+				}
+			};
+
+			// Do request
+			if (options.perform) {
+				if (options.onBefore && options.onBefore.call(window, xhr) === false) {
+					// Request interrupted
+					return xhr;
+				}
+
+				xhr.send(options.data);
+			}
+
+		} catch (error) {
+			window.console ? console.log(error) : null;
+			return false;
+		}
+
+		return xhr;
 	};
 
 }( Joomla, document ));
