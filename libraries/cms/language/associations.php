@@ -62,7 +62,7 @@ class JLanguageAssociations
 					$query->concatenate(
 						array(
 							$db->quoteName('c2.' . $pk),
-							$db->quoteName('c2.' . $aliasField)
+							$db->quoteName('c2.' . $aliasField),
 						),
 						':'
 					) . ' AS ' . $db->quoteName($pk)

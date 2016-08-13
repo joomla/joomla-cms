@@ -255,7 +255,7 @@ abstract class JHtmlGrid
 			array(
 				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
 				'list.select' => $filter_state,
-				'option.key' => null
+				'option.key' => null,
 			)
 		);
 	}
