@@ -15,7 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * This class decodes a JSON string from the raw request data and makes it available via
  * the standard JInput interface.
  *
- * @since  12.2
+ * @since       12.2
+ * @deprecated  4.0  Use Joomla\Input\Json instead
  */
 class JInputJSON extends JInput
 {
