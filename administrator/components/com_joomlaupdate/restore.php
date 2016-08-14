@@ -6205,7 +6205,7 @@ class AKText extends AKAbstractObject
 		'RESTACLEANUP' => 'Restoration and Clean Up',
 		'BTN_RUNINSTALLER' => 'Run the Installer',
 		'BTN_CLEANUP' => 'Clean Up',
-		'BTN_SITEFE' => 'Visit your site\'s front-end',
+		'BTN_SITEFE' => 'Visit your site\'s frontend',
 		'BTN_SITEBE' => 'Visit your site\'s backend',
 		'WARNINGS' => 'Extraction Warnings',
 		'ERROR_OCCURED' => 'An error occurred',
