@@ -24,7 +24,7 @@
 						description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
 						rows="10"
 						cols="5"
-						filter="raw"
+						filter="string"
 				/>
 			</fieldset>
 		</fields>
