@@ -4079,7 +4079,7 @@ input[type="submit"].btn.btn-mini {
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: 1010;
+	z-index: 1060;
 	display: none;
 	max-width: 276px;
 	padding: 1px;
@@ -6208,6 +6208,9 @@ th .tooltip-inner {
 .alert-link {
 	font-weight: bold;
 }
+.alert .alert-link {
+	color: #a47e3c;
+}
 .alert-success .alert-link {
 	color: #356635;
 }
@@ -7414,7 +7417,7 @@ figcaption {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0076b2', GradientType=0);
 }
 .categories-list .collapse {
-	margin: 0 0 0 20px;
+	margin-left: 20px;
 }
 @media (max-width: 480px) {
 	.item-info > span {

@@ -54,7 +54,7 @@
 	*z-index: 2050;
 }
 .modal-open .popover {
-	z-index: 2060;
+	z-index: 2110;
 }
 .modal-open .tooltip {
 	z-index: 2080;
@@ -169,7 +169,7 @@ body.modal-open {
 	position: absolute;
 	top: 0;
 	left: 0;
-	z-index: 1010;
+	z-index: 1060;
 	display: none;
 	max-width: 276px;
 	padding: 1px;

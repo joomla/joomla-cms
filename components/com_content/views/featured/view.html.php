@@ -31,6 +31,14 @@ class ContentViewFeatured extends JViewLegacy
 	protected $link_items = array();
 
 	protected $columns = 1;
+	
+	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	 protected $db;
 
 	/**
 	 * Execute and display a template script.
@@ -62,7 +70,6 @@ class ContentViewFeatured extends JViewLegacy
 		// Get the metrics for the structural page layout.
 		$numLeading = (int) $params->def('num_leading_articles', 1);
 		$numIntro   = (int) $params->def('num_intro_articles', 4);
-		$numLinks   = (int) $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
@@ -145,6 +152,7 @@ class ContentViewFeatured extends JViewLegacy
 		$this->items      = &$items;
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
+		$this->db         = JFactory::getDbo();
 
 		$this->_prepareDocument();
 

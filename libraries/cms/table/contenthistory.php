@@ -54,7 +54,8 @@ class JTableContenthistory extends JTable
 			'checked_out_time',
 			'version',
 			'hits',
-			'path');
+			'path',
+		);
 		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
