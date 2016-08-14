@@ -25,7 +25,7 @@ class PlgContentJoomla extends JPlugin
 	 * @param   object   $article  A JTableContent object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
-	 * @return  boolean   true if function not enabled, is in front-end or is new. Else true or
+	 * @return  boolean   true if function not enabled, is in frontend or is new. Else true or
 	 *                    false depending on success of save function.
 	 *
 	 * @since   1.6

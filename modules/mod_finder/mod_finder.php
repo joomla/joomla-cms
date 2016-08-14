@@ -47,7 +47,7 @@ $route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
 // Load component language file.
 FinderHelperLanguage::loadComponentLanguage();
 
-// Load plug-in language files.
+// Load plugin language files.
 FinderHelperLanguage::loadPluginLanguage();
 
 // Get Smart Search query object.
