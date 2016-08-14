@@ -33,6 +33,14 @@ class ContentViewFeatured extends JViewLegacy
 	protected $columns = 1;
 
 	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	 protected $db;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

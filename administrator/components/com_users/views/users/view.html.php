@@ -41,6 +41,38 @@ class UsersViewUsers extends JViewLegacy
 	protected $state;
 
 	/**
+	 * A JForm instance with filter fields.
+	 *
+	 * @var    JForm
+	 * @since  3.6.3
+	 */
+	 public $filterForm;
+
+	/**
+	 * An array with active filters.
+	 *
+	 * @var    array
+	 * @since  3.6.3
+	 */
+	public $activeFilters;
+	
+	/**
+	 * An ACL object to verify user rights.
+	 *
+	 * @var    JObject
+	 * @since  3.6.3
+	 */
+	 protected $canDo;
+	
+	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	 protected $db;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
