@@ -21,7 +21,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function reinstall()
 	{
