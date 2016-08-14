@@ -55,8 +55,8 @@ class PlgContentCreateMenulink extends JPlugin
 		}
 
 		$jinput    = JFactory::getApplication()->input;
-		$component = $jinput->get('option');
-		$view      = $jinput->get('view');
+		$component = $jinput->getcmd('option');
+		$view      = $jinput->getcmd('view');
 
 		$menu      = JFactory::getApplication()->getMenu('site');
 		$menuItems = $menu->getItems(
@@ -71,11 +71,12 @@ class PlgContentCreateMenulink extends JPlugin
 
 		if (!empty($menuItems))
 		{
-			$data->menuid    = $menuItems[0]->id;
-			$data->menutitle = $menuItems[0]->title;
-			$data->menualias = $menuItems[0]->alias;
-			$data->menutype  = $menuItems[0]->menutype;
-			$data->parent_id = $menuItems[0]->parent_id;
+			$data->menuid       = $menuItems[0]->id;
+			$data->menutitle    = $menuItems[0]->title;
+			$data->menualias    = $menuItems[0]->alias;
+			$data->menutype     = $menuItems[0]->menutype;
+			$data->parent_id    = $menuItems[0]->parent_id;
+			$data->menuordering = $menuItems[0]->id;
 
 			JHtml::_('script', 'media/plg_content_createmenulink/parentitem.js');
 		}
@@ -191,7 +192,7 @@ class PlgContentCreateMenulink extends JPlugin
 			'home'              => 0,
 			'language'          => $data['language'],
 			'client_id'         => 0,
-			'menuordering'		=> -1,
+			'menuordering'      => $data['menuordering'],
 		);
 
 		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/models', 'MenusModel');
