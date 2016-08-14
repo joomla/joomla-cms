@@ -1009,16 +1009,16 @@ abstract class JHtml
 		}
 
 		$data = array(
+			'id'           => $id,
 			'name'         => $name,
 			'value'        => $inputvalue,
+			'format'       => $format,
+			'filter'       => $filter,
+			'required'     => $required,
 			'readonly'     => $readonly,
 			'disabled'     => $disabled,
-			'format'       => $format,
-			'autocomplete' => $autocomplete,
 			'autofocus'    => $autofocus,
-			'required'     => $required,
-			'filter'       => $filter,
-			'id'           => $id
+			'autocomplete' => $autocomplete
 			);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
