@@ -40,7 +40,7 @@ class PlgContentCreateMenulink extends JPlugin
 	 */
 	public function onContentPrepareData($context, $data)
 	{
-		$checkView = explode("\n", $this->params->get('allowedContexts'));
+		$checkView = preg_split("/\\r\\n|\\r|\\n/", $this->params->get('allowedContexts'));
 
 		if (!in_array($context, $checkView))
 		{
@@ -60,8 +60,14 @@ class PlgContentCreateMenulink extends JPlugin
 
 		$menu      = JFactory::getApplication()->getMenu('site');
 		$menuItems = $menu->getItems(
-			'link',	'index.php?option=' . $component . '&view=' . $view . '&id=' . $data->id
+			'link',
+			'index.php?option=' . $component . '&view=' . $view . '&id=' . $data->id
 		);
+
+		JHtml::_('jquery.framework', false);
+
+		$session = JFactory::getSession();
+		$session->set("componentHiddenView", $jinput->get('view'));
 
 		if (!empty($menuItems))
 		{
@@ -70,17 +76,16 @@ class PlgContentCreateMenulink extends JPlugin
 			$data->menualias = $menuItems[0]->alias;
 			$data->menutype  = $menuItems[0]->menutype;
 			$data->parent_id = $menuItems[0]->parent_id;
-			JHtml::_('jquery.framework', false);
+
 			JHtml::_('script', 'media/plg_content_createmenulink/parentitem.js');
 		}
 
-		if (empty($menuItems))
+		else
 		{
-			JHtml::_('jquery.framework', false);
 			JHtml::_('script', 'media/plg_content_createmenulink/copytitle.js');
 		}
 
-	return true;
+		return true;
 	}
 
 	/**
@@ -105,7 +110,7 @@ class PlgContentCreateMenulink extends JPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		$checkView = explode("\n", $this->params->get('allowedContexts'));
+		$checkView = preg_split("/\\r\\n|\\r|\\n/", $this->params->get('allowedContexts'));
 
 		if (!in_array($name, $checkView))
 		{
@@ -165,8 +170,9 @@ class PlgContentCreateMenulink extends JPlugin
 		$session->clear("formData");
 
 		$jinput    = JFactory::getApplication()->input;
-		$component = $jinput->get('option');
-		$view      = $jinput->get('view');
+		$component = $jinput->getcmd('option');
+		$view      = $session->get("componentHiddenView");
+		$session->clear("componentHiddenView");
 
 		$menuData = array(
 			'id'                => $data['menuid'],
@@ -185,7 +191,6 @@ class PlgContentCreateMenulink extends JPlugin
 			'home'              => 0,
 			'language'          => $data['language'],
 			'client_id'         => 0,
-			// @todo get it dynamically
 			'menuordering'		=> -1,
 		);
 
