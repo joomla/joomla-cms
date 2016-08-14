@@ -35,18 +35,21 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 				</div>
 			</div>
 		<?php endif; ?>
+
 		<?php if ($published) : ?>
 			<?php echo $displayData->getForm()->renderField('published'); ?>
 		<?php else : ?>
 			<?php echo $displayData->getForm()->renderField('state'); ?>
 		<?php endif; ?>
+
 		<?php echo $displayData->getForm()->renderField('access'); ?>
 		<?php echo $displayData->getForm()->renderField('featured'); ?>
 		<?php if (JLanguageMultilang::isEnabled()) : ?>
 			<?php echo $displayData->getForm()->renderField('language'); ?>
 		<?php else : ?>
-		<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
+			<input type="hidden" id="jform_language" name="jform[language]" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
+		
 		<?php echo $displayData->getForm()->renderField('tags'); ?>
 		<?php if ($saveHistory) : ?>
 			<?php echo $displayData->getForm()->renderField('version_note'); ?>

@@ -742,7 +742,7 @@ abstract class JFactory
 		$lang = self::getLanguage();
 
 		$input = self::getApplication()->input;
-		$type = $input->get('format', 'html', 'word');
+		$type = $input->get('format', 'html', 'cmd');
 
 		$version = new JVersion;
 
