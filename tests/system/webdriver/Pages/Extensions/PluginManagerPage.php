@@ -16,7 +16,7 @@ use SeleniumClient\WebElement;
  */
 
 /**
- * Page class for the backend component plugin menu.
+ * Page class for the back-end component plugin menu.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver
@@ -68,7 +68,7 @@ class PluginManagerPage extends AdminManagerPage
 			);
 
 	/**
-	 * Get state  of a Plugin in the Plugin Manager: Plugin Items screen.
+	 * Get state  of a Plugin in the Plug-in Manager: Plugin Items screen.
 	 *
 	 * @param   string   $name	  Plugin Name
 	 * 

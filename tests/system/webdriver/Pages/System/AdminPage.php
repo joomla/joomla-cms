@@ -14,7 +14,7 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Abstract Class that is the parent class for all backend page classes
+ * Abstract Class that is the parent class for all back-end page classes
  * A page class is designed to encapsulate the page-specific attributes and behaviors.
  * For example, page-specific HTML markup and functionality.
  *
@@ -303,7 +303,7 @@ abstract class AdminPage
 
 	/**
 	 * Gets array of visible links in the menu container
-	 * This is normally the header menu for backend manager screens
+	 * This is normally the header menu for back-end manager screens
 	 *
 	 * @return  array of stdClass objects
 	 */

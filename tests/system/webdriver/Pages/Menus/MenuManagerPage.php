@@ -14,7 +14,7 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Class for the backend control panel screen.
+ * Class for the back-end control panel screen.
  *
  * @since  joomla 3.0
  */
@@ -100,7 +100,7 @@ class MenuManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * function to checkbox
+	 * function to check box
 	 *
 	 * @param   string  $title  stores value of title
 	 *

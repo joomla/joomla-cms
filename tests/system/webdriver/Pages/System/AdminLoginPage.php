@@ -14,7 +14,7 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Class for the backend login screen
+ * Class for the back-end login screen
  *
  */
 class AdminLoginPage extends AdminPage

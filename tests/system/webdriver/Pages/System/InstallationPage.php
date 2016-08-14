@@ -14,7 +14,7 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Class for the backend control panel screen.
+ * Class for the back-end control panel screen.
  *
  */
 class InstallationPage extends AdminPage

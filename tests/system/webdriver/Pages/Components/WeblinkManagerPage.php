@@ -16,7 +16,7 @@ use SeleniumClient\WebElement;
  */
 
 /**
- * Page class for the backend component weblink menu.
+ * Page class for the back-end component weblink menu.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver
