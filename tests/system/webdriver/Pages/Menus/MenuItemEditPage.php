@@ -41,7 +41,7 @@ class MenuItemEditPage extends AdminEditPage
 	public $tabLabels = array('Details', 'Advanced Options', 'Module Assignment');
 
 	/**
-	 * Array of groups for this page. A group is a collapsible slider inside a tab.
+	 * Array of groups for this page. A group is a collapsable slider inside a tab.
 	 * The format of this array is <tab id> => <group label>. Note that each menu item type has its own options and its own groups.
 	 * These are the common ones for almost all core menu item types.
 	 *
