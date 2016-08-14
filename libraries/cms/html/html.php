@@ -1019,7 +1019,7 @@ abstract class JHtml
 			'required'     => $required,
 			'filter'       => $filter,
 			'id'           => $id
-		);
+			);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
 	}
