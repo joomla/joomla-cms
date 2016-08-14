@@ -90,7 +90,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 		$uid = $update->find(
 			array(
 				'element' => $this->element,
-				'type' => $this->type
+				'type' => $this->type,
 			)
 		);
 

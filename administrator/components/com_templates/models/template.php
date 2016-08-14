@@ -496,7 +496,7 @@ class TemplatesModelTemplate extends JModelForm
 		if (!is_writable($filePath))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_PERMISSIONS' . JPath::getPermissions($filePath)), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', JPath::getPermissions($filePath)), 'warning');
 
 			if (!JPath::isOwner($filePath))
 			{
@@ -706,7 +706,7 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		$return = false;
 
-		if (empty($htmlPath) || empty($htmlPath))
+		if (empty($overridePath) || empty($htmlPath))
 		{
 			return $return;
 		}

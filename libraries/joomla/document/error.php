@@ -17,9 +17,49 @@ defined('JPATH_PLATFORM') or die;
 class JDocumentError extends JDocument
 {
 	/**
+	 * Document base URL
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $baseurl = '';
+
+	/**
+	 * Flag if debug mode has been enabled
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	public $debug = false;
+
+	/**
 	 * Error Object
 	 *
-	 * @var    object
+	 * @var    Exception|Throwable
+	 * @since  11.1
+	 */
+	public $error;
+
+	/**
+	 * Name of the template
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $template = null;
+
+	/**
+	 * File name
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	public $_file = null;
+
+	/**
+	 * Error Object
+	 *
+	 * @var    Exception|Throwable
 	 * @since  11.1
 	 */
 	protected $_error;
@@ -45,7 +85,7 @@ class JDocumentError extends JDocument
 	/**
 	 * Set error object
 	 *
-	 * @param   object  $error  Error object to set
+	 * @param   Exception|Throwable  $error  Error object to set
 	 *
 	 * @return  boolean  True on success
 	 *

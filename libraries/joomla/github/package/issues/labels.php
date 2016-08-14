@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues/labels/
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesLabels extends JGithubPackage
 {
@@ -85,7 +86,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$data = json_encode(
 			array(
 				'name'  => $name,
-				'color' => $color
+				'color' => $color,
 			)
 		);
 
@@ -126,7 +127,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$data = json_encode(
 			array(
 				'name'  => $name,
-				'color' => $color
+				'color' => $color,
 			)
 		);
 
@@ -228,7 +229,8 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		);
 	}
 
-	/** Replace all labels for an issue.
+	/**
+	 * Replace all labels for an issue.
 	 *
 	 * Sending an empty array ([]) will remove all Labels from the Issue.
 	 *
