@@ -10,10 +10,7 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
 
-$app  = JFactory::getApplication();
-$user = JFactory::getUser();
-
-if (!$user->authorise('core.manage', 'com_templates'))
+if (!JFactory::getUser()->authorise('core.manage', 'com_templates'))
 {
 	throw new JControllerExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
