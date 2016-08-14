@@ -15,9 +15,7 @@ $user = JFactory::getUser();
 
 if (!$user->authorise('core.manage', 'com_templates'))
 {
-	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-	return false;
+	throw new JControllerExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 JLoader::register('TemplatesHelper', __DIR__ . '/helpers/templates.php');
