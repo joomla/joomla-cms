@@ -14,6 +14,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class JControllerExceptionNotAllowed extends RuntimeException
+class JControllerExceptionNotallowed extends RuntimeException
 {
 }
