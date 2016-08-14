@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Milestones class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubMilestones extends JGithubObject
 {

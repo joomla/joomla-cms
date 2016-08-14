@@ -156,6 +156,21 @@ class PlgSystemDebug extends JPlugin
 		// Prepare disconnect handler for SQL profiling.
 		$db = JFactory::getDbo();
 		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+
+		// Log deprecated class aliases
+		foreach (JLoader::getDeprecatedAliases() as $deprecation)
+		{
+			JLog::add(
+				sprintf(
+					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+					$deprecation['old'],
+					$deprecation['new'],
+					$deprecation['version']
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
 	}
 
 	/**
