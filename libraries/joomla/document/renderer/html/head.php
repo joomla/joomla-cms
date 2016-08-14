@@ -184,35 +184,43 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
-		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+		$html5NoValueAttributes = array('defer', 'async');
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttr)
+		foreach ($document->_scripts as $strSrc => $strAttribs)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
+			// Add script tag attributes.
+			foreach ($strAttribs as $attrib => $value)
 			{
-				$buffer .= ' type="' . $strAttr['mime'] . '"';
-			}
-
-			if ($strAttr['defer'])
-			{
-				$buffer .= ' defer';
-
-				if (!$document->isHtml5())
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
 				{
-					$buffer .= '="defer"';
+					continue;
 				}
-			}
 
-			if ($strAttr['async'])
-			{
-				$buffer .= ' async';
-
-				if (!$document->isHtml5())
+				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
+				if ($attrib === 'mime')
 				{
-					$buffer .= '="async"';
+					$attrib = 'type';
+				}
+				// B/C defer and async can be set to yes when using the old method.
+				elseif (in_array($attrib, array('defer', 'async')) && $value === true)
+				{
+					$value = $attrib;
+				}
+
+				// Add attribute to script tag output.
+				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
+
+				if (!($document->isHtml5() && in_array($attrib, $html5NoValueAttributes)))
+				{
+					// Json encode value if it's an array.
+					$value = !is_scalar($value) ? json_encode($value) : $value;
+
+					$buffer .= '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
 				}
 			}
 
