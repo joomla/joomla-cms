@@ -204,7 +204,7 @@ abstract class JHtmlFilter
 	}
 
 	/**
-	 * Method to generate filters using select box drop down controls.
+	 * Method to generate filters using select box dropdown controls.
 	 *
 	 * @param   FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
 	 * @param   array               $options   An array of options.
