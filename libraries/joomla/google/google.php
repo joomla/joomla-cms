@@ -97,7 +97,7 @@ class JGoogle
 			case 'Calendar':
 				return new JGoogleDataCalendar($options, $auth);
 			default:
-				return null;
+				return;
 		}
 	}
 
@@ -127,7 +127,7 @@ class JGoogle
 			case 'Analytics':
 				return new JGoogleEmbedAnalytics($options);
 			default:
-				return null;
+				return;
 		}
 	}
 

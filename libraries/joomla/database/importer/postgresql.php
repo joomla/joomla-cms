@@ -350,7 +350,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 
@@ -404,7 +404,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 

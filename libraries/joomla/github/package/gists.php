@@ -23,7 +23,7 @@ class JGithubPackageGists extends JGithubPackage
 	protected $name = 'Gists';
 
 	protected $packages = array(
-		'comments'
+		'comments',
 	);
 
 	/**
@@ -48,7 +48,7 @@ class JGithubPackageGists extends JGithubPackage
 			array(
 				'files' => $this->buildFileData((array) $files),
 				'public' => (bool) $public,
-				'description' => $description
+				'description' => $description,
 			)
 		);
 

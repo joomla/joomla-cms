@@ -79,7 +79,7 @@ class JHelperTags extends JHelper
 				$db->quoteName('content_item_id'),
 				$db->quoteName('tag_id'),
 				$db->quoteName('tag_date'),
-				$db->quoteName('type_id')
+				$db->quoteName('type_id'),
 			)
 		);
 
@@ -402,7 +402,7 @@ class JHelperTags extends JHelper
 				array(
 					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
 					$db->quoteName('m.content_item_id') . ' = ' . (int) $id,
-					$db->quoteName('t.published') . ' = 1'
+					$db->quoteName('t.published') . ' = 1',
 				)
 			);
 
