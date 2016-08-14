@@ -191,7 +191,8 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 			if (!$model->addAssociations($groupedAssociations))
 			{
-				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'));
+				// TODO: Make this a proper string in 3.6.2 (see https://github.com/joomla/joomla-cms/pull/11263)
+				$app->enqueueMessage(JText::_('JERROR'));
 			}
 
 			if (!$model->disableModuleMainMenu())

@@ -123,7 +123,7 @@ class JTwitterUsers extends JTwitterObject
 		$data['q'] = rawurlencode($query);
 
 		// Check if page is specified.
-		if ($page > 0)
+		if ($page > 0 )
 		{
 			$data['page'] = $page;
 		}

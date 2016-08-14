@@ -57,19 +57,8 @@ class JGithub
 	 * @var    array  List of known packages.
 	 * @since  3.3 (CMS)
 	 */
-	protected $packages = array(
-		'activity',
-		'authorization',
-		'data',
-		'gists',
-		'gitignore',
-		'issues',
-		'markdown',
-		'orgs',
-		'pulls',
-		'repositories',
-		'users',
-	);
+	protected $packages = array('activity', 'authorization', 'data', 'gists', 'gitignore', 'issues',
+		'markdown', 'orgs', 'pulls', 'repositories', 'users');
 
 	/**
 	 * @var    array  List of known legacy packages.

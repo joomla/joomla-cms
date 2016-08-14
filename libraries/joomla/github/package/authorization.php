@@ -138,7 +138,7 @@ class JGithubPackageAuthorization extends JGithubPackage
 			array(
 				$scope     => $scopeData,
 				'note'     => $note,
-				'note_url' => $url,
+				'note_url' => $url
 			)
 		);
 
@@ -299,7 +299,7 @@ class JGithubPackageAuthorization extends JGithubPackage
 		$data = array(
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'code'          => $code,
+			'code'          => $code
 		);
 
 		if ($redirect_uri)

@@ -101,7 +101,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 
 		$data = array(
 			'subscribed' => $subscribed,
-			'ignored'    => $ignored,
+			'ignored'    => $ignored
 		);
 
 		return $this->processResponse(

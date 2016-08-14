@@ -45,7 +45,7 @@ class JGithubStatuses extends JGithubObject
 
 		// Build the request data.
 		$data = array(
-			'state' => $state,
+			'state' => $state
 		);
 
 		if (!is_null($targetUrl))

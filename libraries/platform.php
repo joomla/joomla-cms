@@ -62,7 +62,7 @@ final class JPlatform
 	 */
 	public static function isCompatible($minimum)
 	{
-		return version_compare(self::getShortVersion(), $minimum, 'eq') == 1;
+		return (version_compare(self::getShortVersion(), $minimum, 'eq') == 1);
 	}
 
 	/**

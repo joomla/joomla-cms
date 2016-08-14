@@ -24,19 +24,8 @@ class JGithubHooks extends JGithubObject
 	 * @since  12.3
 	 */
 	protected $events = array(
-		'push',
-		'issues',
-		'issue_comment',
-		'commit_comment',
-		'pull_request',
-		'gollum',
-		'watch',
-		'download',
-		'fork',
-		'fork_apply',
-		'member',
-		'public',
-		'status',
+						'push', 'issues', 'issue_comment', 'commit_comment', 'pull_request', 'gollum', 'watch', 'download', 'fork', 'fork_apply',
+						'member', 'public', 'status'
 	);
 
 	/**
@@ -165,8 +154,7 @@ class JGithubHooks extends JGithubObject
 				'events' => $events,
 				'add_events' => $addEvents,
 				'remove_events' => $removeEvents,
-				'active' => $active,
-			)
+				'active' => $active)
 		);
 
 		return $this->processResponse(

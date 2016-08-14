@@ -1927,7 +1927,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     cm.addOverlay(state.overlay = makeOverlay(query, hasBoundary, style));
     if (state.options.annotateScrollbar && cm.showMatchesOnScrollbar) {
       var searchFor = hasBoundary ? new RegExp("\\b" + query + "\\b") : query;
-      state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, false,
+      state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, true,
         {className: "CodeMirror-selection-highlight-scrollbar"});
     }
   }
@@ -2339,7 +2339,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: '<PageUp>', type: 'keyToKey', toKeys: '<C-b>' },
     { keys: '<PageDown>', type: 'keyToKey', toKeys: '<C-f>' },
     { keys: '<CR>', type: 'keyToKey', toKeys: 'j^', context: 'normal' },
-    { keys: '<Ins>', type: 'action', action: 'toggleOverwrite', context: 'insert' },
     // Motions
     { keys: 'H', type: 'motion', motion: 'moveToTopLine', motionArgs: { linewise: true, toJumplist: true }},
     { keys: 'M', type: 'motion', motion: 'moveToMiddleLine', motionArgs: { linewise: true, toJumplist: true }},
@@ -2544,7 +2543,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 
     function cmKey(key, cm) {
       if (!cm) { return undefined; }
-      if (this[key]) { return this[key]; }
       var vimKey = cmKeyToVimKey(key);
       if (!vimKey) {
         return false;
@@ -2557,7 +2555,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     var modifiers = {'Shift': 'S', 'Ctrl': 'C', 'Alt': 'A', 'Cmd': 'D', 'Mod': 'A'};
-    var specialKeys = {Enter:'CR',Backspace:'BS',Delete:'Del',Insert:'Ins'};
+    var specialKeys = {Enter:'CR',Backspace:'BS',Delete:'Del'};
     function cmKeyToVimKey(key) {
       if (key.charAt(0) == '\'') {
         // Keypress character binding of format "'a'"
@@ -4443,17 +4441,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var registerName = actionArgs.selectedCharacter;
         macroModeState.enterMacroRecordMode(cm, registerName);
       },
-      toggleOverwrite: function(cm) {
-        if (!cm.state.overwrite) {
-          cm.toggleOverwrite(true);
-          cm.setOption('keyMap', 'vim-replace');
-          CodeMirror.signal(cm, "vim-mode-change", {mode: "replace"});
-        } else {
-          cm.toggleOverwrite(false);
-          cm.setOption('keyMap', 'vim-insert');
-          CodeMirror.signal(cm, "vim-mode-change", {mode: "insert"});
-        }
-      },
       enterInsertMode: function(cm, actionArgs, vim) {
         if (cm.getOption('readOnly')) { return; }
         vim.insertMode = true;
@@ -4499,6 +4486,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             return;
           }
         }
+        cm.setOption('keyMap', 'vim-insert');
         cm.setOption('disableInput', false);
         if (actionArgs && actionArgs.replace) {
           // Handle Replace-mode as a special case of insert mode.
@@ -4506,7 +4494,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           cm.setOption('keyMap', 'vim-replace');
           CodeMirror.signal(cm, "vim-mode-change", {mode: "replace"});
         } else {
-          cm.toggleOverwrite(false);
           cm.setOption('keyMap', 'vim-insert');
           CodeMirror.signal(cm, "vim-mode-change", {mode: "insert"});
         }
@@ -7051,6 +7038,13 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     CodeMirror.keyMap['vim-insert'] = {
       // TODO: override navigation keys so that Esc will cancel automatic
       // indentation from o, O, i_<CR>
+      'Ctrl-N': 'autocomplete',
+      'Ctrl-P': 'autocomplete',
+      'Enter': function(cm) {
+        var fn = CodeMirror.commands.newlineAndIndentContinueComment ||
+            CodeMirror.commands.newlineAndIndent;
+        fn(cm);
+      },
       fallthrough: ['default'],
       attach: attachVimMap,
       detach: detachVimMap,

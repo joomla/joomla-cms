@@ -436,7 +436,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return;
+			return null;
 		}
 
 		return $menu;
@@ -502,7 +502,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return;
+			return null;
 		}
 
 		return $pathway;
@@ -532,7 +532,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return;
+			return null;
 		}
 
 		return $router;
@@ -672,7 +672,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isAdmin()
 	{
-		return $this->getClientId() === 1;
+		return ($this->getClientId() === 1);
 	}
 
 	/**
@@ -684,7 +684,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isSite()
 	{
-		return $this->getClientId() === 0;
+		return ($this->getClientId() === 0);
 	}
 
 	/**
@@ -718,7 +718,7 @@ class JApplicationCms extends JApplicationWeb
 		// Initialize the options for JSession.
 		$options = array(
 			'name'   => $name,
-			'expire' => $lifetime,
+			'expire' => $lifetime
 		);
 
 		switch ($this->getClientId())
@@ -1121,7 +1121,7 @@ class JApplicationCms extends JApplicationWeb
 			return $registry->set($key, $value);
 		}
 
-		return;
+		return null;
 	}
 
 	/**

@@ -59,7 +59,7 @@ class JGithubPackageDataBlobs extends JGithubPackage
 
 		$data = array(
 			'content'  => $content,
-			'encoding' => $encoding,
+			'encoding' => $encoding
 		);
 
 		return $this->processResponse(

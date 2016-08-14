@@ -79,7 +79,7 @@ class JHelperTags extends JHelper
 				$db->quoteName('content_item_id'),
 				$db->quoteName('tag_id'),
 				$db->quoteName('tag_date'),
-				$db->quoteName('type_id'),
+				$db->quoteName('type_id')
 			)
 		);
 
@@ -204,18 +204,11 @@ class JHelperTags extends JHelper
 		{
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable  = JTable::getInstance('Tag', 'TagsTable');
-			$newTags   = array();
-			$canCreate = JFactory::getUser()->authorise('core.create', 'com_tags');
+			$tagTable = JTable::getInstance('Tag', 'TagsTable');
+			$newTags = array();
 
 			foreach ($tags as $key => $tag)
 			{
-				// User is not allowed to create tags, so don't create.
-				if (strpos($tag, '#new#') !== false && !$canCreate)
-				{
-					continue;
-				}
-
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
 
@@ -402,7 +395,7 @@ class JHelperTags extends JHelper
 				array(
 					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
 					$db->quoteName('m.content_item_id') . ' = ' . (int) $id,
-					$db->quoteName('t.published') . ' = 1',
+					$db->quoteName('t.published') . ' = 1'
 				)
 			);
 

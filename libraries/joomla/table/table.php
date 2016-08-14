@@ -290,12 +290,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 			if (!class_exists($tableClass))
 			{
-				/*
-				* If unable to find the class file in the JTable include paths. Return false.
-				* The warning JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND has been removed in __DEPLOY_VERSION__.
-				* In 4.0 an Exception (type to be determined) will be thrown.
-				* For more info see https://github.com/joomla/joomla-cms/issues/11570
-				*/
+				// If we were unable to find the class file in the JTable include paths, raise a warning and return false.
+				JLog::add(JText::sprintf('JLIB_DATABASE_ERROR_NOT_SUPPORTED_FILE_NOT_FOUND', $type), JLog::WARNING, 'jerror');
 
 				return false;
 			}
@@ -941,7 +937,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys as $key)
+			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$key] = $this->$key;
 			}
@@ -951,7 +947,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys as $key)
+		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1030,7 +1026,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys as $key)
+			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$key] = $this->$key;
 			}
@@ -1040,7 +1036,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys as $key)
+		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1096,7 +1092,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys as $key)
+			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$this->$key] = $this->$key;
 			}
@@ -1106,7 +1102,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys as $key)
+		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = empty($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1199,7 +1195,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys as $key)
+			foreach ($this->_tbl_keys AS $key)
 			{
 				$pk[$key] = $this->$key;
 			}
@@ -1209,7 +1205,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			$pk = array($this->_tbl_key => $pk);
 		}
 
-		foreach ($this->_tbl_keys as $key)
+		foreach ($this->_tbl_keys AS $key)
 		{
 			$pk[$key] = is_null($pk[$key]) ? $this->$key : $pk[$key];
 
@@ -1306,7 +1302,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$max = (int) $this->_db->loadResult();
 
 		// Return the largest ordering value + 1.
-		return $max + 1;
+		return ($max + 1);
 	}
 
 	/**
@@ -1527,7 +1523,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		{
 			$pk = array();
 
-			foreach ($this->_tbl_keys as $key)
+			foreach ($this->_tbl_keys AS $key)
 			{
 				if ($this->$key)
 				{
@@ -1598,7 +1594,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// If the JTable instance value is in the list of primary keys that were set, set the instance.
 			$ours = true;
 
-			foreach ($this->_tbl_keys as $key)
+			foreach ($this->_tbl_keys AS $key)
 			{
 				if ($this->$key != $pk[$key])
 				{

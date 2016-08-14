@@ -118,7 +118,6 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 				<?php
 				// Set main fields.
 				$this->fields = array(
-					'id',
 					'menutype',
 					'parent_id',
 					'menuordering',
@@ -126,7 +125,8 @@ $tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 					'home',
 					'access',
 					'language',
-					'note',
+					'note'
+
 				);
 
 				if ($this->item->type != 'component')

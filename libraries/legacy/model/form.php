@@ -48,9 +48,8 @@ abstract class JModelForm extends JModelLegacy
 
 		$this->events_map = array_merge(
 			array(
-				'validate' => 'content',
-			),
-			$config['events_map']
+				'validate' => 'content'
+			), $config['events_map']
 		);
 
 		parent::__construct($config);

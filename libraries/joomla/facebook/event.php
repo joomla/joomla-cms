@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die();
 
+
 /**
  * Facebook API User class for the Joomla Platform.
  *

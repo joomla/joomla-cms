@@ -320,12 +320,8 @@ abstract class JHtml
 
 				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
-				$potential = array(
-					$strip,
-					$strip . '_' . $browser,
-					$strip . '_' . $browser . '_' . $major,
-					$strip . '_' . $browser . '_' . $major . '_' . $minor,
-				);
+				$potential = array($strip, $strip . '_' . $browser,  $strip . '_' . $browser . '_' . $major,
+					$strip . '_' . $browser . '_' . $major . '_' . $minor);
 			}
 			else
 			{
@@ -635,7 +631,7 @@ abstract class JHtml
 		{
 			if (count($includes) == 0)
 			{
-				return;
+				return null;
 			}
 			elseif (count($includes) == 1)
 			{
@@ -688,7 +684,7 @@ abstract class JHtml
 		{
 			if (count($includes) == 0)
 			{
-				return;
+				return null;
 			}
 			elseif (count($includes) == 1)
 			{
@@ -881,7 +877,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
+	 * Converts a double colon separated string or 2 separate strings to a string ready for bootstrap tooltips
 	 *
 	 * @param   string  $title      The title of the tooltip (or combined '::' separated string).
 	 * @param   string  $content    The content to tooltip.

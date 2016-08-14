@@ -100,7 +100,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'unread' => $unread,
-			'read'   => $read,
+			'read'   => $read
 		);
 
 		if ($last_read_at)
@@ -137,7 +137,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'unread' => $unread,
-			'read'   => $read,
+			'read'   => $read
 		);
 
 		if ($last_read_at)
@@ -188,7 +188,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'unread' => $unread,
-			'read'   => $read,
+			'read'   => $read
 		);
 
 		return $this->processResponse(
@@ -241,7 +241,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'subscribed' => $subscribed,
-			'ignored'    => $ignored,
+			'ignored'    => $ignored
 		);
 
 		return $this->processResponse(

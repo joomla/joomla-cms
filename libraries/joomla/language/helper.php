@@ -115,7 +115,7 @@ class JLanguageHelper
 			}
 		}
 
-		return;
+		return null;
 	}
 
 	/**

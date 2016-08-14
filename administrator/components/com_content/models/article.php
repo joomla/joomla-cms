@@ -241,7 +241,7 @@ class ContentModelArticle extends JModelAdmin
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid . ' AND state >= 0');
 		}
 	}
 
@@ -504,8 +504,8 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Categoryg
-		if ($catid == 0 && $this->canCreateCategory())
+		// Save New Category
+		if ($catid == 0)
 		{
 			$table = array();
 			$table['title'] = $data['catid'];
@@ -672,10 +672,12 @@ class ContentModelArticle extends JModelAdmin
 
 				// Featuring.
 				$tuples = array();
+				$ordering = $table->getNextOrder();
 
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = $pk . ', ' . $ordering;
+					$ordering++;
 				}
 
 				if (count($tuples))
@@ -697,8 +699,6 @@ class ContentModelArticle extends JModelAdmin
 
 			return false;
 		}
-
-		$table->reorder();
 
 		$this->cleanCache();
 
@@ -723,7 +723,9 @@ class ContentModelArticle extends JModelAdmin
 	}
 
 	/**
-	 * Allows preprocessing of the JForm object.
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @param   JForm   $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -735,12 +737,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		if ($this->canCreateCategory())
-		{
-			$form->setFieldAttribute('catid', 'allowAdd', 'true');
-		}
-
 		// Association content items
+		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
@@ -810,17 +808,5 @@ class ContentModelArticle extends JModelAdmin
 	public function hit()
 	{
 		return;
-	}
-
-	/**
-	 * Is the user allowed to create an on the fly category?
-	 *
-	 * @return  bool
-	 *
-	 * @since   3.6.1
-	 */
-	private function canCreateCategory()
-	{
-		return JFactory::getUser()->authorise('core.create', 'com_content');
 	}
 }

@@ -35,7 +35,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key'],
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -87,7 +87,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key'],
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -151,7 +151,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key'],
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -258,7 +258,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key'],
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -301,7 +301,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key'],
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -372,7 +372,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
-	public function versionOfElement($element, $id, $version)
+	public function versionOfElement($element, $id ,$version)
 	{
 		if ($element != 'node' && $element != 'way' && $element != 'relation')
 		{
@@ -412,7 +412,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		// Get singular word
 		$single_element = substr($element, 0, strlen($element) - 1);
 
-		// Set the API base, $params is a string with comma seperated values
+		// Set the API base, $params is a string with comma separated values
 		$base = $element . '?' . $element . "=" . $params;
 
 		// Build the request path.
@@ -531,7 +531,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key'],
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base

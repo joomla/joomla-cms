@@ -813,7 +813,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 				throw new RuntimeException($data['error_message']);
 			}
 
-			return;
+			return null;
 		}
 
 		return $data['results'][0];

@@ -39,7 +39,7 @@ class UsersViewUsers extends JViewLegacy
 	 * @since 1.6
 	 */
 	protected $state;
-	
+
 	/**
 	 * A JForm instance with filter fields.
 	 *
@@ -87,7 +87,6 @@ class UsersViewUsers extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = JHelperContent::getActions('com_users');
-		$this->db            = JFactory::getDbo();
 
 		UsersHelper::addSubmenu('users');
 

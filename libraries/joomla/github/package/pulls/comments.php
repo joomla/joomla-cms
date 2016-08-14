@@ -46,7 +46,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 				'body' => $body,
 				'commit_id' => $commitId,
 				'path' => $filePath,
-				'position' => $position,
+				'position' => $position
 			)
 		);
 
@@ -80,7 +80,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 		$data = json_encode(
 			array(
 				'body' => $body,
-				'in_reply_to' => (int) $inReplyTo,
+				'in_reply_to' => (int) $inReplyTo
 			)
 		);
 
@@ -136,7 +136,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body,
+				'body' => $body
 			)
 		);
 

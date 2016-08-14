@@ -27,7 +27,9 @@ class JGithubPackageIssues extends JGithubPackage
 {
 	protected $name = 'Issues';
 
-	protected $packages = array('assignees', 'comments', 'events', 'labels', 'milestones');
+	protected $packages = array(
+		'assignees', 'comments', 'events', 'labels', 'milestones'
+	);
 
 	/**
 	 * Method to create an issue.
@@ -63,7 +65,7 @@ class JGithubPackageIssues extends JGithubPackage
 				'assignee'  => $assignee,
 				'milestone' => $milestone,
 				'labels'    => $labels,
-				'body'      => $body,
+				'body'      => $body
 			)
 		);
 

@@ -69,7 +69,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 			'description' => $description,
 			'tags' => $tags,
 			'public' => $public,
-			'visibility' => $visibility,
+			'visibility' => $visibility
 		);
 
 		// Set the API base

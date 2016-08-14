@@ -106,7 +106,7 @@ abstract class JApplicationBase extends AbstractApplication
 			return $this->dispatcher->trigger($event, $args);
 		}
 
-		return;
+		return null;
 	}
 
 	/**

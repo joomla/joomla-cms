@@ -66,13 +66,11 @@ class ModLoginHelper
 	 * Get list of available two factor methods
 	 *
 	 * @return array
-	 *
-	 * @deprecated  4.0  Use JAuthenticationHelper::getTwoFactorMethods() instead.
 	 */
 	public static function getTwoFactorMethods()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', JLog::WARNING, 'deprecated');
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
 
-		return JAuthenticationHelper::getTwoFactorMethods();
+		return UsersHelper::getTwoFactorMethods();
 	}
 }

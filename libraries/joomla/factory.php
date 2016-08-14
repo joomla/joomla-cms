@@ -752,7 +752,7 @@ abstract class JFactory
 			'tab'          => "\t",
 			'language'     => $lang->getTag(),
 			'direction'    => $lang->isRtl() ? 'rtl' : 'ltr',
-			'mediaversion' => $version->getMediaVersion(),
+			'mediaversion' => $version->getMediaVersion()
 		);
 
 		return JDocument::getInstance($type, $attributes);

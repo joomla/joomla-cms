@@ -57,7 +57,8 @@ class UsersViewLogin extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
-		$tfa = JAuthenticationHelper::getTwoFactorMethods();
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+		$tfa = UsersHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
 
 		// Escape strings for HTML output

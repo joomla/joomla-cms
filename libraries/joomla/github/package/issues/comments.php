@@ -138,7 +138,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body,
+				'body' => $body
 			)
 		);
 

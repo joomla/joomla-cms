@@ -107,7 +107,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 
 		$data = json_encode(
 			array(
-				'body' => $comment,
+				'body' => $comment
 			)
 		);
 
@@ -165,7 +165,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 				'body' => $comment,
 				'path' => $filepath,
 				'position' => (int) $position,
-				'line' => (int) $line,
+				'line' => (int) $line
 			)
 		);
 

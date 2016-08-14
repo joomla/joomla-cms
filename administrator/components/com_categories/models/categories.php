@@ -294,7 +294,7 @@ class CategoriesModelCategories extends JModelList
 				uc.name, 
 				ag.title, 
 				ua.name'
-		);
+			);
 
 		return $query;
 	}
@@ -360,7 +360,7 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 *
+	 * 
 	 * @param   stdClass[]  &$items     The category items
 	 * @param   string      $extension  The category extension
 	 *
@@ -387,12 +387,12 @@ class CategoriesModelCategories extends JModelList
 		{
 			require_once $file;
 
-			$prefix = ucfirst($eName);
+			$prefix = ucfirst(str_replace('com_', '', $component));
 			$cName = $prefix . 'Helper';
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{
-				$cName::countItems($items, $section);
+				call_user_func(array($cName, 'countItems'), $items, $section);
 			}
 		}
 	}

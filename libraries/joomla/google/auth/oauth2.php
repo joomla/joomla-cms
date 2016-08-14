@@ -105,7 +105,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 
 		if (!$this->client->getOption('requestparams'))
 		{
-			$this->client->setOption('requestparams', array());
+			$this->client->setOption('requestparams', Array());
 		}
 
 		$params = $this->client->getOption('requestparams');

@@ -237,10 +237,10 @@ class PlgFinderTags extends FinderIndexerAdapter
 			$item->title = $title;
 		}
 
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
-		// Handle the link to the meta-data.
+		// Handle the link to the meta data.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');

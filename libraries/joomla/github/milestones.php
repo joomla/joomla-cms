@@ -112,7 +112,7 @@ class JGithubMilestones extends JGithubObject
 
 		// Build the request data.
 		$data = array(
-			'title' => $title,
+			'title' => $title
 		);
 
 		if (!is_null($state))

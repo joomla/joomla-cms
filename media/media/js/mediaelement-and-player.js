@@ -2886,9 +2886,9 @@ if (typeof jQuery != 'undefined') {
 					t.setControlsSize();
 				});
 
-				// This is a work-around for a bug in the YouTube iFrame player, which means
+				// This is a work-around for a bug in the YouTube iframe player, which means
 				//  we can't use the play() API for the initial playback on iOS or Android;
-				//  user has to start playback directly by tapping on the iFrame.
+				//  user has to start playback directly by tapping on the iframe.
 				if (t.media.pluginType == 'youtube' && ( mf.isiOS || mf.isAndroid ) ) {
 					t.container.find('.mejs-overlay-play').hide();
                     t.container.find('.mejs-poster').hide();

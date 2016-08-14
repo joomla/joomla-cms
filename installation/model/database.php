@@ -93,7 +93,7 @@ class InstallationModelDatabase extends JModelBase
 		// Get the options as a object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
-		// Load the back-end language files so that the DB error messages work.
+		// Load the backend language files so that the DB error messages work.
 		$lang = JFactory::getLanguage();
 		$currentLang = $lang->getTag();
 
@@ -775,7 +775,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.6.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function installCmsData($options)
 	{
@@ -801,7 +801,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function postInstallCmsData($db)
 	{
@@ -816,7 +816,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.6.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function updateUserIds($db)
 	{

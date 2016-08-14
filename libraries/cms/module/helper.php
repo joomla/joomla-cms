@@ -123,7 +123,7 @@ abstract class JModuleHelper
 	{
 		$result = static::getModule($module);
 
-		return !is_null($result) && $result->id !== 0;
+		return (!is_null($result) && $result->id !== 0);
 	}
 
 	/**
@@ -566,7 +566,8 @@ abstract class JModuleHelper
 
 			case 'static':
 				$ret = $cache->get(
-					array($cacheparams->class, $cacheparams->method),
+					array($cacheparams->class,
+						$cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

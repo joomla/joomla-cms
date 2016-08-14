@@ -54,7 +54,7 @@ class JCache
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($conf->get('caching') >= 1) ? true : false,
+			'caching'      => ($conf->get('caching') >= 1) ? true : false
 		);
 
 		// Overwrite default options with given options
@@ -68,7 +68,7 @@ class JCache
 
 		if (empty($this->_options['storage']))
 		{
-			$this->setCaching(false);
+			$this->_options['caching'] = false;
 		}
 	}
 
@@ -184,18 +184,13 @@ class JCache
 	 */
 	public function get($id, $group = null)
 	{
-		if (!$this->getCaching())
-		{
-			return false;
-		}
-
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->get($id, $group, $this->_options['checkTime']);
 		}
@@ -212,15 +207,10 @@ class JCache
 	 */
 	public function getAll()
 	{
-		if (!$this->getCaching())
-		{
-			return false;
-		}
-
 		// Get the storage
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->getAll();
 		}
@@ -241,18 +231,13 @@ class JCache
 	 */
 	public function store($data, $id, $group = null)
 	{
-		if (!$this->getCaching())
-		{
-			return false;
-		}
-
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->store($id, $group, $data);
 		}
@@ -351,13 +336,6 @@ class JCache
 		$returning = new stdClass;
 		$returning->locklooped = false;
 
-		if (!$this->getCaching())
-		{
-			$returning->locked = false;
-
-			return $returning;
-		}
-
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
@@ -370,7 +348,7 @@ class JCache
 		 */
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception) && $this->_options['locking'] == true)
+		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
 
@@ -389,7 +367,7 @@ class JCache
 		$looptime = $locktime * 10;
 		$id2      = $id . '_lock';
 
-		if ($this->_options['locking'] == true)
+		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$data_lock = $this->get($id2, $group);
 		}
@@ -419,7 +397,7 @@ class JCache
 			}
 		}
 
-		if ($this->_options['locking'] == true)
+		if ($this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$returning->locked = $this->store(1, $id2, $group);
 		}
@@ -442,11 +420,6 @@ class JCache
 	 */
 	public function unlock($id, $group = null)
 	{
-		if (!$this->getCaching())
-		{
-			return false;
-		}
-
 		$unlock = false;
 
 		// Get the default group
@@ -455,7 +428,7 @@ class JCache
 		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
 
-		if (!($handler instanceof Exception))
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
 
@@ -466,7 +439,7 @@ class JCache
 		}
 
 		// Fallback
-		if ($this->getCaching())
+		if ($this->_options['caching'])
 		{
 			$unlock = $this->remove($id . '_lock', $group);
 		}
@@ -760,7 +733,7 @@ class JCache
 			'view'   => 'WORD',
 			'layout' => 'WORD',
 			'tpl'    => 'CMD',
-			'id'     => 'INT',
+			'id'     => 'INT'
 		);
 
 		// Use platform defaults if parameter doesn't already exist.

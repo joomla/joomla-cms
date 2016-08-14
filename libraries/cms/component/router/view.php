@@ -208,7 +208,6 @@ abstract class JComponentRouterView extends JComponentRouterBase
 		{
 			$rule->preprocess($query);
 		}
-
 		return $query;
 	}
 
@@ -230,7 +229,6 @@ abstract class JComponentRouterView extends JComponentRouterBase
 		{
 			$rule->build($query, $segments);
 		}
-
 		return $segments;
 	}
 
@@ -252,7 +250,6 @@ abstract class JComponentRouterView extends JComponentRouterBase
 		{
 			$rule->parse($segments, $vars);
 		}
-
 		return $vars;
 	}
 

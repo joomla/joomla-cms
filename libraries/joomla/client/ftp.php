@@ -91,7 +91,7 @@ class JClientFtp
 
 	/**
 	 * @var    array  Array to hold ascii format file extensions
-	 * @since  12.1
+	 * @since   12.1
 	 */
 	protected $_autoAscii = array(
 		"asp",
@@ -114,8 +114,7 @@ class JClientFtp
 		"sql",
 		"txt",
 		"xhtml",
-		"xml",
-	);
+		"xml");
 
 	/**
 	 * Array to hold native line ending characters
@@ -1207,7 +1206,7 @@ class JClientFtp
 		// Close the data connection port [Data transfer complete]
 		fclose($this->_dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_WRITE_BAD_RESPONSE_TRANSFER', $this->_response, $remote), JLog::WARNING, 'jerror');
@@ -1296,7 +1295,7 @@ class JClientFtp
 		// Close the data connection port [Data transfer complete]
 		fclose($this->_dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_APPEND_BAD_RESPONSE_TRANSFER', $this->_response, $remote), 37);
@@ -1580,7 +1579,7 @@ class JClientFtp
 				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#',
 			'MAC' => '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*)'
 				. ' ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#',
-			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#',
+			'WIN' => '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#'
 		);
 
 		// Find out the format of the directory listing by matching one of the regexps

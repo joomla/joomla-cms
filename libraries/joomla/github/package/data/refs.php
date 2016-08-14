@@ -103,7 +103,7 @@ class JGithubPackageDataRefs extends JGithubPackage
 		$data = json_encode(
 			array(
 				'ref' => $ref,
-				'sha' => $sha,
+				'sha' => $sha
 			)
 		);
 

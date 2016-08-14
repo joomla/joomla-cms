@@ -129,7 +129,7 @@ class PlgEditorTinymce extends JPlugin
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$id       = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$idField  = str_replace('[', '_', substr($name, 0, -1));
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
@@ -1176,7 +1176,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// Black or white list.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -1203,7 +1203,7 @@ class PlgEditorTinymce extends JPlugin
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the black or white list tags and attributes.
 				// Each list is cummulative.
 				if ($filterType == 'BL')
 				{
@@ -1230,7 +1230,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
+		// Remove duplicates before processing (because the black list uses both sets of arrays).
 		$blackListTags        = array_unique($blackListTags);
 		$blackListAttributes  = array_unique($blackListAttributes);
 		$customListTags       = array_unique($customListTags);
@@ -1262,7 +1262,7 @@ class PlgEditorTinymce extends JPlugin
 					$filter->attrBlacklist = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
+			// Black lists take second precedence.
 			elseif ($blackList)
 			{
 				// Remove the white-listed tags and attributes from the black-list.
@@ -1271,19 +1271,19 @@ class PlgEditorTinymce extends JPlugin
 
 				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
-				// Remove whitelisted tags from filter's default blacklist
+				// Remove white listed tags from filter's default blacklist
 				if ($whiteListTags)
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
 
-				// Remove whitelisted attributes from filter's default blacklist
+				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
+			// White lists take third precedence.
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean

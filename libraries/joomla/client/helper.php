@@ -48,8 +48,7 @@ class JClientHelper
 						'port' => $config->get('ftp_port'),
 						'user' => $config->get('ftp_user'),
 						'pass' => $config->get('ftp_pass'),
-						'root' => $config->get('ftp_root'),
-					);
+						'root' => $config->get('ftp_root'));
 					break;
 
 				default:

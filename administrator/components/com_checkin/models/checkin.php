@@ -238,7 +238,6 @@ class CheckinModelCheckin extends JModelList
 
 			// Pagination
 			$limit = (int) $this->getState('list.limit');
-
 			if ($limit !== 0)
 			{
 				$this->items = array_slice($results, $this->getState('list.start'), $limit);

@@ -121,8 +121,7 @@ class JBrowser
 		'ViolaBot',
 		'webbandit',
 		'www.almaden.ibm.com/cs/crawler',
-		'ZyBorg',
-	);
+		'ZyBorg');
 
 	/**
 	 * @var    boolean  Is this a mobile browser?
@@ -560,7 +559,7 @@ class JBrowser
 			}
 		}
 
-		return;
+		return null;
 	}
 
 	/**
@@ -617,7 +616,7 @@ class JBrowser
 			return false;
 		}
 
-		return in_array($subtype, $this->images);
+		return (in_array($subtype, $this->images));
 	}
 
 	/**
@@ -631,7 +630,7 @@ class JBrowser
 	 */
 	public function isBrowser($browser)
 	{
-		return $this->browser === $browser;
+		return ($this->browser === $browser);
 	}
 
 	/**
@@ -676,12 +675,9 @@ class JBrowser
 	 */
 	public function isSSLConnection()
 	{
-		JLog::add(
-			'JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
+		JLog::add('JBrowser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
+			JLog::WARNING, 'deprecated');
 
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
 	}
 }

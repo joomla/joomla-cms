@@ -278,7 +278,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		/*
-		 * Add the meta-data processing instructions based on the contact
+		 * Add the meta data processing instructions based on the contact
 		 * configuration parameters.
 		 */
 		// Handle the contact position.
@@ -329,7 +329,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'fax');
 		}
 
-		// Handle the contact e-mail address.
+		// Handle the contact email address.
 		if ($item->params->get('show_email', true))
 		{
 			$item->addInstruction(FinderIndexer::META_CONTEXT, 'email');

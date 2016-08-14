@@ -182,7 +182,7 @@ class JComponentHelper
 			}
 			else
 			{
-				// Blacklist or whitelist.
+				// Black or white list.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -209,7 +209,7 @@ class JComponentHelper
 					}
 				}
 
-				// Collect the blacklist or whitelist tags and attributes.
+				// Collect the black or white list tags and attributes.
 				// Each list is cummulative.
 				if ($filterType == 'BL')
 				{
@@ -236,7 +236,7 @@ class JComponentHelper
 			}
 		}
 
-		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
+		// Remove duplicates before processing (because the black list uses both sets of arrays).
 		$blackListTags        = array_unique($blackListTags);
 		$blackListAttributes  = array_unique($blackListAttributes);
 		$customListTags       = array_unique($customListTags);
@@ -267,27 +267,27 @@ class JComponentHelper
 					$filter->attrBlacklist = $customListAttributes;
 				}
 			}
-			// Blacklists take second precedence.
+			// Black lists take second precedence.
 			elseif ($blackList)
 			{
-				// Remove the whitelisted tags and attributes from the black-list.
+				// Remove the white-listed tags and attributes from the black-list.
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
 				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
-				// Remove whitelisted tags from filter's default blacklist
+				// Remove white listed tags from filter's default blacklist
 				if ($whiteListTags)
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
-				// Remove whitelisted attributes from filter's default blacklist
+				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
 				}
 			}
-			// Whitelists take third precedence.
+			// White lists take third precedence.
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean

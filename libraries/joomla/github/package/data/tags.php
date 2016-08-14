@@ -77,7 +77,7 @@ class JGithubPackageDataTags extends JGithubPackage
 			'type'         => $type,
 			'tagger_name'  => $tagger_name,
 			'tagger_email' => $tagger_email,
-			'tagger_date'  => $tagger_date,
+			'tagger_date'  => $tagger_date
 		);
 
 		return $this->processResponse(
