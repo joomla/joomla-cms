@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackageIssuesAssignees   $assignees   GitHub API object for assignees.
  * @property-read  JGithubPackageIssuesComments    $comments    GitHub API object for comments.

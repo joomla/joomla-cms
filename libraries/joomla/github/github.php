@@ -36,7 +36,8 @@ use Joomla\Registry\Registry;
  * @property-read  JGithubHooks       $hooks       Deprecated GitHub API object for hooks.
  * @property-read  JGithubMeta        $meta        Deprecated GitHub API object for meta.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithub
 {
