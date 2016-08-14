@@ -117,7 +117,7 @@ abstract class JHtmlAccess
 	}
 
 	/**
-	 * Returns a UL list of user groups with check boxes
+	 * Returns a UL list of user groups with checkboxes
 	 *
 	 * @param   string   $name             The name of the checkbox controls array
 	 * @param   array    $selected         An array of the checked boxes
@@ -184,7 +184,7 @@ abstract class JHtmlAccess
 	}
 
 	/**
-	 * Returns a UL list of actions with check boxes
+	 * Returns a UL list of actions with checkboxes
 	 *
 	 * @param   string  $name       The name of the checkbox controls array
 	 * @param   array   $selected   An array of the checked boxes
