@@ -1003,8 +1003,8 @@ abstract class JHtml
 			$inputvalue = strftime($format, strtotime($value));
 			date_default_timezone_set($tz);
 		}
- 		else
- 		{
+		else
+		{
 			$inputvalue = '';
 		}
 
