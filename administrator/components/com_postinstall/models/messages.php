@@ -236,7 +236,7 @@ class PostinstallModelMessages extends FOFModel
 	 * language_extension  The extension name which holds the language keys used above.
 	 *                     For example, com_foobar, mod_something, plg_system_whatever, tpl_mytemplate
 	 *
-	 * language_client_id  Should we load the front-end (0) or back-end (1) language keys?
+	 * language_client_id  Should we load the front-end (0) or backend (1) language keys?
 	 *
 	 * version_introduced  Which was the version of your extension where this message appeared for the first time?
 	 *                     Example: 3.2.1
