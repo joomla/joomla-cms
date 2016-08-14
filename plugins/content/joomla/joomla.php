@@ -73,6 +73,7 @@ class PlgContentJoomla extends JPlugin
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = JFactory::getConfig()->get('debug_lang');
 		$result = true;
+
 		foreach ($users as $user_id)
 		{
 			if ($user_id != $user->id)
