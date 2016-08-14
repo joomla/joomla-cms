@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for com_content.
@@ -324,7 +324,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
+		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return true;
 	}
