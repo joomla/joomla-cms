@@ -279,7 +279,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 			$item->title = $title;
 		}
 
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
 		// Add the metadata processing instructions.
