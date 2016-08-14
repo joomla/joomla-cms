@@ -187,35 +187,23 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttribs)
+		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
 
-			// Add script tag attributes.
-			foreach ($strAttribs as $attrib => $value)
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
 			{
-				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
-				{
-					continue;
-				}
+				$buffer .= ' type="' . $strAttr['mime'] . '"';
+			}
 
-				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if ($attrib === 'mime')
-				{
-					$attrib = 'type';
-				}
-				// B/C defer and async can be set to yes when using the old method.
-				elseif (in_array($attrib, array('defer', 'async')) && $value === true)
-				{
-					$value = $attrib;
-				}
+			if ($strAttr['defer'])
+			{
+				$buffer .= ' defer="defer"';
+			}
 
-				// Json encode value if it's an array.
-				$value = !is_scalar($value) ? json_encode($value) : $value;
-
-				// Add attribute to script tag output.
-				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8') . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+			if ($strAttr['async'])
+			{
+				$buffer .= ' async="async"';
 			}
 
 			$buffer .= '></script>' . $lnEnd;
