@@ -115,7 +115,7 @@ class JMediawiki
 			'pages',
 			'search',
 			'sites',
-			'users'
+			'users',
 		);
 
 		if (class_exists($class) && in_array($name, $accessible))

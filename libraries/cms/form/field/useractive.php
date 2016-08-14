@@ -34,7 +34,7 @@ class JFormFieldUserActive extends JFormFieldPredefinedList
 	 */
 	protected $predefinedOptions = array(
 		'0'  => 'COM_USERS_ACTIVATED',
-		'1'  => 'COM_USERS_UNACTIVATED'
+		'1'  => 'COM_USERS_UNACTIVATED',
 	);
 
 	/**

@@ -121,8 +121,8 @@
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"			
-			description="JGLOBAL_SHOW_HEADINGS_DESC"
-			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			description="COM_TAGS_TAG_LIST_SHOW_HEADINGS_DESC"
+			label="COM_TAGS_TAG_LIST_SHOW_HEADINGS_LABEL"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -132,8 +132,8 @@
 			name="tag_list_show_date"
 			type="list"
 			default="0"
-			label="JGLOBAL_SHOW_DATE_LABEL"
-			description="JGLOBAL_SHOW_DATE_DESC"
+			description="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
+			label="COM_TAGS_TAG_LIST_SHOW_DATE_DESC"
 		>
 				<option value="0">JHIDE</option>
 				<option value="created">JGLOBAL_CREATED</option>
