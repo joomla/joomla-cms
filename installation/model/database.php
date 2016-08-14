@@ -848,7 +848,10 @@ class InstallationModelDatabase extends JModelBase
 
 		foreach ($updatesArray as $table => $field)
 		{
-			$query = $db->getQuery(true)->update($db->quoteName($table))->set($db->quoteName($field) . ' = ' . $db->quote($userId));
+			$query = $db->getQuery(true)
+				->update($db->quoteName($table))
+				->set($db->quoteName($field) . ' = ' . $db->quote($userId));
+
 			$db->setQuery($query);
 
 			try
