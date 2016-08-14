@@ -278,7 +278,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		}
 
 		/*
-		 * Add the meta-data processing instructions based on the contact
+		 * Add the metadata processing instructions based on the contact
 		 * configuration parameters.
 		 */
 		// Handle the contact position.
