@@ -64,7 +64,7 @@ class UsersControllerRegistration extends UsersController
 		// Check for errors.
 		if ($return === false)
 		{
-			// Redirect back to the homepage.
+			// Redirect back to the home page.
 			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect('index.php');
 
