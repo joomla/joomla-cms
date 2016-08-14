@@ -961,7 +961,7 @@ class JLanguage
 		// Try to determine the source if none was provided
 		if (!function_exists('debug_backtrace'))
 		{
-			return null;
+			return;
 		}
 
 		$backtrace = debug_backtrace();
@@ -1023,7 +1023,7 @@ class JLanguage
 				return $this->paths[$extension];
 			}
 
-			return null;
+			return;
 		}
 		else
 		{
@@ -1190,7 +1190,7 @@ class JLanguage
 
 		if (empty($result))
 		{
-			return null;
+			return;
 		}
 
 		return $result;
@@ -1374,13 +1374,13 @@ class JLanguage
 
 		if (!$xml)
 		{
-			return null;
+			return;
 		}
 
 		// Check that it's a metadata file
 		if ((string) $xml->getName() != 'metafile')
 		{
-			return null;
+			return;
 		}
 
 		$metadata = array();

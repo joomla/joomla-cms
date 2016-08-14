@@ -36,7 +36,7 @@ class JLinkedinCommunications extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -95,7 +95,7 @@ class JLinkedinCommunications extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base for people search.
@@ -181,7 +181,7 @@ class JLinkedinCommunications extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
