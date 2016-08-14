@@ -117,6 +117,7 @@ class JRouterSite extends JRouter
 
 		// Set the parsepreprocess components methods
 		$components = JComponentHelper::getComponents();
+
 		foreach ($components as $component)
 		{
 			$componentRouter = $this->getComponentRouter($component->option);
