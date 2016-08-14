@@ -754,7 +754,7 @@ class InstallationModelDatabase extends JModelBase
 				return false;
 			}
 
-			$this->postInstallSampleData($db);
+			$this->postInstallSampleData($db, $options->sample_file);
 		}
 
 		return true;
@@ -763,19 +763,23 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Sample data tables and data post install process.
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string           $sampleFileName  The sample dats filename.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function postInstallSampleData($db)
+	protected function postInstallSampleData($db, $sampleFileName = '')
 	{
 		// Update the sample data user ids.
 		$this->updateUserIds($db);
 
-		// Update the sample data created time.
-		$this->updateCreatedDates($db);
+		// If not joomla sample data for testing, update the sample data created time.
+		if ($sampleFileName !== 'sample_testing.sql')
+		{
+			$this->updateCreatedDates($db);
+		}
 	}
 
 	/**
