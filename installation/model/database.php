@@ -93,7 +93,7 @@ class InstallationModelDatabase extends JModelBase
 		// Get the options as a object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
-		// Load the back-end language files so that the DB error messages work.
+		// Load the backend language files so that the DB error messages work.
 		$lang = JFactory::getLanguage();
 		$currentLang = $lang->getTag();
 

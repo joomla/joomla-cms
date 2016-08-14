@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * A drop down containing all valid HTTP 1.1 response codes.
+ * A dropdown containing all valid HTTP 1.1 response codes.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
