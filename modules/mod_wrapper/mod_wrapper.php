@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the wrapper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModWrapperHelper', __DIR__ . '/helper.php');
 
 $params = ModWrapperHelper::getParams($params);
 

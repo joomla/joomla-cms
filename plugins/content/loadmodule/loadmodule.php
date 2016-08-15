@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Plug-in to enable loading modules into content (e.g. articles)
+ * Plugin to enable loading modules into content (e.g. articles)
  * This uses the {loadmodule} syntax
  *
  * @since  1.5
