@@ -51,6 +51,8 @@ services:
 
 before_script:
 before_script:
+  # Forcing localhost in hosts file
+  - sudo sed -i '1s/^/127.0.0.1 localhost\n/' /etc/hosts
   # Make sure all dev dependencies are installed
   - composer install
   # Set up databases for testing
