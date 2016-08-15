@@ -24,7 +24,7 @@ abstract class JHtmlEmail
 	 * @param   string   $mail    The -mail address to cloak.
 	 * @param   boolean  $mailto  True if text and mailing address differ
 	 * @param   string   $text    Text for the link
-	 * @param   boolean  $email   True if text is an e-mail address
+	 * @param   boolean  $email   True if text is an email address
 	 *
 	 * @return  string  The cloaked email.
 	 *

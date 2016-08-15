@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the helper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArticlesCategoriesHelper', __DIR__ . '/helper.php');
 
 JLoader::register('JCategoryNode', JPATH_BASE . '/libraries/legacy/categories/categories.php');
 

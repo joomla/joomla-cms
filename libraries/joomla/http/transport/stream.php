@@ -135,7 +135,7 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		// Build the headers string for the request.
-		$headerEntries = null;
+		$headerEntries = array();
 
 		if (isset($headers))
 		{

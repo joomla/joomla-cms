@@ -1141,7 +1141,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
 	 *                          fields to be validated.
 	 *
-	 * @return  boolean  True on sucess.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
