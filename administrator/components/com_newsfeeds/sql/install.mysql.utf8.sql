@@ -3,7 +3,7 @@ CREATE TABLE `#__newsfeeds` (
   `id` integer(10) UNSIGNED NOT NULL auto_increment,
   `name`  varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(100) NOT NULL default '',
-  `link` varchar(200) NOT NULL DEFAULT '',
+  `link` varchar(2048) NOT NULL DEFAULT '',
   `filename` varchar(200) default NULL,
   `published` tinyint(1) NOT NULL default '0',
   `numarticles` integer unsigned NOT NULL default '1',
