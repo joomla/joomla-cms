@@ -1372,7 +1372,7 @@ CREATE TABLE "#__newsfeeds" (
   "id" serial NOT NULL,
   "name" varchar(100) DEFAULT '' NOT NULL,
   "alias" varchar(100) DEFAULT '' NOT NULL,
-  "link" varchar(200) DEFAULT '' NOT NULL,
+  "link" varchar(2048) DEFAULT '' NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "numarticles" bigint DEFAULT 1 NOT NULL,
   "cache_time" bigint DEFAULT 3600 NOT NULL,
