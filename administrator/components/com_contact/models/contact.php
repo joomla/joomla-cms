@@ -396,7 +396,7 @@ class ContactModelContact extends JModelAdmin
 		}
 
 		// Save New Category
-		if ($catid == 0)
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
 			$table['title'] = $data['catid'];
@@ -512,9 +512,28 @@ class ContactModelContact extends JModelAdmin
 	 * @param   string  $group  Group name.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.0.3
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
+		// Determine correct permissions to check.
+		if ($this->getState('contact.id'))
+		{
+			// Existing record. Can only edit in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.edit');
+		}
+		else
+		{
+			// New record. Can only create in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.create');
+		}
+
+		if ($this->canCreateCategory())
+		{
+			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+		}
+
 		// Association content items
 		$assoc = JLanguageAssociations::isEnabled();
 
@@ -632,5 +651,17 @@ class ContactModelContact extends JModelAdmin
 		}
 
 		return array($name, $alias);
+	}
+
+	/**
+	 * Is the user allowed to create an on the fly category?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.1
+	 */
+	private function canCreateCategory()
+	{
+		return JFactory::getUser()->authorise('core.create', 'com_contact');
 	}
 }

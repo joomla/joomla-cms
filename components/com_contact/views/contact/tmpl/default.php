@@ -171,7 +171,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE')); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
 			<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>';  ?>
