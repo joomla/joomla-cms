@@ -115,6 +115,19 @@ class JRouterSite extends JRouter
 		// Set the route
 		$uri->setPath(trim($path, '/'));
 
+		// Set the parsepreprocess components methods
+		$components = JComponentHelper::getComponents();
+
+		foreach ($components as $component)
+		{
+			$componentRouter = $this->getComponentRouter($component->option);
+
+			if (method_exists($componentRouter, 'parsepreprocess'))
+			{
+				$this->attachParseRule(array($componentRouter, 'parsepreprocess'), static::PROCESS_BEFORE);
+			}
+		}
+
 		$vars += parent::parse($uri);
 
 		return $vars;

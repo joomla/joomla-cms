@@ -12,7 +12,7 @@ JHtml::_('behavior.tabstate');
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_banners'))
 {
-	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	throw new JControllerExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 // Execute the task.
