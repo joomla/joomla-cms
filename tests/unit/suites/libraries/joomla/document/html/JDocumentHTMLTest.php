@@ -2,19 +2,17 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once JPATH_PLATFORM . '/joomla/document/html/html.php';
-
 /**
- * Test class for JDocumentHTML
+ * Test class for JDocumentHtml
  */
-class JDocumentHTMLTest extends TestCase
+class JDocumentHtmlTest extends TestCase
 {
 	/**
-	 * @var  JDocumentHTML
+	 * @var  JDocumentHtml
 	 */
 	protected $object;
 
@@ -77,7 +75,7 @@ class JDocumentHTMLTest extends TestCase
 
 		JFactory::$language = JLanguage::getInstance('en-GB');
 
-		$this->object = new JDocumentHTML;
+		$this->object = new JDocumentHtml;
 	}
 
 	/**

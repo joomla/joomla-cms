@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,14 +60,16 @@ class ModulesModelPositions extends JModelList
 		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$clientId = $app->input->getInt('client_id', 0);
-		$this->setState('filter.client_id', $clientId);
-
 		$template = $this->getUserStateFromRequest($this->context . '.filter.template', 'filter_template', '', 'string');
 		$this->setState('filter.template', $template);
 
 		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string');
 		$this->setState('filter.type', $type);
+
+		// Special case for the client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array((int) $clientId, array (0, 1))) ? 0 : (int) $clientId;
+		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_modules');
@@ -91,7 +93,7 @@ class ModulesModelPositions extends JModelList
 			$lang            = JFactory::getLanguage();
 			$search          = $this->getState('filter.search');
 			$state           = $this->getState('filter.state');
-			$clientId        = $this->getState('filter.client_id');
+			$clientId        = $this->getState('client_id');
 			$filter_template = $this->getState('filter.template');
 			$type            = $this->getState('filter.type');
 			$ordering        = $this->getState('list.ordering');

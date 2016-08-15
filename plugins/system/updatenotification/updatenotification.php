@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		/** @var \Joomla\Registry\Registry $params */
 		$params        = $component->params;
-		$cache_timeout = $params->get('cachetimeout', 6, 'int');
+		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
@@ -72,7 +72,7 @@ class PlgSystemUpdatenotification extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			// If we can't lock the tables it's too risk continuing execution
+			// If we can't lock the tables it's too risky to continue execution
 			return;
 		}
 
@@ -258,7 +258,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	private function getSuperUsers($email = null)
 	{
 		// Get a reference to the database object
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Convert the email list to an array
 		if (!empty($email))
@@ -284,14 +284,9 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$query = $db->getQuery(true)
-						->select($db->qn('rules'))
-						->from($db->qn('#__assets'))
-						->where($db->qn('parent_id') . ' = ' . $db->q(0));
-			$db->setQuery($query, 0, 1);
-			$rulesJSON = $db->loadResult();
-			$rules     = json_decode($rulesJSON, true);
-
+			$assets = JTable::getInstance('Asset', 'JTable');
+			$rootId = $assets->getRootId();
+			$rules = JAccess::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin'];
 			$groups    = array();
 

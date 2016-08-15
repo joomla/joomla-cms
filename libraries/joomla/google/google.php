@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,7 @@ class JGoogle
 			case 'Calendar':
 				return new JGoogleDataCalendar($options, $auth);
 			default:
-				return null;
+				return;
 		}
 	}
 
@@ -127,7 +127,7 @@ class JGoogle
 			case 'Analytics':
 				return new JGoogleEmbedAnalytics($options);
 			default:
-				return null;
+				return;
 		}
 	}
 

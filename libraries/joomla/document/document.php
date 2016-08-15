@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -144,6 +144,13 @@ class JDocument
 	public $_script = array();
 
 	/**
+	 * Array of scripts options
+	 *
+	 *  @var    array
+	 */
+	protected $scriptOptions = array();
+
+	/**
 	 * Array of linked style sheets
 	 *
 	 * @var    array
@@ -267,7 +274,6 @@ class JDocument
 	 * @return  object  The document object.
 	 *
 	 * @since   11.1
-	 * @throws  RuntimeException
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -275,36 +281,27 @@ class JDocument
 
 		if (empty(self::$instances[$signature]))
 		{
-			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
-			$rawpath = __DIR__ . '/raw/raw.php';
+			$type  = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$ntype = null;
 
 			// Determine the path and class
-			$class = 'JDocument' . $type;
+			$class = 'JDocument' . ucfirst($type);
 
 			if (!class_exists($class))
 			{
+				// @deprecated 4.0 - JDocument objects should be autoloaded instead
+				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
 				if (file_exists($path))
 				{
+					JLog::add('Non-autoloadable JDocument subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 					require_once $path;
 				}
 				// Default to the raw format
-				elseif (file_exists($rawpath))
-				{
-					$ntype = $type;
-					$type = 'raw';
-
-					$class = 'JDocument' . $type;
-
-					require_once $rawpath;
-				}
 				else
 				{
-					// @codeCoverageIgnoreStart
-					throw new RuntimeException('Invalid JDocument Class', 500);
-
-					// @codeCoverageIgnoreEnd
+					$ntype = $type;
+					$class = 'JDocumentRaw';
 				}
 			}
 
@@ -381,15 +378,21 @@ class JDocument
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name       Value of name or http-equiv tag
-	 * @param   boolean  $httpEquiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public function getMetaData($name, $httpEquiv = false)
+	public function getMetaData($name, $attribute = 'name')
 	{
+		// B/C old http_equiv parameter.
+		if (!is_string($attribute))
+		{
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
+		}
+
 		if ($name == 'generator')
 		{
 			$result = $this->getGenerator();
@@ -400,14 +403,7 @@ class JDocument
 		}
 		else
 		{
-			if ($httpEquiv == true)
-			{
-				$result = @$this->_metaTags['http-equiv'][$name];
-			}
-			else
-			{
-				$result = @$this->_metaTags['standard'][$name];
-			}
+			$result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
 		}
 
 		return $result;
@@ -416,16 +412,22 @@ class JDocument
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param   string   $name        Value of name or http-equiv tag
-	 * @param   string   $content     Value of the content tag
-	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $content    Value of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false)
+	public function setMetaData($name, $content, $attribute = 'name')
 	{
+		// B/C old http_equiv parameter.
+		if (!is_string($attribute))
+		{
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
+		}
+
 		if ($name == 'generator')
 		{
 			$this->setGenerator($content);
@@ -436,14 +438,7 @@ class JDocument
 		}
 		else
 		{
-			if ($http_equiv == true)
-			{
-				$this->_metaTags['http-equiv'][$name] = $content;
-			}
-			else
-			{
-				$this->_metaTags['standard'][$name] = $content;
-			}
+			$this->_metaTags[$attribute][$name] = $content;
 		}
 
 		return $this;
@@ -522,6 +517,57 @@ class JDocument
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add option for script
+	 *
+	 * @param   string  $key      Name in Storage
+	 * @param   mixed   $options  Scrip options as array or string
+	 * @param   bool    $merge    Whether merge with existing (true) or replace (false)
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.5
+	 */
+	public function addScriptOptions($key, $options, $merge = true)
+	{
+		if (empty($this->scriptOptions[$key]))
+		{
+			$this->scriptOptions[$key] = array();
+		}
+
+		if ($merge && is_array($options))
+		{
+			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+		}
+		else
+		{
+			$this->scriptOptions[$key] = $options;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Get script(s) options
+	 *
+	 * @param   string  $key  Name in Storage
+	 *
+	 * @return  array  Options for given $key, or all script options
+	 *
+	 * @since   3.5
+	 */
+	public function getScriptOptions($key = null)
+	{
+		if ($key)
+		{
+			return (empty($this->scriptOptions[$key])) ? array() : $this->scriptOptions[$key];
+		}
+		else
+		{
+			return $this->scriptOptions;
+		}
 	}
 
 	/**
@@ -996,37 +1042,43 @@ class JDocument
 	 *
 	 * @param   string  $type  The renderer type
 	 *
-	 * @return  JDocumentRenderer  Object or null if class does not exist
+	 * @return  JDocumentRenderer
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
 	public function loadRenderer($type)
 	{
-		$class = 'JDocumentRenderer' . $type;
+		// New class name format adds the format type to the class name
+		$class = 'JDocumentRenderer' . ucfirst($this->getType()) . ucfirst($type);
 
 		if (!class_exists($class))
 		{
-			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
+			// "Legacy" class name structure
+			$class = 'JDocumentRenderer' . $type;
 
-			if (file_exists($path))
+			if (!class_exists($class))
 			{
+				// @deprecated 4.0 - Non-autoloadable class support is deprecated, only log a message though if a file is found
+				$path = __DIR__ . '/' . $this->getType() . '/renderer/' . $type . '.php';
+
+				if (!file_exists($path))
+				{
+					throw new RuntimeException('Unable to load renderer class', 500);
+				}
+
+				JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 				require_once $path;
-			}
-			else
-			{
-				throw new RuntimeException('Unable to load renderer class', 500);
+
+				// If the class still doesn't exist after including the path, we've got issues
+				if (!class_exists($class))
+				{
+					throw new RuntimeException('Unable to load renderer class', 500);
+				}
 			}
 		}
 
-		if (!class_exists($class))
-		{
-			return null;
-		}
-
-		$instance = new $class($this);
-
-		return $instance;
+		return new $class($this);
 	}
 
 	/**

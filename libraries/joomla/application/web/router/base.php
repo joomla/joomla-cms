@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,7 +89,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		$this->maps[] = array(
 			'regex' => chr(1) . '^' . implode('/', $regex) . '$' . chr(1),
 			'vars' => $vars,
-			'controller' => (string) $controller
+			'controller' => (string) $controller,
 		);
 
 		return $this;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -689,8 +689,13 @@ abstract class JFolder
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
 				$fullName = $pathObject->clean($path . '/' . $name);
-				$dirs[] = array('id' => $id, 'parent' => $parent, 'name' => $name, 'fullname' => $fullName,
-					'relname' => str_replace(JPATH_ROOT, '', $fullName));
+				$dirs[] = array(
+					'id' => $id,
+					'parent' => $parent,
+					'name' => $name,
+					'fullname' => $fullName,
+					'relname' => str_replace(JPATH_ROOT, '', $fullName),
+				);
 				$dirs2 = self::listFolderTree($fullName, $filter, $maxLevel, $level + 1, $id);
 				$dirs = array_merge($dirs, $dirs2);
 			}

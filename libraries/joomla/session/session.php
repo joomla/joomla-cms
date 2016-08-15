@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,12 +32,12 @@ class JSession implements IteratorAggregate
 	protected $_state = 'inactive';
 
 	/**
-	 * Maximum age of unused session in minutes
+	 * Maximum age of unused session in seconds
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $_expire = 15;
+	protected $_expire = 900;
 
 	/**
 	 * The session store object.
@@ -121,6 +121,9 @@ class JSession implements IteratorAggregate
 		// Set the session handler
 		$this->_handler = $handlerInterface instanceof JSessionHandlerInterface ? $handlerInterface : new JSessionHandlerJoomla($options);
 
+		// Initialize the data variable, let's avoid fatal error if the session is not corretly started (ie in CLI).
+		$this->data = new \Joomla\Registry\Registry;
+
 		// Clear any existing sessions
 		if ($this->_handler->getId())
 		{
@@ -195,9 +198,9 @@ class JSession implements IteratorAggregate
 	}
 
 	/**
-	 * Get expiration time in minutes
+	 * Get expiration time in seconds
 	 *
-	 * @return  integer  The session expiration time in minutes
+	 * @return  integer  The session expiration time in seconds
 	 *
 	 * @since   11.1
 	 */
@@ -226,7 +229,7 @@ class JSession implements IteratorAggregate
 		// Create a token
 		if ($token === null || $forceNew)
 		{
-			$token = $this->_createToken(12);
+			$token = $this->_createToken();
 			$this->set('session.token', $token);
 		}
 
@@ -343,7 +346,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state === 'destroyed')
 		{
 			// @TODO : raise error
-			return null;
+			return;
 		}
 
 		return $this->_handler->getName();
@@ -361,7 +364,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state === 'destroyed')
 		{
 			// @TODO : raise error
-			return null;
+			return;
 		}
 
 		return $this->_handler->getId();
@@ -519,10 +522,13 @@ class JSession implements IteratorAggregate
 		if ($this->_state !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
-		return $this->data->set($namespace . '.' . $name, $value);
+		$prev = $this->data->get($namespace . '.' . $name, null);
+		$this->data->set($namespace . '.' . $name, $value);
+
+		return $prev;
 	}
 
 	/**
@@ -543,7 +549,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		return !is_null($this->data->get($namespace . '.' . $name, null));
@@ -567,7 +573,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		return $this->data->set($namespace . '.' . $name, null);
@@ -596,7 +602,19 @@ class JSession implements IteratorAggregate
 		$this->_setTimers();
 
 		// Perform security checks
-		$this->_validate();
+		if (!$this->_validate())
+		{
+			// If the session isn't valid because it expired try to restart it
+			// else destroy it.
+			if ($this->_state === 'expired')
+			{
+				$this->restart();
+			}
+			else
+			{
+				$this->destroy();
+			}
+		}
 
 		if ($this->_dispatcher instanceof JEventDispatcher)
 		{
@@ -618,8 +636,6 @@ class JSession implements IteratorAggregate
 		$this->_handler->start();
 
 		// Ok let's unserialize the whole thing
-		$this->data = new \Joomla\Registry\Registry;
-
 		// Try loading data from the session
 		if (isset($_SESSION['joomla']) && !empty($_SESSION['joomla']))
 		{
@@ -630,8 +646,8 @@ class JSession implements IteratorAggregate
 			$this->data = unserialize($data);
 		}
 
-		// Migrate existing session data to avoid logout on update from J < 3.4.7
-		if (isset($_SESSION['__default']))
+		// Temporary, PARTIAL, data migration of existing session data to avoid logout on update from J < 3.4.7
+		if (isset($_SESSION['__default']) && !empty($_SESSION['__default']))
 		{
 			$migratableKeys = array("user", "session.token", "session.counter", "session.timer.start", "session.timer.last", "session.timer.now");
 
@@ -649,6 +665,13 @@ class JSession implements IteratorAggregate
 					unset($_SESSION['__default'][$migratableKey]);
 				}
 			}
+
+			/**
+			 * Finally, empty the __default key since we no longer need it. Don't unset it completely, we need this
+			 * for the administrator/components/com_admin/script.php to detect upgraded sessions and perform a full
+			 * session cleanup.
+			 */
+			$_SESSION['__default'] = array();
 		}
 
 		return true;
@@ -675,6 +698,7 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
+		// Kill session
 		$this->_handler->clear();
 
 		// Create new data storage
@@ -709,11 +733,19 @@ class JSession implements IteratorAggregate
 		$this->_state = 'restart';
 
 		// Regenerate session id
-		$this->_handler->regenerate(true, null);
 		$this->_start();
+		$this->_handler->regenerate(true, null);
 		$this->_state = 'active';
 
-		$this->_validate();
+		if (!$this->_validate())
+		{
+			/**
+			 * Destroy the session if it's not valid - we can't restart the session here unlike in the start method
+			 * else we risk recursion.
+			 */
+			$this->destroy();
+		}
+
 		$this->_setCounter();
 
 		return true;
@@ -736,9 +768,6 @@ class JSession implements IteratorAggregate
 
 		// Keep session config
 		$cookie = session_get_cookie_params();
-
-		// Kill session
-		$this->_handler->clear();
 
 		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();
@@ -796,17 +825,7 @@ class JSession implements IteratorAggregate
 	 */
 	protected function _createToken($length = 32)
 	{
-		static $chars = '0123456789abcdef';
-		$max = strlen($chars) - 1;
-		$token = '';
-		$name = $this->_handler->getName();
-
-		for ($i = 0; $i < $length; ++$i)
-		{
-			$token .= $chars[(rand(0, $max))];
-		}
-
-		return md5($token . $name);
+		return JUserHelper::genRandomPassword($length);
 	}
 
 	/**

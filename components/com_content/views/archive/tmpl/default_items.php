@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $params = $this->params;
 		<?php $info = $item->params->get('info_block_position', 0); ?>
 		<div class="row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Article">
 			<div class="page-header">
-				<h2 itemprop="name">
+				<h2 itemprop="headline">
 					<?php if ($params->get('link_titles')) : ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>

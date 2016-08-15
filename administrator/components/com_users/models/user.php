@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,17 +33,11 @@ class UsersModelUser extends JModelAdmin
 				'event_after_save'    => 'onUserAfterSave',
 				'event_before_delete' => 'onUserBeforeDelete',
 				'event_before_save'   => 'onUserBeforeSave',
-				'events_map'          => array('save' => 'user', 'delete' => 'user')
+				'events_map'          => array('save' => 'user', 'delete' => 'user', 'validate' => 'user')
 			), $config
 		);
 
 		parent::__construct($config);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 	}
 
 	/**
@@ -205,6 +199,19 @@ class UsersModelUser extends JModelAdmin
 		$user = JUser::getInstance($pk);
 
 		$my = JFactory::getUser();
+		$iAmSuperAdmin = $my->authorise('core.admin');
+
+		// User cannot modify own user groups
+		if ((int) $user->id == (int) $my->id && !$iAmSuperAdmin)
+		{
+			if ($data['groups'] != null)
+			{
+				// Form was probably tampered with
+				JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_USERS_ERROR_CANNOT_EDIT_OWN_GROUP'), 'warning');
+
+				$data['groups'] = null;
+			}
+		}
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
@@ -214,8 +221,6 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Make sure that we are not removing ourself from Super Admin group
-		$iAmSuperAdmin = $my->authorise('core.admin');
-
 		if ($iAmSuperAdmin && $my->get('id') == $pk)
 		{
 			// Check that at least one of our new groups is Super Admin
@@ -683,6 +688,13 @@ class UsersModelUser extends JModelAdmin
 
 		// Prune out the current user if they are in the supplied user ID array
 		$user_ids = array_diff($user_ids, array(JFactory::getUser()->id));
+
+		if (empty($user_ids))
+		{
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_REQUIRERESET_SELF'));
+
+			return false;
+		}
 
 		// Get the DB object
 		$db = $this->getDbo();
@@ -1189,8 +1201,8 @@ class UsersModelUser extends JModelAdmin
 				$warnMessage = $options['warn_irq_msg'];
 			}
 
-			// Warn the user if he's using a secret code but he has not
-			// enabled two factor auth in his account.
+			// Warn the user if they are using a secret code but they have not
+			// enabled two factor auth in their account.
 			if (!empty($secretkey) && $warn)
 			{
 				try
@@ -1212,12 +1224,6 @@ class UsersModelUser extends JModelAdmin
 		$credentials = array(
 			'secretkey' => $secretkey,
 		);
-
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
 
 		// Try to validate the OTP
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
@@ -1282,7 +1288,7 @@ class UsersModelUser extends JModelAdmin
 			{
 				/**
 				 * Two factor authentication enabled and no OTEPs defined. The
-				 * user has used them all up. Therefore anything he enters is
+				 * user has used them all up. Therefore anything they enter is
 				 * an invalid OTEP.
 				 */
 				return false;

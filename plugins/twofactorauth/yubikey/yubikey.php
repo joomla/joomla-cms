@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.yubikey
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,7 +120,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
-		$new_totp = $otpConfig->method != $this->methodName;
+		$new_totp    = $otpConfig->method != $this->methodName;
 
 		// Start output buffering
 		@ob_start();
@@ -208,15 +208,15 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Remove the last 32 digits and store the rest in the user configuration parameters
-		$yubikey = substr($data['securitycode'], 0, -32);
+		$yubikey      = substr($data['securitycode'], 0, -32);
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object) array(
+		$otpConfig    = (object) array(
 			'method'  => $this->methodName,
 			'config'  => array(
-				'yubikey'  => $yubikey
+				'yubikey' => $yubikey
 			),
-			'otep'  => array()
+			'otep'    => array()
 		);
 
 		return $otpConfig;

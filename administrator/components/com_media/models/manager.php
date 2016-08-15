@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ class MediaModelManager extends JModelLegacy
 		// so both string and integer are supported.
 		if ($asset == 0)
 		{
-			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))));
+			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))), ENT_COMPAT, 'UTF-8');
 		}
 
 		$author = $input->get('author', 0, 'integer');

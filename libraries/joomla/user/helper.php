@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -153,7 +155,7 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Set the group ids.
-		JArrayHelper::toInteger($groups);
+		$groups = ArrayHelper::toInteger($groups);
 		$user->groups = $groups;
 
 		// Get the titles for the user groups.
@@ -241,7 +243,7 @@ abstract class JUserHelper
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
+			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 

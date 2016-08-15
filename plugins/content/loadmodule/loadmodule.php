@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ class PlgContentLoadmodule extends JPlugin
 				$output = $this->_loadmod($module, $name, $stylemod);
 
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
-				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				$article->text = preg_replace(addcslashes("|$matchmod[0]|", '()'), addcslashes($output, '\\$'), $article->text, 1);
 				$stylemod = $this->params->def('style', 'none');
 			}
 		}
@@ -178,7 +178,10 @@ class PlgContentLoadmodule extends JPlugin
 		$params = array('style' => $style);
 		ob_start();
 
-		echo $renderer->render($mod, $params);
+		if ($mod->id)
+		{
+			echo $renderer->render($mod, $params);
+		}
 
 		self::$mods[$module] = ob_get_clean();
 

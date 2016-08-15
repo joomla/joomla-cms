@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -140,7 +140,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 			$this->results[] = array(
 				'name' => (string) $tmpInstaller->manifest->name,
-				'result' => $installResult
+				'result' => $installResult,
 			);
 		}
 	}
@@ -228,7 +228,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				$this->parent->pushStep(
 					array(
 						'type' => 'folder',
-						'path' => $this->parent->getPath('extension_root')
+						'path' => $this->parent->getPath('extension_root'),
 					)
 				);
 			}
@@ -363,6 +363,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 			// Custom data
 			$this->extension->custom_data = '';
+			$this->extension->system_data = '';
 			$this->extension->params = $this->parent->getParams();
 		}
 

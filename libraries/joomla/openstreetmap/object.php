@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,7 +119,7 @@ abstract class JOpenstreetmapObject
 		// Validate the response code.
 		if ($response->code != 200)
 		{
-			$error = htmlspecialchars($response->body);
+			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 
 			throw new DomainException($error, $response->code);
 		}

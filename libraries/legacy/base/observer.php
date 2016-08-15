@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,5 +54,5 @@ abstract class JObserver extends JObject
 	 * @since   11.1
 	 * @deprecated  12.3
 	 */
-	public abstract function update(&$args);
+	abstract public function update(&$args);
 }

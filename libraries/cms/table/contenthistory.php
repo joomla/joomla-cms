@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,7 +54,8 @@ class JTableContenthistory extends JTable
 			'checked_out_time',
 			'version',
 			'hits',
-			'path');
+			'path',
+		);
 		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
@@ -78,8 +79,12 @@ class JTableContenthistory extends JTable
 			$this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
 		}
 
-		$this->set('editor_user_id', JFactory::getUser()->id);
-		$this->set('save_date', JFactory::getDate()->toSql());
+		// Modify author and date only when not toggling Keep Forever
+		if (is_null($this->get('keep_forever')))
+		{
+			$this->set('editor_user_id', JFactory::getUser()->id);
+			$this->set('save_date', JFactory::getDate()->toSql());
+		}
 
 		return parent::store($updateNulls);
 	}

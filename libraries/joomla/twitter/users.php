@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -122,7 +122,7 @@ class JTwitterUsers extends JTwitterObject
 		$data['q'] = rawurlencode($query);
 
 		// Check if page is specified.
-		if ($page > 0 )
+		if ($page > 0)
 		{
 			$data['page'] = $page;
 		}

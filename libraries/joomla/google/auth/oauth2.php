@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -106,7 +106,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 
 		if (!$this->client->getOption('requestparams'))
 		{
-			$this->client->setOption('requestparams', Array());
+			$this->client->setOption('requestparams', array());
 		}
 
 		$params = $this->client->getOption('requestparams');

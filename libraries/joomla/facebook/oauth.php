@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,7 +41,7 @@ class JFacebookOAuth extends JOAuth2Client
 		$this->options->def('authurl', 'http://www.facebook.com/dialog/oauth');
 		$this->options->def('tokenurl', 'https://graph.facebook.com/oauth/access_token');
 
-		// Call the JOauthOauth2client constructor to setup the object.
+		// Call the JOAuth2Client constructor to setup the object.
 		parent::__construct($this->options, $client, $input);
 	}
 

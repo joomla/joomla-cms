@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key'],
-			'oauth_token_secret' => $token['secret']
+			'oauth_token_secret' => $token['secret'],
 		);
 
 		// Set the API base
@@ -113,7 +113,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -165,7 +165,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -219,7 +219,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -295,7 +295,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base

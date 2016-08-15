@@ -226,6 +226,44 @@ body .navbar-fixed-top {
 	.nav-user {
 		font-size: 13px;
 	}
+	.nav > li ul {
+		overflow-y: auto;
+		overflow-x: hidden;
+		-webkit-overflow-scrolling: touch;
+		-moz-overflow-scrolling: touch;
+		-ms-overflow-scrolling: touch;
+		-o-overflow-scrolling: touch;
+		overflow-scrolling: touch;
+		height: auto;
+		max-height: 500px;
+		margin: 0;
+		&::-webkit-scrollbar {
+			-webkit-appearance: none;
+			width: 7px;
+		}
+		&::-webkit-scrollbar-thumb {
+			border-radius: 4px;
+			background-color: rgba(0,0,0,.5);
+			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+		}
+	}
+	.nav > li > .dropdown-menu:after {
+		display: none;
+	}
+	.nav > .dropdown.open:after {
+		content: '';
+		display: inline-block;
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		border-bottom: 6px solid #fff;
+		position: absolute;
+		top: 25px;
+		left: 10px;
+		z-index: 1001;
+	}
+	.empty-nav {
+		display: none;
+	}
 }
 
 .navbar-fixed-top,
@@ -293,9 +331,10 @@ body .navbar-fixed-top {
 }
 
 .logo {
-	width: 100%;
-	max-width: 143px;
-	height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: 36px;
+    height: auto;
 }
 
 /* Page Title */
@@ -368,7 +407,7 @@ body .navbar-fixed-top {
 	z-index: 100;
 }
 @media (max-width: 767px) {
-	/* Fix ios scrolling inside boottrap modals */
+	/* Fix ios scrolling inside bootstrap modals */
 	body {
 		-webkit-overflow-scrolling: touch;
 	}
@@ -449,13 +488,21 @@ h6 {
 }
 
 /* Sidebar */
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
 .sidebar-nav .nav-list > li > a {
 	color: #555;
+	padding: 3px 25px;
+	margin-left: -25px;
+	margin-right: -25px;
 }
 
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
-	margin-right: -16px;
+	margin-right: -26px;
 }
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
@@ -485,8 +532,8 @@ h6 {
 }
 
 .well .module-title.nav-header {
-	padding: 0px 15px 7px;
-	margin: 0px;
+	padding: 0 0 7px;
+	margin: 0;
 }
 
 .quick-icons [class^="icon-"]:before, .quick-icons [class*=" icon-"]:before {
@@ -519,10 +566,22 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
-	padding: 2px 10px 4px 10px;
+	padding: 4px 10px;
 	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
 	color: #626262;
 
+	.btn-group {
+		margin: 0;
+	}
+	.btn-group.separator:after {
+		content: ' ';
+		display: block;
+		float: left;
+		background: #ADADAD;
+		margin: 0 10px;
+		height: 15px;
+		width: 1px;
+	}
 	.btn-toolbar, p {
 		margin: 0px;
 	}
@@ -531,6 +590,9 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	}
 	a {
 		color: #626262;
+	}
+	.badge {
+		margin-right: .25em;
 	}
 }
 /* Status Module in top position */
@@ -758,6 +820,12 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 .nav-collapse .dropdown-menu > li > span {
 	display: block;
 	padding: 3px 20px;
+}
+
+.nav-collapse .dropdown-menu > li {
+	img {
+		max-width: none;
+	}
 }
 
 @media (max-width: @navbarCollapseWidth) {
@@ -1017,6 +1085,10 @@ ul.treeselect ul.dropdown-menu li {
 	border: none;
 }
 /* Tables */
+table label {
+	margin: 0;
+}
+
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
@@ -1068,7 +1140,7 @@ th .tooltip-inner {
 }
 /* Component pop-up */
 .container-popup {
-	padding: 15px;
+	padding: 28px 10px 10px 10px;
 }
 /* Min-width on buttons */
 .controls .btn-group > .btn {
@@ -1118,7 +1190,9 @@ input.input-large-text {
 
 .chzn-color.chzn-single[rel="value_1"],
 .chzn-color-reverse.chzn-single[rel="value_0"],
-.chzn-color-state.chzn-single[rel="value_1"] {
+.chzn-color-state.chzn-single[rel="value_1"],
+.chzn-color.chzn-single[rel="value_show_no_link"],
+.chzn-color.chzn-single[rel="value_show_with_link"] {
 	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
 }
 
@@ -1126,7 +1200,8 @@ input.input-large-text {
 .chzn-color-reverse.chzn-single[rel="value_1"],
 .chzn-color-state.chzn-single[rel="value_0"],
 .chzn-color-state.chzn-single[rel="value_-1"],
-.chzn-color-state.chzn-single[rel="value_-2"] {
+.chzn-color-state.chzn-single[rel="value_-2"],
+.chzn-color.chzn-single[rel="value_hide"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
 /* Widen the drop downs for the Permissions Field */
@@ -1164,6 +1239,7 @@ a.grid_true {
 	margin: -10px 0 0 -1px;
 	padding-top: 28px;
 	padding-bottom: 10px;
+	clear: both;
 	background-color: @wellBackground;
 	border-bottom: 1px solid darken(@wellBackground, 7%);
 	border-right: 1px solid darken(@wellBackground, 7%);
@@ -1292,12 +1368,43 @@ textarea.noResize {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
-/*Corrects the modals padding*/
+/* Corrects the modals padding */
 .field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;
 	overflow: hidden;
+}
+
+/* Stats plugin */
+.js-pstats-data-details dd {
+	margin-left: 240px;
+}
+.js-pstats-data-details dt {
+	width: 220px;
+}
+
+/* Clear div after modal-body rendering */
+.modal-footer {
+	clear: both;
+}
+
+/* Modal Header text align left even if parent container centered */
+.modal-header {
+	text-align: left;
+}
+
+/* ACL Permission page */
+#permissions,
+#page-permissions {
+	table {
+		td {
+			vertical-align: middle;
+		}
+		select {
+			margin-bottom: 0;
+		}
+	}
 }

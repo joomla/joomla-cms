@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Remind model class for Users.
@@ -164,7 +166,7 @@ class UsersModelRemind extends JModelForm
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.
-		$data = JArrayHelper::fromObject($user);
+		$data = ArrayHelper::fromObject($user);
 		$data['fromname'] = $config->get('fromname');
 		$data['mailfrom'] = $config->get('mailfrom');
 		$data['sitename'] = $config->get('sitename');

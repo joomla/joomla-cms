@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -592,6 +592,9 @@ class JModelListTest extends TestCaseDatabase
 			)
 		);
 
+		// We've set the state manually, populateState call will overwrite it.
+		TestReflection::setValue($this->object, '__state_set', true);
+
 		$this->assertEquals($expected, $method->invoke($this->object));
 	}
 
@@ -715,7 +718,7 @@ class JModelListTest extends TestCaseDatabase
 					array(),
 					false,
 					30,
-					// Returning a column name that is not on the white list
+					// Returning a column name that is not on the whitelist
 					'notinwhitelist',
 					'ASC',
 					0
@@ -724,7 +727,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Set up the white list of valid order columns
+		// Set up the whitelist of valid order columns
 		TestReflection::setValue($this->object, 'filter_fields', array('inwhitelist'));
 
 		// Call the actual method and pass default values for ordering and order direction
@@ -828,7 +831,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the usercol to the column white list
+		// Add the usercol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('usercol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -881,7 +884,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the usercol to the column white list
+		// Add the usercol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('listcol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));
@@ -934,7 +937,7 @@ class JModelListTest extends TestCaseDatabase
 
 		JFactory::$application = $applicationMock;
 
-		// Add the listcol to the column white list
+		// Add the listcol to the column whitelist
 		TestReflection::setValue($this->object, 'filter_fields', array('listcol'));
 
 		$method->invokeArgs($this->object, array('col', 'ASC'));

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -179,5 +179,31 @@ class ContentModelArchive extends ContentModelArticles
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets the archived articles years
+	 *
+	 * @return   array
+	 * 
+	 * @since    3.6.0
+	 */
+	public function getYears()
+	{
+		$db = $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
+
+		$query = $db->getQuery(true);
+		$years = $query->year($db->qn('created'));
+		$query->select('DISTINCT (' . $years . ')')
+			->from($db->qn('#__content'))
+			->where($db->qn('state') . '= 2')
+			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
+			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
+			->order('1 ASC');
+
+		$db->setQuery($query);
+		return $db->loadColumn();
 	}
 }

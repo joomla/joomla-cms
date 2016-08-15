@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,6 +43,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		// Filter by menu type.
 		if ($menuType = $this->form->getValue('menutype'))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
@@ -50,6 +51,14 @@ class JFormFieldMenuParent extends JFormFieldList
 		else
 		{
 			$query->where('a.menutype != ' . $db->quote(''));
+		}
+
+		// Filter by client id.
+		$clientId = $this->getAttribute('clientid');
+
+		if (!is_null($clientId))
+		{
+			$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId);
 		}
 
 		// Prevent parenting to children of this item.

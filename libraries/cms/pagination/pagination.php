@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -446,7 +446,7 @@ class JPagination
 			'total'        => $this->total,
 			'limitfield'   => $this->getLimitBox(),
 			'pagescounter' => $this->getPagesCounter(),
-			'pages'        => $this->getPaginationPages()
+			'pages'        => $this->getPaginationPages(),
 		);
 
 		return JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));
@@ -513,19 +513,20 @@ class JPagination
 
 		if (file_exists($chromePath))
 		{
-			$list = array();
-			$list['prefix'] = $this->prefix;
-			$list['limit'] = $this->limit;
-			$list['limitstart'] = $this->limitstart;
-			$list['total'] = $this->total;
-			$list['limitfield'] = $this->getLimitBox();
-			$list['pagescounter'] = $this->getPagesCounter();
-			$list['pageslinks'] = $this->getPagesLinks();
-
 			include_once $chromePath;
 
 			if (function_exists('pagination_list_footer'))
 			{
+				$list = array(
+					'prefix'       => $this->prefix,
+					'limit'        => $this->limit,
+					'limitstart'   => $this->limitstart,
+					'total'        => $this->total,
+					'limitfield'   => $this->getLimitBox(),
+					'pagescounter' => $this->getPagesCounter(),
+					'pageslinks'   => $this->getPagesLinks(),
+				);
+
 				return pagination_list_footer($list);
 			}
 		}

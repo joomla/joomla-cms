@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_related_items
@@ -25,35 +25,43 @@ abstract class ModRelatedItemsHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public static function getList(&$params)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$date = JFactory::getDate();
+		$db      = JFactory::getDbo();
+		$app     = JFactory::getApplication();
+		$user    = JFactory::getUser();
+		$groups  = implode(',', $user->getAuthorisedViewLevels());
+		$date    = JFactory::getDate();
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models');
 		$articles = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+
+		if ($articles === false)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+
+			return array();
+		}
 
 		// Set application parameters in model
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
 		$option = $app->input->get('option');
-		$view = $app->input->get('view');
+		$view   = $app->input->get('view');
 
 		$temp = $app->input->getString('id');
 		$temp = explode(':', $temp);
-		$id = $temp[0];
+		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now = $date->toSql();
-		$related = array();
-		$query = $db->getQuery(true);
+		$now      = $date->toSql();
+		$related  = array();
+		$query    = $db->getQuery(true);
 
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
@@ -71,11 +79,11 @@ abstract class ModRelatedItemsHelper
 			{
 				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-				return;
+				return array();
 			}
 
 			// Explode the meta keys on a comma
-			$keys = explode(',', $metakey);
+			$keys  = explode(',', $metakey);
 			$likes = array();
 
 			// Assemble any non-blank word(s)
@@ -95,7 +103,7 @@ abstract class ModRelatedItemsHelper
 				$query->clear()
 					->select('a.id')
 					->select('a.title')
-					->select('DATE(a.created) as created')
+					->select('CAST(a.created AS DATE) as created')
 					->select('a.catid')
 					->select('a.language')
 					->select('cc.access AS cat_access')
@@ -144,6 +152,7 @@ abstract class ModRelatedItemsHelper
 				}
 
 				$db->setQuery($query, 0, $maximum);
+
 				try
 				{
 					$temp = $db->loadObjectList();
@@ -152,7 +161,7 @@ abstract class ModRelatedItemsHelper
 				{
 					JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					return;
+					return array();
 				}
 
 				if (count($temp))

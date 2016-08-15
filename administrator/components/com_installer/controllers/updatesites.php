@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,6 +32,8 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 
 		$this->registerTask('unpublish', 'publish');
 		$this->registerTask('publish',   'publish');
+		$this->registerTask('delete',    'delete');
+		$this->registerTask('rebuild',   'rebuild');
 	}
 
 	/**
@@ -73,4 +75,50 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=updatesites', false));
 	}
+
+	/**
+	 * Deletes an update site (if supported).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 *
+	 * @throws  Exception on error
+	 */
+	public function delete()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$ids = $this->input->get('cid', array(), 'array');
+
+		if (empty($ids))
+		{
+			throw new Exception(JText::_('COM_INSTALLER_ERROR_NO_UPDATESITES_SELECTED'), 500);
+		}
+
+		// Delete the records.
+		$this->getModel('Updatesites')->delete($ids);
+
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=updatesites', false));
+	}
+
+	/**
+	 * Rebuild update sites tables.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6
+	 */
+	public function rebuild()
+	{
+		// Check for request forgeries.
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Rebuild the update sites.
+		$this->getModel('Updatesites')->rebuild();
+
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=updatesites', false));
+	}
+
 }
