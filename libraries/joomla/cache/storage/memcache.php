@@ -177,7 +177,11 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = static::$_db->get($this->_hash . '-index');
-		$index = $index ? $index : array();
+
+		if ($index === false)
+		{
+			$index = array();
+		}
 
 		$tmparr       = new stdClass;
 		$tmparr->name = $cache_id;
@@ -212,7 +216,11 @@ class JCacheStorageMemcache extends JCacheStorage
 		}
 
 		$index = static::$_db->get($this->_hash . '-index');
-		$index = $index ? $index : array();
+
+		if ($index === false)
+		{
+			$index = array();
+		}
 
 		foreach ($index as $key => $value)
 		{
