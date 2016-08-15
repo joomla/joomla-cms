@@ -19,6 +19,20 @@ use Joomla\Registry\Registry;
 class ContactTableContact extends JTable
 {
 	/**
+	 * Mapping of database columns alias.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_columnAlias = array(
+		'title'            => 'name',
+		'created_time'     => 'created',
+		'created_user_id'  => 'created_by',
+		'modified_time'    => 'modified',
+		'modified_user_id' => 'modified_by',
+	);
+
+	/**
 	 * Ensure the params and metadata in json encoded in the bind method
 	 *
 	 * @var    array
