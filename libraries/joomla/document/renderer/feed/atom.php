@@ -120,7 +120,7 @@ class JDocumentRendererFeedAtom extends JDocumentRenderer
 			$versionHtmlEscaped = ' version="' . htmlspecialchars(JVersion::RELEASE, ENT_COMPAT, 'UTF-8') . '"';
 		}
 
-		$feed .= "	<generator uri=\"http://joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
+		$feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
 		$feed .= '	<link rel="self" type="application/atom+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)

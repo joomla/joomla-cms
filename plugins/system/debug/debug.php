@@ -156,6 +156,21 @@ class PlgSystemDebug extends JPlugin
 		// Prepare disconnect handler for SQL profiling.
 		$db = JFactory::getDbo();
 		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+
+		// Log deprecated class aliases
+		foreach (JLoader::getDeprecatedAliases() as $deprecation)
+		{
+			JLog::add(
+				sprintf(
+					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+					$deprecation['old'],
+					$deprecation['new'],
+					$deprecation['version']
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
 	}
 
 	/**
@@ -336,7 +351,7 @@ class PlgSystemDebug extends JPlugin
 	 * General display method.
 	 *
 	 * @param   string  $item    The item to display.
-	 * @param   array   $errors  Errors occured during execution.
+	 * @param   array   $errors  Errors occurred during execution.
 	 *
 	 * @return  string
 	 *
@@ -360,7 +375,7 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
 		}
 
-		$html = '';
+		$html = array();
 
 		$js = "toggleContainer('dbg_container_" . $item . "');";
 
@@ -1042,7 +1057,7 @@ class PlgSystemDebug extends JPlugin
 					{
 						if ($dup != $id)
 						{
-							$dups[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+							$dups[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 						}
 					}
 
@@ -1107,7 +1122,7 @@ class PlgSystemDebug extends JPlugin
 
 				foreach ($dups as $dup)
 				{
-					$links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+					$links[] = '<a class="alert-link" href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
 
 				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
@@ -1206,8 +1221,8 @@ class PlgSystemDebug extends JPlugin
 				$tip = JHtml::tooltipText($bar->tip, '', 0);
 			}
 
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' .
-						$bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: '
+						. $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 
 		return '<div class="progress dbg-bars dbg-bars-' . $class . '">' . implode('', $html) . '</div>';
@@ -1284,7 +1299,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				elseif ($k == 'Error')
 				{
-					// An error in the EXPLAIN query occured, display it instead of the result (means original query had syntax error most probably).
+					// An error in the EXPLAIN query occurred, display it instead of the result (means original query had syntax error most probably).
 					$html[] = '<td class="dbg-warning">' . htmlspecialchars($td);
 					$hasWarnings = true;
 				}
@@ -1293,9 +1308,9 @@ class PlgSystemDebug extends JPlugin
 					if ($td === 'NULL')
 					{
 						// Displays query parts which don't use a key with warning:
-						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="' .
-									JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">' .
-									JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
+						$html[] = '<td><strong>' . '<span class="dbg-warning hasTooltip" title="'
+									. JHtml::tooltipText('PLG_DEBUG_WARNING_NO_INDEX_DESC') . '">'
+									. JText::_('PLG_DEBUG_WARNING_NO_INDEX') . '</span>' . '</strong>';
 						$hasWarnings = true;
 					}
 					else
@@ -1313,9 +1328,9 @@ class PlgSystemDebug extends JPlugin
 					// Displays warnings for "Using filesort":
 					$htmlTdWithWarnings = str_replace(
 											'Using&nbsp;filesort',
-											'<span class="dbg-warning hasTooltip" title="' .
-												JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">' .
-												JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
+											'<span class="dbg-warning hasTooltip" title="'
+												. JHtml::tooltipText('PLG_DEBUG_WARNING_USING_FILESORT_DESC') . '">'
+												. JText::_('PLG_DEBUG_WARNING_USING_FILESORT') . '</span>',
 											$htmlTd
 										);
 
@@ -1750,6 +1765,7 @@ class PlgSystemDebug extends JPlugin
 
 		// SQL log entries
 		$showExecutedSQL = $this->params->get('log-executed-sql', 0);
+
 		if (!$showExecutedSQL)
 		{
 			$logEntriesDatabasequery = count(
@@ -1773,6 +1789,7 @@ class PlgSystemDebug extends JPlugin
 			)
 		);
 		$showDeprecated = $this->params->get('log-deprecated', 0);
+
 		if (!$showDeprecated)
 		{
 			$logEntriesTotal = $logEntriesTotal - $logEntriesDeprecated;
@@ -1780,13 +1797,13 @@ class PlgSystemDebug extends JPlugin
 
 		$showEverything = $this->params->get('log-everything', 0);
 
-		$out .= '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_LOGS_LOGGED'), $logEntriesTotal) . '</h4><br />';
+		$out .= '<h4>' . JText::sprintf('PLG_DEBUG_LOGS_LOGGED', $logEntriesTotal) . '</h4><br />';
 
 		if ($showDeprecated && $logEntriesDeprecated > 0)
 		{
 			$out .= '
 			<div class="alert alert-warning">
-				<h4>' . sprintf(JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE'), $logEntriesDeprecated) . '</h4>
+				<h4>' . JText::sprintf('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TITLE', $logEntriesDeprecated) . '</h4>
 				<div>' . JText::_('PLG_DEBUG_LOGS_DEPRECATED_FOUND_TEXT') . '</div>
 			</div>
 			<br />';
@@ -1794,6 +1811,7 @@ class PlgSystemDebug extends JPlugin
 
 		$out .= '<ol>';
 		$count = 1;
+
 		foreach ($this->logEntries as $entry)
 		{
 			// Don't show database queries if not selected.
@@ -1826,9 +1844,11 @@ class PlgSystemDebug extends JPlugin
 				$out .= JHtml::_('bootstrap.endSlide');
 				$out .= JHtml::_('bootstrap.endAccordion');
 			}
+
 			$out .= '<hr /></li>';
 			$count++;
 		}
+
 		$out .= '</ol>';
 
 		return $out;
@@ -1875,6 +1895,7 @@ class PlgSystemDebug extends JPlugin
 				$htmlCallStack .= '<td>' . $count . '</td>';
 
 				$htmlCallStack .= '<td>';
+
 				if (isset($call['class']))
 				{
 					// If entry has Class/Method print it.
@@ -1893,6 +1914,7 @@ class PlgSystemDebug extends JPlugin
 						$htmlCallStack .= htmlspecialchars($call['function']) . '()';
 					}
 				}
+
 				$htmlCallStack .= '</td>';
 
 				$htmlCallStack .= '<td>';
@@ -1907,11 +1929,13 @@ class PlgSystemDebug extends JPlugin
 				{
 					$htmlCallStack .= $this->formatLink(htmlspecialchars($call['file']), htmlspecialchars($call['line']));
 				}
+
 				$htmlCallStack .= '</td>';
 
 				$htmlCallStack .= '</tr>';
 				$count--;
 			}
+
 			$htmlCallStack .= '</tbody>';
 			$htmlCallStack .= '</table>';
 			$htmlCallStack .= '</div>';

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldpath="/administrator/components/com_templates/models/fields" />
-
+	<field
+		name="client_id"
+		type="list"
+		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
+		>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
 	<fields name="filter">
 		<field
 			name="search"
 			type="text"
 			label="JSEARCH_FILTER"
-			description="JSEARCH_FILTER"
+			description="COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 		/>
-        <field
-			name="client_id"
-			type="templatelocation"
-			onchange="this.form.submit();"
-			>
-			<option value="">JGLOBAL_FILTER_CLIENT</option>
-		</field>
 	</fields>
 	<fields name="list">
 		<field
@@ -30,8 +30,6 @@
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.element ASC">COM_TEMPLATES_HEADING_TEMPLATE_ASC</option>
 			<option value="a.element DESC">COM_TEMPLATES_HEADING_TEMPLATE_DESC</option>
-			<option value="a.client_id ASC">COM_TEMPLATES_HEADING_LOCATION_ASC</option>
-			<option value="a.client_id DESC">COM_TEMPLATES_HEADING_LOCATION_DESC</option>
 		</field>
 		<field
 			name="limit"

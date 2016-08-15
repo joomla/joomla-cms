@@ -29,6 +29,7 @@
 			length="50"
 			label="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_DESC"
+			showon="updatesource:custom"
 			/>
 	</fieldset>
 

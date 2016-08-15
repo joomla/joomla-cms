@@ -101,12 +101,12 @@ class MediaModelManager extends JModelLegacy
 		// so both string and integer are supported.
 		if ($asset == 0)
 		{
-			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))));
+			$asset = htmlspecialchars(json_encode(trim($input->get('asset', 0, 'cmd'))), ENT_COMPAT, 'UTF-8');
 		}
 
 		$author = $input->get('author', 0, 'integer');
 
-		// Create the drop-down folder select list
+		// Create the dropdown folder select list
 		$attribs = 'size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, ' . $asset . ', ' . $author . ')" ';
 		$list = JHtml::_('select.genericlist', $options, 'folderlist', $attribs, 'value', 'text', $base);
 

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModSyndicateHelper', __DIR__ . '/helper.php');
 
 $params->def('format', 'rss');
 
@@ -21,8 +21,7 @@ if (is_null($link))
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-
-$text = htmlspecialchars($params->get('text'));
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$text            = htmlspecialchars($params->get('text'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_syndicate', $params->get('layout', 'default'));

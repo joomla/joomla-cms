@@ -58,7 +58,7 @@ class TagsTableTag extends JTableNested
 			$array['metadata'] = (string) $registry;
 		}
 
-		if (isset($array['urls']) && $array['urls'])
+		if (isset($array['urls']) && is_array($array['urls']))
 		{
 			$registry = new Registry;
 			$registry->loadArray($array['urls']);
@@ -96,7 +96,7 @@ class TagsTableTag extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -242,7 +242,7 @@ class TagsTableTag extends JTableNested
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Tag', 'TagsTable');
+		$table = JTable::getInstance('Tag', 'TagsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
@@ -263,7 +263,6 @@ class TagsTableTag extends JTableNested
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @see     https://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

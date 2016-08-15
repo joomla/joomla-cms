@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Content Component Archive Model
@@ -179,5 +179,31 @@ class ContentModelArchive extends ContentModelArticles
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets the archived articles years
+	 *
+	 * @return   array
+	 * 
+	 * @since    3.6.0
+	 */
+	public function getYears()
+	{
+		$db = $this->getDbo();
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate  = $db->quote(JFactory::getDate()->toSql());
+
+		$query = $db->getQuery(true);
+		$years = $query->year($db->qn('created'));
+		$query->select('DISTINCT (' . $years . ')')
+			->from($db->qn('#__content'))
+			->where($db->qn('state') . '= 2')
+			->where('(publish_up = ' . $nullDate . ' OR publish_up <= ' . $nowDate . ')')
+			->where('(publish_down = ' . $nullDate . ' OR publish_down >= ' . $nowDate . ')')
+			->order('1 ASC');
+
+		$db->setQuery($query);
+		return $db->loadColumn();
 	}
 }

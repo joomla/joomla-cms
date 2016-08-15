@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Google Maps embed class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
@@ -782,8 +783,16 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 */
 	public function geocodeAddress($address)
 	{
-		$url = 'http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=' . urlencode($address);
-		$response = $this->http->get($url);
+		$uri = JUri::getInstance('https://maps.googleapis.com/maps/api/geocode/json');
+
+		$uri->setVar('address', urlencode($address));
+
+		if (($key = $this->getKey()))
+		{
+			$uri->setVar('key', $key);
+		}
+
+		$response = $this->http->get($uri->toString());
 
 		if ($response->code < 200 || $response->code >= 300)
 		{
@@ -804,7 +813,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 				throw new RuntimeException($data['error_message']);
 			}
 
-			return null;
+			return;
 		}
 
 		return $data['results'][0];
