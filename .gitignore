@@ -15,6 +15,7 @@
 /configuration.php
 /.htaccess
 /web.config
+/.php_cs.cache
 
 # Test Related Files #
 /phpunit.xml

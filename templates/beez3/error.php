@@ -133,11 +133,11 @@ $navposition = $params->get('navposition');
 									<?php echo JModuleHelper::renderModule($module); ?>
 								</div><!-- end searchbox -->
 							<?php endif; ?>
-							<div><!-- start gotohomepage -->
+							<div><!-- start goto home page -->
 								<p>
 								<a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a>
 								</p>
-							</div><!-- end gotohomepage -->
+							</div><!-- end goto home page -->
 							<h3>
 								<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>
 							</h3>

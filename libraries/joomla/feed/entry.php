@@ -39,7 +39,7 @@ class JFeedEntry
 		'content' => '',
 		'categories' => array(),
 		'contributors' => array(),
-		'links' => array()
+		'links' => array(),
 	);
 
 	/**

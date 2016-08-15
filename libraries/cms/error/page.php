@@ -68,7 +68,7 @@ class JErrorPage
 					array(
 						'template'  => $template,
 						'directory' => JPATH_THEMES,
-						'debug'     => JDEBUG
+						'debug'     => JDEBUG,
 					)
 				);
 
