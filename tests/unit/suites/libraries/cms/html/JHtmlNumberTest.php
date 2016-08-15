@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,7 +32,7 @@ class JHtmlNumberTest extends TestCase
 				1,
 			),
 			array(
-				'1 kb',
+				'1 kB',
 				1024,
 			),
 			array(
@@ -58,6 +58,31 @@ class JHtmlNumberTest extends TestCase
 
 			// Test units.
 			array(
+				'1 YB',
+				1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+				'auto',
+			),
+			array(
+				'1 YB',
+				1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+				'YB',
+			),
+			array(
+				'1024 ZB',
+				1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+				'ZB',
+			),
+			array(
+				'1048576 EB',
+				1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024 * 1024,
+				'EB',
+			),
+			array(
+				'1 PB',
+				1024 * 1024 * 1024 * 1024 * 1024,
+				'PB',
+			),
+			array(
 				'1024 TB',
 				1024 * 1024 * 1024 * 1024 * 1024,
 				'TB',
@@ -73,44 +98,65 @@ class JHtmlNumberTest extends TestCase
 				'MB',
 			),
 			array(
-				'1099511627776 kb',
+				'1099511627776 kB',
 				1024 * 1024 * 1024 * 1024 * 1024,
-				'kb',
+				'kB',
 			),
 			array(
 				'1.1258999068426E+15 b',
 				1024 * 1024 * 1024 * 1024 * 1024,
 				'b',
 			),
+			array(
+				'1.1258999068426E+15',
+				1024 * 1024 * 1024 * 1024 * 1024,
+				'',
+			),
 
 			// Test precision
 			array(
-				'1.33 kb',
+				'1.33 kB',
 				1357,
 			),
 			array(
-				'1.3 kb',
+				'1.3 kB',
 				1357,
 				null,
 				1
 			),
 			array(
-				'1.33 kb',
+				'1.33 kB',
 				1357,
 				null,
 				2
 			),
 			array(
-				'1.325 kb',
+				'1.325 kB',
 				1357,
 				null,
 				3
 			),
 			array(
-				'1.3252 kb',
+				'1.3252 kB',
 				1357,
 				null,
 				4
+			),
+
+			// Test unit suffixed inputs
+			array(
+				'1 MB',
+				'1024K',
+			),
+			array(
+				'1024 MB',
+				'1 GB',
+				'MB'
+			),
+			array(
+				'10.5 GB',
+				'1.0752E+4 MB',
+				'GB'
 			),
 		);
 	}
@@ -118,10 +164,10 @@ class JHtmlNumberTest extends TestCase
 	/**
 	 * Tests the JHtmlNumber::bytes method.
 	 *
-	 * @param   string   $result     @todo
-	 * @param   integer  $bytes      @todo
-	 * @param   string   $unit       @todo
-	 * @param   integer  $precision  @todo
+	 * @param   string   $result     The expected result to match against.
+	 * @param   string   $bytes      The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
+	 * @param   string   $unit       The type of unit to return. Special: Blank string '' for no unit and 'auto' to choose automatically (default)
+	 * @param   integer  $precision  The number of digits to be used after the decimal place.
 	 *
 	 * @return  void
 	 *

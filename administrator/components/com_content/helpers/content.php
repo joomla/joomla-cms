@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class ContentHelper extends JHelperContent
 	 * @return  string  The filtered string
 	 *
 	 * @deprecated  4.0  Use JComponentHelper::filterText() instead.
-	*/
+	 */
 	public static function filterText($text)
 	{
 		JLog::add('ContentHelper::filterText() is deprecated. Use JComponentHelper::filterText() instead.', JLog::WARNING, 'deprecated');
@@ -64,31 +64,54 @@ class ContentHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   JDatabaseQuery  &$query  The query object of com_categories
+	 * @param   stdClass[]  &$items  The banner category objects
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass[]
 	 *
-	 * @since   3.4
+	 * @since   3.5
 	 */
-	public static function countItems(&$query)
+	public static function countItems(&$items)
 	{
-		// Join articles to categories and count published items
-		$query->select('COUNT(DISTINCT cp.id) AS count_published');
-		$query->join('LEFT', '#__content AS cp ON cp.catid = a.id AND cp.state = 1');
+		$db = JFactory::getDbo();
 
-		// Count unpublished items
-		$query->select('COUNT(DISTINCT cu.id) AS count_unpublished');
-		$query->join('LEFT', '#__content AS cu ON cu.catid = a.id AND cu.state = 0');
+		foreach ($items as $item)
+		{
+			$item->count_trashed = 0;
+			$item->count_archived = 0;
+			$item->count_unpublished = 0;
+			$item->count_published = 0;
+			$query = $db->getQuery(true);
+			$query->select('state, count(*) AS count')
+				->from($db->qn('#__content'))
+				->where('catid = ' . (int) $item->id)
+				->group('state');
+			$db->setQuery($query);
+			$articles = $db->loadObjectList();
 
-		// Count archived items
-		$query->select('COUNT(DISTINCT ca.id) AS count_archived');
-		$query->join('LEFT', '#__content AS ca ON ca.catid = a.id AND ca.state = 2');
+			foreach ($articles as $article)
+			{
+				if ($article->state == 1)
+				{
+					$item->count_published = $article->count;
+				}
 
-		// Count trashed items
-		$query->select('COUNT(DISTINCT ct.id) AS count_trashed');
-		$query->join('LEFT', '#__content AS ct ON ct.catid = a.id AND ct.state = -2');
+				if ($article->state == 0)
+				{
+					$item->count_unpublished = $article->count;
+				}
 
-		return $query;
+				if ($article->state == 2)
+				{
+					$item->count_archived = $article->count;
+				}
+
+				if ($article->state == -2)
+				{
+					$item->count_trashed = $article->count;
+				}
+			}
+		}
+
+		return $items;
 	}
-
 }

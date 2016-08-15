@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -73,35 +73,31 @@ class JFormFieldUser extends JFormField
 		// Get the basic field data
 		$data = parent::getLayoutData();
 
-		// Load the current username if available.
-		$table = JTable::getInstance('user');
+		// Initialize value
+		$name = '';
 
 		if (is_numeric($this->value))
 		{
-			$table->load($this->value);
+			$name = JUser::getInstance($this->value)->name;
 		}
 		// Handle the special case for "current".
 		elseif (strtoupper($this->value) == 'CURRENT')
 		{
 			// 'CURRENT' is not a reasonable value to be placed in the html
-			$this->value = JFactory::getUser()->id;
-			$table->load($this->value);
+			$current = JFactory::getUser();
+			$this->value = $current->id;
+			$data['value'] = $this->value;
+			$name = $current->name;
 		}
 		else
 		{
-			$table->name = JText::_('JLIB_FORM_SELECT_USER');
+			$name = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
-		// Initialize JavaScript field attributes.
-		$onchange = (string) $this->element['onchange'];
-
 		$extraData = array(
-				'onchange'  => $onchange,
-				'userName'  => $table->name,
+				'userName'  => $name,
 				'groups'    => $this->getGroups(),
 				'excluded'  => $this->getExcluded(),
-				'readOnly'  => $this->readonly,
-				'class'     => $this->class,
 		);
 
 		return array_merge($data, $extraData);
@@ -121,7 +117,7 @@ class JFormFieldUser extends JFormField
 			return explode(',', $this->element['groups']);
 		}
 
-		return null;
+		return;
 	}
 
 	/**

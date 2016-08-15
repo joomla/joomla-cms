@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -131,6 +131,7 @@ class ModStatsHelper
 					->from('#__weblinks')
 					->where('state = 1');
 				$db->setQuery($query);
+
 				try
 				{
 					$links = $db->loadResult();
@@ -158,6 +159,7 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
+
 			try
 			{
 				$hits = $db->loadResult();
@@ -172,7 +174,7 @@ class ModStatsHelper
 				$rows[$i]        = new stdClass;
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->icon  = 'eye';
-				$rows[$i]->data  = $hits + $increase;
+				$rows[$i]->data  = number_format($hits + $increase, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));
 			}
 		}
 

@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Registration controller class for Users.
@@ -41,10 +41,53 @@ class UsersControllerUser extends UsersController
 		$data['password']  = $input->$method->get('password', '', 'RAW');
 		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
 
-		// Don't redirect to an external URL.
-		if (!JUri::isInternal($data['return']))
+		// Check for a simple menu item id
+		if (is_numeric($data['return']))
 		{
-			$data['return'] = '';
+			if (JLanguageMultilang::isEnabled())
+			{
+
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $data['return']);
+
+				$db->setQuery($query);
+
+				try
+				{
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
+				}
+				else
+				{
+					$lang = '';
+				}
+			}
+			else
+			{
+				$lang = '';
+			}
+
+			$data['return'] = 'index.php?Itemid=' . $data['return'] . $lang;
+		}
+		else
+		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($data['return']))
+			{
+				$data['return'] = '';
+			}
 		}
 
 		// Set the return URL if empty.
@@ -71,7 +114,11 @@ class UsersControllerUser extends UsersController
 		if (true !== $app->login($credentials, $options))
 		{
 			// Login failed !
+			// Clear user name, password and secret key before sending the login form back to the user.
 			$data['remember'] = (int) $options['remember'];
+			$data['username'] = '';
+			$data['password'] = '';
+			$data['secretkey'] = '';
 			$app->setUserState('users.login.form.data', $data);
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
@@ -114,9 +161,53 @@ class UsersControllerUser extends UsersController
 		$return = $input->$method->get('return', '', 'BASE64');
 		$return = base64_decode($return);
 
-		if (!JUri::isInternal($return))
+		// Check for a simple menu item id
+		if (is_numeric($return))
 		{
-			$return = '';
+			if (JLanguageMultilang::isEnabled())
+			{
+
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $return);
+
+				$db->setQuery($query);
+
+				try
+				{
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
+				}
+				else
+				{
+					$lang = '';
+				}
+			}
+			else
+			{
+				$lang = '';
+			}
+
+			$return = 'index.php?Itemid=' . $return . $lang;
+		}
+		else
+		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($return))
+			{
+				$return = '';
+			}
 		}
 
 		// Redirect the user.
@@ -133,10 +224,60 @@ class UsersControllerUser extends UsersController
 	public function menulogout()
 	{
 		// Get the ItemID of the page to redirect after logout
-		$itemid = JFactory::getApplication()->getMenu()->getActive()->params->get('logout');
+		$app    = JFactory::getApplication();
+		$itemid = $app->getMenu()->getActive()->params->get('logout');
 
-		// URL to redirect after logout, default page if no ItemID is set
-		$url = $itemid ? 'index.php?Itemid=' . $itemid : JURI::root();
+		// Get the language of the page when multilang is on
+		if (JLanguageMultilang::isEnabled())
+		{
+			if ($itemid)
+			{
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('language')
+					->from($db->quoteName('#__menu'))
+					->where('client_id = 0')
+					->where('id =' . $itemid);
+
+				$db->setQuery($query);
+
+				try
+				{
+					$language = $db->loadResult();
+				}
+				catch (RuntimeException $e)
+				{
+					return;
+				}
+
+				if ($language !== '*')
+				{
+					$lang = '&lang=' . $language;
+				}
+				else
+				{
+					$lang = '';
+				}
+
+				// URL to redirect after logout
+				$url = 'index.php?Itemid=' . $itemid . $lang;
+			}
+			else
+			{
+				// Logout is set to default. Get the home page ItemID
+				$lang_code = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
+				$item      = $app->getMenu()->getDefault($lang_code);
+				$itemid    = $item->id;
+
+				// Redirect to Home page after logout
+				$url = 'index.php?Itemid=' . $itemid;
+			}
+		}
+		else
+		{
+			// URL to redirect after logout, default page if no ItemID is set
+			$url = $itemid ? 'index.php?Itemid=' . $itemid : JUri::root();
+		}
 
 		// Logout and redirect
 		$this->setRedirect('index.php?option=com_users&task=user.logout&' . JSession::getFormToken() . '=1&return=' . base64_encode($url));

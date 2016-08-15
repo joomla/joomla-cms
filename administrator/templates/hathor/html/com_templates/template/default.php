@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ JFactory::getDocument()->addStyleDeclaration("
 if($this->type == 'font')
 {
 	JFactory::getDocument()->addStyleDeclaration(
-		"/* Styles for font preview */
+			"/* Styles for font preview */
 		@font-face
 		{
 			font-family: previewFont;
@@ -141,8 +141,15 @@ if($this->type == 'font')
 					<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
 				</div>
 				<div class="modal-footer">
-					<a href="#" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
+					<form method="post" action="">
+						<input type="hidden" name="option" value="com_templates" />
+						<input type="hidden" name="task" value="template.delete" />
+						<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>" />
+						<input type="hidden" name="file" value="<?php echo $this->file; ?>" />
+						<?php echo JHtml::_('form.token'); ?>
+						<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></button>
+					</form>
 				</div>
 			</fieldset>
 		</div>
@@ -280,7 +287,7 @@ if($this->type == 'font')
 				<h1><p><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></p></h1>
 				<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 				<p>
-					<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank">
+					<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank">
 						<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 					</a>
 				</p>
@@ -427,72 +434,72 @@ if($this->type == 'font')
 	</fieldset>
 
 	<?php echo JHtml::_('sliders.start', 'content-sliders', array('useCookie' => 1)); ?>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_TEMPLATE_COPY'), 'template-copy'); ?>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-				  method="post" name="adminForm" id="adminForm">
-				<fieldset class="panelform">
-					<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<input type="text" id="new_name" name="new_name"  />
-					<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
-				</fieldset>
-				<?php echo JHtml::_('form.token'); ?>
-			</form>
-		<?php if ($this->type != 'home'): ?>
-			<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_BUTTON_RENAME'), 'file-rename'); ?>
-				<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-					  method="post" name="adminForm" id="adminForm">
-					<fieldset class="panelform">
-						<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-						<input type="text" name="new_name"  />
-						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
-					</fieldset>
-					<?php echo JHtml::_('form.token'); ?>
-				</form>
-		<?php endif; ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_TEMPLATE_COPY'), 'template-copy'); ?>
+	<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+		  method="post" name="adminForm" id="adminForm">
+		<fieldset class="panelform">
+			<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+			<input type="text" id="new_name" name="new_name"  />
+			<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+		</fieldset>
+		<?php echo JHtml::_('form.token'); ?>
+	</form>
+	<?php if ($this->type != 'home'): ?>
+		<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_BUTTON_RENAME'), 'file-rename'); ?>
+		<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+			  method="post" name="adminForm" id="adminForm">
+			<fieldset class="panelform">
+				<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
+				<input type="text" name="new_name"  />
+				<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
+			</fieldset>
+			<?php echo JHtml::_('form.token'); ?>
+		</form>
+	<?php endif; ?>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_MODULES'), 'override-module'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach($this->overridesList['modules'] as $module): ?>
-					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach($this->overridesList['modules'] as $module): ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'), 'override-component'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach ($this->overridesList['components'] as $key => $value): ?>
-					<li class="component-folder">
-						<a href="#" class="component-folder-url">
-							<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
-						</a>
-						<ul class="adminformList">
-							<?php foreach ($value as $view): ?>
-								<li>
-									<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-										<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
-									</a>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach ($this->overridesList['components'] as $key => $value): ?>
+				<li class="component-folder">
+					<a href="#" class="component-folder-url">
+						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
+					</a>
+					<ul class="adminformList">
+						<?php foreach ($value as $view): ?>
+							<li>
+								<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+									<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'), 'override-layout'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach($this->overridesList['layouts'] as $layout): ?>
-					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+			<?php foreach($this->overridesList['layouts'] as $layout): ?>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
+					</a>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 	<?php echo JHtml::_('sliders.end'); ?>
 </div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ jimport('joomla.filesystem.folder');
 class JInstallerAdapterPlugin extends JInstallerAdapter
 {
 	/**
-	 * <scriptfile> element of the extension manifest
+	 * `<scriptfile>` element of the extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -27,7 +27,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	protected $scriptElement = null;
 
 	/**
-	 * <files> element of the old extension manifest
+	 * `<files>` element of the old extension manifest
 	 *
 	 * @var    object
 	 * @since  3.1
@@ -66,7 +66,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -155,7 +155,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 			array(
 				'element' => $this->element,
 				'type'    => $this->type,
-				'folder'  => $this->group
+				'folder'  => $this->group,
 			)
 		);
 

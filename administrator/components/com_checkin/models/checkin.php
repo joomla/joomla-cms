@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,6 +32,27 @@ class CheckinModelCheckin extends JModelList
 	protected $tables;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   3.5
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'table',
+				'count',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note: Calling getState in this method will result in recursion.
@@ -45,8 +66,7 @@ class CheckinModelCheckin extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search'));
 
 		// List state information.
 		parent::populateState('table', 'asc');
@@ -176,6 +196,12 @@ class CheckinModelCheckin extends JModelList
 				if ($db->execute())
 				{
 					$results[$tn] = $db->loadResult();
+
+					// Show only tables with items to checkin.
+					if ((int) $results[$tn] === 0)
+					{
+						unset($results[$tn]);
+					}
 				}
 				else
 				{
@@ -185,9 +211,10 @@ class CheckinModelCheckin extends JModelList
 
 			$this->total = count($results);
 
+			// Order items by table
 			if ($this->getState('list.ordering') == 'table')
 			{
-				if ($this->getState('list.direction') == 'asc')
+				if (strtolower($this->getState('list.direction')) == 'asc')
 				{
 					ksort($results);
 				}
@@ -196,9 +223,10 @@ class CheckinModelCheckin extends JModelList
 					krsort($results);
 				}
 			}
+			// Order items by number of items
 			else
 			{
-				if ($this->getState('list.direction') == 'asc')
+				if (strtolower($this->getState('list.direction')) == 'asc')
 				{
 					asort($results);
 				}
@@ -208,7 +236,17 @@ class CheckinModelCheckin extends JModelList
 				}
 			}
 
-			$this->items = array_slice($results, $this->getState('list.start'), $this->getState('list.limit'));
+			// Pagination
+			$limit = (int) $this->getState('list.limit');
+
+			if ($limit !== 0)
+			{
+				$this->items = array_slice($results, $this->getState('list.start'), $limit);
+			}
+			else
+			{
+				$this->items = $results;
+			}
 		}
 
 		return $this->items;

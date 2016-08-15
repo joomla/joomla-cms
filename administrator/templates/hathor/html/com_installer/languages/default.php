@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 $version = new JVersion;
 
+// Add spindle-wheel for language installation.
+JFactory::getDocument()->addScriptDeclaration('
+jQuery(document).ready(function($) {
+	Joomla.loadingLayer("load");
+	$("#adminForm").on("submit", function(e) {
+		if (document.getElementsByName("task")[0].value == "languages.install")
+		{
+			Joomla.loadingLayer("show");
+		}
+	});
+});
+');
 ?>
-
 <div id="installer-languages">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=languages');?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -65,8 +76,8 @@ $version = new JVersion;
 							<?php echo $language->name; ?>
 
 							<?php // Display a Note if language pack version is not equal to Joomla version ?>
-							<?php if (substr($language->version, 0, 3) != $version->RELEASE
-									|| substr($language->version, 0, 5) != $version->RELEASE . "." . $version->DEV_LEVEL) : ?>
+							<?php if (substr($language->version, 0, 3) != $version::RELEASE
+									|| substr($language->version, 0, 5) != $version->getShortVersion()) : ?>
 								<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
 							<?php endif; ?>
 						</td>

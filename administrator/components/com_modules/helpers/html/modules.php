@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,7 +136,8 @@ abstract class JHtmlModules
 
 	public static function positions($clientId, $state = 1, $selectedPosition = '')
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php';
+		JLoader::register('TemplatesHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php');
+
 		$templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
 		$templateGroups = array();
 

@@ -215,5 +215,7 @@ tinymce.addI18n('ga',{
 "Tools": "Uirlis\u00ed",
 "View": "Amharc",
 "Table": "T\u00e1bla",
-"Format": "Form\u00e1id"
+"Format": "Form\u00e1id",
+"Insert\/Edit code sample": "Cuir c\u00f3d samplach isteach\/in eagar",
+"Language": "Teanga"
 });

@@ -4,11 +4,8 @@
 	<version>3.3.0.1</version>
 	<creationDate>2014-05-07</creationDate>
 	<author>Joomla! Project</author>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>cy-GB site language</description>
 	<metadata>
 		<name>Welsh (United Kingdom)</name>
 		<tag>cy-GB</tag>

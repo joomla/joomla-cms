@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,12 +19,7 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-		<?php if (!count($this->messages)) : ?>
-			<div class="alert alert-info">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
-			</div>
-		<?php else : ?>
+		<?php if (count($this->messages)) : ?>
 			<?php echo JHtml::_('bootstrap.startAccordion', 'warnings', array('active' => 'warning0')); ?>
 				<?php $i = 0; ?>
 				<?php foreach($this->messages as $message) : ?>
@@ -35,7 +30,7 @@ defined('_JEXEC') or die;
 					<?php echo JHtml::_('bootstrap.addSlide', 'warnings', JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'), 'furtherinfo'); ?>
 						<?php echo JText::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?>
 					<?php echo JHtml::_('bootstrap.endSlide'); ?>
-			<?php echo JHtml::_('bootstrap.endAccordion'); ?>	
+			<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 		<?php endif; ?>
 			<div>
 				<input type="hidden" name="boxchecked" value="0" />

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 	<p> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
 <?php else : ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<fieldset class="filters">
 		<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
@@ -140,19 +140,19 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 				<?php $images = json_decode($item->images); ?>
 				<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
 				<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
-				<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+				<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>"> <img
 					<?php if ($images->image_first_caption):
-						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
+						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') .'"';
 					endif; ?>
-					src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
+					src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 				<?php endif; ?>
 				<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
 					<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
-					<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+					<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image"> <img
 					<?php if ($images->image_second_caption):
-						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
+						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption, ENT_COMPAT, 'UTF-8') .'"';
 					endif; ?>
-					src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
+					src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>"/> </div>
 				<?php endif; ?>
 
 				<?php echo $item->description; ?>

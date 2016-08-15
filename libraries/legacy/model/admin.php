@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,13 +67,6 @@ abstract class JModelAdmin extends JModelForm
 	protected $event_change_state = null;
 
 	/**
-	 * Maps events to plugin groups.
-	 *
-	 * @var array
-	 */
-	protected $events_map = null;
-
-	/**
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
@@ -89,7 +82,7 @@ abstract class JModelAdmin extends JModelForm
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag'
+		'tag' => 'batchTag',
 	);
 
 	/**
@@ -163,7 +156,8 @@ abstract class JModelAdmin extends JModelForm
 			array(
 				'delete'       => 'content',
 				'save'         => 'content',
-				'change_state' => 'content'
+				'change_state' => 'content',
+				'validate'     => 'content',
 			), $config['events_map']
 		);
 
@@ -345,7 +339,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	12.2
 	 */
@@ -363,7 +357,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$categoryId = $value;
 
-		if (!static::checkCategoryId($categoryId))
+		if (!$this->checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -396,7 +390,7 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			static::generateTitle($categoryId, $this->table);
+			$this->generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
@@ -533,7 +527,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$categoryId = (int) $value;
 
-		if (!static::checkCategoryId($categoryId))
+		if (!$this->checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -604,7 +598,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  void.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   3.1
 	 */
@@ -660,9 +654,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -676,9 +668,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -686,7 +676,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
 	 *
-	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
+	 * @return  integer|boolean  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
 	 * @since   12.2
 	 */
@@ -783,14 +773,14 @@ abstract class JModelAdmin extends JModelForm
 					// Multilanguage: if associated, delete the item in the _associations table
 					if ($this->associationsContext && JLanguageAssociations::isEnabled())
 					{
-
-						$db = JFactory::getDbo();
+						$db = $this->getDbo();
 						$query = $db->getQuery(true)
 							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
 							->from($db->quoteName('#__associations') . ' AS as1')
 							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
 							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk);
+							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
 						$row = $db->loadAssoc();
@@ -886,7 +876,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed    Object on success, false on failure.
+	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -1003,7 +993,19 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
+
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					return false;
+				}
+
+				// If the table is checked out by another user, drop it and report to the user trying to change its state.
+				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				{
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), JLog::WARNING, 'jerror');
+
+					// Prune items that you can't change.
+					unset($pks[$i]);
 
 					return false;
 				}
@@ -1045,7 +1047,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $pks    The ID of the primary key to move.
 	 * @param   integer  $delta  Increment, usually +1 or -1
 	 *
-	 * @return  mixed  False on failure or error, true on success, null if the $pk is empty (no items selected).
+	 * @return  boolean|null  False on failure or error, true on success, null if the $pk is empty (no items selected).
 	 *
 	 * @since   12.2
 	 */
@@ -1201,25 +1203,28 @@ abstract class JModelAdmin extends JModelForm
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && JLanguageAssociations::isEnabled())
+		if ($this->associationsContext && JLanguageAssociations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 
 			// Unset any invalid associations
+			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
+
+			// Unset any invalid associations
 			foreach ($associations as $tag => $id)
 			{
-				if (!(int) $id)
+				if (!$id)
 				{
 					unset($associations[$tag]);
 				}
 			}
 
-			// Show a notice if the item isn't assigned to a language but we have associations.
+			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && ($table->language == '*'))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
-					'notice'
+					'warning'
 				);
 			}
 
@@ -1244,7 +1249,7 @@ abstract class JModelAdmin extends JModelForm
 
 				foreach ($associations as $id)
 				{
-					$query->values($id . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
@@ -1261,11 +1266,11 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  mixed
+	 * @return  boolean|JException  Boolean true on success, false on failure, or JException if no items are selected
 	 *
 	 * @since   12.2
 	 */
-	public function saveorder($pks = null, $order = null)
+	public function saveorder($pks = array(), $order = null)
 	{
 		$table = $this->getTable();
 		$tableClassName = get_class($table);

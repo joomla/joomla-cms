@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,12 +90,14 @@ class JFormFieldMenutype extends JFormFieldList
 			'bootstrap.renderModal',
 			'menuTypeModal',
 			array(
-				'url'    => $link,
-				'title'  => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
-				'width'  => '800px',
-				'height' => '300px',
-				'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">'
-					. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				'url'        => $link,
+				'title'      => JText::_('COM_MENUS_ITEM_FIELD_TYPE_LABEL'),
+				'width'      => '800px',
+				'height'     => '300px',
+				'modalWidth' => '80',
+				'bodyHeight' => '70',
+				'footer'     => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 			)
 		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'

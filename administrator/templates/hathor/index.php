@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,7 +99,7 @@ else
 	<![endif]-->
 	</head>
 <body id="minwidth-body">
-<div id="containerwrap">
+<div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
 	<!-- Header Logo -->
 	<div id="header">
 		<!-- Site Title and Skip to Content -->
