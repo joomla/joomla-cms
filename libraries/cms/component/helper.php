@@ -508,4 +508,21 @@ class JComponentHelper
 
 		return true;
 	}
+
+	/**
+	 * Get installed components
+	 *
+	 * @return  array  The components property
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getComponents()
+	{
+		if (empty(static::$components))
+		{
+			static::load('*');
+		}
+
+		return static::$components;
+	}
 }
