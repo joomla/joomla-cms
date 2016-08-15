@@ -1349,7 +1349,7 @@ class JClientFtp
 		{
 			@fclose($this->_dataconn);
 
-			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_BAD_RESPONSE_SIZE', $this->_response, $remote), 35);
+			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_SIZE_BAD_RESPONSE', $this->_response, $remote), 35);
 		}
 
 		return (int) substr($this->_responseMsg, 4);
