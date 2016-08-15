@@ -42,5 +42,3 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
-
-
