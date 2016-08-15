@@ -1207,7 +1207,7 @@ class JClientFtp
 		// Close the data connection port [Data transfer complete]
 		fclose($this->_dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			JLog::add(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_WRITE_BAD_RESPONSE_TRANSFER', $this->_response, $remote), JLog::WARNING, 'jerror');
@@ -1296,7 +1296,7 @@ class JClientFtp
 		// Close the data connection port [Data transfer complete]
 		fclose($this->_dataconn);
 
-		// Verify that the server recieved the transfer
+		// Verify that the server received the transfer
 		if (!$this->_verifyResponse(226))
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_CLIENT_ERROR_JFTP_APPEND_BAD_RESPONSE_TRANSFER', $this->_response, $remote), 37);
