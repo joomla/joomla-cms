@@ -410,7 +410,7 @@ class JFilesystemPatcher
 			{
 				if ($src_left == 0)
 				{
-					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_REMOVE_LINE', key($lines)));
+					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXPECTED_REMOVE_LINE', key($lines)));
 				}
 
 				$source[] = substr($line, 1);
