@@ -18,7 +18,7 @@ $component = $parts[0];
 
 if (!JFactory::getUser()->authorise('core.manage', $component))
 {
-	throw new JControllerExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 JLoader::register('JHtmlCategoriesAdministrator', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/html/categoriesadministrator.php');
