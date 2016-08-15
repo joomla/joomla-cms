@@ -19,6 +19,17 @@ use Joomla\Registry\Registry;
 class JTableMenu extends JTableNested
 {
 	/**
+	 * Mapping of database columns alias.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_columnAlias = array(
+		'state'    => 'published',
+		'ordering' => 'lft',
+	);
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
