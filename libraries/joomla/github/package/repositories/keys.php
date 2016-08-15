@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Forks class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/keys
+ * @documentation https://developer.github.com/v3/repos/keys
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesKeys extends JGithubPackage
 {
@@ -78,7 +79,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(
@@ -107,7 +108,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 
 		$data = array(
 			'title' => $title,
-			'key'   => $key
+			'key'   => $key,
 		);
 
 		return $this->processResponse(

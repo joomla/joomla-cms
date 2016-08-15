@@ -92,7 +92,7 @@ class JModelList extends JModelLegacy
 	{
 		parent::__construct($config);
 
-		// Add the ordering filtering fields white list.
+		// Add the ordering filtering fields whitelist.
 		if (isset($config['filter_fields']))
 		{
 			$this->filter_fields = $config['filter_fields'];
@@ -585,7 +585,7 @@ class JModelList extends JModelLegacy
 				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
 				$this->setState('list.limit', $limit);
 
-				// Check if the ordering field is in the white list, otherwise use the incoming value.
+				// Check if the ordering field is in the whitelist, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
 				if (!in_array($value, $this->filter_fields))
@@ -707,7 +707,7 @@ class JModelList extends JModelLegacy
 			}
 		}
 
-		if (($cur_state != $new_state) && ($resetPage))
+		if (($cur_state != $new_state) && $new_state !== null && ($resetPage))
 		{
 			$input->set('limitstart', 0);
 		}

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View to edit a banner.
@@ -112,7 +112,7 @@ class BannersViewBanner extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_banners.banner', $this->item->id);
 			}

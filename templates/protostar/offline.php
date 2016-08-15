@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 
 $twofactormethods = UsersHelper::getTwoFactorMethods();
 $app              = JFactory::getApplication();
@@ -69,7 +69,7 @@ $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
 
 if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
+	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
 }
 
 // Load optional RTL Bootstrap CSS

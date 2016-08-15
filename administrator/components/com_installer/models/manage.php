@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Manage Model
@@ -243,7 +243,7 @@ class InstallerModelManage extends InstallerModel
 					continue;
 				}
 
-				// Package uninstalled sucessfully
+				// Package uninstalled successfully
 				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
 

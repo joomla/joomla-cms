@@ -149,7 +149,7 @@ if ($saveOrder)
 										<?php $language = $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id);?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -174,7 +174,7 @@ if ($saveOrder)
 								<?php endif; ?>
 							</td>
 							<td class="small hidden-phone">
-								<?php if ($item->language == '*'):?>
+								<?php if ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else:?>
 									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>

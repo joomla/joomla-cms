@@ -947,7 +947,7 @@ class JDocument
 	{
 		$this->_mime = strtolower($type);
 
-		// Syncing with meta-data
+		// Syncing with metadata
 		if ($sync)
 		{
 			$this->setMetaData('content-type', $type . '; charset=' . $this->_charset, true);
