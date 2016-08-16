@@ -14,8 +14,6 @@ use Joomla\Utilities\ArrayHelper;
 extract($displayData);
 
 // Get some system objects.
-$config   = JFactory::getConfig();
-$user     = JFactory::getUser();
 $document = JFactory::getDocument();
 $tag      = JFactory::getLanguage()->getTag();
 
@@ -97,39 +95,6 @@ $disabled = isset($attributes['disabled']) && $attributes['disabled'] == 'disabl
 if (is_array($attributes))
 {
 	$attributes = ArrayHelper::toString($attributes);
-}
-
-// If a known filter is given use it.
-switch (strtoupper($filter))
-{
-	case 'SERVER_UTC':
-		// Convert a date to UTC based on the server timezone.
-		if ($value && $value != JFactory::getDbo()->getNullDate())
-		{
-			// Get a date object based on the correct timezone.
-			$date = JFactory::getDate($value, 'UTC');
-			$date->setTimezone(new DateTimeZone($config->get('offset')));
-
-			// Transform the date string.
-			$value = $date->format('Y-m-d H:i:s', true, false);
-		}
-
-		break;
-
-	case 'USER_UTC':
-		// Convert a date to UTC based on the user timezone.
-		if ($value && $value != JFactory::getDbo()->getNullDate())
-		{
-			// Get a date object based on the correct timezone.
-			$date = JFactory::getDate($value, 'UTC');
-
-			$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
-
-			// Transform the date string.
-			$value = $date->format('Y-m-d H:i:s', true, false);
-		}
-
-		break;
 }
 
 JHtml::_('script', $tag . '/date-helper.js', false, true, false, false, true);

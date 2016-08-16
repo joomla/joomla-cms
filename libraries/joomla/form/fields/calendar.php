@@ -225,7 +225,9 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getLayoutData()
 	{
-		$data = parent::getLayoutData();
+		$data   = parent::getLayoutData();
+		$user   = JFactory::getUser();
+		$config = JFactory::getConfig();
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($this->value && $this->value != JFactory::getDbo()->getNullDate() && strtotime($this->value) !== false)
@@ -234,6 +236,40 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			date_default_timezone_set('UTC');
 			$data['value'] = strftime($this->format, strtotime($this->value));
 			date_default_timezone_set($tz);
+		}
+
+
+		// If a known filter is given use it.
+		switch (strtoupper($this->filter))
+		{
+			case 'SERVER_UTC':
+				// Convert a date to UTC based on the server timezone.
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+				{
+					// Get a date object based on the correct timezone.
+					$this->date = JFactory::getDate($this->value, 'UTC');
+					$this->date->setTimezone(new DateTimeZone($config->get('offset')));
+
+					// Transform the date string.
+					$this->value = $this->date->format('Y-m-d H:i:s', true, false);
+				}
+
+				break;
+
+			case 'USER_UTC':
+				// Convert a date to UTC based on the user timezone.
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+				{
+					// Get a date object based on the correct timezone.
+					$this->date = JFactory::getDate($this->value, 'UTC');
+
+					$this->date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+
+					// Transform the date string.
+					$this->value = $this->date->format('Y-m-d H:i:s', true, false);
+				}
+
+				break;
 		}
 
 		$extraData = array(
