@@ -39,7 +39,7 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level')
+			->select('DISTINCT(a.id) AS value, a.title AS text, a.level')
 			->from('#__menu AS a');
 
 		// Filter by menu type.
@@ -68,7 +68,6 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		$query->where('a.published != -2')
-			->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published')
 			->order('a.lft ASC');
 
 		// Get the options.
