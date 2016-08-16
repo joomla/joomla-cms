@@ -290,8 +290,8 @@ class JUri extends Uri
 					 * - supplied URL: port 80 (HTTP) or 443 (HTTPS), our base URL: no port
 					 * In these two cases we have to replace the port in the supplied URL with the port from our base URL.
 					 */
-					if ((!$uPort and (($bScheme == 'http' and $bPort == 80) or ($bScheme == 'https' and $bPort == 443))) or
-						(!$bPort and (($uScheme == 'http' and $uPort == 80) or ($uScheme == 'https' and $uPort == 443))))
+					if ((!$uPort && (($bScheme == 'http' && $bPort == 80) || ($bScheme == 'https' && $bPort == 443)))
+						|| (!$bPort && (($uScheme == 'http' && $uPort == 80) || ($uScheme == 'https' && $uPort == 443))))
 					{
 						$uri->setPort($bPort);
 					}
@@ -307,8 +307,8 @@ class JUri extends Uri
 					 *   the port is either not specified or 80
 					 * In these two cases we have to replace the scheme and the port in the supplied URL with the scheme and the port from our base URL.
 					 */
-					if (($uScheme == 'http' and (!$uPort or $uPort == 80) and $bScheme == 'https' and (!$bPort or $bPort == 443)) or
-						($uScheme == 'https' and (!$uPort or $uPort == 443) and $bScheme == 'http' and (!$bPort or $bPort == 80)))
+					if (($uScheme == 'http' && (!$uPort || $uPort == 80) && $bScheme == 'https' && (!$bPort || $bPort == 443))
+						|| ($uScheme == 'https' && (!$uPort || $uPort == 443) && $bScheme == 'http' && (!$bPort || $bPort == 80)))
 					{
 						$uri->setScheme($bScheme);
 						$uri->setPort($bPort);
