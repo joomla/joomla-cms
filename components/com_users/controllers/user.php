@@ -206,7 +206,7 @@ class UsersControllerUser extends UsersController
 			// Don't redirect to an external URL.
 			if (!JUri::isInternal($return))
 			{
-				$return = '';
+				$return = 'index.php';
 			}
 		}
 
