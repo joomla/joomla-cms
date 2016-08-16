@@ -16,9 +16,6 @@
  */
 function updatecachetime_postinstall_condition()
 {
-	JLoader::import('joomla.application.component.helper');
-	JLoader::import('joomla.application.plugin.helper');
-
 	$cacheTimeout = (int) JComponentHelper::getComponent('com_installer')->params->get('cachetimeout', 6);
 
 	// Check if cachetimeout is eq zero
@@ -39,8 +36,6 @@ function updatecachetime_postinstall_condition()
  */
 function updatecachetime_postinstall_action()
 {
-	JLoader::import('joomla.application.component.helper');
-
 	$installer = JComponentHelper::getComponent('com_installer');
 
 	// Sets the cachtimeout back to the default (6 hours)
