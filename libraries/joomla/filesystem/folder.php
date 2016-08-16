@@ -444,7 +444,7 @@ abstract class JFolder
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
 				{
-					return JText::_('Rename failed');
+					return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', 'PHP');
 				}
 
 				$ret = true;
@@ -453,7 +453,7 @@ abstract class JFolder
 			{
 				if (!@rename($src, $dest))
 				{
-					return JText::_('Rename failed');
+					return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', 'FTP');
 				}
 
 				$ret = true;

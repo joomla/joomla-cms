@@ -30,7 +30,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container">
 <?php endif;?>
 	<fieldset id="filter-bar">
-	<legend class="element-invisible"><?php echo JText::_('Filters'); ?></legend>
+	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
