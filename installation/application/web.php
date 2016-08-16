@@ -284,7 +284,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 	/**
 	 * Returns the installed language files in the administrative and
-	 * front-end area.
+	 * frontend area.
 	 *
 	 * @param   mixed  $db  JDatabaseDriver instance.
 	 *
@@ -430,7 +430,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Check for custom helpurl.
 		if (empty($forced['helpurl']))
 		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+			$options['helpurl'] = 'https://help.joomla.org/proxy/index.php?keyref=Help{major}{minor}:{keyref}';
 		}
 		else
 		{
