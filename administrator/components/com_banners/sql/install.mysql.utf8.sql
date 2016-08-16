@@ -1,4 +1,3 @@
-<<<<<<< fde55e9cede48db34b526ea1a107a8e9b93d6299
 --
 -- Table structure for table `#__banners`
 --
@@ -51,7 +50,6 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
 -- Table structure for table `#__banner_clients`
 --
 
-<<<<<<< fde55e9cede48db34b526ea1a107a8e9b93d6299
 CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
