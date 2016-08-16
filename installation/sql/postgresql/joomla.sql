@@ -299,7 +299,7 @@ CREATE INDEX "#__contact_details_idx_featured_catid" ON "#__contact_details" ("f
 CREATE INDEX "#__contact_details_idx_language" ON "#__contact_details" ("language");
 CREATE INDEX "#__contact_details_idx_xreference" ON "#__contact_details" ("xreference");
 
-COMMENT ON COLUMN "#__contact_details"."featured" IS 'Set if article is featured.';
+COMMENT ON COLUMN "#__contact_details"."featured" IS 'Set if contact is featured.';
 COMMENT ON COLUMN "#__contact_details"."xreference" IS 'A reference to enable linkages to external data sets.';
 
 --
@@ -1372,7 +1372,7 @@ CREATE TABLE "#__newsfeeds" (
   "id" serial NOT NULL,
   "name" varchar(100) DEFAULT '' NOT NULL,
   "alias" varchar(100) DEFAULT '' NOT NULL,
-  "link" varchar(200) DEFAULT '' NOT NULL,
+  "link" varchar(2048) DEFAULT '' NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "numarticles" bigint DEFAULT 1 NOT NULL,
   "cache_time" bigint DEFAULT 3600 NOT NULL,

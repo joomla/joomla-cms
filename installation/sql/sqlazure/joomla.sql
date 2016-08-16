@@ -2229,7 +2229,7 @@ CREATE TABLE [#__newsfeeds](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](100) NOT NULL DEFAULT '',
 	[alias] [nvarchar](255) NOT NULL,
-	[link] [nvarchar](200) NOT NULL DEFAULT '',
+	[link] [nvarchar](2048) NOT NULL DEFAULT '',
 	[published] [smallint] NOT NULL DEFAULT 0,
 	[numarticles] [bigint] NOT NULL DEFAULT 1,
 	[cache_time] [bigint] NOT NULL DEFAULT 3600,
