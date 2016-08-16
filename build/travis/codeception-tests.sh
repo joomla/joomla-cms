@@ -23,7 +23,7 @@ cat ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
 sudo a2enmod rewrite actions fastcgi alias
 echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-sudo cp -f tests/travis-ci-apache.conf /etc/apache2/sites-available/default
+sudo cp -f tests/codeception/travis-ci-apache.conf /etc/apache2/sites-available/default
 sudo sed -e "s?%TRAVIS_BUILD_DIR%?$BASE?g" --in-place /etc/apache2/sites-available/default
 git submodule update --init --recursive
 
@@ -38,7 +38,7 @@ fluxbox &
 sleep 3 # give fluxbox some time to start
 
 # Composer in tests folder
-cd tests/
+cd tests/codeception
 composer install
 cd $BASE
 
