@@ -7,7 +7,7 @@
  *
  * @see http://robo.li/
  */
-require_once __DIR__ . '/tests/vendor/autoload.php';
+require_once __DIR__ . '/tests/codeception/vendor/autoload.php';
 
 if (!defined('JPATH_BASE'))
 {
