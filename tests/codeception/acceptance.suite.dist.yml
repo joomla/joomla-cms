@@ -12,7 +12,7 @@ modules:
         - Asserts
     config:
         JoomlaBrowser:
-            url: 'http://localhost/tests/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            url: 'http://localhost/tests/codeception/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'firefox'
             window_size: 1024x768
             capabilities:
@@ -30,7 +30,7 @@ modules:
             admin email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
         AcceptanceHelper:
-            url: 'http://localhost/tests/joomla-cms3' # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
+            url: 'http://localhost/tests/codeception/joomla-cms3' # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
 gherkin:
     contexts:

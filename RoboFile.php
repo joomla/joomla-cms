@@ -21,6 +21,13 @@ class RoboFile extends \Robo\Tasks
 	use \Joomla\Jorobo\Tasks\loadTasks;
 
 	/**
+	 * Path to the codeception tests folder
+	 *
+	 * @var   string
+	 */
+	private $testsPath = 'tests/codeception/';
+
+	/**
 	 * Local configuration parameters
 	 *
 	 * @var array
@@ -84,14 +91,14 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (empty($this->configuration->cmsPath))
 		{
-			return 'tests/joomla-cms3';
+			return $this->testsPath . 'joomla-cms3';
 		}
 
 		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
 			$this->say("Cms path written in local configuration does not exists or is not readable");
 
-			return 'tests/joomla-cms3';
+			return $this->testsPath . 'joomla-cms3';
 		}
 
 		return $this->configuration->cmsPath;
@@ -146,7 +153,7 @@ class RoboFile extends \Robo\Tasks
 		{
 			$this->say("Renaming htaccess.txt to .htaccess");
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
-			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/joomla-cms3/,g" -in-place tests/joomla-cms3/.htaccess');
+			$this->_exec('sed -e "s,# RewriteBase /,RewriteBase /tests/codeception/joomla-cms3/,g" -in-place tests/codeception/joomla-cms3/.htaccess');
 		}
 
 		$this->taskExec('curl -I http://localhost/tests/joomla-cms3/')->printed(true)->run();
@@ -208,9 +215,9 @@ class RoboFile extends \Robo\Tasks
 	private function getComposer()
 	{
 		// Make sure we have Composer
-		if (!file_exists('./tests/composer.phar'))
+		if (!file_exists($this->testsPath . 'composer.phar'))
 		{
-			$this->_exec('curl -o tests/composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
+			$this->_exec('curl -o ' . $this->testsPath . 'composer.phar  --retry 3 --retry-delay 5 -sS https://getcomposer.org/installer | php');
 		}
 	}
 
@@ -223,11 +230,11 @@ class RoboFile extends \Robo\Tasks
 	{
 		if (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
 		{
-			$this->_exec("tests/vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
+			$this->_exec($this->testsPath . "vendor/bin/selenium-server-standalone >> selenium.log 2>&1 &");
 		}
 		else
 		{
-			$this->_exec("START java.exe -jar .\\tests\\vendor\\joomla-projects\\selenium-server-standalone\\bin\\selenium-server-standalone.jar");
+			$this->_exec("START java.exe -jar .\\tests\\codeception\\vendor\\joomla-projects\\selenium-server-standalone\\bin\\selenium-server-standalone.jar");
 		}
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
@@ -262,16 +269,16 @@ class RoboFile extends \Robo\Tasks
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-		$this->_exec('php tests/vendor/bin/codecept build');
+		$this->_exec('php ' . $this->testsPath . 'vendor/bin/codecept build');
 
-		$pathToCodeception = 'tests/vendor/bin/codecept';
+		$pathToCodeception = $this->testsPath . 'vendor/bin/codecept';
 
 		$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
-			->arg('tests/acceptance/install/')
+			->arg($this->testsPath . 'acceptance/install/')
 			->run()
 			->stopOnFail();
 
@@ -280,7 +287,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
-			->arg('tests/acceptance/content.feature')
+			->arg($this->testsPath . 'acceptance/content.feature')
 			->run()
 			->stopOnFail();
 
@@ -289,7 +296,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
-			->arg('tests/acceptance/users.feature')
+			->arg($this->testsPath . 'acceptance/users.feature')
 			->run()
 			->stopOnFail();
 
@@ -298,7 +305,7 @@ class RoboFile extends \Robo\Tasks
             ->arg('--debug')
             ->arg('--fail-fast')
             ->arg('--env ' . $opts['env'])
-            ->arg('tests/acceptance/users_frontend.feature')
+            ->arg($this->testsPath . 'acceptance/users_frontend.feature')
             ->run()
             ->stopOnFail();
 
@@ -307,7 +314,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
-			->arg('tests/acceptance/category.feature')
+			->arg($this->testsPath . 'acceptance/category.feature')
 			->run()
 			->stopOnFail();
 
@@ -316,7 +323,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
-			->arg('tests/acceptance/administrator/')
+			->arg($this->testsPath . 'acceptance/administrator/')
 			->run()
 			->stopOnFail();
 
@@ -325,7 +332,7 @@ class RoboFile extends \Robo\Tasks
 			->arg('--debug')
 			->arg('--fail-fast')
 			->arg('--env ' . $opts['env'])
-			->arg('tests/acceptance/frontend/')
+			->arg($this->testsPath . 'acceptance/frontend/')
 			->run()
 			->stopOnFail();
 
@@ -357,7 +364,7 @@ class RoboFile extends \Robo\Tasks
 		$this->runSelenium();
 
 		// Make sure to run the build command to generate AcceptanceTester
-		$this->_exec('php tests/vendor/bin/codecept build');
+		$this->_exec('php tests/codeception/vendor/bin/codecept build');
 
 		if (!$pathToTestFile)
 		{
@@ -365,7 +372,7 @@ class RoboFile extends \Robo\Tasks
 
 			$iterator = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(
-					'tests/' . $suite,
+					$this->testsPath . $suite,
 					RecursiveDirectoryIterator::SKIP_DOTS
 				),
 				RecursiveIteratorIterator::SELF_FIRST
@@ -395,7 +402,7 @@ class RoboFile extends \Robo\Tasks
 			$test = $tests[$testNumber];
 		}
 
-		$pathToTestFile = 'tests/' . $suite . '/' . $test;
+		$pathToTestFile = $this->testsPath . $suite . '/' . $test;
 
 		//loading the class to display the methods in the class
 
@@ -407,7 +414,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (isset($fileName[1]) && strripos($fileName[1], 'cest'))
 		{
-			require 'tests/' . $suite . '/' . $test;
+			require $this->testsPath . $suite . '/' . $test;
 
 			$className = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
@@ -438,7 +445,7 @@ class RoboFile extends \Robo\Tasks
 			$pathToTestFile = $pathToTestFile . ':' . $method;
 		}
 
-		$this->taskCodecept('tests/vendor/bin/codecept')
+		$this->taskCodecept($this->testsPath . 'vendor/bin/codecept')
 			->test($pathToTestFile)
 			->arg('--steps')
 			->arg('--debug')

@@ -3,12 +3,9 @@ language: php
 env:
   global:
     - RUN_PHPCS="no"
-<<<<<<< HEAD
     - RUN_CODECEPTION="no"
-=======
     - RUN_UNIT_TESTS="yes"
     - RUN_JAVASCRIPT_TESTS="no"
->>>>>>> joomla/staging
     - INSTALL_MEMCACHE="yes"
     - INSTALL_MEMCACHED="yes"
     - INSTALL_REDIS="yes"
