@@ -32,11 +32,9 @@ class ModLoginHelper
 		$app  = JFactory::getApplication();
 		$item = $app->getMenu()->getItem($params->get($type));
 
-		// Stay on the same page
-		$url = JUri::getInstance()->toString();
-
 		if ($item)
 		{
+			// Continue with the redirection page configured
 			$lang = '';
 
 			if (JLanguageMultilang::isEnabled() && $item->language !== '*')
@@ -45,6 +43,27 @@ class ModLoginHelper
 			}
 
 			$url = 'index.php?Itemid=' . $item->id . $lang;
+
+			// Check whether encrypted login form is enabled
+			if ($params->get('usesecure'))
+			{
+				// Login: access to redirection page via HTTPS, logout: access to redirection page via HTTP
+				$url = JRoute::_($url, true, ($type == 'login') ? 1 : 2);
+			}
+		}
+		else
+		{
+			// Stay on the same page
+			$url = JUri::getInstance();
+
+			// Check whether encrypted login form is enabled
+			if ($params->get('usesecure'))
+			{
+				// Login: access page via HTTPS, logout: access page via HTTP
+				$url->setScheme(($type == 'login') ? 'https' : 'http');
+			}
+			
+			$url = $url->toString();
 		}
 
 		return base64_encode($url);
