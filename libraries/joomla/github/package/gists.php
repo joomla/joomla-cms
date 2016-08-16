@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/gists
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackageGistsComments  $comments  GitHub API object for gist comments.
  */
@@ -23,7 +24,7 @@ class JGithubPackageGists extends JGithubPackage
 	protected $name = 'Gists';
 
 	protected $packages = array(
-		'comments'
+		'comments',
 	);
 
 	/**
@@ -48,7 +49,7 @@ class JGithubPackageGists extends JGithubPackage
 			array(
 				'files' => $this->buildFileData((array) $files),
 				'public' => (bool) $public,
-				'description' => $description
+				'description' => $description,
 			)
 		);
 

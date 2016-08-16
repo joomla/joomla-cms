@@ -144,7 +144,7 @@ class JToolbar
 	}
 
 	/**
-	 * Render a tool bar.
+	 * Render a toolbar.
 	 *
 	 * @return  string  HTML for the toolbar.
 	 *

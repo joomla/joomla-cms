@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests-phpunit/unit/bootstrap.php" colors="true">
+<phpunit bootstrap="tests/unit/bootstrap.php" colors="true">
 	<php>
 		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=root;pass=" />
 		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=localhost;dbname=joomla_ut;user=root;pass=" />
 		<const name="JTEST_DATABASE_PDO_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=root;pass=" />
 		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=postgres;pass=" />
-		<!-- <const name="JTEST_HTTP_STUB" value="http://localhost/tests-phpunit/unit/stubs/jhttp_stub.php" /> -->
+		<!-- <const name="JTEST_HTTP_STUB" value="http://localhost/tests/unit/stubs/jhttp_stub.php" /> -->
 	</php>
 
 	<testsuites>
 		<testsuite name="libraries-cms">
-			<directory>tests-phpunit/unit/suites/libraries/cms</directory>
+			<directory>tests/unit/suites/libraries/cms</directory>
 		</testsuite>
 		<testsuite name="libraries-platform">
-			<directory>tests-phpunit/unit/suites/libraries/joomla</directory>
+			<directory>tests/unit/suites/libraries/joomla</directory>
 		</testsuite>
 		<testsuite name="libraries-legacy">
-			<directory>tests-phpunit/unit/suites/libraries/legacy</directory>
+			<directory>tests/unit/suites/libraries/legacy</directory>
 		</testsuite>
 		<testsuite name="database">
-			<directory>tests-phpunit/unit/suites/database</directory>
+			<directory>tests/unit/suites/database</directory>
 		</testsuite>
 		<testsuite name="administrator">
-			<directory>tests-phpunit/unit/suites/administrator</directory>
+			<directory>tests/unit/suites/administrator</directory>
 		</testsuite>
 		<testsuite name="FinderIndexer">
-			<directory>tests-phpunit/unit/suites/finderIndexer</directory>
+			<directory>tests/unit/suites/finderIndexer</directory>
+		</testsuite>
+		<testsuite name="plugins">
+			<directory>tests/unit/suites/plugins</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

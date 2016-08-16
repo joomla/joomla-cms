@@ -34,7 +34,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 			'msgList' => $msgList,
 			'name'    => $name,
 			'params'  => $params,
-			'content' => $content
+			'content' => $content,
 		);
 
 		$app        = JFactory::getApplication();

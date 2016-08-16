@@ -36,6 +36,7 @@ BDD Testing with Gherkin and Codeception
 * Scenario outline
 * Examples
 
+
 ### Example
 Create a .feature using command `tests/vendor/bin/codecept generate:feature acceptance content`
 

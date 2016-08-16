@@ -1,0 +1,40 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+class_name: AcceptanceTester
+modules:
+    enabled:
+        - JoomlaBrowser
+        - AcceptanceHelper
+    config:
+        JoomlaBrowser:
+            url: 'http://automated:8080/tests/codeception/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
+            browser: 'firefox'
+            window_size: 1024x768
+            capabilities:
+              unexpectedAlertBehaviour: 'accept'
+            username: 'admin'                      # UserName for the Administrator
+            password: 'admin'                      # Password for the Administrator
+            database host: 'localhost'             # place where the Application is Hosted #server Address
+            database user: 'root'                  # MySQL Server user ID, usually root
+            database password: 'root'                  # MySQL Server password, usually empty or root
+            database name: 'automated_joomla'           # DB Name, at the Server
+            database type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
+            database prefix: 'jos_'                # DB Prefix for tables
+            install sample data: 'no'              # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
+            sample data: 'Default English (GB) Sample Data'    # Default Sample Data
+            admin email: 'admin@mydomain.com'      # email Id of the Admin
+            language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
+        AcceptanceHelper:
+            url: 'http://automated:8080/tests/codeception/joomla-cms3' # the url that points to the joomla installation at /tests/system/joomla-cms - we need it twice here
+error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
+gherkin:
+    contexts:
+        default:
+            - AcceptanceTester
+            - Step\Acceptance\Administrator\User
+            - Page\Acceptance\Administrator\Login
+            - Step\Acceptance\Administrator\Content\Create
