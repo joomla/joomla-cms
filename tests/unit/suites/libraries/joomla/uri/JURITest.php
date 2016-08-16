@@ -836,6 +836,96 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @covers JUri::isInternal
 	 */
+	public function testHTTPSchemeHostMatchNoPort()
+	{
+		$this->assertTrue(
+			$this->object->isInternal('http://www.example.com/'),
+			'http://www.example.com/ should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testHTTPSchemeHostMatchSamePort()
+	{
+		$this->assertTrue(
+			$this->object->isInternal('http://www.example.com:80/'),
+			'http://www.example.com:80/ should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testHTTPSchemeHostMatchOtherPort()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('http://www.example.com:8080/'),
+			'http://www.example.com:8080/ should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testHTTPSSchemeHostMatchNoPort()
+	{
+		$this->assertTrue(
+			$this->object->isInternal('https://www.example.com/'),
+			'https://www.example.com/ should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testHTTPSSchemeHostMatchStandardPort()
+	{
+		$this->assertTrue(
+			$this->object->isInternal('https://www.example.com:443/'),
+			'https://www.example.com:443/ should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testHTTPSSchemeHostMatchOtherPort()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('https://www.example.com:8443/'),
+			'https://www.example.com:8443/ should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
 	public function testPregMatch()
 	{
 		$this->assertFalse(
