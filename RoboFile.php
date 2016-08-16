@@ -264,7 +264,7 @@ class RoboFile extends \Robo\Tasks
 		$this->createTestingSite($opts['use-htaccess']);
 
 		$this->getComposer();
-		$this->taskComposerInstall('tests/composer.phar')->run();
+		$this->taskComposerInstall($this->testsPath . 'composer.phar')->run();
 
 		$this->runSelenium();
 
@@ -300,14 +300,14 @@ class RoboFile extends \Robo\Tasks
 			->run()
 			->stopOnFail();
 
-        $this->taskCodecept($pathToCodeception)
-            ->arg('--steps')
-            ->arg('--debug')
-            ->arg('--fail-fast')
-            ->arg('--env ' . $opts['env'])
-            ->arg($this->testsPath . 'acceptance/users_frontend.feature')
-            ->run()
-            ->stopOnFail();
+		$this->taskCodecept($pathToCodeception)
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->arg('--env ' . $opts['env'])
+			->arg($this->testsPath . 'acceptance/users_frontend.feature')
+			->run()
+			->stopOnFail();
 
 		$this->taskCodecept($pathToCodeception)
 			->arg('--steps')
