@@ -669,7 +669,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				return;
 			}
 
-			Joomla.removeListener(e.type === 'load' ? window : document, e.type, init);
+			(e.type === 'load' ? window : document).removeEventListener(e.type, init);
 
 			if (!done) {
 				callback.call(window, e.type || e);
@@ -694,66 +694,26 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			}
 
 			// Listen when DOM will become ready
-			Joomla.addListener(document, 'DOMContentLoaded', init);
-			Joomla.addListener(document, 'readystatechange', init);
-			Joomla.addListener(window, 'load', init);
+			document.addEventListener('DOMContentLoaded', init);
+			document.addEventListener('readystatechange', init);
+			window.addEventListener('load', init);
 		}
 	};
 
 	/**
-	 * Method registers the specified listener on the Element.
-	 *
-	 * @param {Element}   element   DOM element
-	 * @param {String}    type      Event type
-	 * @param {Function}  callback  Callback function
-	 *
-	 * @example
-	 *
-	 *  Joomla.addListener(document.getElementById('my-button'), 'click', function(event){
-	 *  	console.log('You just clicked', event.target);
-	 *  });
-	 *
-	 * @see   https://developer.mozilla.org/docs/Web/API/EventTarget/addEventListener
-	 */
-	Joomla.addListener = Joomla.addListener || function (element, type, callback) {
-		var modern = document.addEventListener,
-			method = modern ? 'addEventListener' : 'attachEvent';
-
-		type  = modern ? type : 'on' + type;
-
-		// Add event listener,
-		element[method](type, callback);
-	};
-
-	/**
-	 * Method removes the event listener previously registered with Joomla.addListener.
-	 *
-	 * @param {Element}   element   DOM element
-	 * @param {String}    type      Event type
-	 * @param {Function}  callback  Callback function
-	 *
-	 * @example
-	 *
-	 * // Listener method
-	 * function myClickHandler(event){
-	 * 	  console.log(event);
-	 * }
-	 *
-	 * Joomla.addListener(document.getElementById('my-button'), 'click', myClickHandler); // Add listener
-	 *
-	 * Joomla.removeListener(document.getElementById('my-button'), 'click', myClickHandler); // Remove listener
-	 *
-	 * @see   https://developer.mozilla.org/docs/Web/API/EventTarget/removeEventListener
-	 */
-	Joomla.removeListener = Joomla.removeListener || function (element, type, callback) {
-		var modern = document.removeEventListener,
-			method = modern ? 'removeEventListener' : 'detachEvent';
-
-		type  = modern ? type : 'on' + type;
-
-		// Remove event listener,
-		element[method](type, callback);
-	};
+	 *  EventListener IE Fallback
+     */
+	if (Element.prototype.attachEvent && !Element.prototype.addEventListener) {
+		Window.prototype.addEventListener = HTMLDocument.prototype.addEventListener = Element.prototype.addEventListener = function(type, listener){
+			this.attachEvent('on' + type, listener);
+		};
+		Window.prototype.removeEventListener = HTMLDocument.prototype.removeEventListener = Element.prototype.removeEventListener = function(type, listener){
+			this.detachEvent('on' + type, listener);
+		};
+		Window.prototype.dispatchEvent = HTMLDocument.prototype.dispatchEvent = Element.prototype.dispatchEvent = function(event){
+			this.fireEvent("on" + event.type, event);
+		};
+	}
 
 	/**
 	 * Method to perform AJAX request
@@ -826,7 +786,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				// Request finished and response is ready
 				if (xhr.status === 200) {
 					if(options.onSuccess) {
-						options.onSuccess.call(window, xhr.response, xhr);
+						options.onSuccess.call(window, xhr.responseText, xhr);
 					}
 				} else if(options.onError) {
 					options.onError.call(window, xhr);
