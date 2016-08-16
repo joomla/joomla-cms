@@ -65,7 +65,7 @@ before_script:
 script:
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
   - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
-  - if [[ $RUN_CODECEPTION == "yes" ]]; then tests/vendor/bin/robo run:tests --use-htaccess; fi
+  - if [[ $RUN_CODECEPTION == "yes" ]]; then tests/codeception/vendor/bin/robo run:tests --use-htaccess; fi
   - if [[ $RUN_JAVASCRIPT_TESTS == "yes" ]]; then tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run ; fi
 
 branches:
