@@ -33,7 +33,8 @@ class JLogLoggerSyslog extends JLogLogger
 		JLog::WARNING => 'WARNING',
 		JLog::NOTICE => 'NOTICE',
 		JLog::INFO => 'INFO',
-		JLog::DEBUG => 'DEBUG');
+		JLog::DEBUG => 'DEBUG',
+	);
 
 	/**
 	 * Constructor.

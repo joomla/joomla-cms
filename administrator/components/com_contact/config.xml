@@ -23,12 +23,13 @@
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
 			default="hide"
+			class="chzn-color"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
 			<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK</option>
 		</field>
-		
+
 		<field
 			name="save_history"
 			type="radio"
@@ -40,7 +41,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -342,11 +343,11 @@
 		/>
 
 		<field
-			name="linkc_name" 
+			name="linkc_name"
 			type="text"
-			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL" 
+			label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
 			description="COM_CONTACT_FIELD_LINK_NAME_DESC"
-			size="30" 
+			size="30"
 			showon="show_links:1"
 		/>
 
@@ -405,7 +406,7 @@
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
-			hide_none="1" 
+			hide_none="1"
 			showon="contact_icons:0"
 		/>
 
@@ -414,7 +415,7 @@
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
-			hide_none="1" 
+			hide_none="1"
 			showon="contact_icons:0"
 		/>
 
@@ -422,7 +423,7 @@
 			name="icon_telephone"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" 
+			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC"
 			hide_none="1"
 			showon="contact_icons:0"
 		/>
@@ -430,8 +431,8 @@
 		<field
 			name="icon_mobile"
 			type="media"
-			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" 
-			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" 
+			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
+			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC"
 			hide_none="1"
 			showon="contact_icons:0"
 		/>
@@ -440,8 +441,8 @@
 			name="icon_fax"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" 
-			hide_none="1" 
+			description="COM_CONTACT_FIELD_ICONS_FAX_DESC"
+			hide_none="1"
 			showon="contact_icons:0"
 		/>
 
@@ -449,7 +450,7 @@
 			name="icon_misc"
 			type="media"
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
-			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" 
+			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 			hide_none="1"
 			showon="contact_icons:0"
 		/>
@@ -620,7 +621,7 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-		
+
 		<field
 			name="show_empty_categories_cat"
 			type="radio"
@@ -662,7 +663,7 @@
 			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>		
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -692,7 +693,7 @@
 		<field
 			name="show_image_heading"
 			type="radio"
-			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL" 
+			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
 			default="1"
 			class="btn-group btn-group-yesno"
@@ -947,7 +948,7 @@
 			name="redirect"
 			type="text"
 			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC" 
+			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
 			size="30"
 			showon="show_email_form:1"
 		/>

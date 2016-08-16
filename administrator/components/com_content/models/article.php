@@ -239,7 +239,7 @@ class ContentModelArticle extends JModelAdmin
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
 		}
 	}
 
@@ -496,8 +496,8 @@ class ContentModelArticle extends JModelAdmin
 			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
-		// Save New Category
-		if ($catid == 0)
+		// Save New Categoryg
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
 			$table['title'] = $data['catid'];
@@ -662,12 +662,10 @@ class ContentModelArticle extends JModelAdmin
 
 				// Featuring.
 				$tuples = array();
-				$ordering = $table->getNextOrder();
 
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = $pk . ', ' . $ordering;
-					$ordering++;
+					$tuples[] = $pk . ', 0';
 				}
 
 				if (count($tuples))
@@ -689,6 +687,8 @@ class ContentModelArticle extends JModelAdmin
 			return false;
 		}
 
+		$table->reorder();
+
 		$this->cleanCache();
 
 		return true;
@@ -709,7 +709,7 @@ class ContentModelArticle extends JModelAdmin
 	}
 
 	/**
-	 * Preprocess a form object
+	 * Allows preprocessing of the JForm object.
 	 *
 	 * @param   JForm   $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -721,6 +721,11 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
+		if ($this->canCreateCategory())
+		{
+			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+		}
+
 		// Association content items
 		$assoc = JLanguageAssociations::isEnabled();
 
@@ -791,5 +796,17 @@ class ContentModelArticle extends JModelAdmin
 	public function hit()
 	{
 		return;
+	}
+
+	/**
+	 * Is the user allowed to create an on the fly category?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.1
+	 */
+	private function canCreateCategory()
+	{
+		return JFactory::getUser()->authorise('core.create', 'com_content');
 	}
 }
