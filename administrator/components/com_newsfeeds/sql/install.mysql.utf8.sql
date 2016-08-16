@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `link` varchar(2048) NOT NULL DEFAULT '',
+  `link` varchar(200) NOT NULL DEFAULT '',
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
   `cache_time` int(10) unsigned NOT NULL DEFAULT 3600,
