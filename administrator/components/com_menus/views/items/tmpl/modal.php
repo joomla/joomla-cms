@@ -88,6 +88,22 @@ jQuery(document).ready(function($) {
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<?php if ($item->type != 'separator' && $item->type != 'alias' && $item->type != 'heading' && $item->type != 'url') : ?>
+						<?php if ($item->language && JLanguageMultilang::isEnabled())
+						{
+							if ($item->language !== '*')
+							{
+								$language = $item->language;
+							}
+							else
+							{
+								$language = '';
+							}
+						}
+						elseif (!JLanguageMultilang::isEnabled())
+						{
+							$language = '';
+						}
+						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
 								<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, 0); ?>
@@ -96,11 +112,11 @@ jQuery(document).ready(function($) {
 								<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php echo $prefix; ?>
 								<a class="select-link" href="javascript:void(0)"
-									data-funcion="<?php echo $this->escape($function); ?>"
+									data-function="<?php echo $this->escape($function); ?>"
 									data-id="<?php echo $item->id; ?>"
-									data-title="<?php echo $this->escape(addslashes($item->title)); ?>"
-									data-uri="<?php echo $this->escape(JRoute::_('index.php?Itemid=' . $item->id)); ?>"
-									data-language="<?php echo $this->escape($item->language); ?>">
+									data-title="<?php echo $this->escape($item->title); ?>"
+									data-uri="<?php echo 'index.php?Itemid=' . $item->id; ?>"
+									data-language="<?php echo $this->escape($language); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 								<span class="small">
 									<?php if (empty($item->note)) : ?>
