@@ -9,7 +9,6 @@
 
 namespace Step\Acceptance\Administrator;
 
-use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\ArticleManagerPage;
 
 /**
@@ -19,7 +18,7 @@ use Page\Acceptance\Administrator\ArticleManagerPage;
  *
  * @since    __DEPLOY_VERSION__
  */
-class Content extends \AcceptanceTester
+class Content extends Admin
 {
 	/**
 	 * Method to click toolbar button new from article manager listing page.
@@ -35,7 +34,7 @@ class Content extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(ArticleManagerPage::$url);
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
 	}
 
 	/**
@@ -52,11 +51,7 @@ class Content extends \AcceptanceTester
 	 */
 	public function iCreateNewContent($title, $content)
 	{
-		$I = $this;
-
-		$I->fillField(ArticleManagerPage::$title, $title);
-		$I->click(ArticleManagerPage::$toggleEditor);
-		$I->fillField(ArticleManagerPage::$content, $content);
+		$this->articleManagerPage->fillContentCreateForm($title, $content);
 	}
 
 	/**
@@ -72,26 +67,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save');
-	}
-
-	/**
-	 * Method to confirm message appear
-	 *
-	 * @param   string  $message  The message to be confirm
-	 *
-	 * @Then I should see the :message message
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iShouldSeeTheMessage($message)
-	{
-		$I = $this;
-
-		$I->waitForText($message, TIMEOUT, AdminPage::$systemMessageContainer);
-		$I->see($message, AdminPage::$systemMessageContainer);
+		$I->adminPage->clickToolbarButton('Save');
 	}
 
 	/**
@@ -107,12 +83,7 @@ class Content extends \AcceptanceTester
 	 */
 	public function iSearchAndSelectContentArticleWithTitle($title)
 	{
-		$I = $this;
-
-		$I->amOnPage(ArticleManagerPage::$url);
-		$I->fillField(ArticleManagerPage::$filterSearch, $title);
-		$I->click(ArticleManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->articleManagerPage->haveItemUsingSearch($title);
 	}
 
 	/**
@@ -128,7 +99,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('featured');
+		$I->adminPage->clickToolbarButton('featured');
 	}
 
 	/**
@@ -149,8 +120,8 @@ class Content extends \AcceptanceTester
 		$I->amOnPage(ArticleManagerPage::$url);
 		$I->fillField(ArticleManagerPage::$filterSearch, $title);
 		$I->click(ArticleManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('edit');
+		$I->adminPage->checkAllResults();
+		$I->adminPage->clickToolbarButton('edit');
 	}
 
 	/**
@@ -168,7 +139,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->selectOptionInChosenById('jform_access', $accessLevel);
+		$I->adminPage->selectOptionInChosenById('jform_access', $accessLevel);
 	}
 
 	/**
@@ -184,7 +155,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save & Close');
+		$I->adminPage->clickToolbarButton('Save & Close');
 	}
 
 	/**
@@ -200,12 +171,7 @@ class Content extends \AcceptanceTester
 	 */
 	public function iHaveArticleWithName($title)
 	{
-		$I = $this;
-
-		$I->amOnPage(ArticleManagerPage::$url);
-		$I->fillField(ArticleManagerPage::$filterSearch, $title);
-		$I->click(ArticleManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->articleManagerPage->haveItemUsingSearch($title);
 	}
 
 	/**
@@ -221,7 +187,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('unpublish');
+		$I->adminPage->clickToolbarButton('unpublish');
 	}
 
 	/**
@@ -238,10 +204,7 @@ class Content extends \AcceptanceTester
 	 */
 	public function iSeeArticleUnpublishMessage($title, $message)
 	{
-		$I = $this;
-
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
+		$this->adminPage->seeSystemMessage($title, $message);
 	}
 
 	/**
@@ -257,12 +220,7 @@ class Content extends \AcceptanceTester
 	 */
 	public function iHaveContentArticleWhichNeedsToBeTrash($title)
 	{
-		$I = $this;
-
-		$I->amOnPage(ArticleManagerPage::$url);
-		$I->fillField(ArticleManagerPage::$filterSearch, $title);
-		$I->click(ArticleManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->articleManagerPage->haveItemUsingSearch($title);
 	}
 
 	/**
@@ -278,7 +236,7 @@ class Content extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('trash');
+		$I->adminPage->clickToolbarButton('trash');
 	}
 
 	/**
@@ -295,9 +253,6 @@ class Content extends \AcceptanceTester
 	 */
 	public function iSeeArticleTrashMessage($title, $message)
 	{
-		$I = $this;
-
-		$I->waitForPageTitle($title);
-		$I->see($message, AdminPage::$systemMessageContainer);
+		$this->adminPage->seeSystemMessage($title, $message);
 	}
 }

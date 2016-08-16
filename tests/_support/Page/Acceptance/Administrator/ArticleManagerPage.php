@@ -19,14 +19,6 @@ namespace Page\Acceptance\Administrator;
 class ArticleManagerPage extends AdminPage
 {
 	/**
-	 * Page object for article title field.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $title = ['id' => 'jform_title'];
-
-	/**
 	 * Page object for content body editor field.
 	 *
 	 * @var array
@@ -43,26 +35,32 @@ class ArticleManagerPage extends AdminPage
 	public static $toggleEditor = "Toggle editor";
 
 	/**
-	 * Page object for search filter element of article listing page.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $filterSearch = ['id' => 'filter_search'];
-
-	/**
-	 * Page object for search icon button of article listing page.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $iconSearch = ['class' => 'icon-search'];
-
-	/**
 	 * Link to the article listing page.
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = "/administrator/index.php?option=com_content&view=articles";
+
+	/**
+	 * Method to create new article
+	 *
+	 * @param   string  $title    The article title
+	 * @param   string  $content  The article content
+	 *
+	 * @When    I create new content with field title as :title and content as a :content
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function fillContentCreateForm($title, $content)
+	{
+		$I = $this;
+
+		$I->fillField(self::$title, $title);
+
+		$I->click(self::$toggleEditor);
+		$I->fillField(self::$content, $content);
+	}
 }

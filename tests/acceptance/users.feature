@@ -88,7 +88,7 @@ Feature: users
     Then I should see the "1 View Access Level successfully removed." message
 
   Scenario: User settings (Allow user registration)
-    Given There is a User link
+    Given There is an user link
     And I goto the option setting
     When I set Allow User Registration as a yes
     And I save the setting

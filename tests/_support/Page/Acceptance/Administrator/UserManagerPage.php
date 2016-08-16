@@ -99,30 +99,6 @@ class UserManagerPage extends AdminPage
 	public static $email2Field = ['id' => 'jform_email2'];
 
 	/**
-	 * Locator for user's search input field
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $filterSearch = ['id' => 'filter_search'];
-
-	/**
-	 * Locator for user's search button icon
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $iconSearch = ['class' => 'icon-search'];
-
-	/**
-	 * Locator for user's page title
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $title = ['id' => 'jform_title'];
-
-	/**
 	 * Locator for user's username field in frontend
 	 *
 	 * @var    array
@@ -145,4 +121,27 @@ class UserManagerPage extends AdminPage
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $lastLoginDate = ['xpath' => "//table[@id='userList']//tr[1]/td[8]"];
+
+	/**
+	 * Method is a page object to fill user form with given information and prepare to save user.
+	 *
+	 * @param   string  $name      User's name
+	 * @param   string  $username  User's username
+	 * @param   string  $password  User's password
+	 * @param   string  $email     User's email
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void  The user's form will be filled with given detail
+	 */
+	public function fillUserForm($name, $username, $password, $email)
+	{
+		$I = $this;
+
+		$I->fillField(self::$nameField, $name);
+		$I->fillField(self::$usernameField, $username);
+		$I->fillField(self::$passwordField, $password);
+		$I->fillField(self::$password2Field, $password);
+		$I->fillField(self::$emailField, $email);
+	}
 }

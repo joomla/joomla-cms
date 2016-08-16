@@ -9,7 +9,7 @@
 
 namespace Step\Acceptance\Administrator;
 
-use \Codeception\Util\Locator;
+use Codeception\Util\Locator;
 use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\LoginPage;
 use Page\Acceptance\Administrator\UserAclPage;
@@ -23,7 +23,7 @@ use Page\Acceptance\Administrator\UserManagerPage;
  *
  * @since    __DEPLOY_VERSION__
  */
-class User extends \AcceptanceTester
+class User extends Admin
 {
 	/**
 	 * Method to goto user management
@@ -39,7 +39,7 @@ class User extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(UserManagerPage::$url);
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
 	}
 
 	/**
@@ -50,6 +50,7 @@ class User extends \AcceptanceTester
 	 * @param   string  $password  User's password
 	 * @param   string  $email     User's email
 	 *
+	 * @Given I fill a super admin with fields Name :name, Login Name :username, Password :password, and Email :email
 	 * @When I create new user with fields Name :name, Login Name :username, Password :password and Email :email
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -58,13 +59,7 @@ class User extends \AcceptanceTester
 	 */
 	public function iCreateNewUser($name, $username, $password, $email)
 	{
-		$I = $this;
-
-		$I->fillField(UserManagerPage::$nameField, $name);
-		$I->fillField(UserManagerPage::$usernameField, $username);
-		$I->fillField(UserManagerPage::$passwordField, $password);
-		$I->fillField(UserManagerPage::$password2Field, $password);
-		$I->fillField(UserManagerPage::$emailField, $email);
+		$this->userManagerPage->fillUserForm($name, $username, $password, $email);
 	}
 
 	/**
@@ -80,26 +75,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save & Close');
-	}
-
-	/**
-	 * Method to see success message
-	 *
-	 * @param   string  $message  The system message for user saved.
-	 *
-	 * @Then I should see the :arg1 message
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iSeeTheMessage($message)
-	{
-		$I = $this;
-
-		$I->waitForText($message, TIMEOUT, AdminPage::$systemMessageContainer);
-		$I->see($message, AdminPage::$systemMessageContainer);
+		$I->adminPage->clickToolbarButton('Save & Close');
 	}
 
 	/**
@@ -117,11 +93,8 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->amOnPage(UserManagerPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('edit');
+		$I->userManagerPage->haveItemUsingSearch($username);
+		$I->adminPage->clickToolbarButton('edit');
 	}
 
 	/**
@@ -160,12 +133,7 @@ class User extends \AcceptanceTester
 	 */
 	public function iHaveAUserWithUserName($username)
 	{
-		$I = $this;
-
-		$I->amOnPage(UserManagerPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->userManagerPage->haveItemUsingSearch($username);
 	}
 
 	/**
@@ -181,7 +149,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('unpublish');
+		$I->adminPage->clickToolbarButton('unpublish');
 	}
 
 	/**
@@ -197,12 +165,7 @@ class User extends \AcceptanceTester
 	 */
 	public function iHaveABlockedUserWithUserName($username)
 	{
-		$I = $this;
-
-		$I->amOnPage(UserManagerPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->userManagerPage->haveItemUsingSearch($username);
 	}
 
 	/**
@@ -218,7 +181,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('unblock');
+		$I->adminPage->clickToolbarButton('unblock');
 	}
 
 	/**
@@ -236,11 +199,9 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->amOnPage(UserManagerPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('delete');
+		$I->userManagerPage->haveItemUsingSearch($username);
+
+		$I->adminPage->clickToolbarButton('delete');
 		$I->acceptPopup();
 	}
 
@@ -273,8 +234,8 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('New');
-		$I->waitForPageTitle('Users');
+		$I->adminPage->clickToolbarButton('New');
+		$I->adminPage->waitForPageTitle('Users');
 	}
 
 	/**
@@ -294,32 +255,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->verifyAvailableTabs([$tab1, $tab2, $tab3]);
-	}
-
-	/**
-	 * Method to prepare form to create super admin
-	 *
-	 * @param   string  $name      The name of super admin
-	 * @param   string  $username  The username of super admin
-	 * @param   string  $password  The password of super admin
-	 * @param   string  $email     The email of super admin
-	 *
-	 * @Given I fill a super admin with fields Name :name, Login Name :username, Password :password, and Email :email
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iCreateASuperAdmin($name, $username, $password, $email)
-	{
-		$I = $this;
-
-		$I->fillField(UserManagerPage::$nameField, $name);
-		$I->fillField(UserManagerPage::$usernameField, $username);
-		$I->fillField(UserManagerPage::$passwordField, $password);
-		$I->fillField(UserManagerPage::$password2Field, $password);
-		$I->fillField(UserManagerPage::$emailField, $email);
+		$I->adminPage->verifyAvailableTabs([$tab1, $tab2, $tab3]);
 	}
 
 	/**
@@ -355,7 +291,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->doAdministratorLogout();
+		$I->adminPage->doAdministratorLogout();
 		$I->fillField(LoginPage::$usernameField, $username);
 		$I->fillField(LoginPage::$passwordField, $password);
 		$I->click('Log in');
@@ -399,7 +335,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->waitForPageTitle($title);
+		$I->adminPage->waitForPageTitle($title);
 	}
 
 	/**
@@ -434,7 +370,7 @@ class User extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(UserGroupPage::$url);
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
 	}
 
 	/**
@@ -442,6 +378,7 @@ class User extends \AcceptanceTester
 	 *
 	 * @param   string  $groupTitle  Group title
 	 *
+	 * @Given I set group Title as a :grouptitle
 	 * @When I fill Group Title as a :grouptitle
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -468,7 +405,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save & Close');
+		$I->adminPage->clickToolbarButton('Save & Close');
 	}
 
 	/**
@@ -486,29 +423,8 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->amOnPage(UserGroupPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $groupTitle);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('edit');
-	}
-
-	/**
-	 * Method to set group title
-	 *
-	 * @param   string  $groupTitle  The group title
-	 *
-	 * @Given I set group Title as a :grouptitle
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iSetGroupTitleAsA($groupTitle)
-	{
-		$I = $this;
-
-		$I->fillField(UserManagerPage::$title, $groupTitle);
+		$I->userGroupPage->haveItemUsingSearch($groupTitle);
+		$I->adminPage->clickToolbarButton('edit');
 	}
 
 	/**
@@ -526,11 +442,8 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->amOnPage(UserGroupPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $groupTitle);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('delete');
+		$I->userGroupPage->haveItemUsingSearch($groupTitle);
+		$I->adminPage->clickToolbarButton('delete');
 		$I->acceptPopup();
 	}
 
@@ -548,7 +461,7 @@ class User extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(UserAclPage::$url);
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
 	}
 
 	/**
@@ -583,7 +496,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save & Close');
+		$I->adminPage->clickToolbarButton('Save & Close');
 	}
 
 	/**
@@ -601,11 +514,8 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->amOnPage(UserAclPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $levelTitle);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('edit');
+		$I->userAclPage->haveItemUsingSearch($levelTitle);
+		$I->adminPage->clickToolbarButton('edit');
 	}
 
 	/**
@@ -641,28 +551,10 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->amOnPage(UserAclPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $levelTitle);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('delete');
+		$I->userAclPage->haveItemUsingSearch($levelTitle);
+
+		$I->adminPage->clickToolbarButton('delete');
 		$I->acceptPopup();
-	}
-
-	/**
-	 * Method to goto user manage listing page.
-	 *
-	 * @Given There is a User link
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function thereIsAUserLink()
-	{
-		$I = $this;
-
-		$I->amOnPage(UserManagerPage::$url);
 	}
 
 	/**
@@ -678,7 +570,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('options');
+		$I->adminPage->clickToolbarButton('options');
 	}
 
 	/**
@@ -710,7 +602,7 @@ class User extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save');
+		$I->adminPage->clickToolbarButton('Save');
 	}
 
 	/**

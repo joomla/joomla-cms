@@ -27,30 +27,6 @@ class CategoryManagerPage extends AdminPage
 	public static $url = '/administrator/index.php?option=com_categories&view=categories&extension=com_content';
 
 	/**
-	 * Locator for category name field
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $name = ['id' => 'jform_title'];
-
-	/**
-	 * Locator for category search field
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $filterSearch = ['id' => 'filter_search'];
-
-	/**
-	 * Locator for category search button
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public static $iconSearch = ['class' => 'icon-search'];
-
-	/**
 	 * Locator for invalid category alert
 	 *
 	 * @var    array

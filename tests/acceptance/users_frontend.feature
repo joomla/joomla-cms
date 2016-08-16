@@ -24,7 +24,7 @@ Feature: Users Frontend
     Given A not yet activated user with username "patel" exists
     And I am on a frontend page with a login module
     When I enter username "patel" and password "patel" into the login module
-    And I press on "Log in"
+    And I press the "Log in" button
     Then I should see the "Login denied! Your account has either been blocked or you have not activated it yet." warning
 
   Scenario: Check if block and activation are working
@@ -38,7 +38,7 @@ Feature: Users Frontend
     Given I am logged in into the frontend as user "patel" with password "patel"
     When I press on the "Edit Profile" button
     And I change the name to "patidar"
-    And I press on "Submit" button
+    And I press the "Submit" button
     And I should see "Profile successfully saved." message
     And I am on the User Manager page
     And I search the user with name "patidar"

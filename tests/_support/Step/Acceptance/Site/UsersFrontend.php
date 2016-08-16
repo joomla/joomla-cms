@@ -9,7 +9,9 @@
 
 namespace Step\Acceptance\Site;
 
-use \Codeception\Util\Locator;
+use Codeception\Scenario;
+use Codeception\Util\Locator;
+use Page\Acceptance\Administrator\AdminPage;
 use Page\Acceptance\Administrator\UserManagerPage;
 use Page\Acceptance\Site\FrontPage;
 use Page\Acceptance\Site\FrontendLogin;
@@ -24,6 +26,40 @@ use Page\Acceptance\Site\FrontendLogin;
 class UsersFrontend extends \AcceptanceTester
 {
 	/**
+	 * User Manager Page Object for this class
+	 *
+	 * @var     null|UserManagerPage
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $userManagerPage = null;
+
+	/**
+	 * Admin Page Object for this class
+	 *
+	 * @var     null|UserManagerPage
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected $adminPage = null;
+
+	/**
+	 * User constructor.
+	 *
+	 * @param   Scenario  $scenario  Scenario object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(Scenario $scenario)
+	{
+		parent::__construct($scenario);
+
+		// Initialize User Page Objects
+		$this->userManagerPage = new UserManagerPage($scenario);
+		$this->adminPage       = new AdminPage($scenario);
+	}
+
+	/**
 	 * Method to enable user registration
 	 *
 	 * @Given that user registration is enabled
@@ -37,9 +73,9 @@ class UsersFrontend extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(UserManagerPage::$url);
-		$I->clickToolbarButton('options');
+		$I->adminPage->clickToolbarButton('options');
 		$I->click(Locator::contains('label', 'Yes'));
-		$I->clickToolbarButton('Save');
+		$I->adminPage->clickToolbarButton('Save');
 	}
 
 	/**
@@ -59,12 +95,13 @@ class UsersFrontend extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(UserManagerPage::$url);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
+
+		// Looking for username
+		$I->adminPage->search($username);
 		$I->see('No Matching Results');
 
-		$I->fillField(UserManagerPage::$filterSearch, $email);
-		$I->click(UserManagerPage::$iconSearch);
+		// Looking for email
+		$I->adminPage->search($email);
 		$I->see('No Matching Results');
 	}
 
@@ -169,6 +206,7 @@ class UsersFrontend extends \AcceptanceTester
 	 * Method to goto user manager page
 	 *
 	 * @Given I am on the User Manager page
+	 * @When I login as a super admin from backend
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
@@ -197,8 +235,7 @@ class UsersFrontend extends \AcceptanceTester
 		$I = $this;
 
 		$I->waitForText('Users', TIMEOUT);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
+		$I->adminPage->search($username);
 	}
 
 	/**
@@ -236,8 +273,8 @@ class UsersFrontend extends \AcceptanceTester
 
 		$I->amOnPage(UserManagerPage::$url);
 		$I->waitForText(UserManagerPage::$pageTitleText, 60, UserManagerPage::$pageTitle);
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
+
+		$I->adminPage->search($username);
 		$I->waitForElement(['link' => $username], 60);
 		$I->see($username, UserManagerPage::$seeName);
 	}
@@ -280,24 +317,6 @@ class UsersFrontend extends \AcceptanceTester
 	}
 
 	/**
-	 * Method to click login button from login module
-	 *
-	 * @param   string  $login  Login button name
-	 *
-	 * @When I press on :arg1
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iPressOnButton($login)
-	{
-		$I = $this;
-
-		$I->click($login);
-	}
-
-	/**
 	 * Method to see warning message
 	 *
 	 * @param   string  $warning  The message of warning
@@ -330,10 +349,8 @@ class UsersFrontend extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('unblock');
+		$I->userManagerPage->haveItemUsingSearch($username);
+		$I->adminPage->clickToolbarButton('unblock');
 	}
 
 	/**
@@ -351,10 +368,8 @@ class UsersFrontend extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->fillField(UserManagerPage::$filterSearch, $username);
-		$I->click(UserManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('publish');
+		$I->userManagerPage->haveItemUsingSearch($username);
+		$I->adminPage->clickToolbarButton('publish');
 	}
 
 	/**
@@ -363,13 +378,14 @@ class UsersFrontend extends \AcceptanceTester
 	 * @param   string  $username  The username for login
 	 * @param   string  $password  The password for login
 	 *
+	 * @Given I am logged in into the frontend as user :arg1 with password :arg2
 	 * @When I login with user :arg1 with password :arg1 in frontend
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	public function iLoginWithUserWithPasswordInFrontend($username, $password)
+	public function loginInFrontend($username, $password)
 	{
 		$I = $this;
 
@@ -395,28 +411,6 @@ class UsersFrontend extends \AcceptanceTester
 		$I = $this;
 
 		$I->see($message, FrontPage::$loginGreeting);
-	}
-
-	/**
-	 * Method to login into frontend as a user
-	 *
-	 * @param   string  $username  The username for frontend user
-	 * @param   string  $password  The password for frontend user
-	 *
-	 * @Given I am logged in into the frontend as user :arg1 with password :arg2
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iAmLoggedInIntoTheFrontendAsUser($username, $password)
-	{
-		$I = $this;
-
-		$I->amOnPage(FrontPage::$url);
-		$I->fillField(FrontendLogin::$moduleUsername, $username);
-		$I->fillField(FrontendLogin::$modulePassword, $password);
-		$I->click('Log in');
 	}
 
 	/**
@@ -458,24 +452,6 @@ class UsersFrontend extends \AcceptanceTester
 	}
 
 	/**
-	 * Method to click edit profile button
-	 *
-	 * @param   string  $submit  The text of the submit button
-	 *
-	 * @When I press on :arg1 button
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iPressOn($submit)
-	{
-		$I = $this;
-
-		$I->click($submit);
-	}
-
-	/**
 	 * Method to search using user's name
 	 *
 	 * @param   string  $name  The name of user to search
@@ -488,10 +464,7 @@ class UsersFrontend extends \AcceptanceTester
 	 */
 	public function iSearchTheUserWithName($name)
 	{
-		$I = $this;
-
-		$I->fillField(UserManagerPage::$filterSearch, $name);
-		$I->click(UserManagerPage::$iconSearch);
+		$this->adminPage->search($name);
 	}
 
 	/**
@@ -530,22 +503,6 @@ class UsersFrontend extends \AcceptanceTester
 	}
 
 	/**
-	 * Method to login as a super admin in backend
-	 *
-	 * @When I login as a super admin from backend
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @return  void
-	 */
-	public function iLoginAsASuperAdminFromBackend()
-	{
-		$I = $this;
-
-		$I->amOnPage(UserManagerPage::$url);
-	}
-
-	/**
 	 * Method to see last login date
 	 *
 	 * @param   string  $name  The name of the user to check last login date
@@ -560,9 +517,7 @@ class UsersFrontend extends \AcceptanceTester
 	{
 		$I = $this;
 
-		// @TODO needs to create common function to use search.
-		$I->fillField(UserManagerPage::$filterSearch, $name);
-		$I->click(UserManagerPage::$iconSearch);
+		$I->adminPage->search($name);
 
 		// Just make sure that we don't see "Never".
 		$I->dontSee('Never', UserManagerPage::$lastLoginDate);

@@ -20,7 +20,7 @@ use Page\Acceptance\Administrator\ControlPanelPage;
  *
  * @since    __DEPLOY_VERSION__
  */
-class Login extends \AcceptanceTester
+class Login extends Admin
 {
 	/**
 	 * Login into joomla administrator
@@ -58,7 +58,7 @@ class Login extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->waitForPageTitle(ControlPanelPage::$pageTitle);
+		$I->adminPage->waitForPageTitle(ControlPanelPage::$pageTitle);
 		$I->see(ControlPanelPage::$pageTitle, AdminPage::$pageTitle);
 	}
 }

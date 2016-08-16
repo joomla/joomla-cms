@@ -11,7 +11,6 @@ namespace Step\Acceptance\Administrator;
 
 use Behat\Gherkin\Node\TableNode;
 use Page\Acceptance\Administrator\CategoryManagerPage;
-use Page\Acceptance\Administrator\ArticleManagerPage;
 use Page\Acceptance\Administrator\MenuManagerPage;
 use Page\Acceptance\Site\FrontPage;
 
@@ -22,7 +21,7 @@ use Page\Acceptance\Site\FrontPage;
  *
  * @since    __DEPLOY_VERSION__
  */
-class Category extends \AcceptanceTester
+class Category extends Admin
 {
 	/**
 	 * Category link
@@ -53,7 +52,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
 		$I->waitForText('Articles: New Category');
 	}
 
@@ -75,7 +74,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->verifyAvailableTabs([$tab1, $tab2, $tab3, $tab4]);
+		$I->adminPage->verifyAvailableTabs([$tab1, $tab2, $tab3, $tab4]);
 	}
 
 	/**
@@ -93,7 +92,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
 
 		$totalRows = count($title->getRows());
 		$lastIndex = ($totalRows - 1);
@@ -103,15 +102,15 @@ class Category extends \AcceptanceTester
 		{
 			if ($index !== 0)
 			{
-				$I->fillField(CategoryManagerPage::$name, $row[0]);
+				$I->fillField(CategoryManagerPage::$title, $row[0]);
 
 				if ($index == $lastIndex)
 				{
-					$I->clickToolbarButton('Save');
+					$I->adminPage->clickToolbarButton('Save');
 				}
 				else
 				{
-					$I->clickToolbarButton('Save & New');
+					$I->adminPage->clickToolbarButton('Save & New');
 				}
 			}
 		}
@@ -130,7 +129,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('Save');
+		$I->adminPage->clickToolbarButton('Save');
 	}
 
 	/**
@@ -151,8 +150,8 @@ class Category extends \AcceptanceTester
 		$I->amOnPage(CategoryManagerPage::$url);
 		$I->fillField(CategoryManagerPage::$filterSearch, $title);
 		$I->click(CategoryManagerPage::$iconSearch);
-		$I->checkAllResults();
-		$I->clickToolbarButton('edit');
+		$I->adminPage->checkAllResults();
+		$I->adminPage->clickToolbarButton('edit');
 	}
 
 	/**
@@ -170,7 +169,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->fillField(CategoryManagerPage::$name, $title);
+		$I->fillField(CategoryManagerPage::$title, $title);
 	}
 
 	/**
@@ -186,12 +185,7 @@ class Category extends \AcceptanceTester
 	 */
 	public function iHaveACategoryWithTitleWhichNeedsToBeUnpublish($title)
 	{
-		$I = $this;
-
-		$I->amOnPage(CategoryManagerPage::$url);
-		$I->fillField(CategoryManagerPage::$filterSearch, $title);
-		$I->click(CategoryManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->categoryManagerPage->haveItemUsingSearch($title);
 	}
 
 	/**
@@ -207,7 +201,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('unpublish');
+		$I->adminPage->clickToolbarButton('unpublish');
 	}
 
 	/**
@@ -223,12 +217,7 @@ class Category extends \AcceptanceTester
 	 */
 	public function iHaveACategoryWithTitleWhichNeedsToBeTrash($title)
 	{
-		$I = $this;
-
-		$I->amOnPage(CategoryManagerPage::$url);
-		$I->fillField(CategoryManagerPage::$filterSearch, $title);
-		$I->click(CategoryManagerPage::$iconSearch);
-		$I->checkAllResults();
+		$this->categoryManagerPage->haveItemUsingSearch($title);
 	}
 
 	/**
@@ -244,7 +233,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->clickToolbarButton('trash');
+		$I->adminPage->clickToolbarButton('trash');
 	}
 
 	/**
@@ -261,9 +250,10 @@ class Category extends \AcceptanceTester
 		$I = $this;
 
 		$I->amOnPage(CategoryManagerPage::$url);
-		$I->clickToolbarButton('New');
+		$I->adminPage->clickToolbarButton('New');
+
 		$I->waitForText('Articles: New Category');
-		$I->clickToolbarButton('Save');
+		$I->adminPage->clickToolbarButton('Save');
 	}
 
 	/**
@@ -298,11 +288,7 @@ class Category extends \AcceptanceTester
 	 */
 	public function iCreateANewArticleWithContentAsA($title, $content)
 	{
-		$I = $this;
-
-		$I->fillField(ArticleManagerPage::$title, $title);
-		$I->click(ArticleManagerPage::$toggleEditor);
-		$I->fillField(ArticleManagerPage::$content, $content);
+		$this->articleManagerPage->fillContentCreateForm($title, $content);
 	}
 
 	/**
@@ -320,7 +306,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->prepareMenuItemCreate($title);
+		$I->menuManagerPage->prepareMenuItemCreate($title);
 	}
 
 	/**
@@ -339,7 +325,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->selectMenuItemType($title, $menuItem);
+		$I->menuManagerPage->selectMenuItemType($title, $menuItem);
 	}
 
 	/**
@@ -358,10 +344,16 @@ class Category extends \AcceptanceTester
 		$I = $this;
 
 		$I->click(MenuManagerPage::$selectArticle);
+
 		$I->switchToIFrame("Select or Change article");
+
+		// Setting page object to choose article title
+		MenuManagerPage::setChooseArticle($title);
+
 		$I->waitForElement(MenuManagerPage::$chooseArticle, 60);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->click(MenuManagerPage::$chooseArticle);
+
 		$I->switchToIFrame();
 
 		// Waiting to close the iframe properly
@@ -381,8 +373,8 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->waitForPageTitle('Menus: New Item');
-		$I->clickToolbarButton('Save');
+		$I->adminPage->waitForPageTitle('Menus: New Item');
+		$I->adminPage->clickToolbarButton('Save');
 	}
 
 	/**
@@ -400,7 +392,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->selectOptionInChosenById('jform_catid', $name);
+		$I->adminPage->selectOptionInChosenById('jform_catid', $name);
 	}
 
 	/**
@@ -418,7 +410,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->selectOptionInChosenById('jform_request_id', $name);
+		$I->adminPage->selectOptionInChosenById('jform_request_id', $name);
 	}
 
 	/**
@@ -436,7 +428,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->selectOptionInChosenById('jform_language', $name);
+		$I->adminPage->selectOptionInChosenById('jform_language', $name);
 	}
 
 	/**
@@ -488,7 +480,7 @@ class Category extends \AcceptanceTester
 	{
 		$I = $this;
 
-		$I->waitForText('Test_article');
+		$I->waitForText($title);
 	}
 
 	/**

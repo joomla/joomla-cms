@@ -40,3 +40,4 @@ gherkin:
             - Step\Acceptance\Site\UsersFrontend
             - Step\Acceptance\Administrator\Content
             - Step\Acceptance\Administrator\Category
+            - Step\Acceptance\Administrator\Admin
