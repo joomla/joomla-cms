@@ -265,6 +265,58 @@ class JUri extends Uri
 	public static function isInternal($url)
 	{
 		$uri = static::getInstance($url);
+
+		if ($uri->getScheme())
+		{
+			/*
+			 * The supplied URL contains a scheme, a host and probably also a port.
+			 * In order to allow URLs as internal even if they use a different scheme we have to replace the scheme etc. for the following tests accordingly
+			 * if the host in the supplied URL is identical to the host in our base.
+			 */
+			$baseuri = static::getInstance(static::base());
+			if ($uri->getHost() == $baseuri->getHost())
+			{
+				$uScheme = $uri->getScheme();
+				$uPort = $uri->getPort();
+				$bScheme = $baseuri->getScheme();
+				$bPort = $baseuri->getPort();
+
+				if ($uScheme == $bScheme)
+				{
+					/*
+					 * The supplied URL contains the same scheme as our base URL, so the scheme needs not to be changed for the following tests.
+					 * But we might have different ports given in the supplied URL and in our base URL:
+					 * - supplied URL: no port, our base URL: port 80 (HTTP) or 443 (HTTPS)
+					 * - supplied URL: port 80 (HTTP) or 443 (HTTPS), our base URL: no port
+					 * In these two cases we have to replace the port in the supplied URL with the port from our base URL.
+					 */
+					if ((!$uPort and (($bScheme == 'http' and $bPort == 80) or ($bScheme == 'https' and $bPort == 443))) or
+						(!$bPort and (($uScheme == 'http' and $uPort == 80) or ($uScheme == 'https' and $uPort == 443))))
+					{
+						$uri->setPort($bPort);
+					}
+				}
+				else
+				{
+					/*
+					 * The supplied URL doesn't contain the same scheme as our base URL, so probably the scheme needs to be changed for the following tests.
+					 * Whether we change the scheme or not depends upon the following conditions:
+					 * - the scheme of the supplied URL is "http" and the port is either not specified or 80 and the scheme of our base URL is "https" and
+					 *   the port is either not specified or 443
+					 * - the scheme of the supplied URL is "https" and the port is either not specified or 443 and the scheme of our base URL is "http" and
+					 *   the port is either not specified or 80
+					 * In these two cases we have to replace the scheme and the port in the supplied URL with the scheme and the port from our base URL.
+					 */
+					if (($uScheme == 'http' and (!$uPort or $uPort == 80) and $bScheme == 'https' and (!$bPort or $bPort == 443)) or
+						($uScheme == 'https' and (!$uPort or $uPort == 443) and $bScheme == 'http' and (!$bPort or $bPort == 80)))
+					{
+						$uri->setScheme($bScheme);
+						$uri->setPort($bPort);
+					}
+				}
+			}
+		}
+
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
