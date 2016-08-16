@@ -43,4 +43,4 @@ composer install
 cd $BASE
 
 sudo cp RoboFile.dist.ini RoboFile.ini
-sudo cp tests/acceptance.suite.dist.yml tests/acceptance.suite.yml
+sudo cp tests/codeception/acceptance.suite.dist.yml tests/codeception/acceptance.suite.yml
