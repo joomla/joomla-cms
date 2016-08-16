@@ -839,8 +839,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testHTTPSchemeHostMatchNoPort()
 	{
 		$this->assertTrue(
-			$this->object->isInternal('http://www.example.com/'),
-			'http://www.example.com/ should be internal'
+			$this->object->isInternal('http://www.example.com/joomla/index.php'),
+			'http://www.example.com/joomla/index.php should be internal'
 		);
 	}
 
@@ -854,8 +854,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testHTTPSchemeHostMatchSamePort()
 	{
 		$this->assertTrue(
-			$this->object->isInternal('http://www.example.com:80/'),
-			'http://www.example.com:80/ should be internal'
+			$this->object->isInternal('http://www.example.com:80/joomla/index.php'),
+			'http://www.example.com:80/joomla/index.php should be internal'
 		);
 	}
 
@@ -869,8 +869,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testHTTPSchemeHostMatchOtherPort()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('http://www.example.com:8080/'),
-			'http://www.example.com:8080/ should NOT be internal'
+			$this->object->isInternal('http://www.example.com:8080/joomla/index.php'),
+			'http://www.example.com:8080/joomla/index.php should NOT be internal'
 		);
 	}
 
@@ -884,8 +884,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testHTTPSSchemeHostMatchNoPort()
 	{
 		$this->assertTrue(
-			$this->object->isInternal('https://www.example.com/'),
-			'https://www.example.com/ should be internal'
+			$this->object->isInternal('https://www.example.com/joomla/index.php'),
+			'https://www.example.com/joomla/index.php should be internal'
 		);
 	}
 
@@ -899,8 +899,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testHTTPSSchemeHostMatchStandardPort()
 	{
 		$this->assertTrue(
-			$this->object->isInternal('https://www.example.com:443/'),
-			'https://www.example.com:443/ should be internal'
+			$this->object->isInternal('https://www.example.com:443/joomla/index.php'),
+			'https://www.example.com:443/joomla/index.php should be internal'
 		);
 	}
 
@@ -914,8 +914,8 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	public function testHTTPSSchemeHostMatchOtherPort()
 	{
 		$this->assertFalse(
-			$this->object->isInternal('https://www.example.com:8443/'),
-			'https://www.example.com:8443/ should NOT be internal'
+			$this->object->isInternal('https://www.example.com:8443/joomla/index.php'),
+			'https://www.example.com:8443/joomla/index.php should NOT be internal'
 		);
 	}
 
