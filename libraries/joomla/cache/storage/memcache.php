@@ -122,7 +122,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$data = array();
 
-		if (!empty($keys))
+		if (is_array($keys))
 		{
 			foreach ($keys as $key)
 			{
@@ -178,7 +178,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if ($index === false)
+		if (!is_array($index))
 		{
 			$index = array();
 		}
@@ -217,18 +217,16 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if ($index === false)
+		if (is_array($index))
 		{
-			$index = array();
-		}
-
-		foreach ($index as $key => $value)
-		{
-			if ($value->name == $cache_id)
+			foreach ($index as $key => $value)
 			{
-				unset($index[$key]);
-				static::$_db->set($this->_hash . '-index', $index, 0, 0);
-				break;
+				if ($value->name == $cache_id)
+				{
+					unset($index[$key]);
+					static::$_db->set($this->_hash . '-index', $index, 0, 0);
+					break;
+				}
 			}
 		}
 
@@ -259,7 +257,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if ($index !== false)
+		if (is_array($index))
 		{
 			$secret = $this->_hash;
 
