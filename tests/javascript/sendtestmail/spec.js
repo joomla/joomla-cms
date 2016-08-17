@@ -9,7 +9,6 @@
  * @version     1.0.0
  */
 
-
 define(['jquery', 'testsRoot/sendtestmail/spec-setup', 'jasmineJquery'], function ($) {
 	describe('Sendtestmail', function () {
 		beforeAll(function() {
