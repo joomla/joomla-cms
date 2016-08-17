@@ -8,6 +8,7 @@
  * @since       __DEPLOY_VERSION__
  * @version     1.0.0
  */
+
 define(['jquery', 'text!testsRoot/caption/fixtures/fixture.html', 'libs/caption'], function ($, fixture) {
 	$('body').append(fixture);
 
