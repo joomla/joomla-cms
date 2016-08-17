@@ -3,7 +3,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @package     Joomla
  * @subpackage  JavaScript Tests
- * @since       3.6
+ * @since       __DEPLOY_VERSION__
  * @version     1.0.0
  */
 
