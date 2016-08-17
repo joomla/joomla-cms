@@ -1381,7 +1381,7 @@ class MenusModelItem extends JModelAdmin
 		if ($assoc)
 		{
 			// Adding self to the association
-			$associations = isset($associations) ? $data['associations'] : array();
+			$associations = isset($data['associations']) ? $data['associations'] : array();
 
 			// Unset any invalid associations
 			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
