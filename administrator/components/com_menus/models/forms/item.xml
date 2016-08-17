@@ -135,7 +135,6 @@
 			id="access"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			default="1"
 			filter="integer"/>
 
 
