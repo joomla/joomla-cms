@@ -30,7 +30,7 @@ class MenusModelItems extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
-				'menutype', 'a.menutype',
+				'menutype', 'a.menutype', 'menutype_title',
 				'title', 'a.title',
 				'alias', 'a.alias',
 				'published', 'a.published',
@@ -241,6 +241,10 @@ class MenusModelItems extends JModelList
 		$query->select('ag.title AS access_level')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
+		// Join over the menu types.
+		$query->select($db->quoteName('mt.title', 'menutype_title'))
+			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
+
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
 
@@ -249,7 +253,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.title');
 		}
 
 		// Join over the extensions

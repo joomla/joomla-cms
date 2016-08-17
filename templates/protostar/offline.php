@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 
 $twofactormethods = UsersHelper::getTwoFactorMethods();
 $app              = JFactory::getApplication();

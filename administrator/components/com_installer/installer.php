@@ -12,7 +12,7 @@ JHtml::_('behavior.tabstate');
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_installer'))
 {
-	return JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
 
 $controller = JControllerLegacy::getInstance('Installer');

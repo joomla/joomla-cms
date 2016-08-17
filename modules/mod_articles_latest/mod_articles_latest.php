@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the latest functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArticlesLatestHelper', __DIR__ . '/helper.php');
 
 $list            = ModArticlesLatestHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');

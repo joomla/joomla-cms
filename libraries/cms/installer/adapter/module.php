@@ -52,7 +52,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 				array(
 					'element'   => $this->element,
 					'type'      => $this->type,
-					'client_id' => $this->clientId
+					'client_id' => $this->clientId,
 				)
 			);
 		}
@@ -120,7 +120,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => 'module',
-				'client_id' => $this->clientId
+				'client_id' => $this->clientId,
 			)
 		);
 
@@ -396,7 +396,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 			$this->parent->pushStep(
 				array(
 					'type' => 'extension',
-					'extension_id' => $this->extension->extension_id
+					'extension_id' => $this->extension->extension_id,
 				)
 			);
 
