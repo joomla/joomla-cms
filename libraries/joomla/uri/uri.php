@@ -274,6 +274,7 @@ class JUri extends Uri
 			 * if the host in the supplied URL is identical to the host in our base.
 			 */
 			$baseuri = static::getInstance(static::base());
+
 			if ($uri->getHost() == $baseuri->getHost())
 			{
 				$uScheme = $uri->getScheme();
