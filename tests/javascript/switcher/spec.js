@@ -8,7 +8,6 @@
  */
 
 define(['jquery', 'testsRoot/switcher/spec-setup', 'jasmineJquery'], function ($) {
-
 	describe('Switcher ', function () {
 		describe('After running initializer code', function () {
 			it('Should bind click event to each toggler', function () {
