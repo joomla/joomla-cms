@@ -181,12 +181,6 @@
 				hide(element);
 			},
 
-			/** Method to destroy the calendar */
-			destroy = function () {
-				var el = self.element.parentNode;
-				if (el) { el.removeChild(self.element); }
-			},
-
 			/** Method to catch clicks outside of the calendar (used as close call) */
 			documentClick = function (ev) {
 				var el = ev.target.parentNode;
@@ -205,8 +199,7 @@
 			},
 
 			/** Method to show the calendar. */
-			show = function (ev) {
-				var el = ev.target;
+			show = function () {
 				checkInputs();
 				self.params.inputField.focus();
 				var rows = self.table.getElementsByTagName("tr");
@@ -389,7 +382,7 @@
 				var K = parseInt(ev.keyCode);
 
 				// Get value from input
-				if (ev.target === self.params.inputField && K === 13) {
+				if (ev.target === self.params.inputField && K === 13 && !ev.shiftKey) {
 					self.date = Date.parseFieldDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType);
 					processCalendar(self.params.firstDayOfWeek, self.date);
 					return stopCalEvent(ev);
@@ -400,13 +393,13 @@
 					else if (K == 39) K = 37;
 				}
 
-				if (K === 32) {                                // KEY space (now)
+				if (ev.shiftKey && K === 32) {                  // KEY Shift + space (now)
 					cellClick(self._nav_now, ev);
 				}
 				if (K === 27) {                                // KEY esc (close)
 					close();
 				}
-				if (K === 13) {                                // KEY enter (select and close)
+				if (ev.shiftKey && K === 13) {                 // KEY enter (select and close)
 					cellClick(self.currentDateEl, ev);
 				}
 				if (K === 38) {                                // KEY up (previous week)
@@ -421,7 +414,7 @@
 				if (K === 39) {                                // KEY right (next day)
 					moveCursorBy( -1);
 				}
-				if (ev.target === self.params.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190))
+				if (ev.target === self.params.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K === 32))
 				return stopCalEvent(ev);
 			},
 
