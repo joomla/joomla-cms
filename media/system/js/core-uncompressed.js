@@ -646,76 +646,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * DOM ready listener. Wait when the initial HTML document has been completely loaded and parsed,
-	 * without waiting for stylesheets, images, and subframes to finish loading.
-	 * Based on https://github.com/dperini/ContentLoaded
-	 *
-	 * @param {Function}  callback  Callback function
-	 *
-	 * @example
-	 *
-	 * 	Joomla.domReady(function(){
-	 * 		console.log('DOM is ready!');
-	 * 	});
-	 *
-	 */
-	Joomla.domReady = Joomla.domReady || function (callback) {
-		var done   = false, top = true,
-			root   = document.documentElement,
-			modern = document.addEventListener;
-
-		var init = function(e) {
-			if (e.type === 'readystatechange' && document.readyState !== 'complete') {
-				return;
-			}
-
-			(e.type === 'load' ? window : document).removeEventListener(e.type, init);
-
-			if (!done) {
-				callback.call(window, e.type || e);
-				done = true
-			}
-		};
-
-		var poll = function() {
-			try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
-			init('poll');
-		};
-
-		if (document.readyState === 'complete') {
-			// DOM are ready since a years! call the callback
-			callback.call(window, 'lazyload');
-		}
-		else {
-			// IE trick
-			if (!modern && root.doScroll) {
-				try { top = !window.frameElement; } catch(e) { }
-				if (top) poll();
-			}
-
-			// Listen when DOM will become ready
-			document.addEventListener('DOMContentLoaded', init);
-			document.addEventListener('readystatechange', init);
-			window.addEventListener('load', init);
-		}
-	};
-
-	/**
-	 *  EventListener IE Fallback
-     */
-	if (Element.prototype.attachEvent && !Element.prototype.addEventListener) {
-		Window.prototype.addEventListener = HTMLDocument.prototype.addEventListener = Element.prototype.addEventListener = function(type, listener){
-			this.attachEvent('on' + type, listener);
-		};
-		Window.prototype.removeEventListener = HTMLDocument.prototype.removeEventListener = Element.prototype.removeEventListener = function(type, listener){
-			this.detachEvent('on' + type, listener);
-		};
-		Window.prototype.dispatchEvent = HTMLDocument.prototype.dispatchEvent = Element.prototype.dispatchEvent = function(event){
-			this.fireEvent("on" + event.type, event);
-		};
-	}
-
-	/**
 	 * Method to perform AJAX request
 	 *
 	 * @param {Object} options   Request options:
@@ -743,7 +673,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * 	})
 	 *
 	 * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
-     */
+	 */
 	Joomla.request = function (options) {
 
 		// Prepare the options
