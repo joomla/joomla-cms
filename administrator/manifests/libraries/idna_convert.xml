@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extension type="library" version="3.1">
-	<name>IDNA Convert</name>
+	<name>LIB_IDNA</name>
 	<libraryname>idna_convert</libraryname>
 	<version>0.8.0</version>
 	<description>LIB_IDNA_XML_DESCRIPTION</description>
