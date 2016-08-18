@@ -24,7 +24,7 @@ $twofactormethods = ModLoginHelper::getTwoFactorMethods();
 		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_DESC', JFactory::getConfig()->get('sitename')); ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', JFactory::getConfig()->get('sitename')); ?>
 	</p>
 </div>
 
@@ -85,7 +85,7 @@ $twofactormethods = ModLoginHelper::getTwoFactorMethods();
 				</div>
 				<div class="btn-group">
 					<button tabindex="5" class="btn btn-primary">
-						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
+						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>
