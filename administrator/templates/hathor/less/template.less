@@ -1067,15 +1067,20 @@ fieldset.adminform-legacy span.faux-label {
 	float: left;
 
 }
-fieldset.adminform .adminformlist .btn.modal,
-fieldset.adminform .input-prepend > *,
-fieldset.adminform .input-append > * {
-	float: none;
-	vertical-align: middle;
-}
-fieldset.adminform .input-prepend,
-fieldset.adminform .input-append {
-	float: left;
+
+
+fieldset.adminform,
+fieldset.panelform {
+	.input-prepend,
+	.input-append {
+		float: left;
+	}
+	.adminformlist .btn.modal,
+	.input-prepend > *,
+	.input-append > * {
+		float: none;
+		vertical-align: middle;
+	}
 }
 
 /* JParameter classes on radio button labels */
