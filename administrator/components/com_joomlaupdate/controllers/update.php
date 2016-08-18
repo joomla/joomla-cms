@@ -97,7 +97,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Finalize with cancel button. Used for pre-token check versions.
 		if (JFactory::getApplication()->input->get('method', '', 'cmd') !== 'direct')
 		{
-			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finalise');
+			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
 			return false;
 		}
@@ -357,5 +357,54 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks the admin has super administrator privileges and then proceeds with the final & cleanup steps.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function confirmfinalise()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Did a non Super User tried do this?
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
+			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
+		}
+
+		// Get the model
+		/** @var JoomlaupdateModelDefault $model */
+		$model = $this->getModel('default');
+
+		// Try to log in
+		$credentials = array(
+			'username'  => $this->input->post->get('username', '', 'username'),
+			'password'  => $this->input->post->get('passwd', '', 'raw'),
+			'secretkey' => $this->input->post->get('secretkey', '', 'raw'),
+		);
+
+		$result = $model->captiveLogin($credentials);
+
+		// The login fails?
+		if (!$result)
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE_FAIL'), JLog::INFO, 'Update');
+
+			// Redirect to com_joomlaupdate page
+			$url = 'index.php?option=com_joomlaupdate&' . JFactory::getSession()->getFormToken() . '=1';
+			$this->setRedirect($url);
+
+			return;
+		}
+
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE'), JLog::INFO, 'Update');
+
+		// Redirect back to the actual finalise page
+		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&method=direct&' . JFactory::getSession()->getFormToken() . '=1');
 	}
 }
