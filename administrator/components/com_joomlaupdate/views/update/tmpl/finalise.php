@@ -19,12 +19,20 @@ jQuery(document).ready(function(){
 });
 ");
 ?>
-<p>Joomla Update is finishing and cleaning up.</p>
-<p>If this was not trigged by you press Cancel.</p>
+
+<div class="alert alert-warning">
+	<h4 class="alert-heading">
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE'); ?>
+	</h4>
+	<p>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_DESC'); ?>
+	</p>
+</div>
+
 <form action="<?php echo JRoute::_('index.php?option=com_joomlaupdate&' . JFactory::getSession()->getFormToken() . '=1'); ?>" method="post" id="adminForm">
 	<fieldset class="cancelform">
 		<div class="btn-group">
-			<a tabindex="4" class="btn btn-danger" href="index.php?option=com_joomlaupdate">
+			<a href="index.php?option=com_joomlaupdate" class="btn btn-danger" tabindex="4">
 				<span class="icon-cancel icon-white"></span> <?php echo JText::_('JCANCEL'); ?>
 			</a>
 		</div>
