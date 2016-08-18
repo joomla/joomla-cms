@@ -259,11 +259,11 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if (is_array($index))
 		{
-			$secret = $this->_hash;
+			$prefix = $this->_hash . '-cache-' . $group . '-';
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);
@@ -320,7 +320,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning             = new stdClass;
+		$returning = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
@@ -333,7 +333,8 @@ class JCacheStorageMemcache extends JCacheStorage
 		{
 			$lock_counter = 0;
 
-			// Loop until you find that the lock has been released. That implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished.
 			while ($data_lock === false)
 			{
 				if ($lock_counter > $looptime)
