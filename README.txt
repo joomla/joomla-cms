@@ -38,7 +38,7 @@
 	* Check the minimum requirements here: https://www.joomla.org/about-joomla/technical-requirements.html
 	* How do you install Joomla - hhttps://docs.joomla.org/J3.x:Installing_Joomla
 	* You could start your Joomla! experience building your site on a local test server.
-	When ready it can be moved to an on-line hosting account of your choice.
+	When ready it can be moved to an online hosting account of your choice.
 	See the tutorial: https://docs.joomla.org/Installing_Joomla_locally
 
 9- Updates are free!

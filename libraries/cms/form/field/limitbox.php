@@ -95,7 +95,7 @@ class JFormFieldLimitbox extends JFormFieldList
 				{
 					$options[] = (object) array(
 						'value' => $value,
-						'text' => ($value != 0) ? JText::_('J' . $value) : JText::_('JALL')
+						'text' => ($value != 0) ? JText::_('J' . $value) : JText::_('JALL'),
 					);
 				}
 

@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google authentication class abstract
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleAuth
 {

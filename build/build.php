@@ -101,6 +101,7 @@ $filesArray = array(
 $doNotPackage = array(
 	'.github',
 	'.gitignore',
+	'.php_cs',
 	'.travis.yml',
 	'README.md',
 	'build',
