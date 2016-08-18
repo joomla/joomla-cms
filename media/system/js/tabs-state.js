@@ -11,9 +11,8 @@
 jQuery(function($) {
     var loadTabs = function() {
         function saveActiveTab(href) {
-            if (activeTabsHrefs === null) {
-                activeTabsHrefs = [];
-            }
+            // Reset the local Storage
+            activeTabsHrefs = [];
 
             // Save clicked tab href to the array
             activeTabsHrefs.push(href);
@@ -37,6 +36,7 @@ jQuery(function($) {
         var $tabs = $('a[data-toggle="tab"]');
 
         $tabs.on('click', function(e) {
+            console.log($(e.target).attr('href'));
             saveActiveTab($(e.target).attr('href'));
         });
 
