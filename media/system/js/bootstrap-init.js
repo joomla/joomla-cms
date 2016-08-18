@@ -5,14 +5,15 @@
 
 		/** Accordion **/
 		$.each($('.joomla-accordion'), function() {
-			var accordionSelector = $(this).data('selector'),
-				parent = $(this).data('parent'),
-				active = $(this).data('active'),
-				toggle = $(this).data('toggle'),
-				$onshow = $(this).data('on-show'),
-				$onshown = $(this).data('on-shown'),
-				$onhide = $(this).data('on-hide'),
-				$onhidden = $(this).data('on-hidden');
+			var $self = $(this),
+				accordionSelector = $self.data('selector'),
+				parent = $self.data('parent'),
+				active = $self.data('active'),
+				toggle = $self.data('toggle'),
+				$onshow = $self.data('on-show'),
+				$onshown = $self.data('on-shown'),
+				$onhide = $self.data('on-hide'),
+				$onhidden = $self.data('on-hidden');
 
 			$(accordionSelector).collapse(
 				{
@@ -28,8 +29,9 @@
 
 		/** Affix **/
 		$.each($('.joomla-affix'), function() {
-			var affixSelector = $(this).data('selector'),
-				affixOffset = $(this).data('offset');
+			var $self = $(this),
+				affixSelector = $self.data('selector'),
+				affixOffset = $self.data('offset');
 
 			$('.' + affixSelector).affix({offset: affixOffset});
 		});
@@ -50,9 +52,10 @@
 
 		/** Carousel **/
 		$.each($('.joomla-carousel'), function() {
-			var carouselSelector = $(this).data('selector'),
-				carouselInterval = $(this).data('interval'),
-				carouselPause = $(this).data('pause');
+			var $self = $(this),
+				carouselSelector = $self.data('selector'),
+				carouselInterval = $self.data('interval'),
+				carouselPause = $self.data('pause');
 
 			$('.' + carouselSelector).carousel(
 				{
@@ -71,17 +74,18 @@
 
 		/** Modals **/
 		$.each($('.joomla-modal'), function() {
-			$(this).on('show.bs.modal', function() {
+			var $self = $(this);
+			$self.on('show.bs.modal', function() {
 				$('body').addClass('modal-open');
-				if ($(this).data('url')) {
-					var modalBody = $(this).find('.modal-body');
+				if ($self.data('url')) {
+					var modalBody = $self.find('.modal-body');
 					modalBody.find('iframe').remove();
-					modalBody.prepend($(this).data('iframe'));
+					modalBody.prepend($self.data('iframe'));
 				} else {
 					$('.modalTooltip').each(function(){
-						var attr = $(this).attr('data-placement');
+						var attr = $self.attr('data-placement');
 						if ( attr === undefined || attr === false ) {
-							$(this).attr('data-placement', 'auto-dir top-left');
+							$self.attr('data-placement', 'auto-dir top-left');
 						}
 					});
 					$('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});
@@ -92,11 +96,11 @@
 					modalBodyHeightOuter = $('div.modal-body:visible').outerHeight(true),
 					modalBodyHeight = $('div.modal-body:visible').height(),
 					modalFooterHeight = $('div.modal-footer:visible').outerHeight(true),
-					padding = $(this).offsetTop,
+					padding = $self.offsetTop,
 					maxModalHeight = ($(window).height()-(padding*2)),
 					modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight),
 					maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);
-				if ($(this).data('url')) {
+				if ($self.data('url')) {
 					var iframeHeight = $('.iframe').height();
 					if (iframeHeight > maxModalBodyHeight){
 						$('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});
@@ -116,15 +120,16 @@
 
 		/** Popover **/
 		$.each($('.joomla-popover'), function() {
-			var popoverSelector = $(this).data('selector'),
-				animation = $(this).data('animation'),
-				html = $(this).data('html'),
-				placement = $(this).data('placement'),
-				title = $(this).data('title'),
-				selector2 = $(this).data('other-selector'),
-				trigger = $(this).data('trigger'),
-				delay = $(this).data('delay'),
-				container = $(this).data('container');
+			var $self = $(this),
+				popoverSelector = $self.data('selector'),
+				animation = $self.data('animation'),
+				html = $self.data('html'),
+				placement = $self.data('placement'),
+				title = $self.data('title'),
+				selector2 = $self.data('other-selector'),
+				trigger = $self.data('trigger'),
+				delay = $self.data('delay'),
+				container = $self.data('container');
 
 			$(popoverSelector).popover(
 				{
@@ -142,8 +147,9 @@
 
 		/** Scrollspy **/
 		$.each($('.joomla-scrollspy'), function() {
-			var scrollspySelector = $(this).data('selector'),
-				scrollspyOffset = $(this).data('offset');
+			var $self = $(this),
+				scrollspySelector = $self.data('selector'),
+				scrollspyOffset = $self.data('offset');
 
 			$('.' + scrollspySelector).affix({offset: scrollspyOffset});
 		});
@@ -166,20 +172,21 @@
 
 		/** Tooltip **/
 		$.each($('.joomla-tooltip'), function() {
-			var tooltipsSelector = $(this).data('selector'),
-				animation = $(this).data('animation'),
-				html = $(this).data('html'),
-				placement = $(this).data('placement'),
-				title = $(this).data('title'),
-				selector2 = $(this).data('other-selector'),
-				trigger = $(this).data('trigger'),
-				delay = $(this).data('delay'),
-				container = $(this).data('container'),
-				template = $(this).data('template'),
-				$onshow = $(this).data('on-show'),
-				$onshown = $(this).data('on-shown'),
-				$onhide = $(this).data('on-hide'),
-				$onhidden = $(this).data('on-hidden');
+			var $self = $(this),
+				tooltipsSelector = $self.data('selector'),
+				animation = $self.data('animation'),
+				html = $self.data('html'),
+				placement = $self.data('placement'),
+				title = $self.data('title'),
+				selector2 = $self.data('other-selector'),
+				trigger = $self.data('trigger'),
+				delay = $self.data('delay'),
+				container = $self.data('container'),
+				template = $self.data('template'),
+				$onshow = $self.data('on-show'),
+				$onshown = $self.data('on-shown'),
+				$onhide = $self.data('on-hide'),
+				$onhidden = $self.data('on-hidden');
 
 			$(tooltipsSelector).tooltip(
 				{
@@ -200,14 +207,15 @@
 
 		/** Typehead **/
 		$.each($('.joomla-typehead'), function() {
-			var typeheadSelector = $(this).data('selector'),
-				source = $(this).data('source'),
-				items = $(this).data('items'),
-				minLength = $(this).data('min-length'),
-				matcher = $(this).data('matcher'),
-				sorter = $(this).data('sorter'),
-				updater = $(this).data('updater'),
-				highlighter = $(this).data('highlighter');
+			var $self = $(this),
+				typeheadSelector = $self.data('selector'),
+				source = $self.data('source'),
+				items = $self.data('items'),
+				minLength = $self.data('min-length'),
+				matcher = $self.data('matcher'),
+				sorter = $self.data('sorter'),
+				updater = $self.data('updater'),
+				highlighter = $self.data('highlighter');
 
 			$(typeheadSelector).typehead(
 				{
