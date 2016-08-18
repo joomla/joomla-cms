@@ -90,12 +90,6 @@ class JCacheStorageMemcached extends JCacheStorage
 		}
 
 		static::$_db->setOption(Memcached::OPT_COMPRESSION, $this->_compress);
-
-		// Memcached has no list keys, we do our own accounting, initialise key index
-		if (static::$_db->get($this->_hash . '-index') === false)
-		{
-			static::$_db->set($this->_hash . '-index', array(), 0);
-		}
 	}
 
 	/**
@@ -196,7 +190,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		$tmparr->size = strlen($data);
 
 		$index[] = $tmparr;
-		static::$_db->replace($this->_hash . '-index', $index, 0);
+		static::$_db->set($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
 		// Prevent double writes, write only if it doesn't exist else replace
@@ -244,7 +238,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			break;
 		}
 
-		static::$_db->replace($this->_hash . '-index', $index, 0);
+		static::$_db->set($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
 		return static::$_db->delete($cache_id);
@@ -288,7 +282,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			}
 		}
 
-		static::$_db->replace($this->_hash . '-index', $index, 0);
+		static::$_db->set($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
 		return true;
@@ -374,7 +368,7 @@ class JCacheStorageMemcached extends JCacheStorage
 		$tmparr->size = 1;
 
 		$index[] = $tmparr;
-		static::$_db->replace($this->_hash . '-index', $index, 0);
+		static::$_db->set($this->_hash . '-index', $index, 0);
 
 		$this->unlockindex();
 
@@ -442,7 +436,7 @@ class JCacheStorageMemcached extends JCacheStorage
 			break;
 		}
 
-		static::$_db->replace($this->_hash . '-index', $index, 0);
+		static::$_db->set($this->_hash . '-index', $index, 0);
 		$this->unlockindex();
 
 		return static::$_db->delete($cache_id);
