@@ -93,6 +93,31 @@ class JCacheStorageMemcache extends JCacheStorage
 	}
 
 	/**
+	 * Get a cache_id string from an id/group pair
+	 *
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  string   The cache_id string
+	 *
+	 * @since   11.1
+	 */
+	protected function _getCacheId($id, $group)
+	{
+		$prefix   = JCache::getPlatformPrefix();
+		$length   = strlen($prefix);
+		$cache_id = parent::_getCacheId($id, $group);
+
+		if ($length)
+		{
+			// Memcache use suffix instead of prefix
+			$cache_id = substr($cache_id, $length) . strrev($prefix);
+		}
+
+		return $cache_id;
+	}
+
+	/**
 	 * Get cached data by ID and group
 	 *
 	 * @param   string   $id         The cache data ID
