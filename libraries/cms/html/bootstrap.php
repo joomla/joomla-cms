@@ -107,7 +107,8 @@ abstract class JHtmlBootstrap
 		$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
 		$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
-		echo '<span class="joomla-carousel" data-selector="' . $selector . '" data-interval="' .$opt['interval'] . '" data-pause="' . $opt['pause'] . '"></span>';
+		echo '<span class="joomla-carousel" data-selector="' . $selector . '" data-interval="' .
+			$opt['interval'] . '" data-pause="' . $opt['pause'] . '"></span>';
 	}
 
 	/**
@@ -369,10 +370,10 @@ abstract class JHtmlBootstrap
 		. 'data-delay="' . $opt['delay'] . '" '
 		. 'data-container="' . $opt['container'] . '" '
 		. 'data-template="' . $opt['template'] . '" '
-		. 'data-on-show="' . $onShow .'" '
-		. 'data-on-shown="' . $onShown .'" '
-		. 'data-on-hide="' . $onHide .'" '
-		. 'data-on-hidden="' . $onHidden .'" '
+		. 'data-on-show="' . $onShow . '" '
+		. 'data-on-shown="' . $onShown . '" '
+		. 'data-on-hide="' . $onHide . '" '
+		. 'data-on-hidden="' . $onHidden . '" '
 		. '></span>';
 	}
 
@@ -442,8 +443,7 @@ abstract class JHtmlBootstrap
 			. 'data-matcher="' . $opt['matcher'] . '" '
 			. 'data-sorter="' . $opt['sorter'] . '" '
 			. 'data-updater="' . $opt['updater'] . '" '
-			. 'data-highlighter="' . $opt['highlighter'] . '" '
-			.'>';
+			. 'data-highlighter="' . $opt['highlighter'] . '">';
 	}
 
 	/**
