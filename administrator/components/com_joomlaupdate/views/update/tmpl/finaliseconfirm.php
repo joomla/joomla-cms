@@ -17,13 +17,6 @@ JLoader::register('ModLoginHelper', JPATH_ADMINISTRATOR . '/modules/mod_login/he
 
 $twofactormethods = ModLoginHelper::getTwoFactorMethods();
 
-/*JFactory::getDocument()->addScriptDeclaration("
-jQuery(document).ready(function(){
-	window.setTimeout(function() {
-		document.getElementById('adminForm').submit();
-	}, 5000);
-});
-");*/
 ?>
 
 <div class="alert alert-warning">
