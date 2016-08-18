@@ -12,19 +12,16 @@
 				$onhide = $(this).data('on-hide'),
 				$onhidden = $(this).data('on-hidden');
 
-			$(function($) {
-				$(accordionSelector).collapse(
-					{
-						parent: parent,
-						active: active,
-						toggle: toggle
-					}
-				)
-					.on("show", new Function($onshow)())
-					.on("shown", new Function($onshown)())
-					.on("hideme", new Function($onhide)())
-					.on("hidden", new Function($onhidden)());
-			});
+			$(accordionSelector).collapse(
+				{
+					parent: parent,
+					active: active,
+					toggle: toggle
+				}
+			).on("show", new Function($onshow)())
+				.on("shown", new Function($onshown)())
+				.on("hideme", new Function($onhide)())
+				.on("hidden", new Function($onhidden)());
 		});
 
 		/** Affix **/
@@ -32,27 +29,21 @@
 			var affixSelector = $(this).data('selector'),
 				affixOffset = $(this).data('offset');
 
-			$(function($) {
-				$('.' + affixSelector).affix({offset: affixOffset});
-			});
+			$('.' + affixSelector).affix({offset: affixOffset});
 		});
 
 		/** Alert **/
 		$.each($('.joomla-alert'), function() {
 			var alertSelector = $(this).data('selector');
 
-			$(function($) {
-				$('.' + alertSelector).alert();
-			});
+			$('.' + alertSelector).alert();
 		});
 
 		/** Button **/
 		$.each($('.joomla-button'), function() {
 			var buttonSelector = $(this).data('selector');
 
-			$(function($) {
-				$('.' + buttonSelector).button();
-			});
+			$('.' + buttonSelector).button();
 		});
 
 		/** Carousel **/
@@ -61,22 +52,19 @@
 				carouselInterval = $(this).data('interval'),
 				carouselPause = $(this).data('pause');
 
-			$(function($){
-				$('.' + carouselSelector).carousel(
-					{
-						interval: carouselInterval,
-						pause: carouselPause
-					}
-				);
-			});
+			$('.' + carouselSelector).carousel(
+				{
+					interval: carouselInterval,
+					pause: carouselPause
+				}
+			);
 		});
 
 		/** Dropdown menu **/
 		$.each($('.joomla-dropdown'), function() {
 			var dropdownSelector = $(this).data('selector');
-			$(function($) {
-				$('.' + dropdownSelector).dropdown();
-			});
+
+			$('.' + dropdownSelector).dropdown();
 		});
 
 		/** Modals **/
@@ -136,19 +124,17 @@
 				delay = $(this).data('delay'),
 				container = $(this).data('container');
 
-			$(function($) {
-				$(popoverSelector).popover(
-					{
-						animation: animation,
-						html: html,
-						title: title,
-						selector: selector2,
-						trigger: trigger,
-						delay: delay,
-						container: container
-					}
-				);
-			});
+			$(popoverSelector).popover(
+				{
+					animation: animation,
+					html: html,
+					title: title,
+					selector: selector2,
+					trigger: trigger,
+					delay: delay,
+					container: container
+				}
+			);
 		});
 
 
@@ -157,9 +143,7 @@
 			var scrollspySelector = $(this).data('selector'),
 				scrollspyOffset = $(this).data('offset');
 
-			$(function($) {
-				$('.' + scrollspySelector).affix({offset: scrollspyOffset});
-			});
+			$('.' + scrollspySelector).affix({offset: scrollspyOffset});
 		});
 
 		/** Tabs **/
@@ -195,24 +179,21 @@
 				$onhide = $(this).data('on-hide'),
 				$onhidden = $(this).data('on-hidden');
 
-			$(function($) {
-				$(tooltipsSelector).tooltip(
-					{
-						animation: animation,
-						html: html,
-						title: title,
-						selector: selector2,
-						trigger: trigger,
-						delay: delay,
-						container: container,
-						template: template
-					}
-				)
-					.on("show.bs.tooltip", new Function($onshow)())
-					.on("shown.bs.tooltip", new Function($onshown)())
-					.on("hide.bs.tooltip", new Function($onhide)())
-					.on("hidden.bs.tooltip", new Function($onhidden)());
-			});
+			$(tooltipsSelector).tooltip(
+				{
+					animation: animation,
+					html: html,
+					title: title,
+					selector: selector2,
+					trigger: trigger,
+					delay: delay,
+					container: container,
+					template: template
+				}
+			).on("show.bs.tooltip", new Function($onshow)())
+				.on("shown.bs.tooltip", new Function($onshown)())
+				.on("hide.bs.tooltip", new Function($onhide)())
+				.on("hidden.bs.tooltip", new Function($onhidden)());
 		});
 
 		/** Typehead **/
@@ -226,20 +207,18 @@
 				updater = $(this).data('updater'),
 				highlighter = $(this).data('highlighter');
 
-			$(function($) {
-				$(typeheadSelector).typehead(
-					{
-						parent: parent,
-						source: source,
-						items: items,
-						minLength: minLength,
-						matcher: matcher,
-						sorter: sorter,
-						updater: updater,
-						highlighter: highlighter
-					}
-				);
-			});
+			$(typeheadSelector).typehead(
+				{
+					parent: parent,
+					source: source,
+					items: items,
+					minLength: minLength,
+					matcher: matcher,
+					sorter: sorter,
+					updater: updater,
+					highlighter: highlighter
+				}
+			);
 		});
 	});
 })();
