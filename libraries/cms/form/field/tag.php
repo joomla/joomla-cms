@@ -73,8 +73,6 @@ class JFormFieldTag extends JFormFieldList
 			$id    = isset($this->element['id']) ? $this->element['id'] : null;
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
-			echo '<span class="joomla-tags-field" data-id="' . $cssId . '" data-custom="' . $this->allowCustom() . '"></span>';
-
 			// Load the ajax-chosen customised field
 			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
