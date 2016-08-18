@@ -37,6 +37,9 @@ require.config({
 		},
 		'libs/subform-repeatable': {
 			deps: ['jquery', 'jui']
+		},
+		'libs/sendtestmail': {
+			deps: ['jquery']
 		}
 	},
 
