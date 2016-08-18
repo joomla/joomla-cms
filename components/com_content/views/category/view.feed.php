@@ -34,7 +34,7 @@ class ContentViewCategory extends JViewCategoryfeed
 	 */
 	protected function reconcileNames($item)
 	{
-		// Get description, into_image, author and date
+		// Get description, intro_image, author and date
 		$app               = JFactory::getApplication();
 		$params            = $app->getParams();
 		$item->description = '';
