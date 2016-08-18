@@ -36,7 +36,6 @@ jQuery(function($) {
         var $tabs = $('a[data-toggle="tab"]');
 
         $tabs.on('click', function(e) {
-            console.log($(e.target).attr('href'));
             saveActiveTab($(e.target).attr('href'));
         });
 
