@@ -53,6 +53,13 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
+		$scriptOptions = $document->getScriptOptions();
+
+		if (!empty($scriptOptions))
+		{
+			JHtml::_('behavior.core');
+		}
+
 		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
@@ -220,33 +227,16 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		}
 
 		// Generate scripts options
-		$scriptOptions = $document->getScriptOptions();
-
 		if (!empty($scriptOptions))
 		{
-			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
-
-			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
+			$buffer .= $tab . '<script type="text/joomla-script-options" id="joomla-script-options">';
 
 			$pretyPrint  = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
 
-			// TODO: use .extend(Joomla.optionsStorage, options) when it will be safe
-			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
-			$buffer .= $tab . 'Joomla.optionsStorage = ' . $jsonOptions . ';' . $lnEnd;
-
-			// See above note
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
+			$buffer .= $jsonOptions;
+			$buffer .= '</script>' . $lnEnd;
 		}
 
 		// Generate script declarations
