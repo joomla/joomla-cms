@@ -295,6 +295,23 @@ class JCacheStorageMemcached extends JCacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		if (!$this->lockindex())
+		{
+			return false;
+		}
+
+		return static::$_db->flush();
+	}
+
+	/**
 	 * Test to see if the storage handler is available.
 	 *
 	 * @return  boolean

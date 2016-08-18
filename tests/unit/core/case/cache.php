@@ -62,7 +62,9 @@ abstract class TestCaseCache extends TestCase
 
 		if ($this->handler instanceof JCacheStorage)
 		{
+			// Deprecated, temporary have to stay because flush method is not implemented in all storages.
 			$this->handler->clean($this->group);
+			$this->handler->flush();
 		}
 
 		parent::tearDown();
