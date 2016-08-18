@@ -149,11 +149,11 @@ abstract class JHtmlBootstrap
 
 		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
 
-		$layoutData = array(
-			'debug' => $debug,
-		);
+		// Load jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/bootstrap-init.min.js', false, true, false, false, $debug);
 
-		JLayoutHelper::render('libraries.cms.html.bootstrap.framework', $layoutData);
 
 		static::$loaded[__METHOD__] = true;
 	}
