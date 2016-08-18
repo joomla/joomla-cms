@@ -136,13 +136,13 @@
 			setDate = function (date) {
 				if (!date.equalsTo(self.date)) {
 					self.date = date;
-					processCalendar(self.params.firstDayOfWeek, date, self);
+					processCalendar(self.params.firstDayOfWeek, date);
 				}
 			},
 
 			/** Method to set the current date by a number, step */
 			moveCursorBy = function (step) {
-				var date = new Date(self.date); // self.date.getLocalDate(self.params.dateType)
+				var date = new Date(self.date);
 				date.setDate(date.getDate() - step);
 				setDate(date);
 			},
@@ -208,6 +208,7 @@
 			show = function (ev) {
 				var el = ev.target;
 				checkInputs();
+				self.params.inputField.focus();
 				var rows = self.table.getElementsByTagName("tr");
 				for (var i = rows.length; i > 0;) {
 					var row = rows[--i];
@@ -387,6 +388,13 @@
 
 				var K = parseInt(ev.keyCode);
 
+				// Get value from input
+				if (ev.target === self.params.inputField && K === 13) {
+					self.date = Date.parseFieldDate(self.params.inputField.value, self.params.dateFormat, self.params.dateType);
+					processCalendar(self.params.firstDayOfWeek, self.date);
+					return stopCalEvent(ev);
+				}
+
 				if (self.params.direction == 'rtl') {
 					if (K == 37) K = 39;
 					else if (K == 39) K = 37;
@@ -413,6 +421,7 @@
 				if (K === 39) {                                // KEY right (next day)
 					moveCursorBy( -1);
 				}
+				if (ev.target === self.params.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190))
 				return stopCalEvent(ev);
 			},
 
@@ -646,7 +655,7 @@
 					})();
 				}
 
-				processCalendar(self.params.firstDayOfWeek, self.date, self);
+				processCalendar(self.params.firstDayOfWeek, self.date);
 				parent.parentNode.appendChild(self.element);
 			},
 
