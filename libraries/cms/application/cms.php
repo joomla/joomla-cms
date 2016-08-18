@@ -817,12 +817,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
+			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
-				if (in_array($authorisation->status, $denied_states))
+				if ((int)$authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
