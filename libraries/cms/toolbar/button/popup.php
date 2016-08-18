@@ -85,10 +85,12 @@ class JToolbarButtonPopup extends JToolbarButton
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
 		{
-			JFactory::getDocument()->addScriptDeclaration('
-		jQuery("#modal-' . $name . '").on("hide", function () {' . $onClose . ';});
-			'
+			$layoutData = array(
+				'name' => $name,
+				'onClose' => $onClose,
 			);
+
+			JLayoutHelper::render('joomla.modal.onclose', $layoutData);
 		}
 
 		$html[] = '</div>';
