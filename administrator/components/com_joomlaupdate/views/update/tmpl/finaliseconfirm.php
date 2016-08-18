@@ -13,7 +13,9 @@ JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('jquery.framework');
 
-$twofactormethods = JAuthenticationHelper::getTwoFactorMethods()
+JLoader::register('ModLoginHelper', JPATH_ADMINISTRATOR . '/modules/mod_login/helper.php');
+
+$twofactormethods = ModLoginHelper::getTwoFactorMethods();
 
 /*JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function(){
@@ -96,8 +98,9 @@ jQuery(document).ready(function(){
 			</div>
 		</div>
 
-		<input type="hidden" name="method" value="direct" />
+		<input type="hidden" name="option" value="com_joomlaupdate"/>
 		<input type="hidden" name="task" value="update.confirmfinalise" />
+		<input type="hidden" name="method" value="direct" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>
