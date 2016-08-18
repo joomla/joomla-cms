@@ -66,7 +66,7 @@ if (isset($params['keyboard']))
 if (isset($params['url']))
 {
 	$url = 'data-url="' . $params['url'] . '"';
-	$iframeHtml = htmlspecialchars(JLayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8') ;
+	$iframeHtml = htmlspecialchars(JLayoutHelper::render('joomla.modal.iframe', $displayData), ENT_COMPAT, 'UTF-8');
 }
 ?>
 <div id="<?php echo $selector; ?>" <?php echo JArrayHelper::toString($modalAttributes); ?> <?php echo isset($url) ? $url : ''; ?>
