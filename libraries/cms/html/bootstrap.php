@@ -435,32 +435,15 @@ abstract class JHtmlBootstrap
 		$opt['highlighter'] = isset($params['highlighter']) ? (int) $params['highlighter'] : null;
 
 		echo '<span id="' . $selector . '" class="joomla-typehead" '
-			. 'data-selector="' . $selector . '"'
-			. 'data-source="' . $opt['source'] . '"'
-			. 'data-items="' . $opt['items'] . '"'
-			. 'data-min-length="' . $opt['minLength'] . '"'
-			. 'data-matcher="' . $opt['matcher'] . '"'
-			. 'data-sorter="' . $opt['sorter'] . '"'
-			. 'data-updater="' . $opt['updater'] . '"'
-			. 'data-highlighter="' . $opt['highlighter'] . '"'
+			. 'data-selector="' . $selector . '" '
+			. 'data-source="' . $opt['source'] . '" '
+			. 'data-items="' . $opt['items'] . '" '
+			. 'data-min-length="' . $opt['minLength'] . '" '
+			. 'data-matcher="' . $opt['matcher'] . '" '
+			. 'data-sorter="' . $opt['sorter'] . '" '
+			. 'data-updater="' . $opt['updater'] . '" '
+			. 'data-highlighter="' . $opt['highlighter'] . '" '
 			.'>';
-
-		if (!isset(static::$loaded[__METHOD__][$selector]))
-		{
-
-
-			$options = JHtml::getJSObject($opt);
-
-			// Attach typehead to document
-			JFactory::getDocument()->addScriptDeclaration(
-				'jQuery(function($){ $(' . json_encode($selector) . ').typeahead(' . $options . '); });'
-			);
-
-			// Set static array
-			static::$loaded[__METHOD__][$selector] = true;
-		}
-
-		return;
 	}
 
 	/**
@@ -501,18 +484,19 @@ abstract class JHtmlBootstrap
 			$onHide        = isset($params['onHide']) ? htmlspecialchars($params['onHide'], ENT_COMPAT, 'UTF-8') : null;
 			$onHidden      = isset($params['onHidden']) ? htmlspecialchars($params['onHidden'], ENT_COMPAT, 'UTF-8') : null;
 
-			echo '<div id="' . $selector . '" class="joomla-accordion accordion" '
-				. 'data-selector="' . $selector . '"'
-				. 'data-parent="' . $opt['parent'] . '"'
-				. 'data-toggle="' . $opt['toggle'] . '"'
-				. 'data-on-show="' . $onShow . '"'
-				. 'data-on-shown="' . $onShown . '"'
-				. 'data-on-hide="' . $onHide . '"'
-				. 'data-on-hidden="' . $onHidden . '"'
-				. '>';
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = $opt;
+
+			return '<div id="' . $selector . '" class="joomla-accordion accordion" '
+				. 'data-selector="' . $selector . '" '
+				. 'data-parent="' . $opt['parent'] . '" '
+				. 'data-toggle="' . $opt['toggle'] . '" '
+				. 'data-on-show="' . $onShow . '" '
+				. 'data-on-shown="' . $onShown . '" '
+				. 'data-on-hide="' . $onHide . '" '
+				. 'data-on-hidden="' . $onHidden . '"'
+				. '>';
 		}
 	}
 
