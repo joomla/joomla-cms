@@ -83,9 +83,10 @@
 					modalBody.prepend($self.data('iframe'));
 				} else {
 					$('.modalTooltip').each(function(){
-						var attr = $self.attr('data-placement');
+						var $el = $(this);
+						var attr = $el.attr('data-placement');
 						if ( attr === undefined || attr === false ) {
-							$self.attr('data-placement', 'auto-dir top-left');
+							$el.attr('data-placement', 'auto-dir top-left');
 						}
 					});
 					$('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});
