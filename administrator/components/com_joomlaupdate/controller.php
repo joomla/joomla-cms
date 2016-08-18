@@ -22,14 +22,16 @@ class JoomlaupdateController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
 		$document = JFactory::getDocument();
+
+		$this->input = new JInput;
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'default');
