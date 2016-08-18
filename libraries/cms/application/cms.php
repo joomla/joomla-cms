@@ -821,7 +821,7 @@ class JApplicationCms extends JApplicationWeb
 
 			foreach ($authorisations as $authorisation)
 			{
-				if ((int)$authorisation->status & $denied_states)
+				if ((int) $authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
