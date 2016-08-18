@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/models/category.php';
-
 /**
  * HTML Contact View class for the Contact component
  *

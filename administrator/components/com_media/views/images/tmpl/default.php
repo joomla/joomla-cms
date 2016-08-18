@@ -55,8 +55,8 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				</div>
 				<div class="pull-right">
-					<button class="btn btn-success button-save-selected" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jModalClose();window.parent.jQuery('.modal.in').modal('hide');" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
-					<button class="btn button-cancel" type="button" onclick="window.parent.jModalClose();window.parent.jQuery('.modal.in').modal('hide');<?php if (!$this->state->get('field.id')) :
+					<button class="btn btn-success button-save-selected" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jQuery('.modal.in').modal('hide');window.parent.jModalClose();" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+					<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');window.parent.jModalClose();<?php if (!$this->state->get('field.id')) :
 						// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
 				</div>
 			</div>
@@ -150,7 +150,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 						</div>
 						<div class="controls">
-							<input type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
+							<input required type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 							<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 						</div>
 					</div>

@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/activity/notifications/
  *
- * @since  3.3 (CMS)
+ * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageActivityNotifications extends JGithubPackage
 {
@@ -99,7 +100,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'unread' => $unread,
-			'read'   => $read
+			'read'   => $read,
 		);
 
 		if ($last_read_at)
@@ -136,7 +137,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'unread' => $unread,
-			'read'   => $read
+			'read'   => $read,
 		);
 
 		if ($last_read_at)
@@ -187,7 +188,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'unread' => $unread,
-			'read'   => $read
+			'read'   => $read,
 		);
 
 		return $this->processResponse(
@@ -240,7 +241,7 @@ class JGithubPackageActivityNotifications extends JGithubPackage
 
 		$data = array(
 			'subscribed' => $subscribed,
-			'ignored'    => $ignored
+			'ignored'    => $ignored,
 		);
 
 		return $this->processResponse(
