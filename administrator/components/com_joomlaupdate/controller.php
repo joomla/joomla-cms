@@ -31,8 +31,6 @@ class JoomlaupdateController extends JControllerLegacy
 		// Get the document object.
 		$document = JFactory::getDocument();
 
-		$this->input = new JInput;
-
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'default');
 		$vFormat = $document->getType();
