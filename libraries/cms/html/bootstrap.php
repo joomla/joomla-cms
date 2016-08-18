@@ -153,7 +153,7 @@ abstract class JHtmlBootstrap
 			'debug' => $debug,
 		);
 
-		return JLayoutHelper::render('libraries.cms.html.bootstrap.framework', $layoutData);
+		JLayoutHelper::render('libraries.cms.html.bootstrap.framework', $layoutData);
 
 		// Load jQuery
 		JHtml::_('jquery.framework');
@@ -166,6 +166,7 @@ abstract class JHtmlBootstrap
 
 		JHtml::_('script', 'jui/bootstrap.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		JHtml::_('script', 'system/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+
 		static::$loaded[__METHOD__] = true;
 	}
 
