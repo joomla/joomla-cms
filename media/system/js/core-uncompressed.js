@@ -74,7 +74,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Joomla options storage
 	 * @type {{}}
-     */
+	 */
 	Joomla.optionsStorage = Joomla.optionsStorage || null;
 
 	/**
@@ -84,13 +84,13 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param mixed    def  Default value if nothing found
 	 *
 	 * @return mixed
-     */
+	 */
 	Joomla.getOptions = function( key, def) {
 
 		// Load options if they not exists
 		if (!Joomla.optionsStorage) {
 			var element = document.getElementById('joomla-script-options'),
-				str = element ? element.innerText : null,
+				str = element ? (element.text || element.textContent) : null,
 				options = str ? JSON.parse(str) : null;
 
 			Joomla.optionsStorage = options || {};
