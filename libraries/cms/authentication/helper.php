@@ -53,4 +53,43 @@ abstract class JAuthenticationHelper
 
 		return $options;
 	}
+
+	/**
+	 * Get the additional login form field definitions.
+	 *
+	 * @return  array  Additional login form field definitions
+	 *
+	 * @since   3.7
+	 */
+	public static function getUserLoginFormFields()
+	{
+		/**
+		 * All three types of plugins can define custom login fields.
+		 *
+		 * While custom login fields are primarily used for social login, opening up the implementation to Two Factor
+		 * Authentication and User plugins lets us implement richer login interactions.
+		 */
+		JPluginHelper::importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('authentication');
+		JPluginHelper::importPlugin('user');
+
+		$fieldDefinitions = JEventDispatcher::getInstance()->trigger('onUserLoginFormFields', array());
+
+		$fields = array();
+
+		if (!empty($fieldDefinitions))
+		{
+			foreach ($fieldDefinitions as $fieldDefinition)
+			{
+				if (!is_object($fieldDefinition) || !($fieldDefinition instanceof JAuthenticationFieldInterface))
+				{
+					continue;
+				}
+
+				$fields[] = $fieldDefinition;
+			}
+		}
+
+		return $fields;
+	}
 }
