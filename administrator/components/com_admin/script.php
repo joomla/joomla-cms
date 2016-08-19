@@ -1426,6 +1426,7 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/jquery.js',
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/media/system/js/permissions.min.js',
+			'/libraries/platform.php',
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data/data.php',
 			'/libraries/joomla/data/dumpable.php',
