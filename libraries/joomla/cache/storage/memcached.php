@@ -79,13 +79,10 @@ class JCacheStorageMemcached extends JCacheStorage
 			static::$_db = new Memcached($this->_hash);
 			$servers = static::$_db->getServerList();
 
-			if ($servers)
+			if ($servers && ($servers[0]['host'] != $host || $servers[0]['port'] != $port))
 			{
-				if ($servers[0]['host'] != $host || $servers[0]['host'] != $port)
-				{
-					static::$_db->resetServerList();
-					$servers = array();
-				}
+				static::$_db->resetServerList();
+				$servers = array();
 			}
 
 			if (!$servers)
