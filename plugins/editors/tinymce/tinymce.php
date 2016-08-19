@@ -875,7 +875,7 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$script .= "
 			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | code | $toolbar5\",
 			plugins: \"$dragDropPlg code\",
 		});
 		";
