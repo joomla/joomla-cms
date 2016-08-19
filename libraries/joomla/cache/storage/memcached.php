@@ -64,7 +64,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	{
 		if (!static::isSupported())
 		{
-			throw new RuntimeException('Memcache Extension is not available');
+			throw new RuntimeException('Memcached Extension is not available');
 		}
 
 		$config = JFactory::getConfig();
