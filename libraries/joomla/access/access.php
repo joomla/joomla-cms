@@ -199,7 +199,7 @@ class JAccess
 	public static function preload($assetTypes = 'components', $reload = false)
 	{
 		// Get instance of the Profiler:
-		$_PROFILER = JProfiler::getInstance('Application');
+		$profiler = JProfiler::getInstance('Application');
 
 		// Check for default case:
 		$isDefault = (is_string($assetTypes) && in_array($assetTypes, array('components', 'component')));
@@ -208,13 +208,13 @@ class JAccess
 		if ($isDefault)
 		{
 			// Mark in the profiler.
-			JDEBUG ? $_PROFILER->mark('Start JAccess::preload(components)') : null;
+			JDEBUG ? $profiler->mark('Start JAccess::preload(components)') : null;
 
 			$components = self::preloadComponents();
 			self::$preloadedAssetTypes = array_merge(self::$preloadedAssetTypes, array_flip($components));
 
 			// Mark in the profiler.
-			JDEBUG ? $_PROFILER->mark('Finish JAccess::preload(components)') : null;
+			JDEBUG ? $profiler->mark('Finish JAccess::preload(components)') : null;
 
 			// Quick short circuit for default case:
 			if ($isDefault)
@@ -235,15 +235,15 @@ class JAccess
 		{
 			if (!isset(self::$preloadedAssetTypes[$assetType]) || $reload)
 			{
-				JDEBUG ? $_PROFILER->mark('New JAccess Preloading Process(' . $assetType . ')') : null;
+				JDEBUG ? $profiler->mark('New JAccess Preloading Process(' . $assetType . ')') : null;
 
 				self::preloadPermissionsParentIdMapping($assetType);
-				JDEBUG ? $_PROFILER->mark('After preloadPermissionsParentIdMapping (' . $assetType . ')') : null;
+				JDEBUG ? $profiler->mark('After preloadPermissionsParentIdMapping (' . $assetType . ')') : null;
 
 				self::preloadPermissions($assetType);
-				JDEBUG ? $_PROFILER->mark('After preloadPermissions (' . $assetType . ')') : null;
+				JDEBUG ? $profiler->mark('After preloadPermissions (' . $assetType . ')') : null;
 
-				JDEBUG ? $_PROFILER->mark('End New JAccess Preloading Process(' . $assetType . ')') : null;
+				JDEBUG ? $profiler->mark('End New JAccess Preloading Process(' . $assetType . ')') : null;
 
 				self::$preloadedAssetTypes[$assetType] = true;
 			}
@@ -571,7 +571,7 @@ class JAccess
 	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = true)
 	{
 		// Get instance of the Profiler:
-		$_PROFILER = JProfiler::getInstance('Application');
+		$profiler = JProfiler::getInstance('Application');
 
 		$extensionName = self::getExtensionNameFromAsset($asset);
 
@@ -581,7 +581,7 @@ class JAccess
 			&& isset(self::$assetPermissionsByName[$extensionName][$asset]))
 		{
 			// Mark in the profiler.
-			JDEBUG ? $_PROFILER->mark('Start JAccess::getAssetRules New (' . $asset . ')') : null;
+			JDEBUG ? $profiler->mark('Start JAccess::getAssetRules New (' . $asset . ')') : null;
 
 			$assetType = self::getAssetType($asset);
 			$assetId = self::$assetPermissionsByName[$extensionName][$asset]->id;
@@ -612,14 +612,14 @@ class JAccess
 			}
 
 			// Mark in the profiler.
-			JDEBUG ? $_PROFILER->mark('Finish JAccess::getAssetRules New (' . $asset . ')') : null;
+			JDEBUG ? $profiler->mark('Finish JAccess::getAssetRules New (' . $asset . ')') : null;
 
 			return self::$assetRulesIdentities[$hash];
 		}
 		else
 		{
 			// Mark in the profiler.
-			JDEBUG ? $_PROFILER->mark('Start JAccess::getAssetRules Old (' . $asset . ')') : null;
+			JDEBUG ? $profiler->mark('Start JAccess::getAssetRules Old (' . $asset . ')') : null;
 
 			if ($asset === "1")
 			{
@@ -688,7 +688,7 @@ class JAccess
 			$rules = new JAccessRules;
 			$rules->mergeCollection($result);
 
-			JDEBUG ? $_PROFILER->mark('Finish JAccess::getAssetRules Old (' . $asset . ')') : null;
+			JDEBUG ? $profiler->mark('Finish JAccess::getAssetRules Old (' . $asset . ')') : null;
 
 			return $rules;
 		}
