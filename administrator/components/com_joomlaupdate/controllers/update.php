@@ -396,7 +396,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE_FAIL'), JLog::INFO, 'Update');
 
 			// Redirect to com_joomlaupdate page
-			$url = 'index.php?option=com_joomlaupdate&' . JFactory::getSession()->getFormToken() . '=1';
+			$url = 'index.php?option=com_joomlaupdate';
 			$this->setRedirect($url);
 
 			return;

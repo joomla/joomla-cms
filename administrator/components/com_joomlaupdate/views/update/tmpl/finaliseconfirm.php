@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
-JHtml::_('jquery.framework');
 
 JLoader::register('ModLoginHelper', JPATH_ADMINISTRATOR . '/modules/mod_login/helper.php');
 
@@ -93,7 +92,6 @@ $twofactormethods = ModLoginHelper::getTwoFactorMethods();
 
 		<input type="hidden" name="option" value="com_joomlaupdate"/>
 		<input type="hidden" name="task" value="update.confirmfinalise" />
-		<input type="hidden" name="method" value="direct" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>
