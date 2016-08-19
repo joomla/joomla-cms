@@ -804,11 +804,25 @@ class JApplicationCms extends JApplicationWeb
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
+		// Import the user and authentication plugin groups.
+		JPluginHelper::importPlugin('authentication');
+		JPluginHelper::importPlugin('user');
+
+		$results    = $this->triggerEvent('onUserBeforeAuthenticate', array($credentials, &$options));
+
+		if (in_array(false, $results, true))
+		{
+			// If silent is set, just return false.
+			if (array_key_exists('silent', $options) and $options['silent'] === true)
+			{
+				return false;
+			}
+
+			return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+		}
+
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
-
-		// Import the user plugin group.
-		JPluginHelper::importPlugin('user');
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
@@ -816,13 +830,13 @@ class JApplicationCms extends JApplicationWeb
 			 * Validate that the user should be able to login (different to being authenticated).
 			 * This permits authentication plugins blocking the user.
 			 */
-			$authorisations = $authenticate->authorise($response, $options);
+			$authorisations = $this->triggerEvent('onUserAuthorisation', array($response, &$options));
 
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
 
-				if (in_array($authorisation->status, $denied_states))
+				if (in_array($authorisation->status, $denied_states, true))
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
@@ -860,12 +874,12 @@ class JApplicationCms extends JApplicationWeb
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
 
-			if (in_array(false, $results, true) == false)
+			if (in_array(false, $results, true) === false)
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
