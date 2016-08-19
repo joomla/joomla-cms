@@ -495,7 +495,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->select($this->db->quoteName('access'))
 			->from($this->db->quoteName($this->table));
 
-		$this->filterByIdentifier($query, $row->id, null);
+		$query = $this->filterByIdentifier($query, $row->id, null);
 
 		$this->db->setQuery($query);
 
@@ -554,7 +554,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Get the list query and add the filter by identifier.
 		$query = $this->getListQuery();
-		$this->filterByIdentifier($query, $id);
+		$query = $this->filterByIdentifier($query, $id);
 
 		// Get the item to index.
 		$this->db->setQuery($query);
@@ -820,7 +820,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function itemAccessChange($row)
 	{
 		$query = clone $this->getStateQuery();
-		$this->filterByIdentifier($query, $row->id);
+		$query = $this->filterByIdentifier($query, $row->id);
 
 		// Get the access level.
 		$this->db->setQuery($query);
@@ -853,7 +853,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($pks as $pk)
 		{
 			$query = clone $this->getStateQuery();
-			$this->filterByIdentifier($query, $pk);
+			$query = $this->filterByIdentifier($query, $pk);
 
 			// Get the published states.
 			$this->db->setQuery($query);
@@ -945,9 +945,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @param   integer         $id          The value of the identifier.
 	 * @param   string          $tableAlias  The alias used to identify the table.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQuery  The query object with the identifier filter
 	 *
-	 * @since   3.5
+	 * @since   3.7
 	 */
 	private function filterByIdentifier($query, $id, $tableAlias = 'a')
 	{
@@ -961,5 +961,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		$query->where($tableAndIdentifier . ' = ' . (int) $id);
+		
+		return $query;
 	}
 }
