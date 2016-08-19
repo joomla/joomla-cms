@@ -209,10 +209,8 @@ class InstallerModel extends JModelList
 				break;
 			}
 
-			if (!in_array($item->type, array('language', 'template', 'library')))
-			{
-				$item->name = JText::_($item->name);
-			}
+			// Translate the extension name if possible
+			$item->name = JText::_($item->name);
 
 			settype($item->description, 'string');
 
