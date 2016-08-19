@@ -73,7 +73,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 	/**
 	 * Joomla options storage
+	 *
 	 * @type {{}}
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	Joomla.optionsStorage = Joomla.optionsStorage || null;
 
@@ -84,6 +87,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param mixed    def  Default value if nothing found
 	 *
 	 * @return mixed
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	Joomla.getOptions = function( key, def) {
 
