@@ -53,7 +53,7 @@ class JFormFieldContenthistory extends JFormField
 				'type' => $typeId,
 				'item' => $itemId,
 				'label' => $label,
-				'link' => $link
+				'link' => $link,
 		);
 
 		return array_merge($data, $extraData);

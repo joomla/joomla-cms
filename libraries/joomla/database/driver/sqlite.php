@@ -206,7 +206,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 					'Type' => $field->TYPE,
 					'Null' => ($field->NOTNULL == '1' ? 'NO' : 'YES'),
 					'Default' => $field->DFLT_VALUE,
-					'Key' => ($field->PK != '0' ? 'PRI' : '')
+					'Key' => ($field->PK != '0' ? 'PRI' : ''),
 				);
 			}
 		}
