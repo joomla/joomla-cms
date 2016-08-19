@@ -53,16 +53,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
-		$scriptOptions = $document->getScriptOptions();
-
-		if (!empty($scriptOptions))
-		{
-			JHtml::_('behavior.core');
-		}
-
 		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+
+		if ($document->getScriptOptions())
+		{
+			JHtml::_('behavior.core');
+		}
 
 		// Get line endings
 		$lnEnd  = $document->_getLineEnd();
@@ -227,6 +225,8 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		}
 
 		// Generate scripts options
+		$scriptOptions = $document->getScriptOptions();
+
 		if (!empty($scriptOptions))
 		{
 			$buffer .= $tab . '<script type="text/joomla-script-options" id="joomla-script-options">';
