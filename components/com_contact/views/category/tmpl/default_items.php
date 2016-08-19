@@ -19,16 +19,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('filter_field', 1) || $this->params->get('show_pagination_limit', 1)) :?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field')) :?>
+		<?php if ($this->params->get('filter_field', 1)) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('show_pagination_limit')) : ?>
+		<?php if ($this->params->get('show_pagination_limit', 1)) : ?>
 			<div class="btn-group pull-right">
 				<label for="limit" class="element-invisible">
 					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<li class="row cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
-					<?php if ($this->params->get('show_image_heading')) : ?>
+					<?php if ($this->params->get('show_image_heading', 1)) : ?>
 						<div class="span2 col-md-2">
 							<?php if ($this->items[$i]->image) : ?>
 								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
