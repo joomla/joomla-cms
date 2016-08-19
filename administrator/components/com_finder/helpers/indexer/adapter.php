@@ -124,7 +124,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * The field the identifier is stored in.
 	 *
 	 * @var    string
-	 * @since  3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $identifier_field = 'id';
 
@@ -947,7 +947,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @return  JDatabaseQuery  The query object with the identifier filter
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function filterByIdentifier($query, $id, $tableAlias = 'a')
 	{
