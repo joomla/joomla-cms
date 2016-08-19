@@ -22,6 +22,8 @@ interface JAuthenticationFieldInterface
 	 * "button" for action buttons rendered in the submit button group of the form; "link" for a link rendered together
 	 * with the "Forgot your password?" etc links.
 	 *
+	 * Please remember that when the user is already logged in you do NOT get to display any custom fields. Whatever
+	 * processing you need to do on logout must happen server-side, typically in your "user" plugin.
 	 *
 	 * @return  string  field|button|link
 	 *
@@ -30,8 +32,19 @@ interface JAuthenticationFieldInterface
 	public function getType();
 
 	/**
-	 * Returns the label. For the "field" type this is the label's HTML (ideally rendered with an overridable JLayout);
-	 * for the "button" type this is the text displayed on the button; for the "link" type this is the link text.
+	 * For the "field" type, returns the icon CSS class to use when the login form is set up to only display icons, not
+	 * text, for the fields. For the "button" type, returns the icon CSS class to use in the button. Ignored for the
+	 * "link" type (just return an empty string).
+	 *
+	 * @return  string
+	 *
+	 * @since   3.7
+	 */
+	public function getIcon();
+
+	/**
+	 * Returns the label. For the "field" type this is the label text. For the "button" type this is the text displayed
+	 * on the button. For the "link" type this is the link text.
 	 *
 	 * @return  string
 	 *
