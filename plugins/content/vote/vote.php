@@ -33,7 +33,30 @@ class PlgContentVote extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Displays the voting area if in an article
+	 * The position the voting data is displayed in relative to the article.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $votingPosition;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+
+		$this->votingPosition = $this->params->get('position', 'top');
+	}
+
+	/**
+	 * Displays the voting area when viewing an article and the voting section is displayed before the article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
 	 * @param   object   &$row     The article object
@@ -44,7 +67,51 @@ class PlgContentVote extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
+	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
+	{
+		if ($this->votingPosition != 'top')
+		{
+			return '';
+		}
+
+		return $this->displayVotingData($context, $row, $params, $page);
+	}
+
+	/**
+	 * Displays the voting area when viewing an article and the voting section is displayed after the article
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   object   &$params  The article params
+	 * @param   integer  $page     The 'page' number
+	 *
+	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentAfterDisplay($context, &$row, &$params, $page = 0)
+	{
+		if ($this->votingPosition != 'bottom')
+		{
+			return '';
+		}
+
+		return $this->displayVotingData($context, $row, $params, $page);
+	}
+
+	/**
+	 * Displays the voting area
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   object   &$params  The article params
+	 * @param   integer  $page     The 'page' number
+	 *
+	 * @return  string|boolean  HTML string containing code for the votes if in com_content else boolean false
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function displayVotingData($context, &$row, &$params, $page)
 	{
 		$parts = explode(".", $context);
 
