@@ -14,7 +14,7 @@ Feature: users
 
   Scenario: Create a add new user
     Given There is a add user link
-    When I create new user with fields Name "register", Login Name "register", Password "register" and Email "register@gmail.com"
+    When I create new user with fields Name "register", Login Name "register", Password "register" and Email "register@example.com"
     And I Save the user
     Then I should see the "User successfully saved." message
 
@@ -41,50 +41,50 @@ Feature: users
 
   Scenario: Create super admin and login into the backend
     Given There is a add user link
-    And  I fill a super admin with fields Name "prital", Login Name "prital", Password "prital", and Email "prital@gmail.com"
+    And  I fill a super admin with fields Name "User One", Login Name "user1", Password "pass1", and Email "user1@example.com"
     When I set assigned user group as an Administrator
     And I Save the user
-    Then Login in backend with username "prital" and password "prital"
+    Then Login in backend with username "User One" and password "pass1"
 
   Scenario: Create User without username fails
     Given There is a add user link
-    When I don't fill Login Name but fulfill remaining mandatory fields: Name "piyu", Password "piyu" and Email "piyu@gmail.com"
+    When I don't fill Login Name but fulfill remaining mandatory fields: Name "User Two", Password "pass2" and Email "user2@example.com"
     And I Save the user
     Then I see the title "Users: New"
     But I see the alert error "Invalid field:  Login Name"
 
   Scenario: Create group
     Given There is a add new group link
-    When I fill Group Title as a "Gsoc"
+    When I fill Group Title as a "Group One"
     And I save the Group
     Then I should see the "Group successfully saved." message
 
   Scenario: Edit group
-    Given I search and select the Group with name "Gsoc"
-    And I set group Title as a "Gsoc_admin"
+    Given I search and select the Group with name "Group One"
+    And I set group Title as a "Group Two"
     When I save the Group
     Then I should see the "Group successfully saved." message
 
   Scenario: Delete Group
-    Given I search and select the Group with name "Gsoc_admin"
-    When I Delete the Group "Gsoc_admin"
+    Given I search and select the Group with name "Group Two"
+    When I Delete the Group "Group Two"
     Then I should see the "1 User Group successfully deleted." message
 
   Scenario: Create ACL level
     Given There is a add viewing access level link
-    When I fill Level Title as a "joomla" and set Access as a public
+    When I fill Level Title as a "Acl One" and set Access as a public
     And I save the Access Level
     Then I should see the "Access level successfully saved." message
 
   Scenario: Edit ACL
-    Given I search and select the Access Level with name "joomla"
-    And I set Access Level title as a "Gsoc_joomla"
+    Given I search and select the Access Level with name "Acl One"
+    And I set Access Level title as a "Acl Two"
     When I save the Access Level
     Then I should see the "Access level successfully saved." message
 
   Scenario: Delete ACL
-    Given I search and select the Access Level with name "Gsoc_joomla"
-    When I Delete the Access level "Gsoc_joomla"
+    Given I search and select the Access Level with name "Acl Two"
+    When I Delete the Access level "Acl Two"
     Then I should see the "1 View Access Level successfully removed." message
 
   Scenario: User settings (Allow user registration)
