@@ -53,14 +53,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
-		// Trigger the onBeforeCompileHead event
-		$app = JFactory::getApplication();
-		$app->triggerEvent('onBeforeCompileHead');
-
 		if ($document->getScriptOptions())
 		{
 			JHtml::_('behavior.core');
 		}
+
+		// Trigger the onBeforeCompileHead event
+		$app = JFactory::getApplication();
+		$app->triggerEvent('onBeforeCompileHead');
 
 		// Get line endings
 		$lnEnd  = $document->_getLineEnd();
