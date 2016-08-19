@@ -29,7 +29,12 @@ defined('_JEXEC') or die;
 		</tr>
 		<tr>
 			<td style="text-align: center;">
-				<p><?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+				<p>
+					<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
+					<?php if ($this->debug) : ?>
+						<br/><?php echo htmlspecialchars($this->error->getFile(), ENT_QUOTES, 'UTF-8');?>:<?php echo $this->error->getLine(); ?>
+					<?php endif; ?>
+				</p>
 				<p><a href="<?php echo JRoute::_('index.php'); ?>"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 				<?php if ($this->debug) : ?>
 					<div>
