@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Extension Manager Manage View
@@ -29,6 +29,9 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
+		// Set variables
+		$app = JFactory::getApplication();
+
 		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Items');
@@ -55,6 +58,15 @@ class InstallerViewDatabase extends InstallerViewDefault
 		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
+		}
+
+		if ($this->errorCount === 0)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);

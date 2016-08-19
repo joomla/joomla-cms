@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Finder module helper.
  *
@@ -78,7 +80,7 @@ class ModFinderHelper
 		// Get the dynamic taxonomy filters.
 		$options['filters'] = $request->get('t', '', 'array');
 		$options['filters'] = $filter->clean($options['filters'], 'array');
-		JArrayHelper::toInteger($options['filters']);
+		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
 		$query = new FinderIndexerQuery($options);

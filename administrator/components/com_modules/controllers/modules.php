@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Modules list controller class.
  *
@@ -29,7 +31,7 @@ class ModulesControllerModules extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		try
 		{
@@ -63,8 +65,6 @@ class ModulesControllerModules extends JControllerAdmin
 	 */
 	public function getModel($name = 'Module', $prefix = 'ModulesModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }

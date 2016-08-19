@@ -37,6 +37,8 @@ class RedirectViewLinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Set variables
+		$app                        = JFactory::getApplication();
 		$this->enabled              = RedirectHelper::isEnabled();
 		$this->collect_urls_enabled = RedirectHelper::collectUrlsEnabled();
 		$this->items                = $this->get('Items');
@@ -44,6 +46,19 @@ class RedirectViewLinks extends JViewLegacy
 		$this->state                = $this->get('State');
 		$this->filterForm           = $this->get('FilterForm');
 		$this->activeFilters        = $this->get('ActiveFilters');
+
+		if ($this->enabled && $this->collect_urls_enabled)
+		{
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
+		}
+		elseif ($this->enabled && !$this->collect_urls_enabled)
+		{
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'notice');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

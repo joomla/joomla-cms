@@ -51,6 +51,14 @@ class JFormFieldText extends JFormField
 	protected $dirname;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.text';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to the the value.
@@ -162,63 +170,7 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
-		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
-		$pattern      = !empty($this->pattern) ? ' pattern="' . $this->pattern . '"' : '';
-		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		$datalist = '';
-		$list     = '';
-
-		/* Get the field options for the datalist.
-		Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
-		$options  = (array) $this->getSuggestions();
-
-		if ($options)
-		{
-			$datalist = '<datalist id="' . $this->id . '_datalist">';
-
-			foreach ($options as $option)
-			{
-				if (!$option->value)
-				{
-					continue;
-				}
-
-				$datalist .= '<option value="' . $option->value . '">' . $option->text . '</option>';
-			}
-
-			$datalist .= '</datalist>';
-			$list     = ' list="' . $this->id . '_datalist"';
-		}
-
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . $dirname . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
-			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . $pattern . ' />';
-		$html[] = $datalist;
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
 	/**
@@ -261,5 +213,36 @@ class JFormFieldText extends JFormField
 	protected function getSuggestions()
 	{
 		return $this->getOptions();
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
+		// Initialize some field attributes.
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+
+		/* Get the field options for the datalist.
+			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		$options  = (array) $this->getSuggestions();
+
+		$extraData = array(
+			'maxLength' => $maxLength,
+			'pattern'   => $this->pattern,
+			'inputmode' => $inputmode,
+			'dirname'   => $dirname,
+			'options'   => $options,
+		);
+
+		return array_merge($data, $extraData);
 	}
 }

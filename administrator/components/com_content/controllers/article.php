@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The article controller
  *
@@ -49,14 +51,13 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
+			$allow = JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -86,6 +87,12 @@ class ContentControllerArticle extends JControllerForm
 		$user = JFactory::getUser();
 		$userId = $user->get('id');
 
+		// If we get a deny at the component level, we cannot override here.
+		if (!parent::allowEdit($data, $key))
+		{
+			return false;
+		}
+
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', 'com_content.article.' . $recordId))
 		{
@@ -98,6 +105,7 @@ class ContentControllerArticle extends JControllerForm
 		{
 			// Now test the owner is the user.
 			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
+
 			if (empty($ownerId) && $recordId)
 			{
 				// Need to do a lookup from the model.
@@ -111,15 +119,14 @@ class ContentControllerArticle extends JControllerForm
 				$ownerId = $record->created_by;
 			}
 
-			// If the owner matches 'me' then do the test.
+			// If the owner matches 'me' then permission is granted.
 			if ($ownerId == $userId)
 			{
 				return true;
 			}
 		}
 
-		// Since there is no asset tracking, revert to the component permissions.
-		return parent::allowEdit($data, $key);
+		return false;
 	}
 
 	/**

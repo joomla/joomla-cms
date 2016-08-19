@@ -19,6 +19,48 @@ JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com
 class FinderViewIndex extends JViewLegacy
 {
 	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The state of core Smart Search plugins
+	 *
+	 * @var  array
+	 */
+	protected $pluginState;
+
+	/**
+	 * The HTML markup for the sidebar
+	 *
+	 * @var  string
+	 */
+	protected $sidebar;
+
+	/**
+	 * The model state
+	 *
+	 * @var  object
+	 */
+	protected $state;
+
+	/**
+	 * The total number of items
+	 *
+	 * @var  object
+	 */
+	protected $total;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -42,6 +84,12 @@ class FinderViewIndex extends JViewLegacy
 
 		FinderHelper::addSubmenu('index');
 
+		// Check for plugin state
+		if (!$this->pluginState['plg_content_finder']->enabled)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -52,7 +100,8 @@ class FinderViewIndex extends JViewLegacy
 
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
@@ -64,7 +113,8 @@ class FinderViewIndex extends JViewLegacy
 		// Configure the toolbar.
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**

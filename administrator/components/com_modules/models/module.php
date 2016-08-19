@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Module model.
@@ -375,7 +376,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
 	 *
 	 * @since   1.6
 	 * @throws  Exception
@@ -522,9 +523,9 @@ class ModulesModelModule extends JModelAdmin
 		}
 		else
 		{
-			$clientId = JArrayHelper::getValue($data, 'client_id');
-			$module   = JArrayHelper::getValue($data, 'module');
-			$id       = JArrayHelper::getValue($data, 'id');
+			$clientId = ArrayHelper::getValue($data, 'client_id');
+			$module   = ArrayHelper::getValue($data, 'module');
+			$id       = ArrayHelper::getValue($data, 'id');
 		}
 
 		// Add the default fields directory
@@ -693,7 +694,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
 			$registry = new Registry;
@@ -872,7 +873,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php';
+		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 		return parent::validate($form, $data, $group);
 	}

@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * About Page Model
@@ -143,7 +145,7 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN (' . $categoryId . ')');
 		}

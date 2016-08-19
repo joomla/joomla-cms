@@ -2,8 +2,8 @@
 <extension version="3.6" client="administrator" type="language" method="upgrade">
 	<name>English (United Kingdom)</name>
 	<tag>en-GB</tag>
-	<version>3.6.0</version>
-	<creationDate>June 2016</creationDate>
+	<version>3.6.3</version>
+	<creationDate>August 2016</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -173,6 +173,8 @@
 		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_contacts.ini</filename>

@@ -256,16 +256,17 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @param   string  $context  The context identifier.
 	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 * @param   string  $group    The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	protected function preprocessData($context, &$data)
+	protected function preprocessData($context, &$data, $group = 'content')
 	{
 		// Get the dispatcher and load the users plugins.
 		$dispatcher = JEventDispatcher::getInstance();
-		JPluginHelper::importPlugin('content');
+		JPluginHelper::importPlugin($group);
 
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onContentPrepareData', array($context, &$data));

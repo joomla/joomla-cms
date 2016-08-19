@@ -100,7 +100,7 @@ class JViewCategory extends JViewLegacy
 	/**
 	 * Method with common display elements used in category list displays
 	 *
-	 * @return  void
+	 * @return  boolean|JException|void  Boolean false or JException instance on error, nothing otherwise
 	 *
 	 * @since   3.2
 	 */
@@ -112,20 +112,9 @@ class JViewCategory extends JViewLegacy
 
 		// Get some data from the models
 		$state      = $this->get('State');
-		$items      = $this->get('Items');
 		$category   = $this->get('Category');
 		$children   = $this->get('Children');
 		$parent     = $this->get('Parent');
-		$pagination = $this->get('Pagination');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
-		}
-
 		if ($category == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
@@ -134,6 +123,17 @@ class JViewCategory extends JViewLegacy
 		if ($parent == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
+
+		$items      = $this->get('Items');
+		$pagination = $this->get('Pagination');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
 		}
 
 		// Check whether category access level allows access.

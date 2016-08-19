@@ -204,9 +204,9 @@ class UsersControllerUser extends UsersController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!JUri::isInternal($data['return']))
+			if (!JUri::isInternal($return))
 			{
-				$data['return'] = '';
+				$return = '';
 			}
 		}
 
