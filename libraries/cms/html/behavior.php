@@ -791,19 +791,46 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated  4.0  Add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.
 	 */
 	public static function noframes()
 	{
+		JLog::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 
+		// Include core
+		static::core();
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		$js = 'jQuery(function () {
+			if (top == self) {
+				document.documentElement.style.display = "block";
+			}
+			else
+			{
+				top.location = self.location;
+			}
+
+			// Firefox fix
+			jQuery("input[autofocus]").focus();
+		})';
+		$document = JFactory::getDocument();
+		$document->addStyleDeclaration('html { display:none }');
+		$document->addScriptDeclaration($js);
+
 		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
 	}
+
 
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
