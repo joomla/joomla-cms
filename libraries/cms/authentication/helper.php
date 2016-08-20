@@ -27,8 +27,15 @@ abstract class JAuthenticationHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		// Get all the Two Factor Authentication plugins.
+		/**
+		 * Get all the Two Factor Authentication plugins.
+		 *
+		 * We also load the authentication plugins because they can register custom two factor authentication handlers.
+		 * For example, when you have a social login you must not check two factor authentication since you are no
+		 * longer submitting a username and password but making an API call to a remote server.
+		 */
 		JPluginHelper::importPlugin('twofactorauth');
+		JPluginHelper::importPlugin('authentication');
 
 		// Trigger onUserTwofactorIdentify event and return the two factor enabled plugins.
 		$identities = JEventDispatcher::getInstance()->trigger('onUserTwofactorIdentify', array());
@@ -81,12 +88,20 @@ abstract class JAuthenticationHelper
 		{
 			foreach ($fieldDefinitions as $fieldDefinition)
 			{
-				if (!is_object($fieldDefinition) || !($fieldDefinition instanceof JAuthenticationFieldInterface))
+				if (!is_array($fieldDefinition))
 				{
 					continue;
 				}
 
-				$fields[] = $fieldDefinition;
+				foreach ($fieldDefinition as $field)
+				{
+					if (!is_object($field) || !($field instanceof JAuthenticationFieldInterface))
+					{
+						continue;
+					}
+
+					$fields[] = $field;
+				}
 			}
 		}
 
