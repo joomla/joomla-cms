@@ -149,6 +149,16 @@ class JDocumentError extends JDocument
 		$this->debug = isset($params['debug']) ? $params['debug'] : false;
 		$this->error = $this->_error;
 
+		// Load the language file for the template if able
+		if (JFactory::$language)
+		{
+			$lang = JFactory::getLanguage();
+	
+			// 1.5 or core then 1.6
+			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+				|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		}
+
 		// Load
 		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
