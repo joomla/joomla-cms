@@ -149,10 +149,12 @@ $script .= "
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
+$input = JFactory::getApplication()->input;
+
 // In case of modal
-$isModal = JFactory::getApplication()->input->get('layout') == 'modal' ? true : false;
+$isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal ? '&tmpl=component' : '';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">

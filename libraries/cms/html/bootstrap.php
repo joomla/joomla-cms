@@ -309,7 +309,7 @@ abstract class JHtmlBootstrap
 		$layoutData = array(
 			'selector' => $selector,
 			'params'   => $params,
-			'body'     => $body
+			'body'     => $body,
 		);
 
 		return JLayoutHelper::render('joomla.modal.main', $layoutData);
@@ -769,7 +769,7 @@ abstract class JHtmlBootstrap
 
 		// Inject tab into UL
 		JFactory::getDocument()
-			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
+			->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector, 'id' => $id, 'active' => $active, 'title' => $title)));
 
 		return $tabLayout->render(array('id' => $id, 'active' => $active));
 	}

@@ -52,7 +52,7 @@ class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
 
 		$id = $this->input->getInt('id');
 
-		// Access back-end com_module
+		// Access backend com_module
 		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
 		JLoader::register('ModulesViewModule', JPATH_ADMINISTRATOR . '/components/com_modules/views/module/view.json.php');
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');

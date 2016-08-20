@@ -566,10 +566,22 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
-	padding: 2px 10px 4px 10px;
+	padding: 4px 10px;
 	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
 	color: #626262;
 
+	.btn-group {
+		margin: 0;
+	}
+	.btn-group.separator:after {
+		content: ' ';
+		display: block;
+		float: left;
+		background: #ADADAD;
+		margin: 0 10px;
+		height: 15px;
+		width: 1px;
+	}
 	.btn-toolbar, p {
 		margin: 0px;
 	}
@@ -578,6 +590,9 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	}
 	a {
 		color: #626262;
+	}
+	.badge {
+		margin-right: .25em;
 	}
 }
 /* Status Module in top position */
@@ -1175,7 +1190,9 @@ input.input-large-text {
 
 .chzn-color.chzn-single[rel="value_1"],
 .chzn-color-reverse.chzn-single[rel="value_0"],
-.chzn-color-state.chzn-single[rel="value_1"] {
+.chzn-color-state.chzn-single[rel="value_1"],
+.chzn-color.chzn-single[rel="value_show_no_link"],
+.chzn-color.chzn-single[rel="value_show_with_link"] {
 	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
 }
 
@@ -1183,7 +1200,8 @@ input.input-large-text {
 .chzn-color-reverse.chzn-single[rel="value_1"],
 .chzn-color-state.chzn-single[rel="value_0"],
 .chzn-color-state.chzn-single[rel="value_-1"],
-.chzn-color-state.chzn-single[rel="value_-2"] {
+.chzn-color-state.chzn-single[rel="value_-2"],
+.chzn-color.chzn-single[rel="value_hide"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
 /* Widen the drop downs for the Permissions Field */
