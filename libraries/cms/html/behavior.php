@@ -960,4 +960,51 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
+
+	/**
+	 * Add javascript polyfills.
+	 *
+	 * @param   string|array  $polyfillTypes       The polyfill type(s). Defaults to event.
+	 * @param   array         $conditionalBrowser  The Ie conditional expression. Defaults to lt IE 9 (lower than IE 9).
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function polyfill($polyfillTypes = 'event', $conditionalBrowser = 'lt IE 9')
+	{
+		if (!is_array($polyfillTypes))
+		{
+			$polyfillTypes = array($polyfillTypes);
+		}
+
+		foreach ($polyfillTypes as $polyfillType)
+		{
+			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
+
+			// Only load once
+			if (isset(static::$loaded[__METHOD__][$sig]))
+			{
+				continue;
+			}
+
+			// If include according to browser.
+			if ($conditionalBrowser)
+			{
+				// Get script path.
+				$doc        = JFactory::getDocument();
+				$scriptPath = JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', false, true, true, false, true);
+				$scriptType = !$doc->isHtml5() ? ' type="text/javascript"' : '';
+
+				JFactory::getDocument()->addCustomTag('<!--[if ' . $conditionalBrowser . ']><script' . $scriptType . ' src="' . $scriptPath . '"></script><![endif]-->');
+			}
+			else
+			{
+				JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', false, true);
+			}
+
+			// Set static array
+			static::$loaded[__METHOD__][$sig] = true;
+		}
+	}
 }
