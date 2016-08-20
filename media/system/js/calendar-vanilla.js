@@ -41,6 +41,10 @@
 			throw new Error("Calendar setup failed:\n  No valid element found, Please check your code");
 		}
 
+		if (typeof Date.parseFieldDate !== 'function') {
+			throw new Error("Calendar setup failed:\n  No valid date helper, Please check your code");
+		}
+
 		if (element._joomlaCalendar) {
 			throw new Error('JoomlaCalendar instance already exists for the element');
 		}
@@ -474,8 +478,6 @@
 		table.cellSpacing = 0;
 		table.cellPadding = 0;
 		table.style.marginBottom = 0;
-
-		//addCalEvent(table, "mousedown", this.tableMouseDown); // @TODO tableMouseDown do not exists
 
 		this.dropdownElement = div;
 		parent.appendChild(div);
