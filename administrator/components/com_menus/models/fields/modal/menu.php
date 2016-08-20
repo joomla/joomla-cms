@@ -89,19 +89,21 @@ class JFormFieldModal_Menu extends JFormField
 
 			if (isset($this->element['language']))
 			{
-				$clearField = htmlspecialchars(JText::_('COM_MENUS_SELECT_A_MENUITEM', true), ENT_COMPAT, 'UTF-8');
+				$clearField = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
 			}
 			else
 			{
 				if ((string) $this->element->option['value'] == '')
 				{
-					$clearField =  htmlspecialchars(JText::_($this->element->option, true), ENT_COMPAT, 'UTF-8');
+					$clearField =  JText::_($this->element->option, true);
 				}
 				else
 				{
-					$clearField = htmlspecialchars(JText::_('JDEFAULT', true), ENT_COMPAT, 'UTF-8');
+					$clearField = JText::_('JDEFAULT', true);
 				}
 			}
+
+			$clearField = htmlspecialchars($clearField, ENT_QUOTES, 'UTF-8');
 
 			$script[] = '	function jClearMenu(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
