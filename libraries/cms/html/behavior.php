@@ -964,15 +964,20 @@ abstract class JHtmlBehavior
 	/**
 	 * Add javascript polyfills.
 	 *
-	 * @param   string|array  $polyfillTypes       The polyfill type(s). Defaults to event.
-	 * @param   array         $conditionalBrowser  A IE conditional expression. Defaults to lt IE 9 (lower than IE 9).
+	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
+	 * @param   array         $conditionalBrowser  A IE conditional expression. Example: lt IE 9 (lower than IE 9).
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function polyfill($polyfillTypes = 'event', $conditionalBrowser = 'lt IE 9')
+	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
 	{
+		if (is_null($polyfillTypes))
+		{
+			return false;
+		}
+
 		if (!is_array($polyfillTypes))
 		{
 			$polyfillTypes = array($polyfillTypes);
@@ -989,7 +994,7 @@ abstract class JHtmlBehavior
 			}
 
 			// If include according to browser.
-			if ($conditionalBrowser)
+			if (!is_null($conditionalBrowser))
 			{
 				// Get script path.
 				$doc        = JFactory::getDocument();
