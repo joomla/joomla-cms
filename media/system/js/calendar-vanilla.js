@@ -107,13 +107,13 @@
 
 		// Event handler need to define here, to be able access in current context
 		this._dayMouseDown = function(event) {
-			self._handleDayMouseDown(event);
+            return self._handleDayMouseDown(event);
 		};
 		this._calKeyEvent = function(event) {
-			self._handleCalKeyEvent(event);
+			return self._handleCalKeyEvent(event);
 		};
 		this._documentClick = function(event) {
-			self._handleDocumentClick(event);
+            return self._handleDocumentClick(event);
 		};
 
 		// Set it up
@@ -236,7 +236,7 @@
 
 		addCalEvent(document, "keydown", this._calKeyEvent);
 		addCalEvent(document, "keypress", this._calKeyEvent);
-		//addCalEvent(document, "mousedown", this._documentClick);
+		addCalEvent(document, "mousedown", this._documentClick);
 
 		this.processCalendar();
 	};
@@ -523,6 +523,7 @@
 					cell.style[key] = styles[key];
 				}
 				if (navtype != 0 && Math.abs(navtype) <= 2) { cell.className += " nav"; }
+
 				addCalEvent(cell, "mousedown", self._dayMouseDown);
 				cell.calendar = cal;
 				cell.navtype = navtype;
@@ -850,6 +851,8 @@
 		addCalEvent(this.button, 'click', function() {
 			self.show();
 		}, false);
+
+        // @TODO this need to be added only once, or getJoomlaCalendarValuesFromAlt should be part of JoomlaCalendar.prototype
 		addCalEvent(this.inputField.form, 'submit', getJoomlaCalendarValuesFromAlt, true);
 	};
 
