@@ -39,10 +39,7 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 		}
 
 		// Import com_login's model
-		if (!class_exists('LoginModelLogin'))
-		{
-			JLoader::register('LoginModelLogin', JPATH_ADMINISTRATOR . '/components/com_login/models/login.php');
-		}
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_login/models', 'LoginModel');
 
 		// Render the view.
 		parent::display($tpl);
