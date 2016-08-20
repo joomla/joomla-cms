@@ -634,6 +634,36 @@ class JDatabaseDriverPdomysqlTest extends TestCaseDatabasePdomysql
 	}
 
 	/**
+	 * Test the JDatabaseDriverPdomysql::execute()execute method with a prepared statement
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function testExecutePreparedStatement()
+	{
+		$id          = 5;
+		$title       = 'testTitle';
+		$startDate   = '2014-08-17 00:00:00';
+		$description = 'Testing';
+
+		/** @var JDatabaseQueryPdomysql $query */
+		$query = self::$driver->getQuery(true);
+		$query->setQuery(
+			"REPLACE INTO `jos_dbtest` SET `id` = :id, `title` = :title, `start_date` = :startDate, `description` = :description"
+		);
+		$query->bind('id', $id, PDO::PARAM_INT);
+		$query->bind('title', $title);
+		$query->bind('startDate', $startDate);
+		$query->bind('description', $description);
+
+		self::$driver->setQuery($query);
+
+		$this->assertInstanceOf('PDOStatement', self::$driver->execute());
+		$this->assertEquals(5, self::$driver->insertid(), $this->equalTo(5));
+	}
+
+	/**
 	 * Tests the renameTable method.
 	 *
 	 * @return  void
