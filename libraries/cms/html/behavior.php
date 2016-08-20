@@ -996,7 +996,7 @@ abstract class JHtmlBehavior
 				$scriptPath = JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', false, true, true, false, true);
 				$scriptType = !$doc->isHtml5() ? ' type="text/javascript"' : '';
 
-				JFactory::getDocument()->addCustomTag('<!--[if ' . $conditionalBrowser . ']><script' . $scriptType . ' src="' . $scriptPath . '"></script><![endif]-->');
+				$doc->addCustomTag('<!--[if ' . $conditionalBrowser . ']><script' . $scriptType . ' src="' . $scriptPath . '"></script><![endif]-->');
 			}
 			else
 			{
