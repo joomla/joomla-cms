@@ -42,6 +42,27 @@ JHtml::_('behavior.keepalive');
 		</div>
 	</div>
 <?php endif; ?>
+<?php if (count($extraFields)):
+	$extraFieldCounter = 0;
+	/** @var JAuthenticationFieldInterface $extraField */
+	foreach ($extraFields as $extraField):
+		if ($extraField->getType() != 'field') continue;
+		?>
+		<div id="form-login-extrafield-<?php echo ++$extraFieldCounter ?>" class="control-group">
+			<div class="controls">
+				<?php if (!$params->get('usetext')) : ?>
+					<div class="input-prepend input-append">
+						<label><?php echo $extraField->getLabel(); ?></label>
+						<?php echo $extraField->getInput(); ?>
+					</div>
+				<?php else: ?>
+					<label><?php echo $extraField->getLabel(); ?></label>
+					<?php echo $extraField->getInput(); ?>
+				<?php endif; ?>
+			</div>
+		</div>
+	<?php endforeach; ?>
+<?php endif; ?>
 <?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 	<p id="form-login-remember">
 		<label for="modlgn-remember"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME') ?></label>
@@ -49,6 +70,20 @@ JHtml::_('behavior.keepalive');
 	</p>
 <?php endif; ?>
 <input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
+<?php if (count($extraFields)):
+	$extraFieldCounter = 0;
+	/** @var JAuthenticationFieldInterface $extraField */
+	foreach ($extraFields as $extraField):
+		if ($extraField->getType() != 'button') continue;
+		?>
+		<button type="button" id="form-login-button-<?php echo ++$extraFieldCounter ?>" href="<?php echo $extraField->getInput() ?>">
+			<?php if ($extraField->getIcon()): ?>
+				<span class="<?php echo $extraField->getIcon() ?>"></span>
+			<?php endif; ?>
+			<?php echo $extraField->getLabel(); ?>
+		</button>
+	<?php endforeach; ?>
+<?php endif; ?>
 <input type="hidden" name="option" value="com_users" />
 <input type="hidden" name="task" value="user.login" />
 <input type="hidden" name="return" value="<?php echo $return; ?>" />
@@ -67,6 +102,19 @@ JHtml::_('behavior.keepalive');
 			<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
 			<?php echo JText::_('MOD_LOGIN_REGISTER'); ?></a>
 		</li>
+	<?php endif; ?>
+	<?php if (count($extraFields)):
+		$extraFieldCounter = 0;
+		/** @var JAuthenticationFieldInterface $extraField */
+		foreach ($extraFields as $extraField):
+			if ($extraField->getType() != 'link') continue;
+			?>
+		<li>
+			<a id="form-login-link-<?php echo ++$extraFieldCounter ?>" href="<?php echo $extraField->getInput() ?>">
+				<?php echo $extraField->getLabel(); ?>
+			</a>
+		</li>
+		<?php endforeach; ?>
 	<?php endif; ?>
 </ul>
 <?php if ($params->get('posttext')) : ?>
