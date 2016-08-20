@@ -831,7 +831,6 @@ abstract class JHtmlBehavior
 		static::$loaded[__METHOD__] = true;
 	}
 
-
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
