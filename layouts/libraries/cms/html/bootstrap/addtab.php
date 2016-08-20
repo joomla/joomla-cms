@@ -14,5 +14,4 @@ $active = empty($displayData['active']) ? '' : $displayData['active'];
 $selector = empty($displayData['selector']) ? '' : $displayData['selector'];
 $title = empty($displayData['title']) ? '' : $displayData['title'];
 ?>
-<span type="hidden" class=joomla-tabs-hidden data-node="<?php echo htmlspecialchars($active, ENT_COMPAT, 'UTF-8') .'['. htmlspecialchars($id, ENT_COMPAT, 'UTF-8') .'['. htmlspecialchars($title, ENT_COMPAT, 'UTF-8'); ?>"></span>
-<div id="<?php echo $id; ?>" class="tab-pane<?php echo $active; ?>">
+<div id="<?php echo $id; ?>" class="tab-pane<?php echo $active; ?>" data-node="<?php echo htmlspecialchars($active, ENT_COMPAT, 'UTF-8') .'['. htmlspecialchars($id, ENT_COMPAT, 'UTF-8') .'['. htmlspecialchars($title, ENT_COMPAT, 'UTF-8'); ?>">
