@@ -371,7 +371,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Did a non Super User tried do this?
+		// Did a non Super User try do this?
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
 			throw new RuntimeException(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
