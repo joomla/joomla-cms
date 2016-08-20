@@ -228,6 +228,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		$data   = parent::getLayoutData();
 		$user   = JFactory::getUser();
 		$config = JFactory::getConfig();
+		$tag    = JFactory::getLanguage()->getTag();
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($this->value && $this->value != JFactory::getDbo()->getNullDate() && strtotime($this->value) !== false)
@@ -272,6 +273,14 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 				break;
 		}
 
+		// Get the appropriate for the current language date helper
+		$path = 'system/calendar-locales/date/date-helper.min.js';
+
+		if (is_dir(JPATH_ROOT . '/media/system/calendar-locales/date/' . strtolower($tag)))
+		{
+			$path = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+		}
+
 		$extraData = array(
 			'maxLength'    => $this->maxlength,
 			'format'       => $this->format,
@@ -285,6 +294,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'maxyear'      => $this->maxyear,
 			'weekenddays'  => $this->weekenddays,
 			'singleheader' => $this->singleheader,
+			'tag'          => $tag,
+			'datePath'     => $path,
 		);
 
 		return array_merge($data, $extraData);

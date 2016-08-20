@@ -372,7 +372,7 @@
 		var re = /%./g;
 
 		var tmpDate = str.replace(re, function (par) { return s[par] || par; });
-		if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]' && dateType != 'gregorian' && translate)
+		if (Object.prototype.toString.call(JoomlaCalLocale.localLangNumbers) === '[object Array]' && dateType != 'gregorian' && translate)
 			tmpDate = Date.convertNumbers(tmpDate);
 
 		return tmpDate;

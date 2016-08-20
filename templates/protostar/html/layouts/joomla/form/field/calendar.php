@@ -15,7 +15,6 @@ extract($displayData);
 
 // Get some system objects.
 $document = JFactory::getDocument();
-$tag      = JFactory::getLanguage()->getTag();
 
 /**
  * Layout variables
@@ -97,34 +96,9 @@ if (is_array($attributes))
 	$attributes = ArrayHelper::toString($attributes);
 }
 
-JHtml::_('script', $tag . '/date-helper.js', false, true, false, false, true);
+JHtml::_('script', 'system/calendar-locales/' . strtolower($tag) . '.js', false, true, false, false, true);
+JHtml::_('script', $datePath, false, true, false, false, true);
 JHtml::_('script', 'system/calendar-vanilla.min.js', false, true, false, false, true);
-
-// To keep the code simple here, run strings through JText::_() using array_map()
-$callback = array('JText','_');
-$weekdays_full = array_map(
-	$callback, array(
-		'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
-	)
-);
-$weekdays_short = array_map(
-	$callback,
-	array(
-		'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
-	)
-);
-$months_long = array_map(
-	$callback, array(
-		'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-		'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
-	)
-);
-$months_short = array_map(
-	$callback, array(
-		'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-		'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
-	)
-);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
@@ -141,8 +115,6 @@ $months_short = array_map(
 			data-inputfield="<?php echo $id; ?>"
 			data-dayformat="<?php echo $format; ?>"
 			data-button="<?php echo $id; ?>_btn"
-			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
-			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
 			data-today-btn="<?php echo $todaybutton; ?>"
 			data-week-numbers="<?php echo $weeknumbers; ?>"
 			data-show-time="<?php echo $showtime; ?>"
@@ -151,19 +123,9 @@ $months_short = array_map(
 			data-min-year="<?php echo $minyear; ?>"
 			data-max-year="<?php echo $maxyear; ?>"
 			data-only-months-nav="<?php echo $singleheader; ?>"
-			data-today_trans="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TODAY'); ?>"
-			data-weekdays-full="<?php echo implode("_", $weekdays_full); ?>"
-			data-weekdays-short="<?php echo implode("_", $weekdays_short); ?>"
-			data-months-long="<?php echo implode("_", $months_long); ?>"
-			data-months-short="<?php echo implode("_", $months_short); ?>"
-			data-day-first="<?php echo JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'); ?>"
-			data-wk="<?php echo JText::_('JLIB_HTML_BEHAVIOR_WK'); ?>"
-			data-time="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME'); ?>"
-			data-time-am="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_AM'); ?>"
-			data-time-pm="<?php echo JText::_('JLIB_HTML_BEHAVIOR_TIME_PM'); ?>"
-			data-cal-type="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_TYPE'); ?>"
 		><span class="icon-calendar"></span></button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
 <?php endif; ?>
 </div>
+

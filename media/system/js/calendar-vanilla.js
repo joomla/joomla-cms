@@ -5,9 +5,9 @@
 	Date.convertNumbers = function(str) {
 		var str = str.toString();
 
-		if (Object.prototype.toString.call(Date.localLangNumbers) === '[object Array]') {
-			for (var i = 0; i < Date.localLangNumbers.length; i++) {
-				str = str.replace(new RegExp(i, 'g'), Date.localLangNumbers[i]);
+		if (Object.prototype.toString.call(JoomlaCalLocale.localLangNumbers) === '[object Array]') {
+			for (var i = 0; i < JoomlaCalLocale.localLangNumbers.length; i++) {
+				str = str.replace(new RegExp(i, 'g'), JoomlaCalLocale.localLangNumbers[i]);
 			}
 		}
 		return str;
@@ -29,9 +29,8 @@
 		var calendars = document.getElementsByClassName("field-calendar");
 
 		for (var i = 0; i < calendars.length; i++) {
-				var input = calendars[i].getElementsByTagName('INPUT')[0],
-				alt = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
-			input.value = alt;
+			calendars[i].getElementsByTagName('INPUT')[0].value =
+				input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
 		}
 	};
 
@@ -878,26 +877,22 @@
 
 		elements = document.getElementsByClassName(className);
 
-		if (!window.JoomlaCalLocale) {                                         // Init the translations only once
-			var elem = (elements.length === 1) ? elements : elements[0],
-				element = elem.getElementsByTagName("button")[0];
-
-			window.JoomlaCalLocale = {
-				today      : element.getAttribute("data-today-trans") ? element.getAttribute("data-today-trans") : "Today",
-				weekend    : element.getAttribute("data-weekend") ? element.getAttribute("data-weekend").split(',').map(Number) : [0, 6],
-				wk         : element.getAttribute("data-wk") ? element.getAttribute("data-wk") : "wk",
-				time       : element.getAttribute("data-time") ? element.getAttribute("data-time") : "Time:",
-				days       : element.getAttribute("data-weekdays-full") ? element.getAttribute("data-weekdays-full").split('_') : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-				shortDays  : element.getAttribute("data-weekdays-short") ? element.getAttribute("data-weekdays-short").split('_') : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-				months     : element.getAttribute("data-months-long") ? element.getAttribute("data-months-long").split('_') : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-				shortMonths: element.getAttribute("data-months-short") ? element.getAttribute("data-months-short").split('_') : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-				AM         : (element.getAttribute("data-time-am") && element.getAttribute("data-cal-type") == 'gregorian' ) ? element.getAttribute("data-time-am") : "AM",
-				PM         : (element.getAttribute("data-time-pm") && element.getAttribute("data-cal-type") == 'gregorian' ) ? element.getAttribute("data-time-pm") : "PM",
-				am         : (element.getAttribute("data-time-am-lower") && element.getAttribute("data-cal-type") == 'gregorian' ) ? element.getAttribute("data-time-am-lower") : "am",
-				pm         : (element.getAttribute("data-time-pm-lower") && element.getAttribute("data-time-pm-lower") == 'gregorian' ) ? element.getAttribute("data-time-pm-lower") : "pm",
-				dateType   : element.getAttribute("data-cal-type") ? element.getAttribute("data-cal-type") : "gregorian"
-			};
-		}
+		// Fall back for translation strings
+		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
+		JoomlaCalLocale.today = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
+		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? JoomlaCalLocale.today : [0,6];
+		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0,1,2,3,4,5,6,7,8,9];
+		JoomlaCalLocale.wk = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
+		JoomlaCalLocale.AM = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
+		JoomlaCalLocale.PM = JoomlaCalLocale.PM ? JoomlaCalLocale.wk : 'PM';
+		JoomlaCalLocale.am = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
+		JoomlaCalLocale.pm = JoomlaCalLocale.pm ? JoomlaCalLocale.am : 'pm';
+		JoomlaCalLocale.dateType = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
+		JoomlaCalLocale.time = JoomlaCalLocale.time ? JoomlaCalLocale.wk : 'time';
+		JoomlaCalLocale.days = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';
+		JoomlaCalLocale.shortDays = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+		JoomlaCalLocale.months = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		JoomlaCalLocale.shortMonths = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 		for (i = 0; i < elements.length; i++) {
 			if (!elements[i]._joomlaCalendar) {
