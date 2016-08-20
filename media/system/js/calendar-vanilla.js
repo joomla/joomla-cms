@@ -629,7 +629,7 @@
 					var part = createElement("select", cellTml), num;
 					part.calendar  = self;
 					part.className =  className;
-					part.setAttribute('data-chosen', 'true'); // avoid Chosen, hack
+					part.setAttribute('data-chosen', true); // avoid Chosen, hack
 					part.style.width = '100%';
 					part.navtype = 50;
 					part._range = [];
@@ -899,17 +899,6 @@
 		for (i = 0; i < elements.length; i++) {
 			if (!elements[i]._joomlaCalendar) {
 				new JoomlaCalendar(elements[i]);
-
-				// Destroy chosen if added in time selectors
-				if (typeof window.jQuery != "undefined") {
-					jQuery(document).ready(function() {
-						if (jQuery().chosen) {
-							jQuery.each(jQuery('.no-chozen-here'), function (index, value) {
-								jQuery(value).chosen('destroy');
-							});
-						}
-					});
-				}
 			}
 		}
 	};
