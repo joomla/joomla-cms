@@ -395,11 +395,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE_FAIL'), JLog::INFO, 'Update');
 
-			// Redirect to com_joomlaupdate page
-			$url = 'index.php?option=com_joomlaupdate';
-			$this->setRedirect($url);
+			JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_AUTH_INVALID_PASS'), 'warning');
+			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return;
+			return false;
 		}
 
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE'), JLog::INFO, 'Update');
