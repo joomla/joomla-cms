@@ -572,7 +572,7 @@ class CategoriesModelCategory extends JModelAdmin
 		if ($assoc)
 		{
 			// Adding self to the association
-			$associations = $data['associations'];
+			$associations = isset($data['associations']) ? $data['associations'] : array();
 
 			// Unset any invalid associations
 			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
