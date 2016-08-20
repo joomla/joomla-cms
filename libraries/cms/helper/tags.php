@@ -383,7 +383,7 @@ class JHelperTags extends JHelper
 	/**
 	 * Method to get a list of tags for an item, optionally with the tag data.
 	 *
-	 * @param   integer  $contentType  Content type alias. Dot separated.
+	 * @param   string   $contentType  Content type alias. Dot separated.
 	 * @param   integer  $id           Id of the item to retrieve tags for.
 	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
 	 *
