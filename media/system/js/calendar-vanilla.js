@@ -1,7 +1,3 @@
-/**
- * @copyright   Dimitris Grammatikogiannis <d.grammatiko±gmail.com>
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
 !(function(window, document){
 	'use strict';
 
@@ -906,6 +902,17 @@
 		for (i = 0; i < elements.length; i++) {
 			if (!elements[i]._joomlaCalendar) {
 				new JoomlaCalendar(elements[i]);
+
+				// Destroy chosen if added in time selectors
+				if (typeof window.jQuery != "undefined") {
+					jQuery(document).ready(function() {
+						if (jQuery().chosen) {
+							jQuery.each(jQuery('.no-chozen-here'), function (index, value) {
+								jQuery(value).chosen('destroy');
+							});
+						}
+					});
+				}
 			}
 		}
 	};
