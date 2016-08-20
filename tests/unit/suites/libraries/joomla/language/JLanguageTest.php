@@ -781,6 +781,38 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test debugFile reports no errors on a good file
+	 *
+	 * @return void
+	 */
+	public function testVerifyDebugFileFindsNoErrorsInAGoodFile()
+	{
+		$this->assertSame(0, $this->object->debugFile(__DIR__ . '/data/good.ini'));
+	}
+
+	/**
+	 * Test debugFile reports errors on a bad file
+	 *
+	 * @return void
+	 */
+	public function testVerifyDebugFileFindsErrorsInABadFile()
+	{
+		$this->assertGreaterThan(0, $this->object->debugFile(__DIR__ . '/data/bad.ini'));
+	}
+
+	/**
+	 * Test debugFile throws an Exception when the file does not exist
+	 *
+	 * @expectedException  InvalidArgumentException
+	 *
+	 * @return void
+	 */
+	public function testVerifyDebugFileThrowsAnExceptionWhenTheFileDoesNotExist()
+	{
+		$this->object->debugFile(__DIR__ . '/data/not-existing.ini');
+	}
+
+	/**
 	 * Test...
 	 *
 	 * @return void
