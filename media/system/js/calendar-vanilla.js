@@ -253,16 +253,11 @@
 
 	/** Method to catch clicks outside of the calendar (used as close call) */
 	JoomlaCalendar.prototype._handleDocumentClick = function (ev) {
-		var el = ev.target.parentNode;
+        var el = ev.target;
 
-		if (!(this instanceof JoomlaCalendar)) {
-			this.close();
-			this.inputField.blur();
-			return stopCalEvent(ev);
-		}
+		for (; el !== null && el !== this.element; el = el.parentNode);
 
-		for (; el != null && el != self.element; el = el.parentNode);
-		if (el == null) {
+		if (el === null) {
 			document.activeElement.blur();
 			this.hide();
 			return stopCalEvent(ev);
@@ -485,10 +480,10 @@
 		table.cellPadding = 0;
 		table.style.marginBottom = 0;
 
-		addCalEvent(table, "mousedown", this.tableMouseDown); // @TODO tableMouseDown do not exists
+		//addCalEvent(table, "mousedown", this.tableMouseDown); // @TODO tableMouseDown do not exists
 
 		this.dropdownElement = div;
-		parent.parentNode.appendChild(div);
+		parent.appendChild(div);
 
 		if (this.params.direction) {
 			div.style.direction = this.params.direction;
