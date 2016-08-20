@@ -593,7 +593,7 @@ class MenusModelItem extends JModelAdmin
 			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+			$data['access'] = (isset($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -1381,7 +1381,7 @@ class MenusModelItem extends JModelAdmin
 		if ($assoc)
 		{
 			// Adding self to the association
-			$associations = $data['associations'];
+			$associations = isset($data['associations']) ? $data['associations'] : array();
 
 			// Unset any invalid associations
 			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);
