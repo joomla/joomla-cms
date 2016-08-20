@@ -62,19 +62,19 @@
 			btn  = this.button,
 			defaultParams = {
 				inputField: null,                // The input element parentNode.getElementsByTagName('INPUT')[0]
-				firstDayOfWeek: 0,                   // 0 for Sunday, 1 for Monday, etc.
-				time24: false,               // Use 24/12 hour format
-				showsOthers: true,                // Display previous/next month days as disables
-				showsTime: false,               // Shows hours and minutes drop downs
-				weekNumbers: false,               // Shows the week number as first column
-				showsTodayBtn: true,                // Display a today button
-				compressedHeader: false,               // Use one line for year
-				monthBefore: false,               // Displays the month before the year
-				minYear: 1970,                // The minimum year
-				maxYear: 2050,                // The maximum year
+				firstDayOfWeek: 0,               // 0 for Sunday, 1 for Monday, etc.
+				time24: false,                   // Use 24/12 hour format
+				showsOthers: true,               // Display previous/next month days as disables
+				showsTime: false,                // Shows hours and minutes drop downs
+				weekNumbers: false,              // Shows the week number as first column
+				showsTodayBtn: true,             // Display a today button
+				compressedHeader: false,         // Use one line for year
+				monthBefore: false,              // Displays the month before the year
+				minYear: 1970,                   // The minimum year
+				maxYear: 2050,                   // The maximum year
 				dateFormat: '%Y-%m-%d %H:%M:%S', // The date format
-				dateType: 'gregorian',         // The calendar type
-				direction: 'ltr',               // The direction of the document
+				dateType: 'gregorian',           // The calendar type
+				direction: 'ltr',                // The direction of the document
 				debug: false,
 				clicked: false,
 				element: {style: {display: "none"}},
