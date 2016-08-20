@@ -965,7 +965,7 @@ abstract class JHtmlBehavior
 	 * Add javascript polyfills.
 	 *
 	 * @param   string|array  $polyfillTypes       The polyfill type(s). Defaults to event.
-	 * @param   array         $conditionalBrowser  The Ie conditional expression. Defaults to lt IE 9 (lower than IE 9).
+	 * @param   array         $conditionalBrowser  A IE conditional expression. Defaults to lt IE 9 (lower than IE 9).
 	 *
 	 * @return  void
 	 *
