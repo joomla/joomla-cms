@@ -18,6 +18,7 @@ require.config({
 
 	paths: {
 		'jquery': 'tests/javascript/node_modules/jquery/dist/jquery.min',
+		'jui': 'tests/javascript/node_modules/jquery-ui-bundle/jquery-ui.min',
 		'bootstrap': 'media/jui/js/bootstrap.min',
 		'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
 		'libs': 'media/system/js',
@@ -32,6 +33,12 @@ require.config({
 			deps: ['bootstrap', 'jquery']
 		},
 		'libs/validate': {
+			deps: ['jquery']
+		},
+		'libs/subform-repeatable': {
+			deps: ['jquery', 'jui']
+		},
+		'libs/sendtestmail': {
 			deps: ['jquery']
 		}
 	},
