@@ -800,28 +800,6 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		$js = 'jQuery(function () {
-			if (top == self) {
-				document.documentElement.style.display = "block";
-			}
-			else
-			{
-				top.location = self.location;
-			}
-
-			// Firefox fix
-			jQuery("input[autofocus]").focus();
-		})';
-		$document = JFactory::getDocument();
-		$document->addStyleDeclaration('html { display:none }');
-		$document->addScriptDeclaration($js);
-
 		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
