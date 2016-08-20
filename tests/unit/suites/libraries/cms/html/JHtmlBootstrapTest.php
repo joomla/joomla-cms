@@ -454,16 +454,6 @@ class JHtmlBootstrapTest extends TestCase
 		$matcher = array(
 			'id'         => 'myAccordian',
 			'tag'        => 'div',
-			'attributes' => array(
-				'class' => 'joomla-accordion accordion',
-				'data-selector' => 'myAccordian',
-				'data-parent'   => '',
-				'data-toggle'   => '',
-				'data-on-show'   => '',
-				'data-on-shown'   => '',
-				'data-on-hide'   => '',
-				'data-on-hidden'   => '',
-				),
 		);
 
 		$this->assertTag(
