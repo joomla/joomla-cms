@@ -1508,7 +1508,7 @@ class JHtmlTest extends TestCase
 				);
 
 				$this->assertArrayHasKey(
-					'/media/system/js/date-helper.js',
+					'/media/system/js/calendar-locales/date/date-helper.min.js',
 					JFactory::getDocument()->_scripts,
 					'Line:'.__LINE__.' JS file "date.js" should be loaded'
 				);

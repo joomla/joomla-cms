@@ -777,7 +777,7 @@ abstract class JHtml
 	{
 		// Get some system objects.
 		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+		$user   = JFactory::getUser();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -988,6 +988,16 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
+		$tag    = JFactory::getLanguage()->getTag();
+
+		// Get the appropriate for the current language date helper
+		$path = 'system/calendar-locales/date/date-helper.min.js';
+
+		if (is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($tag) . '/'))
+		{
+			$path = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+		}
+
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled     = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 		$autocomplete = isset($attribs['autocomplete']) && $attribs['autocomplete'] == '';
@@ -1018,7 +1028,9 @@ abstract class JHtml
 			'readonly'     => $readonly,
 			'disabled'     => $disabled,
 			'autofocus'    => $autofocus,
-			'autocomplete' => $autocomplete
+			'autocomplete' => $autocomplete,
+			'tag'          => $tag,
+			'datePath'     => $path,
 			);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
