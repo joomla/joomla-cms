@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/pulls
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackagePullsComments  $comments  GitHub API object for comments.
  */
@@ -23,7 +24,7 @@ class JGithubPackagePulls extends JGithubPackage
 	protected $name = 'Pulls';
 
 	protected $packages = array(
-		'comments'
+		'comments',
 	);
 
 	/**
@@ -55,7 +56,7 @@ class JGithubPackagePulls extends JGithubPackage
 				'title' => $title,
 				'base' => $base,
 				'head' => $head,
-				'body' => $body
+				'body' => $body,
 			)
 		);
 
@@ -100,7 +101,7 @@ class JGithubPackagePulls extends JGithubPackage
 			array(
 				'issue' => (int) $issueId,
 				'base' => $base,
-				'head' => $head
+				'head' => $head,
 			)
 		);
 
@@ -370,7 +371,7 @@ class JGithubPackagePulls extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'commit_message' => $message
+				'commit_message' => $message,
 			)
 		);
 

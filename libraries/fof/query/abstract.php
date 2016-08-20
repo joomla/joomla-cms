@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  query
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -20,13 +20,13 @@ abstract class FOFQueryAbstract
 	/**
 	 * Returns a new database query class
 	 *
-	 * @param   JDatabaseDriver  $db  The DB driver which will provide us with a query object
+	 * @param   FOFDatabaseDriver  $db  The DB driver which will provide us with a query object
 	 *
 	 * @return FOFQueryAbstract
 	 */
 	public static function &getNew($db = null)
 	{
-		FOFPlatform::getInstance()->logDeprecated('FOFQueryAbstract is deprecated. Use JDatabaseQuery instead.');
+		FOFPlatform::getInstance()->logDeprecated('FOFQueryAbstract is deprecated. Use FOFDatabaseQuery instead.');
 
 		if (is_null($db))
 		{
