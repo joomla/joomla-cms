@@ -68,6 +68,7 @@ class ContentViewFeatured extends JViewLegacy
 				$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
 				$description = '<p><img src="' . $image . '" /></p>';
 			}
+
 			$description .= ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);  			
 			$author      = $row->created_by_alias ? $row->created_by_alias : $row->author;
 
