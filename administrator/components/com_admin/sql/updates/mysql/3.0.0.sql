@@ -11,7 +11,6 @@ ALTER TABLE `#__content` DROP COLUMN `parentid`;
 ALTER TABLE `#__newsfeeds` DROP COLUMN `filename`;
 ALTER TABLE `#__menu` DROP COLUMN `ordering`;
 ALTER TABLE `#__session` DROP COLUMN `usertype`;
-ALTER TABLE `#__users` DROP COLUMN `usertype`;
 ALTER TABLE `#__updates` DROP COLUMN `categoryid`;
 
 UPDATE `#__extensions` SET protected = 0 WHERE
