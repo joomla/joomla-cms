@@ -11,13 +11,14 @@
  * - Event, License: CC0 (required by "Event.DOMContentLoaded")
  * - Event.DOMContentLoaded, License: CC0
  *
- * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event,Event.DOMContentLoaded|always
+ * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event,Event.DOMContentLoaded|always&flags=gated
  * 
  * @copyright  Copyright (c) 2016 Financial Times
  * @license    MIT License, https://github.com/Financial-Times/polyfill-service/blob/master/LICENSE.md
  */
 
 (function(undefined) {
+if (!('Window' in this)) {
 
 // Window
 (function(global) {
@@ -27,6 +28,10 @@
 		(global.Window = global.constructor = new Function('return function Window() {}')()).prototype = this;
 	}
 }(this));
+
+}
+
+if (!("Document" in this)) {
 
 // Document
 
@@ -41,6 +46,10 @@ if (this.HTMLDocument) { // IE8
 	this.Document = this.HTMLDocument = document.constructor = (new Function('return function Document() {}')());
 	this.Document.prototype = document;
 }
+
+}
+
+if (!('Element' in this && 'HTMLElement' in this)) {
 
 // Element
 (function () {
@@ -145,6 +154,20 @@ if (this.HTMLDocument) { // IE8
 	document.removeChild(vbody);
 })();
 
+}
+
+if (!(// In IE8, defineProperty could only act on DOM elements, so full support
+// for the feature requires the ability to set a property on an arbitrary object
+'defineProperty' in Object && (function() {
+	try {
+		var a = {};
+		Object.defineProperty(a, 'test', {value:42});
+		return true;
+	} catch(e) {
+		return false
+	}
+}()))) {
+
 // Object.defineProperty
 (function (nativeDefineProperty) {
 
@@ -210,6 +233,23 @@ if (this.HTMLDocument) { // IE8
 		return object;
 	};
 }(Object.defineProperty));
+
+}
+
+if (!((function(global) {
+
+	if (!('Event' in global)) return false;
+	if (typeof global.Event === 'function') return true;
+
+	try {
+
+		// In IE 9-11, the Event object exists but cannot be instantiated
+		new Event('click');
+		return true;
+	} catch(e) {
+		return false;
+	}
+}(this)))) {
 
 // Event
 (function () {
@@ -420,6 +460,10 @@ if (this.HTMLDocument) { // IE8
 	}
 })();
 
+}
+
+if (!('addEventListener' in this)) {
+
 // Event.DOMContentLoaded
 document.attachEvent('onreadystatechange', function() {
 	if (document.readyState === 'complete') {
@@ -428,6 +472,9 @@ document.attachEvent('onreadystatechange', function() {
 		}));
 	}
 });
+
+}
+
 
 })
 .call('object' === typeof window && window || 'object' === typeof self && self || 'object' === typeof global && global || {});
