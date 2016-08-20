@@ -11,7 +11,7 @@
  * - Event, License: CC0 (required by "Event.DOMContentLoaded")
  * - Event.DOMContentLoaded, License: CC0
  *
- * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event,Event.DOMContentLoaded|always&flags=gated
+ * @build      https://cdn.polyfill.io/v2/polyfill.js?features=Event,Event.DOMContentLoaded&flags=always,gated
  * 
  * @copyright  Copyright (c) 2016 Financial Times
  * @license    MIT License, https://github.com/Financial-Times/polyfill-service/blob/master/LICENSE.md
