@@ -117,7 +117,7 @@ JHtml::_('formbehavior.chosen');
 						$extraFieldCounter = 0;
 						/** @var JAuthenticationFieldInterface $extraField */
 						foreach ($extraFields as $extraField):
-							if ($extraField->getType() != 'button') continue;
+							if ($extraField->getType() != 'link') continue;
 							?>
 							<a id="form-login-button-<?php echo ++$extraFieldCounter ?>" class="btn btn-default" href="<?php echo $extraField->getInput() ?>">
 								<?php if ($extraField->getIcon()): ?>

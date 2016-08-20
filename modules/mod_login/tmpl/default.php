@@ -156,7 +156,7 @@ JHtml::_('bootstrap.tooltip');
 					$extraFieldCounter = 0;
 					/** @var JAuthenticationFieldInterface $extraField */
 					foreach ($extraFields as $extraField):
-						if ($extraField->getType() != 'button') continue;
+						if ($extraField->getType() != 'link') continue;
 						?>
 				<li>
 					<a id="form-login-link-<?php echo ++$extraFieldCounter ?>" href="<?php echo $extraField->getInput() ?>">

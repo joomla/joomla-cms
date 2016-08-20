@@ -140,7 +140,7 @@ JHtml::_('behavior.formvalidator');
 		<?php if (count($this->extraFields)):
 			$extraFieldCounter = 0;
 			foreach ($this->extraFields as $extraField):
-				if ($extraField->getType() != 'button') continue;
+				if ($extraField->getType() != 'link') continue;
 				?>
 		<li>
 			<a id="form-login-link-<?php echo ++$extraFieldCounter ?>" href="<?php echo $extraField->getInput() ?>">
