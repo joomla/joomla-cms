@@ -94,8 +94,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function finalise()
 	{
-		// Finalize with cancel button. Used for pre-token check versions.
-		if (JFactory::getApplication()->input->get('method', '', 'cmd') !== 'direct')
+		// Finalize with login page. Used for pre-token check versions.
+		if (JFactory::getApplication()->input->get('method', '', 'cmd') !== 'direct'
+			&& !JSession::checkToken('get'))
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
