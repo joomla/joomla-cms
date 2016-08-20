@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  */
 class LoginViewLogin extends JViewLegacy
 {
-  /**
+  	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
