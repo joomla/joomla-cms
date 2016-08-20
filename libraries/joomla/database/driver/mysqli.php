@@ -953,8 +953,27 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
+		// If debugging is enabled then let's log the query.
+		if ($this->debug)
+		{
+			// Add the query to the object queue.
+			$this->log[] = $query;
+
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult($this->cursor);
+			}
+
+			$memoryBefore = memory_get_usage();
+		}
+
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$cursor = @mysqli_query($this->connection, $query);
+		$cursor = @$this->connection->query($query);
 
 		if ($this->debug)
 		{
@@ -1005,7 +1024,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				}
 
 				// Since we were able to reconnect, run the query again.
-				return $this->execute();
+				return $this->executeTransactionQuery($query);
 			}
 			// The server was not disconnected.
 			else
