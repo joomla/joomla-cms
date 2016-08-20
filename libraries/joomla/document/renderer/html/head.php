@@ -53,6 +53,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
+		if (JText::script())
+		{
+			JHtml::_('behavior.core');
+		}
+
 		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
@@ -279,32 +284,13 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		}
 
 		// Generate script language declarations.
-		if (count(JText::script()))
+		if (JText::script())
 		{
-			$buffer .= $tab . '<script';
+			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 
-			if (!$document->isHtml5())
-			{
-				$buffer .= ' type="text/javascript"';
-			}
-
-			$buffer .= '>' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode(JText::script()) . ');' . $lnEnd;
-			$buffer .= $tab . $tab . '})();' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
+			$buffer .= $tab . '<script type="application/json" id="joomla-text-strings">';
+			$buffer .= json_encode(JText::script(), $prettyPrint);
+			$buffer .= '</script>' . $lnEnd;
 		}
 
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice

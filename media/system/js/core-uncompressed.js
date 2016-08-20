@@ -58,15 +58,56 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
 	 */
 	Joomla.JText = {
-		strings: {},
+		strings:   {},
+		preloaded: false,
+
+		/**
+		 * Translates a string into the current language.
+		 *
+		 * @param {String} key   The string to translate
+		 * @param {String} def   Default string
+		 *
+		 * @returns {String}
+		 */
 		'_': function( key, def ) {
-			return typeof this.strings[ key.toUpperCase() ] !== 'undefined' ? this.strings[ key.toUpperCase() ] : def;
+
+			if (!this.preloaded) {
+				this.preload();
+			}
+
+			def = def === undefined ? '' : def;
+			return this.strings[ key.toUpperCase() ] !== undefined ? this.strings[ key.toUpperCase() ] : def;
 		},
+
+		/**
+		 * Load new strings in to Joomla.JText
+		 *
+		 * @param {Object} object  Object with new strings
+		 * @returns {Joomla.JText}
+		 */
 		load: function( object ) {
 			for ( var key in object ) {
 				if (!object.hasOwnProperty(key)) continue;
 				this.strings[ key.toUpperCase() ] = object[ key ];
 			}
+			return this;
+		},
+
+		/**
+		 * Preload strings from <script type="application/json" id="joomla-text-strings"> container
+		 *
+		 * @param {String} id   Id of the container
+		 * @returns {Joomla.JText}
+		 */
+		preload: function( id ) {
+			id = id || 'joomla-text-strings';
+			var element = document.getElementById(id),
+				str = element ? (element.text || element.textContent) : null,
+				options = str ? JSON.parse(str) : null;
+
+			this.load(options || {});
+			this.preloaded = true;
+
 			return this;
 		}
 	};
@@ -614,7 +655,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			parentElement.appendChild(loadingDiv);
 		}
 		// Show or hide the layer.
-		else 
+		else
 		{
 			if (!document.getElementById('loading-logo'))
 			{
