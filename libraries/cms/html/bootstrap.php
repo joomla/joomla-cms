@@ -539,6 +539,8 @@ abstract class JHtmlBootstrap
 		JFactory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
 
 		static::$loaded[__METHOD__][$selector] = true;
+
+		return '<div id="' . $selector . '" class="accordion">';
 	}
 
 	/**
