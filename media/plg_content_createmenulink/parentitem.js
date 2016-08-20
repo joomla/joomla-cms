@@ -5,7 +5,7 @@
  */
 
 /**
- * Copy title to the menu tile and alias to menu alias respectively
+ * Get the parent item.
  */
 (function ($) {
 	$(document).ready(function() {

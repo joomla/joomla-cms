@@ -11,6 +11,7 @@
     <description>PLG_CONTENT_CREATEMENULINK_XML_DESCRIPTION</description>
     <files>
         <filename plugin="createmenulink">createmenulink.php</filename>
+	    <folder>fields</folder>
 	    <folder>forms</folder>
     </files>
 	<config>

@@ -149,7 +149,7 @@ class PlgContentCreateMenulink extends JPlugin
 	}
 
 	/**
-	 * Adds additional fields to the editing form
+	 * Save the menu item in the menus table
 	 *
 	 * @param   JForm  $context  The form to be altered.
 	 * @param   mixed  $article  The associated data for the form.
@@ -162,6 +162,13 @@ class PlgContentCreateMenulink extends JPlugin
 	public function onContentAfterSave($context, $article)
 	{
 		if (in_array($context, array('com_menus.item')))
+		{
+			return true;
+		}
+
+		$checkView = preg_split("/\\r\\n|\\r|\\n/", $this->params->get('allowedContexts'));
+
+		if (!in_array($context, $checkView))
 		{
 			return true;
 		}

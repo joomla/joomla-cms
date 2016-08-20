@@ -102,9 +102,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		{
 			return '<span class="readonly">' . JText::_('PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
 		}
-		else
-		{
-			return parent::getInput();
-		}
+
+		return parent::getInput();
 	}
 }
