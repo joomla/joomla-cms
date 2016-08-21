@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * A simple token or the beginning of a block token.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class JStringTokenBegin extends JStringToken
 {

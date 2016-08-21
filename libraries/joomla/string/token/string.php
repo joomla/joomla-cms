@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * A string token.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class JStringTokenString extends JStringToken
 {

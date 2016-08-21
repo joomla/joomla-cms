@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
  * Block tags may also be nested:
  *   {c} something {b} something else {/b} something more {/c}
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class JStringParser
 {

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Token interface.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JStringToken
 {

@@ -48,7 +48,7 @@ class PlgContentLoadmodule extends JPlugin
 		}
 
 		// Get a content parser.
-		$parser = new JStringParser();
+		$parser = new JStringParser;
 
 		// Register the loadposition token.
 		// Syntax: {loadposition <module-position>[,<style>]}

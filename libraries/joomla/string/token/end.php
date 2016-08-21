@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * An end token.
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class JStringTokenEnd extends JStringToken
 {
