@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/linkedin/stream.php';
-
 /**
  * Test class for JLinkedinStream.
  *

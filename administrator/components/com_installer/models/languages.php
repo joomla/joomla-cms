@@ -30,7 +30,7 @@ class InstallerModelLanguages extends JModelList
 	private $updateSiteId = 0;
 
 	/**
-	 * Constructor override, defines a white list of column filters.
+	 * Constructor override, defines a whitelist of column filters.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *

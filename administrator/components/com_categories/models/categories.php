@@ -324,7 +324,7 @@ class CategoriesModelCategories extends JModelList
 				uc.name, 
 				ag.title, 
 				ua.name'
-			);
+		);
 
 		return $query;
 	}

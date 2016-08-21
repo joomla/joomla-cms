@@ -284,7 +284,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 	/**
 	 * Returns the installed language files in the administrative and
-	 * front-end area.
+	 * frontend area.
 	 *
 	 * @param   mixed  $db  JDatabaseDriver instance.
 	 *
