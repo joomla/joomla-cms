@@ -117,6 +117,11 @@
 
 		// Set it up
 		this.checkInputs();
+
+		// For the fields with readonly tag calendar will not initiate fully
+		if (this.inputField.getAttribute('readonly'))
+			return;
+
 		this._create();
 		this._bindEvents();
 	};
