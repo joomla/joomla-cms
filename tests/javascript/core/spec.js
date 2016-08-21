@@ -200,8 +200,6 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 	});
 
 	describe('Core Joomla.getOptions', function () {
-	    var $container = $('#get-options');
-
 		it('should be Joomla.optionsStorage = null', function () {
 			expect(Joomla.optionsStorage).toEqual(null)
 		});
@@ -219,15 +217,14 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 
         // Test dynamically added options
-        $container.append($('<script>', {
-            type: 'application/json',
-            'class': 'joomla-script-options-new',
-            text: '{"com_foobar5": true}'
-        }));
-
-        Joomla.loadOptions();
-
         it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
+            $('#get-options').append($('<script>', {
+                type: 'application/json',
+                'class': 'joomla-script-options-new',
+                text: '{"com_foobar5": true}'
+            }));
+            Joomla.loadOptions();
+
             expect(Joomla.getOptions("com_foobar5")).toEqual(true)
         });
         it('amount of the loaded options containers should equal 2', function () {
