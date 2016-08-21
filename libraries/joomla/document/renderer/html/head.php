@@ -186,15 +186,39 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		$defaultJsMimes         = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 		$html5NoValueAttributes = array('defer', 'async');
+		$mediaVersion           = $document->getMediaVersion();
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strAttribs)
+		foreach ($document->_scripts as $src => $attribs)
 		{
-			$buffer .= $tab . '<script src="' . $strSrc . '"';
+			// Check if script uses IE conditional statements.
+			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+
+			// Check if script uses media version.
+			if (strpos($src, '?') === false && isset($attribs['options']) && isset($attribs['options']['version']) && $attribs['options']['version'])
+			{
+				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
+			}
+
+			$buffer .= $tab;
+
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<!--[if ' . $conditional . ']>';
+			}
+
+			$buffer .= '<script src="' . $src . '"';
 
 			// Add script tag attributes.
-			foreach ($strAttribs as $attrib => $value)
+			foreach ($attribs as $attrib => $value)
 			{
+				// Don't add the 'options' attribute. This attribute is for internal use (version, conditional, etc).
+				if ($attrib === 'options')
+				{
+					continue;
+				}
+
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
 				if (in_array($attrib, array('type', 'mime')) && $document->isHtml5() && in_array($value, $defaultJsMimes))
 				{
@@ -224,7 +248,15 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				}
 			}
 
-			$buffer .= '></script>' . $lnEnd;
+			$buffer .= '></script>';
+
+			// This is for IE conditional statements support.
+			if (!is_null($conditional))
+			{
+				$buffer .= '<![endif]-->';
+			}
+
+			$buffer .= $lnEnd;
 		}
 
 		// Generate scripts options
