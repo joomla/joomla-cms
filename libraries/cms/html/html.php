@@ -667,32 +667,53 @@ abstract class JHtml
 	 * Write a `<script>` element to load a JavaScript file
 	 *
 	 * @param   string   $file           Path to file.
-	 * @param   boolean  $framework      Load the JS framework.
-	 * @param   boolean  $relative       Path to file is relative to /media folder.
-	 * @param   boolean  $pathOnly       Return the path to the file only.
-	 * @param   boolean  $detectBrowser  Detect browser to include specific browser js files.
-	 * @param   boolean  $detectDebug    Detect debug to search for compressed files if debug is on.
-	 * @param   string   $version        Version of the script. empty string for none, null to auto generate. any text for custom.
-	 * @param   array    $attribs        Attributes of the script tag.
+	 * @param   array    $options        Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array    $attribs        Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
+	 * @deprecated 4.0  The (file, framework, relative, pathOnly, detectBrowser, detectDebug) method signature is deprecated,
+	 *                  use (file, options, attributes) instead.
 	 */
-	public static function script($file, $framework = false, $relative = false, $pathOnly = false, $detectBrowser = true, $detectDebug = true,
-		$version = '', $attribs = array())
+	public static function script($file, $options = array(), $attribs = array())
 	{
+		// B/C before __DEPLOY_VERSION__
+		if (!is_array($options) && !is_array($attribs))
+		{
+			JLog::add('The script method signature used is deprecated, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+
+			$argList = func_get_args();
+			$options = array();
+			$attribs = array();
+
+			// Old parameters.
+			$options['framework']     = isset($argList[1]) ? $argList[1] : false;
+			$options['relative']      = isset($argList[2]) ? $argList[2] : false;
+			$options['pathOnly']      = isset($argList[3]) ? $argList[3] : false;
+			$options['detectBrowser'] = isset($argList[4]) ? $argList[4] : true;
+			$options['detectDebug']   = isset($argList[5]) ? $argList[5] : true;
+		}
+		else
+		{
+			$options['framework']     = isset($options['framework']) ? $options['framework'] : false;
+			$options['relative']      = isset($options['relative']) ? $options['relative'] : false;
+			$options['pathOnly']      = isset($options['pathOnly']) ? $options['pathOnly'] : false;
+			$options['detectBrowser'] = isset($options['detectBrowser']) ? $options['detectBrowser'] : true;
+			$options['detectDebug']   = isset($options['detectDebug']) ? $options['detectDebug'] : true;
+		}
+
 		// Include MooTools framework
-		if ($framework)
+		if ($options['framework'])
 		{
 			static::_('behavior.framework');
 		}
 
-		$includes = static::includeRelativeFiles('js', $file, $relative, $detectBrowser, $detectDebug);
+		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
 		// If only path is required
-		if ($pathOnly)
+		if ($options['pathOnly'])
 		{
 			if (count($includes) == 0)
 			{
@@ -715,14 +736,12 @@ abstract class JHtml
 			foreach ($includes as $include)
 			{
 				// If there is already a version hash in the script reference (by using deprecated MD5SUM).
-				if (strpos($include, '?') !== false)
+				if ($pos = strpos($include, '?') !== false)
 				{
-					$document->addScript($include, $attribs);
+					$options['version'] = substr($include, $pos + 1);
 				}
-				else
-				{
-					$document->addScriptVersion($include, $version, $attribs);
-				}
+
+				$document->addScript($include, $options, $attribs);
 			}
 		}
 	}
