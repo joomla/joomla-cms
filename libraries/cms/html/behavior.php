@@ -994,19 +994,9 @@ abstract class JHtmlBehavior
 			}
 
 			// If include according to browser.
-			if (!is_null($conditionalBrowser))
-			{
-				// Get script path.
-				$doc        = JFactory::getDocument();
-				$scriptPath = JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', false, true, true, false, true);
-				$scriptType = !$doc->isHtml5() ? ' type="text/javascript"' : '';
+			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
 
-				$doc->addCustomTag('<!--[if ' . $conditionalBrowser . ']><script' . $scriptType . ' src="' . $scriptPath . '"></script><![endif]-->');
-			}
-			else
-			{
-				JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', false, true);
-			}
+			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
