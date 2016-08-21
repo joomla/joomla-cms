@@ -8,8 +8,8 @@
  *
  * Used for keeping the session alive
  *
- * @package     Joomla
- * @since       3.5
+ * @package  Joomla
+ * @since    __DEPLOY_VERSION__
  * @version  1.0
  */
 !(function(){
