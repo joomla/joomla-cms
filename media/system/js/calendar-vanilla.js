@@ -87,12 +87,12 @@
 			instanceParams = {
 				dateType: JoomlaCalLocale.dateType,
 				firstDayOfWeek: btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
-				time24: (parseInt(btn.getAttribute("data-time-24")) === 24),
-				showsOthers: (parseInt(btn.getAttribute("data-show-others")) !== 0),
-				showsTime: (parseInt(btn.getAttribute("data-show-time")) === 1),
-				weekNumbers: (parseInt(btn.getAttribute("data-week-numbers")) === 1),
-				showsTodayBtn: (parseInt(btn.getAttribute("data-today-btn")) !== 0),
-				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1),
+				time24: (parseInt(btn.getAttribute("data-time-24")) === 24) ? true : false,
+				showsOthers: (parseInt(btn.getAttribute("data-show-others")) !== 0) ? true : false,
+				showsTime: (parseInt(btn.getAttribute("data-show-time")) === 1) ? true : false,
+				weekNumbers: (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
+				showsTodayBtn: (parseInt(btn.getAttribute("data-today-btn")) === 1) ? true : false,
+				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
 				minYear: btn.getAttribute("data-min-year") ? parseInt(btn.getAttribute("data-min-year")) : 1970,
 				maxYear: btn.getAttribute("data-max-year") ? parseInt(btn.getAttribute("data-max-year")) : 2050,
 				dateFormat: btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S",
@@ -101,7 +101,7 @@
 
 		// Merge the parameters
 		for (var param in defaultParams) {
-			this.params[param] = instanceParams[param] || defaultParams[param];
+			this.params[param] = instanceParams[param];
 		}
 
 		// Event handler need to define here, to be able access in current context
@@ -771,7 +771,7 @@
 			var cell = row.firstChild;
 			if (this.params.weekNumbers) {
 				cell.className = "day wn";
-				cell.innerHTML = date.convertNumbers(date.getLocalWeekNumber(this.params.dateType));
+				cell.innerHTML = date.getLocalWeekNumber(this.params.dateType); //date.convertNumbers();
 				cell = cell.nextSibling;
 			}
 

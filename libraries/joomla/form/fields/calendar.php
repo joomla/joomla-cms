@@ -114,8 +114,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'weeknumbers':
 			case 'showtime':
 			case 'filltable':
-				$this->$name = (bool) $value;
-				break;
 			case 'format':
 			case 'filter':
 				$this->$name = (string) $value;
@@ -149,14 +147,14 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->maxlength    = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
 			$this->format       = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 			$this->filter       = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
-			$this->todaybutton  = (bool) $this->element['todaybutton'] ? (bool) $this->element['todaybutton'] : true;
-			$this->weeknumbers  = (bool) $this->element['weeknumbers'] ? (bool) $this->element['weeknumbers'] : false;
-			$this->showtime     = (bool) $this->element['showtime'] ? (bool) $this->element['showtime'] : false;
-			$this->filltable    = (bool) $this->element['filltable'] ? (bool) $this->element['filltable'] : true;
+			$this->todaybutton  = (string) $this->element['todaybutton'] ? (string) $this->element['todaybutton'] : "true";
+			$this->weeknumbers  = (string) $this->element['weeknumbers'] ? (string) $this->element['weeknumbers'] : "false";
+			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : "false";
+			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : "true";
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->minyear      = (int) $this->element['minyear'] ? (int) $this->element['minyear'] : JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_MIN_YEAR');
 			$this->maxyear      = (int) $this->element['maxyear'] ? (int) $this->element['maxyear'] : JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_MAX_YEAR');
-			$this->singleheader = (bool) $this->element['singleheader'] ? (bool) $this->element['singleheader'] : false;
+			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : "false";
 		}
 
 		return $return;
@@ -285,15 +283,15 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'maxLength'    => $this->maxlength,
 			'format'       => $this->format,
 			'filter'       => $this->filter,
-			'todaybutton'  => $this->todaybutton,
-			'weeknumbers'  => $this->weeknumbers,
-			'showtime'     => $this->showtime,
-			'filltable'    => $this->filltable,
+			'todaybutton'  => ($this->todaybutton === "true") ? 1 : 0,
+			'weeknumbers'  => ($this->weeknumbers === "true") ? 1 : 0,
+			'showtime'     => ($this->showtime === "true") ? 1 : 0,
+			'filltable'    => ($this->filltable === "true") ? 1 : 0,
 			'timeformat'   => $this->timeformat,
 			'minyear'      => $this->minyear,
 			'maxyear'      => $this->maxyear,
 			'weekenddays'  => $this->weekenddays,
-			'singleheader' => $this->singleheader,
+			'singleheader' => ($this->singleheader === "true") ? 1 : 0,
 			'tag'          => $tag,
 			'datePath'     => $path,
 		);

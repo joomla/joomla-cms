@@ -63,19 +63,6 @@ empty($hint)      ? null : $attributes['placeholder'] = $hint;
 $autocomplete     ? null : $attributes['autocomplete'] = 'off';
 !$autofocus       ? null : $attributes['autofocus'] = '';
 
-/**
- * These variables control the date/time picker
- */
-$todaybutton  = !empty($todaybutton) ? (bool) $todaybutton : true;
-$weeknumbers  = !empty($weeknumbers) ? (bool) $weeknumbers : false;
-$showtime     = !empty($showtime) ? (bool) $showtime : false;
-$filltable    = !empty($filltable) ? (bool) $filltable : true;
-// $multiple     = !empty($multiple) ? (bool) $multiple : false;  //  Needed??????
-$timeformat   = !empty($timeformat) ? (int) $timeformat : 24;
-$minyear      = !empty($minyear) ? (int) $minyear : 1970;
-$maxyear      = !empty($maxyear) ? (int) $maxyear : 2050;
-$singleheader = !empty($singleheader) ?(bool) $singleheader : false;
-
 if ($required)
 {
 	$attributes['required'] = '';
