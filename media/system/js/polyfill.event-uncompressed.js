@@ -462,7 +462,7 @@ if (!((function(global) {
 
 }
 
-if (!('addEventListener' in this)) {
+if (!('createEvent' in document)) {
 
 // Event.DOMContentLoaded
 document.attachEvent('onreadystatechange', function() {
