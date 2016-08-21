@@ -91,16 +91,13 @@ class JFormFieldModal_Menu extends JFormField
 			{
 				$clearField = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
 			}
+			elseif ((string) $this->element->option['value'] == '')
+			{
+				$clearField =  JText::_($this->element->option, true);
+			}
 			else
 			{
-				if ((string) $this->element->option['value'] == '')
-				{
-					$clearField =  JText::_($this->element->option, true);
-				}
-				else
-				{
-					$clearField = JText::_('JDEFAULT', true);
-				}
+				$clearField = JText::_('JDEFAULT', true);
 			}
 
 			$clearField = htmlspecialchars($clearField, ENT_QUOTES, 'UTF-8');
@@ -169,16 +166,13 @@ class JFormFieldModal_Menu extends JFormField
 			{
 				$title = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
 			}
+			elseif ((string) $this->element->option['value'] == '')
+			{
+				$title = JText::_($this->element->option, true);
+			}
 			else
 			{
-				if ((string) $this->element->option['value'] == '')
-				{
-					$title = JText::_($this->element->option, true);
-				}
-				else
-				{
-					$title = JText::_('JDEFAULT');
-				}
+				$title = JText::_('JDEFAULT');
 			}
 		}
 
