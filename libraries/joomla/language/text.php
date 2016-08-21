@@ -368,7 +368,9 @@ class JText
 					. ' Use the %2$s::getScriptStrings() method to get the strings from the JavaScript language store instead.',
 					__METHOD__,
 					__CLASS__
-				)
+				),
+				JLog::WARNING,
+				'deprecated'
 			);
 		}
 
