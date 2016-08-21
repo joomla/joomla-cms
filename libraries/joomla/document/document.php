@@ -448,40 +448,46 @@ class JDocument
 	 * Adds a linked script to the page
 	 *
 	 * @param   string  $url      URL to the linked script.
-	 * @param   array   $attribs  Array of attributes.
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
-	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, attributes array) instead.
+	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
 	 */
-	public function addScript($url, $attribs = array())
+	public function addScript($url, $options = array(), $attribs = array())
 	{
 		// B/C before __DEPLOY_VERSION__
-		if (!is_array($attribs))
+		if (!is_array($options) && !is_array($attribs))
 		{
-			JLog::add('The addScript method signature used is deprecated, use (url, attributes array) instead.', JLog::WARNING, 'deprecated');
+			JLog::add('The addScript method signature used is deprecated, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
 			$argList = func_get_args();
+			$options = array();
 			$attribs = array();
 
+			// Old mime type parameter.
 			if (!empty($argList[1]))
 			{
 				$attribs['mime'] = $argList[1];
 			}
 
+			// Old defer parameter.
 			if (isset($argList[2]) && $argList[2])
 			{
 				$attribs['defer'] = true;
 			}
 
+			// Old async parameter.
 			if (isset($argList[3]) && $argList[3])
 			{
 				$attribs['async'] = true;
 			}
 		}
 
-		$this->_scripts[$url] = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
+		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
+		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
 
 		return $this;
 	}
@@ -491,52 +497,53 @@ class JDocument
 	 * If not specified Joomla! automatically handles versioning
 	 *
 	 * @param   string  $url      URL to the linked script.
-	 * @param   string  $version  Version of the script.
-	 * @param   array   $attribs  Array of attributes.
+	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
+	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
-	 * @deprecated 4.0  The (url, version, mime, defer, async) method signature is deprecated, use (url, version, attributes array) instead.
+	 * @deprecated 4.0  This method is deprecated, use addScript(url, options, attributes) instead.
 	 */
-	public function addScriptVersion($url, $version = null, $attribs = array())
+	public function addScriptVersion($url, $options = array(), $attribs = array())
 	{
-		// Automatic version
-		if ($version === null)
-		{
-			$version = $this->getMediaVersion();
-		}
-
-		if (!empty($version) && strpos($url, '?') === false)
-		{
-			$url .= '?' . $version;
-		}
+		JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', JLog::WARNING, 'deprecated');
 
 		// B/C before __DEPLOY_VERSION__
-		if (!is_array($attribs))
+		if (!is_array($options) && !is_array($attribs))
 		{
-			JLog::add('The addScriptVersion method signature used is deprecated, use (url, version, attributes array) instead.', JLog::WARNING, 'deprecated');
-
 			$argList = func_get_args();
+			$options = array();
 			$attribs = array();
 
+			// Old version parameter.
+			$options['version'] = isset($argList[1]) && !is_null($argList[1]) ? $argList[1] : 'auto';
+
+			// Old mime type parameter.
 			if (!empty($argList[2]))
 			{
 				$attribs['mime'] = $argList[2];
 			}
 
+			// Old defer parameter.
 			if (isset($argList[3]) && $argList[3])
 			{
 				$attribs['defer'] = true;
 			}
 
+			// Old async parameter.
 			if (isset($argList[4]) && $argList[4])
 			{
 				$attribs['async'] = true;
 			}
 		}
+		// Default value for version.
+		else
+		{
+			$options['version'] = 'auto';
+		}
 
-		return $this->addScript($url, $attribs);
+		return $this->addScript($url, $options, $attribs);
 	}
 
 	/**
