@@ -59,7 +59,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 */
 	Joomla.JText = {
 		strings:   {},
-		preloaded: false,
 
 		/**
 		 * Translates a string into the current language.
@@ -71,13 +70,19 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		 */
 		'_': function( key, def ) {
 
-			if (!this.preloaded) {
-				this.load(Joomla.getOptions('joomla.jtext', {}));
-				this.preloaded = true;
+			// Check for new strings in the optionsStorage, and load them
+			var newStrings = Joomla.getOptions('joomla.jtext');
+			if ( newStrings ) {
+				this.load(newStrings);
+
+				// Clean up the optionsStorage from useless data
+				Joomla.loadOptions({'joomla.jtext': null});
 			}
 
 			def = def === undefined ? '' : def;
-			return this.strings[ key.toUpperCase() ] !== undefined ? this.strings[ key.toUpperCase() ] : def;
+			key = key.toUpperCase();
+
+			return this.strings[ key ] !== undefined ? this.strings[ key ] : def;
 		},
 
 		/**
@@ -91,6 +96,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				if (!object.hasOwnProperty(key)) continue;
 				this.strings[ key.toUpperCase() ] = object[ key ];
 			}
+
 			return this;
 		}
 	};
