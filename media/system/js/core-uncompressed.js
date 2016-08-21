@@ -113,6 +113,39 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
+	 * Joomla options storage
+	 *
+	 * @type {{}}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.optionsStorage = Joomla.optionsStorage || null;
+
+	/**
+	 * Get script(s) options
+	 *
+	 * @param {String} key  Name in Storage
+	 * @param mixed    def  Default value if nothing found
+	 *
+	 * @return mixed
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.getOptions = function( key, def) {
+
+		// Load options if they not exists
+		if (!Joomla.optionsStorage) {
+			var element = document.getElementById('joomla-script-options'),
+				str = element ? (element.text || element.textContent) : null,
+				options = str ? JSON.parse(str) : null;
+
+			Joomla.optionsStorage = options || {};
+		}
+
+		return Joomla.optionsStorage[key] || def;
+	};
+
+	/**
 	 * Method to replace all request tokens on the page with a new one.
 	 * Used in Joomla Installation
 	 */
