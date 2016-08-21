@@ -431,6 +431,16 @@ fieldset.radio.btn-group {
 	overflow: hidden;
 }
 
+/* Make Accessible Hidden Elements visible on focus */
+.element-invisible:focus {
+	width:auto;
+	height:auto;
+	overflow:auto;
+	background:#eee;
+	color:#000;
+	padding:1em;
+}
+
 /* Form Vertical Overrides Form Horizontal */
 .form-vertical {
 	.control-label {

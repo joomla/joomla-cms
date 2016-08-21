@@ -26,6 +26,14 @@ defined('_JEXEC') or die;
 class PlgSystemUpdatenotification extends JPlugin
 {
 	/**
+	 * Load plugin language files automatically
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * The update check and notification email code is triggered after the page has fully rendered.
 	 *
 	 * @return  void
