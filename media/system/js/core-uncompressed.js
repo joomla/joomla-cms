@@ -109,7 +109,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	Joomla.loadOptions = function( options ) {
 		// Load form the script container
 		if (!options) {
-			var elements = document.getElementsByClassName('joomla-script-options-new'),
+			var elements = document.querySelectorAll('.joomla-script-options.new'),
 				str, element, option;
 
 			for (var i = 0, l = elements.length; i < l; i++) {
@@ -119,7 +119,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 				option ? Joomla.loadOptions(option) : null;
 
-				element.className = 'joomla-script-options-loaded';
+				element.className = element.className.replace(' new', ' loaded');
 			}
 
 			return;

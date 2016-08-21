@@ -216,20 +216,20 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
 		});
 
-        // Test dynamically added options
-        it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
+		// Test dynamically added options
+		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
             $('#get-options').append($('<script>', {
-                type: 'application/json',
-                'class': 'joomla-script-options-new',
-                text: '{"com_foobar5": true}'
+				type: 'application/json',
+				'class': 'joomla-script-options new',
+				text: '{"com_foobar5": true}'
             }));
             Joomla.loadOptions();
 
             expect(Joomla.getOptions("com_foobar5")).toEqual(true)
-        });
-        it('amount of the loaded options containers should equal 2', function () {
-            expect($('.joomla-script-options-loaded').length).toEqual(2)
-        });
+		});
+		it('amount of the loaded options containers should equal 2', function () {
+            expect($('.joomla-script-options.loaded').length).toEqual(2)
+		});
 
 	});
 });

@@ -194,7 +194,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if (!empty($scriptOptions))
 		{
-			$buffer .= $tab . '<script type="application/json" id="joomla-script-options">';
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
 
 			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
