@@ -61,14 +61,9 @@ class JStringParser
 	private $position = 0;
 
 	/**
-	 * Start of token string.
+	 * Regular expression to match a simple or block token.
 	 */
-	private $startOfToken = '{';
-
-	/**
-	 * End of token string.
-	 */
-	private $endOfToken = '}';
+	private $pattern = '';
 
 	/**
 	 * Parameter separator string.
@@ -89,12 +84,11 @@ class JStringParser
 	{
 		$localPosition = $this->position;
 		$matches = array();
-		$pattern = '/' . $this->startOfToken . '(.+)' . $this->endOfToken . '/U';
 
 		do
 		{
 			// Look for a possible token.
-			preg_match($pattern, JString::substr($this->content, $localPosition), $matches, PREG_OFFSET_CAPTURE);
+			preg_match($this->pattern, JString::substr($this->content, $localPosition), $matches, PREG_OFFSET_CAPTURE);
 
 			// No more tokens, so stop looking.
 			if (empty($matches))
@@ -308,9 +302,12 @@ class JStringParser
 		$this->contentLength  = JString::strlen($content);
 		$this->position		  = 0;
 		$this->lookahead	  = null;
-		$this->startOfToken	  = isset($options['startOfToken'])   ? $options['startOfToken']   : '{';
-		$this->endOfToken	  = isset($options['endOfToken'])     ? $options['endOfToken']     : '}';
 		$this->paramSeparator = isset($options['paramSeparator']) ? $options['paramSeparator'] : ',';
+
+		// Construct regular expression to match a simple or block token.
+		$startOfToken  = isset($options['startOfToken'])   ? $options['startOfToken']   : '{';
+		$endOfToken	   = isset($options['endOfToken'])     ? $options['endOfToken']     : '}';
+		$this->pattern = '/' . $startOfToken . '(.+)' . $endOfToken . '/U';
 
 		$output = '';
 
