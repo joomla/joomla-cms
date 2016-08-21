@@ -189,6 +189,21 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
+		// Generate scripts options
+		$scriptOptions = $document->getScriptOptions();
+
+		if (!empty($scriptOptions))
+		{
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
+
+			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+
+			$buffer .= $jsonOptions;
+			$buffer .= '</script>' . $lnEnd;
+		}
+
 		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 
 		// Generate script file links
@@ -222,21 +237,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			}
 
 			$buffer .= '></script>' . $lnEnd;
-		}
-
-		// Generate scripts options
-		$scriptOptions = $document->getScriptOptions();
-
-		if (!empty($scriptOptions))
-		{
-			$buffer .= $tab . '<script type="application/json" id="joomla-script-options">';
-
-			$pretyPrint  = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
-			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
-
-			$buffer .= $jsonOptions;
-			$buffer .= '</script>' . $lnEnd;
 		}
 
 		// Generate script declarations
