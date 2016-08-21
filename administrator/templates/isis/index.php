@@ -263,7 +263,7 @@ if ($this->params->get('linkColor'))
 				<div class="row-fluid">
 					<div class="span12">
 						<!-- target for skip to content link -->
-						<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?><</a>
+						<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?></a>
 						<jdoc:include type="modules" name="toolbar" style="no" />
 					</div>
 				</div>
