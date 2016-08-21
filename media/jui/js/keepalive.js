@@ -16,9 +16,9 @@
 
 	document.addEventListener('DOMContentLoaded', function() {
 
-		var keepaliveElement  = document.getElementById('keepalive');
-			keepaliveUri      = keepaliveElement ? keepaliveElement.getAttribute('data-uri') : window.location.pathname + '?option=com_ajax&format=json',
-			keepaliveInterval = keepaliveElement ? keepaliveElement.getAttribute('data-interval') : 0.75 * 60 * 1000;
+		var keepaliveElement  = document.getElementById('keepalive'),
+		    keepaliveUri      = keepaliveElement ? keepaliveElement.getAttribute('data-uri') : window.location.pathname + '?option=com_ajax&format=json',
+		    keepaliveInterval = keepaliveElement ? keepaliveElement.getAttribute('data-interval') : 0.75 * 60 * 1000;
 
 		window.setInterval(function() {
 			var r;
