@@ -65,6 +65,15 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should return \'test\' on calling Joomla.JText._(\'JTOGGLE_REMOVE_SIDEBAR\', \'test\')', function () {
 			expect(Joomla.JText._('JTOGGLE_REMOVE_SIDEBAR', 'test')).toEqual('test');
 		});
+
+		// Test strings in optionsStorage
+		it('should return \'String 1\' on calling Joomla.JText._(\'stRing1\')', function () {
+			expect(Joomla.JText._('stRing1')).toEqual('String 1');
+		});
+		it('should return \'String 2\' on calling Joomla.JText._(\'StrinG2\')', function () {
+			expect(Joomla.JText._('StrinG2')).toEqual('String 2');
+		});
+
 	});
 
 	describe('Core Joomla.replaceTokens', function () {
@@ -200,9 +209,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 	});
 
 	describe('Core Joomla.getOptions', function () {
-		it('should be Joomla.optionsStorage = null', function () {
-			expect(Joomla.optionsStorage).toEqual(null)
-		});
+
 		it('should return options array Joomla.getOptions("com_foobar")', function () {
 			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
 		});
