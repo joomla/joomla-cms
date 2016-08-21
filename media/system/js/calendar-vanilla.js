@@ -29,8 +29,8 @@
 		var calendars = document.getElementsByClassName("field-calendar");
 
 		for (var i = 0; i < calendars.length; i++) {
-			calendars[i].getElementsByTagName('INPUT')[0].value =
-				input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
+			var input = calendars[i].getElementsByTagName('INPUT')[0];
+			input.value = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
 		}
 	};
 
@@ -85,7 +85,7 @@
 				writable: true
 			},
 			instanceParams = {
-				dateType: btn.getAttribute("data-cal-type") ? btn.getAttribute("data-cal-type") : 'gregorian',
+				dateType: JoomlaCalLocale.dateType,
 				firstDayOfWeek: btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
 				time24: (parseInt(btn.getAttribute("data-time-24")) === 24),
 				showsOthers: (parseInt(btn.getAttribute("data-show-others")) !== 0),
@@ -106,13 +106,13 @@
 
 		// Event handler need to define here, to be able access in current context
 		this._dayMouseDown = function(event) {
-            return self._handleDayMouseDown(event);
+			return self._handleDayMouseDown(event);
 		};
 		this._calKeyEvent = function(event) {
 			return self._handleCalKeyEvent(event);
 		};
 		this._documentClick = function(event) {
-            return self._handleDocumentClick(event);
+			return self._handleDocumentClick(event);
 		};
 
 		// Set it up
@@ -126,13 +126,11 @@
 		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
 
 		if (this.inputField.value.length) {
-			if (this.inputField.value) {
-				if (this.params.dateType !== 'gregorian') {
-					var date = new Date(inputAltValueDate);
-					this.inputField.value = date.print(self.params.dateFormat, self.params.dateType, true);
-				}
-				this.date = new Date(inputAltValueDate);
+			if (this.params.dateType !== 'gregorian') {
+				var date = new Date(inputAltValueDate);
+				this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true);
 			}
+			this.date = new Date(inputAltValueDate);
 		} else {
 			this.date = new Date();
 		}
@@ -252,7 +250,7 @@
 
 	/** Method to catch clicks outside of the calendar (used as close call) */
 	JoomlaCalendar.prototype._handleDocumentClick = function (ev) {
-        var el = ev.target;
+		var el = ev.target;
 
 		for (; el !== null && el !== this.element; el = el.parentNode);
 
@@ -463,7 +461,7 @@
 			this.moveCursorBy( -1);
 		}
 		if (ev.target === this.inputField && !(K>48 || K<57 || K===186 || K===189 || K===190 || K === 32))
-		return stopCalEvent(ev);
+			return stopCalEvent(ev);
 	};
 
 	/** Method to create the html stracture of the calendar */
@@ -525,7 +523,7 @@
 					cell.innerHTML = "<div unselectable='on'" + classes + ">" + text + "</div>";
 				}
 				return cell;
-		};
+			};
 
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
@@ -844,7 +842,7 @@
 			self.show();
 		}, false);
 
-        // @TODO this need to be added only once, or getJoomlaCalendarValuesFromAlt should be part of JoomlaCalendar.prototype
+		// @TODO this need to be added only once, or getJoomlaCalendarValuesFromAlt should be part of JoomlaCalendar.prototype
 		addCalEvent(this.inputField.form, 'submit', getJoomlaCalendarValuesFromAlt, true);
 	};
 
