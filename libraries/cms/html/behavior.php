@@ -669,10 +669,10 @@ abstract class JHtmlBehavior
 				'version'  => 'auto',
 			),
 			array(
-				'id'                      => 'keepalive',
-				'async'                   => 'async',
-				'data-keepalive-interval' => ($lifeTime - 0.25) * 60 * 1000,
-				'data-keepalive-uri'      => JRoute::_($uri, false),
+				'id'            => 'keepalive',
+				'async'         => 'async',
+				'data-interval' => ($lifeTime - 0.25) * 60 * 1000,
+				'data-uri'      => JRoute::_($uri, false),
 			)
 		);
 
