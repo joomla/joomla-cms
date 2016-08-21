@@ -91,17 +91,52 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @since __DEPLOY_VERSION__
 	 */
 	Joomla.getOptions = function( key, def ) {
-
 		// Load options if they not exists
 		if (!Joomla.optionsStorage) {
-			var element = document.getElementById('joomla-script-options'),
-				str = element ? (element.text || element.textContent) : null,
-				options = str ? JSON.parse(str) : null;
-
-			Joomla.optionsStorage = options || {};
+			Joomla.loadOptions();
 		}
 
 		return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
+	};
+
+	/**
+	 * Load new options from given options object or from Element
+	 *
+	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.loadOptions = function( options ) {
+		// Load form the script container
+		if (!options) {
+			var elements = document.getElementsByClassName('joomla-script-options-new'),
+				str, element, option;
+
+			for (var i = 0, l = elements.length; i < l; i++) {
+				element = elements[i];
+				str     = element.text || element.textContent;
+				option  = JSON.parse(str);
+
+				option ? Joomla.loadOptions(option) : null;
+
+				element.className = 'joomla-script-options-loaded';
+			}
+
+			return;
+		}
+
+		// Initial loading
+		if (!Joomla.optionsStorage) {
+			Joomla.optionsStorage = options;
+		}
+		// Merge with existing
+		else {
+			for (var p in options) {
+				if (options.hasOwnProperty(p)) {
+					Joomla.optionsStorage[p] = options[p];
+				}
+			}
+		}
 	};
 
 	/**
