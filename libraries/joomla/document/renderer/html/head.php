@@ -268,16 +268,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
-		// Generate script language declarations.
-		if (JText::script())
-		{
-			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-
-			$buffer .= $tab . '<script type="application/json" id="joomla-text-strings">';
-			$buffer .= json_encode(JText::script(), $prettyPrint);
-			$buffer .= '</script>' . $lnEnd;
-		}
-
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
 		foreach (array_unique($document->_custom) as $custom)
 		{

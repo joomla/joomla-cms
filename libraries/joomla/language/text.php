@@ -387,6 +387,9 @@ class JText
 
 			// Load core.js dependency
 			JHtml::_('behavior.core');
+
+			// Update Joomla.JText script options
+			JFactory::getDocument()->addScriptOptions('joomla.jtext', self::$strings, false);
 		}
 
 		return self::$strings;

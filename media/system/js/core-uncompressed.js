@@ -72,7 +72,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		'_': function( key, def ) {
 
 			if (!this.preloaded) {
-				this.preload();
+				this.load(Joomla.getOptions('joomla.jtext', {}));
+				this.preloaded = true;
 			}
 
 			def = def === undefined ? '' : def;
@@ -90,24 +91,6 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				if (!object.hasOwnProperty(key)) continue;
 				this.strings[ key.toUpperCase() ] = object[ key ];
 			}
-			return this;
-		},
-
-		/**
-		 * Preload strings from <script type="application/json" id="joomla-text-strings"> container
-		 *
-		 * @param {String} id   Id of the container
-		 * @returns {Joomla.JText}
-		 */
-		preload: function( id ) {
-			id = id || 'joomla-text-strings';
-			var element = document.getElementById(id),
-				str = element ? (element.text || element.textContent) : null,
-				options = str ? JSON.parse(str) : null;
-
-			this.load(options || {});
-			this.preloaded = true;
-
 			return this;
 		}
 	};
