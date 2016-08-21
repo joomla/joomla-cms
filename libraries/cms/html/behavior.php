@@ -638,37 +638,43 @@ abstract class JHtmlBehavior
 		}
 
 		// By default we set a fixed refresh value (15 min, the same as com_config default)
-		$life_time = JFactory::getConfig()->get('lifetime', 15);
+		$lifeTime = JFactory::getConfig()->get('lifetime', 15);
 
 		// The shortest refresh period is one minute to prevent uri fetching overflow.
-		if ($life_time < 1)
+		if ($lifeTime < 1)
 		{
-			$life_time = 1;
+			$lifeTime = 1;
 		}
 
 		// The longest refresh period is one hour to prevent integer overflow.
-		if ($life_time > 60)
+		if ($lifeTime > 60)
 		{
-			$life_time = 60;
+			$lifeTime = 60;
 		}
-
-		// We remove a quarter of a minute to prevent the session from expiring before is renewed
-		$life_time = $life_time - 0.25;
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
+		$uri = 'index.php';
+
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$uri = JRoute::_('index.php?option=com_ajax&format=json', false);
-		}
-		else
-		{
-			$uri = JRoute::_('index.php');
+			$uri .= '?option=com_ajax&format=json';
 		}
 
-		JHtml::_('script', 'jui/keepalive.min.js'
-			array('relative' => true, 'version' => 'auto'),
-			array('id' => 'keepalive', 'async' => 'async', 'data-keepalive-interval' => $life_time * 60 * 1000, 'data-keepalive-uri' => $uri)
-			);
+		static::polyfill('event', 'lt IE 9');
+
+		// Add script. Note: We remove a quarter of a minute to prevent the session from expiring before is renewed
+		JHtml::_('script', 'jui/keepalive.min.js',
+			array(
+				'relative' => true,
+				'version'  => 'auto',
+			),
+			array(
+				'id'                      => 'keepalive',
+				'async'                   => 'async',
+				'data-keepalive-interval' => ($lifeTime - 0.25) * 60 * 1000,
+				'data-keepalive-uri'      => JRoute::_($uri, false),
+			)
+		);
 
 		static::$loaded[__METHOD__] = true;
 
