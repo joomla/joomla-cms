@@ -90,7 +90,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	Joomla.getOptions = function( key, def) {
+	Joomla.getOptions = function( key, def ) {
 
 		// Load options if they not exists
 		if (!Joomla.optionsStorage) {
@@ -101,7 +101,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			Joomla.optionsStorage = options || {};
 		}
 
-		return Joomla.optionsStorage[key] || def;
+		return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
 	};
 
 	/**
