@@ -4,5 +4,5 @@ SELECT 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.or
 INSERT INTO [#__update_sites_extensions] ([update_site_id], [extension_id])
 SELECT SCOPE_IDENTITY(), 600;
 
-UPDATE [#__assets] SET [name] = REPLACE([name], 'com_user.notes.category','com_users.category');
-UPDATE [#__categories] SET [extension] = REPLACE([extension], 'com_user.notes.category','com_users.category');
+UPDATE [#__assets] SET [name] = REPLACE([name], 'com_user.notes.category', 'com_users.category');
+UPDATE [#__categories] SET [extension] = REPLACE([extension], 'com_user.notes.category', 'com_users.category');
