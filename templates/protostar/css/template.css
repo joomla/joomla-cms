@@ -3444,8 +3444,7 @@ input[type="submit"].btn.btn-mini {
 .navbar .nav .dropdown-toggle .caret {
 	margin-top: 8px;
 }
-.navbar .nav > li > a:focus,
-.navbar .nav > li > a:hover {
+.navbar .nav > li > a:focus {
 	outline: thin dotted #333;
 	outline: 5px auto -webkit-focus-ring-color;
 	outline-offset: -2px;
