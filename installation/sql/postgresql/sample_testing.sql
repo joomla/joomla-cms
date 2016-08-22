@@ -6,6 +6,7 @@ TRUNCATE "#__modules" RESTART IDENTITY;
 TRUNCATE "#__modules_menu" RESTART IDENTITY;
 TRUNCATE "#__tags" RESTART IDENTITY;
 TRUNCATE "#__usergroups" RESTART IDENTITY;
+TRUNCATE "#__viewlevels" RESTART IDENTITY;
 
 --
 -- Dumping data for table #__assets
@@ -845,3 +846,16 @@ INSERT INTO "#__usergroups" VALUES
 (13,1,2,3,'Guest');
 
 SELECT setval('#__usergroups_id_seq', max(id)) FROM #__usergroups;
+
+--
+-- Dumping data for table #__viewlevels
+--
+INSERT INTO "#__viewlevels" VALUES
+(1,'Public',0,'[1]'),
+(2,'Registered',2,'[6,2,8]'),
+(3,'Special',4,'[6,3,8]'),
+(4,'Customer Access Level (Example)',3,'[6,3,12]'),
+(5,'Guest',1,'[13]'),
+(6,'Super Users',5,'[8]');
+
+SELECT setval('#__viewlevels_id_seq', max(id)) FROM #__viewlevels;

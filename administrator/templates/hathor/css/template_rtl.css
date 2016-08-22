@@ -494,6 +494,21 @@ table.paramlist td.paramlist_description {
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
 }
+fieldset.adminform .input-prepend,
+fieldset.adminform .input-append,
+fieldset.panelform .input-prepend,
+fieldset.panelform .input-append {
+	float: right;
+}
+fieldset.adminform .adminformlist .btn.modal,
+fieldset.adminform .input-prepend > *,
+fieldset.adminform .input-append > *,
+fieldset.panelform .adminformlist .btn.modal,
+fieldset.panelform .input-prepend > *,
+fieldset.panelform .input-append > * {
+	float: none;
+	vertical-align: middle;
+}
 
 	/* Table styles are for use with tabular data */
 table.adminform {
