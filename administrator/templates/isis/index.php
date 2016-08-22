@@ -273,7 +273,7 @@ if ($this->params->get('linkColor'))
 <?php else : ?>
 	<div style="margin-bottom: 20px">
 		<!-- target for skip to content link -->
-		<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?><</a>
+		<a id="skiptarget" class="element-invisible"><?php echo JText::_('TPL_ISIS_SKIP_TO_MAIN_CONTENT_HERE'); ?></a>
 	</div>
 <?php endif; ?>
 <!-- container-fluid -->
