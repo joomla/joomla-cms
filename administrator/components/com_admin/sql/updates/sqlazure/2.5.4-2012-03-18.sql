@@ -5,9 +5,5 @@ SELECT 28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, 
 
 SET IDENTITY_INSERT [#__extensions] OFF;
 
-SET IDENTITY_INSERT [#__menu] ON;
-
 INSERT INTO [#__menu] ([menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [ordering], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
 SELECT 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 0, 1, 1, 28, 0, 0, '1900-01-01 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1;
-
-SET IDENTITY_INSERT [#__menu] OFF;
