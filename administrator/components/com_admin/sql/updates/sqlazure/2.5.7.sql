@@ -1,4 +1,3 @@
-
 SET IDENTITY_INSERT [#__update_sites] ON;
 
 INSERT INTO [#__update_sites] ([name], [type], [location], [enabled], [last_check_timestamp])
