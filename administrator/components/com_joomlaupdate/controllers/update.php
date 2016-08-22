@@ -94,16 +94,16 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function finalise()
 	{
-		// Finalize with login page. Used for pre-token check versions.
-		if (JFactory::getApplication()->input->get('method', '', 'cmd') !== 'direct'
-			&& !JSession::checkToken('get'))
+		/*
+		 * Finalize with login page. Used for pre-token check versions
+		 * to allow updates without fails but with a maximum of security.
+		 */
+		if (!JSession::checkToken('get'))
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
 			return false;
 		}
-
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
@@ -367,7 +367,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function confirmfinalise()
+	public function finaliseconfirm()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -405,6 +405,6 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_CONFIRM_FINALISE'), JLog::INFO, 'Update');
 
 		// Redirect back to the actual finalise page
-		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&method=direct&' . JFactory::getSession()->getFormToken() . '=1');
+		$this->setRedirect('index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1');
 	}
 }

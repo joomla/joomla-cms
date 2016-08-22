@@ -76,7 +76,12 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<button tabindex="5" class="btn btn-primary center">
+					<a tabindex="4" class="btn btn-danger btn-small" href="index.php?option=com_joomlaupdate">
+						<span class="icon-cancel icon-white"></span> <?php echo JText::_('JCANCEL'); ?>
+					</a>
+				</div>
+				<div class="btn-group">
+					<button tabindex="5" class="btn btn-primary btn-large">
 						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
@@ -84,7 +89,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		</div>
 
 		<input type="hidden" name="option" value="com_joomlaupdate"/>
-		<input type="hidden" name="task" value="update.confirmfinalise" />
+		<input type="hidden" name="task" value="update.finaliseconfirm" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>
