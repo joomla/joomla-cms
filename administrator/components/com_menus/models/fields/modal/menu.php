@@ -130,7 +130,7 @@ class JFormFieldModal_Menu extends JFormField
 		{
 			$linkItems .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkItem  .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM') . ' (' . $this->element['label'] . ')';
+			$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM') . ' &#8212; ' . $this->element['label'];
 		}
 		else
 		{
