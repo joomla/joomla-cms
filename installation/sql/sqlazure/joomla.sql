@@ -1680,121 +1680,240 @@ CREATE NONCLUSTERED INDEX [idx_word_lang] ON [#__finder_terms_common]
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('a', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('about', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('after', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('ago', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('all', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('am', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('an', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('and', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('ani', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('any', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('are', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('aren''t', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('as', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('at', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('be', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('but', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('by', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('for', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('from', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('get', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('go', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('how', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('if', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('in', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('into', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('is', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('isn''t', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('it', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('its', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('me', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('more', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('most', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('must', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('my', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('new', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('no', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('none', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('not', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('noth', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('nothing', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('of', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('off', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('often', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('old', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('on', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('onc', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('once', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('onli', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('only', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('or', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('other', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('our', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('ours', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('out', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('over', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('page', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('she', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('should', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('small', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('so', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('some', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('than', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('thank', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('that', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('the', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('their', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('theirs', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('them', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('then', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('there', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('these', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('they', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('this', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('those', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('thus', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('time', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('times', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('to', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('too', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('true', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('under', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('until', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('up', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('upon', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('use', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('user', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('users', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('veri', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('version', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('very', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('via', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('want', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('was', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('way', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('were', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('what', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('when', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('where', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('whi', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('which', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('who', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('whom', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('whose', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('why', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('wide', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('will', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('with', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('within', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('without', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('would', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('yes', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('yet', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('you', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('your', 'en');
-INSERT [#__finder_terms_common] ([term], [language]) VALUES ('yours', 'en');
+SET IDENTITY_INSERT [#__finder_terms_common] ON;
+
+INSERT INTO [#__finder_terms_common] ([term], [language])
+SELECT 'a', 'en'
+UNION ALL
+SELECT 'about', 'en'
+UNION ALL
+SELECT 'after', 'en'
+UNION ALL
+SELECT 'ago', 'en'
+UNION ALL
+SELECT 'all', 'en'
+UNION ALL
+SELECT 'am', 'en'
+UNION ALL
+SELECT 'an', 'en'
+UNION ALL
+SELECT 'and', 'en'
+UNION ALL
+SELECT 'ani', 'en'
+UNION ALL
+SELECT 'any', 'en'
+UNION ALL
+SELECT 'are', 'en'
+UNION ALL
+SELECT 'aren''t', 'en'
+UNION ALL
+SELECT 'as', 'en'
+UNION ALL
+SELECT 'at', 'en'
+UNION ALL
+SELECT 'be', 'en'
+UNION ALL
+SELECT 'but', 'en'
+UNION ALL
+SELECT 'by', 'en'
+UNION ALL
+SELECT 'for', 'en'
+UNION ALL
+SELECT 'from', 'en'
+UNION ALL
+SELECT 'get', 'en'
+UNION ALL
+SELECT 'go', 'en'
+UNION ALL
+SELECT 'how', 'en'
+UNION ALL
+SELECT 'if', 'en'
+UNION ALL
+SELECT 'in', 'en'
+UNION ALL
+SELECT 'into', 'en'
+UNION ALL
+SELECT 'is', 'en'
+UNION ALL
+SELECT 'isn''t', 'en'
+UNION ALL
+SELECT 'it', 'en'
+UNION ALL
+SELECT 'its', 'en'
+UNION ALL
+SELECT 'me', 'en'
+UNION ALL
+SELECT 'more', 'en'
+UNION ALL
+SELECT 'most', 'en'
+UNION ALL
+SELECT 'must', 'en'
+UNION ALL
+SELECT 'my', 'en'
+UNION ALL
+SELECT 'new', 'en'
+UNION ALL
+SELECT 'no', 'en'
+UNION ALL
+SELECT 'none', 'en'
+UNION ALL
+SELECT 'not', 'en'
+UNION ALL
+SELECT 'noth', 'en'
+UNION ALL
+SELECT 'nothing', 'en'
+UNION ALL
+SELECT 'of', 'en'
+UNION ALL
+SELECT 'off', 'en'
+UNION ALL
+SELECT 'often', 'en'
+UNION ALL
+SELECT 'old', 'en'
+UNION ALL
+SELECT 'on', 'en'
+UNION ALL
+SELECT 'onc', 'en'
+UNION ALL
+SELECT 'once', 'en'
+UNION ALL
+SELECT 'onli', 'en'
+UNION ALL
+SELECT 'only', 'en'
+UNION ALL
+SELECT 'or', 'en'
+UNION ALL
+SELECT 'other', 'en'
+UNION ALL
+SELECT 'our', 'en'
+UNION ALL
+SELECT 'ours', 'en'
+UNION ALL
+SELECT 'out', 'en'
+UNION ALL
+SELECT 'over', 'en'
+UNION ALL
+SELECT 'page', 'en'
+UNION ALL
+SELECT 'she', 'en'
+UNION ALL
+SELECT 'should', 'en'
+UNION ALL
+SELECT 'small', 'en'
+UNION ALL
+SELECT 'so', 'en'
+UNION ALL
+SELECT 'some', 'en'
+UNION ALL
+SELECT 'than', 'en'
+UNION ALL
+SELECT 'thank', 'en'
+UNION ALL
+SELECT 'that', 'en'
+UNION ALL
+SELECT 'the', 'en'
+UNION ALL
+SELECT 'their', 'en'
+UNION ALL
+SELECT 'theirs', 'en'
+UNION ALL
+SELECT 'them', 'en'
+UNION ALL
+SELECT 'then', 'en'
+UNION ALL
+SELECT 'there', 'en'
+UNION ALL
+SELECT 'these', 'en'
+UNION ALL
+SELECT 'they', 'en'
+UNION ALL
+SELECT 'this', 'en'
+UNION ALL
+SELECT 'those', 'en'
+UNION ALL
+SELECT 'thus', 'en'
+UNION ALL
+SELECT 'time', 'en'
+UNION ALL
+SELECT 'times', 'en'
+UNION ALL
+SELECT 'to', 'en'
+UNION ALL
+SELECT 'too', 'en'
+UNION ALL
+SELECT 'true', 'en'
+UNION ALL
+SELECT 'under', 'en'
+UNION ALL
+SELECT 'until', 'en'
+UNION ALL
+SELECT 'up', 'en'
+UNION ALL
+SELECT 'upon', 'en'
+UNION ALL
+SELECT 'use', 'en'
+UNION ALL
+SELECT 'user', 'en'
+UNION ALL
+SELECT 'users', 'en'
+UNION ALL
+SELECT 'veri', 'en'
+UNION ALL
+SELECT 'version', 'en'
+UNION ALL
+SELECT 'very', 'en'
+UNION ALL
+SELECT 'via', 'en'
+UNION ALL
+SELECT 'want', 'en'
+UNION ALL
+SELECT 'was', 'en'
+UNION ALL
+SELECT 'way', 'en'
+UNION ALL
+SELECT 'were', 'en'
+UNION ALL
+SELECT 'what', 'en'
+UNION ALL
+SELECT 'when', 'en'
+UNION ALL
+SELECT 'where', 'en'
+UNION ALL
+SELECT 'whi', 'en'
+UNION ALL
+SELECT 'which', 'en'
+UNION ALL
+SELECT 'who', 'en'
+UNION ALL
+SELECT 'whom', 'en'
+UNION ALL
+SELECT 'whose', 'en'
+UNION ALL
+SELECT 'why', 'en'
+UNION ALL
+SELECT 'wide', 'en'
+UNION ALL
+SELECT 'will', 'en'
+UNION ALL
+SELECT 'with', 'en'
+UNION ALL
+SELECT 'within', 'en'
+UNION ALL
+SELECT 'without', 'en'
+UNION ALL
+SELECT 'would', 'en'
+UNION ALL
+SELECT 'yes', 'en'
+UNION ALL
+SELECT 'yet', 'en'
+UNION ALL
+SELECT 'you', 'en'
+UNION ALL
+SELECT 'your', 'en'
+UNION ALL
+SELECT 'yours', 'en';
+
+SET IDENTITY_INSERT [#__finder_terms_common] OFF;
 
 /****** Object:  Table [#__finder_tokens] ******/
 SET QUOTED_IDENTIFIER ON;
