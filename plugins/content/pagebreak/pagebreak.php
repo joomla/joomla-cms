@@ -29,14 +29,6 @@ jimport('joomla.utilities.utility');
 class PlgContentPagebreak extends JPlugin
 {
 	/**
-	 * Flag to check if the language file is loaded.
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $languageLoaded = false;
-
-	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
@@ -101,11 +93,7 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// Load plugin language files only when needed (ex: not needed if no system-pagebreak class exists).
-		if (!$this->languageLoaded)
-		{
-			$this->loadLanguage();
-			$this->languageLoaded = true;
-		}
+		$this->loadLanguage();
 
 		// Find all instances of plugin and put in $matches.
 		$matches = array();
