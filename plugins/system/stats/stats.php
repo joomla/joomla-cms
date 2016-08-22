@@ -49,7 +49,7 @@ class PlgSystemStats extends JPlugin
 	 * @var    boolean
 	 * @since  3.5
 	 */
-	protected $autoloadLanguage = true;
+	protected $autoloadLanguage = false;
 
 	/**
 	 * Database object
@@ -98,6 +98,9 @@ class PlgSystemStats extends JPlugin
 		{
 			return;
 		}
+
+		// Load plugin language files only when needed (if plugin enabled and user in administrator client).
+		parent::loadLanguage();
 
 		JHtml::_('jquery.framework');
 		JHtml::script('plg_system_stats/stats.js', false, true, false);
