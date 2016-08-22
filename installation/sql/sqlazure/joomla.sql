@@ -34,7 +34,7 @@ CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 SET IDENTITY_INSERT [#__assets] ON;
 
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules])
-SELECT 1, 0, 0, 105, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1, 0, 0, 103, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'
 UNION ALL
@@ -136,9 +136,7 @@ SELECT 52, 18, 68, 69, 2, 'com_modules.module.79', 'Multilanguage status', '{"co
 UNION ALL
 SELECT 53, 18, 70, 71, 2, 'com_modules.module.86', 'Joomla Version', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}'
-UNION ALL
-SELECT 55, 1, 103, 104, 1, 'com_associations', 'com_associations', '{"core.admin":{"7":1},"core.manage":{"6":1}}';
+SELECT 54, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
