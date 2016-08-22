@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>3.7.0</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_MENU_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="menu">menu.php</filename>
