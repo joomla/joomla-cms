@@ -129,6 +129,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $state_field = 'state';
 
 	/**
+	 * The field the identifier is stored in.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $identifier_field = 'id';
+
+	/**
 	 * Indicate if the content categories are defined using hierarchies.
 	 *
 	 * @var    bool
