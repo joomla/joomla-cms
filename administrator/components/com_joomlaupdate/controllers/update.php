@@ -96,7 +96,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	{
 		/*
 		 * Finalize with login page. Used for pre-token check versions
-		 * to allow updates without fails but with a maximum of security.
+		 * to allow updates without problems but with a maximum of security.
 		 */
 		if (!JSession::checkToken('get'))
 		{
@@ -129,7 +129,16 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function cleanup()
 	{
-		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+		/*
+		 * Cleanup with login page. Used for pre-token check versions to be able to update
+		 * from =< 3.2.7 to allow updates without problems but with a maximum of security.
+		 */
+		if (!JSession::checkToken('get'))
+		{
+			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
+
+			return false;
+		}
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
