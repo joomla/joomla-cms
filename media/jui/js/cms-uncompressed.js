@@ -42,7 +42,11 @@ if (jQuery) {
 					// Convert to array to allow multiple values in the field (e.g. type=list multiple) and normalize as string
 					if (!(typeof itemval === 'object'))
 					{
-						itemval = JSON.parse('["' + itemval + '"]');
+						try{
+							itemval = JSON.parse('["' + itemval + '"]');
+						}catch(ex){
+							itemval = [itemval];
+						}
 					}
 
 					// Test if any of the values of the field exists in showon conditions
