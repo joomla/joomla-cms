@@ -99,7 +99,7 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		// Load plugin language files only when needed (if plugin enabled and user in administrator client).
+		// Load plugin language files only when needed (ex: they are not needed in site client).
 		parent::loadLanguage();
 
 		JHtml::_('jquery.framework');
