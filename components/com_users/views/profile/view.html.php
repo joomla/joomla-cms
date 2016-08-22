@@ -84,9 +84,6 @@ class UsersViewProfile extends JViewLegacy
 			return false;
 		}
 
-		$this->data->tags = new JHelperTags;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
-
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
 
