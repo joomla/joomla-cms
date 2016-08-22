@@ -115,7 +115,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 		{
 			$linkNewsfeeds .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkNewsfeed  .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle     = JText::_('COM_NEWSFEEDS_CHANGE_FEED') . ' (' . $this->element['label'] . ')';
+			$modalTitle     = JText::_('COM_NEWSFEEDS_CHANGE_FEED') . ' &#8212; ' . $this->element['label'];
 		}
 		else
 		{

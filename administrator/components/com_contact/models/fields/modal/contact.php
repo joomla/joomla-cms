@@ -115,7 +115,7 @@ class JFormFieldModal_Contact extends JFormField
 		{
 			$linkContacts .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkContact  .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle    = JText::_('COM_CONTACT_CHANGE_CONTACT') . ' (' . $this->element['label'] . ')';
+			$modalTitle    = JText::_('COM_CONTACT_CHANGE_CONTACT') . ' &#8212; ' . $this->element['label'];
 		}
 		else
 		{
