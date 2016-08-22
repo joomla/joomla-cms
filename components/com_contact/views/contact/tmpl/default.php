@@ -31,15 +31,13 @@ jimport('joomla.html.html.bootstrap');
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_contact_category') == 'show_no_link') : ?>
+	<?php $show_contact_category = $this->params->get('show_contact_category'); ?>
+	
+	<?php if ($show_contact_category == 'show_no_link') : ?>
 		<h3>
 			<span class="contact-category"><?php echo $this->contact->category_title; ?></span>
 		</h3>
-	<?php endif; ?>
-
-	<?php echo $this->item->event->afterDisplayTitle; ?>
-
-	<?php if ($this->params->get('show_contact_category') == 'show_with_link') : ?>
+	<?php elseif ($show_contact_category == 'show_with_link') : ?>
 		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->contact->catid); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
@@ -47,6 +45,8 @@ jimport('joomla.html.html.bootstrap');
 			</span>
 		</h3>
 	<?php endif; ?>
+
+	<?php echo $this->item->event->afterDisplayTitle; ?>
 
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
