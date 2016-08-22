@@ -17,14 +17,6 @@ defined('_JEXEC') or die;
 class PlgSystemLogout extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe -- event dispatcher.
@@ -48,7 +40,7 @@ class PlgSystemLogout extends JPlugin
 			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
+			JError::setErrorHandling(E_ALL, 'callback', array($this, 'handleError'));
 		}
 	}
 
@@ -86,17 +78,20 @@ class PlgSystemLogout extends JPlugin
 	 *
 	 * @since   1.6
 	 */
-	public static function handleError(&$error)
+	public static function handleError($error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 and $app->isSite())
+		if ($error->getCode() == 403 && $app->isSite())
 		{
+			// Load language file.
+			$this->loadLanguage();
+
 			// Redirect to the home page.
-			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
-			$app->redirect('index.php');
+			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), 'message');
+			$app->redirect(JRoute::_('index.php'));
 		}
 		else
 		{
