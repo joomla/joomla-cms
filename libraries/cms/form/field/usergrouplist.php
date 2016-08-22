@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Field to load a drop down list of available user groups
+ * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */

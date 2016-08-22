@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Activity Watching Events class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/activity/watching/
+ * @documentation https://developer.github.com/v3/activity/watching/
  *
- * @since  3.3 (CMS)
+ * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageActivityWatching extends JGithubPackage
 {
@@ -100,7 +101,7 @@ class JGithubPackageActivityWatching extends JGithubPackage
 
 		$data = array(
 			'subscribed' => $subscribed,
-			'ignored'    => $ignored
+			'ignored'    => $ignored,
 		);
 
 		return $this->processResponse(

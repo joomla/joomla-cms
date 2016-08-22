@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Facebook API access token.
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookOAuth extends JOAuth2Client
 {
@@ -41,7 +42,7 @@ class JFacebookOAuth extends JOAuth2Client
 		$this->options->def('authurl', 'http://www.facebook.com/dialog/oauth');
 		$this->options->def('tokenurl', 'https://graph.facebook.com/oauth/access_token');
 
-		// Call the JOauthOauth2client constructor to setup the object.
+		// Call the JOAuth2Client constructor to setup the object.
 		parent::__construct($this->options, $client, $input);
 	}
 

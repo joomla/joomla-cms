@@ -147,6 +147,7 @@ class CacheModelCache extends JModelList
 				if ($limit !== 0)
 				{
 					$start = (int) $this->getState('list.start', 0);
+
 					return array_slice($this->_data, $start, $limit);
 				}
 			}
@@ -164,15 +165,20 @@ class CacheModelCache extends JModelList
 	 *
 	 * @return object
 	 */
-	public function getCache()
+	public function getCache($client_id = null)
 	{
 		$conf = JFactory::getConfig();
+
+		if (is_null($client_id))
+		{
+			$client_id = $this->getState('client_id');
+		}
 
 		$options = array(
 			'defaultgroup' => '',
 			'storage'      => $conf->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => ($this->getState('client_id') === 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'cachebase'    => (int) $client_id === 1 ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		$cache = JCache::getInstance('', $options);
@@ -184,6 +190,8 @@ class CacheModelCache extends JModelList
 	 * Method to get client data.
 	 *
 	 * @return array
+	 *
+	 * @deprecated  4.0  No replacement.
 	 */
 	public function getClient()
 	{
@@ -193,7 +201,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups.
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	public function getTotal()
 	{
@@ -226,12 +234,11 @@ class CacheModelCache extends JModelList
 	 *
 	 * @param   string  $group  Cache group name.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success, false otherwise
 	 */
 	public function clean($group = '')
 	{
-		$cache = $this->getCache();
-		$cache->clean($group);
+		return $this->getCache()->clean($group);
 	}
 
 	/**
@@ -239,14 +246,21 @@ class CacheModelCache extends JModelList
 	 *
 	 * @param   array  $array  Array of cache group names.
 	 *
-	 * @return  void
+	 * @return  array  Array with errors, if they exist.
 	 */
 	public function cleanlist($array)
 	{
+		$errors = array();
+
 		foreach ($array as $group)
 		{
-			$this->clean($group);
+			if (!$this->clean($group))
+			{
+				$errors[] = $group;
+			}
 		}
+
+		return $errors;
 	}
 
 	/**
@@ -256,8 +270,6 @@ class CacheModelCache extends JModelList
 	 */
 	public function purge()
 	{
-		$cache = JFactory::getCache('');
-
-		return $cache->gc();
+		return JFactory::getCache('')->gc();
 	}
 }

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerResult', __DIR__ . '/result.php');
@@ -185,7 +187,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws    Exception on error.
+	 * @throws  Exception on error.
 	 */
 	public function onStartIndex()
 	{
@@ -293,7 +295,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws    Exception on database error.
+	 * @throws  Exception on database error.
 	 */
 	protected function change($id, $property, $value)
 	{
@@ -645,9 +647,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Get the total number of content items to index.
 		$this->db->setQuery($query);
-		$return = (int) $this->db->loadResult();
 
-		return $return;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -671,7 +672,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$row = $this->db->loadAssoc();
 
 		// Convert the item to a result object.
-		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+		$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -706,7 +707,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($rows as $row)
 		{
 			// Convert the item to a result object.
-			$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
+			$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
 
 			// Set the item type.
 			$item->type_id = $this->type_id;
@@ -742,9 +743,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getListQuery($query = null)
 	{
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
-
-		return $query;
+		return $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
 	}
 
 	/**
@@ -764,9 +763,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__extensions'))
 			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
-		$type = $this->db->loadResult();
 
-		return $type;
+		return $this->db->loadResult();
 	}
 
 	/**
@@ -857,9 +855,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			->from($this->db->quoteName('#__finder_types'))
 			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
-		$result = (int) $this->db->loadResult();
 
-		return $result;
+		return (int) $this->db->loadResult();
 	}
 
 	/**
@@ -1043,18 +1040,16 @@ abstract class FinderIndexerAdapter extends JPlugin
 			}
 		}
 
-		// Translate the state
-		switch ($item)
-		{
-			// Published and archived items only should return a published state
-			case 1;
-			case 2:
-				return 1;
-
-			// All other states should return a unpublished state
-			default;
-			case 0:
-				return 0;
-		}
+	// Translate the state
+	switch ($item)
+	{
+		// Published and archived items only should return a published state
+		case 1;
+		case 2:
+			return 1;
+		// All other states should return a unpublished state
+		default;
+		case 0:
+			return 0;
 	}
 }

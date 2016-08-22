@@ -196,6 +196,12 @@ class CheckinModelCheckin extends JModelList
 				if ($db->execute())
 				{
 					$results[$tn] = $db->loadResult();
+
+					// Show only tables with items to checkin.
+					if ((int) $results[$tn] === 0)
+					{
+						unset($results[$tn]);
+					}
 				}
 				else
 				{
@@ -232,6 +238,7 @@ class CheckinModelCheckin extends JModelList
 
 			// Pagination
 			$limit = (int) $this->getState('list.limit');
+
 			if ($limit !== 0)
 			{
 				$this->items = array_slice($results, $this->getState('list.start'), $limit);

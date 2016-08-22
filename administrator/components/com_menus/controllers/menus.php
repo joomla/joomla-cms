@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The Menu List Controller
  *
@@ -43,13 +45,11 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
-	 * Remove a item.
+	 * Remove an item.
 	 *
 	 * @return  void
 	 *
@@ -60,30 +60,44 @@ class MenusControllerMenus extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
+		$user = JFactory::getUser();
+		$app  = JFactory::getApplication();
+		$cids = (array) $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1)
+		if (count($cids) < 1)
 		{
-			JError::raiseWarning(500, JText::_('COM_MENUS_NO_MENUS_SELECTED'));
+			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'notice');
 		}
 		else
 		{
-			// Get the model.
-			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
-			// Remove the items.
-			if (!$model->delete($cid))
+			// Access checks.
+			foreach ($cids as $i => $id)
 			{
-				$this->setMessage($model->getError());
+				if (!$user->authorise('core.delete', 'com_menus.menu.' . (int) $id))
+				{
+					// Prune items that you can't change.
+					unset($cids[$i]);
+					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+				}
 			}
-			else
+
+			if (count($cids) > 0)
 			{
-				$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cid)));
+				// Get the model.
+				$model = $this->getModel();
+
+				// Make sure the item ids are integers
+				$cids = ArrayHelper::toInteger($cids);
+
+				// Remove the items.
+				if (!$model->delete($cids))
+				{
+					$this->setMessage($model->getError());
+				}
+				else
+				{
+					$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cids)));
+				}
 			}
 		}
 
@@ -124,9 +138,9 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return   void
+	 * @return  JException|void  JException instance on error
 	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function resync()
 	{

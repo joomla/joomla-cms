@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Extension Manager Update Sites View
@@ -77,6 +77,17 @@ class InstallerViewUpdatesites extends InstallerViewDefault
 			JToolbarHelper::publish('updatesites.publish', 'JTOOLBAR_ENABLE', true);
 			JToolbarHelper::unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE', true);
 			JToolbarHelper::divider();
+		}
+
+		if ($canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'updatesites.delete', 'JTOOLBAR_DELETE');
+			JToolbarHelper::divider();
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
 
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');

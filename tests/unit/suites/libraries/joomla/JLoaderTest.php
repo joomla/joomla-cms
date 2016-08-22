@@ -220,6 +220,23 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Tests the JLoader::load method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function testLoadForSinglePart()
+	{
+		JLoader::registerPrefix('Joomla', JPATH_TEST_STUBS . '/loader', true);
+
+		$this->assertTrue(class_exists('JoomlaPatch'), 'Tests that a class with a single part is loaded in the base path.');
+		$this->assertTrue(class_exists('JoomlaPatchTester'), 'Tests that a class with multiple parts is loaded from the correct path.');
+		$this->assertTrue(class_exists('JoomlaTester'), 'Tests that a class with a single part is loaded from a folder (legacy behavior).');
+		$this->assertFalse(class_exists('JoomlaNotPresent'), 'Tests that a non-existing class is not found.');
+	}
+
+	/**
 	 * Tests if JLoader::applyAliasFor runs automatically when loading a class by its real name
 	 *
 	 * @return  void

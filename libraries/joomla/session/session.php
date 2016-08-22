@@ -32,12 +32,12 @@ class JSession implements IteratorAggregate
 	protected $_state = 'inactive';
 
 	/**
-	 * Maximum age of unused session in minutes
+	 * Maximum age of unused session in seconds
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $_expire = 15;
+	protected $_expire = 900;
 
 	/**
 	 * The session store object.
@@ -198,9 +198,9 @@ class JSession implements IteratorAggregate
 	}
 
 	/**
-	 * Get expiration time in minutes
+	 * Get expiration time in seconds
 	 *
-	 * @return  integer  The session expiration time in minutes
+	 * @return  integer  The session expiration time in seconds
 	 *
 	 * @since   11.1
 	 */
@@ -346,7 +346,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state === 'destroyed')
 		{
 			// @TODO : raise error
-			return null;
+			return;
 		}
 
 		return $this->_handler->getName();
@@ -364,7 +364,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state === 'destroyed')
 		{
 			// @TODO : raise error
-			return null;
+			return;
 		}
 
 		return $this->_handler->getId();
@@ -522,7 +522,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		$prev = $this->data->get($namespace . '.' . $name, null);
@@ -549,7 +549,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		return !is_null($this->data->get($namespace . '.' . $name, null));
@@ -573,7 +573,7 @@ class JSession implements IteratorAggregate
 		if ($this->_state !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		return $this->data->set($namespace . '.' . $name, null);
@@ -604,8 +604,16 @@ class JSession implements IteratorAggregate
 		// Perform security checks
 		if (!$this->_validate())
 		{
-			// Destroy the session if it's not valid
-			$this->destroy();
+			// If the session isn't valid because it expired try to restart it
+			// else destroy it.
+			if ($this->_state === 'expired')
+			{
+				$this->restart();
+			}
+			else
+			{
+				$this->destroy();
+			}
 		}
 
 		if ($this->_dispatcher instanceof JEventDispatcher)
@@ -690,6 +698,7 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
+		// Kill session
 		$this->_handler->clear();
 
 		// Create new data storage
@@ -724,13 +733,16 @@ class JSession implements IteratorAggregate
 		$this->_state = 'restart';
 
 		// Regenerate session id
-		$this->_handler->regenerate(true, null);
 		$this->_start();
+		$this->_handler->regenerate(true, null);
 		$this->_state = 'active';
 
 		if (!$this->_validate())
 		{
-			// Destroy the session if it's not valid
+			/**
+			 * Destroy the session if it's not valid - we can't restart the session here unlike in the start method
+			 * else we risk recursion.
+			 */
 			$this->destroy();
 		}
 
@@ -756,9 +768,6 @@ class JSession implements IteratorAggregate
 
 		// Keep session config
 		$cookie = session_get_cookie_params();
-
-		// Kill session
-		$this->_handler->clear();
 
 		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();

@@ -32,7 +32,7 @@
 				el.css({ position: "absolute",
 					marginLeft: 0, marginTop: 0,
 					top: pos.top, left: pos.left,
-					width: el.width(), height: el.height()
+					bottom: 'auto', right: 'auto'
 				});
 
 				if (rebase) {

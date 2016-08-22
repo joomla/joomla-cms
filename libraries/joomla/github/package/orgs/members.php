@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Orgs Members class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/orgs/members/
+ * @documentation https://developer.github.com/v3/orgs/members/
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageOrgsMembers extends JGithubPackage
 {

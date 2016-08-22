@@ -81,13 +81,13 @@ abstract class JHtmlIcon
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
-		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
+		JLoader::register('MailtoHelper', JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
 
 		$uri      = JUri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
 		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
+		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
@@ -107,7 +107,7 @@ abstract class JHtmlIcon
 			$text = JText::_('JGLOBAL_EMAIL');
 		}
 
-		$attribs['title']   = JText::_('JGLOBAL_EMAIL');
+		$attribs['title']   = JText::_('JGLOBAL_EMAIL_TITLE');
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 
@@ -177,7 +177,8 @@ abstract class JHtmlIcon
 			return $output;
 		}
 
-		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$contentUrl = ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
 		if ($article->state == 0)
 		{
@@ -223,6 +224,7 @@ abstract class JHtmlIcon
 				. JText::_('JGLOBAL_EDIT');
 		}
 
+		$attribs['title']   = JText::_('JGLOBAL_EDIT_TITLE');
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
 		return $output;
@@ -266,7 +268,7 @@ abstract class JHtmlIcon
 			$text = JText::_('JGLOBAL_PRINT');
 		}
 
-		$attribs['title']   = JText::_('JGLOBAL_PRINT');
+		$attribs['title']   = JText::sprintf('JGLOBAL_PRINT_TITLE', htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'));
 		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
 		$attribs['rel']     = 'nofollow';
 

@@ -368,8 +368,11 @@ class JLanguage
 		}
 		elseif ($interpretBackSlashes)
 		{
-			// Interpret \n and \t characters
-			$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			if (strpos($string, '\\') !== false)
+			{
+				// Interpret \n and \t characters
+				$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			}
 		}
 
 		return $string;
@@ -961,7 +964,7 @@ class JLanguage
 		// Try to determine the source if none was provided
 		if (!function_exists('debug_backtrace'))
 		{
-			return null;
+			return;
 		}
 
 		$backtrace = debug_backtrace();
@@ -1023,7 +1026,7 @@ class JLanguage
 				return $this->paths[$extension];
 			}
 
-			return null;
+			return;
 		}
 		else
 		{
@@ -1168,7 +1171,7 @@ class JLanguage
 	}
 
 	/**
-	 * Returns a associative array holding the metadata.
+	 * Returns an associative array holding the metadata.
 	 *
 	 * @param   string  $lang  The name of the language.
 	 *
@@ -1190,7 +1193,7 @@ class JLanguage
 
 		if (empty($result))
 		{
-			return null;
+			return;
 		}
 
 		return $result;
@@ -1374,13 +1377,13 @@ class JLanguage
 
 		if (!$xml)
 		{
-			return null;
+			return;
 		}
 
 		// Check that it's a metadata file
 		if ((string) $xml->getName() != 'metafile')
 		{
-			return null;
+			return;
 		}
 
 		$metadata = array();

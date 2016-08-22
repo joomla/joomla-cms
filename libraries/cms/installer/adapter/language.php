@@ -29,7 +29,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	protected $core = false;
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -670,6 +670,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			return false;
 		}
+
 		return $this->parent->extension->get('extension_id');
 	}
 

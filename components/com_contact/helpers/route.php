@@ -71,7 +71,7 @@ abstract class ContactHelperRoute
 	/**
 	 * Get the URL route for a contact category from a contact category ID and language
 	 *
-	 * @param   mixed  $catid     The id of the contact's category either an integer id or a instance of JCategoryNode
+	 * @param   mixed  $catid     The id of the contact's category either an integer id or an instance of JCategoryNode
 	 * @param   mixed  $language  The id of the language being used.
 	 *
 	 * @return  string  The link to the contact

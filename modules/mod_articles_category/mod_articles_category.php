@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the helper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArticlesCategoryHelper', __DIR__ . '/helper.php');
 
 $input = JFactory::getApplication()->input;
 
@@ -49,7 +49,7 @@ switch ($mode)
 		break;
 }
 
-$cacheid = md5(serialize(array ($idbase, $module->module)));
+$cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
 $cacheparams               = new stdClass;
 $cacheparams->cachemode    = 'id';
@@ -65,7 +65,7 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')

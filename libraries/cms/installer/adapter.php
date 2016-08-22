@@ -214,7 +214,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -261,7 +261,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_root')
+					'path' => $this->parent->getPath('extension_root'),
 				)
 			);
 		}
@@ -780,7 +780,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 	}
 
 	/**
-	 * Method to parse the queries specified in the <sql> tags
+	 * Method to parse the queries specified in the `<sql>` tags
 	 *
 	 * @return  void
 	 *

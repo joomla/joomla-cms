@@ -97,12 +97,9 @@ class JProfiler
 	/**
 	 * Output a time mark
 	 *
-	 * The mark is returned as text enclosed in <div> tags
-	 * with a CSS class of 'profiler'.
-	 *
 	 * @param   string  $label  A label for the time mark
 	 *
-	 * @return  string  Mark enclosed in <div> tags
+	 * @return  string
 	 *
 	 * @since   11.1
 	 */
@@ -117,7 +114,7 @@ class JProfiler
 			'totalTime' => ($current * 1000),
 			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
 			'totalMemory' => $currentMem,
-			'label' => $label
+			'label' => $label,
 		);
 		$this->marks[] = $m;
 
@@ -150,7 +147,7 @@ class JProfiler
 	{
 		list ($usec, $sec) = explode(' ', microtime());
 
-		return ((float) $usec + (float) $sec);
+		return (float) $usec + (float) $sec;
 	}
 
 	/**

@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 // Include the latest functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModUsersLatestHelper', __DIR__ . '/helper.php');
 
-$shownumber = $params->get('shownumber', 5);
-$names = ModUsersLatestHelper::getUsers($params);
-$linknames = $params->get('linknames', 0);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$shownumber      = $params->get('shownumber', 5);
+$names           = ModUsersLatestHelper::getUsers($params);
+$linknames       = $params->get('linknames', 0);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 require JModuleHelper::getLayoutPath('mod_users_latest', $params->get('layout', 'default'));
