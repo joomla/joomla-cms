@@ -7,10 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/mediawiki/mediawiki.php';
-require_once JPATH_PLATFORM . '/joomla/mediawiki/http.php';
-require_once JPATH_PLATFORM . '/joomla/mediawiki/links.php';
-
 /**
  * Test class for JMediawikiLinks.
  *

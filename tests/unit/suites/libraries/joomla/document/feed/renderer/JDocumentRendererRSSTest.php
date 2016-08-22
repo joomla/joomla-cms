@@ -45,11 +45,6 @@ class JDocumentRendererRSSTest extends TestCase
 
 		$this->markTestSkipped("Too tightly coupled to internals to be testable now");
 
-		require_once JPATH_PLATFORM . '/joomla/application/router.php';
-		require_once JPATH_PLATFORM . '/joomla/environment/request.php';
-		require_once JPATH_PLATFORM . '/joomla/document/feed/feed.php';
-		require_once JPATH_PLATFORM . '/joomla/environment/response.php';
-
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMock(
