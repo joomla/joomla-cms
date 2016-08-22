@@ -1030,7 +1030,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @since   2.5
 	 */
 	protected function translateState($item, $category = null)
-  {
+	{
 		// If category is present, factor in its states as well
 		if ($category !== null)
 		{
@@ -1040,17 +1040,18 @@ abstract class FinderIndexerAdapter extends JPlugin
 			}
 		}
 
-	  // Translate the state
-	  switch ($item)
-	  {
-		  // Published and archived items only should return a published state
-		  case 1;
-		  case 2:
-			  return 1;
+		// Translate the state
+		switch ($item)
+		{
+			// Published and archived items only should return a published state
+			case 1;
+			case 2:
+				return 1;
 
-		  // All other states should return a unpublished state
-		  default;
-		  case 0:
-			  return 0;
-    }
-  }
+			// All other states should return a unpublished state
+			default;
+			case 0:
+				return 0;
+		}
+	}
+}
