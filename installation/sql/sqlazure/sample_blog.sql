@@ -302,8 +302,6 @@ SELECT 92, 'Release News', '', '', 1, 'postinstall', 0, '1900-01-01 00:00:00', '
 
 SET IDENTITY_INSERT [#__modules] OFF;
 
-SET IDENTITY_INSERT [#__modules_menu] ON;
-
 INSERT INTO [#__modules_menu] ([moduleid], [menuid])
 SELECT 1, 0
 UNION ALL
@@ -362,5 +360,3 @@ UNION ALL
 SELECT 91, 0
 UNION ALL
 SELECT 92, 0;
-
-SET IDENTITY_INSERT [#__modules_menu] OFF;
