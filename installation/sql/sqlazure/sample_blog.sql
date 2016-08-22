@@ -82,7 +82,7 @@ SELECT 39, 35, 27, 28, 3, 'com_content.article.4', 'About your home page', '{"co
 UNION ALL
 SELECT 40, 35, 29, 30, 3, 'com_content.article.5', 'Your Modules', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 41, 1, 81, 82, 1, 'com_users.category.10', 'Uncategorised', ''
+SELECT 41, 1, 81, 82, 1, 'com_users.category.10', 'Uncategorised', '{}'
 UNION ALL
 SELECT 42, 1, 83, 84, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'
 UNION ALL
