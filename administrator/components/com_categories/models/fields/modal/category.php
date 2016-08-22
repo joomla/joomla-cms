@@ -118,7 +118,7 @@ class JFormFieldModal_Category extends JFormField
 		{
 			$linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
-			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY') . ' (' . $this->element['label'] . ')';
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY') . ' &#8212; ' . $this->element['label'];
 		}
 		else
 		{
