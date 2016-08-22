@@ -195,7 +195,7 @@ if ($this->params->get('linkColor'))
 
 			<a class="admin-logo <?php echo ($hidden ? 'disabled' : ''); ?>" <?php echo ($hidden ? '' : 'href="' . $this->baseurl . '/index.php"'); ?>>
 				<span class="icon-joomla"></span>
-				<div class="element-invisible ">
+				<div class="element-invisible">
 					<?php echo JText::_('TPL_ISIS_CONTROL_PANEL'); ?>
 				</div>
 			</a>
@@ -209,7 +209,7 @@ if ($this->params->get('linkColor'))
 					<li class="dropdown">
 						<a class="<?php echo ($hidden ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hidden ? '' : 'dropdown'); ?>" <?php echo ($hidden ? '' : 'href="#"'); ?>><span class="icon-user"></span>
 							<span class="caret"></span>
-							<div class="element-invisible ">
+							<div class="element-invisible">
 							<?php echo JText::_('TPL_ISIS_USERMENU'); ?>
 							</div>
 						</a>
