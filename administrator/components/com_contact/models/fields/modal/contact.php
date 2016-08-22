@@ -115,6 +115,11 @@ class JFormFieldModal_Contact extends JFormField
 		{
 			$linkContacts .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkContact  .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle    = JText::_('COM_CONTACT_CHANGE_CONTACT') . ' (' . $this->element['label'] . ')';
+		}
+		else
+		{
+			$modalTitle    = JText::_('COM_CONTACT_CHANGE_CONTACT');
 		}
 
 		$urlSelect = $linkContacts . '&amp;' . JSession::getFormToken() . '=1';
@@ -192,7 +197,7 @@ class JFormFieldModal_Contact extends JFormField
 			'bootstrap.renderModal',
 			'contactSelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_CONTACT_CHANGE_CONTACT'),
+				'title'       => $modalTitle,
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',

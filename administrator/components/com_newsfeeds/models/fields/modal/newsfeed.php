@@ -115,6 +115,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 		{
 			$linkNewsfeeds .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkNewsfeed  .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle     = JText::_('COM_NEWSFEEDS_CHANGE_FEED') . ' (' . $this->element['label'] . ')';
+		}
+		else
+		{
+			$modalTitle     = JText::_('COM_NEWSFEEDS_CHANGE_FEED');
 		}
 
 		$urlSelect = $linkNewsfeeds . '&amp;' . JSession::getFormToken() . '=1';
@@ -156,7 +161,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			. ' data-toggle="modal"'
 			. ' role="button"'
 			. ' href="#newsfeedSelect' . $this->id . 'Modal"'
-			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED_BUTTON') . '">'
+			. ' title="' . JHtml::tooltipText('COM_NEWSFEEDS_CHANGE_FEED') . '">'
 			. '<span class="icon-file"></span> ' . JText::_('JSELECT')
 			. '</a>';
 
@@ -192,7 +197,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			'bootstrap.renderModal',
 			'newsfeedSelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_NEWSFEEDS_SELECT_A_FEED'),
+				'title'       => $modalTitle,
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
