@@ -1676,8 +1676,6 @@ CREATE NONCLUSTERED INDEX [idx_word_lang] ON [#__finder_terms_common]
 	[language] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
-SET IDENTITY_INSERT [#__finder_terms_common] ON;
-
 INSERT INTO [#__finder_terms_common] ([term], [language])
 SELECT 'a', 'en'
 UNION ALL
@@ -1908,8 +1906,6 @@ UNION ALL
 SELECT 'your', 'en'
 UNION ALL
 SELECT 'yours', 'en';
-
-SET IDENTITY_INSERT [#__finder_terms_common] OFF;
 
 /****** Object:  Table [#__finder_tokens] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2312,8 +2308,6 @@ CREATE TABLE [#__modules_menu](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__modules_menu] ON;
-
 INSERT INTO [#__modules_menu] ([moduleid], [menuid])
 SELECT 1, 0
 UNION ALL
@@ -2348,8 +2342,6 @@ UNION ALL
 SELECT 79, 0
 UNION ALL
 SELECT 86, 0;
-
-SET IDENTITY_INSERT [#__modules_menu] OFF;
 
 /****** Object:  Table [#__newsfeeds] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2463,8 +2455,6 @@ CREATE TABLE [#__postinstall_messages] (
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__postinstall_messages] ON;
-
 INSERT INTO [#__postinstall_messages] ([extension_id], [title_key], [description_key], [action_key], [language_extension], [language_client_id], [type], [action_file], [action], [condition_file], [condition_method], [version_introduced], [enabled])
 SELECT 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1
 UNION ALL
@@ -2473,8 +2463,6 @@ UNION ALL
 SELECT 700, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1
 UNION ALL
 SELECT 700, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1;
-
-SET IDENTITY_INSERT [#__postinstall_messages] OFF;
 
 /****** Object:  Table [#__redirect_links] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -2880,8 +2868,6 @@ CREATE TABLE [#__update_sites_extensions](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__update_sites_extensions] ON;
-
 INSERT INTO [#__update_sites_extensions] ([update_site_id], [extension_id])
 SELECT 1, 700
 UNION ALL
@@ -2890,8 +2876,6 @@ UNION ALL
 SELECT 3, 802
 UNION ALL
 SELECT 4, 28;
-
-SET IDENTITY_INSERT [#__update_sites_extensions] OFF;
 
 /****** Object:  Table [#__updates] ******/
 SET QUOTED_IDENTIFIER ON;
@@ -3137,7 +3121,7 @@ CREATE TABLE [#__viewlevels](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
-SET IDENTITY_INSERT [#__viewlevels]  ON;
+SET IDENTITY_INSERT [#__viewlevels] ON;
 
 INSERT INTO [#__viewlevels] ([id], [title], [ordering], [rules])
 SELECT 1, 'Public', 0, '[1]'
@@ -3150,4 +3134,4 @@ SELECT 5, 'Guest', 1, '[9]'
 UNION ALL
 SELECT 6, 'Super Users', 4, '[8]';
 
-SET IDENTITY_INSERT [#__viewlevels]  OFF;
+SET IDENTITY_INSERT [#__viewlevels] OFF;
