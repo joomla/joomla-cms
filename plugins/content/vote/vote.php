@@ -17,12 +17,12 @@ defined('_JEXEC') or die;
 class PlgContentVote extends JPlugin
 {
 	/**
-	 * Load the language file on instantiation.
+	 * Flag to check if the language file is loaded.
 	 *
 	 * @var    boolean
-	 * @since  3.1
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $autoloadLanguage = true;
+	protected $languageLoaded = false;
 
 	/**
 	 * Displays the voting area if in an article
@@ -49,6 +49,13 @@ class PlgContentVote extends JPlugin
 
 		if (!empty($params) && $params->get('show_vote', null))
 		{
+			// Load plugin language files only when needed (ex: they are not needed if show_vote is not active).
+			if (!$this->languageLoaded)
+			{
+				$this->loadLanguage();
+				$this->languageLoaded = true;
+			}
+
 			$rating = (int) @$row->rating;
 
 			$view = JFactory::getApplication()->input->getString('view', '');
