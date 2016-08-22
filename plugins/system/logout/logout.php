@@ -87,7 +87,7 @@ class PlgSystemLogout extends JPlugin
 		if ($error->getCode() == 403 && $app->isSite())
 		{
 			// Load language file.
-			$this->loadLanguage();
+			parent::loadLanguage();
 
 			// Redirect to the home page.
 			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), 'message');
