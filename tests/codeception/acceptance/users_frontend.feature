@@ -14,6 +14,7 @@ Feature: Users Frontend
     And I create a user with fields Name "User Two", Username "user2", Password "pass2" and Email "user2@example.com"
     And I press the "Register" button
     Then I should see "Could not instantiate mail function." message
+    And user "User Two" is created
 
   Scenario: check the created user in the backend
     Given I am on the User Manager page
@@ -45,6 +46,7 @@ Feature: Users Frontend
     Then I should see the name "User Three"
 
   Scenario: Test last login date
-    Given Needs to user "User Two" logged in at least once
+    Given I am on the User Manager page
+    And User "User Three" did login at least once
     When I login as a super admin from backend
     Then I should see last login date for "User Three"

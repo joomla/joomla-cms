@@ -298,12 +298,13 @@ class AdminPage extends \AcceptanceTester
 	 * Function to Verify the Tabs on a Joomla! screen
 	 *
 	 * @param   array  $expectedTabs  Expected Tabs on the Page
+	 * @param   array  $tabsLocator   Locator for the Tabs in Edit View
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	public function verifyAvailableTabs($expectedTabs)
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = NULL)
 	{
 		$I = $this;
 

@@ -5,7 +5,12 @@
  * Download robo.phar from http://robo.li/robo.phar and type in the root of the repo: $ php robo.phar
  * Or do: $ composer update, and afterwards you will be able to execute robo like $ php libraries/vendor/bin/robo
  *
- * @see http://robo.li/
+ * @package     Joomla.Site
+ * @subpackage  RoboFile
+ *
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @see         http://robo.li/
  */
 require_once __DIR__ . '/tests/codeception/vendor/autoload.php';
 
@@ -14,6 +19,13 @@ if (!defined('JPATH_BASE'))
 	define('JPATH_BASE', __DIR__);
 }
 
+/**
+ * Modern php task runner for Joomla! Browser Automated Tests execution
+ *
+ * @package  RoboFile
+ *
+ * @since    __DEPLOY_VERSION__
+ */
 class RoboFile extends \Robo\Tasks
 {
 	// Load tasks from composer, see composer.json
@@ -30,19 +42,23 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Local configuration parameters
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $configuration = array();
 
 	/**
 	 * Path to the local CMS test folder
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $cmsPath = null;
 
 	/**
-	 * Constructor
+	 * RoboFile constructor.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct()
 	{
@@ -56,6 +72,8 @@ class RoboFile extends \Robo\Tasks
 
 	/**
 	 * Get (optional) configuration from an external file
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @return \stdClass|null
 	 */
@@ -85,6 +103,8 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Get the correct CMS root path
 	 *
+	 * @since  __DEPLOY_VERSION__
+	 *
 	 * @return string
 	 */
 	private function getTestingPath()
@@ -107,6 +127,8 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Build the Joomla CMS
 	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @return  bool
 	 */
 	public function build()
@@ -118,6 +140,10 @@ class RoboFile extends \Robo\Tasks
 	 * Creates a testing Joomla site for running the tests (use it before run:test)
 	 *
 	 * @param   bool  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
 	 */
 	public function createTestingSite($use_htaccess = false)
 	{
@@ -162,10 +188,14 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Copy the joomla installation excluding folders
 	 *
-	 * @param   string  $dst       Target folder
-	 * @param   array   $exclude   Exclude list of folders
+	 * @param   string  $dst      Target folder
+	 * @param   array   $exclude  Exclude list of folders
 	 *
 	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
 	 */
 	protected function copyJoomla($dst, $exclude = array())
 	{
@@ -210,6 +240,8 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Downloads Composer
 	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @return void
 	 */
 	private function getComposer()
@@ -224,7 +256,9 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Runs Selenium Standalone Server.
 	 *
-	 * @return void
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
 	 */
 	public function runSelenium()
 	{
@@ -252,10 +286,13 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Executes all the Selenium System Tests in a suite on your machine
 	 *
-	 * @param   array $opts Array of configuration options:
-	 *          - 'use-htaccess': renames and enable embedded Joomla .htaccess file
-	 *          - 'env': set a specific environment to get configuration from
-	 * @return mixed
+	 * @param   array  $opts  Array of configuration options:
+	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
+	 *                        - 'env': set a specific environment to get configuration from
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  mixed
 	 */
 	public function runTests($opts = ['use-htaccess' => false, 'env' => 'desktop'])
 	{
@@ -357,6 +394,8 @@ class RoboFile extends \Robo\Tasks
 	 * @param   string  $pathToTestFile  Optional name of the test to be run
 	 * @param   string  $suite           Optional name of the suite containing the tests, Acceptance by default.
 	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
 	 * @return  mixed
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
@@ -387,7 +426,6 @@ class RoboFile extends \Robo\Tasks
 				if (strripos($iterator->getSubPathName(), 'cept.php')
 					|| strripos($iterator->getSubPathName(), 'cest.php')
 					|| strripos($iterator->getSubPathName(), '.feature'))
-
 				{
 					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
 					$tests[$i] = $iterator->getSubPathName();
@@ -398,15 +436,15 @@ class RoboFile extends \Robo\Tasks
 			}
 
 			$this->say('');
-			$testNumber	= $this->ask('Type the number of the test  in the list that you want to run...');
-			$test = $tests[$testNumber];
+			$testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
+			$test       = $tests[$testNumber];
 		}
 
 		$pathToTestFile = $this->testsPath . $suite . '/' . $test;
 
-		//loading the class to display the methods in the class
+		// Loading the class to display the methods in the class
 
-		//logic to fetch the class name from the file name
+		// Logic to fetch the class name from the file name
 		$fileName = explode("/", $test);
 
 		// If the selected file is cest only then we will give the option to execute individual methods, we don't need this in cept or feature files
@@ -416,7 +454,7 @@ class RoboFile extends \Robo\Tasks
 		{
 			require $this->testsPath . $suite . '/' . $test;
 
-			$className = explode(".", $fileName[1]);
+			$className     = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
 			$this->say('[' . $i . '] ' . 'All');
 			$methods[$i] = 'All';
@@ -425,22 +463,23 @@ class RoboFile extends \Robo\Tasks
 			foreach ($class_methods as $method_name)
 			{
 				$reflect = new ReflectionMethod($className[0], $method_name);
-				if(!$reflect->isConstructor())
+
+				if (!$reflect->isConstructor() && $reflect->isPublic())
 				{
-					if ($reflect->isPublic())
-					{
-						$this->say('[' . $i . '] ' . $method_name);
-						$methods[$i] = $method_name;
-						$i++;
-					}
+					$this->say('[' . $i . '] ' . $method_name);
+					
+					$methods[$i] = $method_name;
+
+					$i++;
 				}
 			}
+
 			$this->say('');
 			$methodNumber = $this->ask('Please choose the method in the test that you would want to run...');
-			$method = $methods[$methodNumber];
+			$method       = $methods[$methodNumber];
 		}
 
-		if(isset($method) && $method != 'All')
+		if (isset($method) && $method != 'All')
 		{
 			$pathToTestFile = $pathToTestFile . ':' . $method;
 		}

@@ -191,15 +191,25 @@ class UsersFrontend extends \AcceptanceTester
 	/**
 	 * Method to declare user is created
 	 *
-	 * @Then user is created
+	 * @param   string  $username  The username to look for.
+	 *
+	 * @Then user :username is created
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	public function userIsCreated()
+	public function userIsCreated($username)
 	{
 		$I = $this;
+
+		$I->amOnPage(UserManagerPage::$url);
+
+		// Looking for username
+		$I->adminPage->search($username);
+		$I->see($username, UserManagerPage::$seeName);
+
+		$I->comment('User is created');
 	}
 
 	/**
@@ -490,13 +500,13 @@ class UsersFrontend extends \AcceptanceTester
 	 *
 	 * @param   string  $name  The name of the user
 	 *
-	 * @Given Needs to user :arg1 logged in at least once
+	 * @Given User :arg1 did login at least once
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	public function needsToUserLoggedInAtLeastOnce($name)
+	public function UserLogInAtLeastOnce($name)
 	{
 		// Do nothing as user will be already logged in previous tests.
 		$I = $this;
