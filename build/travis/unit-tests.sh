@@ -10,8 +10,8 @@ set -e
 # Make sure all dev dependencies are installed
 composer install
 
-# Disable xdebug
-phpenv config-rm xdebug.ini
+# Disable xdebug on php 7.0.* and lower.
+if [[ $TRAVIS_PHP_VERSION = 5.* ] || [ $TRAVIS_PHP_VERSION = 7.0.* ]]; then phpenv config-rm xdebug.ini; fi
 
 # Setup databases for testing
 if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql -e 'create database joomla_ut;'; fi
