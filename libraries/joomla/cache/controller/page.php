@@ -75,7 +75,7 @@ class JCacheControllerPage extends JCacheController
 		}
 
 		// We got a cache hit... set the etag header and echo the page data
-		$data = $this->cache->get($id, $group);
+		$data = $this->cache->get($id, $group, true);
 
 		$this->_locktest = (object) array('locked' => null, 'locklooped' => null);
 
@@ -86,7 +86,7 @@ class JCacheControllerPage extends JCacheController
 			// If locklooped is true try to get the cached data again; it could exist now.
 			if ($this->_locktest->locked === true && $this->_locktest->locklooped === true)
 			{
-				$data = $this->cache->get($id, $group);
+				$data = $this->cache->get($id, $group, true);
 			}
 		}
 
@@ -97,7 +97,6 @@ class JCacheControllerPage extends JCacheController
 				$this->cache->unlock($id, $group);
 			}
 
-			$data = unserialize(trim($data));
 			$data = JCache::getWorkarounds($data);
 
 			$this->_setEtag($id);
@@ -168,7 +167,7 @@ class JCacheControllerPage extends JCacheController
 			);
 		}
 
-		$result = $this->cache->store(serialize($data), $id, $group);
+		$result = $this->cache->store($data, $id, $group, true);
 
 		if ($this->_locktest->locked === true)
 		{

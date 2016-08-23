@@ -26,6 +26,14 @@ class JCacheStorageMemcached extends JCacheStorage
 	protected static $_db = null;
 
 	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $supportRawData = true;
+
+	/**
 	 * Payload compression level
 	 *
 	 * @var    integer
@@ -158,14 +166,22 @@ class JCacheStorageMemcached extends JCacheStorage
 	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param   boolean  $rawData    If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   12.1
 	 */
-	public function get($id, $group, $checkTime = true)
+	public function get($id, $group, $checkTime = true, $rawData = false)
 	{
-		return static::$_db->get($this->_getCacheId($id, $group));
+		$data = static::$_db->get($this->_getCacheId($id, $group));
+
+		if ($rawData)
+		{
+			return $data !== false ? unserialize($data) : false;
+		}
+
+		return $data;
 	}
 
 	/**
@@ -219,15 +235,16 @@ class JCacheStorageMemcached extends JCacheStorage
 	/**
 	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   string   $data     The data to store in cache
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
-	public function store($id, $group, $data)
+	public function store($id, $group, $data, $rawData = false)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
@@ -241,6 +258,11 @@ class JCacheStorageMemcached extends JCacheStorage
 		if (!is_array($index))
 		{
 			$index = array();
+		}
+
+		if ($rawData)
+		{
+			$data = serialize($data);
 		}
 
 		$tmparr       = new stdClass;

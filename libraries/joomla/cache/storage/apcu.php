@@ -18,6 +18,14 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageApcu extends JCacheStorage
 {
 	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $supportRawData = true;
+
+	/**
 	 * Check if the cache contains data stored by ID and group
 	 *
 	 * @param   string  $id     The cache data ID
@@ -38,14 +46,22 @@ class JCacheStorageApcu extends JCacheStorage
 	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param   boolean  $rawData    If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   3.5
 	 */
-	public function get($id, $group, $checkTime = true)
+	public function get($id, $group, $checkTime = true, $rawData = false)
 	{
-		return apcu_fetch($this->_getCacheId($id, $group));
+		$data = apcu_fetch($this->_getCacheId($id, $group));
+
+		if ($rawData)
+		{
+			return $data !== false ? unserialize($data) : false;
+		}
+
+		return $data;
 	}
 
 	/**
@@ -108,16 +124,22 @@ class JCacheStorageApcu extends JCacheStorage
 	/**
 	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   string   $data     The data to store in cache
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.5
 	 */
-	public function store($id, $group, $data)
+	public function store($id, $group, $data, $rawData = false)
 	{
+		if ($rawData)
+		{
+			$data = serialize($data);
+		}
+
 		return apcu_store($this->_getCacheId($id, $group), $data, $this->_lifetime);
 	}
 

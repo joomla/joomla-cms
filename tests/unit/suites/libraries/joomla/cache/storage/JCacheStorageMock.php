@@ -37,12 +37,13 @@ class JCacheStorageMock extends JCacheStorage
 	 * @param   string   $id         The cache data id
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param   boolean  $rawData    If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean  false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group, $checkTime = true)
+	public function get($id, $group, $checkTime = true, $rawData = false)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
@@ -57,15 +58,16 @@ class JCacheStorageMock extends JCacheStorage
 	/**
 	 * Store the data to cache by id and group
 	 *
-	 * @param   string  $id     The cache data id
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param   string   $id       The cache data id
+	 * @param   string   $group    The cache data group
+	 * @param   string   $data     The data to store in cache
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
 	 * @since   11.1
 	 */
-	public function store($id, $group, $data)
+	public function store($id, $group, $data, $rawData = false)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 

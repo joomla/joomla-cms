@@ -40,6 +40,11 @@ class JCacheTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+
+		// Mock the returns on JApplicationCms::get() to use the default values
+		JFactory::$application->expects($this->any())
+			->method('get')
+			->willReturnArgument(1);
 	}
 
 	/**
@@ -53,6 +58,17 @@ class JCacheTest extends TestCase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
+
+		if ($this->object !== null)
+		{
+			if ($this->object->cache->_options['storage'] === 'cachelite')
+			{
+				// Reset the Cache_Lite instance
+				TestReflection::setValue('JCacheStorageCachelite', 'CacheLiteInstance', null);
+			}
+
+			$this->object = null;
+		}
 	}
 
 	/**
@@ -526,5 +542,80 @@ class JCacheTest extends TestCase
 			$this->object->cache->_getStorage(),
 			$this->isInstanceOf($expected)
 		);
+	}
+
+	/**
+	 * Testing supportRawData across all storages
+	 *
+	 * @param   string  $handler   cache handler
+	 * @param   array   $options   options for cache handler
+	 * @param   string  $expected  expected storage class
+	 *
+	 * @return void
+	 *
+	 * @dataProvider casesGetStorage
+	 */
+	public function testSupportRawData($handler, $options, $expected)
+	{
+		if (!$this->available[$options['storage']])
+		{
+			$this->markTestSkipped("The {$options['storage']} storage handler is currently not available");
+		}
+
+		$this->object = JCache::getInstance($handler, $options);
+		$this->object->setCaching(true);
+
+		$data = (object) array('id' => 1, 'name' => 'Item', 'attribs' => array('key' => 'value'));
+
+		$serializedData = serialize($data);
+
+		$this->assertTrue($this->object->cache->store($serializedData, 'testSerializedData', null));
+		$this->assertTrue($this->object->cache->store($data, 'testRawData', null, true));
+
+		$this->assertEquals($serializedData, $this->object->cache->get('testSerializedData', null));
+		$this->assertEquals($data, $this->object->cache->get('testRawData', null, true));
+
+		// Toggle rawData parameter
+		$this->assertEquals($data, $this->object->cache->get('testSerializedData', null, true));
+		$this->assertEquals($serializedData, $this->object->cache->get('testRawData'));
+
+		// Clean cache, required for memcache/memcached which use the same service
+		$this->assertTrue($this->object->cache->clean());
+	}
+
+	/**
+	 * Testing modified file storage which does not support raw data.
+	 *
+	 * @return void
+	 */
+	public function testNotSupportRawData()
+	{
+		$this->setDefaultOptions();
+
+		$this->object = JCache::getInstance('output', $this->defaultOptions);
+		$this->object->setCaching(true);
+
+		$data = (object) array('id' => 1, 'name' => 'Item', 'attribs' => array('key' => 'value'));
+
+		$serializedData = serialize($data);
+
+		// Change handler to test handler which does not support raw data
+		$handlerClass = new ReflectionClass('JCacheStorageFile');
+
+		$supportRawData = $handlerClass->getProperty('supportRawData');
+		$supportRawData->setAccessible(true);
+		$supportRawData->setValue(false);
+
+		$this->assertFalse($this->object->cache->_getStorage()->supportRawData());
+
+		$this->assertTrue($this->object->cache->store($serializedData, 'testSerializedData', null));
+		$this->assertTrue($this->object->cache->store($data, 'testRawData', null, true));
+
+		$this->assertEquals($serializedData, $this->object->cache->get('testSerializedData', null));
+		$this->assertEquals($data, $this->object->cache->get('testRawData', null, true));
+
+		// Toggle rawData parameter
+		$this->assertEquals($data, $this->object->cache->get('testSerializedData', null, true));
+		$this->assertEquals($serializedData, $this->object->cache->get('testRawData'));
 	}
 }

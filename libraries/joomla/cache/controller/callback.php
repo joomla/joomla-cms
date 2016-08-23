@@ -87,7 +87,7 @@ class JCacheControllerCallback extends JCacheController
 			$id = $this->_makeId($callback, $args);
 		}
 
-		$data = $this->cache->get($id);
+		$data = $this->cache->get($id, null, true);
 
 		$locktest = (object) array('locked' => null, 'locklooped' => null);
 
@@ -98,7 +98,7 @@ class JCacheControllerCallback extends JCacheController
 			// If locklooped is true try to get the cached data again; it could exist now.
 			if ($locktest->locked === true && $locktest->locklooped === true)
 			{
-				$data = $this->cache->get($id);
+				$data = $this->cache->get($id, null, true);
 			}
 		}
 
@@ -108,8 +108,6 @@ class JCacheControllerCallback extends JCacheController
 			{
 				$this->cache->unlock($id);
 			}
-
-			$data = unserialize(trim($data));
 
 			if ($wrkarounds)
 			{
@@ -181,7 +179,7 @@ class JCacheControllerCallback extends JCacheController
 		}
 
 		// Store the cache data
-		$this->cache->store(serialize($data), $id);
+		$this->cache->store($data, $id, null, true);
 
 		if ($locktest->locked === true)
 		{

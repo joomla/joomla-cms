@@ -26,6 +26,14 @@ class JCacheStorageCachelite extends JCacheStorage
 	protected static $CacheLiteInstance = null;
 
 	/**
+	 * Flag to indicate whether storage support raw, not serialized data.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $supportRawData = true;
+
+	/**
 	 * Root path
 	 *
 	 * @var    string
@@ -104,19 +112,27 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
+	 * @param   boolean  $rawData    If true then method returns unserialized data
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
-	public function get($id, $group, $checkTime = true)
+	public function get($id, $group, $checkTime = true, $rawData = false)
 	{
 		static::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 
 		// This call is needed to ensure $this->rawname is set
 		$this->_getCacheId($id, $group);
 
-		return static::$CacheLiteInstance->get($this->rawname, $group);
+		$data = static::$CacheLiteInstance->get($this->rawname, $group);
+
+		if ($rawData)
+		{
+			return $data !== false ? unserialize($data) : false;
+		}
+
+		return $data;
 	}
 
 	/**
@@ -165,15 +181,16 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data ID
-	 * @param   string  $group  The cache data group
-	 * @param   string  $data   The data to store in cache
+	 * @param   string   $id       The cache data ID
+	 * @param   string   $group    The cache data group
+	 * @param   string   $data     The data to store in cache
+	 * @param   boolean  $rawData  If true then method treats $data as unserialized
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public function store($id, $group, $data)
+	public function store($id, $group, $data, $rawData = false)
 	{
 		$dir = $this->_root . '/' . $group;
 
@@ -195,6 +212,11 @@ class JCacheStorageCachelite extends JCacheStorage
 
 		// This call is needed to ensure $this->rawname is set
 		$this->_getCacheId($id, $group);
+
+		if ($rawData)
+		{
+			$data = serialize($data);
+		}
 
 		return static::$CacheLiteInstance->save($data, $this->rawname, $group);
 	}

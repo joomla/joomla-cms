@@ -79,7 +79,6 @@ class JCacheControllerOutput extends JCacheController
 
 		if ($data !== false)
 		{
-			$data = unserialize(trim($data));
 			echo $data;
 
 			if ($this->_locktest->locked == true)
@@ -133,7 +132,7 @@ class JCacheControllerOutput extends JCacheController
 		$this->_group = null;
 
 		// Get the storage handler and store the cached data
-		$ret = $this->cache->store(serialize($data), $id, $group);
+		$ret = $this->cache->store($data, $id, $group);
 
 		if ($this->_locktest->locked == true)
 		{
@@ -155,7 +154,7 @@ class JCacheControllerOutput extends JCacheController
 	 */
 	public function get($id, $group = null)
 	{
-		$data = $this->cache->get($id, $group);
+		$data = $this->cache->get($id, $group, true);
 
 		if ($data === false)
 		{
@@ -164,20 +163,13 @@ class JCacheControllerOutput extends JCacheController
 			// If locklooped is true try to get the cached data again; it could exist now.
 			if ($locktest->locked === true && $locktest->locklooped === true)
 			{
-				$data = $this->cache->get($id, $group);
+				$data = $this->cache->get($id, $group, true);
 			}
 
 			if ($locktest->locked === true)
 			{
 				$this->cache->unlock($id, $group);
 			}
-		}
-
-		// Check again because we might get it from second attempt
-		if ($data !== false)
-		{
-			// Trim to fix unserialize errors
-			$data = unserialize(trim($data));
 		}
 
 		return $data;
@@ -205,7 +197,7 @@ class JCacheControllerOutput extends JCacheController
 			return false;
 		}
 
-		$result = $this->cache->store(serialize($data), $id, $group);
+		$result = $this->cache->store($data, $id, $group, true);
 
 		if ($locktest->locked === true)
 		{

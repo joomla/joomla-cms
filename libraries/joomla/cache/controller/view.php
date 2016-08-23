@@ -36,7 +36,7 @@ class JCacheControllerView extends JCacheController
 			$id = $this->_makeId($view, $method);
 		}
 
-		$data = $this->cache->get($id);
+		$data = $this->cache->get($id, null, true);
 
 		$locktest = (object) array('locked' => null, 'locklooped' => null);
 
@@ -50,7 +50,7 @@ class JCacheControllerView extends JCacheController
 			 */
 			if ($locktest->locked === true && $locktest->locklooped === true)
 			{
-				$data = $this->cache->get($id);
+				$data = $this->cache->get($id, null, true);
 			}
 
 			// False means that locking is either turned off or maxtime has been exceeded. Execute the view.
@@ -62,8 +62,6 @@ class JCacheControllerView extends JCacheController
 			{
 				$this->cache->unlock($id);
 			}
-
-			$data = unserialize(trim($data));
 
 			if ($wrkarounds)
 			{
@@ -110,7 +108,7 @@ class JCacheControllerView extends JCacheController
 		}
 
 		// Store the cache data
-		$this->cache->store(serialize($data), $id);
+		$this->cache->store($data, $id, null, true);
 
 		if ($locktest->locked === true)
 		{
