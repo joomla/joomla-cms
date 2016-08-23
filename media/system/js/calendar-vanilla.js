@@ -69,7 +69,7 @@
 				firstDayOfWeek: 0,               // 0 for Sunday, 1 for Monday, etc.
 				time24: false,                   // Use 24/12 hour format
 				showsOthers: true,               // Display previous/next month days as disables
-				showsTime: false,                // Shows hours and minutes drop downs
+				showsTime: true,                // Shows hours and minutes drop downs
 				weekNumbers: false,              // Shows the week number as first column
 				showsTodayBtn: true,             // Display a today button
 				compressedHeader: false,         // Use one line for year
@@ -87,6 +87,7 @@
 			instanceParams = {
 				dateType: JoomlaCalLocale.dateType,
 				firstDayOfWeek: btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
+				weekend: btn.getAttribute("data-weekend") ? [btn.getAttribute("data-weekend")] : JoomlaCalLocale.weekend,
 				time24: (parseInt(btn.getAttribute("data-time-24")) === 24) ? true : false,
 				showsOthers: (parseInt(btn.getAttribute("data-show-others")) !== 0) ? true : false,
 				showsTime: (parseInt(btn.getAttribute("data-show-time")) === 1) ? true : false,
@@ -590,7 +591,7 @@
 				cell.calendar = self;
 				cell.fdow = realday;
 			}
-			if (weekend.indexOf(realday.toString()) != -1) { addClass(cell, "weekend"); }
+			if (weekend.indexOf(realday) != -1) { addClass(cell, "weekend"); }
 
 			cell.innerHTML = JoomlaCalLocale.shortDays[(i + fdow) % 7];
 			cell = cell.nextSibling;
@@ -784,7 +785,7 @@
 				cell.className = "day";
 				cell.style['textAlign'] = 'center';
 				iday = date.getLocalDate(this.params.dateType);
-				var wday = date.getLocalDate(this.params.dateType);
+				var wday = date.getLocalDay(this.params.dateType);
 				cell.pos = i << 4 | j;
 				dpos[j] = cell;
 				var current_month = (date.getLocalMonth(this.params.dateType) == month);
@@ -815,8 +816,8 @@
 						cell.className += " today";
 						cell.className += " table-warning";
 					}
-					if (weekend.indexOf(wday.toString()) != -1)
-						cell.className += cell.otherMonth ? " oweekend" : " weekend";
+					if (weekend.indexOf(wday) != -1)
+						cell.className += " weekend";
 				}
 			}
 			if (!(hasdays || this.params.showsOthers)) {
@@ -888,7 +889,7 @@
 		// Fall back for translation strings
 		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
 		JoomlaCalLocale.today = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
-		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? [ JoomlaCalLocale.weekend ] : [0,6];
+		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0,6];
 		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0,1,2,3,4,5,6,7,8,9];
 		JoomlaCalLocale.wk = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
 		JoomlaCalLocale.AM = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
