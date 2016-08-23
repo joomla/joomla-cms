@@ -43,6 +43,7 @@ class JHtmlBootstrapTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$config = $this->getMockConfig();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
