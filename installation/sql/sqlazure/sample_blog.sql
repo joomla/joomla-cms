@@ -101,7 +101,6 @@ SET IDENTITY_INSERT [#__assets] OFF;
 SET IDENTITY_INSERT [#__categories] ON;
 
 INSERT INTO [#__categories] ([id], [asset_id], [parent_id], [lft], [rgt], [level], [path], [extension], [title], [alias], [note], [description], [published], [checked_out], [checked_out_time], [access], [params], [metadesc], [metakey], [metadata], [created_user_id], [created_time], [modified_user_id], [modified_time], [hits], [language], [version])
-UNION ALL
 SELECT 1, 0, 0, 0, 17, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{}', '', '', '', 628, '2011-01-01 00:00:00', 0, '1900-01-01 00:00:00', 0, '*', 1
 UNION ALL
 SELECT 2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '1900-01-01 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 628, '2011-01-01 00:00:00', 0, '1900-01-01 00:00:00', 0, '*', 1
