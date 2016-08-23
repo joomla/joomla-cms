@@ -1198,8 +1198,9 @@ SET IDENTITY_INSERT [#__viewlevels] ON;
 
 INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (1, 'Public', 0, '[1]');
 INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (2, 'Registered', 2, '[6,2,8]');
-INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (3, 'Special', 3, '[6,3,8]');
-INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (5, 'Guest', 1, '[9]');
-INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (6, 'Super Users', 4, '[8]');
+INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (3, 'Special', 4, '[6,3,8]');
+INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (4, 'Customer Access Level (Example)', 3, '[6,3,12]');
+INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (5, 'Guest', 1, '[13]');
+INSERT [#__viewlevels] ([id], [title], [ordering], [rules]) VALUES (6, 'Super Users', 5, '[8]');
 
 SET IDENTITY_INSERT [#__viewlevels] OFF;

@@ -870,7 +870,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
-				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | ' . $toolbar5 . ' | code';
+				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
 				$scriptOptions['plugins']  = $dragDropPlg . ' code';
 
 				break;

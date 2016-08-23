@@ -3,7 +3,7 @@
  * @package    FrameworkOnFramework
  * @subpackage form
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -80,7 +80,7 @@ class FOFFormFieldUsergroup extends JFormFieldUsergroup implements FOFFormField
 
 		$params = $this->getOptions();
 
-		$db = JFactory::getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value, a.title AS text');
@@ -122,7 +122,7 @@ class FOFFormFieldUsergroup extends JFormFieldUsergroup implements FOFFormField
 	{
 		$class = $this->element['class'] ? (string) $this->element['class'] : '';
 
-		$db = JFactory::getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value, a.title AS text');
