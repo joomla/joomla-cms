@@ -888,13 +888,13 @@
 		// Fall back for translation strings
 		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
 		JoomlaCalLocale.today = JoomlaCalLocale.today ? JoomlaCalLocale.today : 'today';
-		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? '[' + JoomlaCalLocale.weekend + ']' : [0,6];
+		JoomlaCalLocale.weekend = JoomlaCalLocale.weekend ? [ JoomlaCalLocale.weekend ] : [0,6];
 		JoomlaCalLocale.localLangNumbers = JoomlaCalLocale.localLangNumbers ? JoomlaCalLocale.localLangNumbers : [0,1,2,3,4,5,6,7,8,9];
 		JoomlaCalLocale.wk = JoomlaCalLocale.wk ? JoomlaCalLocale.wk : 'wk';
 		JoomlaCalLocale.AM = JoomlaCalLocale.AM ? JoomlaCalLocale.AM : 'AM';
-		JoomlaCalLocale.PM = JoomlaCalLocale.PM ? JoomlaCalLocale.wk : 'PM';
+		JoomlaCalLocale.PM = JoomlaCalLocale.PM ? JoomlaCalLocale.PM : 'PM';
 		JoomlaCalLocale.am = JoomlaCalLocale.am ? JoomlaCalLocale.am : 'am';
-		JoomlaCalLocale.pm = JoomlaCalLocale.pm ? JoomlaCalLocale.am : 'pm';
+		JoomlaCalLocale.pm = JoomlaCalLocale.pm ? JoomlaCalLocale.pm : 'pm';
 		JoomlaCalLocale.dateType = JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian';
 		JoomlaCalLocale.time = JoomlaCalLocale.time ? JoomlaCalLocale.time : 'time';
 		JoomlaCalLocale.days = JoomlaCalLocale.days ? JoomlaCalLocale.days : '["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]';

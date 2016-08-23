@@ -103,6 +103,8 @@ JHtml::_('stylesheet', 'system/calendar-vanilla.css', array(), true);
 			data-inputfield="<?php echo $id; ?>"
 			data-dayformat="<?php echo $format; ?>"
 			data-button="<?php echo $id; ?>_btn"
+			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
+			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
 			data-today-btn="<?php echo $todaybutton; ?>"
 			data-week-numbers="<?php echo $weeknumbers; ?>"
 			data-show-time="<?php echo $showtime; ?>"
