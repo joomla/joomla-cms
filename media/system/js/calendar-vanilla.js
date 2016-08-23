@@ -133,7 +133,6 @@
 
 		if (this.inputField.value.length) {
 			if (this.params.dateType !== 'gregorian') {
-				var date = new Date(inputAltValueDate);
 				this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true);
 			}
 			this.date = new Date(inputAltValueDate);
@@ -258,7 +257,9 @@
 	JoomlaCalendar.prototype._handleDocumentClick = function (ev) {
 		var el = ev.target;
 
-		for (; el !== null && el !== this.element; el = el.parentNode);
+		if (el !== null && !hasClass(el, 'time')) {
+			for (; el !== null && el !== this.element; el = el.parentNode);
+		}
 
 		if (el === null) {
 			document.activeElement.blur();
@@ -552,7 +553,7 @@
 			row.className = "headrow";
 			this._nav_now = hh('<a class="btn btn-small btn-success" data-action="today" style="display:block;padding:2px 6px;">'
 				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 8 : 7, 0, 'td', {'textAlign': 'center'});
-			var todaya = row.querySelector('a[data-action=today]');                                         // HTML5 version
+			var todaya = row.querySelector('a[data-action="today"]');                                         // HTML5 version
 			if (typeof todaya == "undefined") {                                                             // Support IE8
 				var tempElem = row.getElementsByTagName("A"), i, todaya = null;
 				for (i = 0; i < tempElem.length; i++) {
@@ -884,7 +885,7 @@
 	JoomlaCalendar.init = function (className) {
 		var elements, i;
 
-		elements = document.querySelectorAll('.' + className);
+		elements = document.querySelectorAll(className);
 
 		// Fall back for translation strings
 		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
@@ -912,7 +913,7 @@
 
 	/** Instantiate all the calendar fields when the document is ready */
 	document.addEventListener("DOMContentLoaded", function() { // This line needs a polyfill for IE8!!!
-		JoomlaCalendar.init("field-calendar");           // One line setup
+		JoomlaCalendar.init(".field-calendar");           // One line setup
 	});
 	window.JoomlaCalendar = JoomlaCalendar;
 
