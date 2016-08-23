@@ -69,6 +69,7 @@ abstract class JArchiveTestCase extends PHPUnit_Framework_TestCase
 			rmdir($this->outputPath);
 		}
 
+		unset($this->outputPath);
 		parent::tearDown();
 	}
 }
