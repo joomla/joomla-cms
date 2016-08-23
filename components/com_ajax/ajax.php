@@ -158,13 +158,6 @@ switch ($format)
 
 		break;
 
-	// Human-readable format
-	case 'debug' :
-		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
-
-		break;
-
 	// Handle as raw format
 	default :
 		// Output exception

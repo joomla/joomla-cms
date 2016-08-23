@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<div class="row-fluid">
 			<div class="span7">
 				<?php if ($user->client_id == 0) : ?>
-					<a class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-mini">
+					<a title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-mini hasTooltip">
 						<span class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT'); ?>"></span>
 					</a>
 				<?php endif; ?>
@@ -24,8 +24,7 @@ JHtml::_('bootstrap.tooltip');
 				<strong class="row-title">
 					<?php if (isset($user->editLink)) : ?>
 						<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
-							<?php echo $user->name; ?>
-						</a>
+							<?php echo $user->name; ?></a>
 					<?php else : ?>
 						<?php echo $user->name; ?>
 					<?php endif; ?>

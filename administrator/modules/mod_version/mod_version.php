@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModVersionHelper', __DIR__ . '/helper.php');
 
 $version = ModVersionHelper::getVersion($params);
 

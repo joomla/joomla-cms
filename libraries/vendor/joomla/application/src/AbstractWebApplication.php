@@ -69,10 +69,29 @@ abstract class AbstractWebApplication extends AbstractApplication
 	private $session;
 
 	/**
+	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
+	 *
+	 * @var    array
+	 * @since  1.6.0
+	 * @see    https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
+	 */
+	private $responseMap = array(
+		300 => 'HTTP/1.1 300 Multiple Choices',
+		301 => 'HTTP/1.1 301 Moved Permanently',
+		302 => 'HTTP/1.1 302 Found',
+		303 => 'HTTP/1.1 303 See other',
+		304 => 'HTTP/1.1 304 Not Modified',
+		305 => 'HTTP/1.1 305 Use Proxy',
+		306 => 'HTTP/1.1 306 (Unused)',
+		307 => 'HTTP/1.1 307 Temporary Redirect',
+		308 => 'HTTP/1.1 308 Permanent Redirect'
+	);
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input          $input   An optional argument to provide dependency injection for the application's
-	 *                                  input object.  If the argument is a Input object that object will become
+	 *                                  input object.  If the argument is an Input object that object will become
 	 *                                  the application's input object, otherwise a default input object is created.
 	 * @param   Registry       $config  An optional argument to provide dependency injection for the application's
 	 *                                  config object.  If the argument is a Registry object that object will become
@@ -98,10 +117,6 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 		// Set the system URIs.
 		$this->loadSystemUris();
-
-		// Set the execution datetime and timestamp;
-		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
-		$this->set('execution.timestamp', time());
 	}
 
 	/**
@@ -257,14 +272,15 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
-	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param   string   $url     The URL to redirect to. Can only be http/https URL
+	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
-	public function redirect($url, $moved = false)
+	public function redirect($url, $status = 303)
 	{
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
@@ -323,8 +339,20 @@ abstract class AbstractWebApplication extends AbstractApplication
 			}
 			else
 			{
+				// Check if we have a boolean for the status variable for compatability with v1 of the framework
+				// @deprecated 3.0
+				if (is_bool($status))
+				{
+					$status = $status ? 301 : 303;
+				}
+
+				if (!is_int($status) && !isset($this->responseMap[$status]))
+				{
+					throw new \InvalidArgumentException('You have not supplied a valid HTTP 1.1 status code');
+				}
+
 				// All other cases use the more efficient HTTP header for redirection.
-				$this->header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
 

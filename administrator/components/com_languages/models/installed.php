@@ -216,20 +216,24 @@ class LanguagesModelInstalled extends JModelList
 			// Compute all the languages.
 			foreach ($langlist as $lang)
 			{
-				$client     = JApplicationHelper::getClientInfo($lang->client_id);
-				$clientPath = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+				$client       = JApplicationHelper::getClientInfo($lang->client_id);
+				$clientPath   = (int) $lang->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
+				$metafilePath = $clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml';
 
-				$info = JApplicationHelper::parseXMLLangMetaFile($clientPath . '/language/' . $lang->element . '/' . $lang->element . '.xml');
+				$info = JApplicationHelper::parseXMLLangMetaFile($metafilePath);
+				if (!is_array($info))
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage(JText::sprintf('COM_LANGUAGES_ERROR_LANGUAGE_METAFILE_MISSING', $lang->element, $metafilePath), 'warning');
+
+					continue;
+				}
+
 				$row  = new StdClass;
 
 				$row->language     = $lang->element;
 				$row->client_id    = (int) $lang->client_id;
 				$row->extension_id = (int) $lang->extension_id;
-
-				if (!is_array($info))
-				{
-					continue;
-				}
 
 				foreach ($info as $key => $value)
 				{
@@ -322,7 +326,7 @@ class LanguagesModelInstalled extends JModelList
 		// Create a new db object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$client = $this->getState('filter.client_id');
+		$client = $this->getState('client_id');
 		$type = "language";
 
 		// Select field element from the extensions table.

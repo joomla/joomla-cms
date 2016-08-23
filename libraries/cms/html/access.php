@@ -71,7 +71,7 @@ abstract class JHtmlAccess
 			array(
 				'list.attr' => $attribs,
 				'list.select' => $selected,
-				'id' => $id
+				'id' => $id,
 			)
 		);
 	}
@@ -117,7 +117,7 @@ abstract class JHtmlAccess
 	}
 
 	/**
-	 * Returns a UL list of user groups with check boxes
+	 * Returns a UL list of user groups with checkboxes
 	 *
 	 * @param   string   $name             The name of the checkbox controls array
 	 * @param   array    $selected         An array of the checked boxes
@@ -173,7 +173,7 @@ abstract class JHtmlAccess
 				$html[] = '			<label class="checkbox" for="' . $eid . '">';
 				$html[] = '			<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
 				$html[] = '					' . $checked . $rel . ' />';
-				$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $item->level) . $item->title;
+				$html[] = '			' . JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $item->title;
 				$html[] = '			</label>';
 				$html[] = '		</div>';
 				$html[] = '	</div>';
@@ -184,7 +184,7 @@ abstract class JHtmlAccess
 	}
 
 	/**
-	 * Returns a UL list of actions with check boxes
+	 * Returns a UL list of actions with checkboxes
 	 *
 	 * @param   string  $name       The name of the checkbox controls array
 	 * @param   array   $selected   An array of the checked boxes
@@ -288,7 +288,7 @@ abstract class JHtmlAccess
 			array(
 				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
-				'list.select' => (int) $selected
+				'list.select' => (int) $selected,
 			)
 		);
 	}

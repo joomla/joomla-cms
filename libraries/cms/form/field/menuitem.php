@@ -162,15 +162,43 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		// Build group for a specific menu type.
 		if ($menuType)
 		{
+			// If the menutype is empty, group the items by menutype.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__menu_types'))
+				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+			$db->setQuery($query);
+
+			try
+			{
+				$menuTitle = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				$menuTitle = $menuType;
+			}
+
 			// Initialize the group.
-			$groups[$menuType] = array();
+			$groups[$menuTitle] = array();
 
 			// Build the options array.
 			foreach ($items as $link)
 			{
 				$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
-				$groups[$menuType][] = JHtml::_('select.option',
-								$link->value, $levelPrefix . $link->text,
+
+				// Displays language code if not set to All
+				if ($link->language !== '*')
+				{
+					$lang = ' (' . $link->language . ')';
+				}
+				else
+				{
+					$lang = '';
+				}
+
+				$groups[$menuTitle][] = JHtml::_('select.option',
+								$link->value, $levelPrefix . $link->text . $lang,
 								'value',
 								'text',
 								in_array($link->type, $this->disable)
@@ -184,16 +212,29 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			foreach ($items as $menu)
 			{
 				// Initialize the group.
-				$groups[$menu->menutype] = array();
+				$groups[$menu->title] = array();
 
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
 					$levelPrefix = str_repeat('- ', $link->level - 1);
-					$groups[$menu->menutype][] = JHtml::_(
-						'select.option', $link->value, $levelPrefix . $link->text, 'value', 'text',
-						in_array($link->type, $this->disable)
-					);
+
+					// Displays language code if not set to All
+					if ($link->language !== '*')
+					{
+						$lang = ' (' . $link->language . ')';
+					}
+					else
+					{
+						$lang = '';
+					}
+
+					$groups[$menu->title][] = JHtml::_('select.option',
+										$link->value, $levelPrefix . $link->text . $lang,
+										'value',
+										'text',
+										in_array($link->type, $this->disable)
+									);
 				}
 			}
 		}
