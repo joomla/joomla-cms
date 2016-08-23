@@ -26,10 +26,10 @@
 	/** Global method to change input values with the data-alt-value values. **/
 	window.getJoomlaCalendarValuesFromAlt = function() {
 
-		var calendars = document.getElementsByClassName("field-calendar");
+		var calendars = document.querySelectorAll(".field-calendar");
 
 		for (var i = 0; i < calendars.length; i++) {
-			var input = calendars[i].getElementsByTagName('INPUT')[0];
+			var input = calendars[i].querySelectorAll('INPUT')[0];
 			input.value = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
 		}
 	};
@@ -884,7 +884,7 @@
 	JoomlaCalendar.init = function (className) {
 		var elements, i;
 
-		elements = document.getElementsByClassName(className);
+		elements = document.querySelectorAll('.' + className);
 
 		// Fall back for translation strings
 		window.JoomlaCalLocale = window.JoomlaCalLocale ? JoomlaCalLocale : {};
