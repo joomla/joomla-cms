@@ -1762,7 +1762,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `folder` varchar(20) DEFAULT '',
   `client_id` tinyint(3) DEFAULT 0,
   `version` varchar(32) DEFAULT '',
-  `data` text NOT NULL,
+  `data` text NOT NULL DEFAULT '',
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
   `extra_query` varchar(1000) DEFAULT '',
