@@ -9,3 +9,6 @@ set -e
 
 # Make sure all dev dependencies are installed
 composer install
+
+# Disable xdebug
+phpenv config-rm xdebug.ini
