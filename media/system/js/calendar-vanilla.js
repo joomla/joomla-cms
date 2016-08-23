@@ -69,7 +69,7 @@
 				firstDayOfWeek: 0,               // 0 for Sunday, 1 for Monday, etc.
 				time24: false,                   // Use 24/12 hour format
 				showsOthers: true,               // Display previous/next month days as disables
-				showsTime: true,                // Shows hours and minutes drop downs
+				showsTime: true,                 // Shows hours and minutes drop downs
 				weekNumbers: false,              // Shows the week number as first column
 				showsTodayBtn: true,             // Display a today button
 				compressedHeader: false,         // Use one line for year
@@ -357,7 +357,7 @@
 			}
 			date = new Date(self.date);
 			if (el.navtype == 0) {
-				self.date.setLocalDateOnly('gregorian', new Date());                                // TODAY
+				self.date.setLocalDateOnly('gregorian', new Date());                                  // TODAY
 				self.dateClicked = true;
 				this.callHandler();
 				this.close();
@@ -535,15 +535,15 @@
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
-			this._nav_py = hh("<", 1, -2, '', '', 'btn btn-small btn-default pull-left');    // Previous year button
+			this._nav_py = hh("<", 1, -2, '', '', 'btn btn-small btn-default pull-left');                   // Previous year button
 			this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title";
 			this._nav_ny = hh(">", 1, 2, '', '', 'btn btn-small btn-default pull-right');                   // Next year button
 		}
 
-		row = createElement("tr", thead);                                                    // Head - month
+		row = createElement("tr", thead);                                                                   // Head - month
 		row.className = "calendar-head-row";
-		this._nav_pm = hh("<", 1, -1, '', '', 'btn btn-small btn-default pull-left');        // Previous month button
+		this._nav_pm = hh("<", 1, -1, '', '', 'btn btn-small btn-default pull-left');                       // Previous month button
 		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 		this._nav_month.className = "title";
 		this._nav_nm = hh(">", 1, 1, '', '', 'btn btn-small btn-default pull-right');                       // Next month button
@@ -553,7 +553,7 @@
 			row.className = "headrow";
 			this._nav_now = hh('<a class="btn btn-small btn-success" data-action="today" style="display:block;padding:2px 6px;">'
 				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 8 : 7, 0, 'td', {'textAlign': 'center'});
-			var todaya = row.querySelector('a[data-action="today"]');                                         // HTML5 version
+			var todaya = row.querySelector('a[data-action="today"]');                                       // HTML5 version
 			if (typeof todaya == "undefined") {                                                             // Support IE8
 				var tempElem = row.getElementsByTagName("A"), i, todaya = null;
 				for (i = 0; i < tempElem.length; i++) {
@@ -567,7 +567,7 @@
 			});
 		}
 
-		row = createElement("tr", thead);                                                      // day names
+		row = createElement("tr", thead);                                                                   // day names
 		row.className = "daynames";
 		if (this.params.weekNumbers) {
 			cell = createElement("td", row);
@@ -913,7 +913,7 @@
 
 	/** Instantiate all the calendar fields when the document is ready */
 	document.addEventListener("DOMContentLoaded", function() { // This line needs a polyfill for IE8!!!
-		JoomlaCalendar.init(".field-calendar");           // One line setup
+		JoomlaCalendar.init(".field-calendar");                // One line setup
 	});
 	window.JoomlaCalendar = JoomlaCalendar;
 
