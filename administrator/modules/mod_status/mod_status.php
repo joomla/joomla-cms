@@ -24,7 +24,7 @@ $query = $db->getQuery(true)
 $db->setQuery($query);
 $unread = (int) $db->loadResult();
 
-// Get the number of back-end logged in users.
+// Get the number of backend logged in users.
 $query->clear()
 	->select('COUNT(session_id)')
 	->from('#__session')

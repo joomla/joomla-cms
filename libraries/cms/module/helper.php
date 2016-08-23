@@ -123,7 +123,7 @@ abstract class JModuleHelper
 	{
 		$result = static::getModule($module);
 
-		return (!is_null($result) && $result->id !== 0);
+		return !is_null($result) && $result->id !== 0;
 	}
 
 	/**
@@ -181,9 +181,13 @@ abstract class JModuleHelper
 		{
 			$lang = JFactory::getLanguage();
 
-			// 1.5 or Core then 1.6 3PD
-			$lang->load($module->module, JPATH_BASE, null, false, true) ||
-				$lang->load($module->module, dirname($path), null, false, true);
+			// Only load the module's language file if it hasn't been already
+			if (!$lang->getPaths($module->module))
+			{
+				// 1.5 or Core then 1.6 3PD
+				$lang->load($module->module, JPATH_BASE, null, false, true) ||
+					$lang->load($module->module, dirname($path), null, false, true);
+			}
 
 			$content = '';
 			ob_start();
@@ -566,8 +570,7 @@ abstract class JModuleHelper
 
 			case 'static':
 				$ret = $cache->get(
-					array($cacheparams->class,
-						$cacheparams->method),
+					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
 					$module->module . md5(serialize($cacheparams->methodparams)),
 					$wrkarounds,

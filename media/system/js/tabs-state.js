@@ -23,11 +23,11 @@ jQuery(function($) {
         }
 
         function activateTab(href) {
-            $('a[data-toggle="tab"][href=' + href + ']').tab('show');
+            $('a[data-toggle="tab"][href="' + href + '"]').tab('show');
         }
 
         function hasTab(href) {
-            return $('a[data-toggle="tab"][href=' + href + ']').length;
+            return $('a[data-toggle="tab"][href="' + href + '"]').length;
         }
 
         // Array with active tabs hrefs
