@@ -118,6 +118,11 @@ class JFormFieldModal_Category extends JFormField
 		{
 			$linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY') . ' &#8212; ' . $this->element['label'];
+		}
+		else
+		{
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY');
 		}
 
 		$urlSelect = $linkCategories . '&amp;' . JSession::getFormToken() . '=1';
@@ -144,7 +149,7 @@ class JFormFieldModal_Category extends JFormField
 
 		if (empty($title))
 		{
-			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY');
+			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true);
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -195,7 +200,7 @@ class JFormFieldModal_Category extends JFormField
 			'bootstrap.renderModal',
 			'categorySelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
+				'title'       => $modalTitle,
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',

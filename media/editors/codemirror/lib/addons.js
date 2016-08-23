@@ -623,8 +623,10 @@
   }
 
   CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
-    if (old && old != CodeMirror.Init)
+    if (old && old != CodeMirror.Init) {
       cm.off("cursorActivity", doMatchBrackets);
+      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
+    }
     if (val) {
       cm.state.matchBrackets = typeof val == "object" ? val : {};
       cm.on("cursorActivity", doMatchBrackets);
@@ -1900,6 +1902,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       this.options[name] = (options && options.hasOwnProperty(name) ? options : defaults)[name]
     this.overlay = this.timeout = null;
     this.matchesonscroll = null;
+    this.active = false;
   }
 
   CodeMirror.defineOption("highlightSelectionMatches", false, function(cm, val, old) {
@@ -1908,16 +1911,34 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       clearTimeout(cm.state.matchHighlighter.timeout);
       cm.state.matchHighlighter = null;
       cm.off("cursorActivity", cursorActivity);
+      cm.off("focus", onFocus)
     }
     if (val) {
-      cm.state.matchHighlighter = new State(val);
-      highlightMatches(cm);
+      var state = cm.state.matchHighlighter = new State(val);
+      if (cm.hasFocus()) {
+        state.active = true
+        highlightMatches(cm)
+      } else {
+        cm.on("focus", onFocus)
+      }
       cm.on("cursorActivity", cursorActivity);
     }
   });
 
   function cursorActivity(cm) {
     var state = cm.state.matchHighlighter;
+    if (state.active || cm.hasFocus()) scheduleHighlight(cm, state)
+  }
+
+  function onFocus(cm) {
+    var state = cm.state.matchHighlighter
+    if (!state.active) {
+      state.active = true
+      scheduleHighlight(cm, state)
+    }
+  }
+
+  function scheduleHighlight(cm, state) {
     clearTimeout(state.timeout);
     state.timeout = setTimeout(function() {highlightMatches(cm);}, state.options.delay);
   }
