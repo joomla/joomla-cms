@@ -10,6 +10,9 @@ set -e
 # Disable xdebug on php 7.0.* and lower.
 if [[ ( $TRAVIS_PHP_VERSION = 5.* ) || ( $TRAVIS_PHP_VERSION = 7.0 ) ]]; then phpenv config-rm xdebug.ini; fi
 
+# Disable xdebug in hhvm.
+if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'xdebug.enable = 0' >> /etc/hhvm/php.ini; fi
+
 # Make sure all dev dependencies are installed
 composer install
 
