@@ -1430,8 +1430,17 @@ class JoomlaInstallerScript
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade/jade.js',
 			'/media/editors/codemirror/mode/jade/jade.min.js',
-			'administrator/components/com_categories/views/category/tmpl/edit_extrafields.php',
-			'administrator/components/com_categories/views/category/tmpl/edit_options.php',
+			'/administrator/components/com_banners/views/banners/tmpl/default_batch.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_extrafields.php',
+			'/administrator/components/com_categories/views/category/tmpl/edit_options.php',
+			'/administrator/components/com_categories/views/categories/tmpl/default_batch.php',
+			'/administrator/components/com_content/views/articles/tmpl/default_batch.php',
+			'/administrator/components/com_menus/views/items/tmpl/default_batch.php',
+			'/administrator/components/com_modules/views/modules/tmpl/default_batch.php',
+			'/administrator/components/com_newsfeeds/views/newsfeeds/tmpl/default_batch.php',
+			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
+			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
+			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
