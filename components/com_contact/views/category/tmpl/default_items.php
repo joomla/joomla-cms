@@ -39,26 +39,32 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</fieldset>
 	<?php endif; ?>
 
-		<ul class="category list-striped">
+	<table class="category table table-striped table-bordered table-hover">
+		<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->items[$i]->published == 0) : ?>
-						<li class="row system-unpublished cat-list-row<?php echo $i % 2; ?>">
+						<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
-						<li class="row cat-list-row<?php echo $i % 2; ?>" >
+						<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 
+					<td>
+
 					<?php if ($this->params->get('show_image_heading')) : ?>
+						<?php $contact_width = 7; ?>
 						<div class="span2 col-md-2">
 							<?php if ($this->items[$i]->image) : ?>
 								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 							<?php endif; ?>
 						</div>
+					<?php else : ?>
+						<?php $contact_width = 9; ?>
 					<?php endif; ?>
 
-					<div class="list-title span7 col-md-7">
+					<div class="list-title span<?php echo $contact_width; ?> col-md-<?php echo $contact_width; ?>">
 						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
 						<?php if ($this->items[$i]->published == 0) : ?>
@@ -102,10 +108,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</div>
 
 					<?php echo $item->event->afterDisplayContent; ?>
-				</li>
+
+					</td>
+				</tr>
+
 				<?php endif; ?>
 			<?php endforeach; ?>
-		</ul>
+		</tbody>
+	</table>
 
 		<?php if ($this->params->get('show_pagination', 2)) : ?>
 		<div class="pagination">
