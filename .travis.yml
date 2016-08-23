@@ -15,9 +15,8 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: 6.1
-      sudo: true
-      env: RUN_JAVASCRIPT_TESTS="yes" RUN_UNIT_TESTS="no"
+    - php: 5.6
+      env: RUN_PHPCS="yes" RUN_UNIT_TESTS="no"
     - php: 5.3
       env: INSTALL_APC="yes"
     - php: 5.4
@@ -26,8 +25,6 @@ matrix:
       env: INSTALL_APCU="yes"
     - php: 5.6
       env: INSTALL_APCU="yes"
-    - php: 5.6
-      env: RUN_PHPCS="yes" RUN_UNIT_TESTS="no"
     - php: 7.0
       env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
     - php: 7.1
@@ -47,6 +44,9 @@ matrix:
         - postgresql
         - redis-server
       env: INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" # Disabled items that currently do not work in travis-ci hhvm
+    - node_js: 6.1
+      sudo: true
+      env: RUN_JAVASCRIPT_TESTS="yes" RUN_UNIT_TESTS="no"
   allow_failures:
     - php: 7.1
     - php: hhvm
