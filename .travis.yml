@@ -16,7 +16,7 @@ matrix:
   fast_finish: true
   include:
     - php: 5.6
-      env: RUN_PHPCS="yes" RUN_UNIT_TESTS="no"
+      env: RUN_PHPCS="yes" RUN_UNIT_TESTS="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
     - php: 5.3
       env: INSTALL_APC="yes"
     - php: 5.4
