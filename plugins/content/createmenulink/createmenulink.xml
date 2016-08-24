@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.6" type="plugin" group="content" method="upgrade">
-    <name>PLG_CONTENT_CREATEMENULINK</name>
-    <author>Joomla! Project</author>
-    <creationDate>July 2016</creationDate>
-    <copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
-    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <authorEmail>admin@joomla.org</authorEmail>
-    <authorUrl>www.joomla.org</authorUrl>
-    <version>1.1.0</version>
-    <description>PLG_CONTENT_CREATEMENULINK_XML_DESCRIPTION</description>
-    <files>
-        <filename plugin="createmenulink">createmenulink.php</filename>
-	    <folder>fields</folder>
-	    <folder>forms</folder>
-    </files>
+	<name>PLG_CONTENT_CREATEMENULINK</name>
+	<author>Joomla! Project</author>
+	<creationDate>July 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>PLG_CONTENT_CREATEMENULINK_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="createmenulink">createmenulink.php</filename>
+		<folder>fields</folder>
+		<folder>forms</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_createmenulink.ini</language>
+		<language tag="en-GB">en-GB.plg_content_createmenulink.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-						name="allowedContexts"
-						type="textarea"
-						default="com_content.article"
-						label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
-						description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
-						rows="10"
-						cols="5"
-						filter="string"
+					name="allowedContexts"
+					type="textarea"
+					default="com_content.article"
+					label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
+					description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
+					rows="10"
+					cols="5"
+					filter="string"
 				/>
 			</fieldset>
 		</fields>
 	</config>
-    <languages>
-        <language tag="en-GB">en-GB.plg_content_createmenulink.ini</language>
-        <language tag="en-GB">en-GB.plg_content_createmenulink.sys.ini</language>
-    </languages>
 </extension>
