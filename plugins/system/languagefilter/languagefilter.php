@@ -704,8 +704,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if ($active)
 			{
-				$active_link = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-				$current_link = JUri::getInstance()->toString(array('path', 'query'));
+				$active_link  = JRoute::_($active->link . '&Itemid=' . $active->id, false);
+				$current_link = urldecode(JUri::getInstance()->toString(array('path', 'query')));
 
 				// Load menu associations
 				if ($active_link == $current_link)
