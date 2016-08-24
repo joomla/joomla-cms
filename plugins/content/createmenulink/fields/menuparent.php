@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  3.6
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldMenuParent extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldMenuParent extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var        string
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $type = 'MenuParent';
 
@@ -31,7 +31,7 @@ class JFormFieldMenuParent extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
@@ -82,8 +82,6 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

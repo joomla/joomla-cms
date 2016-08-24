@@ -11,12 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-JLoader::import('joomla.application.component.model');
-
 /**
  * Createmenulink Plugin
  *
- * @since  3.6
+ * @since  __DEPLOY_VERSION__
  */
 class PlgContentCreateMenulink extends JPlugin
 {
@@ -24,7 +22,7 @@ class PlgContentCreateMenulink extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  3.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -36,7 +34,7 @@ class PlgContentCreateMenulink extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentPrepareData($context, $data)
 	{
@@ -47,9 +45,7 @@ class PlgContentCreateMenulink extends JPlugin
 			return true;
 		}
 
-		$app = JFactory::getApplication();
-
-		if (!($app->isAdmin()))
+		if (!(JFactory::getApplication()->isAdmin()))
 		{
 			return true;
 		}
@@ -67,7 +63,7 @@ class PlgContentCreateMenulink extends JPlugin
 		JHtml::_('jquery.framework', false);
 
 		$session = JFactory::getSession();
-		$session->set("componentHiddenView", $jinput->get('view'));
+		$session->set('componentHiddenView', $jinput->get('view'));
 
 		if (!empty($menuItems))
 		{
@@ -97,7 +93,7 @@ class PlgContentCreateMenulink extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -118,9 +114,7 @@ class PlgContentCreateMenulink extends JPlugin
 			return true;
 		}
 
-		$app = JFactory::getApplication();
-
-		if ($app->isAdmin())
+		if (JFactory::getApplication()->isAdmin())
 		{
 			// Add the fields to the form.
 			JForm::addFormPath(__DIR__ . '/forms');
@@ -138,12 +132,11 @@ class PlgContentCreateMenulink extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentBeforeSave($context, $article)
 	{
-		$session = JFactory::getSession();
-		$session->set("formData", JFactory::getApplication()->input->post->get('jform', array(), 'array'));
+		JFactory::getSession()->set('formData', JFactory::getApplication()->input->post->get('jform', array(), 'array'));
 
 		return true;
 	}
@@ -156,9 +149,8 @@ class PlgContentCreateMenulink extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-
 	public function onContentAfterSave($context, $article)
 	{
 		if (in_array($context, array('com_menus.item')))
@@ -174,13 +166,13 @@ class PlgContentCreateMenulink extends JPlugin
 		}
 
 		$session = JFactory::getSession();
-		$data    = $session->get("formData");
-		$session->clear("formData");
+		$data    = $session->get('formData');
+		$session->clear('formData');
 
 		$jinput    = JFactory::getApplication()->input;
 		$component = $jinput->getcmd('option');
-		$view      = $session->get("componentHiddenView");
-		$session->clear("componentHiddenView");
+		$view      = $session->get('componentHiddenView');
+		$session->clear('componentHiddenView');
 
 		$menuData = array(
 			'id'                => $data['menuid'],

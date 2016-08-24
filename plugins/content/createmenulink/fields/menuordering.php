@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  3.6
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldMenuOrdering extends JFormFieldList
 {
@@ -22,7 +22,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var        string
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $type = 'MenuOrdering';
 
@@ -32,7 +32,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 *
 	 * @return  array  The field option objects or false if the parent field has not been set
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
@@ -50,7 +50,6 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text')
 			->from('#__menu AS a')
-
 			->where('a.published >= 0')
 			->where('a.parent_id =' . (int) $parent_id);
 
@@ -94,7 +93,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput()
 	{
