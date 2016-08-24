@@ -77,6 +77,8 @@ if (strtoupper($value) == 'NOW')
 
 $readonly = isset($attributes['readonly']) && $attributes['readonly'] == 'readonly';
 $disabled = isset($attributes['disabled']) && $attributes['disabled'] == 'disabled';
+$minyear  = (isset($minyear) && $minyear != 0) ? $minyear : 1970;
+$maxyear  = (isset($maxyear) && $maxyear != 0) ? $maxyear : 2030;
 
 if (is_array($attributes))
 {
