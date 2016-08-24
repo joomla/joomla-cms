@@ -1430,6 +1430,7 @@ class JoomlaInstallerScript
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade/jade.js',
 			'/media/editors/codemirror/mode/jade/jade.min.js',
+			// Joomla! 3.7.0
 			'/administrator/components/com_banners/views/banners/tmpl/default_batch.php',
 			'/administrator/components/com_categories/views/category/tmpl/edit_extrafields.php',
 			'/administrator/components/com_categories/views/category/tmpl/edit_options.php',
