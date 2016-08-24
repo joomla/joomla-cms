@@ -1478,51 +1478,27 @@ class JHtmlTest extends TestCase
 			{
 				$this->assertEquals(
 					$data['attribs']['readonly'],
-					(string) $xml->attributes()->readonly,
-					'Line:' . __LINE__ . ' The readonly calendar input should have `readonly == "' . $data['attribs']['readonly'] . '"`'
-				);
-
-				$this->assertArrayNotHasKey(
-					'/media/system/js/calendar.js',
-					JFactory::getDocument()->_scripts,
-					'Line:' . __LINE__ . ' JS file "calendar.js" shouldn\'t be loaded'
-				);
-
-				$this->assertArrayNotHasKey(
-					'/media/system/js/calendar-setup.js',
-					JFactory::getDocument()->_scripts,
-					'Line:' . __LINE__ . ' JS file "calendar-setup.js" shouldn\'t be loaded'
-				);
-
-				$this->assertArrayNotHasKey(
-					'text/javascript',
-					JFactory::getDocument()->_script,
-					'Line:' . __LINE__ . ' Inline JS for the calendar shouldn\'t be loaded'
+					$xml->attributes()->readonly,
+					'Line:' . __LINE__ . ' The calendar input should have readonly attribute'
 				);
 			}
-			else
-			{
-				$this->assertFalse(
-					isset($xml->attributes()->readonly),
-					'Line:' . __LINE__ . ' The calendar input shouldn\'t have readonly attribute'
-				);
 
-				$this->assertArrayHasKey(
-					'/media/system/js/calendar-locales/date/date-helper.min.js',
-					JFactory::getDocument()->_scripts,
-					'Line:'.__LINE__.' JS file "date.js" should be loaded'
-				);
+			$this->assertArrayHasKey(
+				'/media/system/js/calendar-locales/en-gb.js',
+				JFactory::getDocument()->_scripts,
+				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
+			);
+
+			$this->assertArrayHasKey(
+				'/media/system/js/calendar-locales/date/date-helper.min.js',
+				JFactory::getDocument()->_scripts,
+				'Line:'.__LINE__.' JS file "date.js" should be loaded'
+			);
 
 				$this->assertArrayHasKey(
 					'/media/system/js/calendar-vanilla.min.js',
 					JFactory::getDocument()->_scripts,
-					'Line:'.__LINE__.' JS file "calendar-setup.js" should be loaded'
-				);
-
-				$this->assertContains(
-					'jQuery(document).ready(function($) {Calendar.setup({',
-					JFactory::getDocument()->_script['text/javascript'],
-					'Line:' . __LINE__ . ' Inline JS for the calendar should be loaded'
+					'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
 				);
 			}
 		}
