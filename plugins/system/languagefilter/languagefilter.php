@@ -445,7 +445,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($lang_code === $this->default_lang)
 			{
 				$redirectHttpCode = 301;
-			
+
 				// We cannot cache this redirect in browser. 301 is cachable by default so we need to force to not cache it in browsers.
 				$this->app->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
 				$this->app->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
@@ -453,7 +453,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$this->app->setHeader('Pragma', 'no-cache');
 				$this->app->sendHeaders();
 			}
-			
+
 			// Redirect to language.
 			$this->app->redirect($redirectUri, $redirectHttpCode);
 		}
@@ -747,7 +747,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					// Current language link
 					case ($i == $this->current_lang):
-						$language->link = JUri::getInstance()->toString(array('path', 'query'));
+						$language->link = urldecode(JUri::getInstance()->toString(array('path', 'query')));
 						break;
 
 					// Component association
