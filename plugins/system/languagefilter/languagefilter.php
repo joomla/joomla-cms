@@ -693,19 +693,20 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->app->isSite() && $this->params->get('alternate_meta', 1) && $doc->getType() == 'html')
 		{
-			$languages = $this->lang_codes;
-			$homes = JLanguageMultilang::getSiteHomePages();
-			$menu = $this->app->getMenu();
-			$active = $menu->getActive();
-			$levels = JFactory::getUser()->getAuthorisedViewLevels();
+			$languages             = $this->lang_codes;
+			$homes                 = JLanguageMultilang::getSiteHomePages();
+			$menu                  = $this->app->getMenu();
+			$active                = $menu->getActive();
+			$levels                = JFactory::getUser()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-			$is_home = false;
+			$server                = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$is_home               = false;
+			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
 
 			if ($active)
 			{
-				$active_link  = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-				$current_link = JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()));
+				$active_link  = JRoute::_($active->link . '&Itemid=' . $active->id);
+				$current_link = JRoute::_($currentInternalUrl);
 
 				// Load menu associations
 				if ($active_link == $current_link)
@@ -747,8 +748,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					// Current language link
 					case ($i == $this->current_lang):
-						$currentRelativeUrl = JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()));
-						$language->link = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $currentRelativeUrl;
+						$language->link = JRoute::_($currentInternalUrl);
 						break;
 
 					// Component association
