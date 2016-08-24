@@ -705,7 +705,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($active)
 			{
 				$active_link  = JRoute::_($active->link . '&Itemid=' . $active->id, false);
-				$current_link = urldecode(JUri::getInstance()->toString(array('path', 'query')));
+				$current_link = JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()));
 
 				// Load menu associations
 				if ($active_link == $current_link)
@@ -747,7 +747,8 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					// Current language link
 					case ($i == $this->current_lang):
-						$language->link = urldecode(JUri::getInstance()->toString(array('path', 'query')));
+						$currentRelativeUrl = JRoute::_('index.php?' . http_build_query($this->app->getRouter()->getVars()));
+						$language->link = JUri::getInstance()->toString(array('scheme', 'host', 'port')) . $currentRelativeUrl;
 						break;
 
 					// Component association
@@ -758,6 +759,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// Menu items association
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
+
 						$language->link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
 
