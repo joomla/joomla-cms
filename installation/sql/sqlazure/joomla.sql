@@ -2024,6 +2024,12 @@ SELECT 20, 'menu', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 
 UNION ALL
 SELECT 21, 'menu', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 39, 40, 0, '*', 1
 UNION ALL
+SELECT 22, 'menu', 'com_finder_indexed_content', 'Indexed Content', '', 'Smart Search/Indexed Content', 'index.php?option=com_finder', 'component', 0, 18, 2, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 43, 44, 0, '*', 1
+UNION ALL
+SELECT 23, 'menu', 'com_finder_content_maps', 'Content Maps', '', 'Smart Search/Content Maps', 'index.php?option=com_finder&view=maps', 'component', 0, 18, 2, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder-maps', 0, '', 44, 45, 0, '*', 1
+UNION ALL,
+SELECT 24, 'menu', 'com_finder_filters', 'Filters', '', 'Smart Search/Filters', 'index.php?option=com_finder&view=filters', 'component', 0, 18, 2, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder-filters', 0, '', 46, 47, 0, '*', 1
+UNION ALL
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0;
 
 SET IDENTITY_INSERT [#__menu]  OFF;

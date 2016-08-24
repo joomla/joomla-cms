@@ -55,6 +55,14 @@
 			<language tag="en-GB">language/en-GB.com_finder.ini</language>
 			<language tag="en-GB">language/en-GB.com_finder.sys.ini</language>
 		</languages>
-		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
+		<menu img="class:finder" link="option=com_finder">com_finder</menu>
+		<submenu>
+			<menu link="option=com_finder" view="index" img="class:finder"
+				alt="Smart Search/Indexed Content">com_finder_indexed_content</menu>
+			<menu link="option=com_finder&amp;view=maps" view="maps" img="class:finder-maps"
+				alt="Smart Search/Content Maps">com_finder_content_maps</menu>
+			<menu link="option=com_finder&amp;view=filters" view="filters" img="class:finder-filters"
+				alt="Smart Search/Filters">com_finder_filters</menu>
+		</submenu>
 	</administration>
 </extension>
