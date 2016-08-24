@@ -1004,6 +1004,12 @@ abstract class JHtml
 		$autofocus    = isset($attribs['autofocus']) && $attribs['autofocus'] == '';
 		$required     = isset($attribs['required']) && $attribs['required'] == '';
 		$filter       = isset($attribs['filter']) && $attribs['filter'] == '';
+		$todayBtn     = isset($attribs['todayBtn']) ? $attribs['todayBtn'] : true;
+		$weekNumbers  = isset($attribs['weekNumbers']) ? $attribs['weekNumbers'] : false;
+		$showTime     = isset($attribs['showTime']) ? $attribs['showTime'] : true;
+		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
+		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
+		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1029,6 +1035,12 @@ abstract class JHtml
 			'disabled'     => $disabled,
 			'autofocus'    => $autofocus,
 			'autocomplete' => $autocomplete,
+			'todaybutton'  => $todayBtn,
+			'weeknumbers'  => $weekNumbers,
+			'showtime'     => $showTime,
+			'filltable'    => $fillTable,
+			'timeformat'   => $timeFormat,
+			'singleheader' => $singleHeader,
 			'tag'          => $tag,
 			'datePath'     => $path,
 			);
