@@ -13,21 +13,28 @@ env:
 matrix:
   fast_finish: true
   include:
-    - node_js: 6.1
+    - php: 5.6
+      env: RUN_PHPCS="yes" RUN_UNIT_TESTS="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
+    - php: 5.6
+      env: RUN_CODECEPTION="yes" RUN_UNIT_TESTS="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
       sudo: true
-      env: RUN_JAVASCRIPT_TESTS="yes" RUN_UNIT_TESTS="no"
+    - php: 5.5
+      env: RUN_CODECEPTION="yes" RUN_UNIT_TESTS="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no"
+      sudo: true
     - php: 5.3
       env: INSTALL_APC="yes"
     - php: 5.4
       env: INSTALL_APC="yes"
     - php: 5.5
-      env: RUN_CODECEPTION="yes" INSTALL_APCU="yes"
-      sudo: true
+      env: INSTALL_APCU="yes"
     - php: 5.6
-      env: RUN_CODECEPTION="yes" RUN_PHPCS="yes" INSTALL_APCU="yes"
+      env: INSTALL_APCU="yes"
       sudo: true
     - php: 7.0
       env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
+    - node_js: 6.1
+      sudo: true
+      env: RUN_JAVASCRIPT_TESTS="yes" RUN_UNIT_TESTS="no"
     - php: 7.1
       env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
     - php: hhvm
@@ -60,14 +67,14 @@ before_script:
   # JavaScript tests
   - if [[ $RUN_JAVASCRIPT_TESTS == "yes" ]]; then export DISPLAY=:99.0; bash build/travis/javascript-tests.sh $PWD; fi
   # Make sure all dev dependencies are installed
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
+  - if [[ ( $RUN_UNIT_TESTS == "yes" ) || ( $RUN_PHPCS == "yes" ) ]]; then bash build/travis/unit-tests.sh $PWD; fi
   # Codeception system tests
   - if [[ $RUN_CODECEPTION == "yes" ]]; then export DISPLAY=:99.0; bash build/travis/codeception-tests.sh $(pwd); fi
 
 script:
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
   - if [[ $RUN_PHPCS == "yes" ]]; then libraries/vendor/bin/phpcs --report=full --extensions=php -p --standard=build/phpcs/Joomla .; fi
   - if [[ $RUN_CODECEPTION == "yes" ]]; then tests/codeception/vendor/bin/robo run:tests --use-htaccess; fi
+  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
   - if [[ $RUN_JAVASCRIPT_TESTS == "yes" ]]; then tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run ; fi
 
 branches:
