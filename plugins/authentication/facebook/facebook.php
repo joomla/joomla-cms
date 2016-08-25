@@ -284,11 +284,12 @@ class PlgAuthenticationFacebook extends JPlugin
 			throw new RuntimeException(JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_USERNAME_CONFLICT'));
 		}
 
-		$data = array(
+		$randomPassword = JUserHelper::genRandomPassword(32);
+		$data           = array(
 			'name'      => $name,
 			'username'  => $this->deriveUsername($username),
-			'password1' => JUserHelper::genRandomPassword(32),
-			'password2' => JUserHelper::genRandomPassword(32),
+			'password1' => $randomPassword,
+			'password2' => $randomPassword,
 			'email1'    => JStringPunycode::emailToPunycode($email),
 			'email2'    => JStringPunycode::emailToPunycode($email),
 		);
