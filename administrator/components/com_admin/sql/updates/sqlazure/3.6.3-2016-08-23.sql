@@ -3,3 +3,5 @@ ALTER TABLE [#__extensions] ALTER COLUMN [custom_data] [nvarchar](max) NOT NULL 
 ALTER TABLE [#__extensions] ALTER COLUMN [system_data] [nvarchar](max) NOT NULL DEFAULT '';
 -- Add default value for data field in the #__updates table.
 ALTER TABLE [#__updates] ALTER COLUMN [data] [nvarchar](max) NOT NULL DEFAULT '';
+-- Add default value for asset_id field in the #__languages table.
+ALTER TABLE [#__languages] ALTER COLUMN [asset_id] [bigint] NOT NULL DEFAULT 0;
