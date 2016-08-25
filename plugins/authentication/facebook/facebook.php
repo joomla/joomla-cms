@@ -132,7 +132,7 @@ class PlgAuthenticationFacebook extends JPlugin
 			$userId = JUserHelper::getUserIdByEmail($fbUserEmail);
 		}
 
-		if ($userId == 0)
+		if (empty($userId))
 		{
 			$usersConfig           = JComponentHelper::getParams('com_users');
 			$allowUserRegistration = $usersConfig->get('allowUserRegistration');
@@ -412,7 +412,25 @@ class PlgAuthenticationFacebook extends JPlugin
 		{
 			$id = $db->setQuery($query, 0, 1)->loadResult();
 
-			return empty($id) ? 0 : $id;
+			// Not found?
+			if (empty($id))
+			{
+				return 0;
+			}
+
+			/**
+			 * If you delete a user its profile fields are left behind and confuse our code. Therefore we have to check
+			 * if the user *really* exists. However we can't just go through JFactory::getUser() because if the user
+			 * does not exist we'll end up with an ugly Warning on our page with a text similar to "JUser: :_load:
+			 * Unable to load user with ID: 1234". This cannot be disabled so we have to be, um, a bit creative :/
+			 */
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+			            ->select('COUNT(*)')->from($db->qn('#__users'))
+			            ->where($db->qn('id') . ' = ' . $db->q($id));
+			$userExists = $db->setQuery($query)->loadResult();
+
+			return ($userExists == 0) ? 0 : $id;
 		}
 		catch (Exception $e)
 		{
