@@ -7911,6 +7911,7 @@ th .tooltip-inner {
 }
 .controls .btn-group > .btn {
 	min-width: 50px;
+	margin-left: -1px;
 }
 .controls .btn-group.btn-group-yesno > .btn {
 	min-width: 84px;
@@ -8240,7 +8241,7 @@ body.modal-open {
 	margin-bottom: 0;
 }
 .js-stools-container-bar .btn-primary .caret {
-	border-bottom: 4px solid #2384d3;
+	border-bottom: 4px solid #fff;
 }
 .input-append .add-on,
 .input-append .btn,

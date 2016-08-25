@@ -179,20 +179,14 @@
   color: #999;
 }
 .chzn-container-multi .chzn-choices .search-choice {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
   background-clip: padding-box;
   background-color: #0088cc;
+  border-radius: 3px;
   color: #fff;
-  border: 1px solid #0088cc;
-  line-height: 13px;
-  padding: 3px 20px 3px 5px;
-  margin: 3px 0 3px 5px;
-  position: relative;
   cursor: default;
+  line-height: 22px;
+  margin: 3px 0 3px 5px;
+  padding: 0 7px;
 }
 .chzn-container-multi .chzn-choices .search-choice.search-choice-disabled {
   background-color: #fff;
@@ -204,13 +198,9 @@
   background: #d4d4d4;
 }
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close {
-  display: block;
-  position: absolute;
-  right: 3px;
-  top: 4px;
-  width: 12px;
-  height: 12px;
   color: #f5f5f5;
+  display: inline-block;
+  margin-left: 5px;
 }
 .chzn-container-multi .chzn-choices .search-choice .search-choice-close:before {
   font-family: IcoMoon;
