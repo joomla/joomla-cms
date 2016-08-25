@@ -1287,7 +1287,7 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 
 CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(11) NOT NULL,
+  `asset_id` int(11) NOT NULL DEFAULT 0,
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
