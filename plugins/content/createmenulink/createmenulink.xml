@@ -24,9 +24,9 @@
 				<field
 					name="allowedContexts"
 					type="textarea"
-					default="com_content.article"
 					label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
 					description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
+					default="com_content.article"
 					rows="10"
 					cols="5"
 					filter="string"
