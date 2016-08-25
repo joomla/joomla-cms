@@ -2212,7 +2212,7 @@ button.close {
 }
 .btn:hover,
 .btn:focus {
-	background-color: #787878;
+	background-color: #808080;
 	color: #fff;
 	text-decoration: none;
 	text-shadow: none;
@@ -2433,9 +2433,6 @@ input[type="submit"].btn.btn-mini {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
-}
-.btn-group > .btn + .btn {
-	margin-left: -1px;
 }
 .btn-group > .btn,
 .btn-group > .dropdown-menu,
