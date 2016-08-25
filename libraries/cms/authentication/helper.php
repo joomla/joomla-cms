@@ -178,6 +178,6 @@ abstract class JAuthenticationHelper
 		}
 
 		// Construct and reeturn the URL
-		return 'index.php?Itemid=' . $return . $lang;
+		return JRoute::_('index.php?Itemid=' . $return . $lang);
 	}
 }
