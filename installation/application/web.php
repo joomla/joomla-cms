@@ -466,10 +466,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 		{
 			$lang = JFactory::getLanguage();
 
-			// Load joomla lib language strings.
-			$lang->load('joomla', JPATH_SITE) || $lang->load('joomla', JPATH_ADMINISTRATOR);
-			$lang->load('lib_joomla', JPATH_SITE) || $lang->load('lib_joomla', JPATH_ADMINISTRATOR);
-
 			$type = $this->input->get('format', 'html', 'word');
 
 			$attributes = array(
