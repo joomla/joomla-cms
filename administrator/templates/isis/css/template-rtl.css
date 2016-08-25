@@ -8242,6 +8242,16 @@ body.modal-open {
 .js-stools-container-bar .btn-primary .caret {
 	border-bottom: 4px solid #2384d3;
 }
+.input-append .add-on,
+.input-append .btn,
+.input-append .btn-group > .dropdown-toggle,
+.input-prepend .add-on,
+.input-prepend .btn,
+.input-prepend .btn-group > .dropdown-toggle {
+	-webkit-border-radius: 0 3px 3px 0;
+	-moz-border-radius: 0 3px 3px 0;
+	border-radius: 0 3px 3px 0;
+}
 .pull-right {
 	float: left;
 }
