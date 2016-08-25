@@ -51,8 +51,8 @@ class PlgContentCreateMenulink extends JPlugin
 		}
 
 		$jinput    = JFactory::getApplication()->input;
-		$component = $jinput->getcmd('option');
-		$view      = $jinput->getcmd('view');
+		$component = $jinput->getCmd('option');
+		$view      = $jinput->getCmd('view');
 
 		$menu      = JFactory::getApplication()->getMenu('site');
 		$menuItems = $menu->getItems(
@@ -170,7 +170,7 @@ class PlgContentCreateMenulink extends JPlugin
 		$session->clear('formData');
 
 		$jinput    = JFactory::getApplication()->input;
-		$component = $jinput->getcmd('option');
+		$component = $jinput->getCmd('option');
 		$view      = $session->get('componentHiddenView');
 		$session->clear('componentHiddenView');
 

@@ -117,6 +117,8 @@
 		<filename>en-GB.plg_captcha_recaptcha.sys.ini</filename>
 		<filename>en-GB.plg_content_contact.ini</filename>
 		<filename>en-GB.plg_content_contact.sys.ini</filename>
+		<filename>en-GB.plg_content_createmenulink.ini</filename>
+		<filename>en-GB.plg_content_createmenulink.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>

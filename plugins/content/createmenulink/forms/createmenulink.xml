@@ -13,10 +13,10 @@
 		<field
 			name="menuid"
 			type="hidden"
-			default="0"
 			label="PLG_CONTENT_CREATEMENULINK_MENUS_MENUID"
 			description="PLG_CONTENT_CREATEMENULINK_MENUS_MENUID_DESC"
 			filter="integer"
+			default="0"
 		/>
 
 		<field
