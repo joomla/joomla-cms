@@ -140,7 +140,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
-				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
 					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
 				}
