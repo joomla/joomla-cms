@@ -5,3 +5,5 @@ ALTER TABLE `#__extensions` MODIFY `system_data` text NOT NULL DEFAULT '';
 ALTER TABLE `#__updates` MODIFY `data` text NOT NULL DEFAULT '';
 -- Add default value for asset_id field in the #__languages table.
 ALTER TABLE `#__languages` MODIFY `asset_id` int(11) NOT NULL DEFAULT 0;
+-- Add default value for asset_id field in the #__menu_types table.
+ALTER TABLE `#__menu_types` MODIFY `asset_id` int(11) NOT NULL DEFAULT 0;
