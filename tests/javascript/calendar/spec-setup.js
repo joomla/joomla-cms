@@ -11,5 +11,4 @@ define(['jquery', 'text!testsRoot/calendar/fixtures/fixture.html', 'libs/calenda
 
 	$('body').append(fixture);
 
-	JoomlaCalendar.init(".field-calendar");
 });
