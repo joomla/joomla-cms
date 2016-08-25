@@ -144,6 +144,11 @@ abstract class JAuthenticationHelper
 				return $defaultUrl;
 			}
 
+			if (strpos($return, 'index.php?') !== false)
+			{
+				$return = JRoute::_($return);
+			}
+
 			return empty($return) ? $defaultUrl : $return;
 		}
 
