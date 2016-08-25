@@ -18,7 +18,7 @@ Joomla.setcollapse = function(url, name, height) {
 }
 
 /**
- * IE8 pollyfill for indexOf()
+ * IE8 polyfill for indexOf()
  */
 if (!Array.prototype.indexOf)
 {
