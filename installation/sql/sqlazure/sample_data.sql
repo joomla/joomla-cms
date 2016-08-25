@@ -57,15 +57,15 @@ SELECT 24, 1, 55, 58, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.
 UNION ALL
 SELECT 26, 1, 63, 64, 1, 'com_wrapper', 'com_wrapper', '{}'
 UNION ALL
-SELECT 27, 8, 18, 21, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 27, 8, 18, 21, 2, 'com_content.category.2', 'Uncategorised', '{}'
 UNION ALL
-SELECT 28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'
 UNION ALL
-SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'
 UNION ALL
-SELECT 30, 19, 44, 45, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 30, 19, 44, 45, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'
 UNION ALL
-SELECT 32, 24, 56, 57, 1, 'com_users.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 32, 24, 56, 57, 1, 'com_users.category.7', 'Uncategorised', '{}'
 UNION ALL
 SELECT 33, 1, 65, 66, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
