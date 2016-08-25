@@ -182,7 +182,7 @@ class PlgAuthenticationFacebook extends JPlugin
 			}
 
 			// Does the account need user or administrator verification?
-			if (in_array(array('useractivate', 'adminactivate'), $userId))
+			if (in_array($userId, array('useractivate', 'adminactivate')))
 			{
 				$message = JText::_('PLG_AUTHENTICATION_FACEBOOK_NOTICE_' . $userId);
 
