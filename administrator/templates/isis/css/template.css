@@ -8261,3 +8261,19 @@ body.modal-open {
 .js-stools-container-bar .btn-primary .caret {
 	border-bottom: 4px solid #2384d3;
 }
+label.btn.active.btn-primary {
+	background-color: #2384d3;
+	color: #fff;
+}
+label.btn.active.btn-success {
+	background-color: #46a546;
+	color: #fff;
+}
+label.btn.active.btn-warning {
+	background-color: #f89406;
+	color: #fff;
+}
+label.btn.active.btn-danger {
+	background-color: #bd362f;
+	color: #fff;
+}
