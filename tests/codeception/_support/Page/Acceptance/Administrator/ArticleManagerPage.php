@@ -43,6 +43,38 @@ class ArticleManagerPage extends AdminPage
 	public static $url = "/administrator/index.php?option=com_content&view=articles";
 
 	/**
+	 * Locator for article's name field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeName = ['xpath' => "//table[@id='articleList']//tr[1]//td[4]"];
+
+	/**
+	 * Locator for article's featured icon
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-featured']"];
+
+	/**
+	 * Locator for article's name field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeAccessLevel = ['xpath' => "//table[@id='articleList']//tr[1]//td[5]"];
+
+	/**
+	 * Locator for article's unpublish icon
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeUnpublished = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-unpublish']"];
+
+	/**
 	 * Method to create new article
 	 *
 	 * @param   string  $title    The article title

@@ -24,7 +24,15 @@ class MenuManagerPage extends AdminPage
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static $url = 'administrator/index.php?option=com_menus&view=item&layout=edit&menutype=mainmenu';
+	public static $url = 'administrator/index.php?option=com_menus&view=items&menutype=mainmenu';
+
+	/**
+	 * Locator for menu item name field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeName = ['xpath' => "//table[@id='itemList']//tr[1]//td[4]"];
 
 	/**
 	 * Locator for select article for menu item

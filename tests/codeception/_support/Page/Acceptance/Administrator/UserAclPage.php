@@ -25,4 +25,12 @@ class UserAclPage extends AdminPage
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = 'administrator/index.php?option=com_users&view=levels';
+
+	/**
+	 * Locator for user's acl name field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeName = ['xpath' => "//table[@id='levelList']//tr[1]/td[3]"];
 }

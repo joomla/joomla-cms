@@ -16,28 +16,28 @@ Feature: users
     Given There is a add user link
     When I create new user with fields Name "register", Login Name "register", Password "register" and Email "register@example.com"
     And I Save the user
-    Then I should see the "User successfully saved." message
+    Then I should see the user "register" is created
 
   Scenario: Edit user
     Given I search and select the user with user name "register"
     When I set name as an "Editor" and User Group as "Editor"
     And I Save the user
-    Then I should see the "User successfully saved." message
+    Then I should see the user "Editor" is created
 
   Scenario: Block a User
     Given I have a user with user name "register"
     When I block the user
-    Then I should see the "User blocked." message
+    Then I should see the user "register" is now blocked
 
   Scenario: Unblock user
     Given I have a blocked user with user name "register"
     When I unblock the user
-    Then I should see the "User enabled." message
+    Then I should see the user "register" is now unblocked
 
   Scenario: Delete user
     Given I have a user with user name "Editor"
     When I Delete the user "Editor"
-    Then I should see the "1 user successfully deleted." message
+    Then I should see "No Matching Results" for deleted user "Editor"
 
   Scenario: Create super admin and login into the backend
     Given There is a add user link
@@ -57,35 +57,35 @@ Feature: users
     Given There is a add new group link
     When I fill Group Title as a "Group One"
     And I save the Group
-    Then I should see the "Group successfully saved." message
+    Then I should see the group "Group One" is created
 
   Scenario: Edit group
     Given I search and select the Group with name "Group One"
     And I set group Title as a "Group Two"
     When I save the Group
-    Then I should see the "Group successfully saved." message
+    Then I should see the group "Group Two" is created
 
   Scenario: Delete Group
     Given I search and select the Group with name "Group Two"
     When I Delete the Group "Group Two"
-    Then I should see the "1 User Group successfully deleted." message
+    Then I should see "No Matching Results" for deleted user "Group Two"
 
   Scenario: Create ACL level
     Given There is a add viewing access level link
     When I fill Level Title as a "Acl One" and set Access as a public
     And I save the Access Level
-    Then I should see the "Access level successfully saved." message
+    Then I should see the access level "Acl One" is created
 
   Scenario: Edit ACL
     Given I search and select the Access Level with name "Acl One"
     And I set Access Level title as a "Acl Two"
     When I save the Access Level
-    Then I should see the "Access level successfully saved." message
+    Then I should see the access level "Acl Two" is created
 
   Scenario: Delete ACL
     Given I search and select the Access Level with name "Acl Two"
     When I Delete the Access level "Acl Two"
-    Then I should see the "1 View Access Level successfully removed." message
+    Then I should see "No Matching Results" for deleted user "Acl Two"
 
   Scenario: User settings (Allow user registration)
     Given There is an user link

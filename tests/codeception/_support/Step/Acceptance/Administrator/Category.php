@@ -117,6 +117,24 @@ class Category extends Admin
 	}
 
 	/**
+	 * Method to confirm that category is created
+	 *
+	 * @param   string  $category  The category Name
+	 *
+	 * @Then I should see the category :category is created
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheCategoryIsCreated($category)
+	{
+		$I = $this;
+
+		$I->categoryManagerPage->seeItemIsCreated($category);
+	}
+
+	/**
 	 * Save category form
 	 *
 	 * @When I save the category
@@ -147,10 +165,7 @@ class Category extends Admin
 	{
 		$I = $this;
 
-		$I->amOnPage(CategoryManagerPage::$url);
-		$I->fillField(CategoryManagerPage::$filterSearch, $title);
-		$I->click(CategoryManagerPage::$iconSearch);
-		$I->adminPage->checkAllResults();
+		$I->categoryManagerPage->haveItemUsingSearch($title);
 		$I->adminPage->clickToolbarButton('edit');
 	}
 
@@ -205,6 +220,22 @@ class Category extends Admin
 	}
 
 	/**
+	 * Confirm the category is unpublished
+	 *
+	 * @Then I should see the category is now unpublished
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheCategoryIsNowUnpublished()
+	{
+		$I = $this;
+
+		$I->seeNumberOfElements(CategoryManagerPage::$seeUnpublished, 1);
+	}
+
+	/**
 	 * Method to trash the category
 	 *
 	 * @param   string  $title  The category title
@@ -234,6 +265,24 @@ class Category extends Admin
 		$I = $this;
 
 		$I->adminPage->clickToolbarButton('trash');
+	}
+
+	/**
+	 * Assure the category is trashed.
+	 *
+	 * @param   string  $category  The article name
+	 *
+	 * @Then I should see the category :category in trash
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheInTrash($category)
+	{
+		$I = $this;
+
+		$I->categoryManagerPage->seeItemInTrash($category, 'Articles: Categories');
 	}
 
 	/**
@@ -374,7 +423,25 @@ class Category extends Admin
 		$I = $this;
 
 		$I->adminPage->waitForPageTitle('Menus: New Item');
-		$I->adminPage->clickToolbarButton('Save');
+		$I->adminPage->clickToolbarButton('save & close');
+	}
+
+	/**
+	 * Method to confirm that menu item is created
+	 *
+	 * @param   string  $item  The menu item Name
+	 *
+	 * @Then I should see the menu item :item is created
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheMenuItemIsCreated($item)
+	{
+		$I = $this;
+
+		$I->menuManagerPage->seeItemIsCreated($item);
 	}
 
 	/**
@@ -414,6 +481,25 @@ class Category extends Admin
 	}
 
 	/**
+	 * Method to set access level
+	 *
+	 * @param   string  $accessLevel  The name of access level which needs to be verify
+	 *
+	 * @Then I should see the :accessLevel as category access level
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function iShouldSeeTheCategoryAsTheAccessLevel($accessLevel)
+	{
+		$I = $this;
+
+		$I->amOnPage(CategoryManagerPage::$url);
+		$I->see($accessLevel, CategoryManagerPage::$seeAccessLevel);
+	}
+
+	/**
 	 * Method to set language
 	 *
 	 * @param   string  $name  The language name
@@ -429,6 +515,25 @@ class Category extends Admin
 		$I = $this;
 
 		$I->adminPage->selectOptionInChosenById('jform_language', $name);
+	}
+
+	/**
+	 * Method to check language is saved
+	 *
+	 * @param   string  $title  The name of access level which needs to be verify
+	 *
+	 * @Then I should see the category language as :title
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function iSeeTheCategoryLanguage($title)
+	{
+		$I = $this;
+
+		$I->amOnPage(CategoryManagerPage::$url);
+		$I->see($title, CategoryManagerPage::$seeLanguage);
 	}
 
 	/**

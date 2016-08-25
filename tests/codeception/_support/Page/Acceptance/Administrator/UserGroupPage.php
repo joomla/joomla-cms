@@ -25,4 +25,12 @@ class UserGroupPage extends AdminPage
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $url = 'administrator/index.php?option=com_users&view=groups';
+
+	/**
+	 * Locator for user's group name field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeName = ['xpath' => "//table[@id='groupList']//tr[1]/td[2]"];
 }

@@ -27,6 +27,38 @@ class CategoryManagerPage extends AdminPage
 	public static $url = '/administrator/index.php?option=com_categories&view=categories&extension=com_content';
 
 	/**
+	 * Locator for category name field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeName = ['xpath' => "//table[@id='categoryList']//tr[1]//td[4]"];
+
+	/**
+	 * Locator for category unpublished icon
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeUnpublished = ['xpath' => "//table[@id='categoryList']//*//span[@class='icon-unpublish']"];
+
+	/**
+	 * Locator for category access level field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeAccessLevel = ['xpath' => "//table[@id='categoryList']//tr[1]//td[9]"];
+
+	/**
+	 * Locator for category language field
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeLanguage = ['xpath' => "//table[@id='categoryList']//tr[1]//td[10]"];
+
+	/**
 	 * Locator for invalid category alert
 	 *
 	 * @var    array

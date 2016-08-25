@@ -99,7 +99,7 @@ class UserManagerPage extends AdminPage
 	public static $email2Field = ['id' => 'jform_email2'];
 
 	/**
-	 * Locator for user's username field in frontend
+	 * Locator for user's username field
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
@@ -107,7 +107,7 @@ class UserManagerPage extends AdminPage
 	public static $seeUserName = ['xpath' => "//table[@id='userList']//tr[1]/td[3]"];
 
 	/**
-	 * Locator for user's name field in frontend
+	 * Locator for user's name field
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
@@ -121,6 +121,30 @@ class UserManagerPage extends AdminPage
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $lastLoginDate = ['xpath' => "//table[@id='userList']//tr[1]/td[8]"];
+
+	/**
+	 * Locator for user is blocked
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeBlocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='icon-unpublish']"];
+
+	/**
+	 * Locator for user is unblocked
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $seeUnblocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='icon-publish']"];
+
+	/**
+	 * Locator for user is deleted and not found
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $noItems = ['class' => 'alert-no-items'];
 
 	/**
 	 * Method is a page object to fill user form with given information and prepare to save user.

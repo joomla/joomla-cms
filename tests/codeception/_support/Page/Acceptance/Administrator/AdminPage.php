@@ -35,7 +35,7 @@ class AdminPage extends \AcceptanceTester
 	public static $pageTitle = ['class' => 'page-title'];
 
 	/**
-	 * Locator for user's page title
+	 * Locator for page title
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
@@ -43,7 +43,7 @@ class AdminPage extends \AcceptanceTester
 	public static $title = ['id' => 'jform_title'];
 
 	/**
-	 * Locator for user's search input field
+	 * Locator for search input field
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
@@ -51,7 +51,15 @@ class AdminPage extends \AcceptanceTester
 	public static $filterSearch = ['id' => 'filter_search'];
 
 	/**
-	 * Locator for user's search button icon
+	 * Locator for status filter under search tool
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static $filterPublished = 'filter_published';
+
+	/**
+	 * Locator for search button icon
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
@@ -75,7 +83,7 @@ class AdminPage extends \AcceptanceTester
 	public static $checkAll = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
 
 	/**
-	 * Method to search using user's name
+	 * Method to search using given keyword
 	 *
 	 * @param   string  $keyword  The keyword to search
 	 *
@@ -87,6 +95,7 @@ class AdminPage extends \AcceptanceTester
 	{
 		$I = $this;
 
+		$I->amGoingTo('search for "' . $keyword . '"');
 		$I->fillField(static::$filterSearch, $keyword);
 		$I->click(static::$iconSearch);
 	}
@@ -107,6 +116,7 @@ class AdminPage extends \AcceptanceTester
 		$I->amOnPage(static::$url);
 		$I->search($keyword);
 		$I->checkAllResults();
+		$I->wait(1);
 	}
 
 	/**
@@ -128,7 +138,7 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Method is to Wait for page title untill default timeout.
+	 * Method is to Wait for page title until default timeout.
 	 *
 	 * @param   string  $title  Page Title text
 	 *
@@ -304,7 +314,7 @@ class AdminPage extends \AcceptanceTester
 	 *
 	 * @return  void
 	 */
-	public function verifyAvailableTabs($expectedTabs, $tabsLocator = NULL)
+	public function verifyAvailableTabs($expectedTabs, $tabsLocator = null)
 	{
 		$I = $this;
 
@@ -320,5 +330,44 @@ class AdminPage extends \AcceptanceTester
 		);
 
 		$I->comment('Verify the Tabs');
+	}
+
+	/**
+	 * Method to see that item is saved
+	 *
+	 * @param   string  $item  The item Name
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function seeItemIsCreated($item)
+	{
+		$I = $this;
+
+		$I->amOnPage(static::$url);
+		$I->search($item);
+		$I->see($item, static::$seeName);
+	}
+
+	/**
+	 * Assure the item is trashed.
+	 *
+	 * @param   string  $item       The item name
+	 * @param   string  $pageTitle  The page title
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
+	 */
+	public function seeItemInTrash($item, $pageTitle)
+	{
+		$I = $this;
+
+		$I->click('Search Tools');
+		$I->wait(2);
+		$I->selectOptionInChosenById(static::$filterPublished, 'Trashed');
+		$I->waitForPageTitle($pageTitle);
+		$I->see($item, static::$seeName);
 	}
 }

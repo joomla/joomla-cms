@@ -18,24 +18,25 @@ Feature: category
       |     Title     |
       |   Category_1  |
       |   Category_2  |
-    Then I should see the "Category successfully saved." message
+    Then I should see the category "Category_1" is created
+    And I should see the category "Category_2" is created
 
   Scenario: Modify category
     Given There is an article category link
     When I search and select category with title "Category_1"
     And I set the title as a "GSoc_category"
     And I save the category
-    Then I should see the "Category successfully saved." message
+    Then I should see the category "GSoc_category" is created
 
   Scenario: Unpublish category
     Given I have a category with title "GSoc_category" which needs to be unpublish
     When I unpublish the category
-    Then I should see the "1 category successfully unpublished." message
+    Then I should see the category is now unpublished
 
   Scenario: Trash category
     Given I have a category with title "GSoc_category" which needs to be trash
     When I trash the category
-    Then I should see the "1 category successfully trashed." message
+    Then I should see the category "GSoc_category" in trash
 
   Scenario: Create category without Title fails
     Given There is an article category link
@@ -51,7 +52,7 @@ Feature: category
     And I choose menu item type "Articles" and select "Single Article"
     And I select an article "Test_article"
     And I save the menu item
-    Then I should see the "Menu item successfully saved." message
+    Then I should see the menu item "Article" is created
 
   Scenario: Create menu item for articles belonging to a specific Category
     Given There is a add content link
@@ -62,21 +63,21 @@ Feature: category
     And I choose menu item type "Articles" and select "List All Categories"
     And I select a top level category "Category_2"
     And I save the menu item
-    Then I should see the "Menu item successfully saved." message
+    Then I should see the menu item "All Categories" is created
 
   Scenario: Category ACL Settings
     Given There is an article category link
     When I search and select category with title "Category_2"
     And I set access level as a "Registered"
     And I save the category
-    Then I should see the "Category successfully saved." message
+    Then I should see the "Registered" as category access level
 
   Scenario: Category Language settings
     Given There is an article category link
     When I search and select category with title "Category_2"
     And I set language as a "English (UK)"
     And I save the category
-    Then I should see the "Category successfully saved." message
+    Then I should see the category language as "English (UK)"
 
   Scenario: Check article if exist in frontend
     Given There is joomla home page
