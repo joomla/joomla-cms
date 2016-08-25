@@ -136,8 +136,15 @@ class PlgAuthenticationFacebook extends JPlugin
 		// Look for a local user account with the Facebook user ID
 		$userId = $this->getUserIdByFacebookId($fbUserId);
 
-		// Does a user exist with the same email as the Facebook email??
-		if ($userId == 0)
+		/**
+		 * Does a user exist with the same email as the Facebook email?
+		 *
+		 * We only do that for verified Facebook users, i.e. people who have already verified that they have control of
+		 * their stated email address and / or phone with Facebook. This is a security measure! It prevents someone from
+		 * registering a Facebook account under your email address (without verifying that email address) and use it to
+		 * login into the Joomla site impersonating you.
+		 */
+		if ($fbUserVerified && ($userId == 0))
 		{
 			$userId = JUserHelper::getUserIdByEmail($fbUserEmail);
 		}
