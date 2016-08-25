@@ -29,7 +29,7 @@
 		var calendars = document.querySelectorAll(".field-calendar");
 
 		for (var i = 0; i < calendars.length; i++) {
-			var input = calendars[i].querySelectorAll('INPUT')[0];
+			var input = calendars[i].getElementsByTagName('input')[0];
 			input.value = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
 		}
 	};
@@ -54,7 +54,7 @@
 		this.writable   = true;
 		this.params     = {};
 		this.element    = element;
-		this.inputField = element.getElementsByTagName('INPUT')[0];
+		this.inputField = element.getElementsByTagName('input')[0];
 		this.button     = element.getElementsByTagName('button')[0];
 
 		if (!this.inputField) {
@@ -65,7 +65,7 @@
 		var self = this,
 			btn  = this.button,
 			defaultParams = {
-				inputField: null,                // The input element parentNode.getElementsByTagName('INPUT')[0]
+				inputField: null,                // The input element
 				firstDayOfWeek: 0,               // 0 for Sunday, 1 for Monday, etc.
 				time24: false,                   // Use 24/12 hour format
 				showsOthers: true,               // Display previous/next month days as disables
@@ -85,6 +85,7 @@
 				writable: true
 			},
 			instanceParams = {
+				inputField: this.inputField,
 				dateType: JoomlaCalLocale.dateType,
 				firstDayOfWeek: btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
 				weekend: btn.getAttribute("data-weekend") ? [btn.getAttribute("data-weekend")] : JoomlaCalLocale.weekend,
@@ -280,7 +281,7 @@
 				el = testel;
 			} else {                                        // No - try to find the table this way
 				el = el.getParent('TD');
-				if (hasClass(el, 'dropdown-menu')) { el = el.getElementsByTagName('table'); }
+				if (hasClass(el, 'dropdown-menu')) { el = el.getElementsByTagName('table')[0]; }
 			}
 		} else {                                            // Check that doesn't have a button and is not a day td
 			if (!(hasClass(target, 'btn')) && !hasClass(el, 'day') && !hasClass(el, 'title')) { return; }
@@ -911,10 +912,11 @@
 		}
 	};
 
+	window.JoomlaCalendar = JoomlaCalendar;
+
 	/** Instantiate all the calendar fields when the document is ready */
 	document.addEventListener("DOMContentLoaded", function() { // This line needs a polyfill for IE8!!!
 		JoomlaCalendar.init(".field-calendar");                // One line setup
 	});
-	window.JoomlaCalendar = JoomlaCalendar;
 
 })(window, document);
