@@ -44,13 +44,18 @@ class PlgAuthenticationFacebook extends JPlugin
 	 *
 	 * @since   3.7
 	 */
-	public function onUserLoginFormFields()
+	public function onUserLoginFormFields($loginUrl = null, $failureUrl = null)
 	{
 		// Nothing to do in administrator login
 		if (JFactory::getApplication()->isAdmin())
 		{
 			return array();
 		}
+
+		// Set the return URLs into the session
+		$session = JFactory::getSession();
+		$session->set('loginUrl', $loginUrl, 'plg_authenticate_facebook');
+		$session->set('failureUrl', $failureUrl, 'plg_authenticate_facebook');
 
 		// Load plugin language
 		$this->loadLanguage('plg_authentication_facebook');
@@ -84,6 +89,15 @@ class PlgAuthenticationFacebook extends JPlugin
 		// Load plugin language
 		$this->loadLanguage('plg_authentication_facebook');
 
+		// Get the return URLs from the session
+		$session    = JFactory::getSession();
+		$loginUrl   = $session->get('loginUrl', null, 'plg_authenticate_facebook');
+		$failureUrl = $session->get('failureUrl', null, 'plg_authenticate_facebook');
+
+		// Remove the return URLs from the session
+		$session->set('loginUrl', null, 'plg_authenticate_facebook');
+		$session->set('failureUrl', null, 'plg_authenticate_facebook');
+
 		// Try to exchange the code with a token
 		$facebookOauth = $this->getFacebookOauth();
 		$app           = JFactory::getApplication();
@@ -96,10 +110,6 @@ class PlgAuthenticationFacebook extends JPlugin
 			{
 				throw new RuntimeException(JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_NOT_LOGGED_IN_FB'));
 			}
-
-			// Get the return URL
-			$returnURL = base64_decode($app->input->get('state', ''));
-			$returnURL = empty($returnURL) ? JUri::base() : $returnURL;
 
 			// Get information about the user from Big Brother... er... Facebook.
 			$options = new Registry();
@@ -118,7 +128,7 @@ class PlgAuthenticationFacebook extends JPlugin
 			$message = JText::sprintf('JGLOBAL_AUTH_FAILED', $e->getMessage());
 
 			$app->enqueueMessage($message, 'error');
-			$app->redirect(JUri::base());
+			$app->redirect($failureUrl);
 
 			return;
 		}
@@ -144,7 +154,7 @@ class PlgAuthenticationFacebook extends JPlugin
 					JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_NOT_FOUND'));
 
 				$app->enqueueMessage($message, 'error');
-				$app->redirect(JUri::base());
+				$app->redirect($failureUrl);
 
 				return;
 			}
@@ -159,7 +169,7 @@ class PlgAuthenticationFacebook extends JPlugin
 					JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_NOT_FOUND'));
 
 				$app->enqueueMessage($message, 'error');
-				$app->redirect(JUri::base());
+				$app->redirect($failureUrl);
 
 				return;
 			}
@@ -170,7 +180,7 @@ class PlgAuthenticationFacebook extends JPlugin
 				$message = JText::_('PLG_AUTHENTICATION_FACEBOOK_NOTICE_' . $userId);
 
 				$app->enqueueMessage($message, 'info');
-				$app->redirect(JUri::base());
+				$app->redirect($failureUrl);
 
 				return;
 			}
@@ -189,7 +199,7 @@ class PlgAuthenticationFacebook extends JPlugin
 		// Log in the user
 		$this->loginUser($userId);
 
-		$app->redirect($returnURL);
+		$app->redirect($loginUrl);
 	}
 
 	/**
@@ -229,11 +239,8 @@ class PlgAuthenticationFacebook extends JPlugin
 				'redirecturi'  => JUri::base() . 'index.php?option=com_ajax&group=authentication&plugin=facebook&format=raw'
 			));
 
-			$currentURI = JUri::getInstance();
-
 			$this->facebook = new JFacebookOAuth($options);
 			$this->facebook->setScope('public_profile,email');
-			$this->facebook->setOption('state', base64_encode((string) $currentURI));
 		}
 
 		return $this->facebook;

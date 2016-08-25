@@ -64,12 +64,18 @@ abstract class JAuthenticationHelper
 	/**
 	 * Get the additional login form field definitions.
 	 *
+	 * @param   string  $loginUrl    The URL or menu item ID to return to after successfully logging in
+	 * @param   string  $failureUrl  The URL or menu item ID to return to after failing to log in
+	 *
 	 * @return  array  Additional login form field definitions
 	 *
 	 * @since   3.7
 	 */
-	public static function getUserLoginFormFields()
+	public static function getUserLoginFormFields($loginUrl = null, $failureUrl = null)
 	{
+		$loginUrl   = self::cleanUpReturnUrl($loginUrl);
+		$failureUrl = self::cleanUpReturnUrl($failureUrl);
+
 		/**
 		 * All three types of plugins can define custom login fields.
 		 *
@@ -80,7 +86,7 @@ abstract class JAuthenticationHelper
 		JPluginHelper::importPlugin('authentication');
 		JPluginHelper::importPlugin('user');
 
-		$fieldDefinitions = JEventDispatcher::getInstance()->trigger('onUserLoginFormFields', array());
+		$fieldDefinitions = JEventDispatcher::getInstance()->trigger('onUserLoginFormFields', array($loginUrl, $failureUrl));
 
 		$fields = array();
 
@@ -106,5 +112,72 @@ abstract class JAuthenticationHelper
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Cleans up a return URL. If it's a URL it makes sure it's an internal URL. If it's a menu item ID it creates the
+	 * absolute URL pointing to it. If the URL is empty or non-internal the current URL is used instead.
+	 *
+	 * @param   string  $return  The return URL to clean up
+	 *
+	 * @return  string  The cleaned up URL
+	 */
+	protected static function cleanUpReturnUrl($return)
+	{
+		// Get the default URL (current page)
+		$defaultUrl = JUri::getInstance()->toString();
+
+		// Is the return URL base64-encoded by any chance?
+		$returnDecoded = @base64_decode($return);
+
+		if ($returnDecoded !== false)
+		{
+			$return = $returnDecoded;
+		}
+
+		// Do we have a URL (as opposed to a menu item)?
+		if (!is_numeric($return))
+		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($return))
+			{
+				return $defaultUrl;
+			}
+
+			return empty($return) ? $defaultUrl : $return;
+		}
+
+		// We have a menu item. We must translate it to a URL. For this, we need the language ID suffix.
+		$lang = '';
+
+		if (JLanguageMultilang::isEnabled())
+		{
+
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+			            ->select('language')
+			            ->from($db->quoteName('#__menu'))
+			            ->where('client_id = 0')
+			            ->where('id =' . $return);
+
+			$db->setQuery($query);
+
+			try
+			{
+				$language = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				return $defaultUrl;
+			}
+
+			if ($language !== '*')
+			{
+				$lang = '&lang=' . $language;
+			}
+		}
+
+		// Construct and reeturn the URL
+		return 'index.php?Itemid=' . $return . $lang;
 	}
 }

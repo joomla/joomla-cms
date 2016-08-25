@@ -79,7 +79,16 @@ class UsersViewLogin extends JViewLegacy
 		$tfa       = JAuthenticationHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
 
-		$this->extraFields = JAuthenticationHelper::getUserLoginFormFields();
+		if ($this->params->get('login_redirect_url'))
+		{
+			$returnUrl = $this->params->get('login_redirect_url', $this->form->getValue('return'));
+		}
+		else
+		{
+			$returnUrl = $this->params->get('login_redirect_menuitem', $this->form->getValue('return'));
+		}
+
+		$this->extraFields = JAuthenticationHelper::getUserLoginFormFields($returnUrl);
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
