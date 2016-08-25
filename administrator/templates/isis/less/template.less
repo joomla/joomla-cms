@@ -3,7 +3,7 @@
 // Core variables and mixins
 @import "variables.less";
 // Custom for this template
-@import "../../../../media/jui/less/mixins.less";
+@import "bootstrap/mixins.less";
 // Grid system and page structure
 @import "../../../../media/jui/less/scaffolding.less";
 @import "../../../../media/jui/less/grid.less";
@@ -16,12 +16,12 @@
 // Components: common
 // @import "../../../../media/jui/less/sprites.less";
 @import "../../../../media/jui/less/dropdowns.less";
-@import "../../../../media/jui/less/wells.less";
+@import "bootstrap/wells.less";
 @import "../../../../media/jui/less/component-animations.less";
 @import "../../../../media/jui/less/close.less";
 // Components: Buttons & Alerts
-@import "../../../../media/jui/less/buttons.less";
-@import "../../../../media/jui/less/button-groups.less";
+@import "bootstrap/buttons.less";
+@import "bootstrap/button-groups.less";
 @import "../../../../media/jui/less/alerts.less";
 // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 // Components: Nav
@@ -1193,6 +1193,7 @@ input.input-large-text {
 .chzn-color.chzn-single[rel="value_show_no_link"],
 .chzn-color.chzn-single[rel="value_show_with_link"] {
 	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+	color: #fff;
 }
 
 .chzn-color.chzn-single[rel="value_0"],
@@ -1202,6 +1203,11 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"],
 .chzn-color.chzn-single[rel="value_hide"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+	color: #fff;
+}
+
+.chzn-color-state {
+  color: #fff;
 }
 /* Widen the drop downs for the Permissions Field */
 #permissions-sliders .input-small {
@@ -1406,4 +1412,8 @@ body.modal-open {
 			margin-bottom: 0;
 		}
 	}
+}
+
+.js-stools-container-bar .btn-primary .caret {
+  border-bottom: 4px solid @btnPrimaryBackground;
 }
