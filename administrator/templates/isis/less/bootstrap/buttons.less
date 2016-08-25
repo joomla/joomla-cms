@@ -17,21 +17,17 @@
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  background-color: transparent;
-  color: @grayDark;
+  background-color: #e6e6e6;
+  color: #333;
   //  .buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255,255,255,.75));
   border: 1px solid @btnBorder;
   .border-radius(@baseBorderRadius);
 
   &:hover,
   &:focus {
-    background-color: @btnBackgroundHighlight;
+    background-color: darken(@btnBackgroundHighlight, 10%);
     color: #fff;
     text-decoration: none;
-    // transition is only when going to hover/focus, otherwise the background
-    // behind the gradient (there for IE<=9 fallback) gets mismatched
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
     text-shadow: none;
   }
 
@@ -142,86 +138,69 @@ input[type="button"] {
 // -------------------------
 .btn-primary {
   border: 1px solid @btnPrimaryBackground;
-  color: @btnPrimaryBackground;
-  background-color: transparent;
+  color: #fff;
+  background-color: @btnPrimaryBackground;
   &:hover,
   &:focus {
-    background-color: @btnPrimaryBackground;
+    background-color: darken(@btnPrimaryBackground, 15%);
     color: #fff;
     text-decoration: none;
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
   }
 }
 // Warning appears are orange
 .btn-warning {
   border: 1px solid @btnWarningBackground;
-  color: @btnWarningBackground;
-  background-color: transparent;
+  color: #fff;
+  background-color: @btnWarningBackground;
   &:hover,
   &:focus {
-    background-color: @btnWarningBackground;
-    color: #fff;
+    background-color: darken(@btnWarningBackground, 15%);
     text-decoration: none;
     text-shadow: none;
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
   }
 }
 // Danger and error appear as red
 .btn-danger {
   border: 1px solid @btnDangerBackground;
-  color: @btnDangerBackground;
-  background-color: transparent;
+  color: #fff;
+  background-color: @btnDangerBackground;
   &:hover,
   &:focus {
-    background-color: @btnDangerBackground;
-    color: #fff;
+    background-color: darken(@btnDangerBackground, 15%);
     text-decoration: none;
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
   }
 }
 // Success appears as green
 .btn-success {
   border: 1px solid @btnSuccessBackground;
-  color: @btnSuccessBackground;
-  background-color: transparent;
+  color: #fff;
+  background-color: @btnSuccessBackground;
   &:hover,
   &:focus {
-    background-color: @btnSuccessBackground;
-    color: #fff;
+    background-color: darken(@btnSuccessBackground, 15%);
     text-decoration: none;
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
   }
 }
 // Info appears as a neutral blue
 .btn-info {
   border: 1px solid @btnInfoBackground;
-  color: @btnInfoBackground;
-  background-color: transparent;
+  color: #fff;
+  background-color: @btnInfoBackground;
   &:hover,
   &:focus {
-    background-color: @btnInfoBackground;
-    color: #fff;
+    background-color: darken(@btnInfoBackground, 15%);
     text-decoration: none;
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
   }
 }
 // Inverse appears as dark gray
 .btn-inverse {
   border: 1px solid @btnInverseBackground;
-  color: @btnDangerBackground;
-  background-color: transparent;
+  color: #fff;
+  background-color: @btnInverseBackground;
   &:hover,
   &:focus {
-    background-color: @btnDangerBackground;
-    color: #fff;
+    background-color: darken(@btnInverseBackground, 15%);
     text-decoration: none;
-    .transition(background-color .1s linear);
-    .transition(color .1s linear);
   }
 }
 

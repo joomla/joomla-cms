@@ -2203,7 +2203,7 @@ button.close {
 	text-align: center;
 	vertical-align: middle;
 	cursor: pointer;
-	background-color: transparent;
+	background-color: #e6e6e6;
 	color: #333;
 	border: 1px solid #999;
 	-webkit-border-radius: 4px;
@@ -2212,17 +2212,9 @@ button.close {
 }
 .btn:hover,
 .btn:focus {
-	background-color: #919191;
+	background-color: #787878;
 	color: #fff;
 	text-decoration: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 	text-shadow: none;
 }
 .btn:focus {
@@ -2297,118 +2289,65 @@ input[type="button"].btn-block {
 }
 .btn-primary {
 	border: 1px solid #2384d3;
-	color: #2384d3;
-	background-color: transparent;
+	color: #fff;
+	background-color: #2384d3;
 }
 .btn-primary:hover,
 .btn-primary:focus {
-	background-color: #2384d3;
+	background-color: #185b91;
 	color: #fff;
 	text-decoration: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 }
 .btn-warning {
 	border: 1px solid #f89406;
-	color: #f89406;
-	background-color: transparent;
+	color: #fff;
+	background-color: #f89406;
 }
 .btn-warning:hover,
 .btn-warning:focus {
-	background-color: #f89406;
-	color: #fff;
+	background-color: #ad6704;
 	text-decoration: none;
 	text-shadow: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 }
 .btn-danger {
 	border: 1px solid #bd362f;
-	color: #bd362f;
-	background-color: transparent;
+	color: #fff;
+	background-color: #bd362f;
 }
 .btn-danger:hover,
 .btn-danger:focus {
-	background-color: #bd362f;
-	color: #fff;
+	background-color: #802420;
 	text-decoration: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 }
 .btn-success {
 	border: 1px solid #46a546;
-	color: #46a546;
-	background-color: transparent;
+	color: #fff;
+	background-color: #46a546;
 }
 .btn-success:hover,
 .btn-success:focus {
-	background-color: #46a546;
-	color: #fff;
+	background-color: #2f6f2f;
 	text-decoration: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 }
 .btn-info {
 	border: 1px solid #2f96b4;
-	color: #2f96b4;
-	background-color: transparent;
+	color: #fff;
+	background-color: #2f96b4;
 }
 .btn-info:hover,
 .btn-info:focus {
-	background-color: #2f96b4;
-	color: #fff;
+	background-color: #1f6377;
 	text-decoration: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 }
 .btn-inverse {
 	border: 1px solid #444;
-	color: #bd362f;
-	background-color: transparent;
+	color: #fff;
+	background-color: #444;
 }
 .btn-inverse:hover,
 .btn-inverse:focus {
-	background-color: #bd362f;
-	color: #fff;
+	background-color: #1e1e1e;
 	text-decoration: none;
-	-webkit-transition: background-color .1s linear;
-	-moz-transition: background-color .1s linear;
-	-o-transition: background-color .1s linear;
-	transition: background-color .1s linear;
-	-webkit-transition: color .1s linear;
-	-moz-transition: color .1s linear;
-	-o-transition: color .1s linear;
-	transition: color .1s linear;
 }
 button.btn,
 input[type="submit"].btn {
@@ -8260,22 +8199,6 @@ body.modal-open {
 }
 .js-stools-container-bar .btn-primary .caret {
 	border-bottom: 4px solid #2384d3;
-}
-label.btn.active.btn-primary {
-	background-color: #2384d3;
-	color: #fff;
-}
-label.btn.active.btn-success {
-	background-color: #46a546;
-	color: #fff;
-}
-label.btn.active.btn-warning {
-	background-color: #f89406;
-	color: #fff;
-}
-label.btn.active.btn-danger {
-	background-color: #bd362f;
-	color: #fff;
 }
 .pull-right {
 	float: left;
