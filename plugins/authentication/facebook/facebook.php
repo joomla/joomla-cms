@@ -290,7 +290,7 @@ class PlgAuthenticationFacebook extends JPlugin
 			'email2'    => JStringPunycode::emailToPunycode($email),
 		);
 
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
+		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_users/models', 'UsersModel');
 
 		/** @var UsersModelRegistration $model */
 		$model = JModelLegacy::getInstance('Registration', 'UsersModel', array('ignore_request' => true));
