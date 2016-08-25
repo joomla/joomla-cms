@@ -6137,6 +6137,14 @@ fieldset.radio.btn-group {
 	width: 1px;
 	overflow: hidden;
 }
+.element-invisible:focus {
+	width: auto;
+	height: auto;
+	overflow: auto;
+	background: #eee;
+	color: #000;
+	padding: 1em;
+}
 .form-vertical .control-label {
 	float: none;
 	width: auto;
@@ -7513,6 +7521,13 @@ h6 {
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
 	margin-right: -26px;
+}
+.sidebar-nav .nav-list > li > a:focus,
+.sidebar-nav .nav-list > li > a:hover {
+	text-decoration: none;
+	color: #fff;
+	background-color: #2d6ca2;
+	text-shadow: none;
 }
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;

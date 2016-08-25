@@ -21,7 +21,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			Joomla.submitform(task, document.getElementById("adminForm"));
 		}
 	};
-	
+
 	jQuery(document).ready(function($) {
 		$("#rightbtn").on("click", function() {
 			if($(this).text() == "' . JText::_('COM_FINDER_FILTER_SHOW_ALL') . '") {
@@ -70,7 +70,7 @@ JFactory::getDocument()->addStyleDeclaration(
 			<div class="span9">
 				<?php if ($this->total > 0) : ?>
 					<div class="well">
-						<?php echo $this->form->getControlGroup('map_count'); ?>
+						<?php echo $this->form->renderField('map_count'); ?>
 					</div>
 					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>

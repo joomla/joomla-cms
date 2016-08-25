@@ -34,6 +34,20 @@ class JSchemaChangesetTestSqlsrv extends TestCaseDatabaseSqlsrv
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * @testdox  The object is instantiated correctly
 	 *
 	 * @covers   JSchemaChangeset::__construct
