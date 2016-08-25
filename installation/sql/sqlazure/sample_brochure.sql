@@ -55,33 +55,33 @@ SELECT 24, 1, 67, 70, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.
 UNION ALL
 SELECT 26, 1, 75, 76, 1, 'com_wrapper', 'com_wrapper', '{}'
 UNION ALL
-SELECT 27, 8, 18, 25, 2, 'com_content.catery.2', 'Uncaterised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 27, 8, 18, 25, 2, 'com_content.catery.2', 'Uncaterised', '{}'
 UNION ALL
-SELECT 28, 3, 4, 5, 2, 'com_banners.catery.3', 'Uncaterised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 28, 3, 4, 5, 2, 'com_banners.catery.3', 'Uncaterised', '{}'
 UNION ALL
-SELECT 29, 7, 14, 15, 2, 'com_contact.catery.4', 'Uncaterised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 29, 7, 14, 15, 2, 'com_contact.catery.4', 'Uncaterised', '{}'
 UNION ALL
-SELECT 30, 19, 56, 57, 2, 'com_newsfeeds.catery.5', 'Uncaterised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 30, 19, 56, 57, 2, 'com_newsfeeds.catery.5', 'Uncaterised', '{}'
 UNION ALL
-SELECT 32, 24, 68, 69, 1, 'com_users.notes.catery.7', 'Uncaterised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 32, 24, 68, 69, 1, 'com_users.notes.catery.7', 'Uncaterised', '{}'
 UNION ALL
 SELECT 33, 1, 77, 78, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'
 UNION ALL
-SELECT 34, 27, 19, 20, 3, 'com_content.article.1', 'Home Page Title', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 34, 27, 19, 20, 3, 'com_content.article.1', 'Home Page Title', '{}'
 UNION ALL
-SELECT 35, 27, 21, 22, 3, 'com_content.article.2', 'About Us', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 35, 27, 21, 22, 3, 'com_content.article.2', 'About Us', '{}'
 UNION ALL
-SELECT 36, 8, 26, 33, 2, 'com_content.catery.8', 'News', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
+SELECT 36, 8, 26, 33, 2, 'com_content.catery.8', 'News', '{}'
 UNION ALL
-SELECT 37, 36, 27, 28, 3, 'com_content.article.3', 'Article 1 Title', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 37, 36, 27, 28, 3, 'com_content.article.3', 'Article 1 Title', '{}'
 UNION ALL
-SELECT 38, 36, 29, 30, 3, 'com_content.article.4', 'Article 2 Title', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 38, 36, 29, 30, 3, 'com_content.article.4', 'Article 2 Title', '{}'
 UNION ALL
-SELECT 39, 36, 31, 32, 3, 'com_content.article.5', 'Article 3 Title ', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 39, 36, 31, 32, 3, 'com_content.article.5', 'Article 3 Title ', '{}'
 UNION ALL
-SELECT 40, 27, 23, 24, 3, 'com_content.article.6', 'Creating Your Site', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 40, 27, 23, 24, 3, 'com_content.article.6', 'Creating Your Site', '{}'
 UNION ALL
-SELECT 41, 1, 79, 80, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'
+SELECT 41, 1, 79, 80, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'
 UNION ALL
 SELECT 42, 1, 81, 82, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
