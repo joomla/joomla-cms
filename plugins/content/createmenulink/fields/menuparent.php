@@ -39,29 +39,38 @@ class JFormFieldMenuParent extends JFormFieldList
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level')
-			->from('#__menu AS a')
-			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->select($db->quoteName('a.id', 'value'))
+			->select($db->quoteName('a.title', 'text'))
+			->select($db->quoteName('a.level'))
+			->from($db->quoteName('#__menu', 'a'))
+			->join('LEFT', $db->qn('#__menu', 'b') . 'ON' . $db->qn('a.lft') . ' > ' . $db->qn('b.lft') . 'AND' . $db->qn('a.rgt') . ' < ' . $db->qn('b.rgt'));
 
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = ' . $db->quote($menuType));
+			$query->where($db->quoteName('a.menutype') . ' = ' . $db->quote($menuType));
 		}
 		else
 		{
-			$query->where('a.menutype != ' . $db->quote(''));
+			$query->where($db->quoteName('a.menutype') . ' != ' . $db->quote(''));
 		}
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
 		{
-			$query->join('LEFT', $db->quoteName('#__menu') . ' AS p ON p.id = ' . (int) $id)
-				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			$query->join('LEFT', $db->quoteName('#__menu', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn((int) $id))
+				->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->qn('p.lft') . ' AND ' . $db->qn('a.rgt') . ' <= ' . $db->qn('p.rgt') . ' ) ');
 		}
 
-		$query->where('a.published != -2')
-			->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published')
-			->order('a.lft ASC');
+		$query->where($db->quoteName('a.published') . ' != ' . $db->quoteName('-2'))
+			->group($db->quoteName('a.id'))
+			->group($db->quoteName('a.title'))
+			->group($db->quoteName('a.level'))
+			->group($db->quoteName('a.lft'))
+			->group($db->quoteName('a.rgt'))
+			->group($db->quoteName('a.menutype'))
+			->group($db->quoteName('a.parent_id'))
+			->group($db->quoteName('a.published'))
+			->order($db->quoteName('a.lft') . ' ASC ');
 
 		// Get the options.
 		$db->setQuery($query);
