@@ -123,7 +123,7 @@
 					directory="media/editors/tinymce/langs/"
 					hide_none="1"
 					default="en"
-					hide_default="1"
+					hide_default="0"
 					filter="\.js$"
 					size="10"
 					showon="lang_mode:0"
