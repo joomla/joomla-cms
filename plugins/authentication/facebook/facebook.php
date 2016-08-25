@@ -301,6 +301,12 @@ class PlgAuthenticationFacebook extends JPlugin
 			'email2'    => JStringPunycode::emailToPunycode($email),
 		);
 
+		// Load com_users language, because the model doesn't do it automatically
+		$jLanguage = JFactory::getLanguage();
+		$jLanguage->load('com_users', JPATH_BASE, 'en-GB', true);
+		$jLanguage->load('com_users', JPATH_BASE, null, false);
+
+		// Load the Registration model of com_users and register the new user.
 		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_users/models', 'UsersModel');
 
 		/** @var UsersModelRegistration $model */
@@ -311,7 +317,7 @@ class PlgAuthenticationFacebook extends JPlugin
 		 *
 		 * We do not need to send an account verification email to verified Facebook accounts. These accounts have
 		 * already had their email or phone number verified by Facebook. Therefore verified Facebook accounts get
-		 * immediate access to our site, as the users would expect. Unverified accoutns have to go through the whole
+		 * immediate access to our site, as the users would expect. Unverified accounts have to go through the whole
 		 * email verification process.
 		 */
 		$userId = $model->register($data, $verified);
