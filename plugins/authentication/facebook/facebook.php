@@ -81,6 +81,9 @@ class PlgAuthenticationFacebook extends JPlugin
 
 	public function onAjaxFacebook()
 	{
+		// Load plugin language
+		$this->loadLanguage('plg_authentication_facebook');
+
 		// Try to exchange the code with a token
 		$facebookOauth = $this->getFacebookOauth();
 		$app           = JFactory::getApplication();
