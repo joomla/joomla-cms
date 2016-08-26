@@ -183,7 +183,7 @@ class UsersModelMail extends JModelAdmin
 		if ($rs instanceof Exception)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError($rs->getError());
+			$this->setError($rs->getMessage());
 
 			return false;
 		}

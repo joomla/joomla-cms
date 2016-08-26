@@ -139,7 +139,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Set the success message if it was a success
-		if (!($sent instanceof Exception))
+		if ($sent === true)
 		{
 			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
 		}
