@@ -261,7 +261,18 @@ abstract class JUpdateAdapter extends JAdapterInstance
 			"\"$this->updateSiteName\" and URL $url took $timeToLoad seconds", JLog::INFO, 'updater'
 		);
 
-		if ($response === null || $response->code !== 200)
+		$allowedResponseCodes = array(
+			// HTTP 200 Ok
+			'200',
+			// HTTP 301 Moved Permanently
+			'301',
+			// HTTP 302 Found
+			'302',
+			// HTTP 303 See Other
+			'303',
+		);
+
+		if ($response === null || !in_array($response->code, $allowedResponseCodes)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
 			if (!$this->appendExtension && (substr($url, -4) != '.xml'))

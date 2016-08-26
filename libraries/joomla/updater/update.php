@@ -430,7 +430,18 @@ class JUpdate extends JObject
 			$response = null;
 		}
 
-		if ($response === null || $response->code !== 200)
+		$allowedResponseCodes = array(
+			// HTTP 200 Ok
+			'200',
+			// HTTP 301 Moved Permanently
+			'301',
+			// HTTP 302 Found
+			'302',
+			// HTTP 303 See Other
+			'303',
+		);
+
+		if ($response === null || !in_array($response->code, $allowedResponseCodes)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
