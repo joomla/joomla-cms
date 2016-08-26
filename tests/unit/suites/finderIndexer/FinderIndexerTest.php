@@ -49,7 +49,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	{
 		// Restore the factory state
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 

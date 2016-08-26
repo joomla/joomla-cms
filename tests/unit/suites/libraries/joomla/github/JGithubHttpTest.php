@@ -63,6 +63,10 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->options);
+		unset($this->transport);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

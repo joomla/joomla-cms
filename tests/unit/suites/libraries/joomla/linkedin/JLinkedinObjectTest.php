@@ -75,6 +75,9 @@ class JLinkedinObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->client);
+		unset($this->options);
+		unset($this->object);
 	}
 
 	/**

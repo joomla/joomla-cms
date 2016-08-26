@@ -533,7 +533,7 @@ class PlgSystemDebug extends JPlugin
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
-			$totalMem += $mark->memory;
+			$totalMem += (float) $mark->memory;
 			$htmlMark = sprintf(
 				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
 				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
@@ -601,7 +601,7 @@ class PlgSystemDebug extends JPlugin
 			);
 
 			$barsMem[] = (object) array(
-				'width' => round($mark->memory / ($totalMem / 100), 4),
+				'width' => round((float) $mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
 				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);
