@@ -228,7 +228,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			</div>
 			<div class="span3">
 				<fieldset class="form-vertical">
-					<?php echo $this->form->getControlGroup('showtitle'); ?>
+					<?php echo $this->form->renderField('showtitle'); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('position'); ?>

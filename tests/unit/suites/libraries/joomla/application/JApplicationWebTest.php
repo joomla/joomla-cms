@@ -140,7 +140,8 @@ class JApplicationWebTest extends TestCase
 		JApplicationWebInspector::$connectionAlive = true;
 
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
+		unset($this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

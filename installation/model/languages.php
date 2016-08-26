@@ -153,7 +153,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -167,7 +167,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}
@@ -182,7 +182,7 @@ class InstallationModelLanguages extends JModelBase
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 
-				JFactory::getApplication()->enqueueMessage($message);
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
 
 				continue;
 			}

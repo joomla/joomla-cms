@@ -89,6 +89,7 @@ class JLanguageMultiLangTest extends TestCaseDatabase
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
 
 		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
