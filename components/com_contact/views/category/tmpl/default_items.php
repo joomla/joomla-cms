@@ -50,15 +50,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_image_heading')) : ?>
+						<?php $contact_width = 7; ?>
 						<div class="span2 col-md-2">
 							<?php if ($this->items[$i]->image) : ?>
 								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 									<?php echo JHtml::_('image', $this->items[$i]->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 							<?php endif; ?>
 						</div>
+					<?php else : ?>
+						<?php $contact_width = 9; ?>
 					<?php endif; ?>
 
-					<div class="list-title span7 col-md-7">
+					<div class="list-title span<?php echo $contact_width; ?> col-md-<?php echo $contact_width; ?>">
 						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
 						<?php if ($this->items[$i]->published == 0) : ?>
