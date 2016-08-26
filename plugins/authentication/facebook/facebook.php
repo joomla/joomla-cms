@@ -471,7 +471,7 @@ class PlgAuthenticationFacebook extends JPlugin
 	 *
 	 * @since   3.7
 	 */
-	public function loginUser($userId)
+	protected function loginUser($userId)
 	{
 		JLoader::import('joomla.user.authentication');
 
