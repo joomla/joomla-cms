@@ -77,29 +77,29 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php if ($this->params->get('show_email_headings')) : ?>
 								<?php echo $item->email_to; ?><br />
 						<?php endif; ?>
-						<?php if ($this->params->get('show_suburb_headings') AND !empty($item->suburb)) : ?>
+						<?php if ($this->params->get('show_suburb_headings') && !empty($item->suburb)) : ?>
 							<?php echo $item->suburb . ', '; ?>
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_state_headings') AND !empty($item->state)) : ?>
+						<?php if ($this->params->get('show_state_headings') && !empty($item->state)) : ?>
 							<?php echo $item->state . ', '; ?>
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_country_headings') AND !empty($item->country)) : ?>
+						<?php if ($this->params->get('show_country_headings') && !empty($item->country)) : ?>
 							<?php echo $item->country; ?><br />
 						<?php endif; ?>
 					</div>
 
 					<div class="span3 col-md-3">
-						<?php if ($this->params->get('show_telephone_headings') AND !empty($item->telephone)) : ?>
+						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
 							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br />
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_mobile_headings') AND !empty ($item->mobile)) : ?>
+						<?php if ($this->params->get('show_mobile_headings') && !empty ($item->mobile)) : ?>
 								<?php echo JText::sprintf('COM_CONTACT_MOBILE_NUMBER', $item->mobile); ?><br />
 						<?php endif; ?>
 
-						<?php if ($this->params->get('show_fax_headings') AND !empty($item->fax) ) : ?>
+						<?php if ($this->params->get('show_fax_headings') && !empty($item->fax) ) : ?>
 							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br />
 						<?php endif; ?>
 					</div>
