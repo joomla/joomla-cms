@@ -38,6 +38,20 @@ class JTableContenttypeTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet

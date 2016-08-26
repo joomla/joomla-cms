@@ -53,6 +53,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
 			$url = 'index.php?option=com_joomlaupdate';
 			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
+			$messageType = 'error';
 		}
 
 		$this->setRedirect($url, $message, $messageType);
