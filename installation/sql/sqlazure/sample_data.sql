@@ -92,7 +92,9 @@ SET IDENTITY_INSERT [#__content] OFF;
 
 SET IDENTITY_INSERT [#__menu] ON;
 
-INSERT INTO [#__menu] ([id], [menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id]) VALUES (1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:00', 0, 0, '', 0, '', 0, 229, 0, '*', 0
+INSERT INTO [#__menu] ([id], [menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
+SELECT 1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1900-01-01 00:00:00', 0, 0, '', 0, '', 0, 229, 0, '*', 0
+UNION ALL
 SELECT 2, 'menu', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 0, 1, 1, 4, 0, '1900-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 3, 12, 0, '*', 1
 UNION ALL
 SELECT 3, 'menu', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners', 'component', 0, 2, 2, 4, 0, '1900-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 4, 5, 0, '*', 1
@@ -153,6 +155,7 @@ SET IDENTITY_INSERT [#__menu_types] ON;
 
 INSERT [#__menu_types] ([id], [menutype], [title], [description])
 SELECT 1, 'mainmenu', 'Main Menu', 'The main menu for the site'
+UNION ALL
 SELECT 2, 'usermenu', 'User Menu', 'A Menu for logged-in Users';
 
 SET IDENTITY_INSERT [#__menu_types] OFF;
