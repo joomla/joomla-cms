@@ -84,6 +84,11 @@ class PlgAuthenticationFacebook extends JPlugin
 		return $fields;
 	}
 
+	/**
+	 * Processes the authentication callback from Facebook.
+	 *
+	 * @return  void
+	 */
 	public function onAjaxFacebook()
 	{
 		// Load plugin language
@@ -125,9 +130,12 @@ class PlgAuthenticationFacebook extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			$message = JText::sprintf('JGLOBAL_AUTH_FAILED', $e->getMessage());
+			// Log failed login
+			$response = $this->getAuthenticationResponseObject();
+			$response->status = JAuthentication::STATUS_UNKNOWN;
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', $e->getMessage());
+			$this->processLoginFailure($response);
 
-			$app->enqueueMessage($message, 'error');
 			$app->redirect($failureUrl);
 
 			return;
@@ -157,10 +165,12 @@ class PlgAuthenticationFacebook extends JPlugin
 			// User not found and user registration is disabled
 			if ($allowUserRegistration == 0)
 			{
-				$message =
-					JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_NOT_FOUND'));
+				// Log failed login
+				$response = $this->getAuthenticationResponseObject();
+				$response->status = JAuthentication::STATUS_UNKNOWN;
+				$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_NOT_FOUND'));
+				$this->processLoginFailure($response);
 
-				$app->enqueueMessage($message, 'error');
 				$app->redirect($failureUrl);
 
 				return;
@@ -172,10 +182,12 @@ class PlgAuthenticationFacebook extends JPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				$message =
-					JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_NOT_FOUND'));
+				// Log failed login
+				$response = $this->getAuthenticationResponseObject();
+				$response->status = JAuthentication::STATUS_UNKNOWN;
+				$response->error_message = JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_CANNOT_CREATE');
+				$this->processLoginFailure($response);
 
-				$app->enqueueMessage($message, 'error');
 				$app->redirect($failureUrl);
 
 				return;
@@ -184,6 +196,7 @@ class PlgAuthenticationFacebook extends JPlugin
 			// Does the account need user or administrator verification?
 			if (in_array($userId, array('useractivate', 'adminactivate')))
 			{
+				// Do NOT go through processLoginFailure. This is NOT a login failure.
 				$message = JText::_('PLG_AUTHENTICATION_FACEBOOK_NOTICE_' . $userId);
 
 				$app->enqueueMessage($message, 'info');
@@ -204,9 +217,14 @@ class PlgAuthenticationFacebook extends JPlugin
 		}
 
 		// Log in the user
-		$this->loginUser($userId);
+		if ($this->loginUser($userId))
+		{
+			$app->redirect($loginUrl);
 
-		$app->redirect($loginUrl);
+			return;
+		}
+
+		$app->redirect($failureUrl);
 	}
 
 	/**
@@ -482,34 +500,106 @@ class PlgAuthenticationFacebook extends JPlugin
 		 */
 		class_exists('JAuthentication');
 
-		$response                = new JAuthenticationResponse();
 		$user                    = JUser::getInstance($userId);
-		$response->status        = JAuthentication::STATUS_SUCCESS;
-		$response->type          = 'facebook';
-		$response->error_message = '';
-		$response->username      = $user->username;
-		$response->email         = $user->email;
-		$response->fullname      = $user->name;
+		$response                = $this->getAuthenticationResponseObject($user);
 
-		if (JFactory::getApplication()->isAdmin())
+		// If the user doesn't exist
+		if (empty($user->id))
 		{
-			$response->language = $user->getParam('admin_language');
+			$response->status        = JAuthentication::STATUS_UNKNOWN;
+			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
+			$this->processLoginFailure($response);
+
+			return false;
 		}
-		else
+
+		// If the user is blocked
+		if ($user->block == 1)
 		{
-			$response->language = $user->getParam('language');
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::_('JERROR_NOLOGIN_BLOCKED');
+			$this->processLoginFailure($response);
+
+			return false;
+		}
+
+		// If the user is not activated yet
+		if ($user->activation)
+		{
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->error_message = JText::_('JERROR_NOLOGIN_BLOCKED');
+			$this->processLoginFailure($response);
+
+			return false;
 		}
 
 		JPluginHelper::importPlugin('user');
 		$options = array('remember' => true);
 		JEventDispatcher::getInstance()->trigger('onLoginUser', array((array) $response, $options));
 
-		JLoader::import('joomla.user.helper');
-		$userid = JUserHelper::getUserId($response->username);
-		$user   = JFactory::getUser($userid);
-
 		$session = JFactory::getSession();
 		$session->set('user', $user);
+
+		return true;
 	}
 
+	/**
+	 * Returns a generic JAuthenticationResponse object
+	 *
+	 * @return  JAuthenticationResponse
+	 */
+	protected function getAuthenticationResponseObject(JUser $user = null)
+	{
+		JLoader::import('joomla.user.authentication');
+
+		/**
+		 * We need this line to load the JAuthentication class file. That file ALSO defines the JAuthenticationResponse
+		 * class. That's bad design which dates back to Joomla! 1.5 (possibly 1.0?) and which we can't change for b/c
+		 * reasons. Do NOT delete this line!
+		 */
+		class_exists('JAuthentication');
+
+		$response                = new JAuthenticationResponse();
+		$response->status        = JAuthentication::STATUS_UNKNOWN;
+		$response->type          = $this->_name;
+		$response->error_message = '';
+		$response->username      = '';
+		$response->email         = '';
+		$response->fullname      = '';
+		$response->language      = null;
+
+		if (is_object($user))
+		{
+			$response->username      = $user->username;
+			$response->email         = $user->email;
+			$response->fullname      = $user->name;
+			$response->language = $user->getParam('language');
+
+			if (JFactory::getApplication()->isAdmin())
+			{
+				$response->language = $user->getParam('admin_language');
+			}
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Logs a login failure by triggering the onUserLoginFailure event in the application. It will enqueue any error
+	 * messages for display.
+	 *
+	 * @param   JAuthenticationResponse  $response  The authentication response object
+	 */
+	protected function processLoginFailure(JAuthenticationResponse $response)
+	{
+		JPluginHelper::importPlugin('user');
+
+		$app = JFactory::getApplication();
+		$app->triggerEvent('onUserLoginFailure', array((array) $response));
+
+		if (!empty($response->error_message))
+		{
+			$app->enqueueMessage($response->error_message, 'error');
+		}
+	}
 }
