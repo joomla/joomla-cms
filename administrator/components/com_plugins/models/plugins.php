@@ -58,7 +58,7 @@ class PluginsModelPlugins extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'folder', $direction = 'asc')
 	{
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string');
@@ -81,7 +81,7 @@ class PluginsModelPlugins extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('folder', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

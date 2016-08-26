@@ -3450,6 +3450,9 @@ input[type="submit"].btn.btn-mini {
 	color: #333;
 	text-decoration: none;
 }
+.navbar .nav > li > a:focus {
+	outline: 2px solid #5e9ed6;
+}
 .navbar .nav > .active > a,
 .navbar .nav > .active > a:hover,
 .navbar .nav > .active > a:focus {
