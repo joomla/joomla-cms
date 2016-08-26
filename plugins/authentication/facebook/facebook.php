@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.7
  */
-class PlgAuthenticationFacebook extends JPlugin
+class PlgAuthenticationFacebook extends JPluginAuthenticationSocial
 {
 	private $facebook = null;
 
@@ -166,8 +166,8 @@ class PlgAuthenticationFacebook extends JPlugin
 			if ($allowUserRegistration == 0)
 			{
 				// Log failed login
-				$response = $this->getAuthenticationResponseObject();
-				$response->status = JAuthentication::STATUS_UNKNOWN;
+				$response                = $this->getAuthenticationResponseObject();
+				$response->status        = JAuthentication::STATUS_UNKNOWN;
 				$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_NOT_FOUND'));
 				$this->processLoginFailure($response);
 
@@ -180,12 +180,24 @@ class PlgAuthenticationFacebook extends JPlugin
 			{
 				$userId = $this->createUser($fbUserEmail, $fullName, $fbUserVerified, $fbUserGMTOffset);
 			}
+			catch (UnexpectedValueException $e)
+			{
+				// Log failure to create user (username already exists)
+				$response                = $this->getAuthenticationResponseObject();
+				$response->status        = JAuthentication::STATUS_UNKNOWN;
+				$response->error_message = JText::sprintf('PLG_AUTHENTICATION_FACEBOOK_ERROR_CANNOT_CREATE', JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_USERNAME_CONFLICT'));
+				$this->processLoginFailure($response);
+
+				$app->redirect($failureUrl);
+
+				return;
+			}
 			catch (RuntimeException $e)
 			{
-				// Log failed login
-				$response = $this->getAuthenticationResponseObject();
-				$response->status = JAuthentication::STATUS_UNKNOWN;
-				$response->error_message = JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_CANNOT_CREATE');
+				// Log failure to create user (other internal error, check the model error message returned in the exception)
+				$response                = $this->getAuthenticationResponseObject();
+				$response->status        = JAuthentication::STATUS_UNKNOWN;
+				$response->error_message = JText::sprintf('PLG_AUTHENTICATION_FACEBOOK_ERROR_CANNOT_CREATE', $e->getMessage());
 				$this->processLoginFailure($response);
 
 				$app->redirect($failureUrl);
@@ -209,7 +221,7 @@ class PlgAuthenticationFacebook extends JPlugin
 		// Attach the Facebook user ID and token to the user's profile
 		try
 		{
-			$this->linkToFacebook($userId, $fbUserId, $token);
+			self::linkToFacebook($userId, $fbUserId, $token);
 		}
 		catch (Exception $e)
 		{
@@ -225,23 +237,6 @@ class PlgAuthenticationFacebook extends JPlugin
 		}
 
 		$app->redirect($failureUrl);
-	}
-
-	/**
-	 * Social network logins do not go through onUserAuthenticate. There are no credentials to be checked against an
-	 * authentication source. Instead, we are receiving login authentication from an external source, i.e. the social
-	 * network itself.
-	 *
-	 * @param   array  $credentials Array holding the user credentials
-	 * @param   array  $options     Array of extra options
-	 * @param   object &$response   Authentication response object
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7
-	 */
-	public function onUserAuthenticate($credentials, $options, &$response)
-	{
 	}
 
 	/**
@@ -272,92 +267,6 @@ class PlgAuthenticationFacebook extends JPlugin
 	}
 
 	/**
-	 * Derive a username from a full name
-	 *
-	 * @param   string $fullName
-	 *
-	 * @return  string  The derived username
-	 *
-	 * @since   3.7
-	 */
-	protected function deriveUsername($fullName)
-	{
-		$username = strtolower($fullName);
-		$username = str_replace(' ', '.', $username);
-		$username = preg_replace('/[^\pL\.]/', '', $username);
-		$username = preg_replace('/\.+/', '.', $username);
-
-		return $username;
-	}
-
-	/**
-	 * Tries to create a new user account
-	 *
-	 * @param   string $email    Email
-	 * @param   string $name     Full name
-	 * @param   bool   $verified Is this a verified Facebook account?
-	 * @param   int    $offset   GMT offset
-	 *
-	 * @return  string|int  User ID or string "useractivate" / "adminactivate" if activation is required
-	 *
-	 * @throws  RuntimeException  When an error occurs
-	 *
-	 * @since   3.7
-	 */
-	protected function createUser($email, $name, $verified, $offset)
-	{
-		// Look for a local user account with a username derived from the Facebook user's full name
-		$username = $this->deriveUsername($name);
-		$userId   = JUserHelper::getUserId($username);
-
-		// Does an account with the same username already exist on our site?
-		if ($userId != 0)
-		{
-			throw new RuntimeException(JText::_('PLG_AUTHENTICATION_FACEBOOK_ERROR_LOCAL_USERNAME_CONFLICT'));
-		}
-
-		$randomPassword = JUserHelper::genRandomPassword(32);
-		$data           = array(
-			'name'      => $name,
-			'username'  => $this->deriveUsername($username),
-			'password1' => $randomPassword,
-			'password2' => $randomPassword,
-			'email1'    => JStringPunycode::emailToPunycode($email),
-			'email2'    => JStringPunycode::emailToPunycode($email),
-		);
-
-		// Load com_users language, because the model doesn't do it automatically
-		$jLanguage = JFactory::getLanguage();
-		$jLanguage->load('com_users', JPATH_BASE, 'en-GB', true);
-		$jLanguage->load('com_users', JPATH_BASE, null, false);
-
-		// Load the Registration model of com_users and register the new user.
-		JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_users/models', 'UsersModel');
-
-		/** @var UsersModelRegistration $model */
-		$model = JModelLegacy::getInstance('Registration', 'UsersModel', array('ignore_request' => true));
-
-		/**
-		 * Why we pass the $verified flag.
-		 *
-		 * We do not need to send an account verification email to verified Facebook accounts. These accounts have
-		 * already had their email or phone number verified by Facebook. Therefore verified Facebook accounts get
-		 * immediate access to our site, as the users would expect. Unverified accounts have to go through the whole
-		 * email verification process.
-		 */
-		$userId = $model->register($data, $verified);
-
-		// Internal error setting up account?
-		if ($userId === false)
-		{
-			throw new RuntimeException($model->getError());
-		}
-
-		// Return the user ID
-		return $userId;
-	}
-
-	/**
 	 * Links the user account to the Facebook account through User Profile fields
 	 *
 	 * @param   int    $userId   The Joomla! user ID
@@ -368,7 +277,7 @@ class PlgAuthenticationFacebook extends JPlugin
 	 *
 	 * @since   3.7
 	 */
-	protected function linkToFacebook($userId, $fbUserId, $token)
+	protected static function linkToFacebook($userId, $fbUserId, $token)
 	{
 		// Load the profile data from the database.
 		$db     = JFactory::getDbo();
@@ -474,132 +383,6 @@ class PlgAuthenticationFacebook extends JPlugin
 		catch (Exception $e)
 		{
 			return 0;
-		}
-	}
-
-	/**
-	 * Logs in a user. We use this method to override authentication and Two Factor Authentication plugins (since we are
-	 * essentially implementing a single sign on where Facebook acts as our SSO authorization server).
-	 *
-	 * @param   int     $userId    Joomla! user ID
-	 *
-	 * @return  bool  True on success
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   3.7
-	 */
-	protected function loginUser($userId)
-	{
-		JLoader::import('joomla.user.authentication');
-
-		/**
-		 * We need this line to load the JAuthentication class file. That file ALSO defines the JAuthenticationResponse
-		 * class. That's bad design which dates back to Joomla! 1.5 (possibly 1.0?) and which we can't change for b/c
-		 * reasons. Do NOT delete this line!
-		 */
-		class_exists('JAuthentication');
-
-		$user                    = JUser::getInstance($userId);
-		$response                = $this->getAuthenticationResponseObject($user);
-
-		// If the user doesn't exist
-		if (empty($user->id))
-		{
-			$response->status        = JAuthentication::STATUS_UNKNOWN;
-			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
-			$this->processLoginFailure($response);
-
-			return false;
-		}
-
-		// If the user is blocked
-		if ($user->block == 1)
-		{
-			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JERROR_NOLOGIN_BLOCKED');
-			$this->processLoginFailure($response);
-
-			return false;
-		}
-
-		// If the user is not activated yet
-		if ($user->activation)
-		{
-			$response->status        = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JERROR_NOLOGIN_BLOCKED');
-			$this->processLoginFailure($response);
-
-			return false;
-		}
-
-		JPluginHelper::importPlugin('user');
-		$options = array('remember' => true);
-		JEventDispatcher::getInstance()->trigger('onLoginUser', array((array) $response, $options));
-
-		$session = JFactory::getSession();
-		$session->set('user', $user);
-
-		return true;
-	}
-
-	/**
-	 * Returns a generic JAuthenticationResponse object
-	 *
-	 * @return  JAuthenticationResponse
-	 */
-	protected function getAuthenticationResponseObject(JUser $user = null)
-	{
-		JLoader::import('joomla.user.authentication');
-
-		/**
-		 * We need this line to load the JAuthentication class file. That file ALSO defines the JAuthenticationResponse
-		 * class. That's bad design which dates back to Joomla! 1.5 (possibly 1.0?) and which we can't change for b/c
-		 * reasons. Do NOT delete this line!
-		 */
-		class_exists('JAuthentication');
-
-		$response                = new JAuthenticationResponse();
-		$response->status        = JAuthentication::STATUS_UNKNOWN;
-		$response->type          = $this->_name;
-		$response->error_message = '';
-		$response->username      = '';
-		$response->email         = '';
-		$response->fullname      = '';
-		$response->language      = null;
-
-		if (is_object($user))
-		{
-			$response->username      = $user->username;
-			$response->email         = $user->email;
-			$response->fullname      = $user->name;
-			$response->language = $user->getParam('language');
-
-			if (JFactory::getApplication()->isAdmin())
-			{
-				$response->language = $user->getParam('admin_language');
-			}
-		}
-
-		return $response;
-	}
-
-	/**
-	 * Logs a login failure by triggering the onUserLoginFailure event in the application. It will enqueue any error
-	 * messages for display.
-	 *
-	 * @param   JAuthenticationResponse  $response  The authentication response object
-	 */
-	protected function processLoginFailure(JAuthenticationResponse $response)
-	{
-		JPluginHelper::importPlugin('user');
-
-		$app = JFactory::getApplication();
-		$app->triggerEvent('onUserLoginFailure', array((array) $response));
-
-		if (!empty($response->error_message))
-		{
-			$app->enqueueMessage($response->error_message, 'error');
 		}
 	}
 }
