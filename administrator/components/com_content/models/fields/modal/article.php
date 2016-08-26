@@ -115,6 +115,11 @@ class JFormFieldModal_Article extends JFormField
 		{
 			$linkArticles .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkArticle  .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle    = JText::_('COM_CONTENT_CHANGE_ARTICLE') . ' &#8212; ' . $this->element['label'];
+		}
+		else
+		{
+			$modalTitle    = JText::_('COM_CONTENT_CHANGE_ARTICLE');
 		}
 
 		$urlSelect = $linkArticles . '&amp;' . JSession::getFormToken() . '=1';
@@ -192,7 +197,7 @@ class JFormFieldModal_Article extends JFormField
 			'bootstrap.renderModal',
 			'articleSelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_CONTENT_CHANGE_ARTICLE'),
+				'title'       => $modalTitle,
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
