@@ -61,15 +61,8 @@ class JFormFieldMenuParent extends JFormFieldList
 				->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->qn('p.lft') . ' AND ' . $db->qn('a.rgt') . ' <= ' . $db->qn('p.rgt') . ' ) ');
 		}
 
-		$query->where($db->quoteName('a.published') . ' != ' . $db->quoteName('-2'))
-			->group($db->quoteName('a.id'))
-			->group($db->quoteName('a.title'))
-			->group($db->quoteName('a.level'))
-			->group($db->quoteName('a.lft'))
-			->group($db->quoteName('a.rgt'))
-			->group($db->quoteName('a.menutype'))
-			->group($db->quoteName('a.parent_id'))
-			->group($db->quoteName('a.published'))
+		$query->where($db->quoteName('a.published') . ' != -2 ')
+			->group($db->quoteName(array('a.id', 'a.title', 'a.level', 'a.lft', 'a.rgt', 'a.mentype', 'a.parent_id', 'a.published')))
 			->order($db->quoteName('a.lft') . ' ASC ');
 
 		// Get the options.
