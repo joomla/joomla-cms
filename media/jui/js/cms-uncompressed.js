@@ -22,7 +22,7 @@ Joomla.setcollapse = function(url, name, height) {
  */
 if (!Array.prototype.indexOf)
 {
-	Array.prototype.indexOf = function(elt /*, from*/)
+	Array.prototype.indexOf = function(elt)
 	{
 		var len = this.length >>> 0;
 
