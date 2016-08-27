@@ -19,6 +19,20 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
 
+
+// Load JavaScript message titles
+JText::script('ERROR');
+JText::script('WARNING');
+JText::script('NOTICE');
+JText::script('MESSAGE');
+
+// Add strings for JavaScript error translations.
+JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+JText::script('JLIB_JS_AJAX_ERROR_OTHER');
+JText::script('JLIB_JS_AJAX_ERROR_PARSE');
+JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');

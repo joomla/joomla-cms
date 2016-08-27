@@ -230,23 +230,27 @@ class BannersModelBanners extends JModelList
 
 		foreach ($items as $item)
 		{
-			// Increment impression made
-			$id = $item->id;
-			$query->clear()
-				->update('#__banners')
-				->set('impmade = (impmade + 1)')
-				->where('id = ' . (int) $id);
-			$db->setQuery($query);
+			$bid[] = (int) $item->id;
+		}
 
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				JError::raiseError(500, $e->getMessage());
-			}
+		// Increment impression made
+		$query->clear()
+			->update('#__banners')
+			->set('impmade = (impmade + 1)')
+			->where('id IN (' . implode(',', $bid) . ')');
+		$db->setQuery($query);
 
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			JError::raiseError(500, $e->getMessage());
+		}
+
+		foreach ($items as $item)
+		{
 			// Track impressions
 			$trackImpressions = $item->track_impressions;
 
@@ -264,11 +268,12 @@ class BannersModelBanners extends JModelList
 			if ($trackImpressions > 0)
 			{
 				// Is track already created?
-				$query->clear()
-					->select($db->quoteName('count'))
-					->from('#__banner_tracks')
+				// Update count
+				$query->clear();
+				$query->update('#__banner_tracks')
+					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 					->where('track_type=1')
-					->where('banner_id=' . (int) $id)
+					->where('banner_id=' . (int) $item->id)
 					->where('track_date=' . $db->quote($trackDate));
 
 				$db->setQuery($query);
@@ -277,27 +282,16 @@ class BannersModelBanners extends JModelList
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (JDatabaseExceptionExecuting $e)
 				{
 					JError::raiseError(500, $e->getMessage());
 				}
 
-				$count = $db->loadResult();
-
-				$query->clear();
-
-				if ($count)
-				{
-					// Update count
-					$query->update('#__banner_tracks')
-						->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
-						->where('track_type=1')
-						->where('banner_id=' . (int) $id)
-						->where('track_date=' . $db->quote($trackDate));
-				}
-				else
+				if ($db->getAffectedRows() == 0)
 				{
 					// Insert new count
+					$query->clear();
+
 					$query->insert('#__banner_tracks')
 						->columns(
 							array(
@@ -305,18 +299,18 @@ class BannersModelBanners extends JModelList
 								$db->quoteName('banner_id'), $db->quoteName('track_date')
 							)
 						)
-						->values('1, 1, ' . (int) $id . ', ' . $db->quote($trackDate));
-				}
+						->values('1, 1, ' . (int) $item->id . ', ' . $db->quote($trackDate));
 
-				$db->setQuery($query);
+					$db->setQuery($query);
 
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseError(500, $e->getMessage());
+					try
+					{
+						$db->execute();
+					}
+					catch (JDatabaseExceptionExecuting $e)
+					{
+						JError::raiseError(500, $e->getMessage());
+					}
 				}
 			}
 		}
