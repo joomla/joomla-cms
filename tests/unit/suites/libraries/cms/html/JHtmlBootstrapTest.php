@@ -296,7 +296,7 @@ class JHtmlBootstrapTest extends TestCase
 		$matcher = array(
 			'id'         => 'modal',
 			'tag'        => 'div',
-			'attributes' => array('class' => 'modal hide fade'),
+			'attributes' => array('class' => 'joomla-modal modal hide fade'),
 			'child'      => array(
 				'attributes' => array('class' => 'modal-header'),
 				'tag' => 'div'
