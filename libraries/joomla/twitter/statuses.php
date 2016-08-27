@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Statuses class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterStatuses extends JTwitterObject
 {
@@ -513,7 +514,7 @@ class JTwitterStatuses extends JTwitterObject
 		// Set POST data.
 		$data = array(
 			'status' => utf8_encode($status),
-			'media[]' => "@{$media}"
+			'media[]' => "@{$media}",
 		);
 
 		$header = array('Content-Type' => 'multipart/form-data');

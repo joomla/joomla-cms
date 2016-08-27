@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 jimport('joomla.filesystem.path');
-require_once JPATH_COMPONENT . '/helpers/menus.php';
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Menu Item Model for Menus.
@@ -593,7 +593,7 @@ class MenusModelItem extends JModelAdmin
 			$filters = JFactory::getApplication()->getUserState('com_menus.items.filter');
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (isset($filters['access']) ? $filters['access'] : null);
+			$data['access'] = (isset($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -923,9 +923,12 @@ class MenusModelItem extends JModelAdmin
 
 		$menuType = $app->getUserState('com_menus.edit.item.menutype');
 
-		if ($app->input->getString('menutype', false))
+		if ($forcedMenuType = $app->input->get('menutype', '', 'string'))
 		{
-			$menuType = $app->input->getString('menutype', 'mainmenu');
+			$menuType = $forcedMenuType;
+
+			// Set the menu type on the list view state, so we return to this menu after saving.
+			$app->setUserState('com_menus.items.menutype', $forcedMenuType);
 		}
 
 		$this->setState('item.menutype', $menuType);
@@ -1183,7 +1186,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean  False on failure or error, true otherwise.
+	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
 	 *
 	 * @since   1.6
 	 */
@@ -1378,7 +1381,7 @@ class MenusModelItem extends JModelAdmin
 		if ($assoc)
 		{
 			// Adding self to the association
-			$associations = $data['associations'];
+			$associations = isset($data['associations']) ? $data['associations'] : array();
 
 			// Unset any invalid associations
 			$associations = Joomla\Utilities\ArrayHelper::toInteger($associations);

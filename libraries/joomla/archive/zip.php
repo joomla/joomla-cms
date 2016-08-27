@@ -26,7 +26,7 @@ jimport('joomla.filesystem.folder');
  * Peter Listiak <mlady@users.sourceforge.net>
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
- * The Horde Project <http://www.horde.org>
+ * The Horde Project <https://www.horde.org>
  *
  * @contributor  Chuck Hagenbuch <chuck@horde.org>
  * @contributor  Michael Slusarz <slusarz@horde.org>
@@ -42,8 +42,16 @@ class JArchiveZip implements JArchiveExtractable
 	 * @var    array
 	 * @since  11.1
 	 */
-	private $_methods = array(0x0 => 'None', 0x1 => 'Shrunk', 0x2 => 'Super Fast', 0x3 => 'Fast', 0x4 => 'Normal', 0x5 => 'Maximum', 0x6 => 'Imploded',
-		0x8 => 'Deflated');
+	private $_methods = array(
+		0x0 => 'None',
+		0x1 => 'Shrunk',
+		0x2 => 'Super Fast',
+		0x3 => 'Fast',
+		0x4 => 'Normal',
+		0x5 => 'Maximum',
+		0x6 => 'Imploded',
+		0x8 => 'Deflated',
+	);
 
 	/**
 	 * Beginning of central directory record.
@@ -144,7 +152,9 @@ class JArchiveZip implements JArchiveExtractable
 	 * @param   int     $code  The application-internal error code for this error
 	 * @param   string  $msg   The error message, which may also be shown the user if need be.
 	 *
-	 * @return mixed JError object or Runtime Exception
+	 * @return  JException  JException instance if JError class exists
+	 *
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	private function raiseWarning($code, $msg)
 	{
@@ -165,7 +175,7 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	public static function isSupported()
 	{
-		return (self::hasNativeSupport() || extension_loaded('zlib'));
+		return self::hasNativeSupport() || extension_loaded('zlib');
 	}
 
 	/**
@@ -177,7 +187,7 @@ class JArchiveZip implements JArchiveExtractable
 	 */
 	public static function hasNativeSupport()
 	{
-		return (function_exists('zip_open') && function_exists('zip_read'));
+		return function_exists('zip_open') && function_exists('zip_read');
 	}
 
 	/**
@@ -382,7 +392,7 @@ class JArchiveZip implements JArchiveExtractable
 				'method' => $this->_methods[$info['Method']],
 				'_method' => $info['Method'],
 				'size' => $info['Uncompressed'],
-				'type' => null
+				'type' => null,
 			);
 
 			$entries[$name]['date'] = mktime(
@@ -605,7 +615,7 @@ class JArchiveZip implements JArchiveExtractable
 	/**
 	 * Creates the ZIP file.
 	 *
-	 * Official ZIP file format: http://www.pkware.com/appnote.txt
+	 * Official ZIP file format: https://support.pkware.com/display/PKZIP/APPNOTE
 	 *
 	 * @param   array   &$contents  An array of existing zipped files.
 	 * @param   array   &$ctrlDir   An array of central directory information.

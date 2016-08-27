@@ -375,7 +375,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
 	 *
 	 * @since   1.6
 	 * @throws  Exception
@@ -526,6 +526,10 @@ class ModulesModelModule extends JModelAdmin
 			$module   = JArrayHelper::getValue($data, 'module');
 			$id       = JArrayHelper::getValue($data, 'id');
 		}
+
+		// Add the default fields directory
+		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
@@ -868,7 +872,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php';
+		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 		return parent::validate($form, $data, $group);
 	}

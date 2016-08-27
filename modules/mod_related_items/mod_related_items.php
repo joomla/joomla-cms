@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the related items functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModRelatedItemsHelper', __DIR__ . '/helper.php');
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'safeuri';
@@ -26,7 +26,7 @@ if (!count($list))
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-$showDate = $params->get('showDate', 0);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$showDate        = $params->get('showDate', 0);
 
 require JModuleHelper::getLayoutPath('mod_related_items', $params->get('layout', 'default'));

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Filter table class for the Finder package.
@@ -116,7 +117,7 @@ class FinderTableFilter extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 
@@ -203,15 +204,15 @@ class FinderTableFilter extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
+		$date = JFactory::getDate()->toSql();
+		$userId = JFactory::getUser()->id;
 
-		$this->modified = $date->toSql();
+		$this->modified = $date;
 
 		if ($this->filter_id)
 		{
 			// Existing item
-			$this->modified_by = $user->get('id');
+			$this->modified_by = $userId;
 		}
 		else
 		{
@@ -219,12 +220,12 @@ class FinderTableFilter extends JTable
 			// so we don't touch it if it is set.
 			if (!(int) $this->created)
 			{
-				$this->created = $date->toSql();
+				$this->created = $date;
 			}
 
 			if (empty($this->created_by))
 			{
-				$this->created_by = $user->get('id');
+				$this->created_by = $userId;
 			}
 		}
 

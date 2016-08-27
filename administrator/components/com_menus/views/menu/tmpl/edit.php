@@ -30,19 +30,13 @@ JFactory::getDocument()->addScriptDeclaration("
 ");
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
-
+	
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
+	
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS', true)); ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('title'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('title'); ?>
-				</div>
-			</div>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_MENU_DETAILS')); ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('menutype'); ?>
@@ -62,7 +56,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MENUS_FIELDSET_RULES', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_MENUS_FIELDSET_RULES')); ?>
 					<?php echo $this->form->getInput('rules'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>

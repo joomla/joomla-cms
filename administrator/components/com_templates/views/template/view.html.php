@@ -91,7 +91,7 @@ class TemplatesViewTemplate extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -180,12 +180,12 @@ class TemplatesViewTemplate extends JViewLegacy
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'eye thememanager');
+		JToolbarHelper::title(JText::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
 		{
-			// Add a Apply and save button
+			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
 				JToolbarHelper::apply('template.apply');

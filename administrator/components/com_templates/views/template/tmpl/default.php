@@ -167,7 +167,7 @@ if($this->type == 'font')
 }
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
 <div class="row-fluid">
 	<div class="span12">
 		<?php if($this->type == 'file'): ?>
@@ -194,7 +194,7 @@ if($this->type == 'font')
 					<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 					<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 					<p>
-						<a href="https://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+						<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
 							<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 						</a>
 					</p>
@@ -305,7 +305,7 @@ if($this->type == 'font')
 </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES', true)); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
 	<div class="span4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
@@ -370,7 +370,7 @@ if($this->type == 'font')
 </div>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION', true)); ?>
+<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION')); ?>
 <?php echo $this->loadTemplate('description');?>
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>

@@ -19,6 +19,13 @@ defined('JPATH_PLATFORM') or die;
 class JViewLegacy extends JObject
 {
 	/**
+	 * The active document object
+	 *
+	 * @var    JDocument
+	 */
+	public $document;
+
+	/**
 	 * The name of the view
 	 *
 	 * @var    array
@@ -199,7 +206,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2

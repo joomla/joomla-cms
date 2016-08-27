@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the search functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModSearchHelper', __DIR__ . '/helper.php');
 
 $lang = JFactory::getLanguage();
 $app  = JFactory::getApplication();
@@ -24,7 +24,7 @@ if ($params->get('opensearch', 1))
 			JUri::getInstance()->toString(array('scheme', 'host', 'port'))
 			. JRoute::_('&option=com_search&format=opensearch'), 'search', 'rel',
 			array(
-				'title' => htmlspecialchars($ostitle),
+				'title' => htmlspecialchars($ostitle, ENT_COMPAT, 'UTF-8'),
 				'type' => 'application/opensearchdescription+xml'
 			)
 		);
@@ -34,13 +34,13 @@ $upper_limit     = $lang->getUpperLimitSearchWord();
 $button          = $params->get('button', 0);
 $imagebutton     = $params->get('imagebutton', 0);
 $button_pos      = $params->get('button_pos', 'left');
-$button_text     = htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')));
+$button_text     = htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')), ENT_COMPAT, 'UTF-8');
 $width           = (int) $params->get('width');
 $maxlength       = $upper_limit;
-$text            = htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')));
-$label           = htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')));
+$text            = htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')), ENT_COMPAT, 'UTF-8');
+$label           = htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')), ENT_COMPAT, 'UTF-8');
 $set_Itemid      = (int) $params->get('set_itemid', 0);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 if ($imagebutton)
 {

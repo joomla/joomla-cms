@@ -9,6 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MULTILANGSTATUS_XML_DESCRIPTION</description>
+
 	<files>
 		<filename module="mod_multilangstatus">mod_multilangstatus.php</filename>
 		<folder>tmpl</folder>
@@ -19,31 +20,29 @@
 		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.sys.ini</language>
 	</languages>
+
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MULTILANG" />
+
 	<config>
+
 		<fields name="params">
+
 			<fieldset name="advanced">
+
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
 
-				<field
-					name="cache"
-					type="list"
-					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
 			</fieldset>
 		</fields>
 	</config>
