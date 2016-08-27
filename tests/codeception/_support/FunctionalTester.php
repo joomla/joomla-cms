@@ -8,12 +8,9 @@
  */
 
 /**
+ * Functional Tester global class for entry point
+ *
  * Inherited Methods
- *
- * @package     Joomla.Test
- * @subpackage  FunctionalTester
- *
- * @since       __DEPLOY_VERSION__
  *
  * @method void wantToTest($text)
  * @method void wantTo($text)
@@ -27,12 +24,14 @@
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
+ *
+ * @since  __DEPLOY_VERSION__
  */
 class FunctionalTester extends \Codeception\Actor
 {
 	use _generated\FunctionalTesterActions;
 
 	/**
-    * Define custom actions here
-    */
+	 * Define custom actions here
+	 */
 }

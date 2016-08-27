@@ -10,11 +10,8 @@
 /**
  * Acceptance Tester global class for entry point
  *
- * @package     Joomla.Test
- * @subpackage  AcceptanceTester
- * @since       __DEPLOY_VERSION__
- *
  * Inherited Methods
+ *
  * @method void wantToTest($text)
  * @method void wantTo($text)
  * @method void execute($callable)
@@ -27,6 +24,8 @@
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = null)
  *
  * @SuppressWarnings(PHPMD)
+ *
+ * @since  __DEPLOY_VERSION__
  */
 class AcceptanceTester extends \Codeception\Actor
 {
@@ -37,7 +36,7 @@ class AcceptanceTester extends \Codeception\Actor
 	 *
 	 * @param   string  $page  Optional, if not given checks will be done in the current page
 	 *
-	 * @note    :   doAdminLogin() before
+	 * @note    doAdminLogin() before
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void

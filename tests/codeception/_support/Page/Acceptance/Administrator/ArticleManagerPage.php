@@ -21,8 +21,8 @@ class ArticleManagerPage extends AdminPage
 	/**
 	 * Page object for content body editor field.
 	 *
-	 * @var array
-	 * @since version
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $content = ['id' => 'jform_articletext'];
 

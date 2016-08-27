@@ -8,6 +8,8 @@
  */
 
 /**
+ * Unit Tester global class for entry point
+ *
  * Inherited Methods
  *
  * @method void wantToTest($text)
@@ -23,16 +25,13 @@
  *
  * @SuppressWarnings(PHPMD)
  *
- * @package     Joomla.Test
- * @subpackage  FunctionalTester
- *
- * @since       __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class UnitTester extends \Codeception\Actor
 {
 	use _generated\UnitTesterActions;
 
 	/**
-    * Define custom actions here
-    */
+	 * Define custom actions here
+	 */
 }
