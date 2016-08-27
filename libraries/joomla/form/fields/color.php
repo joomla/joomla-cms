@@ -252,7 +252,7 @@ class JFormFieldColor extends JFormField
 				'#ffffff',
 				'#999999',
 				'#555555',
-				'#000000'
+				'#000000',
 			);
 		}
 		else

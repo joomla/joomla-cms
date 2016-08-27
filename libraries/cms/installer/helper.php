@@ -136,7 +136,7 @@ abstract class JInstallerHelper
 				return array(
 					'extractdir'  => null,
 					'packagefile' => $archivename,
-					'type'        => false
+					'type'        => false,
 				);
 			}
 
@@ -150,7 +150,7 @@ abstract class JInstallerHelper
 				return array(
 					'extractdir'  => null,
 					'packagefile' => $archivename,
-					'type'        => false
+					'type'        => false,
 				);
 			}
 

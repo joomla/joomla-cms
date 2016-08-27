@@ -59,7 +59,7 @@ class JPaginationTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->app);
 		parent::tearDown();
 	}
 

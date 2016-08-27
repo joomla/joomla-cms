@@ -441,15 +441,8 @@
         	// colorpicker
         	if($.fn.minicolors){
         		$row.find('.minicolors input').each(function(){
-        			$(this).removeData('minicolors-initialized')
-        			.removeData('minicolors-settings')
-        			.removeProp('size')
-        			.removeProp('maxlength')
-        			.removeClass('minicolors-input')
-        			// move out from <span>
-        			.parents('span.minicolors').parent().append(this);
+        			$(this).minicolors('destroy', $(this));
         		});
-        		$row.find('span.minicolors').remove();
         	}
         };
 
@@ -478,7 +471,7 @@
         			$select = $el.prev(),
         			oldHref = $select.attr('href');
         		// update the clear button
-        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;")
+        		$el.attr('onclick', "jInsertFieldValue('', '" + inputId + "');return false;");
         		// update select button
         		$select.attr('href', oldHref.replace(/&fieldid=(.+)&/, '&fieldid=' + inputId + '&'));
 				jMediaRefreshPreview(inputId);

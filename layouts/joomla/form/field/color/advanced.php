@@ -61,7 +61,7 @@ $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
 $readonly     = $readonly ? ' readonly' : '';
-$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
