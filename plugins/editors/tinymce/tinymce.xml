@@ -123,11 +123,13 @@
 					directory="media/editors/tinymce/langs/"
 					hide_none="1"
 					default="en"
-					hide_default="0"
+					hide_default="1"
 					filter="\.js$"
 					size="10"
 					showon="lang_mode:0"
-				/>
+					>
+					<option value="en">en</option>
+				</field>
 
 				<field
 					name="text_direction"
