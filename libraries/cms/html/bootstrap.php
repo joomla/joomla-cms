@@ -39,7 +39,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function affix($selector = '.affix', $params = array())
+	public static function affix($selector = 'affix', $params = array())
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -67,7 +67,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function alert($selector = '.alert')
+	public static function alert($selector = 'alert')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -92,7 +92,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.1
 	 */
-	public static function button($selector = '.button')
+	public static function button($selector = 'button')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -123,7 +123,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function carousel($selector = '.carousel', $params = array())
+	public static function carousel($selector = 'carousel', $params = array())
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -152,7 +152,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function dropdown($selector = '.dropdown-toggle')
+	public static function dropdown($selector = 'dropdown-toggle')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
@@ -345,7 +345,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function scrollspy($selector = '.navbar', $params = array())
+	public static function scrollspy($selector = 'navbar', $params = array())
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
