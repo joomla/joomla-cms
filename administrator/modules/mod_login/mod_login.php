@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JLoader::register('ModLoginHelper', __DIR__ . '/helper.php');
 
 $langs            = ModLoginHelper::getLanguageList();
-$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
+$twofactormethods = extension_loaded('mcrypt') ? JAuthenticationHelper::getTwoFactorMethods() : array();
 $return           = ModLoginHelper::getReturnUri();
 
 require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
