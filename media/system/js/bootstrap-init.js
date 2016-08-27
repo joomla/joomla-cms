@@ -20,7 +20,7 @@
 		/** Accordion **/
 		if (accordion) {
 			$.each(accordion, function(index, value) {
-				$('.' + index).collapse(
+				$('#' + index).collapse(
 					{
 						parent:value.parent,
 						toggle:value.toggle
@@ -35,28 +35,28 @@
 		/** Affix **/
 		if (affix) {
 			$.each(affix, function(index, value) {
-				$(index).affix(value);
+				$('#' + index).affix(value);
 			});
 		}
 
 		/** Alert **/
 		if (alert) {
 			$.each(alert, function(index, value) {
-				$(index).alert();
+				$('#' + index).alert();
 			});
 		}
 
 		/** Button **/
 		if (button) {
 			$.each(button, function(index, value) {
-				$(index).button();
+				$('#' + index).button();
 			});
 		}
 
 		/** Carousel **/
 		if (carousel) {
 			$.each(carousel, function(index, value) {
-				$(index).carousel(
+				$('#' + index).carousel(
 					{
 						interval: value.interval ? value.interval : 5000,
 						pause: value.pause ? value.pause : 'hover'
@@ -68,7 +68,7 @@
 		/** Dropdown menu **/
 		if (dropdown) {
 			$.each(dropdown, function(index, value) {
-				$(index).dropdown();
+				$('#' + index).dropdown();
 			});
 		}
 
@@ -131,16 +131,16 @@
 		/** Scrollspy **/
 		if (scrollspy) {
 			$.each(scrollspy, function(index, value) {
-				$(index).scrollspy(value);
+				$('#' + index).scrollspy(value);
 			});
 		}
 
 		/** Tabs **/
 		if (tabs) {
 			$.each(tabs, function(index, value) {
-				var liNodes = $('#'+index+'Tabs').find('li');
+				var liNodes = $('#' + index + 'Tabs').find('li');
 
-				$.each($('#'+index+'Content').find('.tab-pane'), function(i, v) {
+				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
 							classLi = (attribs[0] != '') ? 'class="' + attribs[0] + '"' : '';
