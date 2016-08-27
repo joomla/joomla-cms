@@ -103,7 +103,7 @@ class UsersViewProfile extends JViewLegacy
 		// Only allow 2FA if mcrypt is enabled.
 		if ($this->twofactorform && !extension_loaded('mcrypt'))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_WARNING_MCRYPT_NEEDED'), 'warning');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_WARNING_MCRYPT_NEEDED'), 'error');
 			$this->twofactorform = null;
 		}
 
