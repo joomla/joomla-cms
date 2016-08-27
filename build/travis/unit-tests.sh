@@ -7,14 +7,18 @@ BASE="$1"
 # Abort travis execution if setup fails
 set -e
 
+# Disable xdebug on php 7.0.* and lower.
+if [[ ( $TRAVIS_PHP_VERSION = 5.* ) || ( $TRAVIS_PHP_VERSION = 7.0 ) ]]; then phpenv config-rm xdebug.ini; fi
+
+# Disable xdebug in hhvm.
+if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo 'xdebug.enable = 0' >> /etc/hhvm/php.ini; fi
+
 # Make sure all dev dependencies are installed
 composer install
 
 # Setup databases for testing
-if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql -e 'create database joomla_ut;'; fi
-if [[ $TRAVIS_PHP_VERSION != hhvm ]]; then mysql joomla_ut < "$BASE/tests/unit/schema/mysql.sql"; fi
-if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root -e 'create database joomla_ut;'; fi
-if [[ $TRAVIS_PHP_VERSION = hhvm ]]; then mysql -u root joomla_ut < "$BASE/tests/unit/schema/mysql.sql"; fi
+mysql -u root -e 'create database joomla_ut;'
+mysql -u root joomla_ut < "$BASE/tests/unit/schema/mysql.sql"
 psql -c 'create database joomla_ut;' -U postgres
 psql -d joomla_ut -a -f "$BASE/tests/unit/schema/postgresql.sql"
 
