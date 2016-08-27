@@ -260,7 +260,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function renderModal($selector = '.joomla-modal', $params = array(), $body = '')
+	public static function renderModal($selector = 'modal', $params = array(), $body = '')
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
