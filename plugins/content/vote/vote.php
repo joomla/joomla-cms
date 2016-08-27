@@ -25,14 +25,6 @@ class PlgContentVote extends JPlugin
 	protected $app;
 
 	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Displays the voting area if in an article
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin
@@ -57,6 +49,9 @@ class PlgContentVote extends JPlugin
 		{
 			return '';
 		}
+
+		// Load plugin language files only when needed (ex: they are not needed if show_vote is not active).
+		$this->loadLanguage();
 
 		// Get the path for the rating summary layout file
 		$path = JPluginHelper::getLayoutPath('content', 'vote', 'rating');
