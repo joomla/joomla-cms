@@ -45,7 +45,7 @@ extract($displayData);
  * @var   array    $control         Is this field checked?
  */
 
-$class = ' class="' . trim('simplecolors chosen-done ' . $class) . '"';
+$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 
 // Include jQuery
 JHtml::_('jquery.framework');
