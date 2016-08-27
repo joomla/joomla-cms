@@ -22,6 +22,9 @@
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="builder">
+				<field name="configuration" type="tinymcebuilder" label="TinyMCE Builder" />
+			</fieldset>
 			<fieldset name="basic">
 				<field
 					name="skins"
