@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$twofactormethods = JAuthenticationHelper::getTwoFactorMethods() : array();
+$twofactormethods = extension_loaded('mcrypt') ? JAuthenticationHelper::getTwoFactorMethods() : array();
 $app              = JFactory::getApplication();
 $doc              = JFactory::getDocument();
 $this->language   = $doc->language;
