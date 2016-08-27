@@ -49,7 +49,7 @@ class UsersViewProfile extends JViewLegacy
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
-		$this->twofactormethods = extension_loaded('mcrypt') ? JAuthenticationHelper::getTwoFactorMethods() : array();
+		$this->twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		$this->otpConfig        = $this->get('OtpConfig');
 		$this->db               = JFactory::getDbo();
 
