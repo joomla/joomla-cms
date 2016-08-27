@@ -44,12 +44,12 @@ class UsersViewProfile extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->data	            = $this->get('Data');
-		$this->form	            = $this->get('Form');
+		$this->data	        = $this->get('Data');
+		$this->form	        = $this->get('Form');
 		$this->state            = $this->get('State');
 		$this->params           = $this->state->get('params');
 		$this->twofactorform    = $this->get('Twofactorform');
-		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
+		$this->twofactormethods = extension_loaded('mcrypt') ? JAuthenticationHelper::getTwoFactorMethods() : array();
 		$this->otpConfig        = $this->get('OtpConfig');
 		$this->db               = JFactory::getDbo();
 
@@ -99,6 +99,13 @@ class UsersViewProfile extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
+
+		// Only allow 2FA if mcrypt is enabled.
+		if ($this->twofactorform && !extension_loaded('mcrypt'))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_WARNING_MCRYPT_NEEDED'), 'warning');
+			$this->twofactorform = null;
+		}
 
 		return parent::display($tpl);
 	}
