@@ -45,59 +45,93 @@ class JFormFieldTinymceBuilder extends JFormField
 	{
 		$data = parent::getLayoutData();
 
-		$data['buttons'] = array(
-			'bold' => 'Bold',
-			'italic' => 'Italic',
-			'underline' => 'Underline',
-			'strikethrough' => 'Strikethrough',
-			'alignleft' => 'Align left',
-			'aligncenter' => 'Align center',
-			'alignright' => 'Align right',
-			'alignjustify' => 'Justify',
-			'styleselect' => 'Formats',
-			'formatselect' => 'Paragraph',
-			'fontselect' => 'Font Family',
-			'fontsizeselect' => 'Font Sizes',
-			'cut' => 'Cut',
-			'copy' => 'Copy',
-			'paste' => 'Paste',
-			'bullist' => 'Bulleted list',
-			'numlist' => 'Numbered list',
-			'outdent' => 'Decrease indent',
-			'indent' => 'Increase indent',
-			'blockquote' => 'Blockquote',
-			'undo' => 'Undo',
-			'redo' => 'Redo',
-			'removeformat' => 'Clear formatting',
-			'subscript' => 'Subscript',
-			'superscript' => 'Superscript',
+		// https://www.tinymce.com/docs/demo/full-featured/
+		$buttons = array(
+			'|' => array('label' => 'Separator', 'text' => '|'),
 
-//			'hr' => 'Horizontal line',
-//			'link' => 'Insert/edit link',
-//			'unlink' => 'Remove link',
-//			'image' => 'Insert/edit image',
-//			'charmap' => 'Special character',
-//			'pastetext' => 'Paste as text',
-//			'print' => 'Print',
-//			'anchor' => 'Anchor',
-//			'searchreplace' => 'Find and replace',
-//			'visualblocks' => 'Show blocks',
-//			'visualchars' => 'Show invisible characters',
-//			'code' => 'Source code',
-//			'wp_code' => 'Code',
-//			'fullscreen' => 'Fullscreen',
-//			'insertdatetime' => 'Insert date/time',
-//			'media' => 'Insert/edit video',
-//			'nonbreaking' => 'Nonbreaking space',
-//			'table' => 'Table',
-//			'ltr' => 'Left to right',
-//			'rtl' => 'Right to left',
-//			'emoticons' => 'Emoticons',
-//			'forecolor' => 'Text color',
-//			'backcolor' => 'Background color',
+			'undo' => array('label' => 'Undo', 'text' => ''),
+			'redo' => array('label' => 'Redo', 'text' => ''),
+
+			'bold' => array('label' => 'Bold', 'text' => ''),
+			'italic' => array('label' => 'Italic', 'text' => ''),
+			'underline' => array('label' => 'Underline', 'text' => ''),
+			'strikethrough' => array('label' => 'Strikethrough', 'text' => ''),
+
+			'formatselect' => array('label' => 'Paragraph', 'text' => 'Paragraph'),
+
+			'alignleft' => array('label' => 'Align left', 'text' => ''),
+			'aligncenter' => array('label' => 'Align center', 'text' => ''),
+			'alignright' => array('label' => 'Align right', 'text' => ''),
+			'alignjustify' => array('label' => 'Justify', 'text' => ''),
+
+			'outdent' => array('label' => 'Decrease indent', 'text' => ''),
+			'indent' => array('label' => 'Increase indent', 'text' => ''),
+
+			'bullist' => array('label' => 'Bulleted list', 'text' => ''),
+			'numlist' => array('label' => 'Numbered list', 'text' => ''),
+
+			'link' => array('label' => 'Insert/edit link', 'text' => ''),
+			'unlink' => array('label' => 'Remove link', 'text' => ''),
+			'anchor' => array('label' => 'Anchor', 'text' => ''),
+
+			'subscript' => array('label' => 'Subscript', 'text' => ''),
+			'superscript' => array('label' => 'Superscript', 'text' => ''),
+
+			'cut' => array('label' => 'Cut', 'text' => ''),
+			'copy' => array('label' => 'Copy', 'text' => ''),
+			'paste' => array('label' => 'Paste', 'text' => ''),
+			'pastetext' => array('label' => 'Paste as text', 'text' => ''),
+
+			'blockquote' => array('label' => 'Blockquote', 'text' => ''),
+			'code' => array('label' => 'Source code', 'text' => ''),
+			'hr' => array('label' => 'Horizontal line', 'text' => ''),
+			'table' => array('label' => 'Table', 'text' => ''),
+			'charmap' => array('label' => 'Special character', 'text' => ''),
+			'removeformat' => array('label' => 'Clear formatting', 'text' => ''),
+			'emoticons' => array('label' => 'Emoticons', 'text' => ''),
+
+			// TODO: get list of XTD Buttons
+		);
+		$data['buttons'] = $buttons;
+
+		$data['buttonsSet'] = array(
+			'undo', 'redo', '|',
+			'bold', 'italic', 'underline', 'strikethrough', '|',
+			'formatselect', '|',
+			'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+			'outdent', 'indent', '|',
+			'bullist', 'numlist', '|',
+			'link', 'unlink', 'anchor', '|',
+			'subscript', 'superscript', '|',
+			'cut', 'copy', 'paste', 'pastetext', '|',
+			'blockquote', 'code', 'hr', 'table', 'charmap', 'removeformat', 'emoticons'
 		);
 
+		$data['viewLevels'] = $this->getAccessViewLevels();
+
 		return $data;
+	}
+
+	protected function getAccessViewLevels()
+	{
+		static $levels = array();
+
+		if (empty($levels))
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery( true )
+				->select( $db->quoteName( 'a.id', 'value' ) . ', ' . $db->quoteName( 'a.title', 'text' ) )
+                ->from( $db->quoteName( '#__viewlevels', 'a' ) )
+			    ->group( $db->quoteName( array( 'a.id', 'a.title', 'a.ordering' ) ) )
+			    ->order( $db->quoteName( 'a.ordering' ) . ' ASC' )
+			    ->order( $db->quoteName( 'title' ) . ' ASC' );
+
+			// Get the options.
+			$db->setQuery( $query );
+			$levels = $db->loadAssocList();
+		}
+
+		return $levels;
 	}
 
 }
