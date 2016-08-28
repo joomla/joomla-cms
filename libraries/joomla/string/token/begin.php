@@ -19,13 +19,15 @@ class JStringTokenBegin extends JStringToken
 	/**
 	 * Constructor.
 	 *
+	 * @param   string                  $name             Name of the token.
 	 * @param   JStringTokenDefinition  $tokenDefinition  Token definition object.
 	 * @param   array                   $params           String representing parameters.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct(JStringTokenDefinition $tokenDefinition, array $params)
+	public function __construct($name, JStringTokenDefinition $tokenDefinition, array $params)
 	{
+		$this->name = $name;
 		$this->tokenDefinition = $tokenDefinition;
 		$this->params = $params;
 	}
@@ -41,9 +43,21 @@ class JStringTokenBegin extends JStringToken
 	 */
 	public function getValue($content = '')
 	{
+		$value    = $this->tokenDefinition->bound;
 		$callback = $this->tokenDefinition->callback;
+		$layout   = $this->tokenDefinition->layout;
 
-		return $callback($this, $content);
+		if (is_callable($callback))
+		{
+			$value = $callback($this, $content, $value);
+		}
+
+		if ($layout instanceof JLayoutFile)
+		{
+			$value = $layout->render($value);
+		}
+
+		return $value;
 	}
 
 	/**
@@ -55,7 +69,7 @@ class JStringTokenBegin extends JStringToken
 	 */
 	public function isSimple()
 	{
-		return (boolean) $this->tokenDefinition->simple;
+		return (boolean) $this->tokenDefinition->isSimple();
 	}
 }
 

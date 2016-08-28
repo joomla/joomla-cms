@@ -10,22 +10,22 @@
 defined('_JEXEC') or die;
 
 /**
- * An end token.
+ * Block-type token type definition.
  *
  * @since  __DEPLOY_VERSION__
  */
-class JStringTokenEnd extends JStringToken
+class JStringTokenBlock extends JStringTokenDefinition
 {
 	/**
-	 * Constructor.
+	 * Is this token simple or the beginning of a block?
 	 *
-	 * @param   JStringTokenDefinition  $tokenDefinition  Token definition object.
+	 * @return  boolean
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct(JStringTokenDefinition $tokenDefinition)
+	public function isSimple()
 	{
-		$this->tokenDefinition = $tokenDefinition;
+		return false;
 	}
 }
 

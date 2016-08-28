@@ -17,6 +17,13 @@ defined('_JEXEC') or die;
 abstract class JStringToken
 {
 	/**
+	 * Name of the token..
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $name = '';
+
+	/**
 	 * Token definition object.
 	 *
 	 * @since __DEPLOY_VERSION__
@@ -46,7 +53,7 @@ abstract class JStringToken
 	 */
 	public function getName()
 	{
-		return is_null($this->tokenDefinition) ? '' : $this->tokenDefinition->name;
+		return $this->name;
 	}
 
 	/**

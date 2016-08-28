@@ -52,31 +52,35 @@ class PlgContentLoadmodule extends JPlugin
 
 		// Register the loadposition token.
 		// Syntax: {loadposition <module-position>[,<style>]}
-		$parser->registerToken(
+		$parser->register(
 			'loadposition',
-			function(JStringToken $token)
-			{
-				$tokenParams = $token->getParams();
-				$position = trim($tokenParams[0]);
-				$style = isset($tokenParams[1]) ? trim($tokenParams[1]) : $this->params->def('style', 'none');
+			(new JStringTokenSimple)->callback(
+				function(JStringToken $token)
+				{
+					$tokenParams = $token->getParams();
+					$position = trim($tokenParams[0]);
+					$style = isset($tokenParams[1]) ? trim($tokenParams[1]) : $this->params->def('style', 'none');
 
-				return addcslashes($this->_load($position, $style), '\\$');
-			}
+					return addcslashes($this->_load($position, $style), '\\$');
+				}
+			)
 		);
 
 		// Register the loadmodule token.
 		// Syntax: {loadmodule <module-type>[,<module-title>[,<style>]]}
-		$parser->registerToken(
+		$parser->register(
 			'loadmodule',
-			function(JStringToken $token)
-			{
-				$tokenParams = $token->getParams();
-				$moduleName = trim($tokenParams[0]);
-				$moduleTitle = isset($tokenParams[1]) ? htmlspecialchars_decode(trim($tokenParams[1])) : '';
-				$style = isset($tokenParams[2]) ? trim($tokenParams[2]) : $this->params->def('style', 'none');
+			(new JStringTokenSimple)->callback(
+				function(JStringToken $token)
+				{
+					$tokenParams = $token->getParams();
+					$moduleName = trim($tokenParams[0]);
+					$moduleTitle = isset($tokenParams[1]) ? htmlspecialchars_decode(trim($tokenParams[1])) : '';
+					$style = isset($tokenParams[2]) ? trim($tokenParams[2]) : $this->params->def('style', 'none');
 
-				return addcslashes($this->_loadmod($moduleName, $moduleTitle, $style), '\\$');
-			}
+					return addcslashes($this->_loadmod($moduleName, $moduleTitle, $style), '\\$');
+				}
+			)
 		);
 
 		// Parse and translate the content.

@@ -14,47 +14,80 @@ defined('_JEXEC') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-class JStringTokenDefinition
+abstract class JStringTokenDefinition
 {
 	/**
-	 * Name of the token.  Example "loadposition".
+	 * Bound variable.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $name = '';
+	public $bound = null;
 
 	/**
-	 * Function that will be called to translate the token.
+	 * Callback.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public $callback = null;
 
 	/**
-	 * Flag which is set to indicate that this token is simple.
-	 *
-	 * A simple token looks like {name} and will be replaced in its entirety.
-	 * A block token has a matching end block token which looks like {/name}.
-	 * The begin and end block tokens and everything in between will be replaced.
+	 * JLayoutFile object.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public $simple = true;
+	public $layout = null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   string    $name      Token name.
-	 * @param   callable  $callback  Callable which will return the replacement string.
-	 * @param   boolean   $simple    True if token is simple; false if token is block.
+	 * @param   mixed     $bound     An optional value or callable to bind to the token.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function __construct($name, callable $callback, $simple = true)
+	public function __construct($bound = null)
 	{
-		$this->name = JString::strtolower($name);
+		$this->bound	= $bound;
+	}
+
+	/**
+	 * Assign a callback function.
+	 *
+	 * @param   callable  $callback  An optional callback function.
+	 *
+	 * @return  This object for method chaining.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function callback(callable $callback = null)
+	{
 		$this->callback = $callback;
-		$this->simple = (boolean) $simple;
+
+		return $this;
+	}
+
+	/**
+	 * Is this token simple or the beginning of a block?
+	 *
+	 * @return  boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	abstract public function isSimple();
+
+	/**
+	 * Assign a layout function.
+	 *
+	 * @param   JLayout  $layout  An optional layout to bind to the token.
+	 *
+	 * @return  This object for method chaining.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function layout(JLayout $layout = null)
+	{
+		$this->layout = $layout;
+
+		return $this;
 	}
 }
 

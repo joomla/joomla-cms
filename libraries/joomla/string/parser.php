@@ -17,8 +17,8 @@ defined('_JEXEC') or die;
  *
  * Code syntax:
  *   $parser = (new JStringParser())
- *       ->registerToken('a', function(JStringTokenInterface $token, $content) { return 'replacement'; }, true)
- *       ->registerToken('b', function(JStringTokenInterface $token, $content) { return 'replacement'; }, false)
+ *       ->register('a', function(JStringTokenInterface $token, $content) { return 'replacement'; }, true)
+ *       ->register('b', function(JStringTokenInterface $token, $content) { return 'replacement'; }, false)
  *       ;
  *   $output = $parser->translate($content);
  *
@@ -76,7 +76,7 @@ class JStringParser
 	 * If there are characters before the next "real" token, return them in a TokenString object.
 	 * If there are no further "real" tokens, return the remaining characters in a TokenString object.
 	 *
-	 * @return  TokenInterface | null
+	 * @return  JStringToken | null
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -143,7 +143,7 @@ class JStringParser
 				return new JStringTokenEnd($tokenDefn);
 			}
 
-			return new JStringTokenBegin($tokenDefn, $tokenParams == '' ? array() : explode($this->paramSeparator, $tokenParams));
+			return new JStringTokenBegin($tokenName, $tokenDefn, $tokenParams == '' ? array() : explode($this->paramSeparator, $tokenParams));
 		}
 		while (true);
 
@@ -258,17 +258,49 @@ class JStringParser
 	/**
 	 * Register the definition of a token.
 	 *
-	 * @param   string    $name      A token name to look for.
-	 * @param   callable  $callback  A callable that will return the replacement string.
-	 * @param   boolean   $simple    True for a simple token; false for a block token.
+	 * @param   string                  $name        Token name.
+	 * @param   JStringTokenDefinition  $definition  Token definition.
 	 *
 	 * @return  This object for method chaining.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function registerToken($name, callable $callback, $simple = true)
+	public function register($name, JStringTokenDefinition $definition)
 	{
-		$this->tokens[JString::strtolower($name)] = new JStringTokenDefinition($name, $callback, $simple);
+		$this->tokens[JString::strtolower($name)] = $definition;
+
+		return $this;
+	}
+
+	/**
+	 * Is token registered?
+	 *
+	 * @param   string  $name  A token name to check.
+	 *
+	 * @return  boolean
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function isRegistered($name)
+	{
+		return isset($this->tokens[JString::strtolower($name)]);
+	}
+
+	/**
+	 * Unregister the definition of a token.
+	 *
+	 * @param   string    $name     A token name to look for.
+	 *
+	 * @return  This object for method chaining.
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function unregister($name)
+	{
+		if ($this->isRegistered($name))
+		{
+			unset($this->tokens[JString::strtolower($name)]);
+		}
 
 		return $this;
 	}
