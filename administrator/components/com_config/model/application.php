@@ -660,11 +660,18 @@ class ConfigModelApplication extends ConfigModelForm
 		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule            = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
-		$inheritedGroupParentAssetRule = !empty($parentAssetId)
-										? JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId)
-										: null;
-		$inheritedParentGroupRule      = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
+		$inheritedGroupRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+
+		if (!empty($parentAssetId))
+		{
+			$inheritedGroupParentAssetRule = JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
+		}
+		else
+		{
+			$inheritedGroupParentAssetRule = null;
+		}
+
+		$inheritedParentGroupRule = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
