@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('bootstrap.tooltip');
+
 $app = JFactory::getApplication('administrator');
 
 JFactory::getDocument()->addScriptDeclaration('
