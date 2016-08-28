@@ -9,6 +9,8 @@
 
 /**
  * Test class for JFormRuleColor
+ *
+ * @since       11.1
  */
 class JFormRuleColorTest extends TestCase
 {

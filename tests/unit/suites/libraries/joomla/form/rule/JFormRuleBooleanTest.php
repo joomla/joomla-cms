@@ -9,6 +9,8 @@
 
 /**
  * Test class for JFormRuleBoolean
+ *
+ * @since       11.1
  */
 class JFormRuleBooleanTest extends TestCase
 {
