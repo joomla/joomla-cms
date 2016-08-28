@@ -1505,10 +1505,10 @@ class JForm
 			$elements = &$this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
-			foreach ($elements as $element)
+			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $element->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}
