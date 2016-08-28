@@ -63,6 +63,9 @@ class JOpenstreetmapObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->object);
 	}
 
 	/**

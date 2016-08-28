@@ -40,6 +40,9 @@ require.config({
 		},
 		'libs/sendtestmail': {
 			deps: ['jquery']
+		},		
+		'libs/combobox': {
+			deps: ['jquery']
 		}
 	},
 

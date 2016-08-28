@@ -180,27 +180,31 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$query->clear();
 
-			if ($session->isNew())
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
-				$db->setQuery($query);
-			}
-			else
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(
-						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
-						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
-					)
-					->values(
-						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
-					);
+			$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
-				$db->setQuery($query);
-			}
+			$columns = array(
+				$db->quoteName('session_id'),
+				$db->quoteName('client_id'),
+				$db->quoteName('guest'),
+				$db->quoteName('time'),
+				$db->quoteName('userid'),
+				$db->quoteName('username'),
+			);
+
+			$values = array(
+				$db->quote($session->getId()),
+				(int) $this->getClientId(),
+				(int) $user->guest,
+				$db->quote((int) $time),
+				(int) $user->id,
+				$db->quote($user->username),
+			);
+
+			$query->insert($db->quoteName('#__session'))
+				->columns($columns)
+				->values(implode(', ', $values));
+
+			$db->setQuery($query);
 
 			// If the insert failed, exit the application.
 			try
@@ -817,12 +821,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
+			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
-				if (in_array($authorisation->status, $denied_states))
+				if ((int) $authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
