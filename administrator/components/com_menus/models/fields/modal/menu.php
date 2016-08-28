@@ -87,10 +87,24 @@ class JFormFieldModal_Menu extends JFormField
 		{
 			$scriptClear = true;
 
+			if (isset($this->element['language']))
+			{
+				$clearField = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			}
+			elseif ((string) $this->element->option['value'] == '')
+			{
+				$clearField =  JText::_($this->element->option, true);
+			}
+			else
+			{
+				$clearField = JText::_('JDEFAULT', true);
+			}
+
+			$clearField = htmlspecialchars($clearField, ENT_QUOTES, 'UTF-8');
+
 			$script[] = '	function jClearMenu(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "' .
-				htmlspecialchars(JText::_('COM_MENUS_SELECT_A_MENUITEM', true), ENT_COMPAT, 'UTF-8') . '";';
+			$script[] = '		document.getElementById(id + "_name").value = "' . $clearField . '";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -116,6 +130,11 @@ class JFormFieldModal_Menu extends JFormField
 		{
 			$linkItems .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkItem  .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM') . ' &#8212; ' . $this->element['label'];
+		}
+		else
+		{
+			$modalTitle = JText::_('COM_MENUS_CHANGE_MENUITEM');
 		}
 
 		$urlSelect = $linkItems . '&amp;' . JSession::getFormToken() . '=1';
@@ -143,7 +162,18 @@ class JFormFieldModal_Menu extends JFormField
 
 		if (empty($title))
 		{
-			$title = JText::_('COM_MENUS_SELECT_A_MENUITEM');
+			if (isset($this->element['language']))
+			{
+				$title = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+			}
+			elseif ((string) $this->element->option['value'] == '')
+			{
+				$title = JText::_($this->element->option, true);
+			}
+			else
+			{
+				$title = JText::_('JDEFAULT');
+			}
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -194,7 +224,7 @@ class JFormFieldModal_Menu extends JFormField
 			'bootstrap.renderModal',
 			'menuSelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_MENUS_CHANGE_MENUITEM'),
+				'title'       => $modalTitle,
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
