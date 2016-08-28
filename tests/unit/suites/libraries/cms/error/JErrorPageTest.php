@@ -44,7 +44,18 @@ class JErrorPageTest extends TestCaseDatabase
 	{
 		$documentResponse = '<title>500 - Testing JErrorPage::render() with RuntimeException</title>Testing JErrorPage::render() with RuntimeException';
 
-		$key = serialize(array('error', array()));
+		$key = serialize(
+			array(
+				'error',
+				array(
+					'charset'   => 'utf-8',
+					'lineend'   => 'unix',
+					'tab'       => "\t",
+					'language'  => 'en-GB',
+					'direction' => 'ltr',
+				),
+			)
+		);
 
 		$mockErrorDocument = $this->getMockBuilder('JDocumentError')
 			->setMethods(array('setError', 'setTitle', 'render'))
@@ -77,7 +88,18 @@ class JErrorPageTest extends TestCaseDatabase
 	{
 		$documentResponse = '<title>500 - Testing JErrorPage::render() with PHP 7 Error</title>Testing JErrorPage::render() with PHP 7 Error';
 
-		$key = serialize(array('error', array()));
+		$key = serialize(
+			array(
+				'error',
+				array(
+					'charset'   => 'utf-8',
+					'lineend'   => 'unix',
+					'tab'       => "\t",
+					'language'  => 'en-GB',
+					'direction' => 'ltr',
+				),
+			)
+		);
 
 		$mockErrorDocument = $this->getMockBuilder('JDocumentError')
 			->setMethods(array('setError', 'setTitle', 'render'))
