@@ -16,13 +16,43 @@ defined('_JEXEC') or die;
  * straightforward prediction parsing that does not require the construction of a parse tree.
  *
  * Code syntax:
- *   $parser = (new JStringParser())
- *       ->register('a', function(JStringTokenInterface $token, $content) { return 'replacement'; }, true)
- *       ->register('b', function(JStringTokenInterface $token, $content) { return 'replacement'; }, false)
+ *   $parser = (new JStringParser)
+ *       ->register('a', new JStringTokenSimple('a simple replacement'))
+ *       ->register('b', new JStringTokenSimple($myVariable))
+ *       ->register('c',
+ *           (new JStringTokenSimple)->callback(
+ *               function(JStringToken $token, $content, $value) {
+ *                   return 'replacement';
+ *                   }
+ *               )
+ *           )
+ *       ->register('d',
+ *           (new JStringTokenBlock)->callback(
+ *               function(JStringToken $token, $content, $value) {
+ *                   return 'replacement';
+ *                   }
+ *               )
+ *           )
+ *       ->register('dob',
+ *           (new JStringTokenSimple(array('text' => '18 July 1918')))->layout(
+ *               new JLayoutFile('plugins.user.profile.fields.dob')
+ *               )
+ *           )
  *       ;
  *   $output = $parser->translate($content);
  *
- * Token syntax:
+ * Formal token syntax:
+ *     list       ::= string | string token list
+ *     token      ::= simple | beginBlock list endBlock
+ *     simple     ::= startOfToken name endOfToken | startOfToken name space params endOfToken
+ *     beginBlock ::= startOfToken name endOfToken | startOfToken name space params endOfToken
+ *     endBlock   ::= startOfToken / name endOfToken
+ *     params     ::= param | param paramSeparator params
+ *     string     ::= any sequence of zero or more characters not including startOfToken
+ *     name       ::= any sequence of at least one non-space character
+ *     param      ::= any sequence of zero or more characters except paramSeparator and endOfToken
+ *
+ * Informally:
  *   Simple tags: {a [params]}
  *   Block tags: {b [params]} something {/b}
  *
@@ -37,31 +67,43 @@ class JStringParser
 {
 	/**
 	 * Array of registered token definitions.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $tokens = array();
 
 	/**
 	 * The content being parsed.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $content = '';
 
 	/**
 	 * Length of content string being parsed.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $contentLength = 0;
 
 	/**
 	 * Lookahead token.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $lookahead = null;
 
 	/**
 	 * Position of the next token in the content.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $position = 0;
 
 	/**
 	 * Regular expression to match a simple or block token.
+	 *
+	 * @since __DEPLOY_VERSION__
 	 */
 	private $pattern = '';
 
