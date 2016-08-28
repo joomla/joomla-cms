@@ -19,10 +19,10 @@ if ($show_description)
 	// Calculate number of characters to display around the result
 	$term_length = JString::strlen($this->query->input);
 	$desc_length = $this->params->get('description_length', 255);
-	$pad_length = $term_length < $desc_length ? floor(($desc_length - $term_length) / 2) : 0;
+	$pad_length = $term_length < $desc_length ? (int) floor(($desc_length - $term_length) / 2) : 0;
 
 	// Find the position of the search term
-	$pos = JString::strpos(JString::strtolower($this->result->description), JString::strtolower($this->query->input));
+	$pos = $term_length ? JString::strpos(JString::strtolower($this->result->description), JString::strtolower($this->query->input)) : false;
 
 	// Find a potential start point
 	$start = ($pos && $pos > $pad_length) ? $pos - $pad_length : 0;

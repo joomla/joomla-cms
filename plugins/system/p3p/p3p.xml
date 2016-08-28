@@ -19,9 +19,11 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="header" type="text"
-					description="PLG_P3P_HEADER_DESCRIPTION"
+				<field
+					name="header"
+					type="text"
 					label="PLG_P3P_HEADER_LABEL"
+					description="PLG_P3P_HEADER_DESCRIPTION"
 					default="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
 					size="37"
 				/>

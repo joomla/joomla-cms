@@ -145,7 +145,7 @@ class JTableSession extends JTable
 	}
 
 	/**
-	 * Find out if a user has a one or more active sessions
+	 * Find out if a user has one or more active sessions
 	 *
 	 * @param   integer  $userid  The identifier of the user
 	 *

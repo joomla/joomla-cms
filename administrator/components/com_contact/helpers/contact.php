@@ -43,7 +43,7 @@ class ContactHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  &$items  The contact category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -63,7 +63,7 @@ class ContactHelper extends JHelperContent
 			$query->select('published AS state, count(*) AS count')
 				->from($db->qn('#__contact_details'))
 				->where('catid = ' . (int) $item->id)
-				->group('state');
+				->group('published');
 			$db->setQuery($query);
 			$contacts = $db->loadObjectList();
 

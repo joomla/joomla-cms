@@ -59,6 +59,19 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
 
+		// Check for special update statement to reset utf8mb4 conversion status
+		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
+			|| $command == 'UPDATE #__UTF8_CONVERSION')
+			&& strtoupper($wordArray[2]) == 'SET'
+			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) == 'converted')
+		{
+			// Statement is special statement to reset conversion status
+			$this->queryType = 'UTF8CNV';
+
+			// Done with method
+			return;
+		}
+
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
@@ -220,6 +233,10 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		{
 			$result = 'int(10) unsigned';
 		}
+		elseif (strtolower(substr($type2, 0, 8)) == 'unsigned')
+		{
+			$result = $type1 . ' unsigned';
+		}
 
 		return $result;
 	}
@@ -227,7 +244,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	/**
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
-	 * Drops trailing semi-colon. Injects the database prefix.
+	 * Drops trailing semicolon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 *

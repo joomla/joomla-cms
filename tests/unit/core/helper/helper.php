@@ -164,6 +164,27 @@ class TestHelper
 	}
 
 	/**
+	 * Adds optional logging support for the unit test run
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	public static function registerLogger()
+	{
+		if (defined('JOOMLA_TEST_LOGGING') && JOOMLA_TEST_LOGGING === 'yes')
+		{
+			JLog::addLogger(
+				array(
+					'logger'         => 'formattedtext',
+					'text_file'      => 'unit_test.php',
+					'text_file_path' => dirname(dirname(__DIR__)) . '/tmp'
+				)
+			);
+		}
+	}
+
+	/**
 	 * Detects if the CLI output supports color codes
 	 *
 	 * This method is based on \Symfony\Bridge\PhpUnit\DeprecationErrorHandler::register()

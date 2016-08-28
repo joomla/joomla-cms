@@ -52,6 +52,7 @@ class JUserHelperTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 		parent::tearDown();
 	}
 
@@ -83,7 +84,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *                    empty if undefined
 	 * - array    error   error info, given as hash
 	 *                    with indices 'code', 'msg', and
-	 *                    'info', empty, if no error occured
+	 *                    'info', empty, if no error occurred
 	 *
 	 * @see ... (link to where the group and error structures are
 	 *      defined)

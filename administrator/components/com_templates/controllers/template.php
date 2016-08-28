@@ -167,9 +167,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function getModel($name = 'Template', $prefix = 'TemplatesModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

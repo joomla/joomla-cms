@@ -150,15 +150,22 @@ class JFormFieldNumber extends JFormField
 		$readonly = $this->readonly ? ' readonly' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
-		$hint     = $hint ? ' placeholder="' . $hint . '"' : '';
+		$hint     = strlen($hint) ? ' placeholder="' . $hint . '"' : '';
 
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
-		$value = (float) $this->value;
-		$value = empty($value) ? $this->min : $value;
+		if (is_numeric($this->value))
+		{
+			$value = (float) $this->value;
+		}
+		else
+		{
+			$value = "";
+			$value = (isset($this->min)) ? $this->min : $value;
+		}
 
 		// Initialize JavaScript field attributes.
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';

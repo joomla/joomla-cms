@@ -180,27 +180,31 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$query->clear();
 
-			if ($session->isNew())
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
-				$db->setQuery($query);
-			}
-			else
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(
-						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
-						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
-					)
-					->values(
-						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
-					);
+			$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
-				$db->setQuery($query);
-			}
+			$columns = array(
+				$db->quoteName('session_id'),
+				$db->quoteName('client_id'),
+				$db->quoteName('guest'),
+				$db->quoteName('time'),
+				$db->quoteName('userid'),
+				$db->quoteName('username'),
+			);
+
+			$values = array(
+				$db->quote($session->getId()),
+				(int) $this->getClientId(),
+				(int) $user->guest,
+				$db->quote((int) $time),
+				(int) $user->id,
+				$db->quote($user->username),
+			);
+
+			$query->insert($db->quoteName('#__session'))
+				->columns($columns)
+				->values(implode(', ', $values));
+
+			$db->setQuery($query);
 
 			// If the insert failed, exit the application.
 			try
@@ -227,7 +231,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (!strlen($msg))
+		if (!strlen(trim($msg)))
 		{
 			return;
 		}
@@ -436,7 +440,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $menu;
@@ -502,7 +506,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $pathway;
@@ -532,7 +536,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $router;
@@ -672,7 +676,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isAdmin()
 	{
-		return ($this->getClientId() === 1);
+		return $this->getClientId() === 1;
 	}
 
 	/**
@@ -684,7 +688,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isSite()
 	{
-		return ($this->getClientId() === 0);
+		return $this->getClientId() === 0;
 	}
 
 	/**
@@ -718,7 +722,7 @@ class JApplicationCms extends JApplicationWeb
 		// Initialize the options for JSession.
 		$options = array(
 			'name'   => $name,
-			'expire' => $lifetime
+			'expire' => $lifetime,
 		);
 
 		switch ($this->getClientId())
@@ -795,7 +799,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
 	 *
 	 * @since   3.2
 	 */
@@ -817,12 +821,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
+			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
-				if (in_array($authorisation->status, $denied_states))
+				if ((int) $authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
@@ -839,17 +842,11 @@ class JApplicationCms extends JApplicationWeb
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 
-							break;
-
 						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 
-							break;
-
 						default:
 							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
-
-							break;
 					}
 				}
 			}
@@ -1127,7 +1124,7 @@ class JApplicationCms extends JApplicationWeb
 			return $registry->set($key, $value);
 		}
 
-		return null;
+		return;
 	}
 
 	/**

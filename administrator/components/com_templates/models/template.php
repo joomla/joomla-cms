@@ -125,16 +125,10 @@ class TemplatesModelTemplate extends JModelForm
 				}
 				else
 				{
-					$ext          = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					$params       = JComponentHelper::getParams('com_templates');
-					$imageTypes   = explode(',', $params->get('image_formats'));
-					$sourceTypes  = explode(',', $params->get('source_formats'));
-					$fontTypes    = explode(',', $params->get('font_formats'));
-					$archiveTypes = explode(',', $params->get('compressed_formats'));
+					$ext           = pathinfo($dir . $value, PATHINFO_EXTENSION);
+					$allowedFormat = $this->checkFormat($ext);
 
-					$types = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
-
-					if (in_array($ext, $types))
+					if ($allowedFormat == true)
 					{
 						$relativePath = str_replace($this->element, '', $dir);
 						$info = $this->getFile('/' . $relativePath, $value);
@@ -502,7 +496,7 @@ class TemplatesModelTemplate extends JModelForm
 		if (!is_writable($filePath))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'), 'warning');
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_PERMISSIONS' . JPath::getPermissions($filePath)), 'warning');
+			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_FILE_PERMISSIONS', JPath::getPermissions($filePath)), 'warning');
 
 			if (!JPath::isOwner($filePath))
 			{
@@ -512,7 +506,11 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Make sure EOL is Unix
+		$data['source'] = str_replace(array("\r\n", "\r"), "\n", $data['source']);
+
 		$return = JFile::write($filePath, $data['source']);
+
 		if (!$return)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
@@ -520,6 +518,7 @@ class TemplatesModelTemplate extends JModelForm
 			return false;
 		}
 
+		// Get the extension of the changed file.
 		$explodeArray = explode('.', $fileName);
 		$ext = end($explodeArray);
 
@@ -707,7 +706,7 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		$return = false;
 
-		if (empty($htmlPath) || empty($htmlPath))
+		if (empty($overridePath) || empty($htmlPath))
 		{
 			return $return;
 		}
@@ -854,6 +853,14 @@ class TemplatesModelTemplate extends JModelForm
 
 				return false;
 			}
+			// Check if the format is allowed and will be showed in the backend
+			$check = $this->checkFormat($type);
+
+			// Add a message if we are not allowed to show this file in the backend.
+			if (!$check)
+			{
+				$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_WARNING_FORMAT_WILL_NOT_BE_VISIBLE', $type), 'warning');
+			}
 
 			return true;
 		}
@@ -881,7 +888,7 @@ class TemplatesModelTemplate extends JModelForm
 			$fileName = JFile::makeSafe($file['name']);
 
 			$err = null;
-			JLoader::register('TemplateHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php');
+			JLoader::register('TemplateHelper', JPATH_ADMINISTRATOR . '/components/com_templates/helpers/template.php');
 
 			if (!TemplateHelper::canUpload($file, $err))
 			{
@@ -1325,7 +1332,7 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Extract contents of a archive file.
+	 * Extract contents of an archive file.
 	 *
 	 * @param   string  $file  The name and location of the file
 	 *
@@ -1381,5 +1388,30 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 		}
+	}
+
+	/**
+ 	* Check if the extension is allowed and will be shown in the template manager
+ 	*
+	* @param   string  $ext  The extension to check if it is allowed
+ 	*
+ 	* @return  boolean  true if the extension is allowed false otherwise
+ 	*
+ 	* @since   3.6.0
+	*/
+	protected function checkFormat($ext)
+	{
+		if (!isset($this->allowedFormats))
+		{
+			$params       = JComponentHelper::getParams('com_templates');
+			$imageTypes   = explode(',', $params->get('image_formats'));
+			$sourceTypes  = explode(',', $params->get('source_formats'));
+			$fontTypes    = explode(',', $params->get('font_formats'));
+			$archiveTypes = explode(',', $params->get('compressed_formats'));
+
+			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
+		}
+
+		return in_array($ext, $this->allowedFormats);
 	}
 }

@@ -35,7 +35,7 @@ class JLanguageMultilang
 		// Get application object.
 		$app = JFactory::getApplication();
 
-		// If being called from the front-end, we can avoid the database query.
+		// If being called from the frontend, we can avoid the database query.
 		if ($app->isSite())
 		{
 			$enabled = $app->getLanguageFilter();
@@ -46,7 +46,7 @@ class JLanguageMultilang
 		// If already tested, don't test again.
 		if (!$tested)
 		{
-			// Determine status of language filter plug-in.
+			// Determine status of language filter plugin.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('enabled')
@@ -60,7 +60,7 @@ class JLanguageMultilang
 			$tested = true;
 		}
 
-		return $enabled;
+		return (bool) $enabled;
 	}
 
 	/**

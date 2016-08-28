@@ -65,6 +65,14 @@ $loggeduser = JFactory::getUser();
 				<?php echo JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'));?>
 			</select>
 
+			<label class="selectlabel" for="filter_lastvisitrange">
+				<?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE'); ?>
+			</label>
+			<select name="filter_lastvisitrange" id="filter_lastvisitrange" >
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_FILTER_LAST_VISIT_DATE');?></option>
+				<?php echo JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.lastvisitrange'));?>
+			</select>
+
 			<label class="selectlabel" for="filter_range">
 				<?php echo JText::_('COM_USERS_FILTER_FILTER_DATE'); ?>
 			</label>
@@ -182,7 +190,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00') : ?>
+					<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>

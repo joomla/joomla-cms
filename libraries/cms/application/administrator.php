@@ -45,7 +45,7 @@ class JApplicationAdministrator extends JApplicationCms
 		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
+		JUri::root(null, rtrim(dirname(JUri::base(true)), '/\\'));
 	}
 
 	/**

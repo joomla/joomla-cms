@@ -26,7 +26,7 @@ class TagsController extends JControllerLegacy
 	 *
 	 * @since   3.1
 	 */
-	public function display($cachable = true, $urlparams = false)
+	public function display($cachable = false, $urlparams = false)
 	{
 		$user = JFactory::getUser();
 
@@ -34,7 +34,7 @@ class TagsController extends JControllerLegacy
 		$vName = $this->input->get('view', 'tags');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'tags'))
+		if ($user->get('id') || ($this->input->getMethod() == 'POST' && $vName == 'tags'))
 		{
 			$cachable = false;
 		}

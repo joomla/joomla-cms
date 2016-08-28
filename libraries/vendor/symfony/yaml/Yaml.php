@@ -80,7 +80,7 @@ class Yaml
      *
      * @param array $array                  PHP array
      * @param int   $inline                 The level where you switch to inline YAML
-     * @param int   $indent                 The amount of spaces to use for indentation of nested nodes.
+     * @param int   $indent                 The amount of spaces to use for indentation of nested nodes
      * @param bool  $exceptionOnInvalidType true if an exception must be thrown on invalid types (a PHP resource or object), false otherwise
      * @param bool  $objectSupport          true if object support is enabled, false otherwise
      *
@@ -88,6 +88,10 @@ class Yaml
      */
     public static function dump($array, $inline = 2, $indent = 4, $exceptionOnInvalidType = false, $objectSupport = false)
     {
+        if ($indent < 1) {
+            throw new \InvalidArgumentException('The indentation must be greater than zero.');
+        }
+
         $yaml = new Dumper();
         $yaml->setIndentation($indent);
 

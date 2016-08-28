@@ -9,15 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$controller   = JControllerLegacy::getInstance('Modules');
-$language     = JFactory::getLanguage();
-$extension    = 'com_modules';
-$base_dir     = JPATH_ADMINISTRATOR;
-$language_tag = $language->getTag();
+// Load the required admin language files
+$lang = JFactory::getLanguage();
+$lang->load('joomla', JPATH_ADMINISTRATOR);
+$lang->load('com_modules', JPATH_ADMINISTRATOR);
 
-$language->load('', $base_dir, $language_tag, true);
-$language->load($extension, $base_dir, $language_tag, true);
-
+// Trigger the controller
+$controller = JControllerLegacy::getInstance('Modules');
 $controller->execute(JFactory::getApplication()->input->get('task'));
-
 $controller->redirect();

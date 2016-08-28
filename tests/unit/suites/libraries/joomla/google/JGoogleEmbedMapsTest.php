@@ -54,6 +54,23 @@ class JGoogleEmbedMapsTest extends TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->uri);
+		unset($this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the getKey method
 	 *
 	 * @group	JGoogle
@@ -733,7 +750,10 @@ class JGoogleEmbedMapsTest extends TestCase
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
-	parse_str($url, $params);
+	$query = parse_url($url, PHP_URL_QUERY);
+	
+	parse_str($query, $params);
+	
 	$address = strtolower($params['address']);
 
 	switch ($address)

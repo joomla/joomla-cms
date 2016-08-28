@@ -90,7 +90,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 		$uid = $update->find(
 			array(
 				'element' => $this->element,
-				'type' => $this->type
+				'type' => $this->type,
 			)
 		);
 
@@ -151,12 +151,10 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	{
 		if (!$element)
 		{
-			// Ensure the element is a string
-			$element = (string) $this->getManifest()->name;
-
-			// Filter the name for illegal characters
-			$element = str_replace('files_', '', JFilterInput::getInstance()->clean($element, 'cmd'));
+			$manifestPath = JPath::clean($this->parent->getPath('manifest'));
+			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
+
 		return $element;
 	}
 

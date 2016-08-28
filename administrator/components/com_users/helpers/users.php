@@ -193,12 +193,6 @@ class UsersHelper
 	 */
 	public static function getTwoFactorMethods()
 	{
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		FOFPlatform::getInstance()->importPlugin('twofactorauth');
 		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
 
@@ -220,5 +214,38 @@ class UsersHelper
 		}
 
 		return $options;
+	}
+
+	/**
+	 * Get a list of the User Groups for Viewing Access Levels
+	 *
+	 * @param   string  $rules  User Groups in JSON format
+	 *
+	 * @return  string  $groups  Comma separated list of User Groups
+	 *
+	 * @since   3.6
+	 */
+	public static function getVisibleByGroups($rules)
+	{
+		$rules = json_decode($rules);
+
+		if (!$rules)
+		{
+			return false;
+		}
+
+		$rules = implode(',', $rules);
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.title AS text')
+			->from('#__usergroups as a')
+			->where('a.id IN (' . $rules . ')');
+		$db->setQuery($query);
+
+		$groups = $db->loadColumn();
+		$groups = implode(', ', $groups);
+
+		return $groups;
 	}
 }
