@@ -4,15 +4,6 @@
 @import "variables.less";
 // Custom for this template
 @import "bootstrap/mixins.less";
-
-#grid {
-    .core  {
-        .span(@gridColumns) {
-            width: (@gridColumnWidth * @gridColumns) + (@gridGutterWidth * (@gridColumns - 1));
-        }
-    }
-};
-
 // Grid system and page structure
 @import "../../../../media/jui/less/scaffolding.less";
 @import "../../../../media/jui/less/grid.less";
@@ -1264,6 +1255,13 @@ input.input-large-text {
 	color: #fff;
 	div {
 		background-color: transparent;
+		border-bottom: none;
+	}
+}
+.chzn-color[rel="value_"] {
+	div {
+		background-color: #f3f3f3;
+		border-left: 1px solid @btnBorder;
 	}
 }
 /* Widen the drop downs for the Permissions Field */

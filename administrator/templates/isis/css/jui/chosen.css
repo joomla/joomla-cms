@@ -349,6 +349,10 @@
   border-bottom: 1px solid #b3b3b3;
   border-bottom-left-radius: 3px;
 }
+.chzn-container-active.chzn-with-drop .chzn-single[rel="value_0"] div,
+.chzn-container-active.chzn-with-drop .chzn-single[rel="value_1"] div {
+  border-bottom: none;
+}
 .chzn-container-active.chzn-with-drop .chzn-single div b:after {
   content: '\E00F';
 }

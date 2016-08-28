@@ -8204,6 +8204,11 @@ input.input-large-text {
 }
 .chzn-color-state div {
   background-color: transparent;
+  border-bottom: none;
+}
+.chzn-color[rel="value_"] div {
+  background-color: #f3f3f3;
+  border-left: 1px solid #b3b3b3;
 }
 /* Widen the drop downs for the Permissions Field */
 #permissions-sliders .input-small {
