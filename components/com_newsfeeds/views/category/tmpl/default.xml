@@ -10,17 +10,21 @@
 	</layout>
 
 	<!-- Add fields to the request variables for the layout. -->
-	<fields name="request">
+	<fields name="request"
+		addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		<fieldset name="request"
 			addfieldpath="/administrator/components/com_newsfeeds/models/fields"
 		 >
-
-			<field name="id" type="category"
-				default="0"
+			<field
+				name="id"
+				type="modal_category"
+				label="JCATEGORY"
 				description="COM_NEWSFEEDS_FIELD_SELECT_CATEGORY_DESC"
 				extension="com_newsfeeds"
-				label="JCATEGORY"
 				required="true"
+				edit="true"
+				clear="false"
 			/>
 		</fieldset>
 	</fields>
