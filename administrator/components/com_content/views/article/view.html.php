@@ -60,8 +60,23 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($this->getLayout() == 'modal')
 		{
-			$this->form->setFieldAttribute('language', 'readonly', 'true');
-			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+			// If we are forcing a language in modal we need to use that language and disable the language selector.
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+			{
+				$this->form->setValue('language', $forcedLanguage);
+				$this->form->setFieldAttribute('language', 'readonly', 'true');
+			}
+
+			// If id does exist it's a edit modal.
+			if ($this->item->id)
+			{
+				$this->form->setFieldAttribute('catid', 'readonly', 'true');
+			}
+			// If id doesn't exist it's a new modal.
+			else
+			{
+				// Do nothing, For now.
+			}
 		}
 
 		$this->addToolbar();
