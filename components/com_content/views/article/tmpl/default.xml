@@ -17,6 +17,7 @@
 			<field name="id" type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="true"
+				select="true"
 				new="true"
 				edit="true"
 				clear="true"
