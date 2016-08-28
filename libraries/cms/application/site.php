@@ -520,7 +520,12 @@ final class JApplicationSite extends JApplicationCms
 				{
 					if ($tmpl->template == $template_override)
 					{
-						$template->template = $template_override;
+						$template = $tmpl;
+
+						$registry = new Registry;
+						$registry->loadString($template->params);
+						$template->params = $registry;
+
 						break;
 					}
 				}
