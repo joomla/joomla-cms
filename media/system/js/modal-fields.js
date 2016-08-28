@@ -9,17 +9,21 @@
 	/**
 	 * Process modal fields in parent.
 	 *
-	 * @param   string  field_id  xxxxxxxxxxxxx.
-	 * @param   string  id        xxxxxxxxxxxxx.
-	 * @param   string  title     xxxxxxxxxxxxx.
+	 * @param   string  fieldPrefix  The fields to be updated prefix.
+	 * @param   string  id           The new id for the item.
+	 * @param   string  title        The new title for the item.
+	 * @param   string  catid        Future usage.
+	 * @param   object  object       Future usage.
+	 * @param   string  url          Future usage.
+	 * @param   string  language     Future usage.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	window.processModalParent = function (field_id, id, title, catid, object, url, language)
+	window.processModalParent = function (fieldPrefix, id, title, catid, url, language, object)
 	{
-		var fieldId = document.getElementById(field_id + '_id'), fieldTitle = document.getElementById(field_id + '_name');
+		var fieldId = document.getElementById(fieldPrefix + '_id'), fieldTitle = document.getElementById(fieldPrefix + '_name');
 
 		// Default values.
 		id       = id || '';
@@ -34,21 +38,21 @@
 			fieldId.value    = id;
 			fieldTitle.value = title;
 
-			if (document.getElementById(field_id + '_select'))
+			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				jQuery('#' + field_id + '_select').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_select').addClass('hidden');
 			}
-			if (document.getElementById(field_id + '_new'))
+			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				jQuery('#' + field_id + '_new').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_new').addClass('hidden');
 			}
-			if (document.getElementById(field_id + '_edit'))
+			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				jQuery('#' + field_id + '_edit').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_edit').removeClass('hidden');
 			}
-			if (document.getElementById(field_id + '_clear'))
+			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				jQuery('#' + field_id + '_clear').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_clear').removeClass('hidden');
 			}
 		}
 		else
@@ -56,21 +60,21 @@
 			fieldId.value    = '';
 			fieldTitle.value = fieldId.getAttribute('data-text');
 
-			if (document.getElementById(field_id + '_select'))
+			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				jQuery('#' + field_id + '_select').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_select').removeClass('hidden');
 			}
-			if (document.getElementById(field_id + '_new'))
+			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				jQuery('#' + field_id + '_new').removeClass('hidden');
+				jQuery('#' + fieldPrefix + '_new').removeClass('hidden');
 			}
-			if (document.getElementById(field_id + '_edit'))
+			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				jQuery('#' + field_id + '_edit').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_edit').addClass('hidden');
 			}
-			if (document.getElementById(field_id + '_clear'))
+			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				jQuery('#' + field_id + '_clear').addClass('hidden');
+				jQuery('#' + fieldPrefix + '_clear').addClass('hidden');
 			}
 		}
 
@@ -86,17 +90,17 @@
 	/**
 	 * Process new/edit modal fields in child.
 	 *
-	 * @param   object  element       xxxxxxxxxxxxx.
-	 * @param   string  parentFormId  xxxxxxxxxxxxx.
-	 * @param   string  action        xxxxxxxxxxxxx.
-	 * @param   string  item          xxxxxxxxxxxxx.
-	 * @param   string  task          xxxxxxxxxxxxx.
+	 * @param   object  element      The modal footer button element.
+	 * @param   string  fieldPrefix  The fields to be updated prefix.
+	 * @param   string  action       Modal action (add, edit).
+	 * @param   string  itemType     The item type (Article, Contact, etc).
+	 * @param   string  task         Task to be done (apply, save, cancel).
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	window.processModalEdit = function (element, parentFormId, action, item, task)
+	window.processModalEdit = function (element, fieldPrefix, action, itemType, task)
 	{
 		var modalId = element.parentNode.parentNode.id;
 
@@ -107,7 +111,7 @@
 		var formId         = jQuery('#Frame_' + modalId).contents().find('form').attr('id');
 
 		// Submit button on child iframe.
-		document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(item + '.' + task);
+		document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 
 		// If Cancel, close the modal.
 		if (task === 'cancel')
@@ -121,7 +125,7 @@
 		// Validate the child form and update parent form.
 		if (iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
 		{
-			window.processModalParent(parentFormId, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
+			window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
 
 			// If creating a new item, enable the save and close.
 			if (action == 'add' && task === 'apply')
@@ -143,20 +147,24 @@
 	/**
 	 * Process select modal fields in child.
 	 *
-	 * @param   string  item          xxxxxxxxxxxxx.
-	 * @param   string  parentFormId  xxxxxxxxxxxxx.
-	 * @param   string  id            xxxxxxxxxxxxx.
-	 * @param   string  title         xxxxxxxxxxxxx.
-	 * @param   string  catid         xxxxxxxxxxxxx.
-	 * @param   object  object        xxxxxxxxxxxxx.
+	 * @param   string  itemType     The item type (Article, Contact, etc).
+	 * @param   string  fieldPrefix  The fields to be updated prefix.
+	 * @param   string  id           The new id for the item.
+	 * @param   string  title        The new title for the item.
+	 * @param   string  catid        Future usage.
+	 * @param   object  object       Future usage.
+	 * @param   string  url          Future usage.
+	 * @param   string  language     Future usage.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	window.processModalSelect = function(item, parentFormId, id, title, catid, object, url, language) {
-		window.processModalParent(parentFormId, id, title, catid, object, url, language);
-		jQuery('#ModalSelect' + item + '_' + parentFormId).modal('hide');
+	window.processModalSelect = function(itemType, fieldPrefix, id, title, catid, object, url, language) {
+		window.processModalParent(fieldPrefix, id, title, catid, url, language, object);
+		jQuery('#ModalSelect' + itemType + '_' + fieldPrefix).modal('hide');
+
+		return false;
 	}
 
 }());
