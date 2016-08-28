@@ -40,6 +40,7 @@ JHtml::_('behavior.formvalidator');
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal well">
 
 		<fieldset>
+			<legend class="element-invisible"><?php echo JText::_('COM_USER_LOGIN_VIEW_DEFAULT_TITLE'); ?></legend>
 			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
 				<?php if (!$field->hidden) : ?>
 					<div class="control-group">
