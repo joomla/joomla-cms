@@ -331,7 +331,7 @@ class JStringParser
 	/**
 	 * Unregister the definition of a token.
 	 *
-	 * @param   string    $name     A token name to look for.
+	 * @param   string  $name  A token name to look for.
 	 *
 	 * @return  This object for method chaining.
 	 *

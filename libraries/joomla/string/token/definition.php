@@ -40,7 +40,7 @@ abstract class JStringTokenDefinition
 	/**
 	 * Constructor.
 	 *
-	 * @param   mixed     $bound     An optional value or callable to bind to the token.
+	 * @param   mixed  $bound  An optional value or callable to bind to the token.
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
