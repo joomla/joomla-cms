@@ -216,13 +216,13 @@ class JFormFieldModal_Category extends JFormField
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
 					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'cancel\', \'item-form\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 							. '<a role="button" class="btn btn-save btn-primary hidden" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'save\', \'item-form\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
 							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'category\', \'apply\', \'item-form\'); return false;">'
 							. JText::_("JAPPLY") . '</a>',
 				)
 			);
@@ -245,13 +245,13 @@ class JFormFieldModal_Category extends JFormField
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
 					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'cancel\', \'item-form\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 							. '<a role="button" class="btn btn-save btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'save\', \'item-form\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
 							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\'); return false;">'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'category\', \'apply\', \'item-form\'); return false;">'
 							. JText::_("JAPPLY") . '</a>',
 				)
 			);
