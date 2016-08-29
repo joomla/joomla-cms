@@ -256,7 +256,7 @@ class UserlogsModelUserlogs extends JModelList
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 					->select('a.*')
-					>from($db->quoteName('#__user_logs', 'a'));
+					->from($db->quoteName('#__user_logs', 'a'));
 			$db->setQuery($query);
 
 			return $db->loadObjectList();
