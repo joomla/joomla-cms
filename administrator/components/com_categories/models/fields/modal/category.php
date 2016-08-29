@@ -47,7 +47,7 @@ class JFormFieldModal_Category extends JFormField
 		$allowClear  = ((string) $this->element['clear'] != 'false');
 		$allowSelect = ((string) $this->element['select'] != 'false');
 
-		// Load language
+		// Load language.
 		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
 		// The active category id field.
@@ -125,7 +125,7 @@ class JFormFieldModal_Category extends JFormField
 		$html  = '<span class="input-append">';
 		$html .= '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
 
-		// Select category button
+		// Select category button.
 		if ($allowSelect)
 		{
 			$html .= '<a'
@@ -139,7 +139,7 @@ class JFormFieldModal_Category extends JFormField
 				. '</a>';
 		}
 
-		// New article button
+		// New category button.
 		if ($allowNew)
 		{
 			$html .= '<a'
@@ -153,7 +153,7 @@ class JFormFieldModal_Category extends JFormField
 				. '</a>';
 		}
 
-		// Edit article button
+		// Edit category button.
 		if ($allowEdit)
 		{
 			$html .= '<a'
@@ -167,7 +167,7 @@ class JFormFieldModal_Category extends JFormField
 				. '</a>';
 		}
 
-		// Clear category button
+		// Clear category button.
 		if ($allowClear)
 		{
 			$html .= '<a'
@@ -181,7 +181,7 @@ class JFormFieldModal_Category extends JFormField
 
 		$html .= '</span>';
 
-		// Select category modal
+		// Select category modal.
 		if ($allowSelect)
 		{
 			$html .= JHtml::_(
@@ -199,7 +199,7 @@ class JFormFieldModal_Category extends JFormField
 			);
 		}
 
-		// New category modal
+		// New category modal.
 		if ($allowNew)
 		{
 			$html .= JHtml::_(
