@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * 
+ *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -29,12 +29,9 @@ $color          = $this->params->get('templatecolor');
 $logo           = $this->params->get('logo');
 $navposition    = $this->params->get('navposition');
 $headerImage    = $this->params->get('headerImage');
-$app            = JFactory::getApplication();
-$templateparams = $app->getTemplate(true)->params;
 $config         = JFactory::getConfig();
-$bootstrap      = explode(',', $templateparams->get('bootstrap'));
-$jinput         = JFactory::getApplication()->input;
-$option         = $jinput->get('option', '', 'cmd');
+$bootstrap      = explode(',', $this->params->get('bootstrap'));
+$option         = JFactory::getApplication()->input->getCmd('option', '');
 
 // Output as HTML5
 $this->setHtml5(true);
@@ -68,7 +65,7 @@ if ($color == 'image')
 		background: url('" . $this->baseurl . "/" . htmlspecialchars($headerImage) . "') no-repeat right;
 	}
 	body {
-		background: " . $templateparams->get('backgroundcolor') . ";
+		background: " . $this->params->get('backgroundcolor') . ";
 	}");
 }
 
@@ -105,15 +102,15 @@ require __DIR__ . '/jsstrings.php';
 					<div class="logoheader">
 						<h1 id="logo">
 						<?php if ($logo) : ?>
-							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>" />
+							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
-						<?php if (!$logo AND $templateparams->get('sitetitle')) : ?>
-							<?php echo htmlspecialchars($templateparams->get('sitetitle')); ?>
+						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
+							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
 						<?php elseif (!$logo AND $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
-						<?php echo htmlspecialchars($templateparams->get('sitedescription')); ?>
+						<?php echo htmlspecialchars($this->params->get('sitedescription')); ?>
 						</span></h1>
 					</div><!-- end logoheader -->
 					<ul class="skiplinks">
