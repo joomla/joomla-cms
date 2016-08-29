@@ -646,6 +646,9 @@ class JApplicationCms extends JApplicationWeb
 		// Register the language object with JFactory
 		JFactory::$language = $this->getLanguage();
 
+		// Load the library language files
+		$this->loadLibraryLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -689,6 +692,18 @@ class JApplicationCms extends JApplicationWeb
 	public function isSite()
 	{
 		return $this->getClientId() === 0;
+	}
+
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadLibraryLanguage()
+	{
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
