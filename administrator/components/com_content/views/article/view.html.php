@@ -60,17 +60,15 @@ class ContentViewArticle extends JViewLegacy
 
 		if ($this->getLayout() == 'modal')
 		{
-			// If we are forcing a language in modal we need to use that language and disable the language selector.
+			// If we are forcing a language in modal (used for associations).
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 			{
+				// Set the language field to the forcedLanguage and disable changing it.
 				$this->form->setValue('language', null, $forcedLanguage);
 				$this->form->setFieldAttribute('language', 'readonly', 'true');
-			}
 
-			// If id exist we are dealing with an edit modal, so disable category change.
-			if ($this->item->id)
-			{
-				$this->form->setFieldAttribute('catid', 'readonly', 'true');
+				// Only allow to select categories with All language or with the forced language.
+				$this->form->setFieldAttribute('catid', 'language', '*,' . $forcedLanguage);
 			}
 		}
 
