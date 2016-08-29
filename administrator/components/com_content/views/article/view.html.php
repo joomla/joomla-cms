@@ -63,7 +63,7 @@ class ContentViewArticle extends JViewLegacy
 			// If we are forcing a language in modal we need to use that language and disable the language selector.
 			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
 			{
-				$this->form->setValue('language', $forcedLanguage);
+				$this->form->setValue('language', null, $forcedLanguage);
 				$this->form->setFieldAttribute('language', 'readonly', 'true');
 			}
 
