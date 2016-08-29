@@ -69,6 +69,9 @@ class ContentViewArticle extends JViewLegacy
 
 				// Only allow to select categories with All language or with the forced language.
 				$this->form->setFieldAttribute('catid', 'language', '*,' . $forcedLanguage);
+
+				// Only allow to select tags with All language or with the forced language.
+				$this->form->setFieldAttribute('tag', 'language', '*,' . $forcedLanguage);
 			}
 		}
 
