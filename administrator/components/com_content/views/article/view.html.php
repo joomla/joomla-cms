@@ -67,15 +67,10 @@ class ContentViewArticle extends JViewLegacy
 				$this->form->setFieldAttribute('language', 'readonly', 'true');
 			}
 
-			// If id does exist it's a edit modal.
+			// If id exist we are dealing with an edit modal, so disable category change.
 			if ($this->item->id)
 			{
 				$this->form->setFieldAttribute('catid', 'readonly', 'true');
-			}
-			// If id doesn't exist it's a new modal.
-			else
-			{
-				// Do nothing, For now.
 			}
 		}
 
