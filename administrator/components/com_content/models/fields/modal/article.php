@@ -134,7 +134,7 @@ class JFormFieldModal_Article extends JFormField
 		// New article button
 		if ($allowNew)
 		{
-			$html .= = '<a'
+			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
