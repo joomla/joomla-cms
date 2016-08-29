@@ -242,6 +242,7 @@ class JoomlaInstallerScript
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
+			array('component', 'com_userlogs', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -346,6 +347,7 @@ class JoomlaInstallerScript
 			array('plugin', 'packageinstaller','installer',0),
 			array('plugin', 'folderinstaller','installer', 0),
 			array('plugin', 'urlinstaller','installer', 0),
+			array('plugin', 'userlogs','system', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),

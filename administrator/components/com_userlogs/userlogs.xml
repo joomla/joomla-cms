@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="3.6" method="upgrade">
+	<name>COM_USERLOGS</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>__DEPLOY_VERSION__</version>
+	<description>COM_USERLOGS_XML_DESCRIPTION</description>
+	<administration>
+		<menu>COM_USERLOGS</menu>
+		<files folder="admin">
+			<filename>userlogs.php</filename>
+			<filename>config.xml</filename>
+			<filename>access.xml</filename>
+			<filename>controller.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>tables</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB/en-GB.com_userlogs.ini</language>
+			<language tag="en-GB">language/en-GB/en-GB.com_userlogs.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

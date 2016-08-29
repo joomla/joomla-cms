@@ -331,7 +331,9 @@ SELECT 175, 1, 426, 427, 1, 'com_contenthistory', 'com_contenthistory', '{}'
 UNION ALL
 SELECT 176, 1, 428, 429, 1, 'com_ajax', 'com_ajax', '{}'
 UNION ALL
-SELECT 177, 1, 429, 430, 1, 'com_postinstall', 'com_postinstall', '{}';
+SELECT 177, 1, 429, 430, 1, 'com_postinstall', 'com_postinstall', '{}'
+UNION ALL
+SELECT 178, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}';
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
@@ -710,6 +712,8 @@ UNION ALL
 SELECT 21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 33, 34, 0, '*', 1
 UNION ALL
 SELECT 22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 0, 1, 1, 28, 0, '1900-01-01 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 33, 34, 0, '*', 1
+UNION ALL
+SELECT 23, 'main', 'com_userlogs', 'com-userlogs', '', 'com-userlogs', 'index.php?option=com_userlogs', 'component', 0, 1, 1, 33, 0, '1900-01-01 00:00:00', 0, 1, 'class:component', 0, '{}', 41, 42, 0, '*', 1
 UNION ALL
 SELECT 201, 'usermenu', 'Your Profile', 'your-profile', '', 'your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 25, 0, '1900-01-01 00:00:00', 0, 2, '', 0, '{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 95, 96, 0, '*', 0
 UNION ALL

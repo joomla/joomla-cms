@@ -171,7 +171,8 @@ INSERT INTO "#__assets" VALUES
 (175,1,422,423,1,'com_tags','com_tags','{"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
 (176,1,424,425,1,'com_contenthistory','com_contenthistory','{}'),
 (177,1,426,427,1,'com_ajax','com_ajax','{}'),
-(178,1,428,429,1,'com_postinstall','com_postinstall','{}');
+(178,1,428,429,1,'com_postinstall','com_postinstall','{}'),
+(179,1,155,156,1,'com_userlogs','com_userlogs','{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}');
 
 SELECT setval('#__assets_id_seq', max(id)) FROM #__assets;
 
@@ -384,6 +385,7 @@ INSERT INTO "#__menu" VALUES
 (17,'menu','com_search','Basic Search','','Basic Search','index.php?option=com_search','component',0,1,1,19,0,'1970-01-01 00:00:00',0,0,'class:search',0,'',43,44,0,'*',1),
 (21,'menu','com_finder','Smart Search','','Smart Search','index.php?option=com_finder','component',0,1,1,27,0,'1970-01-01 00:00:00',0,0,'class:finder',0,'',41,42,0,'*',1),
 (22,'menu','com_joomlaupdate','Joomla! Update','','Joomla! Update','index.php?option=com_joomlaupdate','component',0,1,1,28,0,'1970-01-01 00:00:00',0,0,'class:joomlaupdate',0,'',41,42,0,'*',1),
+(23,'main','com_userlogs','com-userlogs','','com-userlogs','index.php?option=com_userlogs','component',0,1,1,33,0,'0000-00-00 00:00:00',0,1,'class:component',0,'{}',41,42,0,'*',1),
 (201,'usermenu','Your Profile','your-profile','','your-profile','index.php?option=com_users&view=profile','component',1,1,1,25,0,'1970-01-01 00:00:00',0,2,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',231,232,0,'*',0),
 (207,'top','Joomla.org','joomlaorg','','joomlaorg','https://www.joomla.org/','url',1,1,1,0,0,'1970-01-01 00:00:00',0,1,'',0,'{"menu-anchor_title":"","menu-anchor_css":"","menu_image":""}',229,230,0,'*',0),
 (229,'aboutjoomla','Single Contact','single-contact','','using-joomla/extensions/components/contact-component/single-contact','index.php?option=com_contact&view=contact&id=1','component',1,270,5,8,0,'1970-01-01 00:00:00',0,1,'',0,'{"show_category_crumb":"","presentation_style":"","show_contact_category":"","show_contact_list":"","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_links":"","linka_name":"","linkb_name":"","linkc_name":"","linkd_name":"","linke_name":"","show_email_form":"","show_email_copy":"","banned_email":"","banned_subject":"","banned_text":"","validate_session":"","custom_reply":"","redirect":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":0,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',79,80,0,'*',0),
