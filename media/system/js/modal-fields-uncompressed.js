@@ -90,18 +90,25 @@
 	/**
 	 * Process new/edit modal fields in child.
 	 *
-	 * @param   object  element      The modal footer button element.
-	 * @param   string  fieldPrefix  The fields to be updated prefix.
-	 * @param   string  action       Modal action (add, edit).
-	 * @param   string  itemType     The item type (Article, Contact, etc).
-	 * @param   string  task         Task to be done (apply, save, cancel).
+	 * @param   object  element       The modal footer button element.
+	 * @param   string  fieldPrefix   The fields to be updated prefix.
+	 * @param   string  action        Modal action (add, edit).
+	 * @param   string  itemType      The item type (Article, Contact, etc).
+	 * @param   string  task          Task to be done (apply, save, cancel).
+	 * @param   string  formId        Id of the form field (defaults to itemtype-form).
+	 * @param   string  idFieldId     Id of the id field (defaults to jform_id).
+	 * @param   string  titleFieldId  Id of the title field (defaults to jform_title).
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	window.processModalEdit = function (element, fieldPrefix, action, itemType, task)
+	window.processModalEdit = function (element, fieldPrefix, action, itemType, task, formId, idFieldId, titleFieldId)
 	{
+		formId       = formId || itemType.toLowerCase() + '-form';
+		idFieldId    = idFieldId || 'jform_id';
+		titleFieldId = titleFieldId || 'jform_title';
+
 		var modalId = element.parentNode.parentNode.id;
 
 		// Set frame id.
@@ -127,7 +134,8 @@
 			// If needed, validate the child form and update parent form.
 			if (iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
 			{
-				window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
+				
+				window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
 				jQuery('#' + modalId).modal('hide');
 			}
 		}
@@ -141,7 +149,7 @@
 				iframeDocument = jQuery(this).contents().get(0);
 
 				// Only process if jform_id exists.
-				if (iframeDocument.getElementById('jform_id'))
+				if (iframeDocument.getElementById(idFieldId))
 				{
 					if (action == 'add')
 					{
@@ -149,16 +157,16 @@
 						jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
 
 						// Check if the new frame contents have a valid id, if so show the save and close.
-						if (iframeDocument.getElementById('jform_id').value != '0')
+						if (iframeDocument.getElementById(idFieldId).value != '0')
 						{
 							jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
 						}
 					}
 
 					// If needed, validate the child form and update parent form.
-					if (iframeDocument.getElementById('jform_id').value != '0' && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
+					if (iframeDocument.getElementById(idFieldId).value != '0' && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
 					{
-						window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
+						window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
 					}
 				}
 			});
