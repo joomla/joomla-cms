@@ -137,7 +137,6 @@
 		else if (task === 'cancel')
 		{
 			jQuery('#' + modalId).modal('hide');
-			jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
 
 			return false;
 		}
@@ -155,7 +154,6 @@
 		if (task === 'save')
 		{
 			jQuery('#' + modalId).modal('hide');
-			jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
 		}
 
 		return false;
