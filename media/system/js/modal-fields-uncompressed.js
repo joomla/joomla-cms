@@ -167,7 +167,6 @@
 			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 		}
 
-
 		return false;
 	}
 
