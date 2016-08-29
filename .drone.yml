@@ -1,0 +1,14 @@
+build:
+  image: yveshoppe/joomla-systemtests:latest
+  commands:
+    - export DISPLAY=:0
+    - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+    - sleep 3
+    - fluxbox  > /dev/null 2>&1 &
+    - cd tests/javascript
+    - npm install
+    - cd ../..
+    - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
+  clone:
+    depth: 1
+    path: repo
