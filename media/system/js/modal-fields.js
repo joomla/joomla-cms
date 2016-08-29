@@ -102,7 +102,7 @@
 	 */
 	window.processModalEdit = function (element, fieldPrefix, action, itemType, task)
 	{
-		var modalId = element.parentNode.parentNode.id, process = true;
+		var modalId = element.parentNode.parentNode.id;
 
 		// Set frame id.
 		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
@@ -110,51 +110,63 @@
 		var iframeDocument = jQuery('#Frame_' + modalId).contents().get(0);
 		var formId         = jQuery('#Frame_' + modalId).contents().find('form').attr('id');
 
-		// If creating a new item, we need to check if the new id on iframe load.
-		if (action == 'add' && task === 'apply')
+		// If Close (cancel task), close the modal.
+		if (task === 'cancel')
 		{
-			// Attach onload event to iframe to check the id.
+			// Submit button on child iframe so we can check out.
+			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
+
+			jQuery('#' + modalId).modal('hide');
+		}
+		// If Save & Close (save task), process and hide the modal.
+		else if (task === 'save')
+		{
+			// Submit button on child iframe.
+			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
+
+			// If needed, validate the child form and update parent form.
+			if (iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
+			{
+				window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
+				jQuery('#' + modalId).modal('hide');
+			}
+		}
+		// For Save (apply task).
+		else
+		{
+			// Attach onload event to the iframe.
 			jQuery('#Frame_' + modalId).on('load', function()
 			{
 				// Reload iframe document var value.
 				iframeDocument = jQuery(this).contents().get(0);
 
-				// Check if the new frame contents have a valid id.
+				// Only process if jform_id exists.
 				if (iframeDocument.getElementById('jform_id'))
 				{
-					if (iframeDocument.getElementById('jform_id').value != '0')
+					if (action == 'add')
 					{
-						jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
+						// Hide the save modal, if not hidden already.
+						jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
+
+						// Check if the new frame contents have a valid id, if so show the save and close.
+						if (iframeDocument.getElementById('jform_id').value != '0')
+						{
+							jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
+						}
 					}
-					else
+
+					// If needed, validate the child form and update parent form.
+					if (iframeDocument.getElementById('jform_id').value != '0' && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
 					{
-						process = false;
+						window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
 					}
 				}
 			});
-		}
-		// If Cancel, close the modal.
-		else if (task === 'cancel')
-		{
-			jQuery('#' + modalId).modal('hide');
 
-			return false;
+			// Submit button on child iframe.
+			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 		}
 
-		// Submit button on child iframe.
-		document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
-
-		// If needed, validate the child form and update parent form.
-		if (process && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
-		{
-			window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
-		}
-
-		// If Save & Close, close the modal.
-		if (task === 'save')
-		{
-			jQuery('#' + modalId).modal('hide');
-		}
 
 		return false;
 	}
