@@ -293,7 +293,7 @@ class PlgSystemUserLogs extends JPlugin
 
 		$extensionName = (array) $installer->get('manifest')->name;
 		$message = array(
-			'event'           => 'onExtensionAfterInstall',
+			'event'          => 'onExtensionAfterInstall',
 			'extension_name' => $extensionName[0],
 			'extension_type' => $installer->get('manifest')->attributes()['type'],
 		);
@@ -323,9 +323,10 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$extensionName = (array) $installer->get('manifest')->name;
 		$message = array(
-			'event'           => 'onExtensionAfterUninstall',
-			'extension_name' => $installer->get('manifest')->name,
+			'event'          => 'onExtensionAfterUninstall',
+			'extension_name' => $extensionName[0],
 			'extension_type' => $installer->get('manifest')->attributes()['type'],
 		);
 
@@ -353,9 +354,10 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$extensionName = (array) $installer->get('manifest')->name;
 		$message = array(
-			'event'           => 'onExtensionAfterUpdate',
-			'extension_name' => $installer->get('manifest')->name,
+			'event'          => 'onExtensionAfterUpdate',
+			'extension_name' => $extensionName[0],
 			'extension_type' => $installer->get('manifest')->attributes()['type'],
 		);
 
