@@ -102,7 +102,7 @@
 	 */
 	window.processModalEdit = function (element, fieldPrefix, action, itemType, task)
 	{
-		var modalId = element.parentNode.parentNode.id;
+		var modalId = element.parentNode.parentNode.id, process = true;
 
 		// Set frame id.
 		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
@@ -122,26 +122,48 @@
 			return false;
 		}
 
-		// Validate the child form and update parent form.
-		if (iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
-		{
-			window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
+		var process = true;
 
-			// If creating a new item, enable the save and close.
-			if (action == 'add' && task === 'apply')
+		// If creating a new item, we need to check if the new id on iframe load.
+		if (action == 'add' && task === 'apply')
+		{
+			// Hide Close and Save buttons.
+			jQuery('#' + modalId).find('.modal-footer .btn-apply').addClass('hidden');
+			jQuery('#' + modalId).find('.modal-footer .btn-cancel').addClass('btn-disabled');
+
+			// Attach onload event to iframe to check the id.
+			jQuery('#Frame_' + modalId).on('load', function()
 			{
+				// Reload iframe document var value.
+				iframeDocument = jQuery(this).contents().get(0);
+
+				// Check if the new frame contents have a valid id.
 				if (iframeDocument.getElementById('jform_id').value != '0')
 				{
 					jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
 				}
-			}
+				else
+				{
+					process = false;
+				}
 
-			// If Save & Close, close the modal.
-			if (task === 'save')
-			{
-				jQuery('#' + modalId).modal('hide');
-				jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
-			}
+				// Show all buttons.
+				jQuery('#' + modalId).find('.modal-footer .btn-apply').removeClass('hidden');
+				jQuery('#' + modalId).find('.modal-footer .btn-cancel').removeClass('hidden');
+			});
+		}
+
+		// If needed, validate the child form and update parent form.
+		if (process && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
+		{
+			window.processModalParent(fieldPrefix, iframeDocument.getElementById('jform_id').value, iframeDocument.getElementById('jform_title').value);
+		}
+
+		// If Save & Close, close the modal.
+		if (task === 'save')
+		{
+			jQuery('#' + modalId).modal('hide');
+			jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
 		}
 
 		return false;
