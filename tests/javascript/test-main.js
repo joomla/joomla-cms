@@ -37,14 +37,14 @@ require.config({
 		'libs/validate': {
 			deps: ['jquery']
 		},
-		'libs/combobox': {
-			deps: ['jquery']
+		'libs/subform-repeatable': {
+			deps: ['jquery', 'jui', 'jui-sortable']
 		},
 		'libs/sendtestmail': {
 			deps: ['jquery']
 		},
-		'libs/subform-repeatable': {
-			deps: ['jquery', 'jui', 'jui-sortable']
+		'libs/combobox': {
+			deps: ['jquery']
 		}
 	},
 
