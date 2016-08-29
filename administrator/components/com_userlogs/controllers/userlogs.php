@@ -92,7 +92,7 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 	}
 
 	/**
-	 * Method to export logs
+	 * Method to export selected logs
 	 *
 	 * @return  void
 	 *
