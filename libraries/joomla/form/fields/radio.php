@@ -64,7 +64,7 @@ class JFormFieldRadio extends JFormAbstractlist implements JFormDomfieldinterfac
 
 		$extraData = array(
 			'options' => $this->getOptions(),
-			'value'   => (string) $this->value
+			'value'   => (string) $this->value,
 		);
 
 		return array_merge($data, $extraData);

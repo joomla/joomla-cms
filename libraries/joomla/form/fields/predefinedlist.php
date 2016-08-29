@@ -78,7 +78,7 @@ abstract class JFormFieldPredefinedList extends JFormAbstractlist
 
 					$options[] = (object) array(
 						'value' => $value,
-						'text'  => $text
+						'text'  => $text,
 					);
 				}
 			}

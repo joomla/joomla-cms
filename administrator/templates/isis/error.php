@@ -234,7 +234,24 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						<span class="label label-inverse"><?php echo $this->error->getCode(); ?></span> <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8');?>
 					</blockquote>
 					<?php if ($this->debug) : ?>
-						<?php echo $this->renderBacktrace(); ?>
+						<div>
+							<?php echo $this->renderBacktrace(); ?>
+							<?php // Check if there are more Exceptions and render their data as well ?>
+							<?php if ($this->error->getPrevious()) : ?>
+								<?php $loop = true; ?>
+								<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+								<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+								<?php $this->setError($this->_error->getPrevious()); ?>
+								<?php while ($loop === true) : ?>
+									<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+									<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+									<?php echo $this->renderBacktrace(); ?>
+									<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+								<?php endwhile; ?>
+								<?php // Reset the main error object to the base error ?>
+								<?php $this->setError($this->error); ?>
+							<?php endif; ?>
+						</div>
 					<?php endif; ?>
 					<p><a href="<?php echo $this->baseurl; ?>" class="btn"><span class="icon-dashboard"></span> <?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a></p>
 					<!-- End Content -->

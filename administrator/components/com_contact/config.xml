@@ -659,7 +659,7 @@
 			type="radio"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC"
-			default="1"
+			default="0"
 			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JSHOW</option>
@@ -671,7 +671,7 @@
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
-			default="1"
+			default="0"
 			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JSHOW</option>
@@ -695,7 +695,7 @@
 			type="radio"
 			label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
-			default="1"
+			default="0"
 			class="btn-group btn-group-yesno"
 			>
 			<option value="1">JSHOW</option>

@@ -73,7 +73,7 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string  $plugin  The plugin name.
 	 *
 	 * @return  mixed  An array of plugin data objects, or a plugin data object.
@@ -116,7 +116,7 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param   string  $type    The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string  $plugin  The plugin name.
 	 *
 	 * @return  boolean
@@ -127,14 +127,14 @@ abstract class JPluginHelper
 	{
 		$result = static::getPlugin($type, $plugin);
 
-		return (!empty($result));
+		return !empty($result);
 	}
 
 	/**
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string            $type        The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string            $type        The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string            $plugin      The plugin name.
 	 * @param   boolean           $autocreate  Autocreate the plugin.
 	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
@@ -290,27 +290,31 @@ abstract class JPluginHelper
 			return static::$plugins;
 		}
 
-		$user = JFactory::getUser();
-		$cache = JFactory::getCache('com_plugins', '');
+		$levels = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
-		$levels = implode(',', $user->getAuthorisedViewLevels());
+		/** @var JCacheControllerCallback $cache */
+		$cache = JFactory::getCache('com_plugins', 'callback');
 
-		if (!(static::$plugins = $cache->get($levels)))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('folder AS type, element AS name, params')
-				->from('#__extensions')
-				->where('enabled = 1')
-				->where('type =' . $db->quote('plugin'))
-				->where('state IN (0,1)')
-				->where('access IN (' . $levels . ')')
-				->order('ordering');
+		static::$plugins = $cache->get(
+			function () use ($levels)
+			{
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select(array($db->quoteName('folder', 'type'), $db->quoteName('element', 'name'), $db->quoteName('params')))
+					->from('#__extensions')
+					->where('enabled = 1')
+					->where('type = ' . $db->quote('plugin'))
+					->where('state IN (0,1)')
+					->where('access IN (' . $levels . ')')
+					->order('ordering');
+				$db->setQuery($query);
 
-			static::$plugins = $db->setQuery($query)->loadObjectList();
-
-			$cache->store(static::$plugins, $levels);
-		}
+				return $db->loadObjectList();
+			},
+			array(),
+			md5($levels),
+			false
+		);
 
 		return static::$plugins;
 	}

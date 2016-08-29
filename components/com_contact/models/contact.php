@@ -359,7 +359,7 @@ class ContactModelContact extends JModelForm
 		}
 
 		// Get the profile information for the linked user
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 		$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
@@ -542,7 +542,7 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Get the profile information for the linked user
-				require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 

@@ -56,7 +56,7 @@ class ContactHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  &$items  The contact category objects
 	 *
 	 * @return  stdClass[]
 	 *

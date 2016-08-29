@@ -56,7 +56,7 @@ class JCacheControllerCallback extends JCacheController
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
 		// Normalize callback
-		if (is_array($callback))
+		if (is_array($callback) || is_callable($callback))
 		{
 			// We have a standard php callback array -- do nothing
 		}
@@ -139,7 +139,7 @@ class JCacheControllerCallback extends JCacheController
 				if (method_exists($document, 'getHeadData'))
 				{
 					$coptions['headerbefore'] = $document->getHeadData();
-				}	
+				}
 			}
 			else
 			{
@@ -158,7 +158,7 @@ class JCacheControllerCallback extends JCacheController
 
 			$cached = array(
 				'output' => ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions),
-				'result' => $result
+				'result' => $result,
 			);
 
 			// Store the cache data

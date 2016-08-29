@@ -97,7 +97,7 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 		$extraData = array(
 				'userName'  => $name,
 				'groups'    => $this->getGroups(),
-				'excluded'  => $this->getExcluded()
+				'excluded'  => $this->getExcluded(),
 		);
 
 		return array_merge($data, $extraData);
@@ -117,7 +117,7 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 			return explode(',', $this->element['groups']);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
