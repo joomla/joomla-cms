@@ -129,7 +129,7 @@
 		{
 			// Hide Close and Save buttons.
 			jQuery('#' + modalId).find('.modal-footer .btn-apply').addClass('hidden');
-			jQuery('#' + modalId).find('.modal-footer .btn-cancel').addClass('btn-disabled');
+			jQuery('#' + modalId).find('.modal-footer .btn-cancel').addClass('hidden');
 
 			// Attach onload event to iframe to check the id.
 			jQuery('#Frame_' + modalId).on('load', function()
