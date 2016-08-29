@@ -115,7 +115,6 @@
 		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
 
 		var iframeDocument = jQuery('#Frame_' + modalId).contents().get(0);
-		var formId         = jQuery('#Frame_' + modalId).contents().find('form').attr('id');
 
 		// If Close (cancel task), close the modal.
 		if (task === 'cancel')
