@@ -3,7 +3,7 @@
 // Core variables and mixins
 @import "variables.less";
 // Custom for this template
-@import "../../../../media/jui/less/mixins.less";
+@import "bootstrap/mixins.less";
 // Grid system and page structure
 @import "../../../../media/jui/less/scaffolding.less";
 @import "../../../../media/jui/less/grid.less";
@@ -16,12 +16,12 @@
 // Components: common
 // @import "../../../../media/jui/less/sprites.less";
 @import "../../../../media/jui/less/dropdowns.less";
-@import "../../../../media/jui/less/wells.less";
+@import "bootstrap/wells.less";
 @import "../../../../media/jui/less/component-animations.less";
 @import "../../../../media/jui/less/close.less";
 // Components: Buttons & Alerts
-@import "../../../../media/jui/less/buttons.less";
-@import "../../../../media/jui/less/button-groups.less";
+@import "bootstrap/buttons.less";
+@import "bootstrap/button-groups.less";
 @import "../../../../media/jui/less/alerts.less";
 // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 // Components: Nav
@@ -221,6 +221,13 @@ body .navbar-fixed-top {
 	}
 	.nav > li > a {
 		padding: 6px 10px;
+		&:hover {
+			color: white;
+		}
+		&:hover span.carot {
+			border-bottom-color: #fff;
+    		border-top-color: #fff;
+		}
 	}
 	.dropdown-menu,
 	.nav-user {
@@ -246,6 +253,9 @@ body .navbar-fixed-top {
 			background-color: rgba(0,0,0,.5);
 			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 		}
+	}
+	.nav > li > a:focus {
+	    outline: none;
 	}
 	.nav > li > .dropdown-menu:after {
 		display: none;
@@ -285,7 +295,7 @@ body .navbar-fixed-top {
 .header {
 	background-color: @headerBackground;
 	border-top: 1px solid rgba(255, 255, 255, 0.2);
-	padding: 5px 25px;
+	padding: 8px 25px;
 }
 
 .navbar .btn-navbar {
@@ -427,15 +437,44 @@ body .navbar-fixed-top {
 }
 
 /* Toolbar */
-#toolbar .btn-success {
-	width: 148px;
-}
-
-#toolbar #toolbar-options,
-#toolbar #toolbar-help {
-	float: right;
-}
-
+#toolbar {
+	margin-bottom: 6px;
+    margin-top: 12px;
+	.btn {
+	    line-height: 24px;
+	    margin-right: 4px;
+	    padding: 0 10px 0 0;
+	}
+	.btn-success {
+		width: 148px;
+		border-color: @btnPrimaryBackground;
+		border-color: rgba(0, 0, 0, 0.2);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+		&:hover {
+			background-color: #378137;
+		}
+		[class^="icon-"], [class*=" icon-"] {
+			background-color: transparent;
+			border-right: none;
+			width: 10px;
+		}
+	}
+	#toolbar-options, #toolbar-help {
+		float: right;
+	}
+	[class^="icon-"], [class*=" icon-"] {
+		background-color: @btnBackgroundHighlight;
+	    border-radius: 3px 0 0 3px;
+	    border-right: 1px solid @btnBorder;
+	    height: auto;
+	    line-height: inherit;
+	    margin: 0 6px 0 0;
+	    opacity: 1;
+	    text-shadow: none;
+	    width: 28px;
+	    z-index: -1;
+	}
+} 
 html[dir=rtl] #toolbar #toolbar-options,
 html[dir=rtl] #toolbar #toolbar-help {
 	float: left;
@@ -644,15 +683,6 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #assignment.tab-pane {
 	min-height: 500px;
 }
-// Button color
-.btn-primary.active,
-.btn-warning.active,
-.btn-danger.active,
-.btn-success.active,
-.btn-info.active,
-.btn-inverse.active {
-	color: rgba(255, 255, 255, .95);
-}
 /* Chosen Max Width */
 .chzn-container,
 .chzn-drop {
@@ -807,6 +837,11 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	.login .chzn-container,
 	.login .chzn-drop {
 		width: 230px !important;
+	}
+	#toolbar [class^="icon-"], #toolbar [class*=" icon-"] {
+	    background-color: transparent;
+	    border-right: medium none;
+	    width: 10px;
 	}
 }
 
@@ -1153,6 +1188,7 @@ th .tooltip-inner {
 /* Min-width on buttons */
 .controls .btn-group > .btn {
 	min-width: 50px;
+	margin-left: -1px;
 }
 
 .controls .btn-group.btn-group-yesno > .btn {
@@ -1194,6 +1230,10 @@ input.input-large-text {
 [class^="chzn-color"].chzn-single .chzn-single-with-drop,
 [class*=" chzn-color"].chzn-single .chzn-single-with-drop {
 	.box-shadow(none);
+	div {
+		background-color: transparent;
+		border-left: none;
+	}
 }
 
 .chzn-color.chzn-single[rel="value_1"],
@@ -1202,6 +1242,7 @@ input.input-large-text {
 .chzn-color.chzn-single[rel="value_show_no_link"],
 .chzn-color.chzn-single[rel="value_show_with_link"] {
 	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+	color: #fff;
 }
 
 .chzn-color.chzn-single[rel="value_0"],
@@ -1211,6 +1252,21 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"],
 .chzn-color.chzn-single[rel="value_hide"] {
 	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+	color: #fff;
+}
+
+.chzn-color-state {
+	color: #fff;
+	div {
+		background-color: transparent;
+		border-bottom: none;
+	}
+}
+.chzn-color[rel="value_"] {
+	div {
+		background-color: #f3f3f3;
+		border-left: 1px solid @btnBorder;
+	}
 }
 /* Widen the drop downs for the Permissions Field */
 #permissions-sliders .input-small {
@@ -1361,6 +1417,15 @@ a.grid_true {
 	word-wrap: break-word;
 }
 
+/* Box-shadow from focused fields */
+textarea, input, .uneditable-input {
+	box-shadow: none !important;
+}
+textarea:focus, input:focus, .uneditable-input:focus {
+	box-shadow: none;
+	border: 1px solid #3071A9 !important;
+}
+
 /* Customize Textarea Resizing */
 textarea {
 	resize: both;
@@ -1415,4 +1480,14 @@ body.modal-open {
 			margin-bottom: 0;
 		}
 	}
+}
+
+.js-stools-container-bar .btn-primary .caret {
+  border-bottom: 4px solid @white;
+}
+
+.input-append .add-on, .input-append .btn, .input-append .btn-group > .dropdown-toggle, .input-prepend .add-on, .input-prepend .btn, .input-prepend .btn-group > .dropdown-toggle {
+  -webkit-border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+  -moz-border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
+  border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 }
