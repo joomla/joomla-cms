@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Content.createmenulink
+ * @subpackage  Content.createmenuitem
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -78,9 +78,9 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		}
 
 		$options = array_merge(
-			array(array('value' => '-1', 'text' => JText::_('PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
+			array(array('value' => '-1', 'text' => JText::_('PLG_CONTENT_CREATEMENUITEM_MENUS_ITEM_FIELD_ORDERING_VALUE_FIRST'))),
 			$options,
-			array(array('value' => '-2', 'text' => JText::_('PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
+			array(array('value' => '-2', 'text' => JText::_('PLG_CONTENT_CREATEMENUITEM_MENUS_ITEM_FIELD_ORDERING_VALUE_LAST')))
 		);
 
 		// Merge any additional options in the XML definition.
@@ -98,7 +98,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	{
 		if ($this->form->getValue('id', 0) == 0)
 		{
-			return '<span class="readonly">' . JText::_('PLG_CONTENT_CREATEMENULINK_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
+			return '<span class="readonly">' . JText::_('PLG_CONTENT_CREATEMENUITEM_MENUS_ITEM_FIELD_ORDERING_TEXT') . '</span>';
 		}
 
 		return parent::getInput();

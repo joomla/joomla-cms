@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.6" type="plugin" group="content" method="upgrade">
-	<name>PLG_CONTENT_CREATEMENULINK</name>
+	<name>PLG_CONTENT_CREATEMENUITEM</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2016</creationDate>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
@@ -8,15 +8,15 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>__DEPLOY_VERSION__</version>
-	<description>PLG_CONTENT_CREATEMENULINK_XML_DESCRIPTION</description>
+	<description>PLG_CONTENT_CREATEMENUITEM_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="createmenulink">createmenulink.php</filename>
+		<filename plugin="createmenuitem">createmenuitem.php</filename>
 		<folder>fields</folder>
 		<folder>forms</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_createmenulink.ini</language>
-		<language tag="en-GB">en-GB.plg_content_createmenulink.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_content_createmenuitem.ini</language>
+		<language tag="en-GB">en-GB.plg_content_createmenuitem.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -24,8 +24,8 @@
 				<field
 					name="allowedContexts"
 					type="textarea"
-					label="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION"
-					description="PLG_CONTENT_CREATEMENULINK_COMPONENT_OPTION_DESC"
+					label="PLG_CONTENT_CREATEMENUITEM_COMPONENT_OPTION"
+					description="PLG_CONTENT_CREATEMENUITEM_COMPONENT_OPTION_DESC"
 					default="com_content.article"
 					rows="10"
 					cols="5"
