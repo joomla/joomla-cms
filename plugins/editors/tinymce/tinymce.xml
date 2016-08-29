@@ -127,7 +127,9 @@
 					filter="\.js$"
 					size="10"
 					showon="lang_mode:0"
-				/>
+					>
+					<option value="en">en</option>
+				</field>
 
 				<field
 					name="text_direction"
