@@ -291,10 +291,11 @@ class PlgSystemUserLogs extends JPlugin
 			return;
 		}
 
+		$extensionName = (array) $installer->get('manifest')->name;
 		$message = array(
 			'event'           => 'onExtensionAfterInstall',
-			'extenstion_name' => $installer->get('manifest')->name,
-			'extenstion_type' => $installer->get('manifest')->attributes()['type'],
+			'extension_name' => $extensionName[0],
+			'extension_type' => $installer->get('manifest')->attributes()['type'],
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -324,8 +325,8 @@ class PlgSystemUserLogs extends JPlugin
 
 		$message = array(
 			'event'           => 'onExtensionAfterUninstall',
-			'extenstion_name' => $installer->get('manifest')->name,
-			'extenstion_type' => $installer->get('manifest')->attributes()['type'],
+			'extension_name' => $installer->get('manifest')->name,
+			'extension_type' => $installer->get('manifest')->attributes()['type'],
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -354,8 +355,8 @@ class PlgSystemUserLogs extends JPlugin
 
 		$message = array(
 			'event'           => 'onExtensionAfterUpdate',
-			'extenstion_name' => $installer->get('manifest')->name,
-			'extenstion_type' => $installer->get('manifest')->attributes()['type'],
+			'extension_name' => $installer->get('manifest')->name,
+			'extension_type' => $installer->get('manifest')->attributes()['type'],
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -640,15 +641,15 @@ class PlgSystemUserLogs extends JPlugin
 
 				break;
 			case 'onExtensionAfterInstall':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_INSTALL_MESSAGE', $message_to_array['extenstion_name']);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_INSTALL_MESSAGE', UserlogsHelper::translateExtensionName($message_to_array['extension_name']));
 
 				break;
 			case 'onExtensionAfterUninstall':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_UNINSTALL_MESSAGE', $message_to_array['extenstion_name']);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_UNINSTALL_MESSAGE', UserlogsHelper::translateExtensionName($message_to_array['extension_name']));
 
 				break;
 			case 'onExtensionAfterUpdate':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_UPDATE_MESSAGE', $message_to_array['extenstion_name']);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_UPDATE_MESSAGE', UserlogsHelper::translateExtensionName($message_to_array['extension_name']));
 
 				break;
 			case 'onUserAfterSave':
