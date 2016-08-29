@@ -213,7 +213,7 @@ class JFormFieldModal_Article extends JFormField
 							. '<a role="button" class="btn btn-save btn-primary hidden" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
-							. '<a role="button" class="btn btn-add btn-success" aria-hidden="true"'
+							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\'); return false;">'
 							. JText::_("JAPPLY") . '</a>',
 				)
@@ -242,7 +242,7 @@ class JFormFieldModal_Article extends JFormField
 							. '<a role="button" class="btn btn-save btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
-							. '<a role="button" class="btn btn-add btn-success" aria-hidden="true"'
+							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\'); return false;">'
 							. JText::_("JAPPLY") . '</a>',
 				)
