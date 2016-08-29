@@ -61,8 +61,19 @@ class ContactViewContact extends JViewLegacy
 
 		if ($this->getLayout() == 'modal')
 		{
-			$this->form->setFieldAttribute('language', 'readonly', 'true');
-			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+			// If we are forcing a language in modal (used for associations).
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+			{
+				// Set the language field to the forcedLanguage and disable changing it.
+				$this->form->setValue('language', null, $forcedLanguage);
+				$this->form->setFieldAttribute('language', 'readonly', 'true');
+
+				// Only allow to select categories with All language or with the forced language.
+				$this->form->setFieldAttribute('catid', 'language', '*,' . $forcedLanguage);
+
+				// Only allow to select tags with All language or with the forced language.
+				$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
+			}
 		}
 
 		$this->addToolbar();
