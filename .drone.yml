@@ -1,6 +1,7 @@
 build:
   image: yveshoppe/joomla-systemtests:latest
   commands:
+    - apt-get install npm
     - export DISPLAY=:0
     - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
     - sleep 3
