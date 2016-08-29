@@ -33,10 +33,10 @@ class JFormFieldModal_Article extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowNew    = ((string) $this->element['new'] == 'true') ? true : false;
-		$allowEdit   = ((string) $this->element['edit'] == 'true') ? true : false;
-		$allowClear  = ((string) $this->element['clear'] != 'false') ? true : false;
-		$allowSelect = ((string) $this->element['select'] != 'false') ? true : false;
+		$allowNew    = (string) $this->element['new'] == 'true' ? true : false;
+		$allowEdit   = (string) $this->element['edit'] == 'true' ? true : false;
+		$allowClear  = (string) $this->element['clear'] != 'false' ? true : false;
+		$allowSelect = (string) $this->element['select'] != 'false' ? true : false;
 
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
