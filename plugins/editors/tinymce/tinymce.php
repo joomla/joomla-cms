@@ -690,17 +690,17 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$scriptOptions['menubar']  = false;
-				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | code | ' . $toolbar5;
-				$scriptOptions['plugins']  = 'code ' . implode(',', $extraButtons);
+				$scriptOptions['toolbar1'] = 'bold italics underline strikethrough | undo redo | bullist numlist | ' . $toolbar5. ' | code | ' . implode(' ', $extraButtons);
+				$scriptOptions['plugins']  = 'code ' . implode(' ', $extraButtons);
 				break;
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
+					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap " . implode(' ', $extraButtons);
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . implode(',', $extraButtons);
+				$scriptOptions['plugins']  = 'table link code hr charmap autolink lists importcss ' . implode(' ', $extraButtons);
 				$scriptOptions['toolbar1'] = $toolbar1 . ' | ' . $toolbar5;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['importcss_append']  = true;
@@ -712,7 +712,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
-				$scriptOptions['plugins']  = $plugins . ' ' . implode(',', $extraButtons);
+				$scriptOptions['plugins']  = $plugins . ' ' . implode(' ', $extraButtons);
 				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
