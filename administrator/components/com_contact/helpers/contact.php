@@ -42,14 +42,15 @@ class ContactHelper extends JHelperContent
 		if (JComponentHelper::getComponent('com_contact')->params->get('custom_fields_enable', '1'))
 		{
 			JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELDS'),
-					'index.php?option=com_fields&context=com_contact.contact',
-					$vName == 'fields.contact'
-					);
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_contact.contact',
+				$vName == 'fields.contact'
+			);
 			JHtmlSidebar::addEntry(
-					JText::_('JGLOBAL_FIELD_GROUPS'),
-					'index.php?option=com_categories&extension=com_contact.contact.fields',
-					$vName == 'categories.contact');
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_categories&extension=com_contact.contact.fields',
+				$vName == 'categories.contact'
+			);
 		}
 	}
 

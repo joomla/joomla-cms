@@ -49,7 +49,8 @@ class ContentHelper extends JHelperContent
 			JHtmlSidebar::addEntry(
 				JText::_('JGLOBAL_FIELD_GROUPS'),
 				'index.php?option=com_categories&extension=com_content.article.fields',
-				$vName == 'categories.article');
+				$vName == 'categories.article'
+			);
 		}
 
 		JHtmlSidebar::addEntry(

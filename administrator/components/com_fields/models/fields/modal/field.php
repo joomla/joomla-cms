@@ -145,16 +145,16 @@ class JFormFieldModal_Field extends JFormField
 					'</a>';
 
 			$html[] = JHtml::_(
-					'bootstrap.renderModal', 'modalCategory-' . $this->id,
-						array(
-								'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
-								'title' => JText::_('COM_FIELDS_SELECT_A_FIELD'),
-								'width' => '800px',
-								'height' => '300px',
-								'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") .
-									'</button>'
-						)
-					);
+				'bootstrap.renderModal', 'modalCategory-' . $this->id,
+				array(
+					'url' => $link . '&amp;' . JSession::getFormToken() . '=1"',
+					'title' => JText::_('COM_FIELDS_SELECT_A_FIELD'),
+					'width' => '800px',
+					'height' => '300px',
+					'footer' => '<button class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") .
+						'</button>'
+				)
+			);
 		}
 
 		// Clear field button

@@ -136,16 +136,3 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
-/libraries/vendor/mustache/mustache/.gitignore
-/libraries/vendor/mustache/mustache/bin
-/libraries/vendor/mustache/mustache/vendor
-/libraries/vendor/mustache/mustache/.gitmodules
-/libraries/vendor/mustache/mustache/.styleci.yml
-/libraries/vendor/mustache/mustache/.travis.yml
-/libraries/vendor/mustache/mustache/.php_cs
-/libraries/vendor/mustache/mustache/CONTRIBUTING.md
-/libraries/vendor/mustache/mustache/README.md
-/libraries/vendor/mustache/mustache/LICENSE
-/libraries/vendor/mustache/mustache/phpunit.xml.dist
-/libraries/vendor/mustache/mustache/test
-/libraries/vendor/mustache/mustache/composer.json

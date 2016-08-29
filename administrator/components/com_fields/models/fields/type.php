@@ -121,11 +121,11 @@ class JFormFieldType extends JFormAbstractlist
 
 		// Sorting the fields based on the text which is displayed
 		usort(
-				$options,
-				function ($a, $b)
-				{
-					return strcmp($a->text, $b->text);
-				}
+			$options,
+			function ($a, $b)
+			{
+				return strcmp($a->text, $b->text);
+			}
 		);
 
 		// Reload the page when the type changes
