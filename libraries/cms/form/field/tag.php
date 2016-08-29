@@ -130,7 +130,7 @@ class JFormFieldTag extends JFormFieldList
 				$language = $db->quote($this->element['language']);
 			}
 
-			$subQuery->where($db->quoteName('a.language') . ' IN (' . $language . ')');
+			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		$query->where($db->qn('a.lft') . ' > 0');
