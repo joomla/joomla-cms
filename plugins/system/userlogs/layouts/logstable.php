@@ -15,10 +15,10 @@ $lang->load("com_userlogs", JPATH_ADMINISTRATOR, null, false, true)
 	|| $lang->load("com_userlogs", $source, null, false, true);
 ?>
 <h1>
-	<?php echo JText::_('PLG_SYSTEM_USERLOG_EMAIL_SUBJECT'); ?>
+	<?php echo JText::_('PLG_SYSTEM_USERLOGS_EMAIL_SUBJECT'); ?>
 </h1>
 <h2>
-	<?php echo JText::_('PLG_SYSTEM_USERLOG_EMAIL_DESC'); ?>
+	<?php echo JText::_('PLG_SYSTEM_USERLOGS_EMAIL_DESC'); ?>
 </h2>
 <table>
 	<thead>

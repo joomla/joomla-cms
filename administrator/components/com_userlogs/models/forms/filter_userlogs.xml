@@ -30,7 +30,7 @@
 			description="COM_USERS_OPTION_FILTER_DATE"
 			onchange="this.form.submit();"
 		>
-			<option value="">COM_USERSLOGS_OPTION_FILTER_DATE</option>
+			<option value="">COM_USERLOGS_OPTION_FILTER_DATE</option>
 		</field>
 	</fields>
 	<fields name="list">

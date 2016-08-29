@@ -88,7 +88,7 @@ class PlgSystemUserLogs extends JPlugin
 		}
 		else
 		{
-			$ip = JText::_('PLG_SYSTEM_USERLOG_DISABLED');
+			$ip = JText::_('PLG_SYSTEM_USERLOGS_DISABLED');
 		}
 
 		$json_message = json_encode($message);
@@ -383,7 +383,7 @@ class PlgSystemUserLogs extends JPlugin
 
 		$parameters   = UserlogsHelper::getLogMessageParams($context);
 		$title_holder = '';
-		$title_type   = '';
+		$type_title   = '';
 
 		if ($parameters)
 		{
@@ -394,10 +394,10 @@ class PlgSystemUserLogs extends JPlugin
 		$isNew_string = $isNew ? 'true' : 'false';
 
 		$message = array(
-			'title' => $table->get($parameters->title_holder),
+			'title' => $title_holder,
 			'isNew' => $isNew_string,
 			'event' => 'onExtensionAfterSave',
-			'type'  => $parameters->type_title,
+			'type'  => $type_title,
 		);
 
 		$this->addLogsToDb($message, $context);
@@ -578,10 +578,11 @@ class PlgSystemUserLogs extends JPlugin
 		$extension = UserlogsHelper::translateExtensionName(strtoupper(strtok($extension, '.')));
 		$extension = preg_replace('/s$/', '', $extension);
 		$message_to_array = json_decode($message, true);
+		$type = '';
 
 		if (!empty($message_to_array['type']))
 		{
-			$type = 'PLG_SYSTEM_USERLOG_TYPE_' . strtoupper($message_to_array['type']);
+			$type = 'PLG_SYSTEM_USERLOGS_TYPE_' . strtoupper($message_to_array['type']);
 		}
 
 		switch ($message_to_array['event'])
@@ -589,26 +590,26 @@ class PlgSystemUserLogs extends JPlugin
 			case 'onContentAfterSave':
 				if ($message_to_array['isNew'] == 'false')
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_AFTER_SAVE_MESSAGE', ucfirst(JText::_($type)));
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_AFTER_SAVE_MESSAGE', ucfirst(JText::_($type)));
 				}
 				else
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_AFTER_SAVE_NEW_MESSAGE', JText::_($type));
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_AFTER_SAVE_NEW_MESSAGE', JText::_($type));
 				}
 
 				if (!empty($message_to_array['title']))
 				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOG_TITLED', $message_to_array['title']);
+					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', $message_to_array['title']);
 				}
 
 				break;
 
 			case 'onContentAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_AFTER_DELETE_MESSAGE', ucfirst(JText::_($type)));
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_AFTER_DELETE_MESSAGE', ucfirst(JText::_($type)));
 
 				if (!empty($message_to_array['title']))
 				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOG_TITLED', $message_to_array['title']);
+					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', $message_to_array['title']);
 				}
 
 				break;
@@ -616,94 +617,97 @@ class PlgSystemUserLogs extends JPlugin
 			case 'onContentChangeState':
 				if ($message_to_array['value'] == 0)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_CHANGE_STATE_UNPUBLISHED_MESSAGE',
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_UNPUBLISHED_MESSAGE',
 						ucfirst(JText::_($type)), $message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == 1)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_CHANGE_STATE_PUBLISHED_MESSAGE',
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_PUBLISHED_MESSAGE',
 						ucfirst(JText::_($type)), $message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == 2)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE',
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_ARCHIVED_MESSAGE',
 						ucfirst(JText::_($type)), $message_to_array['title'], $message_to_array['title']
 					);
 				}
 				elseif ($message_to_array['value'] == -2)
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_CONTENT_CHANGE_STATE_TRASHED_MESSAGE',
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_CONTENT_CHANGE_STATE_TRASHED_MESSAGE',
 						ucfirst(JText::_($type)), $message_to_array['title']
 					);
 				}
 
 				break;
 			case 'onExtensionAfterInstall':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_INSTALL_MESSAGE', UserlogsHelper::translateExtensionName($message_to_array['extension_name']));
+				$extension_name = array_key_exists('extension_name', $message_to_array) ? $message_to_array['extension_name'] : '';
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_INSTALL_MESSAGE', UserlogsHelper::translateExtensionName($extension_name));
 
 				break;
 			case 'onExtensionAfterUninstall':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_UNINSTALL_MESSAGE', UserlogsHelper::translateExtensionName($message_to_array['extension_name']));
+				$extension_name = array_key_exists('extension_name', $message_to_array) ? $message_to_array['extension_name'] : '';
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_UNINSTALL_MESSAGE', UserlogsHelper::translateExtensionName($extension_name));
 
 				break;
 			case 'onExtensionAfterUpdate':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_UPDATE_MESSAGE', UserlogsHelper::translateExtensionName($message_to_array['extension_name']));
+				$extension_name = array_key_exists('extension_name', $message_to_array) ? $message_to_array['extension_name'] : '';
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_UPDATE_MESSAGE', UserlogsHelper::translateExtensionName($extension_name));
 
 				break;
 			case 'onUserAfterSave':
 				if ($message_to_array['isNew'] == 'false')
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_USER_AFTER_SAVE_MESSAGE', $message_to_array['edited_user']);
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_MESSAGE', $message_to_array['edited_user']);
 				}
 				else
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_USER_AFTER_SAVE_NEW_MESSAGE', $message_to_array['edited_user']);
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_NEW_MESSAGE', $message_to_array['edited_user']);
 				}
 
 				break;
 			case 'onUserAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_USER_AFTER_DELETE_MESSAGE', $message_to_array['edited_user']);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_DELETE_MESSAGE', $message_to_array['edited_user']);
 
 				break;
 			case 'onUserAfterSaveGroup':
 				if ($message_to_array['isNew'] == 'false')
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_USER_AFTER_SAVE_GROUP_MESSAGE', $message_to_array['title']);
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_GROUP_MESSAGE', $message_to_array['title']);
 				}
 				else
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_USER_AFTER_SAVE_GROUP_NEW_MESSAGE', $message_to_array['title']);
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_SAVE_GROUP_NEW_MESSAGE', $message_to_array['title']);
 				}
 
 				break;
 			case 'onUserAfterDeleteGroup':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_USER_AFTER_DELETE_GROUP_MESSAGE', $message_to_array['deleted_group']);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_DELETE_GROUP_MESSAGE', $message_to_array['deleted_group']);
 
 				break;
 			case 'onExtensionAfterSave':
 				if ($message_to_array['isNew'] == 'false')
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_SAVE_MESSAGE', ucfirst(JText::_($type)));
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_SAVE_MESSAGE', ucfirst(JText::_($type)));
 				}
 				else
 				{
-					$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_SAVE_NEW_MESSAGE', JText::_($type));
+					$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_SAVE_NEW_MESSAGE', JText::_($type));
 				}
 
 				if (!empty($message_to_array['title']))
 				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOG_TITLED', UserlogsHelper::translateExtensionName($message_to_array['title']));
+					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', UserlogsHelper::translateExtensionName($message_to_array['title']));
 				}
 
 				break;
 			case 'onExtensionAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOG_ON_EXTENSION_AFTER_DELETE_MESSAGE', $extension);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_EXTENSION_AFTER_DELETE_MESSAGE', $extension);
 
 				if (!empty($message_to_array['title']))
 				{
-					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOG_TITLED', UserlogsHelper::translateExtensionName($message_to_array['title']));
+					$message = $message . JText::sprintf('PLG_SYSTEM_USERLOGS_TITLED', UserlogsHelper::translateExtensionName($message_to_array['title']));
 				}
 
 				break;
@@ -830,7 +834,7 @@ class PlgSystemUserLogs extends JPlugin
 
 		$mailer->setSender($sender);
 		$mailer->addRecipient($recipients);
-		$mailer->setSubject(JText::_('PLG_SYSTEM_USERLOG_EMAIL_SUBJECT'));
+		$mailer->setSubject(JText::_('PLG_SYSTEM_USERLOGS_EMAIL_SUBJECT'));
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
