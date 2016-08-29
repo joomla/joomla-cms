@@ -735,6 +735,8 @@ class PlgSystemUserLogs extends JPlugin
 			return false;
 		}
 
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_system_userlogs', JPATH_ADMINISTRATOR);
 		$formName = $form->getName();
 
 		$allowedFormNames = array(
