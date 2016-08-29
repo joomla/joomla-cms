@@ -33,10 +33,10 @@ class JFormFieldModal_Article extends JFormField
 	 */
 	protected function getInput()
 	{
-		$allowNew    = (string) $this->element['new'] == 'true' ? true : false;
-		$allowEdit   = (string) $this->element['edit'] == 'true' ? true : false;
-		$allowClear  = (string) $this->element['clear'] != 'false' ? true : false;
-		$allowSelect = (string) $this->element['select'] != 'false' ? true : false;
+		$allowNew    = ((string) $this->element['new'] == 'true');
+		$allowEdit   = ((string) $this->element['edit'] == 'true');
+		$allowClear  = ((string) $this->element['clear'] != 'false');
+		$allowSelect = ((string) $this->element['select'] != 'false');
 
 		// Load language
 		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
@@ -48,9 +48,10 @@ class JFormFieldModal_Article extends JFormField
 		$modalId = 'Article_' . $this->id;
 
 		// Add the modal field script to the document head.
+		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/modal-fields.js', false, true);
 
-		// This is needed for B/C.
+		// Script to proxy the select modal function to the modal-fields.js file.
 		if ($allowSelect)
 		{
 			static $scriptSelect = null;
@@ -73,8 +74,6 @@ class JFormFieldModal_Article extends JFormField
 		}
 
 		// Setup variables for display.
-		$html = array();
-
 		$linkArticles = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 		$linkArticle  = 'index.php?option=com_content&amp;view=article&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
@@ -115,13 +114,13 @@ class JFormFieldModal_Article extends JFormField
 		$title = empty($title) ? JText::_('COM_CONTENT_SELECT_AN_ARTICLE') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current article display field.
-		$html[] = '<span class="input-append">';
-		$html[] = '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
+		$html  = '<span class="input-append">';
+		$html .= '<input class="input-medium" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35" />';
 
 		// Select article button
 		if ($allowSelect)
 		{
-			$html[] = '<a'
+			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
@@ -135,7 +134,7 @@ class JFormFieldModal_Article extends JFormField
 		// New article button
 		if ($allowNew)
 		{
-			$html[] = '<a'
+			$html .= = '<a'
 				. ' class="btn hasTooltip' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
@@ -149,7 +148,7 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a'
+			$html .= '<a'
 				. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
@@ -163,7 +162,7 @@ class JFormFieldModal_Article extends JFormField
 		// Clear article button
 		if ($allowClear)
 		{
-			$html[] = '<a'
+			$html .= '<a'
 				. ' class="btn' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
 				. ' href="#"'
@@ -172,12 +171,12 @@ class JFormFieldModal_Article extends JFormField
 				. '</a>';
 		}
 
-		$html[] = '</span>';
+		$html .= '</span>';
 
 		// Select article modal
 		if ($allowSelect)
 		{
-			$html[] = JHtml::_(
+			$html .= JHtml::_(
 				'bootstrap.renderModal',
 				'ModalSelect' . $modalId,
 				array(
@@ -195,7 +194,7 @@ class JFormFieldModal_Article extends JFormField
 		// New article modal
 		if ($allowNew)
 		{
-			$html[] = JHtml::_(
+			$html .= JHtml::_(
 				'bootstrap.renderModal',
 				'ModalNew' . $modalId,
 				array(
@@ -208,12 +207,15 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\'); return false;">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+					'footer'      => '<a type="button" class="btn" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\'); return false;">'
+							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 							. '<button type="button" class="btn btn-primary btn-save hidden" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\'); return false;">' . JText::_("JSAVE") . '</button>'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\'); return false;">'
+							. JText::_("JSAVE") . '</button>'
 							. '<button type="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\'); return false;">' . JText::_("JAPPLY") . '</button>',
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\'); return false;">'
+							. JText::_("JAPPLY") . '</button>',
 				)
 			);
 		}
@@ -221,7 +223,7 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article modal
 		if ($allowEdit)
 		{
-			$html[] = JHtml::_(
+			$html .= JHtml::_(
 				'bootstrap.renderModal',
 				'ModalEdit' . $modalId,
 				array(
@@ -234,12 +236,15 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\'); return false;">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+					'footer'      => '<a type="button" class="btn" aria-hidden="true"'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\'); return false;">'
+							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 							. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\'); return false;">' . JText::_("JSAVE") . '</button>'
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\'); return false;">'
+							. JText::_("JSAVE") . '</button>'
 							. '<button type="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\'); return false;">' . JText::_("JAPPLY") . '</button>',
+							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\'); return false;">'
+							. JText::_("JAPPLY") . '</button>',
 				)
 			);
 		}
@@ -247,10 +252,10 @@ class JFormFieldModal_Article extends JFormField
 		// Note: class='required' for client side validation.
 		$class = $this->required ? ' class="required modal-value"' : '';
 
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
+		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
 			. '" data-text="' . htmlspecialchars(JText::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
-		return implode("\n", $html);
+		return $html;
 	}
 
 	/**
