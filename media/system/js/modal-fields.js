@@ -110,27 +110,9 @@
 		var iframeDocument = jQuery('#Frame_' + modalId).contents().get(0);
 		var formId         = jQuery('#Frame_' + modalId).contents().find('form').attr('id');
 
-		// Submit button on child iframe.
-		document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
-
-		// If Cancel, close the modal.
-		if (task === 'cancel')
-		{
-			jQuery('#' + modalId).modal('hide');
-			jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
-
-			return false;
-		}
-
-		var process = true;
-
 		// If creating a new item, we need to check if the new id on iframe load.
 		if (action == 'add' && task === 'apply')
 		{
-			// Hide Close and Save buttons.
-			jQuery('#' + modalId).find('.modal-footer .btn-apply').addClass('hidden');
-			jQuery('#' + modalId).find('.modal-footer .btn-cancel').addClass('hidden');
-
 			// Attach onload event to iframe to check the id.
 			jQuery('#Frame_' + modalId).on('load', function()
 			{
@@ -138,20 +120,30 @@
 				iframeDocument = jQuery(this).contents().get(0);
 
 				// Check if the new frame contents have a valid id.
-				if (iframeDocument.getElementById('jform_id').value != '0')
+				if (iframeDocument.getElementById('jform_id'))
 				{
-					jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
+					if (iframeDocument.getElementById('jform_id').value != '0')
+					{
+						jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
+					}
+					else
+					{
+						process = false;
+					}
 				}
-				else
-				{
-					process = false;
-				}
-
-				// Show all buttons.
-				jQuery('#' + modalId).find('.modal-footer .btn-apply').removeClass('hidden');
-				jQuery('#' + modalId).find('.modal-footer .btn-cancel').removeClass('hidden');
 			});
 		}
+		// If Cancel, close the modal.
+		else if (task === 'cancel')
+		{
+			jQuery('#' + modalId).modal('hide');
+			jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
+
+			return false;
+		}
+
+		// Submit button on child iframe.
+		document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 
 		// If needed, validate the child form and update parent form.
 		if (process && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
