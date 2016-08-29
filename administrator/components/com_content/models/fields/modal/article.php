@@ -186,7 +186,7 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+					'footer'      => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
 				)
 			);
 		}
@@ -207,15 +207,15 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a type="button" class="btn" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<button type="button" class="btn btn-primary btn-save hidden" aria-hidden="true"'
+							. '<a role="button" class="btn btn-save btn-primary hidden" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\'); return false;">'
-							. JText::_("JSAVE") . '</button>'
-							. '<button type="button" class="btn btn-success" aria-hidden="true"'
+							. JText::_("JSAVE") . '</a>'
+							. '<a role="button" class="btn btn-add btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'apply\'); return false;">'
-							. JText::_("JAPPLY") . '</button>',
+							. JText::_("JAPPLY") . '</a>',
 				)
 			);
 		}
@@ -236,15 +236,15 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a type="button" class="btn" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<button type="button" class="btn btn-primary" aria-hidden="true"'
+							. '<a role="button" class="btn btn-save btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'save\'); return false;">'
-							. JText::_("JSAVE") . '</button>'
-							. '<button type="button" class="btn btn-success" aria-hidden="true"'
+							. JText::_("JSAVE") . '</a>'
+							. '<a role="button" class="btn btn-add btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'apply\'); return false;">'
-							. JText::_("JAPPLY") . '</button>',
+							. JText::_("JAPPLY") . '</a>',
 				)
 			);
 		}
