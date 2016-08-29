@@ -51,8 +51,8 @@ class JFormFieldMenuOrdering extends JFormFieldList
 			->select($db->quoteName('id', 'value'))
 			->select($db->quoteName('title', 'text'))
 			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('published') . ' >= ' . $db->quote('0'))
-			->where($db->quoteName('parent_id') . ' = (int) $parent_id ');
+			->where($db->quoteName('published') . ' >= 0')
+			->where($db->quoteName('parent_id') . ' = ' . (int) $parent_id);
 
 		if ($menuType = $this->form->getValue('menutype'))
 		{
