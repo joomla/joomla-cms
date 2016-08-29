@@ -130,7 +130,10 @@
 			// If creating a new item, enable the save and close.
 			if (action == 'add' && task === 'apply')
 			{
-				jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
+				if (iframeDocument.getElementById('jform_id').value != '0')
+				{
+					jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
+				}
 			}
 
 			// If Save & Close, close the modal.
