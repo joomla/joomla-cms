@@ -14,7 +14,7 @@ JLoader::import('joomla.filesystem.folder');
 /**
  * Fields Type
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldType extends JFormAbstractlist
 {
@@ -33,7 +33,7 @@ class JFormFieldType extends JFormAbstractlist
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -49,7 +49,7 @@ class JFormFieldType extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
@@ -145,6 +145,7 @@ class JFormFieldType extends JFormAbstractlist
 		$uri->setVar('userstatevariable', 'com_fields.edit.field.data');
 		$uri->setVar('view', null);
 		$uri->setVar('layout', null);
+
 		JFactory::getDocument()->addScriptDeclaration(
 				"function typeHasChanged(element){
 				var cat = jQuery(element);
@@ -162,12 +163,13 @@ class JFormFieldType extends JFormAbstractlist
 	 *
 	 * @param   string  $path  The path.
 	 *
-	 * @return string|boolean
+	 * @return  string|boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getClassNameFromFile($path)
 	{
-		$tokens = token_get_all(JFile::read($path));
-
+		$tokens    = token_get_all(JFile::read($path));
 		$className = null;
 
 		for ($i = 2; $i < count($tokens); $i ++)
