@@ -75,7 +75,7 @@ class ContentViewArticle extends JViewLegacy
 			}
 		}
 		// If not in associations modal, block the language change if in edit modal, language not All and associations enabled.
-		else if ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled())
+		elseif ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled())
 		{
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
 		}
