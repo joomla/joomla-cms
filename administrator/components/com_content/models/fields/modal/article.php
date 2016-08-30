@@ -210,7 +210,7 @@ class JFormFieldModal_Article extends JFormField
 					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\', \'item-form\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<a role="button" class="btn btn-save btn-primary hidden" aria-hidden="true"'
+							. '<a role="button" class="btn btn-save btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'save\', \'item-form\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
 							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
