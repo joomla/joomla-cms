@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * Fields Table
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsTableField extends JTable
 {
@@ -22,16 +22,25 @@ class FieldsTableField extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver object.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct ($db = null)
+	public function __construct($db = null)
 	{
 		parent::__construct('#__fields', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
 
-		JObserverMapper::addObserverClassToClass('JTableObserverTags', 'FieldsTableField', array('typeAlias' => 'com_fields.field'));
-		JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'FieldsTableField', array('typeAlias' => 'com_fields.field'));
+		JObserverMapper::addObserverClassToClass(
+			'JTableObserverTags',
+			'FieldsTableField',
+			array('typeAlias' => 'com_fields.field'),
+		);
+
+		JObserverMapper::addObserverClassToClass(
+			'JTableObserverContenthistory',
+			'FieldsTableField',
+			array('typeAlias' => 'com_fields.field')
+		);
 	}
 
 	/**
@@ -44,10 +53,10 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  InvalidArgumentException
 	 */
-	public function bind ($src, $ignore = '')
+	public function bind($src, $ignore = '')
 	{
 		if (isset($src['params']) && is_array($src['params']))
 		{
@@ -82,9 +91,9 @@ class FieldsTableField extends JTable
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @link    https://docs.joomla.org/JTable/check
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function check ()
+	public function check()
 	{
 		// Check for valid name
 		if (trim($this->title) == '')
@@ -125,7 +134,7 @@ class FieldsTableField extends JTable
 		{
 			// Existing item
 			$this->modified_time = $date->toSql();
-			$this->modified_by = $user->get('id');
+			$this->modified_by   = $user->get('id');
 		}
 		else
 		{
@@ -150,9 +159,9 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function _getAssetName ()
+	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
 
@@ -169,9 +178,9 @@ class FieldsTableField extends JTable
 	 * @return  string  The string to use as the title in the asset table.
 	 *
 	 * @link    https://docs.joomla.org/JTable/getAssetTitle
-	 * @since   11.1
+	 * @since   $this->$k
 	 */
-	protected function _getAssetTitle ()
+	protected function _getAssetTitle()
 	{
 		return $this->title;
 	}
@@ -188,11 +197,11 @@ class FieldsTableField extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function _getAssetParentId (JTable $table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		$parts = FieldsHelper::extract($this->context);
+		$parts     = FieldsHelper::extract($this->context);
 		$component = $parts ? $parts[0] : null;
 
 		if ($parts && $this->catid)
@@ -228,9 +237,9 @@ class FieldsTableField extends JTable
 	{
 		// Build the query to get the asset id for the name.
 		$query = $this->_db->getQuery(true)
-		->select($this->_db->quoteName('id'))
-		->from($this->_db->quoteName('#__assets'))
-		->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__assets'))
+			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
 
 		// Get the asset id from the database.
 		$this->_db->setQuery($query);
