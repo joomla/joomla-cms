@@ -64,6 +64,8 @@
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
 					disable="separator,alias,heading,url"
+					select="true"
+					new="true"
 					edit="true"
 					clear="true"
 					>
