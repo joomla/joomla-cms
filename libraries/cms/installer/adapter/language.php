@@ -293,11 +293,11 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 		if (!$row->custom_data)
 		{
-			$row->set('custom_data', ' ');	
+			$row->set('custom_data', '');	
 		}
 		if (!$row->system_data)
 		{
-			$row->set('system_data', ' ');
+			$row->set('system_data', '');
 		}
 
 		if (!$row->store())
@@ -454,11 +454,11 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 		if (!$row->custom_data)
 		{
-			$row->set('custom_data', ' ');	
+			$row->set('custom_data', '');	
 		}
 		if (!$row->system_data)
 		{
-			$row->set('system_data', ' ');
+			$row->set('system_data', '');
 		}
 
 		if (!$row->store())
