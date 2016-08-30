@@ -204,15 +204,15 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'cancel\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<a role="button" class="btn btn-save btn-primary hidden" aria-hidden="true"'
+							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'save\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
-							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
+							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JAPPLY") . '</a>',
@@ -236,15 +236,15 @@ class JFormFieldModal_Newsfeed extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn btn-cancel" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id
 							. '\', \'edit\', \'newsfeed\', \'cancel\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
-							. '<a role="button" class="btn btn-save btn-primary" aria-hidden="true"'
+							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'save\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JSAVE") . '</a>'
-							. '<a role="button" class="btn btn-apply btn-success" aria-hidden="true"'
+							. '<a role="button" class="btn btn-success" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'edit\', \'newsfeed\', \'apply\', \'newsfeed-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JAPPLY") . '</a>',
