@@ -42,54 +42,47 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
-
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
-
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
-
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
 				<?php
-				echo $this->form->renderField('type');
-				echo $this->form->renderField('required');
-				echo $this->form->renderField('default_value');
+				<?php echo $this->form->renderField('type');
+				<?php echo $this->form->renderField('required');
+				<?php echo $this->form->renderField('default_value');
 
 				// rendering additional fields
-				foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet)
-				{
-					foreach ($this->form->getFieldset($name) as $field)
-					{
-						echo $field->renderField();
-					}
-				}
+				<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>
+					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+						<?php echo $field->renderField(); ?>
+					<?php endforeach; ?>
+				<?php endforeach; ?>
 
-				echo $this->form->renderField('description');
-				?>
+				<?php echo $this->form->renderField('description'); ?>
 			</div>
 			<div class="span3">
-				<?php
-
-				$this->set(
-						'fields',
+				<?php $this->set('fields',
 						array(
-							array('published', 'state', 'enabled'),
+							array(
+								'published',
+								'state',
+								'enabled',
+							),
 							'catid',
 							'assigned_cat_ids',
 							'access',
 							'language',
 							'tags',
-							'note'
+							'note',
 						)
-				);
-				echo JLayoutHelper::render('joomla.edit.global', $this);
-				$this->set('fields', null);
-				?>
+				); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php $this->set('fields', null); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -99,19 +92,14 @@ JFactory::getDocument()->addScriptDeclaration('
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-		<?php
-		$this->set('ignore_fieldsets', array('fieldparams'));
-		echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-
+		<?php $this->set('ignore_fieldsets', array('fieldparams')); ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_RULES', true)); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-
 		<?php echo $this->form->getInput('context'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
