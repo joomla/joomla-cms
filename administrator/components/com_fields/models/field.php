@@ -15,7 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Field Model
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsModelField extends JModelAdmin
 {
@@ -31,13 +31,13 @@ class FieldsModelField extends JModelAdmin
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		$context = JFactory::getApplication()->input->getCmd('context', 'com_content.article');
-		$this->typeAlias = $context . '.field';
+
+		$this->typeAlias = JFactory::getApplication()->input->getCmd('context', 'com_content.article') . '.field';
 	}
 
 	/**
@@ -47,11 +47,11 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function canDelete ($record)
+	protected function canDelete($record)
 	{
-		if (! empty($record->id))
+		if (!empty($record->id))
 		{
 			if ($record->state != - 2)
 			{
@@ -69,14 +69,14 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission for the component.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function canEditState ($record)
+	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
 
 		// Check for existing field.
-		if (! empty($record->id))
+		if (!empty($record->id))
 		{
 			return $user->authorise('core.edit.state', $record->context . '.field.' . (int) $record->id);
 		}
@@ -93,9 +93,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function save ($data)
+	public function save($data)
 	{
 		$field = null;
 
@@ -131,7 +131,7 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		$input  = JFactory::getApplication()->input;
+		$input = JFactory::getApplication()->input;
 
 		if ($input->get('task') == 'save2copy')
 		{
@@ -195,10 +195,11 @@ class FieldsModelField extends JModelAdmin
 
 			if (is_array($oldParams) && is_array($newParams) && count(array_intersect($oldParams->key, $newParams->key)) != count($oldParams->key))
 			{
+				// @todo use JDatabase here
 				$this->_db->setQuery(
 						'delete from #__fields_values where field_id = ' . (int) $field->id . ' and value not in (\'' .
 							implode("','", $newParams->key) . '\')');
-				$this->_db->query();
+				$this->_db->execute()
 			}
 		}
 
@@ -212,9 +213,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function delete (&$pks)
+	public function delete(&$pks)
 	{
 		$success = parent::delete($pks);
 
@@ -247,7 +248,7 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	public function getTable ($name = 'Field', $prefix = 'FieldsTable', $options = array())
@@ -265,9 +266,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function populateState ()
+	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
 
@@ -297,9 +298,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  mixed    Object on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getItem ($pk = null)
+	public function getItem($pk = null)
 	{
 		$result = parent::getItem($pk);
 
@@ -369,18 +370,18 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getForm ($data = array(), $loadData = true)
+	public function getForm($data = array(), $loadData = true)
 	{
 		$context = $this->getState('field.context');
-		$jinput = JFactory::getApplication()->input;
+		$jinput  = JFactory::getApplication()->input;
 
 		// A workaround to get the context into the model for save requests.
 		if (empty($context) && isset($data['context']))
 		{
 			$context = $data['context'];
-			$parts = explode('.', $context);
+			$parts   = explode('.', $context);
 
 			$this->setState('field.context', $context);
 			$this->setState('field.component', $parts[0]);
@@ -392,7 +393,7 @@ class FieldsModelField extends JModelAdmin
 				'com_fields.field' . $context, 'field',
 				array(
 					'control' => 'jform',
-					'load_data' => $loadData
+					'load_data' => $loadData,
 				)
 		);
 
@@ -409,12 +410,12 @@ class FieldsModelField extends JModelAdmin
 
 		if (isset($data['type']))
 		{
-			$parts = explode('.', $jinput->getCmd('context', $this->getState('field.context')));
+			$parts     = explode('.', $jinput->getCmd('context', $this->getState('field.context')));
 			$component = $parts[0];
 			$this->loadTypeForms($form, $data['type'], $component);
 		}
 
-		if (! JFactory::getUser()->authorise('core.edit.state', $context . '.field.' . $jinput->get('id')))
+		if (!JFactory::getUser()->authorise('core.edit.state', $context . '.field.' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -435,9 +436,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getReorderConditions ($table)
+	protected function getReorderConditions($table)
 	{
 		return 'context = ' . $this->_db->quote($table->context);
 	}
@@ -447,12 +448,12 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  array    The default data is an empty array.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function loadFormData ()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app = JFactory::getApplication();
+		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_fields.edit.field.data', array());
 
 		if (empty($data))
@@ -461,11 +462,11 @@ class FieldsModelField extends JModelAdmin
 
 			// Pre-select some filters (Status, Language, Access) in edit form
 			// if those have been selected in Category Manager
-			if (! $data->id)
+			if (!$data->id)
 			{
 				// Check for which context the Category Manager is used and
 				// get selected fields
-				$context = substr($app->getUserState('com_fields.fields.filter.context'), 4);
+				$context   = substr($app->getUserState('com_fields.fields.filter.context'), 4);
 				$component = FieldsHelper::extract($context);
 				$component = $component ? $component[0] : null;
 
@@ -503,10 +504,10 @@ class FieldsModelField extends JModelAdmin
 	 * @return  void
 	 *
 	 * @see     JFormField
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm (JForm $form, $data, $group = 'content')
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		$parts = FieldsHelper::extract(JFactory::getApplication()->input->getCmd('context', $this->getState('field.context')));
 
@@ -562,19 +563,21 @@ class FieldsModelField extends JModelAdmin
 	 * @param   string  $itemId   The ID of the item.
 	 *
 	 * @return  NULL|string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getFieldValue ($fieldId, $context, $itemId)
+	public function getFieldValue($fieldId, $context, $itemId)
 	{
 		$key = md5($fieldId . $context . $itemId);
 
-		if (! key_exists($key, $this->valueCache))
+		if (!key_exists($key, $this->valueCache))
 		{
 			$this->valueCache[$key] = null;
 			$db = $this->_db;
 
 			$query = $this->getDbo()->getQuery(true);
 
-			$query	->select($query->qn('value'))
+			$query->select($query->qn('value'))
 					->from($query->qn('#__fields_values'))
 					->where($query->qn('field_id') . ' = ' . (int) $fieldId)
 					->where($query->qn('context') . ' = ' . $query->q($context))
@@ -610,11 +613,13 @@ class FieldsModelField extends JModelAdmin
 	 * @param   string  $itemId   The ID of the item.
 	 * @param   string  $value    The value.
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setFieldValue ($fieldId, $context, $itemId, $value)
+	public function setFieldValue($fieldId, $context, $itemId, $value)
 	{
-		$field = $this->getItem($fieldId);
+		$field  = $this->getItem($fieldId);
 		$params = $field->params;
 
 		if (is_array($params))
@@ -624,7 +629,7 @@ class FieldsModelField extends JModelAdmin
 
 		// Don't save the value when the field is disabled or the user is
 		// not authorized to change it
-		if (! $field || $params->get('disabled', 0) || ! FieldsHelperInternal::canEditFieldValue($field))
+		if (!$field || $params->get('disabled', 0) || ! FieldsHelperInternal::canEditFieldValue($field))
 		{
 			return false;
 		}
@@ -640,7 +645,7 @@ class FieldsModelField extends JModelAdmin
 		else
 		{
 			$oldValue = $this->getFieldValue($fieldId, $context, $itemId);
-			$value = (array) $value;
+			$value    = (array) $value;
 
 			if ($oldValue === null)
 			{
@@ -695,9 +700,9 @@ class FieldsModelField extends JModelAdmin
 			$updateObj = new stdClass;
 
 			$updateObj->field_id = (int) $fieldId;
-			$updateObj->context = $context;
-			$updateObj->item_id = $itemId;
-			$updateObj->value = reset($value);
+			$updateObj->context  = $context;
+			$updateObj->item_id  = $itemId;
+			$updateObj->value    = reset($value);
 
 			$this->getDbo()->updateObject('#__fields_values', $updateObj, array('field_id', 'context', 'item_id'));
 		}
@@ -713,13 +718,15 @@ class FieldsModelField extends JModelAdmin
 	 * @param   string  $context  The context.
 	 * @param   string  $itemId   The Item ID.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function cleanupValues ($context, $itemId)
+	public function cleanupValues($context, $itemId)
 	{
 		$query = $this->getDbo()->getQuery(true);
 
-		$query	->delete($query->qn('#__fields_values'))
+		$query->delete($query->qn('#__fields_values'))
 				->where($query->qn('context') . ' = ' . $query->q($context))
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
@@ -735,12 +742,12 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void.
 	 *
-	 * @since   3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function batchTag ($value, $pks, $contexts)
+	protected function batchTag($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -749,18 +756,16 @@ class FieldsModelField extends JModelAdmin
 			{
 				$table->reset();
 				$table->load($pk);
-				$tags = array(
-						$value
-				);
+				$tags = array($value);
 
 				/**
 				 *
 				 * @var JTableObserverTags $tagsObserver
 				 */
 				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
-				$result = $tagsObserver->setNewTags($tags, false);
+				$result       = $tagsObserver->setNewTags($tags, false);
 
-				if (! $result)
+				if (!$result)
 				{
 					$this->setError($table->getError());
 
@@ -789,9 +794,9 @@ class FieldsModelField extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function cleanCache ($group = null, $client_id = 0)
+	protected function cleanCache($group = null, $client_id = 0)
 	{
 		$context = JFactory::getApplication()->input->get('context');
 
@@ -819,11 +824,11 @@ class FieldsModelField extends JModelAdmin
 	 * @param   string   $alias        The alias.
 	 * @param   string   $title        The title.
 	 *
-	 * @return	array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since	12.2
+	 * @since    __DEPLOY_VERSION__
 	 */
-	protected function generateNewTitle ($category_id, $alias, $title)
+	protected function generateNewTitle($category_id, $alias, $title)
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
@@ -835,8 +840,8 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		return array(
-				$title,
-				$alias
+			$title,
+			$alias,
 		);
 	}
 
@@ -847,9 +852,11 @@ class FieldsModelField extends JModelAdmin
 	 * @param   string  $type       The type
 	 * @param   string  $component  The component
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	private function loadTypeForms (JForm &$form, $type, $component)
+	private function loadTypeForms(JForm &$form, $type, $component)
 	{
 		FieldsHelperInternal::loadPlugins();
 
