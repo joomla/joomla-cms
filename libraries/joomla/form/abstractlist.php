@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Abstract Form Field List class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JFormAbstractlist extends JFormField
 {
@@ -24,7 +24,7 @@ abstract class JFormAbstractlist extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput()
 	{
@@ -87,12 +87,12 @@ abstract class JFormAbstractlist extends JFormField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getOptions()
 	{
 		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
-		$options = array();
+		$options   = array();
 
 		foreach ($this->element->xpath('option') as $option)
 		{
@@ -113,7 +113,7 @@ abstract class JFormAbstractlist extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$text = trim((string) $option) ? trim((string) $option) : $value;
+			$text  = trim((string) $option) ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
@@ -126,17 +126,17 @@ abstract class JFormAbstractlist extends JFormField
 			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
 			$tmp = array(
-					'value'    => $value,
-					'text'     => JText::alt($text, $fieldname),
-					'disable'  => $disabled,
-					'class'    => (string) $option['class'],
-					'selected' => ($checked || $selected),
-					'checked'  => ($checked || $selected),
-				);
+				'value'    => $value,
+				'text'     => JText::alt($text, $fieldname),
+				'disable'  => $disabled,
+				'class'    => (string) $option['class'],
+				'selected' => ($checked || $selected),
+				'checked'  => ($checked || $selected),
+			);
 
 			// Set some event handler attributes. But really, should be using unobtrusive js.
 			$tmp['onclick']  = (string) $option['onclick'];
-			$tmp['onchange']  = (string) $option['onchange'];
+			$tmp['onchange'] = (string) $option['onchange'];
 
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
@@ -152,16 +152,21 @@ abstract class JFormAbstractlist extends JFormField
 	 *
 	 * @param   stdClass  $field  The field.
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getOptionsFromField($field)
 	{
 		$options = $field->fieldparams->get('options', array());
+
 		if (!is_array($options))
 		{
 			$options = json_decode($options);
 		}
+
 		$data = array();
+
 		if (isset($options->name))
 		{
 			foreach ($options->name as $index => $key)
@@ -169,6 +174,7 @@ abstract class JFormAbstractlist extends JFormField
 				$data[$key] = $options->value[$index];
 			}
 		}
+
 		return $data;
 	}
 
@@ -180,9 +186,9 @@ abstract class JFormAbstractlist extends JFormField
 	 * @param   DOMElement  $fieldNode  The field node.
 	 * @param   JForm       $form       The form.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
