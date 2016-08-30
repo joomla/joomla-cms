@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Fields Model
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsModelFields extends JModelList
 {
@@ -24,9 +24,9 @@ class FieldsModelFields extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JModelLegacy
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -57,7 +57,7 @@ class FieldsModelFields extends JModelList
 					'created_user_id',
 					'a.created_user_id',
 					'tag',
-					'category_title'
+					'category_title',
 			);
 		}
 
@@ -78,11 +78,11 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function populateState ($ordering = null, $direction = null)
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
+		$app     = JFactory::getApplication();
 		$context = $this->context;
 
 		$context = $app->getUserStateFromRequest('com_fields.fields.filter.context', 'context', 'com_content.article', 'cmd');
@@ -138,9 +138,9 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getStoreId ($id = '')
+	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id .= ':' . $this->getState('filter.search');
@@ -157,14 +157,14 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getListQuery ()
+	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
@@ -244,7 +244,7 @@ class FieldsModelFields extends JModelList
 		}
 
 		// Implement View Level Access
-		if (! $user->authorise('core.admin'))
+		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ') AND (c.id IS NULL OR c.access IN (' . $groups . '))');
@@ -310,7 +310,7 @@ class FieldsModelFields extends JModelList
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.ordering');
-		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
 		if ($listOrdering == 'a.access')
 		{
@@ -333,10 +333,10 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
-	protected function _getList ($query, $limitstart = 0, $limit = 0)
+	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$result = parent::_getList($query, $limitstart, $limit);
 
@@ -360,9 +360,9 @@ class FieldsModelFields extends JModelList
 	 *
 	 * @return  JForm/false  the JForm object or false
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getFilterForm ($data = array(), $loadData = true)
+	public function getFilterForm($data = array(), $loadData = true)
 	{
 		$form = parent::getFilterForm($data, $loadData);
 
@@ -373,7 +373,7 @@ class FieldsModelFields extends JModelList
 			if (file_exists($path))
 			{
 				// Load all children that's why we need to define the xpath
-				if (! $form->loadFile($path, true, '/form/*'))
+				if (!$form->loadFile($path, true, '/form/*'))
 				{
 					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 				}
