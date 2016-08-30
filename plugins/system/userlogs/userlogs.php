@@ -172,7 +172,7 @@ class PlgSystemUserLogs extends JPlugin
 		$isNew_string = $isNew ? 'true' : 'false';
 		$parameters   = UserlogsHelper::getLogMessageParams($context);
 		$title_holder = '';
-		$title_type   = '';
+		$type_title   = '';
 		$strContext   = (string) $context;
 
 		if ($parameters)
@@ -212,7 +212,7 @@ class PlgSystemUserLogs extends JPlugin
 
 		$parameters   = UserlogsHelper::getLogMessageParams($context);
 		$title_holder = '';
-		$title_type   = '';
+		$type_title   = '';
 		$strContext   = (string) $context;
 
 		if ($parameters)
