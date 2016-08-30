@@ -61,6 +61,7 @@ Joomla.submitbutton = function(task, type){
 	{
 		Joomla.submitform(task, document.getElementById('item-form'));
 
+		// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
 		if (task !== 'item.apply')
 		{
 			window.parent.jQuery('#menuEdit" . (int) $this->item->id . "Modal').modal('hide');
@@ -174,6 +175,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	</div>
 
 	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="forcedLanguage" value="<?php echo $input->get('forcedLanguage', '', 'cmd'); ?>" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
