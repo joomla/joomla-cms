@@ -312,11 +312,11 @@ class JFormFieldSQL extends JFormAbstractlist implements JFormDomfieldinterface
 	 * @param   DOMElement  $fieldNode  The field node.
 	 * @param   JForm       $form       The form.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
 		$fieldNode->setAttribute('value_field', 'text');
 		$fieldNode->setAttribute('key_field', 'value');
