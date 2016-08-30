@@ -276,6 +276,7 @@ class JAccess
 
 		// Initialize the variable we'll use in the loop:
 		$id = (int) $assetId;
+
 		while ($id !== 0)
 		{
 			if (isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
@@ -373,12 +374,12 @@ class JAccess
 
 			self::$assetPermissionsById[$extensionName] = array();
 			self::$assetPermissionsByName[$extensionName] = array();
+
 			foreach ($iterator as $row)
 			{
 				self::$assetPermissionsById[$extensionName][$row->id] = $row;
 				self::$assetPermissionsByName[$extensionName][$row->name] = $row;
 			}
-
 		}
 
 		return true;
@@ -417,6 +418,7 @@ class JAccess
 		// Build the in clause for the queries:
 		$inClause = '';
 		$last = end($components);
+
 		foreach ($components as $component)
 		{
 			if ($component === $last)
@@ -440,6 +442,7 @@ class JAccess
 
 		$root = array();
 		$root['rules'] = '';
+
 		if (isset($namePermissionMap['root.1']))
 		{
 			$root = $namePermissionMap['root.1'];
@@ -520,39 +523,14 @@ class JAccess
 	 */
 	protected static function getGroupPath($groupId)
 	{
-		// Preload all groups
-		if (empty(self::$userGroups))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('parent.id, parent.lft, parent.rgt')
-				->from('#__usergroups AS parent')
-				->order('parent.lft');
-			$db->setQuery($query);
-			self::$userGroups = $db->loadObjectList('id');
-		}
+		$groups = JHelperUsergroups::getInstance();
 
-		// Make sure groupId is valid
-		if (!array_key_exists($groupId, self::$userGroups))
+		if (!$groups->has($groupId))
 		{
 			return array();
 		}
 
-		// Get parent groups and leaf group
-		if (!isset(self::$userGroupPaths[$groupId]))
-		{
-			self::$userGroupPaths[$groupId] = array();
-
-			foreach (self::$userGroups as $group)
-			{
-				if ($group->lft <= self::$userGroups[$groupId]->lft && $group->rgt >= self::$userGroups[$groupId]->rgt)
-				{
-					self::$userGroupPaths[$groupId][] = $group->id;
-				}
-			}
-		}
-
-		return self::$userGroupPaths[$groupId];
+		return $groups->get($groupId)->path;
 	}
 
 	/**
@@ -590,6 +568,7 @@ class JAccess
 
 			// Collects permissions for each $asset
 			$collected = array();
+
 			foreach ($ancestors as $id)
 			{
 				$collected[] = self::$assetPermissionsById[$extensionName][$id]->rules;
@@ -637,12 +616,14 @@ class JAccess
 				->from('#__assets AS a');
 
 			$extensionString = '';
+
 			if ($recursiveParentAsset && ($extensionName !== $asset || is_numeric($asset)))
 			{
 				$extensionString = ' OR a.name = ' . $db->quote($extensionName);
 			}
 
 			$recursiveString = '';
+
 			if ($recursive)
 			{
 				$recursiveString = ' OR a.parent_id=0';
@@ -721,6 +702,7 @@ class JAccess
 			}
 
 			$firstDot = strpos($assetName, '.');
+
 			if ($assetName !== 'root.1' && $firstDot !== false)
 			{
 				$assetName = substr($assetName, 0, $firstDot);
