@@ -73,6 +73,20 @@ class MenusViewItem extends JViewLegacy
 
 		if ($this->getLayout() == 'modal')
 		{
+			// If we are forcing a language in modal (used for associations).
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+			{
+				// Set the language field to the forcedLanguage and disable changing it.
+				$this->form->setValue('language', null, $forcedLanguage);
+				$this->form->setFieldAttribute('language', 'readonly', 'true');
+
+				// Only allow to select categories with All language or with the forced language.
+				$this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
+			}
+		}
+		// If not in associations modal, block the language change if in edit modal, language not All and associations enabled.
+		else if ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled())
+		{
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
 		}
 
