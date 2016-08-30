@@ -2,8 +2,14 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="schemes" type="list" multiple="true" default="http"
-			label="COM_FIELDS_FIELD_URL_SCHEMES_LABEL" description="COM_FIELDS_FIELD_URL_SCHEMES_DESC">
+			<field
+				name="schemes"
+				type="list"
+				multiple="true"
+				default="http"
+				label="COM_FIELDS_FIELD_URL_SCHEMES_LABEL"
+				description="COM_FIELDS_FIELD_URL_SCHEMES_DESC"
+			>
 				<option value="http">HTTP</option>
 				<option value="https">HTTPS</option>
 				<option value="ftp">FTP</option>
@@ -12,8 +18,15 @@
 				<option value="file">FILE</option>
 				<option value="mailto">MAILTO</option>
 			</field>
-			<field name="relative" type="radio" class="btn-group" default="1"
-				label="COM_FIELDS_FIELD_URL_RELATIVE_LABEL" description="COM_FIELDS_FIELD_URL_RELATIVE_DESC">
+
+			<field
+				name="relative"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="COM_FIELDS_FIELD_URL_RELATIVE_LABEL"
+				description="COM_FIELDS_FIELD_URL_RELATIVE_DESC"
+			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
