@@ -13,7 +13,7 @@ JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/
 /**
  * Fields component helper.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsHelperInternal
 {
@@ -24,7 +24,7 @@ class FieldsHelperInternal
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function addSubmenu ($context)
 	{
@@ -36,7 +36,7 @@ class FieldsHelperInternal
 
 		$parts = FieldsHelper::extract($context);
 
-		if (! $parts)
+		if (!$parts)
 		{
 			return;
 		}
@@ -53,7 +53,7 @@ class FieldsHelperInternal
 			require_once $file;
 
 			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
+			$cName  = $prefix . 'Helper';
 
 			if (class_exists($cName))
 			{
@@ -81,19 +81,21 @@ class FieldsHelperInternal
 	 *
 	 * @param   stdClass  $field  The field
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function canEditFieldValue($field)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
+		return JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
 	}
 
 	/**
 	 * Loads the fields plugins.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function loadPlugins()
 	{
