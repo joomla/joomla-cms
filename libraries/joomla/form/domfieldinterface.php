@@ -11,11 +11,10 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Interface which marks a JFormField as available for com_fields.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 interface JFormDomfieldinterface
 {
-
 	/**
 	 * Function to manipulate the DOM element of the field. The form can be
 	 * manipulated at that point.
@@ -24,7 +23,9 @@ interface JFormDomfieldinterface
 	 * @param   DOMElement  $parent  The field node parent.
 	 * @param   JForm       $form    The form.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form);
 
@@ -32,7 +33,9 @@ interface JFormDomfieldinterface
 	 * Returns the parameters of the field as an XML string which can be loaded
 	 * into JForm.
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getFormParameters();
 }
