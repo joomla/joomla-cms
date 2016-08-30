@@ -135,15 +135,7 @@ abstract class JHtmlAccess
 
 		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.*, COUNT(DISTINCT b.id) AS level')
-			->from($db->quoteName('#__usergroups') . ' AS a')
-			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
-			->order('a.lft ASC');
-		$db->setQuery($query);
-		$groups = $db->loadObjectList();
+		$groups = array_values(JHelperUsergroups::getInstance()->getAll());
 
 		$html = array();
 
