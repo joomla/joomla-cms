@@ -232,7 +232,6 @@
 					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
 					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
-					default="550"
 				/>
 
 				<field
