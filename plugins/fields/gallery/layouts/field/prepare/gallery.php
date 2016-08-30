@@ -96,6 +96,7 @@ foreach ($value as $path)
 				{
 					JFolder::create(dirname($resize));
 				}
+
 				try
 				{
 					// Creating the max sized image for the image
@@ -115,6 +116,7 @@ foreach ($value as $path)
 					JFactory::getApplication()->enqueueMessage(JText::sprintf('PLG_FIELDS_GALLERY_IMAGE_ERROR', $file, $e->getMessage()));
 				}
 			}
+
 			if (JFile::exists($resize))
 			{
 				$webImagePath = JUri::base(true) . str_replace(JPATH_ROOT, '', $resize);

@@ -26,7 +26,7 @@ class PlgSystemFields extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -37,7 +37,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   stdClass  $item     The item
 	 * @param   boolean   $isNew    Is new
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentBeforeSave($context, $item, $isNew)
 	{
@@ -121,7 +123,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   stdClass  $item     The item
 	 * @param   boolean   $isNew    Is new
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentAfterSave($context, $item, $isNew)
 	{
@@ -199,7 +203,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   boolean  $success   Is success
 	 * @param   string   $msg       The message
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterSave($userData, $isNew, $success, $msg)
 	{
@@ -218,6 +224,7 @@ class PlgSystemFields extends JPlugin
 		$this->onContentAfterSave('com_users.user', $user, false);
 
 		// Save the user with the modified params
+		// @todo use the API here
 		$db = JFactory::getDbo();
 		$db->setQuery('update #__users set params = ' . $db->q($user->params));
 		$db->execute();
@@ -231,7 +238,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context  The context
 	 * @param   stdClass  $item     The item
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentAfterDelete($context, $item)
 	{
@@ -260,7 +269,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   boolean   $succes  Is success
 	 * @param   string    $msg     The message
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -276,7 +287,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   JForm     $form  The form
 	 * @param   stdClass  $data  The data
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
@@ -340,13 +353,15 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context  The context
 	 * @param   stdClass  $data     The data
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentPrepareData($context, $data)
 	{
 		$parts = $this->getParts($context);
 
-		if (! $parts)
+		if (!$parts)
 		{
 			return;
 		}
@@ -365,7 +380,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   Registry  $params      The params
 	 * @param   number    $limitstart  The start
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentAfterTitle($context, $item, $params, $limitstart = 0)
 	{
@@ -380,7 +397,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   Registry  $params      The params
 	 * @param   number    $limitstart  The start
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentBeforeDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -395,7 +414,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   Registry  $params      The params
 	 * @param   number    $limitstart  The start
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentAfterDisplay($context, $item, $params, $limitstart = 0)
 	{
@@ -410,7 +431,9 @@ class PlgSystemFields extends JPlugin
 	 * @param   Registry  $params       The params
 	 * @param   integer   $displayType  The type
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function display($context, $item, $params, $displayType)
 	{
@@ -460,7 +483,7 @@ class PlgSystemFields extends JPlugin
 					'context'         => $context,
 					'fields'          => $fields,
 					'container'       => $params->get('fields-container'),
-					'container-class' => $params->get('fields-container-class')
+					'container-class' => $params->get('fields-container-class'),
 				)
 			);
 		}
@@ -474,9 +497,11 @@ class PlgSystemFields extends JPlugin
 	 * @param   string    $context  The context
 	 * @param   stdClass  $item     The item
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentPrepare ($context, $item)
+	public function onContentPrepare($context, $item)
 	{
 		$parts = $this->getParts($context);
 
@@ -503,7 +528,9 @@ class PlgSystemFields extends JPlugin
 	 *
 	 * @param   stdClass  $item  The item
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onPrepareFinderContent($item)
 	{
@@ -563,6 +590,8 @@ class PlgSystemFields extends JPlugin
 	 * @param   string  $context  The context
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getParts($context)
 	{
@@ -570,7 +599,7 @@ class PlgSystemFields extends JPlugin
 		// @todo needs to be done in a general lookup table on some point
 		$mapping = array(
 				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article'
+				'com_content.category'   => 'com_content.article'´,
 		);
 
 		if (key_exists($context, $mapping))
@@ -588,6 +617,7 @@ class PlgSystemFields extends JPlugin
 		if ($parts[1] == 'form')
 		{
 			// The context is not from a known one, we need to do a lookup
+			// @todo use the api here.
 			$db = JFactory::getDbo();
 			$db->setQuery('select context from #__fields where context like ' . $db->q($parts[0] . '.%') . ' group by context');
 			$tmp = $db->loadObjectList();
