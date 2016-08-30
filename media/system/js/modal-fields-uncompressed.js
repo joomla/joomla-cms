@@ -134,33 +134,33 @@
 				iframeDocument = jQuery(this).contents().get(0);
 
 				// Validate the child form and update parent form.
-				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0' && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
+				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0')
 				{
 					window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
 
-					// If Save & Close (save task), submit close action (so we don't have checked out items) and hide the modal.
+					// If Save & Close (save task), submit the edit close action (so we don't have checked out items).
 					if (task === 'save')
 					{
 						window.processModalEdit(element, fieldPrefix, 'edit', itemType, 'cancel', formId, idFieldId, titleFieldId);
-						jQuery('#' + modalId + ' iframe').removeClass('hidden');
 					}
 				}
-				// On error, if Save & Close (save task), show the iframe again so the usar can see the error.
-				else if (task === 'save')
-				{
-					jQuery('#' + modalId + ' iframe').removeClass('hidden');
-				}
+
+				// Show the iframe again for future modals or in case of error.
+				jQuery('#' + modalId + ' iframe').removeClass('hidden');
 			});
 
-			// For Save & Close (save task) when creating we need to replace the task as apply because of redirects after submit and hide the iframe.
-			if (task === 'save')
-			{
-				submittedTask = 'apply';
-				jQuery('#' + modalId + ' iframe').addClass('hidden');
-			}
-
 			// Submit button on child iframe.
-			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
+			if (iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
+			{
+				// For Save & Close (save task) when creating we need to replace the task as apply because of redirects after submit and hide the iframe.
+				if (task === 'save')
+				{
+					submittedTask = 'apply';
+					jQuery('#' + modalId + ' iframe').addClass('hidden');
+				}
+
+				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
+			}
 		}
 
 		return false;
