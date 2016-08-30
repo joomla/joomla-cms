@@ -2,9 +2,15 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="format" type="text" default="%Y-%m-%d" class="input-xxlarge"
-				label="COM_FIELDS_FIELD_CALENDAR_FORMAT_LABEL" description="COM_FIELDS_FIELD_CALENDAR_FORMAT_DESC"
-				size="20" />
+			<field
+				name="format"
+				type="text"
+				default="%Y-%m-%d"
+				class="input-xxlarge"
+				label="COM_FIELDS_FIELD_CALENDAR_FORMAT_LABEL"
+				description="COM_FIELDS_FIELD_CALENDAR_FORMAT_DESC"
+				size="20"
+			/>
 		</fieldset>
 	</fields>
 </form>
