@@ -185,7 +185,7 @@ class ConfigModelModules extends ConfigModelForm
 		$query = $db->getQuery(true)
 			->select('DISTINCT position')
 			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('client_id') . ' = ' . $db->quote($clientId))
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
 			->order($db->quoteName('position'));
 
 		$db->setQuery($query);
