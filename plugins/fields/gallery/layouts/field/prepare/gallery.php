@@ -16,6 +16,7 @@ if (!key_exists('field', $displayData))
 
 $field = $displayData['field'];
 $value = $field->value;
+
 if (!$value)
 {
 	return;
@@ -34,8 +35,8 @@ $doc->addStyleSheet('media/plg_fields_gallery/css/fotorama.min.css');
 
 $value = (array) $value;
 
-$thumbWidth = $field->fieldparams->get('thumbnail_width', '64');
-$maxImageWidth = $field->fieldparams->get('max_width', 0);
+$thumbWidth     = $field->fieldparams->get('thumbnail_width', '64');
+$maxImageWidth  = $field->fieldparams->get('max_width', 0);
 $maxImageHeight = $field->fieldparams->get('max_height', 0);
 
 // Main container
@@ -51,6 +52,7 @@ foreach ($value as $path)
 
 	// The root folder
 	$root = $field->fieldparams->get('directory', 'images');
+
 	foreach (JFolder::files(JPATH_ROOT . '/' . $root . '/' . $path, '.', $field->fieldparams->get('recursive', '1'), true) as $file)
 	{
 		// Skip none image files
@@ -60,7 +62,7 @@ foreach ($value as $path)
 					'jpg',
 					'png',
 					'bmp',
-					'gif'
+					'gif',
 				)
 			)
 		)
@@ -72,18 +74,21 @@ foreach ($value as $path)
 		$properties = JImage::getImageFileProperties($file);
 
 		// Relative path
-		$localPath = str_replace(JPATH_ROOT . '/' . $root . '/', '', $file);
+		$localPath    = str_replace(JPATH_ROOT . '/' . $root . '/', '', $file);
 		$webImagePath = $root . '/' . $localPath;
 
 		if (($maxImageWidth && $properties->width > $maxImageWidth) || ($maxImageHeight && $properties->height > $maxImageHeight))
 		{
-			$resizeWidth = $maxImageWidth ? $maxImageWidth : '';
+			$resizeWidth  = $maxImageWidth ? $maxImageWidth : '';
 			$resizeHeight = $maxImageHeight ? $maxImageHeight : '';
+
 			if ($resizeWidth && $resizeHeight)
 			{
 				$resizeWidth .= 'x';
 			}
+
 			$resize = JPATH_CACHE . '/plg_fields_gallery/gallery/' . $field->id . '/' . $resizeWidth . $resizeHeight . '/' . $localPath;
+
 			if (!JFile::exists($resize))
 			{
 				// Creating the folder structure for the max sized image
@@ -131,6 +136,7 @@ foreach ($value as $path)
 
 				// Getting the properties of the image
 				$properties = JImage::getImageFileProperties($file);
+
 				if ($properties->width > $thumbWidth)
 				{
 					// Creating the thumbnail for the image
@@ -157,6 +163,7 @@ foreach ($value as $path)
 		}
 	}
 }
+
 $buffer .= '</div>';
 
 echo $buffer;

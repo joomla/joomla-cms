@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version></version>__DEPLOY_VERSION__</version>
+	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_FIELDS_GALLERY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="gallery">gallery.php</filename>
