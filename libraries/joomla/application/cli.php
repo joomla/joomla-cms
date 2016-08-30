@@ -16,6 +16,7 @@ use Joomla\Registry\Registry;
  * Base class for a Joomla! command line application.
  *
  * @since  11.4
+ * @note   As of 4.0 this class will be abstract
  */
 class JApplicationCli extends JApplicationBase
 {
@@ -281,19 +282,5 @@ class JApplicationCli extends JApplicationBase
 		}
 
 		return $config;
-	}
-
-	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
 	}
 }
