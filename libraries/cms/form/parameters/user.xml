@@ -2,8 +2,14 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="multiple" type="radio" class="btn-group" default="0"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC">
+			<field
+				name="multiple"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL"
+				description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC"
+			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
