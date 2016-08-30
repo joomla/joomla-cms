@@ -10,10 +10,10 @@ defined('_JEXEC') or die;
 
 $input = JFactory::getApplication()->input;
 
-$parts = explode('.', $input->get('context'));
+$parts     = explode('.', $input->get('context'));
 $component = $parts[0];
 
-if (! JFactory::getUser()->authorise('core.manage', $component))
+if (!JFactory::getUser()->authorise('core.manage', $component))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
