@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields Controller
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsController extends JControllerLegacy
 {
@@ -23,6 +23,8 @@ class FieldsController extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function __construct ($config = array())
 	{
@@ -46,7 +48,7 @@ class FieldsController extends JControllerLegacy
 	 *
 	 * @return  JControllerLegacy  A JControllerLegacy object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display ($cachable = false, $urlparams = false)
 	{
@@ -54,10 +56,10 @@ class FieldsController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName = $this->input->get('view', 'fields');
+		$vName   = $this->input->get('view', 'fields');
 		$vFormat = $document->getType();
-		$lName = $this->input->get('layout', 'default', 'string');
-		$id = $this->input->getInt('id');
+		$lName   = $this->input->get('layout', 'default', 'string');
+		$id      = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($vName == 'field' && $lName == 'edit' && !$this->checkEditId('com_fields.edit.field', $id))
