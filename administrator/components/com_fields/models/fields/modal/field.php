@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Fields Modal Field
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldModal_Field extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldModal_Field extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput ()
 	{
@@ -35,7 +35,7 @@ class JFormFieldModal_Field extends JFormField
 			$context = (string) JFactory::getApplication()->input->get('context', 'com_content');
 		}
 
-		$allowEdit = ((string) $this->element['edit'] == 'true') ? true : false;
+		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
 		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
 		// Load language
