@@ -613,7 +613,8 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (454, 'plg_system_stats', 'plugin', 'stats', 'system', 0, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (455, 'plg_installer_packageinstaller', 'plugin', 'packageinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 1, 0),
 (456, 'plg_installer_folderinstaller', 'plugin', 'folderinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 2, 0),
-(457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 3, 0);
+(457, 'plg_installer_urlinstaller', 'plugin', 'urlinstaller', 'installer', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 3, 0),
+(458, 'PLG_EDITORS_BUTTONS_JDRAGDROP_NAME', 'plugin', 'jdragdrop', 'editors_buttons', 0, 1, 1, 1, '{"name":"PLG_EDITORS_BUTTONS_JDRAGDROP_NAME","type":"plugin","creationDate":"August 2016","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.7.0","description":"PLG_EDITORS_BUTTONS_JDRAGDROP_DESC","group":"","filename":"jdragdrop"}', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
