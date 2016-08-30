@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
-if (! key_exists('field', $displayData))
+if (!key_exists('field', $displayData))
 {
 	return;
 }
 
 $field = $displayData['field'];
 $value = $field->value;
-if (! $value)
+
+if (!$value)
 {
 	return;
 }
