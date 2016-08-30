@@ -75,7 +75,7 @@
 		<field
 			name="required"
 			type="radio"
-			class="btn-group btn-group-yes-no"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
 			description="COM_FIELDS_FIELD_REQUIRED_DESC"
@@ -302,7 +302,7 @@
 			<field
 				name="disabled"
 				type="radio"
-				class="btn-group btn-group-yes-no"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="COM_FIELDS_FIELD_DISABLED_LABEL"
 				description="COM_FIELDS_FIELD_DISABLED_DESC"
@@ -314,7 +314,7 @@
 			<field
 				name="readonly"
 				type="radio"
-				class="btn-group btn-group-yes-no"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="COM_FIELDS_FIELD_READONLY_LABEL"
 				description="COM_FIELDS_FIELD_READONLY_DESC"
@@ -326,7 +326,7 @@
 			<field
 				name="show_on"
 				type="radio"
-				class="btn-group btn-group-yes-no"
+				class="btn-group btn-group-yesno"
 				default=""
 				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
 				description="COM_FIELDS_FIELD_SHOW_ON_DESC"
