@@ -34,6 +34,7 @@ class JFormFieldModal_Menu extends JFormField
 	 */
 	protected function getInput()
 	{
+		//@TODO
 		$allowEdit  = ((string) $this->element['edit'] == 'true') ? true : false;
 		$allowClear = ((string) $this->element['clear'] != 'false') ? true : false;
 
