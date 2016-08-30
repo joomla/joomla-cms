@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Base controller class for Fields Component.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsController extends JControllerLegacy
 {
