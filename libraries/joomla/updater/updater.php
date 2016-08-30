@@ -348,6 +348,10 @@ class JUpdater extends JAdapter
 						else
 						{
 							// A potentially new extension to be installed
+							if (!$current_update->data)
+							{
+								$current_update->data = '';
+							}
 							$retVal[] = $current_update;
 						}
 					}
