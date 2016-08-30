@@ -112,7 +112,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 		$container = $container ?: new Container;
 		$this->setContainer($container);
 
-		parent::__construct($input, $config, $client, $container);
+		parent::__construct($input, $config, $client);
 
 		// If JDEBUG is defined, load the profiler instance
 		if (defined('JDEBUG') && JDEBUG)
