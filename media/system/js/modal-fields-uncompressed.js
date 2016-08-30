@@ -109,7 +109,7 @@
 		idFieldId    = idFieldId || 'jform_id';
 		titleFieldId = titleFieldId || 'jform_title';
 
-		var modalId = element.parentNode.parentNode.id;
+		var modalId = element.parentNode.parentNode.id, submittedTask = task;
 
 		// Set frame id.
 		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
@@ -124,21 +124,7 @@
 
 			jQuery('#' + modalId).modal('hide');
 		}
-		// If Save & Close (save task), process and hide the modal.
-		else if (task === 'save')
-		{
-			// Submit button on child iframe.
-			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
-
-			// If needed, validate the child form and update parent form.
-			if (iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
-			{
-				
-				window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
-				jQuery('#' + modalId).modal('hide');
-			}
-		}
-		// For Save (apply task).
+		// For Save (apply task) and Save & Close (save task).
 		else
 		{
 			// Attach onload event to the iframe.
@@ -147,31 +133,34 @@
 				// Reload iframe document var value.
 				iframeDocument = jQuery(this).contents().get(0);
 
-				// Only process if jform_id exists.
-				if (iframeDocument.getElementById(idFieldId))
+				// Validate the child form and update parent form.
+				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0' && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
 				{
-					if (action == 'add')
-					{
-						// Hide the save modal, if not hidden already.
-						jQuery('#' + modalId).find('.modal-footer .btn-save').addClass('hidden');
+					window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
 
-						// Check if the new frame contents have a valid id, if so show the save and close.
-						if (iframeDocument.getElementById(idFieldId).value != '0')
-						{
-							jQuery('#' + modalId).find('.modal-footer .btn-save').removeClass('hidden');
-						}
-					}
-
-					// If needed, validate the child form and update parent form.
-					if (iframeDocument.getElementById(idFieldId).value != '0' && iframeDocument.formvalidator.isValid(iframeDocument.getElementById(formId)))
+					// If Save & Close (save task), submit close action (so we don't have checked out items) and hide the modal.
+					if (task === 'save')
 					{
-						window.processModalParent(fieldPrefix, iframeDocument.getElementById(idFieldId).value, iframeDocument.getElementById(titleFieldId).value);
+						window.processModalEdit(element, fieldPrefix, 'edit', itemType, 'cancel', formId, idFieldId, titleFieldId);
+						jQuery('#' + modalId + ' iframe').removeClass('hidden');
 					}
+				}
+				// On error, if Save & Close (save task), show the iframe again so the usar can see the error.
+				else if (task === 'save')
+				{
+					jQuery('#' + modalId + ' iframe').removeClass('hidden');
 				}
 			});
 
+			// For Save & Close (save task) when creating we need to replace the task as apply because of redirects after submit and hide the iframe.
+			if (task === 'save')
+			{
+				submittedTask = 'apply';
+				jQuery('#' + modalId + ' iframe').addClass('hidden');
+			}
+
 			// Submit button on child iframe.
-			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
+			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
 		}
 
 		return false;
