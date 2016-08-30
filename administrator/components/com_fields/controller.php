@@ -26,7 +26,7 @@ class FieldsController extends JControllerLegacy
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -50,7 +50,7 @@ class FieldsController extends JControllerLegacy
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function display ($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
 		$document = JFactory::getDocument();
