@@ -523,14 +523,15 @@ class JAccess
 	 */
 	protected static function getGroupPath($groupId)
 	{
-		$groups = JHelperUsergroups::getInstance();
+		// Load all the groups to improve performance on intensive groups checks
+		$groups = JHelperUsergroups::getInstance()->getAll();
 
-		if (!$groups->has($groupId))
+		if (!isset($groups[$groupId]))
 		{
 			return array();
 		}
 
-		return $groups->get($groupId)->path;
+		return $groups[$groupId]->path;
 	}
 
 	/**
