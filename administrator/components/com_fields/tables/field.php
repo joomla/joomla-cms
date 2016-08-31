@@ -178,7 +178,7 @@ class FieldsTableField extends JTable
 	 * @return  string  The string to use as the title in the asset table.
 	 *
 	 * @link    https://docs.joomla.org/JTable/getAssetTitle
-	 * @since   $this->$k
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function _getAssetTitle()
 	{
@@ -231,7 +231,9 @@ class FieldsTableField extends JTable
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return number|boolean
+	 * @return  number|boolean
+	 *
+	 * since    __DEPLOY_VERSION__
 	 */
 	private function getAssetId($name)
 	{
