@@ -303,32 +303,45 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		// Create an unpublished content language.
 		if ((int) $clientId === 0)
 		{
-			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->get('tag') . '/' . $this->get('tag') . '.xml');
+			// Load the site language manifest.
+			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
-			$row = JTable::getInstance('language');
-			$row->lang_code    = $this->get('tag');
-			$row->title        = $siteLanguageManifest['name'];
-			$row->title_native = $this->get('name');
-			$row->image        = strtolower(str_replace('-', '_', $this->get('tag')));
-			$row->description  = '';
-			$row->metakey      = '';
-			$row->metadesc     = '';
-			$row->sitename     = '';
-			$row->published    = 0;
-			$row->access       = (int) JFactory::getConfig()->get('access', 1);
-			$row->ordering     = 0;
+			// Load the native language name.
+			$installedLanguage  = new JLanguage($this->tag, false);
+			$nativeLanguageName = $installedLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
-			$sefs = array(
-				preg_replace('#([a-z]{2,3})-[A-Z]{2}#', '$1', $this->get('tag')),
-				strtolower($this->get('tag')),
+			// If the local name do not exist in the translation file we use the international standard name.
+			$nativeLanguageName = $nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME' ? $siteLanguageManifest['name'] : $nativeLanguageName;
+
+			// Prepare language data for store.
+			$languageData = array(
+				'lang_id'      => 0,
+				'lang_code'    => $this->tag,
+				'title'        => $siteLanguageManifest['name'],
+				'title_native' => $nativeLanguageName,
+				'image'        => strtolower(str_replace('-', '_', $this->tag)),
+				'published'    => 0,
+				'ordering'     => 0,
+				'access'       => (int) JFactory::getConfig()->get('access', 1),
+				'description'  => '',
+				'metakey'      => '',
+				'metadesc'     => '',
+				'sitename'     => '',
 			);
 
-			// Try both sef types (xx or xx-xx). For instance, for en-US when you have en-GB installed.
+			$sefs = array(
+				preg_replace('#([a-z]{2,3})-[A-Z]{2}#', '$1', $this->tag),
+				strtolower($this->tag),
+			);
+
+			$tableLanguage = JTable::getInstance('language');
+
+			// Try storing sef type (xx), fallback to (xx-xx). For instance, for en-US when you have en-GB installed.
 			foreach ($sefs as $sef)
 			{
-				$row->sef = $sef;
+				$languageData['sef'] = $sef;
 
-				if ($row->check() && $row->store())
+				if ($tableLanguage->bind($languageData) && $tableLanguage->check() && $tableLanguage->store() && $tableLanguage->reorder())
 				{
 					$created = true;
 					break;
