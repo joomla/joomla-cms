@@ -108,7 +108,7 @@ class FieldsHelperInternal
 
 			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), JPATH_ADMINISTRATOR);
 			JFactory::getLanguage()->load('plg_fields_' . strtolower($folder['name']), $folder['fullname']);
-			JFormHelper::addFieldPath($folder[fullname] . '/fields');
+			JFormHelper::addFieldPath($folder['fullname'] . '/fields');
 		}
 	}
 }

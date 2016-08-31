@@ -117,8 +117,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php else : ?>
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
-								<?php
-								<?php $category = JCategories::getInstance(str_replace('com_', '', $this->component));
+								<?php $category = JCategories::getInstance(str_replace('com_', '', $this->component)); ?>
 								<?php if ($category) : ?>
 									<?php $buffer = JText::_('JCATEGORY') . ': '; ?>
 									<?php $cats = explode(',', $item->assigned_cat_ids); ?>

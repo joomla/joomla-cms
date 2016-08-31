@@ -48,10 +48,9 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<?php
-				<?php echo $this->form->renderField('type');
-				<?php echo $this->form->renderField('required');
-				<?php echo $this->form->renderField('default_value');
+				<?php echo $this->form->renderField('type'); ?>
+				<?php echo $this->form->renderField('required'); ?>
+				<?php echo $this->form->renderField('default_value'); ?>
 
 				// rendering additional fields
 				<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>

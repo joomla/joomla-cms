@@ -199,7 +199,7 @@ class FieldsModelField extends JModelAdmin
 				$this->_db->setQuery(
 						'delete from #__fields_values where field_id = ' . (int) $field->id . ' and value not in (\'' .
 							implode("','", $newParams->key) . '\')');
-				$this->_db->execute()
+				$this->_db->execute();
 			}
 		}
 

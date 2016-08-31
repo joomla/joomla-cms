@@ -29,18 +29,6 @@ class FieldsTableField extends JTable
 		parent::__construct('#__fields', 'id', $db);
 
 		$this->setColumnAlias('published', 'state');
-
-		JObserverMapper::addObserverClassToClass(
-			'JTableObserverTags',
-			'FieldsTableField',
-			array('typeAlias' => 'com_fields.field'),
-		);
-
-		JObserverMapper::addObserverClassToClass(
-			'JTableObserverContenthistory',
-			'FieldsTableField',
-			array('typeAlias' => 'com_fields.field')
-		);
 	}
 
 	/**

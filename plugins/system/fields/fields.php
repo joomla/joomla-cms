@@ -599,7 +599,7 @@ class PlgSystemFields extends JPlugin
 		// @todo needs to be done in a general lookup table on some point
 		$mapping = array(
 				'com_users.registration' => 'com_users.user',
-				'com_content.category'   => 'com_content.article'´,
+				'com_content.category'   => 'com_content.article',
 		);
 
 		if (key_exists($context, $mapping))

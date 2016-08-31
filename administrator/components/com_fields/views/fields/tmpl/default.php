@@ -39,7 +39,7 @@ if ($saveOrder)
 		<div id="filter-bar" class="js-stools-container-bar pull-left">
 			<div class="btn-group pull-left">
 				<?php $fieldSets = $this->filterForm->getFieldsets('custom'); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) :
+				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 					<?php foreach ($this->filterForm->getFieldset($name) as $field) : ?>
 						<?php echo $field->input; ?>
 					<?php endforeach; ?>
@@ -164,6 +164,7 @@ if ($saveOrder)
 								<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
 								<?php if (!JFactory::getLanguage()->hasKey($label)) :  ?>
 									<?php $label = JString::ucfirst($item->type); ?>
+								<?php endif; ?>
 								<?php echo $this->escape(JText::_($label)); ?>
 							</td>
 							<td>
