@@ -158,28 +158,6 @@ class Inline
     }
 
     /**
-     * Check if given array is hash or just normal indexed array.
-     *
-     * @internal
-     *
-     * @param array $value The PHP array to check
-     *
-     * @return bool true if value is hash array, false otherwise
-     */
-    public static function isHash(array $value)
-    {
-        $expectedKey = 0;
-
-        foreach ($value as $key => $val) {
-            if ($key !== $expectedKey++) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Dumps a PHP array to a YAML string.
      *
      * @param array $value                  The PHP array to dump
@@ -191,7 +169,11 @@ class Inline
     private static function dumpArray($value, $exceptionOnInvalidType, $objectSupport)
     {
         // array
-        if ($value && !self::isHash($value)) {
+        $keys = array_keys($value);
+        $keysCount = count($keys);
+        if ((1 === $keysCount && '0' == $keys[0])
+            || ($keysCount > 1 && array_reduce($keys, function ($v, $w) { return (int) $v + $w; }, 0) === $keysCount * ($keysCount - 1) / 2)
+        ) {
             $output = array();
             foreach ($value as $val) {
                 $output[] = self::dump($val, $exceptionOnInvalidType, $objectSupport);
@@ -200,7 +182,7 @@ class Inline
             return sprintf('[%s]', implode(', ', $output));
         }
 
-        // hash
+        // mapping
         $output = array();
         foreach ($value as $key => $val) {
             $output[] = sprintf('%s: %s', self::dump($key, $exceptionOnInvalidType, $objectSupport), self::dump($val, $exceptionOnInvalidType, $objectSupport));
