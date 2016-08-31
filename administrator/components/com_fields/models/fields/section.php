@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
-JLoader::import('joomla.filesystem.folder');
 
 /**
  * Fields Section
@@ -17,35 +16,6 @@ JLoader::import('joomla.filesystem.folder');
 class JFormFieldSection extends JFormAbstractlist
 {
 	public $type = 'Section';
-
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getOptions()
-	{
-		$options = parent::getOptions();
-
-		foreach (JHtmlSidebar::getEntries() as $entry)
-		{
-			if (strpos($entry[1], 'com_categories') === false || strpos($entry[1], '.fields') === false)
-			{
-				continue;
-			}
-
-			$extension = JUri::getInstance($entry[1])->getVar('extension');
-
-			if ($extension)
-			{
-				$options[] = JHtml::_('select.option', $extension . '.category', JText::_('JCategory'));
-			}
-		}
-
-		return $options;
-	}
 
 	/**
 	 * Method to attach a JForm object to the field.
