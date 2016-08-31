@@ -107,17 +107,17 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			$basePath = $client->path;
 			$clientId = $client->id;
-			$element = $this->getManifest()->files;
+			$element  = $this->getManifest()->files;
 
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname = 'site';
+			$cname    = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
-			$element = $this->getManifest()->files;
+			$element  = $this->getManifest()->files;
 
 			return $this->_install($cname, $basePath, $clientId, $element);
 		}
@@ -298,6 +298,47 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
 
 			return false;
+		}
+
+		// Create an unpublished content language.
+		if ((int) $clientId === 0)
+		{
+			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->get('tag') . '/' . $this->get('tag') . '.xml');
+
+			$row = JTable::getInstance('language');
+			$row->lang_code    = $this->name;
+			$row->title        = $siteLanguageManifest['name'];
+			$row->title_native = $this->get('name');
+			$row->image        = strtolower(str_replace('-', '_', $this->get('tag')));
+			$row->description  = '';
+			$row->metakey      = '';
+			$row->metadesc     = '';
+			$row->sitename     = '';
+			$row->published    = 0;
+			$row->access       = (int) JFactory::getConfig()->get('access', 1);
+			$row->ordering     = 0;
+
+			$sefs = array(
+				preg_replace('#([a-z]{2,3})-[A-Z]{2}#', '$1', $this->get('tag')),
+				strtolower($this->get('tag')),
+			);
+
+			// Try both sef types (xx or xx-xx). For instance, for en-US when you have en-GB installed.
+			foreach ($sefs as $sef)
+			{
+				$row->sef = $sef;
+
+				if ($row->check() && $row->store())
+				{
+					$created = true;
+					break;
+				}
+			}
+
+			if (!$created)
+			{
+				JLog::add(JText::_('Unable to create a content language for ' . $this->get('name') . ' language. ' . $row->getError()), JLog::WARNING, 'jerror');
+			}
 		}
 
 		// Clobber any possible pending updates
