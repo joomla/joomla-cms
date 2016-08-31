@@ -31,9 +31,10 @@
 					description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"
 					extension="com_content"
 					published=""
-					required="true"
+					select="true"
+					new="true"
 					edit="true"
-					clear="false"
+					clear="true"
 				/>
 
 				<field
