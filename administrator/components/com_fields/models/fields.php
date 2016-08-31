@@ -258,6 +258,7 @@ class FieldsModelFields extends JModelList
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
+
 			if (JFactory::getApplication()->isSite())
 			{
 				$query->where('(c.id IS NULL OR c.published = ' . (int) $published . ')', 'AND');
@@ -266,6 +267,7 @@ class FieldsModelFields extends JModelList
 		elseif ($published === '')
 		{
 			$query->where('a.state IN (0, 1)');
+
 			if (JFactory::getApplication()->isSite())
 			{
 				$query->where('(c.id IS NULL OR c.published IN (0, 1)', 'AND');
