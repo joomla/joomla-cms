@@ -128,11 +128,6 @@ class CategoriesViewCategory extends JViewLegacy
 		$lang->load($component, JPATH_BASE, null, false, true)
 		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
-		if (end($parts) == 'fields')
-		{
-			$lang->load('com_fields', JPATH_BASE, null, false, true);
-		}
-
 		// Load the category helper.
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
