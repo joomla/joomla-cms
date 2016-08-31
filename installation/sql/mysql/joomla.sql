@@ -631,6 +631,70 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__fields`
+--
+
+CREATE TABLE IF NOT EXISTS `#__fields` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) NOT NULL DEFAULT 0,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `catid` int(10) NOT NULL DEFAULT 0,
+  `assigned_cat_ids` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(255) NOT NULL DEFAULT '',
+  `label` varchar(255) NOT NULL DEFAULT '',
+  `default_value` text NOT NULL DEFAULT '',
+  `type` varchar(255) NOT NULL DEFAULT 'text',
+  `options` varchar(255) NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
+  `fieldparams` text NOT NULL,
+  `attributes` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `version` int(10) unsigned NOT NULL DEFAULT '0',
+  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `access` int(11) NOT NULL DEFAULT '1',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_created_user_id` (`created_user_id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_context` (`context`),
+  KEY `idx_language` (`language`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__fields_values`
+--
+
+CREATE TABLE IF NOT EXISTS `#__fields_values` (
+  `field_id` int(10) unsigned NOT NULL,
+  `context` varchar(255) NOT NULL,
+  `item_id` varchar(255) NOT NULL,
+  `value` text NOT NULL DEFAULT '',
+  KEY (`field_id`),
+  KEY (`context`),
+  KEY (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__finder_filters`
 --
 
@@ -1998,55 +2062,3 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (3, 'Special', 3, '[6,3,8]'),
 (5, 'Guest', 1, '[9]'),
 (6, 'Super Users', 4, '[8]');
-
-CREATE TABLE IF NOT EXISTS `#__fields` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) NOT NULL DEFAULT 0,
-  `context` varchar(255) NOT NULL DEFAULT '',
-  `catid` int(10) NOT NULL DEFAULT 0,
-  `assigned_cat_ids` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
-  `label` varchar(255) NOT NULL DEFAULT '',
-  `default_value` text NOT NULL DEFAULT '',
-  `type` varchar(255) NOT NULL DEFAULT 'text',
-  `options` varchar(255) NOT NULL DEFAULT '',
-  `note` varchar(255) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
-  `state` tinyint(1) NOT NULL DEFAULT '0',
-  `required` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT '0',
-  `params` text NOT NULL,
-  `fieldparams` text NOT NULL,
-  `attributes` text NOT NULL,
-  `language` char(7) NOT NULL DEFAULT '',
-  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `version` int(10) unsigned NOT NULL DEFAULT '0',
-  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
-  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(11) NOT NULL DEFAULT '1',
-  `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_state` (`state`),
-  KEY `idx_created_user_id` (`created_user_id`),
-  KEY `idx_access` (`access`),
-  KEY `idx_context` (`context`),
-  KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;;
-
-CREATE TABLE IF NOT EXISTS `#__fields_values` (
-  `field_id` int(10) unsigned NOT NULL,
-  `context` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
-  `value` text NOT NULL DEFAULT '',
-  KEY (`field_id`),
-  KEY (`context`),
-  KEY (`item_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;;
