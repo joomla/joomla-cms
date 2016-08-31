@@ -73,7 +73,6 @@ JFactory::getDocument()->addScriptDeclaration('
 							'assigned_cat_ids',
 							'access',
 							'language',
-							'tags',
 							'note',
 						)
 				); ?>

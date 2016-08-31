@@ -50,13 +50,6 @@ class FieldsViewField extends JViewLegacy
 			return false;
 		}
 
-		// Check for tag type
-		$this->checkTags = JHelperTags::getTypes(
-			'objectList',
-			array($this->state->get('field.context') . '.field'),
-			true
-		);
-
 		$input->set('hidemainmenu', true);
 
 		if ($this->getLayout() == 'modal')

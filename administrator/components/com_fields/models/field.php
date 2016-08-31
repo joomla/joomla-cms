@@ -351,12 +351,6 @@ class FieldsModelField extends JModelAdmin
 			{
 				$result->modified_time = null;
 			}
-
-			if (! empty($result->id))
-			{
-				$result->tags = new JHelperTags;
-				$result->tags->getTagIds($result->id, 'com_fields.field');
-			}
 		}
 
 		return $result;
@@ -731,59 +725,6 @@ class FieldsModelField extends JModelAdmin
 				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
-	}
-
-	/**
-	 * Batch tag a list of item.
-	 *
-	 * @param   integer  $value     The value of the new tag.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  void.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function batchTag($value, $pks, $contexts)
-	{
-		// Set the variables
-		$user  = JFactory::getUser();
-		$table = $this->getTable();
-
-		foreach ($pks as $pk)
-		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
-			{
-				$table->reset();
-				$table->load($pk);
-				$tags = array($value);
-
-				/**
-				 *
-				 * @var JTableObserverTags $tagsObserver
-				 */
-				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
-				$result       = $tagsObserver->setNewTags($tags, false);
-
-				if (!$result)
-				{
-					$this->setError($table->getError());
-
-					return false;
-				}
-			}
-			else
-			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
-
-				return false;
-			}
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return true;
 	}
 
 	/**

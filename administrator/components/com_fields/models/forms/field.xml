@@ -182,15 +182,6 @@
 		</field>
 
 		<field
-			name="tags"
-			type="tag"
-			label="JTAG"
-			description="JTAG_DESC"
-			class="span12"
-			multiple="true"
-		/>
-
-		<field
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"

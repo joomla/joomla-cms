@@ -39,17 +39,6 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
-
-		<field
-			name="tag"
-			type="tag"
-			mode="nested"
-			label="JOPTION_FILTER_TAG"
-			description="JOPTION_FILTER_TAG_DESC"
-			onchange="this.form.submit();"
-		>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
 	</fields>
 
 	<fields name="list">

@@ -56,7 +56,6 @@ class FieldsModelFields extends JModelList
 					'a.created_time',
 					'created_user_id',
 					'a.created_user_id',
-					'tag',
 					'category_title',
 			);
 		}
@@ -110,9 +109,6 @@ class FieldsModelFields extends JModelList
 
 		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
-
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
 
 		// List state information.
 		parent::populateState('a.ordering', 'asc');
@@ -294,18 +290,6 @@ class FieldsModelFields extends JModelList
 			}
 
 			$query->where('a.language in (' . implode(',', $language) . ')');
-		}
-
-		// Filter by a single tag.
-		$tagId = $this->getState('filter.tag');
-
-		if (is_numeric($tagId))
-		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join('LEFT',
-					$db->quoteName('#__contentitem_tag_map', 'tagmap') . ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .
-					$db->quoteName('a.id') . ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($context . '.field')
-			);
 		}
 
 		// Add the list ordering clause
