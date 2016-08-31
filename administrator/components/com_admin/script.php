@@ -242,6 +242,7 @@ class JoomlaInstallerScript
 			array('component', 'com_contenthistory', '', 1),
 			array('component', 'com_postinstall', '', 1),
 			array('component', 'com_joomlaupdate', '', 1),
+			array('component', 'com_fields', '', 1),
 
 			// Libraries
 			array('library', 'phputf8', '', 0),
@@ -348,6 +349,8 @@ class JoomlaInstallerScript
 			array('plugin', 'urlinstaller', 'installer', 0),
 			array('plugin', 'phpversioncheck', 'quickicon', 0),
 			array('plugin', 'menu', 'editors-xtd', 0),
+			array('plugin', 'fields', 'system', 0),
+			array('plugin', 'gallery', 'fields', 0),
 
 			// Templates
 			array('template', 'beez3', '', 0),
@@ -1600,7 +1603,8 @@ class JoomlaInstallerScript
 			'com_tags',
 			'com_contenthistory',
 			'com_ajax',
-			'com_postinstall'
+			'com_postinstall',
+			'com_fields',
 		);
 
 		foreach ($newComponents as $component)
