@@ -52,7 +52,6 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php echo $this->form->renderField('required'); ?>
 				<?php echo $this->form->renderField('default_value'); ?>
 
-				// rendering additional fields
 				<?php foreach ($this->form->getFieldsets('fieldparams') as $name => $fieldSet) : ?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 						<?php echo $field->renderField(); ?>
