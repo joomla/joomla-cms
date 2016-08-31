@@ -2039,7 +2039,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   KEY `idx_access` (`access`),
   KEY `idx_context` (`context`),
   KEY `idx_language` (`language`)
-) DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;;
 
 CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
@@ -2049,4 +2049,4 @@ CREATE TABLE IF NOT EXISTS `#__fields_values` (
   KEY (`field_id`),
   KEY (`context`),
   KEY (`item_id`)
-) DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;;
