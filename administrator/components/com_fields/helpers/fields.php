@@ -258,7 +258,7 @@ class FieldsHelper
 
 		$assignedCatids = isset($data->catid) ? $data->catid : (isset($data->fieldscatid) ? $data->fieldscatid : null);
 
-		if (! $assignedCatids && $form->getField('catid'))
+		if (!$assignedCatids && $form->getField('catid'))
 		{
 			// Choose the first category available
 			$xml = new DOMDocument;
@@ -319,7 +319,7 @@ class FieldsHelper
 		// Getting the fields
 		$fields = self::getFields($parts[0] . '.' . $parts[1], $data);
 
-		if (! $fields)
+		if (!$fields)
 		{
 			return true;
 		}
@@ -450,6 +450,7 @@ class FieldsHelper
 				}
 			}
 		}
+
 		// Loading the XML fields string into the form
 		$form->load($xml->saveXML());
 
@@ -489,13 +490,13 @@ class FieldsHelper
 	 *
 	 * @param   stdClass  $field  The field
 	 *
-	 * @return boolean
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function canEditFieldValue($field)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
+		return JFactory::getUser()->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
 	}
 
 	/**
