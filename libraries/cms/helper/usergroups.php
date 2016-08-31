@@ -31,7 +31,7 @@ final class JHelperUsergroups
 	/**
 	 * Singleton instance.
 	 *
-	 * @var   array
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $instance;
@@ -39,7 +39,7 @@ final class JHelperUsergroups
 	/**
 	 * Available user groups
 	 *
-	 * @var   array
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $groups = array();
@@ -47,7 +47,7 @@ final class JHelperUsergroups
 	/**
 	 * Mode this class is working: singleton or std instance
 	 *
-	 * @var   integer
+	 * @var    integer
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $mode;
@@ -55,7 +55,7 @@ final class JHelperUsergroups
 	/**
 	 * Total available groups
 	 *
-	 * @var   integer
+	 * @var    integer
 	 * @since  __DEPLOY_VERSION__
 	 */
 	private $total;
