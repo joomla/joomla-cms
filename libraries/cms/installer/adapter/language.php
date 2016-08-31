@@ -306,7 +306,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->get('tag') . '/' . $this->get('tag') . '.xml');
 
 			$row = JTable::getInstance('language');
-			$row->lang_code    = $this->name;
+			$row->lang_code    = $this->get('tag');
 			$row->title        = $siteLanguageManifest['name'];
 			$row->title_native = $this->get('name');
 			$row->image        = strtolower(str_replace('-', '_', $this->get('tag')));
