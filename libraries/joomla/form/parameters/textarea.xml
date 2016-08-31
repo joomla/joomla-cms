@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
 				name="rows"
 				type="text"
 				default="10"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_TEXTAREA_ROWS_LABEL"
-				description="COM_FIELDS_FIELD_TEXTAREA_ROWS_DESC"
+				label="JLIB_FORM_FIELD_PARAM_TEXTAREA_ROWS_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_TEXTAREA_ROWS_DESC"
 				size="5"
 			/>
 
@@ -17,8 +17,8 @@
 				type="text"
 				default="10"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_TEXTAREA_COLS_LABEL"
-				description="COM_FIELDS_FIELD_TEXTAREA_COLS_DESC"
+				label="JLIB_FORM_FIELD_PARAM_TEXTAREA_COLS_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_TEXTAREA_COLS_DESC"
 				size="5"
 			/>
 		</fieldset>

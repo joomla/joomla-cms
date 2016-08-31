@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
 				name="multiple"
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL"
-				description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC"
+				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
 			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -19,8 +19,8 @@
 				type="text"
 				default="1"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_INTEGER_FIRST_LABEL"
-				description="COM_FIELDS_FIELD_INTEGER_FIRST_DESC"
+				label="JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_INTEGER_FIRST_DESC"
 				size="5"
 				required="true"
 			/>
@@ -30,8 +30,8 @@
 				type="text"
 				default="100"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_INTEGER_LAST_LABEL"
-				description="COM_FIELDS_FIELD_INTEGER_LAST_DESC"
+				label="JLIB_FORM_FIELD_PARAM_INTEGER_LAST_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_INTEGER_LAST_DESC"
 				size="5"
 				required="true"
 			/>
@@ -41,8 +41,8 @@
 				type="text"
 				default="1"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_INTEGER_STEP_LABEL"
-				description="COM_FIELDS_FIELD_INTEGER_STEP_DESC"
+				label="JLIB_FORM_FIELD_PARAM_INTEGER_STEP_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_INTEGER_STEP_DESC"
 				size="5"
 				required="true"
 			/>

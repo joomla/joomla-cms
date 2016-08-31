@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
 				name="query"
 				type="textarea"
 				filter="raw"
 				default="select id as value, name as text from #__users"
-				label="COM_FIELDS_FIELD_SQL_QUERY_LABEL"
-				description="COM_FIELDS_FIELD_SQL_QUERY_DESC"
+				label="JLIB_FORM_FIELD_PARAM_SQL_QUERY_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_SQL_QUERY_DESC"
 				class="input-xxlarge"
 				rows="10"
 			/>
@@ -18,8 +18,8 @@
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL"
-				description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC"
+				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
 			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

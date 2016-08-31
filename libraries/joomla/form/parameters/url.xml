@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
 				name="schemes"
 				type="list"
 				multiple="true"
 				default="https"
-				label="COM_FIELDS_FIELD_URL_SCHEMES_LABEL"
-				description="COM_FIELDS_FIELD_URL_SCHEMES_DESC"
+				label="JLIB_FORM_FIELD_PARAM_URL_SCHEMES_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_URL_SCHEMES_DESC"
 			>
 				<option value="http">HTTP</option>
 				<option value="https">HTTPS</option>
@@ -24,8 +24,8 @@
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="1"
-				label="COM_FIELDS_FIELD_URL_RELATIVE_LABEL"
-				description="COM_FIELDS_FIELD_URL_RELATIVE_DESC"
+				label="JLIB_FORM_FIELD_PARAM_URL_RELATIVE_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_URL_RELATIVE_DESC"
 			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

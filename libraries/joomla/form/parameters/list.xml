@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
 				name="options"
 				type="Repeatable"
 				icon="list"
-				description="COM_FIELDS_FIELD_LIST_MULTIPLE_VALUES_DESC"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_VALUES_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_DESC"
+				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_LABEL"
 			>
 				<fieldset hidden="true" name="list_templates_modal" repeat="true">
 					<field
 						name="name"
-						label="COM_FIELDS_FIELD_LIST_MULTIPLE_VALUES_NAME_LABEL"
+						label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_NAME_LABEL"
 						size="30"
 						type="text"
 					/>
 
 					<field
 						name="value"
-						label="COM_FIELDS_FIELD_LIST_MULTIPLE_VALUES_VALUE_LABEL"
+						label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_VALUES_VALUE_LABEL"
 						size="30"
 						type="text"
 					/>
@@ -30,8 +30,8 @@
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL"
-				description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC"
+				label="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_LIST_MULTIPLE_DESC"
 			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>

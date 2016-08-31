@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
+	<fields name="fieldparams" label="JLIB_FORM_FIELD_PARAM_BASIC_LABEL">
 		<fieldset name="fieldparams">
 			<field
 				name="buttons"
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="0"
-				label="COM_FIELDS_FIELD_EDITOR_SHOW_BUTTONS_LABEL"
-				description="COM_FIELDS_FIELD_EDITOR_SHOW_BUTTONS_DESC"
+				label="JLIB_FORM_FIELD_PARAM_EDITOR_SHOW_BUTTONS_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_EDITOR_SHOW_BUTTONS_DESC"
 			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -19,8 +19,8 @@
 				type="text"
 				default="pagebreak,readmore"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_EDITOR_BUTTONS_HIDE_LABEL"
-				description="COM_FIELDS_FIELD_EDITOR_BUTTONS_HIDE_DESC"
+				label="JLIB_FORM_FIELD_PARAM_EDITOR_BUTTONS_HIDE_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_EDITOR_BUTTONS_HIDE_DESC"
 			/>
 
 			<field
@@ -28,8 +28,8 @@
 				type="text"
 				default="100%"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_EDITOR_WIDTH_LABEL"
-				description="COM_FIELDS_FIELD_EDITOR_WIDTH_DESC"
+				label="JLIB_FORM_FIELD_PARAM_EDITOR_WIDTH_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_EDITOR_WIDTH_DESC"
 				size="5"
 			/>
 
@@ -38,8 +38,8 @@
 				type="text"
 				default="250px"
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_EDITOR_HEIGHT_LABEL"
-				description="COM_FIELDS_FIELD_EDITOR_HEIGHT_DESC"
+				label="JLIB_FORM_FIELD_PARAM_EDITOR_HEIGHT_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_EDITOR_HEIGHT_DESC"
 				size="5"
 			/>
 
@@ -48,8 +48,8 @@
 				type="text"
 				default=""
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_TEXTAREA_ROWS_LABEL"
-				description="COM_FIELDS_FIELD_TEXTAREA_ROWS_DESC"
+				label="JLIB_FORM_FIELD_PARAM_TEXTAREA_ROWS_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_TEXTAREA_ROWS_DESC"
 				size="5"
 			/>
 
@@ -58,8 +58,8 @@
 				type="text"
 				default=""
 				class="input-xxlarge"
-				label="COM_FIELDS_FIELD_TEXTAREA_COLS_LABEL"
-				description="COM_FIELDS_FIELD_TEXTAREA_COLS_DESC"
+				label="JLIB_FORM_FIELD_PARAM_TEXTAREA_COLS_LABEL"
+				description="JLIB_FORM_FIELD_PARAM_TEXTAREA_COLS_DESC"
 				size="5"
 			/>
 		</fieldset>
