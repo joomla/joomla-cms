@@ -20,9 +20,10 @@
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				required="true"
+				select="true"
+				new="true"
 				edit="true"
-				clear="false"
+				clear="true"
 			/>
 		</fieldset>
 	</fields>
