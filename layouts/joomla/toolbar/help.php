@@ -10,12 +10,23 @@
 defined('JPATH_BASE') or die;
 
 JHtml::_('behavior.core');
+JHtml::_('jquery.framework');
 
-$doTask = $displayData['doTask'];
-$text   = $displayData['text'];
-
+echo JHtml::_(
+	'bootstrap.renderModal',
+	'ModalHelp',
+	array(
+		'title'      => $displayData['title'],
+		'url'        => $displayData['url'],
+		'height'     => '400px',
+		'width'      => '800px',
+		'bodyHeight' => '70',
+		'modalWidth' => '80',
+		'footer'     => '<a role="button" class="btn" data-dismiss="modal" aria-hidden="true">' . JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
+	)
+);
 ?>
-<button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-small">
+<button href="#ModalHelp" data-toggle="modal" role="button" rel="help" class="btn btn-small">
 	<span class="icon-question-sign"></span>
-	<?php echo $text; ?>
+	<?php echo $displayData['text']; ?>
 </button>
