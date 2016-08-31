@@ -338,7 +338,7 @@ class FieldsModelFields extends JModelList
 		else
 		{
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
-		}echo '<pre>'.$query.'</pre>';
+		}
 
 		return $query;
 	}
