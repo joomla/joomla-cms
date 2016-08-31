@@ -1101,7 +1101,7 @@ abstract class JFormField
 		$node->setAttribute('readonly', $field->params->get('readonly', 0) ? 'true' : 'false');
 
 		// Set the disabled state based on the parameter and the permission
-		if ($field->params->get('disabled', 0) || !FieldsHelperInternal::canEditFieldValue($field))
+		if ($field->params->get('disabled', 0))
 		{
 			$node->setAttribute('disabled', 'true');
 		}

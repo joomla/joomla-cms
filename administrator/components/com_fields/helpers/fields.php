@@ -426,6 +426,11 @@ class FieldsHelper
 					// Rendering the type
 					$node = $type->appendXMLFieldTag($field, $fieldset, $form);
 
+					if (!FieldsHelperInternal::canEditFieldValue($field))
+					{
+						$node->setAttribute('disabled', 'true');
+					}
+
 					/*
 					 *If the field belongs to a assigned_cat_ids but the
 					 * assigned_cat_ids in the data is not known, set the
@@ -475,6 +480,20 @@ class FieldsHelper
 		}
 
 		return true;
+	}
+
+	/**
+	 * Return a boolean if the actual logged in user can edit the given field value.
+	 *
+	 * @param   stdClass  $field  The field
+	 *
+	 * @return boolean
+	 */
+	public static function canEditFieldValue($field)
+	{
+		$user = JFactory::getUser();
+
+		return $user->authorise('core.edit.value', $field->context . '.field.' . (int) $field->id);
 	}
 
 	/**
