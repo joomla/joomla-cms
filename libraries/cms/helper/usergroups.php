@@ -177,7 +177,7 @@ final class JHelperUsergroups
 
 			$db->setQuery($query, 0, 1);
 
-			$this->total = $db->loadResult();
+			$this->total = (int) $db->loadResult();
 		}
 
 		return $this->total;
