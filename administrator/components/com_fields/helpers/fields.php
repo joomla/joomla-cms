@@ -521,7 +521,7 @@ class FieldsHelper
 
 			$query = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
-				->from($db->qn('#__fields'))
+				->from($db->quoteName('#__fields'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
