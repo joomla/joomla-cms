@@ -61,7 +61,7 @@
   white-space: nowrap;
 
   background-image: none;
-  background-color: #F9F9F9;
+  background-color: #ffffff;
   border-radius: 3px; 
   line-height: 26px;
   border: 1px solid #cacaca;
@@ -248,7 +248,7 @@
 /* @end */
 /* @group Results */
 .chzn-container .chzn-results {
-  background-color: #F9F9F9;
+  background-color: #fff;
   border-radius: 0 0 3px 3px;
   margin: 0;
   max-height: 240px;

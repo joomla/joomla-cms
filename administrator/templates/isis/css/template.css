@@ -7391,7 +7391,8 @@ body .navbar-fixed-top {
 #toolbar .btn-success [class^="icon-"],
 #toolbar .btn-success [class*=" icon-"] {
   background-color: transparent;
-  border-right: none;
+  border-right: 0;
+  border-left: 0;
   width: 10px;
 }
 #toolbar #toolbar-options,
@@ -8086,7 +8087,7 @@ input.input-large-text {
 [class^="chzn-color"].chzn-single .chzn-single-with-drop div,
 [class*=" chzn-color"].chzn-single .chzn-single-with-drop div {
   background-color: transparent;
-  border-left: none;
+  border: none !important;
 }
 .chzn-color.chzn-single[rel="value_1"],
 .chzn-color-reverse.chzn-single[rel="value_0"],
