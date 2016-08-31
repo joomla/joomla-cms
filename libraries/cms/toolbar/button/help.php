@@ -39,7 +39,8 @@ class JToolbarButtonHelp extends JToolbarButton
 		// Store all data to the options array for use with JLayout
 		$options = array();
 		$options['text']   = JText::_('JTOOLBAR_HELP');
-		$options['doTask'] = $this->_getCommand($ref, $com, $override, $component);
+		$options['url']    = JHelp::createUrl($ref, $com, $override, $component);
+		$options['title']  = JText::_('JHELP', true);
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.help');
@@ -72,6 +73,8 @@ class JToolbarButtonHelp extends JToolbarButton
 	 * @return  string   JavaScript command string
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated  4.0  Replaced by a modal.
 	 */
 	protected function _getCommand($ref, $com, $override, $component)
 	{
