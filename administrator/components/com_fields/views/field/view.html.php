@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Field View
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsViewField extends JViewLegacy
 {
@@ -29,14 +29,15 @@ class FieldsViewField extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$section = $this->state->get('field.section') ? $this->state->get('field.section') . '.' : '';
+
+		$section     = $this->state->get('field.section') ? $this->state->get('field.section') . '.' : '';
 		$this->canDo = JHelperContent::getActions($this->state->get('field.component'), $section . 'field', $this->item->id);
 
 		$input = JFactory::getApplication()->input;
@@ -51,9 +52,9 @@ class FieldsViewField extends JViewLegacy
 
 		// Check for tag type
 		$this->checkTags = JHelperTags::getTypes(
-				'objectList',
-				array($this->state->get('field.context') . '.field'),
-				true
+			'objectList',
+			array($this->state->get('field.context') . '.field'),
+			true
 		);
 
 		$input->set('hidemainmenu', true);
@@ -71,14 +72,16 @@ class FieldsViewField extends JViewLegacy
 	/**
 	 * Adds the toolbar.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolbar ()
+	protected function addToolbar()
 	{
-		$input = JFactory::getApplication()->input;
+		$input   = JFactory::getApplication()->input;
 		$context = $input->get('context');
-		$user = JFactory::getUser();
-		$userId = $user->get('id');
+		$user    = JFactory::getUser();
+		$userId  = $user->get('id');
 
 		$isNew = ($this->item->id == 0);
 		$checkedOut = ! ($this->item->checked_out == 0 || $this->item->checked_out == $userId);
@@ -94,13 +97,12 @@ class FieldsViewField extends JViewLegacy
 		}
 
 		// The context can be in the form com_foo.section
-		$parts = explode('.', $context);
-		$component = $parts[0];
-		$section = (count($parts) > 1) ? $parts[1] : null;
+		$parts           = explode('.', $context);
+		$component       = $parts[0];
+		$section         = (count($parts) > 1) ? $parts[1] : null;
 		$componentParams = JComponentHelper::getParams($component);
 
-		// Need to load the menu language file as mod_menu hasn't been loaded
-		// yet.
+		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
 		$lang->load($component, JPATH_BASE, null, false, true) ||
 			$lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
@@ -196,15 +198,12 @@ class FieldsViewField extends JViewLegacy
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
-			$url = JText::_($lang_help_url);
+			$url   = JText::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
 		else
 		{
 			$url = null;
 		}
-
-		// JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'),
-		// $url, $component);
 	}
 }

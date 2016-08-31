@@ -15,7 +15,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Fields Gallery form field
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldGallery extends JFormFieldList
 {
@@ -27,9 +27,9 @@ class JFormFieldGallery extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getOptions ()
+	protected function getOptions()
 	{
 		$options = array();
 
@@ -60,8 +60,6 @@ class JFormFieldGallery extends JFormFieldList
 		}
 
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
-		return $options;
+		return array_merge(parent::getOptions(), $options);
 	}
 }

@@ -13,7 +13,7 @@ JLoader::register('FieldsHelperInternal', JPATH_ADMINISTRATOR . '/components/com
 /**
  * FieldsHelper
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsHelper
 {
@@ -27,9 +27,11 @@ class FieldsHelper
 	 *
 	 * @param   string  $contextString  contextString
 	 *
-	 * @return array|null
+	 * @return  array|null
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function extract ($contextString)
+	public static function extract($contextString)
 	{
 		$parts = explode('.', $contextString, 2);
 
@@ -57,18 +59,22 @@ class FieldsHelper
 	 * @param   boolean   $prepareValue      prepareValue
 	 * @param   array     $valuesToOverride  The values to override
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getFields ($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
+	public static function getFields($context, $item = null, $prepareValue = false, array $valuesToOverride = null)
 	{
 		if (self::$fieldsCache === null)
 		{
 			// Load the model
 			JLoader::import('joomla.application.component.model');
 			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_fields/models', 'FieldsModel');
+
 			self::$fieldsCache = JModelLegacy::getInstance('Fields', 'FieldsModel', array(
 				'ignore_request' => true)
 			);
+
 			self::$fieldsCache->setState('filter.published', 1);
 			self::$fieldsCache->setState('list.limit', 0);
 		}
@@ -82,7 +88,7 @@ class FieldsHelper
 		self::$fieldsCache->setState('filter.context', $context);
 
 		/*
-		 *If item has assigned_cat_ids parameter display only fields which
+		 * If item has assigned_cat_ids parameter display only fields which
 		 * belong to the category
 		 */
 		if ($item && (isset($item->catid) || isset($item->fieldscatid)))
@@ -177,9 +183,11 @@ class FieldsHelper
 	 * @param   string  $layoutFile   layoutFile
 	 * @param   array   $displayData  displayData
 	 *
-	 * @return NULL|string
+	 * @return  NULL|string
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function render ($context, $layoutFile, $displayData)
+	public static function render($context, $layoutFile, $displayData)
 	{
 		$value = null;
 
@@ -196,13 +204,13 @@ class FieldsHelper
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => $parts[0], 'client' => 0));
 		}
 
-		if (! $value)
+		if (!$value)
 		{
 			// Trying to render the layout on Fields itself
 			$value = JLayoutHelper::render($layoutFile, $displayData, null, array('component' => 'com_fields','client' => 0));
 		}
 
-		if (! $value)
+		if (!$value)
 		{
 			// Trying to render the layout of the plugins
 			foreach (JFolder::listFolderTree(JPATH_PLUGINS . '/fields', '.', 1) as $folder)
@@ -222,8 +230,10 @@ class FieldsHelper
 	 * @param   object  $data     data.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function prepareForm ($context, JForm $form, $data)
+	public static function prepareForm($context, JForm $form, $data)
 	{
 		// Extracting the component and section
 		$parts = self::extract($context);
@@ -249,7 +259,7 @@ class FieldsHelper
 		if (! $assignedCatids && $form->getField('catid'))
 		{
 			// Choose the first category available
-			$xml     = new DOMDocument;
+			$xml = new DOMDocument;
 			$xml->loadHTML($form->getField('catid')->__get('input'));
 			$options = $xml->getElementsByTagName('option');
 
@@ -374,11 +384,11 @@ class FieldsHelper
 			{
 				$lang = JFactory::getLanguage();
 
-				if (! $label)
+				if (!$label)
 				{
 					$key = strtoupper($component . '_FIELDS_' . $section . '_LABEL');
 
-					if (! $lang->hasKey($key))
+					if (!$lang->hasKey($key))
 					{
 						$key = 'JGLOBAL_FIELDS';
 					}
@@ -386,7 +396,7 @@ class FieldsHelper
 					$label = JText::_($key);
 				}
 
-				if (! $description)
+				if (!$description)
 				{
 					$key = strtoupper($component . '_FIELDS_' . $section . '_DESC');
 
@@ -440,7 +450,7 @@ class FieldsHelper
 				'ignore_request' => true)
 		);
 
-		if ((! isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
+		if ((!isset($data->id) || !$data->id) && JFactory::getApplication()->input->getCmd('controller') == 'config.display.modules'
 			&& JFactory::getApplication()->isSite())
 		{
 			// Modules on front end editing don't have data and an id set
@@ -458,6 +468,7 @@ class FieldsHelper
 				{
 					continue;
 				}
+
 				// Setting the value on the field
 				$form->setValue($field->alias, 'params', $value);
 			}
@@ -473,7 +484,7 @@ class FieldsHelper
 	 *
 	 * @return  stdClass[]
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function countItems(&$items)
 	{
@@ -481,16 +492,18 @@ class FieldsHelper
 
 		foreach ($items as $item)
 		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
+			$item->count_trashed     = 0;
+			$item->count_archived    = 0;
 			$item->count_unpublished = 0;
-			$item->count_published = 0;
+			$item->count_published   = 0;
+
 			$query = $db->getQuery(true);
 			$query->select('state, count(*) AS count')
 				->from($db->qn('#__fields'))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
 			$db->setQuery($query);
+
 			$fields = $db->loadObjectList();
 
 			foreach ($fields as $article)

@@ -13,7 +13,7 @@ use Joomla\Registry\Registry;
 /**
  * The Field controller
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsControllerField extends JControllerForm
 {
@@ -26,9 +26,9 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -40,9 +40,11 @@ class FieldsControllerField extends JControllerForm
 	/**
 	 * Stores the form data into the user state.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function storeform ()
+	public function storeform()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -72,9 +74,9 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function allowAdd ($data = array())
+	protected function allowAdd($data = array())
 	{
 		return JFactory::getUser()->authorise('core.create', $this->component);
 	}
@@ -89,11 +91,11 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @since   1.6
 	 */
-	protected function allowEdit ($data = array(), $key = 'parent_id')
+	protected function allowEdit($data = array(), $key = 'parent_id')
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
-		$userId = $user->get('id');
+		$user     = JFactory::getUser();
+		$userId   = $user->get('id');
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $this->component))
@@ -144,9 +146,9 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function batch ($model = null)
+	public function batch($model = null)
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -167,14 +169,11 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getRedirectToItemAppend ($recordId = null, $urlVar = 'id')
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$append = parent::getRedirectToItemAppend($recordId);
-		$append .= '&context=' . $this->internalContext;
-
-		return $append;
+		return parent::getRedirectToItemAppend($recordId) . '&context=' . $this->internalContext;
 	}
 
 	/**
@@ -182,14 +181,11 @@ class FieldsControllerField extends JControllerForm
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getRedirectToListAppend ()
+	protected function getRedirectToListAppend()
 	{
-		$append = parent::getRedirectToListAppend();
-		$append .= '&context=' . $this->internalContext;
-
-		return $append;
+		return parent::getRedirectToListAppend() . '&context=' . $this->internalContext;
 	}
 
 	/**
@@ -198,11 +194,11 @@ class FieldsControllerField extends JControllerForm
 	 * @param   JModelLegacy  $model      The data model object.
 	 * @param   array         $validData  The validated data.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
-	 * @since	3.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function postSaveHook (JModelLegacy $model, $validData = array())
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		$item = $model->getItem();
 

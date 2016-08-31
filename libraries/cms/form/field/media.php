@@ -276,18 +276,19 @@ class JFormFieldMedia extends JFormField implements JFormDomfieldinterface
 	 * @param   DOMElement  $fieldNode  The field node.
 	 * @param   JForm       $form       The form.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
 		$fieldNode->setAttribute('hide_default', 'true');
 
 		if ($field->fieldparams->get('home'))
 		{
 			$userName = JFactory::getUser()->username;
-			$root = $field->fieldparams->get('directory');
+			$root     = $field->fieldparams->get('directory');
+
 			if (!$root)
 			{
 				$root = 'images';

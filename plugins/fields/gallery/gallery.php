@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Fields Gallery Plugin
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class PlgFieldsGallery extends JPlugin
 {

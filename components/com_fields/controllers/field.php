@@ -11,14 +11,16 @@ defined('_JEXEC') or die;
 /**
  * Fields controller class for Fields Component.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsControllerField extends JControllerLegacy
 {
 	/**
 	 * Stores the form content into the user session.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function storeform()
 	{

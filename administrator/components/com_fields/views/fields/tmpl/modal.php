@@ -47,21 +47,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="filters">
 			<select name="filter_access" class="input-medium" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access')); ?>
 			</select>
 
 			<select name="filter_published" class="input-medium" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true); ?>
 			</select>
 
 			<?php if ($this->state->get('filter.forcedLanguage')) : ?>
-			<input type="hidden" name="forcedLanguage" value="<?php echo $this->escape($this->state->get('filter.forcedLanguage')); ?>" />
-			<input type="hidden" name="filter_language" value="<?php echo $this->escape($this->state->get('filter.language')); ?>" />
+				<input type="hidden" name="forcedLanguage" value="<?php echo $this->escape($this->state->get('filter.forcedLanguage')); ?>" />
+				<input type="hidden" name="filter_language" value="<?php echo $this->escape($this->state->get('filter.language')); ?>" />
 			<?php else : ?>
 			<select name="filter_language" class="input-medium" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
 			</select>
 			<?php endif; ?>
 		</div>
@@ -103,9 +103,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php foreach ($this->items as $i => $item)
-			{
-			?>
+			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'fields.', false); ?>
@@ -113,7 +111,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td>
 						<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', '<?php echo $this->escape($item->catid); ?>');">
 							<?php echo $this->escape($item->title); ?></a>
-
 						<span class="small">
 								<?php if (empty($item->note)) : ?>
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -121,38 +118,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
 								<?php
-								$category = JCategories::getInstance(str_replace('com_', '', $this->component));
-								if ($category)
-								{
-									$buffer = JText::_('JCATEGORY') . ': ';
-									$cats = explode(',', $item->assigned_cat_ids);
-									foreach ($cats as $cat)
-									{
-										if (empty($cat))
-										{
-											continue;
-										}
-
-										$c = $category->get($cat);
-										if (!$c || $c->id == 'root')
-										{
-											continue;
-										}
-										$buffer .= ' ' . $c->title . ',';
-									}
-									echo trim($buffer, ',');
-								}
-								?>
+								<?php $category = JCategories::getInstance(str_replace('com_', '', $this->component));
+								<?php if ($category) : ?>
+									<?php $buffer = JText::_('JCATEGORY') . ': '; ?>
+									<?php $cats = explode(',', $item->assigned_cat_ids); ?>
+									<?php foreach ($cats as $cat) : ?>
+										<?php if (empty($cat)) : ?>
+											<?php continue; ?>
+										<?php endif; ?>
+										<?php $c = $category->get($cat); ?>
+										<?php if (!$c || $c->id == 'root') : ?>
+											<?php continue; ?>
+										<?php endif; ?>
+										<?php $buffer .= ' ' . $c->title . ','; ?>
+									<?php endforeach; ?>
+									<?php echo trim($buffer, ','); ?>
+								<?php endif; ?>
 							</span>
 					</td>
 					<td class="small">
-						<?php
-						$label = 'COM_FIELDS_TYPE_' . strtoupper($item->type);
-						if (!JFactory::getLanguage()->hasKey($label))
-						{
-							$label = JString::ucfirst($item->type);
-						}
-						echo $this->escape(JText::_($label)); ?>
+						<?php $label = 'COM_FIELDS_TYPE_' . strtoupper($item->type); ?>
+						<?php if (!JFactory::getLanguage()->hasKey($label)) : ?>
+							<?php $label = JString::ucfirst($item->type); ?>
+						<?php endif; ?>
+						<?php echo $this->escape(JText::_($label)); ?>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
@@ -168,9 +157,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>
-			<?php
-			}
-			?>
+			<?php endforeach; ?>
 			</tbody>
 		</table>
 	<?php endif; ?>

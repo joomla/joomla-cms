@@ -2,20 +2,42 @@
 <form>
 	<fields name="fieldparams" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="fieldparams">
-			<field name="directory" type="folderlist" directory="images" class="input-xxlarge"
-				required="true" hide_none="true" hide_default="true" recursive="true" default="/"
+			<field
+				name="directory"
+				type="folderlist"
+				directory="images"
+				class="input-xxlarge"
+				required="true"
+				hide_none="true"
+				hide_default="true"
+				recursive="true"
+				default="/"
 				label="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_LABEL"
-				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC">
+				description="COM_FIELDS_FIELD_IMAGELIST_DIRECTORY_DESC"
+			>
 				<option value="/">/</option>
 			</field>
-			<field name="multiple" type="radio" class="btn-group" default="0"
-				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL" description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC">
+
+			<field
+				name="multiple"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="COM_FIELDS_FIELD_LIST_MULTIPLE_LABEL"
+				description="COM_FIELDS_FIELD_LIST_MULTIPLE_DESC"
+			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
-			<field name="image_class" type="textarea"
-				label="COM_FIELDS_FIELD_MEDIA_IMAGE_CLASS_LABEL" description="COM_FIELDS_FIELD_MEDIA_IMAGE_CLASS_DESC"
-				class="input-xxlarge" size="40" />
+
+			<field
+				name="image_class"
+				type="textarea"
+				label="COM_FIELDS_FIELD_MEDIA_IMAGE_CLASS_LABEL"
+				description="COM_FIELDS_FIELD_MEDIA_IMAGE_CLASS_DESC"
+				class="input-xxlarge"
+				size="40"
+			/>
 		</fieldset>
 	</fields>
 </form>

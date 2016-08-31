@@ -12,7 +12,7 @@ JLoader::import('joomla.filesystem.folder');
 /**
  * Fields Section
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldSection extends JFormAbstractlist
 {
@@ -23,9 +23,9 @@ class JFormFieldSection extends JFormAbstractlist
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getOptions ()
+	protected function getOptions()
 	{
 		$options = parent::getOptions();
 
@@ -36,8 +36,7 @@ class JFormFieldSection extends JFormAbstractlist
 				continue;
 			}
 
-			$uri = JUri::getInstance($entry[1]);
-			$extension = $uri->getVar('extension');
+			$extension = JUri::getInstance($entry[1])->getVar('extension');
 
 			if ($extension)
 			{
@@ -59,9 +58,9 @@ class JFormFieldSection extends JFormAbstractlist
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setup (SimpleXMLElement $element, $value, $group = null)
+	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 
@@ -77,20 +76,19 @@ class JFormFieldSection extends JFormAbstractlist
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput ()
 	{
 		// Add the change context function to the document
 		JFactory::getDocument()->addScriptDeclaration(
 				"function fieldsChangeContext(context)
-{
-	var regex = new RegExp(\"([?;&])context[^&;]*[;&]?\");
-	var url = window.location.href;
-    var query = url.replace(regex, \"$1\").replace(/&$/, '');
-
-    window.location.href = (query.length > 2 ? query + \"&\" : \"?\") + (context ? \"context=\" + context : '');
-}");
+				{
+					var regex = new RegExp(\"([?;&])context[^&;]*[;&]?\");
+					var url = window.location.href;
+					var query = url.replace(regex, \"$1\").replace(/&$/, '');
+    					window.location.href = (query.length > 2 ? query + \"&\" : \"?\") + (context ? \"context=\" + context : '');
+				}");
 
 		return parent::getInput();
 	}

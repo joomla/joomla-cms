@@ -9,18 +9,16 @@
 defined('_JEXEC') or die;
 
 echo JHtml::_('bootstrap.startAccordion', 'fieldOptions', array('active' => 'collapse0'));
+
 $fieldSets = $this->form->getFieldsets('params');
-$i = 0;
+$i         = 0;
 ?>
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
-	<?php
-	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_FIELDS_' . $name . '_FIELDSET_LABEL';
-	echo JHtml::_('bootstrap.addSlide', 'fieldOptions', JText::_($label), 'collapse' . ($i++));
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-	}
-	?>
+	<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_FIELDS_' . $name . '_FIELDSET_LABEL'; ?>
+	<?php echo JHtml::_('bootstrap.addSlide', 'fieldOptions', JText::_($label), 'collapse' . ($i++)); ?>
+	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+		<?php echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>'; ?>
+	<?php endif; ?>
 	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 		<div class="control-group">
 			<div class="control-label">

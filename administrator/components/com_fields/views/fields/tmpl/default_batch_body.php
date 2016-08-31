@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHtml::_('formbehavior.chosen', 'select');
 
 $published = $this->state->get('filter.published');
-$context = $this->escape($this->state->get('filter.context'));
+$context   = $this->escape($this->state->get('filter.context'));
 ?>
 
 <div class="row-fluid">

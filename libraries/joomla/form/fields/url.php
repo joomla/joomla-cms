@@ -84,13 +84,14 @@ class JFormFieldUrl extends JFormFieldText implements JFormDomfieldinterface
 	 * @param   DOMElement  $fieldNode  The field node.
 	 * @param   JForm       $form       The form.
 	 *
-	 * @since 3.7
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
 		$fieldNode->setAttribute('validate', 'url');
+
 		if (! $fieldNode->getAttribute('relative'))
 		{
 			$fieldNode->removeAttribute('relative');

@@ -13,7 +13,7 @@ JLoader::import('joomla.filesystem.file');
 /**
  * Fields View
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 class FieldsViewFields extends JViewLegacy
 {
@@ -31,14 +31,14 @@ class FieldsViewFields extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   12.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
-		$this->state = $this->get('State');
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->filterForm = $this->get('FilterForm');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
@@ -50,9 +50,9 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		$this->context = JFactory::getApplication()->input->getCmd('context');
-		$parts = FieldsHelper::extract($this->context);
+		$parts         = FieldsHelper::extract($this->context);
 
-		if (! $parts)
+		if (!$parts)
 		{
 			JError::raiseError(500, 'Invalid context!!');
 
@@ -60,7 +60,7 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		$this->component = $parts[0];
-		$this->section = $parts[1];
+		$this->section   = $parts[1];
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
@@ -70,16 +70,17 @@ class FieldsViewFields extends JViewLegacy
 	/**
 	 * Adds the toolbar.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function addToolbar ()
+	protected function addToolbar()
 	{
-		$fieldId = $this->state->get('filter.field_id');
-		$user = JFactory::getUser();
+		$fieldId   = $this->state->get('filter.field_id');
+		$user      = JFactory::getUser();
 		$component = $this->component;
-		$section = $this->section;
-
-		$canDo = new JObject;
+		$section   = $this->section;
+		$canDo     = new JObject;
 
 		if (JFile::exists(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml'))
 		{
@@ -145,7 +146,7 @@ class FieldsViewFields extends JViewLegacy
 
 		// Add a batch button
 		if ($user->authorise('core.create', $this->context) && $user->authorise('core.edit', $this->context)
-			&&	$user->authorise('core.edit.state', $this->context))
+			&& $user->authorise('core.edit.state', $this->context))
 		{
 			$title = JText::_('JTOOLBAR_BATCH');
 
@@ -154,9 +155,10 @@ class FieldsViewFields extends JViewLegacy
 
 			$dhtml = $layout->render(
 					array(
-						'title' => $title
+						'title' => $title,
 					)
 			);
+
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
@@ -175,7 +177,7 @@ class FieldsViewFields extends JViewLegacy
 		}
 
 		// Compute the ref_key if it does exist in the component
-		if (! $lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_FIELDS_HELP_KEY'))
+		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_FIELDS_HELP_KEY'))
 		{
 			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_FIELDS';
 		}
@@ -200,25 +202,25 @@ class FieldsViewFields extends JViewLegacy
 			$url = null;
 		}
 
-		// JToolbarHelper::help($ref_key,
-		// JComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 
 	/**
 	 * Returns the sort fields.
 	 *
-	 * @return string[]
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getSortFields ()
+	protected function getSortFields()
 	{
 		return array(
-				'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+				'a.ordering'  => JText::_('JGRID_HEADING_ORDERING'),
 				'a.published' => JText::_('JSTATUS'),
-				'a.title' => JText::_('JGLOBAL_TITLE'),
-				'a.type' => JText::_('COM_FIELDS_FIELD_TYPE_LABEL'),
-				'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-				'language' => JText::_('JGRID_HEADING_LANGUAGE'),
-				'a.id' => JText::_('JGRID_HEADING_ID')
+				'a.title'     => JText::_('JGLOBAL_TITLE'),
+				'a.type'      => JText::_('COM_FIELDS_FIELD_TYPE_LABEL'),
+				'a.access'    => JText::_('JGRID_HEADING_ACCESS'),
+				'language'    => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'        => JText::_('JGRID_HEADING_ID'),
 		);
 	}
 }

@@ -141,12 +141,12 @@ class JFormFieldUser extends JFormField implements JFormDomfieldinterface
 	 * @param   DOMElement  $parent  The field node parent.
 	 * @param   JForm       $form    The form.
 	 *
-	 * @return DOMElement
+	 * @return  DOMElement
 	 *
-	 * @since 3.7
-	 * @see JFormDomfieldinterface::appendXMLFieldTag
+	 * @since   __DEPLOY_VERSION__
+	 * @see     JFormDomfieldinterface::appendXMLFieldTag
 	 */
-	public function appendXMLFieldTag ($field, DOMElement $parent, JForm $form)
+	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
 	{
 		if (JFactory::getApplication()->isSite())
 		{

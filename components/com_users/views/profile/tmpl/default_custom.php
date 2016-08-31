@@ -24,8 +24,9 @@ if (isset($fieldsets['params']))
 	unset($fieldsets['params']);
 }
 
-$tmp = isset($this->data->fields) ? $this->data->fields : array();
+$tmp          = isset($this->data->fields) ? $this->data->fields : array();
 $customFields = array();
+
 foreach ($tmp as $customField)
 {
 	$customFields[$customField->alias] = $customField;

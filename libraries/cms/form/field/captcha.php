@@ -152,13 +152,14 @@ class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
 	 * @param   DOMElement  $fieldNode  The field node.
 	 * @param   JForm       $form       The form.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
+	protected function postProcessDomNode($field, DOMElement $fieldNode, JForm $form)
 	{
 		$input = JFactory::getApplication()->input;
+
 		if (JFactory::getApplication()->isAdmin())
 		{
 			$fieldNode->setAttribute('plugin', JFactory::getConfig()->get('captcha'));
@@ -170,6 +171,7 @@ class JFormFieldCaptcha extends JFormField implements JFormDomfieldinterface
 			// and getting the values from it so we need to disable the field
 			$fieldNode->setAttribute('plugin', null);
 		}
+
 		$fieldNode->setAttribute('validate', 'captcha');
 
 		return parent::postProcessDomNode($field, $fieldNode, $form);

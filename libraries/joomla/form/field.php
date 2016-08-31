@@ -1070,14 +1070,15 @@ abstract class JFormField
 	 * @param   DOMElement  $parent  The field node parent.
 	 * @param   JForm       $form    The form.
 	 *
-	 * @return DOMElement
+	 * @return  DOMElement
 	 *
-	 * @since 3.7
-	 * @see JFormDomfieldinterface::appendXMLFieldTag
+	 * @since   __DEPLOY_VERSION__
+	 * @see     JFormDomfieldinterface::appendXMLFieldTag
 	 */
-	public function appendXMLFieldTag ($field, DOMElement $parent, JForm $form)
+	public function appendXMLFieldTag($field, DOMElement $parent, JForm $form)
 	{
 		$app = JFactory::getApplication();
+
 		if ($field->params->get('show_on') == 1 && $app->isAdmin())
 		{
 			return;
@@ -1086,6 +1087,7 @@ abstract class JFormField
 		{
 			return;
 		}
+
 		$node = $parent->appendChild(new DOMElement('field'));
 
 		$node->setAttribute('name', $field->alias);
@@ -1110,8 +1112,10 @@ abstract class JFormField
 			{
 				$param = implode(',', $param);
 			}
+
 			$node->setAttribute($key, $param);
 		}
+
 		$this->postProcessDomNode($field, $node, $form);
 
 		return $node;
@@ -1125,9 +1129,9 @@ abstract class JFormField
 	 * @param   DOMElement  $fieldNode  The field node.
 	 * @param   JForm       $form       The form.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function postProcessDomNode ($field, DOMElement $fieldNode, JForm $form)
 	{
@@ -1137,18 +1141,20 @@ abstract class JFormField
 	 * Returns the attributes of the field as an XML string which can be loaded
 	 * into JForm.
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since 3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getFormParameters()
 	{
 		$reflectionClass = new ReflectionClass($this);
-		$fileName = dirname($reflectionClass->getFileName()) . '/../parameters/' . str_replace('.php', '.xml', basename($reflectionClass->getFileName()));
+		$fileName        = dirname($reflectionClass->getFileName()) . '/../parameters/' . str_replace('.php', '.xml', basename($reflectionClass->getFileName()));
+
 		if (JFile::exists($fileName))
 		{
 			return JFile::read($fileName);
 		}
+
 		return '';
 	}
 }
