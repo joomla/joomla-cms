@@ -870,7 +870,7 @@ class JApplicationWeb extends JApplicationBase
 	 * for your specific application.
 	 *
 	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
+	 *                          in JPATH_CONFIGURATION will be used.
 	 * @param   string  $class  The class name to instantiate.
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
@@ -883,9 +883,9 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_ROOT'))
+		if (empty($file))
 		{
-			$file = JPATH_ROOT . '/configuration.php';
+			$file = JPATH_CONFIGURATION . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
