@@ -85,11 +85,9 @@ class NewsfeedsViewCategory extends JViewCategory
 				$category = $category->getParent();
 			}
 
-			$path = array_reverse($path);
-
-			foreach ($path as $item)
+			for ($i = count($path) - 1; $i > -1; --$i)
 			{
-				$this->pathway->addItem($item['title'], $item['link']);
+				$this->pathway->addItem($path[$i]['title'], $path[$i]['link']);
 			}
 		}
 	}
