@@ -66,8 +66,6 @@ final class JHelperUsergroups
 	 * @param   array    $groups  Array of groups
 	 * @param   integer  $mode    Working mode for this class
 	 *
-	 * @return  void
-	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(array $groups = array(), $mode = self::MODE_INSTANCE)
