@@ -257,11 +257,19 @@ class FieldsModelFields extends JModelList
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published . ' AND (c.id IS NULL OR c.published = ' . (int) $published . ')');
+			$query->where('a.state = ' . (int) $published);
+			if (JFactory::getApplication()->isSite())
+			{
+				$query->where('(c.id IS NULL OR c.published = ' . (int) $published . ')', 'AND');
+			}
 		}
 		elseif ($published === '')
 		{
-			$query->where('a.state IN (0, 1) AND (c.id IS NULL OR c.published IN (0, 1))');
+			$query->where('a.state IN (0, 1)');
+			if (JFactory::getApplication()->isSite())
+			{
+				$query->where('(c.id IS NULL OR c.published IN (0, 1)', 'AND');
+			}
 		}
 
 		// Filter by a single or group of categories.
@@ -330,7 +338,7 @@ class FieldsModelFields extends JModelList
 		else
 		{
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
-		}
+		}echo '<pre>'.$query.'</pre>';
 
 		return $query;
 	}
