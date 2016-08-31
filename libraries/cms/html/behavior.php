@@ -35,6 +35,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated 4.0 Update scripts to jquery
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -45,6 +46,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::framework is deprecated. Update to jquery scripts.', JLog::WARNING, 'deprecated');
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
@@ -343,6 +346,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0  Use the modal equivalent from bootstrap
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -365,6 +369,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
 		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;

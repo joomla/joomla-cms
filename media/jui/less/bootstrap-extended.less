@@ -263,7 +263,8 @@ hr.hr-condensed {
 }
 
 .row-striped .row-fluid {
-	width: 97%; // lower than 100% since we have padding
+	width: 100%;
+	box-sizing: border-box; // box-sizing since we don't care about padding
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;
@@ -429,6 +430,16 @@ fieldset.radio.btn-group {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
+}
+
+/* Make Accessible Hidden Elements visible on focus */
+.element-invisible:focus {
+	width:auto;
+	height:auto;
+	overflow:auto;
+	background:#eee;
+	color:#000;
+	padding:1em;
 }
 
 /* Form Vertical Overrides Form Horizontal */

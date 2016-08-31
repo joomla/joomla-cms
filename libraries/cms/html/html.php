@@ -916,7 +916,7 @@ abstract class JHtml
 	}
 
 	/**
-	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
+	 * Converts a double colon separated string or 2 separate strings to a string ready for bootstrap tooltips
 	 *
 	 * @param   string  $title      The title of the tooltip (or combined '::' separated string).
 	 * @param   string  $content    The content to tooltip.

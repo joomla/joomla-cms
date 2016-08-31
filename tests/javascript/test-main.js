@@ -18,6 +18,8 @@ require.config({
 
 	paths: {
 		'jquery': 'tests/javascript/node_modules/jquery/dist/jquery.min',
+		'jui': 'media/jui/js/jquery.ui.core.min',
+		'jui-sortable': 'media/jui/js/jquery.ui.sortable.min',
 		'bootstrap': 'media/jui/js/bootstrap.min',
 		'jasmineJquery': 'tests/javascript/node_modules/jasmine-jquery/lib/jasmine-jquery',
 		'libs': 'media/system/js',
@@ -28,10 +30,20 @@ require.config({
 	shim: {
 		jasmineJquery: ['jquery'],
 		bootstrap: ['jquery'],
+		'jui-sortable': ['jquery'],
 		'libs/repeatable': {
 			deps: ['bootstrap', 'jquery']
 		},
 		'libs/validate': {
+			deps: ['jquery']
+		},
+		'libs/subform-repeatable': {
+			deps: ['jquery', 'jui', 'jui-sortable']
+		},
+		'libs/sendtestmail': {
+			deps: ['jquery']
+		},
+		'libs/combobox': {
 			deps: ['jquery']
 		}
 	},
