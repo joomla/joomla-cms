@@ -351,7 +351,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			if (!$created)
 			{
 				JLog::add(
-					JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $this->get('name'), $row->getError()),
+					JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $row->getError()),
 					JLog::WARNING,
 					'jerror'
 				);
