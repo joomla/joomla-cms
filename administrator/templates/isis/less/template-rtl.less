@@ -48,15 +48,13 @@
 
 #toolbar {
 	.btn {
-	    margin-right: 0px;
-	    margin-left: 4px;
-	    padding: 0 0 0 10px;
+	    padding: 0 10px;
 	}
 	[class^="icon-"], [class*=" icon-"] {
 	    border-radius: 0 3px 3px 0;
 	    border-right: 0;
 	    border-left: 1px solid #b3b3b3;
-	    margin: 0 0 0 6px;
+	    margin: 0 -10px 0 6px;
 	}
 }
 .chzn-container-single .chzn-single {
@@ -68,6 +66,17 @@
 	abbr {
     	left: 36px;
 	}
+}
+.chzn-container-multi .chzn-choices .search-choice {
+    padding-left: 7px;
+    .search-choice-close {
+	    margin-left: 0;
+	    margin-right: 3px;
+	}
+}
+.chzn-container .chzn-single.chzn-color[rel="value_0"] div,
+.chzn-container .chzn-single.chzn-color[rel="value_1"] div {
+  border-right: none;
 }
 
 .container-logo {

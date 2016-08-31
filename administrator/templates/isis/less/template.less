@@ -443,7 +443,7 @@ body .navbar-fixed-top {
 	.btn {
 	    line-height: 24px;
 	    margin-right: 4px;
-	    padding: 0 10px 0 0;
+	    padding: 0 10px;
 	}
 	.btn-success {
 		width: 148px;
@@ -457,7 +457,9 @@ body .navbar-fixed-top {
 			background-color: transparent;
 			border-right: 0;
 			border-left: 0;
-			width: 10px;
+			width: 16px;
+			margin-left: 0;
+			margin-right: 0;
 		}
 	}
 	#toolbar-options, #toolbar-help {
@@ -469,11 +471,14 @@ body .navbar-fixed-top {
 	    border-right: 1px solid @btnBorder;
 	    height: auto;
 	    line-height: inherit;
-	    margin: 0 6px 0 0;
+	    margin: 0 6px 0 -10px;
 	    opacity: 1;
 	    text-shadow: none;
 	    width: 28px;
 	    z-index: -1;
+	}
+	iframe .btn-group .btn {
+		margin-left: -1px !important;
 	}
 } 
 html[dir=rtl] #toolbar #toolbar-options,
@@ -1233,7 +1238,7 @@ input.input-large-text {
 	.box-shadow(none);
 	div {
 		background-color: transparent;
-		border: none !important;
+		border: none;
 	}
 }
 
@@ -1266,7 +1271,7 @@ input.input-large-text {
 .chzn-color[rel="value_"] {
 	div {
 		background-color: #f3f3f3;
-		border-left: 1px solid @btnBorder;
+		border-left: 1px solid #cccccc;
 	}
 }
 /* Widen the drop downs for the Permissions Field */
