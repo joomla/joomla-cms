@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="menulink" label="PLG_CONTENT_CREATEMENUITEM_LINK_OPTIONS" addfieldpath="/plugins/content/createmenuitem/fields">
+	<fieldset name="menuitem" label="PLG_CONTENT_CREATEMENUITEM_LINK_OPTIONS" addfieldpath="/plugins/content/createmenuitem/fields">
 		<field
 			name="menutitle"
 			type="text"
