@@ -83,8 +83,10 @@ class FieldsHelper
 		{
 			$item = (object) $item;
 		}
-
-		self::$fieldsCache->setState('filter.language', array('*', isset($item->language) ? $item->language : JFactory::getLanguage()->getTag()));
+		if (isset($item->language) && $item->language !='*')
+		{
+			self::$fieldsCache->setState('filter.language', array('*', $item->language));
+		}
 		self::$fieldsCache->setState('filter.context', $context);
 
 		/*

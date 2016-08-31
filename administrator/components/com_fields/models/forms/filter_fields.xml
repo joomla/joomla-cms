@@ -48,7 +48,6 @@
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
-			<option value="*">JALL</option>
 		</field>
 	</fields>
 
