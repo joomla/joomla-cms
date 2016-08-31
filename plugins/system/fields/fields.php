@@ -295,6 +295,14 @@ class PlgSystemFields extends JPlugin
 	{
 		$context = $form->getName();
 
+		if (strpos($context, 'com_categories.category') === 0 && strpos($context, '.fields') != false)
+		{
+			// Tags are not working on custom field groups because there is no entry
+			// in the content_types table
+			$form->removeField('tags');
+			return true;
+		}
+
 		// Extracting the component and section
 		$parts = $this->getParts($context);
 
