@@ -295,12 +295,6 @@ class PlgSystemFields extends JPlugin
 	{
 		$context = $form->getName();
 
-		// Transform categories form name to a valid context
-		if (strpos($context, 'com_categories.category') !== false)
-		{
-			$context = str_replace('com_categories.category', '', $context) . '.category';
-		}
-
 		// Extracting the component and section
 		$parts = $this->getParts($context);
 
