@@ -916,11 +916,9 @@ class JForm
 		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
-
-			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
