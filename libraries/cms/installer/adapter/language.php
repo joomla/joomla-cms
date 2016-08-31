@@ -336,6 +336,8 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			$tableLanguage = JTable::getInstance('language');
 
+			$created = false;
+
 			// Try storing sef type (xx), fallback to (xx-xx). For instance, for en-US when you have en-GB installed.
 			foreach ($sefs as $sef)
 			{
