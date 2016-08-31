@@ -50,6 +50,7 @@ matrix:
   allow_failures:
     - php: 7.1
     - php: hhvm
+    - node_js: 6.1
 
 services:
   - memcache
