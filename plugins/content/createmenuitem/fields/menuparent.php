@@ -57,12 +57,12 @@ class JFormFieldMenuParent extends JFormFieldList
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
 		{
-			$query->join('LEFT', $db->quoteName('#__menu', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . $db->qn((int) $id))
+			$query->join('LEFT', $db->quoteName('#__menu', 'p') . ' ON ' . $db->qn('p.id') . ' = ' . (int) $id)
 				->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->qn('p.lft') . ' AND ' . $db->qn('a.rgt') . ' <= ' . $db->qn('p.rgt') . ' ) ');
 		}
 
 		$query->where($db->quoteName('a.published') . ' != -2 ')
-			->group($db->quoteName(array('a.id', 'a.title', 'a.level', 'a.lft', 'a.rgt', 'a.mentype', 'a.parent_id', 'a.published')))
+			->group($db->quoteName(array('a.id', 'a.title', 'a.level', 'a.lft', 'a.rgt', 'a.menutype', 'a.parent_id', 'a.published')))
 			->order($db->quoteName('a.lft') . ' ASC ');
 
 		// Get the options.
