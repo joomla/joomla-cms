@@ -20,6 +20,17 @@
 		</field>
 
 		<field
+			name="category_id"
+			type="category"
+			label="JOPTION_FILTER_CATEGORY"
+			description="JOPTION_FILTER_CATEGORY_DESC"
+			onchange="this.form.submit();"
+			published="0,1,2"
+			>
+			<option value="">COM_FIELDS_VIEW_FIELDS_SELECT_GROUP</option>
+		</field>
+
+		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"

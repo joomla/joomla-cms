@@ -57,6 +57,8 @@ class FieldsModelFields extends JModelList
 					'created_user_id',
 					'a.created_user_id',
 					'category_title',
+					'category_id',
+					'a.category_id',
 			);
 		}
 
@@ -107,6 +109,9 @@ class FieldsModelFields extends JModelList
 		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $categoryId);
+
 		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
@@ -143,6 +148,7 @@ class FieldsModelFields extends JModelList
 		$id .= ':' . $this->getState('filter.context');
 		$id .= ':' . serialize($this->getState('filter.assigned_cat_ids'));
 		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . print_r($this->getState('filter.language'), true);
 
 		return parent::getStoreId($id);
@@ -258,6 +264,27 @@ class FieldsModelFields extends JModelList
 			$query->where('a.state IN (0, 1) AND (c.id IS NULL OR c.published IN (0, 1))');
 		}
 
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
+
+		if (is_numeric($categoryId))
+		{
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= ' . (int) $lft)
+				->where('c.rgt <= ' . (int) $rgt);
+		}
+		elseif (is_array($categoryId))
+		{
+			$categoryId = ArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN (' . $categoryId . ')');
+		}
+
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 
@@ -363,9 +390,13 @@ class FieldsModelFields extends JModelList
 				}
 			}
 
+			$context = JFactory::getApplication()->input->getCmd('context');
+
 			// If the context has multiple sections, this is the input field
 			// to display them
-			$form->setValue('section', 'custom', JFactory::getApplication()->input->getCmd('context'));
+			$form->setValue('section', 'custom', $context);
+
+			$form->setFieldAttribute('category_id', 'extension', $context . '.fields', 'filter');
 		}
 
 		return $form;
