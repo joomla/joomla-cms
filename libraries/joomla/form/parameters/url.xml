@@ -6,7 +6,7 @@
 				name="schemes"
 				type="list"
 				multiple="true"
-				default="http"
+				default="https"
 				label="COM_FIELDS_FIELD_URL_SCHEMES_LABEL"
 				description="COM_FIELDS_FIELD_URL_SCHEMES_DESC"
 			>
