@@ -12,45 +12,51 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Helper to deal with user groups.
  *
- * @since  DEPLOY_VERSION
+ * @since  __DEPLOY_VERSION__
  */
 final class JHelperUsergroups
 {
 	/**
 	 * @const  integer
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const MODE_SINGLETON = 1;
 
 	/**
 	 * @const  integer
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const MODE_INSTANCE = 2;
 
 	/**
 	 * Singleton instance.
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private static $instance;
 
 	/**
 	 * Available user groups
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $groups = array();
 
 	/**
 	 * Mode this class is working: singleton or std instance
 	 *
-	 * @var  integer
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $mode;
 
 	/**
 	 * Total available groups
 	 *
-	 * @var  integer
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private $total;
 
@@ -59,6 +65,10 @@ final class JHelperUsergroups
 	 *
 	 * @param   array    $groups  Array of groups
 	 * @param   integer  $mode    Working mode for this class
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(array $groups = array(), $mode = self::MODE_INSTANCE)
 	{
@@ -74,6 +84,8 @@ final class JHelperUsergroups
 	 * Count loaded user groups.
 	 *
 	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function count()
 	{
@@ -84,6 +96,8 @@ final class JHelperUsergroups
 	 * Get the helper instance.
 	 *
 	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getInstance()
 	{
@@ -103,7 +117,9 @@ final class JHelperUsergroups
 	 *
 	 * @param   integer  $id  Group identifier
 	 *
-	 * @return  mixed         stdClass on success. False otherwise
+	 * @return  mixed  stdClass on success. False otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function get($id)
 	{
@@ -127,6 +143,8 @@ final class JHelperUsergroups
 	 * Get the list of existing user groups.
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getAll()
 	{
@@ -144,6 +162,8 @@ final class JHelperUsergroups
 	 * @param   integer  $id  Group identifier
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function has($id)
 	{
@@ -154,6 +174,8 @@ final class JHelperUsergroups
 	 * Check if this instance is a singleton.
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function isSingleton()
 	{
@@ -164,6 +186,8 @@ final class JHelperUsergroups
 	 * Get total available user groups in database.
 	 *
 	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function total()
 	{
@@ -189,6 +213,8 @@ final class JHelperUsergroups
 	 * @param   integer  $id  Group identifier
 	 *
 	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function load($id)
 	{
@@ -215,6 +241,8 @@ final class JHelperUsergroups
 	 * Load all user groups from the database.
 	 *
 	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function loadAll()
 	{
@@ -241,6 +269,8 @@ final class JHelperUsergroups
 	 * Populates extra information for groups.
 	 *
 	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function populateGroupsData()
 	{
@@ -258,6 +288,8 @@ final class JHelperUsergroups
 	 * @param   stdClass  $group  Group
 	 *
 	 * @return  stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function populateGroupData($group)
 	{
@@ -290,6 +322,8 @@ final class JHelperUsergroups
 	 * @param   array  $groups  Array of user groups.
 	 *
 	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setGroups(array $groups)
 	{
