@@ -64,6 +64,9 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
+		// Test whether data was stored.
+		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
+
 		// Timer and max time (in seconds)
 		$timer    = 0;
 		$maxTime  = 3;
