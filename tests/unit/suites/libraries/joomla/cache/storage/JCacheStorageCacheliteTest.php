@@ -73,11 +73,10 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 
 		do
 		{
-			$timer += $interval;
-
 			usleep($interval * 1000000);
 
-			$cache = $this->handler->get($this->id, $this->group);
+			$timer += $interval;
+			$cache  = $this->handler->get($this->id, $this->group);
 
 		}
 		while ($cache && $timer < 3);
