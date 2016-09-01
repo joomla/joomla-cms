@@ -46,7 +46,7 @@ class JCacheStorageFileTest extends TestCaseCache
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(5);
+		sleep(3);
 
 		$this->handler->_now = time();
 

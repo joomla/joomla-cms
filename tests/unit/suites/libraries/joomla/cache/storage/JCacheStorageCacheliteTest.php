@@ -64,7 +64,7 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(5);
+		sleep(3);
 
 		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
 	}
