@@ -12,13 +12,10 @@ defined('_JEXEC') or die;
 /**
  * Config Module model.
  *
- * @package     Joomla.Site
- * @subpackage  com_config
- * @since       3.2
+ * @since  3.2
  */
 class ConfigModelModules extends ConfigModelForm
 {
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -120,13 +117,13 @@ class ConfigModelModules extends ConfigModelForm
 	/**
 	 * Method to get list of module positions in current template
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @since 3.2
+	 * @since   3.2
 	 */
 	public function getPositions()
 	{
-		$lang            = JFactory::getLanguage();
+		$lang         = JFactory::getLanguage();
 		$templateName = JFactory::getApplication()->getTemplate();
 
 		// Load templateDetails.xml file
@@ -165,7 +162,7 @@ class ConfigModelModules extends ConfigModelForm
 		// Add custom position to options
 		$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 
-		$editPositions = true;
+		$editPositions   = true;
 		$customPositions = self::getActivePositions(0, $editPositions);
 		$templateGroups[$customGroupText] = self::createOptionGroup($customGroupText, $customPositions);
 
@@ -179,15 +176,17 @@ class ConfigModelModules extends ConfigModelForm
 	 * @param   boolean  $editPositions  Allow to edit the positions
 	 *
 	 * @return  array  A list of positions
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getActivePositions($clientId, $editPositions = false)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
-			->select('DISTINCT(position)')
-			->from('#__modules')
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT position')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
-			->order('position');
+			->order($db->quoteName('position'));
 
 		$db->setQuery($query);
 
@@ -210,11 +209,11 @@ class ConfigModelModules extends ConfigModelForm
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+				$options[] = JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
 			}
 			else
 			{
-				$options[]	= JHtml::_('select.option', $position, $position);
+				$options[] = JHtml::_('select.option', $position, $position);
 			}
 		}
 
@@ -229,7 +228,7 @@ class ConfigModelModules extends ConfigModelForm
 	 *
 	 * @return  object  The option as an object (stdClass instance)
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function createOption($value = '', $text = '')
 	{
@@ -253,7 +252,7 @@ class ConfigModelModules extends ConfigModelForm
 	 *
 	 * @return  array  Return the new group as an array
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function createOptionGroup($label = '', $options = array())
 	{
