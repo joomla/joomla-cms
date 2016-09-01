@@ -271,7 +271,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 
 			for ($i = count($path) - 1; $i > -1; --$i)
 			{
-				$this->pathway->addItem($path[$i]['title'], $path[$i]['link']);
+				$pathway->addItem($path[$i]['title'], $path[$i]['link']);
 			}
 		}
 
