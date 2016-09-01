@@ -72,7 +72,7 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 
 		// Timer and testing interval (in seconds)
 		$timer    = 0;
-		$interval = 0.1;
+		$interval = 0.05;
 
 		do
 		{
