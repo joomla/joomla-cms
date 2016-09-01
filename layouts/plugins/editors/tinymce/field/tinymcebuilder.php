@@ -63,7 +63,7 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
 			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu">
+				<div class="mce-container-body mce-flow-layout timymce-builder-menu source">
 					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
 						<button type="button" tabindex="-1"><span
 								class="mce-txt">Edit</span> <i class="mce-caret"></i></button>
@@ -92,7 +92,7 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 			</div>
 
 			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar">
+				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source">
 					<?php foreach ( $buttonsSet as $name ):
 						if ( empty( $buttons[$name] ) )
 						{
@@ -129,9 +129,9 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 			<div class="tab-pane <?php echo ! $i ? 'active' : '' ?>" id="view-level-<?php echo $level['value']; ?>">
 				<div class="mce-tinymce mce-container mce-panel">
 					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu"></div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar"></div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar"></div>
+						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"></div>
+						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"></div>
+						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"></div>
 					</div>
 				</div>
 			</div>
@@ -141,25 +141,54 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 <script>
 !(function($){
 	jQuery( document ).ready( function() {
-		$('.timymce-builder-menu').sortable({
-			connectWith: '.timymce-builder-menu',
+		var $copyHelper = null, removeIntent = false;
+
+		$('.timymce-builder-menu.source').sortable({
+			connectWith: '.timymce-builder-menu.target',
 			items: '.mce-btn',
 			cancel: '',
-			tolerance: 'pointer',
+			//tolerance: 'pointer',
 			// http://stackoverflow.com/questions/6940390/how-do-i-duplicate-item-when-using-jquery-sortable
 			helper: function(event, el) {
-				el.clone().insertAfter(el);
+				$copyHelper = el.clone().insertAfter(el);
 				return el;
+			},
+			stop: function() {
+				$copyHelper && $copyHelper.remove();
 			}
 		});
-		$('.timymce-builder-toolbar').sortable({
-			connectWith: '.timymce-builder-toolbar',
+
+		$('.timymce-builder-toolbar.source').sortable({
+			connectWith: '.timymce-builder-toolbar.target',
 			items: '.mce-btn',
 			cancel: '',
-			tolerance: 'pointer',
+			//tolerance: 'pointer',
 			helper: function(event, el) {
-				el.clone().insertAfter(el);
+				$copyHelper = el.clone().insertAfter(el);
 				return el;
+			},
+			stop: function() {
+				$copyHelper && $copyHelper.remove();
+			}
+		});
+
+		$('.timymce-builder-menu.target, .timymce-builder-toolbar.target').sortable({
+			items: '.mce-btn',
+			cancel: '',
+			//tolerance: 'pointer',
+			receive: function(event, el) {
+				$copyHelper = null;
+			},
+			over: function (event, ui) {
+				removeIntent = false;
+			},
+			out: function (event, ui) {
+				removeIntent = true;
+			},
+			beforeStop: function (event, ui) {
+				if(removeIntent){
+					ui.item.remove();
+				}
 			}
 		});
 	});
