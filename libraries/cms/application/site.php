@@ -679,7 +679,17 @@ final class JApplicationSite extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
+	}
 
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadLibraryLanguage()
+	{
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
