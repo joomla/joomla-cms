@@ -111,13 +111,6 @@ SELECT 458, 'plg_system_userlogs', 'plugin', 'userlogs', 'system', 0, 0, 1, 0, '
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
-SET IDENTITY_INSERT [#__assets] ON;
-
-INSERT INTO [#__assets] (id, parent_id, lft, rgt, level, name, title, rules)
-SELECT 55, 1, 155, 156, 1, 'com_userlogs', 'com_userlogs', '{"core.viewlogs":[],"core.delete":[],"core.admin":[],"core.manage":[],"core.options":[]}';
-
-SET IDENTITY_INSERT #__assets OFF;
-
 SET IDENTITY_INSERT [#__menu]  ON;
 
 INSERT INTO [#__menu] ([id], [menutype], [title], [alias], [note], [path], [link], [type], [published], [parent_id], [level], [component_id], [checked_out], [checked_out_time], [browserNav], [access], [img], [template_style_id], [params], [lft], [rgt], [home], [language], [client_id])
