@@ -26,6 +26,15 @@ class JCacheStorageFile extends JCacheStorage
 	protected $_root;
 
 	/**
+	 * Locked resources
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 *
+	 */
+	protected $_locked_files = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters
@@ -274,7 +283,7 @@ class JCacheStorageFile extends JCacheStorage
 			return $returning;
 		}
 
-		$data_lock = (bool) @flock($_fileopen, LOCK_EX);
+		$data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
 
 		if ($data_lock === false)
 		{
@@ -290,11 +299,17 @@ class JCacheStorageFile extends JCacheStorage
 				}
 
 				usleep(100);
-				$data_lock = (bool) @flock($_fileopen, LOCK_EX);
+				$data_lock = (bool) @flock($_fileopen, LOCK_EX|LOCK_NB);
 				$lock_counter++;
 			}
 
 			$returning->locklooped = true;
+		}
+
+		if ($data_lock === true)
+		{
+			// Remember resource, flock release lock if you unset/close resource
+			$this->_locked_files[$path] = $_fileopen;
 		}
 
 		$returning->locked = $data_lock;
@@ -314,13 +329,13 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$path      = $this->_getFilePath($id, $group);
-		$_fileopen = @fopen($path, "r+b");
+		$path = $this->_getFilePath($id, $group);
 
-		if ($_fileopen)
+		if (isset($this->_locked_files[$path]))
 		{
-			$ret = @flock($_fileopen, LOCK_UN);
-			@fclose($_fileopen);
+			$ret = (bool) @flock($this->_locked_files[$path], LOCK_UN);
+			@fclose($this->_locked_files[$path]);
+			unset($this->_locked_files[$path]);
 
 			return $ret;
 		}
