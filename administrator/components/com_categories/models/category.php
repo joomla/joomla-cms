@@ -593,14 +593,31 @@ class CategoriesModelCategory extends JModelAdmin
 				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 			}
 
-			$associations[$table->language] = $table->id;
-
-			// Deleting old association for these items
-			$db = $this->getDbo();
+			// Get associationskey for edited item
+			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->delete('#__associations')
+				->select($db->quoteName('key'))
+				->from($db->quoteName('#__associations'))
 				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
+				->where($db->quoteName('id') . ' = ' . (int) $table->id);
+			$db->setQuery($query);
+			$old_key = $db->loadResult();
+
+			// Deleting old associations for the associated items
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
+
+			if ($associations)
+			{
+				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+			}
+			else
+			{
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
+			}
+
 			$db->setQuery($query);
 
 			try
@@ -614,7 +631,13 @@ class CategoriesModelCategory extends JModelAdmin
 				return false;
 			}
 
-			if (!$all_language && count($associations))
+			// Adding self to the association
+			if (!$all_language)
+			{
+				$associations[$table->language] = (int) $table->id;
+			}
+
+			if (count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
