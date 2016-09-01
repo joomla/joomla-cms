@@ -306,19 +306,12 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			// Load the site language manifest.
 			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
-			// Load the native language name.
-			$installedLanguage  = new JLanguage($this->tag, false);
-			$nativeLanguageName = $installedLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-
-			// If the local name do not exist in the translation file we use the international standard name.
-			$nativeLanguageName = $nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME' ? $siteLanguageManifest['name'] : $nativeLanguageName;
-
 			// Prepare language data for store.
 			$languageData = array(
 				'lang_id'      => 0,
 				'lang_code'    => $this->tag,
 				'title'        => $siteLanguageManifest['name'],
-				'title_native' => $nativeLanguageName,
+				'title_native' => $siteLanguageManifest['name'],
 				'image'        => strtolower(str_replace('-', '_', $this->tag)),
 				'published'    => 0,
 				'ordering'     => 0,
