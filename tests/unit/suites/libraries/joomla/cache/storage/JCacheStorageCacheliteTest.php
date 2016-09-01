@@ -67,11 +67,8 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 		// Test whether data was stored.
 		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		// Timer and max time (in seconds)
+		// Timer and testing interval (in seconds)
 		$timer    = 0;
-		$maxTime  = 3;
-
-		// Testing interval (in seconds)
 		$interval = 0.1;
 
 		do
