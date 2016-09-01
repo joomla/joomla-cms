@@ -1915,6 +1915,21 @@ fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
 }
+fieldset.adminform .input-prepend,
+fieldset.adminform .input-append,
+fieldset.panelform .input-prepend,
+fieldset.panelform .input-append {
+	float: left;
+}
+fieldset.adminform .adminformlist .btn.modal,
+fieldset.adminform .input-prepend > *,
+fieldset.adminform .input-append > *,
+fieldset.panelform .adminformlist .btn.modal,
+fieldset.panelform .input-prepend > *,
+fieldset.panelform .input-append > * {
+	float: none;
+	vertical-align: middle;
+}
 fieldset.panelform-legacy label.radiobtn-jno,
 fieldset.panelform-legacy label.radiobtn-jyes,
 fieldset.panelform-legacy label.radiobtn-show,
@@ -3675,7 +3690,8 @@ fieldset.uploadform {
 	background-color: #f5f5f5;
 }
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;

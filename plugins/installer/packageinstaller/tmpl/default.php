@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('bootstrap.tooltip');
+
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbuttonpackage = function()
 	{

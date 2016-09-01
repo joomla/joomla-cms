@@ -158,6 +158,63 @@ class JHtmlNumberTest extends TestCase
 				'1.0752E+4 MB',
 				'GB'
 			),
+
+			// Test IEC aware input
+			array(
+				'1024000',
+				'1024 KB',
+				'',
+				2,
+				true
+			),
+			array(
+				'1048576',
+				'1024 KiB',
+				'',
+				2,
+				true
+			),
+
+			// Test IEC aware output with automatic unit
+			array(
+				'1 MB',
+				1000 * 1000,
+				'auto',
+				2,
+				true
+			),
+
+			// Test automatic binary units output
+			array(
+				'1 MiB',
+				1024 * 1024,
+				'binary',
+				2,
+				true
+			),
+			array(
+				'1 MiB',
+				1024 * 1024,
+				'binary',
+				2,
+				false
+			),
+
+			// Test IEC aware specific unit output
+			array(
+				'1000 KiB',
+				'1024 KB',
+				'KiB',
+				2,
+				true
+			),
+			array(
+				'1048.58 kB',
+				'1024 KiB',
+				'kB',
+				2,
+				true
+			),
 		);
 	}
 
@@ -166,18 +223,24 @@ class JHtmlNumberTest extends TestCase
 	 *
 	 * @param   string   $result     The expected result to match against.
 	 * @param   string   $bytes      The number of bytes. Can be either numeric or suffixed format: 32M, 60K, 12G or 812b
-	 * @param   string   $unit       The type of unit to return. Special: Blank string '' for no unit and 'auto' to choose automatically (default)
+	 * @param   string   $unit       The type of unit to return, few special values are:
+	 *                               Blank string '' for no unit,
+	 *                               'auto' to choose automatically (default)
+	 *                               'binary' to choose automatically but use binary unit prefix
 	 * @param   integer  $precision  The number of digits to be used after the decimal place.
+	 * @param   bool     $iec        Whether to be aware of IEC standards. IEC prefixes are always acceptable in input.
+	 *                               When IEC is ON:  KiB = 1024 B, KB = 1000 B
+	 *                               When IEC is OFF: KiB = 1024 B, KB = 1024 B
 	 *
 	 * @return  void
 	 *
 	 * @since        3.1
 	 * @dataProvider dataTestBytes
 	 */
-	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2)
+	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
 		$this->assertThat(
-			JHtml::_('number.bytes', $bytes, $unit, $precision),
+			JHtml::_('number.bytes', $bytes, $unit, $precision, $iec),
 			$this->equalTo($result)
 		);
 	}

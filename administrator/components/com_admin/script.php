@@ -1427,6 +1427,9 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/media/system/js/permissions.min.js',
 			'/libraries/platform.php',
+			// Joomla! 3.6.3
+			'/media/editors/codemirror/mode/jade/jade.js',
+			'/media/editors/codemirror/mode/jade/jade.min.js',
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data/data.php',
 			'/libraries/joomla/data/dumpable.php',
@@ -1527,6 +1530,8 @@ class JoomlaInstallerScript
 			// Joomla 3.6
 			'/libraries/simplepie/idn',
 			'/libraries/simplepie',
+			// Joomla! 3.6.3
+			'/media/editors/codemirror/mode/jade',
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data',
 		);

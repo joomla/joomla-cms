@@ -43,7 +43,8 @@ class JMailTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
