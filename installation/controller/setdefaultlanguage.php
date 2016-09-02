@@ -130,13 +130,11 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 				$tableLanguage = JTable::getInstance('Language');
 
 				// Search if just added
-				$return = $tableLanguage->load(array('lang_code' => $siteLang->language));
+				$return = $tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 1));
 
 				if ($return === false)
 				{
-					$sefLangString = $model->getSefString($siteLang, $siteLanguages);
-
-					if (!$model->addLanguage($siteLang, $sefLangString))
+					if (!$model->addLanguage($siteLang))
 					{
 						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name));
 
