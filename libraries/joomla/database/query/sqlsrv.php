@@ -409,7 +409,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			foreach ($this->join as $join)
 			{
 
-				$joinStr = trim(preg_replace("/.*JOIN/i","" ,(string)$join));
+				$joinStr = trim(preg_replace("/.*\sJOIN/i","" ,(string)$join));
 
 				if (strpos($joinStr,' AS ') !== false)
 				{
