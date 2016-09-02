@@ -738,11 +738,9 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @since   3.2
 	 */
-	public function addLanguage($itemLanguage, $sefLangString)
+	public function addLanguage($itemLanguage, $sefLangString = '')
 	{
 		$tableLanguage = JTable::getInstance('Language');
-
-		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name.
 		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
@@ -754,40 +752,13 @@ class InstallationModelLanguages extends JModelBase
 			$nativeLanguageName = $itemLanguage->name;
 		}
 
-		$langData = array(
-			'lang_id'      => 0,
-			'lang_code'    => $itemLanguage->language,
-			'title'        => $itemLanguage->name,
-			'title_native' => $nativeLanguageName,
-			'sef'          => $sefLangString,
-			'image'        => $flag,
-			'published'    => 1,
-			'ordering'     => 0,
-			'description'  => '',
-			'metakey'      => '',
-			'metadesc'     => '',
-		);
+		// Load the content language.
+		$tableLanguage->load(array('lang_code' => $itemLanguage->language));
+		$tableLanguage->title_native = $nativeLanguageName;
+		$tableLanguage->published = 1;
 
-		// Bind the data.
-		if (!$tableLanguage->bind($langData))
-		{
-			return false;
-		}
-
-		// Check the data.
-		if (!$tableLanguage->check())
-		{
-			return false;
-		}
-
-		// Store the data.
-		if (!$tableLanguage->store())
-		{
-			return false;
-		}
-
-		// Reorder the data.
-		if (!$tableLanguage->reorder())
+		// Check and store the data.
+		if (!$tableLanguage->check() || !$tableLanguage->store())
 		{
 			return false;
 		}
