@@ -46,6 +46,6 @@
         "phpunit/dbunit": "~1.3",
         "friendsofphp/php-cs-fixer": "~1.11",
         "squizlabs/php_codesniffer": "~1.5",
-        "pear/cache_lite": "1.7.16"
+        "pear/cache_lite": "1.8.0"
     }
 }
