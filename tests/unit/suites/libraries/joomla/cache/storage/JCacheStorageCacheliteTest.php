@@ -58,14 +58,33 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 	{
 		/** @var Cache_Lite $cacheLiteInstance */
 		$cacheLiteInstance = TestReflection::getValue('JCacheStorageCachelite', 'CacheLiteInstance');
-		$cacheLiteInstance->_lifeTime = 2;
+		$cacheLiteInstance->_lifeTime = 0.1;
 
 		$data = 'testData';
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(3);
+		// Test whether data was stored.
+		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
+		// Wait for lifetime.
+		usleep($cacheLiteInstance->_lifeTime * 1000000);
+
+		// Timer and testing interval (in seconds)
+		$timer    = 0;
+		$interval = 0.05;
+
+		do
+		{
+			$cache = $this->handler->get($this->id, $this->group);
+
+			usleep($interval * 1000000);
+
+			$timer += $interval;
+
+		}
+		while ($cache && $timer < 5);
+
+		$this->assertFalse($cache, 'No data should be returned from the cache store when expired.');
 	}
 }

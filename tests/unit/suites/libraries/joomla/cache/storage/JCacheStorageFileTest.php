@@ -30,7 +30,7 @@ class JCacheStorageFileTest extends TestCaseCache
 		$this->handler = new JCacheStorageFile(array('cachebase' => JPATH_CACHE));
 
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
-		$this->handler->_lifetime = 2;
+		$this->handler->_lifetime = 0.1;
 	}
 
 	/**
@@ -46,10 +46,27 @@ class JCacheStorageFileTest extends TestCaseCache
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(3);
+		// Test whether data was stored.
+		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		$this->handler->_now = time();
+		// Wait for lifetime.
+		usleep($this->handler->_lifetime * 1000000);
 
-		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
+		// Timer and testing interval (in seconds)
+		$timer    = 0;
+		$interval = 0.05;
+
+		do
+		{
+			$this->handler->_now = time();
+			$cache = $this->handler->get($this->id, $this->group);
+
+			usleep($interval * 1000000);
+
+			$timer += $interval;
+		}
+		while ($cache && $timer < 5);
+		
+        	$this->assertFalse($cache, 'No data should be returned from the cache store when expired.');
 	}
 }
