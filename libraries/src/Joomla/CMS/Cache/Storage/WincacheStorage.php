@@ -162,6 +162,18 @@ class WincacheStorage extends CacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		return wincache_ucache_clear();
+	}
+
+	/**
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean
