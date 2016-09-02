@@ -45,6 +45,16 @@ class JFormFieldTinymceBuilder extends JFormField
 	{
 		$data = parent::getLayoutData();
 
+		$menus = array(
+			'edit'   => array('label' => 'Edit'),
+			'insert' => array('label' => 'Insert'),
+			'view'   => array('label' => 'View'),
+			'format' => array('label' => 'Format'),
+			'table'  => array('label' => 'Table'),
+			'tools'  => array('label' => 'Tools'),
+		);
+		$data['menus'] = $menus;
+
 		// https://www.tinymce.com/docs/demo/full-featured/
 		$buttons = array(
 			'|' => array('label' => 'Separator', 'text' => '|'),

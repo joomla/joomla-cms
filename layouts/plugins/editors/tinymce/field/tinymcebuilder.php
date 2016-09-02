@@ -41,56 +41,42 @@ extract( $displayData );
  * @var   boolean $hasValue       Has this field a value assigned?
  * @var   array   $options        Options available for this field.
  *
+ * @var   array   $menus           List of the menu items
  * @var   array   $buttons         List of the buttons
- * @var   array   $buttonsSet      Buttons by group
+ * @var   array   $buttonsSet      Buttons by group, for the builder
  * @var   array   $viewLevels      List of Access View Levels
  * @var   JForm[] $viewLevelForms  Form with extra options for each level
  *
  * @var   JLayoutFile  $this       Context
  */
 
-$styleCss = 'media/editors/tinymce/skins/lightgray/skin.min.css';
-JHtml::_( 'stylesheet', $styleCss, array(), false );
+JHtml::_( 'behavior.core' );
+JHtml::_( 'stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array(), false );
 JHtml::_( 'jquery.ui', array( 'core', 'sortable' ) );
+JHtml::_( 'script', 'editors/tinymce/tinymce-builder.js', false, true );
 
 $doc = JFactory::getDocument();
-$doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
- $("#view-level-tabs a").click(function (e) {
-   e.preventDefault();
-   $(this).tab("show");
- });
-});' );
+$doc->addScriptOptions('plg_editors_tinymce_builder', array(
+	'menus'      => $menus,
+	'buttons'    => $buttons,
+	'buttonsSet' => $buttonsSet,
+));
 
 ?>
-<div id="tinymce-builder">
+<div id="joomla-tinymce-builder">
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
 			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first">
 				<div class="mce-container-body mce-flow-layout timymce-builder-menu source">
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
-						<button type="button" tabindex="-1"><span
-								class="mce-txt">Edit</span> <i class="mce-caret"></i></button>
+				<?php foreach($menus as $name => $info): ?>
+					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item"
+						data-name="<?php echo $this->escape($name); ?>"
+					>
+						<button type="button" tabindex="-1">
+							<span class="mce-txt"><?php echo $info['label']; ?></span> <i class="mce-caret"></i>
+						</button>
 					</div>
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
-						<button type="button" tabindex="-1"><span class="mce-txt">Insert</span>
-							<i class="mce-caret"></i></button>
-					</div>
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
-						<button type="button" tabindex="-1"><span
-								class="mce-txt">View</span> <i class="mce-caret"></i></button>
-					</div>
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
-						<button type="button" tabindex="-1"><span class="mce-txt">Format</span>
-							<i class="mce-caret"></i></button>
-					</div>
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
-						<button type="button" tabindex="-1"><span class="mce-txt">Table</span>
-							<i class="mce-caret"></i></button>
-					</div>
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item">
-						<button type="button" tabindex="-1"><span class="mce-txt">Tools</span>
-							<i class="mce-caret"></i></button>
-					</div>
+				<?php endforeach; ?>
 				</div>
 			</div>
 
@@ -103,8 +89,9 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 						}
 						$button = $buttons[$name];
 						?>
-						<div class="mce-btn" data-name="<?php echo $name; ?>"
-						     aria-label="<?php echo $this->escape( $button['label'] ); ?>">
+						<div class="mce-btn" data-name="<?php echo $this->escape($name); ?>"
+						     aria-label="<?php echo $this->escape( $button['label'] ); ?>"
+						>
 							<button type="button" tabindex="-1">
 								<?php if ( ! empty( $button['text'] ) ): ?>
 									<?php echo $button['text']; ?>
@@ -119,6 +106,7 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 		</div>
 	</div>
 
+	<!-- Render tabs for each view level -->
 	<ul class="nav nav-tabs" id="view-level-tabs">
 		<?php foreach ( $viewLevels as $i => $level ): ?>
 		<li class="<?php echo ! $i ? 'active' : '' ?>">
@@ -127,9 +115,11 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 		<?php endforeach; ?>
 	</ul>
 
+	<!-- Render tab content for each view level -->
 	<div class="tab-content">
 		<?php foreach ( $viewLevels as $i => $level ): ?>
 			<div class="tab-pane <?php echo ! $i ? 'active' : '' ?>" id="view-level-<?php echo $level['value']; ?>">
+
 				<div class="mce-tinymce mce-container mce-panel">
 					<div class="mce-container-body mce-stack-layout">
 						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"></div>
@@ -139,7 +129,7 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 				</div>
 
 				<!-- Render the form for extra options -->
-				<?php echo $this->sublayout('leveloptions', array('form' => $viewLevelForms[$level['value']])); ?>
+				<?php //echo $this->sublayout('leveloptions', array('form' => $viewLevelForms[$level['value']])); ?>
 			</div>
 		<?php endforeach; ?>
 	</div>
