@@ -24,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
  * @property-read  string   $hour          H - 24-hour format of an hour with leading zeros.
  * @property-read  string   $minute        i - Minutes with leading zeros.
  * @property-read  string   $second        s - Seconds with leading zeros.
- * @property-read  string   $second        u - Microseconds with leading zeros.
+ * @property-read  string   $microsecond   u - Microseconds with leading zeros.
  * @property-read  string   $month         m - Numeric representation of a month, with leading zeros.
  * @property-read  string   $ordinal       S - English ordinal suffix for the day of the month, 2 characters.
  * @property-read  string   $week          W - Numeric representation of the day of the week.
