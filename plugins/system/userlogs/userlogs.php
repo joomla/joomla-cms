@@ -670,7 +670,7 @@ class PlgSystemUserLogs extends JPlugin
 
 				break;
 			case 'onUserAfterDelete':
-				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_DELETE_MESSAGE', $message_to_array['edited_user']);
+				$message = JText::sprintf('PLG_SYSTEM_USERLOGS_ON_USER_AFTER_DELETE_MESSAGE', $message_to_array['deleted_user']);
 
 				break;
 			case 'onUserAfterSaveGroup':
