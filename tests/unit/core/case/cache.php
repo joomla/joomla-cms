@@ -111,29 +111,32 @@ abstract class TestCaseCache extends TestCase
 	{
 		$data = 'testData';
 
-		$this->handler->_lifetime = 0.1;
+		if ($this->handler->_lifetime > 1)
+		{
+			// Minimum lifetime for memcache(-d) and redis can be only 1
+			$this->handler->_lifetime = 1;
+		}
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
 		// Test whether data was stored.
 		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		// Wait for lifetime.
-		usleep($this->handler->_lifetime * 1000000);
-
 		// Timer and testing interval (in seconds)
 		$timer    = 0;
 		$interval = 0.05;
 
+		// Wait for lifetime minus the first interval.
+		usleep(($this->handler->_lifetime - $interval) * 1000000);
+
 		do
 		{
-			$cache = $this->handler->get($this->id, $this->group);
-
 			usleep($interval * 1000000);
 
+			$cache  = $this->handler->get($this->id, $this->group);
 			$timer += $interval;
 		}
-		while ($cache && $timer < 5);
+		while ($cache === $data && $timer < 5);
 
 		$this->assertFalse($cache, 'No data should be returned from the cache store when expired.');
 	}
