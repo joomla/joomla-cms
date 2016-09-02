@@ -729,6 +729,39 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
+	 * Publish a Content Language.
+	 *
+	 * @param   object  $tableLanguage   Table Language Object.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function publishLanguage($tableLanguage)
+	{
+		// Load the native language name.
+		$installationLocalisedIni = new JLanguage($tableLanguage->lang_code, false);
+		$nativeLanguageName       = $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+		// If the local name do not exist in the translation file we use the international standard name.
+		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
+		{
+			$nativeLanguageName = $tableLanguage->name;
+		}
+
+		$tableLanguage->title_native = $nativeLanguageName;
+		$tableLanguage->published    = 1;
+
+		// Check and store the data.
+		if (!$tableLanguage->store())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Add a Content Language.
 	 *
 	 * @param   stdClass  $itemLanguage   Language Object.
@@ -737,10 +770,13 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  boolean
 	 *
 	 * @since   3.2
+	 * @depreacted   4.0 Not used anymore.
 	 */
-	public function addLanguage($itemLanguage, $sefLangString = '')
+	public function addLanguage($itemLanguage, $sefLangString)
 	{
 		$tableLanguage = JTable::getInstance('Language');
+
+		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name.
 		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
@@ -752,13 +788,40 @@ class InstallationModelLanguages extends JModelBase
 			$nativeLanguageName = $itemLanguage->name;
 		}
 
-		// Load the content language.
-		$tableLanguage->load(array('lang_code' => $itemLanguage->language));
-		$tableLanguage->title_native = $nativeLanguageName;
-		$tableLanguage->published = 1;
+		$langData = array(
+			'lang_id'      => 0,
+			'lang_code'    => $itemLanguage->language,
+			'title'        => $itemLanguage->name,
+			'title_native' => $nativeLanguageName,
+			'sef'          => $sefLangString,
+			'image'        => $flag,
+			'published'    => 1,
+			'ordering'     => 0,
+			'description'  => '',
+			'metakey'      => '',
+			'metadesc'     => '',
+		);
 
-		// Check and store the data.
-		if (!$tableLanguage->check() || !$tableLanguage->store())
+		// Bind the data.
+		if (!$tableLanguage->bind($langData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableLanguage->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableLanguage->store())
+		{
+			return false;
+		}
+
+		// Reorder the data.
+		if (!$tableLanguage->reorder())
 		{
 			return false;
 		}

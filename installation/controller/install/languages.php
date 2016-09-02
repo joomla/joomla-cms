@@ -56,13 +56,33 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'));
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
 		}
 		else
 		{
 			// Install selected languages
 			$model->install($lids);
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'));
+
+			// Publish the Content Languages.
+			$tableLanguage = JTable::getInstance('Language');
+
+			$siteLanguages = $model->getInstalledlangsFrontend();
+
+			// For each content language.
+			foreach ($siteLanguages as $siteLang)
+			{
+				if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+				{
+					if (!$model->publishLanguage($tableLanguage))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+
+						continue;
+					}
+				}
+			}
+
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
 		}
 
 		// Redirect to the page.
