@@ -33,7 +33,7 @@ if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
  */
 
 // Import the Joomla Platform.
-require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
