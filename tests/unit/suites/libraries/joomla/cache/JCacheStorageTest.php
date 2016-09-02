@@ -66,6 +66,11 @@ class JCacheStorageTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+
+		// Mock the returns on JApplicationCms::get() to use the default values
+		JFactory::$application->expects($this->any())
+			->method('get')
+			->willReturnArgument(1);
 	}
 
 	/**

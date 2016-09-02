@@ -52,8 +52,7 @@ abstract class JHtmlBehavior
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug = $config->get('debug');
+			$debug = JDEBUG;
 		}
 
 		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
@@ -682,13 +681,13 @@ abstract class JHtmlBehavior
 		}
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if (JFactory::getConfig()->get('session_handler') != 'database')
+		if (JFactory::getApplication()->get('session_handler') != 'database')
 		{
 			$refresh_time = 300000;
 		}
 		else
 		{
-			$life_time    = JFactory::getConfig()->get('lifetime') * 60000;
+			$life_time    = JFactory::getApplication()->get('lifetime') * 60000;
 			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
