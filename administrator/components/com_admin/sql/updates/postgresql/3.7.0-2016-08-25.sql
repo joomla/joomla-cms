@@ -7,7 +7,7 @@ CREATE TABLE "#__user_logs" (
   "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
-  "ip_address" varchar(30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOGS_DISABLED',
+  "ip_address" varchar(30) NOT NULL DEFAULT '0.0.0.0',
   PRIMARY KEY ("id")
 );
 

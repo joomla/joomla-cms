@@ -1919,7 +1919,7 @@ CREATE TABLE IF NOT EXISTS `#__user_logs` (
   `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `extension` varchar(50) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL DEFAULT 0,
-  `ip_address` VARCHAR(30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOGS_DISABLED',
+  `ip_address` VARCHAR(30) NOT NULL DEFAULT '0.0.0.0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

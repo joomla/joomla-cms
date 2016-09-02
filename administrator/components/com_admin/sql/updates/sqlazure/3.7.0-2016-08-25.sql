@@ -7,7 +7,7 @@ CREATE TABLE [#__user_logs](
 	[log_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[extension] [nvarchar](255) NOT NULL DEFAULT '',
 	[user_id] [bigint] NOT NULL DEFAULT 0,
-	[ip_address] [nvarchar](30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOGS_DISABLED',
+	[ip_address] [nvarchar](30) NOT NULL DEFAULT '0.0.0.0',
 );
 
 /****** Object:  Table [#__user_logs_extensions] ******/
