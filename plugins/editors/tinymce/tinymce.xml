@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
 		<folder>fields</folder>
+		<folder>form</folder>
 	</files>
 	<media destination="editors" folder="media">
 		<folder>tinymce</folder>

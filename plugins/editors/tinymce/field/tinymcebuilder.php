@@ -109,9 +109,30 @@ class JFormFieldTinymceBuilder extends JFormField
 
 		$data['viewLevels'] = $this->getAccessViewLevels();
 
+		$levelsForms = array();
+		$formsource  = JPATH_PLUGINS . '/editors/tinymce/form/leveloptions.xml';
+
+		foreach($data['viewLevels'] as $level) {
+			$levelId  = $level['value'];
+			$formname = 'view.level.form.' . $levelId;
+			$control  = $this->name . '[extraoptions][' . $levelId . ']';
+
+			$levelsForms[$levelId] = JForm::getInstance($formname, $formsource, array('control' => $control));
+
+			// @TODO: Bind the values
+		}
+		$data['viewLevelForms'] = $levelsForms;
+
 		return $data;
 	}
 
+	/**
+	 * Get list of Access View Levels
+	 *
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected function getAccessViewLevels()
 	{
 		static $levels = array();
@@ -129,6 +150,7 @@ class JFormFieldTinymceBuilder extends JFormField
 			// Get the options.
 			$db->setQuery( $query );
 			$levels = $db->loadAssocList();
+			$levels = $levels ? $levels : array();
 		}
 
 		return $levels;

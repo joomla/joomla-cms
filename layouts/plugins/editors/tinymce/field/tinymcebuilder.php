@@ -41,9 +41,12 @@ extract( $displayData );
  * @var   boolean $hasValue       Has this field a value assigned?
  * @var   array   $options        Options available for this field.
  *
- * @var   array   $buttons        List of the buttons
- * @var   array   $buttonsSet     Buttons by group
- * @var   array   $viewLevels     List of Access View Levels
+ * @var   array   $buttons         List of the buttons
+ * @var   array   $buttonsSet      Buttons by group
+ * @var   array   $viewLevels      List of Access View Levels
+ * @var   JForm[] $viewLevelForms  Form with extra options for each level
+ *
+ * @var   JLayoutFile  $this       Context
  */
 
 $styleCss = 'media/editors/tinymce/skins/lightgray/skin.min.css';
@@ -134,6 +137,9 @@ $doc->addScriptDeclaration( '!jQuery(document).ready(function ($){
 						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"></div>
 					</div>
 				</div>
+
+				<!-- Render the form for extra options -->
+				<?php echo $this->sublayout('leveloptions', array('form' => $viewLevelForms[$level['value']])); ?>
 			</div>
 		<?php endforeach; ?>
 	</div>
