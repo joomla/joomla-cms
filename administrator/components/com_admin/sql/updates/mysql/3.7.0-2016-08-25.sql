@@ -4,11 +4,11 @@
 
 CREATE TABLE IF NOT EXISTS `#__user_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `message` text NOT NULL DEFAULT '',
+  `message` text NOT NULL,
   `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `extension` varchar(50) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL DEFAULT 0,
-  `ip_address` VARCHAR(30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOG_DISABLED',
+  `ip_address` VARCHAR(30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOGS_DISABLED',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -84,7 +84,9 @@ INSERT INTO `#__user_logs_tables_data` (`id`, `type_title`, `type_alias`, `title
 (13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'),
 (14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'),
 (15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'),
-(16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}');
+(16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'),
+(17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'),
+(18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}');
 
 -- --------------------------------------------------------
 

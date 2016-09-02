@@ -3,11 +3,11 @@
 --
 CREATE TABLE "#__user_logs" (
   "id" serial NOT NULL,
-  "message" text NOT NULL DEFAULT '',
+  "message" text NOT NULL,
   "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
-  "ip_address" varchar(30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOG_DISABLED',
+  "ip_address" varchar(30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOGS_DISABLED',
   PRIMARY KEY ("id")
 );
 
@@ -74,7 +74,9 @@ INSERT INTO "#__user_logs_tables_data" ("id", "type_title", "type_alias", "title
 (13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'),
 (14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'),
 (15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'),
-(16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}');
+(16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'),
+(17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'),
+(18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}');
 
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
 (33, 'com_userlogs', 'component', 'com_userlogs', '', 1, 1, 1, 0, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),

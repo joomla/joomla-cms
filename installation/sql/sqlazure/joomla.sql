@@ -2952,7 +2952,7 @@ CREATE TABLE [#__user_logs](
 	[log_date] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
 	[extension] [nvarchar](255) NOT NULL DEFAULT '',
 	[user_id] [bigint] NOT NULL DEFAULT 0,
-	[ip_address] [nvarchar](30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOG_DISABLED',
+	[ip_address] [nvarchar](30) NOT NULL DEFAULT 'PLG_SYSTEM_USERLOGS_DISABLED',
 );
 
 /****** Object:  Table [#__user_logs_extensions] ******/
@@ -3015,37 +3015,41 @@ CREATE TABLE [#__user_logs_tables_data](
 SET IDENTITY_INSERT [#__user_logs_tables_data]  ON;
 
 INSERT INTO [#__user_logs_tables_data] ([id], [type_title], [type_alias], [title_holder], [table_values])
-SELECT 1, 'article', 'com_content.article', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}',
+SELECT 1, 'article', 'com_content.article', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'
 UNION ALL
-SELECT 2, 'article', 'com_content.form', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}',
+SELECT 2, 'article', 'com_content.form', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'
 UNION ALL
-SELECT 3, 'banner', 'com_banners.banner', 'name' ,'{"table_type":"Banner","table_prefix":"BannersTable"}',
+SELECT 3, 'banner', 'com_banners.banner', 'name' ,'{"table_type":"Banner","table_prefix":"BannersTable"}'
 UNION ALL
-SELECT 4, 'user_note', 'com_users.note', 'subject' ,'{"table_type":"Note","table_prefix":"UsersTable"}',
+SELECT 4, 'user_note', 'com_users.note', 'subject' ,'{"table_type":"Note","table_prefix":"UsersTable"}'
 UNION ALL
-SELECT 5, 'media', 'com_media.file', 'name' ,'{"table_type":"","table_prefix":""}',
+SELECT 5, 'media', 'com_media.file', 'name' ,'{"table_type":"","table_prefix":""}'
 UNION ALL
-SELECT 6, 'category', 'com_categories.category', 'title' ,'{"table_type":"Category","table_prefix":"JTable"}',
+SELECT 6, 'category', 'com_categories.category', 'title' ,'{"table_type":"Category","table_prefix":"JTable"}'
 UNION ALL
-SELECT 7, 'menu', 'com_menus.menu', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}',
+SELECT 7, 'menu', 'com_menus.menu', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'
 UNION ALL
-SELECT 8, 'menu_item', 'com_menus.item', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}',
+SELECT 8, 'menu_item', 'com_menus.item', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'
 UNION ALL
-SELECT 9, 'newsfeed', 'com_newsfeeds.newsfeed', 'name' ,'{"table_type":"Newsfeed","table_prefix":"NewsfeedsTable"}',
+SELECT 9, 'newsfeed', 'com_newsfeeds.newsfeed', 'name' ,'{"table_type":"Newsfeed","table_prefix":"NewsfeedsTable"}'
 UNION ALL
-SELECT 10, 'link', 'com_redirect.link', 'old_url' ,'{"table_type":"Link","table_prefix":"RedirectTable"}',
+SELECT 10, 'link', 'com_redirect.link', 'old_url' ,'{"table_type":"Link","table_prefix":"RedirectTable"}'
 UNION ALL
-SELECT 11, 'tag', 'com_tags.tag', 'title' ,'{"table_type":"Tag","table_prefix":"TagsTable"}',
+SELECT 11, 'tag', 'com_tags.tag', 'title' ,'{"table_type":"Tag","table_prefix":"TagsTable"}'
 UNION ALL
-SELECT 12, 'style', 'com_templates.style', 'title' ,'{"table_type":"","table_prefix":""}',
+SELECT 12, 'style', 'com_templates.style', 'title' ,'{"table_type":"","table_prefix":""}'
 UNION ALL
-SELECT 13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}',
+SELECT 13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'
 UNION ALL
-SELECT 14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}',
+SELECT 14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'
 UNION ALL
-SELECT 15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}',
+SELECT 15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'
 UNION ALL
-SELECT 16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}';
+SELECT 16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'
+UNION ALL
+SELECT 17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'
+UNION ALL
+SELECT 18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}';
 
 SET IDENTITY_INSERT [#__user_logs_tables_data]  OFF;
 
