@@ -127,7 +127,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$host    = JUri::getInstance()->getHost();
 				$options = new \Joomla\Registry\Registry;
 				$options->set('userAgent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:41.0) Gecko/20100101 Firefox/41.0');
-				
+
 				// Do not check for valid server certificate here, leave this to the user, moreover disable using a proxy if any is configured.
 				$options->set('transport.curl',
 					array(
@@ -140,7 +140,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$response = JHttpFactory::getHttp($options)->get('https://' . $host . JUri::root(true) . '/', array('Host' => $host), 10);
 
 				// If available in HTTPS check also the status code.
-				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310), true))
+				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
 					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
 				}
@@ -553,7 +553,6 @@ class ConfigModelApplication extends ConfigModelForm
 				{
 					unset($temp[$permission['action']][$permission['rule']]);
 				}
-
 			}
 			else
 			{
@@ -623,7 +622,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				$parentAssetId = (int) $this->db->loadResult();
 			}
-			
+
 			// Get the group parent id of the current group.
 			$query->clear()
 				->select($this->db->quoteName('parent_id'))
@@ -661,9 +660,18 @@ class ConfigModelApplication extends ConfigModelForm
 		$assetRule = JAccess::getAssetRules($assetId, false, false)->allow($permission['action'], $permission['rule']);
 
 		// Get the group, group parent id, and group global config recursive calculated permission for the chosen action.
-		$inheritedGroupRule            = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
-		$inheritedGroupParentAssetRule = !empty($parentAssetId) ? JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId) : null;
-		$inheritedParentGroupRule      = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
+		$inheritedGroupRule = JAccess::checkGroup($permission['rule'], $permission['action'], $assetId);
+
+		if (!empty($parentAssetId))
+		{
+			$inheritedGroupParentAssetRule = JAccess::checkGroup($permission['rule'], $permission['action'], $parentAssetId);
+		}
+		else
+		{
+			$inheritedGroupParentAssetRule = null;
+		}
+
+		$inheritedParentGroupRule = !empty($parentGroupId) ? JAccess::checkGroup($parentGroupId, $permission['action'], $assetId) : null;
 
 		// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 		if ($isSuperUserGroupAfter)
@@ -718,6 +726,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$result['class'] = 'label label-important';
 				$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 			}
+
 			/**
 			 * Component/Item with explicit "Denied" permission at parent Asset (Category, Component or Global config) configuration.
 			 * Or some parent group has an explicit "Denied".
@@ -748,7 +757,7 @@ class ConfigModelApplication extends ConfigModelForm
 	/**
 	 * Method to send a test mail which is called via an AJAX request
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since   3.5
 	 * @throws Exception

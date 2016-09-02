@@ -90,9 +90,7 @@ class PlgAuthenticationJoomla extends JPlugin
 		// Check the two factor authentication
 		if ($response->status == JAuthentication::STATUS_SUCCESS)
 		{
-			JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
-
-			$methods = UsersHelper::getTwoFactorMethods();
+			$methods = JAuthenticationHelper::getTwoFactorMethods();
 
 			if (count($methods) <= 1)
 			{

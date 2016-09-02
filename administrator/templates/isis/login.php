@@ -90,7 +90,7 @@ $doc->addStyleDeclaration("
 	}");
 
 // Check if debug is on
-if ($app->get('debug_lang', 1) || $app->get('debug', 1))
+if (JPluginHelper::isEnabled('system', 'debug') && ($app->get('debug_lang', 0) || $app->get('debug', 0)))
 {
 	$doc->addStyleDeclaration("
 	.view-login .container {

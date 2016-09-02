@@ -254,6 +254,18 @@ class JCacheStorage
 	}
 
 	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
+	{
+		return true;
+	}
+
+	/**
 	 * Garbage collect expired cache data
 	 *
 	 * @return  boolean

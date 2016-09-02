@@ -33,7 +33,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
-		// Attempt to create the root user.
+		// Attempt to create the configuration.
 		if (!$this->createConfiguration($options))
 		{
 			return false;
