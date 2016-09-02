@@ -223,7 +223,7 @@ class JFactoryTest extends TestCaseDatabase
 		JFactory::$language = $this->getMockLanguage();
 
 		$date = JFactory::getDate('now');
-		usleep(1);
+		sleep(1);
 		$date2 = JFactory::getDate('now');
 
 		$this->assertThat(
