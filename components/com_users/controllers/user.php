@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Registration controller class for Users.
@@ -204,9 +204,9 @@ class UsersControllerUser extends UsersController
 		else
 		{
 			// Don't redirect to an external URL.
-			if (!JUri::isInternal($data['return']))
+			if (!JUri::isInternal($return))
 			{
-				$data['return'] = '';
+				$return = '';
 			}
 		}
 

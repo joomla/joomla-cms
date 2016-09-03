@@ -46,9 +46,11 @@ class JCacheStorageFileTest extends TestCaseCache
 
 		$this->assertTrue($this->handler->store($this->id, $this->group, $data), 'Initial Store Failed');
 
-		sleep(5);
+		// Test whether data was stored.
+		$this->assertEquals($data, $this->handler->get($this->id, $this->group), 'Some data should be available in lifetime.');
 
-		$this->handler->_now = time();
+		// If we add only lifetime then the cache still be valid
+		$this->handler->_now += 1 + $this->handler->_lifetime;
 
 		$this->assertFalse($this->handler->get($this->id, $this->group), 'No data should be returned from the cache store when expired.');
 	}

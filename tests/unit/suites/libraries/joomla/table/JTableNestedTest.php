@@ -810,7 +810,7 @@ class JTableNestedTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 // 		$this->restoreFactoryState();
-
+		unset($this->class);
 		parent::tearDown();
 	}
 }

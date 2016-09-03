@@ -75,12 +75,14 @@ Joomla.submitbutton = function(task, type){
 };
 ";
 
+$input = JFactory::getApplication()->input;
+
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
-
+$tmpl = $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=edit' . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -92,30 +94,31 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		<div class="row-fluid">
 			<div class="span9">
 				<?php
-				echo $this->form->getControlGroup('type');
+				echo $this->form->renderField('type');
 
 				if ($this->item->type == 'alias')
 				{
-					echo $this->form->getControlGroups('aliasoptions');
+					echo $this->form->renderFieldset('aliasoptions');
 				}
 
-				echo $this->form->getControlGroups('request');
+				echo $this->form->renderFieldset('request');
 
 				if ($this->item->type == 'url')
 				{
 					$this->form->setFieldAttribute('link', 'readonly', 'false');
 				}
 
-				echo $this->form->getControlGroup('link');
+				echo $this->form->renderField('link');
 
-				echo $this->form->getControlGroup('browserNav');
-				echo $this->form->getControlGroup('template_style_id');
+				echo $this->form->renderField('browserNav');
+				echo $this->form->renderField('template_style_id');
 				?>
 			</div>
 			<div class="span3">
 				<?php
 				// Set main fields.
 				$this->fields = array(
+					'id',
 					'menutype',
 					'parent_id',
 					'menuordering',
@@ -123,8 +126,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'home',
 					'access',
 					'language',
-					'note'
-
+					'note',
 				);
 
 				if ($this->item->type != 'component')

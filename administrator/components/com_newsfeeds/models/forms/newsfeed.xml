@@ -54,7 +54,6 @@
 			description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
 			extension="com_newsfeeds"
 			required="true"
-			allowAdd="true"
 			default=""
 		/>
 
@@ -177,6 +176,7 @@
 			name="modified_by"
 			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			description="COM_NEWSFEEDS_FIELD_MODIFIED_BY_DESC"
 			class="readonly"
 			readonly="true"
 			filter="unset"

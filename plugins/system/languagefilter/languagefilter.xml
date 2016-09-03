@@ -61,7 +61,6 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-					showon="item_associations:1"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -74,7 +73,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_DESC"
 					default="1"
 					class="btn-group btn-group-yesno"
-					showon="item_associations:1[AND]alternate_meta:1"
+					showon="alternate_meta:1"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -86,7 +85,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_LABEL"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LANGUAGE_DESC"
 					default="default"
-					showon="item_associations:1[AND]alternate_meta:1[AND]xdefault:1"
+					showon="alternate_meta:1[AND]xdefault:1"
 					>
 					<option value="default">PLG_SYSTEM_LANGUAGEFILTER_OPTION_DEFAULT_LANGUAGE</option>
 				</field>

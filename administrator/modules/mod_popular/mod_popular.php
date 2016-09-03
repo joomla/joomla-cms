@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the mod_popular functions only once.
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModPopularHelper', __DIR__ . '/helper.php');
 
 // Get module data.
 $list = ModPopularHelper::getList($params);

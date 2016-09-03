@@ -503,6 +503,8 @@ class JAccessTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->_cleanupTestFiles();
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

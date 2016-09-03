@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Field to load a drop down list of available user groups
+ * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
@@ -50,28 +50,20 @@ class JFormFieldUserGroupList extends JFormFieldList
 		{
 			static::$options[$hash] = parent::getOptions();
 
+			$groups = JHelperUsergroups::getInstance()->getAll();
+
 			$options = array();
 
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('a.id AS value')
-				->select('a.title AS text')
-				->select('COUNT(DISTINCT b.id) AS level')
-				->from('#__usergroups as a')
-				->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-				->group('a.id, a.title, a.lft, a.rgt')
-				->order('a.lft ASC');
-			$db->setQuery($query);
-
-			if ($options = $db->loadObjectList())
+			foreach ($groups as $group)
 			{
-				foreach ($options as &$option)
-				{
-					$option->text = str_repeat('- ', $option->level) . $option->text;
-				}
-
-				static::$options[$hash] = array_merge(static::$options[$hash], $options);
+				$options[] = (object) array(
+					'text'  => str_repeat('- ', $group->level) . $group->title,
+					'value' => $group->id,
+					'level' => $group->level
+				);
 			}
+
+			static::$options[$hash] = array_merge(static::$options[$hash], $options);
 		}
 
 		return static::$options[$hash];

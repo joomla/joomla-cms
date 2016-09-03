@@ -9,11 +9,5 @@
 
 defined('_JEXEC') or die;
 
-// Load the RAD layer.
-if (!defined('FOF_INCLUDED'))
-{
-	require_once JPATH_LIBRARIES . '/fof/include.php';
-}
-
 // Dispatch the component.
 FOFDispatcher::getTmpInstance('com_postinstall')->dispatch();
