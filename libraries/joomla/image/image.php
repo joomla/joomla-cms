@@ -1199,7 +1199,7 @@ class JImage
 	 *
 	 * @return  void
 	 *
-	 * @since   3.6.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setThumbnailGenerate($quality = true)
 	{
