@@ -86,10 +86,22 @@ class JFormFieldEMailTest extends TestCaseDatabase
 	{
 		$formField = new JFormFieldEmail;
 
+		$xml = '<field ';
+		$curvalue = null;
 		foreach ($data as $attr => $value)
 		{
-			TestReflection::setValue($formField, $attr, $value);
+			if ($attr == 'value')
+			{
+				$curvalue = $value;
+			}
+			else
+			{
+				$xml .= $attr . '="' . $value . '" ';
+			}
 		}
+		$xml .= '/>';
+
+		$formField->setup(simplexml_load_string($xml), $curvalue);
 
 		$replaces = array("\n", "\r"," ", "\t");
 
