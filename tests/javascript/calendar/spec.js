@@ -9,25 +9,69 @@
 
 define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($) {
 
-	JoomlaCalendar.init(".field-calendar");
-
 	describe('Calendar set for the input element', function () {
+		beforeAll(function () {
+			JoomlaCalendar.init(".field-calendar");
+		});
+
 		it('Should have calendar element under the input element', function () {
 			expect($('body')).toContainElement('.j-calendar');
 		});
-	});
 
-	describe('Calendar should appear on button click', function () {
 		it('Should appear on button click', function () {
 			$('.field-calendar').find('button').click();
+
 			expect($('.j-calendar').css('display')).toEqual('block');
 		});
-	});
 
-	describe('Calendar should disappear on other element click', function () {
-		it('Should hide on on other element click', function () {
-			$('#calclosebtn').focus();
-			expect($('.j-calendar').css('display')).toEqual('none');
+		it('Should have the correct date', function () {
+			expect($('.field-calendar').find('input').val()).toEqual('2016-09-01 00:17:15');
 		});
+
+		// it('Should have the correct date clicking on previous year button', function () {
+		//
+		// 	console.info($('.field-calendar').find('.btn-prev-year'));
+		// 	$('.field-calendar').find('.btn-prev-year').trigger('click');
+		//
+		// 	expect($('.field-calendar').find('input').val()).toEqual('2015-09-01 00:17:15');
+		// });
+		//
+		// it('Should have the correct date clicking on next year button', function () {
+		//
+		// 	console.info($('.field-calendar').find('.btn-next-year'));
+		// 	$('.field-calendar').find('.btn-next-year').trigger('click');
+		//
+		// 	expect($('.field-calendar').find('input').val()).toEqual('2016-09-01 00:17:15');
+		// });
+		//
+		// it('Should have the correct date clicking on previous month button', function () {
+		//
+		// 	console.info($('.field-calendar').find('.btn-prev-month'));
+		// 	$('.field-calendar').find('.btn-prev-moth').trigger('click');
+		//
+		// 	expect($('.field-calendar').find('input').val()).toEqual('2016-08-01 00:17:15');
+		// });
+		//
+		// it('Should have the correct date clicking on next month button', function () {
+		//
+		// 	console.info($('.field-calendar').find('.btn-next-month'));
+		// 	$('.field-calendar').find('.btn-next-moth').trigger('click');
+		//
+		// 	expect($('.field-calendar').find('input').val()).toEqual('2016-09-01 00:17:15');
+		// });
+		//
+		// it('Should have the correct date clicking on today button', function () {
+		//
+		// 	console.info($('.field-calendar').find('.btn-today'));
+		// 	$('.field-calendar').find('.btn-today').trigger('click');
+		//
+		// 	expect($('.field-calendar').find('input').val()).toEqual('2016-09-01 00:17:15');
+		// });
+		//
+		// it('Should hide on other body element click/focus', function () {
+		// 	$('#cal-close-btn').focus();
+		//
+		// 	expect($('.j-calendar').css('display')).not.toEqual('block');
+		// });
 	});
 });
