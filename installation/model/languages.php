@@ -731,7 +731,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Publish a Content Language.
 	 *
-	 * @param   object  $tableLanguage   Table Language Object.
+	 * @param   object  $tableLanguage  Table Language Object.
 	 *
 	 * @return  boolean
 	 *
