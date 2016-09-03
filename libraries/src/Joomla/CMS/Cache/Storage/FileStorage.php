@@ -314,7 +314,7 @@ class FileStorage extends CacheStorage
 			$return |= $this->_deleteFolder($this->_root . '/' . $folder);
 		}
 
-		return $return;
+		return (bool) $return;
 	}
 
 	/**
