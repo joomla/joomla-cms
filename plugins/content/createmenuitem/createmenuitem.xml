@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.6" type="plugin" group="content" method="upgrade">
+<extension version="__DEPLOY_VERSION__" type="plugin" group="content" method="upgrade">
 	<name>PLG_CONTENT_CREATEMENUITEM</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2016</creationDate>
