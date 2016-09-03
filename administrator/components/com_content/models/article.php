@@ -766,6 +766,8 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('select', 'true');
+					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 				}
