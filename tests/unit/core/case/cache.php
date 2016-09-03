@@ -33,6 +33,13 @@ abstract class TestCaseCache extends TestCase
 	protected $group = '_testing';
 
 	/**
+	 * Flag if the handler is flushable
+	 *
+	 * @var  bool
+	 */
+	protected $isFlushable = true;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -177,6 +184,27 @@ abstract class TestCaseCache extends TestCase
 		$this->assertTrue($this->handler->clean($this->group, 'notgroup'), 'Removal Failed');
 		$this->assertSame($this->handler->get($this->id, $this->group), $data, 'Data in the group specified in JCacheStorage::clean() should still exist');
 		$this->assertFalse($this->handler->get($secondId, $secondGroup), 'Data in the groups not specified in JCacheStorage::clean() should not exist');
+	}
+
+	/**
+	 * @testdox  Data is correctly stored to and flushed from the cache storage handler
+	 */
+	public function testCacheFlush()
+	{
+		if (!$this->isFlushable)
+		{
+			$this->markTestSkipped('The cache handler does not support flushing the data store.');
+		}
+
+		$data1 = 'testData1';
+		$data2 = 'testData2';
+		$data3 = 'testData3';
+
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data1), 'Initial Store Failed for data 1');
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data2), 'Initial Store Failed for data 2');
+		$this->assertTrue($this->handler->store($this->id, $this->group, $data3), 'Initial Store Failed for data 3');
+
+		$this->assertTrue($this->handler->flush(), 'Failed flushing data from the cache store');
 	}
 
 	/**
