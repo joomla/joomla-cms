@@ -311,7 +311,7 @@ class FileStorage extends CacheStorage
 
 		foreach ($this->_folders($this->_root) as $folder)
 		{
-			$return = $this->_deleteFolder($this->_root . '/' . $folder);
+			$return |= $this->_deleteFolder($this->_root . '/' . $folder);
 		}
 
 		return $return;
