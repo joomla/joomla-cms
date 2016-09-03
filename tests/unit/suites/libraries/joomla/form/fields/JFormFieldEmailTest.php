@@ -91,11 +91,9 @@ class JFormFieldEMailTest extends TestCaseDatabase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
-		$replaces = array("\n", "\r"," ", "\t");
-
-		$this->assertEquals(
-			str_replace($replaces, '', $expected),
-			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
+		$this->assertXmlStringEqualsXmlString(
+			TestReflection::invoke($formField, 'getInput'),
+			$expected,
 			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
 		);
 	}

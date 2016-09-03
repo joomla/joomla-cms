@@ -58,7 +58,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'disabled' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" disabled />',
+			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" disabled="disabled" />',
 		),
 
 		'Readonly' => array(
@@ -67,7 +67,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'readonly' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" readonly />',
+			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" readonly="readonly" />',
 		),
 
 		'Hint' => array(
@@ -94,7 +94,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'autofocus' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" autofocus />',
+			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" autofocus="autofocus" />',
 		),
 
 		'Spellcheck' => array(
@@ -130,7 +130,7 @@ class JHtmlFieldEmailTest_DataSet
 				'name' => 'myTestName',
 				'required' => true,
 			),
-			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" required aria-required="true" />',
+			'<input type="email" name="myTestName" class="validate-email" id="myTestId" value="" required="required" aria-required="true" />',
 		),
 
 	);
