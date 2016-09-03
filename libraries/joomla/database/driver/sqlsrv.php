@@ -68,7 +68,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('sqlsrv_connect'));
+		return function_exists('sqlsrv_connect');
 	}
 
 	/**
@@ -122,7 +122,8 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			'uid' => $this->options['user'],
 			'pwd' => $this->options['password'],
 			'CharacterSet' => 'UTF-8',
-			'ReturnDatesAsStrings' => true);
+			'ReturnDatesAsStrings' => true,
+		);
 
 		// Make sure the SQLSRV extension for PHP is installed and enabled.
 		if (!self::isSupported())
@@ -382,10 +383,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->Type), "nvarchar"))
-				{
-					$field->Default = "";
-				}
+				$field->Default = preg_replace("/(^(\(\(|\('|\(N'|\()|(('\)|(?<!\()\)\)|\))$))/i", '', $field->Default);
 				$result[$field->Field] = $field;
 			}
 		}
@@ -560,7 +558,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an array.
@@ -1127,7 +1125,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$errors = sqlsrv_errors();
 
-		return $errors[0]['SQLSTATE'];
+		return $errors[0]['code'];
 	}
 
 	/**

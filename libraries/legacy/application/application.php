@@ -560,7 +560,7 @@ class JApplication extends JApplicationBase
 			return $registry->set($key, $value);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -616,11 +616,9 @@ class JApplication extends JApplicationBase
 	 */
 	public function login($credentials, $options = array())
 	{
-		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		JPluginHelper::importPlugin('user');
 
+		// Get the global JAuthentication object.
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -823,7 +821,7 @@ class JApplication extends JApplicationBase
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $router;
@@ -870,7 +868,7 @@ class JApplication extends JApplicationBase
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $pathway;
@@ -900,7 +898,7 @@ class JApplication extends JApplicationBase
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $menu;
@@ -1127,7 +1125,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isAdmin()
 	{
-		return ($this->_clientId == 1);
+		return $this->_clientId == 1;
 	}
 
 	/**
@@ -1140,7 +1138,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isSite()
 	{
-		return ($this->_clientId == 0);
+		return $this->_clientId == 0;
 	}
 
 	/**
@@ -1168,7 +1166,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return ((isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION'));
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**

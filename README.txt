@@ -16,7 +16,7 @@
 	* Try out our online demo: https://demo.joomla.org/
 
 4- How to find a Joomla! translation?
-	* Repository of accredited language packs: http://community.joomla.org/translations.html
+	* Repository of accredited language packs: https://community.joomla.org/translations.html
 	* You can also add languages directly to your website via your Joomla! administration panel: https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site/Installing_New_Language
 	* Learn how to setup a Multilingual Joomla! Site: https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site
 
@@ -38,7 +38,7 @@
 	* Check the minimum requirements here: https://www.joomla.org/about-joomla/technical-requirements.html
 	* How do you install Joomla - hhttps://docs.joomla.org/J3.x:Installing_Joomla
 	* You could start your Joomla! experience building your site on a local test server.
-	When ready it can be moved to an on-line hosting account of your choice.
+	When ready it can be moved to an online hosting account of your choice.
 	See the tutorial: https://docs.joomla.org/Installing_Joomla_locally
 
 9- Updates are free!

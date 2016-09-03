@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  table
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -69,9 +69,9 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	protected $_tbl_key = '';
 
 	/**
-	 * JDatabaseDriver object.
+	 * FOFDatabaseDriver object.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    FOFDatabaseDriver
 	 */
 	protected $_db;
 
@@ -166,7 +166,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	/**
 	 * Extended query including joins with other tables
 	 *
-	 * @var    JDatabaseQuery
+	 * @var    FOFDatabaseQuery
 	 */
 	protected $_queryJoin = null;
 
@@ -509,7 +509,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 *
 	 * @param   string           $table   Name of the database table to model.
 	 * @param   string           $key     Name of the primary key field in the table.
-	 * @param   JDatabaseDriver  &$db     Database driver
+	 * @param   FOFDatabaseDriver  &$db     Database driver
 	 * @param   array            $config  The configuration parameters array
 	 */
 	public function __construct($table, $key, &$db, $config = array())
@@ -1130,7 +1130,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 				{
 					$obj = $this->_db->loadObject();
 				}
-				catch (JDatabaseException $e)
+				catch (Exception $e)
 				{
 					$this->setError($e->getMessage());
 				}
@@ -1285,20 +1285,35 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 		}
 		$updateObject = (object)$updateObject;
 
-		// If a primary key exists update the object, otherwise insert it.
-		if ($this->$k)
-		{
-			$result = $this->_db->updateObject($this->_tbl, $updateObject, $this->_tbl_key, $updateNulls);
-		}
-		else
-		{
-			$result = $this->_db->insertObject($this->_tbl, $updateObject, $this->_tbl_key);
-		}
+		/**
+		 * While the documentation for update/insertObject and execute() say they return a boolean,
+		 * not all of the implemtnations.  Depending on the version of J! and the specific driver,
+		 * they may return a database object, or boolean, or a mix, or toss an exception.  So try/catch,
+		 * and test for false.
+		 */
 
-		if ($result !== true)
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
-			return false;
+			// If a primary key exists update the object, otherwise insert it.
+			if ($this->$k)
+			{
+				$result = $this->_db->updateObject($this->_tbl, $updateObject, $this->_tbl_key, $updateNulls);
+			}
+			else
+			{
+				$result = $this->_db->insertObject($this->_tbl, $updateObject, $this->_tbl_key);
+			}
+
+			if ($result === false)
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
 		}
 
 		$this->bind($updateObject);
@@ -1533,7 +1548,16 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
         }
 
 		$date = FOFPlatform::getInstance()->getDate();
-		$time = $date->toSql();
+
+		if (method_exists($date, 'toSql'))
+		{
+			$time = $date->toSql();
+		}
+		else
+		{
+			$time = $date->toMySQL();
+		}
+
 
 		$query = $this->_db->getQuery(true)
 			->update($this->_db->qn($this->_tbl))
@@ -1802,7 +1826,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 			{
 				$this->_db->execute();
 			}
-			catch (JDatabaseException $e)
+			catch (Exception $e)
 			{
 				$this->setError($e->getMessage());
 			}
@@ -2247,7 +2271,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	 *
 	 * @param   boolean  $asReference  Return an object reference instead of a copy
 	 *
-	 * @return  JDatabaseQuery  Query used to join other tables
+	 * @return  FOFDatabaseQuery  Query used to join other tables
 	 */
 	public function getQueryJoin($asReference = false)
 	{
@@ -2271,11 +2295,11 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	/**
 	 * Sets the query with joins to other tables
 	 *
-	 * @param   JDatabaseQuery  $query  The JOIN query to use
+	 * @param   FOFDatabaseQuery  $query  The JOIN query to use
 	 *
 	 * @return  void
 	 */
-	public function setQueryJoin(JDatabaseQuery $query)
+	public function setQueryJoin($query)
 	{
 		$this->_queryJoin = $query;
 	}
@@ -2582,7 +2606,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 
 				$date = FOFPlatform::getInstance()->getDate('now', null, false);
 
-				$this->$created_on = $date->toSql();
+				$this->$created_on = method_exists($date, 'toSql') ? $date->toSql() : $date->toMySQL();
 			}
 			elseif ($hasModifiedOn && $hasModifiedBy)
 			{
@@ -2595,7 +2619,7 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 
                 $date = FOFPlatform::getInstance()->getDate('now', null, false);
 
-				$this->$modified_on = $date->toSql();
+				$this->$modified_on = method_exists($date, 'toSql') ? $date->toSql() : $date->toMySQL();
 			}
 		}
 
@@ -3429,9 +3453,9 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	}
 
 	/**
-	 * Method to get the JDatabaseDriver object.
+	 * Method to get the FOFDatabaseDriver object.
 	 *
-	 * @return  JDatabaseDriver  The internal database driver object.
+	 * @return  FOFDatabaseDriver  The internal database driver object.
 	 */
 	public function getDbo()
 	{
@@ -3439,13 +3463,13 @@ class FOFTable extends FOFUtilsObject implements JTableInterface
 	}
 
 	/**
-	 * Method to set the JDatabaseDriver object.
+	 * Method to set the FOFDatabaseDriver object.
 	 *
-	 * @param   JDatabaseDriver  $db  A JDatabaseDriver object to be used by the table object.
+	 * @param   FOFDatabaseDriver  $db  A FOFDatabaseDriver object to be used by the table object.
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function setDBO(JDatabaseDriver $db)
+	public function setDBO($db)
 	{
 		$this->_db = $db;
 

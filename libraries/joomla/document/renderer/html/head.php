@@ -53,6 +53,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
+		if ($document->getScriptOptions())
+		{
+			JHtml::_('behavior.core');
+		}
+
 		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
@@ -184,6 +189,21 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
+		// Generate scripts options
+		$scriptOptions = $document->getScriptOptions();
+
+		if (!empty($scriptOptions))
+		{
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
+
+			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+
+			$buffer .= $jsonOptions;
+			$buffer .= '</script>' . $lnEnd;
+		}
+
 		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 
 		// Generate script file links
@@ -198,45 +218,25 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 			if ($strAttr['defer'])
 			{
-				$buffer .= ' defer="defer"';
+				$buffer .= ' defer';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="defer"';
+				}
 			}
 
 			if ($strAttr['async'])
 			{
-				$buffer .= ' async="async"';
+				$buffer .= ' async';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="async"';
+				}
 			}
 
 			$buffer .= '></script>' . $lnEnd;
-		}
-
-		// Generate scripts options
-		$scriptOptions = $document->getScriptOptions();
-
-		if (!empty($scriptOptions))
-		{
-			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
-
-			// This is for full XHTML support.
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$pretyPrint  = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-			$jsonOptions = json_encode($scriptOptions, $pretyPrint);
-			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
-
-			// TODO: use .extend(Joomla.optionsStorage, options) when it will be safe
-			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
-			$buffer .= $tab . 'Joomla.optionsStorage = ' . $jsonOptions . ';' . $lnEnd;
-
-			// See above note
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
 		// Generate script declarations

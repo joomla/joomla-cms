@@ -35,6 +35,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated 4.0 Update scripts to jquery
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -46,11 +47,12 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		JLog::add('JHtmlBehavior::framework is deprecated. Update to jquery scripts.', JLog::WARNING, 'deprecated');
+
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug = $config->get('debug');
+			$debug = JDEBUG;
 		}
 
 		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
@@ -343,6 +345,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0  Use the modal equivalent from bootstrap
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -365,6 +368,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
 		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
@@ -588,6 +593,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.7
+	 *
+	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function colorpicker()
 	{
@@ -632,6 +639,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function simplecolorpicker()
 	{
@@ -672,13 +681,13 @@ abstract class JHtmlBehavior
 		}
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if (JFactory::getConfig()->get('session_handler') != 'database')
+		if (JFactory::getApplication()->get('session_handler') != 'database')
 		{
 			$refresh_time = 300000;
 		}
 		else
 		{
-			$life_time    = JFactory::getConfig()->get('lifetime') * 60000;
+			$life_time    = JFactory::getApplication()->get('lifetime') * 60000;
 			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
@@ -743,6 +752,7 @@ abstract class JHtmlBehavior
 		if (empty($terms))
 		{
 			static::$loaded[__METHOD__][$sig] = true;
+
 			return;
 		}
 
@@ -863,28 +873,28 @@ abstract class JHtmlBehavior
 		$jsscript = 1;
 
 		// To keep the code simple here, run strings through JText::_() using array_map()
-		$callback = array('JText','_');
+		$callback = array('JText', '_');
 		$weekdays_full = array_map(
 			$callback, array(
-				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
+				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
 			)
 		);
 		$weekdays_short = array_map(
 			$callback,
 			array(
-				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
+				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
 			)
 		);
 		$months_long = array_map(
 			$callback, array(
 				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
 			)
 		);
 		$months_short = array_map(
 			$callback, array(
 				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
+				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
 			)
 		);
 
@@ -921,7 +931,7 @@ abstract class JHtmlBehavior
 			'DEF_DATE_FORMAT' => "%Y-%m-%d",
 			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
 			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME')
+			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME'),
 		);
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'

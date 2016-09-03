@@ -83,6 +83,14 @@ class PlgSystemDebug extends JPlugin
 	protected $app;
 
 	/**
+	 * Container for callback functions to be triggered when rendering the console.
+	 *
+	 * @var    callable[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private static $displayCallbacks = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -156,6 +164,21 @@ class PlgSystemDebug extends JPlugin
 		// Prepare disconnect handler for SQL profiling.
 		$db = JFactory::getDbo();
 		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
+
+		// Log deprecated class aliases
+		foreach (JLoader::getDeprecatedAliases() as $deprecation)
+		{
+			JLog::add(
+				sprintf(
+					'%1$s has been aliased to %2$s and the former class name is deprecated. The alias will be removed in %3$s.',
+					$deprecation['old'],
+					$deprecation['new'],
+					$deprecation['version']
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
 	}
 
 	/**
@@ -291,9 +314,54 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
+		foreach (self::$displayCallbacks as $name => $callable)
+		{
+			$html[] = $this->displayCallback($name, $callable);
+		}
+
 		$html[] = '</div>';
 
 		echo str_replace('</body>', implode('', $html) . '</body>', $contents);
+	}
+
+	/**
+	 * Add a display callback to be rendered with the debug console.
+	 *
+	 * @param   string    $name      The name of the callable, this is used to generate the section title.
+	 * @param   callable  $callable  The callback function to be added.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidArgumentException
+	 */
+	public static function addDisplayCallback($name, $callable)
+	{
+		// TODO - When PHP 5.4 is the minimum the parameter should be typehinted "callable" and this check removed
+		if (!is_callable($callable))
+		{
+			throw new InvalidArgumentException('A valid callback function must be given.');
+		}
+
+		self::$displayCallbacks[$name] = $callable;
+
+		return true;
+	}
+
+	/**
+	 * Remove a registered display callback
+	 *
+	 * @param   string  $name  The name of the callable.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function removeDisplayCallback($name)
+	{
+		unset(self::$displayCallbacks[$name]);
+
+		return true;
 	}
 
 	/**
@@ -360,7 +428,7 @@ class PlgSystemDebug extends JPlugin
 			return __METHOD__ . ' -- Unknown method: ' . $fncName . '<br />';
 		}
 
-		$html = '';
+		$html = array();
 
 		$js = "toggleContainer('dbg_container_" . $item . "');";
 
@@ -373,6 +441,38 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $item . '">';
 		$html[] = $this->$fncName();
+		$html[] = '</div>';
+
+		return implode('', $html);
+	}
+
+	/**
+	 * Display method for callback functions.
+	 *
+	 * @param   string    $name      The name of the callable.
+	 * @param   callable  $callable  The callable function.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function displayCallback($name, $callable)
+	{
+		$title = JText::_('PLG_DEBUG_' . strtoupper($name));
+
+		$html = array();
+
+		$js = "toggleContainer('dbg_container_" . $name . "');";
+
+		$class = 'dbg-header';
+
+		$html[] = '<div class="' . $class . '" onclick="' . $js . '"><a href="javascript:void(0);"><h3>' . $title . '</h3></a></div>';
+
+		// @todo set with js.. ?
+		$style = ' style="display: none;"';
+
+		$html[] = '<div ' . $style . ' class="dbg-container" id="dbg_container_' . $name . '">';
+		$html[] = call_user_func($callable);
 		$html[] = '</div>';
 
 		return implode('', $html);
@@ -518,7 +618,7 @@ class PlgSystemDebug extends JPlugin
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
 			$totalTime += $mark->time;
-			$totalMem += $mark->memory;
+			$totalMem += (float) $mark->memory;
 			$htmlMark = sprintf(
 				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.2f&nbsp;ms</span> / <span class="label label-default">%.2f&nbsp;ms</span>'
 				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label label-default">%0.2f MB</span>'
@@ -586,7 +686,7 @@ class PlgSystemDebug extends JPlugin
 			);
 
 			$barsMem[] = (object) array(
-				'width' => round($mark->memory / ($totalMem / 100), 4),
+				'width' => round((float) $mark->memory / ($totalMem / 100), 4),
 				'class' => $barClassMem,
 				'tip' => $mark->tip . ' ' . round($mark->memory, 3) . '  MB',
 			);

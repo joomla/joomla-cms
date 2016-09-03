@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$app   = JFactory::getApplication();
-$doc   = JFactory::getDocument();
-$lang  = JFactory::getLanguage();
-$input = $app->input;
-$user  = JFactory::getUser();
+$app  = JFactory::getApplication();
+$lang = JFactory::getLanguage();
+
+// Output as HTML5
+$this->setHtml5(true);
 
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
@@ -22,10 +22,10 @@ JHtml::_('jquery.framework');
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/system/css/system.css');
 
-// Loadtemplate CSS
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+// Load template CSS
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice'))
@@ -37,19 +37,19 @@ else
 	$colour = htmlspecialchars($this->params->get('colourChoice'));
 }
 
-$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load specific language related CSS
@@ -57,7 +57,7 @@ $languageCss = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (file_exists($languageCss) && filesize($languageCss) > 0)
 {
-	$doc->addStyleSheetVersion($languageCss);
+	$this->addStyleSheetVersion($languageCss);
 }
 
 // Load custom.css
@@ -65,11 +65,11 @@ $customCss = 'templates/' . $this->template . '/css/custom.css';
 
 if (file_exists($customCss) && filesize($customCss) > 0)
 {
-	$doc->addStyleSheetVersion($customCss);
+	$this->addStyleSheetVersion($customCss);
 }
 
 // Load template javascript
-$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))
@@ -81,23 +81,28 @@ else
 	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
 
+$this->addScriptDeclaration("
+	(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);
+");
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
-	<head>
+<!DOCTYPE html>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<!-- Load additional CSS styles for Internet Explorer -->
-	<!--[if IE 8]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<!--[if IE 7]>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
-	</head>
+	<!--[if IE 8]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie8.css" rel="stylesheet" /><![endif]-->
+	<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo  $this->template; ?>/css/ie7.css" rel="stylesheet" /><![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
+</head>
 <body id="minwidth-body">
 <div id="containerwrap" data-basepath="<?php echo JURI::root(true); ?>">
 	<!-- Header Logo -->
@@ -162,7 +167,7 @@ else
 	<p class="copyright">
 		<?php
 		// Fix wrong display of Joomla!® in RTL language
-		if (JFactory::getLanguage()->isRtl())
+		if ($lang->isRtl())
 		{
 			$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
 		}
@@ -174,17 +179,5 @@ else
 		?>
 	</p>
 </div>
-<script type="text/javascript">
-	(function($){
-		$(document).ready(function () {
-			// Patches to fix some wrong render of chosen fields
-			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
-				$(this).css({
-					'width': 'auto'
-				});
-			});
-		});
-	})(jQuery);
-</script>
 </body>
 </html>

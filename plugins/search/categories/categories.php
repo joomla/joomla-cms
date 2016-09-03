@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Categories search plugin.
@@ -154,13 +154,13 @@ class PlgSearchCategories extends JPlugin
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $a_id . ' END as slug';
-		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
+		$query->select('a.title, a.description AS text, a.created_time AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
 			->from('#__categories AS a')
 			->where(
 				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = '
 				. $db->quote('com_content') . 'AND a.access IN (' . $groups . ')'
 			)
-			->group('a.id, a.title, a.description, a.alias')
+			->group('a.id, a.title, a.description, a.alias, a.created_time')
 			->order($order);
 
 		if ($app->isSite() && JLanguageMultilang::isEnabled())
