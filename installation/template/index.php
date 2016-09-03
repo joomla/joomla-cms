@@ -8,6 +8,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 // Add Stylesheets
 JHtml::_('bootstrap.loadCss', true, $this->direction);
 JHtml::_('stylesheet', 'installation/template/css/template.css');
@@ -18,7 +20,6 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
-
 
 // Load JavaScript message titles
 JText::script('ERROR');
@@ -54,7 +55,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			});
 		</script>
 	</head>
-	<body data-basepath="<?php echo JURI::root(true); ?>">
+	<body data-basepath="<?php echo JUri::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />

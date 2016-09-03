@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentError $this */
+
 $app = JFactory::getApplication();
 ?>
 <!DOCTYPE html>

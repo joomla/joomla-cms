@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+/** @var JDocumentError $this */
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

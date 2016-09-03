@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentError $this */
+
 if (!isset($this->error))
 {
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }
 
-// Get language and direction
 $app = JFactory::getApplication();
 ?>
 <!DOCTYPE html>
