@@ -231,7 +231,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 				$ids = array_shift($path);
 				if ($views[$view]->nestable)
 				{
-					foreach (array_reverse($ids) as $id => $segment)
+					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
