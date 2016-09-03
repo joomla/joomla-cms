@@ -141,6 +141,9 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 </div>
 
 <style>
+	#joomla-tinymce-builder{
+		margin-left: -180px;
+	}
 	.mce-menubar,
 	.mce-panel {
 		min-height: 18px;

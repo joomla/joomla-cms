@@ -189,4 +189,116 @@
             cols="30"
             rows="2"
     />
+
+    <!-- -->
+    <field
+            name="resizing"
+            type="radio"
+            label="PLG_TINY_FIELD_RESIZING_LABEL"
+            description="PLG_TINY_FIELD_RESIZING_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="resize_horizontal"
+            type="radio"
+            label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
+            description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+            showon="resizing:1"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="element_path"
+            type="radio"
+            label="PLG_TINY_FIELD_PATH_LABEL"
+            description="PLG_TINY_FIELD_PATH_DESC"
+            class="btn-group btn-group-yesno"
+            default="0"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="wordcount"
+            type="radio"
+            label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
+            description="PLG_TINY_FIELD_WORDCOUNT_DESC"
+            class="btn-group btn-group-yesno"
+            default="1"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="image_advtab"
+            type="radio"
+            label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
+            description="PLG_TINY_FIELD_ADVIMAGE_DESC"
+            class="btn-group btn-group-yesno"
+            default="0"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="advlist"
+            type="radio"
+            label="PLG_TINY_FIELD_ADVLIST_LABEL"
+            description="PLG_TINY_FIELD_ADVLIST_DESC"
+            class="btn-group btn-group-yesno"
+            default="0"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="autosave"
+            type="radio"
+            label="PLG_TINY_FIELD_SAVEWARNING_LABEL"
+            description="PLG_TINY_FIELD_SAVEWARNING_DESC"
+            class="btn-group btn-group-yesno"
+            default="0"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="contextmenu"
+            type="radio"
+            label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
+            description="PLG_TINY_FIELD_CONTEXTMENU_DESC"
+            class="btn-group btn-group-yesno"
+            default="0"
+    >
+        <option value="1">JON</option>
+        <option value="0">JOFF</option>
+    </field>
+
+    <field
+            name="custom_plugin"
+            type="text"
+            label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
+            description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
+    />
+
+    <field
+            name="custom_button"
+            type="text"
+            label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
+            description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
+    />
 </form>

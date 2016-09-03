@@ -70,6 +70,9 @@ class JFormFieldTinymceBuilder extends JFormField
 
 			'formatselect' => array('label' => 'Paragraph', 'text' => 'Paragraph'),
 
+			'fontselect' => array('label' => 'Font Select', 'text' => 'Font'),
+			'fontsizeselect' => array('label' => 'Fontsize Select', 'text' => 'Fontsize'),
+
 			'alignleft' => array('label' => 'Align left', 'text' => ''),
 			'aligncenter' => array('label' => 'Align center', 'text' => ''),
 			'alignright' => array('label' => 'Align right', 'text' => ''),
@@ -93,13 +96,29 @@ class JFormFieldTinymceBuilder extends JFormField
 			'paste' => array('label' => 'Paste', 'text' => ''),
 			'pastetext' => array('label' => 'Paste as text', 'text' => ''),
 
+			'ltr' => array('label' => 'Left to right', 'text' => '', 'plugin' => 'directionality'),
+			'rtl' => array('label' => 'Right to left', 'text' => '', 'plugin' => 'directionality'),
+
+			'forecolor' => array('label' => 'Text color', 'text' => ''),
+			'backcolor' => array('label' => 'Background color', 'text' => ''),
+
+			'searchreplace' => array('label' => 'Find and replace', 'text' => ''),
+			'insertdatetime' => array('label' => 'Insert date/time', 'text' => ''),
 			'blockquote' => array('label' => 'Blockquote', 'text' => ''),
 			'code' => array('label' => 'Source code', 'text' => ''),
+			'codesample' => array('label' => 'Codesample', 'plugin' => 'codesample'),
 			'hr' => array('label' => 'Horizontal line', 'text' => ''),
 			'table' => array('label' => 'Table', 'text' => ''),
 			'charmap' => array('label' => 'Special character', 'text' => ''),
+			'visualchars'  => array('label' => 'Show invisible characters', 'plugin' => 'visualchars'),
+			'visualblocks' => array('label' => 'Show blocks', 'plugin' => 'visualblocks'),
+			'nonbreaking'  => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
 			'removeformat' => array('label' => 'Clear formatting', 'text' => ''),
 			'emoticons' => array('label' => 'Emoticons', 'text' => ''),
+			'media' => array('label' => 'Insert/edit video', 'text' => ''),
+			'print' => array('label' => 'Print', 'text' => ''),
+			'fullscreen' => array('label' => 'Fullscreen', 'plugin' => 'fullscreen'),
+			'template' => array('label' => 'Template', 'plugin' => 'template'),
 
 			// TODO: get list of XTD Buttons
 		);
@@ -108,14 +127,18 @@ class JFormFieldTinymceBuilder extends JFormField
 		$data['buttonsSource'] = array(
 			'undo', 'redo', '|',
 			'bold', 'italic', 'underline', 'strikethrough', '|',
-			'formatselect', '|',
+			'formatselect', 'fontselect', 'fontsizeselect', '|',
 			'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
 			'outdent', 'indent', '|',
 			'bullist', 'numlist', '|',
 			'link', 'unlink', 'anchor', '|',
 			'subscript', 'superscript', '|',
-			'cut', 'copy', 'paste', 'pastetext', '|',
-			'blockquote', 'code', 'hr', 'table', 'charmap', 'removeformat', 'emoticons'
+			'ltr', 'rtl', '|',
+			'cut', 'copy', 'paste', 'pastetext', 'searchreplace', '|',
+			'visualchars', 'visualblocks', 'nonbreaking', '|',
+			'insertdatetime', 'forecolor', 'backcolor',
+			'blockquote', 'code', 'codesample', 'hr', 'table', 'charmap', 'removeformat', 'emoticons',
+			'media', 'print', 'fullscreen', 'template',
 		);
 
 		$preset = array();

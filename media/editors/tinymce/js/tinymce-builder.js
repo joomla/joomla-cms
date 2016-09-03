@@ -164,6 +164,7 @@
         if (type === 'menu') {
             $btn.html('<span class="mce-txt">' + info.label + '</span> <i class="mce-caret"></i>');
         } else {
+            $element.addClass('mce-btn-small');
             $btn.html(info.text ? info.text : '<span class="mce-ico mce-i-' + name + '"></span>');
         }
 
