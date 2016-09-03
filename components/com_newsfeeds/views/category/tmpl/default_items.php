@@ -20,7 +20,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if (($this->params->get('filter_field') != 'hide') || $this->params->get('show_pagination_limit')) :?>
+	<?php 
+		if (($this->params->get('filter_field') != 'hide') || $this->params->get('show_pagination_limit')) :
+	?>
 	<fieldset class="filters btn-toolbar">
 		<?php if (($this->params->get('filter_field') != 'hide') && ($this->params->get('filter_field') == '1')) :?>
 			<div class="btn-group">
