@@ -135,6 +135,12 @@
             $btn = this.createButton(name, item, type);
             $container.append($btn);
 
+            // Enable tooltip
+            if ($btn.tooltip) {
+                $btn.tooltip({trigger: 'hover'});
+            }
+
+            // Add input
             if (withInput) {
                 this.appendInput($btn, group, level);
             }
@@ -154,7 +160,9 @@
     JoomlaTinyMCEBuilder.prototype.createButton = function(name, info, type){
         var $element = $('<div />', {
             'class': 'mce-btn',
-            'data-name': name
+            'data-name': name,
+            'data-toggle': 'tooltip',
+            'title': info.label
         });
         var $btn = $('<button/>', {
             'type': 'button'
