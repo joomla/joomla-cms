@@ -157,15 +157,18 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		else
 		{
-			$image = JHtml::_('image', 'mod_languages/'.$menuType->image.'.gif', null, null, true, true);
-			if (!$image)
+			$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
+
+			if ($image)
 			{
-				$titleicon = ' <span>'.JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true).'</span>';
+				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
 			}
 			else
 			{
-				$titleicon = ' <span>' . JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true) . '</span>';
+				$image = '[' . $menuType->language . ']';
 			}
+
+			$titleicon = ' <span>' . $image . '</span>';
 		}
 		$menu->addChild(
 			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon),

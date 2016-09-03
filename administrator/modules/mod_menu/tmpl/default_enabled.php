@@ -173,13 +173,13 @@ if ($user->authorise('core.manage', 'com_menus'))
 		{
 			$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
 
-			if (!$image)
+			if ($image)
 			{
-				$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true);
+				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
 			}
 			else
 			{
-				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
+				$image = '[' . $menuType->language . ']';
 			}
 
 			$titleicon = ' <span>' . $image . '</span>';

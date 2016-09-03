@@ -46,6 +46,7 @@ abstract class JHtmlCategoriesAdministrator
 			$query = $db->getQuery(true)
 				->select('c.id, c.title')
 				->select('l.sef as lang_sef')
+				->select('l.lang_code')
 				->from('#__categories as c')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
 				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
@@ -66,22 +67,24 @@ abstract class JHtmlCategoriesAdministrator
 			{
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
-					$tooltipParts = array(
-						JHtml::_(
-							'image',
-							'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						),
-						$item->title
-					);
+					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+					$url     = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
+					$tooltip = '';
+
+					if ($item->image && JHtml::_('image', 'mod_languages/' . $item->image . '.gif', null, null, true, true))
+					{
+						$tooltip .= JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);
+					}
+					else
+					{
+						$tooltip .= '[' . $item->lang_code . ']';
+					}
+
+					$tooltip .= ' ' . $item->title;
 
 					$item->link = JHtml::_(
 						'tooltip',
-						implode(' ', $tooltipParts),
+						$tooltip,
 						null,
 						null,
 						$text,
