@@ -1241,4 +1241,127 @@ class PlgEditorTinymce extends JPlugin
 			return $filter;
 		}
 	}
+
+	/**
+	 * Return list of known TinyMCE buttons
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getKnownButtons()
+	{
+		// https://www.tinymce.com/docs/demo/full-featured/
+		$buttons = array(
+
+			// General buttons
+			'|' => array('label' => 'Separator', 'text' => '|'),
+
+			'undo'           => array('label' => 'Undo'),
+			'redo'           => array('label' => 'Redo'),
+
+			'bold'           => array('label' => 'Bold'),
+			'italic'         => array('label' => 'Italic'),
+			'underline'      => array('label' => 'Underline'),
+			'strikethrough'  => array('label' => 'Strikethrough'),
+			'formatselect'   => array('label' => 'Paragraph', 'text' => 'Paragraph'),
+			'fontselect'     => array('label' => 'Font Select', 'text' => 'Font'),
+			'fontsizeselect' => array('label' => 'Fontsize Select', 'text' => 'Fontsize'),
+
+			'alignleft'     => array('label' => 'Align left'),
+			'aligncenter'   => array('label' => 'Align center'),
+			'alignright'    => array('label' => 'Align right'),
+			'alignjustify'  => array('label' => 'Justify'),
+
+			'outdent'       => array('label' => 'Decrease indent'),
+			'indent'        => array('label' => 'Increase indent'),
+
+			'bullist'       => array('label' => 'Bulleted list'),
+			'numlist'       => array('label' => 'Numbered list'),
+
+			'link'          => array('label' => 'Insert/edit link'),
+			'unlink'        => array('label' => 'Remove link'),
+			'anchor'        => array('label' => 'Anchor'),
+
+			'subscript'     => array('label' => 'Subscript'),
+			'superscript'   => array('label' => 'Superscript'),
+			'blockquote'    => array('label' => 'Blockquote'),
+
+			'cut'           => array('label' => 'Cut'),
+			'copy'          => array('label' => 'Copy'),
+			'paste'         => array('label' => 'Paste'),
+			'pastetext'     => array('label' => 'Paste as text'),
+			'removeformat'  => array('label' => 'Clear formatting'),
+			'forecolor'     => array('label' => 'Text color'),
+			'backcolor'     => array('label' => 'Background color'),
+
+			// Plugins
+			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
+			'ltr'            => array('label' => 'Left to right', 'plugin' => 'directionality'),
+			'rtl'            => array('label' => 'Right to left', 'plugin' => 'directionality'),
+			'code'           => array('label' => 'Source code', 'plugin' => 'code'),
+			'codesample'     => array('label' => 'Codesample', 'plugin' => 'codesample'),
+			'table'          => array('label' => 'Table', 'plugin' => 'table'),
+			'charmap'        => array('label' => 'Special character', 'plugin' => 'charmap'),
+			'visualchars'    => array('label' => 'Show invisible characters', 'plugin' => 'visualchars'),
+			'visualblocks'   => array('label' => 'Show blocks', 'plugin' => 'visualblocks'),
+			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
+			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
+			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'print'          => array('label' => 'Print', 'plugin' => 'print'),
+			'fullscreen'     => array('label' => 'Fullscreen', 'plugin' => 'fullscreen'),
+			'template'       => array('label' => 'Template', 'plugin' => 'template'),
+			'searchreplace'  => array('label' => 'Find and replace', 'plugin' => 'searchreplace'),
+			'insertdatetime' => array('label' => 'Insert date/time', 'plugin' => 'insertdatetime'),
+
+			// TODO: get list of XTD Buttons
+		);
+
+		return $buttons;
+	}
+
+	/**
+	 * Return toolbar presets
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public static function getToolbarPreset()
+	{
+		$preset = array();
+
+		$preset['simple']   = array(
+			'menu' => array(),
+			'toolbar1' => array(
+				'bold', 'italics', 'underline', 'strikethrough', '|',
+				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code'
+			),
+			'toolbar2' => array(),
+		);
+
+		$preset['advanced'] = array(
+			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
+			'toolbar1' => array(
+				'undo', 'redo', '|',
+				'bold', 'italic', 'underline', 'strikethrough', '|',
+				'formatselect', 'fontselect', 'fontsizeselect', '|',
+				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'outdent', 'indent', '|',
+				'bullist', 'numlist', '|',
+				'link', 'unlink', 'anchor', '|',
+				'subscript', 'superscript', '|',
+				'ltr', 'rtl', '|',
+				'cut', 'copy', 'paste', 'pastetext', 'searchreplace', '|',
+			),
+			'toolbar2' => array(
+				'visualchars', 'visualblocks', 'nonbreaking', '|',
+				'insertdatetime', 'forecolor', 'backcolor',
+				'blockquote', 'code', 'codesample', 'hr', 'table', 'charmap', 'removeformat', 'emoticons',
+				'media', 'print', 'fullscreen', 'template',
+			),
+		);
+
+		return $preset;
+	}
 }
