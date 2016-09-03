@@ -37,14 +37,12 @@ extract( $displayData );
  * @var   boolean $spellcheck     Spellcheck state for the form field.
  * @var   string  $validate       Validation rules to apply.
  * @var   string  $value          Value attribute of the field.
- * @var   array   $checkedOptions Options that will be set as checked.
- * @var   boolean $hasValue       Has this field a value assigned?
- * @var   array   $options        Options available for this field.
- *
+  *
  * @var   array   $menus           List of the menu items
  * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
  * @var   array   $buttonsSource   Buttons by group, for the builder
+ * @var   array   $toolbarPreset   Toolbar presset (default values)
  * @var   array   $viewLevels      List of Access View Levels
  * @var   JForm[] $viewLevelForms  Form with extra options for each level
  *
@@ -58,9 +56,10 @@ JHtml::_( 'script', 'editors/tinymce/tinymce-builder.js', false, true );
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(
-	'menus'       => $menus,
-	'buttons'     => $buttons,
-	'formControl' => $name . '[toolbars]',
+	'menus'         => $menus,
+	'buttons'       => $buttons,
+	'toolbarPreset' => $toolbarPreset,
+	'formControl'   => $name . '[toolbars]',
 ));
 
 ?>
@@ -95,11 +94,29 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 	<div class="tab-content">
 		<?php foreach ( $viewLevels as $i => $level ):
 			$levelId = $level['value'];
-			$valMenu = empty($value['toolbars'][$levelId]['menu']) ? array() : $value['toolbars'][$levelId]['menu'];
-			$valBar1 = empty($value['toolbars'][$levelId]['toolbar1']) ? array() : $value['toolbars'][$levelId]['toolbar1'];
-			$valBar2 = empty($value['toolbars'][$levelId]['toolbar2']) ? array() : $value['toolbars'][$levelId]['toolbar2'];
+
+			// Take the preset for default value
+			$preset  = $levelId == 6 || $levelId == 3 ? $toolbarPreset['advanced'] : $toolbarPreset['simple'];
+
+			// Take existing values
+			$valMenu = empty($value['toolbars'][$levelId]['menu']) ? $preset['menu'] : $value['toolbars'][$levelId]['menu'];
+			$valBar1 = empty($value['toolbars'][$levelId]['toolbar1']) ? $preset['toolbar1'] : $value['toolbars'][$levelId]['toolbar1'];
+			$valBar2 = empty($value['toolbars'][$levelId]['toolbar2']) ? $preset['toolbar2'] : $value['toolbars'][$levelId]['toolbar2'];
 		?>
 			<div class="tab-pane <?php echo ! $i ? 'active' : '' ?>" id="view-level-<?php echo $levelId; ?>">
+				<div class="btn-toolbar clearfix">
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn-mini btn-success button-action"
+							data-action="setPreset" data-preset="simple" data-level="<?php echo $levelId; ?>">
+							<?php echo JText::_('PLG_TINY_FIELD_VALUE_SIMPLE'); ?></button>
+						<button type="button" class="btn btn-mini btn-warning button-action"
+						    data-action="setPreset" data-preset="advanced" data-level="<?php echo $levelId; ?>">
+							<?php echo JText::_('PLG_TINY_FIELD_VALUE_ADVANCED'); ?></button>
+						<button type="button" class="btn btn-mini btn-danger button-action"
+						     data-action="clearPane" data-level="<?php echo $levelId; ?>">
+							<?php echo JText::_('JCLEAR'); ?></button>
+					</div>
+				</div>
 
 				<div class="mce-tinymce mce-container mce-panel">
 					<div class="mce-container-body mce-stack-layout">
@@ -117,7 +134,7 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 				</div>
 
 				<!-- Render the form for extra options -->
-				<?php //echo $this->sublayout('leveloptions', array('form' => $viewLevelForms[$level['value']])); ?>
+				<?php echo $this->sublayout('leveloptions', array('form' => $viewLevelForms[$level['value']])); ?>
 			</div>
 		<?php endforeach; ?>
 	</div>

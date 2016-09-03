@@ -37,10 +37,10 @@
 
         // Render Target elements
         this.$targetMenu.each(function(i, element){
-            this.renderBar(element, 'menu', true);
+            this.renderBar(element, 'menu', null, true);
         }.bind(this));
         this.$targetToolbar.each(function(i, element){
-            this.renderBar(element, 'toolbar', true);
+            this.renderBar(element, 'toolbar', null, true);
         }.bind(this));
 
         // Set up "drag&drop" stuff
@@ -92,6 +92,17 @@
             }
         });
 
+        // Bind actions buttons
+        this.$container.on('click', '.button-action', function(event){
+            var $btn = $(event.target), action = $btn.data('action'), options = $btn.data();
+
+            if (this[action]) {
+                this[action].call(this, options);
+            } else {
+                throw new Error('Unsupported action ' + action);
+            }
+        }.bind(this));
+
         console.log(this);
     };
 
@@ -100,24 +111,27 @@
      *
      * @param {HTMLElement} container  The toolbar container
      * @param {String}      type       The type toolbar or menu
+     * @param {Array|null}  value      The value
      * @param {Boolean}     withInput  Whether append input
      *
      * @since  __DEPLOY_VERSION__
      */
-    JoomlaTinyMCEBuilder.prototype.renderBar = function(container, type, withInput) {
+    JoomlaTinyMCEBuilder.prototype.renderBar = function(container, type, value, withInput) {
         var $container = $(container),
             group = $container.data('group'),
             level = $container.data('level'),
             items = type === 'menu' ? this.options.menus : this.options.buttons,
-            value = $container.data('value') || [],
+            value = value ? value : ($container.data('value') || []),
             item, name, $btn;
 
         for ( var i = 0, l = value.length; i < l; i++ ) {
             name = value[i];
             item = items[name];
+
             if (!item) {
                 continue;
             }
+
             $btn = this.createButton(name, item, type);
             $container.append($btn);
 
@@ -148,7 +162,7 @@
         $element.append($btn);
 
         if (type === 'menu') {
-            $btn.html('<span class="mce-txt">' + info.label + '</span>');
+            $btn.html('<span class="mce-txt">' + info.label + '</span> <i class="mce-caret"></i>');
         } else {
             $btn.html(info.text ? info.text : '<span class="mce-ico mce-i-' + name + '"></span>');
         }
@@ -161,6 +175,8 @@
      * @param {HTMLElement} element
      * @param {String}      group
      * @param {String}      level
+     *
+     * @since  __DEPLOY_VERSION__
      */
     JoomlaTinyMCEBuilder.prototype.appendInput = function (element, group, level) {
         var $el    = $(element),
@@ -172,6 +188,48 @@
             });
 
         $el.append($input);
+    };
+
+    /**
+     * Set Selected preset to specific view level
+     * @param {Object} options Options {level: 1, preset: 'presetName'}
+     */
+    JoomlaTinyMCEBuilder.prototype.setPreset = function (options) {
+        var level = options.level, preset = this.options.toolbarPreset[options.preset] || null;
+
+        if (!preset) {
+            throw new Error('Unknown Presset "' + options.preset + '"');
+        }
+
+        var $container, type;
+        for (var group in preset) {
+            if (!preset.hasOwnProperty(group)) {
+                continue;
+            }
+
+            // Find correct container for current level
+            if (group === 'menu') {
+                type = 'menu';
+                $container = this.$targetMenu.filter('[data-group="' + group + '"][data-level="' + level + '"]');
+            } else {
+                type = 'toolbar'
+                $container = this.$targetToolbar.filter('[data-group="' + group + '"][data-level="' + level + '"]');
+            }
+
+            // Reset existing values
+            $container.empty();
+
+            // Set new
+            this.renderBar($container, type, preset[group], true);
+        }
+    };
+
+    /**
+     * Clear the pane for specific view level
+     * @param {Object} options Options {level: 1}
+     */
+    JoomlaTinyMCEBuilder.prototype.clearPane = function (options) {
+        console.log(options);
     };
 
 

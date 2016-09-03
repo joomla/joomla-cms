@@ -118,10 +118,35 @@ class JFormFieldTinymceBuilder extends JFormField
 			'blockquote', 'code', 'hr', 'table', 'charmap', 'removeformat', 'emoticons'
 		);
 
+		$preset = array();
+		$preset['simple']   = array(
+			'menu' => array(),
+			'toolbar1' => array(
+				'bold', 'italics', 'underline', 'strikethrough', '|',
+				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code'
+			),
+			'toolbar2' => array(),
+		);
+		$preset['advanced'] = array(
+			'menu'     => array_keys($menus),
+			'toolbar1' => $data['buttonsSource'],
+			'toolbar2' => array(),
+		);
+		$data['toolbarPreset'] = $preset;
+
 		$data['viewLevels'] = $this->getAccessViewLevels();
 
+		// Prepare the forms for extra options
 		$levelsForms = array();
 		$formsource  = JPATH_PLUGINS . '/editors/tinymce/form/leveloptions.xml';
+
+		// Check the old values for B/C
+		$valueOld = array();
+		if ($this->value && empty($this->value['extraoptions']))
+		{
+			$valueOld = $this->form->getValue('params');
+		}
+
 
 		foreach($data['viewLevels'] as $level) {
 			$levelId  = $level['value'];
@@ -130,7 +155,10 @@ class JFormFieldTinymceBuilder extends JFormField
 
 			$levelsForms[$levelId] = JForm::getInstance($formname, $formsource, array('control' => $control));
 
-			// @TODO: Bind the values
+			// Bind the values
+			$formValues = empty($this->value['extraoptions'][$levelId]) ? $valueOld : $this->value['extraoptions'][$levelId];
+
+			$levelsForms[$levelId]->bind($formValues);
 		}
 		$data['viewLevelForms'] = $levelsForms;
 
