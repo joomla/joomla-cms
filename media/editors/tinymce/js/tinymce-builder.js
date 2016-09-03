@@ -230,7 +230,10 @@
      * @param {Object} options Options {level: 1}
      */
     JoomlaTinyMCEBuilder.prototype.clearPane = function (options) {
-        console.log(options);
+        var level = options.level;
+
+        this.$targetMenu.filter('[data-level="' + level + '"]').empty();
+        this.$targetToolbar.filter('[data-level="' + level + '"]').empty();
     };
 
 

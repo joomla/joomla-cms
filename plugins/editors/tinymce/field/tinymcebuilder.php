@@ -124,22 +124,7 @@ class JFormFieldTinymceBuilder extends JFormField
 		);
 		$data['buttons'] = $buttons;
 
-		$data['buttonsSource'] = array(
-			'undo', 'redo', '|',
-			'bold', 'italic', 'underline', 'strikethrough', '|',
-			'formatselect', 'fontselect', 'fontsizeselect', '|',
-			'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
-			'outdent', 'indent', '|',
-			'bullist', 'numlist', '|',
-			'link', 'unlink', 'anchor', '|',
-			'subscript', 'superscript', '|',
-			'ltr', 'rtl', '|',
-			'cut', 'copy', 'paste', 'pastetext', 'searchreplace', '|',
-			'visualchars', 'visualblocks', 'nonbreaking', '|',
-			'insertdatetime', 'forecolor', 'backcolor',
-			'blockquote', 'code', 'codesample', 'hr', 'table', 'charmap', 'removeformat', 'emoticons',
-			'media', 'print', 'fullscreen', 'template',
-		);
+		$data['buttonsSource'] = array_keys($buttons);
 
 		$preset = array();
 		$preset['simple']   = array(
@@ -152,8 +137,24 @@ class JFormFieldTinymceBuilder extends JFormField
 		);
 		$preset['advanced'] = array(
 			'menu'     => array_keys($menus),
-			'toolbar1' => $data['buttonsSource'],
-			'toolbar2' => array(),
+			'toolbar1' => array(
+				'undo', 'redo', '|',
+				'bold', 'italic', 'underline', 'strikethrough', '|',
+				'formatselect', 'fontselect', 'fontsizeselect', '|',
+				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'outdent', 'indent', '|',
+				'bullist', 'numlist', '|',
+				'link', 'unlink', 'anchor', '|',
+				'subscript', 'superscript', '|',
+				'ltr', 'rtl', '|',
+				'cut', 'copy', 'paste', 'pastetext', 'searchreplace', '|',
+			),
+			'toolbar2' => array(
+				'visualchars', 'visualblocks', 'nonbreaking', '|',
+				'insertdatetime', 'forecolor', 'backcolor',
+				'blockquote', 'code', 'codesample', 'hr', 'table', 'charmap', 'removeformat', 'emoticons',
+				'media', 'print', 'fullscreen', 'template',
+			),
 		);
 		$data['toolbarPreset'] = $preset;
 
