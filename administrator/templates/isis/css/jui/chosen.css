@@ -343,7 +343,7 @@
 .chzn-container-active.chzn-with-drop .chzn-single div {
 /*  background: transparent;
   border-left: none;*/
-  border-bottom: 1px solid #b3b3b3;
+  border-bottom: 1px solid #cccccc;
   border-bottom-left-radius: 3px;
 }
 .chzn-container-active.chzn-with-drop .chzn-single[rel="value_0"] div,
