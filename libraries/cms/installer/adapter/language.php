@@ -312,6 +312,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 				'lang_code'    => $this->tag,
 				'title'        => $siteLanguageManifest['name'],
 				'title_native' => $siteLanguageManifest['name'],
+				'sef'          => $this->getSefString($this->tag),
 				'image'        => strtolower(str_replace('-', '_', $this->tag)),
 				'published'    => 0,
 				'ordering'     => 0,
@@ -322,28 +323,9 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 				'sitename'     => '',
 			);
 
-			$sefs = array(
-				preg_replace('#([a-z]{2,3})-[A-Z]{2}#', '$1', $this->tag),
-				strtolower($this->tag),
-			);
-
 			$tableLanguage = JTable::getInstance('language');
 
-			$created = false;
-
-			// Try storing sef type (xx), fallback to (xx-xx). For instance, for en-US when you have en-GB installed.
-			foreach ($sefs as $sef)
-			{
-				$languageData['sef'] = $sef;
-
-				if ($tableLanguage->bind($languageData) && $tableLanguage->check() && $tableLanguage->store() && $tableLanguage->reorder())
-				{
-					$created = true;
-					break;
-				}
-			}
-
-			if (!$created)
+			if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
 			{
 				JLog::add(
 					JText::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $row->getError()),
@@ -363,6 +345,47 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		}
 
 		return $row->get('extension_id');
+	}
+
+
+	/**
+	 * Gets a unique language SEF string.
+	 *
+	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
+	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
+	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * For example: www.mywebsite.com/en-au/
+	 *
+	 * @param   string  $itemLanguageTag  Language Tag.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getSefString($itemLanguageTag)
+	{
+		$langs               = explode('-', $itemLanguageTag);
+		$prefixToFind        = $langs[0];
+		$numberPrefixesFound = 0;
+
+		// Get the sef value of all current content languages.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn('sef'))
+			->from($db->qn('#__languages'));
+		$db->setQuery($query);
+
+		$siteLanguages = $db->loadObjectList();
+
+		foreach ($siteLanguages as $siteLang)
+		{
+			if ($siteLang->sef === $prefixToFind)
+			{
+				$numberPrefixesFound++;
+			}
+		}
+
+		return $numberPrefixesFound === 0 ? $prefixToFind : strtolower($itemLanguageTag);
 	}
 
 	/**

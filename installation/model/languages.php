@@ -688,47 +688,6 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Gets a unique language SEF string.
-	 *
-	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
-	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
-	 * For example: www.mywebsite.com/en-au/
-	 *
-	 * @param   stdClass    $itemLanguage   Language Object.
-	 * @param   stdClass[]  $siteLanguages  All Language Objects.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.2
-	 */
-	public function getSefString($itemLanguage, $siteLanguages)
-	{
-		$langs = explode('-', $itemLanguage->language);
-		$prefixToFind = $langs[0];
-
-		$numberPrefixesFound = 0;
-
-		foreach ($siteLanguages as $siteLang)
-		{
-			$langs = explode('-', $siteLang->language);
-			$lang  = $langs[0];
-
-			if ($lang == $prefixToFind)
-			{
-				++$numberPrefixesFound;
-			}
-		}
-
-		if ($numberPrefixesFound == 1)
-		{
-			return $prefixToFind;
-		}
-
-		return strtolower($itemLanguage->language);
-	}
-
-	/**
 	 * Publish the Installed Content Languages.
 	 *
 	 * @return  boolean
@@ -759,6 +718,48 @@ class InstallationModelLanguages extends JModelBase
 		}
 
 		return true;
+	}
+
+	/**
+	 * Gets a unique language SEF string.
+	 *
+	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
+	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
+	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * For example: www.mywebsite.com/en-au/
+	 *
+	 * @param   stdClass    $itemLanguage   Language Object.
+	 * @param   stdClass[]  $siteLanguages  All Language Objects.
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 * @depreacted   4.0 Not used anymore.
+	 */
+	public function getSefString($itemLanguage, $siteLanguages)
+	{
+		$langs = explode('-', $itemLanguage->language);
+		$prefixToFind = $langs[0];
+
+		$numberPrefixesFound = 0;
+
+		foreach ($siteLanguages as $siteLang)
+		{
+			$langs = explode('-', $siteLang->language);
+			$lang  = $langs[0];
+
+			if ($lang == $prefixToFind)
+			{
+				++$numberPrefixesFound;
+			}
+		}
+
+		if ($numberPrefixesFound == 1)
+		{
+			return $prefixToFind;
+		}
+
+		return strtolower($itemLanguage->language);
 	}
 
 	/**
