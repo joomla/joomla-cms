@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,9 +52,8 @@ class JFormFieldHelpsite extends JFormFieldList
 	protected function getInput()
 	{
 		JHtml::script('system/helpsite.js', false, true);
-		JFactory::getDocument()->addScriptDeclaration(
-			'var helpsite_base = "' . addslashes(JUri::root()) . '";'
-		);
+
+		$showDefault = $this->getAttribute('showDefault') === 'false' ? 'false' : 'true';
 
 		$html = parent::getInput();
 		$button = '<button
@@ -62,6 +61,7 @@ class JFormFieldHelpsite extends JFormFieldList
 						class="btn btn-small"
 						id="helpsite-refresh"
 						rel="' . $this->id . '"
+						showDefault="' . $showDefault . '"
 					>
 					<span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span>
 					</button>';

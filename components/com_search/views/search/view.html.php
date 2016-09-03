@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,11 +23,11 @@ class SearchViewSearch extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/search.php';
+		JLoader::register('SearchHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/search.php');
 
 		$app     = JFactory::getApplication();
 		$uri     = JUri::getInstance();
@@ -140,7 +140,7 @@ class SearchViewSearch extends JViewLegacy
 			$total      = $this->get('total');
 			$pagination = $this->get('pagination');
 
-			require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+			JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 			for ($i = 0, $count = count($results); $i < $count; $i++)
 			{

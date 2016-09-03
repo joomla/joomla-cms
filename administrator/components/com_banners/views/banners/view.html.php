@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,6 @@ class BannersViewBanners extends JViewLegacy
 		BannersHelper::addSubmenu('banners');
 
 		$this->addToolbar();
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -92,7 +91,7 @@ class BannersViewBanners extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
+		JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 		$canDo = JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = JFactory::getUser();
@@ -111,19 +110,19 @@ class BannersViewBanners extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($this->state->get('filter.state') != 2)
+			if ($this->state->get('filter.published') != 2)
 			{
 				JToolbarHelper::publish('banners.publish', 'JTOOLBAR_PUBLISH', true);
 				JToolbarHelper::unpublish('banners.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			}
 
-			if ($this->state->get('filter.state') != -1)
+			if ($this->state->get('filter.published') != -1)
 			{
-				if ($this->state->get('filter.state') != 2)
+				if ($this->state->get('filter.published') != 2)
 				{
 					JToolbarHelper::archiveList('banners.archive');
 				}
-				elseif ($this->state->get('filter.state') == 2)
+				elseif ($this->state->get('filter.published') == 2)
 				{
 					JToolbarHelper::unarchiveList('banners.publish');
 				}
@@ -149,9 +148,9 @@ class BannersViewBanners extends JViewLegacy
 			JToolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'banners.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ class JCaptcha extends JObject
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
-				return null;
+				return;
 			}
 		}
 
@@ -116,7 +116,7 @@ class JCaptcha extends JObject
 	}
 
 	/**
-	 * Fire the onInit event to initialise the captcha plug-in.
+	 * Fire the onInit event to initialise the captcha plugin.
 	 *
 	 * @param   string  $id  The id of the field.
 	 *
@@ -200,7 +200,7 @@ class JCaptcha extends JObject
 	}
 
 	/**
-	 * Load the Captcha plug-in.
+	 * Load the Captcha plugin.
 	 *
 	 * @param   array  $options  Associative array of options.
 	 *

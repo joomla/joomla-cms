@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,26 +23,12 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	protected $object;
 
 	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
+	 * Backup of the SERVER superglobal
 	 *
-	 * @return  void
-	 *
-	 * @since   11.1
+	 * @var  array
+	 * @since  3.6
 	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		JUri::reset();
-
-		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
-		$_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
-		$_SERVER['PHP_SELF'] = '/joomla/index.php';
-		$_SERVER['REQUEST_URI'] = '/joomla/index.php?var=value 10';
-
-		$this->object = new JUri;
-	}
+	protected $backupServer;
 
 	/**
 	 * Test the __toString method.
@@ -634,5 +620,274 @@ class JUriTest extends PHPUnit_Framework_TestCase
 			$this->object->isSsl(),
 			$this->equalTo(false)
 		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testparsewhennoschemegiven()
+	{
+		$this->object->parse('www.myotherexample.com');
+		$this->assertFalse($this->object->isInternal('www.myotherexample.com'));
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testsefurl()
+	{
+		$this->object->parse('/login');
+		$this->assertFalse($this->object->isInternal('/login'));
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWithNoSchemeAndNotInternal()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('www.myotherexample.com'),
+			'www.myotherexample.com should NOT be resolved as internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWithNoSchemeAndNoHostnameAndNotInternal()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('myotherexample.com'),
+			'myotherexample.com should NOT be resolved as internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWithSchemeAndNotInternal()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('http://www.myotherexample.com'),
+			'http://www.myotherexample.com should NOT be resolved as  internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenInternalWithNoDomainOrScheme()
+	{
+		$this->assertTrue(
+			$this->object->isInternal('index.php?option=com_something'),
+			'index.php?option=com_something should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenInternalWithDomainAndSchemeAndPort()
+	{
+		$this->assertTrue(
+			$this->object->isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenInternalWithDomainAndSchemeAndPortNoSubFolder()
+	{
+		JUri::reset();
+
+		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+		$_SERVER['PHP_SELF'] = '/index.php';
+		$_SERVER['REQUEST_URI'] = '/index.php?var=value 10';
+
+		$this->object = new JUri;
+
+		$this->assertTrue(
+			$this->object->isInternal(JUri::base() . 'index.php?option=com_something'),
+			JUri::base() . 'index.php?option=com_something should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenNOTInternalWithDomainAndSchemeAndPortAndIndex()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('http://www.myotherexample.com/index.php?option=com_something'),
+			'http://www.myotherexample.com/index.php?option=com_something should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternalWhenNOTInternalWithDomainAndNoSchemeAndPortAndIndex()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('www.myotherexample.com/index.php?option=com_something'),
+			'www.myotherexample.comindex.php?option=com_something should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testisInternal3rdPartyDevs()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('/customDevScript.php'),
+			'/customDevScript.php should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testAppendingOfBaseToTheEndOfTheUrl()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('/customDevScript.php?www.example.com'),
+			'/customDevScript.php?www.example.com should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testAppendingOfBaseToTheEndOfTheUrl2()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('www.otherexample.com/www.example.com'),
+			'www.otherexample.com/www.example.com should NOT be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testSchemeEmptyButHostAndPortMatch()
+	{
+		$this->assertTrue(
+			$this->object->isInternal('www.example.com:80'),
+			'www.example.com:80 should be internal'
+		);
+	}
+
+	/**
+	 * Test hardening of JUri::isInternal against non internal links
+	 *
+	 * @return void
+	 *
+	 * @covers JUri::isInternal
+	 */
+	public function testPregMatch()
+	{
+		$this->assertFalse(
+			$this->object->isInternal('wwwhexample.com'),
+			'wwwhexample.com should NOT be internal'
+		);
+	}
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+		$this->backupServer = $_SERVER;
+		JUri::reset();
+
+		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
+		$_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
+		$_SERVER['PHP_SELF'] = '/joomla/index.php';
+		$_SERVER['REQUEST_URI'] = '/joomla/index.php?var=value 10';
+
+		$this->object = new JUri;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->object);
+		parent::tearDown();
 	}
 }

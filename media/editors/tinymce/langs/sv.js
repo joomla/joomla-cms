@@ -84,6 +84,7 @@ tinymce.addI18n('sv',{
 "Horizontal line": "Horisontell linje",
 "Horizontal space": "Horisontellt utrymme",
 "Insert\/edit image": "Infoga\/\u00e4ndra bild",
+"Insert\/Edit code sample": "Infoga\/\u00e4ndra ett kodexempel",
 "General": "Generella",
 "Advanced": "Avancerat",
 "Source": "K\u00e4lla",

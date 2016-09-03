@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,9 +42,20 @@ class JErrorPageTest extends TestCaseDatabase
 	 */
 	public function testEnsureTheErrorPageIsCorrectlyRendered()
 	{
-		$documentResponse = '<title>500 - Testing JErrorPage::render()</title>';
+		$documentResponse = '<title>500 - Testing JErrorPage::render() with RuntimeException</title>Testing JErrorPage::render() with RuntimeException';
 
-		$key = serialize(array('error', array()));
+		$key = serialize(
+			array(
+				'error',
+				array(
+					'charset'   => 'utf-8',
+					'lineend'   => 'unix',
+					'tab'       => "\t",
+					'language'  => 'en-GB',
+					'direction' => 'ltr',
+				),
+			)
+		);
 
 		$mockErrorDocument = $this->getMockBuilder('JDocumentError')
 			->setMethods(array('setError', 'setTitle', 'render'))
@@ -57,7 +68,7 @@ class JErrorPageTest extends TestCaseDatabase
 		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
 
 		// Create an Exception to inject into the method
-		$exception = new RuntimeException('Testing JErrorPage::render()', 500);
+		$exception = new RuntimeException('Testing JErrorPage::render() with RuntimeException', 500);
 
 		// The render method echoes the output, so catch it in a buffer
 		ob_start();
@@ -70,25 +81,46 @@ class JErrorPageTest extends TestCaseDatabase
 
 	/**
 	 * @covers  JErrorPage::render
+	 *
+	 * @requires  PHP 7.0
 	 */
-	public function testEnsureTheErrorPageIsCorrectlyRenderedWithEngineExceptions()
+	public function testEnsureTheErrorPageIsCorrectlyRenderedWithThrowables()
 	{
-		// Only test for PHP 7+
-		if (PHP_MAJOR_VERSION < 7)
-		{
-			$this->markTestSkipped('Test only applies to PHP 7+');
-		}
+		$documentResponse = '<title>500 - Testing JErrorPage::render() with PHP 7 Error</title>Testing JErrorPage::render() with PHP 7 Error';
+
+		$key = serialize(
+			array(
+				'error',
+				array(
+					'charset'   => 'utf-8',
+					'lineend'   => 'unix',
+					'tab'       => "\t",
+					'language'  => 'en-GB',
+					'direction' => 'ltr',
+				),
+			)
+		);
+
+		$mockErrorDocument = $this->getMockBuilder('JDocumentError')
+			->setMethods(array('setError', 'setTitle', 'render'))
+			->getMock();
+
+		$mockErrorDocument->expects($this->any())
+			->method('render')
+			->willReturn($documentResponse);
+
+		TestReflection::setValue('JDocument', 'instances', array($key => $mockErrorDocument));
 
 		// Create an Error to inject into the method
-		$exception = new Error('Testing JErrorPage::render()', 500);
+		$exception = new Error('Testing JErrorPage::render() with PHP 7 Error', 500);
 
 		// The render method echoes the output, so catch it in a buffer
 		ob_start();
 		JErrorPage::render($exception);
 		$output = ob_get_clean();
 
-		// Validate the <title> element was set correctly
-		$this->assertContains('Testing JErrorPage::render()', $output);
+		// Validate the mocked response from JDocument was received
+		$this->assertEquals($documentResponse, $output);
 	}
 
 	/**
@@ -104,7 +136,6 @@ class JErrorPageTest extends TestCaseDatabase
 		JErrorPage::render($object);
 		$output = ob_get_clean();
 
-		// Validate the <title> element was set correctly
-		$this->assertContains('Error displaying the error page', $output);
+		$this->assertEquals('Error displaying the error page', $output);
 	}
 }

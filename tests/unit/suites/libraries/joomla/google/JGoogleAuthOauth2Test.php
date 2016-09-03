@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,6 +54,13 @@ class JGoogleAuthOauth2Test extends TestCase
 	private static $closed = null;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -63,7 +70,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -81,6 +88,27 @@ class JGoogleAuthOauth2Test extends TestCase
 
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
 		$this->object = new JGoogleAuthOauth2($this->options, $this->oauth);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->options);
+		unset($this->http);
+		unset($this->input);
+		unset($this->application);
+		unset($this->oauth);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

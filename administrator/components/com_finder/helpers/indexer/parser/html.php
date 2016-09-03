@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,9 +80,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	protected function process($input)
 	{
 		// Replace any amount of white space with a single space.
-		$input = preg_replace('#\s+#u', ' ', $input);
-
-		return $input;
+		return preg_replace('#\s+#u', ' ', $input);
 	}
 
 	/**
@@ -102,7 +100,6 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	private function removeBlocks($input, $startTag, $endTag)
 	{
 		$return = '';
-		$blocks = array();
 		$offset = 0;
 		$startTagLength = strlen($startTag);
 		$endTagLength = strlen($endTag);

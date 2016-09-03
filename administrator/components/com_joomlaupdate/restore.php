@@ -246,7 +246,7 @@ if(!defined('SERVICES_JSON_SLICE'))
  * // create a new instance of Services_JSON
  * $json = new Services_JSON();
  *
- * // convert a complexe value to JSON notation, and send it to the browser
+ * // convert a complex value to JSON notation, and send it to the browser
  * $value = array('foo', 'bar', array(1, 2, 'baz'), array(3, array(4)));
  * $output = $json->encode($value);
  *
@@ -288,7 +288,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    *
 	    * Normally should be handled by mb_convert_encoding, but
 	    * provides a slower PHP-only method for installations
-	    * that lack the multibye string extension.
+	    * that lack the Multibyte String PHP extension.
 	    *
 	    * @param    string  $utf16  UTF-16 character
 	    * @return   string  UTF-8 character
@@ -296,11 +296,12 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    */
 	    function utf162utf8($utf16)
 	    {
-	        // oh please oh please oh please oh please oh please
+	        // Use Multibyte String function, if available
 	        if(function_exists('mb_convert_encoding')) {
 	            return mb_convert_encoding($utf16, 'UTF-8', 'UTF-16');
 	        }
-
+	        
+	        // Fall back to a custom PHP implementation
 	        $bytes = (ord($utf16{0}) << 8) | ord($utf16{1});
 
 	        switch(true) {
@@ -332,7 +333,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    *
 	    * Normally should be handled by mb_convert_encoding, but
 	    * provides a slower PHP-only method for installations
-	    * that lack the multibye string extension.
+	    * that lack the Multibyte String PHP extension.
 	    *
 	    * @param    string  $utf8   UTF-8 character
 	    * @return   string  UTF-16 character
@@ -376,7 +377,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	    *
 	    * @param    mixed   $var    any number, boolean, string, array, or object to be encoded.
 	    *                           see argument 1 to Services_JSON() above for array-parsing behavior.
-	    *                           if var is a strng, note that encode() always expects it
+	    *                           if var is a string, note that encode() always expects it
 	    *                           to be in ASCII or UTF-8 format!
 	    *
 	    * @return   mixed   JSON string representation of input var or an error if a problem occurs
@@ -981,7 +982,7 @@ abstract class AKAbstractObject
 	protected $_warnings_queue_size = 0;
 
 	/**
-	 * Public constructor, makes sure we are instanciated only by the factory class
+	 * Public constructor, makes sure we are instantiated only by the factory class
 	 */
 	public function __construct()
 	{
@@ -1094,7 +1095,7 @@ abstract class AKAbstractObject
 	 * Propagates errors and warnings to a foreign object. The foreign object SHOULD
 	 * implement the setError() and/or setWarning() methods but DOESN'T HAVE TO be of
 	 * AKAbstractObject type. For example, this can even be used to propagate to a
-	 * JObject instance in Joomla!. Propagated items will be removed from ourself.
+	 * JObject instance in Joomla!. Propagated items will be removed from ourselves.
 	 * @param object $object The object to propagate errors and warnings to.
 	 */
 	public function propagateToObject(&$object)
@@ -1379,8 +1380,8 @@ abstract class AKAbstractPart extends AKAbstractObject
 	/**
 	 * The public interface to an engine part. This method takes care for
 	 * calling the correct method in order to perform the initialisation -
-	 * run - finalisation cycle of operation and return a proper reponse array.
-	 * @return	array	A Reponse Array
+	 * run - finalisation cycle of operation and return a proper response array.
+	 * @return	array	A Response Array
 	 */
 	final public function tick()
 	{
@@ -1553,7 +1554,7 @@ abstract class AKAbstractPart extends AKAbstractObject
     }
 
 	/**
-	 * Dettaches an observer object
+	 * Detaches an observer object
 	 * @param AKAbstractPartObserver $obs
 	 */
     function detach(AKAbstractPartObserver $obs) {
@@ -2055,14 +2056,14 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return bool True if reading the file was successful, false if an error occurred or we reached end of archive
 	 */
 	protected abstract function readFileHeader();
 
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
-	 * @return bool True if processing the file data was successful, false if an error occured
+	 * @return bool True if processing the file data was successful, false if an error occurred
 	 */
 	protected abstract function processFileData();
 
@@ -4322,7 +4323,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return bool True if reading the file was successful, false if an error occurred or we reached end of archive
 	 */
 	protected function readFileHeader()
 	{
@@ -4575,7 +4576,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
-	 * @return bool True if processing the file data was successful, false if an error occured
+	 * @return bool True if processing the file data was successful, false if an error occurred
 	 */
 	protected function processFileData()
 	{
@@ -4631,7 +4632,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 			// Can we write to the file?
 			if( ($outfp === false) && (!$ignore) ) {
-				// An error occured
+				// An error occurred
 				debugMsg('Could not write to output file');
 				$this->setError( AKText::sprintf('COULDNT_WRITE_FILE', $this->fileHeader->realFile) );
 				return false;
@@ -4713,7 +4714,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			// Can we write to the file?
 			$ignore = AKFactory::get('kickstart.setup.ignoreerrors', false) || $this->isIgnoredDirectory($this->fileHeader->file);
 			if( ($outfp === false) && (!$ignore) ) {
-				// An error occured
+				// An error occurred
 				debugMsg('Could not write to output file');
 				$this->setError( AKText::sprintf('COULDNT_WRITE_FILE', $this->fileHeader->realFile) );
 				return false;
@@ -4963,7 +4964,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return bool True if reading the file was successful, false if an error occurred or we reached end of archive
 	 */
 	protected function readFileHeader()
 	{
@@ -5259,7 +5260,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return bool True if reading the file was successful, false if an error occurred or we reached end of archive
 	 */
 	protected function readFileHeader()
 	{
@@ -5484,7 +5485,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
-	 * @return bool True if processing the file data was successful, false if an error occured
+	 * @return bool True if processing the file data was successful, false if an error occurred
 	 */
 	protected function processFileData()
 	{
@@ -5536,7 +5537,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 
 			// Can we write to the file?
 			if( ($outfp === false) && (!$ignore) ) {
-				// An error occured
+				// An error occurred
 				$this->setError( AKText::sprintf('COULDNT_WRITE_FILE', $this->fileHeader->realFile) );
 				return false;
 			}
@@ -5579,7 +5580,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 			// Can we write to the file?
 			$ignore = AKFactory::get('kickstart.setup.ignoreerrors', false) || $this->isIgnoredDirectory($this->fileHeader->file);
 			if( ($outfp === false) && (!$ignore) ) {
-				// An error occured
+				// An error occurred
 				$this->setError( AKText::sprintf('COULDNT_WRITE_FILE', $this->fileHeader->realFile) );
 				return false;
 			}
@@ -6204,10 +6205,10 @@ class AKText extends AKAbstractObject
 		'RESTACLEANUP' => 'Restoration and Clean Up',
 		'BTN_RUNINSTALLER' => 'Run the Installer',
 		'BTN_CLEANUP' => 'Clean Up',
-		'BTN_SITEFE' => 'Visit your site\'s front-end',
-		'BTN_SITEBE' => 'Visit your site\'s back-end',
+		'BTN_SITEFE' => 'Visit your site\'s frontend',
+		'BTN_SITEBE' => 'Visit your site\'s backend',
 		'WARNINGS' => 'Extraction Warnings',
-		'ERROR_OCCURED' => 'An error occured',
+		'ERROR_OCCURED' => 'An error occurred',
 		'STEALTH_MODE' => 'Stealth mode',
 		'STEALTH_URL' => 'HTML file to show to web visitors',
 		'ERR_NOT_A_JPS_FILE' => 'The file is not a JPA archive',
@@ -6584,7 +6585,7 @@ class AKText extends AKAbstractObject
  * This class is reponssible for instanciating all Akeeba Kicsktart classes
  */
 class AKFactory {
-	/** @var array A list of instanciated objects */
+	/** @var array A list of instantiated objects */
 	private $objectlist = array();
 
 	/** @var array Simple hash data storage */

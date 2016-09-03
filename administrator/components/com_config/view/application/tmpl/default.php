@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,12 @@ use Joomla\Registry\Registry;
 JHtml::_('behavior.formvalidator');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
+
+// Load JS message titles
+JText::script('ERROR');
+JText::script('WARNING');
+JText::script('NOTICE');
+JText::script('MESSAGE');
 
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)

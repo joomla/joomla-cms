@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,9 @@ $doc             = JFactory::getDocument();
 $user            = JFactory::getUser();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
+
+// Output as HTML5
+$doc->setHtml5(true);
 
 // Getting params from template
 $params = $app->getTemplate(true)->params;
@@ -26,9 +29,6 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
-// Output as HTML5
-$doc->setHtml5(true);
-
 if($task == "edit" || $layout == "form" )
 {
 	$fullWidth = 1;
@@ -40,17 +40,51 @@ else
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+
+$doc->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+
+// Use of Google Font
+if ($this->params->get('googleFont'))
+{
+	$doc->addStyleSheet('//fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$doc->addStyleDeclaration("
+	h1, h2, h3, h4, h5, h6, .site-title {
+		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
+	}");
+}
+
+// Template color
+if ($this->params->get('templateColor'))
+{
+	$doc->addStyleDeclaration("
+	body.site {
+		border-top: 3px solid " . $this->params->get('templateColor') . ";
+		background-color: " . $this->params->get('templateBackgroundColor') . ";
+	}
+	a {
+		color: " . $this->params->get('templateColor') . ";
+	}
+	.nav-list > .active > a,
+	.nav-list > .active > a:hover,
+	.dropdown-menu li > a:hover,
+	.dropdown-menu .active > a,
+	.dropdown-menu .active > a:hover,
+	.nav-pills > .active > a,
+	.nav-pills > .active > a:hover,
+	.btn-primary {
+		background: " . $this->params->get('templateColor') . ";
+	}");
+}
 
 // Check for a custom CSS file
 $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
 
 if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
 }
 
 // Load optional RTL Bootstrap CSS
@@ -81,7 +115,7 @@ if ($this->params->get('logoFile'))
 }
 elseif ($this->params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle')) . '</span>';
+	$logo = '<span class="site-title" title="' . $sitename . '">' . htmlspecialchars($this->params->get('sitetitle'), ENT_COMPAT, 'UTF-8') . '</span>';
 }
 else
 {
@@ -89,43 +123,12 @@ else
 }
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<?php // Use of Google Font ?>
-	<?php if ($this->params->get('googleFont')) : ?>
-		<link href='//fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName'); ?>' rel='stylesheet' type='text/css' />
-		<style type="text/css">
-			h1,h2,h3,h4,h5,h6,.site-title{
-				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName')); ?>', sans-serif;
-			}
-		</style>
-	<?php endif; ?>
-	<?php // Template color ?>
-	<?php if ($this->params->get('templateColor')) : ?>
-	<style type="text/css">
-		body.site
-		{
-			border-top: 3px solid <?php echo $this->params->get('templateColor'); ?>;
-			background-color: <?php echo $this->params->get('templateBackgroundColor'); ?>
-		}
-		a
-		{
-			color: <?php echo $this->params->get('templateColor'); ?>;
-		}
-		.nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .nav-pills > .active > a, .nav-pills > .active > a:hover,
-		.btn-primary
-		{
-			background: <?php echo $this->params->get('templateColor'); ?>;
-		}
-	</style>
-	<?php endif; ?>
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
-
 <body class="site <?php echo $option
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
@@ -134,7 +137,6 @@ else
 	. ($params->get('fluidContainer') ? ' fluid' : '');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-
 	<!-- Body -->
 	<div class="body">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
@@ -144,7 +146,7 @@ else
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>/">
 						<?php echo $logo; ?>
 						<?php if ($this->params->get('sitedescription')) : ?>
-							<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription')) . '</div>'; ?>
+							<?php echo '<div class="site-description">' . htmlspecialchars($this->params->get('sitedescription'), ENT_COMPAT, 'UTF-8') . '</div>'; ?>
 						<?php endif; ?>
 					</a>
 					<div class="header-search pull-right">
@@ -201,7 +203,7 @@ else
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right">
-				<a href="#top" id="back-top">
+				<a href="#" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
 				</a>
 			</p>

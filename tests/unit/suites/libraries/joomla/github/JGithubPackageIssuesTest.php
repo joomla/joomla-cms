@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,6 +70,23 @@ class JGithubPackageIssuesTest extends PHPUnit_Framework_TestCase
 		$this->response = $this->getMock('JHttpResponse');
 
 		$this->object = new JGithubPackageIssues($this->options, $this->client);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->response);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

@@ -122,17 +122,6 @@ final class Php56
         // Do the main replacement
         $result = strtr($subject, $charMap);
 
-        // Encode leading/trailing spaces if self::LDAP_ESCAPE_DN is passed
-        if ($flags & self::LDAP_ESCAPE_DN) {
-            if ($result[0] === ' ') {
-                $result = '\\20'.substr($result, 1);
-            }
-
-            if ($result[strlen($result) - 1] === ' ') {
-                $result = substr($result, 0, -1).'\\20';
-            }
-        }
-
         return $result;
     }
 }

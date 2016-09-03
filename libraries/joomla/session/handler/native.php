@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @var    boolean
 	 * @since  3.5
 	 */
-	private $started;
+	private $started = false;
 
 	/**
 	 * Has the session been closed
@@ -30,7 +30,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @var    boolean
 	 * @since  3.5
 	 */
-	private $closed;
+	private $closed = false;
 
 	/**
 	 * Starts the session
@@ -38,7 +38,6 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 * @return  boolean  True if started
 	 *
 	 * @since   3.5
-	 * @throws  RuntimeException If something goes wrong starting the session.
 	 */
 	public function start()
 	{
@@ -47,50 +46,7 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 			return true;
 		}
 
-		/**
-		 * Write and Close handlers are called after destructing objects since PHP 5.0.5.
-		 * Thus destructors can use sessions but session handler can't use objects.
-		 * So we are moving session closure before destructing objects.
-		 */
-		if (version_compare(PHP_VERSION, '5.4', 'ge'))
-		{
-			session_register_shutdown();
-		}
-		else
-		{
-			register_shutdown_function('session_write_close');
-		}
-
-		// Disable the cache limiter
-		session_cache_limiter('none');
-
-		/*
-		 * Extended checks to determine if the session has already been started
-		 */
-
-		// If running PHP 5.4, try to use the native API
-		if (version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
-		{
-			throw new RuntimeException('Failed to start the session: already started by PHP.');
-		}
-
-		// Fallback check for PHP 5.3
-		if (version_compare(PHP_VERSION, '5.4', 'lt') && !$this->closed && isset($_SESSION) && $this->getId())
-		{
-			throw new RuntimeException('Failed to start the session: already started by PHP ($_SESSION is set).');
-		}
-
-		// If we are using cookies (default true) and headers have already been started (early output),
-		if (ini_get('session.use_cookies') && headers_sent($file, $line))
-		{
-			throw new RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
-		}
-
-		// Ok to try and start the session
-		if (!session_start())
-		{
-			throw new RuntimeException('Failed to start the session');
-		}
+		$this->doSessionStart();
 
 		return true;
 	}
@@ -195,16 +151,17 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 
 		// Workaround for https://bugs.php.net/bug.php?id=61470 as suggested by David Grudl
 		session_write_close();
+		$this->closed = true;
 
 		if (isset($_SESSION))
 		{
 			$backup = $_SESSION;
-			session_start();
+			$this->doSessionStart();
 			$_SESSION = $backup;
 		}
 		else
 		{
-			session_start();
+			$this->doSessionStart();
 		}
 
 		return $return;
@@ -220,19 +177,24 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 	 *
 	 * @see     session_write_close()
 	 * @since   3.5
-	 * @throws  RuntimeException  If the session is saved without being started, or if the session is already closed.
 	 */
 	public function save()
 	{
-		if (!$this->isStarted())
+		// Verify if the session is active
+		if ((version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
+			|| (version_compare(PHP_VERSION, '5.4', 'lt') && $this->started && isset($_SESSION) && $this->getId()))
 		{
-			throw new RuntimeException('The session is not started.');
+			$session = JFactory::getSession();
+			$data    = $session->getData();
+
+			// Before storing it, let's serialize and encode the JRegistry object
+			$_SESSION['joomla'] = base64_encode(serialize($data));
+
+			session_write_close();
+
+			$this->closed  = true;
+			$this->started = false;
 		}
-
-		session_write_close();
-
-		$this->closed  = true;
-		$this->started = false;
 	}
 
 	/**
@@ -253,5 +215,53 @@ class JSessionHandlerNative implements JSessionHandlerInterface
 
 		$this->closed  = true;
 		$this->started = false;
+	}
+
+	/**
+	 * Performs the session start mechanism
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5.1
+	 * @throws  RuntimeException If something goes wrong starting the session.
+	 */
+	private function doSessionStart()
+	{
+		// Register our function as shutdown method, so we can manipulate it
+		register_shutdown_function(array($this, 'save'));
+
+		// Disable the cache limiter
+		session_cache_limiter('none');
+
+		/*
+		 * Extended checks to determine if the session has already been started
+		 */
+
+		// If running PHP 5.4, try to use the native API
+		if (version_compare(PHP_VERSION, '5.4', 'ge') && PHP_SESSION_ACTIVE === session_status())
+		{
+			throw new RuntimeException('Failed to start the session: already started by PHP.');
+		}
+
+		// Fallback check for PHP 5.3
+		if (version_compare(PHP_VERSION, '5.4', 'lt') && !$this->closed && isset($_SESSION) && $this->getId())
+		{
+			throw new RuntimeException('Failed to start the session: already started by PHP ($_SESSION is set).');
+		}
+
+		// If we are using cookies (default true) and headers have already been started (early output),
+		if (ini_get('session.use_cookies') && headers_sent($file, $line))
+		{
+			throw new RuntimeException(sprintf('Failed to start the session because headers have already been sent by "%s" at line %d.', $file, $line));
+		}
+
+		// Ok to try and start the session
+		if (!session_start())
+		{
+			throw new RuntimeException('Failed to start the session');
+		}
+
+		// Mark ourselves as started
+		$this->started = true;
 	}
 }

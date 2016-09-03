@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ JHtml::_('bootstrap.tooltip');
 
 <ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">
 	<?php if ($params->get('showHere', 1)) : ?>
-		<li class="active">
+		<li>
 			<?php echo JText::_('MOD_BREADCRUMBS_HERE'); ?>&#160;
 		</li>
 	<?php else : ?>
@@ -35,7 +35,7 @@ JHtml::_('bootstrap.tooltip');
 
 	// Find last and penultimate items in breadcrumbs list
 	end($list);
-	$last_item_key = key($list);
+	$last_item_key   = key($list);
 	prev($list);
 	$penult_item_key = key($list);
 

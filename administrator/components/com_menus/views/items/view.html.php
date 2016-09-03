@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
 		$lang = JFactory::getLanguage();
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
@@ -183,8 +184,8 @@ class MenusViewItems extends JViewLegacy
 								$titleParts[] = $vars['view'];
 							}
 
-							$value = implode(' » ', $titleParts);
 						}
+						$value = implode(' » ', $titleParts);
 					}
 					else
 					{
@@ -236,13 +237,25 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = JHelperContent::getActions('com_menus');
+		$menutypeId = (int) $this->state->get('menutypeid');
+
+		$canDo = JHelperContent::getActions('com_menus', 'menu', (int) $menutypeId);
 		$user  = JFactory::getUser();
+
+		// Get the menu title
+		$menuTypeTitle = $this->get('State')->get('menutypetitle');
 
 		// Get the toolbar object instance
 		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'list menumgr');
+		if ($menuTypeTitle)
+		{
+			JToolbarHelper::title(JText::sprintf('COM_MENUS_VIEW_ITEMS_MENU_TITLE', $menuTypeTitle), 'list menumgr');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_ALL_TITLE'), 'list menumgr');
+		}
 
 		if ($canDo->get('core.create'))
 		{
@@ -291,7 +304,7 @@ class MenusViewItems extends JViewLegacy
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{

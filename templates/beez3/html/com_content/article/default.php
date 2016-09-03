@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ if ($params->get('show_title')) : ?>
 						<?php echo JHtml::_('icon.email', $this->item, $params, array(), true); ?>
 				</li>
 				<?php endif; ?>
-				<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
+				<?php if ($this->user->authorise('core.edit', 'com_content.article.' . $this->item->id)) : ?>
 						<li class="edit-icon">
 							<?php echo JHtml::_('icon.edit', $this->item, $params, array(), true); ?>
 						</li>
@@ -89,7 +89,7 @@ if ($params->get('show_title')) : ?>
 <?php if ($params->get('show_parent_category') && $this->item->parent_slug != '1:root') : ?>
 		<dd class="parent-category-name">
 			<?php 	$title = $this->escape($this->item->parent_title);
-					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
+					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>';?>
 			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
@@ -100,7 +100,7 @@ if ($params->get('show_title')) : ?>
 <?php if ($params->get('show_category')) : ?>
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
-					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
+					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
 			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
@@ -129,7 +129,7 @@ if ($params->get('show_title')) : ?>
 		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
 		<?php if (!empty($this->item->contact_link ) &&  $params->get('link_author') == true) : ?>
 			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
-		<?php else :?>
+		<?php else : ?>
 			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 		<?php endif; ?>
 	</dd>
@@ -155,12 +155,12 @@ if ($params->get('show_title')) : ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
-	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
-			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
+			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8') .'"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+		src="<?php echo htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
 	</div>
 	<?php endif; ?>
 <?php
@@ -171,7 +171,7 @@ endif;
 	<?php echo $this->item->text; ?>
 
 <?php // TAGS ?>
-<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 <?php endif; ?>
@@ -191,5 +191,3 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>
-
-
