@@ -107,7 +107,7 @@ class JDate extends DateTime
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
 		// If now, add the microseconds to date.
-		$date = $date === 'now' ? DateTime::createFromFormat('U.u', microtime(true))->format('Y-m-d H:i:s.u') : $date;
+		$date = $date === 'now' ? parent::createFromFormat('U.u', number_format(microtime(true), 6, '.', ''), $tz)->format('Y-m-d H:i:s.u') : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
