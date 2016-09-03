@@ -82,6 +82,13 @@
 				debug: false,
 				clicked: false,
 				element: {style: {display: "none"}},
+				classes: {
+					btnPrevYear: "btn btn-small btn-default pull-left",
+					btnNextYear: "btn btn-small btn-default pull-right",
+					btnPrevMonth: "btn btn-small btn-default pull-left",
+					btnNextMonth: "btn btn-small btn-default pull-right",
+					btnToday: "btn btn-small btn-success"
+				},
 				writable: true
 			},
 			instanceParams = {
@@ -103,7 +110,7 @@
 
 		// Merge the parameters
 		for (var param in defaultParams) {
-			this.params[param] = instanceParams[param];
+			this.params[param] = instanceParams[param] ? instanceParams[param] : defaultParams[param];
 		}
 
 		// Event handler need to define here, to be able access in current context
@@ -536,23 +543,23 @@
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
-			this._nav_py = hh("<", 1, -2, '', '', 'btn btn-small btn-default pull-left');                   // Previous year button
+			this._nav_py = hh("<", 1, -2, '', '', 'btn-prev-year ' + this.params.classes.btnPrevYear);                   // Previous year button
 			this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title";
-			this._nav_ny = hh(">", 1, 2, '', '', 'btn btn-small btn-default pull-right');                   // Next year button
+			this._nav_ny = hh(">", 1, 2, '', '', 'btn-next-year ' + this.params.classes.btnNextYear);                   // Next year button
 		}
 
 		row = createElement("tr", thead);                                                                   // Head - month
 		row.className = "calendar-head-row";
-		this._nav_pm = hh("<", 1, -1, '', '', 'btn btn-small btn-default pull-left');                       // Previous month button
+		this._nav_pm = hh("<", 1, -1, '', '', 'btn-prev-month ' + this.params.classes.btnPrevMonth);                       // Previous month button
 		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 		this._nav_month.className = "title";
-		this._nav_nm = hh(">", 1, 1, '', '', 'btn btn-small btn-default pull-right');                       // Next month button
+		this._nav_nm = hh(">", 1, 1, '', '', 'btn-next-month ' + this.params.classes.btnNextMonth);                       // Next month button
 
 		if (this.params.showsTodayBtn) {                                                                    // Head - today
 			row = createElement("tr", thead);
 			row.className = "headrow";
-			this._nav_now = hh('<a class="btn btn-small btn-success" data-action="today" style="display:block;padding:2px 6px;">'
+			this._nav_now = hh('<a class="btn-today ' + this.params.classes.btnToday + '" data-action="today" style="display:block;padding:2px 6px;">'
 				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 8 : 7, 0, 'td', {'textAlign': 'center'});
 			var todaya = row.querySelector('a[data-action="today"]');                                       // HTML5 version
 			if (typeof todaya == "undefined") {                                                             // Support IE8
@@ -663,12 +670,12 @@
 					hrs -= 12;
 				}
 
-				var H = makeTimePart("time hour", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
-					M = makeTimePart("time minutes", mins, 0, 59, cell2),
+				var H = makeTimePart("time time-hour", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
+					M = makeTimePart("time time-minutes", mins, 0, 59, cell2),
 					AP = null;
 
 				cell = createElement("td", row);
-				cell.className = "time ampm";
+				cell.className = "time time-ampm";
 				cell.colSpan = self.params.weekNumbers ? 1 : 2;
 
 				if (t12) {
@@ -846,7 +853,8 @@
 		addCalEvent(this.inputField, 'focus', function() {
 			self.show();
 		}, true);
-		addCalEvent(this.inputField, 'blur', function() {
+		addCalEvent(this.inputField, 'blur', function(event) {
+			if (event.relatedTarget != null && (event.relatedTarget.hasClass('time-hour') || event.relatedTarget.hasClass('time-minutes') || event.relatedTarget.hasClass('time-ampm'))) return;
 			self.close();
 		}, true);
 		addCalEvent(this.button, 'click', function() {
