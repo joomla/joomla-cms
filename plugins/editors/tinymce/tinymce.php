@@ -171,6 +171,31 @@ class PlgEditorTinymce extends JPlugin
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
+		$access   = array_flip($user->getAuthorisedViewLevels());
+
+		// Get configuration
+		$toolbarParams    = new stdClass();
+		$toolbarParamsAll = $this->params->get('configuration.toolbars');
+		foreach($toolbarParamsAll as $level => $val){
+			if (isset($access[$level])) {
+				$toolbarParams = $val;
+				//$toolbarParams->level = $level;
+			}
+		}
+
+		$extraOptions    = new stdClass();
+		$extraOptionsAll = $this->params->get('configuration.extraoptions');
+		foreach($extraOptionsAll as $level => $val){
+			if (isset($access[$level])) {
+				$extraOptions = $val;
+				//$extraOptions->level = $level;
+			}
+		}
+
+		// Merge the params
+		$levelParams = new Joomla\Registry\Registry($toolbarParams);
+		$levelParams->loadObject($extraOptions);
+
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
@@ -321,11 +346,7 @@ class PlgEditorTinymce extends JPlugin
 			$valid_elements    = $this->params->get('valid_elements', '');
 		}
 
-		// Advanced Options
-		$access = $user->getAuthorisedViewLevels();
 
-		// Flip for performance, so we can direct check for the key isset($access[$key])
-		$access = array_flip($access);
 
 		$html_height = $this->params->get('html_height', '550');
 		$html_width  = $this->params->get('html_width', '');
@@ -1255,7 +1276,7 @@ class PlgEditorTinymce extends JPlugin
 		$buttons = array(
 
 			// General buttons
-			'|' => array('label' => 'Separator', 'text' => '|'),
+			'|'              => array('label' => 'Separator', 'text' => '|'),
 
 			'undo'           => array('label' => 'Undo'),
 			'redo'           => array('label' => 'Redo'),
@@ -1331,11 +1352,11 @@ class PlgEditorTinymce extends JPlugin
 	{
 		$preset = array();
 
-		$preset['simple']   = array(
+		$preset['simple'] = array(
 			'menu' => array(),
 			'toolbar1' => array(
 				'bold', 'italics', 'underline', 'strikethrough', '|',
-				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code'
+				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code',
 			),
 			'toolbar2' => array(),
 		);
