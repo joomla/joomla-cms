@@ -729,33 +729,31 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Publish a Content Language.
-	 *
-	 * @param   object  $tableLanguage  Table Language Object.
+	 * Publish the Installed Content Languages.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function publishLanguage($tableLanguage)
+	public function publishContentLanguages()
 	{
-		// Load the native language name.
-		$installationLocalisedIni = new JLanguage($tableLanguage->lang_code, false);
-		$nativeLanguageName       = $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+		// Publish the Content Languages.
+		$tableLanguage = JTable::getInstance('Language');
 
-		// If the local name do not exist in the translation file we use the international standard name.
-		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
+		$siteLanguages = $this->getInstalledlangs('site');
+
+		// For each content language.
+		foreach ($siteLanguages as $siteLang)
 		{
-			$nativeLanguageName = $tableLanguage->name;
-		}
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)))
+			{
+				if (!$tableLanguage->publish())
+				{
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
-		$tableLanguage->title_native = $nativeLanguageName;
-		$tableLanguage->published    = 1;
-
-		// Check and store the data.
-		if (!$tableLanguage->store())
-		{
-			return false;
+					continue;
+				}
+			}
 		}
 
 		return true;
