@@ -737,6 +737,8 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function publishContentLanguages()
 	{
+		$app = JFactory::getApplication();
+
 		// Publish the Content Languages.
 		$tableLanguage = JTable::getInstance('Language');
 
@@ -749,7 +751,7 @@ class InstallationModelLanguages extends JModelBase
 			{
 				if (!$tableLanguage->publish())
 				{
-					JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 					continue;
 				}
