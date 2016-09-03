@@ -47,23 +47,6 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
-		<div class="btn-toolbar">
-			<div class="btn-group">
-				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
-				</button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
-				</button>
-			</div>
-			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
-			<div class="btn-group">
-				<?php echo $this->form->getInput('contenthistory'); ?>
-			</div>
-			<?php endif; ?>
-		</div>
 		<fieldset>
 			<?php echo JHtml::_("bootstrap.startTabSet", "com-content-form", array("active" => "editor")); ?>
 
@@ -75,6 +58,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php endif; ?>
 
 				<?php echo $this->form->getInput('articletext'); ?>
+
+				<?php if ($this->captchaEnabled) : ?>
+					<?php echo $this->form->renderField('captcha'); ?>
+				<?php endif; ?>
 			<?php echo JHtml::_("bootstrap.endTab"); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')): ?>
@@ -159,5 +146,22 @@ JFactory::getDocument()->addScriptDeclaration("
 			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
+					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
+				</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
+					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
+				</button>
+			</div>
+			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
+			<div class="btn-group">
+				<?php echo $this->form->getInput('contenthistory'); ?>
+			</div>
+			<?php endif; ?>
+		</div>
 	</form>
 </div>
