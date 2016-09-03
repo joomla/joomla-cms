@@ -81,7 +81,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 <?php else : ?>
 	<table class="category table table-striped table-bordered table-hover<?php echo $tableClass; ?>">
 		<caption class="hide"><?php echo JText::sprintf('COM_CONTENT_CATEGORY_LIST_TABLE_CAPTION', $this->category->title); ?></caption>
-			<thead>
+		<thead>
 			<tr>
 				<th scope="col" id="categorylist_header_title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -111,8 +111,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 					<th scope="col" id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
-			</thead>
-		<?php endif; ?>
+		</thead>
 		<tbody>
 		<?php foreach ($this->items as $i => $article) : ?>
 			<?php if ($this->items[$i]->state == 0) : ?>
