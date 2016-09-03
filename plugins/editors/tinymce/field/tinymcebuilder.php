@@ -53,7 +53,8 @@ class JFormFieldTinymceBuilder extends JFormField
 			'table'  => array('label' => 'Table'),
 			'tools'  => array('label' => 'Tools'),
 		);
-		$data['menus'] = $menus;
+		$data['menus']      = $menus;
+		$data['menubarSource'] = array_keys($menus);
 
 		// https://www.tinymce.com/docs/demo/full-featured/
 		$buttons = array(
@@ -104,7 +105,7 @@ class JFormFieldTinymceBuilder extends JFormField
 		);
 		$data['buttons'] = $buttons;
 
-		$data['buttonsSet'] = array(
+		$data['buttonsSource'] = array(
 			'undo', 'redo', '|',
 			'bold', 'italic', 'underline', 'strikethrough', '|',
 			'formatselect', '|',

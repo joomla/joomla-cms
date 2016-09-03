@@ -42,8 +42,9 @@ extract( $displayData );
  * @var   array   $options        Options available for this field.
  *
  * @var   array   $menus           List of the menu items
+ * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
- * @var   array   $buttonsSet      Buttons by group, for the builder
+ * @var   array   $buttonsSource   Buttons by group, for the builder
  * @var   array   $viewLevels      List of Access View Levels
  * @var   JForm[] $viewLevelForms  Form with extra options for each level
  *
@@ -57,50 +58,25 @@ JHtml::_( 'script', 'editors/tinymce/tinymce-builder.js', false, true );
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(
-	'menus'      => $menus,
-	'buttons'    => $buttons,
-	'buttonsSet' => $buttonsSet,
+	'menus'       => $menus,
+	'buttons'     => $buttons,
+	'formControl' => $name . '[toolbars]',
 ));
 
 ?>
 <div id="joomla-tinymce-builder">
 	<div class="mce-tinymce mce-container mce-panel">
 		<div class="mce-container-body mce-stack-layout">
-			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu source">
-				<?php foreach($menus as $name => $info): ?>
-					<div class="mce-btn mce-menubtn mce-flow-layout-item mce-toolbar-item"
-						data-name="<?php echo $this->escape($name); ?>"
-					>
-						<button type="button" tabindex="-1">
-							<span class="mce-txt"><?php echo $info['label']; ?></span> <i class="mce-caret"></i>
-						</button>
-					</div>
-				<?php endforeach; ?>
+
+			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item">
+				<div class="mce-container-body mce-flow-layout timymce-builder-menu source" data-group="menu"
+					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 				</div>
 			</div>
 
 			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source">
-					<?php foreach ( $buttonsSet as $name ):
-						if ( empty( $buttons[$name] ) )
-						{
-							continue;
-						}
-						$button = $buttons[$name];
-						?>
-						<div class="mce-btn" data-name="<?php echo $this->escape($name); ?>"
-						     aria-label="<?php echo $this->escape( $button['label'] ); ?>"
-						>
-							<button type="button" tabindex="-1">
-								<?php if ( ! empty( $button['text'] ) ): ?>
-									<?php echo $button['text']; ?>
-								<?php else: ?>
-									<i class="mce-ico mce-i-<?php echo $name; ?>"></i>
-								<?php endif; ?>
-							</button>
-						</div>
-					<?php endforeach; ?>
+				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source" data-group="toolbar"
+					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 				</div>
 			</div>
 		</div>
@@ -117,14 +93,26 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 
 	<!-- Render tab content for each view level -->
 	<div class="tab-content">
-		<?php foreach ( $viewLevels as $i => $level ): ?>
-			<div class="tab-pane <?php echo ! $i ? 'active' : '' ?>" id="view-level-<?php echo $level['value']; ?>">
+		<?php foreach ( $viewLevels as $i => $level ):
+			$levelId = $level['value'];
+			$valMenu = empty($value['toolbars'][$levelId]['menu']) ? array() : $value['toolbars'][$levelId]['menu'];
+			$valBar1 = empty($value['toolbars'][$levelId]['toolbar1']) ? array() : $value['toolbars'][$levelId]['toolbar1'];
+			$valBar2 = empty($value['toolbars'][$levelId]['toolbar2']) ? array() : $value['toolbars'][$levelId]['toolbar2'];
+		?>
+			<div class="tab-pane <?php echo ! $i ? 'active' : '' ?>" id="view-level-<?php echo $levelId; ?>">
 
 				<div class="mce-tinymce mce-container mce-panel">
 					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"></div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"></div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"></div>
+						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
+							data-group="menu" data-level="<?php echo $levelId; ?>"
+							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>"></div>
+
+						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						    data-group="toolbar1" data-level="<?php echo $levelId; ?>"
+						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>"></div>
+						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						    data-group="toolbar2" data-level="<?php echo $levelId; ?>"
+						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>"></div>
 					</div>
 				</div>
 
@@ -134,63 +122,7 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 		<?php endforeach; ?>
 	</div>
 </div>
-<script>
-!(function($){
-	jQuery( document ).ready( function() {
-		var $copyHelper = null, removeIntent = false;
 
-		$('.timymce-builder-menu.source').sortable({
-			connectWith: '.timymce-builder-menu.target',
-			items: '.mce-btn',
-			cancel: '',
-			//tolerance: 'pointer',
-			// http://stackoverflow.com/questions/6940390/how-do-i-duplicate-item-when-using-jquery-sortable
-			helper: function(event, el) {
-				$copyHelper = el.clone().insertAfter(el);
-				return el;
-			},
-			stop: function() {
-				$copyHelper && $copyHelper.remove();
-			}
-		});
-
-		$('.timymce-builder-toolbar.source').sortable({
-			connectWith: '.timymce-builder-toolbar.target',
-			items: '.mce-btn',
-			cancel: '',
-			//tolerance: 'pointer',
-			helper: function(event, el) {
-				$copyHelper = el.clone().insertAfter(el);
-				return el;
-			},
-			stop: function() {
-				$copyHelper && $copyHelper.remove();
-			}
-		});
-
-		$('.timymce-builder-menu.target, .timymce-builder-toolbar.target').sortable({
-			items: '.mce-btn',
-			cancel: '',
-			//tolerance: 'pointer',
-			receive: function(event, el) {
-				$copyHelper = null;
-			},
-			over: function (event, ui) {
-				removeIntent = false;
-			},
-			out: function (event, ui) {
-				removeIntent = true;
-			},
-			beforeStop: function (event, ui) {
-				if(removeIntent){
-					ui.item.remove();
-				}
-			}
-		});
-	});
-})(jQuery);
-
-</script>
 <style>
 	.mce-menubar,
 	.mce-panel {
