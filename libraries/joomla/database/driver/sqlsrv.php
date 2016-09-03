@@ -1125,7 +1125,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$errors = sqlsrv_errors();
 
-		return $errors[0]['SQLSTATE'];
+		return $errors[0]['code'];
 	}
 
 	/**
