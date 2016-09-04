@@ -1041,12 +1041,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// In this case, returns array with default language
 		// - same operation of get method with metadata property
 		$options = array(
-			'name' => 'English (en-GB)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => $localeString,
-			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'name'               => 'English (en-GB)',
+			'international_name' => 'English (United Kingdom)',
+			'native_name'        => 'English (United Kingdom)',
+			'tag'                => 'en-GB',
+			'rtl'                => '0',
+			'locale'             => $localeString,
+			'firstDay'           => '0',
+			'weekEnd'            => '0,6',
 		);
 
 		// Language exists, returns array with values
@@ -1072,12 +1074,12 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$weekEnd = '0,6';
 
 		$option1 = array(
-			'name' => 'English (United Kingdom)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => $localeString,
+			'name'     => 'English (en-GB)',
+			'tag'      => 'en-GB',
+			'rtl'      => '0',
+			'locale'   => $localeString,
 			'firstDay' => '0',
-			'weekEnd' => $weekEnd
+			'weekEnd'  => $weekEnd
 		);
 
 		$listCompareEqual1 = array(
@@ -1152,13 +1154,13 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		$dir = __DIR__ . '/data/language';
 		$option = array(
-			'name' => 'English (United Kingdom)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
+			'name'     => 'English (en-GB)',
+			'tag'      => 'en-GB',
+			'rtl'      => '0',
+			'locale'   => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
 				' great britain, uk, united kingdom, united-kingdom',
 			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'weekEnd'  => '0,6'
 		);
 
 		$expected = array(
@@ -1182,13 +1184,13 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testParseXMLLanguageFile()
 	{
 		$option = array(
-			'name' => 'English (United Kingdom)',
-			'tag' => 'en-GB',
-			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+			'name'     => 'English (en-GB)',
+			'tag'      => 'en-GB',
+			'rtl'      => '0',
+			'locale'   => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 				' uk, united kingdom, united-kingdom',
 			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'weekEnd'  => '0,6'
 		);
 
 		$path = __DIR__ . '/data/language/en-GB/en-GB.xml';
