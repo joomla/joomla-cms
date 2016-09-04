@@ -76,8 +76,10 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 
 <?php endif; ?>
 
-<?php if (empty($this->items) && $this->params->get('show_no_articles', 1)) : ?>
-	<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+<?php if (empty($this->items)) : ?>
+	<?php if $this->params->get('show_no_articles', 1)) : ?>
+		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+	<?php endif; ?>
 <?php else : ?>
 	<table class="category table table-striped table-bordered table-hover<?php echo $tableClass; ?>">
 		<caption class="hide"><?php echo JText::sprintf('COM_CONTENT_CATEGORY_LIST_TABLE_CAPTION', $this->category->title); ?></caption>
