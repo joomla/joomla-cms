@@ -8,16 +8,16 @@
 
 defined('_JEXEC') or die;
 
+// Add Stylesheets
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css');
+
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
-
-// Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css');
 
 // Load JavaScript message titles
 JText::script('ERROR');
