@@ -670,18 +670,19 @@
 					hrs -= 12;
 				}
 
-				var H = makeTimePart("time time-hour", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
+				var H = makeTimePart("time time-hours", hrs, t12 ? 1 : 0, t12 ? 12 : 23, cell1),
 					M = makeTimePart("time time-minutes", mins, 0, 59, cell2),
 					AP = null;
 
 				cell = createElement("td", row);
-				cell.className = "time time-ampm";
+				cell.className = "time ampm-select";
 				cell.colSpan = self.params.weekNumbers ? 1 : 2;
 
 				if (t12) {
 					var selAttr = '';
 					if (pm) { selAttr = true; }
 					var part = createElement("select", cell);
+					part.className = "time-ampm";
 					part.style.width = '100%';
 					part.options.add(new Option(JoomlaCalLocale.PM, "pm", pm ? selAttr : '', pm ? selAttr : ''));
 					part.options.add(new Option(JoomlaCalLocale.AM, "am", pm ? '' : selAttr, pm ? '' : selAttr));
@@ -744,7 +745,11 @@
 			TY    = today.getLocalFullYear(this.params.dateType),
 			TM    = today.getLocalMonth(this.params.dateType),
 			TD    = today.getLocalDate(this.params.dateType),
-			year  = date.getOtherFullYear(this.params.dateType);
+			year  = date.getOtherFullYear(this.params.dateType),
+			hrs   = date.getHours(),
+			mins  = date.getMinutes(),
+			secs  = date.getSeconds(),
+			t12   = !this.params.time24;
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
@@ -837,6 +842,53 @@
 			}
 		}
 
+		/* Set the time */
+		if (this.params.showsTime) {
+			if (hrs > 12 && t12) hrs -= 12;
+
+			hrs = (hrs < 10) ? "0" + hrs : hrs;
+			mins = (mins < 10) ? "0" + mins : mins;
+
+			var hoursEl = this.table.querySelector('.time-hours'),
+				minsEl = this.table.querySelector('.time-minutes');
+
+			/* remove the selected class  for the hours*/
+			var optionsH = hoursEl.options;
+			var i = optionsH.length;
+			while (i--) {
+				var current = optionsH[i];
+				if (current.selected) {
+					current.selected = false;
+				}
+			}
+			hoursEl.value = hrs;
+
+			/* remove the selected class  for the minutes*/
+			var optionsM = minsEl.options;
+			var i = optionsM.length;
+			while (i--) {
+				var current = optionsM[i];
+				if (current.selected) {
+					current.selected = false;
+				}
+			}
+			minsEl.value = mins;
+
+			if (!this.params.time24 && hrs > 12) {
+				var ampmEl = this.table.querySelector('.time-ampm');
+				/* remove the selected class  for the am-pm*/
+				var optionsA = ampmEl.options;
+				var i = optionsA.length;
+				while (i--) {
+					var current = optionsA[i];
+					if (current.selected) {
+						current.selected = false;
+					}
+				}
+				ampmEl.value = 'pm';
+			}
+		}
+
 		if (!this.params.compressedHeader) {
 			this._nav_month.getElementsByTagName('span')[0].innerHTML = this.params.debug ? month + ' ' + JoomlaCalLocale.months[month] : JoomlaCalLocale.months[month];
 			this.title.getElementsByTagName('span')[0].innerHTML = this.params.debug ? year + ' ' +  Date.convertNumbers(year.toString()) : Date.convertNumbers(year.toString());
@@ -854,7 +906,7 @@
 			self.show();
 		}, true);
 		addCalEvent(this.inputField, 'blur', function(event) {
-			if (event.relatedTarget != null && (event.relatedTarget.hasClass('time-hour') || event.relatedTarget.hasClass('time-minutes') || event.relatedTarget.hasClass('time-ampm'))) return;
+			if (event.relatedTarget != null && (event.relatedTarget.hasClass('time-hours') || event.relatedTarget.hasClass('time-minutes') || event.relatedTarget.hasClass('time-ampm'))) return;
 			self.close();
 		}, true);
 		addCalEvent(this.button, 'click', function() {
