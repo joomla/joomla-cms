@@ -9,13 +9,10 @@
 
 defined('JPATH_BASE') or die;
 
-$selector = empty($displayData['selector']) ? '' : $displayData['selector'];
+extract($displayData);
 
-echo
-	'jQuery(function($){ ',
-		'$(', json_encode('#' . $selector . ' a'), ')',
-			'.click(function (e) {',
-				'e.preventDefault();',
-				'$(this).tab("show");',
-			'});',
-	'});';
+/** Code used in /libraries/cms/toolbar/button/popup.php **/
+JFactory::getDocument()->addScriptDeclaration('
+		jQuery("#modal-' . $name . '").on("hide", function () {' . $onClose . ';});
+			'
+);
