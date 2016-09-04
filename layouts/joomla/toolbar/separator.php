@@ -8,3 +8,9 @@
  */
 
 defined('JPATH_BASE') or die;
+
+$class = $displayData['class'];
+$style = $displayData['style'];
+
+?>
+<div class="btn-group <?php echo $class; ?>"<?php echo $style; ?>></div>
