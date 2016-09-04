@@ -19,8 +19,8 @@ class JFormFieldModal_Article extends JFormField
 	/**
 	 * The form field type.
 	 *
-	 * @var     string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Modal_Article';
 
