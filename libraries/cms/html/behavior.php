@@ -973,4 +973,46 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
+
+	/**
+	 * Add javascript polyfills.
+	 *
+	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
+	 * @param   array         $conditionalBrowser  A IE conditional expression. Example: lt IE 9 (lower than IE 9).
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function polyfill($polyfillTypes = null, $conditionalBrowser = null)
+	{
+		if (is_null($polyfillTypes))
+		{
+			return false;
+		}
+
+		if (!is_array($polyfillTypes))
+		{
+			$polyfillTypes = array($polyfillTypes);
+		}
+
+		foreach ($polyfillTypes as $polyfillType)
+		{
+			$sig = md5(serialize(array($polyfillType, $conditionalBrowser)));
+
+			// Only load once
+			if (isset(static::$loaded[__METHOD__][$sig]))
+			{
+				continue;
+			}
+
+			// If include according to browser.
+			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
+
+			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
+
+			// Set static array
+			static::$loaded[__METHOD__][$sig] = true;
+		}
+	}
 }
