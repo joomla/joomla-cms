@@ -95,13 +95,21 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 		<?php foreach ( $viewLevels as $i => $level ):
 			$levelId = $level['value'];
 
-			// Take the preset for default value
-			$preset  = $levelId == 6 || $levelId == 3 ? $toolbarPreset['advanced'] : $toolbarPreset['simple'];
+			// Check whether the values exists, and if empty then use from preset
+			if (empty($value['toolbars'][$levelId]['menu'])
+			    && empty($value['toolbars'][$levelId]['toolbar1'])
+				&& empty($value['toolbars'][$levelId]['toolbar2']))
+			{
+				// Take the preset for default value
+				$preset = $levelId == 6 || $levelId == 3 ? $toolbarPreset['advanced'] : $toolbarPreset['simple'];
+
+				$value['toolbars'][$levelId] = $preset;
+			}
 
 			// Take existing values
-			$valMenu = empty($value['toolbars'][$levelId]['menu']) ? $preset['menu'] : $value['toolbars'][$levelId]['menu'];
-			$valBar1 = empty($value['toolbars'][$levelId]['toolbar1']) ? $preset['toolbar1'] : $value['toolbars'][$levelId]['toolbar1'];
-			$valBar2 = empty($value['toolbars'][$levelId]['toolbar2']) ? $preset['toolbar2'] : $value['toolbars'][$levelId]['toolbar2'];
+			$valMenu = empty($value['toolbars'][$levelId]['menu']) ? array() : $value['toolbars'][$levelId]['menu'];
+			$valBar1 = empty($value['toolbars'][$levelId]['toolbar1']) ? array() : $value['toolbars'][$levelId]['toolbar1'];
+			$valBar2 = empty($value['toolbars'][$levelId]['toolbar2']) ? array() : $value['toolbars'][$levelId]['toolbar2'];
 		?>
 			<div class="tab-pane <?php echo ! $i ? 'active' : '' ?>" id="view-level-<?php echo $levelId; ?>">
 				<div class="btn-toolbar clearfix">
