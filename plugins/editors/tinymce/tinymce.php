@@ -173,20 +173,22 @@ class PlgEditorTinymce extends JPlugin
 		$access   = array_flip($user->getAuthorisedViewLevels());
 
 		// Get configuration for User view level
-		$toolbarParams    = new stdClass();
+		$toolbarParams    = new stdClass;
 		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
 
-		foreach($toolbarParamsAll as $level => $val){
+		foreach ($toolbarParamsAll as $level => $val)
+		{
 			if (isset($access[$level]))
 			{
 				$toolbarParams = $val;
 			}
 		}
 
-		$extraOptions    = new stdClass();
+		$extraOptions    = new stdClass;
 		$extraOptionsAll = $this->params->get('configuration.extraoptions', array());
 
-		foreach($extraOptionsAll as $level => $val){
+		foreach ($extraOptionsAll as $level => $val)
+		{
 			if (isset($access[$level]))
 			{
 				$extraOptions = $val;
@@ -401,7 +403,8 @@ class PlgEditorTinymce extends JPlugin
 		$allButtons = array_combine($allButtons, $allButtons);
 
 		// Check for button-specific plugins
-		foreach ($allButtons as $btnName) {
+		foreach ($allButtons as $btnName)
+		{
 			if (!empty($knownButtons[$btnName]['plugin']))
 			{
 				$plugins[] = $knownButtons[$btnName]['plugin'];
@@ -973,7 +976,8 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public static function getKnownButtons()
 	{
-		// https://www.tinymce.com/docs/demo/full-featured/
+		// See https://www.tinymce.com/docs/demo/full-featured/
+		// And https://www.tinymce.com/docs/plugins/
 		$buttons = array(
 
 			// General buttons

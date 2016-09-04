@@ -75,7 +75,8 @@ class JFormFieldTinymceBuilder extends JFormField
 			$valueOld = $this->form->getValue('params');
 		}
 
-		foreach($data['viewLevels'] as $level) {
+		foreach($data['viewLevels'] as $level)
+		{
 			$levelId  = $level['value'];
 			$formname = 'view.level.form.' . $levelId;
 			$control  = $this->name . '[extraoptions][' . $levelId . ']';
@@ -87,6 +88,7 @@ class JFormFieldTinymceBuilder extends JFormField
 
 			$levelsForms[$levelId]->bind($formValues);
 		}
+
 		$data['viewLevelForms'] = $levelsForms;
 
 		return $data;
@@ -106,15 +108,15 @@ class JFormFieldTinymceBuilder extends JFormField
 		if (empty($levels))
 		{
 			$db    = JFactory::getDbo();
-			$query = $db->getQuery( true )
-				->select( $db->quoteName( 'a.id', 'value' ) . ', ' . $db->quoteName( 'a.title', 'text' ) )
-                ->from( $db->quoteName( '#__viewlevels', 'a' ) )
-			    ->group( $db->quoteName( array( 'a.id', 'a.title', 'a.ordering' ) ) )
-			    ->order( $db->quoteName( 'a.ordering' ) . ' ASC' )
-			    ->order( $db->quoteName( 'title' ) . ' ASC' );
+			$query = $db->getQuery(true)
+				->select( $db->quoteName('a.id', 'value') . ', ' . $db->quoteName('a.title', 'text'))
+                ->from( $db->quoteName('#__viewlevels', 'a'))
+			    ->group( $db->quoteName(array( 'a.id', 'a.title', 'a.ordering')))
+			    ->order( $db->quoteName('a.ordering') . ' ASC')
+			    ->order( $db->quoteName('title') . ' ASC');
 
 			// Get the options.
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$levels = $db->loadAssocList();
 			$levels = $levels ? $levels : array();
 		}

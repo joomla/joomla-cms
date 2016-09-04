@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined( '_JEXEC' ) or die;
+defined('_JEXEC') or die;
 
-extract( $displayData );
+extract($displayData);
 
 /**
  * Layout variables
@@ -49,18 +49,19 @@ extract( $displayData );
  * @var   JLayoutFile  $this       Context
  */
 
-JHtml::_( 'behavior.core' );
-JHtml::_( 'stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array(), false );
-JHtml::_( 'jquery.ui', array( 'core', 'sortable' ) );
-JHtml::_( 'script', 'editors/tinymce/tinymce-builder.js', false, true );
+JHtml::_('behavior.core');
+JHtml::_('stylesheet', 'media/editors/tinymce/skins/lightgray/skin.min.css', array(), false);
+JHtml::_('jquery.ui', array('core', 'sortable'));
+JHtml::_('script', 'editors/tinymce/tinymce-builder.js', false, true);
 
 $doc = JFactory::getDocument();
 $doc->addScriptOptions('plg_editors_tinymce_builder', array(
-	'menus'         => $menus,
-	'buttons'       => $buttons,
-	'toolbarPreset' => $toolbarPreset,
-	'formControl'   => $name . '[toolbars]',
-));
+		'menus'         => $menus,
+		'buttons'       => $buttons,
+		'toolbarPreset' => $toolbarPreset,
+		'formControl'   => $name . '[toolbars]',
+	)
+);
 
 ?>
 <div id="joomla-tinymce-builder">
@@ -97,7 +98,7 @@ $doc->addScriptOptions('plg_editors_tinymce_builder', array(
 
 			// Check whether the values exists, and if empty then use from preset
 			if (empty($value['toolbars'][$levelId]['menu'])
-			    && empty($value['toolbars'][$levelId]['toolbar1'])
+				&& empty($value['toolbars'][$levelId]['toolbar1'])
 				&& empty($value['toolbars'][$levelId]['toolbar2']))
 			{
 				// Take the preset for default value
