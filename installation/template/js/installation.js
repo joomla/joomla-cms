@@ -288,10 +288,10 @@ var Installation = function(_container, _base) {
 			ajaxDone(response);
 
 			// If there are messages go to page.
-            if (response.messages)
+			if (response.messages)
 			{
 				Install.goToPage(response.data.view, true);
-            }
+			}
 			// Else continue with install process.
 			else
 			{
