@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.6"
-	client="installation">
-	<name>English (United Kingdom)</name>
+<metafile version="3.6" client="installation">
+	<name>English (en-GB)</name>
 	<version>3.6.3</version>
 	<creationDate>August 2016</creationDate>
 	<author>Joomla! Project</author>
@@ -12,7 +10,9 @@
 		<filename>en-GB.ini</filename>
 	</files>
 	<metadata>
-		<name>English (United Kingdom)</name>
+		<name>English (en-GB)</name>
+		<international_name>English (United Kingdom)</international_name>
+		<native_name>English (United Kingdom)</native_name>
 		<tag>en-GB</tag>
 		<rtl>0</rtl>
 	</metadata>
