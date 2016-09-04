@@ -1495,12 +1495,11 @@ class JHtmlTest extends TestCase
 				'Line:'.__LINE__.' JS file "date.js" should be loaded'
 			);
 
-				$this->assertArrayHasKey(
-					'/media/system/js/calendar-vanilla.min.js',
-					JFactory::getDocument()->_scripts,
-					'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
-				);
-			}
+			$this->assertArrayHasKey(
+				'/media/system/js/calendar-vanilla.min.js',
+				JFactory::getDocument()->_scripts,
+				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
+			);
 		}
 	}
 

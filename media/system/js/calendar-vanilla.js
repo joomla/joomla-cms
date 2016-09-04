@@ -852,39 +852,29 @@
 			var hoursEl = this.table.querySelector('.time-hours'),
 				minsEl = this.table.querySelector('.time-minutes');
 
-			/* remove the selected class  for the hours*/
-			var optionsH = hoursEl.options;
-			var i = optionsH.length;
-			while (i--) {
-				var current = optionsH[i];
-				if (current.selected) {
-					current.selected = false;
+			var resetSelected = function (element) {
+				var options = element.options;
+				var i = options.length;
+				while (i--) {
+					var current = options[i];
+					if (current.selected) {
+						current.selected = false;
+					}
 				}
-			}
+			};
+
+			/* remove the selected class  for the hours*/
+			resetSelected(hoursEl);
 			hoursEl.value = hrs;
 
 			/* remove the selected class  for the minutes*/
-			var optionsM = minsEl.options;
-			var i = optionsM.length;
-			while (i--) {
-				var current = optionsM[i];
-				if (current.selected) {
-					current.selected = false;
-				}
-			}
+			resetSelected(minsEl);
 			minsEl.value = mins;
 
 			if (!this.params.time24 && hrs > 12) {
 				var ampmEl = this.table.querySelector('.time-ampm');
 				/* remove the selected class  for the am-pm*/
-				var optionsA = ampmEl.options;
-				var i = optionsA.length;
-				while (i--) {
-					var current = optionsA[i];
-					if (current.selected) {
-						current.selected = false;
-					}
-				}
+				resetSelected(ampmEl);
 				ampmEl.value = 'pm';
 			}
 		}
