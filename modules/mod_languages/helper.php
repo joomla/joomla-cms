@@ -97,6 +97,7 @@ abstract class ModLanguagesHelper
 			else
 			{
 				$language->active = ($language->lang_code == $lang->getTag());
+
 				// This is a default
 				$language->associated = false;
 
