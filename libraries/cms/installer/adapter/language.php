@@ -306,12 +306,38 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			// Load the site language manifest.
 			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
+			// Set the content language title as international_name in site xx-XX.ini, fallback to name in site xx-XX.ini.
+			$contentLanguageTitle = $siteLanguageManifest['name'];
+
+			if (isset($siteLanguageManifest['international_name']) && $siteLanguageManifest['international_name'])
+			{
+				$contentLanguageTitle = $siteLanguageManifest['international_name'];
+			}
+
+			// Set the content language as native_name in site xx-XX.ini, fallback to installation language variable, fallback to content language title.
+			$contentLanguageNativeTitle = $contentLanguageTitle;
+
+			if (isset($siteLanguageManifest['native_name']) && $siteLanguageManifest['native_name'])
+			{
+				$contentLanguageNativeTitle = $siteLanguageManifest['native_name'];
+			}
+			elseif (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
+			{
+				$installationLanguage = new JLanguage($this->tag);
+				$installationLanguage->load('', JPATH_INSTALLATION);
+
+				if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
+				{
+					$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+				}
+			}
+			
 			// Prepare language data for store.
 			$languageData = array(
 				'lang_id'      => 0,
 				'lang_code'    => $this->tag,
-				'title'        => $siteLanguageManifest['name'],
-				'title_native' => $siteLanguageManifest['name'],
+				'title'        => $contentLanguageTitle,
+				'title_native' => $contentLanguageNativeTitle,
 				'sef'          => $this->getSefString($this->tag),
 				'image'        => strtolower(str_replace('-', '_', $this->tag)),
 				'published'    => 0,
