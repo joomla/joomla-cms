@@ -32,6 +32,13 @@ if (!empty($this->items))
 	}
 }
 
+// For B/C we also add the css classes inline. This will be removed in 4.0.
+JFactory::getDocument()->addStyleDeclaration("
+.hide { display: none; }
+.table-noheader { border-collapse: collapse; }
+.table-noheader thead { display: none; }
+");
+
 $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
@@ -77,7 +84,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 <?php endif; ?>
 
 <?php if (empty($this->items)) : ?>
-	<?php if $this->params->get('show_no_articles', 1)) : ?>
+	<?php if ($this->params->get('show_no_articles', 1)) : ?>
 		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 	<?php endif; ?>
 <?php else : ?>
