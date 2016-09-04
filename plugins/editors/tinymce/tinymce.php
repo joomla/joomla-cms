@@ -202,15 +202,11 @@ class PlgEditorTinymce extends JPlugin
 
 		// Set the selected skin
 		$skin = 'lightgray';
-		if ($app->isSite() && (int) $levelParams->get('skin', 0) < count($skindirs))
-		{
-			$skin =  basename($skindirs[(int) $levelParams->get('skin', 0)]);
-		}
+		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
 
-		// Set the selected administrator skin
-		elseif ($app->isAdmin() && (int) $levelParams->get('skin_admin', 0) < count($skindirs))
+		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
-			$skin = basename($skindirs[(int) $levelParams->get('skin_admin', 0)]);
+			$skin = basename($skindirs[(int) $levelParams->get('skin', 0)]);
 		}
 
 		$langMode        = $levelParams->get('lang_mode', 0);
