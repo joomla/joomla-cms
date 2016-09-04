@@ -1184,7 +1184,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testParseXMLLanguageFile()
 	{
 		$option = array(
-			'name'     => 'English (en-GB)',
+			'name'     => 'English (United Kingdom)',
 			'tag'      => 'en-GB',
 			'rtl'      => '0',
 			'locale'   => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
