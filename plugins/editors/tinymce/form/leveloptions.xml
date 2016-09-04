@@ -50,7 +50,7 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOM_PATH_LABEL"
             description="PLG_TINY_FIELD_CUSTOM_PATH_DESC"
-            size="30"
+            class="input-xxlarge"
             showon="drag_drop:1"
     />
 
@@ -122,7 +122,7 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
             description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
-            size="30"
+            class="input-xxlarge"
     />
 
     <field
@@ -161,36 +161,33 @@
 
     <field
             name="invalid_elements"
-            type="textarea"
+            type="text"
             label="PLG_TINY_FIELD_PROHIBITED_LABEL"
             description="PLG_TINY_FIELD_PROHIBITED_DESC"
             showon="use_config_textfilters:0"
             default="script,applet,iframe"
-            cols="30"
-            rows="2"
+            class="input-xxlarge"
     />
 
     <field
             name="valid_elements"
-            type="textarea"
+            type="text"
             label="PLG_TINY_FIELD_VALIDELEMENTS_LABEL"
             description="PLG_TINY_FIELD_VALIDELEMENTS_DESC"
             showon="use_config_textfilters:0"
-            cols="30"
-            rows="2"
+            class="input-xxlarge"
     />
 
     <field
             name="extended_elements"
-            type="textarea"
+            type="text"
             label="PLG_TINY_FIELD_ELEMENTS_LABEL"
             description="PLG_TINY_FIELD_ELEMENTS_DESC"
             showon="use_config_textfilters:0"
-            cols="30"
-            rows="2"
+            class="input-xxlarge"
     />
 
-    <!-- -->
+    <!-- Extra plugins -->
     <field
             name="resizing"
             type="radio"
@@ -293,6 +290,7 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
             description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
+            class="input-xxlarge"
     />
 
     <field
@@ -300,5 +298,6 @@
             type="text"
             label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
             description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
+            class="input-xxlarge"
     />
 </form>
