@@ -268,35 +268,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
-		// Generate script language declarations.
-		if (count(JText::script()))
-		{
-			$buffer .= $tab . '<script';
-
-			if (!$document->isHtml5())
-			{
-				$buffer .= ' type="text/javascript"';
-			}
-
-			$buffer .= '>' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode(JText::script()) . ');' . $lnEnd;
-			$buffer .= $tab . $tab . '})();' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
-		}
-
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
 		foreach (array_unique($document->_custom) as $custom)
 		{
