@@ -110,23 +110,7 @@ class JFormFieldModal_Menu extends JFormField
 			}
 		}
 
-		if (empty($title))
-		{
-			if (isset($this->element['language']))
-			{
-				$title = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
-			}
-			elseif ((string) $this->element->option['value'] == '')
-			{
-				$title = JText::_($this->element->option, true);
-			}
-			else
-			{
-				$title = JText::_('JDEFAULT');
-			}
-		}
-
-		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+		$title = empty($title) ? JText::_('COM_MENUS_SELECT_A_MENUITEM') : htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current menu item display field.
 		$html  = '<span class="input-append">';
@@ -264,11 +248,25 @@ class JFormFieldModal_Menu extends JFormField
 			);
 		}
 
+		// Get empty field text.
+		if (isset($this->element['language']))
+		{
+			$clearText = JText::_('COM_MENUS_SELECT_A_MENUITEM', true);
+		}
+		elseif ((string) $this->element->option['value'] == '')
+		{
+			$clearText = JText::_($this->element->option, true);
+		}
+		else
+		{
+			$clearText = JText::_('JDEFAULT');
+		}
+
 		// Note: class='required' for client side validation.
 		$class = $this->required ? ' class="required modal-value"' : '';
 
 		$html .= '<input type="hidden" id="' . $this->id . '_id" ' . $class . ' data-required="' . (int) $this->required . '" name="' . $this->name
-			. '" data-text="' . htmlspecialchars(JText::_('COM_MENUS_SELECT_A_MENUITEM', true), ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
+			. '" data-text="' . htmlspecialchars($clearText, ENT_COMPAT, 'UTF-8') . '" value="' . $value . '" />';
 
 		return $html;
 	}
