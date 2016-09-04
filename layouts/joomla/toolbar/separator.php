@@ -13,4 +13,4 @@ $class = $displayData['class'];
 $style = $displayData['style'];
 
 ?>
-<div class="btn-group <?php echo $class; ?>"<?php echo $style; ?>></div>
+<div class="btn-wrapper <?php echo $class; ?>"<?php echo $style; ?>></div>
