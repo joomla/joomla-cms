@@ -60,6 +60,10 @@ class TestMockMenu
 				->will($test->returnValueMap(self::prepareGetItemData()));
 
 		$mockObject->expects($test->any())
+				->method('getItems')
+				->will($test->returnCallback(array('TestMockMenu', 'getItems')));
+
+		$mockObject->expects($test->any())
 				->method('getMenu')
 				->will($test->returnValue(self::$data));
 
@@ -99,6 +103,46 @@ class TestMockMenu
 		$return[] = array('en-GB', self::$data[45]);
 
 		return $return;
+	}
+
+	public static function getItems($attributes, $values)
+	{
+		$items = array();
+		$attributes = (array) $attributes;
+		$values = (array) $values;
+		TestMockMenu::createMenuSampleData();
+
+		foreach (TestMockMenu::$data as $item)
+		{
+			$test = true;
+
+			for ($i = 0, $count = count($attributes); $i < $count; $i++)
+			{
+				if (is_array($values[$i]))
+				{
+					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					{
+						$test = false;
+						break;
+					}
+				}
+				else
+				{
+					if ($item->{$attributes[$i]} != $values[$i])
+					{
+						$test = false;
+						break;
+					}
+				}
+			}
+
+			if ($test)
+			{
+				$items[] = $item;
+			}
+		}
+
+		return $items;
 	}
 
 	protected static function prepareGetItemsData()
