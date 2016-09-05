@@ -23,9 +23,11 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Render the list of associated items
 	 *
-	 * @param   int  $articleid  The article item id
+	 * @param   integer  $articleid  The article item id
 	 *
 	 * @return  string  The language HTML
+	 *
+	 * @throws  Exception
 	 */
 	public static function association($articleid)
 	{
@@ -60,7 +62,7 @@ abstract class JHtmlContentAdministrator
 			}
 			catch (RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500);
+				throw new Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -70,7 +72,9 @@ abstract class JHtmlContentAdministrator
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 					$tooltipParts = array(
-						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
+						JHtml::_(
+							'image',
+							'mod_languages/' . $item->image . '.gif',
 							$item->language_title,
 							array('title' => $item->language_title),
 							true
@@ -101,8 +105,8 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Show the feature/unfeature links
 	 *
-	 * @param   int      $value      The state value
-	 * @param   int      $i          Row number
+	 * @param   integer  $value      The state value
+	 * @param   integer  $i          Row number
 	 * @param   boolean  $canChange  Is user allowed to change?
 	 *
 	 * @return  string       HTML code

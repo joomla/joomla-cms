@@ -24,8 +24,6 @@ $this->setHtml5(true);
 // jQuery needed by template.js
 JHtml::_('jquery.framework');
 
-JHtml::_('behavior.noframes');
-
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 

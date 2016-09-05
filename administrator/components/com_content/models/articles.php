@@ -24,7 +24,7 @@ class ContentModelArticles extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.6
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 */
 	public function __construct($config = array())
 	{
@@ -168,7 +168,6 @@ class ContentModelArticles extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -251,9 +250,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (is_array($categoryId))
 		{
-			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
-			$query->where('a.catid IN (' . $categoryId . ')');
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
 		}
 
 		// Filter on the level.
@@ -305,7 +302,8 @@ class ContentModelArticles extends JModelList
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT',
+					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);
@@ -339,7 +337,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass
 	 *
 	 * @since   1.6
 	 */
@@ -377,8 +375,7 @@ class ContentModelArticles extends JModelList
 
 		if (JFactory::getApplication()->isSite())
 		{
-			$user = JFactory::getUser();
-			$groups = $user->getAuthorisedViewLevels();
+			$groups = JFactory::getUser()->getAuthorisedViewLevels();
 
 			for ($x = 0, $count = count($items); $x < $count; $x++)
 			{
