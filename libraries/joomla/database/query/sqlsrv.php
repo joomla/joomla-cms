@@ -383,21 +383,23 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 		// Get the _formatted_ FROM string and remove everything except `table AS alias`
 		$fromStr = str_replace(array("[", "]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
+
 		// Remove any trailing whitespaces
 		$fromStr = trim($fromStr);
+
 		// Start setting up an array of alias => table
 		$table = $alias = $fromStr;
-		if (strpos($fromStr,' AS ') !== false)
+		if (strpos($fromStr, ' AS ') !== false)
 		{
-			 list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
+			list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
 		}
-		elseif (preg_match("/\b\s+/i",$fromStr))
+		elseif (preg_match("/\b\s+/i", $fromStr))
 		{
-			  list($table, $alias) = preg_split("/\b\s+/i", $fromStr);
+			list($table, $alias) = preg_split("/\b\s+/i", $fromStr);
 		}
 		else
 		{
-			 $table = $alias = $fromStr;
+			$table = $alias = $fromStr;
 		}
 		$tmpCols = $this->db->getTableColumns(trim($table));
 		$cols = array();
@@ -415,9 +417,9 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			foreach ($this->join as $join)
 			{
 
-				$joinStr = trim(preg_replace("/.*\sJOIN\s/i","" ,(string)$join));
+				$joinStr = trim(preg_replace("/.*\sJOIN\s/i","", (string) $join));
 
-				if (strpos($joinStr,' AS ') !== false)
+				if (strpos($joinStr, ' AS ') !== false)
 				{
 					$joinTbl = str_replace("#__", $this->db->getPrefix(), str_replace("]", "", preg_replace("/^(.+?\sAS\s[^\s]*).*/i", "$1", $joinStr)));
 
