@@ -20,7 +20,7 @@
 			name="upload_limit" type="text"
 			label="COM_TEMPLATES_CONFIG_UPLOAD_LABEL"
 			description="COM_TEMPLATES_CONFIG_UPLOAD_DESC"
-			default="2"
+			default="10"
 			extension="com_templates"
 		/>
 
@@ -44,7 +44,7 @@
 			name="source_formats" type="text"
 			label="COM_TEMPLATES_CONFIG_SOURCE_LABEL"
 			description="COM_TEMPLATES_CONFIG_SOURCE_DESC"
-			default="txt,less,ini,xml,js,php,css"
+			default="txt,less,ini,xml,js,php,css,sass,scss"
 			extension="com_templates"
 		/>
 

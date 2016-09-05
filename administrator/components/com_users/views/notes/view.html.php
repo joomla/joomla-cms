@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,11 +62,11 @@ class UsersViewNotes extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise view variables.
-		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state = $this->get('State');
-		$this->user = $this->get('User');
-		$this->filterForm = $this->get('FilterForm');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->user          = $this->get('User');
+		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		UsersHelper::addSubmenu('notes');
@@ -126,9 +126,9 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::checkin('notes.checkin');
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
@@ -158,12 +158,12 @@ class UsersViewNotes extends JViewLegacy
 	protected function getSortFields()
 	{
 		return array(
-			'u.name' => JText::_('COM_USERS_USER_HEADING'),
-			'a.subject' => JText::_('COM_USERS_SUBJECT_HEADING'),
-			'c.title' => JText::_('COM_USERS_CATEGORY_HEADING'),
-			'a.state' => JText::_('JSTATUS'),
+			'u.name'        => JText::_('COM_USERS_USER_HEADING'),
+			'a.subject'     => JText::_('COM_USERS_SUBJECT_HEADING'),
+			'c.title'       => JText::_('COM_USERS_CATEGORY_HEADING'),
+			'a.state'       => JText::_('JSTATUS'),
 			'a.review_time' => JText::_('COM_USERS_REVIEW_HEADING'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.id'          => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

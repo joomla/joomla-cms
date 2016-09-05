@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,61 +19,29 @@ JHtml::_('formbehavior.chosen', 'select');
 $user       = JFactory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
-$sortFields = $this->getSortFields();
-
-JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
-
-$groupsWithUsers = array();
-
-foreach ($this->items as $i => $item)
-{
-	if ($item->user_count > 0)
-	{
-		array_push($groupsWithUsers, $i);
-	}
-}
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
 JFactory::getDocument()->addScriptDeclaration('
 		Joomla.submitbutton = function(task) {
 			if (task == "groups.delete") {
-				var f = document.adminForm;
-				var cb = "";
-				var groupsWithUsers = [' . implode(',', $groupsWithUsers) . '];
-				for (index = 0; index < groupsWithUsers.length; ++index) {
-					cb = f["cb" + groupsWithUsers[index]];
-					if (cb && cb.checked) {
+				var i, cids = document.getElementsByName("cid[]");
+				for (i = 0; i < cids.length; i++) {
+					if (cids[i].checked && cids[i].parentNode.getAttribute("data-usercount") != 0) {
 						if (confirm(Joomla.JText._("COM_USERS_GROUPS_CONFIRM_DELETE"))) {
 							Joomla.submitform(task);
 						}
-						return;
+						return false;
 					}
 				}
 			}
+
 			Joomla.submitform(task);
+			return false;
 		};
 ');
-
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.orderTable = function()
-	{
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != "' . $listOrder . '")
-		{
-			dirn = "asc";
-		}
-		else
-		{
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, "");
-	};
-');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
@@ -82,34 +50,7 @@ JFactory::getDocument()->addScriptDeclaration('
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<div id="filter-bar" class="btn-toolbar">
-			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_IN_GROUPS'); ?>" />
-			</div>
-			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search"></span></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove"></span></button>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-				<?php echo $this->pagination->getLimitBox(); ?>
-			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></label>
-				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></option>
-					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
-					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
-				</select>
-			</div>
-			<div class="btn-group pull-right">
-				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
-				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
-					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
-				</select>
-			</div>
-		</div>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -119,23 +60,28 @@ JFactory::getDocument()->addScriptDeclaration('
 			<table class="table table-striped" id="groupList">
 				<thead>
 					<tr>
-						<th width="1%">
+						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th>
-							<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
+						<th class="nowrap">
+							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="20%">
-							<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
+						<th width="1%" class="nowrap center">
+							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></i>
+							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 						</th>
-						<th width="1%">
-							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						<th width="1%" class="nowrap center">
+							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></i>
+							<span class="hidden-phone"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
+						</th>
+						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="4">
+						<td colspan="5">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -153,28 +99,33 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canChange = $user->authorise('core.edit.state', 'com_users');
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="center" data-usercount="<?php echo $item->user_count; ?>">
 							<?php if ($canEdit) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
+							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)); ?>
 							<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id=' . $item->id);?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>">
 								<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
-								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id);?>">
-								<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div>
+								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
+								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 							<?php endif; ?>
 						</td>
-						<td>
-							<?php echo $item->user_count ? $item->user_count : ''; ?>
+						<td class="center btns">
+							<a class="badge <?php if ($item->count_enabled > 0) echo "badge-success"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
+								<?php echo $item->count_enabled; ?></a>
 						</td>
-						<td>
+						<td class="center btns">
+							<a class="badge <?php if ($item->count_disabled > 0) echo "badge-important"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
+								<?php echo $item->count_disabled; ?></a>
+						</td>
+						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
@@ -185,8 +136,6 @@ JFactory::getDocument()->addScriptDeclaration('
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

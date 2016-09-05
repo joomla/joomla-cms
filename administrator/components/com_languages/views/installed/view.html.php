@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ class LanguagesViewInstalled extends JViewLegacy
 {
 	/**
 	 * @var object client object.
+	 * @deprecated 4.0
 	 */
 	protected $client = null;
 
@@ -55,16 +56,26 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->ftp        = $this->get('Ftp');
-		$this->option     = $this->get('Option');
-		$this->pagination = $this->get('Pagination');
-		$this->rows       = $this->get('Data');
-		$this->state      = $this->get('State');
+		$this->ftp           = $this->get('Ftp');
+		$this->option        = $this->get('Option');
+		$this->pagination    = $this->get('Pagination');
+		$this->rows          = $this->get('Data');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
-		$client = (int) $this->state->get('filter.client_id', 0);
-		LanguagesHelper::addSubmenu('installed', $client);
+		LanguagesHelper::addSubmenu('installed');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+
+			return false;
+		}
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -79,7 +90,14 @@ class LanguagesViewInstalled extends JViewLegacy
 	{
 		$canDo = JHelperContent::getActions('com_languages');
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'comments-2 langmanager');
+		if ((int) $this->state->get('client_id') === 1)
+		{
+			JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_ADMIN_TITLE'), 'comments-2 langmanager');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_SITE_TITLE'), 'comments-2 langmanager');
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -91,6 +109,14 @@ class LanguagesViewInstalled extends JViewLegacy
 		{
 			// Add install languages link to the lang installer component.
 			$bar = JToolbar::getInstance('toolbar');
+
+			// Switch administrator language
+			if ($this->state->get('client_id', 0) == 1)
+			{
+				JToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
+				JToolbarHelper::divider();
+			}
+
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
 			JToolbarHelper::divider();
 

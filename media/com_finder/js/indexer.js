@@ -63,7 +63,7 @@ var FinderIndexer = function(){
 
 	var handleFailure= function (xhr) {
 		json = (typeof xhr == 'object' && xhr.responseText) ? xhr.responseText : null;
-		json = json ? JSON.decode(json, true) : null;
+		json = json ? jQuery.parseJSON(json) : null;
 		jQuery('#progress').remove();
 		if (json) {
 			json = json.responseText != null ? Json.evaluate(json.responseText, true) : json;

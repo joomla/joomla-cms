@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,6 +32,8 @@ $item_heading = $params->get('item_heading', 'h4');
 <?php echo $item->beforeDisplayContent; ?>
 
 <?php echo $item->introtext; ?>
+
+<?php echo $item->afterDisplayContent; ?>
 
 <?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) : ?>
 	<?php echo '<a class="readmore" href="' . $item->link . '">' . $item->linkText . '</a>'; ?>

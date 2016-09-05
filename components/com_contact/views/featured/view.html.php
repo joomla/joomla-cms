@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\Registry\Registry;
 
 /**
- * Frontpage View class
+ * Featured View class
  *
  * @since  1.6
  */
@@ -63,7 +63,7 @@ class ContactViewFeatured extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  A template file to load. [optional]
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  Exception on failure, void on success.
 	 *
@@ -71,16 +71,16 @@ class ContactViewFeatured extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
+		$app    = JFactory::getApplication();
+		$params = $app->getParams();
 
 		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$category	= $this->get('Category');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$category   = $this->get('Category');
+		$children   = $this->get('Children');
+		$parent     = $this->get('Parent');
+		$pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -94,9 +94,9 @@ class ContactViewFeatured extends JViewLegacy
 		// Compute the contact slug.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item		= &$items[$i];
-			$item->slug	= $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-			$temp		= new Registry;
+			$item       = &$items[$i];
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
+			$temp       = new Registry;
 
 			$temp->loadString($item->params);
 			$item->params = clone $params;
@@ -118,7 +118,7 @@ class ContactViewFeatured extends JViewLegacy
 		}
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 		$maxLevel         = $params->get('maxLevel', -1);
 		$this->maxLevel   = &$maxLevel;
@@ -140,13 +140,13 @@ class ContactViewFeatured extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$title 		= null;
+		$app   = JFactory::getApplication();
+		$menus = $app->getMenu();
+		$title = null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -165,15 +165,15 @@ class ContactViewFeatured extends JViewLegacy
 
 		if (empty($title))
 		{
-			$title = $app->getCfg('sitename');
+			$title = $app->get('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

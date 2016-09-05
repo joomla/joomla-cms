@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ $app = JFactory::getApplication();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-
-$twofactormethods = UsersHelper::getTwoFactorMethods();
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -33,10 +31,10 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>" />
+			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>" />
 		<?php endif; ?>
 		<h1>
-			<?php echo htmlspecialchars($app->get('sitename')); ?>
+			<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>
 		</h1>
 	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 		<p>

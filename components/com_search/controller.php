@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class SearchController extends JControllerLegacy
 		$menu = $app->getMenu();
 		$item = $menu->getItem($post['Itemid']);
 
-		// The request Item is not a search page so we need to find one
+		// The requested Item is not a search page so we need to find one
 		if ($item->component != 'com_search' || $item->query['view'] != 'search')
 		{
 			// Get item based on component, not link. link is not reliable.

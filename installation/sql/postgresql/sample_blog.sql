@@ -124,7 +124,7 @@ SELECT setval('#__menu_id_seq', max(id)) FROM #__menu;
 --
 -- Dumping data for table #__menu_types
 --
-INSERT INTO "#__menu_types" VALUES
+INSERT INTO "#__menu_types" ("id", "menutype", "title", "description") VALUES
 (1,'mainmenu','Main Menu','The main menu for the site'),
 (2,'authormenu','Author Menu',''),
 (3,'bottommenu','Bottom Menu','');
@@ -147,7 +147,7 @@ INSERT INTO "#__modules" VALUES
 (14,0,'User Status','','',2,'status',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_status',3,1,'',1,'*'),
 (15,0,'Title','','',1,'title',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_title',3,1,'',1,'*'),
 (16,0,'Login Form','','',7,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',0,'mod_login',1,1,'{"greeting":"1","name":"0"}',0,'*'),
-(17,0,'Breadcrumbs','','',1,'position-2',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_breadcrumbs',1,1,'{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}',0,'*'),
+(17,0,'Breadcrumbs','','',1,'position-2',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_breadcrumbs',1,1,'{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}',0,'*'),
 (79,0,'Multilanguage status','','',1,'status',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',0,'mod_multilangstatus',3,1,'{"layout":"_:default","moduleclass_sfx":"","cache":"0"}',1,'*'),
 (80,0,'Author Menu','','',1,'position-1',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_menu',3,0,'{"menutype":"authormenu","base":"","startLevel":"1","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":" nav-pills","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',0,'*'),
 (82,0,'Syndication','','',6,'position-7',0,'1970-01-01 00:00:00','1970-01-01 00:00:00','1970-01-01 00:00:00',1,'mod_syndicate',1,0,'{"display_text":1,"text":"My Blog","format":"rss","layout":"_:default","moduleclass_sfx":"","cache":"0"}',0,'*'),

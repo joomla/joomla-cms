@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class ContentViewArticle extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -169,13 +169,6 @@ class ContentViewArticle extends JViewLegacy
 
 		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$item->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
-
-		// Increment the hit counter of the article.
-		if (!$this->params->get('intro_only') && $offset == 0)
-		{
-			$model = $this->getModel();
-			$model->hit();
-		}
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));

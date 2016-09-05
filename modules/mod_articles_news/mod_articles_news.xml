@@ -3,7 +3,7 @@
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,36 +25,36 @@
 				<field
 					name="catid"
 					type="category"
+					label="JCATEGORY"
+					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
 					extension="com_content"
 					multiple="true"
 					default=""
 					size="10"
-					label="JCATEGORY"
-					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
-				>
+					>
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
 				<field
 					name="image"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
 
 				<field
 					name="item_title"
-					class="btn-group btn-group-yesno"
 					type="radio"
-					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -62,10 +62,11 @@
 				<field
 					name="link_titles"
 					type="list"
-					class="chzn-color"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
-				>
+					class="chzn-color"
+					showon="item_title:1"
+					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -74,10 +75,11 @@
 				<field
 					name="item_heading"
 					type="list"
-					default="h4"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
 					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
-				>
+					default="h4"
+					showon="item_title:1"
+					>
 					<option value="h1">JH1</option>
 					<option value="h2">JH2</option>
 					<option value="h3">JH3</option>
@@ -88,11 +90,11 @@
 				<field
 					name="showLastSeparator"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="1"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
@@ -100,11 +102,11 @@
 				<field
 					name="readmore"
 					type="radio"
-					class="btn-group btn-group-yesno"
-					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC"
-				>
+					class="btn-group btn-group-yesno"
+					default="0"
+					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
 				</field>
@@ -112,17 +114,18 @@
 				<field
 					name="count"
 					type="text"
-					default="5"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC" />
+					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC"
+					default="5"
+				/>
 
 				<field
 					name="ordering"
 					type="list"
-					default="a.publish_up"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC"
-				>
+					default="a.publish_up"
+					>
 					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
 					<option value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>
 					<option value="a.ordering">MOD_ARTICLES_NEWS_FIELD_ORDERING_ORDERING</option>
@@ -133,10 +136,11 @@
 				<field
 					name="direction"
 					type="list"
-					default="1"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC"
-				>
+					default="1"
+					showon="ordering:a.publish_up,a.created,a.ordering,a.hits"
+					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
@@ -147,21 +151,23 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+				/>
 
 				<field
 					name="cache"
 					type="list"
-					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
-				>
+					default="1"
+					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
@@ -169,15 +175,16 @@
 				<field
 					name="cache_time"
 					type="text"
-					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
+					default="900"
+				/>
 
 				<field
 					name="cachemode"
 					type="hidden"
 					default="itemid"
-				>
+					>
 					<option value="itemid"></option>
 				</field>
 			</fieldset>

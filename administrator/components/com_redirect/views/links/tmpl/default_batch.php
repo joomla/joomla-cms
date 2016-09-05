@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * @deprecated  3.4 Use default_batch_body and default_batch_footer
@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch_urls').value=''" data-dismiss="modal">
+		<button class="btn" data-dismiss="modal" type="button" onclick="document.getElementById('batch_urls').value='';">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('links.batch');">
