@@ -193,12 +193,12 @@ class FieldsModelField extends JModelAdmin
 			$oldParams = json_decode($field->fieldparams['options']);
 			$newParams = json_decode($data['fieldparams']['options']);
 
-			if (is_array($oldParams) && is_array($newParams) && count(array_intersect($oldParams->key, $newParams->key)) != count($oldParams->key))
+			if (is_object($oldParams) && is_object($newParams) && $oldParams->name != $newParams->name)
 			{
-				// @todo use JDatabase here
-				$this->_db->setQuery(
-						'delete from #__fields_values where field_id = ' . (int) $field->id . ' and value not in (\'' .
-							implode("','", $newParams->key) . '\')');
+				$query = $this->_db->getQuery(true);
+				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
+						->where("value not in ('" . implode("','", $newParams->name) . "')");
+				$this->_db->setQuery($query);
 				$this->_db->execute();
 			}
 		}

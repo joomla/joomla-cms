@@ -224,9 +224,11 @@ class PlgSystemFields extends JPlugin
 		$this->onContentAfterSave('com_users.user', $user, false);
 
 		// Save the user with the modified params
-		// @todo use the API here
-		$db = JFactory::getDbo();
-		$db->setQuery('update #__users set params = ' . $db->q($user->params));
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)->update('#__users')
+			->set(array('params = ' . $db->quote($user->params)))
+			->where('id = ' . $user->id);
+		$db->setQuery($query);
 		$db->execute();
 
 		return true;
@@ -620,8 +622,13 @@ class PlgSystemFields extends JPlugin
 		{
 			// The context is not from a known one, we need to do a lookup
 			// @todo use the api here.
-			$db = JFactory::getDbo();
-			$db->setQuery('select context from #__fields where context like ' . $db->q($parts[0] . '.%') . ' group by context');
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('context')
+				->from('#__fields')
+				->where('context like ' . $db->quote($parts[0] . '.%'))
+				->group(array('context'));
+			$db->setQuery($query);
 			$tmp = $db->loadObjectList();
 
 			if (count($tmp) == 1)
