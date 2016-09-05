@@ -467,7 +467,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
 				$columns = array_merge($columns, $tableColumns);
 			}
-			elseif(!$this->join && $aliasColName == '*')
+			elseif (!$this->join && $aliasColName == '*')
 			{
 				// Unset the array key
 				unset($selectCols[$key]);
