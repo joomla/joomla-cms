@@ -80,7 +80,7 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 
 		if ($data)
 		{
-			$app->enqueueMessage(JText::_('COM_USERLOGS_DELETE_SUCCESS'), 'success');
+			$app->enqueueMessage(JText::_('COM_USERLOGS_DELETE_SUCCESS'), 'message');
 		}
 		else
 		{
