@@ -409,7 +409,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			foreach ($this->join as $join)
 			{
 
-				$joinStr = trim(preg_replace("/.*\sJOIN/i","" ,(string)$join));
+				$joinStr = trim(preg_replace("/.*\sJOIN\s/i","" ,(string)$join));
 
 				if (strpos($joinStr,' AS ') !== false)
 				{
@@ -448,9 +448,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		$selectCols = trim(str_replace(" ", "", preg_replace("/,?$/", "", $selectCols)));
 
 		// Get an array to compare against
-		$selectCols = explode(",", $selectCols);
+
+		$selectCols =  $selectCols ? explode(",", $selectCols) : array();
 
 		// Find all alias.* and fill with proper table column names
+
 		foreach ($selectCols as $key => $aliasColName)
 		{
 			if (preg_match("/.+\*/", $aliasColName, $match))
@@ -463,6 +465,13 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 				// Get the table name
 				$tableColumns = preg_grep("/{$aliasStar}\.+/", $cols);
+				$columns = array_merge($columns, $tableColumns);
+			}
+			elseif(!$this->join && $aliasColName == '*')
+			{
+				// Unset the array key
+				unset($selectCols[$key]);
+				$tableColumns = preg_grep("/{$table}\.+/", $cols);
 				$columns = array_merge($columns, $tableColumns);
 			}
 		}
