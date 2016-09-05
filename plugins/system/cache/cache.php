@@ -102,7 +102,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAfterRoute()
 	{
@@ -153,15 +153,9 @@ class PlgSystemCache extends JPlugin
 		// Check if menu items have been excluded.
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
-<<<<<<< HEAD
 			// Get the current menu item.
 			$active = $this->app->getMenu()->getActive();
-			
-=======
-			// Get the current menu item
-			$active = JFactory::getApplication()->getMenu()->getActive();
 
->>>>>>> refs/remotes/joomla/staging
 			if ($active && $active->id && in_array($active->id, (array) $exclusions))
 			{
 				return true;
