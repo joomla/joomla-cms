@@ -366,6 +366,33 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	}
 
 	/**
+	 * Method for compiling SCSS.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function scss()
+	{
+		$app   = JFactory::getApplication();
+		$model = $this->getModel();
+		$id    = $app->input->get('id');
+		$file  = $app->input->get('file');
+
+		if ($model->compileScss($file))
+		{
+			$this->setMessage(JText::_('COM_TEMPLATES_COMPILE_SCSS_SUCCESS'));
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_COMPILE_ERROR'), 'error');
+		}
+
+		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$this->setRedirect(JRoute::_($url, false));
+	}
+
+	/**
 	 * Method for deleting a file.
 	 *
 	 * @return  void

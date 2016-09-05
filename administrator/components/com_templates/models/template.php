@@ -791,6 +791,43 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
+	 * Compile SCSS using the SCSS compiler under /build.
+	 *
+	 * @param   string  $input  The relative location of the SCSS file.
+	 *
+	 * @return  boolean  true if compilation is successful, false otherwise
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function compileScss($input, $formatter = 'Crunched')
+	{
+		if ($template = $this->getTemplate())
+		{
+			$app          = JFactory::getApplication();
+			$client       = JApplicationHelper::getClientInfo($template->client_id);
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$inFile       = urldecode(base64_decode($input));
+			$explodeArray = explode('/', $inFile);
+			$fileName     = end($explodeArray);
+			$outFile      = reset(explode('.', $fileName));
+
+			$scss = new JScss;
+			$scss->format($formatter);
+
+			try
+			{
+				$scss->compile($path . $inFile, $path . 'css/' . $outFile . '.css');
+
+				return true;
+			}
+			catch (Exception $e)
+			{
+				$app->enqueueMessage($e->getMessage(), 'error');
+			}
+		}
+	}
+
+	/**
 	 * Delete a particular file.
 	 *
 	 * @param   string  $file  The relative location of the file.
