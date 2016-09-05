@@ -258,6 +258,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 		}
+		else if (textStatus == 'error' && jqXHR.statusText)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) + ' <em>' + jqXHR.statusText + '</em>' ];
+		}
+		else if (textStatus == 'error' && jqXHR.responseJSON)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) + ' <em>' + jqXHR.responseJSON.message + '</em>' ];
+		}
 		else
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
