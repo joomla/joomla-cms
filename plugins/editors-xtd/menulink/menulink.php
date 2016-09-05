@@ -29,10 +29,17 @@ class PlgButtonMenulink extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A four element array of (article_id, article_title, category_id, object)
+	 * @return array A four element array of (menu_id, menu_title, link, language)
 	 */
 	public function onDisplay($name)
 	{
+		$app = JFactory::getApplication();
+
+		/* Load plugin button only in the backend */
+		if ($app->isSite())
+		{
+			return;
+		}
 		/*
 		 * Javascript to insert the link
 		 * View element calls jSelectArticle when an article is clicked
