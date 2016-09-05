@@ -296,7 +296,6 @@ class ModulesControllerModule extends JControllerForm
 			$html[] = $position . ',' . 1 . ',' . JText::_('JNONE');
 		}
 
-
 		echo new JResponseJson($html);
 		$app->close();
 	}
