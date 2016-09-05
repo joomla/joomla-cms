@@ -34,13 +34,10 @@ class JFormFieldCategoryTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$field = new JFormFieldCategory();
-
-		$this->assertTrue(
-			$field->setup(
-				new SimpleXmlElement('<field name="category" type="category" extension="com_content" />'),
-				'value'
-			)
+		$field = new JFormFieldCategory;
+		$field->setup(
+			new SimpleXmlElement('<field name="category" type="category" extension="com_content" />'),
+			'value'
 		);
 
 		$this->assertNotEmpty(
