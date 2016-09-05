@@ -306,22 +306,13 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			// Load the site language manifest.
 			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
-			// Set the content language title as international_name in site xx-XX.ini, fallback to name in site xx-XX.ini.
+			// Set the content language title as name in site xx-XX.ini.
 			$contentLanguageTitle = $siteLanguageManifest['name'];
 
-			if (isset($siteLanguageManifest['international_name']) && $siteLanguageManifest['international_name'])
-			{
-				$contentLanguageTitle = $siteLanguageManifest['international_name'];
-			}
-
-			// Set the content language as native_name in site xx-XX.ini, fallback to installation language variable, fallback to content language title.
+			// Set the content language as installation native title language variable, fallback to content language title.
 			$contentLanguageNativeTitle = $contentLanguageTitle;
 
-			if (isset($siteLanguageManifest['native_name']) && $siteLanguageManifest['native_name'])
-			{
-				$contentLanguageNativeTitle = $siteLanguageManifest['native_name'];
-			}
-			elseif (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
+			if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
 			{
 				$installationLanguage = new JLanguage($this->tag);
 				$installationLanguage->load('', JPATH_INSTALLATION);
