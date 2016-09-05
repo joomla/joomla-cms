@@ -32,27 +32,19 @@ class PlgSystemCache extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Get the application if not done by JPlugin.
-		if (!isset($this->app))
-		{
-			$this->app = JFactory::getApplication();
-		}
-
-		// Set the cache options.
+		// Set the language in the class.
 		$options = array(
 			'defaultgroup' => 'page',
 			'browsercache' => $this->params->get('browsercache', false),
 			'caching'      => false,
 		);
 
-		// Instantiate cache with previous options and create the cache key identifier.
 		$this->_cache     = JCache::getInstance('page', $options);
 		$this->_cache_key = JUri::getInstance()->toString();
 	}
 
 	/**
-	 * After Initialise Event.
-	 * Checks if URL exists in cache, if so dumps it directly and closes.
+	 * Converting the site URL to fit to the HTTP request.
 	 *
 	 * @return  void
 	 *
@@ -60,67 +52,44 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if ($this->app->isAdmin() || count($this->app->getMessageQueue()) || $this->app->get('offline', '0'))
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
+
+		if ($app->isAdmin())
 		{
 			return;
 		}
 
-		// If user is guest and method is equal to GET enable caching.
-		if (JFactory::getUser()->get('guest') && $this->app->input->getMethod() == 'GET')
+		if (count($app->getMessageQueue()))
+		{
+			return;
+		}
+
+		if ($user->get('guest') && $app->input->getMethod() == 'GET')
 		{
 			$this->_cache->setCaching(true);
+		}
 
-			// Gets page from cache.
-			$data = $this->_cache->get($this->_cache_key);
+		$data = $this->_cache->get($this->_cache_key);
 
-			// If page exist in cache, show cached page.
-			if ($data !== false)
+		if ($data !== false)
+		{
+			// Set cached body.
+			$app->setBody($data);
+
+			echo $app->toString();
+
+			if (JDEBUG)
 			{
-				// Set HTML page from cache.
-				$this->app->setBody($data);
-
-				// Dumps HTML page.
-				echo $this->app->toString();
-
-				// Mark afterCache in debug and run debug onAfterRespond events.
-				// e.g., show Joomla Debug Console if debug is active.
-				if (JDEBUG)
-				{
-					JProfiler::getInstance('Application')->mark('afterCache');
-					JEventDispatcher::getInstance()->trigger('onAfterRespond');
-				}
-
-				// Closes the application.
-				$this->app->close();
+				JProfiler::getInstance('Application')->mark('afterCache');
 			}
+
+			$app->close();
 		}
 	}
 
 	/**
-	 * After Route Event.
-	 * Verify if current page is not excluded from cache.
-	 *
-	 * @return   void
-	 *
-	 * @since   3.6
-	 */
-	public function onAfterRoute()
-	{
-		if ($this->app->isAdmin() || count($this->app->getMessageQueue()) || $this->app->get('offline', '0'))
-		{
-			return;
-		}
-
-		// Page is excluded if excluded in plugin settings.
-		if ($this->isExcluded())
-		{
-			$this->_cache->setCaching(false);
-		}
-	}
-
-	/**
-	 * After Respond Event.
-	 * Stores page in cache.
+	 * After render.
 	 *
 	 * @return   void
 	 *
@@ -128,15 +97,23 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterRespond()
 	{
-		if ($this->app->isAdmin() || count($this->app->getMessageQueue()) || $this->app->get('offline', '0'))
+		$app = JFactory::getApplication();
+
+		if ($app->isAdmin())
 		{
 			return;
 		}
 
-		// We need to check if user is guest again here, because auto-login plugins have not been fired before the first aid check.
-		if (JFactory::getUser()->get('guest'))
+		if (count($app->getMessageQueue()))
 		{
-			// Saves current page in cache.
+			return;
+		}
+
+		$user = JFactory::getUser();
+
+		if ($user->get('guest') && !$this->isExcluded())
+		{
+			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
 			$this->_cache->store(null, $this->_cache_key);
 		}
 	}
@@ -150,40 +127,39 @@ class PlgSystemCache extends JPlugin
 	 */
 	protected function isExcluded()
 	{
-		// Check if menu items have been excluded.
+		// Check if menu items have been excluded
 		if ($exclusions = $this->params->get('exclude_menu_items', array()))
 		{
-			// Get the current menu item.
-			$active = $this->app->getMenu()->getActive();
-			
+			// Get the current menu item
+			$active = JFactory::getApplication()->getMenu()->getActive();
+
 			if ($active && $active->id && in_array($active->id, (array) $exclusions))
 			{
 				return true;
 			}
 		}
 
-		// Check if regular expressions are being used.
+		// Check if regular expressions are being used
 		if ($exclusions = $this->params->get('exclude', ''))
 		{
-			// Normalize line endings.
+			// Normalize line endings
 			$exclusions = str_replace(array("\r\n", "\r"), "\n", $exclusions);
 
-			// Split them.
+			// Split them
 			$exclusions = explode("\n", $exclusions);
 
-			// Gets internal URI.
-			$internal_uri	= '/index.php?' . JUri::getInstance()->buildQuery($this->app->getRouter()->getVars());
+			// Get current path to match against
+			$path = JUri::getInstance()->toString(array('path', 'query', 'fragment'));
 
-			// Loop through each pattern.
+			// Loop through each pattern
 			if ($exclusions)
 			{
 				foreach ($exclusions as $exclusion)
 				{
-					// Make sure the exclusion has some content.
+					// Make sure the exclusion has some content
 					if (strlen($exclusion))
 					{
-						// Test both external and internal URI
-						if (preg_match('#' . $exclusion . '#i', $this->_cache_key . ' ' . $internal_uri, $match))
+						if (preg_match('/' . $exclusion . '/is', $path, $match))
 						{
 							return true;
 						}
