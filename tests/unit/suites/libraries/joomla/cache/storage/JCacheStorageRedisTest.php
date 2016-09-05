@@ -27,6 +27,11 @@ class JCacheStorageRedisTest extends TestCaseCache
 
 		parent::setUp();
 
+		// Mock the returns on JApplicationCms::get() to use the default values
+		JFactory::$application->expects($this->any())
+			->method('get')
+			->willReturnArgument(1);
+
 		$this->handler = new JCacheStorageRedis;
 
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)

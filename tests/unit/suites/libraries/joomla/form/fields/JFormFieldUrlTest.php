@@ -95,10 +95,26 @@ class JFormFieldUrlTest extends TestCaseDatabase
 	{
 		$formField = new JFormFieldUrl;
 
+		$xml = '<field ';
+		$curvalue = null;
 		foreach ($data as $attr => $value)
 		{
-			TestReflection::setValue($formField, $attr, $value);
+			if ($attr == 'value')
+			{
+				$curvalue = $value;
+			}
+			else
+			{
+				if ($value === false)
+				{
+					$value = 'false';
+				}
+				$xml .= $attr . '="' . $value . '" ';
+			}
 		}
+		$xml .= '/>';
+
+		$formField->setup(simplexml_load_string($xml), $curvalue);
 
 		$replaces = array("\n", "\r"," ", "\t");
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\Inflector;
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -23,6 +25,30 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_tags');
 $saveOrder = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
+$extension = $this->escape($this->state->get('filter.extension'));
+$parts     = explode('.', $extension);
+$component = $parts[0];
+$section   = null;
+$mode      = false;
+
+if (count($parts) > 1)
+{
+	$section = $parts[1];
+	$inflector = Inflector::getInstance();
+
+	if (!$inflector->isPlural($section))
+	{
+		$section = $inflector->toPlural($section);
+	}
+
+}
+
+if ($section === 'categories')
+{
+	$mode = true;
+	$section = $component;
+	$component = 'com_categories';
+}
 
 if ($saveOrder)
 {
@@ -63,6 +89,28 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
+
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :?>
+							<th width="1%" class="nowrap center hidden-phone">
+								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"></i>
+							</th>
+						<?php endif;?>
+ 
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
@@ -171,6 +219,34 @@ if ($saveOrder)
 									<?php endif; ?>
 								</span>
 							</td>
+							
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
+							<td class="center btns hidden-phone">
+								<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1');?>">
+									<?php echo $item->count_published; ?></a>
+							</td>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
+							<td class="center btns hidden-phone">
+								<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0');?>">
+									<?php echo $item->count_unpublished; ?></a>
+							</td>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
+							<td class="center btns hidden-phone">
+								<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2');?>">
+									<?php echo $item->count_archived; ?></a>
+							</td>
+						<?php endif;?>
+						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
+							<td class="center btns hidden-phone">
+								<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2');?>">
+									<?php echo $item->count_trashed; ?></a>
+							</td>
+						<?php endif;?>
+							
+							
+							
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_title); ?>
 						</td>

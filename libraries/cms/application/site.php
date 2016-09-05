@@ -401,8 +401,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$config = JFactory::getConfig();
-		$options['mode'] = $config->get('sef');
+		$options['mode'] = JFactory::getConfig()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -520,7 +519,12 @@ final class JApplicationSite extends JApplicationCms
 				{
 					if ($tmpl->template == $template_override)
 					{
-						$template->template = $template_override;
+						$template = $tmpl;
+
+						$registry = new Registry;
+						$registry->loadString($template->params);
+						$template->params = $registry;
+
 						break;
 					}
 				}
@@ -674,7 +678,17 @@ final class JApplicationSite extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
+	}
 
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function loadLibraryLanguage()
+	{
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary

@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 
+// @deprecated 4.0 the function parameter, the inline js and the buttons are not needed since __DEPLOY_VERSION__.
 $function  = JFactory::getApplication()->input->getCmd('function', 'jEditNewsfeed_' . (int) $this->item->id);
 
 // Function to update input title when changed

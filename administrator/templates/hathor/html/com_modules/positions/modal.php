@@ -25,7 +25,7 @@ $type      = $this->state->get('filter.type');
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
 			<label for="filter_search">
-				<?php echo JText::_('JSearch_Filter_Label'); ?>
+				<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>
 			</label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>" />
 

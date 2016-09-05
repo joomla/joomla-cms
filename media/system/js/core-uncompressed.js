@@ -58,16 +58,114 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * Allows you to call Joomla.JText._() to get a translated JavaScript string pushed in with JText::script() in Joomla.
 	 */
 	Joomla.JText = {
-		strings: {},
+		strings:   {},
+
+		/**
+		 * Translates a string into the current language.
+		 *
+		 * @param {String} key   The string to translate
+		 * @param {String} def   Default string
+		 *
+		 * @returns {String}
+		 */
 		'_': function( key, def ) {
-			return typeof this.strings[ key.toUpperCase() ] !== 'undefined' ? this.strings[ key.toUpperCase() ] : def;
+
+			// Check for new strings in the optionsStorage, and load them
+			var newStrings = Joomla.getOptions('joomla.jtext');
+			if ( newStrings ) {
+				this.load(newStrings);
+
+				// Clean up the optionsStorage from useless data
+				Joomla.loadOptions({'joomla.jtext': null});
+			}
+
+			def = def === undefined ? '' : def;
+			key = key.toUpperCase();
+
+			return this.strings[ key ] !== undefined ? this.strings[ key ] : def;
 		},
+
+		/**
+		 * Load new strings in to Joomla.JText
+		 *
+		 * @param {Object} object  Object with new strings
+		 * @returns {Joomla.JText}
+		 */
 		load: function( object ) {
 			for ( var key in object ) {
 				if (!object.hasOwnProperty(key)) continue;
 				this.strings[ key.toUpperCase() ] = object[ key ];
 			}
+
 			return this;
+		}
+	};
+
+	/**
+	 * Joomla options storage
+	 *
+	 * @type {{}}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.optionsStorage = Joomla.optionsStorage || null;
+
+	/**
+	 * Get script(s) options
+	 *
+	 * @param {String} key  Name in Storage
+	 * @param mixed    def  Default value if nothing found
+	 *
+	 * @return mixed
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.getOptions = function( key, def ) {
+		// Load options if they not exists
+		if (!Joomla.optionsStorage) {
+			Joomla.loadOptions();
+		}
+
+		return Joomla.optionsStorage[key] !== undefined ? Joomla.optionsStorage[key] : def;
+	};
+
+	/**
+	 * Load new options from given options object or from Element
+	 *
+	 * @param {Object|undefined} options   The options object to load. Eg {"com_foobar" : {"option1": 1, "option2": 2}}
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	Joomla.loadOptions = function( options ) {
+		// Load form the script container
+		if (!options) {
+			var elements = document.querySelectorAll('.joomla-script-options.new'),
+				str, element, option;
+
+			for (var i = 0, l = elements.length; i < l; i++) {
+				element = elements[i];
+				str     = element.text || element.textContent;
+				option  = JSON.parse(str);
+
+				option ? Joomla.loadOptions(option) : null;
+
+				element.className = element.className.replace(' new', ' loaded');
+			}
+
+			return;
+		}
+
+		// Initial loading
+		if (!Joomla.optionsStorage) {
+			Joomla.optionsStorage = options;
+		}
+		// Merge with existing
+		else {
+			for (var p in options) {
+				if (options.hasOwnProperty(p)) {
+					Joomla.optionsStorage[p] = options[p];
+				}
+			}
 		}
 	};
 
@@ -614,7 +712,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 			parentElement.appendChild(loadingDiv);
 		}
 		// Show or hide the layer.
-		else 
+		else
 		{
 			if (!document.getElementById('loading-logo'))
 			{

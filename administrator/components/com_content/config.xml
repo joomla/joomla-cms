@@ -315,6 +315,18 @@
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
 		<field
+			name="captcha"
+			type="plugins"
+			label="COM_CONTENT_FIELD_CAPTCHA_LABEL"
+			description="COM_CONTENT_FIELD_CAPTCHA_DESC"
+			default="0"
+			folder="captcha"
+			filter="cmd"
+			>
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
+		</field>
+		<field
 			name="show_publishing_options"
 			type="radio"
 			class="btn-group btn-group-yesno"

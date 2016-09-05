@@ -134,30 +134,15 @@ class PlgEditorTinymce extends JPlugin
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		// Set the selected skin
-		if ($app->isSite())
+		// Set the selected skin in the current side, front-end or back-end
+		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
-			if ((int) $this->params->get('skin', 0) < count($skindirs))
-			{
-				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
-			}
+			$skin = 'skin : "' . basename($skindirs[(int) $this->params->get($side, 0)]) . '",';
 		}
-
-		// Set the selected administrator skin
-		elseif ($app->isAdmin())
+		else
 		{
-			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
-			{
-				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
-			}
+			$skin = 'skin : "lightgray",';
 		}
 
 		$entity_encoding = $this->params->get('entity_encoding', 'raw');

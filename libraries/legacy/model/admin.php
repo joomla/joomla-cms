@@ -1228,19 +1228,41 @@ abstract class JModelAdmin extends JModelForm
 				);
 			}
 
-			// Adding self to the association
-			$associations[$table->language] = (int) $table->$key;
-
-			// Deleting old association for these items
+			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__associations'))
+				->select($db->qn('key'))
+				->from($db->qn('#__associations'))
 				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->qn('id') . ' IN (' . implode(',', $associations) . ')');
+				->where($db->qn('id') . ' = ' . (int) $table->$key);
+			$db->setQuery($query);
+			$old_key = $db->loadResult();
+
+			// Deleting old associations for the associated items
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__associations'))
+				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext));
+
+			if ($associations)
+			{
+				$query->where('(' . $db->qn('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->qn('key') . ' = ' . $db->q($old_key) . ')');
+			}
+			else
+			{
+				$query->where($db->qn('key') . ' = ' . $db->q($old_key));
+			}
+
 			$db->setQuery($query);
 			$db->execute();
 
-			if ((count($associations) > 1) && ($table->language != '*'))
+			// Adding self to the association
+			if ($table->language != '*')
+			{
+				$associations[$table->language] = (int) $table->$key;
+			}
+
+			if ((count($associations)) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
