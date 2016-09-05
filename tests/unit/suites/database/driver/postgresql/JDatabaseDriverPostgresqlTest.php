@@ -1045,7 +1045,14 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testSetUtf()
 	{
-		$this->assertEquals(0, self::$driver->setUtf());
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			$this->assertEquals(-1, self::$driver->setUtf());
+		}
+		else
+		{
+			$this->assertEquals(0, self::$driver->setUtf());
+		}
 	}
 
 	/**
