@@ -28,7 +28,7 @@ class JFormFieldModuleOrder extends JFormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.moduleorder';
 
@@ -39,7 +39,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __get($name)
 	{
@@ -60,7 +60,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __set($name, $value)
 	{
@@ -102,14 +102,10 @@ class JFormFieldModuleOrder extends JFormField
 	}
 
 	/**
-	 * Method to get the field input markup for the file field.
-	 * Field attributes allow specification of a maximum file size and a string
-	 * of accepted file extensions.
+	 * Method to get the field input markup for the moduleorder field.
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @note    The field does not include an upload mechanism.
-	 * @see     JFormFieldMedia
 	 * @since   11.1
 	 */
 	protected function getInput()
@@ -122,7 +118,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  array
 	 *
-	 * @since 3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getLayoutData()
 	{

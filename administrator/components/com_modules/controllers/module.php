@@ -229,7 +229,7 @@ class ModulesControllerModule extends JControllerForm
 	 *
 	 * @return  string  The data for the Ajax request.
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function orderPosition()
 	{
