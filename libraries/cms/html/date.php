@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ abstract class JHtmlDate
 		if (is_null($time))
 		{
 			// Get now
-			$time = JFactory::getDate('now');
+			$time = new JDate('now');
 		}
 
 		// Get the difference in seconds between now and the time

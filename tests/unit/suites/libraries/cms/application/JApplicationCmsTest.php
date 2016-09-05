@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -126,7 +126,10 @@ class JApplicationCmsTest extends TestCaseDatabase
 		JApplicationCmsInspector::$connectionAlive = true;
 
 		$_SERVER = $this->backupServer;
-
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($config);
+		unset($this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

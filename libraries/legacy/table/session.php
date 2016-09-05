@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -145,7 +145,7 @@ class JTableSession extends JTable
 	}
 
 	/**
-	 * Find out if a user has a one or more active sessions
+	 * Find out if a user has one or more active sessions
 	 *
 	 * @param   integer  $userid  The identifier of the user
 	 *

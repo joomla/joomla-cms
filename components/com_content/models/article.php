@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  mixed  Menu item data object on success, false on failure.
+	 * @return  object|boolean|JException  Menu item data object on success, boolean false or JException instance on error
 	 */
 	public function getItem($pk = null)
 	{

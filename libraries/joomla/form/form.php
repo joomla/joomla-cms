@@ -3,16 +3,16 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.utilities.arrayhelper');
 
 /**
  * Form Class for the Joomla Platform.
@@ -70,7 +70,7 @@ class JForm
 	/**
 	 * Form instances.
 	 *
-	 * @var    array
+	 * @var    JForm[]
 	 * @since  11.1
 	 */
 	protected static $forms = array();
@@ -78,7 +78,7 @@ class JForm
 	/**
 	 * Alows extensions to implement repeating elements
 	 *
-	 * @var    mixed
+	 * @var    boolean
 	 * @since  3.2
 	 */
 	public $repeat = false;
@@ -126,40 +126,7 @@ class JForm
 			return false;
 		}
 
-		// Convert the input to an array.
-		if (is_object($data))
-		{
-			if ($data instanceof Registry)
-			{
-				// Handle a Registry.
-				$data = $data->toArray();
-			}
-			elseif ($data instanceof JObject)
-			{
-				// Handle a JObject. Getting just the properties won't work. We need to convert any nested JObject too.
-				$data = JArrayHelper::fromObject($data);
-			}
-			else
-			{
-				// Handle other types of objects.
-				$data = (array) $data;
-			}
-		}
-
-		// Process the input data.
-		foreach ($data as $k => $v)
-		{
-			if ($this->findField($k))
-			{
-				// If the field exists set the value.
-				$this->data->set($k, $v);
-			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
-			{
-				// If the value is an object or an associative array hand it off to the recursive bind level method.
-				$this->bindLevel($k, $v);
-			}
-		}
+		$this->bindLevel(null, $data);
 
 		return true;
 	}
@@ -177,20 +144,39 @@ class JForm
 	protected function bindLevel($group, $data)
 	{
 		// Ensure the input data is an array.
-		settype($data, 'array');
+		if (is_object($data))
+		{
+			if ($data instanceof Registry)
+			{
+				// Handle a Registry.
+				$data = $data->toArray();
+			}
+			elseif ($data instanceof JObject)
+			{
+				// Handle a JObject.
+				$data = $data->getProperties();
+			}
+			else
+			{
+				// Handle other types of objects.
+				$data = (array) $data;
+			}
+		}
 
 		// Process the input data.
 		foreach ($data as $k => $v)
 		{
+			$level = $group ? $group . '.' . $k : $k;
+
 			if ($this->findField($k, $group))
 			{
 				// If the field exists set the value.
-				$this->data->set($group . '.' . $k, $v);
+				$this->data->set($level, $v);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v))
+			elseif (is_object($v) || ArrayHelper::isAssociative($v))
 			{
-				// If the value is an object or an associative array, hand it off to the recursive bind level method
-				$this->bindLevel($group . '.' . $k, $v);
+				// If the value is an object or an associative array, hand it off to the recursive bind level method.
+				$this->bindLevel($level, $v);
 			}
 		}
 	}
@@ -266,7 +252,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value  The optional value to use as the default for the field.
 	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 * @return  JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -316,7 +302,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -427,6 +413,11 @@ class JForm
 		// Process each found fieldset.
 		foreach ($sets as $set)
 		{
+			if ((string) $set['hidden'] == 'true')
+			{
+				continue;
+			}
+
 			// Are we dealing with a fieldset element?
 			if ((string) $set['name'])
 			{
@@ -484,9 +475,9 @@ class JForm
 	/**
 	 * Method to get the form control. This string serves as a container for all form fields. For
 	 * example, if there is a field named 'foo' and a field named 'bar' and the form control is
-	 * empty the fields will be rendered like: <input name="foo" /> and <input name="bar" />.  If
+	 * empty the fields will be rendered like: `<input name="foo" />` and `<input name="bar" />`.  If
 	 * the form control is set to 'joomla' however, the fields would be rendered like:
-	 * <input name="joomla[foo]" /> and <input name="joomla[bar]" />.
+	 * `<input name="joomla[foo]" />` and `<input name="joomla[bar]" />`.
 	 *
 	 * @return  string  The form control string.
 	 *
@@ -882,7 +873,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::removeField `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -915,7 +906,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::removeGroup `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Get the fields elements for a given group.
@@ -974,7 +965,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::setField `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -1035,7 +1026,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::setFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Find the form field element from the definition.
@@ -1078,7 +1069,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
 		{
-			throw new UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new UnexpectedValueException(sprintf('%s::setFields `xml` is not an instance of SimpleXMLElement', get_class($this)));
 		}
 
 		// Make sure the elements to set are valid.
@@ -1150,7 +1141,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
 	 *                          fields to be validated.
 	 *
-	 * @return  mixed  True on sucess.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -1275,7 +1266,7 @@ class JForm
 
 				$value = is_array($value) ? $value : array($value);
 
-				JArrayHelper::toInteger($value);
+				$value = ArrayHelper::toInteger($value);
 				$return = $value;
 				break;
 
@@ -1492,7 +1483,7 @@ class JForm
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
 	 *
-	 * @return  mixed  The XML element object for the field or boolean false on error.
+	 * @return  SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1514,10 +1505,10 @@ class JForm
 			$elements = &$this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
-			foreach ($elements as $element)
+			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $element->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}
@@ -1579,12 +1570,11 @@ class JForm
 	}
 
 	/**
-	 * Method to get an array of <field /> elements from the form XML document which are
-	 * in a specified fieldset by name.
+	 * Method to get an array of `<field>` elements from the form XML document which are in a specified fieldset by name.
 	 *
 	 * @param   string  $name  The name of the fieldset.
 	 *
-	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
+	 * @return  SimpleXMLElement[]|boolean  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1610,15 +1600,14 @@ class JForm
 	}
 
 	/**
-	 * Method to get an array of <field /> elements from the form XML document which are
-	 * in a control group by name.
+	 * Method to get an array of `<field>` elements from the form XML document which are in a control group by name.
 	 *
 	 * @param   mixed    $group   The optional dot-separated form group path on which to find the fields.
 	 *                            Null will return all fields. False will return fields not in a group.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  mixed  Boolean false on error or array of SimpleXMLElement objects.
+	 * @return  SimpleXMLElement[]|boolean  Boolean false on error or array of SimpleXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1691,7 +1680,7 @@ class JForm
 	 *
 	 * @param   string  $group  The dot-separated form group path on which to find the group.
 	 *
-	 * @return  mixed  An array of XML element objects for the group or boolean false on error.
+	 * @return  SimpleXMLElement[]|boolean  An array of XML element objects for the group or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1775,7 +1764,7 @@ class JForm
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
 	 * @param   mixed   $value    The optional value to use as the default for the field.
 	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 * @return  JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1847,7 +1836,7 @@ class JForm
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
+	 * @return  JFormField|boolean  JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -1862,7 +1851,7 @@ class JForm
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormRule object on success, false otherwise.
+	 * @return  JFormRule|boolean  JFormRule object on success, false otherwise.
 	 *
 	 * @see     JFormHelper::loadRuleType()
 	 * @since   11.1
@@ -1933,7 +1922,7 @@ class JForm
 	 * @param   Registry          $input    An optional Registry object with the entire data set to validate
 	 *                                      against the entire form.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
+	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException
@@ -2066,7 +2055,7 @@ class JForm
 	 *                                    already exists with the same group/name.
 	 * @param   string|boolean  $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  object  JForm instance.
+	 * @return  JForm  JForm instance.
 	 *
 	 * @since   11.1
 	 * @throws  InvalidArgumentException if no data provided.
@@ -2091,7 +2080,7 @@ class JForm
 			$forms[$name] = new JForm($name, $options);
 
 			// Load the data.
-			if (substr(trim($data), 0, 1) == '<')
+			if (substr($data, 0, 1) == '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{
@@ -2165,7 +2154,7 @@ class JForm
 	}
 
 	/**
-	 * Merges new elements into a source <fields> element.
+	 * Merges new elements into a source `<fields>` element.
 	 *
 	 * @param   SimpleXMLElement  $source  The source element.
 	 * @param   SimpleXMLElement  $new     The new element to merge.

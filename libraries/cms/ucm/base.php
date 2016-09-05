@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -106,7 +106,12 @@ class JUcmBase implements JUcm
 	 */
 	public function getType()
 	{
-		return new JUcmType($this->alias);
+		if (!$this->type)
+		{
+			$this->type = new JUcmType($this->alias);
+		}
+
+		return $this->type;
 	}
 
 	/**
@@ -126,7 +131,7 @@ class JUcmBase implements JUcm
 		$data = array(
 			'ucm_type_id' => $type->id,
 			'ucm_item_id' => $original[$type->primary_key],
-			'ucm_language_id' => JHelperContent::getLanguageId($original['language'])
+			'ucm_language_id' => JHelperContent::getLanguageId($original['language']),
 		);
 
 		return $data;

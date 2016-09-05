@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ defined('_JEXEC') or die;
 						<td>
 							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
-								<?php if ($option->notice):?>
+								<?php if ($option->notice) : ?>
 									<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
 							</span>
@@ -62,9 +62,7 @@ defined('_JEXEC') or die;
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
-			<p class="install-text">
-				<?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?>
-			</p>
+			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
 			<table class="table table-striped table-condensed">
 				<thead>
 					<tr>
@@ -113,7 +111,6 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 	</div>
-
 	<input type="hidden" name="task" value="preinstall" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

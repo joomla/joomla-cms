@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-			<?php if ($params->get('save_history', 0)) : ?>
+			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
 			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			</div>
@@ -161,9 +161,6 @@ JFactory::getDocument()->addScriptDeclaration("
 
 					<input type="hidden" name="task" value="" />
 					<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
-					<?php if ($this->params->get('enable_category', 0) == 1) :?>
-					<input type="hidden" name="jform[catid]" value="<?php echo $this->params->get('catid', 1); ?>" />
-					<?php endif; ?>
 				</div>
 			</div>
 			<?php echo JHtml::_('form.token'); ?>

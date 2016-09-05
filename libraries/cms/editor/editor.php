@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -472,10 +472,25 @@ class JEditor extends JObject
 			}
 
 			// Try to authenticate
-			if (method_exists($plugin, 'onDisplay') && $temp = $plugin->onDisplay($editor, $this->asset, $this->author))
+			if (!method_exists($plugin, 'onDisplay'))
 			{
-				$result[] = $temp;
+				continue;
 			}
+
+			$button = $plugin->onDisplay($editor, $this->asset, $this->author);
+
+			if (empty($button))
+			{
+				continue;
+			}
+
+			if (is_array($button))
+			{
+				$result = array_merge($result, $button);
+				continue;
+			}
+
+			$result[] = $button;
 		}
 
 		return $result;

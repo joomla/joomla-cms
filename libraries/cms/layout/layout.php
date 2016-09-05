@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ interface JLayout
 	/**
 	 * Method to render the layout.
 	 *
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   array  $displayData  Array of properties available for use inside the layout file to build the displayed output
 	 *
 	 * @return  string  The rendered layout.
 	 *

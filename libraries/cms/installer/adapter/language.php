@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	protected $core = false;
 
 	/**
-	 * Method to copy the extension's base files from the <files> tag(s) and the manifest file
+	 * Method to copy the extension's base files from the `<files>` tag(s) and the manifest file
 	 *
 	 * @return  void
 	 *
@@ -461,7 +461,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 	 *
 	 * @param   string  $eid  The tag of the language to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
@@ -670,6 +670,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			return false;
 		}
+
 		return $this->parent->extension->get('extension_id');
 	}
 

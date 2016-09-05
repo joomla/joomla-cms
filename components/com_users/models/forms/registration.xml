@@ -72,6 +72,7 @@
 			size="30"
 			unique="true"
 			validate="email"
+			autocomplete="email"
 		/>
 
 		<field

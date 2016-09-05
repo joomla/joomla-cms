@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -126,6 +126,9 @@ class PostinstallModelMessages extends FOFModel
 		$unset_keys          = array();
 		$language_extensions = array();
 
+		// Order the results DESC so the newest is on the top.
+		$resultArray = array_reverse($resultArray);
+
 		foreach ($resultArray as $key => $item)
 		{
 			// Filter out messages based on dynamically loaded programmatic conditions.
@@ -171,7 +174,7 @@ class PostinstallModelMessages extends FOFModel
 	}
 
 	/**
-	 * Get the drop-down options for the list of component with post-installation messages
+	 * Get the dropdown options for the list of component with post-installation messages
 	 *
 	 * @since 3.4
 	 *
@@ -233,7 +236,7 @@ class PostinstallModelMessages extends FOFModel
 	 * language_extension  The extension name which holds the language keys used above.
 	 *                     For example, com_foobar, mod_something, plg_system_whatever, tpl_mytemplate
 	 *
-	 * language_client_id  Should we load the front-end (0) or back-end (1) language keys?
+	 * language_client_id  Should we load the frontend (0) or backend (1) language keys?
 	 *
 	 * version_introduced  Which was the version of your extension where this message appeared for the first time?
 	 *                     Example: 3.2.1

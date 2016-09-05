@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ abstract class ModulesHelper
 		{
 			if (!$position && !$editPositions)
 			{
-				$options[] = JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
+				$options[] = JHtml::_('select.option', 'none', JText::_('COM_MODULES_NONE'));
 			}
 			else
 			{

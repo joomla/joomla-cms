@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -254,13 +254,6 @@ class ModulesModelModule extends JModelAdmin
 
 				$table->position = $position;
 
-				// Alter the title if necessary
-				$data = $this->generateNewTitle(0, $table->title, $table->position);
-				$table->title = $data['0'];
-
-				// Unpublish the moved module
-				$table->published = 0;
-
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
@@ -382,7 +375,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param   array  &$pks  An array of primary key IDs.
 	 *
-	 * @return  boolean  True if successful.
+	 * @return  boolean|JException  Boolean true on success, JException instance on error
 	 *
 	 * @since   1.6
 	 * @throws  Exception
@@ -534,6 +527,10 @@ class ModulesModelModule extends JModelAdmin
 			$id       = JArrayHelper::getValue($data, 'id');
 		}
 
+		// Add the default fields directory
+		$baseFolder = ($clientId) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		JForm::addFieldPath($baseFolder . '/modules' . '/' . $module . '/field');
+
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id', $clientId);
 		$this->setState('item.module', $module);
@@ -602,12 +599,17 @@ class ModulesModelModule extends JModelAdmin
 				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
 			}
 
-			// This allows us to inject parameter settings into a new module.
-			$params = $app->getUserState('com_modules.add.module.params');
-
-			if (is_array($params))
+			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.
+			if (empty($data->params))
 			{
-				$data->set('params', $params);
+
+				// This allows us to inject parameter settings into a new module.
+				$params = $app->getUserState('com_modules.add.module.params');
+
+				if (is_array($params))
+				{
+					$data->set('params', $params);
+				}
 			}
 		}
 
@@ -870,7 +872,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function validate($form, $data, $group = null)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php';
+		JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 		return parent::validate($form, $data, $group);
 	}

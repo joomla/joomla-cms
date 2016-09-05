@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  utils
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -208,6 +208,9 @@ class FOFUtilsObservableDispatcher extends FOFUtilsObject
             }
 
             $this->_observers[] = $observer;
+
+            // Required in PHP 7 since foreach() doesn't advance the internal array counter, see http://php.net/manual/en/migration70.incompatible.php
+            end($this->_observers);
 
             $methods = array();
 

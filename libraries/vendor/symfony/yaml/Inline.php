@@ -52,7 +52,7 @@ class Inline
             return '';
         }
 
-        if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2) {
+        if (2 /* MB_OVERLOAD_STRING */ & (int) ini_get('mbstring.func_overload')) {
             $mbEncoding = mb_internal_encoding();
             mb_internal_encoding('ASCII');
         }
@@ -105,7 +105,7 @@ class Inline
                 return 'null';
             case is_object($value):
                 if ($objectSupport) {
-                    return '!!php/object:'.serialize($value);
+                    return '!php/object:'.serialize($value);
                 }
 
                 if ($exceptionOnInvalidType) {
@@ -158,6 +158,28 @@ class Inline
     }
 
     /**
+     * Check if given array is hash or just normal indexed array.
+     *
+     * @internal
+     *
+     * @param array $value The PHP array to check
+     *
+     * @return bool true if value is hash array, false otherwise
+     */
+    public static function isHash(array $value)
+    {
+        $expectedKey = 0;
+
+        foreach ($value as $key => $val) {
+            if ($key !== $expectedKey++) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Dumps a PHP array to a YAML string.
      *
      * @param array $value                  The PHP array to dump
@@ -169,11 +191,7 @@ class Inline
     private static function dumpArray($value, $exceptionOnInvalidType, $objectSupport)
     {
         // array
-        $keys = array_keys($value);
-        $keysCount = count($keys);
-        if ((1 === $keysCount && '0' == $keys[0])
-            || ($keysCount > 1 && array_reduce($keys, function ($v, $w) { return (int) $v + $w; }, 0) === $keysCount * ($keysCount - 1) / 2)
-        ) {
+        if ($value && !self::isHash($value)) {
             $output = array();
             foreach ($value as $val) {
                 $output[] = self::dump($val, $exceptionOnInvalidType, $objectSupport);
@@ -182,7 +200,7 @@ class Inline
             return sprintf('[%s]', implode(', ', $output));
         }
 
-        // mapping
+        // hash
         $output = array();
         foreach ($value as $key => $val) {
             $output[] = sprintf('%s: %s', self::dump($key, $exceptionOnInvalidType, $objectSupport), self::dump($val, $exceptionOnInvalidType, $objectSupport));
@@ -204,6 +222,8 @@ class Inline
      * @return string A YAML string
      *
      * @throws ParseException When malformed inline YAML string is parsed
+     *
+     * @internal
      */
     public static function parseScalar($scalar, $delimiters = null, $stringDelimiters = array('"', "'"), &$i = 0, $evaluate = true, $references = array())
     {
@@ -224,14 +244,22 @@ class Inline
                 $i += strlen($output);
 
                 // remove comments
-                if (false !== $strpos = strpos($output, ' #')) {
-                    $output = rtrim(substr($output, 0, $strpos));
+                if (preg_match('/[ \t]+#/', $output, $match, PREG_OFFSET_CAPTURE)) {
+                    $output = substr($output, 0, $match[0][1]);
                 }
             } elseif (preg_match('/^(.+?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match)) {
                 $output = $match[1];
                 $i += strlen($output);
             } else {
                 throw new ParseException(sprintf('Malformed inline YAML string (%s).', $scalar));
+            }
+
+            // a non-quoted string cannot start with @ or ` (reserved) nor with a scalar indicator (| or >)
+            if ($output && ('@' === $output[0] || '`' === $output[0] || '|' === $output[0] || '>' === $output[0])) {
+                @trigger_error(sprintf('Not quoting the scalar "%s" starting with "%s" is deprecated since Symfony 2.8 and will throw a ParseException in 3.0.', $output, $output[0]), E_USER_DEPRECATED);
+
+                // to be thrown in 3.0
+                // throw new ParseException(sprintf('The reserved indicator "%s" cannot start a plain scalar; you need to quote the scalar.', $output[0]));
             }
 
             if ($evaluate) {
@@ -469,6 +497,16 @@ class Inline
                         return (string) substr($scalar, 5);
                     case 0 === strpos($scalar, '! '):
                         return (int) self::parseScalar(substr($scalar, 2));
+                    case 0 === strpos($scalar, '!php/object:'):
+                        if (self::$objectSupport) {
+                            return unserialize(substr($scalar, 12));
+                        }
+
+                        if (self::$exceptionOnInvalidType) {
+                            throw new ParseException('Object support when parsing a YAML file has been disabled.');
+                        }
+
+                        return;
                     case 0 === strpos($scalar, '!!php/object:'):
                         if (self::$objectSupport) {
                             return unserialize(substr($scalar, 13));
@@ -502,7 +540,12 @@ class Inline
                     case preg_match('/^(-|\+)?[0-9,]+(\.[0-9]+)?$/', $scalar):
                         return (float) str_replace(',', '', $scalar);
                     case preg_match(self::getTimestampRegex(), $scalar):
-                        return strtotime($scalar);
+                        $timeZone = date_default_timezone_get();
+                        date_default_timezone_set('UTC');
+                        $time = strtotime($scalar);
+                        date_default_timezone_set($timeZone);
+
+                        return $time;
                 }
             default:
                 return (string) $scalar;

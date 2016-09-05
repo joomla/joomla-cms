@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,6 +58,7 @@ class JRouterSiteTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
+		unset($this->server);
 
 		parent::tearDown();
 	}
