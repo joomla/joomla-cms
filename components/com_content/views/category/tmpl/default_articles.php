@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 // Create some shortcuts.
 $params    = &$this->item->params;
@@ -135,6 +136,9 @@ if (!empty($this->items))
 					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
+					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+						<?php echo ContentHelperAssociation::displayAssociations($id = $article->id); ?>
+					<?php endif; ?>
 				<?php else: ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
@@ -147,6 +151,9 @@ if (!empty($this->items))
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 					</a>
+					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+						<?php echo ContentHelperAssociation::displayAssociations($id = $article->id); ?>
+					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
 					<span class="list-published label label-warning">
