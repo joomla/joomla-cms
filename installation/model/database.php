@@ -882,26 +882,23 @@ class InstallationModelDatabase extends JModelBase
 
 		// Update all core tables date fields of the tables with the current date.
 		$updatesArray = array(
-			'#__banners'             => array('checked_out_time', 'publish_up', 'publish_down', 'reset', 'created', 'modified'),
-			'#__banner_clients'      => array('checked_out_time'),
+			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
 			'#__banner_tracks'       => array('track_date'),
-			'#__categories'          => array('checked_out_time', 'created_time', 'modified_time'),
-			'#__contact_details'     => array('checked_out_time', 'publish_up', 'publish_down', 'created', 'modified'),
-			'#__content'             => array('checked_out_time', 'publish_up', 'publish_down', 'created', 'modified'),
+			'#__categories'          => array('created_time', 'modified_time'),
+			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
+			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__contentitem_tag_map' => array('tag_date'),
-			'#__extensions'          => array('checked_out_time'),
-			'#__finder_filters'      => array('created', 'modified', 'checked_out_time'),
+			'#__finder_filters'      => array('created', 'modified'),
 			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
-			'#__menu'                => array('checked_out_time'),
 			'#__messages'            => array('date_time'),
-			'#__modules'             => array('checked_out_time', 'publish_up', 'publish_down'),
-			'#__newsfeeds'           => array('checked_out_time', 'publish_up', 'publish_down', 'created', 'modified'),
+			'#__modules'             => array('publish_up', 'publish_down'),
+			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
 			'#__redirect_links'      => array('created_date', 'modified_date'),
-			'#__tags'                => array('checked_out_time', 'publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
 			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
 			'#__ucm_history'         => array('save_date'),
 			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
-			'#__user_notes'          => array('checked_out_time', 'publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
 		);
 
 		foreach ($updatesArray as $table => $fields)
