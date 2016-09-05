@@ -57,6 +57,12 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function __toString()
 	{
+		// Call the group function one final time to ensure we can get all coulumns for table joins.
+		if ($this->group)
+		{
+			$this->group($this->group->getElements());
+		}
+
 		$query = '';
 
 		switch ($this->type)
