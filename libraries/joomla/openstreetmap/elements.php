@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API Elements class for the Joomla Platform
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapElements extends JOpenstreetmapObject
 {
@@ -411,7 +412,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 		// Get singular word
 		$single_element = substr($element, 0, strlen($element) - 1);
 
-		// Set the API base, $params is a string with comma seperated values
+		// Set the API base, $params is a string with comma separated values
 		$base = $element . '?' . $element . "=" . $params;
 
 		// Build the request path.

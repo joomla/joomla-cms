@@ -36,7 +36,7 @@ class ContentViewFeatured extends JViewLegacy
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 protected $db;
 
