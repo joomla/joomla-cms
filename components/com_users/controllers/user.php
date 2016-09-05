@@ -27,7 +27,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function login()
 	{
-		JSession::validateToken('post');
+		$this->checkToken('post');
 
 		$app    = JFactory::getApplication();
 		$input  = $app->input;
