@@ -87,7 +87,7 @@ class JFormFieldModuleOrder extends JFormField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -106,7 +106,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
