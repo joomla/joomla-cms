@@ -161,9 +161,12 @@
 			$(document)
 				.off('click.data-api.dropdown', _clearMenus)
 				.on('click.data-api.dropdown', function(e) {
-					// call the handler only when not right-click
-					e.button === 2 || _clearMenus()
-					emptyMenu.empty().hide();
+					e.button === 2 || _clearMenus();
+
+					if (!$('#menu').find('> li').hasClass('open'))
+					{
+						emptyMenu.empty().hide();
+					}
 				});
 
 			$.fn.Jvisible = function(partial,hidden)
