@@ -141,6 +141,10 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php endif; ?>
 
+	<?php if ($this->params->get('show_user_custom_fields') && $this->contactUser) : ?>
+		<?php echo $this->loadTemplate('user_custom_fields'); ?>
+	<?php endif; ?>
+
 	<?php if ($this->contact->misc && $this->params->get('show_misc')) : ?>
 
 		<?php if ($this->params->get('presentation_style') == 'sliders') :

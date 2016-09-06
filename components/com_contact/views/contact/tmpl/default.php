@@ -62,7 +62,7 @@ jimport('joomla.html.html.bootstrap');
 	<?php endif; ?>
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
-	
+
 	<?php $presentation_style = $tparams->get('presentation_style'); ?>
 
 	<?php if ($presentation_style == 'sliders') : ?>
@@ -143,7 +143,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php if ($tparams->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
+	<?php if ($tparams->get('show_profile') && $this->contact->user_id) : ?>
 		<?php if ($presentation_style == 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php elseif ($presentation_style == 'tabs') : ?>
@@ -159,6 +159,10 @@ jimport('joomla.html.html.bootstrap');
 		<?php elseif ($presentation_style == 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
+	<?php endif; ?>
+
+	<?php if ($tparams->get('show_user_custom_fields') && $this->contactUser) : ?>
+		<?php echo $this->loadTemplate('user_custom_fields'); ?>
 	<?php endif; ?>
 
 	<?php if ($this->contact->misc && $tparams->get('show_misc')) : ?>

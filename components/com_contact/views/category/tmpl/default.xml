@@ -489,6 +489,17 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field
+				name="show_user_custom_fields"
+				type="category"
+				multiple="true"
+				extension="com_users.user.fields"
+				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
+				description="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_DESC"
+				>
+				<option value="-1">JALL</option>
+			</field>
+
 			<field name="linka_name"
 				type="text"
 				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
