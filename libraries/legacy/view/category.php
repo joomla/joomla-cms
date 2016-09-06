@@ -112,12 +112,12 @@ class JViewCategory extends JViewLegacy
 
 		// Get some data from the models
 		$model       = $this->getModel();
-		$state       = $model->getState();
 		$paramsModel = $model->getState('params');
 		
 		$paramsModel->set('check_access_rights', 0);
 		$model->setState('params', $paramsModel);
-		
+
+		$state       = $this->get('State');
 		$category    = $this->get('Category');
 		$children    = $this->get('Children');
 		$parent      = $this->get('Parent');
