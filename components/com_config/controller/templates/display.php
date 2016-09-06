@@ -35,18 +35,18 @@ class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
-		// Access back-end com_config
+		// Access backend com_config
 		JLoader::register('TemplatesController', JPATH_ADMINISTRATOR . '/components/com_templates/controller.php');
 		JLoader::register('TemplatesViewStyle', JPATH_ADMINISTRATOR . '/components/com_templates/views/style/view.json.php');
 		JLoader::register('TemplatesModelStyle', JPATH_ADMINISTRATOR . '/components/com_templates/models/style.php');
 
 		$displayClass = new TemplatesController;
 
-		// Set back-end required params
+		// Set backend required params
 		$document->setType('json');
 		$this->input->set('id', $app->getTemplate('template')->id);
 
-		// Execute back-end controller
+		// Execute backend controller
 		$serviceData = json_decode($displayClass->display(), true);
 
 		// Reset params back after requesting from service

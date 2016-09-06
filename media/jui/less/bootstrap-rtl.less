@@ -367,7 +367,7 @@ direction:rtl;
 .navigation .nav li li .nav-child {
 	left: auto;
 	right: 100%;
-	
+
 	&:before {
 		left: auto;
 		right: -7px;
@@ -454,7 +454,7 @@ direction:rtl;
 	margin-left: 0;
 	margin-right: 180px;
 }
-.dl-horizontal dt
+.dl-horizontal dt,
 .profile> ul {
 	margin: 9px 25px 0 0;
 }
@@ -586,10 +586,20 @@ direction:rtl;
 #mediamanager-form .dimensions {
 	direction: ltr;
 }
-/* Tooltip */
+/* Tooltip/Popover */
+.popover,
 .tooltip-inner {
 	text-align: right;
 }
+.popover.top .arrow,
+.popover.bottom .arrow {
+	margin-right: -11px;
+}
+.popover.top .arrow:after,
+.popover.bottom .arrow:after {
+	margin-right: -10px;
+}
+
 /* Media queries */
 @media (max-width: 480px) {
 	.btn-toolbar .btn-wrapper {

@@ -45,7 +45,7 @@ class JApplicationAdministrator extends JApplicationCms
 		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
-		JUri::root(null, rtrim(dirname(JUri::base(true)), '/'));
+		JUri::root(null, rtrim(dirname(JUri::base(true)), '/\\'));
 	}
 
 	/**
@@ -292,9 +292,6 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
-
-		// Load Library language
-		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

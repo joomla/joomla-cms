@@ -198,7 +198,7 @@ class ModMenuHelper
 	}
 
 	/**
-	 * Get default menu item (homepage) for current language.
+	 * Get default menu item (home page) for current language.
 	 *
 	 * @return  object
 	 */

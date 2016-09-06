@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
@@ -193,11 +195,11 @@ class JTableNested extends JTable
 		if (empty($node))
 		{
 			// Error message set in getNode method.
-			return null;
+			return;
 		}
 
 		// The node is a leaf node.
-		return (($node->rgt - $node->lft) == 1);
+		return ($node->rgt - $node->lft) == 1;
 	}
 
 	/**
@@ -585,12 +587,18 @@ class JTableNested extends JTable
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
-			// Compress the left and right values.
+			// Compress the left values.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - ' . (int) $node->width)
-				->set('rgt = rgt - ' . (int) $node->width)
 				->where('lft > ' . (int) $node->rgt);
+			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+
+			// Compress the right values.
+			$query->clear()
+				->update($this->_tbl)
+				->set('rgt = rgt - ' . (int) $node->width)
+				->where('rgt > ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 		}
 		// Leave the children and move them up a level.
@@ -618,12 +626,18 @@ class JTableNested extends JTable
 				->where('parent_id = ' . (int) $node->$k);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
-			// Shift all of the left and right values that are right of the node.
+			// Shift all of the left values that are right of the node.
 			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - 2')
-				->set('rgt = rgt - 2')
 				->where('lft > ' . (int) $node->rgt);
+			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+
+			// Shift all of the right values that are right of the node.
+			$query->clear()
+				->update($this->_tbl)
+				->set('rgt = rgt - 2')
+				->where('rgt > ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 		}
 
@@ -887,7 +901,7 @@ class JTableNested extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 

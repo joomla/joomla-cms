@@ -512,6 +512,11 @@ textarea,.contact-form input[type="text"],.contact-form input[type="email"],.con
 	border: 0
 }
 
+#jform_captcha {
+	clear:both;
+	padding-bottom:10px;
+}
+
 label#jform_captcha-lbl {
 	clear: both;
   	position: relative;

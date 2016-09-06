@@ -84,7 +84,7 @@ $userCss = JPATH_SITE . '/templates/' . $this->template . '/css/user.css';
 
 if (file_exists($userCss) && filesize($userCss) > 0)
 {
-	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/user.css');
+	$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/user.css');
 }
 
 // Load optional RTL Bootstrap CSS
@@ -203,7 +203,7 @@ else
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right">
-				<a href="#top" id="back-top">
+				<a href="#" id="back-top">
 					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
 				</a>
 			</p>

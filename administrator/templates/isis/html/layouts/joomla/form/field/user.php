@@ -48,7 +48,7 @@ extract($displayData);
 
 // Set the link for the user selection page
 $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;required='
-	. ($required ? 1 : 0) . '&amp;field={field-user-id}'
+	. ($required ? 1 : 0) . '&amp;field={field-user-id}&amp;ismoo=0'
 	. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 	. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
 
@@ -87,7 +87,7 @@ JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
 				array(
 					'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
 					'closeButton' => true,
-					'footer' => '<button class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+					'footer' => '<a class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 				)
 			); ?>
 		<?php endif; ?>

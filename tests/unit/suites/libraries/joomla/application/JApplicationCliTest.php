@@ -55,7 +55,7 @@ class JApplicationCliTest extends TestCase
 	{
 		// Reset the dispatcher instance.
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
-
+		unset($this->class);
 		parent::tearDown();
 	}
 

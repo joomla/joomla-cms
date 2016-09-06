@@ -89,7 +89,7 @@ class JApplicationWebRouterBase extends JApplicationWebRouter
 		$this->maps[] = array(
 			'regex' => chr(1) . '^' . implode('/', $regex) . '$' . chr(1),
 			'vars' => $vars,
-			'controller' => (string) $controller
+			'controller' => (string) $controller,
 		);
 
 		return $this;

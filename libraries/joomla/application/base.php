@@ -106,7 +106,7 @@ abstract class JApplicationBase extends AbstractApplication
 			return $this->dispatcher->trigger($event, $args);
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -156,6 +156,7 @@ abstract class JApplicationBase extends AbstractApplication
 	 * @return  void
 	 *
 	 * @since   3.4 (CMS)
+	 * @deprecated  4.0  The default concrete implementation of doExecute() will be removed, subclasses will need to provide their own implementation.
 	 */
 	protected function doExecute()
 	{
