@@ -22,6 +22,7 @@
 				label="COM_CONTACT_FIELD_CATEGORY_LABEL"
 				description="COM_CONTACT_FIELD_CATEGORY_DESC"
 				extension="com_contact"
+				required="true"
 				select="true"
 				new="true"
 				edit="true"
