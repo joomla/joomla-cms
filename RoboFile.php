@@ -1,15 +1,18 @@
 <?php
 /**
- * This is joomla project's console command file for Robo.li task runner.
- *
- * Download robo.phar from http://robo.li/robo.phar and type in the root of the repo: $ php robo.phar
- * Or do: $ composer update, and afterwards you will be able to execute robo like $ php libraries/vendor/bin/robo
- *
  * @package     Joomla.Site
  * @subpackage  RoboFile
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/**
+ * This is joomla project's console command file for Robo.li task runner.
+ *
+ * Download robo.phar from http://robo.li/robo.phar and type in the root of the repo: $ php robo.phar
+ * Or do: $ composer update, and afterwards you will be able to execute robo like $ php libraries/vendor/bin/robo
+ *
  * @see         http://robo.li/
  */
 require_once __DIR__ . '/tests/codeception/vendor/autoload.php';
@@ -58,13 +61,14 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * RoboFile constructor.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  void
 	 */
 	public function __construct()
 	{
 		$this->configuration = $this->getConfiguration();
-
-		$this->cmsPath = $this->getTestingPath();
+		$this->cmsPath       = $this->getTestingPath();
 
 		// Set default timezone (so no warnings are generated if it is not set)
 		date_default_timezone_set('UTC');
@@ -73,9 +77,9 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Get (optional) configuration from an external file
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 *
-	 * @return \stdClass|null
+	 * @return  \stdClass|null
 	 */
 	public function getConfiguration()
 	{
@@ -103,9 +107,9 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Get the correct CMS root path
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since   __DEPLOY_VERSION__
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	private function getTestingPath()
 	{
@@ -116,7 +120,7 @@ class RoboFile extends \Robo\Tasks
 
 		if (!file_exists(dirname($this->configuration->cmsPath)))
 		{
-			$this->say("Cms path written in local configuration does not exists or is not readable");
+			$this->say("CMS path written in local configuration does not exists or is not readable");
 
 			return $this->testsPath . 'joomla-cms3';
 		}
@@ -129,7 +133,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
-	 * @return  bool
+	 * @return  bool  This is allways true
 	 */
 	public function build()
 	{
@@ -139,13 +143,13 @@ class RoboFile extends \Robo\Tasks
 	/**
 	 * Creates a testing Joomla site for running the tests (use it before run:test)
 	 *
-	 * @param   bool  $use_htaccess  (1/0) Rename and enable embedded Joomla .htaccess file
+	 * @param   bool  $useHtaccess  (1/0) Rename and enable embedded Joomla .htaccess file
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
 	 * @return  void
 	 */
-	public function createTestingSite($use_htaccess = false)
+	public function createTestingSite($useHtaccess = false)
 	{
 		// Clean old testing site
 		if (is_dir($this->cmsPath))
@@ -157,7 +161,8 @@ class RoboFile extends \Robo\Tasks
 			catch (Exception $e)
 			{
 				// Sorry, we tried :(
-				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually. ');
+				$this->say('Sorry, you will have to delete ' . $this->cmsPath . ' manually.');
+
 				exit(1);
 			}
 		}
@@ -175,7 +180,7 @@ class RoboFile extends \Robo\Tasks
 		}
 
 		// Optionally uses Joomla default htaccess file. Used by TravisCI
-		if ($use_htaccess == true)
+		if ($useHtaccess == true)
 		{
 			$this->say("Renaming htaccess.txt to .htaccess");
 			$this->_copy('./htaccess.txt', $this->cmsPath . '/.htaccess');
@@ -242,7 +247,7 @@ class RoboFile extends \Robo\Tasks
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	private function getComposer()
 	{
@@ -387,7 +392,6 @@ class RoboFile extends \Robo\Tasks
 		*/
 	}
 
-
 	/**
 	 * Executes a specific Selenium System Tests in your machine
 	 *
@@ -418,8 +422,9 @@ class RoboFile extends \Robo\Tasks
 			);
 
 			$tests = array();
+			$i     = 1;
+
 			$iterator->rewind();
-			$i = 1;
 
 			while ($iterator->valid())
 			{
@@ -428,6 +433,7 @@ class RoboFile extends \Robo\Tasks
 					|| strripos($iterator->getSubPathName(), '.feature'))
 				{
 					$this->say('[' . $i . '] ' . $iterator->getSubPathName());
+
 					$tests[$i] = $iterator->getSubPathName();
 					$i++;
 				}
@@ -436,7 +442,7 @@ class RoboFile extends \Robo\Tasks
 			}
 
 			$this->say('');
-			$testNumber = $this->ask('Type the number of the test  in the list that you want to run...');
+			$testNumber = $this->ask('Type the number of the test in the list that you want to run...');
 			$test       = $tests[$testNumber];
 		}
 
@@ -456,7 +462,9 @@ class RoboFile extends \Robo\Tasks
 
 			$className     = explode(".", $fileName[1]);
 			$class_methods = get_class_methods($className[0]);
+
 			$this->say('[' . $i . '] ' . 'All');
+
 			$methods[$i] = 'All';
 			$i++;
 
@@ -467,7 +475,7 @@ class RoboFile extends \Robo\Tasks
 				if (!$reflect->isConstructor() && $reflect->isPublic())
 				{
 					$this->say('[' . $i . '] ' . $method_name);
-					
+
 					$methods[$i] = $method_name;
 
 					$i++;
