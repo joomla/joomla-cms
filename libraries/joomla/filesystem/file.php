@@ -384,7 +384,7 @@ class JFile
 	 *
 	 * @since   11.1
 	 */
-	public static function write($file, &$buffer, $use_streams = false)
+	public static function write($file, $buffer, $use_streams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -450,7 +450,7 @@ class JFile
 	 *
 	 * @since   3.6.0
 	 */
-	public static function append($file, &$buffer, $use_streams = false)
+	public static function append($file, $buffer, $use_streams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
