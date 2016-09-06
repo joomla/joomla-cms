@@ -38,6 +38,9 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}
 
+		// Import com_login's model
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_login/models', 'LoginModel');
+
 		// Render the view.
 		parent::display($tpl);
 	}
