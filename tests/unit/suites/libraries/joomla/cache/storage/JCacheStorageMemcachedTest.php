@@ -27,7 +27,14 @@ class JCacheStorageMemcachedTest extends TestCaseCache
 
 		parent::setUp();
 
-		$this->handler = new JCacheStorageMemcached;
+		try
+		{
+			$this->handler = new JCacheStorageMemcached;
+		}
+		catch (JCacheExceptionConnecting $e)
+		{
+			$this->markTestSkipped('Failed to connect to Memcached');
+		}
 
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
 		$this->handler->_lifetime = 2;
