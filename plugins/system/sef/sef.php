@@ -33,7 +33,7 @@ class PlgSystemSef extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$doc = $this->app->getDocument();
+		$doc = JFactory::getDocument();
 
 		if (!$this->app->isSite() || $doc->getType() !== 'html')
 		{
