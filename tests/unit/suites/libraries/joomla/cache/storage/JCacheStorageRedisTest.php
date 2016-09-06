@@ -29,6 +29,12 @@ class JCacheStorageRedisTest extends TestCaseCache
 
 		$this->handler = new JCacheStorageRedis;
 
+		// This adapter doesn't throw an Exception on a connection failure so we'll have to use Reflection to get into the class to check it
+		if (!(TestReflection::getValue($this->handler, '_redis') instanceof Redis))
+		{
+			$this->markTestSkipped('Failed to connect to Redis');
+		}
+
 		// Override the lifetime because the JCacheStorage API multiplies it by 60 (converts minutes to seconds)
 		$this->handler->_lifetime = 2;
 	}
