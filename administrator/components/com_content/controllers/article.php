@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The article controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @since  1.6
  */
 class ContentControllerArticle extends JControllerForm
 {
@@ -49,14 +49,13 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
+		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
 		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the data or URL check it.
-			$allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
+			$allow = JFactory::getUser()->authorise('core.create', 'com_content.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -64,10 +63,8 @@ class ContentControllerArticle extends JControllerForm
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd();
 		}
-		else
-		{
-			return $allow;
-		}
+
+		return $allow;
 	}
 
 	/**
@@ -109,7 +106,7 @@ class ContentControllerArticle extends JControllerForm
 			}
 
 			// Grant if current user is owner of the record
-			return $user->get('id') == $record->created_by;
+			return $user->id == $record->created_by;
 		}
 
 		return false;
@@ -129,27 +126,12 @@ class ContentControllerArticle extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
+		/** @var ContentModelArticle $model */
 		$model = $this->getModel('Article', '', array());
 
 		// Preset the redirect
 		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
-	}
-
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
-	 *
-	 * @return	void
-	 *
-	 * @since	3.1
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
-
-		return;
 	}
 }

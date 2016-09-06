@@ -34,10 +34,20 @@ class ContentViewCategory extends JViewCategoryfeed
 	 */
 	protected function reconcileNames($item)
 	{
-		// Get description, author and date
+		// Get description, intro_image, author and date
 		$app               = JFactory::getApplication();
 		$params            = $app->getParams();
-		$item->description = $params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext;
+		$item->description = '';
+		$obj = json_decode($item->images);
+		$introImage = ( isset( $obj->{'image_intro'} ) ) ? $obj->{'image_intro'} : '';
+
+		if (isset($introImage) && ($introImage != "")) 
+		{
+			$image = preg_match('/http/', $introImage)? $introImage : JURI::root() . $introImage;
+			$item->description = '<p><img src="' . $image . '" /></p>';
+		}
+
+		$item->description .= ($params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext);         
 
 		// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 		if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext)

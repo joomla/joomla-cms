@@ -111,10 +111,17 @@ class JViewCategory extends JViewLegacy
 		$params = $app->getParams();
 
 		// Get some data from the models
-		$state      = $this->get('State');
-		$category   = $this->get('Category');
-		$children   = $this->get('Children');
-		$parent     = $this->get('Parent');
+		$model       = $this->getModel();
+		$paramsModel = $model->getState('params');
+		
+		$paramsModel->set('check_access_rights', 0);
+		$model->setState('params', $paramsModel);
+
+		$state       = $this->get('State');
+		$category    = $this->get('Category');
+		$children    = $this->get('Children');
+		$parent      = $this->get('Parent');
+
 		if ($category == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
@@ -123,6 +130,14 @@ class JViewCategory extends JViewLegacy
 		if ($parent == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
+		
+		// Check whether category access level allows access.
+		$groups = $user->getAuthorisedViewLevels();
+		
+		if (!in_array($category->access, $groups))
+		{
+			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		$items      = $this->get('Items');
@@ -134,14 +149,6 @@ class JViewCategory extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
-		}
-
-		// Check whether category access level allows access.
-		$groups = $user->getAuthorisedViewLevels();
-
-		if (!in_array($category->access, $groups))
-		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Setup the category parameters.

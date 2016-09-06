@@ -56,13 +56,13 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'));
 		}
 		else
 		{
 			// Install selected languages
 			$model->install($lids);
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'));
 		}
 
 		// Redirect to the page.

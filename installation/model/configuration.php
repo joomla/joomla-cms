@@ -247,7 +247,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
 
 			return false;
 		}
@@ -322,7 +322,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return false;
 		}
@@ -358,7 +358,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		catch (RuntimeException $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return false;
 		}

@@ -462,19 +462,22 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit', 'string');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		if ($layout)
+		if ($layout = $this->input->get('layout', 'edit', 'string'))
 		{
 			$append .= '&layout=' . $layout;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		if ($recordId)
@@ -494,13 +497,17 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = $this->input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		return $append;

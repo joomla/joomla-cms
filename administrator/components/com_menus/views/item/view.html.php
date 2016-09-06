@@ -71,6 +71,11 @@ class MenusViewItem extends JViewLegacy
 			return false;
 		}
 
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+		}
+
 		parent::display($tpl);
 		$this->addToolbar();
 	}

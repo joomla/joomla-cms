@@ -175,6 +175,29 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->icon  = 'eye';
 				$rows[$i]->data  = number_format($hits + $increase, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));
+				$i++;
+			}
+		}
+
+		// Include additional data defined by published system plugins
+		JPluginHelper::importPlugin('system');
+
+		$app    = JFactory::getApplication();
+		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
+
+		foreach ($arrays as $response)
+		{
+			foreach ($response as $row)
+			{
+				// We only add a row if the title and data are given
+				if (isset($row['title']) && isset($row['data']))
+				{
+					$rows[$i]        = new stdClass;
+					$rows[$i]->title = $row['title'];
+					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
+					$rows[$i]->data  = $row['data'];
+					$i++;
+				}
 			}
 		}
 

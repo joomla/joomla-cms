@@ -47,8 +47,7 @@ abstract class JHtmlFormbehavior
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = JDEBUG;
 		}
 
 		// Default settings
