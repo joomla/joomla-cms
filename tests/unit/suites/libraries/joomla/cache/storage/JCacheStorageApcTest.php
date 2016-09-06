@@ -20,7 +20,7 @@ class JCacheStorageApcTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageApc::isSupported() || $this->isBlacklisted('apc'))
+		if (!JCacheStorageApc::isSupported())
 		{
 			$this->markTestSkipped('The APC cache handler is not supported on this system.');
 		}

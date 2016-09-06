@@ -20,7 +20,7 @@ class JCacheStorageMemcachedTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageMemcached::isSupported() || $this->isBlacklisted('memcached'))
+		if (!JCacheStorageMemcached::isSupported())
 		{
 			$this->markTestSkipped('The Memcached cache handler is not supported on this system.');
 		}
