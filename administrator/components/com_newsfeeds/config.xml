@@ -437,8 +437,8 @@
 			label="JGLOBAL_SEF_ADVANCED_LABEL"
 			description="JGLOBAL_SEF_ADVANCED_DESC"
 			filter="integer">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
+			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
 		</field>
 
 	</fieldset>
