@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * User view level controller class.
  *
@@ -69,7 +71,7 @@ class UsersControllerLevel extends JControllerForm
 			// Get the model.
 			$model = $this->getModel();
 
-			JArrayHelper::toInteger($ids);
+			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->delete($ids))

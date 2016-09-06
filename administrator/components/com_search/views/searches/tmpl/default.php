@@ -76,7 +76,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>
 					</td>
 					<?php endif; ?>
-					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

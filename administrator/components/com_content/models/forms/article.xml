@@ -414,6 +414,11 @@
 				description="JFIELD_READMORE_DESC"
 				size="25" />
 
+			<field name="article_page_title" type="text"
+				label="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_LABEL"
+				description="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_DESC"
+				size="25" />
+
 			<field name="article_layout" type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"

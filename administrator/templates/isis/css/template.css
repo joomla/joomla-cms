@@ -7881,6 +7881,10 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .alert-joomlaupdate button {
 	vertical-align: baseline;
 }
+.j-jed-message {
+	line-height: 2em;
+	color: #333333;
+}
 .form-horizontal .control-label {
 	width: auto;
 	padding-right: 5px;

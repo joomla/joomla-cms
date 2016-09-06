@@ -105,12 +105,12 @@
 		<field
 				name="block"
 				type="radio"
-				class="btn-group btn-group-yesno"
+				class="btn-group btn-group-yesno btn-group-reversed"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+				<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+				<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 		</field>
 
 		<field

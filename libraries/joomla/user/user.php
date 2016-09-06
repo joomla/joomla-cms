@@ -364,8 +364,7 @@ class JUser extends JObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$config = JFactory::getConfig();
-			$rootUser = $config->get('root_user');
+			$rootUser = JFactory::getConfig()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
