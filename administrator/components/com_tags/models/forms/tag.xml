@@ -156,7 +156,7 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
+		description="JGLOBAL_FIELD_CREATED_BY_DESC"
 	/>
 
 	<field
@@ -173,7 +173,9 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_CREATED_DATE"
-		filter="unset"
+		format="%Y-%m-%d %H:%M:%S"
+		filter="user_utc"
+		description="COM_TAGS_FIELD_CREATED_DATE_DESC"
 		readonly="true"
 	/>
 
@@ -191,7 +193,9 @@
 		type="calendar"
 		class="readonly"
 		label="JGLOBAL_FIELD_MODIFIED_LABEL"
-		filter="unset"
+		format="%Y-%m-%d %H:%M:%S"
+		filter="user_utc"
+		description="COM_TAGS_FIELD_MODIFIED_DESC"
 		readonly="true"
 	/>
 
@@ -260,7 +264,7 @@
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
 				<option value="left">COM_TAGS_LEFT</option>
 				<option value="none">COM_TAGS_NONE</option>
@@ -305,7 +309,7 @@
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 				<option value="right">COM_TAGS_RIGHT</option>
 				<option value="left">COM_TAGS_LEFT</option>
 				<option value="none">COM_TAGS_NONE</option>

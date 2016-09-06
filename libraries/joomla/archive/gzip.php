@@ -15,7 +15,7 @@ jimport('joomla.filesystem.file');
  * Gzip format adapter for the JArchive class
  *
  * This class is inspired from and draws heavily in code and concept from the Compress package of
- * The Horde Project <http://www.horde.org>
+ * The Horde Project <https://www.horde.org>
  *
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
@@ -52,7 +52,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function extract($archive, $destination, array $options = array ())
+	public function extract($archive, $destination, array $options = array())
 	{
 		$this->_data = null;
 
@@ -98,7 +98,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 */
-	protected function extractStream($archive, $destination, $options = array ())
+	protected function extractStream($archive, $destination, $options = array())
 	{
 		// New style! streams!
 		$input = JFactory::getStream();
@@ -147,7 +147,9 @@ class JArchiveGzip implements JArchiveExtractable
 	 * @param   int     $code  The application-internal error code for this error
 	 * @param   string  $msg   The error message, which may also be shown the user if need be.
 	 *
-	 * @return mixed JError object or Runtime Exception
+	 * @return  JException  JException instance if JError class exists
+	 *
+	 * @throws  RuntimeException if JError class does not exist
 	 */
 	private function raiseWarning($code, $msg)
 	{

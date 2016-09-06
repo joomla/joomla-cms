@@ -35,17 +35,17 @@ class UsersModelProfile extends JModelForm
 	 */
 	public function __construct($config = array())
 	{
+		$config = array_merge(
+			array(
+				'events_map' => array('validate' => 'user')
+			), $config
+		);
+
 		parent::__construct($config);
 
-		// Load the Joomla! RAD layer
-		if (!defined('FOF_INCLUDED'))
-		{
-			include_once JPATH_LIBRARIES . '/fof/include.php';
-		}
-
 		// Load the helper and model used for two factor authentication
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+		JLoader::register('UsersModelUser', JPATH_ADMINISTRATOR . '/components/com_users/models/user.php');
+		JLoader::register('UsersHelper', JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php');
 	}
 
 	/**
@@ -398,8 +398,9 @@ class UsersModelProfile extends JModelForm
 		// Load the users plugin group.
 		JPluginHelper::importPlugin('user');
 
-		// Null the user groups so they don't get overwritten
-		$user->groups = null;
+		// Retrieve the user groups so they don't get overwritten
+		unset ($user->groups);
+		$user->groups = JAccess::getGroupsByUser($user->id, false);
 
 		// Store the data.
 		if (!$user->save())

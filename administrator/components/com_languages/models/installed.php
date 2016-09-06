@@ -326,7 +326,7 @@ class LanguagesModelInstalled extends JModelList
 		// Create a new db object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$client = $this->getState('filter.client_id');
+		$client = $this->getState('client_id');
 		$type = "language";
 
 		// Select field element from the extensions table.

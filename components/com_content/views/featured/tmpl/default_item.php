@@ -23,7 +23,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 
 <?php if ($params->get('show_title')) : ?>
-	<h2 class="item-title" itemprop="name">
+	<h2 class="item-title" itemprop="headline">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)); ?>" itemprop="url">
 			<?php echo $this->escape($this->item->title); ?>
@@ -87,7 +87,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link = new JUri(JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-		$link->setVar('return', base64_encode(JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language), false)));
+		$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language)));
 	endif; ?>
 
 	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
@@ -95,7 +95,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 
 <?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
-	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
+	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != $this->db->getNullDate() )) : ?>
 	</div>
 <?php endif; ?>
 

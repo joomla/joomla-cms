@@ -35,6 +35,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated 4.0 Update scripts to jquery
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -45,6 +46,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::framework is deprecated. Update to jquery scripts.', JLog::WARNING, 'deprecated');
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
@@ -343,6 +346,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0  Use the modal equivalent from bootstrap
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -365,6 +369,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
 		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
@@ -405,9 +411,38 @@ abstract class JHtmlBehavior
 				parse: 'rel'
 			});
 		});
-		function jModalClose() {
+
+		window.jModalClose = function () {
 			SqueezeBox.close();
-		}"
+		};
+		
+		// Add extra modal close functionality for tinyMCE-based editors
+		document.onreadystatechange = function () {
+			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
+			{
+				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
+				{	
+					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
+					
+					jModalClose = function () {
+						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+		
+				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
+				{
+					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
+					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
+		
+					SqueezeBox.close = function () {
+						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
+						tinyMCE.activeEditor.windowManager.close();
+					};
+				}
+			}
+		};
+		"
 		);
 
 		// Set static array
@@ -578,7 +613,15 @@ abstract class JHtmlBehavior
 					jQuery('.minicolors').each(function() {
 						jQuery(this).minicolors({
 							control: jQuery(this).attr('data-control') || 'hue',
-							position: jQuery(this).attr('data-position') || 'right',
+							format: jQuery(this).attr('data-validate') === 'color'
+								? 'hex'
+								: (jQuery(this).attr('data-format') === 'rgba'
+									? 'rgb'
+									: jQuery(this).attr('data-format'))
+								|| 'hex',
+							keywords: jQuery(this).attr('data-keywords') || '',
+							opacity: jQuery(this).attr('data-format') === 'rgba' ? true : false || false,
+							position: jQuery(this).attr('data-position') || 'default',
 							theme: 'bootstrap'
 						});
 					});
@@ -654,7 +697,7 @@ abstract class JHtmlBehavior
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&amp;format=json';
+			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
 		}
 		else
 		{
@@ -697,6 +740,16 @@ abstract class JHtmlBehavior
 
 		if (isset(static::$loaded[__METHOD__][$sig]))
 		{
+			return;
+		}
+
+		$terms = array_filter($terms, 'strlen');
+
+		// Nothing to Highlight
+		if (empty($terms))
+		{
+			static::$loaded[__METHOD__][$sig] = true;
+
 			return;
 		}
 
@@ -817,28 +870,28 @@ abstract class JHtmlBehavior
 		$jsscript = 1;
 
 		// To keep the code simple here, run strings through JText::_() using array_map()
-		$callback = array('JText','_');
+		$callback = array('JText', '_');
 		$weekdays_full = array_map(
 			$callback, array(
-				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
+				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',
 			)
 		);
 		$weekdays_short = array_map(
 			$callback,
 			array(
-				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
+				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN',
 			)
 		);
 		$months_long = array_map(
 			$callback, array(
 				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER',
 			)
 		);
 		$months_short = array_map(
 			$callback, array(
 				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
-				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
+				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT',
 			)
 		);
 
@@ -875,7 +928,7 @@ abstract class JHtmlBehavior
 			'DEF_DATE_FORMAT' => "%Y-%m-%d",
 			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
 			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME')
+			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME'),
 		);
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'

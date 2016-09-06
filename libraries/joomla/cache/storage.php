@@ -143,6 +143,7 @@ class JCacheStorage
 		// We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
+		/** @var JCacheStorage $class */
 		$class = 'JCacheStorage' . ucfirst($handler);
 
 		if (!class_exists($class))
@@ -164,6 +165,12 @@ class JCacheStorage
 			{
 				throw new RuntimeException(sprintf('Unable to load Cache Storage: %s', $handler));
 			}
+		}
+
+		// Validate the cache storage is supported on this platform
+		if (!$class::isSupported())
+		{
+			throw new RuntimeException(sprintf('The %s Cache Storage is not supported on this platform.', $handler));
 		}
 
 		return new $class($options);
@@ -242,6 +249,18 @@ class JCacheStorage
 	 * @since   11.1
 	 */
 	public function clean($group, $mode = null)
+	{
+		return true;
+	}
+
+	/**
+	 * Flush all existing items in storage.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function flush()
 	{
 		return true;
 	}

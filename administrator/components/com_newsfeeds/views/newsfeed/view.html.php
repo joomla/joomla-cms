@@ -45,7 +45,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -115,7 +115,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}

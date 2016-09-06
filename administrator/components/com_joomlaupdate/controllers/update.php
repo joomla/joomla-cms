@@ -25,6 +25,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function download()
 	{
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
@@ -43,7 +45,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		if ($file)
 		{
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', $file);
-			$url = 'index.php?option=com_joomlaupdate&task=update.install';
+			$url = 'index.php?option=com_joomlaupdate&task=update.install&' . JFactory::getSession()->getFormToken() . '=1';
 			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), JLog::INFO, 'Update');
 		}
 		else
@@ -51,6 +53,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
 			$url = 'index.php?option=com_joomlaupdate';
 			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
+			$messageType = 'error';
 		}
 
 		$this->setRedirect($url, $message, $messageType);
@@ -65,6 +68,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function install()
 	{
+		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
@@ -90,6 +95,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function finalise()
 	{
+		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
@@ -101,7 +108,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$model->finaliseUpgrade();
 
-		$url = 'index.php?option=com_joomlaupdate&task=update.cleanup';
+		$url = 'index.php?option=com_joomlaupdate&task=update.cleanup&' . JFactory::getSession()->getFormToken() . '=1';
 		$this->setRedirect($url);
 	}
 
@@ -114,6 +121,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function cleanup()
 	{
+		JSession::checkToken('get') or jexit(JText::_('JINVALID_TOKEN'));
+
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
@@ -156,7 +165,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function upload()
 	{
@@ -191,7 +200,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function captive()
 	{
@@ -225,7 +234,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   3.5.2
+	 * @since   3.6.0
 	 */
 	public function confirm()
 	{
@@ -273,7 +282,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $tempFile), JLog::INFO, 'Update');
 
 		// Redirect to the actual update page
-		$url = 'index.php?option=com_joomlaupdate&task=update.install';
+		$url = 'index.php?option=com_joomlaupdate&task=update.install&' . JFactory::getSession()->getFormToken() . '=1';
 		$this->setRedirect($url);
 	}
 

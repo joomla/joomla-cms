@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
@@ -54,27 +55,27 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$ordering = $this->getState('filter.ordering');
-		$tagSearch = $this->getState('filter.tag_search');
-		$cid = $this->getState('filter.client_id');
+		$db         = $this->getDbo();
+		$query      = $db->getQuery(true);
+		$ordering   = $this->getState('filter.ordering');
+		$tagSearch  = $this->getState('filter.tag_search');
+		$cid        = $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
-		$keywords = $this->getState('filter.keywords');
-		$randomise = ($ordering == 'random');
-		$nullDate = $db->quote($db->getNullDate());
+		$keywords   = $this->getState('filter.keywords');
+		$randomise  = ($ordering == 'random');
+		$nullDate   = $db->quote($db->getNullDate());
 
 		$query->select(
-			'a.id as id,' .
-				'a.type as type,' .
-				'a.name as name,' .
-				'a.clickurl as clickurl,' .
-				'a.cid as cid,' .
-				'a.description as description,' .
-				'a.params as params,' .
-				'a.custombannercode as custombannercode,' .
-				'a.track_impressions as track_impressions,' .
-				'cl.track_impressions as client_track_impressions'
+			'a.id as id,'
+				. 'a.type as type,'
+				. 'a.name as name,'
+				. 'a.clickurl as clickurl,'
+				. 'a.cid as cid,'
+				. 'a.description as description,'
+				. 'a.params as params,'
+				. 'a.custombannercode as custombannercode,'
+				. 'a.track_impressions as track_impressions,'
+				. 'cl.track_impressions as client_track_impressions'
 		)
 			->from('#__banners as a')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
@@ -120,7 +121,7 @@ class BannersModelBanners extends JModelList
 		}
 		elseif ((is_array($categoryId)) && (count($categoryId) > 0))
 		{
-			JArrayHelper::toInteger($categoryId);
+			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 
 			if ($categoryId != '0')
@@ -138,7 +139,7 @@ class BannersModelBanners extends JModelList
 			}
 			else
 			{
-				$temp = array();
+				$temp   = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
 
@@ -204,7 +205,7 @@ class BannersModelBanners extends JModelList
 
 			foreach ($this->cache['items'] as &$item)
 			{
-				$parameters = new Registry;
+				$parameters   = new Registry;
 				$parameters->loadString($item->params);
 				$item->params = $parameters;
 			}
@@ -223,29 +224,33 @@ class BannersModelBanners extends JModelList
 	public function impress()
 	{
 		$trackDate = JFactory::getDate()->format('Y-m-d H');
-		$items = $this->getItems();
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$items     = $this->getItems();
+		$db        = $this->getDbo();
+		$query     = $db->getQuery(true);
 
 		foreach ($items as $item)
 		{
-			// Increment impression made
-			$id = $item->id;
-			$query->clear()
-				->update('#__banners')
-				->set('impmade = (impmade + 1)')
-				->where('id = ' . (int) $id);
-			$db->setQuery($query);
+			$bid[] = (int) $item->id;
+		}
 
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				JError::raiseError(500, $e->getMessage());
-			}
+		// Increment impression made
+		$query->clear()
+			->update('#__banners')
+			->set('impmade = (impmade + 1)')
+			->where('id IN (' . implode(',', $bid) . ')');
+		$db->setQuery($query);
 
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			JError::raiseError(500, $e->getMessage());
+		}
+
+		foreach ($items as $item)
+		{
 			// Track impressions
 			$trackImpressions = $item->track_impressions;
 
@@ -256,18 +261,19 @@ class BannersModelBanners extends JModelList
 
 			if ($trackImpressions < 0)
 			{
-				$config = JComponentHelper::getParams('com_banners');
+				$config           = JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 
 			if ($trackImpressions > 0)
 			{
 				// Is track already created?
-				$query->clear()
-					->select($db->quoteName('count'))
-					->from('#__banner_tracks')
+				// Update count
+				$query->clear();
+				$query->update('#__banner_tracks')
+					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
 					->where('track_type=1')
-					->where('banner_id=' . (int) $id)
+					->where('banner_id=' . (int) $item->id)
 					->where('track_date=' . $db->quote($trackDate));
 
 				$db->setQuery($query);
@@ -276,27 +282,16 @@ class BannersModelBanners extends JModelList
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (JDatabaseExceptionExecuting $e)
 				{
 					JError::raiseError(500, $e->getMessage());
 				}
 
-				$count = $db->loadResult();
-
-				$query->clear();
-
-				if ($count)
-				{
-					// Update count
-					$query->update('#__banner_tracks')
-						->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
-						->where('track_type=1')
-						->where('banner_id=' . (int) $id)
-						->where('track_date=' . $db->quote($trackDate));
-				}
-				else
+				if ($db->getAffectedRows() == 0)
 				{
 					// Insert new count
+					$query->clear();
+
 					$query->insert('#__banner_tracks')
 						->columns(
 							array(
@@ -304,18 +299,18 @@ class BannersModelBanners extends JModelList
 								$db->quoteName('banner_id'), $db->quoteName('track_date')
 							)
 						)
-						->values('1, 1, ' . (int) $id . ', ' . $db->quote($trackDate));
-				}
+						->values('1, 1, ' . (int) $item->id . ', ' . $db->quote($trackDate));
 
-				$db->setQuery($query);
+					$db->setQuery($query);
 
-				try
-				{
-					$db->execute();
-				}
-				catch (RuntimeException $e)
-				{
-					JError::raiseError(500, $e->getMessage());
+					try
+					{
+						$db->execute();
+					}
+					catch (JDatabaseExceptionExecuting $e)
+					{
+						JError::raiseError(500, $e->getMessage());
+					}
 				}
 			}
 		}

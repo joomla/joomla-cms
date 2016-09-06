@@ -15,8 +15,12 @@ if (JFactory::getApplication()->isSite())
 }
 
 JHtml::_('behavior.core');
-JHtml::_('bootstrap.tooltip');
+JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
+
+// Special case for the search field tooltip.
+$searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
+JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -24,35 +28,22 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 
 JFactory::getDocument()->addScriptDeclaration('
 moduleIns = function(type, name) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + extraVal + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadmodule " + type + "," + name + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };
 modulePosIns = function(position) {
-	var extraVal ,fieldExtra = jQuery("#extra_class");
-	extraVal = (fieldExtra.length && fieldExtra.val().length) ? "," + fieldExtra.val() : "";
-	window.parent.jInsertEditorText("{loadposition " + position +  extraVal  + "}", "' . $editor . '");
+	window.parent.jInsertEditorText("{loadposition " + position + "}", "' . $editor . '");
 	window.parent.jModalClose();
 };');
 ?>
-<div style="padding-top: 25px;"></div>
-<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="j-main-container">
-		<div class="well">
-			<div class="control-group">
-				<div class="control-label">
-					<label for="extra_class" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_EXTRA_STYLE_DESC'); ?>" aria-invalid="false">
-						<?php echo JText::_('COM_MODULES_EXTRA_STYLE_TITLE'); ?>
-					</label>
-				</div>
-				<div class="controls">
-					<input type="text" id="extra_class" value="" class="span12" size="45" maxlength="255" aria-invalid="false" />
-				</div>
-			</div>
-		</div>
+<div class="container-popup">
+
+	<form action="<?php echo JRoute::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+
 		<div class="clearfix"></div>
+
 		<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
 			<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
@@ -144,8 +135,10 @@ modulePosIns = function(position) {
 			</tbody>
 		</table>
 		<?php endif;?>
+
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
-	</div>
-</form>
+
+	</form>
+</div>

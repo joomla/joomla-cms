@@ -253,15 +253,6 @@
 				<option value="0">COM_TAGS_EXCLUDE</option>
 				<option value="1">COM_TAGS_INCLUDE</option>
 			</field>		
-		
-			<field
-				name="maximum"
-				type="text"
-				default="200"
-				filter="integer"
-				label="COM_TAGS_LIST_MAX_LABEL"
-				description="COM_TAGS_LIST_MAX_DESC">
-			</field>
 				
 		</fieldset>
 		
