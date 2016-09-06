@@ -125,7 +125,6 @@ abstract class ModLanguagesHelper
 					{
 						$itemid = $associations[$language->lang_code];
 						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
-						$language->associated = true;
 					}
 					else
 					{
