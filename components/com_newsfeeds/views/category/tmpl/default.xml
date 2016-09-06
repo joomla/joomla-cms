@@ -22,6 +22,7 @@
 				label="JCATEGORY"
 				description="COM_NEWSFEEDS_FIELD_SELECT_CATEGORY_DESC"
 				extension="com_newsfeeds"
+				required="true"
 				select="true"
 				new="true"
 				edit="true"
