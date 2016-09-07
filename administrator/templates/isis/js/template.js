@@ -34,7 +34,7 @@
 			{
 				label.closest('.btn-group').find('label').removeClass('active btn-success btn-danger btn-primary');
 
-				if (label.closest('.btn-group').hasClass('btn-group-reverse'))
+				if (label.closest('.btn-group').hasClass('btn-group-reversed'))
 				{
 					if (input.val() == '')
 					{
@@ -42,11 +42,11 @@
 					}
 					else if (input.val() == 0)
 					{
-						label.addClass('active btn-danger');
+						label.addClass('active btn-success');
 					}
 					else
 					{
-						label.addClass('active btn-success');
+						label.addClass('active btn-danger');
 					}
 				}
 				else
@@ -57,11 +57,11 @@
 					}
 					else if (input.val() == 0)
 					{
-						label.addClass('active btn-success');
+						label.addClass('active btn-danger');
 					}
 					else
 					{
-						label.addClass('active btn-danger');
+						label.addClass('active btn-success');
 					}
 
 				}
@@ -74,7 +74,7 @@
 			var $self  = $(this);
 			var attrId = $self.attr('id');
 
-			if ($self.hasClass('btn-group-reverse'))
+			if ($self.parent().hasClass('btn-group-reversed'))
 			{
 				if ($self.val() == '')
 				{
@@ -82,11 +82,11 @@
 				}
 				else if ($self.val() == 0)
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-danger');
+					$('label[for=' + attrId + ']').addClass('active btn-success');
 				}
 				else
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-success');
+					$('label[for=' + attrId + ']').addClass('active btn-danger');
 				}
 			}
 			else
@@ -97,11 +97,11 @@
 				}
 				else if ($self.val() == 0)
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-success');
+					$('label[for=' + attrId + ']').addClass('active btn-danger');
 				}
 				else
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-danger');
+					$('label[for=' + attrId + ']').addClass('active btn-success');
 				}
 			}
 		});
