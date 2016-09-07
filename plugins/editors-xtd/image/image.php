@@ -35,9 +35,10 @@ class PlgButtonImage extends JPlugin
 	 */
 	public function onDisplay($name, $asset, $author)
 	{
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$app       = JFactory::getApplication();
+		$user      = JFactory::getUser();
 		$extension = $app->input->get('option');
+		$template  = $app->getTemplate();
 
 		if ($asset == '')
 		{
@@ -51,7 +52,8 @@ class PlgButtonImage extends JPlugin
 			||	(count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
 			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
 		{
-			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
+			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset='
+				. $asset . '&amp;author=' . $author . '&template=' . $template;
 
 			$button = new JObject;
 			$button->modal = true;
