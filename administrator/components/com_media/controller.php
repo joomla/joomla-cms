@@ -36,8 +36,9 @@ class MediaController extends JControllerLegacy
 
 		if ($app->isSite())
 		{
-			$template = $this->input->get('template', 'protostar', 'string');
+			$template = $this->input->get('template', $app->getTemplate(), 'string');
 			$app->setTemplate($template);
+
 		}
 
 		switch ($vName)
