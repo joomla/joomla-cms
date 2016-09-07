@@ -43,7 +43,8 @@ class ModBannersHelper
 
 		$banners = $model->getItems();
 
-		if ($banners) {
+		if ($banners)
+		{
 			$model->impress();
 		}
 
