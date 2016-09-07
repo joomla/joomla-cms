@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 $id = $displayData['item']->id;
 ?>
-<?php if (ContentHelperAssociation::getAssociations($id) != null) : ?>
+<?php if (ContentHelperAssociation::displayAssociations($id) != null) : ?>
 <dd class="association">
 	<?php echo JText::_('JASSOCIATIONS'); ?>
 	<?php echo ContentHelperAssociation::displayAssociations($id); ?>

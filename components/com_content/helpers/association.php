@@ -70,17 +70,17 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public static function displayAssociations($id = 0)
+	public static function displayAssociations($id)
 	{
-		jimport('joomla.application.component.helper');
-		$params = JComponentHelper::getParams('com_content');
+		$url_assoc    = '';
+		$associations = self::getAssociations($id);
 
-		$levels    = JFactory::getUser()->getAuthorisedViewLevels();
-		$languages = JLanguageHelper::getLanguages();
-
-		if (self::getAssociations($id) != null)
+		if (!empty($associations))
 		{
-			$associations = self::getAssociations($id);
+			jimport('joomla.application.component.helper');
+			$params    = JComponentHelper::getParams('com_content');
+			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
+			$languages = JLanguageHelper::getLanguages();
 
 			foreach ($associations as $key => $value)
 			{
@@ -103,23 +103,23 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 					}
 					elseif (isset($key) && ($key == $language->lang_code))
 					{
+						$class = 'label label-association label-' . $language->sef;
+						$url   = '&nbsp;<a class="' . $class . '" href="' . JRoute::_($value) . '">' . strtoupper($language->sef) . '</a>&nbsp;';
+
 						if ($params->get('flags', 1))
 						{
 							$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif',
 									$language->title_native, array('title' => $language->title_native), true
 									);
-							$url  = '&nbsp;' . JRoute::_('<a href="' . JRoute::_($value) . '">' . $flag . '</a>') . '&nbsp;';
-						}
-						else
-						{
-							$class = 'label label-association label-' . $language->sef;
-							$url   = '&nbsp;' . JRoute::_('<a class="' . $class . '" href="' . JRoute::_($value) . '">' . strtoupper($language->sef) . '</a>') . '&nbsp;';
+							$url  = '&nbsp;<a href="' . JRoute::_($value) . '">' . $flag . '</a>&nbsp;';
 						}
 
-						echo $url;
+						$url_assoc .= $url;
 					}
 				}
 			}
 		}
+
+		return $url_assoc;
 	}
 }
