@@ -688,6 +688,8 @@ class JLanguage
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
+		JLog::add(__METHOD__ . '() is deprecated. Use JLanguageHelper::exists() instead.', JLog::WARNING, 'deprecated');
+
 		return JLanguageHelper::exists($lang, $basePath);
 	}
 
