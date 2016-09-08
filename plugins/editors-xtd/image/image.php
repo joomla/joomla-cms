@@ -53,7 +53,7 @@ class PlgButtonImage extends JPlugin
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 
-			$button = new JObject;
+			$button = new stdClass();
 			$button->modal = true;
 			$button->class = 'btn';
 			$button->link = $link;

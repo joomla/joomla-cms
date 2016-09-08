@@ -135,7 +135,7 @@ class MediaModelList extends JModelLegacy
 			{
 				if (is_file($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
-					$tmp = new JObject;
+					$tmp = new stdClass();
 					$tmp->name = $file;
 					$tmp->title = $file;
 					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
@@ -211,7 +211,7 @@ class MediaModelList extends JModelLegacy
 		{
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject;
+				$tmp = new stdClass();
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);

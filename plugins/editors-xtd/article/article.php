@@ -61,7 +61,7 @@ class PlgButtonArticle extends JPlugin
 		 */
 		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
-		$button = new JObject;
+		$button = new stdClass();
 		$button->modal = true;
 		$button->class = 'btn';
 		$button->link = $link;

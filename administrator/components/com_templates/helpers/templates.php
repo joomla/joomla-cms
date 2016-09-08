@@ -109,11 +109,11 @@ class TemplatesHelper
 	 * @param   string  $templateBaseDir  TODO
 	 * @param   string  $templateDir      TODO
 	 *
-	 * @return  boolean|JObject
+	 * @return  boolean|object
 	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new JObject;
+		$data = new stdClass();
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

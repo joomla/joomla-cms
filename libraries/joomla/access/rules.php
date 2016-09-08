@@ -174,16 +174,16 @@ class JAccessRules
 	/**
 	 * Get the allowed actions for an identity.
 	 *
-	 * @param   mixed  $identity  An integer representing the identity or an array of identities
+	 * @param   mixed   $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  JObject  Allowed actions for the identity or identities
+	 * @return  object  Allowed actions for the identity or identities
 	 *
 	 * @since   11.1
 	 */
 	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new JObject;
+		$allowed = new stdClass();
 
 		foreach ($this->data as $name => &$action)
 		{

@@ -78,7 +78,7 @@ class FinderIndexerTaxonomy
 		 * state has changed or because the branch does not exist. Let's figure
 		 * out which case is true and deal with it.
 		 */
-		$branch = new JObject;
+		$branch = new stdClass();
 
 		if (empty($result))
 		{
@@ -158,7 +158,7 @@ class FinderIndexerTaxonomy
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
 		 */
-		$node = new JObject;
+		$node = new stdClass();
 
 		if (empty($result))
 		{
@@ -213,7 +213,7 @@ class FinderIndexerTaxonomy
 		$db->execute();
 		$id = (int) $db->loadResult();
 
-		$map = new JObject;
+		$map = new stdClass();
 		$map->link_id = (int) $linkId;
 		$map->node_id = (int) $nodeId;
 

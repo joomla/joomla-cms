@@ -31,7 +31,7 @@ abstract class JHtmlContent
 	{
 		if ($params === null)
 		{
-			$params = new JObject;
+			$params = new stdClass();
 		}
 
 		$article = new stdClass;

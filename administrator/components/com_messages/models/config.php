@@ -49,7 +49,7 @@ class MessagesModelConfig extends JModelForm
 	 */
 	public function &getItem()
 	{
-		$item = new JObject;
+		$item = new stdClass();
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)

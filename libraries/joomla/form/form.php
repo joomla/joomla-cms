@@ -151,9 +151,9 @@ class JForm
 				// Handle a Registry.
 				$data = $data->toArray();
 			}
-			elseif ($data instanceof JObject)
+			elseif ($data instanceof stdClass)
 			{
-				// Handle a JObject.
+				// Handle an Object.
 				$data = $data->getProperties();
 			}
 			else

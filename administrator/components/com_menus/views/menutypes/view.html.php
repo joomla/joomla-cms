@@ -33,28 +33,28 @@ class MenusViewMenutypes extends JViewLegacy
 
 		// Adding System Links
 		$list = array();
-		$o = new JObject;
+		$o = new stdClass();
 		$o->title = 'COM_MENUS_TYPE_EXTERNAL_URL';
 		$o->type = 'url';
 		$o->description  = 'COM_MENUS_TYPE_EXTERNAL_URL_DESC';
 		$o->request = null;
 		$list[] = $o;
 
-		$o = new JObject;
+		$o = new stdClass();
 		$o->title = 'COM_MENUS_TYPE_ALIAS';
 		$o->type = 'alias';
 		$o->description = 'COM_MENUS_TYPE_ALIAS_DESC';
 		$o->request = null;
 		$list[] = $o;
 
-		$o = new JObject;
+		$o = new stdClass();
 		$o->title = 'COM_MENUS_TYPE_SEPARATOR';
 		$o->type = 'separator';
 		$o->description = 'COM_MENUS_TYPE_SEPARATOR_DESC';
 		$o->request = null;
 		$list[] = $o;
 
-		$o = new JObject;
+		$o = new stdClass();
 		$o->title = 'COM_MENUS_TYPE_HEADING';
 		$o->type = 'heading';
 		$o->description = 'COM_MENUS_TYPE_HEADING_DESC';

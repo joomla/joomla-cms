@@ -55,7 +55,7 @@ class PlgButtonReadmore extends JPlugin
 
 		$doc->addScriptDeclaration($js);
 
-		$button          = new JObject;
+		$button          = new stdClass();
 		$button->modal   = false;
 		$button->class   = 'btn';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
