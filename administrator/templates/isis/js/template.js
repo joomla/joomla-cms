@@ -121,8 +121,8 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		if ($w.width() > 767) {
-
+		if ($w.width() > 767)
+		{
 			var menuScroll = $('#menu > li > ul'),
 				emptyMenu  = $('#nav-empty');
 
@@ -138,9 +138,12 @@
 					scrollMenuWidth  = $dropdownMenu.width() + 15,
 					maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
 
-				if (maxHeight < menuHeight) {
+				if (maxHeight < menuHeight)
+				{
 					$dropdownMenu.css('width', scrollMenuWidth);
-				} else if (maxHeight > menuHeight) {
+				}
+				else if (maxHeight > menuHeight)
+				{
 					$dropdownMenu.css('width', 'auto');
 				}
 
@@ -201,11 +204,22 @@
 
 			});
 
-			$(document).on('click', function() {
+			// obtain a reference to the original handler
+			var _clearMenus = $._data(document, 'events').click.filter(function (el) {
+				return el.namespace === 'data-api.dropdown' && el.selector === undefined
+			})[0].handler;
 
-				emptyMenu.empty().hide();
+			// disable the old listener
+			$(document)
+				.off('click.data-api.dropdown', _clearMenus)
+				.on('click.data-api.dropdown', function(e) {
+					e.button === 2 || _clearMenus();
 
-			});
+					if (!$('#menu').find('> li').hasClass('open'))
+					{
+						emptyMenu.empty().hide();
+					}
+				});
 
 			$.fn.Jvisible = function(partial,hidden)
 			{
