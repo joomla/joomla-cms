@@ -15,12 +15,13 @@ JHtml::_('bootstrap.tooltip');
 $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 
 ?>
+
 <div class="alert alert-warning">
 	<h4 class="alert-heading">
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_HEAD'); ?>
+		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', JFactory::getConfig()->get('sitename')); ?>
+		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', JFactory::getConfig()->get('sitename')); ?>
 	</p>
 </div>
 
@@ -75,20 +76,20 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<a tabindex="4" class="btn btn-danger" href="index.php?option=com_joomlaupdate">
+					<a tabindex="4" class="btn btn-danger btn-small" href="index.php?option=com_joomlaupdate">
 						<span class="icon-cancel icon-white"></span> <?php echo JText::_('JCANCEL'); ?>
 					</a>
 				</div>
 				<div class="btn-group">
-					<button tabindex="5" class="btn btn-primary">
-						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
+					<button tabindex="5" class="btn btn-primary btn-large">
+						<span class="icon-play icon-white"></span> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>
 		</div>
 
 		<input type="hidden" name="option" value="com_joomlaupdate"/>
-		<input type="hidden" name="task" value="update.confirm"/>
+		<input type="hidden" name="task" value="update.finaliseconfirm" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>

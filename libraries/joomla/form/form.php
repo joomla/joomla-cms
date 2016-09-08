@@ -302,7 +302,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
