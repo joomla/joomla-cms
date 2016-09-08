@@ -108,7 +108,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		$properties = $table->getProperties(1);
-		$value      = JArrayHelper::toObject($properties, 'JObject');
+		$value      = JArrayHelper::toObject($properties);
 
 		return $value;
 	}
