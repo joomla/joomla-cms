@@ -428,6 +428,7 @@ class ContactModelContact extends JModelAdmin
 					$data['alias'] = '';
 				}
 			}
+
 			$data['published'] = 0;
 		}
 
@@ -656,7 +657,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */
