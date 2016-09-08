@@ -1045,10 +1045,6 @@ textarea::-webkit-input-placeholder {
 	float: left;
 	margin-left: -20px;
 }
-.controls > .radio:first-child,
-.controls > .checkbox:first-child {
-	padding-top: 5px;
-}
 .radio.inline,
 .checkbox.inline {
 	display: inline-block;
@@ -1632,6 +1628,13 @@ legend + .control-group {
 }
 .form-horizontal .controls:first-child {
 	*padding-left: 180px;
+}
+.form-horizontal .controls > .radio:first-child,
+.form-horizontal .controls > .checkbox:first-child {
+	padding-top: 5px;
+}
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0px;
 }
 .form-horizontal .help-block {
 	margin-bottom: 0;
@@ -8116,6 +8119,9 @@ th .tooltip-inner {
 .controls .btn-group.btn-group-yesno > .btn {
 	min-width: 84px;
 	padding: 2px 12px;
+}
+.form-horizontal .controls .btn-group.btn-group-yesno {
+	padding-top: 2px;
 }
 .img-preview > img {
 	max-height: 100%;
