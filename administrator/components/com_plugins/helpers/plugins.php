@@ -97,11 +97,11 @@ class PluginsHelper
 	 * @param   string  $templateBaseDir  Base path to the template directory.
 	 * @param   string  $templateDir      Template directory.
 	 *
-	 * @return  object
+	 * @return  JObject
 	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new stdClass();
+		$data = new JObject();
 
 		// Check of the xml file exists.
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

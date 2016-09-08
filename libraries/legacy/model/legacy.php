@@ -53,7 +53,7 @@ abstract class JModelLegacy extends JObject
 	/**
 	 * A state object
 	 *
-	 * @var    object
+	 * @var    JRegistry
 	 * @since  12.2
 	 */
 	protected $state;
@@ -247,7 +247,7 @@ abstract class JModelLegacy extends JObject
 		}
 		else
 		{
-			$this->state = new stdClass();
+			$this->state = new JRegistry();
 		}
 
 		// Set the model dbo

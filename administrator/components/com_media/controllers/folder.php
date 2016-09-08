@@ -83,7 +83,7 @@ class MediaControllerFolder extends JControllerLegacy
 				}
 
 				$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
-				$object_file = new stdClass(array('filepath' => $fullPath));
+				$object_file = new JObject(array('filepath' => $fullPath));
 
 				if (is_file($object_file->filepath))
 				{
@@ -188,7 +188,7 @@ class MediaControllerFolder extends JControllerLegacy
 			if (!is_dir($path) && !is_file($path))
 			{
 				// Trigger the onContentBeforeSave event.
-				$object_file = new stdClass(array('filepath' => $path));
+				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
 				$dispatcher = JEventDispatcher::getInstance();
 				$result     = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
