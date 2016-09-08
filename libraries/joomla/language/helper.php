@@ -80,7 +80,7 @@ class JLanguageHelper
 	 *
 	 * @return  boolean  True if the language exists.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
