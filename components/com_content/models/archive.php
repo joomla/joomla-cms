@@ -60,6 +60,16 @@ class ContentModelArchive extends ContentModelArticles
 		$itemid = $app->input->get('Itemid', 0, 'int');
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
+
+		// Set the archive ordering
+		$articleOrderby   = $params->get('orderby_sec', 'rdate');
+		$articleOrderDate = $params->get('order_date');
+
+		// No category ordering
+		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate);
+
+		$this->setState('list.ordering', $secondary . ', a.created DESC');
+		$this->setState('list.direction', '');
 	}
 
 	/**
@@ -71,19 +81,8 @@ class ContentModelArchive extends ContentModelArticles
 	 */
 	protected function getListQuery()
 	{
-		// Set the archive ordering
 		$params = $this->state->params;
-		$articleOrderby = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
-
-		// No category ordering
-		$categoryOrderby = '';
-		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
-		$primary = ContentHelperQuery::orderbyPrimary($categoryOrderby);
-
-		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
-		$this->setState('list.ordering', $orderby);
-		$this->setState('list.direction', '');
 
 		// Create a new query object.
 		$query = parent::getListQuery();

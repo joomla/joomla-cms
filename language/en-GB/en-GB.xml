@@ -8,7 +8,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>en-GB site language</description>
+	<description><![CDATA[en-GB site language]]></description>
 	<metadata>
 		<name>English (en-GB)</name>
 		<tag>en-GB</tag>
