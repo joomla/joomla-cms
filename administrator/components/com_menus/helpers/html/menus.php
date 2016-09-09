@@ -235,7 +235,7 @@ abstract class MenusHtmlMenus
 	 *
 	 * @param   integer  $params    Params of item.
 	 *
-	 * @return  string   The Html code
+	 * @return  string  The Html code
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
