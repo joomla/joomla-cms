@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
@@ -226,5 +228,23 @@ abstract class MenusHtmlMenus
 		);
 
 		return JHtml::_('jgrid.state', $states, $value, $i, 'items.', $enabled, true, $checkbox);
+	}
+
+	/**
+	 * Returns a visibility state on a grid
+	 *
+	 * @param   integer  $params    Params of item.
+	 *
+	 * @return  string   The Html code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function visibility($params)
+	{
+		$registry = new Registry($params);
+
+		$show_menu = $registry->get('menu_show');
+
+		return '<span class="icon-eye' . (($show_menu === 0) ? '-close' : '') . '"></span>';
 	}
 }

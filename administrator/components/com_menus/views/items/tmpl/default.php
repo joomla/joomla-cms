@@ -176,6 +176,7 @@ if ($menuType == '')
 						<td>
 							<?php $prefix = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 							<?php echo $prefix; ?>
+							<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 							<?php endif; ?>
