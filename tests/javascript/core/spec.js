@@ -11,6 +11,37 @@
 
 define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 
+	describe('Core Joomla.submitform', function () {
+		var form = document.getElementById('adminForm');
+		form.task = {};
+
+		beforeEach(function () {
+			spyOnEvent('#adminForm', 'submit');
+			form.removeChild = jasmine.createSpy('removeChild');
+
+			Joomla.submitform('article.add', form, true);
+		});
+
+		it('should assign task to form.task.value', function () {
+			expect(form.task.value).toEqual('article.add');
+		});
+		it('should set attribute novalidate to false', function () {
+			expect($(form)).toHaveAttr('novalidate', 'false');
+		});
+		it('should add input submit button to DOM', function () {
+			expect($('#adminForm')).toContainElement('input[type="submit"]');
+		});
+		it('should make the added input element invisible', function () {
+			expect($('#adminForm').children('input[type="submit"]')).not.toBeVisible();
+		});
+		it('should click the input element', function () {
+			expect('submit').toHaveBeenTriggeredOn('#adminForm');
+		});
+		it('should remove the input element', function () {
+			expect(form.removeChild).toHaveBeenCalled();
+		});
+	});
+
 	describe('Core Joomla.getOptions', function () {
 		it('should be Joomla.optionsStorage = null', function () {
 			expect(Joomla.optionsStorage).toEqual(null)
@@ -42,7 +73,6 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('amount of the loaded options containers should equal 2', function () {
 			expect($('.joomla-script-options.loaded').length).toEqual(2)
 		});
-
 	});
 
 	describe('Core Joomla.JText', function () {
@@ -76,39 +106,9 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should return \'String 2\' on calling Joomla.JText._(\'StrinG2\')', function () {
 			expect(Joomla.JText._('StrinG2')).toEqual('String 2');
 		});
-
 	});
 
-	describe('Core Joomla.submitform', function () {
-		var form = document.getElementById('adminForm');
-		form.task = {};
 
-		beforeEach(function () {
-			spyOnEvent('#adminForm', 'submit');
-			form.removeChild = jasmine.createSpy('removeChild');
-
-			Joomla.submitform('article.add', form, true);
-		});
-
-		it('should assign task to form.task.value', function () {
-			expect(form.task.value).toEqual('article.add');
-		});
-		it('should set attribute novalidate to false', function () {
-			expect($(form)).toHaveAttr('novalidate', 'false');
-		});
-		it('should add input submit button to DOM', function () {
-			expect($('#adminForm')).toContainElement('input[type="submit"]');
-		});
-		it('should make the added input element invisible', function () {
-			expect($('#adminForm').children('input[type="submit"]')).not.toBeVisible();
-		});
-		it('should click the input element', function () {
-			expect('submit').toHaveBeenTriggeredOn('#adminForm');
-		});
-		it('should remove the input element', function () {
-			expect(form.removeChild).toHaveBeenCalled();
-		});
-	});
 
 	describe('Core Joomla.replaceTokens', function () {
 		var newToken = '123456789123456789123456789ABCDE';
