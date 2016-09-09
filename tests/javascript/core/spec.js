@@ -42,6 +42,39 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		});
 	});
 
+	describe('Core Joomla.getOptions', function () {
+		it('should be Joomla.optionsStorage = null', function () {
+			expect(Joomla.optionsStorage).toEqual(null)
+		});
+		it('should return options array Joomla.getOptions("com_foobar")', function () {
+			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
+		});
+		it('should return option string Joomla.getOptions("com_foobar2")', function () {
+			expect(Joomla.getOptions("com_foobar2")).toEqual("Alert message!")
+		});
+		it('should return option Boolean false Joomla.getOptions("com_foobar3")', function () {
+			expect(Joomla.getOptions("com_foobar3")).toEqual(false)
+		});
+		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
+			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
+		});
+
+		// Test dynamically added options
+		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
+			$('#get-options').append($('<script>', {
+				type: 'application/json',
+				'class': 'joomla-script-options new',
+				text: '{"com_foobar5": true}'
+			}));
+			Joomla.loadOptions();
+
+			expect(Joomla.getOptions("com_foobar5")).toEqual(true)
+		});
+		it('amount of the loaded options containers should equal 2', function () {
+			expect($('.joomla-script-options.loaded').length).toEqual(2)
+		});
+	});
+
 	describe('Core Joomla.JText', function () {
 		var ob = {
 			'JTOGGLE_SHOW_SIDEBAR': 'Show Sidebar',
@@ -73,8 +106,9 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should return \'String 2\' on calling Joomla.JText._(\'StrinG2\')', function () {
 			expect(Joomla.JText._('StrinG2')).toEqual('String 2');
 		});
-
 	});
+
+
 
 	describe('Core Joomla.replaceTokens', function () {
 		var newToken = '123456789123456789123456789ABCDE';
@@ -206,39 +240,5 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should set form.filter_order_Dir.value = dir', function () {
 			expect(this.form.filter_order_Dir.value).toEqual('dir')
 		});
-	});
-
-	describe('Core Joomla.getOptions', function () {
-		it('should be Joomla.optionsStorage = null', function () {
-			expect(Joomla.optionsStorage).toEqual(null)
-		});
-		it('should return options array Joomla.getOptions("com_foobar")', function () {
-			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
-		});
-		it('should return option string Joomla.getOptions("com_foobar2")', function () {
-			expect(Joomla.getOptions("com_foobar2")).toEqual("Alert message!")
-		});
-		it('should return option Boolean false Joomla.getOptions("com_foobar3")', function () {
-			expect(Joomla.getOptions("com_foobar3")).toEqual(false)
-		});
-		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
-			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
-		});
-
-		// Test dynamically added options
-		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
-            $('#get-options').append($('<script>', {
-				type: 'application/json',
-				'class': 'joomla-script-options new',
-				text: '{"com_foobar5": true}'
-            }));
-            Joomla.loadOptions();
-
-            expect(Joomla.getOptions("com_foobar5")).toEqual(true)
-		});
-		it('amount of the loaded options containers should equal 2', function () {
-            expect($('.joomla-script-options.loaded').length).toEqual(2)
-		});
-
 	});
 });

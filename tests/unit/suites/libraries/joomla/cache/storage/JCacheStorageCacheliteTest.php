@@ -20,7 +20,7 @@ class JCacheStorageCacheliteTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageCachelite::isSupported() || $this->isBlacklisted('cachelite'))
+		if (!JCacheStorageCachelite::isSupported())
 		{
 			$this->markTestSkipped('The Cache_Lite cache handler is not supported on this system.');
 		}

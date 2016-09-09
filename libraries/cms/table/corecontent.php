@@ -95,7 +95,7 @@ class JTableCorecontent extends JTable
 	{
 		if (trim($this->core_title) == '')
 		{
-			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
