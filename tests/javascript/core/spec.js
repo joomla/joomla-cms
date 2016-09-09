@@ -11,35 +11,38 @@
 
 define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 
-	describe('Core Joomla.submitform', function () {
-		var form = document.getElementById('adminForm');
-		form.task = {};
-
-		beforeEach(function () {
-			spyOnEvent('#adminForm', 'submit');
-			form.removeChild = jasmine.createSpy('removeChild');
-
-			Joomla.submitform('article.add', form, true);
+	describe('Core Joomla.getOptions', function () {
+		it('should be Joomla.optionsStorage = null', function () {
+			expect(Joomla.optionsStorage).toEqual(null)
+		});
+		it('should return options array Joomla.getOptions("com_foobar")', function () {
+			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
+		});
+		it('should return option string Joomla.getOptions("com_foobar2")', function () {
+			expect(Joomla.getOptions("com_foobar2")).toEqual("Alert message!")
+		});
+		it('should return option Boolean false Joomla.getOptions("com_foobar3")', function () {
+			expect(Joomla.getOptions("com_foobar3")).toEqual(false)
+		});
+		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
+			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
 		});
 
-		it('should assign task to form.task.value', function () {
-			expect(form.task.value).toEqual('article.add');
+		// Test dynamically added options
+		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
+			$('#get-options').append($('<script>', {
+				type: 'application/json',
+				'class': 'joomla-script-options new',
+				text: '{"com_foobar5": true}'
+			}));
+			Joomla.loadOptions();
+
+			expect(Joomla.getOptions("com_foobar5")).toEqual(true)
 		});
-		it('should set attribute novalidate to false', function () {
-			expect($(form)).toHaveAttr('novalidate', 'false');
+		it('amount of the loaded options containers should equal 2', function () {
+			expect($('.joomla-script-options.loaded').length).toEqual(2)
 		});
-		it('should add input submit button to DOM', function () {
-			expect($('#adminForm')).toContainElement('input[type="submit"]');
-		});
-		it('should make the added input element invisible', function () {
-			expect($('#adminForm').children('input[type="submit"]')).not.toBeVisible();
-		});
-		it('should click the input element', function () {
-			expect('submit').toHaveBeenTriggeredOn('#adminForm');
-		});
-		it('should remove the input element', function () {
-			expect(form.removeChild).toHaveBeenCalled();
-		});
+
 	});
 
 	describe('Core Joomla.JText', function () {
@@ -74,6 +77,37 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 			expect(Joomla.JText._('StrinG2')).toEqual('String 2');
 		});
 
+	});
+
+	describe('Core Joomla.submitform', function () {
+		var form = document.getElementById('adminForm');
+		form.task = {};
+
+		beforeEach(function () {
+			spyOnEvent('#adminForm', 'submit');
+			form.removeChild = jasmine.createSpy('removeChild');
+
+			Joomla.submitform('article.add', form, true);
+		});
+
+		it('should assign task to form.task.value', function () {
+			expect(form.task.value).toEqual('article.add');
+		});
+		it('should set attribute novalidate to false', function () {
+			expect($(form)).toHaveAttr('novalidate', 'false');
+		});
+		it('should add input submit button to DOM', function () {
+			expect($('#adminForm')).toContainElement('input[type="submit"]');
+		});
+		it('should make the added input element invisible', function () {
+			expect($('#adminForm').children('input[type="submit"]')).not.toBeVisible();
+		});
+		it('should click the input element', function () {
+			expect('submit').toHaveBeenTriggeredOn('#adminForm');
+		});
+		it('should remove the input element', function () {
+			expect(form.removeChild).toHaveBeenCalled();
+		});
 	});
 
 	describe('Core Joomla.replaceTokens', function () {
@@ -206,39 +240,5 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 		it('should set form.filter_order_Dir.value = dir', function () {
 			expect(this.form.filter_order_Dir.value).toEqual('dir')
 		});
-	});
-
-	describe('Core Joomla.getOptions', function () {
-		it('should not be null', function () {
-			expect(Joomla.optionsStorage).not.toEqual(null)
-		});
-		it('should return options array Joomla.getOptions("com_foobar")', function () {
-			expect(Joomla.getOptions("com_foobar")).toEqual(["my options"])
-		});
-		it('should return option string Joomla.getOptions("com_foobar2")', function () {
-			expect(Joomla.getOptions("com_foobar2")).toEqual("Alert message!")
-		});
-		it('should return option Boolean false Joomla.getOptions("com_foobar3")', function () {
-			expect(Joomla.getOptions("com_foobar3")).toEqual(false)
-		});
-		it('should return default value for not existing key Joomla.getOptions("com_foobar4", 123)', function () {
-			expect(Joomla.getOptions("com_foobar4", 123)).toEqual(123)
-		});
-
-		// Test dynamically added options
-		it('should return dynamically added options Joomla.getOptions("com_foobar5")', function () {
-            $('#get-options').append($('<script>', {
-				type: 'application/json',
-				'class': 'joomla-script-options new',
-				text: '{"com_foobar5": true}'
-            }));
-            Joomla.loadOptions();
-
-            expect(Joomla.getOptions("com_foobar5")).toEqual(true)
-		});
-		it('amount of the loaded options containers should equal 2', function () {
-            expect($('.joomla-script-options.loaded').length).toEqual(2)
-		});
-
 	});
 });
