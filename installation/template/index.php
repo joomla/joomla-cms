@@ -19,7 +19,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
 
-
 // Load JavaScript message titles
 JText::script('ERROR');
 JText::script('WARNING');
