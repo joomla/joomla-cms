@@ -209,7 +209,7 @@ define(['jquery', 'testsRoot/core/spec-setup', 'jasmineJquery'], function ($) {
 	});
 
 	describe('Core Joomla.getOptions', function () {
-		it('should be Joomla.optionsStorage = null', function () {
+		it('should not be null', function () {
 			expect(Joomla.optionsStorage).not.toEqual(null)
 		});
 		it('should return options array Joomla.getOptions("com_foobar")', function () {
