@@ -233,7 +233,7 @@ abstract class MenusHtmlMenus
 	/**
 	 * Returns a visibility state on a grid
 	 *
-	 * @param   integer  $params    Params of item.
+	 * @param   integer  $params  Params of item.
 	 *
 	 * @return  string  The Html code
 	 *
