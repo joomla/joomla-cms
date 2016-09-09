@@ -39,8 +39,9 @@
 								}
 								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
 
-								if ($("#" + $field.data('element') + "_1")) {
-									var $el = $("#" + $field.data('element') + "_1");
+								// Add chosen to the element
+								var $el = $("#" + $id);
+								if ($el) {
 									$el.chosen('destroy');
 									$el.chosen();
 								}
