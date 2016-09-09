@@ -65,7 +65,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		<iframe id="imageframe" name="imageframe" src="index.php?option=com_media&amp;view=imagesList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder?>&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>"></iframe>
 
 		<div class="well">
-			<div class="row">
+			<div class="row-fluid">
 				<div class="span6 control-group">
 					<div class="control-label">
 						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
@@ -91,7 +91,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				<?php endif;?>
 			</div>
 			<?php if (!$this->state->get('field.id')):?>
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
@@ -109,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration(
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row-fluid">
 					<div class="span6 control-group">
 						<div class="control-label">
 							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
