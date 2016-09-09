@@ -319,7 +319,17 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 				if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
 				{
-					$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					// Make sure it will not use the en-GB fallback.
+					$defaultLanguage = new JLanguage('en-GB');
+					$defaultLanguage->load('', JPATH_INSTALLATION);
+
+					$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+					if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+					{
+						$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					}
 				}
 			}
 			
