@@ -731,7 +731,7 @@ class JLanguage
 
 		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		// with $default set to true
-		if (!$this->debug && $lang != $this->default && $default)
+		if (!$this->debug && ($lang != $this->default) && $default)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
 		}
