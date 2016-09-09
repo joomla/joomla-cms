@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+
 // Initialise related data.
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
@@ -84,6 +86,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
+						$link->params = new Registry($link->params);
 						if ($prevlevel < $link->level)
 						{
 							echo '<ul class="treeselect-sub">';
@@ -110,6 +113,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
+										<?php if ($link->params->get('menu_show') === 0) : ?>
+											<?php echo ' <span class="icon-eye-close"></span>'; ?>
+										<?php endif; ?>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*') : ?>
 											<?php if ($link->language_image) : ?>
 												<?php echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true); ?>
