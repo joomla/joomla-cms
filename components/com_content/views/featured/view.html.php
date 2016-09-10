@@ -113,6 +113,12 @@ class ContentViewFeatured extends JViewLegacy
 		// This makes it much easier for the designer to just interogate the arrays.
 		$max = count($items);
 
+		// Raise an error if there are no items when pagination is used.
+		if($pagination->get('limitstart') && !$max)
+		{
+			JError::raiseError(404, JText::_('JERROR_PAGE_NOT_FOUND'));
+		}
+
 		// The first group is the leading articles.
 		$limit = $numLeading;
 
