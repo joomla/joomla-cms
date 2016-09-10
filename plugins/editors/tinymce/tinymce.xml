@@ -30,6 +30,16 @@
 
 			<fieldset name="advanced" label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS">
 				<field
+					name="sets_amount"
+					type="number"
+					filter="int"
+					validate="number"
+					min="3"
+					label="PLG_TINY_FIELD_SETS_AMOUNT_LABEL"
+					description="PLG_TINY_FIELD_SETS_AMOUNT_DESC"
+					default="3"
+				/>
+				<field
 					name="html_height"
 					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"

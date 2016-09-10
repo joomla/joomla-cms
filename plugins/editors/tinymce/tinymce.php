@@ -173,25 +173,28 @@ class PlgEditorTinymce extends JPlugin
 		$access   = array_flip($user->getAuthorisedViewLevels());
 
 		// Get configuration for User view level
-		$toolbarParams    = new stdClass;
-		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
+		$setAccess       = array();
+		$extraOptions    = new stdClass;
+		$extraOptionsAll = $this->params->get('configuration.setoptions', array());
 
-		foreach ($toolbarParamsAll as $level => $val)
+		foreach ($extraOptionsAll as $set => $val)
 		{
-			if (isset($access[$level]))
+			$setAccess[$set] = empty($val->access) ? 1 : $val->access;
+
+			if (isset($access[$setAccess[$set]]))
 			{
-				$toolbarParams = $val;
+				$extraOptions = $val;
 			}
 		}
 
-		$extraOptions    = new stdClass;
-		$extraOptionsAll = $this->params->get('configuration.extraoptions', array());
+		$toolbarParams    = new stdClass;
+		$toolbarParamsAll = $this->params->get('configuration.toolbars', array());
 
-		foreach ($extraOptionsAll as $level => $val)
+		foreach ($toolbarParamsAll as $set => $val)
 		{
-			if (isset($access[$level]))
+			if (isset($access[$setAccess[$set]]))
 			{
-				$extraOptions = $val;
+				$toolbarParams = $val;
 			}
 		}
 
@@ -387,8 +390,11 @@ class PlgEditorTinymce extends JPlugin
 		if (!$levelParams->get('menu') && !$levelParams->get('toolbar1') && !$levelParams->get('toolbar2'))
 		{
 			// Set from preset
-			$preset = static::getToolbarPreset();
-			$preset = $user->authorise('core.admin') ? $preset['advanced'] : $preset['simple'];
+			$presets = static::getToolbarPreset();
+
+			// Presets: 3 is special = advances, 2 is registered = medium, all else is public = simple
+			$preset = isset($access[3]) ? $presets['advanced'] :
+				(isset($access[2]) ? $presets['medium'] : $presets['simple']);
 
 			$levelParams->loadArray($preset);
 		}
@@ -474,7 +480,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		// Check for extra plugins, from the extraoptions form
+		// Check for extra plugins, from the setoptions form
 		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'contextmenu' => 1) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
@@ -1061,6 +1067,15 @@ class PlgEditorTinymce extends JPlugin
 
 		$preset['simple'] = array(
 			'menu' => array(),
+			'toolbar1' => array(
+				'bold', 'italics', 'underline', 'strikethrough', '|',
+				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code', 'preview'
+			),
+			'toolbar2' => array(),
+		);
+
+		$preset['medium'] = array(
+			'menu' => array('edit', 'insert', 'view'),
 			'toolbar1' => array(
 				'bold', 'italics', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code', 'preview'

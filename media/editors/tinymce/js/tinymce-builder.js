@@ -77,7 +77,7 @@
             receive: function(event, ui) {
                 $copyHelper = null;
                 var $el = ui.item, $cont = $(this);
-                self.appendInput($el, $cont.data('group'), $cont.data('level'))
+                self.appendInput($el, $cont.data('group'), $cont.data('set'))
             },
             over: function (event, ui) {
                 removeIntent = false;
@@ -119,7 +119,7 @@
     JoomlaTinyMCEBuilder.prototype.renderBar = function(container, type, value, withInput) {
         var $container = $(container),
             group = $container.data('group'),
-            level = $container.data('level'),
+            set = $container.data('set'),
             items = type === 'menu' ? this.options.menus : this.options.buttons,
             value = value ? value : ($container.data('value') || []),
             item, name, $btn;
@@ -142,7 +142,7 @@
 
             // Add input
             if (withInput) {
-                this.appendInput($btn, group, level);
+                this.appendInput($btn, group, set);
             }
         }
     };
@@ -183,13 +183,13 @@
      * Append input to the button item
      * @param {HTMLElement} element
      * @param {String}      group
-     * @param {String}      level
+     * @param {String}      set
      *
      * @since  __DEPLOY_VERSION__
      */
-    JoomlaTinyMCEBuilder.prototype.appendInput = function (element, group, level) {
+    JoomlaTinyMCEBuilder.prototype.appendInput = function (element, group, set) {
         var $el    = $(element),
-            name   = this.options.formControl + '[' + level + '][' + group + '][]',
+            name   = this.options.formControl + '[' + set + '][' + group + '][]',
             $input = $('<input/>', {
                 type: 'hidden',
                 name:  name,
@@ -200,14 +200,14 @@
     };
 
     /**
-     * Set Selected preset to specific view level
-     * @param {Object} options Options {level: 1, preset: 'presetName'}
+     * Set Selected preset to specific  set
+     * @param {Object} options Options {set: 1, preset: 'presetName'}
      */
     JoomlaTinyMCEBuilder.prototype.setPreset = function (options) {
-        var level = options.level, preset = this.options.toolbarPreset[options.preset] || null;
+        var set = options.set, preset = this.options.toolbarPreset[options.preset] || null;
 
         if (!preset) {
-            throw new Error('Unknown Presset "' + options.preset + '"');
+            throw new Error('Unknown Preset "' + options.preset + '"');
         }
 
         var $container, type;
@@ -216,13 +216,13 @@
                 continue;
             }
 
-            // Find correct container for current level
+            // Find correct container for current set
             if (group === 'menu') {
                 type = 'menu';
-                $container = this.$targetMenu.filter('[data-group="' + group + '"][data-level="' + level + '"]');
+                $container = this.$targetMenu.filter('[data-group="' + group + '"][data-set="' + set + '"]');
             } else {
                 type = 'toolbar'
-                $container = this.$targetToolbar.filter('[data-group="' + group + '"][data-level="' + level + '"]');
+                $container = this.$targetToolbar.filter('[data-group="' + group + '"][data-set="' + set + '"]');
             }
 
             // Reset existing values
@@ -234,14 +234,14 @@
     };
 
     /**
-     * Clear the pane for specific view level
-     * @param {Object} options Options {level: 1}
+     * Clear the pane for specific set
+     * @param {Object} options Options {set: 1}
      */
     JoomlaTinyMCEBuilder.prototype.clearPane = function (options) {
-        var level = options.level;
+        var set = options.set;
 
-        this.$targetMenu.filter('[data-level="' + level + '"]').empty();
-        this.$targetToolbar.filter('[data-level="' + level + '"]').empty();
+        this.$targetMenu.filter('[data-set="' + set + '"]').empty();
+        this.$targetToolbar.filter('[data-set="' + set + '"]').empty();
     };
 
 
@@ -252,7 +252,7 @@
 
         new JoomlaTinyMCEBuilder($('#joomla-tinymce-builder'), options);
 
-        $("#view-level-tabs a").on('click', function (event) {
+        $("#set-tabs a").on('click', function (event) {
             event.preventDefault();
             $(this).tab("show");
         });

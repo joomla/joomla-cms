@@ -14,12 +14,12 @@ extract($displayData);
 /**
  * Layout variables
  * -----------------
- * @var   JForm        $form    Form with extra options for each level
+ * @var   JForm        $form    Form with extra options for the set
  * @var   JLayoutFile  $this    Context
  */
 
 ?>
-<div class="leveloptions-form-wrapper">
+<div class="setoptions-form-wrapper">
 <?php foreach ($form->getGroup(null) as $field):?>
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>

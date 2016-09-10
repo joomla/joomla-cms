@@ -43,7 +43,9 @@ class JFormFieldTinymceBuilder extends JFormField
 	 */
 	protected function getLayoutData()
 	{
-		$data = parent::getLayoutData();
+		$data       = parent::getLayoutData();
+		$valueAll   = (object) $this->form->getValue('params');
+		$setsAmount = empty($valueAll->sets_amount) ? 3 : $valueAll->sets_amount;
 
 		// Get the plugin
 		require_once JPATH_PLUGINS . '/editors/tinymce/tinymce.php';
@@ -62,66 +64,54 @@ class JFormFieldTinymceBuilder extends JFormField
 		$data['buttons']       = PlgEditorTinymce::getKnownButtons();
 		$data['buttonsSource'] = array_keys($data['buttons']);
 		$data['toolbarPreset'] = PlgEditorTinymce::getToolbarPreset();
-		$data['viewLevels']    = $this->getAccessViewLevels();
+		$data['setsAmount']    = $setsAmount;
 
-		// Prepare the forms for extra options
-		$levelsForms = array();
-		$formsource  = JPATH_PLUGINS . '/editors/tinymce/form/leveloptions.xml';
+		// Get array of sets names
+		for ($i = 0; $i < $setsAmount; $i++)
+		{
+			$data['setsNames'][$i] = JText::sprintf('PLG_TINY_SET_TITLE', $i);
+		}
+
+		krsort($data['setsNames']);
+
+		// Prepare the forms for each set
+		$setsForms  = array();
+		$formsource = JPATH_PLUGINS . '/editors/tinymce/form/setoptions.xml';
 
 		// Check the old values for B/C
-		$valueOld = array();
-		if ($this->value && empty($this->value['extraoptions']))
+		$valueOld = new stdClass;
+		if ($this->value && empty($this->value['setoptions']))
 		{
-			$valueOld = $this->form->getValue('params');
+			$valueOld = $valueAll;
 		}
 
-		foreach($data['viewLevels'] as $level)
+		foreach (array_keys($data['setsNames']) as $num)
 		{
-			$levelId  = $level['value'];
-			$formname = 'view.level.form.' . $levelId;
-			$control  = $this->name . '[extraoptions][' . $levelId . ']';
+			$formname = 'set.form.' . $num;
+			$control  = $this->name . '[setoptions][' . $num . ']';
 
-			$levelsForms[$levelId] = JForm::getInstance($formname, $formsource, array('control' => $control));
+			$setsForms[$num] = JForm::getInstance($formname, $formsource, array('control' => $control));
 
 			// Bind the values
-			$formValues = empty($this->value['extraoptions'][$levelId]) ? $valueOld : $this->value['extraoptions'][$levelId];
 
-			$levelsForms[$levelId]->bind($formValues);
+			if (empty($this->value['setoptions'][$num]))
+			{
+				$formValues = $valueOld;
+
+				// Predefine access: 0 for special, 1 for registered, all else is public
+				$formValues->access = !$num ? 3 : ($num === 1 ? 2 : 1);
+			}
+			else
+			{
+				$formValues = $this->value['setoptions'][$num];
+			}
+
+			$setsForms[$num]->bind($formValues);
 		}
 
-		$data['viewLevelForms'] = $levelsForms;
+		$data['setsForms'] = $setsForms;
 
 		return $data;
-	}
-
-	/**
-	 * Get list of Access View Levels
-	 *
-	 * @return array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected function getAccessViewLevels()
-	{
-		static $levels = array();
-
-		if (empty($levels))
-		{
-			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select( $db->quoteName('a.id', 'value') . ', ' . $db->quoteName('a.title', 'text'))
-                ->from( $db->quoteName('#__viewlevels', 'a'))
-			    ->group( $db->quoteName(array( 'a.id', 'a.title', 'a.ordering')))
-			    ->order( $db->quoteName('a.ordering') . ' ASC')
-			    ->order( $db->quoteName('title') . ' ASC');
-
-			// Get the options.
-			$db->setQuery($query);
-			$levels = $db->loadAssocList();
-			$levels = $levels ? $levels : array();
-		}
-
-		return $levels;
 	}
 
 }
