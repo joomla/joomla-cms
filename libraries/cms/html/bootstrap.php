@@ -633,7 +633,8 @@ abstract class JHtmlBootstrap
 				$script[] = "\t.on('hidden', " . $onHidden . ")";
 			}
 
-			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_column(static::$loaded[__METHOD__],'parent') : array();
+			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_column(static::$loaded[__METHOD__], 'parent') : array();
+
 			if ($opt['parent'] && empty(array_filter($parents)))
 			{
 				$script[] = "
