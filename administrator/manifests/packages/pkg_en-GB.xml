@@ -12,7 +12,7 @@
 	<url>https://github.com/joomla/joomla-cms</url>
 	<packager>Joomla! Project</packager>
 	<packagerurl>www.joomla.org</packagerurl>
-	<description>en-GB language pack</description>
+	<description><![CDATA[en-GB language pack]]></description>
 	<files>
 		<folder type="language" client="site" id="en-GB">site_en-GB</folder>
 		<folder type="language" client="administrator" id="en-GB">admin_en-GB</folder>

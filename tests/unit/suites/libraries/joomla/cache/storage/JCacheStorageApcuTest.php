@@ -20,7 +20,7 @@ class JCacheStorageApcuTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageApcu::isSupported() || $this->isBlacklisted('apcu'))
+		if (!JCacheStorageApcu::isSupported())
 		{
 			$this->markTestSkipped('The APCu cache handler is not supported on this system.');
 		}
