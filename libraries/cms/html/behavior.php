@@ -680,14 +680,16 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		$session = JFactory::getSession();
+
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if (JFactory::getApplication()->get('session_handler') != 'database')
+		if ($session->storeName != 'database')
 		{
 			$refresh_time = 300000;
 		}
 		else
 		{
-			$life_time    = JFactory::getApplication()->get('lifetime') * 60000;
+			$life_time    = $session->getExpire() * 1000;
 			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
@@ -697,14 +699,12 @@ abstract class JHtmlBehavior
 			}
 		}
 
+		$url = JUri::base(true) . '/index.php';
+
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
-		}
-		else
-		{
-			$url = JUri::base(true) . '/index.php';
+			$url .= '?option=com_ajax&format=json';
 		}
 
 		$script = 'window.setInterval(function(){';
