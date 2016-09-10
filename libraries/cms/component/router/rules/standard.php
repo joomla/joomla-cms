@@ -219,7 +219,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 		}
 
 		// Get the path from the view of the current URL and parse it to the menu item
-		$path = array_reverse($this->router->getPath($query));
+		$path = array_reverse($this->router->getPath($query), true);
 		$found = false;
 		$found2 = false;
 		for ($i = 0, $j = count($path); $i < $j; $i++)
@@ -231,7 +231,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 				$ids = array_shift($path);
 				if ($views[$view]->nestable)
 				{
-					foreach (array_reverse($ids) as $id)
+					foreach (array_reverse($ids, true) as $id)
 					{
 						if ($found2)
 						{
