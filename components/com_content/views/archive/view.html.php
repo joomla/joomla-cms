@@ -80,6 +80,14 @@ class ContentViewArchive extends JViewLegacy
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
+		// Raise an error if there are no items when pagination is used.
+		$itemNum = count($items);
+
+		if($pagination->get('limitstart') && !$itemNum)
+		{
+			JError::raiseError(404, JText::_('JERROR_PAGE_NOT_FOUND'));
+		}
+
 		$form = new stdClass;
 
 		// Month Field
