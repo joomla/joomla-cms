@@ -114,7 +114,7 @@ class ContentViewFeatured extends JViewLegacy
 		$max = count($items);
 
 		// Raise an error if there are no items when pagination is used.
-		if($pagination->get('limitstart') && !$max)
+		if ($pagination->get('limitstart') && !$max)
 		{
 			JError::raiseError(404, JText::_('JERROR_PAGE_NOT_FOUND'));
 		}
