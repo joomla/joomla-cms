@@ -232,6 +232,12 @@ textarea {
   margin-left: -20px;
 }
 
+// Move the options list down to align with labels
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+  padding-top: 5px; // has to be padding because margin collaspes
+}
+
 // Radios and checkboxes on same line
 // TODO v3: Convert .inline to .control-inline
 .radio.inline,
@@ -660,16 +666,6 @@ legend + .control-group {
     *margin-left: 0;
     &:first-child {
       *padding-left: @horizontalComponentOffset;
-    }
-
-    // Move the options list down to align with labels
-    > .radio:first-child,
-    > .checkbox:first-child {
-      padding-top: 5px; // has to be padding because margin collaspes
-    }
-    // Move the btn-group down to align with labels
-    > .radio.btn-group:first-child {
-      padding-top: 2px; // has to be padding because margin collaspes
     }
   }
   // Remove bottom margin on block level help text since that's accounted for on .control-group

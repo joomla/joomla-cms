@@ -655,6 +655,21 @@ body.modal-open {
 	display: inline;
 }
 
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0px;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0px;
+}
+
 /* Corrects the modals padding */
 .field-media-wrapper .modal .modal-body {
 	padding: 5px 10px;

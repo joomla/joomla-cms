@@ -1218,9 +1218,6 @@ th .tooltip-inner {
 	min-width: 84px;
 	padding: 2px 12px;
 }
-.form-horizontal .controls .btn-group.btn-group-yesno {
-	padding-top: 2px;
-}
 .img-preview > img {
 	max-height: 100%;
 }
@@ -1869,4 +1866,24 @@ textarea.noResize {
 	    border-radius: 3px;
 	    padding: 15px;
 	}
+}
+
+/* Remove unneeded space between label and field in vertical forms */
+.controls > .radio:first-child,
+.controls > .checkbox:first-child {
+	padding-top: 0px;
+
+	.form-horizontal & {
+		padding-top: 5px;
+	}
+}
+
+/* Align btn-group to label */
+.form-horizontal .controls > .radio.btn-group:first-child {
+	padding-top: 0px;
+}
+
+/* Align btn-group-yes to label */
+.form-horizontal .controls > .radio.btn-group-yesno:first-child {
+	padding-top: 2px;
 }
