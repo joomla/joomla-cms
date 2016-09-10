@@ -122,7 +122,7 @@ class ContentViewCategory extends JViewCategory
 		// Raise an error if there are no items when pagination is used.
 		$max = count($this->items);
 
-		if($pagination->get('limitstart') && !$max)
+		if ($pagination->get('limitstart') && !$max)
 		{
 			JError::raiseError(404, JText::_('JERROR_PAGE_NOT_FOUND'));
 		}
