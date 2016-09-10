@@ -49,12 +49,16 @@
             connectWith: this.$targetMenu,
             items: '.mce-btn',
             cancel: '',
+            start: function(event, ui) {
+                self.$targetMenu.addClass('drop-area-highlight');
+            },
             helper: function(event, el) {
                 $copyHelper = el.clone().insertAfter(el);
                 return el;
             },
             stop: function() {
                 $copyHelper && $copyHelper.remove();
+                self.$targetMenu.removeClass('drop-area-highlight');
             }
         });
 
@@ -62,12 +66,16 @@
             connectWith: this.$targetToolbar,
             items: '.mce-btn',
             cancel: '',
+            start: function(event, ui) {
+                self.$targetToolbar.addClass('drop-area-highlight');
+            },
             helper: function(event, el) {
                 $copyHelper = el.clone().insertAfter(el);
                 return el;
             },
             stop: function() {
                 $copyHelper && $copyHelper.remove();
+                self.$targetToolbar.removeClass('drop-area-highlight');
             }
         });
 
@@ -103,7 +111,6 @@
             }
         }.bind(this));
 
-        console.log(this);
     };
 
     /**

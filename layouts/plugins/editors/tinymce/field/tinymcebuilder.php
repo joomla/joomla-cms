@@ -71,9 +71,13 @@ $doc->addStyleDeclaration('
 	.mce-panel {
 		min-height: 18px;
 		border-bottom: 1px solid rgba(217,217,217,0.52);
+		white-space: normal;
 	}
 	.mce-tinymce {
 		margin-bottom: 20px;
+	}
+	.mce-panel .drop-area-highlight{
+		background-color: #d0d0d0;
 	}
 ');
 
