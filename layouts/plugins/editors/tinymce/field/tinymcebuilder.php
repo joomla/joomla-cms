@@ -111,7 +111,13 @@ $doc->addStyleDeclaration('
 
 	<!-- Render tab content for each set -->
 	<div class="tab-content">
-		<?php foreach ( $setsNames as $num => $title ):
+		<?php
+		$presetButtonClases = array(
+			'simple'   => 'btn-success',
+			'medium'   => 'btn-info',
+			'advanced' => 'btn-warning',
+		);
+		foreach ( $setsNames as $num => $title ):
 
 			// Check whether the values exists, and if empty then use from preset
 			if (empty($value['toolbars'][$num]['menu'])
@@ -142,12 +148,14 @@ $doc->addStyleDeclaration('
 				<div class="btn-toolbar clearfix">
 					<div class="btn-group pull-right">
 
-						<?php foreach(array_keys($toolbarPreset) as $presetName): ?>
-						<button type="button" class="btn btn-mini btn-success button-action"
+					<?php foreach(array_keys($toolbarPreset) as $presetName):
+						$btnClass = empty($presetButtonClases[$presetName])	? 'btn-primary' : $presetButtonClases[$presetName];
+						?>
+						<button type="button" class="btn btn-mini <?php echo $btnClass; ?> button-action"
 						    data-action="setPreset" data-preset="<?php echo $presetName; ?>" data-set="<?php echo $num; ?>">
 							<?php echo JText::_('PLG_TINY_SET_PRESET_BUTTON_' . $presetName); ?>
 						</button>
-						<?php endforeach; ?>
+					<?php endforeach; ?>
 
 						<button type="button" class="btn btn-mini btn-danger button-action"
 						     data-action="clearPane" data-set="<?php echo $num; ?>">
