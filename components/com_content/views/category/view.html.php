@@ -74,6 +74,7 @@ class ContentViewCategory extends JViewCategory
 		// Prepare the data
 		// Get the metrics for the structural page layout.
 		$params     = $this->params;
+		$pagination = $this->get('Pagination');
 		$numLeading = $params->def('num_leading_articles', 1);
 		$numIntro   = $params->def('num_intro_articles', 4);
 		$numLinks   = $params->def('num_links', 4);
@@ -116,6 +117,14 @@ class ContentViewCategory extends JViewCategory
 
 			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.category', &$item, &$item->params, 0));
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
+		}
+
+		// Raise an error if there are no items when pagination is used.
+		$max = count($this->items);
+
+		if($pagination->get('limitstart') && !$max)
+		{
+			JError::raiseError(404, JText::_('JERROR_PAGE_NOT_FOUND'));
 		}
 
 		// Check for layout override only if this is not the active menu item
