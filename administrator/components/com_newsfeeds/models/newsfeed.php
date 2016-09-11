@@ -314,7 +314,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		// Save New Category
-		if ($catid == 0)
+		if ($catid == 0 && $this->canCreateCategory())
 		{
 			$table = array();
 			$table['title'] = $data['catid'];
@@ -503,9 +503,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
+		if ($this->canCreateCategory())
+		{
+			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+		}
+
 		// Association newsfeeds items
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -567,5 +572,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		return array($name, $alias);
+	}
+
+	/**
+	 * Is the user allowed to create an on the fly category?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.1
+	 */
+	private function canCreateCategory()
+	{
+		return JFactory::getUser()->authorise('core.create', 'com_newsfeeds');
 	}
 }

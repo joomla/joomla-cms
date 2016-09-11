@@ -126,7 +126,10 @@ class JApplicationCmsTest extends TestCaseDatabase
 		JApplicationCmsInspector::$connectionAlive = true;
 
 		$_SERVER = $this->backupServer;
-
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($config);
+		unset($this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

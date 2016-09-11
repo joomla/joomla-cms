@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * About Page Model
@@ -156,6 +156,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by author
 		$authorId = $this->getState('filter.author_id');
+
 		if (is_numeric($authorId))
 		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';

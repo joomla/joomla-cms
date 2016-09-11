@@ -73,7 +73,7 @@ class JLayoutFile extends JLayoutBase
 		$this->setOptions($options);
 
 		// Main properties
-		$this->setLayoutId($layoutId);
+		$this->setLayout($layoutId);
 		$this->basePath = $basePath;
 
 		// Init Enviroment
@@ -146,21 +146,21 @@ class JLayoutFile extends JLayoutBase
 		{
 			$this->addDebugMessage('<strong>There is no active layout</strong>');
 
-			return null;
+			return;
 		}
 
 		if (!$includePaths)
 		{
 			$this->addDebugMessage('<strong>There are no folders to search for layouts:</strong> ' . $layoutId);
 
-			return null;
+			return;
 		}
 
 		$hash = md5(
 			json_encode(
 				array(
 					'paths'    => $includePaths,
-					'suffixes' => $suffixes
+					'suffixes' => $suffixes,
 				)
 			)
 		);
@@ -205,7 +205,7 @@ class JLayoutFile extends JLayoutBase
 		{
 			$this->addDebugMessage('<strong>Unable to find layout: </strong> ' . $layoutId);
 
-			return null;
+			return;
 		}
 
 		$this->addDebugMessage('<strong>Found layout:</strong> ' . $foundLayout);
@@ -466,7 +466,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('component', $component);
 
 		// Refresh include paths
-		$this->clearIncludePaths();
+		$this->refreshIncludePaths();
 	}
 
 	/**
@@ -501,7 +501,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('client', $client);
 
 		// Refresh include paths
-		$this->clearIncludePaths();
+		$this->refreshIncludePaths();
 	}
 
 	/**

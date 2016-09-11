@@ -23,7 +23,7 @@ class JCacheControllerCallback extends JCacheController
 	 * as long as the first argument passed is the callback definition.
 	 *
 	 * The callback definition can be in several forms:
-	 * - Standard PHP Callback array see <http://php.net/callback> [recommended]
+	 * - Standard PHP Callback array see <https://secure.php.net/callback> [recommended]
 	 * - Function name as a string eg. 'foo' for function foo()
 	 * - Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
@@ -71,7 +71,7 @@ class JCacheControllerCallback extends JCacheController
 			/*
 			 * This is a really not so smart way of doing this... we provide this for backward compatability but this
 			 * WILL! disappear in a future version.  If you are using this syntax change your code to use the standard
-			 * PHP callback array syntax: <http://php.net/callback>
+			 * PHP callback array syntax: <https://secure.php.net/callback>
 			 *
 			 * We have to use some silly global notation to pull it off and this is very unreliable
 			 */
@@ -139,7 +139,7 @@ class JCacheControllerCallback extends JCacheController
 				if (method_exists($document, 'getHeadData'))
 				{
 					$coptions['headerbefore'] = $document->getHeadData();
-				}	
+				}
 			}
 			else
 			{
@@ -158,7 +158,7 @@ class JCacheControllerCallback extends JCacheController
 
 			$cached = array(
 				'output' => ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions),
-				'result' => $result
+				'result' => $result,
 			);
 
 			// Store the cache data

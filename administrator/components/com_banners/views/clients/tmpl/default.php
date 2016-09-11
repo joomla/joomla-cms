@@ -92,6 +92,7 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
 									<?php // Create dropdown items and render the dropdown list.
+
 									if ($canChange)
 									{
 										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'clients');

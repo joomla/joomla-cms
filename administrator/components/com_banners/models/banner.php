@@ -358,7 +358,7 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filters     = (array) $app->getUserState('com_banners.banners.filter');
 				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
 
 				$data->set('catid', $app->input->getInt('catid', $filterCatId));
@@ -474,6 +474,27 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
+	 * Allows preprocessing of the JForm object.
+	 *
+	 * @param   JForm   $form   The form object
+	 * @param   array   $data   The data to be merged into the form object
+	 * @param   string  $group  The plugin group to be executed
+	 *
+	 * @return  void
+	 *
+	 * @since    3.6.1
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		if ($this->canCreateCategory())
+		{
+			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+		}
+
+		parent::preprocessForm($form, $data, $group);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param   array  $data  The form data.
@@ -498,13 +519,13 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		// Save New Category
-		if ($catid == 0)
+		if ($catid == 0 && $this->canCreateCategory())
 		{
-			$table = array();
-			$table['title'] = $data['catid'];
+			$table              = array();
+			$table['title']     = $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_banners';
-			$table['language'] = $data['language'];
+			$table['language']  = $data['language'];
 			$table['published'] = 1;
 
 			// Create new category and get catid back
@@ -521,8 +542,8 @@ class BannersModelBanner extends JModelAdmin
 			if ($data['name'] == $origTable->name)
 			{
 				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name'] = $name;
-				$data['alias'] = $alias;
+				$data['name']       = $name;
+				$data['alias']      = $alias;
 			}
 			else
 			{
@@ -536,5 +557,17 @@ class BannersModelBanner extends JModelAdmin
 		}
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Is the user allowed to create an on the fly category?
+	 *
+	 * @return  bool
+	 *
+	 * @since   3.6.1
+	 */
+	private function canCreateCategory()
+	{
+		return JFactory::getUser()->authorise('core.create', 'com_banners');
 	}
 }
