@@ -86,9 +86,9 @@ class ContentModelShared extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$query = $this->_db->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select(
-				$this->_db->quoteName(
+				$this->getDbo()->quoteName(
 					array(
 						'c.id',
 						'c.title',
@@ -102,20 +102,20 @@ class ContentModelShared extends JModelList
 					)
 				)
 			)
-			->select($this->_db->quoteName('a.id', 'shareId'))
-			->from($this->_db->quoteName('#__content_draft', 'a'));
+			->select($this->getDbo()->quoteName('a.id', 'shareId'))
+			->from($this->getDbo()->quoteName('#__content_draft', 'a'));
 
 		// Join over the language
-		$query->join('LEFT', $this->_db->quoteName('#__content', 'c')
+		$query->join('LEFT', $this->getDbo()->quoteName('#__content', 'c')
 			. ' ON '
-			. $this->_db->quoteName('c.id') . '  = ' . $this->_db->quoteName('a.articleId')
+			. $this->getDbo()->quoteName('c.id') . '  = ' . $this->getDbo()->quoteName('a.articleId')
 		);
 
 		// Join over the users for the checked out user.
-		$query->select($this->_db->quoteName('uc.name', 'editor'))
+		$query->select($this->getDbo()->quoteName('uc.name', 'editor'))
 			->leftJoin(
-				$this->_db->quoteName('#__users', 'uc')
-				. ' ON ' . $this->_db->quoteName('uc.id') . ' = ' . $this->_db->quoteName('c.checked_out')
+				$this->getDbo()->quoteName('#__users', 'uc')
+				. ' ON ' . $this->getDbo()->quoteName('uc.id') . ' = ' . $this->getDbo()->quoteName('c.checked_out')
 			);
 
 		// Filter by search in title.
@@ -123,10 +123,10 @@ class ContentModelShared extends JModelList
 
 		if (!empty($search))
 		{
-			$search = $this->_db->quote('%' . str_replace(' ', '%', $this->_db->escape(trim($search), true) . '%'));
+			$search = $this->getDbo()->quote('%' . str_replace(' ', '%', $this->getDbo()->escape(trim($search), true) . '%'));
 			$query->where('('
-				. $this->_db->quoteName('c.title') . ' LIKE ' . $search
-				. ' OR ' . $this->_db->quoteName('c.alias') . ' LIKE ' . $search
+				. $this->getDbo()->quoteName('c.title') . ' LIKE ' . $search
+				. ' OR ' . $this->getDbo()->quoteName('c.alias') . ' LIKE ' . $search
 				. ')'
 			);
 		}
@@ -135,7 +135,7 @@ class ContentModelShared extends JModelList
 		$orderCol = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'desc');
 
-		$query->order($this->_db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($this->getDbo()->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
 	}
@@ -157,13 +157,13 @@ class ContentModelShared extends JModelList
 			$item->link = $url = JUri::root() . 'index.php?option=com_content&view=article&id=' . $item->articleId . '&token=' . $item->sharetoken;
 
 			// Check if the URL is stored as a redirect
-			$query = $this->_db->getQuery(true)
-				->select($this->_db->quoteName('old_url'))
-				->from($this->_db->quoteName('#__redirect_links'))
-				->where($this->_db->quoteName('new_url') . ' = ' . $this->_db->quote($item->link));
-			$this->_db->setQuery($query);
+			$query = $this->getDbo()->getQuery(true)
+				->select($this->getDbo()->quoteName('old_url'))
+				->from($this->getDbo()->quoteName('#__redirect_links'))
+				->where($this->getDbo()->quoteName('new_url') . ' = ' . $this->getDbo()->quote($item->link));
+			$this->getDbo()->setQuery($query);
 
-			$redirectLink = $this->_db->loadResult();
+			$redirectLink = $this->getDbo()->loadResult();
 
 			if ($redirectLink)
 			{
