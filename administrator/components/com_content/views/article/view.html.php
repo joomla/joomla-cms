@@ -62,6 +62,7 @@ class ContentViewArticle extends JViewLegacy
 			$eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			$this->document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
+
 			return parent::display($tpl);
 		}
 
@@ -74,6 +75,7 @@ class ContentViewArticle extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
