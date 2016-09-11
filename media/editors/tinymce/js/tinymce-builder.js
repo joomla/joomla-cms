@@ -49,6 +49,7 @@
             connectWith: this.$targetMenu,
             items: '.mce-btn',
             cancel: '',
+            placeholder: 'mce-btn ui-state-highlight',
             start: function(event, ui) {
                 self.$targetMenu.addClass('drop-area-highlight');
             },
@@ -66,6 +67,7 @@
             connectWith: this.$targetToolbar,
             items: '.mce-btn',
             cancel: '',
+            placeholder: 'mce-btn ui-state-highlight',
             start: function(event, ui) {
                 self.$targetToolbar.addClass('drop-area-highlight');
             },
@@ -82,6 +84,7 @@
         $().add(this.$targetMenu).add(this.$targetToolbar).sortable({
             items: '.mce-btn',
             cancel: '',
+            placeholder: 'mce-btn ui-state-highlight',
             receive: function(event, ui) {
                 $copyHelper = null;
                 var $el = ui.item, $cont = $(this);

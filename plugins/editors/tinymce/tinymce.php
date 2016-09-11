@@ -1048,7 +1048,7 @@ class PlgEditorTinymce extends JPlugin
 			'template'       => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_TEMPLATE'), 'plugin' => 'template'),
 			'searchreplace'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SEARCHREPLACE'), 'plugin' => 'searchreplace'),
 			'insertdatetime' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_INSERTDATETIME'), 'plugin' => 'insertdatetime'),
-			//'spellchecker'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SPELLCHECKER'), 'plugin' => 'spellchecker'),
+			// 'spellchecker'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_SPELLCHECKER'), 'plugin' => 'spellchecker'),
 		);
 
 		return $buttons;

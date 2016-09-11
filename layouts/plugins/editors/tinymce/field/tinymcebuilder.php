@@ -79,6 +79,16 @@ $doc->addStyleDeclaration('
 	.mce-panel .drop-area-highlight{
 		background-color: #d0d0d0;
 	}
+	.mce-panel .mce-btn.ui-state-highlight{
+		height: 28px;
+		width: 40px;
+		background-color: #409740;
+		border: 1px solid #f0f0f0;
+	}
+	.timymce-builder-toolbar .mce-btn.ui-state-highlight{
+		height: 22px;
+		width: 28px;
+	}
 ');
 
 ?>
@@ -167,14 +177,16 @@ $doc->addStyleDeclaration('
 					<div class="mce-container-body mce-stack-layout">
 						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
-							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>"></div>
-
+							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
+						</div>
 						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
-						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>"></div>
+						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
+						</div>
 						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
-						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>"></div>
+						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
+						</div>
 					</div>
 				</div>
 
