@@ -30,7 +30,7 @@ class MenusModelItems extends JModelList
 		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
-				'menutype', 'a.menutype',
+				'menutype', 'a.menutype', 'menutype_title',
 				'title', 'a.title',
 				'alias', 'a.alias',
 				'published', 'a.published',
@@ -71,7 +71,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		$app = JFactory::getApplication('administrator');
 		$user = JFactory::getUser();
@@ -94,8 +94,14 @@ class MenusModelItems extends JModelList
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', '*'));
-		$menuId = 0;
+		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
+		$menuType        = $app->input->getString('menutype', $currentMenuType);
+
+		// If selected menu type different from current menu type reset pagination to 0
+		if ($menuType != $currentMenuType)
+		{
+			$app->input->set('limitstart', 0);
+		}
 
 		if ($menuType)
 		{
@@ -103,22 +109,26 @@ class MenusModelItems extends JModelList
 			$query = $db->getQuery(true)
 						->select($db->qn(array('id', 'title')))
 						->from($db->qn('#__menu_types'))
-						->where($db->qn('menutype') . '=' . $db->q($menuType));
+						->where($db->qn('menutype') . ' = ' . $db->q($menuType));
 
 			$menuTypeItem = $db->setQuery($query)->loadObject();
 
-			// Check if menu type was changed and if valid agains ACL - "*" needs no validation
-			if (($menuType == '*' || $user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id)))
+			// Check if menu type exists.
+			if (!$menuTypeItem)
+			{
+				$this->setError(JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'));
+			}
+			// Check if menu type was changed and if valid agains ACL
+			elseif ($user->authorise('core.manage', 'com_menus.menu.' . $menuTypeItem->id))
 			{
 				$app->setUserState($this->context . '.menutype', $menuType);
-				$app->input->set('limitstart', 0);
 				$this->setState('menutypetitle', !empty($menuTypeItem->title) ? $menuTypeItem->title : '');
 				$this->setState('menutypeid', !empty($menuTypeItem->id) ? $menuTypeItem->id : '');
 			}
 			// Nope, not valid
 			else
 			{
-				$menuType = '';
+				$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 		else
@@ -138,7 +148,7 @@ class MenusModelItems extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.lft', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -231,6 +241,10 @@ class MenusModelItems extends JModelList
 		$query->select('ag.title AS access_level')
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
+		// Join over the menu types.
+		$query->select($db->quoteName('mt.title', 'menutype_title'))
+			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
+
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
 
@@ -239,7 +253,7 @@ class MenusModelItems extends JModelList
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name');
+				->group('a.id, e.enabled, l.title, l.image, u.name, c.element, ag.title, e.name, mt.title');
 		}
 
 		// Join over the extensions
@@ -289,14 +303,14 @@ class MenusModelItems extends JModelList
 
 		if (!empty($parentId))
 		{
-			$query->where('p.id = ' . (int) $parentId);
+			$query->where('a.parent_id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
 
-		// "*" means all
-		if ($menuType == '*')
+		// "" means all
+		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
 			$query2 = $this->getDbo()->getQuery(true)
@@ -326,7 +340,7 @@ class MenusModelItems extends JModelList
 		// Empty menu type => error
 		else
 		{
-			$query->where('1!=1');
+			$query->where('1 != 1');
 		}
 
 		// Filter on the access level.

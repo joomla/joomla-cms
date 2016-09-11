@@ -55,6 +55,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 * @return  Redis|boolean  Redis connection object on success, boolean on failure
 	 *
 	 * @since   3.4
+	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
 	 */
 	protected function getConnection()
 	{
@@ -72,7 +73,7 @@ class JCacheStorageRedis extends JCacheStorage
 			'host' => $config->get('redis_server_host', 'localhost'),
 			'port' => $config->get('redis_server_port', 6379),
 			'auth' => $config->get('redis_server_auth', null),
-			'db'   => (int) $config->get('redis_server_db', null)
+			'db'   => (int) $config->get('redis_server_db', null),
 		);
 
 		static::$_redis = new Redis;

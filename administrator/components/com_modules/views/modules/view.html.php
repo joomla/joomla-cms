@@ -126,7 +126,7 @@ class ModulesViewModules extends JViewLegacy
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
+			JHtml::_('bootstrap.renderModal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -151,6 +151,11 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
+
+		if (JHtmlSidebar::getEntries())
+		{
+			$this->sidebar = JHtmlSidebar::render();
+		}
 	}
 
 	/**

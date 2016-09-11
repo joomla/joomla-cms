@@ -225,7 +225,7 @@ class JFormFieldColor extends JFormField
 					'#ffffff',
 					'#999999',
 					'#555555',
-					'#000000'
+					'#000000',
 				);
 			}
 			else
@@ -290,7 +290,7 @@ class JFormFieldColor extends JFormField
 			$format       = $this->format ? ' data-format="' . $this->format . '"' : '';
 			$keywords     = $this->keywords ? ' data-keywords="' . $this->keywords . '"' : '';
 			$readonly     = $this->readonly ? ' readonly' : '';
-			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
+			$hint         = strlen($hint) ? ' placeholder="' . $hint . '"' : ' placeholder="' . $placeholder . '"';
 			$autocomplete = ! $this->autocomplete ? ' autocomplete="off"' : '';
 
 			// Force LTR input value in RTL, due to display issues with rgba/hex colors

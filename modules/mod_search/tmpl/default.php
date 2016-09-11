@@ -56,7 +56,6 @@ else
 						$output = $btn_output . $output;
 						break;
 				endswitch;
-
 			endif;
 
 			echo $output;

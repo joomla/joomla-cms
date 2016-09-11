@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModSyndicateHelper', __DIR__ . '/helper.php');
 
 $params->def('format', 'rss');
 

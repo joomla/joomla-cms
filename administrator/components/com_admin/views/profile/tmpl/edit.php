@@ -55,7 +55,7 @@ $fieldsets = $this->form->getFieldsets();
 			continue;
 		}
 		?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label)); ?>
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
 			<?php if ($field->hidden) : ?>
 				<div class="control-group">

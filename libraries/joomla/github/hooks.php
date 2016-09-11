@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Hooks class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubHooks extends JGithubObject
 {
@@ -23,8 +24,19 @@ class JGithubHooks extends JGithubObject
 	 * @since  12.3
 	 */
 	protected $events = array(
-						'push', 'issues', 'issue_comment', 'commit_comment', 'pull_request', 'gollum', 'watch', 'download', 'fork', 'fork_apply',
-						'member', 'public', 'status'
+		'push',
+		'issues',
+		'issue_comment',
+		'commit_comment',
+		'pull_request',
+		'gollum',
+		'watch',
+		'download',
+		'fork',
+		'fork_apply',
+		'member',
+		'public',
+		'status',
 	);
 
 	/**
@@ -153,7 +165,8 @@ class JGithubHooks extends JGithubObject
 				'events' => $events,
 				'add_events' => $addEvents,
 				'remove_events' => $removeEvents,
-				'active' => $active)
+				'active' => $active,
+			)
 		);
 
 		return $this->processResponse(

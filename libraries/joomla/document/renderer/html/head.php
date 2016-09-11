@@ -47,10 +47,10 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	public function fetchHead($document)
 	{
 		// Convert the tagids to titles
-		if (isset($document->_metaTags['standard']['tags']))
+		if (isset($document->_metaTags['name']['tags']))
 		{
 			$tagsHelper = new JHelperTags;
-			$document->_metaTags['standard']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['standard']['tags']));
+			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
 		}
 
 		// Attach the assets
@@ -89,9 +89,9 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 				{
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
-				elseif ($type == 'standard' && !empty($content))
+				elseif ($type != 'http-equiv' && !empty($content))
 				{
-					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
 			}
 		}
@@ -201,12 +201,22 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 			if ($strAttr['defer'])
 			{
-				$buffer .= ' defer="defer"';
+				$buffer .= ' defer';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="defer"';
+				}
 			}
 
 			if ($strAttr['async'])
 			{
-				$buffer .= ' async="async"';
+				$buffer .= ' async';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="async"';
+				}
 			}
 
 			$buffer .= '></script>' . $lnEnd;

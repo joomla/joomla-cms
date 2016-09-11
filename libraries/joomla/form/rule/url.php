@@ -51,7 +51,7 @@ class JFormRuleUrl extends JFormRule
 		// Use the full list or optionally specify a list of permitted schemes.
 		if ($element['schemes'] == '')
 		{
-			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
+			$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'sftp', 'tn3270', 'wais', 'url',
 				'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
 		}
 		else
@@ -63,7 +63,7 @@ class JFormRuleUrl extends JFormRule
 		 * Note that parse_url() does not always parse accurately without a scheme,
 		 * but at least the path should be set always. Note also that parse_url()
 		 * returns False for seriously malformed URLs instead of an associative array.
-		 * @see http://php.net/manual/en/function.parse-url.php
+		 * @see https://secure.php.net/manual/en/function.parse-url.php
 		 */
 		if ($urlParts === false or !array_key_exists('scheme', $urlParts))
 		{
@@ -94,9 +94,9 @@ class JFormRuleUrl extends JFormRule
 		}
 
 		// For some schemes here must be two slashes.
-		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' || $urlScheme == 'sftp' || $urlScheme == 'gopher'
-			|| $urlScheme == 'wais' || $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' || $urlScheme == 'git')
-			&& ((substr($value, strlen($urlScheme), 3)) !== '://'))
+		$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'wais', 'prospero', 'sftp', 'telnet', 'git');
+
+		if (in_array($urlScheme, $scheme) && substr($value, strlen($urlScheme), 3) !== '://')
 		{
 			return false;
 		}

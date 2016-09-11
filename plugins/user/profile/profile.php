@@ -45,6 +45,7 @@ class PlgUserProfile extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
+		JFormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
@@ -259,7 +260,7 @@ class PlgUserProfile extends JPlugin
 			'tos',
 		);
 
-		// Change fields description when displayed in front-end or back-end profile editing
+		// Change fields description when displayed in frontend or backend profile editing
 		$app = JFactory::getApplication();
 
 		if ($app->isSite() || $name == 'com_users.user' || $name == 'com_admin.profile')

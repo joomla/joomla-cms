@@ -18,14 +18,14 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
-	 * @see    http://www.php.net/manual/en/mcrypt.ciphers.php
+	 * @see    https://secure.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  12.1
 	 */
 	protected $type;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
-	 * @see    http://www.php.net/manual/en/mcrypt.constants.php
+	 * @see    https://secure.php.net/manual/en/mcrypt.constants.php
 	 * @since  12.1
 	 */
 	protected $mode;
@@ -143,7 +143,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 *
 	 * @return  string  The derived key.
 	 *
-	 * @see     http://en.wikipedia.org/wiki/PBKDF2
+	 * @see     https://en.wikipedia.org/wiki/PBKDF2
 	 * @see     http://www.ietf.org/rfc/rfc2898.txt
 	 * @since   12.1
 	 */

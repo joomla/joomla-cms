@@ -264,7 +264,7 @@
     var ranges = cm.listSelections();
     var opening = pos % 2 == 0;
 
-    var type, next;
+    var type;
     for (var i = 0; i < ranges.length; i++) {
       var range = ranges[i], cur = range.head, curType;
       var next = cm.getRange(cur, Pos(cur.line, cur.ch + 1));
@@ -623,8 +623,10 @@
   }
 
   CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
-    if (old && old != CodeMirror.Init)
+    if (old && old != CodeMirror.Init) {
       cm.off("cursorActivity", doMatchBrackets);
+      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
+    }
     if (val) {
       cm.state.matchBrackets = typeof val == "object" ? val : {};
       cm.on("cursorActivity", doMatchBrackets);
@@ -722,7 +724,7 @@
 
 CodeMirror.registerHelper("fold", "brace", function(cm, start) {
   var line = start.line, lineText = cm.getLine(line);
-  var startCh, tokenType;
+  var tokenType;
 
   function findOpening(openCh) {
     for (var at = start.ch, pass = 0;;) {
@@ -781,15 +783,15 @@ CodeMirror.registerHelper("fold", "import", function(cm, start) {
     }
   }
 
-  var start = start.line, has = hasImport(start), prev;
-  if (!has || hasImport(start - 1) || ((prev = hasImport(start - 2)) && prev.end.line == start - 1))
+  var startLine = start.line, has = hasImport(startLine), prev;
+  if (!has || hasImport(startLine - 1) || ((prev = hasImport(startLine - 2)) && prev.end.line == startLine - 1))
     return null;
   for (var end = has.end;;) {
     var next = hasImport(end.line + 1);
     if (next == null) break;
     end = next.end;
   }
-  return {from: cm.clipPos(CodeMirror.Pos(start, has.startCh + 1)), to: end};
+  return {from: cm.clipPos(CodeMirror.Pos(startLine, has.startCh + 1)), to: end};
 });
 
 CodeMirror.registerHelper("fold", "include", function(cm, start) {
@@ -800,14 +802,14 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     if (start.type == "meta" && start.string.slice(0, 8) == "#include") return start.start + 8;
   }
 
-  var start = start.line, has = hasInclude(start);
-  if (has == null || hasInclude(start - 1) != null) return null;
-  for (var end = start;;) {
+  var startLine = start.line, has = hasInclude(startLine);
+  if (has == null || hasInclude(startLine - 1) != null) return null;
+  for (var end = startLine;;) {
     var next = hasInclude(end + 1);
     if (next == null) break;
     ++end;
   }
-  return {from: CodeMirror.Pos(start, has + 1),
+  return {from: CodeMirror.Pos(startLine, has + 1),
           to: cm.clipPos(CodeMirror.Pos(end))};
 });
 
@@ -864,7 +866,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     });
     var myRange = cm.markText(range.from, range.to, {
       replacedWith: myWidget,
-      clearOnEnter: true,
+      clearOnEnter: getOption(cm, options, "clearOnEnter"),
       __isFold: true
     });
     myRange.on("clear", function(from, to) {
@@ -944,7 +946,8 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     rangeFinder: CodeMirror.fold.auto,
     widget: "\u2194",
     minFoldSize: 0,
-    scanUp: false
+    scanUp: false,
+    clearOnEnter: true
   };
 
   CodeMirror.defineOption("foldOptions", null);
@@ -1015,7 +1018,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   }
 
   function isFolded(cm, line) {
-    var marks = cm.findMarksAt(Pos(line));
+    var marks = cm.findMarks(Pos(line, 0), Pos(line + 1, 0));
     for (var i = 0; i < marks.length; ++i)
       if (marks[i].__isFold && marks[i].find().from.line == line) return marks[i];
   }
@@ -1252,9 +1255,9 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       var openTag = toNextTag(iter), end;
       if (!openTag || iter.line != start.line || !(end = toTagEnd(iter))) return;
       if (!openTag[1] && end != "selfClose") {
-        var start = Pos(iter.line, iter.ch);
-        var close = findMatchingClose(iter, openTag[2]);
-        return close && {from: start, to: close.from};
+        var startPos = Pos(iter.line, iter.ch);
+        var endPos = findMatchingClose(iter, openTag[2]);
+        return endPos && {from: startPos, to: endPos.from};
       }
     }
   });
@@ -1662,10 +1665,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     CodeMirror.on(this.node, "DOMMouseScroll", onWheel);
   }
 
-  Bar.prototype.setPos = function(pos) {
+  Bar.prototype.setPos = function(pos, force) {
     if (pos < 0) pos = 0;
     if (pos > this.total - this.screen) pos = this.total - this.screen;
-    if (pos == this.pos) return false;
+    if (!force && pos == this.pos) return false;
     this.pos = pos;
     this.inner.style[this.orientation == "horizontal" ? "left" : "top"] =
       (pos * (this.size / this.total)) + "px";
@@ -1679,9 +1682,12 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   var minButtonSize = 10;
 
   Bar.prototype.update = function(scrollSize, clientSize, barSize) {
-    this.screen = clientSize;
-    this.total = scrollSize;
-    this.size = barSize;
+    var sizeChanged = this.screen != clientSize || this.total != scrollSize || this.size != barSize
+    if (sizeChanged) {
+      this.screen = clientSize;
+      this.total = scrollSize;
+      this.size = barSize;
+    }
 
     var buttonSize = this.screen * (this.size / this.total);
     if (buttonSize < minButtonSize) {
@@ -1690,7 +1696,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
     this.inner.style[this.orientation == "horizontal" ? "width" : "height"] =
       buttonSize + "px";
-    this.setPos(this.pos);
+    this.setPos(this.pos, sizeChanged);
   };
 
   function SimpleScrollbars(cls, place, scroll) {
@@ -1896,6 +1902,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       this.options[name] = (options && options.hasOwnProperty(name) ? options : defaults)[name]
     this.overlay = this.timeout = null;
     this.matchesonscroll = null;
+    this.active = false;
   }
 
   CodeMirror.defineOption("highlightSelectionMatches", false, function(cm, val, old) {
@@ -1904,16 +1911,34 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       clearTimeout(cm.state.matchHighlighter.timeout);
       cm.state.matchHighlighter = null;
       cm.off("cursorActivity", cursorActivity);
+      cm.off("focus", onFocus)
     }
     if (val) {
-      cm.state.matchHighlighter = new State(val);
-      highlightMatches(cm);
+      var state = cm.state.matchHighlighter = new State(val);
+      if (cm.hasFocus()) {
+        state.active = true
+        highlightMatches(cm)
+      } else {
+        cm.on("focus", onFocus)
+      }
       cm.on("cursorActivity", cursorActivity);
     }
   });
 
   function cursorActivity(cm) {
     var state = cm.state.matchHighlighter;
+    if (state.active || cm.hasFocus()) scheduleHighlight(cm, state)
+  }
+
+  function onFocus(cm) {
+    var state = cm.state.matchHighlighter
+    if (!state.active) {
+      state.active = true
+      scheduleHighlight(cm, state)
+    }
+  }
+
+  function scheduleHighlight(cm, state) {
     clearTimeout(state.timeout);
     state.timeout = setTimeout(function() {highlightMatches(cm);}, state.options.delay);
   }
@@ -1923,7 +1948,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     cm.addOverlay(state.overlay = makeOverlay(query, hasBoundary, style));
     if (state.options.annotateScrollbar && cm.showMatchesOnScrollbar) {
       var searchFor = hasBoundary ? new RegExp("\\b" + query + "\\b") : query;
-      state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, true,
+      state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, false,
         {className: "CodeMirror-selection-highlight-scrollbar"});
     }
   }
@@ -2335,6 +2360,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     { keys: '<PageUp>', type: 'keyToKey', toKeys: '<C-b>' },
     { keys: '<PageDown>', type: 'keyToKey', toKeys: '<C-f>' },
     { keys: '<CR>', type: 'keyToKey', toKeys: 'j^', context: 'normal' },
+    { keys: '<Ins>', type: 'action', action: 'toggleOverwrite', context: 'insert' },
     // Motions
     { keys: 'H', type: 'motion', motion: 'moveToTopLine', motionArgs: { linewise: true, toJumplist: true }},
     { keys: 'M', type: 'motion', motion: 'moveToMiddleLine', motionArgs: { linewise: true, toJumplist: true }},
@@ -2539,6 +2565,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
 
     function cmKey(key, cm) {
       if (!cm) { return undefined; }
+      if (this[key]) { return this[key]; }
       var vimKey = cmKeyToVimKey(key);
       if (!vimKey) {
         return false;
@@ -2551,7 +2578,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
 
     var modifiers = {'Shift': 'S', 'Ctrl': 'C', 'Alt': 'A', 'Cmd': 'D', 'Mod': 'A'};
-    var specialKeys = {Enter:'CR',Backspace:'BS',Delete:'Del'};
+    var specialKeys = {Enter:'CR',Backspace:'BS',Delete:'Del',Insert:'Ins'};
     function cmKeyToVimKey(key) {
       if (key.charAt(0) == '\'') {
         // Keypress character binding of format "'a'"
@@ -4437,6 +4464,17 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
         var registerName = actionArgs.selectedCharacter;
         macroModeState.enterMacroRecordMode(cm, registerName);
       },
+      toggleOverwrite: function(cm) {
+        if (!cm.state.overwrite) {
+          cm.toggleOverwrite(true);
+          cm.setOption('keyMap', 'vim-replace');
+          CodeMirror.signal(cm, "vim-mode-change", {mode: "replace"});
+        } else {
+          cm.toggleOverwrite(false);
+          cm.setOption('keyMap', 'vim-insert');
+          CodeMirror.signal(cm, "vim-mode-change", {mode: "insert"});
+        }
+      },
       enterInsertMode: function(cm, actionArgs, vim) {
         if (cm.getOption('readOnly')) { return; }
         vim.insertMode = true;
@@ -4482,7 +4520,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             return;
           }
         }
-        cm.setOption('keyMap', 'vim-insert');
         cm.setOption('disableInput', false);
         if (actionArgs && actionArgs.replace) {
           // Handle Replace-mode as a special case of insert mode.
@@ -4490,6 +4527,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           cm.setOption('keyMap', 'vim-replace');
           CodeMirror.signal(cm, "vim-mode-change", {mode: "replace"});
         } else {
+          cm.toggleOverwrite(false);
           cm.setOption('keyMap', 'vim-insert');
           CodeMirror.signal(cm, "vim-mode-change", {mode: "insert"});
         }
@@ -6045,17 +6083,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     }
     function makePrompt(prefix, desc) {
-      var raw = '';
-      if (prefix) {
-        raw += '<span style="font-family: monospace">' + prefix + '</span>';
-      }
-      raw += '<input type="text"/> ' +
-          '<span style="color: #888">';
-      if (desc) {
-        raw += '<span style="color: #888">';
-        raw += desc;
-        raw += '</span>';
-      }
+      var raw = '<span style="font-family: monospace; white-space: pre">' +
+          (prefix || "") + '<input type="text"></span>';
+      if (desc)
+        raw += ' <span style="color: #888">' + desc + '</span>';
       return raw;
     }
     var searchPromptDesc = '(Javascript regexp)';
@@ -7041,13 +7072,6 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     CodeMirror.keyMap['vim-insert'] = {
       // TODO: override navigation keys so that Esc will cancel automatic
       // indentation from o, O, i_<CR>
-      'Ctrl-N': 'autocomplete',
-      'Ctrl-P': 'autocomplete',
-      'Enter': function(cm) {
-        var fn = CodeMirror.commands.newlineAndIndentContinueComment ||
-            CodeMirror.commands.newlineAndIndent;
-        fn(cm);
-      },
       fallthrough: ['default'],
       attach: attachVimMap,
       detach: detachVimMap,
