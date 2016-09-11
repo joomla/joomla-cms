@@ -27,7 +27,7 @@ class ContentModelShare extends JModelAdmin
 	 *
 	 * @since   _DEPLOY_VERSION_
 	 */
-	public function getTable($type = 'Share', $prefix = 'ContentTable', $config = array())
+	public function getTable($type = 'Draft', $prefix = 'ContentTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}
