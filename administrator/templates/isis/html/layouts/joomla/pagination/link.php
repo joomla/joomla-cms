@@ -14,18 +14,18 @@ use Joomla\Registry\Registry;
 /** @var JPaginationObject $item */
 $item = $displayData['data'];
 
+$liClass = '';
+$addText = '';
+$display = $item->text;
+
 if (!empty($displayData['pagOptions']))
 {
 	$options = new Registry($displayData['pagOptions']);
 	$liClass = $options->get('liClass', '');
 	$addText = $options->get('addText', '');
 }
-else
-{
-	$liClass = $addText = '';
-}
 
-$display = $item->text;
+$item->text .= $addText ? $addText : '';
 
 switch ((string) $item->text)
 {
@@ -55,8 +55,6 @@ switch ((string) $item->text)
 		break;
 }
 
-$item->text .= $addText ? $addText : '';
-
 if ($icon !== null)
 {
 	$display = '<span class="' . $icon . '"></span>';
@@ -72,7 +70,6 @@ if ($displayData['active'])
 	}
 
 	$cssClasses = array();
-
 	$title = '';
 
 	if (!is_numeric($item->text))
