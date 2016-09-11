@@ -155,7 +155,7 @@ class ContentModelArticle extends JModelItem
 				if ($token)
 				{
 					$draftTable = $this->getTable('Draft', 'ContentTable');
-					$draftId = $draftTable->loadDraftId($token);
+					$draftId = $draftTable->loadDraftId($token, $pk);
 				}
 
 				if (!$draftId && is_numeric($published))

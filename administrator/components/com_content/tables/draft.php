@@ -59,32 +59,34 @@ class ContentTableDraft extends JTable
 	public function loadToken($articleId)
 	{
 		// Check if we have an existing token
-		$query = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('sharetoken'))
-			->from($this->_db->quoteName('#__content_draft'))
-			->where($this->_db->quoteName('articleId') . '=' . (int) $articleId);
+		$query = $this->getDbo()->getQuery(true)
+			->select($this->getDbo()->quoteName('sharetoken'))
+			->from($this->getDbo()->quoteName('#__content_draft'))
+			->where($this->getDbo()->quoteName('articleId') . '=' . (int) $articleId);
 		$this->_db->setQuery($query)->execute();
 
-		return $this->_db->loadResult();
+		return $this->getDbo()->loadResult();
 	}
 
 	/**
 	 * Load a draft ID.
 	 *
-	 * @param   string  $token  The token to load the ID for.
+	 * @param   string  $token      The token to load the ID for.
+	 * @param   int     $articleId  The ID of the article to check.
 	 *
 	 * @return  mixed  Draft ID if found, otherwise null.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function loadDraftId($token)
+	public function loadDraftId($token, $articleId)
 	{
-		$tokenQuery = $this->_db->getQuery(true)
-			->select($this->_db->quoteName('id'))
-			->from($this->_db->quoteName('#__content_draft'))
-			->where($this->_db->quoteName('sharetoken') . ' = ' . $this->_db->quote($token));
-		$this->_db->setQuery($tokenQuery);
+		$tokenQuery = $this->getDbo()->getQuery(true)
+			->select($this->getDbo()->quoteName('id'))
+			->from($this->getDbo()->quoteName('#__content_draft'))
+			->where($this->getDbo()->quoteName('sharetoken') . ' = ' . $this->getDbo()->quote($token))
+			->where($this->getDbo()->quoteName('articleId') . ' = ' . (int) $articleId);
+		$this->getDbo()->setQuery($tokenQuery);
 
-		return $this->_db->loadResult();
+		return $this->getDbo()->loadResult();
 	}
 }
