@@ -204,6 +204,11 @@ class ModulesControllerModule extends JControllerForm
 			$item = $model->getItem($this->input->get('id'));
 			$properties = $item->getProperties();
 
+			if(isset($data['params']))
+			{
+			    unset($properties['params']);
+			}
+
 			// Replace changed properties
 			$data = array_replace_recursive($properties, $data);
 
