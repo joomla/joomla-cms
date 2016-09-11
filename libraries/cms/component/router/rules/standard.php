@@ -280,8 +280,12 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			}
 			unset($query[$views[$view]->parent_key]);
 		}
-		unset($query['layout']);
-		unset($query[$views[$query['view']]->key]);
-		unset($query['view']);
+
+		if ($found)
+		{
+			unset($query['layout']);
+			unset($query[$views[$query['view']]->key]);
+			unset($query['view']);
+		}
 	}
 }
