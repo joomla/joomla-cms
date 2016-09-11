@@ -9,12 +9,14 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\Registry\Registry;
+
 /** @var JPaginationObject $item */
 $item = $displayData['data'];
 
 if (!empty($displayData['pagOptions']))
 {
-	$options = new Joomla\Registry\Registry($displayData['pagOptions']);
+	$options = new Registry($displayData['pagOptions']);
 	$liClass = $options->get('liClass', '');
 	$addText = $options->get('addText', '');
 }
@@ -62,13 +64,11 @@ if ($icon !== null)
 
 if ($displayData['active'])
 {
+	$limit = 'limitstart.value=0';
+
 	if ($item->base > 0)
 	{
 		$limit = 'limitstart.value=' . $item->base;
-	}
-	else
-	{
-		$limit = 'limitstart.value=0';
 	}
 
 	$cssClasses = array();
@@ -87,6 +87,7 @@ if ($displayData['active'])
 else
 {
 	$class = (property_exists($item, 'active') && $item->active) ? 'active' : 'disabled';
+
 	if ($class != 'active')
 	{
 		$class .= $liClass ? ($class ? ' ' : '') . $liClass : '';
