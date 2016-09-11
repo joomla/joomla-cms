@@ -66,7 +66,6 @@ class JErrorPage
 					$app->redirect('index.php');
 				}
 
-
 				$attributes = array(
 					'charset'   => 'utf-8',
 					'lineend'   => 'unix',
