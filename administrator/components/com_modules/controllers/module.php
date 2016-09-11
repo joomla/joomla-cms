@@ -204,7 +204,7 @@ class ModulesControllerModule extends JControllerForm
 			$item = $model->getItem($this->input->get('id'));
 			$properties = $item->getProperties();
 
-			if(isset($data['params']))
+			if (isset($data['params']))
 			{
 			    unset($properties['params']);
 			}
