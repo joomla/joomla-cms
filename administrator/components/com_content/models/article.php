@@ -823,7 +823,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return  string  The generated token.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function createShareDraft($articleId, $alias)
 	{
@@ -896,7 +896,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function createShareDrafts($pks)
 	{

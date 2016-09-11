@@ -128,7 +128,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 *
 	 * @return  boolean   True if token successfully stored, false otherwise and internal error is set.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function shareDraft()
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * View class for a list of shared articles.
  *
- * @since  _DEPLOY_VERSION_
+ * @since  __DEPLOY_VERSION__
  */
 class ContentViewShared extends JViewLegacy
 {
@@ -65,7 +65,7 @@ class ContentViewShared extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
@@ -96,7 +96,7 @@ class ContentViewShared extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Model for shared drafts.
  *
- * @since  _DEPLOY_VERSION_
+ * @since  __DEPLOY_VERSION__
  */
 class ContentModelShare extends JModelAdmin
 {
@@ -25,7 +25,7 @@ class ContentModelShare extends JModelAdmin
 	 *
 	 * @return  JTable    A database object
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getTable($type = 'Draft', $prefix = 'ContentTable', $config = array())
 	{
@@ -40,7 +40,7 @@ class ContentModelShare extends JModelAdmin
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

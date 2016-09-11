@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Share Table class.
  *
- * @since  _DEPLOY_VERSION_
+ * @since  __DEPLOY_VERSION__
  */
 class ContentTableDraft extends JTable
 {
@@ -21,7 +21,7 @@ class ContentTableDraft extends JTable
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct(&$db)
 	{
@@ -33,7 +33,7 @@ class ContentTableDraft extends JTable
 	 *
 	 * @return  bool  True if all is OK | False otherwise.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
 	{
@@ -54,7 +54,7 @@ class ContentTableDraft extends JTable
 	 *
 	 * @return  mixed  Token if found, null otherwise.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function loadToken($articleId)
 	{
@@ -75,7 +75,7 @@ class ContentTableDraft extends JTable
 	 *
 	 * @return  mixed  Draft ID if found, otherwise null.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function loadDraftId($token)
 	{

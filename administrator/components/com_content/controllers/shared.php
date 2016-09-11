@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 /**
  * Shared drafts list controller class.
  *
- * @since  _DEPLOY_VERSION_
+ * @since  __DEPLOY_VERSION__
  */
 class ContentControllerShared extends JControllerAdmin
 {
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var     string  The prefix to use with controller messages.
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $text_prefix = 'COM_CONTENT_SHARE';
 
@@ -31,7 +31,7 @@ class ContentControllerShared extends JControllerAdmin
 	 *
 	 * @return  JModel
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getModel($name = 'Share', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{

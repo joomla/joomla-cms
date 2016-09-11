@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
- * @since       _DEPLOY_VERSION_
+ * @since       __DEPLOY_VERSION__
  */
 class ContentControllerArticle extends JControllerForm
 {
@@ -23,7 +23,7 @@ class ContentControllerArticle extends JControllerForm
 	 *
 	 * @return  boolean   True if token successfully stored, false otherwise and internal error is set.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function shareDraft()
 	{

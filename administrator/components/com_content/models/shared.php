@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Shared drafts listing.
  *
- * @since  _DEPLOY_VERSION_
+ * @since  __DEPLOY_VERSION__
  */
 class ContentModelShared extends JModelList
 {
@@ -48,7 +48,7 @@ class ContentModelShared extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -66,7 +66,7 @@ class ContentModelShared extends JModelList
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -81,7 +81,7 @@ class ContentModelShared extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getListQuery()
 	{
@@ -145,7 +145,7 @@ class ContentModelShared extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   _DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
