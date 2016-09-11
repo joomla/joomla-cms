@@ -29,6 +29,12 @@ if (!$editoroptions)
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
+		if (task === 'article.shareDraft')
+		{
+			shareButton();
+			return false;
+		}
+			
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			" . $this->form->getField('articletext')->save() . "
@@ -36,6 +42,19 @@ JFactory::getDocument()->addScriptDeclaration("
 		}
 	}
 ");
+
+if ($this->item->id > 0)
+{
+	JHtml::_('script', 'system/share.js', false, true);
+	JFactory::getDocument()->addScriptDeclaration('
+	    var sharebuttonUrl = "'
+		. JRoute::_(
+			'index.php?option=com_content&task=article.shareDraft&articleId=' . $this->item->id . '&alias=' . $this->item->alias . '&format=json&' . JSession::getFormToken() . '=1',
+			false
+		)
+		. '";
+	  ');
+}
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($params->get('show_page_heading')) : ?>

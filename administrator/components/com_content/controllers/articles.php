@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-
 use Joomla\Utilities\ArrayHelper;
+
+defined('_JEXEC') or die;
 
 /**
  * Articles list controller class.
@@ -121,5 +121,36 @@ class ContentControllerArticles extends JControllerAdmin
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Method to generate and store share token.
+	 *
+	 * @return  boolean   True if token successfully stored, false otherwise and internal error is set.
+	 *
+	 * @since   _DEPLOY_VERSION_
+	 */
+	public function shareDraft()
+	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		try
+		{
+			$ids = $this->input->get('cid', array(), 'array');
+
+			// Get the model
+			/** @var ContentModelArticle $model */
+			$model = $this->getModel();
+			$model->createShareDrafts($ids);
+
+			$message = JText::plural('COM_CONTENT_DRAFT_LINKS_N_ITEMS_SAVED', count($ids));
+		}
+		catch (Exception $e)
+		{
+			$message = JText::_('COM_CONTENT_DRAFT_LINK_ERROR');
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles', false), $message);
 	}
 }
