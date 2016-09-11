@@ -51,11 +51,11 @@ class ContentControllerArticle extends JControllerLegacy
 			}
 
 			// Base this model on the backend version.
-			require_once JPATH_ADMINISTRATOR . '/components/com_content/models/article.php';
+			static::addModelPath(JPATH_ADMINISTRATOR . '/components/com_content/models', 'ContentModel');
 
 			// Get the model
 			/** @var ContentModelArticle $model */
-			$model = $this->getModel('Article', 'ContentModel');
+			$model  = $this->getModel('Article', 'ContentModel');
 			$return = $model->createShareDraft($articleId, $alias);
 		}
 		catch (Exception $e)

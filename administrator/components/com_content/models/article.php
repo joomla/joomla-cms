@@ -818,21 +818,6 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to store the token generated.
 	 *
-	 * @return  string  A new generated token.
-	 *
-	 * @since _DEPLOY_VERSION_
-	 */
-	private function generateShareToken()
-	{
-		jimport('joomla.user.helper');
-		$token = JUserHelper::genRandomPassword(16);
-
-		return $token;
-	}
-
-	/**
-	 * Method to store the token generated.
-	 *
 	 * @param   int     $articleId  The ID of the shared article.
 	 * @param   string  $alias      The alias of the shared article.
 	 *
@@ -850,7 +835,7 @@ class ContentModelArticle extends JModelAdmin
 		if ($token === null)
 		{
 			// Generate the token
-			$token = $this->generateShareToken();
+			$token = JUserHelper::genRandomPassword(16);
 
 			// Store the new token
 			$data = array('articleId' => $articleId, 'sharetoken' => $token);
@@ -872,13 +857,13 @@ class ContentModelArticle extends JModelAdmin
 				$redirectUrl = JUri::root() . 'index.php/' . $alias;
 
 				// Check for existing name
-				$query = $this->_db->getQuery(true)
-					->select($this->_db->quoteName('id'))
-					->from($this->_db->quoteName('#__redirect_links'))
-					->where($this->_db->quoteName('old_url') . ' = ' . $this->_db->quote($redirectUrl));
+				$query = $this->getDbo()->getQuery(true)
+					->select($this->getDbo()->quoteName('id'))
+					->from($this->getDbo()->quoteName('#__redirect_links'))
+					->where($this->getDbo()->quoteName('old_url') . ' = ' . $this->getDbo()->quote($redirectUrl));
 				$this->_db->setQuery($query);
 
-				$rid = $this->_db->loadResult();
+				$rid = $this->getDbo()->loadResult();
 
 				if (!$rid)
 				{

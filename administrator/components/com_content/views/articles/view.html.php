@@ -186,7 +186,7 @@ class ContentViewArticles extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		JToolbarHelper::custom('articles.shareDraft', 'share.png', 'share.png', 'COM_CONTENT_SHARE', false);
+		JToolbarHelper::custom('articles.shareDraft', 'share.png', 'share.png', 'COM_CONTENT_SHARE', true);
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
