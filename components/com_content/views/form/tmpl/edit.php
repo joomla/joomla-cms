@@ -176,11 +176,19 @@ if ($this->item->id > 0)
 					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
+			<?php if ($this->item->id > 0) : ?>
+				<div class="btn-group">
+					<button type="button" class="btn" onclick="Joomla.submitbutton('article.shareDraft')">
+						<span class="icon-share"></span><?php echo JText::_('COM_CONTENT_SHARE') ?>
+					</button>
+				</div>
+			<?php endif; ?>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
 			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			</div>
 			<?php endif; ?>
 		</div>
+		<div id="shareId"></div>
 	</form>
 </div>
