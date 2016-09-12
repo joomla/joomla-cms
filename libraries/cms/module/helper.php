@@ -280,14 +280,15 @@ abstract class JModuleHelper
 	/**
 	 * Get the path to a layout for a module
 	 *
-	 * @param   string  $module  The name of the module
-	 * @param   string  $layout  The name of the module layout. If alternative layout, in the form template:filename.
+	 * @param   string   $module                The name of the module
+	 * @param   string   $layout                The name of the module layout. If alternative layout, in the form template:filename.
+	 * @param   boolean  $includeFrameworkPath  Include the framework lookup
 	 *
-	 * @return  string  The path to the module layout
+	 * @return  string   The path to the module layout
 	 *
 	 * @since   1.5
 	 */
-	public static function getLayoutPath($module, $layout = 'default')
+	public static function getLayoutPath($module, $layout = 'default', $includeFrameworkPath = true)
 	{
 		$template = JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
@@ -301,23 +302,36 @@ abstract class JModuleHelper
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
-		// Build the template and base path for the layout
-		$tPath = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
-		$bPath = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
-		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+		$framework = JFactory::getApplication()->getTemplate(true)->params->get('framework');
 
-		// If the template has a layout override use it
-		if (file_exists($tPath))
+		$paths = array();
+		if ($includeFrameworkPath)
 		{
-			return $tPath;
+			$paths[] = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.' . $framework . '.php';
+		}
+		$paths[] = JPATH_THEMES . '/' . $template . '/html/' . $module . '/' . $layout . '.php';
+
+		if ($includeFrameworkPath)
+		{
+			$paths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.' . $framework . '.php';
+		}
+		$paths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . $defaultLayout . '.php';
+
+		if ($includeFrameworkPath)
+		{
+			$paths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/' . '.' . $framework . 'default.php';
+		}
+		$paths[] = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
+
+		foreach ($paths as $path)
+		{
+			if (file_exists($path))
+			{
+				return $path;
+			}
 		}
 
-		if (file_exists($bPath))
-		{
-			return $bPath;
-		}
-
-		return $dPath;
+		return JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 	}
 
 	/**

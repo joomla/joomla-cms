@@ -611,14 +611,15 @@ class JViewLegacy extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param   string  $tpl  The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param   string   $tpl                   The name of the template source file; automatically searches the template paths and compiles as needed.
+	 * @param   boolean  $includeFrameworkPath  Include the framework lookup
 	 *
-	 * @return  string  The output of the the template script.
+	 * @return  string   The output of the the template script.
 	 *
 	 * @since   12.2
 	 * @throws  Exception
 	 */
-	public function loadTemplate($tpl = null)
+	public function loadTemplate($tpl = null, $includeFrameworkPath = true)
 	{
 		// Clear prior output
 		$this->_output = null;
@@ -647,8 +648,24 @@ class JViewLegacy extends JObject
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$filetofind = $this->_createFileName('template', array('name' => $file));
-		$this->_template = JPath::find($this->_path['template'], $filetofind);
+
+		if ($includeFrameworkPath)
+		{
+			$framework = JFactory::getApplication()->getTemplate(true)->params->get('framework');
+			$filetofind = $this->_createFileName('template', array('name' => $file));
+			$this->_template = JPath::find($this->_path['template'], str_replace('.php', '.' . $framework . '.php', $filetofind));
+		}
+		else
+		{
+			$this->_template = false;
+		}
+
+		// If framework specific layout can't be found, fall back to default layout
+		if ($this->_template == false)
+		{
+			$filetofind = $this->_createFileName('template', array('name' => $file));
+			$this->_template = JPath::find($this->_path['template'], $filetofind);
+		}
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
