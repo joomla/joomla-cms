@@ -350,13 +350,13 @@ class JUser extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @param   string  $action     The name of the action to check for permission.
-	 * @param   string  $assetname  The name of the asset on which to perform the action.
+	 * @param   string  $assetName  The name of the asset on which to perform the action.
 	 *
 	 * @return  boolean  True if authorised
 	 *
 	 * @since   11.1
 	 */
-	public function authorise($action, $assetname = null)
+	public function authorise($action, $assetName = null)
 	{
 		// Make sure we only check for core.admin once during the run.
 		if ($this->isRoot === null)
@@ -364,8 +364,7 @@ class JUser extends JObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$config = JFactory::getConfig();
-			$rootUser = $config->get('root_user');
+			$rootUser = JFactory::getConfig()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -376,22 +375,13 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			else
+			elseif ($this->id > 0 && JAccess::check($this->id, 'core.admin', 'root.1'))
 			{
-				// Get all groups against which the user is mapped.
-				$identities = $this->getAuthorisedGroups();
-				array_unshift($identities, $this->id * -1);
-
-				if (JAccess::getAssetRules(1)->allow('core.admin', $identities))
-				{
-					$this->isRoot = true;
-
-					return true;
-				}
+				$this->isRoot = true;
 			}
 		}
 
-		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetName);
 	}
 
 	/**
