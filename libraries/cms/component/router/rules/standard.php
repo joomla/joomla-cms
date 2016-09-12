@@ -62,7 +62,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 		// Get the views and the currently active query vars
 		$views = $this->router->getViews();
 		$active = $this->router->menu->getActive();
-		$vars = array_merge($active->query, $vars);
+
+		if ($active)
+		{
+			$vars = array_merge($active->query, $vars);
+		}
 
 		// We don't have a view or its not a view of this component! We stop here
 		if (!isset($vars['view']) || !isset($views[$vars['view']]))
