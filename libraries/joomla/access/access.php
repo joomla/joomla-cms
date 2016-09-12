@@ -398,77 +398,60 @@ class JAccess
 	 */
 	protected static function preloadComponents()
 	{
+		// Add root to asset names list.
+		$components = array();
+
+		// Add enabled components to asset names list.
+		foreach (JComponentHelper::getComponents() as $component)
+		{
+			if ($component->enabled)
+			{
+				$components[] = $component->option;
+			}
+		}
+
 		// Get the database connection object.
 		$db = JFactory::getDbo();
 
-		// Build the database query:
-		$query    = $db->getQuery(true);
-		$query->select('element');
-		$query->from('#__extensions');
-		$query->where('type = ' . $db->quote('component'));
-		$query->where('enabled = ' . $db->quote(1));
-
-		// Set the query and get the list of active components:
-		$db->setQuery($query);
-		$components = $db->loadColumn();
-
-		// Get a fresh query object:
-		$query    = $db->getQuery(true);
-
-		// Build the in clause for the queries:
-		$inClause = '';
-		$last = end($components);
-
-		foreach ($components as $component)
-		{
-			if ($component === $last)
-			{
-				$inClause .= $db->quote($component);
-			}
-			else
-			{
-				$inClause .= $db->quote($component) . ',';
-			}
-		}
-
-		// Build the database query:
-		$query->select('a.name, a.rules');
-		$query->from('#__assets AS a');
-		$query->where('(a.name IN (' . $inClause . ') OR a.name = ' . $db->quote('root.1') . ')');
+		// Get the asset info for all assets in asset names list.
+		$query = $db->getQuery(true)
+			->select($db->qn(array('name', 'rules')))
+			->from($db->qn('#__assets'))
+			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ', ' . $db->quote('root.1') . ')');
 
 		// Get the Name Permission Map List
-		$db->setQuery($query);
-		$namePermissionMap = $db->loadAssocList('name');
+		$namePermissionMap = $db->setQuery($query)->loadObjectList('name');
 
-		$root = array();
-		$root['rules'] = '';
-
-		if (isset($namePermissionMap['root.1']))
-		{
-			$root = $namePermissionMap['root.1'];
-			unset($namePermissionMap['root.1']);
-		}
+		$rootRule       = isset($namePermissionMap['root.1']) ? $namePermissionMap['root.1']->rules : '{}';
+		$rootAccessRule = new JAccessRules($rootRule);
 
 		// Container for all of the JAccessRules for this $assetType
 		$rulesList = array();
 
-		// Collects permissions for each $assetName and adds
-		// into the $assetRules class variable.
-		foreach ($namePermissionMap as $assetName => &$permissions)
+		// Collects permissions for each $assetName and adds into the $assetRules class variable.
+		foreach ($namePermissionMap as $asset)
 		{
-			// Instantiate and return the JAccessRules object for the asset rules.
-			$rules    = new JAccessRules;
-			$rules->mergeCollection(array($root['rules'], $permissions['rules']));
+			// Do nothing for root asset.
+			if ($asset->name === 'root.1')
+			{
+				continue;
+			}
 
-			$rulesList[$assetName] = $rules;
+			$rulesList[$asset->name] = new JAccessRules;
+			$rulesList[$asset->name]->merge($rootAccessRule);
+
+			// If there are no component rules, use the root asset rules.
+			if (!$asset->rules || $asset->rules === '{}')
+			{
+				continue;
+			}
+
+			// Merge the component asset rules.
+			$rulesList[$asset->name]->merge($asset->rules);
 		}
-
-		unset($assetName);
-		unset($permissions);
 
 		// Merge our rules list with self::$assetRules
 		self::$assetRules = self::$assetRules + $rulesList;
-		unset($rulesList);
 
 		return $components;
 	}
