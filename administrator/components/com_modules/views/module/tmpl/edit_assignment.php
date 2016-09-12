@@ -86,7 +86,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
-						$registry = new Registry();
+						$registry = new Registry;
 						try
 						{
 							$registry->loadString($link->params);
