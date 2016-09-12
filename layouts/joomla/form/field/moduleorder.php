@@ -63,4 +63,4 @@ JHtml::_('script', 'system/moduleorder.js', false, true);
 ?>
 <div id="parent_<?php echo $id; ?>" <?php echo $attr; ?> data-url="<?php echo 'index.php?option=com_modules&task=module.orderPosition&'
 . $token; ?>" data-element="<?php echo 'parent_' . $id; ?>" data-ordering="<?php echo $ordering; ?>" data-position-element ="<?php
-echo $element; ?>" data-client-id="<?php echo $clientId; ?>" data-name="<?php echo $name; ?>" data-attr="<?php echo $attr; ?>"></div>
+echo $element; ?>" data-client-id="<?php echo $clientId; ?>" data-name="<?php echo $name; ?>"></div>

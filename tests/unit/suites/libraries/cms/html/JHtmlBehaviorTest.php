@@ -45,6 +45,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
+		JFactory::$session = $this->getMockSession();
 
 		// We generate a random template name so that we don't collide or hit anything
 		JFactory::$application->expects($this->any())
