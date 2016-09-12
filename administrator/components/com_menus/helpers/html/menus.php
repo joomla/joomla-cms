@@ -241,7 +241,16 @@ abstract class MenusHtmlMenus
 	 */
 	public static function visibility($params)
 	{
-		$registry = new Registry($params);
+		$registry = new Registry;
+
+		try
+		{
+			$registry->loadString($params);
+		}
+		catch(Exception $e)
+		{
+			// Invalid JSON
+		}
 
 		$show_menu = $registry->get('menu_show');
 
