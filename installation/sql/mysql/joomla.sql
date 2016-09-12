@@ -685,7 +685,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
 CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
   `context` varchar(255) NOT NULL,
-  `item_id` varchar(255) NOT NULL,
+  `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
   `value` text NOT NULL DEFAULT '',
   KEY (`field_id`),
   KEY (`context`),
