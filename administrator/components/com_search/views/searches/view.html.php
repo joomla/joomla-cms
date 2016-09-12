@@ -45,11 +45,11 @@ class SearchViewSearches extends JViewLegacy
 		// Check if plugin is enabled
 		if ($this->enabled)
 		{
-			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'error');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		// Check for errors.
@@ -60,16 +60,8 @@ class SearchViewSearches extends JViewLegacy
 			return false;
 		}
 
-		if ($this->enabled)
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_ENABLED'), 'notice');
-		}
-		else
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
-		}
-
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
