@@ -173,6 +173,11 @@ abstract class JFactory
 	{
 		if (!self::$session)
 		{
+			/*
+			 * As of 4.0, this should check if JFactory::getApplication() is an instance of JApplicationWeb and call its getSession()
+			 * and loadSession() methods to retrieve the application's configured session object.  For instances where the application
+			 * is not set or is not a web application, we should attempt to create a "null" JSession instance to not break applications.
+			 */
 			self::$session = self::createSession($options);
 		}
 
@@ -584,18 +589,26 @@ abstract class JFactory
 	 * @return  JSession object
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  A JSession instance should be configured and injected to JFactory::$session instead
 	 */
 	protected static function createSession(array $options = array())
 	{
+		JLog::add(
+			__METHOD__ . '() is deprecated. A JSession instance should be configured and injected to JFactory::$session instead',
+			JLog::WARNING,
+			'deprecated'
+		);
+
 		// Get the Joomla configuration settings
-		$conf    = self::getConfig();
-		$handler = $conf->get('session_handler', 'none');
+		$conf = self::getConfig();
 
-		// Config time is in minutes
-		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
+		// Config time is in minutes, if not already set
+		if (!isset($options['expire']))
+		{
+			$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
+		}
 
-		$sessionHandler = new JSessionHandlerJoomla($options);
-		$session        = JSession::getInstance($handler, $options, $sessionHandler);
+		$session = JSession::getInstance($conf->get('session_handler', 'none'), $options, new JSessionHandlerJoomla($options));
 
 		if ($session->getState() == 'expired')
 		{
