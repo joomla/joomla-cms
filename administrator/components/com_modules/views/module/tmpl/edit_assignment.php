@@ -86,7 +86,16 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
-						$link->params = new Registry($link->params);
+						$registry = new Registry();
+						try
+						{
+							$registry->loadString($link->params);
+						}
+						catch(Exception $e)
+						{
+							// invalid JSON
+						}
+						$link->params = $registry;
 						if ($prevlevel < $link->level)
 						{
 							echo '<ul class="treeselect-sub">';
