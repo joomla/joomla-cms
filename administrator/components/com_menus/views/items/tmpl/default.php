@@ -185,7 +185,6 @@ if ($menuType == '')
 							<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
-							<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>
 							<span class="small">
 							<?php if ($item->type != 'url') : ?>
 								<?php if (empty($item->note)) : ?>
@@ -197,6 +196,7 @@ if ($menuType == '')
 								<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 							<?php endif; ?>
 							</span>
+							<?php echo JHtml::_('MenusHtml.Menus.visibility', $item->params); ?>
 							<div title="<?php echo $this->escape($item->path); ?>">
 								<?php echo $prefix; ?>
 								<span class="small"  title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
