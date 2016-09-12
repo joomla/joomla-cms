@@ -245,6 +245,6 @@ abstract class MenusHtmlMenus
 
 		$show_menu = $registry->get('menu_show');
 
-		return '<span class="icon-eye' . (($show_menu === 0) ? '-close' : '') . '"></span>';
+		return ($show_menu === 0) ? '<span class="label">' . JText::_('COM_MENUS_LABEL_HIDDEN') . '</span>' : '';
 	}
 }
