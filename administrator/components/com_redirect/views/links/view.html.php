@@ -53,11 +53,18 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		elseif ($this->enabled && !$this->collect_urls_enabled)
 		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'notice');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+		}
+		elseif (!$this->collect_urls_enabled)
+		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
 		}
 
 		// Check for errors.
@@ -66,17 +73,6 @@ class RedirectViewLinks extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
-		}
-
-		if (!$this->enabled)
-		{
-			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
-		}
-		elseif (!$this->collect_urls_enabled)
-		{
-			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
 		}
 
 		$this->addToolbar();
