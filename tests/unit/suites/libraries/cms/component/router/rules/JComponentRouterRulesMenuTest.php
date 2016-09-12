@@ -198,6 +198,11 @@ class JComponentRouterRulesMenuTest extends TestCaseDatabase {
 		$this->object->preprocess($query);
 		$this->assertEquals(array('Itemid' => '47'), $query);
 
+		// If we inject a item id and we have no active menu item we should get the injected item id
+		$query = array('Itemid' => '50');
+		$this->object->preprocess($query);
+		$this->assertEquals(array('Itemid' => '50'), $query);
+
 		// Test if the correct default item is used based on the language
 		$query = array('lang' => 'en-GB');
 		$this->object->preprocess($query);
