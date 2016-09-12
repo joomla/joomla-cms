@@ -352,43 +352,39 @@ class JAccess
 		// Get the extension name from the $assetType provided
 		$extensionName = self::getExtensionNameFromAsset($assetType);
 
-		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName])
-			|| !isset(self::$assetPermissionsById[$extensionName]) || !isset(self::$assetPermissionsByName[$extensionName]))
+		// Get the database connection object.
+		$db = JFactory::getDbo();
+
+		$parents = implode(',', $db->q(array($extensionName, 'root.1')));
+
+		// Get a fresh query object:
+		$query = $db->getQuery(true)
+			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->qn('#__assets'))
+			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $db->qn('name') . ' IN (' . $parents . ')');
+
+		// Get the Name Permission Map List
+		$assets = $db->setQuery($query)->loadObjectList();
+
+		self::$assetPermissionsById[$extensionName]            = array();
+		self::$assetPermissionsByName[$extensionName]          = array();
+		self::$assetPermissionsParentIdMapping[$extensionName] = array();
+
+		foreach ($assets as $asset)
 		{
-			// Get the database connection object.
-			$db = JFactory::getDbo();
+			$permissions        = new StdClass;
+			$permissions->id    = $asset->id;
+			$permissions->name  = $asset->name;
+			$permissions->rules = $asset->rules;
 
-			$parents = implode(',', $db->q(array($extensionName, 'root.1')));
+			self::$assetPermissionsById[$extensionName][$asset->id]     = $permissions;
+			self::$assetPermissionsByName[$extensionName][$asset->name] = $permissions;
 
-			// Get a fresh query object:
-			$query = $db->getQuery(true)
-				->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-				->from($db->qn('#__assets'))
-				->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $db->qn('name') . ' IN (' . $parents . ')');
+			$parentIdMapping            = new StdClass;
+			$parentIdMapping->id        = $asset->id;
+			$parentIdMapping->parent_id = $asset->parent_id;
 
-			// Get the Name Permission Map List
-			$assets = $db->setQuery($query)->loadObjectList('name');
-
-			self::$assetPermissionsById[$extensionName]            = array();
-			self::$assetPermissionsByName[$extensionName]          = array();
-			self::$assetPermissionsParentIdMapping[$extensionName] = array();
-
-			foreach ($assets as $name => $asset)
-			{
-				$permissions        = new StdClass;
-				$permissions->id    = $asset->id;
-				$permissions->name  = $asset->name;
-				$permissions->rules = $asset->rules;
-
-				self::$assetPermissionsById[$extensionName][$asset->id]     = $permissions;
-				self::$assetPermissionsByName[$extensionName][$asset->name] = $permissions;
-
-				$parentIdMapping            = new StdClass;
-				$parentIdMapping->id        = $asset->id;
-				$parentIdMapping->parent_id = $asset->parent_id;
-
-				self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $parentIdMapping;
-			}
+			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $parentIdMapping;
 		}
 
 		return true;
@@ -466,7 +462,7 @@ class JAccess
 
 				self::$assetPermissionsById[$extensionName][$rootId]        = self::$assetPermissionsById['root.1'][$rootId];
 				self::$assetPermissionsById[$extensionName][$asset->id]     = $permissions;
-				self::$assetPermissionsByName[$extensionName][$rootId]      = self::$assetPermissionsByName['root.1']['root.1'];
+				self::$assetPermissionsByName[$extensionName]['root.1']     = self::$assetPermissionsByName['root.1']['root.1'];
 				self::$assetPermissionsByName[$extensionName][$asset->name] = $permissions;
 
 				$parentIdMapping            = new StdClass;
@@ -595,7 +591,7 @@ class JAccess
 			}
 
 			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::getAssetRules New (' . $asset . print_r($ancestors, true) . ')') : null;
+			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::getAssetRules New (' . $asset . ')') : null;
 
 			return self::$assetRulesIdentities[$hash];
 		}
