@@ -990,12 +990,24 @@ abstract class JHtml
 	{
 		$tag    = JFactory::getLanguage()->getTag();
 
-		// Get the appropriate for the current language date helper
-		$path = 'system/calendar-locales/date/date-helper.min.js';
+		// Get the appropriate file for the current language date helper
+		$helperPath = 'system/calendar-locales/date/date-helper.min.js';
 
 		if (is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($tag) . '/'))
 		{
-			$path = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+			$helperPath = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+		}
+
+		// Get the appropriate locale file for the current language
+		$localesPath = 'system/calendar-locales/en.js';
+
+		if (is_file(JPATH_ROOT . '/media/system/js/calendar-locales/' . strtolower($tag) . '.js'))
+		{
+			$localesPath = 'system/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+		{
+			$localesPath = 'system/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$readonly     = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
@@ -1042,7 +1054,8 @@ abstract class JHtml
 			'timeformat'   => $timeFormat,
 			'singleheader' => $singleHeader,
 			'tag'          => $tag,
-			'datePath'     => $path,
+			'helperPath'   => $helperPath,
+			'localesPath'  => $localesPath,
 			);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
