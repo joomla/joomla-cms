@@ -868,7 +868,7 @@ class PlgSystemDebug extends JPlugin
 		// Fix first bar width.
 		$minWidth = 0.3;
 
-		if ($bars[0]->width < $minWidth && isset($bars[1]))
+		if (isset($bars[1]) && $bars[0]->width < $minWidth)
 		{
 			$bars[1]->pre -= ($minWidth - $bars[0]->width);
 
