@@ -81,7 +81,6 @@ JHtml::_('bootstrap.framework');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
 
 require __DIR__ . '/jsstrings.php';
 ?>
