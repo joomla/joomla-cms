@@ -848,7 +848,6 @@ class JApplicationCms extends JApplicationWeb
 		// Get the session handler from the configuration.
 		$handler = $this->get('session_handler', 'none');
 
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
 		$session = JSession::getInstance($handler, $options, new JSessionHandlerJoomla($options));
 		$session->initialise($this->input, $this->dispatcher);
 
