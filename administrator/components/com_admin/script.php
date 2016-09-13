@@ -1528,7 +1528,6 @@ class JoomlaInstallerScript
 			'/libraries/simplepie',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade',
-			'/templates/beez3/javascript/template.js',
 		);
 
 		jimport('joomla.filesystem.file');
