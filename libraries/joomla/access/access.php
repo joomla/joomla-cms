@@ -62,14 +62,6 @@ class JAccess
 	protected static $assetPermissionsByName = array();
 
 	/**
-	 * Array of the permission parent ID mappings
-	 *
-	 * @var    array
-	 * @since  11.1
-	 */
-	protected static $assetPermissionsParentIdMapping = array();
-
-	/**
 	 * Array of asset types that have been preloaded
 	 *
 	 * @var    array
@@ -126,17 +118,16 @@ class JAccess
 	 */
 	public static function clearStatics()
 	{
-		self::$componentsPreloaded = false;
-		self::$viewLevels = array();
-		self::$assetPermissionsById = array();
+		self::$componentsPreloaded    = false;
+		self::$viewLevels             = array();
+		self::$assetPermissionsById   = array();
 		self::$assetPermissionsByName = array();
-		self::$assetPermissionsParentIdMapping = array();
-		self::$preloadedAssetTypes = array();
-		self::$identities = array();
-		self::$assetRules = array();
-		self::$userGroups = array();
-		self::$userGroupPaths = array();
-		self::$groupsByUser = array();
+		self::$preloadedAssetTypes    = array();
+		self::$identities             = array();
+		self::$assetRules             = array();
+		self::$userGroups             = array();
+		self::$userGroupPaths         = array();
+		self::$groupsByUser           = array();
 	}
 
 	/**
@@ -212,13 +203,13 @@ class JAccess
 		if ($isDefault && !self::$componentsPreloaded)
 		{
 			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::preload (all components)') : null;
+			!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preload (all components)');
 
 			self::preloadComponents();
 			self::$componentsPreloaded = true;
 
 			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::preload (all components)') : null;
+			!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preload (all components)');
 		}
 
 		// Quick short circuit for default case
@@ -239,12 +230,12 @@ class JAccess
 		{
 			if (!isset(self::$preloadedAssetTypes[$assetType]) || $reload)
 			{
-				JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::preload (' . $assetType . ')') : null;
+				!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::preload (' . $assetType . ')');
 
 				self::preloadPermissions($assetType);
 				self::$preloadedAssetTypes[$assetType] = true;
 
-				JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::preload (' . $assetType . ')') : null;
+				!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::preload (' . $assetType . ')');
 			}
 		}
 
@@ -275,9 +266,9 @@ class JAccess
 
 		while ($id !== 0)
 		{
-			if (isset(self::$assetPermissionsParentIdMapping[$extensionName][$id]))
+			if (isset(self::$assetPermissionsById[$extensionName][$id]))
 			{
-				$id = (int) self::$assetPermissionsParentIdMapping[$extensionName][$id]->parent_id;
+				$id = (int) self::$assetPermissionsById[$extensionName][$id]->parent_id;
 
 				if ($id !== 0)
 				{
@@ -293,46 +284,6 @@ class JAccess
 		}
 
 		return $ancestors;
-	}
-
-	/**
-	 * Method to retrieve the list of Asset IDs and their Parent Asset IDs
-	 * and store them for later usage in getAssetRules().
-	 *
-	 * @param   string  $assetType  e.g. 'com_content.article'
-	 *
-	 * @return   array  List of Asset IDs (includes Parent Asset ID Info)
-	 *
-	 * @since    1.6
-	 *
-	 * @deprecated  4.0  No used anymore.
-	 */
-	protected static function &preloadPermissionsParentIdMapping($assetType)
-	{
-		// Get the extension name from the $assetType provided
-		$extensionName = self::getExtensionNameFromAsset($assetType);
-
-		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
-		{
-			// Get the database connection object.
-			$db = JFactory::getDbo();
-
-			// Get a fresh query object:
-			$query    = $db->getQuery(true);
-
-			// Build the database query:
-			$query->select('a.id, a.parent_id');
-			$query->from('#__assets AS a');
-			$query->where('(a.name LIKE ' . $db->quote($extensionName . '.%') . ' OR a.name = ' . $db->quote($extensionName) . ' OR a.id = 1)');
-
-			// Get the Name Permission Map List
-			$db->setQuery($query);
-			$parentIdMapping = $db->loadObjectList('id');
-
-			self::$assetPermissionsParentIdMapping[$extensionName] = &$parentIdMapping;
-		}
-
-		return self::$assetPermissionsParentIdMapping[$extensionName];
 	}
 
 	/**
@@ -366,25 +317,13 @@ class JAccess
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
 
-		self::$assetPermissionsById[$extensionName]            = array();
-		self::$assetPermissionsByName[$extensionName]          = array();
-		self::$assetPermissionsParentIdMapping[$extensionName] = array();
+		self::$assetPermissionsById[$extensionName]   = array();
+		self::$assetPermissionsByName[$extensionName] = array();
 
 		foreach ($assets as $asset)
 		{
-			$permissions        = new StdClass;
-			$permissions->id    = $asset->id;
-			$permissions->name  = $asset->name;
-			$permissions->rules = $asset->rules;
-
-			self::$assetPermissionsById[$extensionName][$asset->id]     = $permissions;
-			self::$assetPermissionsByName[$extensionName][$asset->name] = $permissions;
-
-			$parentIdMapping            = new StdClass;
-			$parentIdMapping->id        = $asset->id;
-			$parentIdMapping->parent_id = $asset->parent_id;
-
-			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $parentIdMapping;
+			self::$assetPermissionsById[$extensionName][$asset->id]     = $asset;
+			self::$assetPermissionsByName[$extensionName][$asset->name] = $asset;
 		}
 
 		return true;
@@ -427,50 +366,35 @@ class JAccess
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList('name');
 
-		$rootId = $assets['root.1']->id;
-
-		if (!isset(self::$preloadedAssetTypes['root.1']))
-		{
-			$permissionsRoot        = new StdClass;
-			$permissionsRoot->id    = $assets['root.1']->id;
-			$permissionsRoot->name  = $assets['root.1']->name;
-			$permissionsRoot->rules = $assets['root.1']->rules;
-
-			$parentRootMapping            = new StdClass;
-			$parentRootMapping->id        = $assets['root.1']->id;
-			$parentRootMapping->parent_id = $assets['root.1']->parent_id;
-
-			self::$assetPermissionsById['root.1'][$rootId]            = $permissionsRoot;
-			self::$assetPermissionsByName['root.1']['root.1']         = $permissionsRoot;
-			self::$assetPermissionsParentIdMapping['root.1'][$rootId] = $parentRootMapping;
-		}
-
-		unset($assets['root.1']);
+		// Add the root asset as parent of all components.
+		$assetsTree = array();
+		$rootName   = 'root.1';
 
 		foreach ($assets as $extensionName => $asset)
 		{
+			$assetsTree[$extensionName][] = $assets[$rootName];
+
+			if ($extensionName !== $rootName)
+			{
+				$assetsTree[$extensionName][] = $assets[$extensionName];
+			}
+		}
+
+		// Save the permissions for the components asset.
+		foreach ($assetsTree as $extensionName => $assets)
+		{
 			if (!isset(self::$preloadedAssetTypes[$extensionName]))
 			{
-				self::$assetPermissionsById[$extensionName]            = array();
-				self::$assetPermissionsByName[$extensionName]          = array();
-				self::$assetPermissionsParentIdMapping[$extensionName] = array();
+				self::$assetPermissionsById[$extensionName]   = array();
+				self::$assetPermissionsByName[$extensionName] = array();
 
-				$permissions        = new StdClass;
-				$permissions->id    = $asset->id;
-				$permissions->name  = $asset->name;
-				$permissions->rules = $asset->rules;
+				foreach ($assets as $asset)
+				{
+					self::$assetPermissionsById[$extensionName][$asset->id]     = $asset;
+					self::$assetPermissionsByName[$extensionName][$asset->name] = $asset;
+				}
 
-				self::$assetPermissionsById[$extensionName][$rootId]        = self::$assetPermissionsById['root.1'][$rootId];
-				self::$assetPermissionsById[$extensionName][$asset->id]     = $permissions;
-				self::$assetPermissionsByName[$extensionName]['root.1']     = self::$assetPermissionsByName['root.1']['root.1'];
-				self::$assetPermissionsByName[$extensionName][$asset->name] = $permissions;
-
-				$parentIdMapping            = new StdClass;
-				$parentIdMapping->id        = $asset->id;
-				$parentIdMapping->parent_id = $asset->parent_id;
-
-				self::$assetPermissionsParentIdMapping[$extensionName][$rootId]    = self::$assetPermissionsParentIdMapping['root.1'][$rootId];
-				self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $parentIdMapping;
+				self::$preloadedAssetTypes[$extensionName] = true;
 			}
 		}
 	}
@@ -551,16 +475,23 @@ class JAccess
 	 */
 	public static function getAssetRules($asset, $recursive = false, $recursiveParentAsset = true)
 	{
+		$method = '';
+
 		// Get instance of the Profiler:
 		$extensionName = self::getExtensionNameFromAsset($asset);
+		$assetType     = self::getAssetType($asset);
 
-		// Almost all calls should have recursive set to true
-		// so we'll get to take advantage of preloading:
-		if ($recursive && $recursiveParentAsset && isset(self::$assetPermissionsByName[$extensionName])
-			&& isset(self::$assetPermissionsByName[$extensionName][$asset]))
+		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (' . $asset . ')');
+
+		// Almost all calls should have recursive set to true so we'll get to take advantage of preloading.
+		if ($recursive && $recursiveParentAsset && (isset(self::$preloadedAssetTypes[$assetType]) || isset(self::$preloadedAssetTypes[$extensionName])))
 		{
-			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::getAssetRules New (' . $asset . ')') : null;
+			// The asset type (ex: com_modules.module) as been preloaded, but the asset does not exist  (ex: com_modules.module.37).
+			// In this case we fallback to extension name asset.
+			if (!isset(self::$assetPermissionsByName[$extensionName][$asset]))
+			{
+				self::$assetPermissionsByName[$extensionName][$asset] = self::$assetPermissionsByName[$extensionName][$extensionName];
+			}
 
 			$assetId = self::$assetPermissionsByName[$extensionName][$asset]->id;
 
@@ -590,15 +521,11 @@ class JAccess
 				self::$assetRulesIdentities[$hash] = $rules;
 			}
 
-			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::getAssetRules New (' . $asset . ')') : null;
-
-			return self::$assetRulesIdentities[$hash];
+			$rules = self::$assetRulesIdentities[$hash];
 		}
 		else
 		{
-			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::getAssetRules Old (' . $asset . ')') : null;
+			$method = ' <strong>Slower</strong>, no preloading, method used.';
 
 			if ($asset === "1")
 			{
@@ -612,7 +539,7 @@ class JAccess
 
 			// Build the database query to get the rules for the asset.
 			$query = $db->getQuery(true)
-				->select($recursive ? 'b.rules' : 'a.rules')
+				->select($recursive ? 'DISTINCT(b.rules)' : 'a.rules')
 				->from('#__assets AS a');
 
 			$extensionString = '';
@@ -668,11 +595,11 @@ class JAccess
 			// Instantiate and return the JAccessRules object for the asset rules.
 			$rules = new JAccessRules;
 			$rules->mergeCollection($result);
-
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::getAssetRules Old (' . $asset . ')') : null;
-
-			return $rules;
 		}
+
+		!JDEBUG ?: JProfiler::getInstance('Application')->mark('After JAccess::getAssetRules (' . $asset . ')' . $method);
+
+		return $rules;
 	}
 
 	/**
