@@ -216,6 +216,8 @@ class JApplicationCms extends JApplicationWeb
 		// If the session record doesn't exist initialise it.
 		if (!$exists)
 		{
+			$query->clear();
+
 			// Get the session handler from the configuration.
 			$handler = $session->storeName;
 
