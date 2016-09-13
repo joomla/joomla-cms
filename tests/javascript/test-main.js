@@ -25,7 +25,7 @@ require.config({
 		'libs': 'media/system/js',
 		'testsRoot': 'tests/javascript',
 		'text': 'tests/javascript/node_modules/text/text',
-		'calLang': 'media/system/js/calendar-locales/en-gb',
+		'calLang': 'media/system/js/calendar-locales/en',
 		'calDate': 'media/system/js/calendar-locales/date/date-helper'
 	},
 
