@@ -43,6 +43,7 @@ class JHtmlBootstrapTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$config = $this->getMockConfig();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -62,7 +63,7 @@ class JHtmlBootstrapTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -528,10 +529,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndSlide()
 	{
-		$this->assertThat(
-			JHtml::_('bootstrap.endSlide'),
-			$this->equalTo('</div></div></div>')
-		);
+		$this->assertEquals('</div></div></div>', JHtmlBootstrap::endSlide());
 	}
 
 	/**
@@ -583,10 +581,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTabSet()
 	{
-		$this->assertEquals(
-			JHtml::_('bootstrap.endTabSet'),
-			"\n</div>"
-		);
+		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
 	}
 
 	/**
@@ -647,10 +642,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndTab()
 	{
-		$this->assertEquals(
-			JHtml::_('bootstrap.endTab'),
-			"\n</div>"
-		);
+		$this->assertEquals("\n</div>", JHtmlBootstrap::endTabSet());
 	}
 
 	/**
@@ -662,10 +654,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPane()
 	{
-		$this->assertEquals(
-			JHtml::_('bootstrap.endTabSet'),
-			"\n</div>"
-		);
+		$this->assertEquals('</div>', JHtmlBootstrap::endPane());
 	}
 
 	/**
@@ -677,10 +666,7 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	public function testEndPanel()
 	{
-		$this->assertEquals(
-			JHtml::_('bootstrap.endTab'),
-			"\n</div>"
-		);
+		$this->assertEquals('</div>', JHtmlBootstrap::endPanel());
 	}
 
 	/**

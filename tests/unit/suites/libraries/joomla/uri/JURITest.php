@@ -23,6 +23,14 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
+
+	/**
 	 * Test the __toString method.
 	 *
 	 * @return  void
@@ -1322,6 +1330,24 @@ class JUriTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
+		$this->backupServer = $_SERVER;
 		self::setUpLocal('www.example.com:80', false, '/joomla/index.php', 'var=value 10');
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
+		unset($this->object);
+		parent::tearDown();
 	}
 }

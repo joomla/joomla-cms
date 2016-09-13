@@ -75,6 +75,7 @@ class JHtmlTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -1529,7 +1530,7 @@ class JHtmlTest extends TestCase
 				);
 
 				$this->assertContains(
-					'DHTML Date\\/Time Selector',
+					'jQuery(document).ready(function($) {Calendar.setup({',
 					JFactory::getDocument()->_script['text/javascript'],
 					'Line:' . __LINE__ . ' Inline JS for the calendar should be loaded'
 				);

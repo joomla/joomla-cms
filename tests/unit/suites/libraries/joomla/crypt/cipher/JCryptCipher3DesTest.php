@@ -59,8 +59,8 @@ class JCryptCipher3DesTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		$this->_cipher = null;
-
+		unset($this->_cipher);
+		unset($this->key);
 		parent::tearDown();
 	}
 
