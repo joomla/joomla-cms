@@ -90,7 +90,6 @@
 			filter="raw"
 			label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 			description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
-			class="input-xxlarge"
 			size="40"
 		/>
 	
@@ -203,7 +202,6 @@
 			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
-			class="input-xxlarge"
 			size="40"
 			description="COM_FIELDS_FIELD_DESCRIPTION_DESC"
 			filter="HTML"
