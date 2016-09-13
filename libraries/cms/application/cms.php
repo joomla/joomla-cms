@@ -235,7 +235,6 @@ class JApplicationCms extends JApplicationWeb
 				$db->quote($session->getId()),
 				(int) $this->getClientId(),
 				(int) $user->guest,
-				$db->quote((int) $time),
 				(int) $user->id,
 				$db->quote($user->username),
 			);
