@@ -54,8 +54,9 @@ JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relati
 $format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
-<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
+<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio' . ($readonly || $disabled ? ' disabled' : '')); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
+	<?php echo $readonly || $disabled ? 'style="pointer-events: none"' : '' ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
 
@@ -64,22 +65,24 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<?php
 				// Initialize some option attributes.
 				$checked  = ((string) $option->value === $value) ? 'checked="checked"' : '';
+				$disabled = !empty($option->disable) ? 'disabled' : '';
+				$style    = $disabled ? 'style="pointer-events: none"' : '';
+				$option->class  = trim($option->class . ' ' . $disabled);
 				$optionClass    = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-				$disabled = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
 
 				// Initialize some JavaScript option attributes.
 				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
 				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+				$attributes = array_filter(array($checked, $optionClass, $disabled, $style, $onchange, $onclick));
 			?>
 
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required aria-required="true"'; ?>
 			<?php endif; ?>
 			<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-			<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
+			<label for="<?php echo $oid; ?>" <?php echo trim ($optionClass . ' ' . $style); ?>>
 				<?php echo $option->text; ?>
 			</label>
 		<?php endforeach; ?>
