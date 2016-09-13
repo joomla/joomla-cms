@@ -481,6 +481,12 @@ class JAccess
 		$extensionName = self::getExtensionNameFromAsset($asset);
 		$assetType     = self::getAssetType($asset);
 
+		// Make sure the components assets are preloaded.
+		if (!self::$componentsPreloaded)
+		{
+			self::preload('components');
+		}
+
 		!JDEBUG ?: JProfiler::getInstance('Application')->mark('Before JAccess::getAssetRules (' . $asset . ')');
 
 		// Almost all calls should have recursive set to true so we'll get to take advantage of preloading.
