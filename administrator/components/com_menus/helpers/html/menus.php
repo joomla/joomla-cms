@@ -247,7 +247,7 @@ abstract class MenusHtmlMenus
 		{
 			$registry->loadString($params);
 		}
-		catch(Exception $e)
+		catch (Exception $e)
 		{
 			// Invalid JSON
 		}
