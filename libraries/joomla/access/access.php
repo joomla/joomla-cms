@@ -212,13 +212,13 @@ class JAccess
 		if ($isDefault && !self::$componentsPreloaded)
 		{
 			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::preload(components)') : null;
+			JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::preload (all components)') : null;
 
 			self::preloadComponents();
 			self::$componentsPreloaded = true;
 
 			// Mark in the profiler.
-			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::preload(components)') : null;
+			JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::preload (all components)') : null;
 		}
 
 		// Quick short circuit for default case
@@ -239,12 +239,12 @@ class JAccess
 		{
 			if (!isset(self::$preloadedAssetTypes[$assetType]) || $reload)
 			{
-				JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess Preloading Process (' . $assetType . ')') : null;
+				JDEBUG ? JProfiler::getInstance('Application')->mark('Start JAccess::preload (' . $assetType . ')') : null;
 
 				self::preloadPermissions($assetType);
 				self::$preloadedAssetTypes[$assetType] = true;
 
-				JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess Preloading Process (' . $assetType . ')') : null;
+				JDEBUG ? JProfiler::getInstance('Application')->mark('Finish JAccess::preload (' . $assetType . ')') : null;
 			}
 		}
 
