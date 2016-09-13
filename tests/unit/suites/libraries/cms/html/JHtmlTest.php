@@ -1484,7 +1484,7 @@ class JHtmlTest extends TestCase
 			}
 
 			$this->assertArrayHasKey(
-				'/media/system/js/calendar-locales/en-gb.js',
+				'/media/system/js/calendar-locales/en.js',
 				JFactory::getDocument()->_scripts,
 				'Line:'.__LINE__.' JS file "calendar-vanilla.min.js" should be loaded'
 			);
