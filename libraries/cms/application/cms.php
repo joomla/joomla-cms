@@ -247,12 +247,6 @@ class JApplicationCms extends JApplicationWeb
 				$values[]  = $db->quote((int) time());
 			}
 
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			$db->setQuery($query);
-
 			// If the insert failed, exit the application.
 			try
 			{
