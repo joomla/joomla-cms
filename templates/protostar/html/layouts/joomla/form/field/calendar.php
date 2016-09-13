@@ -46,6 +46,8 @@ $document = JFactory::getDocument();
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
+ * @var   string   $localesPath     The relative path for the locale file
+ * @var   string   $helperPath      The relative path for the helper file
  */
 
 $inputvalue = '';
@@ -77,16 +79,14 @@ if (strtoupper($value) == 'NOW')
 
 $readonly = isset($attributes['readonly']) && $attributes['readonly'] == 'readonly';
 $disabled = isset($attributes['disabled']) && $attributes['disabled'] == 'disabled';
-$minyear  = (isset($minyear) && $minyear != 0) ? $minyear : 1970;
-$maxyear  = (isset($maxyear) && $maxyear != 0) ? $maxyear : 2030;
 
 if (is_array($attributes))
 {
 	$attributes = ArrayHelper::toString($attributes);
 }
 
-JHtml::_('script', 'system/calendar-locales/' . strtolower($tag) . '.js', false, true, false, false, true);
-JHtml::_('script', $datePath, false, true, false, false, true);
+JHtml::_('script', $localesPath, false, true, false, false, true);
+JHtml::_('script', $helperPath, false, true, false, false, true);
 JHtml::_('script', 'system/calendar-vanilla.min.js', false, true, false, false, true);
 ?>
 <div class="field-calendar">
@@ -111,12 +111,9 @@ JHtml::_('script', 'system/calendar-vanilla.min.js', false, true, false, false, 
 			data-show-time="<?php echo $showtime; ?>"
 			data-show-others="<?php echo $filltable; ?>"
 			data-time-24="<?php echo $timeformat; ?>"
-			data-min-year="<?php echo $minyear; ?>"
-			data-max-year="<?php echo $maxyear; ?>"
 			data-only-months-nav="<?php echo $singleheader; ?>"
 		><span class="icon-calendar"></span></button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>
 <?php endif; ?>
 </div>
-

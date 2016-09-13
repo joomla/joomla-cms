@@ -102,8 +102,8 @@
 				weekNumbers: (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
 				showsTodayBtn: (parseInt(btn.getAttribute("data-today-btn")) === 1) ? true : false,
 				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
-				minYear: btn.getAttribute("data-min-year") ? parseInt(btn.getAttribute("data-min-year")) : 1970,
-				maxYear: btn.getAttribute("data-max-year") ? parseInt(btn.getAttribute("data-max-year")) : 2050,
+				minYear: btn.getAttribute("data-min-year") ? parseInt(btn.getAttribute("data-min-year")) : JoomlaCalLocale.minYear,
+				maxYear: btn.getAttribute("data-max-year") ? parseInt(btn.getAttribute("data-max-year")) : JoomlaCalLocale.maxYear,
 				dateFormat: btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S",
 				direction: (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir")
 			};
@@ -954,6 +954,8 @@
 		JoomlaCalLocale.shortDays = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 		JoomlaCalLocale.months = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		JoomlaCalLocale.shortMonths = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+		JoomlaCalLocale.minYear = 1970;
+		JoomlaCalLocale.maxYear = 2050;
 
 		for (i = 0; i < elements.length; i++) {
 			if (!elements[i]._joomlaCalendar) {

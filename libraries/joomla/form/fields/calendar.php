@@ -76,8 +76,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'format':
 			case 'filter':
 			case 'timeformat':
-			case 'minyear':
-			case 'maxyear':
 			case 'todaybutton':
 			case 'singleheader':
 			case 'weeknumbers':
@@ -105,8 +103,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		{
 			case 'maxlength':
 			case 'timeformat':
-			case 'minyear':
-			case 'maxyear':
 				$this->$name = (int) $value;
 				break;
 			case 'todaybutton':
@@ -152,8 +148,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->showtime     = (string) $this->element['showtime'] ? (string) $this->element['showtime'] : "false";
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : "true";
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
-			$this->minyear      = (int) $this->element['minyear'] ? (int) $this->element['minyear'] : JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_MIN_YEAR');
-			$this->maxyear      = (int) $this->element['maxyear'] ? (int) $this->element['maxyear'] : JText::_('JLIB_HTML_BEHAVIOR_CALENDAR_MAX_YEAR');
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : "false";
 		}
 
@@ -271,12 +265,24 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 				break;
 		}
 
-		// Get the appropriate for the current language date helper
-		$path = 'system/calendar-locales/date/date-helper.min.js';
+		// Get the appropriate file for the current language date helper
+		$helperPath = 'system/calendar-locales/date/date-helper.min.js';
 
 		if (is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($tag) . '/'))
 		{
-			$path = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+			$helperPath = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+		}
+
+		// Get the appropriate locale file for the current language
+		$localesPath = 'system/calendar-locales/en.js';
+
+		if (is_file(JPATH_ROOT . '/media/system/js/calendar-locales/' . strtolower($tag) . '.js'))
+		{
+			$localesPath = 'system/calendar-locales/' . strtolower($tag) . '.js';
+		}
+		elseif (is_file(JPATH_ROOT . '/media/system/js/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js'))
+		{
+			$localesPath = 'system/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
 		$extraData = array(
@@ -288,12 +294,11 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'showtime'     => ($this->showtime === "true") ? 1 : 0,
 			'filltable'    => ($this->filltable === "true") ? 1 : 0,
 			'timeformat'   => $this->timeformat,
-			'minyear'      => $this->minyear,
-			'maxyear'      => $this->maxyear,
 			'weekenddays'  => $this->weekenddays,
 			'singleheader' => ($this->singleheader === "true") ? 1 : 0,
 			'tag'          => $tag,
-			'datePath'     => $path,
+			'helperPath'   => $helperPath,
+			'localesPath'  => $localesPath,
 		);
 
 		return array_merge($data, $extraData);
