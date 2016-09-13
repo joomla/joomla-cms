@@ -69,108 +69,129 @@
 		/**
 		 * Append submenu items to empty UL on hover allowing a scrollable dropdown
 		 */
-		var menuScroll = $('#menu > li > ul'),
-			emptyMenu  = $('#nav-empty');
-
-		$('#menu > li').on('click mouseenter', function() {
-
-			// Set max-height (and width if scroll) for dropdown menu, depending of window height
-			var $dropdownMenu    = $(this).children('ul'),
-				windowHeight     = $w.height(),
-				linkHeight       = $(this).outerHeight(true),
-				statusHeight     = $('#status').outerHeight(true),
-				menuHeight       = $dropdownMenu.height(),
-				menuOuterHeight  = $dropdownMenu.outerHeight(true),
-				scrollMenuWidth  = $dropdownMenu.width() + 15,
-				maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
-
-			if (maxHeight < menuHeight) {
-				$dropdownMenu.css('width', scrollMenuWidth);
-			} else if (maxHeight > menuHeight) {
-				$dropdownMenu.css('width', 'auto');
-			}
-
-			$dropdownMenu.css('max-height', maxHeight);
-
-			// Get the submenu position
-			linkWidth        = $(this).outerWidth(true);
-			menuWidth        = $dropdownMenu.width();
-			linkPaddingLeft  = $(this).children('a').css('padding-left');
-			offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
-
-			emptyMenu.empty().hide();
-
-		});
-
-		menuScroll.find('.dropdown-submenu > a').on('mouseover', function() {
-
-			var $self           = $(this),
-				dropdown        = $self.next('ul'),
-				submenuWidth    = dropdown.outerWidth(),
-				offsetTop       = $self.offset().top,
-				linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($(this).css('padding-top')),
-				scroll          = $w.scrollTop() + linkPaddingTop;
-
-			// Set the submenu position
-			if ($('html').attr('dir') == 'rtl')
-			{
-				emptyMenu.css({
-					top : offsetTop - scroll,
-					left: offsetLeft - (menuWidth - linkWidth) - submenuWidth
-				});
-			}
-			else
-			{
-				emptyMenu.css({
-					top : offsetTop - scroll,
-					left: offsetLeft + menuWidth
-				});
-			}
-
-			// Append items to empty <ul> and show it
-			dropdown.hide();
-			emptyMenu.show().html(dropdown.html());
-
-			// Check if the full element is visible. If not, adjust the position
-			if (emptyMenu.Jvisible() !== true)
-			{
-				emptyMenu.css({
-					top : ($w.height() - emptyMenu.outerHeight()) - $('#status').height()
-				});
-			}
-
-		});
-		menuScroll.find('a.no-dropdown').on('mouseenter', function() {
-
-			emptyMenu.empty().hide();
-
-		});
-		$(document).on('click', function() {
-
-			emptyMenu.empty().hide();
-
-		});
-
-		$.fn.Jvisible = function(partial,hidden)
+		if ($w.width() > 767)
 		{
-			if (this.length < 1)
+			var menuScroll = $('#menu > li > ul'),
+				emptyMenu  = $('#nav-empty');
+
+			$('#menu > li').on('click mouseenter', function() {
+
+				// Set max-height (and width if scroll) for dropdown menu, depending of window height
+				var $dropdownMenu    = $(this).children('ul'),
+					windowHeight     = $w.height(),
+					linkHeight       = $(this).outerHeight(true),
+					statusHeight     = $('#status').outerHeight(true),
+					menuHeight       = $dropdownMenu.height(),
+					menuOuterHeight  = $dropdownMenu.outerHeight(true),
+					scrollMenuWidth  = $dropdownMenu.width() + 15,
+					maxHeight        = windowHeight - (linkHeight + statusHeight + (menuOuterHeight - menuHeight) + 20);
+
+				if (maxHeight < menuHeight)
+				{
+					$dropdownMenu.css('width', scrollMenuWidth);
+				}
+				else if (maxHeight > menuHeight)
+				{
+					$dropdownMenu.css('width', 'auto');
+				}
+
+				$dropdownMenu.css('max-height', maxHeight);
+
+				// Get the submenu position
+				linkWidth        = $(this).outerWidth(true);
+				menuWidth        = $dropdownMenu.width();
+				linkPaddingLeft  = $(this).children('a').css('padding-left');
+				offsetLeft       = Math.round($(this).offset().left) - parseInt(linkPaddingLeft);
+
+				emptyMenu.empty().hide();
+
+			});
+
+			menuScroll.find('.dropdown-submenu > a').on('mouseover', function() {
+
+				var $self           = $(this),
+					dropdown        = $self.next('ul'),
+					submenuWidth    = dropdown.outerWidth(),
+					offsetTop       = $self.offset().top,
+					linkPaddingTop  = parseInt(dropdown.css('padding-top')) + parseInt($(this).css('padding-top')),
+					scroll          = $w.scrollTop() + linkPaddingTop;
+
+				// Set the submenu position
+				if ($('html').attr('dir') == 'rtl')
+				{
+					emptyMenu.css({
+						top : offsetTop - scroll,
+						left: offsetLeft - (menuWidth - linkWidth) - submenuWidth
+					});
+				}
+				else
+				{
+					emptyMenu.css({
+						top : offsetTop - scroll,
+						left: offsetLeft + menuWidth
+					});
+				}
+
+				// Append items to empty <ul> and show it
+				dropdown.hide();
+				emptyMenu.show().html(dropdown.html());
+
+				// Check if the full element is visible. If not, adjust the position
+				if (emptyMenu.Jvisible() !== true)
+				{
+					emptyMenu.css({
+						top : ($w.height() - emptyMenu.outerHeight()) - $('#status').height()
+					});
+				}
+
+			});
+
+			menuScroll.find('a.no-dropdown').on('mouseenter', function() {
+
+				emptyMenu.empty().hide();
+
+			});
+
+			// obtain a reference to the original handler
+			var _clearMenus = $._data(document, 'events').click.filter(function (el) {
+				return el.namespace === 'data-api.dropdown' && el.selector === undefined
+			})[0].handler;
+
+			// disable the old listener
+			$(document)
+				.off('click.data-api.dropdown', _clearMenus)
+				.on('click.data-api.dropdown', function(e) {
+					e.button === 2 || _clearMenus();
+
+					if (!$('#menu').find('> li').hasClass('open'))
+					{
+						emptyMenu.empty().hide();
+					}
+				});
+
+			$.fn.Jvisible = function(partial,hidden)
 			{
-				return;
-			}
+				if (this.length < 1)
+				{
+					return;
+				}
 
-			var $t = this.length > 1 ? this.eq(0) : this,
-				t  = $t.get(0)
+				var $t = this.length > 1 ? this.eq(0) : this,
+					t  = $t.get(0)
 
-			var viewTop         = $w.scrollTop(),
-				viewBottom      = (viewTop + $w.height()) - $('#status').height(),
-				offset          = $t.offset(),
-				_top            = offset.top,
-				_bottom         = _top + $t.height(),
-				compareTop      = partial === true ? _bottom : _top,
-				compareBottom   = partial === true ? _top : _bottom;
+				var viewTop         = $w.scrollTop(),
+					viewBottom      = (viewTop + $w.height()) - $('#status').height(),
+					offset          = $t.offset(),
+					_top            = offset.top,
+					_bottom         = _top + $t.height(),
+					compareTop      = partial === true ? _bottom : _top,
+					compareBottom   = partial === true ? _top : _bottom;
 
-			return !!t.offsetWidth * t.offsetHeight && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
-		};
+				return !!t.offsetWidth * t.offsetHeight && ((compareBottom <= viewBottom) && (compareTop >= viewTop));
+			};
+
+		}
+
 
 		/**
 		 * USED IN: All views with toolbar and sticky bar enabled

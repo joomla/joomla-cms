@@ -340,7 +340,7 @@ class JSession implements IteratorAggregate
 		if ($this->getState() === 'destroyed')
 		{
 			// @TODO : raise error
-			return null;
+			return;
 		}
 
 		return $this->_handler->getName();
@@ -358,7 +358,7 @@ class JSession implements IteratorAggregate
 		if ($this->getState() === 'destroyed')
 		{
 			// @TODO : raise error
-			return null;
+			return;
 		}
 
 		return $this->_handler->getId();
@@ -524,7 +524,7 @@ class JSession implements IteratorAggregate
 		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		$prev = $this->data->get($namespace . '.' . $name, null);
@@ -556,7 +556,7 @@ class JSession implements IteratorAggregate
 		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		return !is_null($this->data->get($namespace . '.' . $name, null));
@@ -585,7 +585,7 @@ class JSession implements IteratorAggregate
 		if ($this->getState() !== 'active')
 		{
 			// @TODO :: generated error here
-			return null;
+			return;
 		}
 
 		return $this->data->set($namespace . '.' . $name, null);
@@ -710,6 +710,7 @@ class JSession implements IteratorAggregate
 			return true;
 		}
 
+		// Kill session
 		$this->_handler->clear();
 
 		// Create new data storage
@@ -779,9 +780,6 @@ class JSession implements IteratorAggregate
 
 		// Keep session config
 		$cookie = session_get_cookie_params();
-
-		// Kill session
-		$this->_handler->clear();
 
 		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();

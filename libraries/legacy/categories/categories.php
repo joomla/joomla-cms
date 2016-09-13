@@ -192,7 +192,7 @@ class JCategories
 		// If we processed this $id already and it was not valid, then return null.
 		elseif (isset($this->_checkedCategories[$id]))
 		{
-			return null;
+			return;
 		}
 
 		return false;

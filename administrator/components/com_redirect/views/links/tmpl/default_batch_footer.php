@@ -9,9 +9,9 @@
 defined('_JEXEC') or die;
 
 ?>
-<button class="btn" data-dismiss="modal" type="button" onclick="document.getElementById('batch_urls').value='';">
+<a class="btn" data-dismiss="modal" type="button" onclick="document.getElementById('batch_urls').value='';">
 	<?php echo JText::_('JCANCEL'); ?>
-</button>
+</a>
 <button class="btn btn-success" type="submit" onclick="Joomla.submitbutton('links.batch');">
 	<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 </button>

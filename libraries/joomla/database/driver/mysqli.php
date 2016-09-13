@@ -76,7 +76,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		// Get some basic values from the options.
 		$options['host']     = (isset($options['host'])) ? $options['host'] : 'localhost';
-		$options['user']     = (isset($options['user'])) ? $options['user'] : 'root';
+		$options['user']     = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
 		$options['select']   = (isset($options['select'])) ? (bool) $options['select'] : true;
@@ -262,7 +262,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('mysqli_connect'));
+		return function_exists('mysqli_connect');
 	}
 
 	/**
@@ -617,7 +617,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
 				$memoryBefore,
 				memory_get_usage(),
-				is_object($this->cursor) ? $this->getNumRows() : null
+				is_object($this->cursor) ? $this->getNumRows() : null,
 			);
 		}
 

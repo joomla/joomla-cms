@@ -361,7 +361,7 @@ class InstallerModelUpdatesites extends InstallerModel
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_WARNING'), 'warning');
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_MESSAGE'), 'message');
 		}
 	}
 

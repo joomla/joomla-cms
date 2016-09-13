@@ -274,27 +274,27 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id, 
-				a.title, 
-				a.alias, 
-				a.note, 
-				a.published, 
-				a.access, 
-				a.checked_out, 
-				a.checked_out_time, 
-				a.created_user_id, 
-				a.path, 
-				a.parent_id, 
-				a.level, 
-				a.lft, 
-				a.rgt, 
-				a.language, 
+		$query->group('a.id,
+				a.title,
+				a.alias,
+				a.note,
+				a.published,
+				a.access,
+				a.checked_out,
+				a.checked_out_time,
+				a.created_user_id,
+				a.path,
+				a.parent_id,
+				a.level,
+				a.lft,
+				a.rgt,
+				a.language,
 				l.title,
 				l.image,
-				uc.name, 
-				ag.title, 
+				uc.name,
+				ag.title,
 				ua.name'
-			);
+		);
 
 		return $query;
 	}
@@ -360,7 +360,7 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 * 
+	 *
 	 * @param   stdClass[]  &$items     The category items
 	 * @param   string      $extension  The category extension
 	 *

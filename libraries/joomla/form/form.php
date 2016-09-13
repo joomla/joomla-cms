@@ -302,7 +302,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -1141,7 +1141,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
 	 *                          fields to be validated.
 	 *
-	 * @return  boolean  True on sucess.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -1505,10 +1505,10 @@ class JForm
 			$elements = &$this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
-			foreach ($elements as $element)
+			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $element->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}

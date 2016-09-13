@@ -195,11 +195,11 @@ class JTableNested extends JTable
 		if (empty($node))
 		{
 			// Error message set in getNode method.
-			return null;
+			return;
 		}
 
 		// The node is a leaf node.
-		return (($node->rgt - $node->lft) == 1);
+		return ($node->rgt - $node->lft) == 1;
 	}
 
 	/**

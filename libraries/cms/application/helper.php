@@ -165,7 +165,7 @@ class JApplicationHelper
 			}
 		}
 
-		return null;
+		return;
 	}
 
 	/**

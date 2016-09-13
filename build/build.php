@@ -24,15 +24,7 @@
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
-$systemGit = ob_get_clean();
-$gitPath   = '/usr/bin/git';
-
-// Sanity check - Make sure $gitPath is the same path the system recognizes
-if (substr($systemGit, 0, -1) != $gitPath)
-{
-	echo '$gitPath does not match path to local git executable, please set $gitPath to: ' . substr($systemGit, 0, -1) . "\n";
-	exit;
-}
+$systemGit = trim(ob_get_clean());
 
 // Make sure file and folder permissions are set correctly
 umask(022);
@@ -63,7 +55,7 @@ mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-system($gitPath . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
+system($systemGit . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
 
 chdir($tmp);
 system('mkdir diffdocs');
@@ -109,6 +101,7 @@ $filesArray = array(
 $doNotPackage = array(
 	'.github',
 	'.gitignore',
+	'.php_cs',
 	'.travis.yml',
 	'README.md',
 	'build',
@@ -118,6 +111,7 @@ $doNotPackage = array(
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
+	'karma.conf.js',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -144,7 +138,7 @@ for ($num = $release - 1; $num >= 0; $num--)
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $fullVersion) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-	$command     = $gitPath . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
+	$command     = $systemGit . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
 
 	system($command);
 
@@ -169,15 +163,33 @@ for ($num = $release - 1; $num >= 0; $num--)
 			continue;
 		}
 
-		// Don't add deleted files to the list
-		if (substr($file, 0, 1) != 'D')
+		// Act on the file based on the action
+		switch (substr($file, 0, 1))
 		{
-			$filesArray[$fileName] = true;
-		}
-		else
-		{
-			// Add deleted files to the deleted files list
-			$deletedFiles[] = $fileName;
+			// This is a new case with git 2.9 to handle renamed files
+			case 'R':
+				// Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
+				$renamedFileData = explode("\t", $file);
+
+				// Add the new file for packaging
+				$filesArray[$renamedFileData[2]] = true;
+
+				// And flag the old file as deleted
+				$deletedFiles[] = $renamedFileData[1];
+
+				break;
+
+			// Deleted files
+			case 'D':
+				$deletedFiles[] = $fileName;
+
+				break;
+
+			// Regular additions and modifications
+			default:
+				$filesArray[$fileName] = true;
+
+				break;
 		}
 	}
 

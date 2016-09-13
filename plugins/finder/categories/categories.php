@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for Joomla Categories.
@@ -271,13 +271,13 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->metadata = $registry;
 
 		/*
-		 * Add the meta-data processing instructions based on the category's
+		 * Add the metadata processing instructions based on the category's
 		 * configuration parameters.
 		 */
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
-		// Handle the link to the meta-data.
+		// Handle the link to the metadata.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
@@ -341,7 +341,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load com_content route helper as it is the fallback for routing in the indexer in this instance.
-		include_once JPATH_SITE . '/components/com_content/helpers/route.php';
+		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 		return true;
 	}
