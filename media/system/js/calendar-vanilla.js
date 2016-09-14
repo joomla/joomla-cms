@@ -954,8 +954,8 @@
 		JoomlaCalLocale.shortDays = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 		JoomlaCalLocale.months = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		JoomlaCalLocale.shortMonths = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		JoomlaCalLocale.minYear = 1970;
-		JoomlaCalLocale.maxYear = 2050;
+		JoomlaCalLocale.minYear = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1970;
+		JoomlaCalLocale.maxYear = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2050;
 
 		for (i = 0; i < elements.length; i++) {
 			if (!elements[i]._joomlaCalendar) {
