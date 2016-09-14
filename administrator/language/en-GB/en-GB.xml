@@ -11,6 +11,7 @@
 	<description><![CDATA[en-GB administrator language]]></description>
 	<metadata>
 		<name>English (en-GB)</name>
+		<native_name>English (United Kingdom)</native_name>
 		<tag>en-GB</tag>
 		<rtl>0</rtl>
 		<locale>en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
