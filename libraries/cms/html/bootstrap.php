@@ -633,9 +633,9 @@ abstract class JHtmlBootstrap
 				$script[] = "\t.on('hidden', " . $onHidden . ")";
 			}
 
-			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_column(static::$loaded[__METHOD__], 'parent') : array();
+			$parents = array_key_exists(__METHOD__, static::$loaded) ? array_filter(array_column(static::$loaded[__METHOD__], 'parent')) : array();
 
-			if ($opt['parent'] && empty(array_filter($parents)))
+			if ($opt['parent'] && empty($parents))
 			{
 				$script[] = "
 					$(document).on('click.collapse.data-api', '[data-toggle=collapse]', function (e) {
