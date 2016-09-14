@@ -903,7 +903,7 @@
 		</row>
 		<row>
 			<value>22</value>
-			<value>English (United Kingdom)</value>
+			<value>English (en-GB)</value>
 			<value>language</value>
 			<value>en-GB</value>
 			<value></value>
@@ -922,7 +922,7 @@
 		</row>
 		<row>
 			<value>23</value>
-			<value>English (United Kingdom)</value>
+			<value>English (en-GB)</value>
 			<value>language</value>
 			<value>en-GB</value>
 			<value></value>
@@ -2453,8 +2453,8 @@
 		<row>
 			<value>1</value>
 			<value>en-GB</value>
-			<value>English (UK)</value>
-			<value>English (UK)</value>
+			<value>English (en-GB)</value>
+			<value>English (United Kingdom)</value>
 			<value>en-GB</value>
 			<value>en</value>
 			<value></value>
@@ -2463,8 +2463,8 @@
 		<row>
 			<value>2</value>
 			<value>en-US</value>
-			<value>English (US)</value>
-			<value>English (US)</value>
+			<value>English (en-US)</value>
+			<value>English (United States)</value>
 			<value>en-US</value>
 			<value>us</value>
 			<value></value>
