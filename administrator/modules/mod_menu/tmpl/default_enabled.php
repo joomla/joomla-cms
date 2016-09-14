@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 $shownew = (boolean) $params->get('shownew', 1);
 $showhelp = $params->get('showhelp', 1);
+$useFlags = $params->get('use_flags', 1);
+
 $user = JFactory::getUser();
 $lang = JFactory::getLanguage();
 
@@ -169,18 +171,25 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		else
 		{
-			$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
-
-			if (!$image)
+			if ($useFlags)
 			{
-				$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true);
+				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
+
+				if (!$image)
+				{
+					$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true);
+				}
+				else
+				{
+					$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
+				}
+
+				$titleicon = ' <span>' . $image . '</span>';
 			}
 			else
 			{
-				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
+				$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
 			}
-
-			$titleicon = ' <span>' . $image . '</span>';
 		}
 
 		$menu->addChild(
