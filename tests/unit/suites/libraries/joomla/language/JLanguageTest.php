@@ -1066,13 +1066,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$basePath = __DIR__ . '/data';
 
 		$option1 = array(
-			'name'     => 'English (United Kingdom)',
-			'tag'      => 'en-GB',
-			'rtl'      => '0',
-			'locale'   => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 				' uk, united kingdom, united-kingdom',
-			'firstDay' => '0',
-			'weekEnd'  => '0,6',
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6',
 		);
 
 		$listCompareEqual1 = array(
@@ -1147,13 +1148,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		$dir    = __DIR__ . '/data/language';
 		$option = array(
-			'name'     => 'English (United Kingdom)',
-			'tag'      => 'en-GB',
-			'rtl'      => '0',
-			'locale'   => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
 				' great britain, uk, united kingdom, united-kingdom',
-			'firstDay' => '0',
-			'weekEnd'  => '0,6',
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6',
 		);
 
 		$expected = array(
@@ -1177,13 +1179,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	public function testParseXMLLanguageFile()
 	{
 		$option = array(
-			'name'     => 'English (United Kingdom)',
-			'tag'      => 'en-GB',
-			'rtl'      => '0',
-			'locale'   => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+			'name'       => 'English (en-GB)',
+			'nativeName' => 'English (United Kingdom)',
+			'tag'        => 'en-GB',
+			'rtl'        => '0',
+			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 				' uk, united kingdom, united-kingdom',
-			'firstDay' => '0',
-			'weekEnd'  => '0,6'
+			'firstDay'   => '0',
+			'weekEnd'    => '0,6'
 		);
 
 		$path = __DIR__ . '/data/language/en-GB/en-GB.xml';
