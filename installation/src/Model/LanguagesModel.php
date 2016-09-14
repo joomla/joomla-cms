@@ -786,7 +786,14 @@ class LanguagesModel extends BaseInstallationModel
 	{
 		$tableLanguage = Table::getInstance('Language');
 
+		// Use language code (eg "en-gb") as the flag.
 		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
+
+		if (!file_exists(JPATH_ROOT . '/media/mod_languages/images/' . $flag . '.gif'))
+		{
+			// Use country (eg "gb") as the flag.
+			$flag = strtolower(substr($itemLanguage->language, strpos($itemLanguage->language, '-') + 1));
+		}
 
 		// Load the native language name.
 		$installationLocalisedIni = new Language($itemLanguage->language, false);

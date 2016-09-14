@@ -1,0 +1,104 @@
+## Reserved filenames
+This filenames were present in earlier Joomla versions and were removed with PR #12014
+Due to potential B/C issues we can't put a new file with the same name into this folder.
+
+af.gif     Afrikaans (not Afghanistan!)
+af_za.gif  Afrikaans (South Africa)
+ar.gif     Arabic (not Argentina!)
+ar_aa.gif  Arabic Unitag
+az_az.gif  Azeri (Azerbaijan)
+be.gif     Belarusian (not Belgium!)
+be_by.gif  Belarusian (Belarus)
+bg_bg.gif  Bulgarian (Bulgaria)
+bn.gif     Bangladesh
+bn_bd.gif  Bangladesh
+br.gif     Breton (not Brazil!)
+bs.gif     Bosnian (Bosnia and Herzegovina)
+bs_ba.gif  Bosnian (Bosnia and Herzegovina)
+ca.gif     Catalan (not Canada!)
+cbk_iq.gif Something Iraq
+cs.gif     Czech
+cs_cz.gif  Czech (Czech Republic)
+cy.gif     Welsh (not Cyprus!)
+cz_cz.gif  Something (Czech Republic)
+da.gif     Danish
+de_de.gif  German (Germany)
+dz_bt.gif  Dzongkha (Bhutan)
+el.gif     Greek
+el_gr.gif  Greek (Greece)
+en.gif     English
+en_au.gif  English (Australia)
+en_gb.gif  English (United Kingdom)
+en_us.gif  English (United States)
+eo.gif     Esperanto
+es_co.gif  Spanish (Colombia)
+es_es.gif  Spanish (Spain)
+et.gif     Estonian
+et_ee.gif  Estonian (Estonia)
+fa.gif     Farsi
+fa_ir.gif  Farsi (Iran)
+fi_fi.gif  Finnish (Finland)
+fr_fr.gif  French (France)
+ga_ie.gif  Irish (Ireland)
+gd.gif     Gaelic (not Grenada!)
+gl.gif     Galician (not Greenland!)
+he.gif     Hebrew
+he_il.gif  Hebrew (Israel)
+hi.gif     Hindi
+hi_in.gif  Hindi (India)
+hk_hk.gif  Something (Hong Kong)
+hr_hr.gif  Croatian (Croatia)
+hu_hu.gif  Hungarian (Hungary)
+hy.gif     Armenian
+hy_am.gif  Armenian (Armenia)
+id_id.gif  Indonesian (Indonesia)
+is_is.gif  Icelandic (Iceland)
+it_it.gif  Italian (Italy)
+ja.gif     Japanese
+ja_jp.gif  Japanese (Japan)
+ka.gif     Georgian
+ka_ge.gif  Georgian (Georgia)
+km.gif     Khmer (not Comoros!)
+km_kh.gif  Khmer (Cambodia)
+ko.gif     Korean
+ko_kr.gif  Korean (Korea)
+ku.gif     Kurdish (Iraq flag)
+lo.gif     Lao
+lo_la.gif  Lao (Laos)
+lt_lt.gif  Lithuanian (Lithuania)
+lv_lv.gif  Latvian (Latvia)
+mk_mk.gif  FYRO Macedonian
+mn_mn.gif  Mongolian (Mongolia)
+ms_my.gif  Malay (Malaysia)
+nb_no.gif  Bokmål (Norway)
+nl_nl.gif  Dutch (Netherlands)
+nn_no.gif  Nynorsk (Norway)
+pl_pl.gif  Polish (Poland)
+ps.gif     Pushto (not Palestine!)
+pt_pt.gif  Portuguese (Portugal)
+ro_ro.gif  Romanian (Romania)
+ru_ru.gif  Russian (Russia)
+si.gif     Sinhala (not Slovenia!)
+sk_sk.gif  Slovak (Slovakia)
+sl.gif     Slovenian (not Sierra Leone!)
+sq_al.gif  Albanian (Albania)
+sr.gif     Serbian (not Suriname!)
+srp_me.gif Montenegrin (Montenegro)
+sv.gif     Swedish (not El Salvador!)
+sv_se.gif  Swedish (Sweden)
+sw.gif     Swahili
+sy.gif     Syriac (was assyrian flag, not Syria!)
+ta.gif     Tamil
+th_th.gif  Thai (Thailand)
+tk_tm.gif  Turkmen (Turkmenistan)
+tr_tr.gif  Turkish (Turkey)
+uk.gif     Ukrainian
+uk_ua.gif  Ukrainian (Ukraine)
+ur.gif     Urdu
+ur_pk.gif  Urdu (Islamic Republic of Pakistan)
+uz_uz.gif  Uzbek (Uzbekistan)
+vi.gif     Vietnamese
+vi_vn.gif  Vietnamese (Viet Nam)
+zh.gif     Chinese
+zh_cn.gif  Chinese (China)
+zh_tw.gif  Chinese (Taiwan)
