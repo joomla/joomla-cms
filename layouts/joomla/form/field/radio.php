@@ -82,7 +82,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 				<?php $attributes[] = 'required aria-required="true"'; ?>
 			<?php endif; ?>
 			<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-			<label for="<?php echo $oid; ?>" <?php echo trim ($optionClass . ' ' . $style); ?>>
+			<label for="<?php echo $oid; ?>" <?php echo trim($optionClass . ' ' . $style); ?>>
 				<?php echo $option->text; ?>
 			</label>
 		<?php endforeach; ?>
