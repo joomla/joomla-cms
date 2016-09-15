@@ -25,6 +25,7 @@ module.exports = function (config) {
 			{pattern: 'tests/javascript/**/spec.js', included: false},
 			{pattern: 'tests/javascript/**/spec-setup.js', included: false},
 			{pattern: 'images/*.png', included: false},
+
 			'tests/javascript/test-main.js'
 		],
 

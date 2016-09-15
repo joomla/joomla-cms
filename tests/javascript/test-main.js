@@ -26,7 +26,7 @@ require.config({
 		'testsRoot': 'tests/javascript',
 		'text': 'tests/javascript/node_modules/text/text',
 		'calLang': 'media/system/js/calendar-locales/en',
-		'calDate': 'media/system/js/calendar-locales/date/date-helper'
+		'calDate': 'media/system/js/calendar-locales/date/gregorian/date-helper'
 	},
 
 	shim: {
