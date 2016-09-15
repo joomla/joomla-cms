@@ -217,10 +217,11 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getLayoutData()
 	{
-		$data   = parent::getLayoutData();
-		$user   = JFactory::getUser();
-		$config = JFactory::getConfig();
-		$tag    = JFactory::getLanguage()->getTag();
+		$data     = parent::getLayoutData();
+		$user     = JFactory::getUser();
+		$config   = JFactory::getConfig();
+		$tag      = JFactory::getLanguage()->getTag();
+		$calendar = JFactory::getLanguage()->getCalendar();
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($this->value && $this->value != JFactory::getDbo()->getNullDate() && strtotime($this->value) !== false)
@@ -266,11 +267,11 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		}
 
 		// Get the appropriate file for the current language date helper
-		$helperPath = 'system/calendar-locales/date/date-helper.min.js';
+		$helperPath = 'system/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($tag) . '/'))
+		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($calendar) . '/'))
 		{
-			$helperPath = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+			$helperPath = 'system/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
 		}
 
 		// Get the appropriate locale file for the current language

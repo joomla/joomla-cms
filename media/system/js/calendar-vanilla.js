@@ -288,7 +288,7 @@
 				el = testel;
 			} else {                                        // No - try to find the table this way
 				el = el.getParent('TD');
-				if (hasClass(el, 'dropdown-menu')) { el = el.getElementsByTagName('table')[0]; }
+				if (hasClass(el, 'j-calendar')) { el = el.getElementsByTagName('table')[0]; }
 			}
 		} else {                                            // Check that doesn't have a button and is not a day td
 			if (!(hasClass(target, 'btn')) && !hasClass(el, 'day') && !hasClass(el, 'title')) { return; }
@@ -499,7 +499,7 @@
 			div.style.direction = this.params.direction;
 		}
 
-		div.className = 'dropdown-menu j-calendar';
+		div.className = 'j-calendar';
 		div.style.position = "absolute";
 		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 		div.style.minWidth = parent.width;

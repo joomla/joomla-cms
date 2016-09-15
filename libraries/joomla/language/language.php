@@ -1086,6 +1086,18 @@ class JLanguage
 	}
 
 	/**
+	 * Getter for the language tag (as defined in RFC 3066)
+	 *
+	 * @return  string  The language tag.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getCalendar()
+	{
+		return $this->metadata['calendar'];
+	}
+
+	/**
 	 * Get the RTL property.
 	 *
 	 * @return  boolean  True is it an RTL language.
