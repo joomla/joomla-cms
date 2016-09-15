@@ -988,14 +988,15 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		$tag    = JFactory::getLanguage()->getTag();
+		$tag      = JFactory::getLanguage()->getTag();
+		$calendar = JFactory::getLanguage()->getCalendar();
 
 		// Get the appropriate file for the current language date helper
-		$helperPath = 'system/calendar-locales/date/date-helper.min.js';
+		$helperPath = 'system/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($tag) . '/'))
+		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($calendar)))
 		{
-			$helperPath = 'system/calendar-locales/date/' . strtolower($tag) . '/date-helper.min.js';
+			$helperPath = 'system/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
 		}
 
 		// Get the appropriate locale file for the current language

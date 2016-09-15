@@ -269,7 +269,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/calendar-locales/date/gregorian/date-helper.min.js';
 
-		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($calendar) . '/'))
+		if (!empty($calendar) && is_dir(JPATH_ROOT . '/media/system/js/calendar-locales/date/' . strtolower($calendar)))
 		{
 			$helperPath = 'system/calendar-locales/date/' . strtolower($calendar) . '/date-helper.min.js';
 		}
