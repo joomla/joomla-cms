@@ -125,6 +125,17 @@
 		</field>
 
 		<field
+			name="show_associations"
+			type="radio"
+			class="btn-group"
+			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+
+		<field
 			name="show_author"
 			type="list"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
