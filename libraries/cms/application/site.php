@@ -539,18 +539,6 @@ final class JApplicationSite extends JApplicationCms
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 
-			// Try to find data for 'beez3' template
-			$original_tmpl = $template->template;
-
-			foreach ($templates as $tmpl)
-			{
-				if ($tmpl->template == 'beez3')
-				{
-					$template = $tmpl;
-					break;
-				}
-			}
-
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
