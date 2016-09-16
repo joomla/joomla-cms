@@ -506,6 +506,7 @@
 		div.style.padding = '0';
 		div.style.left = "auto";
 		div.style.top = "auto";
+		div.style.display = "none";
 
 		this.wrapper = createElement('div');
 		this.wrapper.className = 'calendar-container';
