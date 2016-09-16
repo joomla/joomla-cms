@@ -15,5 +15,5 @@ window.JoomlaCalLocale = {
 	minYear : 1970,
 	maxYear : 2050,
 	exit: "Exit",
-	save: "Done"
+	save: "Apply"
 };
