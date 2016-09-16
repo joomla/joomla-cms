@@ -696,7 +696,6 @@ class ContentModelArticles extends JModelList
 			if ($item->params->get('show_associations'))
 			{
 				$item->associations = ContentHelperAssociation::displayAssociations($item->id);
-				$item->flag         = $item->params->get('flags');
 			}
 		}
 

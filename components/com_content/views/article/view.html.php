@@ -158,7 +158,6 @@ class ContentViewArticle extends JViewLegacy
 		if ($item->params->get('show_associations'))
 		{
 			$item->associations = ContentHelperAssociation::displayAssociations($item->id);
-			$item->flag         = $item->params->get('flags');
 		}
 
 		// Process the content plugins.
