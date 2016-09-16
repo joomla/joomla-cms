@@ -169,7 +169,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 				. JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true)
 				. '</span>';
 		}
-		elseif ($menuType->image && ($image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true)))
+		elseif ($menuType->image && JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true))
 		{
 			$titleicon = ' <span>' . JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true) . '</span>';
 		}
