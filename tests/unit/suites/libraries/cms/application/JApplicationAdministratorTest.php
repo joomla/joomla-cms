@@ -227,7 +227,7 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('isis', $template->template);
+		$this->assertEquals('atum', $template->template);
 	}
 
 	/**
