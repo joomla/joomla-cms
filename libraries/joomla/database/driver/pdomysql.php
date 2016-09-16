@@ -59,7 +59,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 * @var    string
 	 * @since  3.4
 	 */
-	protected static $dbMinimum = '5.0.4';
+	protected static $dbMinimum = '5.5.3';
 
 	/**
 	 * Constructor.

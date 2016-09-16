@@ -7,7 +7,7 @@
     "license": "GPL-2.0+",
     "config": {
         "platform": {
-            "php": "5.4"
+            "php": "5.5.9"
         },
         "vendor-dir": "libraries/vendor"
     },
@@ -23,7 +23,7 @@
         }
     },
     "require": {
-        "php": ">=5.4",
+        "php": ">=5.5.9",
         "joomla/application": "~1.5",
         "joomla/di": "~1.2",
         "joomla/event": "~2.0@dev",

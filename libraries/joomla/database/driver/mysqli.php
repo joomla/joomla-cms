@@ -63,7 +63,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * @var    string  The minimum supported database version.
 	 * @since  12.2
 	 */
-	protected static $dbMinimum = '5.0.4';
+	protected static $dbMinimum = '5.5.3';
 
 	/**
 	 * Constructor.
