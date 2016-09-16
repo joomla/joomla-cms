@@ -72,7 +72,7 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
 JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
 JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
-JHtml::_('script', 'system/color-field-adv-init.min.js', false, true, false, false, true);
+JHtml::_('script', 'system/field/color-field-adv-init.min.js', false, true, false, false, true);
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo

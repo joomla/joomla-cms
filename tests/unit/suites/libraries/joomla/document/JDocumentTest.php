@@ -243,7 +243,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureAddScriptReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScript('https://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($this->object, $this->object->addScript('https://www.joomla.org/media/system/js/core.min.js'));
 	}
 
 	/**
@@ -251,7 +251,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEnsureAddScriptVersionWithDefaultParamsReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.min.js'));
 	}
 
 	/**
@@ -266,7 +266,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->setMediaVersion('1a2b3c4d');
 
-		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.min.js'));
 	}
 
 	/**

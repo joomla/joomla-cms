@@ -87,7 +87,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/core.js', false, true);
+		JHtml::_('script', 'system/core.min.js', false, true, false, false, JDEBUG);
 		static::$loaded[__METHOD__] = true;
 
 		return;

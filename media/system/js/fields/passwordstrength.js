@@ -1,3 +1,4 @@
+// @TODO Refactor script from Mootools to jQuery or vanilla code
 /*
 ---
 description: Form.PasswordStrength class, and basic dom methods

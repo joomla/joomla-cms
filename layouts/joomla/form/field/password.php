@@ -46,6 +46,8 @@ extract($displayData);
 
 if ($meter)
 {
+	JHtml::_('script', 'system/fields/passwordstrength.js', false, true); // @TODO Refactor script from Mootools to jQuery or vanilla code
+
 	// Load script on document load.
 	JFactory::getDocument()->addScriptDeclaration(
 		"

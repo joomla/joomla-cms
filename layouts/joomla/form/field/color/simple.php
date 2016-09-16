@@ -52,7 +52,7 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
 JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
 JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
-JHtml::_('script', 'system/color-field-init.min.js', false, true, false, false, true);
+JHtml::_('script', 'system/field/color-field-init.min.js', false, true, false, false, true);
 ?>
 <select data-chosen="true" name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
 echo $disabled; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
