@@ -77,7 +77,7 @@ abstract class JHtmlCategoriesAdministrator
 					}
 					else
 					{
-						$tooltip .= '[' . $item->lang_code . ']';
+						$tooltip .= '<span class="label">' . $item->lang_code . '</span>';
 					}
 
 					$tooltip .= ' ' . $item->title;
