@@ -13,5 +13,7 @@ window.JoomlaCalLocale = {
 	pm : "pm",
 	dateType : "gregorian",
 	minYear : 1970,
-	maxYear : 2050
+	maxYear : 2050,
+	exit: "Exit",
+	save: "Done"
 };

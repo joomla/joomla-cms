@@ -87,7 +87,9 @@
 					btnNextYear: "btn btn-small btn-default pull-right",
 					btnPrevMonth: "btn btn-small btn-default pull-left",
 					btnNextMonth: "btn btn-small btn-default pull-right",
-					btnToday: "btn btn-small btn-success"
+					btnToday: "btn btn-small btn-primary",
+					btnExit: "btn btn-small btn-danger",
+					btnSave: "btn btn-small btn-success",
 				},
 				writable: true
 			},
@@ -358,8 +360,14 @@
 				this.processCalendar();
 			}
 		} else {
-			if (el.navtype == 200) {
+			if (el.navtype == 100) {
 				removeClass(el, "hilite");
+				self.dateClicked = true;
+				this.processCalendar();
+				this.close();
+				return;
+			}
+			if (el.navtype == 200) {
 				this.close();
 				return;
 			}
@@ -428,11 +436,15 @@
 		}
 
 		if (newdate) {
+			if (self.params.showsTime)
+				this.dateClicked = false;
 			ev && this.callHandler();
 		}
 
-		if (closing) {
-			removeClass(el, "hilite");
+		removeClass(el, "hilite");
+
+		if (closing && !self.params.showsTime) {
+			self.dateClicked = false;
 			ev && this.close();
 		}
 	};
@@ -457,10 +469,12 @@
 		if (ev.shiftKey && K === 32) {                  // KEY Shift + space (now)
 			this.cellClick(self._nav_now, ev);
 		}
-		if (K === 27) {                                // KEY esc (close)
+		if (K === 27) {                                // KEY esc (close);
 			this.close();
 		}
 		if (ev.shiftKey && K === 13) {                 // KEY enter (select and close)
+			if (this.params.showsTime)
+				this.dateClicked = false
 			this.cellClick(self.currentDateEl, ev);
 		}
 		if (K === 38) {                                // KEY up (previous week)
@@ -556,25 +570,6 @@
 		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 		this._nav_month.className = "title";
 		this._nav_nm = hh(">", 1, 1, '', '', 'btn-next-month ' + this.params.classes.btnNextMonth);                       // Next month button
-
-		if (this.params.showsTodayBtn) {                                                                    // Head - today
-			row = createElement("tr", thead);
-			row.className = "headrow";
-			this._nav_now = hh('<a class="btn-today ' + this.params.classes.btnToday + '" data-action="today" style="display:block;padding:2px 6px;">'
-				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 8 : 7, 0, 'td', {'textAlign': 'center'});
-			var todaya = row.querySelector('a[data-action="today"]');                                       // HTML5 version
-			if (typeof todaya == "undefined") {                                                             // Support IE8
-				var tempElem = row.getElementsByTagName("A"), i, todaya = null;
-				for (i = 0; i < tempElem.length; i++) {
-					if (tempElem[i].getAttribute("data-action") == "today")
-						todaya = tempElem[i];
-				}
-			}
-			addCalEvent(todaya, 'click', function (e) {
-				var el = todaya.parentNode.parentNode;
-				if (el.tagName === 'TD') { self.cellClick(self._nav_now, e); }
-			});
-		}
 
 		row = createElement("tr", thead);                                                                   // day names
 		row.className = "daynames";
@@ -732,6 +727,56 @@
 				}
 			})();
 		}
+
+		row = createElement("tr", tbody);
+		row.className = "btn-row";
+		this._nav_save = hh('<a class="btn-save ' + this.params.classes.btnSave + '" data-action="save" style="display:block;padding:2px 6px;">'
+			+ JoomlaCalLocale.save + '</a>', this.params.showsTodayBtn ? 2 : 3, 100, 'td', {'textAlign': 'center'});
+		var savea = row.querySelector('a[data-action="save"]');                                       // HTML5 version
+		if (typeof savea == "undefined") {                                                             // Support IE8
+			var tempElem = row.getElementsByTagName("A"), i, savea = null;
+			for (i = 0; i < tempElem.length; i++) {
+				if (tempElem[i].getAttribute("data-action") == "save")
+					savea = tempElem[i];
+			}
+		}
+		addCalEvent(savea, 'click', function (e) {
+			var el = savea.parentNode.parentNode;
+			if (el.tagName === 'TD') { self.cellClick(self._nav_save, e); }
+		});
+
+		if (this.params.showsTodayBtn) {                                                                    // Head - today
+
+			this._nav_now = hh('<a class="btn-today ' + this.params.classes.btnToday + '" data-action="today" style="display:block;padding:2px 6px;">'
+				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 4 : 3, 0, 'td', {'textAlign': 'center'});
+			var todaya = row.querySelector('a[data-action="today"]');                                       // HTML5 version
+			if (typeof todaya == "undefined") {                                                             // Support IE8
+				var tempElem = row.getElementsByTagName("A"), i, todaya = null;
+				for (i = 0; i < tempElem.length; i++) {
+					if (tempElem[i].getAttribute("data-action") == "today")
+						todaya = tempElem[i];
+				}
+			}
+			addCalEvent(todaya, 'click', function (e) {
+				var el = todaya.parentNode.parentNode;
+				if (el.tagName === 'TD') { self.cellClick(self._nav_now, e); }
+			});
+		}
+
+		this._nav_exit = hh('<a class="btn-exit ' + this.params.classes.btnExit + '" data-action="exit" style="display:block;padding:2px 6px;">'
+			+ JoomlaCalLocale.exit + '</a>', this.params.showsTodayBtn ? 2 : 3, 200, 'td', {'textAlign': 'center'});
+		var exita = row.querySelector('a[data-action="exit"]');                                       // HTML5 version
+		if (typeof exita == "undefined") {                                                             // Support IE8
+			var tempElem = row.getElementsByTagName("A"), i, exita = null;
+			for (i = 0; i < tempElem.length; i++) {
+				if (tempElem[i].getAttribute("data-action") == "exit")
+					exita = tempElem[i];
+			}
+		}
+		addCalEvent(exita, 'click', function (e) {
+			var el = exita.parentNode.parentNode;
+			if (el.tagName === 'TD') { self.cellClick(self._nav_exit, e); }
+		});
 
 		this.processCalendar();
 	};
@@ -957,6 +1002,8 @@
 		JoomlaCalLocale.shortMonths = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 		JoomlaCalLocale.minYear = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1970;
 		JoomlaCalLocale.maxYear = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2050;
+		JoomlaCalLocale.exit = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
+		JoomlaCalLocale.save = JoomlaCalLocale.save ? JoomlaCalLocale.save : 'Done';
 
 		for (i = 0; i < elements.length; i++) {
 			if (!elements[i]._joomlaCalendar) {
