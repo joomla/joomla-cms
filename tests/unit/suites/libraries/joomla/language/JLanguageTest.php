@@ -1045,7 +1045,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 				' uk, united kingdom, united-kingdom',
 			'firstDay'   => '0',
-			'weekEnd'    => '0,6'
+			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		// Language exists, returns array with values
@@ -1074,6 +1075,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 				' uk, united kingdom, united-kingdom',
 			'firstDay'   => '0',
 			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		$listCompareEqual1 = array(
@@ -1156,6 +1158,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 				' great britain, uk, united kingdom, united-kingdom',
 			'firstDay'   => '0',
 			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		$expected = array(
@@ -1186,7 +1189,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'locale'     => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 				' uk, united kingdom, united-kingdom',
 			'firstDay'   => '0',
-			'weekEnd'    => '0,6'
+			'weekEnd'    => '0,6',
+			'calendar'   => 'gregorian',
 		);
 
 		$path = __DIR__ . '/data/language/en-GB/en-GB.xml';
