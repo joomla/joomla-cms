@@ -50,20 +50,61 @@ class JFile
 	 * Makes file name safe to use
 	 *
 	 * @param   string  $file  The name of the file [not full path]
+	 * @param   string  $language  (optional) The language to use of the transliterating the file name
 	 *
 	 * @return  string  The sanitised string
 	 *
 	 * @since   11.1
 	 */
-	public static function makeSafe($file)
+	public static function makeSafe($file, $language = null)
 	{
-		// Remove any trailing dots, as those aren't ever valid file names.
+		// Replace spaces with dash after removing any leading / trailing spaces
+		$file = str_replace(" ", "-", trim($file));
+
+		// Remove any trailing dots, as those aren't ever valid file names
 		$file = rtrim($file, '.');
 
+		// Regex for replacing non safe characters
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
 
-		return trim(preg_replace($regex, '', $file));
+		// Language transliteration should include given language, and also site + admin defaults (most useful is site default)
+		$lang_params = JComponentHelper::getParams('com_languages');
+		$lang_site_default  = $lang_params->get('site', '*');
+		$lang_admin_default = $lang_params->get('admin', '*');
+
+		$langs[$language]   = $language && $language != '*';
+		$langs[$lang_site_default]  = $lang_site_default != '*';
+		$langs[$lang_admin_default] = $lang_admin_default != '*';
+
+		// Try to transliterate according to given language and site + admin default languages
+		$file_safe = false;
+		foreach($langs as $language => $do)
+		{
+			if ($do)
+			{
+				$transformed = JLanguage::getInstance($language)->transliterate($file);
+				$file_safe = $transformed ? preg_replace($regex, '', $transformed) : false;
+
+				// Stop trying transliterations if a complete job was done
+				if ($transformed && $transformed == $file_safe)
+				{
+					break;
+				}
+				$file_safe = false;
+			}
+		}
+
+		// Finally if none of transliterations did a complete job, e.g. because wrong language(s) tried, then avoid bad looking filenames by using current time
+		if ( !$file_safe )
+		{
+			$ext = pathinfo($file, PATHINFO_EXTENSION);
+			$file_safe = date('Y-m-d-H-i-s') .'.'. $ext;
+		}
+
+		// Return filename that is filesystem safe
+		return $file_safe;
 	}
+
 
 	/**
 	 * Copies a file
