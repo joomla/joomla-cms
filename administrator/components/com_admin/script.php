@@ -351,7 +351,7 @@ class JoomlaInstallerScript
 
 			// Templates
 			array('template', 'protostar', '', 0),
-			array('template', 'isis', '', 1),
+			array('template', 'atum', '', 1),
 
 			// Languages
 			array('language', 'en-GB', '', 0),
@@ -1554,6 +1554,7 @@ class JoomlaInstallerScript
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data',
 			'/templates/beez3',
+			'/administrator/templates/isis',
 			'/administrator/templates/hathor',
 			'/media/jui/less',
 		);

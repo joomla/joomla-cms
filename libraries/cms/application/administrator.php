@@ -218,7 +218,7 @@ class JApplicationAdministrator extends JApplicationCms
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 			$template->params = new Registry;
-			$template->template = 'isis';
+			$template->template = 'atum';
 		}
 
 		// Cache the result
