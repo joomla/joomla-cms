@@ -82,7 +82,7 @@ class JHtmlFormbehaviorTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/jui/js/jquery.min.js',
+			'/media/vendor/jquery/js/jquery.min.js',
 			$document->_scripts,
 			'Verify that the chosen method initialises jQuery as well'
 		);
