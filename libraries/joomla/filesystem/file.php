@@ -97,8 +97,8 @@ class JFile
 		// Finally if none of transliterations did a complete job, e.g. because wrong language(s) tried, then avoid bad looking filenames by using current time
 		if ( !$file_safe )
 		{
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
-			$file_safe = date('Y-m-d-H-i-s') .'.'. $ext;
+			$ext = self::getExt($file);
+			$file_safe = date('Y-m-d_H-i-s_u') .'.'. $ext;
 		}
 
 		// Return filename that is filesystem safe
