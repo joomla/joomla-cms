@@ -112,7 +112,14 @@ JFactory::getDocument()->addScriptDeclaration($script);
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
 										{
-											echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true);
+											if ($link->language_image)
+											{
+												echo JHtml::_('image', 'mod_languages/' . $link->language_image . '.gif', $link->language_title, array('title' => $link->language_title), true);
+											}
+											else
+											{
+												echo '<span class="label" title="' . $link->language_title . '">' . $link->language . '</span>';
+											}
 										}
 										if ($link->published == 0)
 										{
