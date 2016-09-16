@@ -37,8 +37,8 @@ require('time-grunt')(grunt);
             'html/**/*.php',
             'html/**/**/*.php',
         ],
-        // Set this to match your localhost path and port for *your* environment
-        proxy: 'localhost:8888/dark-cms/administrator'
+        // Set this to match your localhost path and port for *YOUR* environment
+        proxy: 'http://j4.loc/administrator'
       }
     },
 

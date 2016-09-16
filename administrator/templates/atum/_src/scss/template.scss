@@ -1,7 +1,7 @@
 @import "variables";
 @import "../../../media/vendor/bootstrap/scss/variables";
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
-@import "../../../media/vendor/font-awesome/scss/jfont-awesome";
+@import "../../../media/jui/scss/font-awesome/jfont-awesome";
 
 
 // Mixins
@@ -54,7 +54,7 @@ small, .small {
   z-index: 999;
   width: 100%;
   height: 50px;
-  padding: 0 25px 0 0;
+  padding-right: 25px;
   background: $atum-template-color;
 
   .page-title {
@@ -136,10 +136,14 @@ small, .small {
 }
 
 .container-title {
-  padding: 5px 0 5px 55px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 55px;
 
   @media (min-width: 48em) {
-    padding: 5px 0 5px 265px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 265px;
   }
 }
 
@@ -413,7 +417,8 @@ small, .small {
   @include transition(all .5s ease);
 
   .btn-group {
-    margin: 5px 0 0 5px;
+    margin-top: 5px;
+    margin-left: 5px;
   }
 
   p {
@@ -434,7 +439,7 @@ small, .small {
   width: 100%;
   .btn-wrapper {
     display: inline-block;
-    margin: 0 5px 0 0;
+    margin-right: 5px;
   }
   .js-stools-container-filters {
     display: none;
@@ -469,7 +474,8 @@ small, .small {
   .js-stools-field-list,
   .js-stools-field-filter {
     display: inline-block;
-    margin: 0 5px 5px 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
 
     .form-control {
       display: inline-block;
@@ -575,7 +581,8 @@ small, .small {
 
   .admin-logo {
     float: left;
-    padding: 2px 25px 0 0;
+    padding-top: 2px;
+    padding-right: 25px;
     font-size: 16px;
     color: #d9d9d9;
   }
@@ -635,8 +642,11 @@ small, .small {
     content: " ";
     border-color: transparent;
     border-style: solid;
-    border-width: 5px 0 5px 5px;
+    border-top-width: 5px;
+    border-right-width: 0;
+    border-bottom-width: 5px;
     border-left-color: #ccc;
+    border-left-width: 5px;
   }
 
   .dropdown-submenu > .dropdown-menu {
@@ -697,7 +707,7 @@ small, .small {
 // For collapsible sidebar
 .system-message-container.pull-xs-right, .j-main-container {
   min-height: 0;
-  padding: 0 0 0 15px;
+  padding-left: 15px;
   margin-left: 15px;
 }
 .j-sidebar-container {
@@ -707,7 +717,8 @@ small, .small {
   width: 16.5%;
   padding-top: 28px;
   padding-bottom: 10px;
-  margin: -10px 0 0 -1px;
+  margin-top: -10px;
+  margin-left: -1px;
   background-color: #f5f5f5;
   border-right: 1px solid darken(#f5f5f5, 7%);
   border-bottom: 1px solid darken(#f5f5f5, 7%);
