@@ -1086,15 +1086,22 @@ class JLanguage
 	}
 
 	/**
-	 * Getter for the language tag (as defined in RFC 3066)
+	 * Getter for the calendar type
 	 *
-	 * @return  string  The language tag.
+	 * @return  string  The calendar type.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCalendar()
 	{
-		return $this->metadata['calendar'];
+		if (isset($this->metadata['calendar']))
+		{
+			return $this->metadata['calendar'];
+		}
+		else
+		{
+			return 'gregorian';
+		}
 	}
 
 	/**

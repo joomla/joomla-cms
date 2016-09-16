@@ -16,7 +16,7 @@
 	list-style: none;
 	background-color: #ffffff;
 	border: 1px solid #ccc;
-	border-radius: 6px;
+	border-radius: 8px;
 }
 
 /* The main calendar widget.  DIV containing a table. */
@@ -86,12 +86,6 @@ div.calendar {
 	color: #999;
 }
 
-.j-calendar tbody td.selected { /* Cell showing today date */
-	font-weight: bold;
-	background: darkblue;
-	color: #fff;
-}
-
 .j-calendar tbody td.hilite { /* Hovered cells <TD> */
 	background: #999999;
 	color: #ffffff;
@@ -105,21 +99,27 @@ td.day {
 	border-radius: 150px;
 }
 
-td.day:hover {
-	cursor: pointer;
-	background: darkblue;
-	border-radius: 300px;
-	color: #fff;
-}
-
 td.today {
 	border-color: transparent;
 	color: seagreen;
 }
 
+.j-calendar tbody td.selected { /* Cell showing today date */
+	font-weight: bold;
+	background: darkblue;
+	color: #fff;
+}
+
 .j-calendar tbody td.today {
 	font-weight: bold;
 	border: 1px solid darkgreen;
+}
+
+td.day:hover {
+	cursor: pointer;
+	background: darkblue;
+	border-radius: 300px;
+	color: #fff;
 }
 
 .j-calendar tbody .disabled {
@@ -134,27 +134,3 @@ td.today {
 	display: none;
 }
 
-/* The footer part -- status bar and "Close" button */
-
-.j-calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
-	text-align: center;
-	background: #fff;
-	color: #000;
-}
-
-.j-calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
-	border-top: 1px solid #cccccc;
-	background: #fff;
-	color: #000000;
-}
-
-.j-calendar tfoot .hilite { /* Hover style for buttons in footer */
-	background: #666666;
-	border: 1px solid #f40;
-	padding: 1px;
-}
-
-.j-calendar tfoot .active { /* Active (pressed) style for buttons in footer */
-	background: #999999;
-	padding: 2px 0px 0px 2px;
-}
