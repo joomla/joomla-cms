@@ -1,0 +1,23 @@
+// Global
+$atum-login-bg-color:         #433849;
+$atum-template-color:         #433849;
+$atum-template-color-lighter: lighten($atum-template-color, 5%);
+$atum-template-color-darker:  darken($atum-template-color, 5%);
+
+// Menu Toggle
+$atum-button-width:                40px;
+$atum-button-height:               50px;
+$atum-bar-thickness:               4px;
+$atum-button-pad:                  5px;
+$atum-button-bar-space:            6px;
+$atum-button-transistion-duration: .3s;
+
+// Font sizing
+$font-size-root: 14px;
+$font-size-h1:   1.857rem;
+$font-size-h2:   1.571rem;
+$font-size-h3:   1.286rem;
+$font-size-h4:   1rem;
+$font-size-h5:   .9286rem;
+$font-size-h6:   .8571rem;
+$fa-font-path:   "../../../../media/vendor/font-awesome/fonts" !default;
