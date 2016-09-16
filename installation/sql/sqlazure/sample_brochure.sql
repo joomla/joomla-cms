@@ -313,22 +313,3 @@ UNION ALL
 SELECT 83, 0
 UNION ALL
 SELECT 85, 0;
-
--- Table #__template_styles
-
-TRUNCATE TABLE [#__template_styles];
-
-SET IDENTITY_INSERT [#__template_styles] ON;
-
-INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params])
-SELECT 2, 'bluestork', 1, 1, 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}'
-UNION ALL
-SELECT 3, 'atomic', 0, 0, 'Atomic - Default', '{}'
-UNION ALL
-SELECT 4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","lo":"images/joomla_black.png","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}'
-UNION ALL
-SELECT 5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'
-UNION ALL
-SELECT 6, 'beez5', 0, 1, 'Your Basic Template', '{"wrapperSmall":53,"wrapperLarge":72,"lo":"","sitetitle":"Your site name or image","sitedescription":"Your tag line for the top of every page","navposition":"left","html5":1}';
-
-SET IDENTITY_INSERT [#__template_styles] OFF;

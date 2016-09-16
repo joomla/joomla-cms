@@ -1457,15 +1457,9 @@ SET IDENTITY_INSERT [#__newsfeeds] OFF;
 SET IDENTITY_INSERT [#__template_styles] ON;
 
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params])
-SELECT 4, 'beez3', 0, 0, 'Beez3 - Fruit Shop', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Fruit Shop","sitedescription":"The freshest fruit for you","navposition":"left","bootstrap":"","templatecolor":"red","headerImage":"","backgroundcolor":"#eee"}'
-UNION ALL
-SELECT 5, 'hathor', 1, 0, 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'
-UNION ALL
 SELECT 7, 'protostar', 0, 1, 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'
 UNION ALL
-SELECT 8, 'isis', 1, 1, 'isis - Default', '{"templateColor":"","logoFile":""}'
-UNION ALL
-SELECT 9, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","bootstrap":"","templatecolor":"personal","headerImage":"","backgroundcolor":"#eee"}';
+SELECT 8, 'isis', 1, 1, 'isis - Default', '{"templateColor":"","logoFile":""}';
 
 SET IDENTITY_INSERT [#__template_styles] OFF;
 

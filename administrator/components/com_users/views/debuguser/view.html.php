@@ -65,10 +65,6 @@ class UsersViewDebuguser extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		// Vars only used in hathor.
-		$this->levels        = UsersHelperDebug::getLevelsOptions();
-		$this->components    = UsersHelperDebug::getComponents();
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
