@@ -137,7 +137,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+			$buffer .= $tab . '<link href="' . $strSrc . '" rel="stylesheet"';
 
 			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultCssMimes)))
 			{

@@ -64,6 +64,7 @@ class BannersModelBanners extends JModelList
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering == 'random');
 		$nullDate   = $db->quote($db->getNullDate());
+		$nowDate    = $db->quote(JFactory::getDate()->toSql());
 
 		$query->select(
 			'a.id as id,'
@@ -80,8 +81,8 @@ class BannersModelBanners extends JModelList
 			->from('#__banners as a')
 			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
 			->where('a.state=1')
-			->where('(' . $query->currentTimestamp() . ' >= a.publish_up OR a.publish_up = ' . $nullDate . ')')
-			->where('(' . $query->currentTimestamp() . ' <= a.publish_down OR a.publish_down = ' . $nullDate . ')')
+			->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
 			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
 		if ($cid)
