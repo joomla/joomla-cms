@@ -211,10 +211,18 @@ if ($menuType == '')
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
 								<?php elseif ($canChange) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]=' . $item->id . '&' . JSession::getFormToken() . '=1'); ?>">
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+										<?php if ($item->language_image) : ?>
+											<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
+										<?php else : ?>
+											<span class="label" title="<?php echo JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+										<?php endif; ?>
 									</a>
 								<?php else : ?>
-									<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+									<?php if ($item->language_image) : ?>
+										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+									<?php else : ?>
+										<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+									<?php endif; ?>
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
