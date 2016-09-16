@@ -350,8 +350,6 @@ class JoomlaInstallerScript
 			array('plugin', 'menu', 'editors-xtd', 0),
 
 			// Templates
-			array('template', 'beez3', '', 0),
-			array('template', 'hathor', '', 1),
 			array('template', 'protostar', '', 0),
 			array('template', 'isis', '', 1),
 
@@ -1548,6 +1546,8 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data',
+			'/templates/beez3',
+			'/administrator/templates/hathor',
 		);
 
 		jimport('joomla.filesystem.file');

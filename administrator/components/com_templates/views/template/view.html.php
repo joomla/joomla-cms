@@ -202,12 +202,6 @@ class TemplatesViewTemplate extends JViewLegacy
 			{
 				JToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false);
 			}
-
-			// Add a copy template button (Hathor override doesn't need the button)
-			if ($app->getTemplate() != 'hathor')
-			{
-				JToolbarHelper::modal('copyModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
-			}
 		}
 
 		// Add a Template preview button
@@ -225,8 +219,8 @@ class TemplatesViewTemplate extends JViewLegacy
 			// Add a new file button
 			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 
-			// Add a Rename file Button (Hathor override doesn't need the button)
-			if ($app->getTemplate() != 'hathor' && $this->type != 'home')
+			// Add a Rename file Button
+			if ($this->type != 'home')
 			{
 				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
