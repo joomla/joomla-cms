@@ -100,8 +100,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php
 				echo $this->form->renderField('type');
 
@@ -123,7 +123,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				echo $this->form->renderField('template_style_id');
 				?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php
 				// Set main fields.
 				$this->fields = array(

@@ -93,13 +93,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<fieldset class="adminform">
 					<?php echo $this->form->getInput('articletext'); ?>
 				</fieldset>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
@@ -108,14 +108,14 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
 		<?php if ($params->show_urls_images_backend == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
+			<div class="row form-horizontal-desktop">
+				<div class="col-md-6">
 					<?php echo $this->form->renderField('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</div>
-				<div class="span6">
+				<div class="col-md-6">
 					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
@@ -130,11 +130,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->show_publishing_options == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
-			<div class="row-fluid form-horizontal-desktop">
-				<div class="span6">
+			<div class="row form-horizontal-desktop">
+				<div class="col-md-6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 				</div>
-				<div class="span6">
+				<div class="col-md-6">
 					<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
 				</div>
 			</div>

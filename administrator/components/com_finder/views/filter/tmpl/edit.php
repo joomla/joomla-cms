@@ -66,8 +66,8 @@ JFactory::getDocument()->addStyleDeclaration(
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php if ($this->total > 0) : ?>
 					<div class="well">
 						<?php echo $this->form->renderField('map_count'); ?>
@@ -81,14 +81,14 @@ JFactory::getDocument()->addStyleDeclaration(
 
 				<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row-fluid form-horizontal-desktop">
+		<div class="row form-horizontal-desktop">
 			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

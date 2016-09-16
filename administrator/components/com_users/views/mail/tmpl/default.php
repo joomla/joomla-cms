@@ -34,8 +34,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
-	<div class="row-fluid">
-		<div class="span9">
+	<div class="row">
+		<div class="col-md-9">
 			<fieldset class="adminform">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('subject'); ?></div>
@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
-		<div class="span3">
+		<div class="col-md-3">
 			<fieldset class="form-inline">
 				<div class="control-group checkbox">
 					<div class="controls"><?php echo $this->form->getInput('recurse'); ?> <?php echo $this->form->getLabel('recurse'); ?></div>

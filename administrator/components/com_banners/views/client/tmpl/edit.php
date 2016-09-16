@@ -32,8 +32,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::_('COM_BANNERS_EDIT_CLIENT')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php
 				echo $this->form->renderField('contact');
 				echo $this->form->renderField('email');
@@ -43,7 +43,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				echo $this->form->renderFieldset('extra');
 				?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>

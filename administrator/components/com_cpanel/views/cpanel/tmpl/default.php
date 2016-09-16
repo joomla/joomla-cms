@@ -13,10 +13,10 @@ use Joomla\Registry\Registry;
 
 $user = JFactory::getUser();
 ?>
-<div class="row-fluid">
+<div class="row">
 	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
-		<div class="span3">
+		<div class="col-md-3">
 			<div class="cpanel-links">
 				<?php
 				// Display the submenu position modules
@@ -28,30 +28,32 @@ $user = JFactory::getUser();
 			</div>
 		</div>
 	<?php endif; ?>
-	<div class="span<?php echo ($iconmodules) ? 9 : 12; ?>">
+	<div class="col-md-<?php echo ($iconmodules) ? 9 : 12; ?>">
 		<?php if ($user->authorise('core.manage', 'com_postinstall') && $this->postinstall_message_count) : ?>
-			<div class="row-fluid">
-				<div class="alert alert-info">
-					<h4>
-						<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
-					</h4>
-					<p>
-						<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
-					</p>
-					<p>
-						<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
-					</p>
-					<p>
-						<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
-							<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
-						</a>
-					</p>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="alert alert-info">
+						<h4>
+							<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
+						</h4>
+						<p>
+							<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+						</p>
+						<p>
+							<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+						</p>
+						<p>
+							<a href="index.php?option=com_postinstall&amp;eid=700" class="btn btn-primary">
+								<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+							</a>
+						</p>
+					</div>
 				</div>
 			</div>
 		<?php endif; ?>
-		<div class="row-fluid">
+		<div class="row">
 			<?php
-			$spans = 0;
+			$cols = 0;
 
 			foreach ($this->modules as $module)
 			{
@@ -63,11 +65,11 @@ $user = JFactory::getUser();
 				{
 					$bootstrapSize = 12;
 				}
-				$spans += $bootstrapSize;
-				if ($spans > 12)
+				$cols += $bootstrapSize;
+				if ($cols > 12)
 				{
-					echo '</div><div class="row-fluid">';
-					$spans = $bootstrapSize;
+					echo '</div><div class="row">';
+					$cols = $bootstrapSize;
 				}
 				echo JModuleHelper::renderModule($module, array('style' => 'well'));
 			}

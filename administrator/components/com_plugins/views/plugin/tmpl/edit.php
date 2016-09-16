@@ -32,8 +32,8 @@ JFactory::getDocument()->addScriptDeclaration("
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN')); ?>
 
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
 						<h3>
@@ -92,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				echo $html ? '<hr />' . $html : '';
 				?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				<div class="form-vertical">
 					<div class="control-group">

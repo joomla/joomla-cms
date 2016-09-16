@@ -16,19 +16,19 @@ $published = $this->state->get('filter.published');
 $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype');
 ?>
 <?php if (strlen($menuType) && $menuType != '*') : ?>
-<div class="row-fluid">
-	<div class="control-group span6">
+<div class="row">
+	<div class="control-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.language'); ?>
 		</div>
 	</div>
-	<div class="control-group span6">
+	<div class="control-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.access'); ?>
 		</div>
 	</div>
 </div>
-<div class="row-fluid">
+<div class="row">
 	<?php if ($published >= 0) : ?>
 		<div id="batch-choose-action" class="combo control-group">
 			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
@@ -48,7 +48,7 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 	<?php endif; ?>
 </div>
 <?php else : ?>
-<div class="row-fluid">
+<div class="row">
 	<p><?php echo JText::_('COM_MENUS_SELECT_MENU_FIRST') ?></p>
 </div>
 <?php endif; ?>

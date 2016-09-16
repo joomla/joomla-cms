@@ -16,21 +16,21 @@ $published = $this->state->get('filter.published');
 $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 
-<div class="row-fluid">
-	<div class="control-group span6">
+<div class="row">
+	<div class="control-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.language'); ?>
 		</div>
 	</div>
-	<div class="control-group span6">
+	<div class="control-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.access'); ?>
 		</div>
 	</div>
 </div>
-<div class="row-fluid">
+<div class="row">
 	<?php if ($published >= 0) : ?>
-		<div class="span6">
+		<div class="col-md-6">
 			<div class="control-group">
 				<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
 					<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
@@ -48,7 +48,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	<?php endif; ?>
-	<div class="control-group span6">
+	<div class="control-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.tag'); ?>
 		</div>

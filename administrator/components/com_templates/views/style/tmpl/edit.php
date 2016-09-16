@@ -35,8 +35,8 @@ JFactory::getDocument()->addScriptDeclaration("
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
 
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<h3>
 					<?php echo JText::_($this->item->template); ?>
 				</h3>
@@ -65,7 +65,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				echo $html ? '<hr />' . $html : '';
 				?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php
 				// Set main fields.
 				$this->fields = array(

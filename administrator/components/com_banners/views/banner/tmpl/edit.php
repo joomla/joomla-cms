@@ -54,8 +54,8 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS')); ?>
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php echo $this->form->renderField('type'); ?>
 				<div id="image">
 					<?php echo $this->form->renderFieldset('image'); ?>
@@ -68,7 +68,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				echo $this->form->renderField('description');
 				?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
@@ -79,11 +79,11 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row-fluid form-horizontal-desktop">
-			<div class="span6">
+		<div class="row form-horizontal-desktop">
+			<div class="col-md-6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
-			<div class="span6">
+			<div class="col-md-6">
 				<?php echo $this->form->renderFieldset('metadata'); ?>
 			</div>
 		</div>

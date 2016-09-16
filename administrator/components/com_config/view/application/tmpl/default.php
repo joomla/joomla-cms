@@ -35,9 +35,9 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
-	<div class="row-fluid">
+	<div class="row">
 		<!-- Begin Sidebar -->
-		<div id="sidebar" class="span2">
+		<div id="sidebar" class="col-md-2">
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 				<?php
@@ -55,7 +55,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
-		<div class="span10">
+		<div class="col-md-10">
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#page-site" data-toggle="tab"><?php echo JText::_('JSITE'); ?></a></li>
 				<li><a href="#page-system" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></a></li>
@@ -68,20 +68,20 @@ JFactory::getDocument()->addScriptDeclaration('
 			</ul>
 			<div id="config-document" class="tab-content">
 				<div id="page-site" class="tab-pane active">
-					<div class="row-fluid">
-						<div class="span6">
+					<div class="row">
+						<div class="col-md-6">
 							<?php echo $this->loadTemplate('site'); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>
 						</div>
-						<div class="span6">
+						<div class="col-md-6">
 							<?php echo $this->loadTemplate('seo'); ?>
 							<?php echo $this->loadTemplate('cookie'); ?>
 						</div>
 					</div>
 				</div>
 				<div id="page-system" class="tab-pane">
-					<div class="row-fluid">
-						<div class="span12">
+					<div class="row">
+						<div class="col-md-12">
 							<?php echo $this->loadTemplate('system'); ?>
 							<?php echo $this->loadTemplate('debug'); ?>
 							<?php echo $this->loadTemplate('cache'); ?>
@@ -90,26 +90,26 @@ JFactory::getDocument()->addScriptDeclaration('
 					</div>
 				</div>
 				<div id="page-server" class="tab-pane">
-					<div class="row-fluid">
-						<div class="span6">
+					<div class="row">
+						<div class="col-md-6">
 							<?php echo $this->loadTemplate('server'); ?>
 							<?php echo $this->loadTemplate('locale'); ?>
 							<?php echo $this->loadTemplate('ftp'); ?>
 							<?php echo $this->loadTemplate('proxy'); ?>
 						</div>
-						<div class="span6">
+						<div class="col-md-6">
 							<?php echo $this->loadTemplate('database'); ?>
 							<?php echo $this->loadTemplate('mail'); ?>
 						</div>
 					</div>
 				</div>
 				<div id="page-permissions" class="tab-pane">
-					<div class="row-fluid">
+					<div class="row">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>
 				</div>
 				<div id="page-filters" class="tab-pane">
-					<div class="row-fluid">
+					<div class="row">
 						<?php echo $this->loadTemplate('filters'); ?>
 					</div>
 				</div>
