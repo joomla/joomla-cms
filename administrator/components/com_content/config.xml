@@ -141,6 +141,7 @@
 			label="JGLOBAL_SHOW_FLAG_LABEL"
 			description="JGLOBAL_SHOW_FLAG_DESC"
 			default="1"
+			showon="show_associations:1"
 		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
