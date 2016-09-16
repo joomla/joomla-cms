@@ -35,7 +35,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = true)
+	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -49,18 +49,18 @@ abstract class JHtmlJquery
 			$debug = (boolean) JFactory::getConfig()->get('debug');
 		}
 
-		JHtml::_('script', 'jui/jquery.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'vendor/jquery/jquery.min.js', false, true, false, false, $debug);
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', 'jui/jquery-noconflict.js', false, true, false, false, false);
+			JHtml::_('script', 'vendor/jquery/jquery-noconflict.js', false, true, false, false, false);
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'jui/jquery-migrate.min.js', false, true, false, false, $debug);
+			JHtml::_('script', 'vendor/jquery/jquery-migrate.min.js', false, true, false, false, $debug);
 		}
 
 		static::$loaded[__METHOD__] = true;

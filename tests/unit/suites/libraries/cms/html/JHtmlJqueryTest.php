@@ -80,19 +80,19 @@ class JHtmlJqueryTest extends TestCase
 	public function testFramework()
 	{
 		// Initialise the Bootstrap JS framework
-		JHtmlJquery::framework();
+		JHtmlJquery::framework(true, '', true);
 
 		// Get the document instance
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/jui/js/jquery.min.js',
+			'/media/vendor/jquery/js/jquery.min.js',
 			$document->_scripts,
 			'Verify that the jQuery JS is loaded'
 		);
 
 		$this->assertArrayHasKey(
-			'/media/jui/js/jquery-migrate.min.js',
+			'/media/vendor/jquery/js/jquery-migrate.min.js',
 			$document->_scripts,
 			'Verify that the jQuery Migrate JS is loaded'
 		);
@@ -114,7 +114,7 @@ class JHtmlJqueryTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
-			'/media/jui/js/jquery.min.js',
+			'/media/vendor/jquery/js/jquery.min.js',
 			$document->_scripts,
 			'Verify that the jQuery JS is loaded as well'
 		);

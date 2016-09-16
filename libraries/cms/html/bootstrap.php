@@ -225,7 +225,7 @@ abstract class JHtmlBootstrap
 			$debug = JDEBUG;
 		}
 
-		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
+		JHtml::_('script', 'vendor/bootstrap/bootstrap.min.js', false, true, false, false, $debug);
 		static::$loaded[__METHOD__] = true;
 
 		return;
