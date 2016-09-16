@@ -61,8 +61,6 @@ JFactory::getDocument()->addScriptDeclaration(
 							<span id="flag">
 								<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
 							</span>
-						<?php else : ?>
-							<span id="flag"></span>
 						<?php endif; ?>
 					</div>
 			</div>
