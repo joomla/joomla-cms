@@ -1446,6 +1446,13 @@ class JoomlaInstallerScript
 			'/administrator/components/com_redirect/views/links/tmpl/default_batch.php',
 			'/administrator/components/com_tags/views/tags/tmpl/default_batch.php',
 			'/administrator/components/com_users/views/users/tmpl/default_batch.php',
+			'/media/jui/js/bootstrap-tooltip-extended.js',
+			'/media/jui/js/bootstrap-tooltip-extended.min.js',
+			'/media/jui/js/icomoon-lte-ie7.js',
+			'/media/jui/css/bootstrap-extended.css',
+			'/media/jui/css/bootstrap-tooltip-extended.css',
+			'/media/jui/css/bootstrap-responsive.css',
+			'/media/jui/css/bootstrap-responsive.min.css',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1548,6 +1555,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/data',
 			'/templates/beez3',
 			'/administrator/templates/hathor',
+			'/media/jui/less',
 		);
 
 		jimport('joomla.filesystem.file');
