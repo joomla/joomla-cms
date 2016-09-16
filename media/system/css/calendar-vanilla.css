@@ -25,9 +25,18 @@ div.calendar {
 	z-index: 10000;
 }
 
+.calendar-container .table th, .calendar-container .table td {
+	padding: 7px;
+	line-height: 1.8em;
+}
+
+.calendar-container .table td {
+	line-height: 3em;
+}
+
 .j-calendar thead .title { /* This holds the current "month, year" */
 	vertical-align: middle;
-	font-weight: bold;      /* Pressing it will take you to the current date */
+	font-weight: bold;
 	text-align: center;
 	font-size: 1.1em;
 	background: #fff;
@@ -58,7 +67,6 @@ div.calendar {
 /* The body part -- contains all the days in month. */
 
 .j-calendar tbody .day { /* Cells <TD> containing month days dates */
-	width: 2em;
 	text-align: right;
 	padding: 2px 4px 2px 2px;
 }
@@ -89,6 +97,9 @@ div.calendar {
 	color: #ffffff;
 }
 
+td.day-name {
+	width: 14.28%;
+}
 td.day {
 	border: none;
 	border-radius: 150px;
@@ -96,9 +107,9 @@ td.day {
 
 td.day:hover {
 	cursor: pointer;
-	background: #17568c;
+	background: darkblue;
+	border-radius: 300px;
 	color: #fff;
-	border-color: transparent;
 }
 
 td.today {
