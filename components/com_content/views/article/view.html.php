@@ -155,6 +155,12 @@ class ContentViewArticle extends JViewLegacy
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
+		if ($item->params->get('show_associations'))
+		{
+			$item->associations = ContentHelperAssociation::displayAssociations($item->id);
+			$item->flag         = $item->params->get('flags');
+		}
+
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');

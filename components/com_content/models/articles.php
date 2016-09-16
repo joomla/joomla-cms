@@ -692,6 +692,12 @@ class ContentModelArticles extends JModelList
 				$item->tags = new JHelperTags;
 				$item->tags->getItemTags('com_content.article', $item->id);
 			}
+
+			if ($item->params->get('show_associations'))
+			{
+				$item->associations = ContentHelperAssociation::displayAssociations($item->id);
+				$item->flag         = $item->params->get('flags');
+			}
 		}
 
 		return $items;

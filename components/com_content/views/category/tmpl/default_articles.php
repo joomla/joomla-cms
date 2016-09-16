@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 // Create some shortcuts.
 $params    = &$this->item->params;
@@ -137,7 +136,16 @@ if (!empty($this->items))
 						<?php echo $this->escape($article->title); ?>
 					</a>
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
-						<?php echo ContentHelperAssociation::displayAssociations($id = $article->id); ?>
+						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php foreach ($associations as $association) : ?>
+							<?php if ($this->params->get('flags')) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+							<?php endif; ?>
+						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php else: ?>
 					<?php
@@ -152,7 +160,16 @@ if (!empty($this->items))
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 					</a>
 					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
-						<?php echo ContentHelperAssociation::displayAssociations($id = $article->id); ?>
+						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php foreach ($associations as $association) : ?>
+							<?php if ($this->params->get('flags')) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+							<?php endif; ?>
+						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
