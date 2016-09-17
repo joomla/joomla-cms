@@ -401,7 +401,7 @@ abstract class JHtml
 
 						if (file_exists($path))
 						{
-							$includes[] = JUri::base(true) . "/templates/$template/$folder/$file" . self::getMd5Version($path);
+							$includes[] = JUri::base(true) . "/templates/$template/$folder/$file" . static::getMd5Version($path);
 
 							break;
 						}
@@ -424,7 +424,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/media/$extension/$element/$folder/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/media/$extension/$element/$folder/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -434,7 +434,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/media/$extension/$folder/$element/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/media/$extension/$folder/$element/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -444,7 +444,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$element/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$element/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -454,7 +454,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/media/system/$folder/$element/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/media/system/$folder/$element/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -466,7 +466,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/media/$extension/$folder/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/media/$extension/$folder/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -476,7 +476,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/templates/$template/$folder/system/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -486,7 +486,7 @@ abstract class JHtml
 
 									if (file_exists($path))
 									{
-										$includes[] = JUri::root(true) . "/media/system/$folder/$file" . self::getMd5Version($path);
+										$includes[] = JUri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
 
 										break;
 									}
@@ -499,7 +499,7 @@ abstract class JHtml
 
 								if (file_exists($path))
 								{
-									$includes[] = JUri::root(true) . "/media/system/$folder/$file" . self::getMd5Version($path);
+									$includes[] = JUri::root(true) . "/media/system/$folder/$file" . static::getMd5Version($path);
 
 									break;
 								}
@@ -547,7 +547,7 @@ abstract class JHtml
 
 						if (file_exists($path))
 						{
-							$includes[] = JUri::root(true) . "/$file" . self::getMd5Version($path);
+							$includes[] = JUri::root(true) . "/$file" . static::getMd5Version($path);
 
 							break;
 						}
