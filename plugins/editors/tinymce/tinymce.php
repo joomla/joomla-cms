@@ -996,6 +996,7 @@ class PlgEditorTinymce extends JPlugin
 			'italic'         => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_ITALIC')),
 			'underline'      => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_UNDERLINE')),
 			'strikethrough'  => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STRIKETHROUGH')),
+			'styleselect'    => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_STYLESELECT'), 'text' => 'Formats'),
 			'formatselect'   => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FORMATSELECT'), 'text' => 'Paragraph'),
 			'fontselect'     => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSELECT'), 'text' => 'Font'),
 			'fontsizeselect' => array('label' => JText::_('PLG_TINY_TOOLBAR_BUTTON_FONTSIZESELECT'), 'text' => 'Fontsize'),
@@ -1068,17 +1069,27 @@ class PlgEditorTinymce extends JPlugin
 		$preset['simple'] = array(
 			'menu' => array(),
 			'toolbar1' => array(
-				'bold', 'italics', 'underline', 'strikethrough', '|',
-				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code', 'pastetext' , 'preview'
+				'bold', 'underline', 'strikethrough', '|',
+				'undo', 'redo', '|',
+				'bullist', 'numlist', '|',
+				'pastetext'
 			),
 			'toolbar2' => array(),
 		);
 
 		$preset['medium'] = array(
-			'menu' => array('edit', 'insert', 'view'),
+			'menu' => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
 			'toolbar1' => array(
-				'bold', 'italics', 'underline', 'strikethrough', '|',
-				'undo', 'redo', '|', 'bullist', 'numlist', '|', 'code', 'pastetext' , 'preview'
+				'bold', 'italic', 'underline', 'strikethrough', '|',
+				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
+				'formatselect', '|',
+				'bullist', 'numlist', '|',
+				'outdent', 'indent', '|',
+				'undo', 'redo', '|',
+				'link', 'unlink', 'anchor', 'code', '|',
+				'hr', 'table', '|',
+				'subscript', 'superscript', '|',
+				'charmap', 'pastetext' , 'preview'
 			),
 			'toolbar2' => array(),
 		);
@@ -1086,22 +1097,26 @@ class PlgEditorTinymce extends JPlugin
 		$preset['advanced'] = array(
 			'menu'     => array('edit', 'insert', 'view', 'format', 'table', 'tools'),
 			'toolbar1' => array(
-				'undo', 'redo', '|',
 				'bold', 'italic', 'underline', 'strikethrough', '|',
-				'formatselect', 'fontselect', 'fontsizeselect', 'pagebreak', '|',
 				'alignleft', 'aligncenter', 'alignright', 'alignjustify', '|',
-				'outdent', 'indent', '|',
+				'styleselect', '|',
+				'formatselect', 'fontselect', 'fontsizeselect', '|',
+				'searchreplace', '|',
 				'bullist', 'numlist', '|',
-				'link', 'unlink', 'anchor', '|',
-				'subscript', 'superscript', '|',
-				'ltr', 'rtl', '|',
-				'cut', 'copy', 'paste', 'pastetext', 'searchreplace', '|',
+				'outdent', 'indent', '|',
+				'undo', 'redo', '|',
+				'link', 'unlink', 'anchor', 'image', '|',
+				'code', '|',
+				'forecolor', 'backcolor', '|',
+				'fullscreen',
 			),
 			'toolbar2' => array(
-				'visualchars', 'visualblocks', 'nonbreaking', '|',
-				'insertdatetime', 'forecolor', 'backcolor',
-				'blockquote', 'code', 'codesample', 'hr', 'table', 'charmap', 'removeformat', 'emoticons',
-				'media', 'image', 'print', 'fullscreen', 'template', 'preview'
+				'table', '|',
+				'subscript', 'superscript', '|',
+				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
+				'cut', 'copy', 'paste', 'pastetext', '|',
+				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
+				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat',
 			),
 		);
 
