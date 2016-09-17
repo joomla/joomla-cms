@@ -789,7 +789,7 @@ class JAccess
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
 			// Get the guest user group.
-			$guestUsergroup = $this->get('guest_usergroup', 1);
+			$guestUsergroup = JFactory::getApplication()->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
