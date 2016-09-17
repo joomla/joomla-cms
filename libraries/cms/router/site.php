@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Class to create and parse routes for the site application
  *
@@ -311,13 +313,13 @@ class JRouterSite extends JRouter
 			$items = $this->menu->getMenu();
 
 			$found           = false;
-			$route_lowercase = JString::strtolower($route);
+			$route_lowercase = StringHelper::strtolower($route);
 			$lang_tag        = $this->app->getLanguage()->getTag();
 
 			// Iterate through all items and check route matches.
 			foreach ($items as $item)
 			{
-				if ($item->route && JString::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
 				{
 					// Usual method for non-multilingual site.
 					if (!$this->app->getLanguageFilter())
