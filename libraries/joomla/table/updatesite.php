@@ -26,7 +26,7 @@ class JTableUpdatesite extends JTable
 	 *
 	 * @since   3.4
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__update_sites', 'update_site_id', $db);
 	}
