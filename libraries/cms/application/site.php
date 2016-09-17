@@ -586,8 +586,7 @@ final class JApplicationSite extends JApplicationCms
 		// If the user is a guest we populate it with the guest user group.
 		if ($user->guest)
 		{
-			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			$user->groups = array($guestUsergroup);
+			$user->groups = array($this->get('guest_usergroup', 1));
 		}
 
 		/*

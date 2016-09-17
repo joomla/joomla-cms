@@ -903,6 +903,16 @@
 			filter="integer" />
 
 		<field
+			name="guest_usergroup"
+			type="usergrouplist"
+			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			default="1"
+			filter="integer"
+			>
+		</field>
+
+		<field
 			name="list_limit"
 			type="list"
 			default="20"

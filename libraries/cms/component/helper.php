@@ -63,6 +63,12 @@ class JComponentHelper
 			static::$components[$option]->params = $temp;
 		}
 
+		// Remove in 4.0. For B/C we override the com_users guest_usergroup params for the global config one.
+		if ($option === 'com_users')
+		{
+			static::$components[$option]->params->guest_usergroup = JFactory::getApplication()->get('guest_usergroup', 1);
+		}
+
 		return $result;
 	}
 

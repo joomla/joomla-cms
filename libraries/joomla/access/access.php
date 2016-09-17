@@ -788,15 +788,8 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
-			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('JComponentHelper'))
-			{
-				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			}
-			else
-			{
-				$guestUsergroup = 1;
-			}
+			// Get the guest user group.
+			$guestUsergroup = $this->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)

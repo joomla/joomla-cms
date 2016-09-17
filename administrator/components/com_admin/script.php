@@ -33,6 +33,7 @@ class JoomlaInstallerScript
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
+		$this->updateGlobalConfig();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
@@ -44,6 +45,27 @@ class JoomlaInstallerScript
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
 		// LOGOUT ALL THE USERS
 		$this->flushSessions();
+	}
+
+	/**
+	 * Method to add new values to Global Config.
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function updateGlobalConfig()
+	{
+		// Since __DEPLOY_VERSION__. Moves guest_usergroup option from com_users component to global config.
+		if (!JFactory::getApplication()->get('guest_usergroup', ''))
+		{
+			// Load the global config model.
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_config/model', 'ConfigModel');
+
+			// Add the new option to config.
+			$modelConfig = JModelLegacy::getInstance('Application', 'ConfigModel');
+			$modelConfig->save(array('guest_usergroup' => JComponentHelper::getParams('com_users')->get('guest_usergroup', 1)));
+		}
 	}
 
 	/**

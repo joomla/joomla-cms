@@ -33,6 +33,9 @@ class InstallationModelConfiguration extends JModelBase
 		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
+		// Update the guest user group id.
+		$options->guest_usergroup = $this->getGuestUserGroup(1);
+
 		// Attempt to create the configuration.
 		if (!$this->createConfiguration($options))
 		{
@@ -46,6 +49,56 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to get the guest user group based on the usergroups table.
+	 *
+	 * @param   integer  $default  The default guest user group.
+	 *
+	 * @return  integer  The guest user group id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getGuestUserGroup($default = 1)
+	{
+		// Get a database object.
+		try
+		{
+			$db = InstallationHelperDatabase::getDbo(
+				$options->db_type,
+				$options->db_host,
+				$options->db_user,
+				$options->db_pass,
+				$options->db_name,
+				$options->db_prefix
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+
+			return false;
+		}
+
+		// Quey to get the guest user group.
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('title') . ' = ' . $db->quote('Guest'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			return (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			return $default;
+		}
+
+		return $default;
 	}
 
 	/**
@@ -72,6 +125,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('captcha', '0');
 		$registry->set('list_limit', 20);
 		$registry->set('access', 1);
+		$registry->set('guest_usergroup', $options->guest_usergroup);
 
 		// Debug settings.
 		$registry->set('debug', 0);
