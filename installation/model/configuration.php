@@ -34,7 +34,7 @@ class InstallationModelConfiguration extends JModelBase
 		$options = ArrayHelper::toObject($options);
 
 		// Update the guest user group id.
-		$options->guest_usergroup = $this->getGuestUserGroup(1);
+		$options->guest_usergroup = $this->getGuestUserGroup($options, 1);
 
 		// Attempt to create the configuration.
 		if (!$this->createConfiguration($options))
@@ -54,13 +54,14 @@ class InstallationModelConfiguration extends JModelBase
 	/**
 	 * Method to get the guest user group based on the usergroups table.
 	 *
+	 * @param   array    $options  The session options.
 	 * @param   integer  $default  The default guest user group.
 	 *
 	 * @return  integer  The guest user group id.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getGuestUserGroup($default = 1)
+	private function getGuestUserGroup($options, $default = 1)
 	{
 		// Get a database object.
 		try
