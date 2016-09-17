@@ -574,8 +574,8 @@ abstract class JHtmlBehavior
 		$tag = JFactory::getLanguage()->getTag();
 
 		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
+		JHtml::_('script', $tag . '/fields/calendar.js', false, true);
+		JHtml::_('script', $tag . '/fields/calendar-setup.js', false, true);
 
 		$translation = static::calendartranslation();
 

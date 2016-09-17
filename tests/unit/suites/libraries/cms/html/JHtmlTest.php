@@ -1482,13 +1482,13 @@ class JHtmlTest extends TestCase
 				);
 
 				$this->assertArrayNotHasKey(
-					'/media/system/js/calendar.js',
+					'/media/system/js/fields/calendar.js',
 					JFactory::getDocument()->_scripts,
 					'Line:' . __LINE__ . ' JS file "calendar.js" shouldn\'t be loaded'
 				);
 
 				$this->assertArrayNotHasKey(
-					'/media/system/js/calendar-setup.js',
+					'/media/system/js/fields/calendar-setup.js',
 					JFactory::getDocument()->_scripts,
 					'Line:' . __LINE__ . ' JS file "calendar-setup.js" shouldn\'t be loaded'
 				);
@@ -1518,13 +1518,13 @@ class JHtmlTest extends TestCase
 				);
 
 				$this->assertArrayHasKey(
-					'/media/system/js/calendar.js',
+					'/media/system/js/fields/calendar.js',
 					JFactory::getDocument()->_scripts,
 					'Line:'.__LINE__.' JS file "calendar.js" should be loaded'
 				);
 
 				$this->assertArrayHasKey(
-					'/media/system/js/calendar-setup.js',
+					'/media/system/js/fields/calendar-setup.js',
 					JFactory::getDocument()->_scripts,
 					'Line:'.__LINE__.' JS file "calendar-setup.js" should be loaded'
 				);
