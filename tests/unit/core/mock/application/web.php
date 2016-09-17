@@ -69,6 +69,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 			'set',
 			'setBody',
 			'setHeader',
+			'setSession',
 		);
 
 		return array_merge($methods, parent::getMethods());
