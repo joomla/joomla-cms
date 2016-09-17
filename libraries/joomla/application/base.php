@@ -111,7 +111,16 @@ abstract class JApplicationBase extends AbstractApplication implements Dispatche
 	 */
 	public function triggerEvent($eventName, $args = array())
 	{
-		$dispatcher = $this->getDispatcher();
+		try
+		{
+			$dispatcher = $this->getDispatcher();
+		}
+		catch (UnexpectedValueException $exception)
+		{
+			$this->getLogger()->error(sprintf('Dispatcher not set in %s, cannot trigger events.', get_class($this)));
+
+			return;
+		}
 
 		if ($this->dispatcher instanceof DispatcherInterface)
 		{
