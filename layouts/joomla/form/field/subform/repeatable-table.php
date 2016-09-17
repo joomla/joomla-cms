@@ -30,7 +30,7 @@ extract($displayData);
 if ($multiple)
 {
 	JHtml::_('jquery.ui', array('core', 'sortable'));
-	JHtml::_('script', 'system/subform-repeatable.min.js', false, true);
+	JHtml::_('script', 'system/fields/subform-repeatable.min.js', false, true);
 }
 
 // Build heading
