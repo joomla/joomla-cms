@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 JFormHelper::loadRuleClass('email');
 
@@ -47,7 +48,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		{
 			foreach (explode(';', $banned) as $item)
 			{
-				if ($item != '' && JString::stristr($value, $item) !== false)
+				if ($item != '' && StringHelper::stristr($value, $item) !== false)
 				{
 					return false;
 				}
