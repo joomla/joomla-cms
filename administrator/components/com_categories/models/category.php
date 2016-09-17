@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -1238,8 +1239,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = JString::increment($title);
-			$alias = JString::increment($alias, 'dash');
+			$title = StringHelper::increment($title);
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
