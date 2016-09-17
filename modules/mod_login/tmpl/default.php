@@ -83,6 +83,34 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 		</div>
 		<?php endif; ?>
+
+		<?php if (count($extraFields)):
+		$extraFieldCounter = 0;
+		/** @var JAuthenticationFieldInterface $extraField */
+		foreach ($extraFields as $extraField):
+		if ($extraField->getType() != 'field') continue;
+		?>
+		<div id="form-login-extrafield-<?php echo ++$extraFieldCounter ?>" class="control-group">
+			<div class="controls">
+				<?php if (!$params->get('usetext')) : ?>
+					<div class="input-prepend">
+					<span class="add-on">
+						<span class="<?php echo $extraField->getIcon() ?> hasTooltip" title="<?php echo $extraField->getLabel(); ?>">
+						</span>
+							<label class="element-invisible"><?php echo $extraField->getLabel(); ?>
+						</label>
+					</span>
+						<?php echo $extraField->getInput(); ?>
+					</div>
+				<?php else: ?>
+					<label><?php echo $extraField->getLabel(); ?></label>
+					<?php echo $extraField->getInput(); ?>
+				<?php endif; ?>
+			</div>
+		</div>
+		<?php endforeach; ?>
+		<?php endif; ?>
+
 		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 		<div id="form-login-remember" class="control-group checkbox">
 			<label for="modlgn-remember" class="control-label"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME') ?></label> <input id="modlgn-remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
@@ -91,6 +119,20 @@ JHtml::_('bootstrap.tooltip');
 		<div id="form-login-submit" class="control-group">
 			<div class="controls">
 				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN') ?></button>
+				<?php if (count($extraFields)):
+					$extraFieldCounter = 0;
+					/** @var JAuthenticationFieldInterface $extraField */
+					foreach ($extraFields as $extraField):
+						if ($extraField->getType() != 'button') continue;
+						?>
+						<a id="form-login-button-<?php echo ++$extraFieldCounter ?>" class="btn btn-default" href="<?php echo $extraField->getInput() ?>">
+							<?php if ($extraField->getIcon()): ?>
+							<span class="<?php echo $extraField->getIcon() ?>"></span>
+							<?php endif; ?>
+							<?php echo $extraField->getLabel(); ?>
+						</a>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -110,6 +152,19 @@ JHtml::_('bootstrap.tooltip');
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset&Itemid=' . UsersHelperRoute::getResetRoute()); ?>">
 					<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
+				<?php if (count($extraFields)):
+					$extraFieldCounter = 0;
+					/** @var JAuthenticationFieldInterface $extraField */
+					foreach ($extraFields as $extraField):
+						if ($extraField->getType() != 'link') continue;
+						?>
+				<li>
+					<a id="form-login-link-<?php echo ++$extraFieldCounter ?>" href="<?php echo $extraField->getInput() ?>">
+						<?php echo $extraField->getLabel(); ?>
+					</a>
+				</li>
+					<?php endforeach; ?>
+				<?php endif; ?>
 			</ul>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
