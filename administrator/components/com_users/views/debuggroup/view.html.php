@@ -52,7 +52,7 @@ class UsersViewDebuggroup extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.manage', 'com_users') || !JFactory::getConfig()->get('debug'))
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
 		{
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
