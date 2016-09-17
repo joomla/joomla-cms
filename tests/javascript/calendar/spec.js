@@ -15,13 +15,13 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		it('Should have calendar element under the input element', function () {
-			expect($('body')).toContainElement('.j-calendar');
+			expect($('body')).toContainElement('.js-calendar');
 		});
 
 		it('Should appear on button click', function () {
 			$('.field-calendar').find('button').click();
 
-			expect($('.j-calendar').css('display')).toEqual('block');
+			expect($('.js-calendar').css('display')).toEqual('block');
 		});
 
 		it('Should have the correct date', function () {
