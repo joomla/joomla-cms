@@ -85,6 +85,10 @@ if (is_array($attributes))
 	$attributes = ArrayHelper::toString($attributes);
 }
 
+// Load polyfills for older IE
+//JHtml::_('behavior.polyfill', array('event', 'classlist'), 'lte IE 11');
+
+// The static assets for the calendar
 JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
 JHtml::_('script', 'system/fields/calendar-vanilla.min.js', false, true, false, false, true);

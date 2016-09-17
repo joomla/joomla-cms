@@ -62,31 +62,17 @@
 		}
 
 		// Prepare the parameters
+		this.params = {
+			debug: false,
+			clicked: false,
+			element: {style: {display: "none"}},
+			writable: true
+		};
 		var self = this,
 			btn  = this.button,
-			defaultParams = {
-				inputField: null,                // The input element
-				firstDayOfWeek: 0,               // 0 for Sunday, 1 for Monday, etc.
-				time24: false,                   // Use 24/12 hour format
-				showsOthers: true,               // Display previous/next month days as disables
-				showsTime: true,                 // Shows hours and minutes drop downs
-				weekNumbers: false,              // Shows the week number as first column
-				showsTodayBtn: true,             // Display a today button
-				compressedHeader: false,         // Use one line for year
-				monthBefore: false,              // Displays the month before the year
-				minYear: 1970,                   // The minimum year
-				maxYear: 2050,                   // The maximum year
-				dateFormat: '%Y-%m-%d %H:%M:%S', // The date format
-				dateType: 'gregorian',           // The calendar type
-				direction: 'ltr',                // The direction of the document
-				debug: false,
-				clicked: false,
-				element: {style: {display: "none"}},
-				writable: true
-			},
 			instanceParams = {
 				inputField: this.inputField,
-				dateType: JoomlaCalLocale.dateType,
+				dateType: JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian',
 				firstDayOfWeek: btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
 				weekend: btn.getAttribute("data-weekend") ? [btn.getAttribute("data-weekend")] : JoomlaCalLocale.weekend,
 				time24: (parseInt(btn.getAttribute("data-time-24")) === 24) ? true : false,
@@ -102,8 +88,8 @@
 			};
 
 		// Merge the parameters
-		for (var param in defaultParams) {
-			this.params[param] = instanceParams[param] ? instanceParams[param] : defaultParams[param];
+		for (var param in instanceParams) {
+			this.params[param] = instanceParams[param];
 		}
 
 		// Event handler need to define here, to be able access in current context
@@ -235,18 +221,18 @@
 		this.dropdownElement.style.display = "block";
 		this.hidden = false;
 
-		addCalEvent(document, "keydown", this._calKeyEvent);
-		addCalEvent(document, "keypress", this._calKeyEvent);
-		addCalEvent(document, "mousedown", this._documentClick);
+		document.addEventListener("keydown", this._calKeyEvent, true);
+		document.addEventListener("keypress", this._calKeyEvent, true);
+		document.addEventListener("mousedown", this._documentClick, true);
 
 		this.processCalendar();
 	};
 
 	/** Method to hide the calendar. */
 	JoomlaCalendar.prototype.hide = function () {
-		removeCalEvent(document, "keydown", this._calKeyEvent);
-		removeCalEvent(document, "keypress", this._calKeyEvent);
-		removeCalEvent(document, "mousedown", this._documentClick);
+		document.removeEventListener("keydown", this._calKeyEvent, true);
+		document.removeEventListener("keypress", this._calKeyEvent, true);
+		document.removeEventListener("mousedown", this._documentClick, true);
 
 		this.dropdownElement.style.display = "none";
 		this.hidden = true;
@@ -256,7 +242,7 @@
 	JoomlaCalendar.prototype._handleDocumentClick = function (ev) {
 		var el = ev.target;
 
-		if (el !== null && !hasClass(el, 'time')) {
+		if (el !== null && !el.classList.contains('time')) {
 			for (; el !== null && el !== this.element; el = el.parentNode);
 		}
 
@@ -279,10 +265,10 @@
 				el = testel;
 			} else {                                        // No - try to find the table this way
 				el = el.getParent('TD');
-				if (hasClass(el, 'js-calendar')) { el = el.getElementsByTagName('table')[0]; }
+				if (el.classList.contains('js-calendar')) { el = el.getElementsByTagName('table')[0]; }
 			}
 		} else {                                            // Check that doesn't have a button and is not a day td
-			if (!(hasClass(target, 'js-btn')) && !hasClass(el, 'day') && !hasClass(el, 'title')) { return; }
+			if (!(target.classList.contains('js-btn')) && !el.classList.contains('day') && !el.classList.contains('title')) { return; }
 		}
 
 		if (!el || el.disabled)
@@ -291,7 +277,6 @@
 		if (typeof el.navtype === "undefined" || el.navtype != 300) {
 			if (el.navtype == 50) { el._current = el.innerHTML; }
 
-			removeClass(el, "alert-success");
 			if (target == el || target.parentNode == el) { self.cellClick(el, ev); }
 
 			var mon = null;
@@ -334,9 +319,7 @@
 
 		if (typeof el.navtype == "undefined") {
 			if (self.currentDateEl) {
-				removeClass(self.currentDateEl, "selected");
-				removeClass(self.currentDateEl, "alert-success");
-				addClass(el, "selected alert-success");
+				el.classList.add("selected");
 				self.currentDateEl = el.caldate;
 				closing = (self.currentDateEl == el.caldate);
 				if (!closing) { self.currentDateEl = el.caldate; }
@@ -350,7 +333,7 @@
 			}
 		} else {
 			if (el.navtype == 100) {
-				removeClass(el, "hilite");
+				el.classList.remove("hilite");
 				this.inputField.value = '';
 				self.date = '';
 				this.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00')
@@ -431,7 +414,7 @@
 			ev && this.callHandler();
 		}
 
-		removeClass(el, "hilite");
+		el.classList.remove("hilite");
 
 		if (closing && !self.params.showsTime) {
 			self.dateClicked = false;
@@ -539,7 +522,8 @@
 				}
 				if (navtype != 0 && Math.abs(navtype) <= 2) { cell.className += " nav"; }
 
-				addCalEvent(cell, "mousedown", self._dayMouseDown);
+				cell.addEventListener("mousedown", self._dayMouseDown, true);
+
 				cell.calendar = cal;
 				cell.navtype = navtype;
 				if (navtype != 0 && Math.abs(navtype) <= 2) {
@@ -591,7 +575,7 @@
 				cell.calendar = self;
 				cell.fdow = realday;
 			}
-			if (weekend.indexOf(realday) != -1) { addClass(cell, "weekend"); }
+			if (weekend.indexOf(realday) != -1) { cell.classList.add("weekend"); }
 
 			cell.innerHTML = JoomlaCalLocale.shortDays[(i + fdow) % 7];
 			cell = cell.nextSibling;
@@ -606,7 +590,7 @@
 			for (var j = 7; j > 0; --j) {
 				cell = createElement("td", row);
 				cell.calendar = this;
-				addCalEvent(cell, "mousedown", this._dayMouseDown);
+				cell.addEventListener("mousedown", this._dayMouseDown, true);
 			}
 		}
 
@@ -680,46 +664,25 @@
 					AP = part;
 
 					// Event listener for the am/pm select
-					if (AP.attachEvent) { // IE
-						AP.attachEvent("onchange", function (event) {
-							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
-						}, false);
-					} else { // W3C
-						AP.addEventListener("change", function (event) {
-							self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-								event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
-						}, false);
-					}
+					AP.addEventListener("change", function (event) {
+						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
+					}, false);
 				} else {
 					cell.innerHTML = "&#160;";
 				}
 
-				if (H.attachEvent) { // Event listeners for the hour select and minutes select IE
-					H.attachEvent("onchange", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
-					}, false);
-					M.attachEvent("onchange", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
-					}, false);
-				} else { // W3C
-					H.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
-					}, false);
-					M.addEventListener("change", function (event) {
-						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
-					}, false);
-				}
+				H.addEventListener("change", function (event) {
+					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
+				}, false);
+				M.addEventListener("change", function (event) {
+					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
+						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
+						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
+				}, false);
 			})();
 		}
 
@@ -738,12 +701,14 @@
 						savea = tempElem[i];
 				}
 			}
-			addCalEvent(savea, 'click', function (e) {
-				var el = savea.parentNode.parentNode;
-				if (el.tagName === 'TD') {
-					self.cellClick(self._nav_save, e);
-				}
-			});
+
+			savea.addEventListener("click",
+				function (e) {
+					var el = savea.parentNode.parentNode;
+					if (el.tagName === 'TD') {
+						self.cellClick(self._nav_save, e);
+					}
+				}, true);
 		}
 
 		if (this.params.showsTodayBtn) {                                                                    // Head - today
@@ -758,10 +723,10 @@
 						todaya = tempElem[i];
 				}
 			}
-			addCalEvent(todaya, 'click', function (e) {
+			todaya.addEventListener('click', function (e) {
 				var el = todaya.parentNode.parentNode;
 				if (el.tagName === 'TD') { self.cellClick(self._nav_now, e); }
-			});
+			}, true);
 		}
 
 		this._nav_exit = hh('<a class="js-btn btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
@@ -774,10 +739,10 @@
 					exita = tempElem[i];
 			}
 		}
-		addCalEvent(exita, 'click', function (e) {
+		exita.addEventListener('click', function (e) {
 			var el = exita.parentNode.parentNode;
 			if (el.tagName === 'TD') { self.cellClick(self._nav_exit, e); }
-		});
+		}, true);
 
 		this.processCalendar();
 	};
@@ -938,31 +903,25 @@
 	/** Method to listen for the click event on the input button. **/
 	JoomlaCalendar.prototype._bindEvents = function () {
 		var self = this;
-		addCalEvent(this.inputField, 'focus', function() {
+		this.inputField.addEventListener('focus', function() {
 			self.show();
 		}, true);
-		addCalEvent(this.inputField, 'blur', function(event) {
-			if (event.relatedTarget != null && (event.relatedTarget.hasClass('time-hours') || event.relatedTarget.hasClass('time-minutes') || event.relatedTarget.hasClass('time-ampm'))) return;
+		this.inputField.addEventListener('blur', function(event) {
+			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) return;
 			self.close();
 		}, true);
-		addCalEvent(this.button, 'click', function() {
+		this.button.addEventListener('click', function() {
 			self.show();
 		}, false);
 
 		// @TODO this need to be added only once, or getJoomlaCalendarValuesFromAlt should be part of JoomlaCalendar.prototype
-		addCalEvent(this.inputField.form, 'submit', getJoomlaCalendarValuesFromAlt, true);
+		this.inputField.form.addEventListener('submit', getJoomlaCalendarValuesFromAlt, true);
 	};
 
 
-	/** COMPATIBILITY WITH IE 8 **/
-	var hasClass = function (element, className) { return (' ' + element.className + ' ').indexOf(' ' + className + ' ') > -1; };
-	var addClass  = function (element, className) { removeClass(element, className); element.className += " " + className; };
-	var removeClass = function (element, className) { if (!(element && element.className)) { return; } var cls = element.className.split(" "), ar = new Array(); for (var i = cls.length; i > 0;) { if (cls[--i] != className) ar[ar.length] = cls[i]; } element.className = ar.join(" "); };
-	var stopCalEvent = function (ev) { ev || (ev = window.event); if (/msie/i.test(navigator.userAgent)) { ev.cancelBubble = true; ev.returnValue = false; } else { ev.preventDefault(); ev.stopPropagation(); } return false; };
-	var addCalEvent = function (el, evname, func) { if (el.attachEvent) { el.attachEvent("on" + evname, func); } else if (el.addEventListener) { el.addEventListener(evname, func, true); } else { el["on" + evname] = func; } };
-	var removeCalEvent = function (el, evname, func) { if (el.detachEvent) { el.detachEvent("on" + evname, func); } else if (el.removeEventListener) { el.removeEventListener(evname, func, true); } else { el["on" + evname] = null; } };
+	/** Helpers **/
+	var stopCalEvent = function (ev) { ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent != "undefined") { parent.appendChild(el); } return el; };
-	/** END OF COMPATIBILITY WITH IE 8 **/
 
 	/** Method to get the active calendar element through any descendant element. */
 	JoomlaCalendar.getCalObject = function(element) {
@@ -971,7 +930,7 @@
 		}
 		while (element.parentNode) {
 			element = element.parentNode;
-			if (JoomlaCalendar.hasClass(element, 'field-calendar')) {
+			if (element.classList.contains('field-calendar')) {
 				return element;
 			}
 		}
@@ -1015,8 +974,8 @@
 	window.JoomlaCalendar = JoomlaCalendar;
 
 	/** Instantiate all the calendar fields when the document is ready */
-	document.addEventListener("DOMContentLoaded", function() { // This line needs a polyfill for IE8!!!
-		JoomlaCalendar.init(".field-calendar");                // One line setup
+	document.addEventListener("DOMContentLoaded", function() {
+		JoomlaCalendar.init(".field-calendar");
 	});
 
 })(window, document);
