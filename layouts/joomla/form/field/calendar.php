@@ -87,8 +87,8 @@ if (is_array($attributes))
 
 JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
-JHtml::_('script', 'system/calendar-vanilla.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/calendar-vanilla.css', array(), true);
+JHtml::_('script', 'system/fields/calendar-vanilla.min.js', false, true, false, false, true);
+JHtml::_('stylesheet', 'system/fields/calendar-vanilla.css', array(), true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>

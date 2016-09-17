@@ -15,6 +15,6 @@ window.JoomlaCalLocale = {
 	minYear : 1348,
 	maxYear : 1408,
 	exit: "Close", // @TODO TRANSLATE
-	save: "Save", // @TODO TRANSLATE
+	save: "Insert", // @TODO TRANSLATE
 	localLangNumbers: ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"]
 };
