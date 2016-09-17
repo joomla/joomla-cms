@@ -21,11 +21,11 @@ class BannersTableClient extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		$this->typeAlias        = 'com_banners.client';
 		$this->checked_out_time = $db->getNullDate();

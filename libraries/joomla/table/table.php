@@ -135,7 +135,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, $db, DispatcherInterface $dispatcher = null)
+	public function __construct($table, $key, JDatabaseDriver $db, DispatcherInterface $dispatcher = null)
 	{
 		parent::__construct();
 
@@ -520,7 +520,7 @@ abstract class JTable extends JObject implements JTableInterface, DispatcherAwar
 	 *
 	 * @since   11.1
 	 */
-	public function setDbo($db)
+	public function setDbo(JDatabaseDriver $db)
 	{
 		$this->_db = $db;
 

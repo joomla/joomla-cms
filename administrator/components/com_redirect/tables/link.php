@@ -23,7 +23,7 @@ class RedirectTableLink extends JTable
 	 *
 	 * @since   1.6
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__redirect_links', 'id', $db);
 	}

@@ -23,7 +23,7 @@ class TableDbTestComposite extends JTable
 	 *
 	 * @since   12.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__dbtest_composite', array('id1', 'id2'), $db);
 	}
