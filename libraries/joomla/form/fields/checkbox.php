@@ -96,6 +96,16 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
+		// Handle the default attribute
+		$default = (string) $element['default'];
+
+		if ($default)
+		{
+			$test = $this->form->getValue((string) $element['name'], $group);
+
+			$value = ($test == $default) ? $default : null;
+		}
+
 		$return = parent::setup($element, $value, $group);
 
 		if ($return)

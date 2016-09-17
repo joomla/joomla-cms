@@ -59,24 +59,6 @@ defined('_JEXEC') or die;
  * NOTE: If you override pagination_item_active OR pagination_item_inactive you MUST override them both
  */
 
-/**
- * Renders the pagination footer
- *
- * @param   array  $list  Array containing pagination footer
- *
- * @return  string  HTML markup for the full pagination footer
- *
- * @since   3.0
- */
-function pagination_list_footer($list)
-{
-	$html = "<div class=\"pagination pagination-toolbar\">\n";
-	$html .= $list['pageslinks'];
-	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"" . $list['limitstart'] . "\" />";
-	$html .= "\n</div>";
-
-	return $html;
-}
 
 /**
  * Renders the pagination list
