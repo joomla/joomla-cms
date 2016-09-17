@@ -461,7 +461,7 @@ class JDocument
 		// B/C before __DEPLOY_VERSION__
 		if (!is_array($options) && !is_array($attribs))
 		{
-			JLog::add('The addScript method signature used is deprecated, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
+			JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
