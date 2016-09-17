@@ -445,10 +445,12 @@
 			K = parseInt(ev.keyCode);
 
 		// Get value from input
-		if (ev.target === this.inputField && K === 13 && !ev.shiftKey) {
-			self.date = Date.parseFieldDate(this.inputField.value, self.params.dateFormat, self.params.dateType);
-			this.processCalendar(self.params.firstDayOfWeek, self.date);
-			this.cellClick(self.currentDateEl, ev);
+		if (ev.target === this.inputField && (K === 13 || K === 9) && !ev.shiftKey) {
+			if (this.inputField.value != '') {
+				self.date = Date.parseFieldDate(this.inputField.value, self.params.dateFormat, self.params.dateType);
+				this.processCalendar(self.params.firstDayOfWeek, self.date);
+				this.cellClick(self.currentDateEl, ev);
+			}
 			this.close();
 		}
 
