@@ -298,7 +298,7 @@ class ContenthistoryModelHistory extends JModelList
 	 *
 	 * @since   3.2
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
 	{
 		$input = JFactory::getApplication()->input;
 		$itemId = $input->get('item_id', 0, 'integer');
@@ -315,7 +315,7 @@ class ContenthistoryModelHistory extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('h.save_date', 'DESC');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
