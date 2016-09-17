@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -501,7 +502,7 @@ class ContentModelArticles extends JModelList
 		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter = JString::strtolower($filter);
+			$filter = StringHelper::strtolower($filter);
 			$hitsFilter = (int) $filter;
 			$filter = $db->quote('%' . $db->escape($filter, true) . '%', false);
 

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 $com_path = JPATH_SITE . '/components/com_content/';
 require_once $com_path . 'helpers/route.php';
 
@@ -444,7 +446,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = JString::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->created, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -456,7 +458,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = JString::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->created, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Class for Contact Creator
  *
@@ -144,10 +146,10 @@ class PlgUserContactCreator extends JPlugin
 		{
 			if ($name == $table->name)
 			{
-				$name = JString::increment($name);
+				$name = StringHelper::increment($name);
 			}
 
-			$alias = JString::increment($alias, 'dash');
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($name, $alias);
