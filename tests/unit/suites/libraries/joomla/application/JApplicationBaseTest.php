@@ -251,7 +251,7 @@ class JApplicationBaseTest extends TestCase
 		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Validate the event was triggered
-		$this->assertNull($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertEmpty($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
 	}
 
 	/**

@@ -217,12 +217,12 @@ class JOAuth1ClientTest extends TestCase
 			{
 				$mockSession->expects($this->at(0))
 					->method('get')
-					->with('oath_token.key', null)
+					->with('oauth_token.key', null)
 					->willReturn('bad');
 
 				$mockSession->expects($this->at(1))
 					->method('get')
-					->with('oath_token.secret', null)
+					->with('oauth_token.secret', null)
 					->willReturn('session');
 
 				$this->application = $this->getMockWeb(['session' => $mockSession]);
@@ -238,12 +238,12 @@ class JOAuth1ClientTest extends TestCase
 
 			$mockSession->expects($this->at(0))
 				->method('get')
-				->with('oath_token.key', null)
+				->with('oauth_token.key', null)
 				->willReturn('token');
 
 			$mockSession->expects($this->at(1))
 				->method('get')
-				->with('oath_token.secret', null)
+				->with('oauth_token.secret', null)
 				->willReturn('secret');
 
 			$this->application = $this->getMockWeb(['session' => $mockSession]);

@@ -18,7 +18,6 @@ use Joomla\String\StringHelper;
  * Base class for a Joomla! Web application.
  *
  * @since  11.4
- * @note   As of 4.0 this class will be abstract
  */
 class JApplicationWeb extends JApplicationBase
 {
@@ -228,7 +227,7 @@ class JApplicationWeb extends JApplicationBase
 		// Create the session based on the application logic.
 		if ($session !== false)
 		{
-			$this->loadSession($session);
+			$this->setSession($session);
 		}
 
 		// Create the document based on the application logic.
