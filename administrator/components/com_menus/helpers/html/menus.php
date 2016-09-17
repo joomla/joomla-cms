@@ -70,6 +70,7 @@ abstract class MenusHtmlMenus
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 					$tooltipParts = array();
+
 					if ($item->image)
 					{
 						$tooltipParts[] = JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
@@ -82,6 +83,7 @@ abstract class MenusHtmlMenus
 					{
 						$tooltipParts[] = '<span class="label">' . $item->lang_code . '</span>';
 					}
+
 					$tooltipParts[] = $item->title;
 					$tooltipParts[] = '(' . $item->menu_title . ')';
 

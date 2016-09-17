@@ -70,6 +70,7 @@ class JHtmlNewsfeed
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
 					$tooltipParts = array();
+
 					if ($item->image)
 					{
 						$tooltipParts[] = JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
@@ -82,6 +83,7 @@ class JHtmlNewsfeed
 					{
 						$tooltipParts[] = '<span class="label">' . $item->lang_code . '</span>';
 					}
+
 					$tooltipParts[] = $item->title;
 					$tooltipParts[] = '(' . $item->category_title . ')';
 					$item->link = JHtml::_(
