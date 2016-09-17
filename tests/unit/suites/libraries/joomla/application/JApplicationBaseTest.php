@@ -163,13 +163,11 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testRegisterEvent()
 	{
-		$this->markTestSkipped('Test checks for 3.x style listener registration, ignore for now');
-
 		// Inject the mock dispatcher into the application
 		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Validate method chaining
-		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', 'function'));
+		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', [$this, 'eventCallback']));
 
 		// Validate the event was registered
 		$this->assertArrayHasKey('onJApplicationBaseRegisterEvent', TestMockDispatcher::$handlers);
@@ -229,16 +227,15 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testTriggerEvent()
 	{
-		$this->markTestSkipped('Test checks for 3.x style listener registration, ignore for now');
-
 		// Inject the mock dispatcher into the application
 		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Register our event to be triggered
-		$this->class->registerEvent('onJApplicationBaseTriggerEvent', 'function');
+		$this->class->registerEvent('onJApplicationBaseTriggerEvent', [$this, 'eventCallback']);
 
 		// Validate the event was triggered
-		$this->assertSame(array('function' => null), $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertSame([], $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertTrue(in_array('onJApplicationBaseTriggerEvent', TestMockDispatcher::$triggered));
 	}
 
 	/**
@@ -281,5 +278,17 @@ class JApplicationBaseTest extends TestCase
 	{
 		unset($this->class);
 		parent::tearDown();
+	}
+
+	/**
+	 * Stub function used with testing event integrations
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function eventCallback()
+	{
+		// Stub for testing event integrations
 	}
 }

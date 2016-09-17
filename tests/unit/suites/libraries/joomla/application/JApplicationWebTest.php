@@ -1138,28 +1138,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::registerEvent method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRegisterEvent()
-	{
-		$this->markTestSkipped('Test checks for 3.x style listener registration, ignore for now');
-
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		$this->assertSame($this->class, $this->class->registerEvent('onJWebRegisterEvent', 'function'));
-
-		$this->assertArrayHasKey(
-			'onJWebRegisterEvent',
-			TestMockDispatcher::$handlers,
-			'Checks the events were passed to the mock dispatcher.'
-		);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::render method.
 	 *
 	 * @return  void
