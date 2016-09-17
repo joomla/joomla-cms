@@ -100,7 +100,7 @@ class FinderCli extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
 		// Print a blank line.
 		$this->out(JText::_('FINDER_CLI'));
