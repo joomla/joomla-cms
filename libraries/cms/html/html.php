@@ -682,7 +682,7 @@ abstract class JHtml
 		// B/C before __DEPLOY_VERSION__
 		if (!is_array($options) && !is_array($attribs))
 		{
-			JLog::add('The script method signature used is deprecated, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
+			JLog::add('The script method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
