@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Cli\CliOutput;
+use Joomla\Cms\Application\Autoconfigurable;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
@@ -21,6 +22,8 @@ use Joomla\Registry\Registry;
  */
 class JApplicationCli extends JApplicationBase
 {
+	use Autoconfigurable;
+
 	/**
 	 * @var    CliOutput  The output type.
 	 * @since  3.3
@@ -85,7 +88,10 @@ class JApplicationCli extends JApplicationBase
 			$this->config = new Registry;
 		}
 
-		$this->setDispatcher($dispatcher);
+		if ($dispatcher)
+		{
+			$this->setDispatcher($dispatcher);
+		}
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -144,30 +150,6 @@ class JApplicationCli extends JApplicationBase
 
 		// Trigger the onAfterExecute event.
 		$this->triggerEvent('onAfterExecute');
-	}
-
-	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
 	}
 
 	/**
@@ -236,51 +218,5 @@ class JApplicationCli extends JApplicationBase
 	public function in()
 	{
 		return rtrim(fread(STDIN, 8192), "\n");
-	}
-
-	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
-	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_CONFIGURATION will be used.
-	 * @param   string  $class  The class name to instantiate.
-	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
-	 *
-	 * @since   11.1
-	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
-	{
-		// Instantiate variables.
-		$config = array();
-
-		if (empty($file))
-		{
-			$file = JPATH_CONFIGURATION . '/configuration.php';
-
-			// Applications can choose not to have any configuration data by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
-				$file = '';
-			}
-		}
-
-		if (!empty($file))
-		{
-			JLoader::register($class, $file);
-
-			if (class_exists($class))
-			{
-				$config = new $class;
-			}
-			else
-			{
-				throw new RuntimeException('Configuration class does not exist.');
-			}
-		}
-
-		return $config;
 	}
 }
