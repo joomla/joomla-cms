@@ -35,6 +35,7 @@ trait Autoconfigurable
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   4.0
+	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
@@ -58,7 +59,7 @@ trait Autoconfigurable
 
 			if (!class_exists($class))
 			{
-				throw new RuntimeException('Configuration class does not exist.');
+				throw new \RuntimeException('Configuration class does not exist.');
 			}
 
 			$config = new $class;

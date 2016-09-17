@@ -97,6 +97,7 @@ abstract class JApplicationCli extends AbstractCliApplication implements Dispatc
 	 * @return  JApplicationCli
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($name = null)
 	{
