@@ -131,9 +131,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher and session instances.
-		TestReflection::setValue('JSession', 'instance', null);
-
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
 		JApplicationWebInspector::$connectionAlive = true;
@@ -857,7 +854,7 @@ class JApplicationWebTest extends TestCase
 		$this->assertSame($mockSession, $this->class->getSession()->test());
 		$this->assertSame($mockDocument, $this->class->getDocument()->test());
 		$this->assertSame($mockLanguage, $this->class->getLanguage()->test());
-		$this->assertSame($mockDispatcher, TestReflection::getValue($this->class, 'dispatcher')->dispatch('foo'));
+		$this->assertSame($mockDispatcher, $this->class->getDispatcher()->dispatch('foo'));
 	}
 
 	/**
