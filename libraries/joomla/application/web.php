@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Joomla\String\StringHelper;
@@ -58,7 +59,7 @@ class JApplicationWeb extends JApplicationBase
 	protected $language;
 
 	/**
-	 * @var    JSession  The application session object.
+	 * @var    SessionInterface  The application session object.
 	 * @since  11.3
 	 */
 	protected $session;
@@ -242,7 +243,10 @@ class JApplicationWeb extends JApplicationBase
 			$this->loadLanguage($language);
 		}
 
-		$this->setDispatcher($dispatcher);
+		if ($dispatcher)
+		{
+			$this->setDispatcher($dispatcher);
+		}
 
 		return $this;
 	}
@@ -1040,7 +1044,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->session = $session;
 
 		return $this;
-  	}
+	}
 
 	/**
 	 * Method to load the system URI strings for the application.
