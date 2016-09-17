@@ -161,7 +161,7 @@ abstract class JApplicationBase extends AbstractApplication implements Dispatche
 	 */
 	public function loadIdentity(JUser $identity = null)
 	{
-		$this->identity = ($identity === null) ? JFactory::getUser() : $identity;
+		$this->identity = $identity ?: JUser::getInstance();
 
 		return $this;
 	}

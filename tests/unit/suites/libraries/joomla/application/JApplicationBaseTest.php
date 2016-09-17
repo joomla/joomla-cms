@@ -120,13 +120,6 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testLoadIdentity()
 	{
-		$this->markTestSkipped('JFactory has a dependency to JApplicationWeb for storing session objects.');
-
-		// We need to mock JSession for this test, don't use the getMockSession() method since it has an inbuilt method to mock loading the user
-		$this->saveFactoryState();
-
-		JFactory::$session = $this->getMock('JSession');
-
 		// Before running, this should be null
 		$this->assertAttributeNotInstanceOf('JUser', 'identity', $this->class);
 
@@ -135,9 +128,6 @@ class JApplicationBaseTest extends TestCase
 
 		// A JUser object should have been loaded
 		$this->assertAttributeInstanceOf('JUser', 'identity', $this->class);
-
-		// Restore the global state
-		$this->restoreFactoryState();
 	}
 
 	/**
