@@ -69,31 +69,15 @@ abstract class JHtmlCategoriesAdministrator
 				{
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
 					$url     = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
-					$tooltip = '';
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
 
-					if ($item->image && JHtml::_('image', 'mod_languages/' . $item->image . '.gif', null, null, true, true))
-					{
-						$tooltip .= JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);
-					}
-					else
-					{
-						$tooltip .= '<span class="label">' . $item->lang_code . '</span>';
-					}
-
-					$tooltip .= ' ' . $item->title;
-
-					$item->link = JHtml::_(
-						'tooltip',
-						$tooltip,
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $item->title . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}

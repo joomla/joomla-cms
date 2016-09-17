@@ -72,37 +72,17 @@ abstract class JHtmlContentAdministrator
 				{
 					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
 					$url     = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
-					$tooltip = '';
 
-					if ($item->image && JHtml::_('image', 'mod_languages/' . $item->image . '.gif', null, null, true, true))
-					{
-						$tooltip .= JHtml::_(
-							'image',
-							'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						);
-					}
-					else
-					{
-						$tooltip .= '<span class="label">' . $item->lang_code . '</span>';
-					}
+					$tooltip = $item->title . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
 
-					$tooltip .= ' ' . $item->title . ' (' . $item->category_title . ')';
-
-					$item->link = JHtml::_(
-						'tooltip',
-						$tooltip,
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}

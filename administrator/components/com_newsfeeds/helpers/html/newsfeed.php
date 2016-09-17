@@ -69,35 +69,16 @@ class JHtmlNewsfeed
 				{
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id);
-					$tooltipParts = array();
+					$tooltip = $item->title . '<br />' . JText::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'hasPopover label label-association label-' . $item->lang_sef;
 
-					if ($item->image)
-					{
-						$tooltipParts[] = JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
-							$item->language_title,
-							array('title' => $item->language_title),
-							true
-						);
-					}
-					else
-					{
-						$tooltipParts[] = '<span class="label">' . $item->lang_code . '</span>';
-					}
-
-					$tooltipParts[] = $item->title;
-					$tooltipParts[] = '(' . $item->category_title . ')';
-					$item->link = JHtml::_(
-						'tooltip',
-						implode(' ', $tooltipParts),
-						null,
-						null,
-						$text,
-						$url,
-						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
-					);
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
+						. '" data-content="' . $tooltip . '" data-placement="top">'
+						. $text . '</a>';
 				}
 			}
+
+			JHtml::_('bootstrap.popover');
 
 			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}
