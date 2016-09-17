@@ -141,11 +141,9 @@ class JCategories
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
 
-			if (is_file($path))
-			{
-				include_once $path;
-			}
-			else
+			JLoader::register($classname, $path);
+
+			if (!class_exists($classname))
 			{
 				return false;
 			}

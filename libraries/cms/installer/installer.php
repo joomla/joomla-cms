@@ -2289,7 +2289,7 @@ class JInstaller extends JAdapter
 			if (!class_exists($class))
 			{
 				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+				JLoader::register($class, $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName);
 
 				if (!class_exists($class))
 				{
@@ -2350,7 +2350,7 @@ class JInstaller extends JAdapter
 			}
 
 			// Try once more to find the class
-			require_once $path;
+			JLoader::register($class, $path);
 
 			if (!class_exists($class))
 			{
