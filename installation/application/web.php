@@ -50,6 +50,23 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
+	 * Event listener for the `onAfterSessionStart` event.
+	 *
+	 * @param   JSession  $session  Session object
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function afterSessionStart(JSession $session)
+	{
+		if ($session->isNew())
+		{
+			$session->set('registry', new Registry('session'));
+		}
+	}
+
+	/**
 	 * Method to display errors in language parsing.
 	 *
 	 * @return  string  Language debug output.
@@ -518,24 +535,11 @@ final class InstallationApplicationWeb extends JApplicationCms
 			'force_ssl' => $this->get('force_ssl'),
 		);
 
+		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
+
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		if (!$session->get('registry') instanceof Registry)
-		{
-			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry('session'));
-		}
 
 		// Set the session object.
 		$this->session = $session;
