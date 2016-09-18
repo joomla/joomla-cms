@@ -48,7 +48,7 @@ trait EventAware
 	 *
 	 * @since   4.0
 	 */
-	public function registerEvent($event, $handler)
+	public function registerEvent($event, callable $handler)
 	{
 		try
 		{
