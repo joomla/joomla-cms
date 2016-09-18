@@ -61,7 +61,7 @@ empty($class)     ? null : $attributes['class'] = $class;
 !$readonly        ? null : $attributes['readonly'] = 'readonly';
 !$disabled        ? null : $attributes['disabled'] = 'disabled';
 empty($onchange)  ? null : $attributes['onchange'] = $onchange;
-empty($hint)      ? null : $attributes['placeholder'] = $hint ;
+empty($hint)      ? null : $attributes['placeholder'] = $hint;
 $autocomplete     ? null : $attributes['autocomplete'] = 'off';
 !$autofocus       ? null : $attributes['autofocus'] = '';
 

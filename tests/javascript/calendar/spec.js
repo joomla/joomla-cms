@@ -25,7 +25,7 @@ define(['jquery', 'testsRoot/calendar/spec-setup', 'jasmineJquery'], function ($
 		});
 
 		it('Should have the correct date', function () {
-			expect($('.field-calendar').find('input').val()).toEqual('2016-09-01 00:17:15');
+			expect($('.field-calendar').find('input').val()).toEqual('2016-09-01 05:17:07');
 		});
 
 		// it('Should have the correct date clicking on previous year button', function () {
