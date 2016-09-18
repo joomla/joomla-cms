@@ -102,7 +102,7 @@ JHtml::_('stylesheet', 'system/fields/calendar-vanilla.css', array(), true);
 		echo $name; ?>" value="<?php
 		echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
 			placeholder="<?php
-			echo $format; ?>" data-alt-value="<?php
+			echo str_replace('%', '', $format); ?>" data-alt-value="<?php
 		echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8') ?>" autocomplete="off"/>
 		<button type="button" class="<?php echo ($readonly || $disabled) ? "hidden " : ''; ?>btn btn-secondary"
 			id="<?php echo  $id; ?>_btn"
