@@ -375,7 +375,7 @@ class JUser extends JObject
 			{
 				$this->isRoot = true;
 			}
-			elseif ($this->id > 0 && JAccess::check($this->id, 'core.admin', 'root.1'))
+			elseif ($this->id > 0 && JAccess::check($this->id, 'core.admin'))
 			{
 				$this->isRoot = true;
 			}
