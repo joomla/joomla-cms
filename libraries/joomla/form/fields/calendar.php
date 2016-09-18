@@ -163,48 +163,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
-		// Initialize some field attributes.
-		$translateFormat = (string) $this->element['translateformat'];
-
-		if ($translateFormat && $translateFormat != 'false')
-		{
-			$showTime = (string) $this->element['showtime'];
-
-			if ($showTime && $showTime != 'false')
-			{
-				$format = JText::_('DATE_FORMAT_CALENDAR_DATETIME');
-			}
-			else
-			{
-				$format = JText::_('DATE_FORMAT_CALENDAR_DATE');
-			}
-		}
-		else
-		{
-			$format = $this->format;
-		}
-
-		// Build the attributes array.
-		$attributes = array();
-
-		empty($this->size)      ? null : $attributes['size'] = $this->size;
-		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
-		empty($this->class)     ? null : $attributes['class'] = $this->class;
-		!$this->readonly        ? null : $attributes['readonly'] = 'readonly';
-		!$this->disabled        ? null : $attributes['disabled'] = 'disabled';
-		empty($this->onchange)  ? null : $attributes['onchange'] = $this->onchange;
-		!strlen($hint)          ? null : $attributes['placeholder'] = $hint;
-		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
-		!$this->autofocus       ? null : $attributes['autofocus'] = '';
-
-		if ($this->required)
-		{
-			throw new UnexpectedValueException(sprintf('%s has no layout assigned.', $this->name));
-		}
-
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
@@ -231,8 +189,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$data['value'] = strftime($this->format, strtotime($this->value));
 			date_default_timezone_set($tz);
 		}
-
-
 		// If a known filter is given use it.
 		switch (strtoupper($this->filter))
 		{
@@ -265,6 +221,22 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 
 				break;
 		}
+
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getLayoutData()
+	{
+		$data     = parent::getLayoutData();
+		$tag      = JFactory::getLanguage()->getTag();
+		$calendar = JFactory::getLanguage()->getCalendar();
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
