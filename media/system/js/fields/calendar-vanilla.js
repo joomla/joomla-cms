@@ -169,17 +169,34 @@
 		this.setDate(date);
 	};
 
+	/** Reset select element */
+	JoomlaCalendar.prototype.resetSelected = function (element) {
+		var options = element.options;
+		var i = options.length;
+		while (i--) {
+			var current = options[i];
+			if (current.selected) {
+				current.selected = false;
+			}
+		}
+	};
+
 	/** Fix AM/PM **/
 	JoomlaCalendar.prototype.fixAmpm = function () {
 		if (!this.params.time24) {
 			var val = this.inputField.value,
-				hours = this.date.getHours(),
+				altVal = this.inputField.getAttribute('data-alt-value'),
+				date = new  Date(altVal),
+				hours = date.getHours(),
 				ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
 			if (ampm && ampm.value === 'pm' && hours < 12) {
 				this.inputField.value = val.replace(/AM|am/g, JoomlaCalLocale.PM);
-				ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
+				this.resetSelected(ampm);
+				ampm.value = 'pm';
 			} else if (ampm && ampm.value === 'am') {
 				this.inputField.value = val.replace(/PM|pm/g, JoomlaCalLocale.AM);
+				this.resetSelected(ampm);
+				ampm.value = 'am';
 			}
 		}
 	};
@@ -655,8 +672,7 @@
 				var hrs  = self.date.getHours(),
 					mins = self.date.getMinutes(),
 					t12  = !self.params.time24,
-					altDate = new Date(self.inputField.getAttribute('data-alt-value')),
-					pm   = (altDate.getHours() > 12);
+					pm   = (self.date.getHours() > 12);
 
 				if (t12 && pm) {
 					hrs -= 12;
@@ -671,8 +687,10 @@
 				cell.colSpan = self.params.weekNumbers ? 1 : 2;
 
 				if (t12) {
-					var selAttr = '';
-					if (pm) { selAttr = true; }
+					var selAttr = true,
+						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
+					pm = (altDate.getHours() > 12);
+
 					var part = createElement("select", cell);
 					part.className = "time-ampm";
 					part.style.width = '100%';
@@ -858,33 +876,23 @@
 			var hoursEl = this.table.querySelector('.time-hours'),
 				minsEl = this.table.querySelector('.time-minutes');
 
-			var resetSelected = function (element) {
-				var options = element.options;
-				var i = options.length;
-				while (i--) {
-					var current = options[i];
-					if (current.selected) {
-						current.selected = false;
-					}
-				}
-			};
-
 			/* remove the selected class  for the hours*/
-			resetSelected(hoursEl);
+			this.resetSelected(hoursEl);
 			hoursEl.value = hrs;
 
 			/* remove the selected class  for the minutes*/
-			resetSelected(minsEl);
+			this.resetSelected(minsEl);
 			minsEl.value = mins;
 
 			if (!this.params.time24)
 			{
-				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value'));
-				hrs = dateAlt.getHours();
-				if (hrs > 12) {
-					var ampmEl = this.table.querySelector('.time-ampm');
+				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value')),
+					ampmEl = this.table.querySelector('.time-ampm'),
+					hrsAlt = dateAlt.getHours();
+
+				if (hrsAlt > 12) {
 					/* remove the selected class  for the am-pm*/
-					resetSelected(ampmEl);
+					this.resetSelected(ampmEl);
 					ampmEl.value = 'pm';
 				}
 			}
