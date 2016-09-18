@@ -81,6 +81,8 @@ if (!empty($this->items))
 		$headerDate     = '';
 		$headerAuthor   = '';
 		$headerHits     = '';
+		$headerVotes    = '';
+		$headerRatings  = '';
 		$headerEdit     = '';
 		?>
 		<?php if ($this->params->get('show_headings')) : ?>
@@ -89,6 +91,8 @@ if (!empty($this->items))
 			$headerDate     = 'headers="categorylist_header_date"';
 			$headerAuthor   = 'headers="categorylist_header_author"';
 			$headerHits     = 'headers="categorylist_header_hits"';
+			$headerVotes    = 'headers="categorylist_header_votes"';
+			$headerRatings  = 'headers="categorylist_header_ratings"';
 			$headerEdit     = 'headers="categorylist_header_edit"';
 			?>
 			<thead>
@@ -115,6 +119,16 @@ if (!empty($this->items))
 				<?php if ($this->params->get('list_show_hits')) : ?>
 					<th id="categorylist_header_hits">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+					<th id="categorylist_header_votes">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif; ?>
+				<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+					<th id="categorylist_header_ratings">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_RATINGS', 'rating', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
 				<?php if ($isEditable) : ?>
@@ -215,12 +229,28 @@ if (!empty($this->items))
 							<span class="badge badge-info">
 								<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $article->hits); ?>
 							</span>
-				</td>
-			<?php endif; ?>
-			<?php if ($isEditable) : ?>
-				<td <?php echo $headerEdit; ?> class="list-edit">
-					<?php if ($article->params->get('access-edit')) : ?>
-						<?php echo JHtml::_('icon.edit', $article, $params); ?>
+						</td>
+					<?php endif; ?>
+					<?php if (($this->params->get('list_show_votes', 0)) && ($this->vote)) : ?>
+						<td <?php echo $headerVotes; ?> class="list-votes">
+							<span class="badge badge-success">
+								<?php echo JText::sprintf('COM_CONTENT_VOTES_COUNT', $article->rating_count); ?>
+							</span>
+						</td>
+					<?php endif; ?>
+					<?php if (($this->params->get('list_show_ratings', 0)) && ($this->vote)) : ?>
+						<td <?php echo $headerRatings; ?> class="list-ratings">
+							<span class="badge badge-warning">
+								<?php echo JText::sprintf('COM_CONTENT_RATINGS_COUNT', $article->rating); ?>
+							</span>
+						</td>
+					<?php endif; ?>
+					<?php if ($isEditable) : ?>
+						<td <?php echo $headerEdit; ?> class="list-edit">
+							<?php if ($article->params->get('access-edit')) : ?>
+								<?php echo JHtml::_('icon.edit', $article, $params); ?>
+							<?php endif; ?>
+						</td>
 					<?php endif; ?>
 				</td>
 			<?php endif; ?>
@@ -249,5 +279,5 @@ if (!empty($this->items))
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 	<?php endif; ?>
-<?php  endif; ?>
+<?php endif; ?>
 </form>

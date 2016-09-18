@@ -91,6 +91,10 @@
 				<option value="hits">JGLOBAL_MOST_HITS</option>
 				<option value="rhits">JGLOBAL_LEAST_HITS</option>
 				<option value="order">JGLOBAL_ORDERING</option>
+				<option value="vote" requires="vote">JGLOBAL_VOTES_DESC</option>
+				<option value="rvote" requires="vote">JGLOBAL_VOTES_ASC</option>
+				<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
+				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 			</field>
 
 			<field name="order_date" type="list"
