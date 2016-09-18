@@ -27,10 +27,9 @@
 	window.getJoomlaCalendarValuesFromAlt = function() {
 
 		var calendars = document.querySelectorAll(".field-calendar");
-
 		for (var i = 0; i < calendars.length; i++) {
 			var input = calendars[i].getElementsByTagName('input')[0];
-			input.value = input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00";
+			input.setAttribute("value", input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00");
 		}
 	};
 
@@ -119,10 +118,8 @@
 		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
 
 		if (this.inputField.value.length) {
-			if (this.params.dateType !== 'gregorian') {
-				this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true);
-			}
 			this.date = new Date(inputAltValueDate);
+			this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true);
 		} else {
 			this.date = new Date();
 		}
@@ -693,15 +690,7 @@
 			+ JoomlaCalLocale.save + '</a>', this.params.showsTodayBtn ? 2 : 3, 100, 'td', {'textAlign': 'center'});
 
 		if (!this.inputField.hasAttribute('required')) {
-			var savea = row.querySelector('a[data-action="clear"]');                                       // HTML5 version
-			if (typeof savea == "undefined") {                                                             // Support IE8
-				var tempElem = row.getElementsByTagName("A"), i, savea = null;
-				for (i = 0; i < tempElem.length; i++) {
-					if (tempElem[i].getAttribute("data-action") == "clear")
-						savea = tempElem[i];
-				}
-			}
-
+			var savea = row.querySelector('a[data-action="clear"]');
 			savea.addEventListener("click",
 				function (e) {
 					var el = savea.parentNode.parentNode;
@@ -715,14 +704,7 @@
 
 			this._nav_now = hh('<a class="js-btn btn-today" data-action="today" style="display:block;padding:2px 6px;">'
 				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 4 : 3, 0, 'td', {'textAlign': 'center'});
-			var todaya = row.querySelector('a[data-action="today"]');                                       // HTML5 version
-			if (typeof todaya == "undefined") {                                                             // Support IE8
-				var tempElem = row.getElementsByTagName("A"), i, todaya = null;
-				for (i = 0; i < tempElem.length; i++) {
-					if (tempElem[i].getAttribute("data-action") == "today")
-						todaya = tempElem[i];
-				}
-			}
+			var todaya = row.querySelector('a[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
 				var el = todaya.parentNode.parentNode;
 				if (el.tagName === 'TD') { self.cellClick(self._nav_now, e); }
@@ -731,14 +713,7 @@
 
 		this._nav_exit = hh('<a class="js-btn btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
 			+ JoomlaCalLocale.exit + '</a>', this.params.showsTodayBtn ? 2 : 3, 200, 'td', {'textAlign': 'center'});
-		var exita = row.querySelector('a[data-action="exit"]');                                       // HTML5 version
-		if (typeof exita == "undefined") {                                                             // Support IE8
-			var tempElem = row.getElementsByTagName("A"), i, exita = null;
-			for (i = 0; i < tempElem.length; i++) {
-				if (tempElem[i].getAttribute("data-action") == "exit")
-					exita = tempElem[i];
-			}
-		}
+		var exita = row.querySelector('a[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			var el = exita.parentNode.parentNode;
 			if (el.tagName === 'TD') { self.cellClick(self._nav_exit, e); }
@@ -913,9 +888,6 @@
 		this.button.addEventListener('click', function() {
 			self.show();
 		}, false);
-
-		// @TODO this need to be added only once, or getJoomlaCalendarValuesFromAlt should be part of JoomlaCalendar.prototype
-		this.inputField.form.addEventListener('submit', getJoomlaCalendarValuesFromAlt, true);
 	};
 
 
@@ -969,6 +941,12 @@
 				new JoomlaCalendar(elements[i]);
 			}
 		}
+
+		var formTmp = elements[0].getElementsByTagName('input')[0].form;
+		if (formTmp) {
+			formTmp.addEventListener('submit', getJoomlaCalendarValuesFromAlt, true);
+		}
+
 	};
 
 	window.JoomlaCalendar = JoomlaCalendar;
