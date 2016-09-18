@@ -594,11 +594,14 @@ abstract class JModelAdmin extends JModelForm
 				$table->load($pk);
 				$tags = array($value);
 
-				$setTagsEvent = Joomla\Cms\Event\AbstractEvent::create('TableSetNewTags', array(
-					'subject'		=> $this,
-					'newTags'		=> $tags,
-					'replaceTags'	=> false
-				));
+				$setTagsEvent = Joomla\Cms\Event\AbstractEvent::create(
+					'TableSetNewTags',
+					array(
+						'subject'     => $this,
+						'newTags'     => $tags,
+						'replaceTags' => false,
+					)
+				);
 
 				try
 				{

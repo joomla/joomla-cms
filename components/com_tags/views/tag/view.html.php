@@ -94,15 +94,15 @@ class TagsViewTag extends JViewLegacy
 				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
 				JPluginHelper::importPlugin('content');
-				JFactory::getApplication()->triggerEvent('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				JFactory::getApplication()->triggerEvent('onContentPrepare', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 
-				$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', ['com_tags.tag', &$itemElement, &$itemElement->core_params, 0]);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				// Write the results back into the body

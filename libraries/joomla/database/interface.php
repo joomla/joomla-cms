@@ -14,7 +14,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Joomla Platform Database Interface
  *
- * @since  11.2
+ * @since       11.2
  * @deprecated  5.0  Implement Joomla\Database\DatabaseInterface instead
  */
 interface JDatabaseInterface extends DatabaseInterface

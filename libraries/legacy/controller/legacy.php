@@ -300,10 +300,10 @@ class JControllerLegacy extends JObject
 		{
 			self::$instance = JFactory::getContainer()->get($class);
 		}
-  		else
-  		{
+		else
+		{
 			self::$instance = new $class($config);
-  		}
+		}
 
 		// Instantiate the class, store it to the static container, and return it
 		return self::$instance = new $class($config);

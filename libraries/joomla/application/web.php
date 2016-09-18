@@ -971,7 +971,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->session = $session;
 
 		return $this;
-  	}
+	}
 
 	/**
 	 * Method to load the system URI strings for the application.
