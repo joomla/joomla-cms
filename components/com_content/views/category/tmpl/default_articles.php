@@ -135,6 +135,18 @@ if (!empty($this->items))
 					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
+					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php foreach ($associations as $association) : ?>
+							<?php if ($this->params->get('flags', 1)) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				<?php else: ?>
 					<?php
 					echo $this->escape($article->title) . ' : ';
@@ -147,6 +159,18 @@ if (!empty($this->items))
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 					</a>
+					<?php if (JLanguageAssociations::isEnabled() && $this->params->get('show_associations')) : ?>
+						<?php $associations = ContentHelperAssociation::displayAssociations($article->id); ?>
+						<?php foreach ($associations as $association) : ?>
+							<?php if ($this->params->get('flags', 1)) : ?>
+								<?php $flag = JHtml::_('image', 'mod_languages/' . $association['language']->image . '.gif', $association['language']->title_native, array('title' => $association['language']->title_native), true); ?>
+								&nbsp;<a href="<?php echo JRoute::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
+							<?php else : ?>
+								<?php $class = 'label label-association label-' . $association['language']->sef; ?>
+								&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo JRoute::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+							<?php endif; ?>
+						<?php endforeach; ?>
+					<?php endif; ?>
 				<?php endif; ?>
 				<?php if ($article->state == 0) : ?>
 					<span class="list-published label label-warning">
