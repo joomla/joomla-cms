@@ -260,7 +260,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 
 		$extraData = array(
 			'maxLength'    => $this->maxlength,
-			'format'       => $this->format,
+			'format'       => ($this->timeformat !== 24) ? str_replace('H', 'I', $this->format) . ' %p' : $this->format,
 			'filter'       => $this->filter,
 			'todaybutton'  => ($this->todaybutton === "true") ? 1 : 0,
 			'weeknumbers'  => ($this->weeknumbers === "true") ? 1 : 0,

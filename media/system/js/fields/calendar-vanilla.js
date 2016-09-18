@@ -111,6 +111,7 @@
 
 		this._create();
 		this._bindEvents();
+		this.fixAmpm();
 	};
 
 	JoomlaCalendar.prototype.checkInputs = function () {
@@ -130,16 +131,17 @@
 		var self = this,
 			date = self.date;
 
-		if (!self.params.time24) {
-			if (/pm/i.test(ampm) && hours < 12)
-				hours = parseInt(hours) + 12;
-			else if (/am/i.test(ampm) && hours == 12)
-				hours = 0;
-		}
-
 		var d = self.date.getLocalDate(self.params.dateType),
 			m = self.date.getLocalMonth(self.params.dateType),
-			y = self.date.getLocalFullYear(self.params.dateType);
+			y = self.date.getLocalFullYear(self.params.dateType),
+			ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
+
+		if (!self.params.time24) {
+			if (/pm/i.test(ampm.value) && hours < 12)
+				hours = parseInt(hours) + 12;
+			else if (/am/i.test(ampm.value) && hours == 12)
+				hours = 0;
+		}
 
 		date.setHours(hours);
 		date.setMinutes(parseInt(mins, 10));
@@ -167,6 +169,21 @@
 		this.setDate(date);
 	};
 
+	/** Fix AM/PM **/
+	JoomlaCalendar.prototype.fixAmpm = function () {
+		if (!this.params.time24) {
+			var val = this.inputField.value,
+				hours = this.date.getHours(),
+				ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
+			if (ampm && ampm.value === 'pm' && hours < 12) {
+				this.inputField.value = val.replace(/AM|am/g, JoomlaCalLocale.PM);
+				ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
+			} else if (ampm && ampm.value === 'am') {
+				this.inputField.value = val.replace(/PM|pm/g, JoomlaCalLocale.AM);
+			}
+		}
+	};
+
 	/** Method to set the value for the input field */
 	JoomlaCalendar.prototype.callHandler = function () {
 		/** Output the date **/
@@ -190,9 +207,11 @@
 		}
 
 		if (this.dateClicked) {
+			this.fixAmpm();
 			this.close();
 		} else {
 			this.processCalendar();
+			this.fixAmpm();
 		}
 	};
 
@@ -636,7 +655,8 @@
 				var hrs  = self.date.getHours(),
 					mins = self.date.getMinutes(),
 					t12  = !self.params.time24,
-					pm   = (hrs > 12);
+					altDate = new Date(self.inputField.getAttribute('data-alt-value')),
+					pm   = (altDate.getHours() > 12);
 
 				if (t12 && pm) {
 					hrs -= 12;
@@ -664,7 +684,7 @@
 					AP.addEventListener("change", function (event) {
 						self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 							event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
+							event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
 					}, false);
 				} else {
 					cell.innerHTML = "&#160;";
@@ -673,12 +693,12 @@
 				H.addEventListener("change", function (event) {
 					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
+						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
 				}, false);
 				M.addEventListener("change", function (event) {
 					self.updateTime(event.target.parentNode.parentNode.childNodes[1].childNodes[0].value,
 						event.target.parentNode.parentNode.childNodes[2].childNodes[0].value,
-						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value, self);
+						event.target.parentNode.parentNode.childNodes[3].childNodes[0].value);
 				}, false);
 			})();
 		}
@@ -857,11 +877,16 @@
 			resetSelected(minsEl);
 			minsEl.value = mins;
 
-			if (!this.params.time24 && hrs > 12) {
-				var ampmEl = this.table.querySelector('.time-ampm');
-				/* remove the selected class  for the am-pm*/
-				resetSelected(ampmEl);
-				ampmEl.value = 'pm';
+			if (!this.params.time24)
+			{
+				var dateAlt = new Date(this.inputField.getAttribute('data-alt-value'));
+				hrs = dateAlt.getHours();
+				if (hrs > 12) {
+					var ampmEl = this.table.querySelector('.time-ampm');
+					/* remove the selected class  for the am-pm*/
+					resetSelected(ampmEl);
+					ampmEl.value = 'pm';
+				}
 			}
 		}
 
