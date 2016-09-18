@@ -1023,6 +1023,7 @@ abstract class JHtml
 		$fillTable    = isset($attribs['fillTable']) ? $attribs['fillTable'] : true;
 		$timeFormat   = isset($attribs['timeFormat']) ? $attribs['timeFormat'] : 24;
 		$singleHeader = isset($attribs['singleHeader']) ? $attribs['singleHeader'] : false;
+		$hint         = isset($attribs['placeholder']) ? $attribs['placeholder'] : '';
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
 		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
@@ -1046,6 +1047,7 @@ abstract class JHtml
 			'required'     => $required,
 			'readonly'     => $readonly,
 			'disabled'     => $disabled,
+			'hint'         => $hint,
 			'autofocus'    => $autofocus,
 			'autocomplete' => $autocomplete,
 			'todaybutton'  => $todayBtn,
