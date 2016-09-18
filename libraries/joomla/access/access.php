@@ -149,6 +149,12 @@ class JAccess
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
 		$asset  = strtolower(preg_replace('#[\s\-]+#', '.', trim($asset)));
 
+		// If guest user, checking core.admin in root asset (aka super user) no need to check, just return false.
+		if ($userId === 0 && $action === 'core.admin' && in_array($asset, array(null, 1, 'root.1')))
+		{
+			return false;
+		}
+
 		// Default to the root asset node.
 		if (empty($asset))
 		{
