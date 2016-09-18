@@ -51,7 +51,7 @@ class Updatecron extends JApplicationCli
 	 *
 	 * @since   2.5
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
 		// Get the update cache time
 		$component = JComponentHelper::getComponent('com_installer');
