@@ -362,13 +362,16 @@ class Joomla_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sniff
 
             // Required tag missing.
             if ($info['required'] === true && in_array($tag, $foundTags) === false) {
-                $error = 'Missing @%s tag in %s comment';
-                $data  = array(
-                              $tag,
-                              $docBlock,
-                             );
-                $this->currentFile->addError($error, $commentEnd, 'MissingTag', $data);
-                continue;
+                // We don't use package tags in namespaced code or the bootstrap file
+                if ($tag == 'package' && strpos($this->currentFile->getFilename(), '/libraries/src/') === false && strpos($this->currentFile->getFilename(), '/libraries/bootstrap.php') === false) {
+                    $error = 'Missing @%s tag in %s comment';
+                    $data  = array(
+                                  $tag,
+                                  $docBlock,
+                                 );
+                    $this->currentFile->addError($error, $commentEnd, 'MissingTag', $data);
+                    continue;
+                }
             }
 
              // Get the line number for current tag.
