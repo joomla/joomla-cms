@@ -57,11 +57,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 					<div class="controls">
 						<?php echo $this->form->getInput('image'); ?>
-						<?php if ($this->form->getValue('image')) : ?>
-							<span id="flag">
-								<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
-							</span>
-						<?php endif; ?>
+						<span id="flag">
+							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
+						</span>
 					</div>
 			</div>
 			<?php if ($this->canDo->get('core.edit.state')) : ?>
