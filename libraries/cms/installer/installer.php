@@ -2230,6 +2230,7 @@ class JInstaller extends JAdapter
 		if ($xml->metadata && count($xml->metadata->children()))
 		{
 			$data['metadata'] = array();
+
 			foreach ($xml->metadata->children() as $xmlTag)
 			{
 				$data['metadata'][$xmlTag->getName()] = (string) $xmlTag;
