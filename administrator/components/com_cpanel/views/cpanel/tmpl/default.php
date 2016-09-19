@@ -60,11 +60,8 @@ $user = JFactory::getUser();
 				// Get module parameters
 				$params = new Registry;
 				$params->loadString($module->params);
-				$bootstrapSize = $params->get('bootstrap_size');
-				if (!$bootstrapSize)
-				{
-					$bootstrapSize = 12;
-				}
+				$bootstrapSize = $params->get('bootstrap_size', 6);
+
 				$cols += $bootstrapSize;
 				if ($cols > 12)
 				{
