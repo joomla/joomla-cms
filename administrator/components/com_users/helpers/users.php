@@ -66,6 +66,13 @@ class UsersHelper
 				'index.php?option=com_categories&extension=com_users',
 				$vName == 'categories' || $extension == 'com_users'
 			);
+
+			JHtmlSidebar::addEntry(
+				JText::_('COM_USERS_SUBMENU_MASSMAIL'),
+				'index.php?option=com_users&view=mail',
+				$vName == 'mail'
+			);
+
 		}
 	}
 
