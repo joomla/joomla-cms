@@ -53,6 +53,9 @@ $loggeduser = JFactory::getUser();
 						<th width="5%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 						</th>
+						<th width="5%" class="nowrap center hidden-phone">
+							<?php echo JText::_('COM_USERS_HEADING_TFA'); ?>
+						</th>
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
@@ -136,6 +139,13 @@ $loggeduser = JFactory::getUser();
 							$activated = empty( $item->activation) ? 0 : 1;
 							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
 							?>
+						</td>
+						<td class="center hidden-phone">
+							<?php if (empty($item->otpKey) : ?>
+								<?php echo JText::_('JDISABLED'); ?>
+							<?php else : ?>
+								<?php echo JText::_('JENABLED'); ?>
+							<?php endif; ?>
 						</td>
 						<td>
 							<?php if (substr_count($item->group_names, "\n") > 1) : ?>
