@@ -1,3 +1,8 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 !(function(window, document){
 	'use strict';
 
@@ -29,7 +34,7 @@
 		var calendars = document.querySelectorAll(".field-calendar");
 		for (var i = 0; i < calendars.length; i++) {
 			var input = calendars[i].getElementsByTagName('input')[0];
-			input.setAttribute("value", input.getAttribute("data-alt-value") ? input.getAttribute("data-alt-value") : "0000-00-00 00:00:00");
+			input.value = (input.getAttribute("data-alt-value") !== '0000-00-00 00:00:00') ? input.getAttribute("data-alt-value") : '0000-00-00 00:00:00';
 		}
 	};
 
@@ -67,6 +72,7 @@
 			element: {style: {display: "none"}},
 			writable: true
 		};
+
 		var self = this,
 			btn  = this.button,
 			instanceParams = {
@@ -111,7 +117,6 @@
 
 		this._create();
 		this._bindEvents();
-		this.fixAmpm();
 	};
 
 	JoomlaCalendar.prototype.checkInputs = function () {
@@ -119,7 +124,7 @@
 		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
 
 		if (this.inputField.value.length) {
-			this.date = new Date(inputAltValueDate);
+			this.date = inputAltValueDate;
 			this.inputField.value = inputAltValueDate.print(this.params.dateFormat, this.params.dateType, true);
 		} else {
 			this.date = new Date();
@@ -181,26 +186,6 @@
 		}
 	};
 
-	/** Fix AM/PM **/
-	JoomlaCalendar.prototype.fixAmpm = function () {
-		if (!this.params.time24) {
-			var val = this.inputField.value,
-				altVal = this.inputField.getAttribute('data-alt-value'),
-				date = new  Date(altVal),
-				hours = date.getHours(),
-				ampm = this.inputField.parentNode.parentNode.querySelectorAll('.time-ampm')[0];
-			if (ampm && ampm.value === 'pm' && hours < 12) {
-				this.inputField.value = val.replace(/AM|am/g, JoomlaCalLocale.PM);
-				this.resetSelected(ampm);
-				ampm.value = 'pm';
-			} else if (ampm && ampm.value === 'am') {
-				this.inputField.value = val.replace(/PM|pm/g, JoomlaCalLocale.AM);
-				this.resetSelected(ampm);
-				ampm.value = 'am';
-			}
-		}
-	};
-
 	/** Method to set the value for the input field */
 	JoomlaCalendar.prototype.callHandler = function () {
 		/** Output the date **/
@@ -224,11 +209,9 @@
 		}
 
 		if (this.dateClicked) {
-			this.fixAmpm();
 			this.close();
 		} else {
 			this.processCalendar();
-			this.fixAmpm();
 		}
 	};
 
@@ -367,9 +350,9 @@
 		} else {
 			if (el.navtype == 100) {
 				el.classList.remove("hilite");
+				this.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
+				this.inputField.setAttribute('value', '');
 				this.inputField.value = '';
-				self.date = '';
-				this.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00')
 				this.close();
 				return;
 			}
@@ -466,6 +449,10 @@
 				self.date = Date.parseFieldDate(this.inputField.value, self.params.dateFormat, self.params.dateType);
 				this.processCalendar(self.params.firstDayOfWeek, self.date);
 				this.cellClick(self.currentDateEl, ev);
+			} else {
+				this.inputField.value = '';
+				this.inputField.setAttribute('value', '');
+				this.inputField.setAttribute('data-alt-value', '0000-00-00 00:00:00');
 			}
 			this.close();
 		}
@@ -706,6 +693,7 @@
 					}, false);
 				} else {
 					cell.innerHTML = "&#160;";
+					cell.colSpan = self.params.weekNumbers ? 4 : 3;
 				}
 
 				H.addEventListener("change", function (event) {
@@ -725,7 +713,7 @@
 		row.className = "btn-row";
 		var clearAttr = this.inputField.hasAttribute('required') ? 'none;' : 'block;';
 		this._nav_save = hh('<a class="js-btn btn-clear" data-action="clear" style="display:' + clearAttr + 'padding:2px 6px;">'
-			+ JoomlaCalLocale.save + '</a>', this.params.showsTodayBtn ? 2 : 3, 100, 'td', {'textAlign': 'center'});
+			+ JoomlaCalLocale.save + '</a>', 2, 100, 'td', {'textAlign': 'center'});
 
 		if (!this.inputField.hasAttribute('required')) {
 			var savea = row.querySelector('a[data-action="clear"]');
@@ -747,10 +735,14 @@
 				var el = todaya.parentNode.parentNode;
 				if (el.tagName === 'TD') { self.cellClick(self._nav_now, e); }
 			}, true);
+		} else {
+			cell = createElement("td", row);
+			cell.innerHTML = "&#160;";
+			cell.colSpan = this.params.weekNumbers ? 4 : 3;
 		}
 
 		this._nav_exit = hh('<a class="js-btn btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
-			+ JoomlaCalLocale.exit + '</a>', this.params.showsTodayBtn ? 2 : 3, 200, 'td', {'textAlign': 'center'});
+			+ JoomlaCalLocale.exit + '</a>', 2, 200, 'td', {'textAlign': 'center'});
 		var exita = row.querySelector('a[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
 			var el = exita.parentNode.parentNode;
@@ -916,13 +908,17 @@
 		}, true);
 		this.inputField.addEventListener('blur', function(event) {
 			if (event.relatedTarget != null && (event.relatedTarget.classList.contains('time-hours') || event.relatedTarget.classList.contains('time-minutes') || event.relatedTarget.classList.contains('time-ampm'))) return;
+			var elem = event.target;
+			while (elem.parentNode) {
+				elem = elem.parentNode;
+				if (elem.classList.contains('field-calendar')) return;
+			}
 			self.close();
 		}, true);
 		this.button.addEventListener('click', function() {
 			self.show();
 		}, false);
 	};
-
 
 	/** Helpers **/
 	var stopCalEvent = function (ev) { ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
