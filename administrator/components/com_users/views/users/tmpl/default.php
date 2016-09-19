@@ -141,7 +141,7 @@ $loggeduser = JFactory::getUser();
 							?>
 						</td>
 						<td class="center hidden-phone">
-							<?php if (empty($item->otpKey) : ?>
+							<?php if (empty($item->otpKey)) : ?>
 								<?php echo JText::_('JDISABLED'); ?>
 							<?php else : ?>
 								<?php echo JText::_('JENABLED'); ?>
