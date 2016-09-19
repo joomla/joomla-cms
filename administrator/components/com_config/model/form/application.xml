@@ -9,11 +9,13 @@
 			default="2"
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
 		</field>
+
 		<field
 			name="cache_handler"
 			type="cachehandler"
@@ -21,8 +23,8 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word"
-			showon="caching:1,2">
-		</field>
+			showon="caching:1,2"
+		/>
 
 		<field
 			name="cache_platformprefix"
@@ -32,7 +34,8 @@
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_DESC"
 			filter="integer"
-			showon="caching:1,2">
+			showon="caching:1,2"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -48,7 +51,8 @@
 			filter="integer"
 			validate="number"
 			showon="caching:1,2"
-			size="6" />
+			size="6"
+		/>
 
 		<field
 			name="memcache_persist"
@@ -58,7 +62,8 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
 			showon="caching:1,2[AND]cache_handler:memcache"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -71,7 +76,8 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
 			showon="caching:1,2[AND]cache_handler:memcache"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -84,7 +90,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
 			showon="caching:1,2[AND]cache_handler:memcache"
 			filter="string"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="memcache_server_port"
@@ -94,7 +101,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			showon="caching:1,2[AND]cache_handler:memcache"
 			filter="integer"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="memcached_persist"
@@ -104,7 +112,8 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
 			showon="caching:1,2[AND]cache_handler:memcached"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -117,7 +126,8 @@
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
 			showon="caching:1,2[AND]cache_handler:memcached"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -130,7 +140,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
 			showon="caching:1,2[AND]cache_handler:memcached"
 			filter="string"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="memcached_server_port"
@@ -140,7 +151,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			showon="caching:1,2[AND]cache_handler:memcached"
 			filter="integer"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="redis_persist"
@@ -150,7 +162,8 @@
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
 			filter="integer"
-			showon="caching:1,2[AND]cache_handler:redis">
+			showon="caching:1,2[AND]cache_handler:redis"
+		>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -163,7 +176,8 @@
 			description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
 			filter="string"
 			showon="caching:1,2[AND]cache_handler:redis"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="redis_server_port"
@@ -173,7 +187,8 @@
 			description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
 			filter="integer"
 			showon="caching:1,2[AND]cache_handler:redis"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="redis_server_auth"
@@ -183,7 +198,8 @@
 			filter="raw"
 			showon="caching:1,2[AND]cache_handler:redis"
 			autocomplete="off"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="redis_server_db"
@@ -193,7 +209,8 @@
 			description="COM_CONFIG_FIELD_REDIS_DB_DESC"
 			filter="integer"
 			showon="caching:1,2[AND]cache_handler:redis"
-			size="4" />
+			size="4"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -210,7 +227,8 @@
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
-			filter="string" />
+			filter="string"
+		/>
 
 		<field
 			name="host"
@@ -219,7 +237,8 @@
 			description="COM_CONFIG_FIELD_DATABASE_HOST_DESC"
 			required="true"
 			filter="string"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="user"
@@ -228,7 +247,8 @@
 			description="COM_CONFIG_FIELD_DATABASE_USERNAME_DESC"
 			required="true"
 			filter="string"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="db"
@@ -237,7 +257,8 @@
 			description="COM_CONFIG_FIELD_DATABASE_NAME_DESC"
 			required="true"
 			filter="string"
-			size="30" />
+			size="30"
+		/>
 
 		<field
 			name="dbprefix"
@@ -246,7 +267,8 @@
 			label="COM_CONFIG_FIELD_DATABASE_PREFIX_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_PREFIX_DESC"
 			filter="string"
-			size="10" />
+			size="10"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -259,7 +281,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -271,7 +294,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -287,7 +311,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -299,7 +324,8 @@
 			description="COM_CONFIG_FIELD_FTP_HOST_DESC"
 			filter="string"
 			showon="ftp_enable:1"
-			size="14" />
+			size="14"
+		/>
 
 		<field
 			name="ftp_port"
@@ -308,7 +334,8 @@
 			description="COM_CONFIG_FIELD_FTP_PORT_DESC"
 			filter="string"
 			showon="ftp_enable:1"
-			size="8" />
+			size="8"
+		/>
 
 		<field
 			name="ftp_user"
@@ -318,7 +345,8 @@
 			filter="string"
 			showon="ftp_enable:1"
 			autocomplete="off"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="ftp_pass"
@@ -328,7 +356,8 @@
 			filter="raw"
 			showon="ftp_enable:1"
 			autocomplete="off"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="ftp_root"
@@ -337,7 +366,8 @@
 			showon="ftp_enable:1"
 			description="COM_CONFIG_FIELD_FTP_ROOT_DESC"
 			filter="string"
-			size="50" />
+			size="50"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -350,7 +380,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_PROXY_ENABLE_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -362,7 +393,8 @@
 			description="COM_CONFIG_FIELD_PROXY_HOST_DESC"
 			filter="string"
 			showon="proxy_enable:1"
-			size="14" />
+			size="14"
+		/>
 
 		<field
 			name="proxy_port"
@@ -371,7 +403,8 @@
 			description="COM_CONFIG_FIELD_PROXY_PORT_DESC"
 			filter="string"
 			showon="proxy_enable:1"
-			size="8" />
+			size="8"
+		/>
 
 		<field
 			name="proxy_user"
@@ -381,7 +414,8 @@
 			filter="string"
 			showon="proxy_enable:1"
 			autocomplete="off"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="proxy_pass"
@@ -391,7 +425,8 @@
 			filter="raw"
 			showon="proxy_enable:1"
 			autocomplete="off"
-			size="25" />
+			size="25"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -402,7 +437,8 @@
 			type="timezone"
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
-			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC">
+			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
+			>
 			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
 		</field>
 	</fieldset>
@@ -569,7 +605,8 @@
 			description="COM_CONFIG_FIELD_METADESC_DESC"
 			filter="string"
 			cols="60"
-			rows="3" />
+			rows="3"
+		/>
 
 		<field
 			name="MetaKeys"
@@ -578,13 +615,15 @@
 			description="COM_CONFIG_FIELD_METAKEYS_DESC"
 			filter="string"
 			cols="60"
-			rows="3" />
+			rows="3"
+		/>
 
 		<field name="robots"
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
-			default="">
+			default=""
+			>
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
 			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
@@ -598,7 +637,8 @@
 			description="JFIELD_META_RIGHTS_DESC"
 			filter="string"
 			cols="60"
-			rows="2" />
+			rows="2"
+		/>
 
 		<field
 			name="MetaAuthor"
@@ -607,7 +647,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -618,7 +659,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -635,7 +677,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -648,7 +691,8 @@
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
 			filter="integer"
-			showon="sef:1">
+			showon="sef:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -661,7 +705,8 @@
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
 			filter="integer"
-			showon="sef:1">
+			showon="sef:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -674,7 +719,8 @@
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
 			filter="integer"
-			showon="sef:1">
+			showon="sef:1"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -685,7 +731,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
 			<option value="0">JNO</option>
@@ -702,7 +749,8 @@
 			label="COM_CONFIG_FIELD_TEMP_PATH_LABEL"
 			description="COM_CONFIG_FIELD_TEMP_PATH_DESC"
 			filter="string"
-			size="50" />
+			size="50"
+		/>
 
 		<field
 			name="gzip"
@@ -711,7 +759,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -722,7 +771,8 @@
 			default="default"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
-			filter="cmd">
+			filter="cmd"
+			>
 			<option value="default">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
@@ -736,7 +786,8 @@
 			default="-1"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_ENTIRE_SITE</option>
@@ -756,7 +807,8 @@
 			required="true"
 			filter="integer"
 			validate="number"
-			size="6" />
+			size="6"
+		/>
 
 		<field
 			name="session_handler"
@@ -764,7 +816,8 @@
 			default="none"
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
-			filter="word" />
+			filter="word"
+		/>
 
 		<field
 			name="session_memcache_server_host"
@@ -774,7 +827,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
 			filter="string"
 			showon="session_handler:memcache"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="session_memcache_server_port"
@@ -784,7 +838,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			filter="integer"
 			showon="session_handler:memcache"
-			size="5" />
+			size="5"
+		/>
 
 		<field
 			name="session_memcached_server_host"
@@ -794,7 +849,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
 			filter="string"
 			showon="session_handler:memcached"
-			size="25" />
+			size="25"
+		/>
 
 		<field
 			name="session_memcached_server_port"
@@ -804,7 +860,8 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_PORT_DESC"
 			filter="integer"
 			showon="session_handler:memcached"
-			size="5" />
+			size="5"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -818,7 +875,8 @@
 			description="COM_CONFIG_FIELD_SITE_NAME_DESC"
 			required="true"
 			filter="string"
-			size="50" />
+			size="50"
+		/>
 
 		<field
 			name="offline"
@@ -827,7 +885,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -839,7 +898,8 @@
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
 			filter="integer"
-			showon="offline:1">
+			showon="offline:1"
+			>
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_LANGUAGE</option>
@@ -853,14 +913,16 @@
 			filter="safehtml"
 			cols="60"
 			rows="2"
-			showon="offline:1[AND]display_offline_message:1" />
+			showon="offline:1[AND]display_offline_message:1"
+		/>
 
 		<field
 			name="offline_image"
 			type="media"
 			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
 			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC"
-			showon="offline:1" />
+			showon="offline:1"
+		/>
 
 		<field
 			name="frontediting"
@@ -868,7 +930,8 @@
 			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
 			<option value="1">COM_CONFIG_FRONTEDITING_MODULES</option>
 			<option value="0">JNONE</option>
@@ -881,7 +944,8 @@
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
-			filter="cmd" />
+			filter="cmd"
+		/>
 
 		<field
 			name="captcha"
@@ -890,7 +954,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
-			filter="cmd">
+			filter="cmd"
+			>
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
@@ -900,7 +965,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
-			filter="integer" />
+			filter="integer"
+		/>
 
 		<field
 			name="list_limit"
@@ -908,7 +974,8 @@
 			default="20"
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
@@ -927,7 +994,8 @@
 			default="10"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
-			filter="integer">
+			filter="integer"
+			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
@@ -944,11 +1012,11 @@
 			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
-			filter="word">
+			filter="word"
+			>
 			<option value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
-
 		</field>
 	</fieldset>
 
@@ -963,14 +1031,16 @@
 			description="COM_CONFIG_FIELD_LOG_PATH_DESC"
 			required="true"
 			filter="string"
-			size="50" />
+			size="50"
+		/>
 
 		<field
 			name="helpurl"
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			showDefault="false" />
+			showDefault="false"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -982,7 +1052,8 @@
 			label="COM_CONFIG_FIELD_COOKIE_DOMAIN_LABEL"
 			description="COM_CONFIG_FIELD_COOKIE_DOMAIN_DESC"
 			filter="string"
-			size="40" />
+			size="40"
+		/>
 
 		<field
 			name="cookie_path"
@@ -990,7 +1061,8 @@
 			label="COM_CONFIG_FIELD_COOKIE_PATH_LABEL"
 			description="COM_CONFIG_FIELD_COOKIE_PATH_DESC"
 			filter="string"
-			size="40" />
+			size="40"
+		/>
 	</fieldset>
 
 	<fieldset
@@ -1003,49 +1075,19 @@
 			label="FIELD_RULES_LABEL"
 			translate_label="false"
 			validate="rules"
-			filter="rules">
-			<action
-				name="core.login.site"
-				title="JACTION_LOGIN_SITE"
-				description="COM_CONFIG_ACTION_LOGIN_SITE_DESC" />
-			<action
-				name="core.login.admin"
-				title="JACTION_LOGIN_ADMIN"
-				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC" />
-			<action
-				name="core.login.offline"
-				title="JACTION_LOGIN_OFFLINE"
-				description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC" />
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN_GLOBAL"
-				description="COM_CONFIG_ACTION_ADMIN_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="COM_CONFIG_ACTION_MANAGE_DESC" />
-			<action
-				name="core.create"
-				title="JACTION_CREATE"
-				description="COM_CONFIG_ACTION_CREATE_DESC" />
-			<action
-				name="core.delete"
-				title="JACTION_DELETE"
-				description="COM_CONFIG_ACTION_DELETE_DESC" />
-			<action
-				name="core.edit"
-				title="JACTION_EDIT"
-				description="COM_CONFIG_ACTION_EDIT_DESC" />
-			<action
-				name="core.edit.state"
-				title="JACTION_EDITSTATE"
-				description="COM_CONFIG_ACTION_EDITSTATE_DESC" />
-			<action
-				name="core.edit.own"
-				title="JACTION_EDITOWN"
-				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
+			filter="rules"
+			>
+			<action name="core.login.site" title="JACTION_LOGIN_SITE" description="COM_CONFIG_ACTION_LOGIN_SITE_DESC" />
+			<action name="core.login.admin" title="JACTION_LOGIN_ADMIN" description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC" />
+			<action name="core.login.offline" title="JACTION_LOGIN_OFFLINE" description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC" />
+			<action name="core.admin" title="JACTION_ADMIN_GLOBAL" description="COM_CONFIG_ACTION_ADMIN_DESC" />
+			<action name="core.manage" title="JACTION_MANAGE" description="COM_CONFIG_ACTION_MANAGE_DESC" />
+			<action name="core.create" title="JACTION_CREATE" description="COM_CONFIG_ACTION_CREATE_DESC" />
+			<action name="core.delete" title="JACTION_DELETE" description="COM_CONFIG_ACTION_DELETE_DESC" />
+			<action name="core.edit" title="JACTION_EDIT" description="COM_CONFIG_ACTION_EDIT_DESC" />
+			<action name="core.edit.state" title="JACTION_EDITSTATE" description="COM_CONFIG_ACTION_EDITSTATE_DESC" />
+			<action name="core.edit.own" title="JACTION_EDITOWN" description="COM_CONFIG_ACTION_EDITOWN_DESC" />
 		</field>
-
 	</fieldset>
 
 	<fieldset
@@ -1057,12 +1099,14 @@
 			name="filters"
 			type="filters"
 			label="COM_CONFIG_TEXT_FILTERS"
-			filter="" />
+			filter=""
+		/>
 	</fieldset>
 
 	<fieldset>
 		<field
 			name="asset_id"
-			type="hidden" />
+			type="hidden"
+		/>
 	</fieldset>
 </form>
