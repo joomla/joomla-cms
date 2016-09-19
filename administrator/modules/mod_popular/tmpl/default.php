@@ -16,7 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) : ?>
 			<?php // Calculate popular items ?>
 			<?php $hits = (int) $item->hits; ?>
-			<?php $hits_class = ($hits >= 10000 ? 'danger' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'primary' : ''))); ?>
+			<?php $hits_class = ($hits >= 10000 ? 'danger' : ($hits >= 1000 ? 'warning' : ($hits >= 100 ? 'info' : 'default'))); ?>
 			<li class="list-group-item">
 				<span class="tag tag-<?php echo $hits_class; ?> hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_HITS'); ?>"><?php echo $item->hits; ?></span>
 				<?php if ($item->checked_out) : ?>
@@ -30,16 +30,19 @@ JHtml::_('bootstrap.tooltip');
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					<?php endif; ?>
 				</strong>
-				<div class="small pull-right hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_FIELD_CREATED_LABEL'); ?>">
-					<span class="icon-calendar"></span> <?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
-				</div>
+				<span class="tag tag-default tag-pill pull-xs-right">
+					<span class="small">
+						<span class="icon-calendar"></span>
+						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC5')); ?>
+					</span>
+				</span>
 			</li>
 		<?php endforeach; ?>
 	<?php else : ?>
-		<div class="row">
+		<li class="list-group-item">
 			<div class="col-md-12">
-				<div class="alert alert-info"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS'); ?></div>
+				<div class="alert alert-info"><?php echo JText::_('MOD_POPULAR_NO_MATCHING_RESULTS');?></div>
 			</div>
-		</div>
+		</li>
 	<?php endif; ?>
 </ul>
