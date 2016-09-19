@@ -163,7 +163,7 @@
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
 			filter="integer"
 			showon="caching:1,2[AND]cache_handler:redis"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
