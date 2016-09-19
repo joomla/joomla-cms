@@ -38,6 +38,13 @@ class JAdminCssMenu extends JObject
 	protected $_current = null;
 
 	/**
+	 * Counter
+	 *
+	 * @var  int
+	 */
+	protected static $counter = 0;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -102,28 +109,18 @@ class JAdminCssMenu extends JObject
 	 *
 	 * @return  void
 	 */
-	public function renderMenu($id = 'menu', $class = '')
+	public function renderMenu($id = '', $class = '')
 	{
 		$depth = 1;
-
-		if (!empty($id))
-		{
-			$id = 'id="' . $id . '"';
-		}
-
-		if (!empty($class))
-		{
-			$class = 'class="' . $class . '"';
-		}
 
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			echo "<ul " . $id . " " . $class . ">\n";
+			echo "<ul id='menu' class='nav navbar-nav nav-stacked main-nav clearfix'>\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
-				$this->_current = & $child;
+				$this->_current = &$child;
 				$this->renderLevel($depth++);
 			}
 
@@ -153,105 +150,72 @@ class JAdminCssMenu extends JObject
 
 		if ($this->_current->hasChildren())
 		{
-			$class = ' class="dropdown"';
+			$class = ' class="parent"';
 		}
 
-		if ($this->_current->class == 'separator')
-		{
-			$class = ' class="divider"';
-		}
-
-		if ($this->_current->hasChildren() && $this->_current->class)
-		{
-			$class = ' class="dropdown-submenu"';
-
-			if ($this->_current->class == 'scrollable-menu')
-			{
-				$class = ' class="dropdown scrollable-menu"';
-			}
-		}
-
-		if ($this->_current->class == 'disabled')
-		{
-			$class = ' class="disabled"';
-		}
+		// Create unique identifier
+		self::$counter++;
+		$unique = self::$counter;
 
 		// Print the item
-		echo "<li" . $class . ">";
+		echo '<li' . $class . '>';
 
 		// Print a link if it exists
 		$linkClass = array();
 		$dataToggle = '';
-		$dropdownCaret = '';
 
 		if ($this->_current->hasChildren())
 		{
-			$linkClass[] = 'dropdown-toggle';
-			$dataToggle = ' data-toggle="dropdown"';
+			$linkClass[] = 'collapse-arrow collapsed';
+			$dataToggle = ' data-toggle="collapse" data-parent="#menu"';
 
-			if (!$this->_current->getParent()->hasParent())
-			{
-				$dropdownCaret = ' <span class="caret"></span>';
-			}
+			// If the menu item has children, override the href
+			$this->_current->link = '#collapse' . $unique;
 		}
 		else
 		{
 			$linkClass[] = 'no-dropdown';
 		}
 
-		if ($this->_current->link != null && $this->_current->getParent()->title != 'ROOT')
-		{
-			$iconClass = $this->getIconClass($this->_current->class);
-
-			if (!empty($iconClass))
-			{
-				$linkClass[] = $iconClass;
-			}
-		}
+		$iconClass = $this->getIconClass($this->_current->class);
 
 		// Implode out $linkClass for rendering
 		$linkClass = ' class="' . implode(' ', $linkClass) . '"';
 
+		// Convert blank href to collapse trigger
+		if ($this->_current->link === '#')
+		{
+			$this->_current->link = '#collapse' . $unique;
+		}
+
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >"
-				. $this->_current->title . $dropdownCaret . "</a>";
+			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\">" . $iconClass
+				. $this->_current->title . "</a>";
 		}
 		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\">" . $this->_current->title . $dropdownCaret . "</a>";
+			echo "<a" . $linkClass . $dataToggle . " href=\"" . $this->_current->link . "\">" . $iconClass
+				. $this->_current->title . "</a>";
 		}
 		elseif ($this->_current->title != null)
 		{
-			echo "<a" . $linkClass . " " . $dataToggle . ">" . $this->_current->title . $dropdownCaret . "</a>";
+			echo "<a" . $linkClass . $dataToggle . ">" . $iconClass
+				. $this->_current->title . "</a>";
 		}
 		else
 		{
-			echo "<span></span>";
+			echo '<span></span>';
 		}
 
 		// Recurse through children if they exist
 		while ($this->_current->hasChildren())
 		{
-			if ($this->_current->class)
-			{
-				$id = '';
-
-				if (!empty($this->_current->id))
-				{
-					$id = ' id="menu-' . strtolower($this->_current->id) . '"';
-				}
-
-				echo '<ul' . $id . ' class="dropdown-menu menu-scrollable">' . "\n";
-			}
-			else
-			{
-				echo '<ul class="dropdown-menu scroll-menu">' . "\n";
-			}
+			echo '<ul id="collapse' . $unique . '" class="nav panel-collapse collapse-level-1 collapse">' . "\n";
 
 			foreach ($this->_current->getChildren() as $child)
 			{
-				$this->_current = & $child;
+				$this->_current = &$child;
 				$this->renderLevel($depth++);
 			}
 
@@ -281,6 +245,8 @@ class JAdminCssMenu extends JObject
 			$classes = array();
 		}
 
+		$html = '';
+
 		/*
 		 * If we don't already know about the class... build it and mark it
 		 * known so we don't have to build it again
@@ -291,7 +257,7 @@ class JAdminCssMenu extends JObject
 			{
 				// We were passed a class name
 				$class = substr($identifier, 6);
-				$classes[$identifier] = "menu-$class";
+				$html  = '<span class="fa fa-' . $class . '"></span>';
 			}
 			else
 			{
@@ -303,16 +269,16 @@ class JAdminCssMenu extends JObject
 				// Build the CSS class for the icon
 				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
+				$html  = '<span class="fa fa-' . $class . '"></span>';
+			}
 
-				$this->_css  .= "\n.menu-$class {\n" .
-						"\tbackground: url($identifier) no-repeat;\n" .
-						"}\n";
-
-				$classes[$identifier] = "menu-$class";
+			if ($class == 'disabled')
+			{
+				return null;
 			}
 		}
 
-		return $classes[$identifier];
+		return $html;
 	}
 }
 
