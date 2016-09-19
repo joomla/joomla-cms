@@ -68,7 +68,7 @@ class JApplicationCliTest extends TestCase
 	{
 		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
+		$this->assertAttributeEmpty('dispatcher', $this->class);
 
 		// TODO Test that configuration data loaded.
 
@@ -139,24 +139,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
-			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute');
-
 		$this->class->execute();
-
-		$this->assertEquals(
-			array(
-				'onBeforeExecute',
-				'JWebDoExecute',
-				'onAfterExecute',
-			),
-			TestMockDispatcher::$triggered
-		);
 	}
 
 	/**
