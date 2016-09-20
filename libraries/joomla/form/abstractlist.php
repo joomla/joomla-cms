@@ -110,6 +110,12 @@ abstract class JFormAbstractlist extends JFormField
 				{
 					continue;
 				}
+
+				// Requires vote plugin enabled
+				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];
