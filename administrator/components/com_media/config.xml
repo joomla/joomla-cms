@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset name="component">
+	<fieldset
+			name="component"
+			label="COM_MEDIA_CONFIG_UPLOAD_LABEL"
+			description="COM_MEDIA_CONFIG_UPLOAD_FIELDSET_DESC">
+
 		<field
 			name="upload_extensions"
 			type="text"
