@@ -3,7 +3,7 @@
     <fieldset
         name="modules"
         label="COM_MODULES_GENERAL"
-		description="COM_MODULES_GENERAL_FIELDSET_DESC">
+	description="COM_MODULES_GENERAL_FIELDSET_DESC">
 
             <field
                 name="redirect_edit"
