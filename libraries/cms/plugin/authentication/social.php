@@ -14,16 +14,19 @@ use Joomla\Registry\Registry;
 /**
  * JPluginAuthenticationSocial Class. Abstract functions for social / single sign on authentication plugins.
  *
- * @since  3.7
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JPluginAuthenticationSocial extends JPlugin
 {
 	/**
 	 * Return the custom login form fields for the social login / single sign on implementation
 	 *
+	 * @param   string  $loginUrl    A string with the URL to be redirected after the successfull login
+	 * @param   string  $failureUrl  A string with the URL to be redirected after the unsuccessfull login
+	 *
 	 * @return  JAuthenticationFieldInterface[]
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	abstract public function onUserLoginFormFields($loginUrl = null, $failureUrl = null);
 
@@ -32,13 +35,13 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	 * authentication source. Instead, we are receiving login authentication from an external source, i.e. the social
 	 * network itself.
 	 *
-	 * @param   array  $credentials Array holding the user credentials
-	 * @param   array  $options     Array of extra options
-	 * @param   object &$response   Authentication response object
+	 * @param   array   $credentials  Array holding the user credentials
+	 * @param   array   $options      Array of extra options
+	 * @param   object  &$response    Authentication response object
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	final public function onUserAuthenticate($credentials, $options, &$response)
 	{
@@ -47,11 +50,11 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	/**
 	 * Derive a username from a full name
 	 *
-	 * @param   string $fullName
+	 * @param   string  $fullName  The fullname
 	 *
 	 * @return  string  The derived username
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function deriveUsername($fullName)
 	{
@@ -66,17 +69,17 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	/**
 	 * Tries to create a new user account
 	 *
-	 * @param   string    $email    Email
-	 * @param   string    $name     Full name
-	 * @param   bool      $verified Is this a verified Facebook account?
-	 * @param   int|null  $offset   GMT offset. Null to not set. NB: Only set for verified accounts.
+	 * @param   string    $email     Email
+	 * @param   string    $name      Full name
+	 * @param   bool      $verified  Is this a verified Facebook account?
+	 * @param   int|null  $offset    GMT offset. Null to not set. NB: Only set for verified accounts.
 	 *
 	 * @return  string|int  User ID or string "useractivate" / "adminactivate" if activation is required
 	 *
 	 * @throws  UnexpectedValueException  When the user already exists
 	 * @throws  RuntimeException          When a user registration Model error occurs
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function createUser($email, $name, $verified = false, $offset = null)
 	{
@@ -87,7 +90,7 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 		// Does an account with the same username already exist on our site?
 		if ($userId != 0)
 		{
-			throw new UnexpectedValueException();
+			throw new UnexpectedValueException;
 		}
 
 		$randomPassword = JUserHelper::genRandomPassword(32);
@@ -143,13 +146,13 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	 * Logs in a user. We use this method to override authentication and Two Factor Authentication plugins (since we are
 	 * essentially implementing a single sign on where Facebook acts as our SSO authorization server).
 	 *
-	 * @param   int     $userId    Joomla! user ID
+	 * @param   int   $userId  Joomla! user ID
 	 *
 	 * @return  bool  True on success
 	 *
 	 * @throws  Exception
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function loginUser($userId)
 	{
@@ -208,9 +211,11 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	/**
 	 * Returns a generic JAuthenticationResponse object
 	 *
+	 * @param   JUser   $user  A JUser object
+	 *
 	 * @return  JAuthenticationResponse
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAuthenticationResponseObject(JUser $user = null)
 	{
@@ -223,7 +228,7 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 		 */
 		class_exists('JAuthentication');
 
-		$response                = new JAuthenticationResponse();
+		$response                = new JAuthenticationResponse;
 		$response->status        = JAuthentication::STATUS_UNKNOWN;
 		$response->type          = $this->_name;
 		$response->error_message = '';
@@ -254,7 +259,9 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	 *
 	 * @param   JAuthenticationResponse  $response  The authentication response object
 	 *
-	 * @since   3.7
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function processLoginFailure(JAuthenticationResponse $response)
 	{

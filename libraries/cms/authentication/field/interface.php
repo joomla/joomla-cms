@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Interface to custom login form field objects. The login modules MUST use these objects, returned by
  * JAuthenticationHelper::getUserLoginFormFields, to display these extra fields.
  *
- * @since   3.7
+ * @since  __DEPLOY_VERSION__
  */
 interface JAuthenticationFieldInterface
 {
@@ -27,7 +27,7 @@ interface JAuthenticationFieldInterface
 	 *
 	 * @return  string  field|button|link
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getType();
 
@@ -38,7 +38,7 @@ interface JAuthenticationFieldInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getIcon();
 
@@ -48,7 +48,7 @@ interface JAuthenticationFieldInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getLabel();
 
@@ -60,7 +60,7 @@ interface JAuthenticationFieldInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getInput();
 }

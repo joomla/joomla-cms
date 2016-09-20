@@ -1,5 +1,5 @@
 build:
-  image: yveshoppe/joomla-systemtests:latest
+  image: joomlaprojects/docker-systemtests:latest
   commands:
     - apt-get install nodejs npm
     - ln -s /usr/bin/nodejs /usr/bin/node

@@ -298,11 +298,11 @@ abstract class JUserHelper
 	/**
 	 * Returns userid if a user exists
 	 *
-	 * @param   string $email The email to search on.
+	 * @param   string  $email  The email to search on.
 	 *
 	 * @return  integer  The user id or 0 if not found.
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getUserIdByEmail($email)
 	{

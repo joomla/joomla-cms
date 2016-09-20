@@ -69,7 +69,7 @@ abstract class JAuthenticationHelper
 	 *
 	 * @return  array  Additional login form field definitions
 	 *
-	 * @since   3.7
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getUserLoginFormFields($loginUrl = null, $failureUrl = null)
 	{
@@ -121,6 +121,8 @@ abstract class JAuthenticationHelper
 	 * @param   string  $return  The return URL to clean up
 	 *
 	 * @return  string  The cleaned up URL
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function cleanUpReturnUrl($return)
 	{
@@ -160,10 +162,10 @@ abstract class JAuthenticationHelper
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-			            ->select('language')
-			            ->from($db->quoteName('#__menu'))
-			            ->where('client_id = 0')
-			            ->where('id =' . $return);
+						->select('language')
+						->from($db->quoteName('#__menu'))
+						->where('client_id = 0')
+						->where('id =' . $return);
 
 			$db->setQuery($query);
 
@@ -182,7 +184,7 @@ abstract class JAuthenticationHelper
 			}
 		}
 
-		// Construct and reeturn the URL
+		// Construct and return the URL
 		return JRoute::_('index.php?Itemid=' . $return . $lang);
 	}
 }

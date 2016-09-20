@@ -26,7 +26,7 @@ class UsersViewLogin extends JViewLegacy
 	 *
 	 * @var  JAuthenticationFieldInterface[]
 	 *
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $extraFields;
 
