@@ -146,9 +146,9 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	 * Logs in a user. We use this method to override authentication and Two Factor Authentication plugins (since we are
 	 * essentially implementing a single sign on where Facebook acts as our SSO authorization server).
 	 *
-	 * @param   int   $userId  Joomla! user ID
+	 * @param   integer  $userId  Joomla! user ID
 	 *
-	 * @return  bool  True on success
+	 * @return  boolean  True on success
 	 *
 	 * @throws  Exception
 	 *
@@ -211,7 +211,7 @@ abstract class JPluginAuthenticationSocial extends JPlugin
 	/**
 	 * Returns a generic JAuthenticationResponse object
 	 *
-	 * @param   JUser   $user  A JUser object
+	 * @param   JUser  $user  A JUser object
 	 *
 	 * @return  JAuthenticationResponse
 	 *
