@@ -19,6 +19,18 @@
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="position"
+					type="list"
+					default="top"
+					description="PLG_VOTE_POSITION_DESC"
+					label="PLG_VOTE_POSITION_LABEL"
+				>
+					<option value="top">PLG_VOTE_TOP</option>
+					<option value="bottom">PLG_VOTE_BOTTOM</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>

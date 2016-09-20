@@ -461,6 +461,7 @@ class JPagination
 			'limitfield'   => $this->getLimitBox(),
 			'pagescounter' => $this->getPagesCounter(),
 			'pages'        => $this->getPaginationPages(),
+			'pagesTotal'   => $this->pagesTotal,
 		);
 
 		return JLayoutHelper::render($layoutId, array('list' => $list, 'options' => $options));

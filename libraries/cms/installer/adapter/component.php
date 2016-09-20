@@ -661,7 +661,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	 *
 	 * @param   integer  $id  The unique extension id of the component to uninstall
 	 *
-	 * @return  mixed  Return value for uninstall method in component uninstall file
+	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 */
