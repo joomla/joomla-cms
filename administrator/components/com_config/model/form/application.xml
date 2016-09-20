@@ -1079,65 +1079,65 @@
 			validate="rules"
 			filter="rules"
 			>
-				<action
-					name="core.login.site"
-					description="COM_CONFIG_ACTION_LOGIN_SITE_DESC"
-					title="JACTION_LOGIN_SITE"
-				/>
+			<action
+				name="core.login.site"
+				description="COM_CONFIG_ACTION_LOGIN_SITE_DESC"
+				title="JACTION_LOGIN_SITE"
+			/>
 
-				<action
-					name="core.login.admin"
-					description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC"
-					title="JACTION_LOGIN_ADMIN"
-				/>
+			<action
+				name="core.login.admin"
+				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC"
+				title="JACTION_LOGIN_ADMIN"
+			/>
 
-				<action
-					name="core.login.offline"
-					description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC"
-					title="JACTION_LOGIN_OFFLINE"
-				/>
+			<action
+				name="core.login.offline"
+				description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC"
+				title="JACTION_LOGIN_OFFLINE"
+			/>
 
-				<action
-					name="core.admin"
-					description="COM_CONFIG_ACTION_ADMIN_DESC"
-					title="JACTION_ADMIN_GLOBAL"
-				/>
+			<action
+				name="core.admin"
+				description="COM_CONFIG_ACTION_ADMIN_DESC"
+				title="JACTION_ADMIN_GLOBAL"
+			/>
 
-				<action
-					name="core.manage"
-					description="COM_CONFIG_ACTION_MANAGE_DESC"
-					title="JACTION_MANAGE"
-				/>
+			<action
+				name="core.manage"
+				description="COM_CONFIG_ACTION_MANAGE_DESC"
+				title="JACTION_MANAGE"
+			/>
 
-				<action
-					name="core.create"
-					description="COM_CONFIG_ACTION_CREATE_DESC"
-					title="JACTION_CREATE"
-				/>
+			<action
+				name="core.create"
+				description="COM_CONFIG_ACTION_CREATE_DESC"
+				title="JACTION_CREATE"
+			/>
 
-				<action
-					name="core.delete"
-					description="COM_CONFIG_ACTION_DELETE_DESC"
-					title="JACTION_DELETE"
-				/>
+			<action
+				name="core.delete"
+				description="COM_CONFIG_ACTION_DELETE_DESC"
+				title="JACTION_DELETE"
+			/>
 
-				<action
-					name="core.edit"
-					description="COM_CONFIG_ACTION_EDIT_DESC"
-					title="JACTION_EDIT"
-				/>
+			<action
+				name="core.edit"
+				description="COM_CONFIG_ACTION_EDIT_DESC"
+				title="JACTION_EDIT"
+			/>
 
-				<action
-					name="core.edit.state"
-					title="JACTION_EDITSTATE"
-					description="COM_CONFIG_ACTION_EDITSTATE_DESC"
-				/>
+			<action
+				name="core.edit.state"
+				title="JACTION_EDITSTATE"
+				description="COM_CONFIG_ACTION_EDITSTATE_DESC"
+			/>
 
-				<action
-					name="core.edit.own"
-					title="JACTION_EDITOWN"
-					description="COM_CONFIG_ACTION_EDITOWN_DESC"
-				/>
+			<action
+				name="core.edit.own"
+				title="JACTION_EDITOWN"
+				description="COM_CONFIG_ACTION_EDITOWN_DESC"
+			/>
 		</field>
 	</fieldset>
 
