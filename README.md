@@ -38,7 +38,7 @@ BDD Testing with Gherkin and Codeception
 
 
 ### Example
-Create a .feature using command `tests/vendor/bin/codecept generate:feature acceptance content`
+Create a .feature using command `tests/codeception/vendor/bin/codecept generate:feature acceptance content`
 
 File `content.feature` contains,
 
@@ -59,7 +59,7 @@ Feature: content
     And I save an article
     Then I should see the "Article successfully saved." message
 ```
-Generate snippets of .featuer file using command `tests/vendor/bin/codecept gherkin:snippets acceptance`
+Generate snippets of .featuer file using command `tests/codeception/vendor/bin/codecept gherkin:snippets acceptance`
 
 ```snippets
 /**
@@ -89,7 +89,7 @@ Generate snippets of .featuer file using command `tests/vendor/bin/codecept gher
 ```
 Copy the all snippets and put in stepobject file
 
-Create a stepobject file using command `tests/vendor/bin/codecept generate:stepobject acceptance Administrator/content`
+Create a stepobject file using command `tests/codeception/vendor/bin/codecept generate:stepobject acceptance Administrator/content`
 
 Define your step file path in `acceptance.suit.yml file` 
 
@@ -106,19 +106,19 @@ For Example `- Step\Acceptance\Administrator\Content`
 2. Install `composer` in your system. Read more about [how to install composer](https://getcomposer.org/doc/00-intro.md) here.
 
 3. Install composer packages using following steps from root directory of this project.
-_We are using `composer.json` file for `tests` folder, so that you will have to run composer install from tests directory._
+_We are using `composer.json` file for `tests/codeception` folder, so that you will have to run composer install from tests directory._
 
     ```bash
-    $ cd tests && composer install
+    $ cd tests/codeception && composer install
     ```
 
-4. Copy `tests/acceptance.suite.dist.yml` to `tests/acceptance.suite.yml` and change settings according to your webserver.
+4. Copy `tests/codeception/acceptance.suite.dist.yml` to `tests/codeception/acceptance.suite.yml` and change settings according to your webserver.
 
     ```
     $ cp acceptance.suite.dist.yml acceptance.suite.yml
     ```
 
-5. Get back to project root direcoty using `$ cd ..`
+5. Get back to project root direcoty using `$ cd ..` twice.
 
 ### Run tests
 
@@ -127,24 +127,24 @@ To run the tests please execute the following commands. We are using [Robo.li](h
 #### To execute all the test features you should use.
 
 ```bash
-$ tests/vendor/bin/robo run:tests
+$ tests/codeception/vendor/bin/robo run:tests
 ```
 
 #### You can individual run `feature` using following command.
 
 ```bash
-$ tests/vendor/bin/robo run:test
+$ tests/codeception/vendor/bin/robo run:test
 ```
 
 Or you can manually run them using codecept command. Check the following example:
 
 ```bash
-$ tests/vendor/bin/codecept run tests/acceptance/users.feature
+$ ./tests/codeception/vendor/bin/codecept run tests/acceptance/users.feature
 ```
 
 If you want to see steps then you can use `--steps` option of codeception. Check [full codecept command list here](http://codeception.com/docs/reference/Commands#Run)_
 
-**Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in the file `tests/acceptance/_bootstrap.php`
+**Note**:You can modify the timeout time by setting the value of **TIMEOUT** constant lower for fast machines and higher for slow computers. The constant located in the file `tests/codeception/acceptance/_bootstrap.php`
 
 Do you have suggestions?
 ---
