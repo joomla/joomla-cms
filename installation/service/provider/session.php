@@ -9,9 +9,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\Cms\Session\Storage\JoomlaStorage;
+use Joomla\Cms\Session\Validator\AddressValidator;
+use Joomla\Cms\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Input\Input;
 use Joomla\Session\Handler\FilesystemHandler;
 
 /**
@@ -56,13 +57,18 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					// Set up the storage handler
 					$handler = new FilesystemHandler(JPATH_INSTALLATION . '/sessions');
 
-					$storage = new JoomlaStorage($handler, array(), JFactory::getApplication()->input);
+					$input = $app->input;
+
+					$storage = new JoomlaStorage($handler, array(), $input);
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
 
-					// TODO - Migrate JInput to Framework Input package
-					return new JSession(new Input($_REQUEST), $storage, null, $options);
+					$session = new JSession($storage, $dispatcher, $options);
+					$session->addValidator(new AddressValidator($input, $session));
+					$session->addValidator(new ForwardedValidator($input, $session));
+
+					return $session;
 				},
 				true
 			);
