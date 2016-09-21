@@ -12,8 +12,6 @@
 
 defined('_JEXEC') or die();
 
-JLog::add('FOF is deprecated without replacement for Joomla 4.0.', JLog::WARNING, 'deprecated');
-
 if (!defined('FOF_INCLUDED'))
 {
 	define('FOF_INCLUDED', '2.5.5');
