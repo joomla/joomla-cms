@@ -174,13 +174,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $prefixesPsr0 = array (
-        'S' => 
-        array (
-            'SimplePie' => 
-            array (
-                0 => __DIR__ . '/..' . '/simplepie/simplepie/library',
-            ),
-        ),
         'P' => 
         array (
             'Psr\\Log\\' => 
