@@ -5,7 +5,7 @@
  *  @copyright   Copyright (C) 2010-2015 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
  *
- *  @deprecated  4.0  Deprecated without replacement
+ *  @deprecated  4.0  Deprecated without replacement include FOF by your own if required
  *
  *  Initializes FOF
  */
