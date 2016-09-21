@@ -14,9 +14,10 @@ defined('JPATH_PLATFORM') or die;
 use InvalidArgumentException;
 use JApplicationHelper;
 use JFactory;
+use Joomla\Cms\Session\Validator\AddressValidator;
+use Joomla\Cms\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Input\Input;
 use Joomla\Session\Handler;
 use JSession;
 use JSessionStorageJoomla;
@@ -205,13 +206,18 @@ class Session implements ServiceProviderInterface
 							throw new InvalidArgumentException(sprintf('The "%s" session handler is not recognised.', $handlerType));
 					}
 
-					$storage = new JSessionStorageJoomla($handler, array('cookie_lifetime' => $lifetime), JFactory::getApplication()->input);
+					$input = JFactory::getApplication()->input;
+
+					$storage = new JSessionStorageJoomla($handler, array('cookie_lifetime' => $lifetime), $input);
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
 
-					// TODO - Migrate JInput to Framework Input package
-					return new JSession(new Input($_REQUEST), $storage, $dispatcher, $options);
+					$session = new JSession($storage, $dispatcher, $options);
+					$session->addValidator(new AddressValidator($input, $session));
+					$session->addValidator(new ForwardedValidator($input, $session));
+
+					return $session;
 				},
 				true
 			);
