@@ -909,8 +909,7 @@
 			description="COM_CONFIG_FIELD_DEFAULT_GUEST_USER_GROUP_DESC"
 			default="1"
 			filter="integer"
-			>
-		</field>
+		/>
 
 		<field
 			name="list_limit"
