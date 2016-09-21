@@ -11,7 +11,7 @@ namespace Joomla\Session;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Input\Input;
+use Joomla\Session\Exception\InvalidSessionException;
 use Joomla\Session\Handler\FilesystemHandler;
 use Joomla\Session\Storage\NativeStorage;
 
@@ -38,20 +38,12 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	protected $state = 'inactive';
 
 	/**
-	 * The Input object.
-	 *
-	 * @var    Input
-	 * @since  1.0
-	 */
-	private $input;
-
-	/**
-	 * Maximum age of unused session in minutes
+	 * Maximum age of unused session in seconds
 	 *
 	 * @var    integer
 	 * @since  1.0
 	 */
-	protected $expire = 15;
+	protected $expire = 900;
 
 	/**
 	 * The session store object.
@@ -62,29 +54,23 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	protected $store;
 
 	/**
-	 * Security policy.
-	 * List of checks that will be done.
+	 * The session store object.
 	 *
-	 * Possible values:
-	 * - fix_browser
-	 * - fix_address
-	 *
-	 * @var    array
-	 * @since  1.0
+	 * @var    ValidatorInterface[]
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $security = array('fix_browser');
+	protected $sessionValidators = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @param   Input                $input       The input object
 	 * @param   StorageInterface     $store       A StorageInterface implementation
 	 * @param   DispatcherInterface  $dispatcher  DispatcherInterface for the session to use.
 	 * @param   array                $options     Optional parameters
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(Input $input, StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = array())
+	public function __construct(StorageInterface $store = null, DispatcherInterface $dispatcher = null, array $options = array())
 	{
 		$this->store = $store ?: new NativeStorage(new FilesystemHandler);
 
@@ -93,17 +79,29 @@ class Session implements SessionInterface, DispatcherAwareInterface
 			$this->setDispatcher($dispatcher);
 		}
 
-		$this->input = $input;
-
 		$this->setOptions($options);
 
 		$this->setState('inactive');
 	}
 
 	/**
-	 * Get expiration time in minutes
+	 * Adds a validator to the session
 	 *
-	 * @return  integer  The session expiration time in minutes
+	 * @param   ValidatorInterface  $validator  The session validator
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addValidator(ValidatorInterface $validator)
+	{
+		$this->sessionValidators[] = $validator;
+	}
+
+	/**
+	 * Get expiration time in seconds
+	 *
+	 * @return  integer  The session expiration time in seconds
 	 *
 	 * @since   1.0
 	 */
@@ -633,7 +631,7 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	/**
 	 * Set the session expiration
 	 *
-	 * @param   integer  $expire  Maximum age of unused session in minutes
+	 * @param   integer  $expire  Maximum age of unused session in seconds
 	 *
 	 * @return  $this
 	 *
@@ -715,12 +713,6 @@ class Session implements SessionInterface, DispatcherAwareInterface
 			$this->setExpire($options['expire']);
 		}
 
-		// Get security options
-		if (isset($options['security']))
-		{
-			$this->security = explode(',', $options['security']);
-		}
-
 		// Sync the session maxlifetime
 		ini_set('session.gc_maxlifetime', $this->getExpire());
 
@@ -728,13 +720,9 @@ class Session implements SessionInterface, DispatcherAwareInterface
 	}
 
 	/**
-	 * Do some checks for security reason
+	 * Do some checks for security reasons
 	 *
-	 * - timeout check (expire)
-	 * - ip-fixiation
-	 * - browser-fixiation
-	 *
-	 * If one check failed, session data has to be cleaned.
+	 * If one check fails, session data has to be cleaned.
 	 *
 	 * @param   boolean  $restart  Reactivate session
 	 *
@@ -749,10 +737,6 @@ class Session implements SessionInterface, DispatcherAwareInterface
 		if ($restart)
 		{
 			$this->setState('active');
-
-			$this->set('session.client.address', null);
-			$this->set('session.client.forwarded', null);
-			$this->set('session.client.browser', null);
 		}
 
 		// Check if session has expired
@@ -770,31 +754,18 @@ class Session implements SessionInterface, DispatcherAwareInterface
 			}
 		}
 
-		$remoteAddr = $this->input->server->getString('REMOTE_ADDR', '');
-
-		// Check for client address
-		if (in_array('fix_address', $this->security) && !empty($remoteAddr) && filter_var($remoteAddr, FILTER_VALIDATE_IP) !== false)
+		try
 		{
-			$ip = $this->get('session.client.address');
-
-			if ($ip === null)
+			foreach ($this->sessionValidators as $validator)
 			{
-				$this->set('session.client.address', $remoteAddr);
-			}
-			elseif ($remoteAddr !== $ip)
-			{
-				$this->setState('error');
-
-				return false;
+				$validator->validate($restart);
 			}
 		}
-
-		$xForwardedFor = $this->input->server->getString('HTTP_X_FORWARDED_FOR', '');
-
-		// Record proxy forwarded for in the session in case we need it later
-		if (!empty($xForwardedFor) && filter_var($xForwardedFor, FILTER_VALIDATE_IP) !== false)
+		catch (InvalidSessionException $e)
 		{
-			$this->set('session.client.forwarded', $xForwardedFor);
+			$this->setState('error');
+
+			return false;
 		}
 
 		return true;
