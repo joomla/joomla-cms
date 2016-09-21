@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use PHPMailer\PHPMailer\Exception as phpmailerException;
+use PHPMailer\PHPMailer\PHPMailer;
+
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
@@ -74,12 +77,12 @@ class JMail extends PHPMailer
 	 */
 	public static function getInstance($id = 'Joomla', $exceptions = true)
 	{
-		if (empty(self::$instances[$id]))
+		if (empty(static::$instances[$id]))
 		{
-			self::$instances[$id] = new static($exceptions);
+			static::$instances[$id] = new static($exceptions);
 		}
 
-		return self::$instances[$id];
+		return static::$instances[$id];
 	}
 
 	/**

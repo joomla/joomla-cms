@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8e3d62a47fa60681cb0651978d0b8fba",
-    "content-hash": "752838bbe6f83d4a986b40c8cf4d1dd1",
+    "hash": "daa4d4b6a73822868e5c7867d75fbb43",
+    "content-hash": "536a29057a3e638aad1efdfae65e9433",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -683,39 +683,35 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v5.2.16",
+            "version": "v6.0.0rc2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a"
+                "reference": "5b34f25e314558a8f7bc94f0f2ee0a09969f0640"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
-                "reference": "1d85f9ef3ecfc42bbc4f3c70d5e37ca9a65f629a",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/5b34f25e314558a8f7bc94f0f2ee0a09969f0640",
+                "reference": "5b34f25e314558a8f7bc94f0f2ee0a09969f0640",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.0.0"
+                "php": ">=5.5.0"
             },
             "require-dev": {
-                "phpdocumentor/phpdocumentor": "*",
-                "phpunit/phpunit": "4.7.*"
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phpunit/phpunit": "4.*"
             },
             "suggest": {
-                "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
+                "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
+                "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
+                "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication"
             },
             "type": "library",
             "autoload": {
-                "classmap": [
-                    "class.phpmailer.php",
-                    "class.phpmaileroauth.php",
-                    "class.phpmaileroauthgoogle.php",
-                    "class.smtp.php",
-                    "class.pop3.php",
-                    "extras/EasyPeasyICS.php",
-                    "extras/ntlm_sasl_client.php"
-                ]
+                "psr-4": {
+                    "PHPMailer\\PHPMailer\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -739,7 +735,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2016-06-06 09:09:37"
+            "time": "2016-05-10 22:00:21"
         },
         {
             "name": "psr/log",
@@ -2578,7 +2574,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "joomla/event": 20,
-        "joomla/session": 20
+        "joomla/session": 20,
+        "phpmailer/phpmailer": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
