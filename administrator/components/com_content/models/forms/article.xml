@@ -98,8 +98,10 @@
 
 		<field name="checked_out_time" type="hidden" filter="unset" />
 
-		<field name="publish_up" type="calendar"
-			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
+		<field name="publish_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
+			description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
 			format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc"
 			todaybutton="true"
@@ -107,7 +109,9 @@
 			timeformat="24"
 			showtime="false"
 			filltable="true"
-			singleheader="false" />
+			singleheader="false"
+			minyear="-100"
+			maxyear="+50" />
 
 		<field name="publish_down" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"

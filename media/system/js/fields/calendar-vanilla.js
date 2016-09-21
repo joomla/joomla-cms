@@ -2,7 +2,6 @@
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 !(function(window, document){
 	'use strict';
 
@@ -76,25 +75,41 @@
 		var self = this,
 			btn  = this.button,
 			instanceParams = {
-				inputField: this.inputField,
-				dateType: JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian',
-				firstDayOfWeek: btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
-				weekend: btn.getAttribute("data-weekend") ? [btn.getAttribute("data-weekend")] : JoomlaCalLocale.weekend,
-				time24: (parseInt(btn.getAttribute("data-time-24")) === 24) ? true : false,
-				showsOthers: (parseInt(btn.getAttribute("data-show-others")) !== 0) ? true : false,
-				showsTime: (parseInt(btn.getAttribute("data-show-time")) === 1) ? true : false,
-				weekNumbers: (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
-				showsTodayBtn: (parseInt(btn.getAttribute("data-today-btn")) === 1) ? true : false,
+				inputField      : this.inputField,
+				dateType        : JoomlaCalLocale.dateType ? JoomlaCalLocale.dateType : 'gregorian',
+				direction       : (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir"),
+				firstDayOfWeek  : btn.getAttribute("data-firstday") ? parseInt(btn.getAttribute("data-firstday")) : 0,
+				dateFormat      : btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S",
+				weekend         : JoomlaCalLocale.weekend ? JoomlaCalLocale.weekend : [0,6],
+				minYear         : JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900,
+				maxYear         : JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100,
+				minYearTmp      : btn.getAttribute("data-min-year"),
+				maxYearTmp      : btn.getAttribute("data-max-year"),
+				weekendTmp      : btn.getAttribute("data-weekend"),
+				time24          : (parseInt(btn.getAttribute("data-time-24")) === 24) ? true : false,
+				showsOthers     : (parseInt(btn.getAttribute("data-show-others")) === 1) ? true : false,
+				showsTime       : (parseInt(btn.getAttribute("data-show-time")) === 1) ? true : false,
+				weekNumbers     : (parseInt(btn.getAttribute("data-week-numbers")) === 1) ? true : false,
+				showsTodayBtn   : (parseInt(btn.getAttribute("data-today-btn")) === 1) ? true : false,
 				compressedHeader: (parseInt(btn.getAttribute("data-only-months-nav")) === 1) ? true : false,
-				minYear: btn.getAttribute("data-min-year") ? parseInt(btn.getAttribute("data-min-year")) : JoomlaCalLocale.minYear,
-				maxYear: btn.getAttribute("data-max-year") ? parseInt(btn.getAttribute("data-max-year")) : JoomlaCalLocale.maxYear,
-				dateFormat: btn.getAttribute("data-dayformat") ? btn.getAttribute("data-dayformat") : "%Y-%m-%d %H:%M:%S",
-				direction: (document.dir != undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir")
 			};
 
 		// Merge the parameters
 		for (var param in instanceParams) {
 			this.params[param] = instanceParams[param];
+		}
+
+		// Evaluate the min year
+		if (isInt(self.params.minYearTmp)) {
+			self.params.minYear = getBoundary(parseInt(self.params.minYearTmp), self.params.dateType);
+		}
+		// Evaluate the max year
+		if (isInt(self.params.maxYearTmp)) {
+			self.params.maxYear = getBoundary(parseInt(self.params.maxYearTmp), self.params.dateType);
+		}
+		// Evaluate the weekend days
+		if (self.params.weekendTmp !== "undefined") {
+			self.params.weekend = self.params.weekendTmp.split(',').map(function(item) { return parseInt(item, 10); });
 		}
 
 		// Event handler need to define here, to be able access in current context
@@ -923,6 +938,8 @@
 	/** Helpers **/
 	var stopCalEvent = function (ev) { ev || (ev = window.event);  ev.preventDefault(); ev.stopPropagation(); return false; };
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent != "undefined") { parent.appendChild(el); } return el; };
+	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
+	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
 
 	/** Method to get the active calendar element through any descendant element. */
 	JoomlaCalendar.getCalObject = function(element) {
@@ -960,8 +977,8 @@
 		JoomlaCalLocale.shortDays = JoomlaCalLocale.shortDays ? JoomlaCalLocale.shortDays : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 		JoomlaCalLocale.months = JoomlaCalLocale.months ? JoomlaCalLocale.months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 		JoomlaCalLocale.shortMonths = JoomlaCalLocale.shortMonths ? JoomlaCalLocale.shortMonths : ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-		JoomlaCalLocale.minYear = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1970;
-		JoomlaCalLocale.maxYear = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2050;
+		JoomlaCalLocale.minYear = JoomlaCalLocale.minYear ? JoomlaCalLocale.minYear : 1900;
+		JoomlaCalLocale.maxYear = JoomlaCalLocale.maxYear ? JoomlaCalLocale.maxYear : 2100;
 		JoomlaCalLocale.exit = JoomlaCalLocale.exit ? JoomlaCalLocale.exit : 'Cancel';
 		JoomlaCalLocale.clear = JoomlaCalLocale.clear ? JoomlaCalLocale.clear : 'Clear';
 

@@ -12,8 +12,8 @@ window.JoomlaCalLocale = {
 	am : "ق.ظ.",
 	pm : "ب.ظ.",
 	dateType : "jalali",
-	minYear : 1348,
-	maxYear : 1408,
+	minYear : 1268,
+	maxYear : 1458,
 	exit: "Close", // @TODO TRANSLATE
 	save: "Clear", // @TODO TRANSLATE
 	localLangNumbers: ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"]

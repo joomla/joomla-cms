@@ -45,9 +45,18 @@ $document = JFactory::getDocument();
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- * @var   array    $inputType       Options available for this field.
+ *
+ * Calendar Specific
  * @var   string   $localesPath     The relative path for the locale file
  * @var   string   $helperPath      The relative path for the helper file
+ * @var   string   $minYear         The minimum year, that will be subtracted/added to current year
+ * @var   string   $maxYear         The maximum year, that will be subtracted/added to current year
+ * @var   integer  $todaybutton     The today button
+ * @var   integer  $weeknumbers     The week numbers display
+ * @var   integer  $showtime        The time selector display
+ * @var   integer  $filltable       The previous/next month filling
+ * @var   integer  $timeformat      The time format
+ * @var   integer  $singleheader    Display different header row for month/year
  */
 
 $inputvalue = '';
@@ -61,9 +70,6 @@ empty($class)     ? null : $attributes['class'] = $class;
 !$readonly        ? null : $attributes['readonly'] = 'readonly';
 !$disabled        ? null : $attributes['disabled'] = 'disabled';
 empty($onchange)  ? null : $attributes['onchange'] = $onchange;
-empty($hint)      ? null : $attributes['placeholder'] = $hint;
-$autocomplete     ? null : $attributes['autocomplete'] = 'off';
-!$autofocus       ? null : $attributes['autofocus'] = '';
 
 if ($required)
 {
@@ -101,15 +107,14 @@ JHtml::_('stylesheet', 'system/fields/calendar-vanilla.css', array(), true);
 		<input type="text" name="<?php
 		echo $name; ?>" value="<?php
 		echo htmlspecialchars(($value != "0000-00-00 00:00:00") ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $attributes; ?>
-			placeholder="<?php
-			echo $hint; ?>" data-alt-value="<?php
+		<?php !empty($hint) ? 'placeholder="' . $hint . '"' : ''; ?> data-alt-value="<?php
 		echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8') ?>" autocomplete="off"/>
 		<button type="button" class="<?php echo ($readonly || $disabled) ? "hidden " : ''; ?>btn btn-secondary"
 			id="<?php echo  $id; ?>_btn"
 			data-inputfield="<?php echo $id; ?>"
 			data-dayformat="<?php echo $format; ?>"
 			data-button="<?php echo $id; ?>_btn"
-			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay(); ?>"
+			data-firstday="<?php echo JFactory::getLanguage()->getFirstDay();?>"
 			data-weekend="<?php echo JFactory::getLanguage()->getWeekEnd(); ?>"
 			data-today-btn="<?php echo $todaybutton; ?>"
 			data-week-numbers="<?php echo $weeknumbers; ?>"
@@ -117,6 +122,8 @@ JHtml::_('stylesheet', 'system/fields/calendar-vanilla.css', array(), true);
 			data-show-others="<?php echo $filltable; ?>"
 			data-time-24="<?php echo $timeformat; ?>"
 			data-only-months-nav="<?php echo $singleheader; ?>"
+			<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
+			<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 		><span class="icon-calendar"></span></button>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>

@@ -52,10 +52,26 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	protected $filter;
 
 	/**
+	 * The minimum year number to subtract/add from the current year
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $minyear;
+
+	/**
+	 * The maximum year number to subtract/add from the current year
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $maxyear;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  3.7
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.calendar';
 
@@ -81,6 +97,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'weeknumbers':
 			case 'showtime':
 			case 'filltable':
+			case 'minyear':
+			case 'maxyear':
 				return $this->$name;
 		}
 
@@ -112,6 +130,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			case 'filltable':
 			case 'format':
 			case 'filter':
+			case 'minyear':
+			case 'maxyear':
 				$this->$name = (string) $value;
 				break;
 
@@ -149,6 +169,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : "true";
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : "false";
+			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
+			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
 		}
 
 		return $return;
@@ -230,7 +252,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 *
 	 * @return  array
 	 *
-	 * @since 3.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function getLayoutData()
 	{
@@ -267,11 +289,11 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'showtime'     => ($this->showtime === "true") ? 1 : 0,
 			'filltable'    => ($this->filltable === "true") ? 1 : 0,
 			'timeformat'   => $this->timeformat,
-			'weekenddays'  => $this->weekenddays,
 			'singleheader' => ($this->singleheader === "true") ? 1 : 0,
-			'tag'          => $tag,
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
+			'minYear'      => $this->minyear,
+			'maxYear'      => $this->maxyear,
 		);
 
 		return array_merge($data, $extraData);
