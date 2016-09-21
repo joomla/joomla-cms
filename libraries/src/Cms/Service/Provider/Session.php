@@ -14,13 +14,13 @@ defined('JPATH_PLATFORM') or die;
 use InvalidArgumentException;
 use JApplicationHelper;
 use JFactory;
+use Joomla\Cms\Session\Storage\JoomlaStorage;
 use Joomla\Cms\Session\Validator\AddressValidator;
 use Joomla\Cms\Session\Validator\ForwardedValidator;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Session\Handler;
 use JSession;
-use JSessionStorageJoomla;
 use Memcache;
 use Memcached;
 use Redis;
@@ -208,7 +208,7 @@ class Session implements ServiceProviderInterface
 
 					$input = JFactory::getApplication()->input;
 
-					$storage = new JSessionStorageJoomla($handler, array('cookie_lifetime' => $lifetime), $input);
+					$storage = new JoomlaStorage($handler, array('cookie_lifetime' => $lifetime), $input);
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));

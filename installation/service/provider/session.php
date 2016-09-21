@@ -8,6 +8,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Cms\Session\Storage\JoomlaStorage;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Input\Input;
@@ -55,7 +56,7 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 					// Set up the storage handler
 					$handler = new FilesystemHandler(JPATH_INSTALLATION . '/sessions');
 
-					$storage = new JSessionStorageJoomla($handler, array(), JFactory::getApplication()->input);
+					$storage = new JoomlaStorage($handler, array(), JFactory::getApplication()->input);
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
