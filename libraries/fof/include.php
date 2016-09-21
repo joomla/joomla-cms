@@ -5,17 +5,21 @@
  *  @copyright   Copyright (C) 2010-2015 Nicholas K. Dionysopoulos
  *  @license     GNU General Public License version 2, or later
  *
+ *  @deprecated  4.0  Deprecated without replacement
+ *
  *  Initializes FOF
  */
 
 defined('_JEXEC') or die();
 
+JLog::add('FOF is deprecated without replacement for Joomla 4.0.', JLog::WARNING, 'deprecated');
+
 if (!defined('FOF_INCLUDED'))
 {
-    define('FOF_INCLUDED', '2.5.5');
+	define('FOF_INCLUDED', '2.5.5');
 
 	// Register the FOF autoloader
-    require_once __DIR__ . '/autoloader/fof.php';
+	require_once __DIR__ . '/autoloader/fof.php';
 	FOFAutoloaderFof::init();
 
 	// Register a debug log
