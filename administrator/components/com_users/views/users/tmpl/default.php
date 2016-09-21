@@ -16,6 +16,9 @@ JHtml::_('formbehavior.chosen', 'select');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
+
+$tfa = JPluginHelper::isEnabled('twofactorauth');
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
@@ -53,9 +56,11 @@ $loggeduser = JFactory::getUser();
 						<th width="5%" class="nowrap center hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center hidden-phone">
-							<?php echo JText::_('COM_USERS_HEADING_TFA'); ?>
-						</th>
+						<?php if ($tfa) : ?>
+							<th width="5%" class="nowrap center hidden-phone">
+								<abbr title="<?php echo JText::_('COM_USERS_HEADING_TFA_ABBR'); ?>"><?php echo JText::_('COM_USERS_HEADING_TFA'); ?></abbr>
+							</th>
+						<?php endif; ?>
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
@@ -75,7 +80,8 @@ $loggeduser = JFactory::getUser();
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="10">
+						<?php $tfa ? $colspan = 11 : $colspan = 10; ?>
+						<td colspan="<?php echo $colspan; ?>">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -140,13 +146,15 @@ $loggeduser = JFactory::getUser();
 							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
 							?>
 						</td>
-						<td class="center hidden-phone">
-							<?php if (empty($item->otpKey)) : ?>
-								<?php echo JText::_('JDISABLED'); ?>
-							<?php else : ?>
-								<?php echo JText::_('JENABLED'); ?>
-							<?php endif; ?>
-						</td>
+						<?php if ($tfa) : ?>
+							<td class="center hidden-phone">
+								<?php if (empty($item->otpKey)) : ?>
+									<?php echo JText::_('JDISABLED'); ?>
+								<?php else : ?>
+									<?php echo JText::_('JENABLED'); ?>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
 						<td>
 							<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 								<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
