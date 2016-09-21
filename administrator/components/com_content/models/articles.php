@@ -326,7 +326,7 @@ class ContentModelArticles extends JModelList
 
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$orderCol  = empty($this->state->get('list.fullordering', 'a.id')) ? 'a.id' : $this->state->get('list.fullordering', 'a.id');
+			$orderCol  = $this->state->get('list.fullordering', 'a.id');
 			$orderDirn = '';
 		}
 
