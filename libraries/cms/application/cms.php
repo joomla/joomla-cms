@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Event\AbstractEvent;
+use Joomla\Cms\Event\BeforeExecuteEvent;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
@@ -300,6 +302,20 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 */
 	public function execute()
 	{
+		JPluginHelper::importPlugin('system');
+
+		// Trigger the onBeforeExecute event.
+		$this->triggerEvent(
+			'onBeforeExecute',
+			AbstractEvent::create(
+				'onBeforeExecute',
+				[
+					'subject'    => $this,
+					'eventClass' => BeforeExecuteEvent::class,
+				]
+			)
+		);
+
 		// Perform application routines.
 		$this->doExecute();
 
