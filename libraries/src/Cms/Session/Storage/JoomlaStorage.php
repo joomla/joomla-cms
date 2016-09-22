@@ -47,13 +47,13 @@ class JoomlaStorage extends NativeStorage
 	/**
 	 * Constructor
 	 *
+	 * @param   \JInput                   $input    Input object
 	 * @param   \SessionHandlerInterface  $handler  Session save handler
 	 * @param   array                     $options  Session options
-	 * @param   \JInput                   $input    Input object
 	 *
 	 * @since   4.0
 	 */
-	public function __construct(\SessionHandlerInterface $handler = null, array $options = array(), \JInput $input)
+	public function __construct(\JInput $input, \SessionHandlerInterface $handler = null, array $options = array())
 	{
 		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');

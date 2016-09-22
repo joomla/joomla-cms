@@ -208,7 +208,7 @@ class Session implements ServiceProviderInterface
 
 					$input = JFactory::getApplication()->input;
 
-					$storage = new JoomlaStorage($handler, array('cookie_lifetime' => $lifetime), $input);
+					$storage = new JoomlaStorage($input, $handler, array('cookie_lifetime' => $lifetime));
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array(JFactory::getApplication(), 'afterSessionStart'));
