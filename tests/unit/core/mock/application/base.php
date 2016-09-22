@@ -47,6 +47,16 @@ class TestMockApplicationBase
 	 */
 	public static function addBehaviours($test, $mockObject, $options)
 	{
+		// Mock a call to JApplicationBase::getDispatcher().
+		if (isset($options['dispatcher']))
+		{
+			$mockObject->expects($test->any())->method('getDispatcher')->willReturn($options['dispatcher']);
+		}
+		else
+		{
+			$mockObject->expects($test->any())->method('getDispatcher')->willReturn(TestMockDispatcher::create($test));
+		}
+
 		$test->assignMockReturns(
 			$mockObject,
 			array('close' => true)

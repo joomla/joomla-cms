@@ -6,6 +6,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\Event\DispatcherInterface;
+
 /**
  * Class to mock DispatcherInterface.
  *
@@ -33,8 +35,8 @@ class TestMockDispatcher
 	/**
 	 * Creates and instance of the mock DispatcherInterface object.
 	 *
-	 * @param   PHPUnit_Framework_TestCase $test     A test object.
-	 * @param   boolean                    $defaults True to create the default mock handlers and triggers.
+	 * @param   PHPUnit_Framework_TestCase  $test      A test object.
+	 * @param   boolean                     $defaults  True to create the default mock handlers and triggers.
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
@@ -57,16 +59,9 @@ class TestMockDispatcher
 		);
 
 		// Create the mock.
-		$mockObject = $test->getMock(
-			'\\Joomla\\Event\\DispatcherInterface',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		$mockObject = $test->getMockBuilder(DispatcherInterface::class)
+			->setMethods($methods)
+			->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
@@ -83,7 +78,6 @@ class TestMockDispatcher
 				array(
 					'dispatch'     => array(get_called_class(), 'mockDispatch'),
 					'addListener'  => array(get_called_class(), 'mockRegister'),
-					'triggerEvent' => array(get_called_class(), 'mockTrigger'),
 				)
 			);
 		}
@@ -94,20 +88,20 @@ class TestMockDispatcher
 	/**
 	 * Callback for the DispatcherInterface register method.
 	 *
-	 * @param   string $event Name of the event to register handler for.
-	 * @param   array  $args  An array of arguments.
+	 * @param   string  $event  Name of the event to register handler for.
+	 * @param   array   $args   An array of arguments.
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
 	 * @since   11.3
 	 */
-	public function mockDispatch($event, $args = array())
+	public static function mockDispatch($event, $args = [])
 	{
-		if (empty(self::$handlers[$event]))
-		{
-			// Track the events that were triggered, in order.
-			self::$triggered[] = $event;
+		// Track the events that were triggered, in order.
+		self::$triggered[] = $event;
 
+		if (!empty(self::$handlers[$event]))
+		{
 			return self::$handlers[$event];
 		}
 
@@ -117,9 +111,9 @@ class TestMockDispatcher
 	/**
 	 * Callback for the DispatcherInterface register method.
 	 *
-	 * +     * @param   string $event Name of the event to register handler for.
-	 * +     * @param   Callable $handler Callback
-	 * +     * @param   mixed $return The mock value to return for the given event handler.
+	 * @param   string    $event    Name of the event to register handler for.
+	 * @param   callable  $handler  Callback
+	 * @param   mixed     $return   The mock value to return for the given event handler.
 	 *
 	 * @return  void
 	 *
@@ -129,33 +123,9 @@ class TestMockDispatcher
 	{
 		if (empty(self::$handlers[$event]))
 		{
-			self::$handlers[$event] = array();
+			self::$handlers[$event] = [];
 		}
 
 		self::$handlers[$event][print_r($handler, true)] = $return;
-	}
-
-
-	/**
-	 * Callback for the DispatcherInterface trigger method.
-	 *
-	 * @param   string $event The event to trigger.
-	 * @param   array  $args  An array of arguments.
-	 *
-	 * @return  array  An array of results from each function call.
-	 *
-	 * @since  11.3
-	 */
-	public static function mockTrigger($event, $args = array())
-	{
-		if (isset(self::$handlers[ $event ]))
-		{
-			// Track the events that were triggered, in order.
-			self::$triggered[] = $event;
-
-			return self::$handlers[$event];
-		}
-
-		return array();
 	}
 }

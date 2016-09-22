@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Cms\Application\Autoconfigurable;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Joomla\String\StringHelper;
@@ -18,7 +19,6 @@ use Joomla\String\StringHelper;
  * Base class for a Joomla! Web application.
  *
  * @since  11.4
- * @note   As of 4.0 this class will be abstract
  */
 class JApplicationWeb extends JApplicationBase
 {
@@ -61,7 +61,7 @@ class JApplicationWeb extends JApplicationBase
 	protected $language;
 
 	/**
-	 * @var    JSession  The application session object.
+	 * @var    SessionInterface  The application session object.
 	 * @since  11.3
 	 */
 	protected $session;
@@ -230,7 +230,7 @@ class JApplicationWeb extends JApplicationBase
 		// Create the session based on the application logic.
 		if ($session !== false)
 		{
-			$this->loadSession($session);
+			$this->setSession($session);
 		}
 
 		// Create the document based on the application logic.
@@ -245,7 +245,10 @@ class JApplicationWeb extends JApplicationBase
 			$this->loadLanguage($language);
 		}
 
-		$this->setDispatcher($dispatcher);
+		if ($dispatcher)
+		{
+			$this->setDispatcher($dispatcher);
+		}
 
 		return $this;
 	}
