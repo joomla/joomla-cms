@@ -148,10 +148,10 @@ $tfa = JPluginHelper::isEnabled('twofactorauth');
 						</td>
 						<?php if ($tfa) : ?>
 							<td class="center hidden-phone">
-								<?php if (empty($item->otpKey)) : ?>
-									<?php echo JText::_('JDISABLED'); ?>
+								<?php if (!empty($item->otpKey)) : ?>
+									<span class="icon-publish"></span>
 								<?php else : ?>
-									<?php echo JText::_('JENABLED'); ?>
+									<span class="icon-unpublish"></span>
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
