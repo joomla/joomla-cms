@@ -24,13 +24,32 @@ module.exports = function(grunt) {
 				]
 			}
 		},
+		clean: {
+			old: {
+				src: [
+					'../media/vendor/jquery/js/*',
+					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
+					'../media/vendor/bootstrap/**',
+					'../media/vendor/tether/**',
+					'../media/vendor/font-awesome/**',
+					'../media/vendor/tinymce/plugins/*',
+					'../media/vendor/tinymce/skins/*',
+					'../media/vendor/tinymce/themes/*',
+					'!../media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
+				],
+				expand: true,
+				options: {
+					force: true
+				},
+			},
+		},
 		copy: {
 			transfer: {
 				files: [
 					{ // jQuery files
 						expand: true,
 						cwd: 'assets/node_modules/jquery/dist/',
-						src: ['**'],
+						src: ['*', '!(core.js)'],
 						dest: '../media/vendor/jquery/js/',
 						filter: 'isFile'
 					},
@@ -90,23 +109,56 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/font-awesome/fonts/',
 						filter: 'isFile'
 					},
-					// // Licenses
-					// { // jQuery files
-					// 	src: ['assets/node_modules/jquery/LICENSE.txt'],
-					// 	dest: '../media/vendor/jquery/'
-					// },
-					// { // Bootstrap files
-					// 	src: [
-					// 		'assets/node_modules/bootstrap/LICENSE',
-					// 	],
-					// 	dest: '../media/vendor/bootstrap/'
-					// },
-					// { // Bootstrap files
-					// 	src: [
-					// 		'assets/node_modules/bootstrap/node_modules/tether/LICENSE',
-					// 	],
-					// 	dest: '../media/vendor/tether/LICENSE',
-					// },
+					// tinyMCE
+					{ // tinyMCE files
+						expand: true,
+						cwd: 'assets/node_modules/tinymce/plugins/',
+						src: ['**'],
+						dest: '../media/vendor/tinymce/plugins/',
+						filter: 'isFile'
+					},
+					{ // tinyMCE files
+						expand: true,
+						cwd: 'assets/node_modules/tinymce/skins/',
+						src: ['**'],
+						dest: '../media/vendor/tinymce/skins/',
+						filter: 'isFile'
+					},
+					{ // tinyMCE files
+						expand: true,
+						cwd: 'assets/node_modules/tinymce/themes/',
+						src: ['**'],
+						dest: '../media/vendor/tinymce/themes/',
+						filter: 'isFile'
+					},
+					{ // tinyMCE files
+						expand: true,
+						cwd: 'assets/node_modules/tinymce/',
+						src: ['tinymce.js','tinymce.min.js','license.txt','changelog.txt'],
+						dest: '../media/vendor/tinymce/',
+						filter: 'isFile'
+					},
+		// Licenses
+					{ // jQuery
+						expand: true,
+						cwd: 'assets/node_modules/jquery/',
+						src: ['LICENSE.txt'],
+						dest: '../media/vendor/jquery/',
+						filter: 'isFile'
+					},
+					{ // Bootstrap
+						expand: true,
+						cwd: 'assets/node_modules/bootstrap/',
+						src: ['LICENSE'],
+						dest: '../media/vendor/bootstrap/',
+						filter: 'isFile'
+					},
+					{ // tether
+						src: [
+							'assets/node_modules/tether/LICENSE',
+						],
+						dest: '../media/vendor/tether/LICENSE',
+					},
 				]
 			}
 		}
@@ -115,11 +167,16 @@ module.exports = function(grunt) {
 	// Load required modules
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
+	grunt.loadNpmTasks('grunt-contrib-clean');
+
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
 	grunt.registerTask('default', ['build', 'transfer']);
 
 	grunt.registerTask('build', ['uglify']);
 
+	grunt.registerTask('old', ['clean']);
+
 	grunt.registerTask('transfer', ['copy']);
+
 };
