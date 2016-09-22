@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "daa4d4b6a73822868e5c7867d75fbb43",
-    "content-hash": "536a29057a3e638aad1efdfae65e9433",
+    "hash": "0bcff7c61f95c68adc76178b8b2c7cc8",
+    "content-hash": "5321237d122c5aecd1bb224c44db92f4",
     "packages": [
         {
             "name": "ircmaxell/password-compat",
@@ -1165,16 +1165,16 @@
         },
         {
             "name": "pear/cache_lite",
-            "version": "v1.7.16",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pear/Cache_Lite.git",
-                "reference": "9fa08bd625f86946d41a6e7ff66f6f4ea5c0f0bb"
+                "reference": "a3ad6baed101247a3e4a0806113b6f755060f3a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/9fa08bd625f86946d41a6e7ff66f6f4ea5c0f0bb",
-                "reference": "9fa08bd625f86946d41a6e7ff66f6f4ea5c0f0bb",
+                "url": "https://api.github.com/repos/pear/Cache_Lite/zipball/a3ad6baed101247a3e4a0806113b6f755060f3a3",
+                "reference": "a3ad6baed101247a3e4a0806113b6f755060f3a3",
                 "shasum": ""
             },
             "require": {
@@ -1211,7 +1211,7 @@
             "keywords": [
                 "cache"
             ],
-            "time": "2014-05-11 15:02:19"
+            "time": "2016-07-04 05:20:43"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
