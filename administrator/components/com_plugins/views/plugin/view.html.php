@@ -16,10 +16,25 @@ defined('_JEXEC') or die;
  */
 class PluginsViewPlugin extends JViewLegacy
 {
+	/**
+	 * The item object for the newsfeed
+	 *
+	 * @var    JObject
+	 */
 	protected $item;
 
+	/**
+	 * The form object for the newsfeed
+	 *
+	 * @var    JForm
+	 */
 	protected $form;
 
+	/**
+	 * The model state of the newsfeed
+	 *
+	 * @var    JObject
+	 */
 	protected $state;
 
 	/**

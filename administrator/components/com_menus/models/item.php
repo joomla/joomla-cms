@@ -835,7 +835,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  array  An array of all view levels (id, title).
+	 * @return  stdClass[]  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */

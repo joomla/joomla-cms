@@ -16,11 +16,40 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticle extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  JObject
+	 */
+	protected $canDo;
+
+	/**
+	 * Pagebreak TOC alias
+	 *
+	 * @var  string
+	 */
+	protected $eName;
 
 	/**
 	 * Execute and display a template script.
@@ -35,7 +64,7 @@ class ContentViewArticle extends JViewLegacy
 	{
 		if ($this->getLayout() == 'pagebreak')
 		{
-			// TODO: This is really dogy - should change this one day.
+			// TODO: This is really dodgy - should change this one day.
 			$input = JFactory::getApplication()->input;
 			$eName = $input->getCmd('e_name');
 			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);

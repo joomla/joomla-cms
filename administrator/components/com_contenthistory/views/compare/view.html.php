@@ -16,8 +16,18 @@ defined('_JEXEC') or die;
  */
 class ContenthistoryViewCompare extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
 
 	/**

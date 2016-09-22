@@ -16,11 +16,50 @@ defined('_JEXEC') or die;
  */
 class TagsViewTags extends JViewLegacy
 {
+	/**
+	 * An array of items
+	 *
+	 * @var  array
+	 */
 	protected $items;
 
+	/**
+	 * The pagination object
+	 *
+	 * @var  JPagination
+	 */
 	protected $pagination;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	protected $state;
+
+	/**
+	 * Form object for search filters
+	 *
+	 * @var    JForm
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $activeFilters;
+
+	/**
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $f_levels;
 
 	/**
 	 * Execute and display a template script.

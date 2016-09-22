@@ -1229,7 +1229,6 @@ class TemplatesModelTemplate extends JModelForm
 
 				$font['name'] = $fileName;
 			}
-
 			else
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');

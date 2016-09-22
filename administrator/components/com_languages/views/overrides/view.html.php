@@ -41,6 +41,22 @@ class LanguagesViewOverrides extends JViewLegacy
 	protected $state;
 
 	/**
+	 * The sidebar markup
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sidebar;
+
+	/**
+	 * An array containing all frontend and backend languages
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $languages;
+
+	/**
 	 * Displays the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.

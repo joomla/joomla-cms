@@ -44,6 +44,14 @@ class JoomlaupdateViewDefault extends JViewLegacy
 	protected $methodSelectUpload = null;
 
 	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public $state;
+
+	/**
 	 * Renders the view
 	 *
 	 * @param   string  $tpl  Template name

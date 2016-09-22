@@ -16,11 +16,34 @@ defined('_JEXEC') or die;
  */
 class LanguagesViewLanguage extends JViewLegacy
 {
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	public $item;
 
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	public $form;
 
+	/**
+	 * The model state
+	 *
+	 * @var  JObject
+	 */
 	public $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
 
 	/**
 	 * Display the view.

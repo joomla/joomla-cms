@@ -337,7 +337,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build a list of authors
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  stdClass[]
 	 *
 	 * @since   1.6
 	 */

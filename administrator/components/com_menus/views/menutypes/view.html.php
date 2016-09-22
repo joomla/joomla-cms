@@ -17,6 +17,22 @@ defined('_JEXEC') or die;
 class MenusViewMenutypes extends JViewLegacy
 {
 	/**
+	 * The menu type id
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $recordId;
+
+	/**
+	 * Array of menu types
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $types;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

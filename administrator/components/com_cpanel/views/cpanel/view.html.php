@@ -24,6 +24,14 @@ class CpanelViewCpanel extends JViewLegacy
 	protected $modules = null;
 
 	/**
+	 * Number of unread postinstall messages
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $postinstall_message_count = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.

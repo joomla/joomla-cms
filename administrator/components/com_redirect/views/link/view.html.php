@@ -16,10 +16,25 @@ defined('_JEXEC') or die;
  */
 class RedirectViewLink extends JViewLegacy
 {
+	/**
+	 * The active item
+	 *
+	 * @var  object
+	 */
 	protected $item;
 
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
+	/**
+	 * The model state
+	 *
+	 * @var    JObject
+	 */
 	protected $state;
 
 	/**

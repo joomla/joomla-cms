@@ -17,21 +17,28 @@ defined('_JEXEC') or die;
 class MenusViewMenu extends JViewLegacy
 {
 	/**
+	 * The JForm object
+	 *
 	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
-	 * @var  mixed
+	 * The active item
+	 *
+	 * @var  object
 	 */
 	protected $item;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
 
 	/**
+	 * The actions the user is authorised to perform
 	 *
 	 * @var  JObject
 	 */

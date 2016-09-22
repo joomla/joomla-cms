@@ -17,11 +17,15 @@ defined('_JEXEC') or die;
 class MenusViewItem extends JViewLegacy
 {
 	/**
+	 * The JForm object
+	 *
 	 * @var  JForm
 	 */
 	protected $form;
 
 	/**
+	 * The active item
+	 *
 	 * @var  object
 	 */
 	protected $item;
@@ -32,9 +36,27 @@ class MenusViewItem extends JViewLegacy
 	protected $modules;
 
 	/**
+	 * The model state
+	 *
 	 * @var  JObject
 	 */
 	protected $state;
+
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var    JObject
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $canDo;
+
+	/**
+	 * A list of view levels containing the id and title of the view level
+	 *
+	 * @var    stdClass[]
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $levels;
 
 	/**
 	 * Display the view
@@ -47,8 +69,6 @@ class MenusViewItem extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
-
 		$this->form    = $this->get('Form');
 		$this->item    = $this->get('Item');
 		$this->modules = $this->get('Modules');
