@@ -1009,7 +1009,7 @@ abstract class JHtmlBehavior
 			// If include according to browser.
 			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
 
-			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'media/vendor/polyfills/polyfill.' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
