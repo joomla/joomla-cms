@@ -36,6 +36,7 @@ module.exports = function(grunt) {
 					'../media/vendor/tinymce/skins/*',
 					'../media/vendor/tinymce/themes/*',
 					'!../media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
+					'../media/vendor/punycode/*',
 				],
 				expand: true,
 				options: {
@@ -86,6 +87,13 @@ module.exports = function(grunt) {
 						cwd: 'assets/node_modules/tether/dist/js/',
 						src: ['**'],
 						dest: '../media/vendor/tether/js/',
+						filter: 'isFile'
+					},
+					{ // Punycode
+						expand: true,
+						cwd: 'assets/node_modules/punycode/',
+						src: ['punycode.js', 'LICENSE-MIT.txt'],
+						dest: '../media/vendor/jquery/js/',
 						filter: 'isFile'
 					},
 					{ //Font Awesome css files
