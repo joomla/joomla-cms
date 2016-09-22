@@ -18,7 +18,7 @@ Feature: Users Frontend
 
   Scenario: check the created user in the backend
     Given I am on the User Manager page
-    And I search the user with user name "user2"
+    When I search the user with user name "user2"
     Then I should see the user "user2"
 
   Scenario: User can not login, if the account has not been activated
