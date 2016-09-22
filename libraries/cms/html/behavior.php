@@ -186,7 +186,7 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		JHtml::_('script', 'system/punycode.js', false, true);
+		JHtml::_('script', 'media/vendor/punycode/punycode.js', false, true);
 		JHtml::_('script', 'system/validate.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
