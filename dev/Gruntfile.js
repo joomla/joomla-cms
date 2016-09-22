@@ -270,7 +270,7 @@ module.exports = function(grunt) {
 						expand: true,
 						cwd: 'assets/tmp/codemirror/mode',
 						src: ['**'],
-						dest: '../media/codemirror/mode/',
+						dest: '../media/vendor/codemirror/mode/',
 						filter: 'isFile'
 					},
 					{ // Code mirror files
