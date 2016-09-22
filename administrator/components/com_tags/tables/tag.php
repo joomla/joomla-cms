@@ -23,7 +23,7 @@ class TagsTableTag extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_tags.tag';
 		parent::__construct('#__tags', 'id', $db);

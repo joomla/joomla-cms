@@ -27,9 +27,9 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_newsfeeds.newsfeed';
 		parent::__construct('#__newsfeeds', 'id', $db);

@@ -50,7 +50,7 @@ class DeletefilesCli extends JApplicationCli
 	 *
 	 * @since   3.0
 	 */
-	public function doExecute()
+	protected function doExecute()
 	{
 		// Import the dependencies
 		jimport('joomla.filesystem.file');
@@ -60,10 +60,7 @@ class DeletefilesCli extends JApplicationCli
 		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 		// Instantiate the class
-		$class = new JoomlaInstallerScript;
-
-		// Run the delete method
-		$class->deleteUnexistingFiles();
+		(new JoomlaInstallerScript)->deleteUnexistingFiles();
 	}
 }
 

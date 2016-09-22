@@ -407,7 +407,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function attachBuildRule($callback, $stage = self::PROCESS_DURING)
+	public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
@@ -430,7 +430,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function attachParseRule($callback, $stage = self::PROCESS_DURING)
+	public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{

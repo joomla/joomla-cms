@@ -21,11 +21,11 @@ class TemplatesTableStyle extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   1.6
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__template_styles', 'id', $db);
 	}

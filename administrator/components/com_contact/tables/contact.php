@@ -29,11 +29,11 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  Database connector object
+	 * @param   JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since   1.0
 	 */
-	public function __construct(&$db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		$this->typeAlias = 'com_contact.contact';
 		parent::__construct('#__contact_details', 'id', $db);

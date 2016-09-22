@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Application\Autoconfigurable;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 use Joomla\String\StringHelper;
@@ -17,10 +19,11 @@ use Joomla\String\StringHelper;
  * Base class for a Joomla! Web application.
  *
  * @since  11.4
- * @note   As of 4.0 this class will be abstract
  */
 class JApplicationWeb extends JApplicationBase
 {
+	use Autoconfigurable;
+
 	/**
 	 * @var    string  Character encoding string.
 	 * @since  11.3
@@ -58,7 +61,7 @@ class JApplicationWeb extends JApplicationBase
 	protected $language;
 
 	/**
-	 * @var    JSession  The application session object.
+	 * @var    SessionInterface  The application session object.
 	 * @since  11.3
 	 */
 	protected $session;
@@ -227,7 +230,7 @@ class JApplicationWeb extends JApplicationBase
 		// Create the session based on the application logic.
 		if ($session !== false)
 		{
-			$this->loadSession($session);
+			$this->setSession($session);
 		}
 
 		// Create the document based on the application logic.
@@ -242,7 +245,10 @@ class JApplicationWeb extends JApplicationBase
 			$this->loadLanguage($language);
 		}
 
-		$this->setDispatcher($dispatcher);
+		if ($dispatcher)
+		{
+			$this->setDispatcher($dispatcher);
+		}
 
 		return $this;
 	}
@@ -550,30 +556,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Set/get cachable state for the response.  If $allow is set, sets the cachable state of the
 	 * response.  Always returns the current state.
 	 *
@@ -871,54 +853,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
-	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_CONFIGURATION will be used.
-	 * @param   string  $class  The class name to instantiate.
-	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
-	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
-	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
-	{
-		// Instantiate variables.
-		$config = array();
-
-		if (empty($file))
-		{
-			$file = JPATH_CONFIGURATION . '/configuration.php';
-
-			// Applications can choose not to have any configuration data
-			// by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
-				$file = '';
-			}
-		}
-
-		if (!empty($file))
-		{
-			JLoader::register($class, $file);
-
-			if (class_exists($class))
-			{
-				$config = new $class;
-			}
-			else
-			{
-				throw new RuntimeException('Configuration class does not exist.');
-			}
-		}
-
-		return $config;
-	}
-
-	/**
 	 * Flush the media version to refresh versionable assets
 	 *
 	 * @return  void
@@ -1040,7 +974,7 @@ class JApplicationWeb extends JApplicationBase
 		$this->session = $session;
 
 		return $this;
-  	}
+	}
 
 	/**
 	 * Method to load the system URI strings for the application.

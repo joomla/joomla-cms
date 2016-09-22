@@ -120,11 +120,6 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testLoadIdentity()
 	{
-		// We need to mock JSession for this test, don't use the getMockSession() method since it has an inbuilt method to mock loading the user
-		$this->saveFactoryState();
-
-		JFactory::$session = $this->getMock('JSession');
-
 		// Before running, this should be null
 		$this->assertAttributeNotInstanceOf('JUser', 'identity', $this->class);
 
@@ -133,9 +128,6 @@ class JApplicationBaseTest extends TestCase
 
 		// A JUser object should have been loaded
 		$this->assertAttributeInstanceOf('JUser', 'identity', $this->class);
-
-		// Restore the global state
-		$this->restoreFactoryState();
 	}
 
 	/**
@@ -165,7 +157,7 @@ class JApplicationBaseTest extends TestCase
 		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Validate method chaining
-		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', 'function'));
+		$this->assertSame($this->class, $this->class->registerEvent('onJApplicationBaseRegisterEvent', [$this, 'eventCallback']));
 
 		// Validate the event was registered
 		$this->assertArrayHasKey('onJApplicationBaseRegisterEvent', TestMockDispatcher::$handlers);
@@ -229,10 +221,11 @@ class JApplicationBaseTest extends TestCase
 		$this->class->setDispatcher($this->getMockDispatcher());
 
 		// Register our event to be triggered
-		$this->class->registerEvent('onJApplicationBaseTriggerEvent', 'function');
+		$this->class->registerEvent('onJApplicationBaseTriggerEvent', [$this, 'eventCallback']);
 
 		// Validate the event was triggered
-		$this->assertSame(array('function' => null), $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertSame([], $this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertTrue(in_array('onJApplicationBaseTriggerEvent', TestMockDispatcher::$triggered));
 	}
 
 	/**
@@ -242,8 +235,10 @@ class JApplicationBaseTest extends TestCase
 	 */
 	public function testTriggerEventWithNoDispatcher()
 	{
+		$this->class->setDispatcher($this->getMockDispatcher());
+
 		// Validate the event was triggered
-		$this->assertNull($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
+		$this->assertEmpty($this->class->triggerEvent('onJApplicationBaseTriggerEvent'));
 	}
 
 	/**
@@ -273,5 +268,17 @@ class JApplicationBaseTest extends TestCase
 	{
 		unset($this->class);
 		parent::tearDown();
+	}
+
+	/**
+	 * Stub function used with testing event integrations
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function eventCallback()
+	{
+		// Stub for testing event integrations
 	}
 }

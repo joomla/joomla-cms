@@ -68,7 +68,7 @@ class JApplicationCliTest extends TestCase
 	{
 		$this->assertAttributeInstanceOf('JInput', 'input', $this->class);
 		$this->assertAttributeInstanceOf('\\Joomla\\Registry\\Registry', 'config', $this->class);
-		$this->assertAttributeInstanceOf('\\Joomla\\Event\\DispatcherInterface', 'dispatcher', $this->class);
+		$this->assertAttributeEmpty('dispatcher', $this->class);
 
 		// TODO Test that configuration data loaded.
 
@@ -106,7 +106,7 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$class = $this->getMock('JApplicationCli', array(), array($mockInput, $mockConfig, $mockDispatcher));
+		$class = $this->getMockForAbstractClass('JApplicationCli', array($mockInput, $mockConfig, null, null, $mockDispatcher));
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
@@ -139,24 +139,7 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testExecute()
 	{
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
-			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute');
-
 		$this->class->execute();
-
-		$this->assertEquals(
-			array(
-				'onBeforeExecute',
-				'JWebDoExecute',
-				'onAfterExecute',
-			),
-			TestMockDispatcher::$triggered
-		);
 	}
 
 	/**
@@ -232,10 +215,6 @@ class JApplicationCliTest extends TestCase
 	 */
 	public function testGet()
 	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::getValue($this->class, 'config', $config);
-
 		$this->assertEquals('bar', $this->class->get('foo', 'bar'), 'Checks a known configuration setting is returned.');
 		$this->assertEquals('car', $this->class->get('goo', 'car'), 'Checks an unknown configuration setting returns the default.');
 	}
@@ -258,14 +237,21 @@ class JApplicationCliTest extends TestCase
 		TestReflection::setValue('JApplicationCli', 'instance', 'foo');
 
 		$this->assertEquals('foo', JApplicationCli::getInstance('JApplicationCliInspector'), 'Tests that singleton value is returned.');
+	}
 
+	/**
+	 * Tests the JApplicationCli::getInstance method for an unexisting class.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetInstanceForUnexistingClass()
+	{
 		TestReflection::setValue('JApplicationCli', 'instance', null);
 
-		$this->assertInstanceOf(
-			'JApplicationCli',
-			JApplicationCli::getInstance('Foo'),
-			'Tests that getInstance will instantiate a valid child class of JApplicationCli given a non-existent type.'
-		);
+		JApplicationCli::getInstance('Foo');
 	}
 
 	/**

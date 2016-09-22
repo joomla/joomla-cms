@@ -23,7 +23,7 @@ class JTableContenttype extends JTable
 	 *
 	 * @since   3.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__content_types', 'type_id', $db);
 	}
