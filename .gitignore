@@ -18,6 +18,7 @@
 /.php_cs.cache
 /dev/node_modules/**
 /dev/assets/node_modules/**
+/dev/assets/tmp/**
 
 # Test Related Files #
 /phpunit.xml

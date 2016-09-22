@@ -3,12 +3,13 @@
   "version": "4.0.0",
   "description": "Joomla CMS",
   "dependencies": {
-    "grunt": "~0.4",
-    "grunt-contrib-uglify": "~1.0.1",
-    "grunt-contrib-clean": "^1.0.0"
+    "grunt": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-concat": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-cssmin": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-git": "latest"
   },
-  "license": "GPL-2.0+",
-  "devDependencies": {
-    "grunt-contrib-copy": "^1.0.0"
-  }
+  "license": "GPL-2.0+"
 }

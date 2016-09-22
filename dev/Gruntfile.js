@@ -7,6 +7,23 @@ module.exports = function(grunt) {
 			fields : '../media/system/js/fields',
 			puny   : '../media/vendor/punycode/js'
 		},
+		// Download packages from github
+		gitclone: {
+			cloneCm: {
+				options: {
+					repository: 'https://github.com/codemirror/CodeMirror.git',
+					branch: 'master',
+					directory: 'assets/tmp/codemirror'
+				}
+			},
+			cloneCombo: {
+				options: {
+					repository: 'https://github.com/danielfarrell/bootstrap-combobox.git',
+					branch    : 'master',
+					directory : 'assets/tmp/combobox'
+				}
+			}
+		},
 		uglify: {
 			build: {
 				files: [
@@ -35,6 +52,7 @@ module.exports = function(grunt) {
 		clean: {
 			old: {
 				src: [
+					'assets/tmp/**',
 					'../media/vendor/jquery/js/*',
 					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
 					'../media/vendor/bootstrap/**',
@@ -104,6 +122,20 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/punycode/js/',
 						filter: 'isFile'
 					},
+					{ // Bootstrap-combobox
+						expand: true,
+						cwd: 'assets/tmp/combobox/js',
+						src: 'bootstrap-combobox.js',
+						dest: '../media/vendor/combobox/js/',
+						filter: 'isFile'
+					},
+					{ // Bootstrap-combobox
+						expand: true,
+						cwd: 'assets/tmp/combobox/css',
+						src: 'bootstrap-combobox.css',
+						dest: '../media/vendor/combobox/css/',
+						filter: 'isFile'
+					},
 					{ //Font Awesome css files
 						expand: true,
 						cwd: 'assets/node_modules/font-awesome/css/',
@@ -154,26 +186,58 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/tinymce/',
 						filter: 'isFile'
 					},
+					// Code mirror
+					{ // Code mirror files
+						expand: true,
+						cwd: 'assets/tmp/codemirror/addon/',
+						src: ['**'],
+						dest: '../media/vendor/codemirror/addon/',
+						filter: 'isFile'
+					},
+					{ // Code mirror files
+						expand: true,
+						cwd: 'assets/tmp/codemirror/keymap/',
+						src: ['**'],
+						dest: '../media/vendor/codemirror/keymap/',
+						filter: 'isFile'
+					},
+					{ // Code mirror files
+						expand: true,
+						cwd: 'assets/tmp/codemirror/lib',
+						src: ['**'],
+						dest: '../media/vendor/codemirror/lib/',
+						filter: 'isFile'
+					},
+					{ // Code mirror files
+						expand: true,
+						cwd: 'assets/tmp/codemirror/mode',
+						src: ['**'],
+						dest: '../media/codemirror/mode/',
+						filter: 'isFile'
+					},
+					{ // Code mirror files
+						expand: true,
+						cwd: 'assets/tmp/codemirror/theme',
+						src: ['**'],
+						dest: '../media/vendor/codemirror/theme/',
+						filter: 'isFile'
+					},
 		// Licenses
 					{ // jQuery
-						expand: true,
-						cwd: 'assets/node_modules/jquery/',
-						src: ['LICENSE.txt'],
-						dest: '../media/vendor/jquery/',
-						filter: 'isFile'
+						src: ['assets/node_modules/jquery/LICENSE.txt'],
+						dest: '../media/vendor/jquery/LICENSE.txt',
 					},
 					{ // Bootstrap
-						expand: true,
-						cwd: 'assets/node_modules/bootstrap/',
-						src: ['LICENSE'],
-						dest: '../media/vendor/bootstrap/',
-						filter: 'isFile'
+						src: ['assets/node_modules/bootstrap/LICENSE'],
+						dest: '../media/vendor/bootstrap/LICENSE',
 					},
 					{ // tether
-						src: [
-							'assets/node_modules/tether/LICENSE',
-						],
+						src: ['assets/node_modules/tether/LICENSE'],
 						dest: '../media/vendor/tether/LICENSE',
+					},
+					{ // Code mirror
+						src: ['assets/tmp/codemirror/LICENSE'],
+						dest: '../media/vendor/codemirror/LICENSE',
 					},
 				]
 			}
@@ -187,7 +251,13 @@ module.exports = function(grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
-	grunt.registerTask('default', ['old', 'transfer', 'build']);
+	grunt.loadNpmTasks('grunt-git');
+
+	grunt.registerTask('cloneCm', ['gitclone']);
+
+	grunt.registerTask('cloneCombo', ['gitclone']);
+
+	grunt.registerTask('default', ['old', 'cloneCombo', 'transfer', 'build']);
 
 	grunt.registerTask('build', ['uglify']);
 
