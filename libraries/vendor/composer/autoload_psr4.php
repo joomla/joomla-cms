@@ -21,6 +21,7 @@ return array(
     'Joomla\\Registry\\' => array($vendorDir . '/joomla/registry/src'),
     'Joomla\\Input\\Tests\\' => array($vendorDir . '/joomla/input/Tests'),
     'Joomla\\Input\\' => array($vendorDir . '/joomla/input/src'),
+    'Joomla\\Image\\' => array($vendorDir . '/joomla/image/src'),
     'Joomla\\Filter\\Tests\\' => array($vendorDir . '/joomla/filter/Tests'),
     'Joomla\\Filter\\' => array($vendorDir . '/joomla/filter/src'),
     'Joomla\\Event\\' => array($vendorDir . '/joomla/event/src'),

@@ -1,23 +1,22 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Image
+ * Part of the Joomla Framework Image Package
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Image\Filter;
 
-JLog::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth instead.', JLog::WARNING, 'deprecated');
+use Joomla\Image\ImageFilter;
+use InvalidArgumentException;
 
 /**
  * Image Filter class adjust the smoothness of an image.
  *
- * @since  11.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Smooth instead
+ * @since  1.0
  */
-class JImageFilterSmooth extends JImageFilter
+class Smooth extends ImageFilter
 {
 	/**
 	 * Method to apply a filter to an image resource.
@@ -26,9 +25,8 @@ class JImageFilterSmooth extends JImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.0
 	 * @throws  InvalidArgumentException
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Smooth::execute() instead
 	 */
 	public function execute(array $options = array())
 	{
