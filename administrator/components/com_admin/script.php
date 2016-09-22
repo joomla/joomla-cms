@@ -244,7 +244,6 @@ class JoomlaInstallerScript
 			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
-			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
