@@ -85,6 +85,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -111,6 +117,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
@@ -141,6 +153,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the button method initialises Bootstrap as well'
@@ -169,6 +187,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -195,6 +219,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
@@ -231,6 +261,12 @@ class JHtmlBootstrapTest extends TestCase
 		);
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that Bootstrap initializes Bootstrap'
@@ -251,6 +287,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
@@ -279,6 +321,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
@@ -321,6 +369,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -347,6 +401,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
@@ -377,6 +437,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -405,6 +471,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -431,6 +503,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
@@ -492,6 +570,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -548,6 +632,12 @@ class JHtmlBootstrapTest extends TestCase
 		$document = JFactory::getDocument();
 
 		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
+
+		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',
 			$document->_scripts,
 			'Verify that the alert method initialises Bootstrap as well'
@@ -601,6 +691,12 @@ class JHtmlBootstrapTest extends TestCase
 
 		// Get the document instance
 		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/vendor/tether/js/tether.min.js',
+			$document->_scripts,
+			'Verify that tether.js is loaded'
+		);
 
 		$this->assertArrayHasKey(
 			'/media/vendor/bootstrap/js/bootstrap.min.js',

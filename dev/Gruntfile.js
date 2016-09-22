@@ -90,25 +90,23 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/font-awesome/fonts/',
 						filter: 'isFile'
 					},
-					// Licenses
-					{ // jQuery files
-						src: [
-							'assets/node_modules/jquery/LICENSE.txt',
-						],
-						dest: '../media/vendor/jquery/'
-					},
-					{ // Bootstrap files
-						src: [
-							'assets/node_modules/bootstrap/LICENSE',
-						],
-						dest: '../media/vendor/bootstrap/'
-					},
-					{ // Bootstrap files
-						src: [
-							'assets/node_modules/bootstrap/node_modules/tether/LICENSE',
-						],
-						dest: '../media/vendor/tether/LICENSE',
-					},
+					// // Licenses
+					// { // jQuery files
+					// 	src: ['assets/node_modules/jquery/LICENSE.txt'],
+					// 	dest: '../media/vendor/jquery/'
+					// },
+					// { // Bootstrap files
+					// 	src: [
+					// 		'assets/node_modules/bootstrap/LICENSE',
+					// 	],
+					// 	dest: '../media/vendor/bootstrap/'
+					// },
+					// { // Bootstrap files
+					// 	src: [
+					// 		'assets/node_modules/bootstrap/node_modules/tether/LICENSE',
+					// 	],
+					// 	dest: '../media/vendor/tether/LICENSE',
+					// },
 				]
 			}
 		}
