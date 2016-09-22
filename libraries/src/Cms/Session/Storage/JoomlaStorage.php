@@ -1,11 +1,12 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Session
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
+
+namespace Joomla\Cms\Session\Storage;
 
 defined('JPATH_PLATFORM') or die;
 
@@ -17,7 +18,7 @@ use Joomla\Session\Storage\NativeStorage;
  *
  * @since  4.0
  */
-class JSessionStorageJoomla extends NativeStorage
+class JoomlaStorage extends NativeStorage
 {
 	/**
 	 * Internal data store for the session data
@@ -38,7 +39,7 @@ class JSessionStorageJoomla extends NativeStorage
 	/**
 	 * Input object
 	 *
-	 * @var    JInput
+	 * @var    \JInput
 	 * @since  4.0
 	 */
 	private $input;
@@ -46,13 +47,13 @@ class JSessionStorageJoomla extends NativeStorage
 	/**
 	 * Constructor
 	 *
-	 * @param   SessionHandlerInterface  $handler  Session save handler
-	 * @param   array                    $options  Session options
-	 * @param   JInput                   $input    Input object
+	 * @param   \SessionHandlerInterface  $handler  Session save handler
+	 * @param   array                     $options  Session options
+	 * @param   \JInput                   $input    Input object
 	 *
 	 * @since   4.0
 	 */
-	public function __construct(SessionHandlerInterface $handler = null, array $options = array(), JInput $input)
+	public function __construct(\SessionHandlerInterface $handler = null, array $options = array(), \JInput $input)
 	{
 		// Disable transparent sid support
 		ini_set('session.use_trans_sid', '0');
@@ -101,7 +102,7 @@ class JSessionStorageJoomla extends NativeStorage
 		 */
 		if (isset($_COOKIE[$session_name]))
 		{
-			$config        = JFactory::getConfig();
+			$config        = \JFactory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path   = $config->get('cookie_path', '/');
 			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
@@ -228,7 +229,7 @@ class JSessionStorageJoomla extends NativeStorage
 			$cookie['secure'] = true;
 		}
 
-		$config = JFactory::getConfig();
+		$config = \JFactory::getConfig();
 
 		if ($config->get('cookie_domain', '') != '')
 		{
