@@ -473,7 +473,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JMenu|null
+	 * @return  JMenu
 	 *
 	 * @since   3.2
 	 */
@@ -490,16 +490,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			$options['app'] = $this;
 		}
 
-		try
-		{
-			$menu = JMenu::getInstance($name, $options);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		return $menu;
+		return JMenu::getInstance($name, $options);
 	}
 
 	/**
@@ -545,7 +536,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JPathway|null
+	 * @return  JPathway
 	 *
 	 * @since   3.2
 	 */
@@ -556,16 +547,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			$name = $this->getName();
 		}
 
-		try
-		{
-			$pathway = JPathway::getInstance($name, $options);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		return $pathway;
+		return JPathway::getInstance($name, $options);
 	}
 
 	/**
@@ -574,7 +556,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  JRouter|null
+	 * @return  JRouter
 	 *
 	 * @since   3.2
 	 */
@@ -586,16 +568,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			$name = $app->getName();
 		}
 
-		try
-		{
-			$router = JRouter::getInstance($name, $options);
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-
-		return $router;
+		return JRouter::getInstance($name, $options);
 	}
 
 	/**
