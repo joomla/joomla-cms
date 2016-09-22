@@ -1,13 +1,44 @@
 module.exports = function(grunt) {
 
+	var CmSettings = grunt.file.readYAML('settings.yaml');
+
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
 			system : '../media/system/js',
 			fields : '../media/system/js/fields',
-			puny   : '../media/vendor/punycode/js'
+			puny   : '../media/vendor/punycode/js',
+			cmadd  : '../media/vendor/codemirror/addon',
+			cmkey  : '../media/vendor/codemirror/keymap',
+			cmlib  : '../media/vendor/codemirror/lib',
+			cmthem : '../media/vendor/codemirror/theme',
 		},
-		// Download packages from github
+
+		// Let's clean up the system
+		clean: {
+			old: {
+				src: [
+					'assets/tmp/**',
+					'../media/vendor/jquery/js/*',
+					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
+					'../media/vendor/bootstrap/**',
+					'../media/vendor/tether/**',
+					'../media/vendor/font-awesome/**',
+					'../media/vendor/tinymce/plugins/*',
+					'../media/vendor/tinymce/skins/*',
+					'../media/vendor/tinymce/themes/*',
+					'!../media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
+					'../media/vendor/punycode/*',
+					'../media/vendor/codemirror/*',
+					'../media/vendor/combobox/*',
+				],
+				expand: true,
+				options: {
+					force: true
+				},
+			},
+		},
+		// Download latest packages from github
 		gitclone: {
 			cloneCm: {
 				options: {
@@ -24,6 +55,28 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+
+		// Concatenate all of the codemirror addon files
+		concat: {
+			addons: {
+				files: [
+					{
+						src: CmSettings.addons.js.map(function (v) {
+							return 'assets/tmp/codemirror/' + v;
+						}),
+						dest:'assets/tmp/codemirror/lib/addons.js'
+					},
+					{
+						src: CmSettings.addons.css.map(function (v) {
+							return 'assets/tmp/codemirror/' + v;
+						}),
+						dest: 'assets/tmp/codemirror/lib/addons.css'
+					}
+				]
+			}
+		},
+
+		// Minimize the scripts
 		uglify: {
 			build: {
 				files: [
@@ -38,7 +91,31 @@ module.exports = function(grunt) {
 						dest: '',
 						expand: true,
 						ext: '.min.js'
-					}
+					},
+					{
+						src: ['<%= folder.cmadd %>/*.js','!<%= folder.cmadd %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.cmkey %>/*.js','!<%= folder.cmkey %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.cmlib %>/*.js','!<%= folder.cmlib %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.cmthem %>/*.js','!<%= folder.cmthem %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
 					// Uglifying punicode.js fails!!!
 					// {
 					// 	src: ['<%= folder.puny %>/*.js','!<%= folder.puny %>/*.min.js'],
@@ -49,27 +126,8 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-		clean: {
-			old: {
-				src: [
-					'assets/tmp/**',
-					'../media/vendor/jquery/js/*',
-					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
-					'../media/vendor/bootstrap/**',
-					'../media/vendor/tether/**',
-					'../media/vendor/font-awesome/**',
-					'../media/vendor/tinymce/plugins/*',
-					'../media/vendor/tinymce/skins/*',
-					'../media/vendor/tinymce/themes/*',
-					'!../media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
-					'../media/vendor/punycode/*',
-				],
-				expand: true,
-				options: {
-					force: true
-				},
-			},
-		},
+
+		// Transfer all the assets to media/vendor
 		copy: {
 			transfer: {
 				files: [
@@ -222,7 +280,7 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/codemirror/theme/',
 						filter: 'isFile'
 					},
-		// Licenses
+					// Licenses
 					{ // jQuery
 						src: ['assets/node_modules/jquery/LICENSE.txt'],
 						dest: '../media/vendor/jquery/LICENSE.txt',
@@ -241,28 +299,40 @@ module.exports = function(grunt) {
 					},
 				]
 			}
+		},
+
+		// Let's minify some css files
+		cssmin: {
+			codemirror: {
+				files: [{
+					expand: true,
+					matchBase: true,
+					ext: '.min.css',
+					cwd: '../media/vendor/codemirror',
+					src: ['*.css', '!*.min.css', '!theme/*.css'],
+					dest: '../media/vendor/codemirror',
+				}]
+			}
 		}
 	});
 
 	// Load required modules
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-
 	grunt.loadNpmTasks('grunt-contrib-clean');
-
 	grunt.loadNpmTasks('grunt-contrib-copy');
-
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-git');
 
-	grunt.registerTask('cloneCm', ['gitclone']);
-
-	grunt.registerTask('cloneCombo', ['gitclone']);
-
-	grunt.registerTask('default', ['old', 'cloneCombo', 'transfer', 'build']);
-
-	grunt.registerTask('build', ['uglify']);
-
-	grunt.registerTask('old', ['clean']);
-
-	grunt.registerTask('transfer', ['copy']);
-
+	grunt.registerTask('default',
+		[
+			'clean:old',
+			'gitclone:cloneCm',
+			'gitclone:cloneCombo',
+			'concat:addons',
+			'copy:transfer',
+			'uglify:build',
+			'cssmin:codemirror'
+		]
+	);
 };
