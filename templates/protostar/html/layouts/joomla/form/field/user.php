@@ -58,7 +58,7 @@ if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT,
 	$userName = "";
 }
 
-JHtml::script('jui/fielduser.min.js', false, true, false, false, true);
+JHtml::script('system/fields/fielduser.min.js', false, true, false, false, true);
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <div class="field-user-wrapper"
