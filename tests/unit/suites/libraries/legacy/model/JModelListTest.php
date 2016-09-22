@@ -40,7 +40,6 @@ class JModelListTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session = $this->getMockSession();
 
 		$this->object = new JModelList(array("filter_fields" => array("field1", "field2")));
 	}
