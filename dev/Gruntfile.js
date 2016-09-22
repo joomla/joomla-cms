@@ -10,21 +10,19 @@ module.exports = function(grunt) {
 		uglify: {
 			build: {
 				files: [
+					{
+						src: ['<%= folder.system %>/*.js','!<%= folder.system %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.fields %>/*.js','!<%= folder.fields %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					}
 					// Uglifying punicode.js fails!!!
-					// Uglifying the system folders requires all files to be .js/.min.js!!!
-
-					// {
-					// 	src: ['<%= folder.system %>/*.js','!<%= folder.system %>/*.min.js'],
-					// 	dest: '',
-					// 	expand: true,
-					// 	ext: '.min.js'
-					// },
-					// {
-					// 	src: ['<%= folder.fields %>/*.js','!<%= folder.fields %>/*.min.js'],
-					// 	dest: '',
-					// 	expand: true,
-					// 	ext: '.min.js'
-					// },
 					// {
 					// 	src: ['<%= folder.puny %>/*.js','!<%= folder.puny %>/*.min.js'],
 					// 	dest: '',
