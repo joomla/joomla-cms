@@ -88,8 +88,7 @@ class JMail extends PHPMailer
 	/**
 	 * Send the mail
 	 *
-	 * @return  boolean|JException  Boolean true if successful, boolean false if the `mailonline` configuration is set to 0,
-	 *                              or a JException object if the mail function does not exist or sending the message fails.
+	 * @return  boolean  Boolean true if successful.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -100,7 +99,7 @@ class JMail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+				throw new RuntimeException(JText::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 			}
 
 			try
@@ -136,7 +135,7 @@ class JMail extends PHPMailer
 
 			if ($result == false)
 			{
-				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+				throw new RuntimeException(JText::_($this->ErrorInfo), 500);
 			}
 
 			return $result;
