@@ -1,0 +1,12 @@
+{
+  "name": "joomla-external-assets",
+  "version": "4.0.0",
+  "description": "External assets that Joomla is using",
+  "dependencies": {
+    "jquery": "3.1.0",
+    "bootstrap": "4.0.0-alpha.4",
+    "tinymce": "4.4.3",
+    "font-awesome": "4.6.3"
+  },
+  "license": "GPL-2.0+"
+}
