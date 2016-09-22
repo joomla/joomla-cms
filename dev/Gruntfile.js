@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 						ext: '.min.js'
 					},
 					{
-						src: ['<%= folder.cmadd %>/*.js','!<%= folder.cmadd %>/*.min.js'],
+						src: ['<%= folder.cmadd %>/*/*.js','!<%= folder.cmadd %>/*/*.min.js'],
 						dest: '',
 						expand: true,
 						ext: '.min.js'
@@ -111,7 +111,7 @@ module.exports = function(grunt) {
 						ext: '.min.js'
 					},
 					{
-						src: ['<%= folder.cmthem %>/*.js','!<%= folder.cmthem %>/*.min.js'],
+						src: ['<%= folder.cmthem %>/*/*.js','!<%= folder.cmthem %>/*/*.min.js'],
 						dest: '',
 						expand: true,
 						ext: '.min.js'
