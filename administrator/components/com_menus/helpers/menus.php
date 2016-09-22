@@ -45,27 +45,6 @@ class MenusHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  $parentId  The menu ID.
-	 *
-	 * @return  JObject
-	 *
-	 * @since   1.6
-	 * @deprecated  3.2  Use JHelperContent::getActions() instead
-	 */
-	public static function getActions($parentId = 0)
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
-
-		// Get list of actions
-		$result = JHelperContent::getActions('com_menus');
-
-		return $result;
-	}
-
-	/**
 	 * Gets a standard form of a link for lookups.
 	 *
 	 * @param   mixed  $request  A link string or array of request variables.
