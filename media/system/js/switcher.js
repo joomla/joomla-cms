@@ -1,1 +1,93 @@
-/*        GNU General Public License version 2 or later; see LICENSE.txt*/var JSwitcher=function(f,c,l){var b,k,i,g,m={onShow:function(){},onHide:function(){},cookieName:"switcher",togglerSelector:"a",elementSelector:"div.tab",elementPrefix:"page-"},a=function(p,o,n){b=jQuery.noConflict();b.extend(m,n);k=b(p).find(m.togglerSelector);i=b(o).find(m.elementSelector);if((k.length===0)||(k.length!==i.length)){return}d();k.each(function(){b(this).on("click",function(){h(b(this).attr("id"))})});var q=document.location.hash.substring(1);if(q){h(q)}else{if(k.length){h(k.first().attr("id"))}}},h=function(o){var p=b("#"+o),n=b("#"+m.elementPrefix+o);if(p.length===0||n.length===0||o===g){return this}if(g){e(b("#"+m.elementPrefix+g));b("#"+g).removeClass("active")}j(n);p.addClass("active");g=o;document.location.hash=g;b(window).scrollTop(0)},e=function(n){m.onShow(n);b(n).hide()},d=function(){i.hide();k.removeClass("active")},j=function(n){m.onHide(n);b(n).show()};a(f,c,l);return{display:h,hide:e,hideAll:d,show:j}};
+/**
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/**
+ * Switcher behavior
+ *
+ * @package     Joomla
+ * @since       1.5
+ */
+var JSwitcher = function(toggler, element, _options) {
+    var $, $togglers, $elements, current, options = {
+        onShow : function() {
+        },
+        onHide : function() {
+        },
+        cookieName : 'switcher',
+        togglerSelector : 'a',
+        elementSelector : 'div.tab',
+        elementPrefix : 'page-'
+    },
+
+    initialize = function(toggler, element, _options) {
+        $ = jQuery.noConflict();
+        $.extend(options, _options);
+
+        $togglers = $(toggler).find(options.togglerSelector);
+        $elements = $(element).find(options.elementSelector);
+
+        if (($togglers.length === 0) || ($togglers.length !== $elements.length)) {
+            return;
+        }
+
+        hideAll();
+
+        $togglers.each(function() {
+            $(this).on('click', function() {
+                display($(this).attr('id'));
+            });
+        })
+
+        var first = document.location.hash.substring(1);
+        if (first) {
+            display(first);
+        } else if ($togglers.length) {
+            display($togglers.first().attr('id'));
+        }
+    },
+
+    display = function(togglerId) {
+        var $toggler = $('#' + togglerId), $element = $('#' + options.elementPrefix + togglerId);
+
+        if ($toggler.length === 0 || $element.length === 0 || togglerId === current) {
+            return this;
+        }
+
+        if (current) {
+            hide($('#' + options.elementPrefix + current));
+            $('#' + current).removeClass('active');
+        }
+
+        show($element);
+        $toggler.addClass('active');
+        current = togglerId;
+        document.location.hash = current;
+        $(window).scrollTop(0);
+    },
+
+    hide = function(element) {
+        options.onShow(element);
+        $(element).hide();
+    },
+
+    hideAll = function() {
+        $elements.hide();
+        $togglers.removeClass('active');
+    },
+
+    show = function(element) {
+        options.onHide(element);
+        $(element).show();
+    };
+
+    initialize(toggler, element, _options);
+
+    return{
+        display: display,
+        hide: hide,
+        hideAll: hideAll,
+        show: show
+    };
+};

@@ -98,7 +98,7 @@ abstract class JHtmlTabs
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
-			JHtml::_('script', 'system/tabs.js', false, true);
+			JHtml::_('script', 'system/tabs.min.js', false, true);
 
 			$loaded[(string) $group] = true;
 		}

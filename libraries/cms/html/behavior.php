@@ -113,7 +113,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', false, true);
+		JHtml::_('script', 'system/caption.min.js', false, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -187,7 +187,7 @@ abstract class JHtmlBehavior
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
 		JHtml::_('script', 'media/vendor/punycode/punycode.js', false, true);
-		JHtml::_('script', 'system/validate.js', false, true);
+		JHtml::_('script', 'system/validate.min.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -209,7 +209,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/switcher.js', true, true);
+		JHtml::_('script', 'system/switcher.min.js', true, true);
 
 		$script = "
 			document.switcher = null;
@@ -473,7 +473,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/multiselect.js', false, true);
+		JHtml::_('script', 'system/multiselect.min.js', false, true);
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -762,7 +762,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.js', false, true);
+		JHtml::_('script', 'system/highlighter.min.js', false, true);
 
 		foreach ($terms as $i => $term)
 		{
@@ -970,7 +970,7 @@ abstract class JHtmlBehavior
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.js', false, true);
+		JHtml::_('script', 'system/tabs-state.min.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
 
