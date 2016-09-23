@@ -408,9 +408,9 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 * @deprecated  5.0  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
-    {
-    	return $this->get($varname, $default);
-    }
+	{
+		return $this->get($varname, $default);
+	}
 
 	/**
 	 * Gets the client id of the current running application.
