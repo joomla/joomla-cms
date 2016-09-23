@@ -88,7 +88,7 @@ class ContenthistoryModelCompare extends JModelItem
 						'publish_down',
 					);
 
-					foreach($dateProperties as $dateProperty)
+					foreach ($dateProperties as $dateProperty)
 					{
 						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
 						{
