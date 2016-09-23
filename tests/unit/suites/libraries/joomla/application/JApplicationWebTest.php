@@ -261,24 +261,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::close method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testClose()
-	{
-		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
-
-		$this->class->close(3);
-
-		// Make sure the application is closed with code 3.
-		$this->assertSame($this->class->closed, 3);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::compress method.
 	 *
 	 * @return  void
@@ -652,23 +634,6 @@ class JApplicationWebTest extends TestCase
 		}
 
 		$this->assertEquals($expects, (array) $config);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::get method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->get('foo', 'car'));
-		$this->assertEquals('car', $this->class->get('goo', 'car'));
 	}
 
 	/**
@@ -1182,24 +1147,6 @@ class JApplicationWebTest extends TestCase
 			),
 			$this->class->headers
 		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::set method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->set('foo', 'car'));
-
-		$this->assertEquals('car', $config->get('foo'));
 	}
 
 	/**

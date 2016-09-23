@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-use Joomla\Registry\Registry;
-
 include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
 
 /**
@@ -110,24 +108,6 @@ class JApplicationCliTest extends TestCase
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
-	}
-
-	/**
-	 * Tests the JApplicationCli::close method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testClose()
-	{
-		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
-
-		$this->class->close(3);
-
-		// Make sure the application is closed with code 3.
-		$this->assertSame($this->class->closed, 3);
 	}
 
 	/**
@@ -275,22 +255,5 @@ class JApplicationCliTest extends TestCase
 		);
 
 		$this->assertEquals('car', TestReflection::getValue($this->class, 'config')->get('goo'), 'Check the configuration object was loaded.');
-	}
-
-	/**
-	 * Tests the JApplicationCli::set method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
-		$this->assertEquals('car', $config->get('foo'), 'Checks the new value has been set.');
 	}
 }

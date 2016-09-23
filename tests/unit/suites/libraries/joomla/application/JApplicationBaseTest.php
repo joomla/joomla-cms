@@ -48,21 +48,6 @@ class JApplicationBaseTest extends TestCase
 	}
 
 	/**
-	 * @testdox  Tests that close() exits the application with the given code
-	 *
-	 * @covers  JApplicationBase::close
-	 */
-	public function testClose()
-	{
-		$object = $this->getMockForAbstractClass('JApplicationBase', array(), '', false, true, true, array('close'));
-		$object->expects($this->any())
-			->method('close')
-			->willReturnArgument(0);
-
-		$this->assertSame(3, $object->close(3));
-	}
-
-	/**
 	 * @testdox  Tests that the application is executed successfully.
 	 *
 	 * @covers  JApplicationBase::doExecute
@@ -99,16 +84,6 @@ class JApplicationBaseTest extends TestCase
 	public function testGetIdentity()
 	{
 		$this->assertNull($this->class->getIdentity());
-	}
-
-	/**
-	 * @testdox  Tests that a default PSR-3 LoggerInterface object is returned.
-	 *
-	 * @covers  JApplicationBase::getLogger
-	 */
-	public function testGetLogger()
-	{
-		$this->assertInstanceOf('Psr\Log\NullLogger', $this->class->getLogger());
 	}
 
 	/**
@@ -161,51 +136,6 @@ class JApplicationBaseTest extends TestCase
 
 		// Validate the event was registered
 		$this->assertArrayHasKey('onJApplicationBaseRegisterEvent', TestMockDispatcher::$handlers);
-	}
-
-	/**
-	 * @testdox  Tests that data is set to the application configuration successfully.
-	 *
-	 * @covers  JApplicationBase::set
-	 * @uses    JApplicationBase::get
-	 * @uses    JApplicationBase::setConfiguration
-	 */
-	public function testSet()
-	{
-		$mockConfig = $this->getMock('Joomla\Registry\Registry', array('get', 'set'), array(array('foo' => 'bar')), '', true, true, true, false, true);
-
-		$this->class->setConfiguration($mockConfig);
-
-		$this->assertEquals('bar', $this->class->set('foo', 'car'), 'Checks set returns the previous value.');
-		$this->assertEquals('car', $this->class->get('foo'), 'Checks the new value has been set.');
-	}
-
-	/**
-	 * @testdox  Tests that the application configuration is overwritten successfully.
-	 *
-	 * @covers  JApplicationBase::setConfiguration
-	 */
-	public function testSetConfiguration()
-	{
-		$mockConfig = $this->getMock('Joomla\Registry\Registry');
-
-		$this->class->setConfiguration($mockConfig);
-
-		$this->assertAttributeSame($mockConfig, 'config', $this->class);
-	}
-
-	/**
-	 * @testdox  Tests that a PSR-3 LoggerInterface object is correctly set to the application.
-	 *
-	 * @covers  JApplicationBase::setLogger
-	 */
-	public function testSetLogger()
-	{
-		$mockLogger = $this->getMockForAbstractClass('Psr\Log\AbstractLogger');
-
-		$this->class->setLogger($mockLogger);
-
-		$this->assertAttributeSame($mockLogger, 'logger', $this->class);
 	}
 
 	/**
