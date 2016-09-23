@@ -474,56 +474,6 @@
         ]
     },
     {
-        "name": "paragonie/random_compat",
-        "version": "v1.4.1",
-        "version_normalized": "1.4.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/paragonie/random_compat.git",
-            "reference": "c7e26a21ba357863de030f0b9e701c7d04593774"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/c7e26a21ba357863de030f0b9e701c7d04593774",
-            "reference": "c7e26a21ba357863de030f0b9e701c7d04593774",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "4.*|5.*"
-        },
-        "suggest": {
-            "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
-        },
-        "time": "2016-03-18 20:34:03",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "lib/random.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Paragon Initiative Enterprises",
-                "email": "security@paragonie.com",
-                "homepage": "https://paragonie.com"
-            }
-        ],
-        "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
-        "keywords": [
-            "csprng",
-            "pseudorandom",
-            "random"
-        ]
-    },
-    {
         "name": "joomla/application",
         "version": "1.6.0",
         "version_normalized": "1.6.0.0",
@@ -1082,5 +1032,166 @@
             }
         ],
         "description": "PHPMailer is a full-featured email creation and transfer class for PHP"
+    },
+    {
+        "name": "paragonie/random_compat",
+        "version": "v2.0.2",
+        "version_normalized": "2.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/paragonie/random_compat.git",
+            "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/088c04e2f261c33bed6ca5245491cfca69195ccf",
+            "reference": "088c04e2f261c33bed6ca5245491cfca69195ccf",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "4.*|5.*"
+        },
+        "suggest": {
+            "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+        },
+        "time": "2016-04-03 06:00:07",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "lib/random.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Paragon Initiative Enterprises",
+                "email": "security@paragonie.com",
+                "homepage": "https://paragonie.com"
+            }
+        ],
+        "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+        "keywords": [
+            "csprng",
+            "pseudorandom",
+            "random"
+        ]
+    },
+    {
+        "name": "defuse/php-encryption",
+        "version": "2.0.1",
+        "version_normalized": "2.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/defuse/php-encryption.git",
+            "reference": "c430ea262848fefe891b735575fcbb4ca2ddd3a8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/defuse/php-encryption/zipball/c430ea262848fefe891b735575fcbb4ca2ddd3a8",
+            "reference": "c430ea262848fefe891b735575fcbb4ca2ddd3a8",
+            "shasum": ""
+        },
+        "require": {
+            "ext-openssl": "*",
+            "paragonie/random_compat": "~2.0",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "nikic/php-parser": "^2.0"
+        },
+        "time": "2016-05-20 22:06:40",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Hornby",
+                "email": "taylor@defuse.ca",
+                "homepage": "https://defuse.ca/"
+            },
+            {
+                "name": "Scott Arciszewski",
+                "email": "info@paragonie.com",
+                "homepage": "https://paragonie.com"
+            }
+        ],
+        "description": "Secure PHP Encryption Library",
+        "keywords": [
+            "aes",
+            "authenticated encryption",
+            "cipher",
+            "crypto",
+            "cryptography",
+            "encrypt",
+            "encryption",
+            "openssl",
+            "security",
+            "symmetric key cryptography"
+        ]
+    },
+    {
+        "name": "joomla/crypt",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla-framework/crypt.git",
+            "reference": "424918d53c086e3c0b8d6da6a237f40c9ba15dff"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla-framework/crypt/zipball/424918d53c086e3c0b8d6da6a237f40c9ba15dff",
+            "reference": "424918d53c086e3c0b8d6da6a237f40c9ba15dff",
+            "shasum": ""
+        },
+        "require": {
+            "defuse/php-encryption": "~2.0",
+            "paragonie/random_compat": "~1.0|~2.0",
+            "php": "^5.5.9|~7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.8|~5.0",
+            "squizlabs/php_codesniffer": "1.*",
+            "symfony/polyfill-util": "~1.0"
+        },
+        "time": "2016-09-17 16:07:40",
+        "type": "joomla-package",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Joomla\\Crypt\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla Crypt Package",
+        "homepage": "https://github.com/joomla-framework/crypt",
+        "keywords": [
+            "crypt",
+            "framework",
+            "joomla"
+        ]
     }
 ]
