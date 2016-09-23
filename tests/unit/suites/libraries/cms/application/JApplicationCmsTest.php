@@ -122,6 +122,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
+
 		// Reset some web inspector static settings.
 		JApplicationCmsInspector::$headersSent = false;
 		JApplicationCmsInspector::$connectionAlive = true;

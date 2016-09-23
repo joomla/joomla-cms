@@ -123,6 +123,7 @@ class JApplicationSiteTest extends TestCaseDatabase
 	{
 		// Reset the application instance.
 		TestReflection::setValue('JApplicationCms', 'instances', array());
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
