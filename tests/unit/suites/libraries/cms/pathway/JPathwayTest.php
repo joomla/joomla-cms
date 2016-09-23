@@ -86,7 +86,7 @@ class JPathwayTest extends TestCase
 	 */
 	public function testGetInstanceMissingClass()
 	{
-		JPathway::getInstance('test');
+		JPathway::getInstance('error');
 	}
 
 	/**
