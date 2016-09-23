@@ -105,36 +105,6 @@ final class JVersion
 	const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
-	 * Magic getter providing access to constants previously defined as class member vars.
-	 *
-	 * @param   string  $name  The name of the property.
-	 *
-	 * @return  mixed   A value if the property name is valid.
-	 *
-	 * @since   3.5
-	 * @deprecated  4.0  Access the constants directly
-	 */
-	public function __get($name)
-	{
-		if (defined("JVersion::$name"))
-		{
-			JLog::add(
-				'Accessing JVersion data through class member variables is deprecated, use the corresponding constant instead.',
-				JLog::WARNING,
-				'deprecated'
-			);
-
-			return constant("JVersion::$name");
-		}
-
-		$trace = debug_backtrace();
-		trigger_error(
-			'Undefined constant via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
-			E_USER_NOTICE
-		);
-	}
-
-	/**
 	 * Check if we are in development mode
 	 *
 	 * @return  boolean
