@@ -723,14 +723,3 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		}
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerPlugin extends JInstallerAdapterPlugin
-{
-}

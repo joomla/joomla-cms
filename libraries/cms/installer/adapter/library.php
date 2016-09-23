@@ -504,14 +504,3 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		}
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterLibrary instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerLibrary extends JInstallerAdapterLibrary
-{
-}

@@ -1334,14 +1334,3 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 		return $table->id;
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterComponent instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerComponent extends JInstallerAdapterComponent
-{
-}
