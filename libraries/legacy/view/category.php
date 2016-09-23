@@ -115,14 +115,15 @@ class JViewCategory extends JViewLegacy
 		$category   = $this->get('Category');
 		$children   = $this->get('Children');
 		$parent     = $this->get('Parent');
+
 		if ($category == false)
 		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
 		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		$items      = $this->get('Items');
@@ -141,7 +142,7 @@ class JViewCategory extends JViewLegacy
 
 		if (!in_array($category->access, $groups))
 		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Setup the category parameters.
