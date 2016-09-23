@@ -125,20 +125,6 @@ class JRouterTest extends TestCase
 
 	/**
 	 * @since   3.4
-	 */
-	public function testLegacyApplicationRouterIsStillLoaded()
-	{
-		JApplicationHelper::addClientInfo(array(
-			'id'   => 3,
-			'name' => 'tester',
-			'path' => __DIR__ . '/data'
-		));
-
-		$this->assertInstanceOf('JRouter', JRouter::getInstance('tester'));
-	}
-
-	/**
-	 * @since   3.4
 	 * @expectedException RuntimeException
 	 * @testdox getInstance() throws a RuntimeException, if a router for an unknown client is requested
 	 */
