@@ -316,6 +316,9 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			)
 		);
 
+		// Mark beforeExecute in the profiler.
+		JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
+
 		// Perform application routines.
 		$this->doExecute();
 
