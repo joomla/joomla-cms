@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 			cmadd  : '../media/vendor/codemirror/addon',
 			cmkey  : '../media/vendor/codemirror/keymap',
 			cmlib  : '../media/vendor/codemirror/lib',
+			cmmod  : '../media/vendor/codemirror/mode',
 			cmthem : '../media/vendor/codemirror/theme',
 		},
 
@@ -115,6 +116,12 @@ module.exports = function(grunt) {
 					},
 					{
 						src: ['<%= folder.cmlib %>/*.js','!<%= folder.cmlib %>/*.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
+					{
+						src: ['<%= folder.cmmod %>/*/*.js','!<%= folder.cmmod %>/*/*.min.js'],
 						dest: '',
 						expand: true,
 						ext: '.min.js'

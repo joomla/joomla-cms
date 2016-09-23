@@ -13,7 +13,7 @@
 		<filename plugin="tinymce">tinymce.php</filename>
 		<folder>fields</folder>
 	</files>
-	<media destination="editors" folder="media">
+	<media destination="vendor/tinymce" folder="media">
 		<folder>tinymce</folder>
 	</media>
 	<languages>
