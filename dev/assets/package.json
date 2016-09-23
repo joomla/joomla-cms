@@ -14,7 +14,7 @@
     "jquery-ui": "1.12.1",
     "jquery-sortable": "0.9.13",
     "chosenjs": "1.4.3",
-    "punycode": "2.0.0"
+    "punycode": "1.4.1"
   },
   "license": "GPL-2.0+"
 }
