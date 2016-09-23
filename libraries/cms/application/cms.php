@@ -459,7 +459,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 			}
 			else
 			{
-				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor... If we ever get around to "true" DI, this'll go away anyway
+				// TODO - This creates an implicit hard requirement on the JApplicationCms constructor
 				static::$instances[$name] = new $classname(null, null, null, $container);
 			}
 		}

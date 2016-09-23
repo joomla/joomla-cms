@@ -167,15 +167,24 @@ class JViewCategory extends JViewLegacy
 
 				JPluginHelper::importPlugin('content');
 
-				JFactory::getApplication()->triggerEvent('onContentPrepare', array($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
+				JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
-				$results = JFactory::getApplication()->triggerEvent('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent(
+					'onContentAfterTitle',
+					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent('onContentBeforeDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent(
+					'onContentBeforeDisplay',
+					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = JFactory::getApplication()->triggerEvent('onContentAfterDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent(
+					'onContentAfterDisplay',
+					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				if ($itemElement->text)

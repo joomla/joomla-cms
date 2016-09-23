@@ -110,9 +110,10 @@ class JCaptcha implements DispatcherAwareInterface
 	 */
 	public function initialise($id)
 	{
-		$event = new Event('onInit', [
-			'id' => $id
-		]);
+		$event = new Event(
+			'onInit',
+			['id' => $id]
+		);
 
 		try
 		{
@@ -153,11 +154,14 @@ class JCaptcha implements DispatcherAwareInterface
 			return '';
 		}
 
-		$event = new Event('onDisplay', [
-			'name'	=> $name,
-			'id'	=> $id ? $id : $name,
-			'class' => $class ? 'class="' . $class . '"' : '',
-		]);
+		$event = new Event(
+			'onDisplay',
+			[
+				'name'  => $name,
+				'id'    => $id ? $id : $name,
+				'class' => $class ? 'class="' . $class . '"' : '',
+			]
+		);
 
 		$result = $this->getDispatcher()->dispatch('onInit', $event);
 
@@ -182,9 +186,10 @@ class JCaptcha implements DispatcherAwareInterface
 			return false;
 		}
 
-		$event = new Event('onCheckAnswer', [
-			'code'	=> $code
-		]);
+		$event = new Event(
+			'onCheckAnswer',
+			['code'	=> $code]
+		);
 
 		$result = $this->getDispatcher()->dispatch('onCheckAnswer', $event);
 

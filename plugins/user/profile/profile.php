@@ -75,13 +75,16 @@ class PlgUserProfile extends JPlugin
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
-					->select(array(
-						$db->qn('profile_key'),
-						$db->qn('profile_value'),
-					))->from('#__user_profiles')
-				->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
-				->where($db->qn('profile_key') . ' LIKE ' . $db->qn('profile.%'))
-				->order($db->qn('ordering'));
+					->select(
+						array(
+							$db->qn('profile_key'),
+							$db->qn('profile_value'),
+						)
+					)
+					->from('#__user_profiles')
+					->where($db->qn('user_id') . ' = ' . $db->q((int) $userId))
+					->where($db->qn('profile_key') . ' LIKE ' . $db->qn('profile.%'))
+					->order($db->qn('ordering'));
 
 				$db->setQuery($query);
 				$results = $db->loadRowList();

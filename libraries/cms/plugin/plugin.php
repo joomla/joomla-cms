@@ -245,64 +245,70 @@ abstract class JPlugin implements DispatcherAwareInterface
 	 *
 	 * @param   string  $methodName  The method name to register
 	 *
+	 * @return  void
+	 *
 	 * @since   4.0
 	 */
 	protected final function registerLegacyListener($methodName)
 	{
-		$this->getDispatcher()->addListener($methodName, function(AbstractEvent $event) use ($methodName) {
-			// Get the event arguments
-			$arguments = $event->getArguments();
-
-			// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
-			$arguments = array_values($arguments);
-
-			// Extract any old results; they must not be part of the method call.
-			$allResults = [];
-
-			if (isset($arguments['result']))
+		$this->getDispatcher()->addListener(
+			$methodName,
+			function (AbstractEvent $event) use ($methodName)
 			{
-				$allResults = $arguments['result'];
+				// Get the event arguments
+				$arguments = $event->getArguments();
 
-				unset($arguments['result']);
+				// Map the associative argument array to a numeric indexed array for efficiency (see the switch statement below).
+				$arguments = array_values($arguments);
+
+				// Extract any old results; they must not be part of the method call.
+				$allResults = [];
+
+				if (isset($arguments['result']))
+				{
+					$allResults = $arguments['result'];
+
+					unset($arguments['result']);
+				}
+
+				/**
+				 * Calling the method directly is faster than using call_user_func_array, hence this argument
+				 * unpacking switch statement. Please do not wrap it back to a single line, it will hurt performance.
+				 *
+				 * If we raise minimum requirements to PHP 5.6 we can use array unpacking and remove the switch for
+				 * even better results, i.e. replace the switch with:
+				 * $result = $this->{$methodName}(...$arguments);
+				 */
+				switch (count($arguments))
+				{
+					case 0:
+						$result = $this->{$methodName}();
+						break;
+					case 1:
+						$result = $this->{$methodName}($arguments[0]);
+						break;
+					case 2:
+						$result = $this->{$methodName}($arguments[0], $arguments[1]);
+						break;
+					case 3:
+						$result = $this->{$methodName}($arguments[0], $arguments[1], $arguments[2]);
+						break;
+					case 4:
+						$result = $this->{$methodName}($arguments[0], $arguments[1], $arguments[2], $arguments[3]);
+						break;
+					case 5:
+						$result = $this->{$methodName}($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4]);
+						break;
+					default:
+						$result = call_user_func_array(array($this, $methodName), $arguments);
+						break;
+				}
+
+				// Restore the old results and add the new result from our method call
+				array_push($allResults, $result);
+				$event['result'] = $allResults;
 			}
-
-			/**
-			 * Calling the method directly is faster than using call_user_func_array, hence this argument
-			 * unpacking switch statement. Please do not wrap it back to a single line, it will hurt performance.
-			 *
-			 * If we raise minimum requirements to PHP 5.6 we can use array unpacking and remove the switch for
-			 * even better results, i.e. replace the switch with:
-			 * $result = $this->{$methodName}(...$arguments);
-			 */
-			switch (count($arguments))
-			{
-				case 0:
-					$result = $this->{$methodName}();
-					break;
-				case 1:
-					$result = $this->{$methodName}($arguments[0]);
-					break;
-				case 2:
-					$result = $this->{$methodName}($arguments[0], $arguments[1]);
-					break;
-				case 3:
-					$result = $this->{$methodName}($arguments[0], $arguments[1], $arguments[2]);
-					break;
-				case 4:
-					$result = $this->{$methodName}($arguments[0], $arguments[1], $arguments[2], $arguments[3]);
-					break;
-				case 5:
-					$result = $this->{$methodName}($arguments[0], $arguments[1], $arguments[2], $arguments[3], $arguments[4]);
-					break;
-				default:
-					$result = call_user_func_array(array($this, $methodName), $arguments);
-					break;
-			}
-
-			// Restore the old results and add the new result from our method call
-			array_push($allResults, $result);
-			$event['result'] = $allResults;
-		});
+		);
 	}
 
 	/**
@@ -311,9 +317,11 @@ abstract class JPlugin implements DispatcherAwareInterface
 	 *
 	 * @param   string  $methodName  The method name to register
 	 *
+	 * @return  void
+	 *
 	 * @since   4.0
 	 */
-	protected final function registerListener($methodName)
+	final protected function registerListener($methodName)
 	{
 		$this->getDispatcher()->addListener($methodName, [$this, $methodName]);
 	}

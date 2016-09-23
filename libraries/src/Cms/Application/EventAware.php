@@ -55,9 +55,9 @@ trait EventAware
 			$this->getDispatcher()->addListener($event, $handler);
 		}
 		catch (\UnexpectedValueException $e)
-  		{
+		{
 			// No dispatcher is registered, don't throw an error (mimics old behavior)
-  		}
+		}
 
 		return $this;
 	}
@@ -71,10 +71,10 @@ trait EventAware
 	 *
 	 * This method will only return the 'result' argument of the event
 	 *
-	 * @param   string        $eventName  The event name.
-	 * @param   array|Event   $args       An array of arguments or an Event object (optional).
+	 * @param   string       $eventName  The event name.
+	 * @param   array|Event  $args       An array of arguments or an Event object (optional).
 	 *
-	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
+	 * @return  array  An array of results from each function call. Note this will be an empty array if no dispatcher is set.
 	 *
 	 * @since       4.0
 	 * @throws      \InvalidArgumentException

@@ -8,8 +8,6 @@
 
 namespace Joomla\Cms\Application;
 
-use Joomla\Registry\Registry;
-
 /**
  * Trait for application classes which can automatically retrieve the global configuration
  *
@@ -17,14 +15,6 @@ use Joomla\Registry\Registry;
  */
 trait Autoconfigurable
 {
-	/**
-	 * The application configuration object.
-	 *
-	 * @var    Registry
-	 * @since  4.0
-	 */
-	protected $config;
-
 	/**
 	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.
 	 *

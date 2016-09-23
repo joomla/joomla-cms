@@ -126,6 +126,8 @@ class TestMockDispatcher
 			self::$handlers[$event] = [];
 		}
 
-		self::$handlers[$event][print_r($handler, true)] = $return;
+		$identifier = is_array($handler) ? md5(serialize($handler)) : spl_object_hash($handler);
+
+		self::$handlers[$event][$identifier] = $return;
 	}
 }
