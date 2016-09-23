@@ -39,35 +39,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
-		$type = $extras ? 'more' : 'core';
-
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$type]))
-		{
-			return;
-		}
-
-		JLog::add('JHtmlBehavior::framework is deprecated. Update to jquery scripts.', JLog::WARNING, 'deprecated');
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = JDEBUG;
-		}
-
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
-		{
-			static::framework(false, $debug);
-		}
-
-		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-
-		// Keep loading core.js for BC reasons
-		static::core();
-
-		static::$loaded[__METHOD__][$type] = true;
-
-		return;
+		// files removed!!
 	}
 
 	/**
@@ -113,7 +85,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', false, true);
+		JHtml::_('script', 'system/caption.min.js', false, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -186,8 +158,8 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		JHtml::_('script', 'system/punycode.js', false, true);
-		JHtml::_('script', 'system/validate.js', false, true);
+		JHtml::_('script', 'media/vendor/punycode/punycode.js', false, true);
+		JHtml::_('script', 'system/validate.min.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -209,7 +181,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/switcher.js', true, true);
+		JHtml::_('script', 'system/switcher.min.js', true, true);
 
 		$script = "
 			document.switcher = null;
@@ -244,7 +216,7 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('script', 'system/combobox.js', false, true);
+		JHtml::_('script', 'media/vendor/combobox/bootstrap-combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -276,53 +248,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (isset(static::$loaded[__METHOD__][$sig]))
-		{
-			return;
-		}
-
-		// Include MooTools framework
-		static::framework(true);
-
-		// Setup options object
-		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
-
-		// Offsets needs an array in the format: array('x'=>20, 'y'=>30)
-		$opt['offset']    = (isset($params['offset']) && (is_array($params['offset']))) ? $params['offset'] : null;
-		$opt['showDelay'] = (isset($params['showDelay'])) ? (int) $params['showDelay'] : null;
-		$opt['hideDelay'] = (isset($params['hideDelay'])) ? (int) $params['hideDelay'] : null;
-		$opt['className'] = (isset($params['className'])) ? $params['className'] : null;
-		$opt['fixed']     = (isset($params['fixed']) && ($params['fixed'])) ? true : false;
-		$opt['onShow']    = (isset($params['onShow'])) ? '\\' . $params['onShow'] : null;
-		$opt['onHide']    = (isset($params['onHide'])) ? '\\' . $params['onHide'] : null;
-
-		$options = JHtml::getJSObject($opt);
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		// Attach tooltips to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(function($) {
-			 $('$selector').each(function() {
-				var title = $(this).attr('title');
-				if (title) {
-					var parts = title.split('::', 2);
-					var mtelement = document.id(this);
-					mtelement.store('tip:title', parts[0]);
-					mtelement.store('tip:text', parts[1]);
-				}
-			});
-			var JTooltips = new Tips($('$selector').get(), $options);
-		});"
-		);
-
-		// Set static array
-		static::$loaded[__METHOD__][$sig] = true;
-
-		return;
+		// files removed!!
 	}
 
 	/**
@@ -349,105 +275,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
-		$document = JFactory::getDocument();
-
-		// Load the necessary files if they haven't yet been loaded
-		if (!isset(static::$loaded[__METHOD__]))
-		{
-			// Include MooTools framework
-			static::framework(true);
-
-			// Load the JavaScript and css
-			JHtml::_('script', 'system/modal.js', true, true);
-			JHtml::_('stylesheet', 'system/modal.css', array(), true);
-		}
-
-		$sig = md5(serialize(array($selector, $params)));
-
-		if (isset(static::$loaded[__METHOD__][$sig]))
-		{
-			return;
-		}
-
-		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
-
-		// Setup options object
-		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
-		$opt['handler']       = (isset($params['handler'])) ? $params['handler'] : null;
-		$opt['parseSecure']   = (isset($params['parseSecure'])) ? (bool) $params['parseSecure'] : null;
-		$opt['closable']      = (isset($params['closable'])) ? (bool) $params['closable'] : null;
-		$opt['closeBtn']      = (isset($params['closeBtn'])) ? (bool) $params['closeBtn'] : null;
-		$opt['iframePreload'] = (isset($params['iframePreload'])) ? (bool) $params['iframePreload'] : null;
-		$opt['iframeOptions'] = (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
-		$opt['size']          = (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
-		$opt['shadow']        = (isset($params['shadow'])) ? $params['shadow'] : null;
-		$opt['overlay']       = (isset($params['overlay'])) ? $params['overlay'] : null;
-		$opt['onOpen']        = (isset($params['onOpen'])) ? $params['onOpen'] : null;
-		$opt['onClose']       = (isset($params['onClose'])) ? $params['onClose'] : null;
-		$opt['onUpdate']      = (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
-		$opt['onResize']      = (isset($params['onResize'])) ? $params['onResize'] : null;
-		$opt['onMove']        = (isset($params['onMove'])) ? $params['onMove'] : null;
-		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
-		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
-		{
-			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
-		}
-
-		$options = JHtml::getJSObject($opt);
-
-		// Attach modal behavior to document
-		$document
-			->addScriptDeclaration(
-			"
-		jQuery(function($) {
-			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($('" . $selector . "').get(), {
-				parse: 'rel'
-			});
-		});
-
-		window.jModalClose = function () {
-			SqueezeBox.close();
-		};
-		
-		// Add extra modal close functionality for tinyMCE-based editors
-		document.onreadystatechange = function () {
-			if (document.readyState == 'interactive' && typeof tinyMCE != 'undefined' && tinyMCE)
-			{
-				if (typeof window.jModalClose_no_tinyMCE === 'undefined')
-				{	
-					window.jModalClose_no_tinyMCE = typeof(jModalClose) == 'function'  ?  jModalClose  :  false;
-					
-					jModalClose = function () {
-						if (window.jModalClose_no_tinyMCE) window.jModalClose_no_tinyMCE.apply(this, arguments);
-						tinyMCE.activeEditor.windowManager.close();
-					};
-				}
-		
-				if (typeof window.SqueezeBoxClose_no_tinyMCE === 'undefined')
-				{
-					if (typeof(SqueezeBox) == 'undefined')  SqueezeBox = {};
-					window.SqueezeBoxClose_no_tinyMCE = typeof(SqueezeBox.close) == 'function'  ?  SqueezeBox.close  :  false;
-		
-					SqueezeBox.close = function () {
-						if (window.SqueezeBoxClose_no_tinyMCE)  window.SqueezeBoxClose_no_tinyMCE.apply(this, arguments);
-						tinyMCE.activeEditor.windowManager.close();
-					};
-				}
-			}
-		};
-		"
-		);
-
-		// Set static array
-		static::$loaded[__METHOD__][$sig] = true;
-
-		return;
+		// files removed!!
 	}
 
 	/**
@@ -473,7 +301,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/multiselect.js', false, true);
+		JHtml::_('script', 'system/multiselect.min.js', false, true);
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -501,58 +329,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
-		// Include MooTools framework
-		static::framework();
-
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
-		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
-
-		if (isset(static::$loaded[__METHOD__][$id]))
-		{
-			return;
-		}
-
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
-		// Setup options object
-		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
-		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
-		$opt['grid']  = (array_key_exists('grid', $params)) ? '\\' . $params['grid'] : true;
-		$opt['theme'] = (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image', 'system/mootree.gif', '', array(), true, true);
-
-		// Event handlers
-		$opt['onExpand'] = (array_key_exists('onExpand', $params)) ? '\\' . $params['onExpand'] : null;
-		$opt['onSelect'] = (array_key_exists('onSelect', $params)) ? '\\' . $params['onSelect'] : null;
-		$opt['onClick']  = (array_key_exists('onClick', $params)) ? '\\' . $params['onClick']
-		: '\\function(node){  window.open(node.data.url, node.data.target != null ? node.data.target : \'_self\'); }';
-
-		$options = JHtml::getJSObject($opt);
-
-		// Setup root node
-		$rt['text']     = (array_key_exists('text', $root)) ? $root['text'] : 'Root';
-		$rt['id']       = (array_key_exists('id', $root)) ? $root['id'] : null;
-		$rt['color']    = (array_key_exists('color', $root)) ? $root['color'] : null;
-		$rt['open']     = (array_key_exists('open', $root)) ? '\\' . $root['open'] : true;
-		$rt['icon']     = (array_key_exists('icon', $root)) ? $root['icon'] : null;
-		$rt['openicon'] = (array_key_exists('openicon', $root)) ? $root['openicon'] : null;
-		$rt['data']     = (array_key_exists('data', $root)) ? $root['data'] : null;
-		$rootNode = JHtml::getJSObject($rt);
-
-		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
-
-		$js = '		jQuery(function(){
-			tree' . $treeName . ' = new MooTreeControl(' . $options . ',' . $rootNode . ');
-			tree' . $treeName . '.adopt(\'' . $id . '\');})';
-
-		// Attach tooltips to document
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration($js);
-
-		// Set static array
-		static::$loaded[__METHOD__][$id] = true;
-
-		return;
+		// files removed!!
 	}
 
 	/**
@@ -762,7 +539,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.js', false, true);
+		JHtml::_('script', 'system/highlighter.min.js', false, true);
 
 		foreach ($terms as $i => $term)
 		{
@@ -970,7 +747,7 @@ abstract class JHtmlBehavior
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.js', false, true);
+		JHtml::_('script', 'system/tabs-state.min.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
 
@@ -1009,7 +786,7 @@ abstract class JHtmlBehavior
 			// If include according to browser.
 			$scriptOptions = !is_null($conditionalBrowser) ? array('relative' => true, 'conditional' => $conditionalBrowser) : array('relative' => true);
 
-			JHtml::_('script', 'system/polyfill.' . $polyfillType . '.js', $scriptOptions);
+			JHtml::_('script', 'media/vendor/polyfills/polyfill.' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;

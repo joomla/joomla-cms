@@ -194,7 +194,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
-			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
+			JHtml::_('stylesheet', 'system/debug.css', array(), true);
 		}
 
 		// Only if debugging is enabled for SQL query popovers.

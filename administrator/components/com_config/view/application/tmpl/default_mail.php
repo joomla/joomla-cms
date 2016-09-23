@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::script('system/sendtestmail.js', false, true);
+JHtml::script('system/sendtestmail.min.js', false, true);
 
 // Load JavaScript message titles
 JText::script('ERROR');

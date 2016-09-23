@@ -28,8 +28,8 @@ if (!JFactory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
-	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
+	JHtml::_('script', 'media/vendor/jcrop/jquery.Jcrop.min.js', false, true);
+	JHtml::_('stylesheet', 'media/vendor/jcrop/jquery.Jcrop.min.css', array(), true);
 }
 
 JFactory::getDocument()->addScriptDeclaration("

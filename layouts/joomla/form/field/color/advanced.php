@@ -69,7 +69,7 @@ $direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.js', false, true);
+JHtml::_('script', 'system/html5fallback.min.js', false, true);
 JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
 JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
 JHtml::_('script', 'system/field/color-field-adv-init.min.js', false, true, false, false, true);
