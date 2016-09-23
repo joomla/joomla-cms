@@ -38,10 +38,10 @@ class JApplicationAdministrator extends JApplicationCms
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
 	{
 		// Register the application name
-		$this->_name = 'administrator';
+		$this->name = 'administrator';
 
 		// Register the client ID
-		$this->_clientId = 1;
+		$this->clientId = 1;
 
 		// Execute the parent constructor
 		parent::__construct($input, $config, $client, $container);
