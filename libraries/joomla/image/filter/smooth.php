@@ -14,7 +14,7 @@ JLog::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth inst
 /**
  * Image Filter class adjust the smoothness of an image.
  *
- * @since  11.3
+ * @since       11.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Smooth instead
  */
 class JImageFilterSmooth extends JImageFilter

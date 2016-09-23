@@ -16,7 +16,7 @@ JLog::add('JImageFilter is deprecated, use Joomla\Image\ImageFilter instead.', J
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @since       11.3
  * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
  */
 abstract class JImageFilter extends ImageFilter
