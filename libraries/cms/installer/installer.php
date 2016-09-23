@@ -685,15 +685,14 @@ class JInstaller extends JAdapter
 	/**
 	 * Package uninstallation method
 	 *
-	 * @param   string   $type        Package type
-	 * @param   mixed    $identifier  Package identifier for adapter
-	 * @param   integer  $cid         Application ID; deprecated in 1.6
+	 * @param   string  $type        Package type
+	 * @param   mixed   $identifier  Package identifier for adapter
 	 *
 	 * @return  boolean  True if successful
 	 *
 	 * @since   3.1
 	 */
-	public function uninstall($type, $identifier, $cid = 0)
+	public function uninstall($type, $identifier)
 	{
 		$params = array('extension' => $this->extension, 'route' => 'uninstall');
 
