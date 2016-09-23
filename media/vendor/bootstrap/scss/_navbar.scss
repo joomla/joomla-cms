@@ -105,13 +105,10 @@
 // Bootstrap JavaScript plugin.
 
 .navbar-toggler {
-  width: 2.5em;
-  height: 2em;
   padding: .5rem .75rem;
   font-size: $font-size-lg;
   line-height: 1;
-  background: transparent no-repeat center center;
-  background-size: 24px 24px;
+  background: none;
   border: $border-width solid transparent;
   @include border-radius($btn-border-radius);
 
@@ -173,10 +170,6 @@
     }
   }
 
-  .navbar-toggler {
-    background-image: $navbar-light-toggler-bg;
-  }
-
   .navbar-divider {
     background-color: rgba(0,0,0,.075);
   }
@@ -209,10 +202,6 @@
         color: $navbar-dark-active-color;
       }
     }
-  }
-
-  .navbar-toggler {
-    background-image: $navbar-dark-toggler-bg;
   }
 
   .navbar-divider {

@@ -1,0 +1,13 @@
+{
+  "name": "joomla",
+  "version": "4.0.0",
+  "description": "Joomla CMS",
+  "dependencies": {
+    "grunt": "~0.4",
+    "grunt-contrib-uglify": "~1.0.1"
+  },
+  "license": "GPL-2.0+",
+  "devDependencies": {
+    "grunt-contrib-copy": "^1.0.0"
+  }
+}
