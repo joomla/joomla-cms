@@ -523,7 +523,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 				$this->parent->manifestClass = new $classname($this);
 
 				// And set this so we can copy it later
-				$this->set('manifest_script', $manifestScript);
+				$this->manifest_script = $manifestScript;
 			}
 		}
 
