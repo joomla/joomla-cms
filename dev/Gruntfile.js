@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 
 		// Let's clean up the system
 		clean: {
-			old: {
+			assets: {
 				src: [
 					'assets/tmp/**',
 					'../media/vendor/jquery/js/*',
@@ -40,7 +40,13 @@ module.exports = function(grunt) {
 				},
 			},
 		},
-		// Download latest packages from github
+		// Update all the packages to the version specified in assets/package.json
+		shell: {
+			update: {
+				command: 'cd assets; npm install'
+			}
+		},
+		// Download latest packages from github for any assets with no npm package
 		gitclone: {
 			cloneCodemirror: {
 				options: {
@@ -65,9 +71,9 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Concatenate all of the codemirror addon files
+		// Concatenate some jacascript files
 		concat: {
-			addons: {
+			someFiles: {
 				files: [
 					{
 						src: CmSettings.addons.js.map(function (v) {
@@ -85,9 +91,9 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Minimize the scripts
+		// Minimize some javascript files
 		uglify: {
-			build: {
+			allJs: {
 				files: [
 					{
 						src: ['<%= folder.system %>/*.js','!<%= folder.system %>/*.min.js'],
@@ -145,7 +151,7 @@ module.exports = function(grunt) {
 
 		// Transfer all the assets to media/vendor
 		copy: {
-			transfer: {
+			fromSource: {
 				files: [
 					{ // jQuery files
 						expand: true,
@@ -337,7 +343,7 @@ module.exports = function(grunt) {
 
 		// Let's minify some css files
 		cssmin: {
-			codemirror: {
+			allCss: {
 				files: [{
 					expand: true,
 					matchBase: true,
@@ -356,18 +362,21 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-git');
 
 	grunt.registerTask('default',
 		[
-			'clean:old',
+			'clean:assets',
+			'shell:update',
 			'gitclone:cloneCodemirror',
 			'gitclone:cloneCombobox',
 			'gitclone:cloneCropjs',
-			'concat:addons',
-			'copy:transfer',
-			'uglify:build',
-			'cssmin:codemirror'
+			'concat:someFiles',
+			'copy:fromSource',
+			'uglify:allJs',
+			'cssmin:allCss'
 		]
 	);
 };
