@@ -39,10 +39,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
 	{
 		// Register the application name.
-		$this->_name = 'installation';
+		$this->name = 'installation';
 
 		// Register the client ID.
-		$this->_clientId = 2;
+		$this->clientId = 2;
 
 		// Run the parent constructor.
 		parent::__construct($input, $config, $client, $container);
