@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class UsersViewLevel extends JViewLegacy
 {
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 */
 	protected $form;
 
 	/**
