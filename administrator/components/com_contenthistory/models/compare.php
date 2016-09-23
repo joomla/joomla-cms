@@ -78,39 +78,22 @@ class ContenthistoryModelCompare extends JModelItem
 					// Let's use custom calendars when present
 					$object->save_date = JHtml::_('date', $table->save_date, 'Y-m-d H:i:s');
 
-					if (array_key_exists('modified_time', $object->data) && $object->data->modified_time->value != '0000-00-00 00:00:00')
-					{
-						$object->data->modified_time->value = JHtml::_('date', $object->data->modified_time->value, 'Y-m-d H:i:s');
-					}
+					$dateProperties = array (
+						'modified_time',
+						'created_time',
+						'modified',
+						'created',
+						'checked_out_time',
+						'publish_up',
+						'publish_down',
+					);
 
-					if (array_key_exists('created_time', $object->data) && $object->data->created_time->value != '0000-00-00 00:00:00')
+					foreach($dateProperties as $dateProperty)
 					{
-						$object->data->created_time->value = JHtml::_('date', $object->data->created_time->value, 'Y-m-d H:i:s');
-					}
-
-					if (array_key_exists('modified', $object->data) && $object->data->modified->value != '0000-00-00 00:00:00')
-					{
-						$object->data->modified->value = JHtml::_('date', $object->data->modified->value, 'Y-m-d H:i:s');
-					}
-
-					if (array_key_exists('created', $object->data) && $object->data->created->value != '0000-00-00 00:00:00')
-					{
-						$object->data->created->value = JHtml::_('date', $object->data->created->value, 'Y-m-d H:i:s');
-					}
-
-					if (array_key_exists('checked_out_time', $object->data) && $object->data->checked_out_time->value != '0000-00-00 00:00:00')
-					{
-						$object->data->checked_out_time->value = JHtml::_('date', $object->data->checked_out_time->value, 'Y-m-d H:i:s');
-					}
-
-					if (array_key_exists('publish_up', $object->data) && $object->data->publish_up->value != '0000-00-00 00:00:00')
-					{
-						$object->data->publish_up->value = JHtml::_('date', $object->data->publish_up->value, 'Y-m-d H:i:s');
-					}
-
-					if (array_key_exists('publish_down', $object->data) && $object->data->publish_down->value != '0000-00-00 00:00:00')
-					{
-						$object->data->publish_down->value = JHtml::_('date', $object->data->publish_down->value, 'Y-m-d H:i:s');
+						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
+						{
+							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, 'Y-m-d H:i:s');
+						}
 					}
 
 					$result[] = $object;
