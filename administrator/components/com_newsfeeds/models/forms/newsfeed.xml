@@ -193,23 +193,15 @@
 			filter="unset"
 		/>
 
-		<field
-			name="checked_out"
-			type="Text"
+		<field name="checked_out"
+			type="hidden"
 			label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
-			description="JGLOBAL_FIELD_CHECKEDOUT_DESC"
-			size="6"
-			readonly="true"
 			filter="unset"
 		/>
 
-		<field
-			name="checked_out_time"
-			type="Text"
+		<field name="checked_out_time"
+			type="hidden"
 			label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
-			description="JGLOBAL_FIELD_CHECKEDOUT_TIME_DESC"
-			size="6"
-			readonly="true"
 			filter="unset"
 		/>
 
