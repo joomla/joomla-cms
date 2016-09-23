@@ -175,24 +175,6 @@ class JRouter
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
-				// Load the router object
-				$info = JApplicationHelper::getClientInfo($client, true);
-
-				if (is_object($info))
-				{
-					$path = $info->path . '/includes/router.php';
-
-					if (file_exists($path))
-					{
-						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
-					}
-				}
-			}
-
-			if (!class_exists($classname))
-			{
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
 
