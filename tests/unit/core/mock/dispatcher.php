@@ -126,7 +126,18 @@ class TestMockDispatcher
 			self::$handlers[$event] = [];
 		}
 
-		$identifier = is_array($handler) && !is_a($handler, 'closure') ? md5(serialize($handler)) : spl_object_hash($handler);
+		if (is_a($handler, 'closure') || is_object($handler))
+		{
+			$identifier = spl_object_hash($options['callback']);
+		}
+		elseif (is_array($handler) && count($handler) == 2 && is_object($handler[0]))
+		{
+			$identifier = spl_object_hash($handler[0]) . '::' . $handler[1];
+		}
+		else
+		{
+			throw new InvalidArgumentException('The handler is not a valid callable.');
+		}
 
 		self::$handlers[$event][$identifier] = $return;
 	}
