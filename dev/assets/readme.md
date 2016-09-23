@@ -13,7 +13,11 @@ Contains all the external sourced static assets that Joomla is using.
 - TinyMCE:          version     4.4.3
 - Font awesome:     version     4.6.3
 - Punycode          version     2.0.0
-- Combobox doesn't have an npm package, issue opened: https://github.com/danielfarrell/bootstrap-combobox
+
+The following are always fetching the gihub repo (master branch)
+- Codemirror
+- Combobox
+- Jcrop
 
 PLEASE UPDATE VERSION NUMBERS HERE AS WELL AS THE package.json!
 

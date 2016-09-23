@@ -23,6 +23,7 @@ module.exports = function(grunt) {
 					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
 					'../media/vendor/bootstrap/**',
 					'../media/vendor/tether/**',
+					'../media/vendor/jcrop/**',
 					'../media/vendor/font-awesome/**',
 					'../media/vendor/tinymce/plugins/*',
 					'../media/vendor/tinymce/skins/*',
@@ -40,18 +41,25 @@ module.exports = function(grunt) {
 		},
 		// Download latest packages from github
 		gitclone: {
-			cloneCm: {
+			cloneCodemirror: {
 				options: {
 					repository: 'https://github.com/codemirror/CodeMirror.git',
 					branch: 'master',
 					directory: 'assets/tmp/codemirror'
 				}
 			},
-			cloneCombo: {
+			cloneCombobox: {
 				options: {
 					repository: 'https://github.com/danielfarrell/bootstrap-combobox.git',
 					branch    : 'master',
 					directory : 'assets/tmp/combobox'
+				}
+			},
+			cloneCropjs: {
+				options: {
+					repository: 'https://github.com/tapmodo/Jcrop.git',
+					branch    : 'master',
+					directory : 'assets/tmp/jcrop'
 				}
 			}
 		},
@@ -86,12 +94,13 @@ module.exports = function(grunt) {
 						expand: true,
 						ext: '.min.js'
 					},
-					{
-						src: ['<%= folder.fields %>/*.js','!<%= folder.fields %>/*.min.js'],
-						dest: '',
-						expand: true,
-						ext: '.min.js'
-					},
+					// calendar is still with the old name conv
+					// {
+					// 	src: ['<%= folder.fields %>/*.js','!<%= folder.fields %>/*.min.js'],
+					// 	dest: '',
+					// 	expand: true,
+					// 	ext: '.min.js'
+					// },
 					{
 						src: ['<%= folder.cmadd %>/*/*.js','!<%= folder.cmadd %>/*/*.min.js'],
 						dest: '',
@@ -192,6 +201,20 @@ module.exports = function(grunt) {
 						cwd: 'assets/tmp/combobox/css',
 						src: 'bootstrap-combobox.css',
 						dest: '../media/vendor/combobox/css/',
+						filter: 'isFile'
+					},
+					{ // jcrop
+						expand: true,
+						cwd: 'assets/tmp/jcrop/css',
+						src: ['**'],
+						dest: '../media/vendor/jcrop/css/',
+						filter: 'isFile'
+					},
+					{ // jcrop
+						expand: true,
+						cwd: 'assets/tmp/jcrop/js',
+						src: ['jquery.Jcrop.min.js', 'jquery.Jcrop.js'],
+						dest: '../media/vendor/jcrop/js/',
 						filter: 'isFile'
 					},
 					{ //Font Awesome css files
@@ -297,6 +320,10 @@ module.exports = function(grunt) {
 						src: ['assets/tmp/codemirror/LICENSE'],
 						dest: '../media/vendor/codemirror/LICENSE',
 					},
+					{ // Jcrop
+						src: ['assets/tmp/jcrop/MIT-LICENSE.txt'],
+						dest: '../media/vendor/jcrop/MIT-LICENSE.txt',
+					},
 				]
 			}
 		},
@@ -327,8 +354,9 @@ module.exports = function(grunt) {
 	grunt.registerTask('default',
 		[
 			'clean:old',
-			'gitclone:cloneCm',
-			'gitclone:cloneCombo',
+			'gitclone:cloneCodemirror',
+			'gitclone:cloneCombobox',
+			'gitclone:cloneCropjs',
 			'concat:addons',
 			'copy:transfer',
 			'uglify:build',
