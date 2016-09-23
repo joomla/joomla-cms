@@ -21,11 +21,9 @@ defined('_JEXEC') or die;
 	<div id="j-main-container">
 <?php endif;?>
 <?php if ($this->errorCount === 0) : ?>
-    <p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?></p>
 	<?php echo JHtml::_('sliders.start', 'database-sliders', array('useCookie' => 1)); ?>
 
 <?php else : ?>
-	<p class="warning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?></p>
 	<?php echo JHtml::_('sliders.start', 'database-sliders', array('useCookie' => 1)); ?>
 
 	<?php $panelName = JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount); ?>

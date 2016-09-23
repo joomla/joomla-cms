@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the tags_popular functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModTagsPopularHelper', __DIR__ . '/helper.php');
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'safeuri';

@@ -42,7 +42,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 				array(
 					'element'   => $this->element,
 					'type'      => $this->type,
-					'client_id' => $this->clientId
+					'client_id' => $this->clientId,
 				)
 			);
 		}
@@ -141,7 +141,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			array(
 				'element'   => $this->element,
 				'type'      => $this->type,
-				'client_id' => $this->clientId
+				'client_id' => $this->clientId,
 			)
 		);
 
@@ -226,17 +226,19 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 			$lang  = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 
-			$columns = array($db->quoteName('template'),
+			$columns = array(
+				$db->quoteName('template'),
 				$db->quoteName('client_id'),
 				$db->quoteName('home'),
 				$db->quoteName('title'),
-				$db->quoteName('params')
+				$db->quoteName('params'),
 			);
 
 			$values = array(
 				$db->quote($this->extension->element), $this->extension->client_id, $db->quote(0),
 				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->extension->name))),
-				$db->quote($this->extension->params));
+				$db->quote($this->extension->params),
+			);
 
 			$lang->setDebug($debug);
 

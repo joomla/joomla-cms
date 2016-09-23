@@ -260,7 +260,7 @@ class ContenthistoryHelper
 			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
 			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
-			// Force loading of back-end global language file
+			// Force loading of backend global language file
 			$lang->load('joomla', JPath::clean(JPATH_ADMINISTRATOR), null, false, true);
 		}
 	}

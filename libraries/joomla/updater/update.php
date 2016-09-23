@@ -391,9 +391,6 @@ class JUpdate extends JObject
 	{
 		$tag = $this->_getLastTag();
 
-		// @todo remove code: if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		// @todo remove code: $this->$tag->_data .= $data;
-
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 

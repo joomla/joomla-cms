@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Authorization class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/oauth/
+ * @documentation https://developer.github.com/v3/oauth/
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageAuthorization extends JGithubPackage
 {
@@ -137,7 +138,7 @@ class JGithubPackageAuthorization extends JGithubPackage
 			array(
 				$scope     => $scopeData,
 				'note'     => $note,
-				'note_url' => $url
+				'note_url' => $url,
 			)
 		);
 
@@ -298,7 +299,7 @@ class JGithubPackageAuthorization extends JGithubPackage
 		$data = array(
 			'client_id'     => $client_id,
 			'client_secret' => $client_secret,
-			'code'          => $code
+			'code'          => $code,
 		);
 
 		if ($redirect_uri)

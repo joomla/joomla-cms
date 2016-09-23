@@ -140,7 +140,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 
 			$this->results[] = array(
 				'name' => (string) $tmpInstaller->manifest->name,
-				'result' => $installResult
+				'result' => $installResult,
 			);
 		}
 	}
@@ -228,7 +228,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				$this->parent->pushStep(
 					array(
 						'type' => 'folder',
-						'path' => $this->parent->getPath('extension_root')
+						'path' => $this->parent->getPath('extension_root'),
 					)
 				);
 			}

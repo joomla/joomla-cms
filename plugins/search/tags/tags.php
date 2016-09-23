@@ -121,6 +121,8 @@ class PlgSearchTags extends JPlugin
 
 		$query->where('(a.title LIKE ' . $text . ' OR a.alias LIKE ' . $text . ')');
 
+		$query->where($db->qn('a.published') . ' = 1');
+
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -149,7 +151,7 @@ class PlgSearchTags extends JPlugin
 
 		if ($rows)
 		{
-			require_once JPATH_ROOT . '/components/com_tags/helpers/route.php';
+			JLoader::register('TagsHelperRoute', JPATH_SITE . '/components/com_tags/helpers/route.php');
 
 			foreach ($rows as $key => $row)
 			{

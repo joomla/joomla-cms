@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
  * View class for a list of tracks.
@@ -66,8 +66,6 @@ class BannersViewTracks extends JViewLegacy
 
 		$this->addToolbar();
 
-		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
-
 		$this->sidebar = JHtmlSidebar::render();
 
 		return parent::display($tpl);
@@ -87,7 +85,19 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolbar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'download', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+
+		// Instantiate a new JLayoutFile instance and render the export button
+		$layout = new JLayoutFile('joomla.toolbar.modal');
+
+		$dhtml  = $layout->render(
+			array(
+				'selector' => 'downloadModal',
+				'icon'     => 'download',
+				'text'     => JText::_('JTOOLBAR_EXPORT'),
+			)
+		);
+
+		$bar->appendButton('Custom', $dhtml, 'download');
 
 		if ($canDo->get('core.delete'))
 		{

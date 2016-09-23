@@ -219,9 +219,17 @@ class JTableCategory extends JTableNested
 		}
 		else
 		{
-			// New category
-			$this->created_time = $date->toSql();
-			$this->created_user_id = $user->get('id');
+			// New category. A category created_time and created_user_id field can be set by the user,
+			// so we don't touch either of these if they are set.
+			if (!(int) $this->created_time)
+			{
+				$this->created_time = $date->toSql();
+			}
+
+			if (empty($this->created_user_id))
+			{
+				$this->created_user_id = $user->get('id');
+			}
 		}
 
 		// Verify that the alias is unique

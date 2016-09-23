@@ -36,10 +36,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<table class="table table-striped" id="template-mgr">
 			<thead>
 				<tr>
-					<th class="col1template hidden-phone">
+					<th class="col1template hidden-phone" width="20%">
 						<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 					</th>
-					<th>
+					<th width="30%">
 						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="hidden-phone">
@@ -71,7 +71,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 						<div>
 						<?php if ($this->preview && $item->client_id == '0') : ?>
-							<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&templateStyle=' . $item->element); ?>" target="_blank"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
+							<a href="<?php echo JRoute::_(JUri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+							</a>
 						<?php elseif ($item->client_id == '1') : ?>
 							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
 						<?php else : ?>

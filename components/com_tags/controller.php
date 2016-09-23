@@ -26,7 +26,7 @@ class TagsController extends JControllerLegacy
 	 *
 	 * @since   3.1
 	 */
-	public function display($cachable = true, $urlparams = false)
+	public function display($cachable = false, $urlparams = false)
 	{
 		$user = JFactory::getUser();
 

@@ -462,8 +462,8 @@ class JViewLegacyTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		parent::tearDown();
-
 		$this->restoreFactoryState();
+		unset($this->class);
+		parent::tearDown();
 	}
 }

@@ -44,6 +44,14 @@ class JFormFieldFolderList extends JFormFieldList
 	protected $exclude;
 
 	/**
+	 * The recursive.
+	 *
+	 * @var    string
+	 * @since  3.6
+	 */
+	protected $recursive;
+
+	/**
 	 * The hideNone.
 	 *
 	 * @var    boolean
@@ -82,6 +90,7 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			case 'filter':
 			case 'exclude':
+			case 'recursive':
 			case 'hideNone':
 			case 'hideDefault':
 			case 'directory':
@@ -108,6 +117,7 @@ class JFormFieldFolderList extends JFormFieldList
 			case 'filter':
 			case 'directory':
 			case 'exclude':
+			case 'recursive':
 				$this->$name = (string) $value;
 				break;
 
@@ -144,6 +154,9 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			$this->filter  = (string) $this->element['filter'];
 			$this->exclude = (string) $this->element['exclude'];
+
+			$recursive       = (string) $this->element['recursive'];
+			$this->recursive = ($recursive == 'true' || $recursive == 'recursive' || $recursive == '1');
 
 			$hideNone       = (string) $this->element['hide_none'];
 			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
@@ -188,7 +201,7 @@ class JFormFieldFolderList extends JFormFieldList
 		}
 
 		// Get a list of folders in the search path with the given filter.
-		$folders = JFolder::folders($path, $this->filter);
+		$folders = JFolder::folders($path, $this->filter, $this->recursive, true);
 
 		// Build the options list from the list of folders.
 		if (is_array($folders))
@@ -203,6 +216,9 @@ class JFormFieldFolderList extends JFormFieldList
 						continue;
 					}
 				}
+
+				// Remove the root part and the leading /
+				$folder = trim(str_replace($path, '', $folder), '/');
 
 				$options[] = JHtml::_('select.option', $folder, $folder);
 			}

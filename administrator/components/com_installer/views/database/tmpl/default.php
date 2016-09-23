@@ -22,16 +22,8 @@ defined('_JEXEC') or die;
 		<div id="j-main-container">
 	<?php endif;?>
 		<?php if ($this->errorCount === 0) : ?>
-			<div class="alert alert-info">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?>
-			</div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
-			<div class="alert alert-error">
-				<a class="close" data-dismiss="alert" href="#">&times;</a>
-				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?>
-			</div>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 				<fieldset class="panelform">

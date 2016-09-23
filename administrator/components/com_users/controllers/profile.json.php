@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_users/controllers/profile_base_json.php';
+JLoader::register('UsersControllerProfile_Base_Json', JPATH_SITE . '/components/com_users/controllers/profile_base_json.php');
 
 /**
  * Profile controller class for Users.
