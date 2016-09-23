@@ -85,7 +85,7 @@ class JCryptCipherCryptoTest extends TestCase
 		$key    = $cipher->generateKey();
 
 		// Assert that the key is the correct type.
-		$this->assertInstanceOf('JCryptKey', $key);
+		$this->assertInstanceOf('\Joomla\Crypt\Key', $key);
 
 		// Assert the private key is our expected value.
 		$this->assertSame('unused', $key->getPrivate());

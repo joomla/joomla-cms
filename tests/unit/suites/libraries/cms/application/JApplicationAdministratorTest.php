@@ -197,10 +197,12 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @expectedException  RuntimeException
 	 */
 	public function testGetPathway()
 	{
-		$this->assertNull($this->class->getPathway());
+		$this->class->getPathway();
 	}
 
 	/**

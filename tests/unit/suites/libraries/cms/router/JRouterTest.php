@@ -314,11 +314,7 @@ class JRouterTest extends TestCase
 	 */
 	public function testRouterThrowsInvalidArgumentExceptionWhenAttachingBuildRuleToUndefinedStage()
 	{
-		$callback = array(
-			function (JRouter $router, JUri $uri)
-			{
-			}
-		);
+		$callback = function (JRouter $router, JUri $uri) { };
 		$this->object->attachBuildRule($callback, 'undefined');
 	}
 
@@ -329,11 +325,7 @@ class JRouterTest extends TestCase
 	 */
 	public function testRouterThrowsInvalidArgumentExceptionWhenAttachingParseRuleToUndefinedStage()
 	{
-		$callback = array(
-			function (JRouter $router, JUri $uri)
-			{
-			}
-		);
+		$callback = function (JRouter $router, JUri $uri) { };
 		$this->object->attachParseRule($callback, 'undefined');
 	}
 
