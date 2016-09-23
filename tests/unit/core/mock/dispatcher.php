@@ -128,7 +128,7 @@ class TestMockDispatcher
 
 		if (is_a($handler, 'closure') || is_object($handler))
 		{
-			$identifier = spl_object_hash($options['callback']);
+			$identifier = spl_object_hash($handler);
 		}
 		elseif (is_array($handler) && count($handler) == 2 && is_object($handler[0]))
 		{
