@@ -59,7 +59,7 @@ class InstallationServiceProviderSession implements ServiceProviderInterface
 
 					$input = $app->input;
 
-					$storage = new JoomlaStorage($handler, array(), $input);
+					$storage = new JoomlaStorage($input, $handler);
 
 					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
 					$dispatcher->addListener('onAfterSessionStart', array($app, 'afterSessionStart'));
