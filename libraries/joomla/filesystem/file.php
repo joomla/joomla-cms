@@ -21,14 +21,15 @@ class JFile
 	 *
 	 * @param   string  $file  The file name
 	 *
-	 * @return  string  The file extension
+	 * @return  string | boolean  The file extension or false if file does not have extension
 	 *
 	 * @since   11.1
 	 */
 	public static function getExt($file)
 	{
 		$dot = strrpos($file, '.');
-		if ($dot === false) {
+		if ($dot === false)
+		{
 			return false;
 		}
 		return (string) substr($file, $dot + 1);
