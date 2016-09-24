@@ -28,7 +28,7 @@ abstract class JHtmlDate
 	 *
 	 * @since   2.5
 	 */
-	public static function relative($date, $unit = null, $time = null)
+	public static function relative($date, $unit = null, $time = null, $format = null)
 	{
 		if (is_null($time))
 		{
@@ -82,6 +82,6 @@ abstract class JHtmlDate
 		}
 
 		// Over a month, return the absolute time
-		return JHtml::_('date', $date);
+		return JHtml::_('date', $date, $format);
 	}
 }
