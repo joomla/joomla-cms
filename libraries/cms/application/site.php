@@ -156,7 +156,7 @@ final class JApplicationSite extends JApplicationCms
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($router->getMode() == JROUTER_MODE_SEF)
+				if ($this->get('sef'))
 				{
 					$document->setBase(htmlspecialchars(JUri::current()));
 				}

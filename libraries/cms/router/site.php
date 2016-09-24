@@ -51,32 +51,55 @@ class JRouterSite extends JRouter
 	 */
 	public function __construct($options = array(), JApplicationCms $app = null, JMenu $menu = null)
 	{
-		parent::__construct($options);
-
 		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
 		$this->menu = $menu ? $menu : $this->app->getMenu();
+
+		if ($this->app->get('force_ssl') == 2)
+		{
+			$this->attachParseRule(array($this, 'parseCheckSSL'), self::PROCESS_BEFORE);
+		}
+
+		$this->attachParseRule(array($this, 'parseBefore'), self::PROCESS_BEFORE);
+
+		if ($options['mode'] && $this->app->get('sef_suffix'))
+		{
+			$this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
+		}
+
+		$this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
+
+		if ($options['mode'])
+		{
+			$this->attachParseRule(array($this, 'parseSefRoute'), self::PROCESS_DURING);
+		}
+
+		$this->attachBuildRule(array($this, 'buildRawRoute'), self::PROCESS_DURING);
+
+		if ($options['mode'])
+		{
+			$this->attachBuildRule(array($this, 'buildSefRoute'), self::PROCESS_DURING);
+		}
+
+		$this->options = $options;
 	}
 
-	/**
-	 * Function to convert a route to an internal URI
-	 *
-	 * @param   JUri  &$uri  The uri.
-	 *
-	 * @return  array
-	 *
-	 * @since   1.5
-	 */
-	public function parse(&$uri)
+	public function parseCheckSSL(&$router, &$uri)
 	{
-		$vars = array();
-
-		if ($this->app->get('force_ssl') == 2 && strtolower($uri->getScheme()) != 'https')
+		if (strtolower($uri->getScheme()) != 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');
 			$this->app->redirect((string) $uri, 301);
 		}
+	}
 
+	/**
+	 * 
+	 * @param JRouterSite  $router
+	 * @param JUri $uri
+	 */
+	public function parseBefore(&$router, &$uri)
+	{
 		// Get the path
 		// Decode URL to convert percent-encoding to unicode so that strings match when routing.
 		$path = urldecode($uri->getPath());
@@ -100,37 +123,19 @@ class JRouterSite extends JRouter
 			}
 		}
 
-		// Identify format
-		if ($this->_mode == JROUTER_MODE_SEF)
-		{
-			if ($this->app->get('sef_suffix') && !(substr($path, -9) == 'index.php' || substr($path, -1) == '/'))
-			{
-				if ($suffix = pathinfo($path, PATHINFO_EXTENSION))
-				{
-					$vars['format'] = $suffix;
-				}
-			}
-		}
-
 		// Set the route
 		$uri->setPath(trim($path, '/'));
+	}
 
-		// Set the parsepreprocess components methods
-		$components = JComponentHelper::getComponents();
+	public function parseFormat(&$router, &$uri)
+	{
+		$path = $uri->getPath();
 
-		foreach ($components as $component)
+		// Identify format
+		if (!(substr($path, -9) == 'index.php' || substr($path, -1) == '/') && $suffix = pathinfo($path, PATHINFO_EXTENSION))
 		{
-			$componentRouter = $this->getComponentRouter($component->option);
-
-			if (method_exists($componentRouter, 'parsepreprocess'))
-			{
-				$this->attachParseRule(array($componentRouter, 'parsepreprocess'), static::PROCESS_BEFORE);
-			}
+			$uri->setVar['format'] = $suffix;
 		}
-
-		$vars += parent::parse($uri);
-
-		return $vars;
 	}
 
 	/**
@@ -150,7 +155,7 @@ class JRouterSite extends JRouter
 		$route = $uri->getPath();
 
 		// Add the suffix to the uri
-		if ($this->_mode == JROUTER_MODE_SEF && $route)
+		if ($this->options['mode'] == 1 /**JROUTER_MODE_SEF**/ && $route)
 		{
 			if ($this->app->get('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
 			{
@@ -191,7 +196,7 @@ class JRouterSite extends JRouter
 	 * @since   3.2
 	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
 	 */
-	protected function parseRawRoute(&$uri)
+	protected function parseRawRoute(&$router, &$uri)
 	{
 		$vars = array();
 
@@ -251,7 +256,7 @@ class JRouterSite extends JRouter
 	 * @since   3.2
 	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
 	 */
-	protected function parseSefRoute(&$uri)
+	protected function parseSefRoute(&$router, &$uri)
 	{
 		$route = $uri->getPath();
 
@@ -432,7 +437,7 @@ class JRouterSite extends JRouter
 	 * @since   3.2
 	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 */
-	protected function buildRawRoute(&$uri)
+	protected function buildRawRoute(&$router, &$uri)
 	{
 		// Get the query data
 		$query = $uri->getQuery(true);
@@ -452,22 +457,6 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JUri  &$uri  The internal URL
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
-	 * @codeCoverageIgnore
-	 */
-	protected function _buildSefRoute(&$uri)
-	{
-		$this->buildSefRoute($uri);
-	}
-
-	/**
-	 * Function to build a sef route
-	 *
 	 * @param   JUri  &$uri  The uri
 	 *
 	 * @return  void
@@ -475,7 +464,7 @@ class JRouterSite extends JRouter
 	 * @since   3.2
 	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 */
-	protected function buildSefRoute(&$uri)
+	protected function buildSefRoute(&$router, &$uri)
 	{
 		// Get the route
 		$route = $uri->getPath();
@@ -563,7 +552,7 @@ class JRouterSite extends JRouter
 		if ($stage == self::PROCESS_DURING)
 		{
 			// Process the pagination support
-			if ($this->_mode == JROUTER_MODE_SEF)
+			if ($this->options['mode'] == 1) //JROUTER_MODE_SEF)
 			{
 				if ($start = $uri->getVar('start'))
 				{
@@ -595,7 +584,7 @@ class JRouterSite extends JRouter
 		{
 			// Make sure any menu vars are used if no others are specified
 			$query = $uri->getQuery(true);
-			if ($this->_mode != 1
+			if ($this->options['mode'] != 1
 				&& isset($query['Itemid'])
 				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 			{
@@ -643,7 +632,7 @@ class JRouterSite extends JRouter
 			// Get the path data
 			$route = $uri->getPath();
 
-			if ($this->_mode == JROUTER_MODE_SEF && $route)
+			if ($this->options['mode'] == 1/**JROUTER_MODE_SEF**/ && $route)
 			{
 				if ($limitstart = $uri->getVar('limitstart'))
 				{
