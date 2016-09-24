@@ -549,6 +549,12 @@ class JRouterSite extends JRouter
 
 		unset($query['option']);
 
+		if (isset($query['limitstart']))
+		{
+			$query['start'] = (int) $query['limitstart'];
+			unset($query['limitstart']);
+		}
+
 		// Set query again in the URI
 		$uri->setQuery($query);
 		$uri->setPath($route);
@@ -573,59 +579,6 @@ class JRouterSite extends JRouter
 		{
 			$uri->delVar('start');
 			$uri->setVar('limitstart', $start);
-		}
-	}
-
-	/**
-	 * Process the build uri query data based on custom defined rules
-	 *
-	 * @param   JUri    &$uri   The URI
-	 * @param   string  $stage  The stage that should be processed.
-	 *                          Possible values: 'preprocess', 'postprocess'
-	 *                          and '' for the main build stage
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @deprecated  4.0  The special logic should be implemented as rule
-	 */
-	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
-	{
-		// Process the attached build rules
-		parent::processBuildRules($uri, $stage);
-
-		if ($stage == self::PROCESS_BEFORE)
-		{
-			// Get the query data
-			$query = $uri->getQuery(true);
-
-			if (!isset($query['option']))
-			{
-				return;
-			}
-
-			// Build the component route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-			$router   = $this->getComponentRouter($component);
-			$query     = $router->preprocess($query);
-			$uri->setQuery($query);
-		}
-
-		if ($stage == self::PROCESS_DURING)
-		{
-			// Get the path data
-			$route = $uri->getPath();
-
-			if ($this->options['mode'] == 1/**JROUTER_MODE_SEF**/ && $route)
-			{
-				if ($limitstart = $uri->getVar('limitstart'))
-				{
-					$uri->setVar('start', (int) $limitstart);
-					$uri->delVar('limitstart');
-				}
-			}
-
-			$uri->setPath($route);
 		}
 	}
 
