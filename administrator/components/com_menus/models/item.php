@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.path');
@@ -1664,10 +1665,10 @@ class MenusModelItem extends JModelAdmin
 		{
 			if ($title == $table->title)
 			{
-				$title = JString::increment($title);
+				$title = StringHelper::increment($title);
 			}
 
-			$alias = JString::increment($alias, 'dash');
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
