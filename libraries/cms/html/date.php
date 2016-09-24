@@ -19,10 +19,11 @@ abstract class JHtmlDate
 	/**
 	 * Function to convert a static time into a relative measurement
 	 *
-	 * @param   string  $date  The date to convert
-	 * @param   string  $unit  The optional unit of measurement to return
-	 *                         if the value of the diff is greater than one
-	 * @param   string  $time  An optional time to compare to, defaults to now
+	 * @param   string  $date    The date to convert
+	 * @param   string  $unit    The optional unit of measurement to return
+	 *                           if the value of the diff is greater than one
+	 * @param   string  $time    An optional time to compare to, defaults to now
+	 * @param   string  $format  An optional format for the JHtml::date output
 	 *
 	 * @return  string  The converted time string
 	 *
