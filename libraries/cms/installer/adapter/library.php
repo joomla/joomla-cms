@@ -317,8 +317,9 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		$name = (string) $this->getManifest()->name;
 		$name = JFilterInput::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
-		$this->set('element', $element);
+
+		$this->name    = $name;
+		$this->element = $element;
 
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;

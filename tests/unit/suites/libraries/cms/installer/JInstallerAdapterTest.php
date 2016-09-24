@@ -80,17 +80,18 @@ class JInstallerAdapterTest extends TestCaseDatabase
 	{
 		$mockInstaller = $this->getMock('JInstaller');
 		$mockDatabase = $this->getMockDatabase();
-		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('foo' => 'bar')));
+		$object = $this->getMockForAbstractClass('JInstallerAdapter', array($mockInstaller, $mockDatabase, array('type' => 'component')));
 
 		$this->assertAttributeInstanceOf('JTableExtension', 'extension', $object);
 
 		$this->assertAttributeSame($mockDatabase, 'db', $object);
 		$this->assertAttributeSame($mockInstaller, 'parent', $object);
 
-		$this->assertEquals(
-			'bar',
-			$object->foo,
-			'Tests any options are set as class variables by JObject'
+		$this->assertAttributeSame(
+			'component',
+			'type',
+			$object,
+			'Options which are valid class variables should be set'
 		);
 	}
 
