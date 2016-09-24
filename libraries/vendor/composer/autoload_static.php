@@ -52,6 +52,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Registry\\' => 16,
             'Joomla\\Input\\Tests\\' => 19,
             'Joomla\\Input\\' => 13,
+            'Joomla\\Image\\' => 13,
             'Joomla\\Filter\\Tests\\' => 20,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Event\\' => 13,
@@ -123,6 +124,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Input\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/input/src',
+        ),
+        'Joomla\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/joomla/image/src',
         ),
         'Joomla\\Filter\\Tests\\' => 
         array (

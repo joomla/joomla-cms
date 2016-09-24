@@ -31,6 +31,7 @@
         "joomla/crypt": "~2.0@dev",
         "joomla/di": "~1.2",
         "joomla/event": "~2.0@dev",
+        "joomla/image": "~1.2",
         "joomla/registry": "~1.4 >=1.4.5",
         "joomla/session": "~2.0@dev",
         "joomla/string": "~1.3",
