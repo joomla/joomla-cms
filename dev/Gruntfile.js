@@ -6,14 +6,15 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
-			system : '../media/system/js',
-			fields : '../media/system/js/fields',
-			puny   : '../media/vendor/punycode/js',
-			cmadd  : '../media/vendor/codemirror/addon',
-			cmkey  : '../media/vendor/codemirror/keymap',
-			cmlib  : '../media/vendor/codemirror/lib',
-			cmmod  : '../media/vendor/codemirror/mode',
-			cmthem : '../media/vendor/codemirror/theme',
+			system   : '../media/system/js',
+			fields   : '../media/system/js/fields',
+			puny     : '../media/vendor/punycode/js',
+			cmadd    : '../media/vendor/codemirror/addon',
+			cmkey    : '../media/vendor/codemirror/keymap',
+			cmlib    : '../media/vendor/codemirror/lib',
+			cmmod    : '../media/vendor/codemirror/mode',
+			cmthem   : '../media/vendor/codemirror/theme',
+			chosenjs : '../media/vendor/chosenjs/js',
 		},
 
 		// Let's clean up the system
