@@ -8,7 +8,6 @@
  */
 
 defined('JPATH_PLATFORM') or die;
-use Joomla\Utilities\ArrayHelper;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -30,22 +29,6 @@ abstract class JUserHelper
 	 */
 	protected static $groupsByUser = array();
 
-	/**
-	 * Array of user groups.
-	 *
-	 * @var    array
-	 * @since  3.6
-	 */
-	protected static $userGroups = array();
-
-
-	/**
-	 * Array of user group paths.
-	 *
-	 * @var    array
-	 * @since  3.6
-	 */
-	protected static $userGroupPaths = array();
 
 	/**
 	 * Method for clearing static caches.
@@ -56,9 +39,7 @@ abstract class JUserHelper
 	 */
 	public static function clearStatics()
 	{
-		self::$userGroups = array();
 		self::$groupsByUser = array();
-		self::$userGroupPaths = array();
 	}
 
 
@@ -238,39 +219,15 @@ abstract class JUserHelper
 	 */
 	public static function getGroupPath($groupId)
 	{
-		// Preload all groups
-		if (empty(self::$userGroups))
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('parent.id, parent.lft, parent.rgt')
-				->from('#__usergroups AS parent')
-				->order('parent.lft');
-			$db->setQuery($query);
-			self::$userGroups = $db->loadObjectList('id');
-		}
+		// Load all the groups to improve performance on intensive groups checks
+		$groups = JHelperUsergroups::getInstance()->getAll();
 
-		// Make sure groupId is valid
-		if (!array_key_exists($groupId, self::$userGroups))
+		if (!isset($groups[$groupId]))
 		{
 			return array();
 		}
 
-		// Get parent groups and leaf group
-		if (!isset(self::$userGroupPaths[$groupId]))
-		{
-			self::$userGroupPaths[$groupId] = array();
-
-			foreach (self::$userGroups as $group)
-			{
-				if ($group->lft <= self::$userGroups[$groupId]->lft && $group->rgt >= self::$userGroups[$groupId]->rgt)
-				{
-					self::$userGroupPaths[$groupId][] = $group->id;
-				}
-			}
-		}
-
-		return self::$userGroupPaths[$groupId];
+		return $groups[$groupId]->path;
 	}
 
 	/**
