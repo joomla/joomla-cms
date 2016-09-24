@@ -41,6 +41,8 @@ module.exports = function(grunt) {
 					'../media/vendor/autocomplete/*',
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
+					'!../media/vendor/chosenjs/js/j-chosen.js',
+					'!../media/vendor/chosenjs/js/j-chosen.min.js',
 				],
 				expand: true,
 				options: {
@@ -180,6 +182,12 @@ module.exports = function(grunt) {
 					// 	expand: true,
 					// 	ext: '.min.js'
 					// }
+					{
+						src: ['<%= folder.chosenjs %>/j-chosen.js','!<%= folder.chosenjs %>/j-chosen.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
 				]
 			}
 		},
