@@ -66,19 +66,26 @@ class JRouterSite extends JRouter
 			$this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
 		}
 
-		$this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
-
 		if ($options['mode'])
 		{
 			$this->attachParseRule(array($this, 'parseSefRoute'), self::PROCESS_DURING);
 		}
 
-		$this->attachBuildRule(array($this, 'buildRawRoute'), self::PROCESS_DURING);
+		$this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
+
+		if ($options['mode'])
+		{
+			$this->attachParseRule(array($this, 'parsePaginationData'), self::PROCESS_AFTER);
+		}
+
+		$this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_DURING);
 
 		if ($options['mode'])
 		{
 			$this->attachBuildRule(array($this, 'buildSefRoute'), self::PROCESS_DURING);
 		}
+
+		$this->attachBuildRule(array($this, 'buildCleanupAfter'), self::PROCESS_AFTER);
 
 		$this->options = $options;
 	}
@@ -147,10 +154,8 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function build($url)
+	public function buildCleanupAfter(&$router, &$uri)
 	{
-		$uri = parent::build($url);
-
 		// Get the path data
 		$route = $uri->getPath();
 
@@ -182,8 +187,6 @@ class JRouterSite extends JRouter
 
 		// Add basepath to the uri
 		$uri->setPath(JUri::base(true) . '/' . $route);
-
-		return $uri;
 	}
 
 	/**
@@ -194,7 +197,6 @@ class JRouterSite extends JRouter
 	 * @return  array
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseRawRoute(&$router, &$uri)
 	{
@@ -254,7 +256,6 @@ class JRouterSite extends JRouter
 	 * @return  string  Internal URI
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseSefRoute(&$router, &$uri)
 	{
@@ -278,7 +279,7 @@ class JRouterSite extends JRouter
 			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
 			if (isset($vars['option']) || isset($vars['Itemid']))
 			{
-				return $this->parseRawRoute($uri);
+				return;
 			}
 
 			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
@@ -395,7 +396,7 @@ class JRouterSite extends JRouter
 		$this->setVars($vars);
 
 		// Parse the component route
-		if (!empty($route) && isset($this->_vars['option']))
+		if (!empty($route) && isset($this->vars['option']))
 		{
 			$segments = explode('/', $route);
 
@@ -405,7 +406,7 @@ class JRouterSite extends JRouter
 			}
 
 			// Handle component route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
+			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->vars['option']);
 
 			if (count($segments))
 			{
@@ -435,9 +436,8 @@ class JRouterSite extends JRouter
 	 * @return  string  Raw Route
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 */
-	protected function buildRawRoute(&$router, &$uri)
+	protected function buildComponentPreprocess(&$router, &$uri)
 	{
 		// Get the query data
 		$query = $uri->getQuery(true);
@@ -451,6 +451,29 @@ class JRouterSite extends JRouter
 		$crouter   = $this->getComponentRouter($component);
 		$query     = $crouter->preprocess($query);
 
+		// Make sure any menu vars are used if no others are specified
+		if ($this->options['mode'] != 1
+			&& isset($query['Itemid'])
+			&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
+		{
+			// Get the active menu item
+			$itemid = $uri->getVar('Itemid');
+			$lang = $uri->getVar('lang');
+			$item = $this->menu->getItem($itemid);
+
+			if ($item)
+			{
+				$uri->setQuery($item->query);
+			}
+
+			$uri->setVar('Itemid', $itemid);
+
+			if ($lang)
+			{
+				$uri->setVar('lang', $lang);
+			}
+		}
+
 		$uri->setQuery($query);
 	}
 
@@ -462,7 +485,6 @@ class JRouterSite extends JRouter
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
 	 */
 	protected function buildSefRoute(&$router, &$uri)
 	{
@@ -544,25 +566,14 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   3.2
 	 */
-	protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
+	protected function parsePaginationData(&$router, &$uri)
 	{
-		// Process the attached parse rules
-		$vars = parent::processParseRules($uri, $stage);
-
-		if ($stage == self::PROCESS_DURING)
+		// Process the pagination support
+		if ($start = $uri->getVar('start'))
 		{
-			// Process the pagination support
-			if ($this->options['mode'] == 1) //JROUTER_MODE_SEF)
-			{
-				if ($start = $uri->getVar('start'))
-				{
-					$uri->delVar('start');
-					$vars['limitstart'] = $start;
-				}
-			}
+			$uri->delVar('start');
+			$uri->setVar('limitstart', $start);
 		}
-
-		return $vars;
 	}
 
 	/**
@@ -580,33 +591,6 @@ class JRouterSite extends JRouter
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if ($stage == self::PROCESS_DURING)
-		{
-			// Make sure any menu vars are used if no others are specified
-			$query = $uri->getQuery(true);
-			if ($this->options['mode'] != 1
-				&& isset($query['Itemid'])
-				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
-			{
-				// Get the active menu item
-				$itemid = $uri->getVar('Itemid');
-				$lang = $uri->getVar('lang');
-				$item = $this->menu->getItem($itemid);
-
-				if ($item)
-				{
-					$uri->setQuery($item->query);
-				}
-
-				$uri->setVar('Itemid', $itemid);
-
-				if ($lang)
-				{
-					$uri->setVar('lang', $lang);
-				}
-			}
-		}
-
 		// Process the attached build rules
 		parent::processBuildRules($uri, $stage);
 
