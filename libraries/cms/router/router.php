@@ -666,7 +666,7 @@ class JRouter
 	 */
 	protected function createUri($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) != '&')
+		if (!is_array($url) && $url[0] !== '&')
 		{
 			return new JUri($url);
 		}
