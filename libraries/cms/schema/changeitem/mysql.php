@@ -61,7 +61,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 		// Check for special update statement to reset utf8mb4 conversion status
 		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
-				|| $command == 'UPDATE #__UTF8_CONVERSION')
+			|| $command == 'UPDATE #__UTF8_CONVERSION')
 			&& strtoupper($wordArray[2]) == 'SET'
 			&& 0 === stripos(str_replace('`', '', $wordArray[3]), 'converted'))
 		{
