@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	 Joomla.Site
+ * @package     Joomla.Site
  * @subpackage  com_tags
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license	 GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -43,15 +43,15 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
+		$app    = JFactory::getApplication();
 		$params = $app->getParams();
 
 		// Get some data from the models
-		$state	  = $this->get('State');
-		$items	  = $this->get('Items');
-		$item	   = $this->get('Item');
+		$state      = $this->get('State');
+		$items      = $this->get('Items');
+		$item       = $this->get('Item');
 		$children   = $this->get('Children');
-		$parent	 = $this->get('Parent');
+		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
 		/*
@@ -115,13 +115,13 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		$this->state	  = $state;
-		$this->items	  = $items;
+		$this->state      = $state;
+		$this->items      = $items;
 		$this->children   = $children;
-		$this->parent	 = $parent;
+		$this->parent     = $parent;
 		$this->pagination = $pagination;
-		$this->user	   = $user;
-		$this->item	   = $item;
+		$this->user       = $user;
+		$this->item       = $item;
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
@@ -129,8 +129,8 @@ class TagsViewTag extends JViewLegacy
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
 		$this->params = $this->state->get('params');
-		$active	   = $app->getMenu()->getActive();
-		$temp		 = clone $this->params;
+		$active       = $app->getMenu()->getActive();
+		$temp         = clone $this->params;
 
 		// Check to see which parameters should take priority
 		if ($active)
@@ -268,7 +268,7 @@ class TagsViewTag extends JViewLegacy
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
-			$link	= '&format=feed&limitstart=';
+			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
