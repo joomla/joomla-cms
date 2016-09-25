@@ -635,7 +635,7 @@ class JRouter
 
 		foreach ($this->_rules['build' . $stage] as $rule)
 		{
-			call_user_func_array($rule, array(&$this, &$uri));
+			call_user_func($rule, &$this, &$uri);
 		}
 	}
 
@@ -666,7 +666,7 @@ class JRouter
 	 */
 	protected function createUri($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) != '&')
+		if (!is_array($url) && $url[0] !== '&')
 		{
 			return new JUri($url);
 		}
