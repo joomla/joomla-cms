@@ -119,7 +119,7 @@ class UsersModelProfile extends JModelForm
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return  mixed  	Data object on success, false on failure.
+	 * @return  JUser
 	 *
 	 * @since   1.6
 	 */

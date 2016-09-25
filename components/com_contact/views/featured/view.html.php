@@ -43,6 +43,48 @@ class ContactViewFeatured extends JViewLegacy
 	protected $pagination;
 
 	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         integer
+	 * @deprecated  4.0  This variable has never been used ever
+	 */
+	protected $maxLevel;
+
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         array
+	 * @since       1.6.0
+	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
+	 */
+	protected $children;
+
+	/**
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $params = null;
+
+	/**
+	 * Who knows what this variable was intended for - but it's never been used
+	 *
+	 * @var         array
+	 * @since       1.6.0
+	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
+	 */
+	protected $parent;
+
+	/**
+	 * The page class suffix
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $pageclass_sfx = '';
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
