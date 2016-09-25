@@ -206,7 +206,7 @@ class JHelperMedia
 		foreach ($html_tags as $tag)
 		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
+			if (false !== stripos($xss_check, '<' . $tag . ' ') || false !== stripos($xss_check, '<' . $tag . '>'))
 			{
 				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'notice');
 
