@@ -97,10 +97,10 @@ class JComponentHelper
 
 		return (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('COUNT(extension_id)')
-				->from('#__extensions')
-				->where('element = ' . $db->quote($option))
-				->where('type = ' . $db->quote('component'))
+				->select('COUNT(' . $db->quoteName('extension_id') . ')')
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('element') . ' = ' . $db->quote($option))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 		)->loadResult();
 	}
 
@@ -436,8 +436,8 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('extension_id AS id, element AS "option", params, enabled')
-			->from('#__extensions')
+			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 		$db->setQuery($query);
 
