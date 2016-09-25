@@ -142,7 +142,7 @@ class Inflector
 		foreach ($data as $rule)
 		{
 			// Ensure a string is pushed.
-			$this->rules[$ruleType][] = (string) $rule;
+			array_push($this->rules[$ruleType], (string) $rule);
 		}
 	}
 

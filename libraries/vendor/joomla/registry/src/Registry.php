@@ -617,7 +617,7 @@ class Registry implements \JsonSerializable, \ArrayAccess, \IteratorAggregate, \
 				$node = get_object_vars($node);
 			}
 
-			$node[] = $value;
+			array_push($node, $value);
 			$result = $value;
 		}
 

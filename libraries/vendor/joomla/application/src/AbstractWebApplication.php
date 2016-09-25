@@ -523,7 +523,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 */
 	public function appendBody($content)
 	{
-		$this->response->body[] = (string) $content;
+		array_push($this->response->body, (string) $content);
 
 		return $this;
 	}

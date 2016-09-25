@@ -197,6 +197,6 @@ class FOFUtilsObject
      */
     public function setError($error)
     {
-        $this->_errors[] = $error;
+        array_push($this->_errors, $error);
     }
 }
