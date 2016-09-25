@@ -197,7 +197,7 @@ abstract class JHtmlString
 		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit, $allowHtml = false);
 
 		// It's all HTML, just return it.
-		if (strlen($ptString) == 0)
+		if ($ptString === '')
 		{
 				return $html;
 		}

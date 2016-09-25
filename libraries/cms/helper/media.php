@@ -160,7 +160,7 @@ class JHelperMedia
 					$finfo = finfo_open(FILEINFO_MIME);
 					$type  = finfo_file($finfo, $file['tmp_name']);
 
-					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
+					if ($type !== '' && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
 						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
 
@@ -174,7 +174,7 @@ class JHelperMedia
 					// We have mime magic.
 					$type = mime_content_type($file['tmp_name']);
 
-					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
+					if ($type !== '' && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
 						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
 

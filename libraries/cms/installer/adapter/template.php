@@ -409,7 +409,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 

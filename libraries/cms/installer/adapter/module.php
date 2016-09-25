@@ -517,7 +517,7 @@ class JInstallerAdapterModule extends JInstallerAdapter
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		if (!$this->extension->load((int) $id) || !strlen($this->extension->element))
+		if (!$this->extension->load((int) $id) || $this->extension->element === '')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 

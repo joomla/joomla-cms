@@ -362,7 +362,7 @@ class JInstallerAdapterLibrary extends JInstallerAdapter
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
-		if (!$row->load((int) $id) || !strlen($row->element))
+		if (!$row->load((int) $id) || $row->element === '')
 		{
 			JLog::add(JText::_('ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
 
