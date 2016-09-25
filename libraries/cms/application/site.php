@@ -618,7 +618,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		if ($this->getLanguageFilter() && empty($options['language']))
+		if (empty($options['language']) && $this->getLanguageFilter())
 		{
 			// Detect cookie language
 			$lang = $this->input->cookie->get(md5($this->get('secret') . 'language'), null, 'string');
@@ -642,7 +642,7 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		if ($this->getDetectBrowser() && empty($options['language']))
+		if (empty($options['language']) && $this->getDetectBrowser())
 		{
 			// Detect browser language
 			$lang = JLanguageHelper::detectLanguage();
@@ -744,7 +744,7 @@ final class JApplicationSite extends JApplicationCms
 				$template = $this->getTemplate(true);
 				$file     = $this->input->get('tmpl', 'index');
 
-				if (!$this->get('offline') && ($file == 'offline'))
+				if (($file === 'offline') && !$this->get('offline'))
 				{
 					$this->set('themeFile', 'index.php');
 				}

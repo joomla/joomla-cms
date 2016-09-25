@@ -155,7 +155,7 @@ abstract class JPluginHelper
 			$defaults = true;
 		}
 
-		if (!isset($loaded[$type]) || !$defaults)
+		if (!$defaults || !isset($loaded[$type]))
 		{
 			$results = null;
 

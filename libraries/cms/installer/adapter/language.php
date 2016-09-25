@@ -199,7 +199,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update tag detected
-			if ($this->parent->isUpgrade() || $updateElement)
+			if ($updateElement || $this->parent->isUpgrade())
 			{
 				// Transfer control to the update function
 				return $this->update();

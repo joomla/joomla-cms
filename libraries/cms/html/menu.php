@@ -326,7 +326,7 @@ abstract class JHtmlMenu
 	 */
 	public static function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0, $type = 1)
 	{
-		if (@$children[$id] && $level <= $maxlevel)
+		if ($level <= $maxlevel && @$children[$id])
 		{
 			foreach ($children[$id] as $v)
 			{

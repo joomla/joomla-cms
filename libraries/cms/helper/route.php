@@ -180,7 +180,7 @@ class JHelperRoute
 						 * $language != * can override existing entries
 						 * $language == * cannot override existing entries
 						 */
-						if (!isset(static::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						if ($item->language != '*' || !isset(static::$lookup[$language][$view][$item->query['id']]))
 						{
 							static::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}

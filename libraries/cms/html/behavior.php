@@ -699,7 +699,7 @@ abstract class JHtmlBehavior
 		$url = JUri::base(true) . '/index.php';
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
+		if (!JFactory::getUser()->guest || JFactory::getApplication()->isSite())
 		{
 			$url .= '?option=com_ajax&format=json';
 		}

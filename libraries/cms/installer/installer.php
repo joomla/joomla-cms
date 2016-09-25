@@ -2187,7 +2187,8 @@ class JInstaller extends JAdapter
 
 		// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
 
-		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+		$name = $xml->getName();
+		if ($name !== 'extension' && $name !== 'metafile')
 		{
 			unset($xml);
 
