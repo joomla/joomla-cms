@@ -185,8 +185,8 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$updateElement = $this->getManifest()->update;
 
 			// Upgrade manually set or update function available or update tag detected
-			if ($updateElement || $this->parent->isUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-			)
+			if ($updateElement || $this->parent->isUpgrade()
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// Force this one
 				$this->parent->setOverwrite(true);

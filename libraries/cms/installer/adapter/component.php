@@ -79,8 +79,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 
 			// Upgrade manually set or update function available or update tag detected
 			if ($updateElement || $this->parent->isUpgrade()
-				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update'))
-			)
+				|| ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'update')))
 			{
 				// If there is a matching extension mark this as an update
 				$this->setRoute('update');
