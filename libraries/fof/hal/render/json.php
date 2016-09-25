@@ -80,7 +80,7 @@ class FOFHalRenderJson implements FOFHalRenderInterface
 
 				foreach ($links as $link)
 				{
-					array_push($serialiseThis->_links->$rel, $this->_getLink($link));
+					$serialiseThis->_links->$rel[] = $this->_getLink($link);
 				}
 			}
 		}
@@ -102,8 +102,8 @@ class FOFHalRenderJson implements FOFHalRenderInterface
 
 				foreach ($embeddeddocs as $embedded)
 				{
-					$renderer = new FOFHalRenderJson($embedded);
-					array_push($serialiseThis->_embedded->$rel, $renderer->render($options));
+					$renderer                         = new FOFHalRenderJson($embedded);
+					$serialiseThis->_embedded->$rel[] = $renderer->render($options);
 				}
 			}
 		}

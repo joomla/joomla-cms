@@ -194,8 +194,8 @@ class JMailTest extends TestCase
 
 		foreach ($actual as $attach)
 		{
-			array_push($actual_attachments, $attach[0]);
-			array_push($actual_names, $attach[2]);
+			$actual_attachments[] = $attach[0];
+			$actual_names[]       = $attach[2];
 		}
 
 		$this->assertThat($attachments, $this->equalTo($actual_attachments));

@@ -401,7 +401,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 			foreach ($tmpCols as $name => $tmpColType)
 			{
-				array_push($cols, $alias . "." . $name);
+				$cols[] = $alias . "." . $name;
 			}
 		}
 
