@@ -69,11 +69,11 @@ class JCacheStorageMemcached extends JCacheStorage
 
 		$config = JFactory::getConfig();
 
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
+		$host = $config->get('memcached_server_host', 'localhost');
+		$port = $config->get('memcached_server_port', 11211);
 
 
-		// Create the memcache connection
+		// Create the memcached connection
 		if ($config->get('memcached_persist', true))
 		{
 			static::$_db = new Memcached($this->_hash);
