@@ -110,7 +110,7 @@ class JRouter
 			}
   			else
   			{
-				self::$instances[$client] = new $classname($options);
+				self::$instances[$client] = new $classname;
   			}
 		}
 
@@ -126,18 +126,25 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function parse(&$uri)
+	public function parse(&$uri, $setVars = false)
 	{
 		// Do the preprocess stage of the URL parse process
-		$vars = $this->processParseRules($uri, self::PROCESS_BEFORE);
+		$this->processParseRules($uri, self::PROCESS_BEFORE);
 
 		// Do the main stage of the URL parse process
-		$vars += $this->processParseRules($uri);
+		$this->processParseRules($uri);
 
 		// Do the postprocess stage of the URL parse process
-		$vars += $this->processParseRules($uri, self::PROCESS_AFTER);
+		$this->processParseRules($uri, self::PROCESS_AFTER);
 
-		return array_merge($this->getVars(), $vars);
+		if ($setVars)
+		{
+			$this->setVars($uri->getQuery(true));
+
+			return $this->getVars();
+		}
+
+		return $uri->getQuery(true);
 	}
 
 	/**

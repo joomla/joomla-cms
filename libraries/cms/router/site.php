@@ -49,47 +49,52 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   3.4
 	 */
-	public function __construct($options = array(), JApplicationCms $app = null, JMenu $menu = null)
+	public function __construct(JApplicationCms $app = null, JMenu $menu = null)
 	{
 		$this->app  = $app ? $app : JApplicationCms::getInstance('site');
 		$this->menu = $menu ? $menu : $this->app->getMenu();
 
+		// Parse rules
 		if ($this->app->get('force_ssl') == 2)
 		{
 			$this->attachParseRule(array($this, 'parseCheckSSL'), self::PROCESS_BEFORE);
 		}
 
-		$this->attachParseRule(array($this, 'parseBefore'), self::PROCESS_BEFORE);
+		$this->attachParseRule(array($this, 'parseInit'), self::PROCESS_BEFORE);
 
-		if ($options['mode'] && $this->app->get('sef_suffix'))
+		if ($this->app->get('sef'))
 		{
-			$this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
-		}
+			if ($this->app->get('sef_suffix'))
+			{
+				$this->attachParseRule(array($this, 'parseFormat'), self::PROCESS_BEFORE);
+			}
 
-		if ($options['mode'])
-		{
 			$this->attachParseRule(array($this, 'parseSefRoute'), self::PROCESS_DURING);
+			$this->attachParseRule(array($this, 'parsePaginationData'), self::PROCESS_AFTER);
 		}
 
 		$this->attachParseRule(array($this, 'parseRawRoute'), self::PROCESS_DURING);
 
-		if ($options['mode'])
-		{
-			$this->attachParseRule(array($this, 'parsePaginationData'), self::PROCESS_AFTER);
-		}
+		// Build rules
+		$this->attachBuildRule(array($this, 'buildInit'), self::PROCESS_BEFORE);
+		$this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_BEFORE);
 
-		$this->attachBuildRule(array($this, 'buildComponentPreprocess'), self::PROCESS_DURING);
-
-		if ($options['mode'])
+		if ($this->app->get('sef'))
 		{
 			$this->attachBuildRule(array($this, 'buildSefRoute'), self::PROCESS_DURING);
 		}
 
 		$this->attachBuildRule(array($this, 'buildCleanupAfter'), self::PROCESS_AFTER);
-
-		$this->options = $options;
 	}
 
+	/**
+	 * Force to SSL
+	 * 
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
+	 *
+	 * @since   4.0
+	 */
 	public function parseCheckSSL(&$router, &$uri)
 	{
 		if (strtolower($uri->getScheme()) != 'https')
@@ -101,11 +106,14 @@ class JRouterSite extends JRouter
 	}
 
 	/**
+	 * Do some initial cleanup before parsing the URL
 	 * 
-	 * @param JRouterSite  $router
-	 * @param JUri $uri
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
+	 *
+	 * @since   4.0
 	 */
-	public function parseBefore(&$router, &$uri)
+	public function parseInit(&$router, &$uri)
 	{
 		// Get the path
 		// Decode URL to convert percent-encoding to unicode so that strings match when routing.
@@ -134,6 +142,14 @@ class JRouterSite extends JRouter
 		$uri->setPath(trim($path, '/'));
 	}
 
+	/**
+	 * Parse the format of the request
+	 * 
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
+	 *
+	 * @since   4.0
+	 */
 	public function parseFormat(&$router, &$uri)
 	{
 		$path = $uri->getPath();
@@ -141,123 +157,19 @@ class JRouterSite extends JRouter
 		// Identify format
 		if (!(substr($path, -9) == 'index.php' || substr($path, -1) == '/') && $suffix = pathinfo($path, PATHINFO_EXTENSION))
 		{
-			$uri->setVar['format'] = $suffix;
+			$uri->setVar('format', $suffix);
 		}
 	}
 
 	/**
-	 * Function to convert an internal URI to a route
+	 * Convert a sef route to an internal URI
 	 *
-	 * @param   string  $url  The internal URL
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
 	 *
-	 * @return  string  The absolute search engine friendly URL
-	 *
-	 * @since   1.5
+	 * @since   4.0
 	 */
-	public function buildCleanupAfter(&$router, &$uri)
-	{
-		// Get the path data
-		$route = $uri->getPath();
-
-		// Add the suffix to the uri
-		if ($this->options['mode'] == 1 /**JROUTER_MODE_SEF**/ && $route)
-		{
-			if ($this->app->get('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
-			{
-				if ($format = $uri->getVar('format', 'html'))
-				{
-					$route .= '.' . $format;
-					$uri->delVar('format');
-				}
-			}
-
-			if ($this->app->get('sef_rewrite'))
-			{
-				// Transform the route
-				if ($route == 'index.php')
-				{
-					$route = '';
-				}
-				else
-				{
-					$route = str_replace('index.php/', '', $route);
-				}
-			}
-		}
-
-		// Add basepath to the uri
-		$uri->setPath(JUri::base(true) . '/' . $route);
-	}
-
-	/**
-	 * Function to convert a raw route to an internal URI
-	 *
-	 * @param   JUri  &$uri  The raw route
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	protected function parseRawRoute(&$router, &$uri)
-	{
-		$vars = array();
-
-		// Handle an empty URL (special case)
-		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
-		{
-			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
-
-			if (!is_object($item))
-			{
-				// No default item set
-				return $vars;
-			}
-
-			// Set the information in the request
-			$vars = $item->query;
-
-			// Get the itemid
-			$vars['Itemid'] = $item->id;
-
-			// Set the active menu item
-			$this->menu->setActive($vars['Itemid']);
-
-			return $vars;
-		}
-
-		// Get the variables from the uri
-		$this->setVars($uri->getQuery(true));
-
-		// Get the itemid, if it hasn't been set force it to null
-		$this->setVar('Itemid', $this->app->input->getInt('Itemid', null));
-
-		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
-		{
-			$item = $this->menu->getItem($this->getVar('Itemid'));
-
-			if ($item !== null && is_array($item->query))
-			{
-				$vars = $vars + $item->query;
-			}
-		}
-
-		// Set the active menu item
-		$this->menu->setActive($this->getVar('Itemid'));
-
-		return $vars;
-	}
-
-	/**
-	 * Function to convert a sef route to an internal URI
-	 *
-	 * @param   JUri  &$uri  The sef URI
-	 *
-	 * @return  string  Internal URI
-	 *
-	 * @since   3.2
-	 */
-	protected function parseSefRoute(&$router, &$uri)
+	public function parseSefRoute(&$router, &$uri)
 	{
 		$route = $uri->getPath();
 
@@ -297,9 +209,10 @@ class JRouterSite extends JRouter
 				$this->menu->setActive($vars['Itemid']);
 
 				$this->setVars($vars);
+				$uri->setQuery(array_merge($vars, $uri->getQuery(true)));
 			}
 
-			return $vars;
+			return;
 		}
 
 		// Parse the application route
@@ -307,8 +220,8 @@ class JRouterSite extends JRouter
 
 		if (count($segments) > 1 && $segments[0] == 'component')
 		{
-			$vars['option'] = 'com_' . $segments[1];
-			$vars['Itemid'] = null;
+			$uri->setVar('option', 'com_' . $segments[1]);
+			$uri->setVar('Itemid', null);
 			$route = implode('/', array_slice($segments, 2));
 		}
 		else
@@ -381,22 +294,19 @@ class JRouterSite extends JRouter
 
 			if ($found)
 			{
-				$vars['Itemid'] = $found->id;
-				$vars['option'] = $found->component;
+				$uri->setVar('Itemid', $found->id);
+				$uri->setVar('option', $found->component);
 			}
 		}
 
 		// Set the active menu item
-		if (isset($vars['Itemid']))
+		if ($uri->getVar('Itemid'))
 		{
-			$this->menu->setActive($vars['Itemid']);
+			$this->menu->setActive($uri->getVar('Itemid'));
 		}
 
-		// Set the variables
-		$this->setVars($vars);
-
 		// Parse the component route
-		if (!empty($route) && isset($this->vars['option']))
+		if (!empty($route) && $uri->getVar('option'))
 		{
 			$segments = explode('/', $route);
 
@@ -406,14 +316,14 @@ class JRouterSite extends JRouter
 			}
 
 			// Handle component route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->vars['option']);
+			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
 
 			if (count($segments))
 			{
 				$crouter = $this->getComponentRouter($component);
 				$vars = $crouter->parse($segments);
 
-				$this->setVars($vars);
+				$uri->setQuery(array_merge($uri->getQuery(true), $vars));
 			}
 		}
 		else
@@ -422,20 +332,130 @@ class JRouterSite extends JRouter
 			if ($item = $this->menu->getActive())
 			{
 				$vars = $item->query;
+				$uri->setQuery(array_merge($uri->getQuery(true), $vars));
 			}
 		}
-
-		return $vars;
 	}
 
 	/**
-	 * Function to build a raw route
+	 * Convert a raw route to an internal URI
 	 *
-	 * @param   JUri  &$uri  The internal URL
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
 	 *
-	 * @return  string  Raw Route
+	 * @since   4.0
+	 */
+	public function parseRawRoute(&$router, &$uri)
+	{
+		// Handle an empty URL (special case)
+		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
+		{
+			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+
+			if (!is_object($item))
+			{
+				// No default item set
+				return;
+			}
+
+			// Get the itemid
+			$uri->setVar('Itemid', $item->id);
+
+			// Set the active menu item
+			$this->menu->setActive($item->id);
+
+			return;
+		}
+
+		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
+		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
+		{
+			$item = $this->menu->getItem($this->getVar('Itemid'));
+
+			if ($item !== null && is_array($item->query))
+			{
+				$vars = $vars + $item->query;
+			}
+		}
+
+		// Set the active menu item
+		$this->menu->setActive($this->getVar('Itemid'));
+	}
+
+	/**
+	 * Convert limits for pagination
 	 *
-	 * @since   3.2
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
+	 *
+	 * @since   4.0
+	 */
+	public function parsePaginationData(&$router, &$uri)
+	{
+		// Process the pagination support
+		if ($uri->getVar('start'))
+		{
+			$uri->setVar('limitstart', $uri->getVar('start'));
+			$uri->delVar('start');
+		}
+	}
+
+	/**
+	 * Do some initial processing for building a URL
+	 *
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
+	 *
+	 * @since   4.0
+	 */
+	public function buildInit(&$router, &$uri)
+	{
+		// Get the itemid form the URI
+		$itemid = $uri->getVar('Itemid');
+
+		if (is_null($itemid))
+		{
+			if ($option = $uri->getVar('option'))
+			{
+				$item = $this->menu->getItem($this->getVar('Itemid'));
+
+				if (isset($item) && $item->component == $option)
+				{
+					$uri->setVar('Itemid', $item->id);
+				}
+			}
+			else
+			{
+				if ($option = $this->getVar('option'))
+				{
+					$uri->setVar('option', $option);
+				}
+
+				if ($itemid = $this->getVar('Itemid'))
+				{
+					$uri->setVar('Itemid', $itemid);
+				}
+			}
+		}
+		else
+		{
+			if (!$uri->getVar('option'))
+			{
+				if ($item = $this->menu->getItem($itemid))
+				{
+					$uri->setVar('option', $item->component);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Run the component preprocess method
+	 *
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
+	 *
+	 * @since   4.0
 	 */
 	protected function buildComponentPreprocess(&$router, &$uri)
 	{
@@ -452,7 +472,7 @@ class JRouterSite extends JRouter
 		$query     = $crouter->preprocess($query);
 
 		// Make sure any menu vars are used if no others are specified
-		if ($this->options['mode'] != 1
+		if (!$this->app->get('sef')
 			&& isset($query['Itemid'])
 			&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 		{
@@ -478,13 +498,12 @@ class JRouterSite extends JRouter
 	}
 
 	/**
-	 * Function to build a sef route
+	 * Build the SEF route
 	 *
-	 * @param   JUri  &$uri  The uri
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
 	 *
-	 * @return  void
-	 *
-	 * @since   3.2
+	 * @since   4.0
 	 */
 	protected function buildSefRoute(&$router, &$uri)
 	{
@@ -561,80 +580,46 @@ class JRouterSite extends JRouter
 	}
 
 	/**
-	 * Process the parsed router variables based on custom defined rules
+	 * Cleanup the URL build
 	 *
-	 * @param   JUri    &$uri   The URI to parse
-	 * @param   string  $stage  The stage that should be processed.
-	 *                          Possible values: 'preprocess', 'postprocess'
-	 *                          and '' for the main parse stage
+	 * @param   JRouterSite  &$router  Router object
+	 * @param   JUri         &$uri     URI object to process
 	 *
-	 * @return  array  The array of processed URI variables
-	 *
-	 * @since   3.2
+	 * @since   4.0
 	 */
-	protected function parsePaginationData(&$router, &$uri)
+	public function buildCleanupAfter(&$router, &$uri)
 	{
-		// Process the pagination support
-		if ($start = $uri->getVar('start'))
+		// Get the path data
+		$route = $uri->getPath();
+
+		// Add the suffix to the uri
+		if ($this->app->get('sef') && $route)
 		{
-			$uri->delVar('start');
-			$uri->setVar('limitstart', $start);
-		}
-	}
-
-	/**
-	 * Create a uri based on a full or partial url string
-	 *
-	 * @param   string  $url  The URI
-	 *
-	 * @return  JUri
-	 *
-	 * @since   3.2
-	 */
-	protected function createUri($url)
-	{
-		// Create the URI
-		$uri = parent::createUri($url);
-
-		// Get the itemid form the URI
-		$itemid = $uri->getVar('Itemid');
-
-		if (is_null($itemid))
-		{
-			if ($option = $uri->getVar('option'))
+			if ($this->app->get('sef_suffix') && !(substr($route, -9) == 'index.php' || substr($route, -1) == '/'))
 			{
-				$item = $this->menu->getItem($this->getVar('Itemid'));
-
-				if (isset($item) && $item->component == $option)
+				if ($format = $uri->getVar('format', 'html'))
 				{
-					$uri->setVar('Itemid', $item->id);
+					$route .= '.' . $format;
+					$uri->delVar('format');
 				}
 			}
-			else
-			{
-				if ($option = $this->getVar('option'))
-				{
-					$uri->setVar('option', $option);
-				}
 
-				if ($itemid = $this->getVar('Itemid'))
-				{
-					$uri->setVar('Itemid', $itemid);
-				}
-			}
-		}
-		else
-		{
-			if (!$uri->getVar('option'))
+			if ($this->app->get('sef_rewrite'))
 			{
-				if ($item = $this->menu->getItem($itemid))
+				// Transform the route
+				if ($route == 'index.php')
 				{
-					$uri->setVar('option', $item->component);
+					$route = '';
+				}
+				else
+				{
+					$route = str_replace('index.php/', '', $route);
 				}
 			}
 		}
 
-		return $uri;
+		// Add basepath to the uri
+		$uri->setPath(JUri::base(true) . '/' . $route);
 	}
 
 	/**
