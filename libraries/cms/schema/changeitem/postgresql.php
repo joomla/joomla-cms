@@ -232,7 +232,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
+		if (strtolower($type1) == 'integer' && 0 === stripos($type2, 'unsigned'))
 		{
 			$result = 'unsigned int(10)';
 		}

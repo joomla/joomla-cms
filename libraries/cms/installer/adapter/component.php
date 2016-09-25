@@ -356,7 +356,7 @@ class JInstallerAdapterComponent extends JInstallerAdapter
 	{
 		$element = parent::getElement($element);
 
-		if (substr($element, 0, 4) != 'com_')
+		if (0 !== strpos($element, 'com_'))
 		{
 			$element = 'com_' . $element;
 		}

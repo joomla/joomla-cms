@@ -121,7 +121,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 */
 	private function _getCommand($url)
 	{
-		if (substr($url, 0, 4) !== 'http')
+		if (0 !== strpos($url, 'http'))
 		{
 			$url = JUri::base() . $url;
 		}
