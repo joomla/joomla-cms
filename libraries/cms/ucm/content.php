@@ -227,8 +227,7 @@ class JUcmContent extends JUcmBase
 				)
 			);
 		$db->setQuery($queryccid);
-		$primaryKey = $db->loadResult();
 
-		return $primaryKey;
+		return $db->loadResult();
 	}
 }

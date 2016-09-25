@@ -138,8 +138,7 @@ class JFormFieldChromeStyle extends JFormFieldGroupedList
 
 		// Set the query and load the templates.
 		$db->setQuery($query);
-		$templates = $db->loadObjectList('element');
 
-		return $templates;
+		return $db->loadObjectList('element');
 	}
 }
