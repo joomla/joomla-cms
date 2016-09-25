@@ -98,7 +98,7 @@ class JComponentRouterLegacy implements JComponentRouterInterface
 
 			for ($i = 0; $i < $total; $i++)
 			{
-				$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+				$segments[$i] = str_replace('-', ':', $segments[$i]);
 			}
 
 			return $function($segments);
