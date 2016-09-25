@@ -18,7 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $app       = JFactory::getApplication();
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
@@ -68,12 +68,12 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-					<?php if ($assoc) : ?>
-						<?php $columns++; ?>
-						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-						</th>
-					<?php endif;?>
+						<?php if ($assoc) : ?>
+							<?php $columns++; ?>
+							<th width="5%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
@@ -86,6 +86,16 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
+						<?php if ($this->vote) : ?>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+							</th>
+							<?php $columns++; ?>
+							<th width="1%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
@@ -198,9 +208,23 @@ $assoc = JLanguageAssociations::isEnabled();
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td class="hidden-phone">
-							<?php echo (int) $item->hits; ?>
+						<td class="hidden-phone center">
+							<span class="badge badge-info">
+								<?php echo (int) $item->hits; ?>
+							</span>
 						</td>
+						<?php if ($this->vote) : ?>
+							<td class="hidden-phone center">
+								<span class="badge badge-success" >
+								<?php echo (int) $item->rating_count; ?>
+								</span>
+							</td>
+							<td class="hidden-phone center">
+								<span class="badge badge-warning" >
+								<?php echo (int) $item->rating; ?>
+								</span>
+							</td>
+						<?php endif; ?>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
