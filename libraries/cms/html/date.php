@@ -30,7 +30,7 @@ abstract class JHtmlDate
 	 */
 	public static function relative($date, $unit = null, $time = null)
 	{
-		if (is_null($time))
+		if (null === $time)
 		{
 			// Get now
 			$time = new JDate('now');

@@ -1074,7 +1074,7 @@ abstract class JHtml
 		foreach ($array as $k => $v)
 		{
 			// Don't encode either of these types
-			if (is_null($v) || is_resource($v))
+			if (null === $v || is_resource($v))
 			{
 				continue;
 			}

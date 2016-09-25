@@ -80,7 +80,7 @@ class JTableContenthistory extends JTable
 		}
 
 		// Modify author and date only when not toggling Keep Forever
-		if (is_null($this->get('keep_forever')))
+		if (null === $this->get('keep_forever'))
 		{
 			$this->set('editor_user_id', JFactory::getUser()->id);
 			$this->set('save_date', JFactory::getDate()->toSql());
@@ -127,12 +127,12 @@ class JTableContenthistory extends JTable
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = (is_int($subValue) || is_bool($subValue) || is_null($subValue)) ? (string) $subValue : $subValue;
+					$object->$subName = (is_int($subValue) || is_bool($subValue) || null === $subValue) ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = (is_int($value) || is_bool($value) || is_null($value)) ? (string) $value : $value;
+				$object->$name = (is_int($value) || is_bool($value) || null === $value) ? (string) $value : $value;
 			}
 		}
 

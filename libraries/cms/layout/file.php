@@ -572,7 +572,7 @@ class JLayoutFile extends JLayoutBase
 		$paths = array();
 
 		// (1 - highest priority) Received a custom high priority path
-		if (!is_null($this->basePath))
+		if (null !== $this->basePath)
 		{
 			$paths[] = rtrim($this->basePath, DIRECTORY_SEPARATOR);
 		}

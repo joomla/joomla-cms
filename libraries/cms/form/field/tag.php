@@ -213,7 +213,7 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public function isNested()
 	{
-		if (is_null($this->isNested))
+		if (null === $this->isNested)
 		{
 			// If mode="nested" || ( mode not set & config = nested )
 			if ((isset($this->element['mode']) && $this->element['mode'] == 'nested')

@@ -763,8 +763,8 @@ abstract class JHtmlBootstrap
 		static $tabScriptLayout = null;
 		static $tabLayout = null;
 
-		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
-		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+		$tabScriptLayout = null === $tabScriptLayout ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = null === $tabLayout ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
 		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 

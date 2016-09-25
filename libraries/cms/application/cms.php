@@ -114,13 +114,13 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
+		if (null === $this->config->get('session'))
 		{
 			$this->config->set('session', true);
 		}
 
 		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
+		if (null === $this->config->get('session_name'))
 		{
 			$this->config->set('session_name', $this->getName());
 		}
@@ -581,7 +581,7 @@ class JApplicationCms extends JApplicationWeb
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if (null !== $registry)
 		{
 			return $registry->get($key, $default);
 		}
@@ -1137,7 +1137,7 @@ class JApplicationCms extends JApplicationWeb
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if (null !== $registry)
 		{
 			return $registry->set($key, $value);
 		}
