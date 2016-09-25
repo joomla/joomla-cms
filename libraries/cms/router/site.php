@@ -231,7 +231,7 @@ class JRouterSite extends JRouter
 
 			if ($item !== null && is_array($item->query))
 			{
-				$vars = $vars + $item->query;
+				$vars += $item->query;
 			}
 		}
 

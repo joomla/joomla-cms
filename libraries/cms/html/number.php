@@ -58,7 +58,7 @@ abstract class JHtmlNumber
 			{
 				$oBase  = $iec && strpos($oUnit, 'i') === false ? 1000 : 1024;
 				$factor = pow($oBase, stripos('BKMGTPEZY', $oUnit[0]));
-				$oBytes = $oBytes * $factor;
+				$oBytes *= $factor;
 			}
 		}
 
