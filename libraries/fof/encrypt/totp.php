@@ -171,7 +171,7 @@ class FOFEncryptTotp
 
 		for ($i = 1; $i <= $this->_secretLength; $i++)
 		{
-			$c = rand(0, 255);
+			$c = mt_rand(0, 255);
 			$secret .= pack("c", $c);
 		}
 		$base32 = new FOFEncryptBase32;

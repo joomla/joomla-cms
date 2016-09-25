@@ -112,7 +112,7 @@ class FOFEncryptRandval implements FOFEncryptRandvalinterface
 			 * Collect any entropy available from the PHP system and filesystem.
 			 * If we have ssl data that isn't strong, we use it once.
 			 */
-			$entropy = rand() . uniqid(mt_rand(), true) . $sslStr;
+			$entropy = mt_rand() . uniqid(mt_rand(), true) . $sslStr;
 			$entropy .= implode('', @fstat(fopen(__FILE__, 'r')));
 			$entropy .= memory_get_usage();
 			$sslStr = '';
