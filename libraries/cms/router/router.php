@@ -774,7 +774,7 @@ class JRouter
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			$segments[$i] = str_replace('-', ':', $segments[$i]);
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 
 		return $segments;
