@@ -47,7 +47,7 @@ function tln_tagprint($tagname, $attary, $tagtype)
         if (is_array($attary) && sizeof($attary)) {
             $atts = array();
             while (list($attname, $attvalue) = each($attary)) {
-                $atts[] = "$attname=$attvalue";
+                array_push($atts, "$attname=$attvalue");
             }
             $fulltag .= ' ' . join(' ', $atts);
         }
@@ -1127,10 +1127,22 @@ function HTMLFilter($body, $trans_image_path, $block_external_images = false)
     );
 
     if ($block_external_images) {
-        $bad_attvals{'/.*/'}{'/^src|background/i'}[0][] = '/^([\'\"])\s*https*:.*([\'\"])/si';
-        $bad_attvals{'/.*/'}{'/^src|background/i'}[1][] = "\\1$trans_image_path\\1";
-        $bad_attvals{'/.*/'}{'/^style/i'}[0][]          = '/url\(([\'\"])\s*https*:.*([\'\"])\)/si';
-        $bad_attvals{'/.*/'}{'/^style/i'}[1][]          = "url(\\1$trans_image_path\\1)";
+        array_push(
+            $bad_attvals{'/.*/'}{'/^src|background/i'}[0],
+            '/^([\'\"])\s*https*:.*([\'\"])/si'
+        );
+        array_push(
+            $bad_attvals{'/.*/'}{'/^src|background/i'}[1],
+            "\\1$trans_image_path\\1"
+        );
+        array_push(
+            $bad_attvals{'/.*/'}{'/^style/i'}[0],
+            '/url\(([\'\"])\s*https*:.*([\'\"])\)/si'
+        );
+        array_push(
+            $bad_attvals{'/.*/'}{'/^style/i'}[1],
+            "url(\\1$trans_image_path\\1)"
+        );
     }
 
     $add_attr_to_tag = array(
