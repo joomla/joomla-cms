@@ -152,12 +152,14 @@ class JRouterSite extends JRouter
 	 */
 	public function parseFormat(&$router, &$uri)
 	{
-		$path = $uri->getPath();
+		$route = $uri->getPath();
 
 		// Identify format
-		if (!(substr($path, -9) == 'index.php' || substr($path, -1) == '/') && $suffix = pathinfo($path, PATHINFO_EXTENSION))
+		if (!(substr($route, -9) == 'index.php' || substr($route, -1) == '/') && $suffix = pathinfo($route, PATHINFO_EXTENSION))
 		{
 			$uri->setVar('format', $suffix);
+			$route = str_replace('.' . $suffix, '', $route);
+			$uri->setPath($route);
 		}
 	}
 
@@ -173,45 +175,9 @@ class JRouterSite extends JRouter
 	{
 		$route = $uri->getPath();
 
-		// Remove the suffix
-		if ($this->app->get('sef_suffix'))
-		{
-			if ($suffix = pathinfo($route, PATHINFO_EXTENSION))
-			{
-				$route = str_replace('.' . $suffix, '', $route);
-			}
-		}
-
-		// Get the variables from the uri
-		$vars = $uri->getQuery(true);
-
-		// Handle an empty URL (special case)
+		// If the URL is empty, we handle this in the non-SEF parse URL
 		if (empty($route))
 		{
-			// If route is empty AND option is set in the query, assume it's non-sef url, and parse apropriately
-			if (isset($vars['option']) || isset($vars['Itemid']))
-			{
-				return;
-			}
-
-			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
-
-			// If user not allowed to see default menu item then avoid notices
-			if (is_object($item))
-			{
-				// Set the information in the request
-				$vars = $item->query;
-
-				// Get the itemid
-				$vars['Itemid'] = $item->id;
-
-				// Set the active menu item
-				$this->menu->setActive($vars['Itemid']);
-
-				$this->setVars($vars);
-				$uri->setQuery(array_merge($vars, $uri->getQuery(true)));
-			}
-
 			return;
 		}
 
@@ -284,12 +250,7 @@ class JRouterSite extends JRouter
 			}
 			else
 			{
-				$route = substr($route, strlen($found->route));
-
-				if ($route)
-				{
-					$route = substr($route, 1);
-				}
+				$route = trim(substr($route, strlen($found->route)), '/');
 			}
 
 			if ($found)
@@ -310,29 +271,12 @@ class JRouterSite extends JRouter
 		{
 			$segments = explode('/', $route);
 
-			if (empty($segments[0]))
-			{
-				array_shift($segments);
-			}
-
-			// Handle component route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
-
 			if (count($segments))
 			{
+				// Handle component route
+				$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
 				$crouter = $this->getComponentRouter($component);
-				$vars = $crouter->parse($segments);
-
-				$uri->setQuery(array_merge($uri->getQuery(true), $vars));
-			}
-		}
-		else
-		{
-			// Set active menu item
-			if ($item = $this->menu->getActive())
-			{
-				$vars = $item->query;
-				$uri->setQuery(array_merge($uri->getQuery(true), $vars));
+				$uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
 			}
 		}
 	}
@@ -347,39 +291,23 @@ class JRouterSite extends JRouter
 	 */
 	public function parseRawRoute(&$router, &$uri)
 	{
-		// Handle an empty URL (special case)
-		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
+		if ($uri->getVar('Itemid'))
+		{
+			$item = $this->menu->getItem($this->getVar('Itemid'));
+		}
+		else
 		{
 			$item = $this->menu->getDefault($this->app->getLanguage()->getTag());
+		}
 
-			if (!is_object($item))
-			{
-				// No default item set
-				return;
-			}
-
-			// Get the itemid
-			$uri->setVar('Itemid', $item->id);
-
+		if (is_object($item))
+		{
 			// Set the active menu item
 			$this->menu->setActive($item->id);
 
-			return;
+			$uri->setVar('Itemid', $item->id);
+			$uri->setQuery(array_merge($item->query, $uri->getQuery(true)));
 		}
-
-		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
-		{
-			$item = $this->menu->getItem($this->getVar('Itemid'));
-
-			if ($item !== null && is_array($item->query))
-			{
-				$vars = $vars + $item->query;
-			}
-		}
-
-		// Set the active menu item
-		$this->menu->setActive($this->getVar('Itemid'));
 	}
 
 	/**
