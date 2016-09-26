@@ -263,7 +263,8 @@ hr.hr-condensed {
 }
 
 .row-striped .row-fluid {
-	width: 97%; // lower than 100% since we have padding
+	width: 100%;
+	box-sizing: border-box; // box-sizing since we don't care about padding
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;

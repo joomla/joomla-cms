@@ -5998,7 +5998,8 @@ hr.hr-condensed {
 	background-color: #f5f5f5;
 }
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;
@@ -7518,8 +7519,8 @@ h6 {
 .sidebar-nav .nav-list > li > a {
 	color: #555;
 	padding: 3px 25px;
-	margin-left: -25px;
-	margin-right: -25px;
+	margin-left: -26px;
+	margin-right: -26px;
 }
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
