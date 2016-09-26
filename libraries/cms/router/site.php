@@ -477,21 +477,8 @@ class JRouterSite extends JRouter
 			&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
 		{
 			// Get the active menu item
-			$itemid = $uri->getVar('Itemid');
-			$lang = $uri->getVar('lang');
-			$item = $this->menu->getItem($itemid);
-
-			if ($item)
-			{
-				$uri->setQuery($item->query);
-			}
-
-			$uri->setVar('Itemid', $itemid);
-
-			if ($lang)
-			{
-				$uri->setVar('lang', $lang);
-			}
+			$item = $this->menu->getItem($query['Itemid']);
+			$query = array_merge($item->query, $query);
 		}
 
 		$uri->setQuery($query);

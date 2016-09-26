@@ -303,6 +303,57 @@ class JRouter
 	}
 
 	/**
+	 * Remove a rule
+	 *
+	 * @param   string    $type   Type of rule to remove (parse or build)
+	 * @param   callable  $rule   The rule to be removed.
+	 * @param   string    $stage  The stage of the parse process that
+	 *                             this should be added to. Possible values:
+	 *                             'preprocess', '' for the main parse process,
+	 *                             'postprocess'
+	 *
+	 * @return   boolean  Was a rule removed?
+	 *
+	 * @since   4.0
+	 */
+	public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
+	{
+		if (!in_array($type, array('parse', 'build')))
+		{
+			throw new InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
+		}
+
+		if (!array_key_exists($type . $stage, $this->rules))
+		{
+			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
+		}
+
+		foreach ($this->rules[$type . $stage] as $id => $r)
+		{
+			if ($r == $rule)
+			{
+				unset($this->rules[$type . $stage][$id]);
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get all currently attached rules
+	 *
+	 * @return  array  All currently attached rules in an array
+	 *
+	 * @since   4.0
+	 */
+	public function getRules()
+	{
+		return $this->rules;
+	}
+
+	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
 	 * @param   JUri    &$uri   The URI to parse
