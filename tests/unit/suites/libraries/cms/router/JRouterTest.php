@@ -99,14 +99,11 @@ class JRouterTest extends TestCase
 		$cache->setAccessible(true);
 		$cache->setValue(array());
 
-		#$this->markTestSkipped('Untestable due to global instance cache not clearable.');
-
 		$object = JRouter::getInstance($client, array('mode' => 'test'));
 
 		$expected = 'JRouter' . ucfirst($client);
 
 		$this->assertInstanceOf($expected, $object);
-		$this->assertEquals('test', $object->getMode());
 	}
 
 	/**
@@ -134,107 +131,15 @@ class JRouterTest extends TestCase
 	}
 
 	/**
-	 * @since   3.4
-	 */
-	public function casesParse()
-	{
-		return array(
-			'raw-no_url-no_var' => array('', JROUTER_MODE_RAW, array(), array()),
-			'raw-url-no_var'    => array('index.php?var1=value1', JROUTER_MODE_RAW, array(), array()),
-			'raw-no_url-var'    => array('', JROUTER_MODE_RAW, array('var2' => 'value2'), array('var2' => 'value2')),
-			'raw-url-var'       => array(
-				'index.php?var1=value1',
-				JROUTER_MODE_RAW,
-				array('var2' => 'value2'),
-				array('var2' => 'value2')
-			),
-			'sef-no_url-no_var' => array('', JROUTER_MODE_SEF, array(), array()),
-			'sef-url-no_var'    => array('index.php?var1=value1', JROUTER_MODE_SEF, array(), array()),
-			'sef-no_url-var'    => array('', JROUTER_MODE_SEF, array('var2' => 'value2'), array('var2' => 'value2')),
-			'sef-url-var'       => array(
-				'index.php?var1=value1',
-				JROUTER_MODE_RAW,
-				array('var2' => 'value2'),
-				array('var2' => 'value2')
-			),
-		);
-	}
-
-	/**
-	 * @param   string  $url      A URL
-	 * @param   integer $mode     JROUTER_MODE_RAW or JROUTER_MODE_SEF
-	 * @param   array   $vars     An associative array with global variables
-	 * @param   array   $expected Expected value
-	 *
-	 * @dataProvider  casesParse
-	 * @testdox       parse() does not evaluate URL parameters
-	 * @since         3.4
-	 */
-	public function testRouterDoesNotEvaluateUrlParameters($url, $mode, $vars, $expected)
-	{
-		$this->object->setMode($mode);
-		$this->object->setVars($vars);
-		$uri = new JUri($url);
-
-		$this->assertEquals($this->object->parse($uri), $expected);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function casesModes()
-	{
-		return array(
-			'default' => array(null),
-			'raw'     => array(JROUTER_MODE_RAW),
-			'sef'     => array(JROUTER_MODE_SEF)
-		);
-	}
-
-	/**
-	 * @dataProvider casesModes
 	 * @testdox      build() gives the same result as the JUri constructor
 	 * @since        3.4
-	 *
-	 * @param $mode
 	 */
-	public function testBuildGivesTheSameResultAsTheJuriConstructor($mode)
+	public function testBuildGivesTheSameResultAsTheJuriConstructor()
 	{
 		$uri    = new JUri('index.php?var1=value1');
 		$object = new JRouter;
-		if (!empty($mode))
-		{
-			$object->setMode($mode);
-		}
 		$result = $this->object->build('index.php?var1=value1');
 		$this->assertEquals($uri, $result);
-	}
-
-	/**
-	 * @testdox Default mode is handling raw URLs
-	 * @since   3.4
-	 */
-	public function testDefaultModeIsHandlingRawUrls()
-	{
-		$this->assertEquals(JROUTER_MODE_RAW, $this->object->getMode());
-	}
-
-	/**
-	 * @since   3.4
-	 */
-	public function testModeCanBeChangedAfterInstantiation()
-	{
-		$this->object->setMode(JROUTER_MODE_SEF);
-		$this->assertEquals(JROUTER_MODE_SEF, $this->object->getMode());
-	}
-
-	/**
-	 * @since   3.4
-	 */
-	public function testModeCanBeSetToAnyArbitraryValue()
-	{
-		$this->object->setMode(42);
-		$this->assertEquals(42, $this->object->getMode());
 	}
 
 	/**
@@ -324,9 +229,9 @@ class JRouterTest extends TestCase
 			'before' => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var1' => 'before');
+						$uri->setVar('var1', 'before');
 					}
 				),
 				'stage'    => JRouter::PROCESS_BEFORE,
@@ -335,9 +240,9 @@ class JRouterTest extends TestCase
 			'during' => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var1' => 'during');
+						$uri->setVar('var1', 'during');
 					}
 				),
 				'stage'    => JRouter::PROCESS_DURING,
@@ -346,9 +251,9 @@ class JRouterTest extends TestCase
 			'after'  => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var1' => 'after');
+						$uri->setVar('var1', 'after');
 					}
 				),
 				'stage'    => JRouter::PROCESS_AFTER,
@@ -368,13 +273,13 @@ class JRouterTest extends TestCase
 	 */
 	public function testParseRulesCanReplacePresetVariables($preset, $rules, $stage, $expected)
 	{
-		$this->object->setVars($preset, false);
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = new JUri;
+		$uri->setQuery($preset);
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -387,9 +292,9 @@ class JRouterTest extends TestCase
 			'before' => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var3' => 'value3');
+						$uri->setVar('var3', 'value3');
 					},
 				),
 				'stage'    => JRouter::PROCESS_BEFORE,
@@ -398,9 +303,9 @@ class JRouterTest extends TestCase
 			'during' => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var3' => 'value3');
+						$uri->setVar('var3', 'value3');
 					},
 				),
 				'stage'    => JRouter::PROCESS_DURING,
@@ -409,9 +314,9 @@ class JRouterTest extends TestCase
 			'after'  => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var3' => 'value3');
+						$uri->setVar('var3', 'value3');
 					},
 				),
 				'stage'    => JRouter::PROCESS_AFTER,
@@ -431,13 +336,13 @@ class JRouterTest extends TestCase
 	 */
 	public function testParseRulesCanAddVariables($preset, $rules, $stage, $expected)
 	{
-		$this->object->setVars($preset, false);
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = new JUri;
+		$uri->setQuery($preset);
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -450,47 +355,17 @@ class JRouterTest extends TestCase
 			'before-same_var' => array(
 				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
 				'rules'    => array(
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var1' => 'before1');
+						$uri->setVar('var1', 'before1');
 					},
-					function (JRouter $router, JUri $uri)
+					function (JRouter &$router, JUri &$uri)
 					{
-						return array('var1' => 'before2');
-					},
-				),
-				'stage'    => JRouter::PROCESS_BEFORE,
-				'expected' => array('var1' => 'before1', 'var2' => 'value2')
-			),
-			'during-same_var' => array(
-				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
-				'rules'    => array(
-					function (JRouter $router, JUri $uri)
-					{
-						return array('var1' => 'during1');
-					},
-					function (JRouter $router, JUri $uri)
-					{
-						return array('var1' => 'during2');
+						$uri->setVar('var1', 'before2');
 					},
 				),
 				'stage'    => JRouter::PROCESS_BEFORE,
-				'expected' => array('var1' => 'during1', 'var2' => 'value2')
-			),
-			'after-same_var'  => array(
-				'preset'   => array('var1' => 'value1', 'var2' => 'value2'),
-				'rules'    => array(
-					function (JRouter $router, JUri $uri)
-					{
-						return array('var1' => 'after1');
-					},
-					function (JRouter $router, JUri $uri)
-					{
-						return array('var1' => 'after2');
-					},
-				),
-				'stage'    => JRouter::PROCESS_BEFORE,
-				'expected' => array('var1' => 'after1', 'var2' => 'value2')
+				'expected' => array('var1' => 'before2', 'var2' => 'value2')
 			),
 		);
 	}
@@ -506,13 +381,13 @@ class JRouterTest extends TestCase
 	 */
 	public function testFirstParseRuleTakesPrecedence($preset, $rules, $stage, $expected)
 	{
-		$this->object->setVars($preset, false);
 		foreach ($rules as $rule)
 		{
 			$this->object->attachParseRule($rule, $stage);
 		}
 
-		$uri = $this->getMock('JUri');
+		$uri = new JUri;
+		$uri->setQuery($preset);
 		$this->assertEquals($expected, $this->object->parse($uri));
 	}
 
@@ -790,63 +665,5 @@ class JRouterTest extends TestCase
 		$createUriMethod = new ReflectionMethod('JRouter', 'createUri');
 		$createUriMethod->setAccessible(true);
 		$this->assertEquals($expected, (string)($createUriMethod->invoke($this->object, $url)));
-	}
-
-	/**
-	 * @since   3.4
-	 */
-	public function casesEncodeSegments()
-	{
-		return array(
-			array(array('test'), array('test')),
-			array(array('1:test'), array('1-test')),
-			array(array('test', '1:test'), array('test', '1-test')),
-			array(array('42:test', 'testing:this:method'), array('42-test', 'testing-this-method')),
-		);
-	}
-
-	/**
-	 * Tests encodeSegments() method
-	 *
-	 * @param   array  $segments Array of decoded segments of a URL
-	 * @param   string $expected Array of encoded segments of a URL
-	 *
-	 * @dataProvider casesEncodeSegments
-	 * @since        3.4
-	 */
-	public function testEncodeSegments($segments, $expected)
-	{
-		$encodeSegmentsMethod = new ReflectionMethod('JRouter', 'encodeSegments');
-		$encodeSegmentsMethod->setAccessible(true);
-		$this->assertEquals($expected, $encodeSegmentsMethod->invoke($this->object, $segments));
-	}
-
-	/**
-	 * @since   3.4
-	 */
-	public function casesDecodeSegments()
-	{
-		return array(
-			array(array('test'), array('test')),
-			array(array('1-test'), array('1:test')),
-			array(array('test', '1-test'), array('test', '1:test')),
-			array(array('42-test', 'testing-this-method'), array('42:test', 'testing:this-method')),
-		);
-	}
-
-	/**
-	 * Tests decodeSegments() method
-	 *
-	 * @param   string $encoded  Array of encoded segments of a URL
-	 * @param   array  $expected Array of decoded segments of a URL
-	 *
-	 * @dataProvider casesDecodeSegments
-	 * @since        3.4
-	 */
-	public function testDecodeSegments($encoded, $expected)
-	{
-		$decodeSegmentsMethod = new ReflectionMethod('JRouter', 'decodeSegments');
-		$decodeSegmentsMethod->setAccessible(true);
-		$this->assertEquals($expected, $decodeSegmentsMethod->invoke($this->object, $encoded));
 	}
 }

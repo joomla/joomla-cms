@@ -73,7 +73,6 @@ class JRouterSiteTest extends TestCase
 	public function testJRouterSiteIsAJRouter()
 	{
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -115,7 +114,7 @@ class JRouterSiteTest extends TestCase
 		return array(
 			array(
 				'url'     => '',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -123,7 +122,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/index.php?var1=value1',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -131,7 +130,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => 'index.php?var1=value1',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -139,7 +138,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/joomla/blog/test.json',
-				'mode'    => JROUTER_MODE_SEF,
+				'mode'    => 1,
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('format' => 'json', 'option' => 'com_test3', 'Itemid' => '45'),
@@ -147,7 +146,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/joomla/blog/test.json/',
-				'mode'    => JROUTER_MODE_SEF,
+				'mode'    => 1,
 				'map'     => array(array('sef_suffix', null, '1')),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'Itemid' => '45'),
@@ -155,7 +154,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/joomla/blog/test%202',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server1,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -163,7 +162,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/joomla/blog/test',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server2,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -171,7 +170,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/joomla/blog/te%20st',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server2,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -179,7 +178,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/otherfolder/blog/test',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server2,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -187,7 +186,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'     => '/cli/deletefiles.php?var1=value1',
-				'mode'    => JROUTER_MODE_RAW,
+				'mode'    => 0,
 				'map'     => array(),
 				'server'  => $server3,
 				'expVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
@@ -200,7 +199,7 @@ class JRouterSiteTest extends TestCase
 	 * Tests the parse method
 	 *
 	 * @param   string  $url          An associative array with variables
-	 * @param   integer $mode         JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   integer $mode         0 or 1
 	 * @param   array   $map          An associative array with app config vars
 	 * @param   array   $server       An associative array with $_SERVER vars
 	 * @param   array   $expectedVars Expected vars
@@ -222,12 +221,9 @@ class JRouterSiteTest extends TestCase
 			->will($this->returnValueMap($map));
 
 		$object = new JRouterSite(
-			array(),
 			$app,
 			TestMockMenu::create($this)
 		);
-
-		$object->setMode($mode);
 
 		$uri  = new JUri($url);
 		$vars = $object->parse($uri);
@@ -255,7 +251,6 @@ class JRouterSiteTest extends TestCase
 			->method('redirect');
 
 		$object = new JRouterSite(
-			array(),
 			$app,
 			TestMockMenu::create($this)
 		);
@@ -289,7 +284,6 @@ class JRouterSiteTest extends TestCase
 		return array(
 			array(
 				'url'      => '',
-				'mode'     => JROUTER_MODE_RAW,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server1,
@@ -297,7 +291,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'blog/test',
-				'mode'     => JROUTER_MODE_RAW,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server1,
@@ -305,7 +298,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => '',
-				'mode'     => JROUTER_MODE_RAW,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server2,
@@ -313,7 +305,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'blog/test',
-				'mode'     => JROUTER_MODE_RAW,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server2,
@@ -321,7 +312,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => '',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server1,
@@ -329,7 +319,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'blog/test',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server1,
@@ -337,7 +326,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => '',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server2,
@@ -345,7 +333,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'blog/test',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(),
 				'server'   => $server2,
@@ -353,7 +340,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1)),
 				'server'   => $server2,
@@ -361,7 +347,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php/blog/test',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1)),
 				'server'   => $server2,
@@ -369,7 +354,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1)),
 				'server'   => $server1,
@@ -377,7 +361,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php/blog/test',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1)),
 				'server'   => $server1,
@@ -385,7 +368,7 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php?format=json',
-				'mode'     => JROUTER_MODE_SEF,
+				'mode'     => 1,
 				'vars'     => array(),
 				'map'      => array(array('sef_suffix', null, 1)),
 				'server'   => $server2,
@@ -393,7 +376,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php/blog/test?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_suffix', null, 1)),
 				'server'   => $server2,
@@ -401,7 +383,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_suffix', null, 1)),
 				'server'   => $server1,
@@ -409,7 +390,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php/blog/test?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_suffix', null, 1)),
 				'server'   => $server1,
@@ -417,7 +397,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1), array('sef_suffix', null, 1)),
 				'server'   => $server2,
@@ -425,7 +404,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php/blog/test?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1), array('sef_suffix', null, 1)),
 				'server'   => $server2,
@@ -433,7 +411,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1), array('sef_suffix', null, 1)),
 				'server'   => $server1,
@@ -441,7 +418,6 @@ class JRouterSiteTest extends TestCase
 			),
 			array(
 				'url'      => 'index.php/blog/test?format=json',
-				'mode'     => JROUTER_MODE_SEF,
 				'vars'     => array(),
 				'map'      => array(array('sef_rewrite', null, 1), array('sef_suffix', null, 1)),
 				'server'   => $server1,
@@ -454,7 +430,7 @@ class JRouterSiteTest extends TestCase
 	 * testBuild().
 	 *
 	 * @param   string  $url      The URL
-	 * @param   integer $mode     JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   integer $mode     0 or 1
 	 * @param   array   $vars     An associative array with global variables
 	 * @param   array   $map      Valuemap for JApplication::get() Mock
 	 * @param   array   $server   Values for $_SERVER
@@ -466,7 +442,7 @@ class JRouterSiteTest extends TestCase
 	 * @testdox      Variables are transformed into proper URLs
 	 * @since        3.4
 	 */
-	public function testBuild($url, $mode, $vars, $map, $server, $expected)
+	public function testBuild($url, $vars, $map, $server, $expected)
 	{
 		$_SERVER = array_merge($_SERVER, $server);
 
@@ -476,12 +452,9 @@ class JRouterSiteTest extends TestCase
 			->will($this->returnValueMap($map));
 
 		$object = new JRouterSite(
-			array(),
 			$app,
 			TestMockMenu::create($this)
 		);
-
-		$object->setMode($mode);
 
 		// Check the expected values
 		$this->assertEquals($expected, (string)($object->build($url)));
@@ -499,25 +472,21 @@ class JRouterSiteTest extends TestCase
 		return array(
 			'no_url-sef'           => array(
 				'url'          => '',
-				'mode'         => JROUTER_MODE_SEF,
 				'expParseVars' => array(),
 				'expObjVars'   => array()
 			),
 			'no_url-raw-default'   => array(
 				'url'          => '',
-				'mode'         => JROUTER_MODE_RAW,
 				'expParseVars' => array('option' => 'com_test3', 'view' => 'test3', 'Itemid' => '45'),
 				'expObjVars'   => array()
 			),
 			'url-sef-query-itemid' => array(
 				'url'          => 'index.php?option=com_test&Itemid=42&testvar=testvalue',
-				'mode'         => JROUTER_MODE_SEF,
 				'expParseVars' => array(),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => '42', 'testvar' => 'testvalue')
 			),
 			'url-sef-itemid'       => array(
 				'url'          => 'index.php?Itemid=42',
-				'mode'         => JROUTER_MODE_SEF,
 				'expParseVars' => array('option' => 'com_test', 'view' => 'test'),
 				'expObjVars'   => array('Itemid' => 42)
 			),
@@ -528,7 +497,7 @@ class JRouterSiteTest extends TestCase
 	 * Tests the parse method
 	 *
 	 * @param   string  $url                An associative array with variables
-	 * @param   integer $mode               JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   integer $mode               0 or 1
 	 * @param   array   $expectedParseVars  An associative array with $_SERVER vars
 	 * @param   array   $expectedObjectVars An associative array with $_SERVER vars
 	 *
@@ -537,7 +506,7 @@ class JRouterSiteTest extends TestCase
 	 * @dataProvider  casesParseRawRoute
 	 * @since         3.4
 	 */
-	public function testParseRawRoute($url, $mode, $expectedParseVars, $expectedObjectVars)
+	public function testParseRawRoute($url, $expectedParseVars, $expectedObjectVars)
 	{
 		$app = $this->getMockCmsApp();
 
@@ -546,18 +515,7 @@ class JRouterSiteTest extends TestCase
 			$app->input->set('Itemid', $expectedObjectVars['Itemid']);
 		}
 
-		if ($mode == JROUTER_MODE_SEF)
-		{
-			$menu = TestMockMenu::create($this, false);
-			$menu
-				->expects($this->any())
-				->method('getDefault')
-				->will($this->returnValue(null));
-		}
-		else
-		{
-			$menu = TestMockMenu::create($this, true);
-		}
+		$menu = TestMockMenu::create($this, true);
 
 		$object = new JRouterSite(
 			array(),
@@ -596,7 +554,7 @@ class JRouterSiteTest extends TestCase
 			// Empty URLs without a default menu item return nothing
 			'empty-sef'                     => array(
 				'url'          => '',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array()
@@ -604,105 +562,105 @@ class JRouterSiteTest extends TestCase
 			// Absolute URLs to the domain of the site
 			'abs-sef-path-no_qs-no_sfx'     => array(
 				'url'          => '/test/path',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array()
 			),
 			'abs-sef-path-qs-no_sfx'        => array(
 				'url'          => '/test/path?testvar=testvalue',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('testvar' => 'testvalue')
 			),
 			'abs-sef-no_path-qs-no_sfx'     => array(
 				'url'          => '?testvar=testvalue',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array()
 			),
 			'abs-sef-path.ext-no_qs-no_sfx' => array(
 				'url'          => '/test/path.json',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array()
 			),
 			'abs-sef-path.ext-qs-no_sfx'    => array(
 				'url'          => '/test/path.json?testvar=testvalue',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('testvar' => 'testvalue')
 			),
 			'abs-sef-path.ext-no_qs-sfx'    => array(
 				'url'          => '/test/path.json',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(array('sef_suffix', null, '1')),
 				'expParseVars' => array(),
 				'expObjVars'   => array()
 			),
 			'abs-sef-path.ext-qs-sfx'       => array(
 				'url'          => '/test/path.json?testvar=testvalue',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(array('sef_suffix', null, '1')),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('testvar' => 'testvalue')
 			),
 			'empty-raw'                     => array(
 				'url'          => '',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
 				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
 			),
 			'abs-raw-path-no_qs-no_sfx'     => array(
 				'url'          => '/test/path',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3')
 			),
 			'abs-raw-path-qs-no_sfx'        => array(
 				'url'          => '/test/path?testvar=testvalue',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3')
 			),
 			'abs-raw-no_path-qs-no_sfx'     => array(
 				'url'          => '?testvar=testvalue',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3'),
 				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3', 'view' => 'test3')
 			),
 			'abs-raw-path.ext-no_qs-no_sfx' => array(
 				'url'          => '/test/path.json',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3')
 			),
 			'abs-raw-path.ext-qs-no_sfx'    => array(
 				'url'          => '/test/path.json?testvar=testvalue',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3')
 			),
 			'abs-raw-path.ext-no_qs-sfx'    => array(
 				'url'          => '/test/path.json',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(array('sef_suffix', null, '1')),
 				'expParseVars' => array(),
 				'expObjVars'   => array('Itemid' => '45', 'option' => 'com_test3')
 			),
 			'abs-raw-path.ext-qs-sfx'       => array(
 				'url'          => '/test/path.json?testvar=testvalue',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(array('sef_suffix', null, '1')),
 				'expParseVars' => array(),
 				'expObjVars'   => array('testvar' => 'testvalue', 'Itemid' => '45', 'option' => 'com_test3')
@@ -710,28 +668,28 @@ class JRouterSiteTest extends TestCase
 			// Non-SEF URLs
 			'raw-sef-no_id-no_opt'          => array(
 				'url'          => '?option=com_test',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => null)
 			),
 			'raw-sef-id-no_opt'             => array(
 				'url'          => '?Itemid=42',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('Itemid' => null)
 			),
 			'raw-sef-id-opt'                => array(
 				'url'          => '?Itemid=42&option=com_test',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => null)
 			),
 			'raw-raw-no_id-opt'             => array(
 				'url'          => '?option=com_test',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => null)
@@ -739,14 +697,14 @@ class JRouterSiteTest extends TestCase
 			// 20
 			'20-raw-id-no_opt'              => array(
 				'url'          => '?Itemid=42',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('Itemid' => null)
 			),
 			'20-raw-id-opt'                 => array(
 				'url'          => '?Itemid=42&option=com_test',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array(),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => null)
@@ -754,28 +712,28 @@ class JRouterSiteTest extends TestCase
 			// URLs with /component/something
 			'comp-sef-2lvl'                 => array(
 				'url'          => 'component/test',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('option' => 'com_test', 'Itemid' => null),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => null)
 			),
 			'comp-raw-2lvl'                 => array(
 				'url'          => 'component/test',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array('option' => 'com_test', 'Itemid' => null),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => null)
 			),
 			'comp-sef-3lvl'                 => array(
 				'url'          => 'component/test2/something',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => null)
 			),
 			'comp-raw-3lvl'                 => array(
 				'url'          => 'component/test2/something',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => null, 'testvar' => 'testvalue')
@@ -783,63 +741,63 @@ class JRouterSiteTest extends TestCase
 			// Parse current menu items
 			'curr-sef-no_lang-2lvl'         => array(
 				'url'          => 'test2/sub-menu',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('option' => 'com_test2', 'Itemid' => 44),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => 44)
 			),
 			'curr-raw-no_lang-2lvl'         => array(
 				'url'          => 'test2/sub-menu',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array('option' => 'com_test2', 'Itemid' => 44),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => 44)
 			),
 			'curr-sef-no_lang-3lvl'         => array(
 				'url'          => 'test2/sub-menu/something',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44)
 			),
 			'curr-raw-no_lang-3lvl'         => array(
 				'url'          => 'test2/sub-menu/something',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array(),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue')
 			),
 			'curr-sef-lang-2lvl'            => array(
 				'url'          => 'test2/sub-menu',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array('languagefilter' => true),
 				'expParseVars' => array('option' => 'com_test2', 'Itemid' => 44),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => 44)
 			),
 			'curr-raw-lang-2lvl'            => array(
 				'url'          => 'test2/sub-menu',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array('languagefilter' => true),
 				'expParseVars' => array('option' => 'com_test2', 'Itemid' => 44),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => 44)
 			),
 			'curr-sef-lang-3lvl'            => array(
 				'url'          => 'test2/sub-menu/something',
-				'mode'         => JROUTER_MODE_SEF,
+				'mode'         => 1,
 				'appConfig'    => array('languagefilter' => true),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('testvar' => 'testvalue', 'option' => 'com_test2', 'Itemid' => 44)
 			),
 			'curr-raw-lang-3lvl'            => array(
 				'url'          => 'test2/sub-menu/something',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array('languagefilter' => true),
 				'expParseVars' => array('testvar' => 'testvalue'),
 				'expObjVars'   => array('option' => 'com_test2', 'Itemid' => 44, 'testvar' => 'testvalue')
 			),
 			'engl-raw-lang'                 => array(
 				'url'          => 'english-test',
-				'mode'         => JROUTER_MODE_RAW,
+				'mode'         => 0,
 				'appConfig'    => array('languagefilter' => true),
 				'expParseVars' => array('option' => 'com_test', 'view' => 'test2'),
 				'expObjVars'   => array('option' => 'com_test', 'Itemid' => '47'),
@@ -852,7 +810,7 @@ class JRouterSiteTest extends TestCase
 	 * Tests the parseSefRoute method
 	 *
 	 * @param   string  $url                An associative array with variables
-	 * @param   integer $mode               JROUTER_MODE_RAW or JROUTER_MODE_SEF
+	 * @param   integer $mode               0 or 1
 	 * @param   array   $appConfig          An associative array with app config vars
 	 * @param   array   $expectedParseVars  An associative array with $_SERVER vars
 	 * @param   array   $expectedObjectVars An associative array with $_SERVER vars
@@ -884,7 +842,7 @@ class JRouterSiteTest extends TestCase
 			->method('get')
 			->will($this->returnValueMap($appConfig));
 
-		if ($mode == JROUTER_MODE_SEF)
+		if ($mode == 1)
 		{
 			$menu = TestMockMenu::create($this, false, $setActive);
 			$menu
@@ -898,7 +856,6 @@ class JRouterSiteTest extends TestCase
 		}
 
 		$object = new JRouterSite(
-			array(),
 			$app,
 			$menu
 		);
@@ -933,7 +890,6 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri('index.php');
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -957,7 +913,6 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri('index.php');
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -982,7 +937,6 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri('index.php');
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -1008,7 +962,6 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri('index.php');
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -1092,14 +1045,13 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri($url);
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
 
 		$buildSefRouteMethod = new ReflectionMethod('JRouterSite', 'buildSefRoute');
 		$buildSefRouteMethod->setAccessible(true);
-		$buildSefRouteMethod->invokeArgs($object, array(&$uri));
+		$buildSefRouteMethod->invokeArgs($object, array(&$object, &$uri));
 
 		$this->assertEquals($expected, (string)$uri);
 	}
@@ -1116,11 +1068,9 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri('index.php?start=42');
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
-		$object->setMode(JROUTER_MODE_SEF);
 
 		$processParseRulesMethod = new ReflectionMethod('JRouterSite', 'processParseRules');
 		$processParseRulesMethod->setAccessible(true);
@@ -1144,7 +1094,7 @@ class JRouterSiteTest extends TestCase
 			// Check if an empty URL is returned as an empty URL
 			'empty'      => array(
 				'url'      => '',
-				'mode'     => JROUTER_MODE_RAW,
+				'mode'     => 0,
 				'expected' => ''
 			),
 			/**
@@ -1154,7 +1104,7 @@ class JRouterSiteTest extends TestCase
 			 */
 			'raw'        => array(
 				'url'      => 'index.php?Itemid=42&test=true',
-				'mode'     => JROUTER_MODE_RAW,
+				'mode'     => 0,
 				'expected' => 'index.php?option=com_test&view=test&Itemid=42'
 			),
 			/**
@@ -1163,7 +1113,7 @@ class JRouterSiteTest extends TestCase
 			 */
 			'sef'        => array(
 				'url'      => 'index.php?Itemid=42&test=true',
-				'mode'     => JROUTER_MODE_SEF,
+				'mode'     => 1,
 				'expected' => 'index.php?Itemid=42&test=true'
 			),
 			/**
@@ -1172,7 +1122,7 @@ class JRouterSiteTest extends TestCase
 			 */
 			'limitstart' => array(
 				'url'      => 'test?limitstart=42',
-				'mode'     => JROUTER_MODE_SEF,
+				'mode'     => 1,
 				'expected' => 'test?start=42'
 			),
 		);
@@ -1194,109 +1144,15 @@ class JRouterSiteTest extends TestCase
 		$uri = new JUri($url);
 
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
-		$object->setMode($mode);
 
 		$processBuildRulesMethod = new ReflectionMethod('JRouterSite', 'processBuildRules');
 		$processBuildRulesMethod->setAccessible(true);
 
 		$processBuildRulesMethod->invokeArgs($object, array(&$uri));
 
-		$this->assertEquals($expected, (string)$uri);
-	}
-
-	/**
-	 * Cases for testCreateURI
-	 *
-	 * @return  array
-	 *
-	 * @since   3.4
-	 */
-	public function casesCreateUri()
-	{
-		return array(
-			// Check if a rather non-URL is returned identical
-			array(
-				'url'      => 'index.php?var1=value&var2=value2',
-				'preset'   => array(),
-				'expected' => 'index.php?var1=value&var2=value2'
-			),
-			// Check if a URL with Itemid and option is returned identically
-			array(
-				'url'      => 'index.php?option=com_test&Itemid=42&var1=value1',
-				'preset'   => array(),
-				'expected' => 'index.php?option=com_test&Itemid=42&var1=value1'
-			),
-			// Check if a URL with existing Itemid and no option is added the right option
-			array(
-				'url'      => 'index.php?Itemid=42&var1=value1',
-				'preset'   => array(),
-				'expected' => 'index.php?Itemid=42&var1=value1&option=com_test'
-			),
-			// Check if a URL with non-existing Itemid and no option is returned identically
-			array(
-				'url'      => 'index.php?Itemid=41&var1=value1',
-				'preset'   => array(),
-				'expected' => 'index.php?Itemid=41&var1=value1'
-			),
-			// Check if a URL with no Itemid and no option, but globally set option is added the option
-			array(
-				'url'      => 'index.php?var1=value1',
-				'preset'   => array('option' => 'com_test'),
-				'expected' => 'index.php?var1=value1&option=com_test'
-			),
-			// Check if a URL with no Itemid and no option, but globally set Itemid is added the Itemid
-			array(
-				'url'      => 'index.php?var1=value1',
-				'preset'   => array('Itemid' => '42'),
-				'expected' => 'index.php?var1=value1&Itemid=42'
-			),
-			// Check if a URL without an Itemid, but with an option set and a global Itemid available, which fits the option of the menu item gets the Itemid appended
-			array(
-				'url'      => 'index.php?var1=value&option=com_test',
-				'preset'   => array('Itemid' => '42'),
-				'expected' => 'index.php?var1=value&option=com_test&Itemid=42'
-			),
-			// Check if a URL without an Itemid, but with an option set and a global Itemid available, which does not fit the option of the menu item gets returned identically
-			array(
-				'url'      => 'index.php?var1=value&option=com_test3',
-				'preset'   => array('Itemid' => '42'),
-				'expected' => 'index.php?var1=value&option=com_test3'
-			),
-		);
-	}
-
-	/**
-	 * Tests createUri() method
-	 *
-	 * @param   array  $url      valid inputs to the createUri() method
-	 * @param   array  $preset   global Vars that should be merged into the URL
-	 * @param   string $expected expected URI string
-	 *
-	 * @dataProvider casesCreateURI
-	 *
-	 * @return void
-	 * @testdox      Create URI
-	 * @since        3.4
-	 */
-	public function testCreateUri($url, $preset, $expected)
-	{
-		$object = new JRouterSite(
-			array(),
-			$this->getMockCmsApp(),
-			TestMockMenu::create($this)
-		);
-		$object->setVars($preset);
-
-		$createUriMethod = new ReflectionMethod('JRouterSite', 'createUri');
-		$createUriMethod->setAccessible(true);
-
-		$uri = $createUriMethod->invoke($object, $url);
-
-		$this->assertInstanceOf('JUri', $uri);
 		$this->assertEquals($expected, (string)$uri);
 	}
 
@@ -1310,7 +1166,6 @@ class JRouterSiteTest extends TestCase
 	public function testGetComponentRouter()
 	{
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -1347,7 +1202,6 @@ class JRouterSiteTest extends TestCase
 	public function testValidRouterGetsAccepted()
 	{
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
@@ -1368,7 +1222,6 @@ class JRouterSiteTest extends TestCase
 	public function testInvalidRouterIsRejected()
 	{
 		$object = new JRouterSite(
-			array(),
 			$this->getMockCmsApp(),
 			TestMockMenu::create($this)
 		);
