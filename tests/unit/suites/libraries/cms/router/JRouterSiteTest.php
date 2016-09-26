@@ -518,7 +518,6 @@ class JRouterSiteTest extends TestCase
 		$menu = TestMockMenu::create($this, true);
 
 		$object = new JRouterSite(
-			array(),
 			$app,
 			$menu
 		);
@@ -864,7 +863,7 @@ class JRouterSiteTest extends TestCase
 		$parseSefRouteMethod->setAccessible(true);
 
 		$uri  = new JUri($url);
-		$vars = $parseSefRouteMethod->invokeArgs($object, array(&$uri));
+		$vars = $parseSefRouteMethod->invokeArgs($object, array(&$object, &$uri));
 
 		$this->assertEquals(
 			$expectedParseVars,
