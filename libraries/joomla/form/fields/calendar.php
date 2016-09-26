@@ -173,31 +173,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
 		}
 
-		return $return;
-	}
-
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
-	 */
-	protected function getInput()
-	{
-		return $this->getRenderer($this->layout)->render($this->getLayoutData());
-	}
-
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since 3.5
-	 */
-	protected function getLayoutData()
-	{
-		$data     = parent::getLayoutData();
 		$user     = JFactory::getUser();
 		$config   = JFactory::getConfig();
 		$tag      = JFactory::getLanguage()->getTag();
@@ -244,6 +219,18 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 				break;
 		}
 
+		return $return;
+	}
+
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
+	protected function getInput()
+	{
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
