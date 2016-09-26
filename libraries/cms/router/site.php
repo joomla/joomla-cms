@@ -293,7 +293,7 @@ class JRouterSite extends JRouter
 	{
 		if ($uri->getVar('Itemid'))
 		{
-			$item = $this->menu->getItem($this->getVar('Itemid'));
+			$item = $this->menu->getItem($uri->getVar('Itemid'));
 		}
 		else
 		{
