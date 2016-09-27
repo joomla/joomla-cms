@@ -20,7 +20,7 @@ class JCacheStorageRedisTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageRedis::isSupported() || $this->isBlacklisted('redis'))
+		if (!JCacheStorageRedis::isSupported())
 		{
 			$this->markTestSkipped('The Redis cache handler is not supported on this system.');
 		}

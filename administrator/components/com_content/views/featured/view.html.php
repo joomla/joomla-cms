@@ -86,6 +86,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::addNew('article.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('article.edit');
