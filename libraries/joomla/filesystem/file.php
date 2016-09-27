@@ -21,7 +21,7 @@ class JFile
 	 *
 	 * @param   string  $file  The file name
 	 *
-	 * @return  string | boolean  The file extension or false if file does not have extension
+	 * @return  string  The file extension
 	 *
 	 * @since   11.1
 	 */
@@ -31,7 +31,7 @@ class JFile
 
 		if ($dot === false)
 		{
-			return false;
+			return '';
 		}
 
 		return (string) substr($file, $dot + 1);
