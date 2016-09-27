@@ -173,52 +173,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
 		}
 
-		$user     = JFactory::getUser();
-		$config   = JFactory::getConfig();
-		$tag      = JFactory::getLanguage()->getTag();
-		$calendar = JFactory::getLanguage()->getCalendar();
-
-		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($this->value && $this->value != JFactory::getDbo()->getNullDate() && strtotime($this->value) !== false)
-		{
-			$tz = date_default_timezone_get();
-			date_default_timezone_set('UTC');
-			$data['value'] = strftime($this->format, strtotime($this->value));
-			date_default_timezone_set($tz);
-		}
-		// If a known filter is given use it.
-		switch (strtoupper($this->filter))
-		{
-			case 'SERVER_UTC':
-				// Convert a date to UTC based on the server timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$this->date = JFactory::getDate($this->value, 'UTC');
-					$this->date->setTimezone(new DateTimeZone($config->get('offset')));
-
-					// Transform the date string.
-					$this->value = $this->date->format('Y-m-d H:i:s', true, false);
-				}
-
-				break;
-
-			case 'USER_UTC':
-				// Convert a date to UTC based on the user timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$this->date = JFactory::getDate($this->value, 'UTC');
-
-					$this->date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
-
-					// Transform the date string.
-					$this->value = $this->date->format('Y-m-d H:i:s', true, false);
-				}
-
-				break;
-		}
-
 		return $return;
 	}
 
@@ -246,6 +200,8 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 		$data     = parent::getLayoutData();
 		$tag      = JFactory::getLanguage()->getTag();
 		$calendar = JFactory::getLanguage()->getCalendar();
+		$config   = JFactory::getConfig();
+		$user     = JFactory::getUser();
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -267,9 +223,51 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			$localesPath = 'system/fields/calendar-locales/' . strtolower(substr($tag, 0, -3)) . '.js';
 		}
 
+		// If a known filter is given use it.
+		switch (strtoupper($this->filter))
+		{
+			case 'SERVER_UTC':
+				// Convert a date to UTC based on the server timezone.
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+				{
+					// Get a date object based on the correct timezone.
+					$date = JFactory::getDate($this->value, 'UTC');
+					$date->setTimezone(new DateTimeZone($config->get('offset')));
+					// Transform the date string.
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
+				}
+				break;
+			case 'USER_UTC':
+				// Convert a date to UTC based on the user timezone.
+				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
+				{
+					// Get a date object based on the correct timezone.
+					$date = JFactory::getDate($this->value, 'UTC');
+					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+					// Transform the date string.
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
+				}
+				break;
+		}
+
+		// If time picker is enabled make sure the format also got time
+		if ($this->showtime)
+		{
+			if (strpos($this->format, '%H:%M:%S') === false)
+			{
+				$this->format .= ' %H:%M:%S';
+			}
+
+			if ((int) $this->timeformat !== 24)
+			{
+				$this->format = str_replace('H', 'I', $this->format) . ' %p';
+			}
+		}
+
 		$extraData = array(
+			'value'        => $this->value,
 			'maxLength'    => $this->maxlength,
-			'format'       => ($this->timeformat !== 24) ? str_replace('H', 'I', $this->format) . ' %p' : $this->format,
+			'format'       => $this->format,
 			'filter'       => $this->filter,
 			'todaybutton'  => ($this->todaybutton === "true") ? 1 : 0,
 			'weeknumbers'  => ($this->weeknumbers === "true") ? 1 : 0,
