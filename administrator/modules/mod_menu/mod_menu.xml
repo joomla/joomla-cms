@@ -37,23 +37,37 @@
 				<field
 					name="shownew"
 					type="radio"
+					label="MOD_MENU_FIELD_SHOWNEW"
+					description="MOD_MENU_FIELD_SHOWNEW_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_MENU_FIELD_SHOWNEW"
-					description="MOD_MENU_FIELD_SHOWNEW_DESC">
-					<option value="0">JHIDE</option>
+					>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 
 				<field
 					name="showhelp"
 					type="radio"
+					label="MOD_MENU_FIELD_SHOWHELP"
+					description="MOD_MENU_FIELD_SHOWHELP_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
-					label="MOD_MENU_FIELD_SHOWHELP"
-					description="MOD_MENU_FIELD_SHOWHELP_DESC">
-					<option value="0">JHIDE</option>
+					>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
+					name="use_flags"
+					type="radio"
+					label="MOD_MENU_FIELD_USEFLAGS_LABEL"
+					description="MOD_MENU_FIELD_USEFLAGS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
