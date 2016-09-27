@@ -353,12 +353,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *          The element where the list will be inserted
 	 */
 	window.writeDynaList = function ( selectParams, source, key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>',
-			// function is only used in moduleorder.js where "key" and "orig_key" are the same,
-			// so "hasSelection" was always "true"
-			i, selected, item;
+		var html = '<select ' + selectParams + '>', i, selected, item;
 
-		// fixed array iterated like object ?!?
 		for ( i = 0; i < source.length; i++ ) {
 			item = source[ i ];
 
@@ -366,16 +362,9 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			selected = orig_val == item[ 1 ] ? ' selected="selected"' : '';
 
-			// simplified under the assumption hasSelection === true, see beginning of function,
-			// then completely replaced by one line, see above
-			// if ( orig_val == item[ 1 ] ) {
-			// 	selected = 'selected="selected"';
-			// }
-
 			html += '<option value="' + item[ 1 ] + '"' + selected + '>' + item[ 2 ] + '</option>';
-
-			// i++ already in for loop head above
 		}
+		
 		html += '</select>';
 
 		element.innerHTML = html;
