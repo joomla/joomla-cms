@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
@@ -114,7 +116,7 @@ abstract class JHtmlContentAdministrator
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
-		$state = JArrayHelper::getValue($states, (int) $value, $states[1]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon  = $state[0];
 
 		if ($canChange)
