@@ -514,7 +514,7 @@ class JComponentHelper
 	 *
 	 * @return  array  The components property
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getComponents()
 	{
