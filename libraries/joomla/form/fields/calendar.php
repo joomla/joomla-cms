@@ -252,20 +252,6 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 				break;
 		}
 
-		// If time picker is enabled make sure the format also got time
-		if ($this->showtime)
-		{
-			if (strpos($this->format, '%H:%M:%S') === false)
-			{
-				$this->format .= ' %H:%M:%S';
-			}
-
-			if ((int) $this->timeformat !== 24)
-			{
-				$this->format = str_replace('H', 'I', $this->format) . ' %p';
-			}
-		}
-
 		$extraData = array(
 			'value'        => $this->value,
 			'maxLength'    => $this->maxlength,
