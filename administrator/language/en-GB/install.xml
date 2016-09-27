@@ -141,6 +141,8 @@
 		<filename>en-GB.plg_editors-xtd_article.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.ini</filename>
 		<filename>en-GB.plg_editors-xtd_image.sys.ini</filename>
+		<filename>en-GB.plg_editors-xtd_menu.ini</filename>
+		<filename>en-GB.plg_editors-xtd_menu.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_module.ini</filename>
 		<filename>en-GB.plg_editors-xtd_module.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_pagebreak.ini</filename>
@@ -173,6 +175,8 @@
 		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.sys.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.ini</filename>
+		<filename>en-GB.plg_quickicon_phpversioncheck.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_contacts.ini</filename>
