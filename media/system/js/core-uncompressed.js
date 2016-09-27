@@ -337,7 +337,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
+	 * USED IN: media/system/js/moduleorder.js
 	 *
 	 * Writes a dynamically generated list
 	 *
@@ -348,42 +348,37 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param string
 	 *          The key to display for the initial state of the list
 	 * @param string
-	 *          The original key that was selected
-	 * @param string
 	 *          The original item value that was selected
 	 * @param string
-	 *          The elem where the list will be written
+	 *          The element where the list will be inserted
 	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+	window.writeDynaList = function ( selectParams, source, key, orig_val, element ) {
 		var html = '<select ' + selectParams + '>',
-			hasSelection = key == orig_key,
-			i = 0,
-			selected, x, item;
+			// function is only used in moduleorder.js where "key" and "orig_key" are the same,
+			// so "hasSelection" was always "true"
+			i, selected, item;
 
-		for ( x in source ) {
-			if (!source.hasOwnProperty(x)) { continue; }
-
-			item = source[ x ];
+		// fixed array iterated like object ?!?
+		for ( i = 0; i < source.length; i++ ) {
+			item = source[ i ];
 
 			if ( item[ 0 ] != key ) { continue; }
 
-			selected = '';
+			selected = orig_val == item[ 1 ] ? ' selected="selected"' : '';
 
-			if ( ( hasSelection && orig_val == item[ 1 ] ) || ( !hasSelection && i === 0 ) ) {
-				selected = 'selected="selected"';
-			}
+			// simplified under the assumption hasSelection === true, see beginning of function,
+			// then completely replaced by one line, see above
+			// if ( orig_val == item[ 1 ] ) {
+			// 	selected = 'selected="selected"';
+			// }
 
-			html += '<option value="' + item[ 1 ] + '" ' + selected + '>' + item[ 2 ] + '</option>';
+			html += '<option value="' + item[ 1 ] + '"' + selected + '>' + item[ 2 ] + '</option>';
 
-			i++;
+			// i++ already in for loop head above
 		}
 		html += '</select>';
 
-		if (element) {
-			element.innerHTML = html;
-		} else {
-			document.writeln( html );
-		}
+		element.innerHTML = html;
 	};
 
 	/**

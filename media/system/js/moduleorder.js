@@ -37,7 +37,7 @@
 								for (i = 0; i < response.data.length; ++i) {
 									$orders[i] = response.data[i].split(',');
 								}
-								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
+								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalOrder, $element);
 							}
 						}
 
