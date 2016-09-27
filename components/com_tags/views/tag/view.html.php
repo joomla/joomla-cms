@@ -202,6 +202,9 @@ class TagsViewTag extends JViewLegacy
 		// Generate the tags title to use for page title, page heading and show tags title option
 		$this->tags_title = $this->getTagsTitle();
 
+		// Generate the tags title to use for page title, page heading and show tags title option
+		$this->tags_title = $this->getTagsTitle();
+
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
@@ -274,6 +277,32 @@ class TagsViewTag extends JViewLegacy
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
+	}
+
+	/**
+	 * Creates the tags title for the output
+	 *
+	 * @return bool
+	 */
+	protected function getTagsTitle()
+	{
+		$tags_title = array();
+
+		if (!empty($this->item))
+		{
+			$user   = JFactory::getUser();
+			$groups = $user->getAuthorisedViewLevels();
+
+			foreach ($this->item as $item)
+			{
+				if (in_array($item->access, $groups))
+				{
+					$tags_title[] = $item->title;
+				}
+			}
+		}
+
+		return implode(' ', $tags_title);
 	}
 
 	/**
