@@ -278,7 +278,11 @@ class JRouterSite extends JRouter
 				$crouter = $this->getComponentRouter($component);
 				$uri->setQuery(array_merge($uri->getQuery(true), $crouter->parse($segments)));
 			}
+
+			$route = implode('/', $segments);
 		}
+
+		$uri->setPath($route);
 	}
 
 	/**
@@ -363,7 +367,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   4.0
 	 */
-	protected function buildComponentPreprocess(&$router, &$uri)
+	public function buildComponentPreprocess(&$router, &$uri)
 	{
 		// Get the query data
 		$query = $uri->getQuery(true);
@@ -397,7 +401,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @since   4.0
 	 */
-	protected function buildSefRoute(&$router, &$uri)
+	public function buildSefRoute(&$router, &$uri)
 	{
 		// Get the route
 		$route = $uri->getPath();
@@ -424,10 +428,8 @@ class JRouterSite extends JRouter
 		}
 
 		// Build the application route
-		if (isset($query['Itemid']))
+		if (isset($query['Itemid']) && $item = $this->menu->getItem($query['Itemid']))
 		{
-			$item = $this->menu->getItem($query['Itemid']);
-
 			if (is_object($item) && $query['option'] == $item->component)
 			{
 				if (!$item->home)
