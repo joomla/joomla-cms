@@ -33,6 +33,7 @@ module.exports = function(grunt) {
 					'../media/vendor/punycode/*',
 					'../media/vendor/codemirror/*',
 					'../media/vendor/combobox/*',
+					'../media/vendor/autocomplete/*',
 				],
 				expand: true,
 				options: {
@@ -67,6 +68,13 @@ module.exports = function(grunt) {
 					repository: 'https://github.com/tapmodo/Jcrop.git',
 					branch    : 'master',
 					directory : 'assets/tmp/jcrop'
+				}
+			},
+			cloneAutojs: {
+				options: {
+					repository: 'https://github.com/devbridge/jQuery-Autocomplete',
+					branch    : 'master',
+					directory : 'assets/tmp/autocomplete'
 				}
 			}
 		},
@@ -230,6 +238,13 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/jcrop/js/',
 						filter: 'isFile'
 					},
+					{ // autocomplete
+						expand: true,
+						cwd: 'assets/tmp/autocomplete/dist',
+						src: ['jquery.autocomplete.min.js', 'jquery.autocomplete.js', 'license.txt'],
+						dest: '../media/vendor/autocomplete/js/',
+						filter: 'isFile'
+					},
 					{ //Font Awesome css files
 						expand: true,
 						cwd: 'assets/node_modules/font-awesome/css/',
@@ -362,7 +377,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-git');
 
@@ -373,6 +387,7 @@ module.exports = function(grunt) {
 			'gitclone:cloneCodemirror',
 			'gitclone:cloneCombobox',
 			'gitclone:cloneCropjs',
+			'gitclone:cloneAutojs',
 			'concat:someFiles',
 			'copy:fromSource',
 			'uglify:allJs',

@@ -12,6 +12,7 @@ possible commands:
 - `grunt gitclone:cloneCodemirror`.....fetches latest codemirror to assets/tmp folder
 - `grunt gitclone:cloneCombobox`.......fetches latest combobox to assets/tmp folder
 - `grunt gitclone:cloneCropjs`.........fetches latest combobox to assets/tmp folder
+- `grunt gitclone:cloneAutojs`.........fetches latest autocomplete to assets/tmp folder
 - `grunt concat:someFiles`.............concatenates some codemirror files
 - `grunt copy:fromSource`..............copy everything to media/vendor/*
 - `grunt uglify:allJs`.................minifies various javascripts
