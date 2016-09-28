@@ -165,7 +165,7 @@ final class JHelperUsergroups
 	 */
 	public function has($id)
 	{
-		return (array_key_exists($id, $this->groups) && false !== $this->groups[$id]);
+		return (array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
 	}
 
 	/**

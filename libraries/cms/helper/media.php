@@ -206,7 +206,7 @@ class JHelperMedia
 		foreach ($html_tags as $tag)
 		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (false !== stripos($xss_check, '<' . $tag . ' ') || false !== stripos($xss_check, '<' . $tag . '>'))
+			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
 			{
 				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'notice');
 
@@ -269,7 +269,7 @@ class JHelperMedia
 		{
 			$d = dir($dir);
 
-			while (false !== ($entry = $d->read()))
+			while (($entry = $d->read()) !== false)
 			{
 				if ($entry[0] !== '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
 					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
