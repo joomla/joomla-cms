@@ -43,8 +43,8 @@ class JRouterSite extends JRouter
 	/**
 	 * Class constructor
 	 *
-	 * @param   JApplicationCms  $app      JApplicationCms Object
-	 * @param   JMenu            $menu     JMenu object
+	 * @param   JApplicationCms  $app   JApplicationCms Object
+	 * @param   JMenu            $menu  JMenu object
 	 *
 	 * @since   3.4
 	 */
