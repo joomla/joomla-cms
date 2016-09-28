@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /* @var $menu JAdminCSSMenu */
 
 $shownew  = (boolean) $params->get('shownew', 1);
