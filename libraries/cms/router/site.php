@@ -43,7 +43,6 @@ class JRouterSite extends JRouter
 	/**
 	 * Class constructor
 	 *
-	 * @param   array            $options  Array of options
 	 * @param   JApplicationCms  $app      JApplicationCms Object
 	 * @param   JMenu            $menu     JMenu object
 	 *
@@ -93,6 +92,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function parseCheckSSL(&$router, &$uri)
@@ -111,6 +112,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function parseInit(&$router, &$uri)
@@ -148,6 +151,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function parseFormat(&$router, &$uri)
@@ -169,6 +174,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function parseSefRoute(&$router, &$uri)
@@ -291,6 +298,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function parseRawRoute(&$router, &$uri)
@@ -320,6 +329,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function parsePaginationData(&$router, &$uri)
@@ -338,11 +349,14 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildInit(&$router, &$uri)
 	{
 		$itemid = $uri->getVar('Itemid');
+
 		// If no Itemid and option given, merge in the current requests data
 		if (!$itemid && !$uri->getVar('option'))
 		{
@@ -365,6 +379,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildComponentPreprocess(&$router, &$uri)
@@ -399,6 +415,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildSefRoute(&$router, &$uri)
@@ -461,6 +479,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildPaginationData(&$router, &$uri)
@@ -478,6 +498,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildFormat(&$router, &$uri)
@@ -499,6 +521,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildRewrite(&$router, &$uri)
@@ -525,6 +549,8 @@ class JRouterSite extends JRouter
 	 * @param   JRouterSite  &$router  Router object
 	 * @param   JUri         &$uri     URI object to process
 	 *
+	 * @return  void
+	 * 
 	 * @since   4.0
 	 */
 	public function buildBase(&$router, &$uri)
