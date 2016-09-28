@@ -50,7 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if ($result === null && 0 === strpos($name, 'mod_'))
+		if ($result === null && strpos($name, 'mod_') === 0)
 		{
 			$result            = new stdClass;
 			$result->id        = 0;

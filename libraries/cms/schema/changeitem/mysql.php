@@ -63,7 +63,8 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
 			|| $command == 'UPDATE #__UTF8_CONVERSION')
 			&& strtoupper($wordArray[2]) == 'SET'
-			&& 0 === stripos(str_replace('`', '', $wordArray[3]), 'converted'))
+			&& stripos(str_replace('`', '', $wordArray[3]), 'converted') === 0
+		)
 		{
 			// Statement is special statement to reset conversion status
 			$this->queryType = 'UTF8CNV';
@@ -229,11 +230,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) == "integer" && 0 === stripos($type2, 'unsigned'))
+		if (strtolower($type1) == "integer" && stripos($type2, 'unsigned') === 0)
 		{
 			$result = 'int(10) unsigned';
 		}
-		elseif (0 === stripos($type2, 'unsigned'))
+		elseif (stripos($type2, 'unsigned') === 0)
 		{
 			$result = $type1 . ' unsigned';
 		}
