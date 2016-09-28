@@ -14,7 +14,6 @@ module.exports = function(grunt) {
 			cmlib    : '../media/vendor/codemirror/lib',
 			cmmod    : '../media/vendor/codemirror/mode',
 			cmthem   : '../media/vendor/codemirror/theme',
-			chosenjs : '../media/vendor/chosenjs/js',
 		},
 
 		// Let's clean up the system
@@ -42,8 +41,6 @@ module.exports = function(grunt) {
 					'../media/vendor/autocomplete/*',
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
-					'!../media/vendor/chosenjs/js/j-chosen.js',
-					'!../media/vendor/chosenjs/js/j-chosen.min.js',
 				],
 				expand: true,
 				options: {
