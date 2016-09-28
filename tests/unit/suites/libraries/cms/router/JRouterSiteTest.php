@@ -87,6 +87,23 @@ class JRouterSiteTest extends TestCase
 		$this->assertTrue(count($rules['build' . JRouter::PROCESS_BEFORE]) > 0);
 		$this->assertTrue(count($rules['build']) == 0);
 		$this->assertTrue(count($rules['build' . JRouter::PROCESS_AFTER]) > 0);
+
+		$config = array(
+			array('sef', null, 1),
+			array('force_ssl', null, 2),
+			array('sef_suffix', null, 1),
+			array('sef_rewrite', null, 1)
+		);
+		$app = $this->getMockCmsApp();
+		$app->method('get')->will($this->returnValueMap($config));
+		$object = new JRouterSite($app, $app->getMenu());
+		$rules = $object->getRules();
+		$this->assertTrue(count($rules['parse' . JRouter::PROCESS_BEFORE]) == 3);
+		$this->assertTrue(count($rules['parse']) == 2);
+		$this->assertTrue(count($rules['parse' . JRouter::PROCESS_AFTER]) == 1);
+		$this->assertTrue(count($rules['build' . JRouter::PROCESS_BEFORE]) == 2);
+		$this->assertTrue(count($rules['build']) == 1);
+		$this->assertTrue(count($rules['build' . JRouter::PROCESS_AFTER]) == 4);
 	}
 
 	/**
@@ -249,9 +266,17 @@ class JRouterSiteTest extends TestCase
 				''
 			),
 			// Absolute URLs to the domain of the site
+			'matching-menu'     => array(
+				'test',
+				'?Itemid=42&option=com_test'
+			),
 			'abs-sef-path-no_qs-no_sfx'     => array(
 				'test/path',
 				'path?Itemid=42&option=com_test'
+			),
+			'abs-sef-path-no_qs-no'     => array(
+				'path',
+				'path?Itemid=45&option=com_test3'
 			),
 			'abs-sef-path-qs-no_sfx'        => array(
 				'test/path?testvar=testvalue',
@@ -372,6 +397,11 @@ class JRouterSiteTest extends TestCase
 	 */
 	public function testBuildComponentPreprocess()
 	{
+		// Assert preprocess exits without option
+		$uri = new JUri('index.php?test=true');
+		$this->object->buildComponentPreprocess($this->object, $uri);
+		$this->assertEquals('index.php?test=true', (string)$uri);
+
 		// Assert preprocess of Component router is run
 		$uri = new JUri('index.php?option=com_test');
 		$this->object->buildComponentPreprocess($this->object, $uri);

@@ -372,14 +372,10 @@ class JRouter
 			throw new InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
-		$vars = array();
-
 		foreach ($this->rules['parse' . $stage] as $rule)
 		{
-			$vars += (array) call_user_func_array($rule, array(&$this, &$uri));
+			call_user_func_array($rule, array(&$this, &$uri));
 		}
-
-		return $vars;
 	}
 
 	/**

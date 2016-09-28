@@ -636,4 +636,68 @@ class JRouterTest extends TestCase
 		$createUriMethod->setAccessible(true);
 		$this->assertEquals($expected, (string)($createUriMethod->invoke($this->object, $url)));
 	}
+
+	/**
+	 * Tests the detachRule() method
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 * @covers  JRouter::detachRule
+	 */
+	public function testDetachRule()
+	{
+		$rule = function () {};
+		$this->object->attachParseRule($rule);
+		$rules = $this->object->getRules();
+		$this->assertEquals(array($rule), $rules['parse']);
+		$this->assertTrue($this->object->detachRule('parse', $rule));
+		$rules = $this->object->getRules();
+		$this->assertEquals(array(), $rules['parse']);
+		$this->assertFalse($this->object->detachRule('parse', $rule));
+	}
+
+	/**
+	 * @since 4.0
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testDetachRuleWrongType()
+	{
+		$rule = function () {};
+		$this->object->detachRule('parsewrong', $rule);
+	}
+
+	/**
+	 * @since 4.0
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testDetachRuleWrongStage()
+	{
+		$rule = function () {};
+		$this->object->detachRule('parse', $rule, 'wrong');
+	}
+
+	/**
+	 * @since 4.0
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testProcessBuildRules()
+	{
+		$uri = new JUri();
+		$method = new ReflectionMethod('JRouter', 'processBuildRules');
+		$method->setAccessible(true);
+		$method->invokeArgs($this->object, array(&$uri, 'after'));
+	}
+
+	/**
+	 * @since 4.0
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testProcessParseRules()
+	{
+		$uri = new JUri();
+		$processParseRulesMethod = new ReflectionMethod('JRouter', 'processParseRules');
+		$processParseRulesMethod->setAccessible(true);
+		$processParseRulesMethod->invokeArgs($this->object, array(&$uri, 'afterwrong'));
+	}
 }
