@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 
 /**
  * Site SubMenu
-**/
+ */
 $menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
 
 /**
  * Users Submenu
-**/
+ */
 if ($user->authorise('core.manage', 'com_users'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'disabled'));
@@ -24,7 +24,7 @@ if ($user->authorise('core.manage', 'com_users'))
 
 /**
  * Menus Submenu
-**/
+ */
 if ($user->authorise('core.manage', 'com_menus'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'disabled'));
@@ -32,7 +32,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 /**
  * Content Submenu
-**/
+ */
 if ($user->authorise('core.manage', 'com_content'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'disabled'));
@@ -40,7 +40,7 @@ if ($user->authorise('core.manage', 'com_content'))
 
 /**
  * Components Submenu
-**/
+ */
 
 // Get the authorised components and sub-menus.
 $components = ModMenuHelper::getComponents(true);
@@ -53,7 +53,7 @@ if ($components)
 
 /**
  * Extensions Submenu
-**/
+ */
 $im = $user->authorise('core.manage', 'com_installer');
 $mm = $user->authorise('core.manage', 'com_modules');
 $pm = $user->authorise('core.manage', 'com_plugins');
@@ -67,7 +67,7 @@ if ($im || $mm || $pm || $tm || $lm)
 
 /**
  * Help Submenu
-**/
+ */
 if ($params->get('showhelp', 1))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
