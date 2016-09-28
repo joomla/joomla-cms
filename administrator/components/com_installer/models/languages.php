@@ -354,9 +354,7 @@ class InstallerModelLanguages extends JModelList
 			return false;
 		}
 
-		$package_url = trim($downloadUrlElement->_data);
-
-		return $package_url;
+		return trim($downloadUrlElement->_data);
 	}
 
 	/**
