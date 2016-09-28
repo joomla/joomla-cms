@@ -63,8 +63,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		if (($command == 'UPDATE `#__UTF8_CONVERSION`'
 			|| $command == 'UPDATE #__UTF8_CONVERSION')
 			&& strtoupper($wordArray[2]) == 'SET'
-			&& stripos(str_replace('`', '', $wordArray[3]), 'converted') === 0
-		)
+			&& stripos(str_replace('`', '', $wordArray[3]), 'converted') === 0)
 		{
 			// Statement is special statement to reset conversion status
 			$this->queryType = 'UTF8CNV';
