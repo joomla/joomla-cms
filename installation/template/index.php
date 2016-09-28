@@ -39,13 +39,10 @@ JText::script('INSTL_PROCESS_BUSY');
 JText::script('INSTL_FTP_SETTINGS_CORRECT');
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-		<!--[if lt IE 9]>
-			<script src="../media/jui/js/html5.js"></script>
-		<![endif]-->
-		<script type="text/javascript">
+		<script>
 			jQuery(function()
 			{
 				// Delay instantiation after document.formvalidation and other dependencies loaded
@@ -56,10 +53,10 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		</script>
 	</head>
 	<body data-basepath="<?php echo JUri::root(true); ?>">
-		<!-- Header -->
+		<?php // Header ?>
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
-			<hr />
+			<hr>
 			<h5>
 				<?php // Fix wrong display of Joomla!® in RTL language ?>
 				<?php if (JFactory::getLanguage()->isRtl()) : ?>
@@ -71,12 +68,12 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
 			</h5>
 		</div>
-		<!-- Container -->
+		<?php // Container ?>
 		<div class="container">
 			<jdoc:include type="message" />
 			<div id="javascript-warning">
 				<noscript>
-					<div class="alert alert-error">
+					<div class="alert alert-danger">
 						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
 					</div>
 				</noscript>
@@ -90,7 +87,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			function initElements()
 			{
 				(function($){
-					$('.hasTooltip').tooltip()
+					$('.hasTooltip').tooltip({html:true});
 
 					// Chosen select boxes
 					$("select").chosen({

@@ -26,7 +26,7 @@ $version = new JVersion;
 <?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
+		<div class="btn-group pull-xs-right">
 			<a
 				class="btn"
 				href="#"
@@ -115,9 +115,9 @@ $version = new JVersion;
 		<input type="hidden" name="task" value="InstallLanguages" />
 		<?php echo JHtml::_('form.token'); ?>
 	<?php endif; ?>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-xs-right">
 				<a
 					class="btn"
 					href="#"

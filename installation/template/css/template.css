@@ -91,10 +91,10 @@
 .item-subtitle {
 	margin-bottom:9px;
 }
-.pull-right.item-image {
+.pull-xs-right.item-image {
 	margin:0 0 18px 20px;
 }
-.pull-left.item-image {
+.pull-xs-left.item-image {
 	margin:0 20px 18px 0;
 }
 .header .nav > li:last-child > .dropdown-menu,

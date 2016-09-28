@@ -19,7 +19,7 @@ $prev = $useftp ? 'ftp' : 'database';
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
+		<div class="btn-group pull-xs-right">
 			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
@@ -28,15 +28,15 @@ $prev = $useftp ? 'ftp' : 'database';
 	<h3><?php echo JText::_('INSTL_FINALISATION'); ?></h3>
 	<hr class="hr-condensed" />
 
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('sample_file'); ?>
 		</div>
 		<div class="controls">
-			<div class="help-block">
+			<div class="form-text text-muted small">
 				<?php echo $this->form->getInput('sample_file'); ?>
 			</div>
-			<p class="help-block">
+			<p class="form-text text-muted small">
 				<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?>
 			</p>
 		</div>
@@ -45,32 +45,32 @@ $prev = $useftp ? 'ftp' : 'database';
 	<h3><?php echo JText::_('INSTL_STEP_SUMMARY_LABEL'); ?></h3>
 	<hr class="hr-condensed" />
 
-	<div class="control-group" id="summary_email">
+	<div class="form-group" id="summary_email">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('summary_email'); ?>
 		</div>
 		<div class="controls">
 			<?php echo $this->form->getInput('summary_email'); ?>
-			<p class="help-block">
+			<p class="form-text text-muted small">
 				<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">' . $this->options['admin_email'] . '</span>'); ?>
 			</p>
 		</div>
 	</div>
 
-	<div class="control-group" id="email_passwords" style="display:none;">
+	<div class="form-group" id="email_passwords" style="display:none;">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('summary_email_passwords'); ?>
 		</div>
 		<div class="controls">
 			<?php echo $this->form->getInput('summary_email_passwords'); ?>
-			<p class="help-block">
+			<p class="form-text text-muted small">
 				<?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?>
 			</p>
 		</div>
 	</div>
 
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
 			<hr class="hr-condensed" />
 			<table class="table table-striped table-condensed">
@@ -135,7 +135,7 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_DATABASE'); ?></h3>
 			<hr class="hr-condensed" />
 			<table class="table table-striped table-condensed">
@@ -208,8 +208,8 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 	<?php if ($useftp) : ?>
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
 			<hr class="hr-condensed" />
 			<table class="table table-striped table-condensed">
@@ -278,8 +278,8 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 	<?php endif; ?>
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text">
@@ -310,7 +310,7 @@ $prev = $useftp ? 'ftp' : 'database';
 				</tfoot>
 			</table>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
@@ -355,9 +355,9 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-xs-right">
 				<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 			</div>

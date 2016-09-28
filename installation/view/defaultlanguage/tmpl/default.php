@@ -24,7 +24,7 @@ JS
 <?php echo JHtml::_('InstallationHtml.helper.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
+		<div class="btn-group pull-xs-right">
 			<a
 				class="btn"
 				href="#"
@@ -51,36 +51,36 @@ JS
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?></h3>
 	<hr class="hr-condensed" />
 	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_DESC'); ?></p>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('activateMultilanguage'); ?>
 		</div>
 		<div class="controls">
 			<?php echo $this->form->getInput('activateMultilanguage'); ?>
-			<p class="help-block">
+			<p class="form-text text-muted small">
 				<?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE_DESC'); ?>
 			</p>
 		</div>
 	</div>
 	<div id="multilanguageOptions">
-		<div class="control-group" id="installLocalisedContent" style="display:auto;">
+		<div class="form-group" id="installLocalisedContent" style="display:auto;">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('installLocalisedContent'); ?>
 			</div>
 			<div class="controls">
 				<?php echo $this->form->getInput('installLocalisedContent'); ?>
-				<p class="help-block">
+				<p class="form-text text-muted small">
 					<?php echo JText::_('INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT_DESC'); ?>
 				</p>
 			</div>
 		</div>
-		<div class="control-group" id="activatePluginLanguageCode" style="display:auto;">
+		<div class="form-group" id="activatePluginLanguageCode" style="display:auto;">
 			<div class="control-label">
 				<?php echo $this->form->getLabel('activatePluginLanguageCode'); ?>
 			</div>
 			<div class="controls">
 				<?php echo $this->form->getInput('activatePluginLanguageCode'); ?>
-				<p class="help-block">
+				<p class="form-text text-muted small">
 					<?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN_DESC'); ?>
 				</p>
 			</div>
@@ -168,9 +168,9 @@ JS
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-xs-right">
 				<a
 					class="btn"
 					href="#"

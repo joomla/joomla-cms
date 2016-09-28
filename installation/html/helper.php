@@ -94,22 +94,22 @@ class InstallationHtmlHelper
 		$input = JFactory::getApplication()->input;
 		$num   = static::getTabNumber($id, $tabs);
 		$view  = static::getTabNumber($input->getWord('view'), $tabs);
-		$tab   = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$tab   = '<span class="tag tag-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 
 		if ($view + 1 == $num)
 		{
-			$tab = '<a href="#" onclick="Install.submitform();">' . $tab . '</a>';
+			$tab = '<a class="nav-link" href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
 		elseif ($view < $num)
 		{
-			$tab = '<span>' . $tab . '</span>';
+			$tab = '<a class="nav-link disabled">' . $tab . '</a>';
 		}
 		else
 		{
-			$tab = '<a href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
+			$tab = '<a class="nav-link" href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
 		}
 
-		return '<li class="step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
+		return '<li class="nav-item step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
 	}
 
 	/**

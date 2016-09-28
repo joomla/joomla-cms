@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
+		<div class="btn-group pull-xs-right">
 			<a class="btn" href="#" onclick="return Install.goToPage('database');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
 	<hr class="hr-condensed" />
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('ftp_enable'); ?>
 		</div>
@@ -28,36 +28,36 @@ defined('_JEXEC') or die;
 			<?php echo $this->form->getInput('ftp_enable'); ?>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('ftp_user'); ?>
 		</div>
 		<div class="controls">
 			<?php echo $this->form->getInput('ftp_user'); ?>
-			<p class="help-block">
+			<p class="form-text text-muted small">
 				<?php echo JText::_('INSTL_FTP_USER_DESC'); ?>
 			</p>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('ftp_pass'); ?>
 		</div>
 		<div class="controls">
 			<?php echo $this->form->getInput('ftp_pass'); ?>
-			<p class="help-block">
+			<p class="form-text text-muted small">
 				<?php echo JText::_('INSTL_FTP_PASSWORD_DESC'); ?>
 			</p>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 		</div>
 		<div class="controls">
 			<button id="verifybutton" class="btn btn-success" onclick="Install.verifyFtpSettings(this);"><span class="icon-ok icon-white"></span> <?php echo JText::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('ftp_host'); ?>
 		</div>
@@ -67,7 +67,7 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('ftp_port'); ?>
 		</div>
@@ -75,7 +75,7 @@ defined('_JEXEC') or die;
 			<?php echo $this->form->getInput('ftp_port'); ?>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<div class="control-label">
 			<?php echo $this->form->getLabel('ftp_save'); ?>
 		</div>
@@ -83,9 +83,9 @@ defined('_JEXEC') or die;
 			<?php echo $this->form->getInput('ftp_save'); ?>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-xs-right">
 				<a class="btn" href="#" onclick="return Install.goToPage('database');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
 				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 			</div>

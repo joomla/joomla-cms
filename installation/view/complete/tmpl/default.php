@@ -19,27 +19,27 @@ defined('_JEXEC') or die;
 	<div class="alert alert-success">
 		<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
 	</div>
-	<div class="row-fluid">	
+	<div class="row">	
 		<h3><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></h3>
 		<hr class="hr-condensed" />
-		<div class="row-fluid">	
-			<div class="span6">
+		<div class="row">	
+			<div class="col-md-6">
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
 				<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
 			</div>
-			<div class="alert span6">
+			<div class="alert col-md-6">
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="alert">
 			<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
 			<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="btn-toolbar span6">
+	<div class="row">
+		<div class="btn-toolbar col-md-6">
 			<div class="btn-group">
 				<a class="btn" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
 			</div>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 				<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="icon-lock icon-white"></span> <?php echo JText::_('JADMINISTRATOR'); ?></a>
 			</div>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_COMPLETE_ADMINISTRATION_LOGIN_DETAILS'); ?></h3>
 			<hr class="hr-condensed" />
 			<table class="table table-striped table-condensed">

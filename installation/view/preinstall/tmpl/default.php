@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 ?>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
 	<div class="btn-toolbar">
-		<div class="btn-group pull-right">
+		<div class="btn-group pull-xs-right">
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 		</div>
 	</div>
-	<div class="control-group">
+	<div class="form-group">
 		<label for="jform_language" class="control-label"><?php echo JText::_('INSTL_SELECT_LANGUAGE_TITLE'); ?></label>
 		<div class="controls">
 			<?php echo $this->form->getInput('language'); ?>
@@ -27,8 +27,8 @@ defined('_JEXEC') or die;
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm" class="form-horizontal">
-	<div class="row-fluid">
-		<div class="span6">
+	<div class="row">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text">
@@ -59,7 +59,7 @@ defined('_JEXEC') or die;
 				</tfoot>
 			</table>
 		</div>
-		<div class="span6">
+		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
@@ -104,9 +104,9 @@ defined('_JEXEC') or die;
 			</table>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="btn-toolbar">
-			<div class="btn-group pull-right">
+			<div class="btn-group pull-xs-right">
 				<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 			</div>
 		</div>
