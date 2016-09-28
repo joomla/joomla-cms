@@ -23,92 +23,93 @@ var JFormValidator = function() {
  	},
 
  	findLabel = function(id, form){
- 	 	var $label, $form = jQuery(form);
+ 	 	var label;
  	 	if (!id) {
  	 	 	return false;
  	 	}
- 	 	$label = $form.find('#' + id + '-lbl');
- 	 	if ($label.length) {
- 	 	 	return $label;
- 	 	}
- 	 	$label = $form.find('label[for="' + id + '"]');
- 	 	if ($label.length) {
- 	 	 	return $label;
+ 	 	// This is old syntax for labels, do we need to support it?
+ 	 	// label = form.querySelector('#' + id + '-lbl');
+ 	 	// if (label.length) {
+ 	 	//  	return label;
+ 	 	// }
+ 	 	label = form.querySelector('label[for="' + id + '"]');
+ 	 	if (label.length) {
+ 	 	 	return label;
  	 	}
  	 	return false;
  	},
 
- 	handleResponse = function(state, $el) {
+ 	handleResponse = function(state, el) {
  		// Get a label
- 	 	var $label = $el.data('label');
- 	 	if ($label === undefined) {
- 	 		$label = findLabel($el.attr('id'), $el.get(0).form);
- 	 		$el.data('label', $label);
+ 	 	var label = el.getAttribute('data-label');
+ 	 	if (label === undefined) {
+ 	 		label = findLabel(el.id, el[0].form);
+ 	 		el.setAttribute('data-label', label);
  	 	}
 
  	 	// Set the element and its label (if exists) invalid state
  	 	if (state === false) {
- 	 	 	$el.addClass('invalid').attr('aria-invalid', 'true');
- 	 	 	if ($label) {
- 	 	 	 	$label.addClass('invalid');
+ 	 	 	el.classList.add('invalid').setAttribute('aria-invalid', 'true');
+ 	 	 	if (label) {
+ 	 	 	 	label.classList.add('invalid');
  	 	 	}
  	 	} else {
- 	 	 	$el.removeClass('invalid').attr('aria-invalid', 'false');
- 	 	 	if ($label) {
- 	 	 	 	$label.removeClass('invalid');
+ 	 	 	el.classList.remove('invalid').setAttribute('aria-invalid', 'false');
+ 	 	 	if (label) {
+ 	 	 	 	label.classList.remove('invalid');
  	 	 	}
  	 	}
  	},
 
  	validate = function(el) {
- 	 	var $el = jQuery(el), tagName, handler;
+ 	 	var tagName, handler;
  	 	// Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
- 	 	if ($el.attr('disabled')) {
- 	 	 	handleResponse(true, $el);
+ 	 	if (el.getAttribute('disabled')) {
+ 	 	 	handleResponse(true, el);
  	 	 	return true;
  	 	}
  	 	// If the field is required make sure it has a value
- 	 	if ($el.attr('required') || $el.hasClass('required')) {
- 	 	 	tagName = $el.prop("tagName").toLowerCase();
- 	 	 	if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
- 	 	 	 	if (!$el.find('input:checked').length){
- 	 	 	 	 	handleResponse(false, $el);
+ 	 	if (el.getAttribute('required') || el.classList.contains('required')) {
+ 	 	 	tagName = el.hasOwnProperty("tagName").toLowerCase();
+ 	 	 	if (tagName === 'fieldset' && (el.classList.contains('radio') || el.classList.contains('checkboxes'))) {
+ 	 	 	 	if (!el.querySelector('input:checked').length){
+ 	 	 	 	 	handleResponse(false, el);
  	 	 	 	 	return false;
  	 	 	 	}
  	 	 	//If element has class placeholder that means it is empty.
- 	 	 	} else if (!$el.val() || $el.hasClass('placeholder') || ($el.attr('type') === 'checkbox' && !$el.is(':checked'))) {
- 	 	 	 	handleResponse(false, $el);
+ 	 	 	} else if (!el.value || el.classList.contains('placeholder') || (el.getAttribute('type') === 'checkbox' && !el.checked)) {
+ 	 	 	 	handleResponse(false, el);
  	 	 	 	return false;
  	 	 	}
  	 	}
  	 	// Only validate the field if the validate class is set
- 	 	handler = ($el.attr('class') && $el.attr('class').match(/validate-([a-zA-Z0-9\_\-]+)/)) ? $el.attr('class').match(/validate-([a-zA-Z0-9\_\-]+)/)[1] : "";
+ 	 	handler = (el.getAttribute('class') && el.getAttribute('class').match(/validate-([a-zA-Z0-9\_\-]+)/)) ? el.getAttribute('class').match(/validate-([a-zA-Z0-9\_\-]+)/)[1] : "";
  	 	if (handler === '') {
- 	 	 	handleResponse(true, $el);
+ 	 	 	handleResponse(true, el);
  	 	 	return true;
  	 	}
  	 	// Check the additional validation types
- 	 	if ((handler) && (handler !== 'none') && (handlers[handler]) && $el.val()) {
+ 	 	if ((handler) && (handler !== 'none') && (handlers[handler]) && el.val()) {
  	 	 	// Execute the validation handler and return result
- 	 	 	if (handlers[handler].exec($el.val(), $el) !== true) {
- 	 	 	 	handleResponse(false, $el);
+ 	 	 	if (handlers[handler].exec(el.value, el) !== true) {
+ 	 	 	 	handleResponse(false, el);
  	 	 	 	return false;
  	 	 	}
  	 	}
  	 	// Return validation state
- 	 	handleResponse(true, $el);
+ 	 	handleResponse(true, el);
  	 	return true;
  	},
 
  	isValid = function(form) {
  		var fields, valid = true, message, error, label, invalid = [], i, l;
 
- 		// Validate form fields
- 		fields = jQuery(form).find('input, textarea, select, fieldset');
+		fields = form.querySelectorAll('input, textarea, select, fieldset');
+
  	 	for (i = 0, l = fields.length; i < l; i++) {
  	 		// Ignore Rule/Filters/Assigned field for spead up validation
  	 		// And other fields that has class="novalidate"
- 	 		if(jQuery(fields[i]).hasClass('novalidate')) {
+ 	 		if(fields[i].classList.contains('novalidate')) {
  	 			continue;
  	 		}
  	 	 	if (validate(fields[i]) === false) {
@@ -118,7 +119,7 @@ var JFormValidator = function() {
  	 	}
 
  	 	// Run custom form validators if present
- 	 	jQuery.each(custom, function(key, validator) {
+	    custom.forEach( function(key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
@@ -128,9 +129,9 @@ var JFormValidator = function() {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
  	 	 	error = {"error": []};
  	 	 	for (i = invalid.length - 1; i >= 0; i--) {
- 	 	 		label = jQuery(invalid[i]).data("label");
+ 	 	 		label = invalid[i].setAttribute("data-label");
  	 			if (label) {
- 	 	 			error.error.push(message + label.text().replace("*", ""));
+ 	 	 			error.error.push(message + label.innerHTML.replace("*", ""));
                 		}
  	 	 	}
  	 	 	Joomla.renderMessages(error);
@@ -139,37 +140,36 @@ var JFormValidator = function() {
  	},
 
  	attachToForm = function(form) {
- 	 	var inputFields = [], elements,
- 	 		$form = jQuery(form);
+ 	 	var inputFields = [], elements;
  	 	// Iterate through the form object and attach the validate method to all input fields.
- 	 	elements = $form.find('input, textarea, select, fieldset, button');
+ 	 	elements = form.querySelectorAll('input, textarea, select, fieldset, button');
  	 	for (var i = 0, l = elements.length; i < l; i++) {
- 	 	 	var $el = jQuery(elements[i]), tagName = $el.prop("tagName").toLowerCase();
+ 	 	 	var el = elements[i], tagName = el.hasOwnProperty("tagName").toLowerCase();
  	 	 	// Attach isValid method to submit button
- 	 	 	if ((tagName === 'input' || tagName === 'button') && ($el.attr('type') === 'submit' || $el.attr('type') === 'image')) {
- 	 	 	 	if ($el.hasClass('validate')) {
- 	 	 	 	 	$el.on('click', function() {
+ 	 	 	if ((tagName === 'input' || tagName === 'button') && (el.getAttribute('type') === 'submit' || el.getAttribute('type') === 'image')) {
+ 	 	 	 	if (el.classList.contains('validate')) {
+ 	 	 	 	 	el.addEventListener('click', function() {
  	 	 	 	 	 	return isValid(form);
  	 	 	 	 	});
  	 	 	 	}
  	 	 	}
  	 	 	// Attach validate method only to fields
- 	 	 	else if (tagName !== 'button' && !(tagName === 'input' && $el.attr('type') === 'button')) {
- 	 	 	 	if ($el.hasClass('required')) {
- 	 	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
+ 	 	 	else if (tagName !== 'button' && !(tagName === 'input' && el.getAttribute('type') === 'button')) {
+ 	 	 	 	if (el.classList.contains('required')) {
+ 	 	 	 	 	el.setAttribute('aria-required', 'true').setAttribute('required', 'required');
  	 	 	 	}
  	 	 	 	if (tagName !== 'fieldset') {
- 	 	 	 	 	$el.on('blur', function() {
+ 	 	 	 	 	el.addEventListener('blur', function() {
  	 	 	 	 	 	return validate(this);
  	 	 	 	 	});
- 	 	 	 	 	if ($el.hasClass('validate-email') && inputEmail) {
+ 	 	 	 	 	if (el.classList.contains('validate-email') && inputEmail) {
  	 	 	 	 		elements[i].setAttribute('type', 'email');
  	 	 	 	 	}
  	 	 	 	}
- 	 	 	 	inputFields.push($el);
+ 	 	 	 	inputFields.push(el);
  	 	 	}
  	 	}
- 	 	$form.data('inputfields', inputFields);
+ 	 	form.data('inputfields', inputFields);
  	},
 
  	initialize = function() {
@@ -187,20 +187,20 @@ var JFormValidator = function() {
  	 	 	return !regex.test(value);
  	 	});
  	 	setHandler('password', function(value, element) {
- 	 	 	var regex = /^\S[\S ]{2,98}\S$/;
+ 	 	 	var regex = /^\S[\S ]{2,98}\S/;
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('numeric', function(value, element) {
- 	 		var regex = /^(\d|-)?(\d|,)*\.?\d*$/;
+ 	 		var regex = /^(\d|-)?(\d|,)*\.?\d*/;
  	 	 	return regex.test(value);
  	 	});
  	 	setHandler('email', function(value, element) {
 		    value = punycode.toASCII(value);
- 	 	 	var regex = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+ 	 	 	var regex = /^[a-zA-Z0-9.!#%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/;
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
- 	 	var forms = jQuery('form.form-validate');
+ 	 	var forms = document.querySelectorAll('form.form-validate');
  	 	for (var i = 0, l = forms.length; i < l; i++) {
  	 	 	attachToForm(forms[i]);
  	 	}
@@ -219,6 +219,7 @@ var JFormValidator = function() {
 };
 
 document.formvalidator = null;
-jQuery(function() {
+
+document.addEventListener('onDOMContentLoaded', function() {
 	document.formvalidator = new JFormValidator();
 });
