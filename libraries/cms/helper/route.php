@@ -134,7 +134,7 @@ class JHelperRoute
 		$language = isset($needles['language']) ? $needles['language'] : '*';
 
 		// $this->extension may not be set if coming from a static method, check it
-		if (null === $this->extension)
+		if ($this->extension === null)
 		{
 			$this->extension = $app->input->getCmd('option');
 		}

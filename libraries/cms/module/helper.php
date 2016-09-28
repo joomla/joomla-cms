@@ -50,7 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (null === $result && 0 === strpos($name, 'mod_'))
+		if ($result === null && 0 === strpos($name, 'mod_'))
 		{
 			$result            = new stdClass;
 			$result->id        = 0;
@@ -123,7 +123,7 @@ abstract class JModuleHelper
 	{
 		$result = static::getModule($module);
 
-		return null !== $result && $result->id !== 0;
+		return $result !== null && $result->id !== 0;
 	}
 
 	/**
@@ -243,7 +243,7 @@ abstract class JModuleHelper
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
-		if (null === $module || !isset($module->content))
+		if ($module === null || !isset($module->content))
 		{
 			return '';
 		}

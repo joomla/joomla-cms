@@ -99,7 +99,7 @@ final class JHelperUsergroups
 	 */
 	public static function getInstance()
 	{
-		if (null === static::$instance)
+		if (static::$instance === null)
 		{
 			// Only here to avoid code style issues...
 			$groups = array();
@@ -189,7 +189,7 @@ final class JHelperUsergroups
 	 */
 	public function total()
 	{
-		if (null === $this->total)
+		if ($this->total === null)
 		{
 			$db = JFactory::getDbo();
 

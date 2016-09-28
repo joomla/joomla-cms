@@ -1593,7 +1593,7 @@ class JInstaller extends JAdapter
 		 * allowOverwrite flag.
 		 */
 
-		if (null === $overwrite || !is_bool($overwrite))
+		if ($overwrite === null || !is_bool($overwrite))
 		{
 			$overwrite = $this->overwrite;
 		}
@@ -1907,7 +1907,7 @@ class JInstaller extends JAdapter
 				// Is it a valid Joomla installation manifest file?
 				$manifest = $this->isManifest($file);
 
-				if (null !== $manifest)
+				if ($manifest !== null)
 				{
 					// If the root method attribute is set to upgrade, allow file overwrite
 					if ((string) $manifest->attributes()->method == 'upgrade')

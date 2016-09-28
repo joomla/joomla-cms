@@ -93,7 +93,7 @@ class JHelperContent
 	public static function getActions($component = '', $section = '', $id = 0)
 	{
 		// Check for deprecated arguments order
-		if (is_int($component) || null === $component)
+		if (is_int($component) || $component === null)
 		{
 			$result = self::_getActions($component, $section, $id);
 

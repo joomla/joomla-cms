@@ -41,7 +41,7 @@ abstract class JHtmlMenu
 	 */
 	public static function menus()
 	{
-		if (null === static::$menus)
+		if (static::$menus === null)
 		{
 			$db = JFactory::getDbo();
 
@@ -174,7 +174,7 @@ abstract class JHtmlMenu
 			'select.genericlist', $options, $name,
 			array(
 				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => (null === $attribs ? 'class="inputbox" size="1"' : $attribs),
+				'list.attr' => ($attribs === null ? 'class="inputbox" size="1"' : $attribs),
 				'list.select' => (int) $selected,
 				'list.translate' => false,
 			)

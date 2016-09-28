@@ -437,7 +437,7 @@ class JPagination
 	public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
 	{
 		// Allow to receive a null layout
-		$layoutId = (null === $layoutId) ? 'joomla.pagination.links' : $layoutId;
+		$layoutId = ($layoutId === null) ? 'joomla.pagination.links' : $layoutId;
 
 		$list = array(
 			'prefix'       => $this->prefix,
@@ -469,15 +469,15 @@ class JPagination
 			$data = $this->_buildDataObject();
 
 			// All
-			$list['all']['active'] = (null !== $data->all->base);
+			$list['all']['active'] = ($data->all->base !== null);
 			$list['all']['data']   = $data->all;
 
 			// Start
-			$list['start']['active'] = (null !== $data->start->base);
+			$list['start']['active'] = ($data->start->base !== null);
 			$list['start']['data']   = $data->start;
 
 			// Previous link
-			$list['previous']['active'] = (null !== $data->previous->base);
+			$list['previous']['active'] = ($data->previous->base !== null);
 			$list['previous']['data']   = $data->previous;
 
 			// Make sure it exists
@@ -485,14 +485,14 @@ class JPagination
 
 			foreach ($data->pages as $i => $page)
 			{
-				$list['pages'][$i]['active'] = (null !== $page->base);
+				$list['pages'][$i]['active'] = ($page->base !== null);
 				$list['pages'][$i]['data']   = $page;
 			}
 
-			$list['next']['active'] = (null !== $data->next->base);
+			$list['next']['active'] = ($data->next->base !== null);
 			$list['next']['data']   = $data->next;
 
-			$list['end']['active'] = (null !== $data->end->base);
+			$list['end']['active'] = ($data->end->base !== null);
 			$list['end']['data']   = $data->end;
 		}
 

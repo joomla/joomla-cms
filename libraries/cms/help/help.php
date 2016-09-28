@@ -33,7 +33,7 @@ class JHelp
 		$local = false;
 		$app   = JFactory::getApplication();
 
-		if (null === $component)
+		if ($component === null)
 		{
 			$component = JApplicationHelper::getComponentName();
 		}

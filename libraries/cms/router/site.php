@@ -673,7 +673,7 @@ class JRouterSite extends JRouter
 		// Get the itemid form the URI
 		$itemid = $uri->getVar('Itemid');
 
-		if (null === $itemid)
+		if ($itemid === null)
 		{
 			if ($option = $uri->getVar('option'))
 			{
