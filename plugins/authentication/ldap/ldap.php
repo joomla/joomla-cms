@@ -70,7 +70,7 @@ class PlgAuthenticationLdap extends JPlugin
 			{
 				// Bind using Connect Username/password
 				// Force anon bind to mitigate misconfiguration like [#7119]
-				if (strlen($this->params->get('username')))
+				if ($this->params->get('username' !== ''))
 				{
 					$bindtest = $ldap->bind();
 				}
@@ -126,7 +126,7 @@ class PlgAuthenticationLdap extends JPlugin
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
 
-			if (!strlen($response->error_message))
+			if ($response->error_message === '')
 			{
 				$response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
 			}

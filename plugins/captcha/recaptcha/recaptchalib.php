@@ -111,7 +111,7 @@ class JReCaptcha
 	public function verifyResponse($remoteIp, $response)
 	{
 		// Discard empty solution submissions
-		if ($response == null || strlen($response) == 0)
+		if ($response == null || $response === '')
 		{
 			$recaptchaResponse = new JReCaptchaResponse();
 			$recaptchaResponse->success = false;

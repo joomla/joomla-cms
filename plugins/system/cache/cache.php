@@ -157,7 +157,7 @@ class PlgSystemCache extends JPlugin
 				foreach ($exclusions as $exclusion)
 				{
 					// Make sure the exclusion has some content
-					if (strlen($exclusion))
+					if ($exclusion !== '')
 					{
 						if (preg_match('/' . $exclusion . '/is', $path, $match))
 						{
