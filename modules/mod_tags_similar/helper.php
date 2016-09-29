@@ -54,7 +54,7 @@ abstract class ModTagssimilarHelper
 
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
-		if (!$tagsToMatch || is_null($tagsToMatch))
+		if (!$tagsToMatch || $tagsToMatch === null)
 		{
 			return;
 		}

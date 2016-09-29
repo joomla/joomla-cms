@@ -59,7 +59,7 @@ else
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
 		// Feed description
-		if (!is_null($feed->title) && $params->get('rsstitle', 1))
+		if ($feed->title !== null && $params->get('rsstitle', 1))
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
@@ -94,9 +94,9 @@ else
 			}
 			?>
 			<?php
-				$uri   = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
 				$uri   = substr($uri, 0, 4) !== 'http' ? $params->get('rsslink') : $uri;
-				$text  = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? trim($feed[$i]->content) : trim($feed[$i]->description);
+				$text  = !empty($feed[$i]->content) || $feed[$i]->content !== null ? trim($feed[$i]->content) : trim($feed[$i]->description);
 				$title = trim($feed[$i]->title);
 			?>
 				<li>
