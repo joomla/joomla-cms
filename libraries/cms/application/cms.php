@@ -743,7 +743,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	protected function loadLibraryLanguage()
 	{

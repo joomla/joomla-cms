@@ -494,7 +494,8 @@ class JControllerLegacy extends JObject
 	{
 		if ($id)
 		{
-			$values = (array) JFactory::getApplication()->getUserState($context . '.id');
+			$app    = JFactory::getApplication();
+			$values = (array) $app->getUserState($context . '.id');
 
 			$result = in_array((int) $id, $values);
 

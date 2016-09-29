@@ -29,7 +29,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	protected $autoloadLanguage = true;
 
