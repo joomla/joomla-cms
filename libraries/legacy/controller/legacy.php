@@ -733,15 +733,12 @@ class JControllerLegacy extends JObject
 			// Let's get the application object and set menu information if it's available
 			$menu = JFactory::getApplication()->getMenu();
 
-			if (is_object($menu))
+			if (is_object($menu) && $item = $menu->getActive())
 			{
-				if ($item = $menu->getActive())
-				{
 					$params = $menu->getParams($item->id);
 
 					// Set default state data
 					$model->setState('parameters.menu', $params);
-				}
 			}
 		}
 

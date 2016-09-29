@@ -310,26 +310,20 @@ class JControllerForm extends JControllerLegacy
 		$recordId = $this->input->getInt($key);
 
 		// Attempt to check-in the current record.
-		if ($recordId)
+		if ($recordId && property_exists($table, 'checked_out') && $model->checkin($recordId) === false)
 		{
-			if (property_exists($table, 'checked_out'))
-			{
-				if ($model->checkin($recordId) === false)
-				{
-					// Check-in failed, go back to the record and display a notice.
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-					$this->setMessage($this->getError(), 'error');
+			// Check-in failed, go back to the record and display a notice.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
+			$this->setMessage($this->getError(), 'error');
 
-					$this->setRedirect(
-						JRoute::_(
-							'index.php?option=' . $this->option . '&view=' . $this->view_item
-							. $this->getRedirectToItemAppend($recordId, $key), false
-						)
-					);
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_item
+					. $this->getRedirectToItemAppend($recordId, $key), false
+				)
+			);
 
-					return false;
-				}
-			}
+			return false;
 		}
 
 		// Clean the session data and redirect.
