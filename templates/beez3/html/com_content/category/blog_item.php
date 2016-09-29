@@ -60,7 +60,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
@@ -117,11 +117,11 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) :?>
+<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) :?>
  	</dl>
 <?php endif; ?>
 <?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
-	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
+	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_intro_caption):
@@ -150,13 +150,13 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 					elseif ($readmore = $this->item->alternative_readmore) :
 						echo $readmore;
 						if ($params->get('show_readmore_title', 0) != 0) :
-							echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+							echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 						endif;
 					elseif ($params->get('show_readmore_title', 0) == 0) :
 						echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
 					else :
 						echo JText::_('COM_CONTENT_READ_MORE');
-						echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+						echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 					endif; ?></a>
 		</p>
 <?php endif; ?>
