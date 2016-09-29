@@ -37,7 +37,7 @@ if ($files)
 
 $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css');
 
-if ($this->direction == 'rtl')
+if ($this->direction === 'rtl')
 {
 	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
 

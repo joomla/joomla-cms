@@ -49,7 +49,7 @@ $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/pr
 $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css', 'text/css', 'screen');
 $this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '.css', 'text/css', 'screen');
 
-if ($this->direction == 'rtl')
+if ($this->direction === 'rtl')
 {
 	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template_rtl.css');
 	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '_rtl.css'))
@@ -58,7 +58,7 @@ if ($this->direction == 'rtl')
 	}
 }
 
-if ($color == 'image')
+if ($color === 'image')
 {
 	$this->addStyleDeclaration("
 	.logoheader {
@@ -134,7 +134,7 @@ require __DIR__ . '/jsstrings.php';
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition == 'left' and $showleft) : ?>
+					<?php if ($navposition === 'left' and $showleft) : ?>
 						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
@@ -174,7 +174,7 @@ require __DIR__ . '/jsstrings.php';
 						</aside><!-- end right -->
 					<?php endif; ?>
 
-					<?php if ($navposition == 'center' and $showleft) : ?>
+					<?php if ($navposition === 'center' and $showleft) : ?>
 						<nav class="left <?php if ($showRightColumn == null) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />

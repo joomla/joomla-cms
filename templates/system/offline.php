@@ -22,7 +22,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/offline.css" type="text/css" />
-	<?php if ($this->direction == 'rtl') : ?>
+	<?php if ($this->direction === 'rtl') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/offline_rtl.css" type="text/css" />
 	<?php endif; ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/general.css" type="text/css" />
