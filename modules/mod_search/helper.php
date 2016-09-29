@@ -29,8 +29,6 @@ class ModSearchHelper
 	 */
 	public static function getSearchImage($button_text)
 	{
-		$img = JHtml::_('image', 'searchButton.gif', $button_text, null, true, true);
-
-		return $img;
+		return JHtml::_('image', 'searchButton.gif', $button_text, null, true, true);
 	}
 }
