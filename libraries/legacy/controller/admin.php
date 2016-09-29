@@ -243,7 +243,7 @@ class JControllerAdmin extends JControllerLegacy
 		}
 
 		$extension = $this->input->get('extension');
-		$extensionURL = ($extension) ? '&extension=' . $extension : '';
+		$extensionURL = $extension ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
 	}
 

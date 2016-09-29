@@ -238,7 +238,7 @@ abstract class JError
 
 		if (is_callable(array('JError', $function)))
 		{
-			$reference = call_user_func_array(array('JError', $function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
+			$reference = call_user_func_array(array('JError', $function), array(&$exception, isset($handler['options']) ? $handler['options'] : array()));
 		}
 		else
 		{

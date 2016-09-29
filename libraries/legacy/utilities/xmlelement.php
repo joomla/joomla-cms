@@ -52,7 +52,7 @@ class JXMLElement extends SimpleXMLElement
 		$out = '';
 
 		// Start a new line, indent by the number indicated in $level
-		$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
+		$out .= $compressed ? '' : "\n" . str_repeat($indent, $level);
 
 		// Add a <, and add the name of the tag
 		$out .= '<' . $this->getName();
@@ -87,7 +87,7 @@ class JXMLElement extends SimpleXMLElement
 				$level--;
 
 				// Add the newline and indentation to go along with the close tag
-				$out .= ($compressed) ? '' : "\n" . str_repeat($indent, $level);
+				$out .= $compressed ? '' : "\n" . str_repeat($indent, $level);
 			}
 			elseif ((string) $this)
 			{
