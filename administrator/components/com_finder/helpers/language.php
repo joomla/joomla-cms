@@ -137,7 +137,7 @@ class FinderHelperLanguage
 		foreach ($plugins as $plugin)
 		{
 			$lang->load($plugin->name, JPATH_ADMINISTRATOR)
-				|| $lang->load($plugin->name, JPATH_SITE . '/plugins/finder/' . $plugin->element);
+				|| $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
 		}
 	}
 }
