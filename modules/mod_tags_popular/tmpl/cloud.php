@@ -36,7 +36,7 @@ if (!count($list)) : ?>
 	$countdiff = $maxcount - $mincount;
 
 	foreach ($list as $item) :
-		if ($countdiff == 0) :
+		if ($countdiff === 0) :
 			$fontsize = $minsize;
 		else :
 			$fontsize = $minsize + (($maxsize - $minsize) / $countdiff) * ($item->count - $mincount);

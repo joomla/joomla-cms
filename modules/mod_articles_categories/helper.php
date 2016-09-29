@@ -35,7 +35,7 @@ abstract class ModArticlesCategoriesHelper
 		$categories = JCategories::getInstance('Content', $options);
 		$category   = $categories->get($params->get('parent', 'root'));
 
-		if ($category != null)
+		if ($category !== null)
 		{
 			$items = $category->getChildren();
 
