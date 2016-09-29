@@ -107,8 +107,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (($language->access && !in_array($language->access, $levels))
 					|| (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs())))
 				{
-					unset($this->lang_codes[$language->lang_code]);
-					unset($this->sefs[$language->sef]);
+					unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
 				}
 			}
 		}
