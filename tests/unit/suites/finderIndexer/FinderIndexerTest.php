@@ -93,10 +93,10 @@ class FinderIndexerTest extends TestCaseDatabase
 	 */
 	public function testGetInstanceSqlazure()
 	{
-		JFactory::$database->name = 'sqlazure';
+		JFactory::$database->name = 'postgresql';
 
 		$this->assertInstanceOf(
-			'FinderIndexerDriverSqlsrv',
+			'FinderIndexerDriverPostgresql',
 			FinderIndexer::getInstance()
 		);
 	}
