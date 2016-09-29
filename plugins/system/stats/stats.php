@@ -86,7 +86,7 @@ class PlgSystemStats extends JPlugin
 			return;
 		}
 
-		if (JUri::getInstance()->getVar("tmpl") === "component")
+		if (JUri::getInstance()->getVar('tmpl') === 'component')
 		{
 			return;
 		}

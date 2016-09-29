@@ -139,7 +139,7 @@ class PlgContentPagenavigation extends JPlugin
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
 					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access IN (' . implode(",", JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
+						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', JAccess::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
 				);
 			$query->order($orderby);
 

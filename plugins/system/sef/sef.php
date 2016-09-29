@@ -198,16 +198,16 @@ class PlgSystemSef extends JPlugin
 			switch (preg_last_error())
 			{
 				case PREG_BACKTRACK_LIMIT_ERROR:
-					$message = "PHP regular expression limit reached (pcre.backtrack_limit)";
+					$message = 'PHP regular expression limit reached (pcre.backtrack_limit)';
 					break;
 				case PREG_RECURSION_LIMIT_ERROR:
-					$message = "PHP regular expression limit reached (pcre.recursion_limit)";
+					$message = 'PHP regular expression limit reached (pcre.recursion_limit)';
 					break;
 				case PREG_BAD_UTF8_ERROR:
-					$message = "Bad UTF8 passed to PCRE function";
+					$message = 'Bad UTF8 passed to PCRE function';
 					break;
 				default:
-					$message = "Unknown PCRE error calling PCRE function";
+					$message = 'Unknown PCRE error calling PCRE function';
 			}
 
 			throw new RuntimeException($message);
