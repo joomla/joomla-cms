@@ -99,7 +99,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Set correct component id to ensure proper 404 messages with separator items
-		if ($this->type == "separator")
+		if ($this->type == 'separator')
 		{
 			$this->component_id = 0;
 		}

@@ -251,10 +251,10 @@ class JTableContent extends JTable
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", "<", ">");
+			$bad_characters = array("\n", "\r", "\"", '<', '>');
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = JString::str_ireplace($bad_characters, '', $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -270,7 +270,7 @@ class JTableContent extends JTable
 				}
 			}
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
+			$this->metakey = implode(', ', $clean_keys);
 		}
 
 		return true;
