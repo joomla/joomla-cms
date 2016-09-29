@@ -374,7 +374,7 @@ class PlgUserProfile extends JPlugin
 		$task       = JFactory::getApplication()->input->getCmd('task');
 		$option     = JFactory::getApplication()->input->getCmd('option');
 		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = ($this->params->get('register-require_tos', 0) == 2) ? true : false;
+		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		if (($task == 'register') && $tosenabled && $tosarticle && ($option == 'com_users'))
 		{
