@@ -47,7 +47,7 @@ class ModWrapperHelper
 				// Relative url in component. use server http_host.
 				$url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+			elseif (strpos($url, 'http') === false && strpos($url, 'https') === false)
 			{
 				$url = 'http://' . $url;
 			}
