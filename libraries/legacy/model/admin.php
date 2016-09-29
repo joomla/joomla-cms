@@ -224,7 +224,7 @@ abstract class JModelAdmin extends JModelForm
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
 
-			if ($cmd == 'c')
+			if ($cmd === 'c')
 			{
 				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
@@ -241,7 +241,7 @@ abstract class JModelAdmin extends JModelForm
 					return false;
 				}
 			}
-			elseif ($cmd == 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
+			elseif ($cmd === 'm' && !$this->batchMove($commands[$this->batch_copymove], $pks, $contexts))
 			{
 				return false;
 			}
@@ -1220,7 +1220,7 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Show a warning if the item isn't assigned to a language but we have associations.
-			if ($associations && ($table->language == '*'))
+			if ($associations && ($table->language === '*'))
 			{
 				JFactory::getApplication()->enqueueMessage(
 					JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
@@ -1257,7 +1257,7 @@ abstract class JModelAdmin extends JModelForm
 			$db->execute();
 
 			// Adding self to the association
-			if ($table->language != '*')
+			if ($table->language !== '*')
 			{
 				$associations[$table->language] = (int) $table->$key;
 			}

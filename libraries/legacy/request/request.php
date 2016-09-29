@@ -496,7 +496,7 @@ class JRequest
 	 */
 	public static function checkToken($method = 'post')
 	{
-		if ($method == 'default')
+		if ($method === 'default')
 		{
 			$method = 'request';
 		}

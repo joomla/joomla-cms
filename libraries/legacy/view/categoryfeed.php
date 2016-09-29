@@ -58,7 +58,7 @@ class JViewCategoryfeed extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != 'none')
+		if ($feedEmail !== 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -109,7 +109,7 @@ class JViewCategoryfeed extends JViewLegacy
 			$feeditem->author      = $author;
 
 			// We don't have the author email so we have to use site in both cases.
-			if ($feedEmail == 'site')
+			if ($feedEmail === 'site')
 			{
 				$feeditem->authorEmail = $siteEmail;
 			}

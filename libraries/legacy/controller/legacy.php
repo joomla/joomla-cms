@@ -171,7 +171,7 @@ class JControllerLegacy extends JObject
 			case 'controller':
 				if (!empty($parts['format']))
 				{
-					if ($parts['format'] == 'html')
+					if ($parts['format'] === 'html')
 					{
 						$parts['format'] = '';
 					}
@@ -336,7 +336,7 @@ class JControllerLegacy extends JObject
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if ($mName == 'display' || !in_array($mName, $xMethods))
+			if ($mName === 'display' || !in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 
@@ -628,7 +628,7 @@ class JControllerLegacy extends JObject
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && JFactory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && JFactory::getConfig()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 

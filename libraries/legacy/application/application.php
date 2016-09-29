@@ -351,7 +351,7 @@ class JApplication extends JApplicationBase
 			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
-			if ($url[0] == '/')
+			if ($url[0] === '/')
 			{
 				// We just need the prefix since we have a path relative to the root.
 				$url = $prefix . $url;
@@ -676,7 +676,7 @@ class JApplication extends JApplicationBase
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
+			if ($response->type === 'Cookie')
 			{
 				$user->set('cookieLogin', true);
 			}
@@ -1010,8 +1010,8 @@ class JApplication extends JApplicationBase
 		// Check to see the the session already exists.
 		$handler = $this->getCfg('session_handler');
 
-		if (($handler != 'database' && ($time % 2 || $session->isNew()))
-			|| ($handler == 'database' && $session->isNew()))
+		if (($handler !== 'database' && ($time % 2 || $session->isNew()))
+			|| ($handler === 'database' && $session->isNew()))
 		{
 			$this->checkSession();
 		}
@@ -1166,7 +1166,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function isSSLConnection()
 	{
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
+		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] === 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 
 	/**

@@ -47,7 +47,7 @@ class JTableMenu extends JTableNested
 	public function bind($array, $ignore = '')
 	{
 		// Verify that the default home menu is not unset
-		if ($this->home == '1' && $this->language == '*' && ($array['home'] == '0'))
+		if ($this->home == '1' && $this->language === '*' && ($array['home'] == '0'))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 
@@ -55,7 +55,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Verify that the default home menu set to "all" languages" is not unset
-		if ($this->home == '1' && $this->language == '*' && ($array['language'] != '*'))
+		if ($this->home == '1' && $this->language === '*' && ($array['language'] != '*'))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 
@@ -63,7 +63,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Verify that the default home menu is not unpublished
-		if ($this->home == '1' && $this->language == '*' && $array['published'] != '1')
+		if ($this->home == '1' && $this->language === '*' && $array['published'] != '1')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 
@@ -99,7 +99,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Set correct component id to ensure proper 404 messages with separator items
-		if ($this->type == 'separator')
+		if ($this->type === 'separator')
 		{
 			$this->component_id = 0;
 		}
@@ -124,7 +124,7 @@ class JTableMenu extends JTableNested
 		$this->home = (int) $this->home;
 
 		// Verify that a first level menu item alias is not 'component'.
-		if ($this->parent_id == 1 && $this->alias == 'component')
+		if ($this->parent_id == 1 && $this->alias === 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
 
@@ -142,7 +142,7 @@ class JTableMenu extends JTableNested
 		}
 
 		// Verify that the home item a component.
-		if ($this->home && $this->type != 'component')
+		if ($this->home && $this->type !== 'component')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
 
@@ -189,7 +189,7 @@ class JTableMenu extends JTableNested
 				// If not exists a menu item at the same level with the same alias (in the All or the same language).
 				if (($table->load(array_replace($itemSearch, array('language' => '*'))) && ($table->id != $this->id || $this->id == 0))
 					|| ($table->load(array_replace($itemSearch, array('language' => $this->language))) && ($table->id != $this->id || $this->id == 0))
-					|| ($this->language == '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
+					|| ($this->language === '*' && $table->load($itemSearch) && ($table->id != $this->id || $this->id == 0)))
 				{
 					$error = true;
 				}
@@ -261,7 +261,7 @@ class JTableMenu extends JTableNested
 		foreach ($pathNodes as $node)
 		{
 			// Don't include root in path
-			if ($node->alias != 'root')
+			if ($node->alias !== 'root')
 			{
 				$segments[] = $node->alias;
 			}

@@ -387,7 +387,7 @@ abstract class JError
 			}
 
 			// Set callback options
-			if ($mode == 'callback')
+			if ($mode === 'callback')
 			{
 				if (!is_array($options))
 				{

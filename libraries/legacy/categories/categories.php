@@ -254,7 +254,7 @@ class JCategories
 		$query->order('c.lft');
 
 		// Note: s for selected id
-		if ($id != 'root')
+		if ($id !== 'root')
 		{
 			// Get the selected category
 			$query->where('s.id=' . (int) $id);
@@ -333,7 +333,7 @@ class JCategories
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
 					// If this is not root and if the current node's parent is in the list or the current node parent is 0
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1))
+					if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1))
 					{
 						// Compute relationship between node and its parent - set the parent in the _nodes field
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
@@ -358,7 +358,7 @@ class JCategories
 					// Create the JCategoryNode
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))
+					if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))
 					{
 						// Compute relationship between node and its parent
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
@@ -725,7 +725,7 @@ class JCategoryNode extends JObject
 
 			$this->_parent = $parent;
 
-			if ($this->id != 'root')
+			if ($this->id !== 'root')
 			{
 				if ($this->parent_id != 1)
 				{

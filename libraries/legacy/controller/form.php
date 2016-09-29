@@ -632,7 +632,7 @@ class JControllerForm extends JControllerLegacy
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
+		if ($task === 'save2copy')
 		{
 			// Check-in the original row.
 			if ($checkin && $model->checkin($data[$key]) === false)
