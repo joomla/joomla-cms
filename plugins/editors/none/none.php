@@ -40,7 +40,6 @@ class PlgEditorNone extends JPlugin
 	 */
 	public function onSave()
 	{
-		return;
 	}
 
 	/**

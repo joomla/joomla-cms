@@ -47,8 +47,6 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-
-		return;
 	}
 
 	/**
@@ -99,7 +97,6 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onGetInsertMethod($name)
 	{
-		return;
 	}
 
 	/**

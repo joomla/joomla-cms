@@ -217,8 +217,6 @@ class PlgContentPagenavigation extends JPlugin
 				$row->paginationrelative = $this->params->get('relative', 0);
 			}
 		}
-
-		return;
 	}
 
 	/**
