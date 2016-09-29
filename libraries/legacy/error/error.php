@@ -166,7 +166,7 @@ abstract class JError
 	 * @since       11.1
 	 * @deprecated  12.1
 	 */
-	public static function addToStack(JException &$e)
+	public static function addToStack(JException $e)
 	{
 		JLog::add('JError::addToStack() is deprecated.', JLog::WARNING, 'deprecated');
 

@@ -478,7 +478,7 @@ abstract class JModelLegacy extends JObject
 	 *
 	 * @since   12.2
 	 */
-	public function loadHistory($version_id, JTable &$table)
+	public function loadHistory($version_id, JTable $table)
 	{
 		// Only attempt to check the row in if it exists, otherwise do an early exit.
 		if (!$version_id)
