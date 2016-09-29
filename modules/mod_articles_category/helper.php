@@ -306,8 +306,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace('<p>', ' ', $introtext);
-		$introtext = str_replace('</p>', ' ', $introtext);
+		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
