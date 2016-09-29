@@ -1010,7 +1010,7 @@ class JCategoryNode extends JObject
 
 			foreach ($this->getChildren() as $child)
 			{
-				$count = $count + $child->getNumItems(true);
+				$count += $child->getNumItems(true);
 			}
 
 			return $count;
