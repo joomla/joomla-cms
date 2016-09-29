@@ -725,7 +725,7 @@ class JModelList extends JModelLegacy
 
 		foreach ($searchArr as $key => $searchString)
 		{
-			if (strlen(trim($searchString)) == 0)
+			if (trim($searchString) === '')
 			{
 				unset($searchArr[$key]);
 				continue;
