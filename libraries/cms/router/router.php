@@ -59,6 +59,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
+	 * @deprecated  4.0
 	 */
 	protected $mode = null;
 
@@ -67,7 +68,7 @@ class JRouter
 	 *
 	 * @var    integer
 	 * @since  1.5
-	 * @deprecated  4.0 Will convert to $mode
+	 * @deprecated  4.0
 	 */
 	protected $_mode = null;
 
@@ -282,6 +283,7 @@ class JRouter
 	 * @return  integer
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function getMode()
 	{
@@ -296,6 +298,7 @@ class JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function setMode($mode)
 	{
