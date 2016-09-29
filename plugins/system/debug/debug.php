@@ -322,7 +322,7 @@ class PlgSystemDebug extends JPlugin
 	{
 		static $result = null;
 
-		if (!is_null($result))
+		if ($result !== null)
 		{
 			return $result;
 		}
