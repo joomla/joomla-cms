@@ -39,7 +39,7 @@ class PlgButtonImage extends JPlugin
 		$user = JFactory::getUser();
 		$extension = $app->input->get('option');
 
-		if ($asset == '')
+		if ($asset === '')
 		{
 			$asset = $extension;
 		}

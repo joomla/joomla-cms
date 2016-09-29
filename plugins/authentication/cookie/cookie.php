@@ -72,7 +72,7 @@ class PlgAuthenticationCookie extends JPlugin
 		$cookieArray = explode('.', $cookieValue);
 
 		// Check for valid cookie value
-		if (count($cookieArray) != 2)
+		if (count($cookieArray) !== 2)
 		{
 			// Destroy the cookie in the browser.
 			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
@@ -279,7 +279,7 @@ class PlgAuthenticationCookie extends JPlugin
 					$errorCount++;
 
 					// We'll let this query fail up to 5 times before giving up, there's probably a bigger issue at this point
-					if ($errorCount == 5)
+					if ($errorCount === 5)
 					{
 						return false;
 					}

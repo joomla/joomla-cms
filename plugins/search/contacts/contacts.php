@@ -91,7 +91,7 @@ class PlgSearchContacts extends JPlugin
 
 		$text = trim($text);
 
-		if ($text == '')
+		if ($text === '')
 		{
 			return array();
 		}

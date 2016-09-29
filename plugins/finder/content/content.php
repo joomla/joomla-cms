@@ -246,7 +246,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Check if the extension is enabled.
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (JComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}

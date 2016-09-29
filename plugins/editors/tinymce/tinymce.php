@@ -517,7 +517,7 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar3_add[] = 'ltr rtl';
 		}
 
-		if ($extended_elements != '')
+		if ($extended_elements !== '')
 		{
 			$elements = explode(',', $extended_elements);
 		}
@@ -703,14 +703,14 @@ class PlgEditorTinymce extends JPlugin
 
 		$custom_plugin = $this->params->get('custom_plugin', '');
 
-		if ($custom_plugin != '')
+		if ($custom_plugin !== '')
 		{
 			$plugins[] = $custom_plugin;
 		}
 
 		$custom_button = $this->params->get('custom_button', '');
 
-		if ($custom_button != '')
+		if ($custom_button !== '')
 		{
 			$toolbar4_add[] = $custom_button;
 		}
@@ -794,7 +794,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			$smallButtons = 'toolbar_items_size: "small",';
 		}
-		elseif ($mobileVersion == false)
+		elseif ($mobileVersion === false)
 		{
 			$smallButtons = '';
 		}
