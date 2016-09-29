@@ -785,13 +785,10 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
+				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')) && isset($this->sqlShowProfileEach[$id]))
 				{
-					if (isset($this->sqlShowProfileEach[$id]))
-					{
-						$profileTable = $this->sqlShowProfileEach[$id];
-						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
-					}
+					$profileTable = $this->sqlShowProfileEach[$id];
+					$profile      = $this->tableToHtml($profileTable, $hasWarningsInProfile);
 				}
 
 				// How heavy should the string length count: 0 - 1.
