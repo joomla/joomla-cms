@@ -106,7 +106,7 @@ abstract class JLoader
 				$fileName = $file->getFilename();
 
 				// Only load for php files.
-				if ($file->isFile() && $file->getExtension() == 'php')
+				if ($file->isFile() && $file->getExtension() === 'php')
 				{
 					// Get the class name and full path for each file.
 					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
@@ -184,7 +184,7 @@ abstract class JLoader
 			$path = str_replace('.', DIRECTORY_SEPARATOR, $key);
 
 			// Handle special case for helper classes.
-			if ($class == 'helper')
+			if ($class === 'helper')
 			{
 				$class = ucfirst(array_pop($parts)) . ucfirst($class);
 			}
@@ -351,7 +351,7 @@ abstract class JLoader
 			self::$classAliases[$alias] = $original;
 
 			// Remove the root backslash if present.
-			if ($original[0] == '\\')
+			if ($original[0] === '\\')
 			{
 				$original = substr($original, 1);
 			}
@@ -473,7 +473,7 @@ abstract class JLoader
 	public static function loadByPsr0($class)
 	{
 		// Remove the root backslash if present.
-		if ($class[0] == '\\')
+		if ($class[0] === '\\')
 		{
 			$class = substr($class, 1);
 		}
@@ -530,7 +530,7 @@ abstract class JLoader
 	public static function loadByAlias($class)
 	{
 		// Remove the root backslash if present.
-		if ($class[0] == '\\')
+		if ($class[0] === '\\')
 		{
 			$class = substr($class, 1);
 		}
@@ -561,7 +561,7 @@ abstract class JLoader
 	public static function applyAliasFor($class)
 	{
 		// Remove the root backslash if present.
-		if ($class[0] == '\\')
+		if ($class[0] === '\\')
 		{
 			$class = substr($class, 1);
 		}
