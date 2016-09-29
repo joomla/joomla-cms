@@ -36,7 +36,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 <?php if ($filters) : ?>
 	<?php foreach ($filters as $fieldName => $field) : ?>
-		<?php if ($fieldName != 'filter_search') : ?>
+		<?php if ($fieldName !== 'filter_search') : ?>
 			<?php
 			$showOn = '';
 			if ($showOnData = $field->getAttribute('dataShowOn'))
