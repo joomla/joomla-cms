@@ -644,7 +644,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$totalQueryTime = $totalQueryTime * 1000;
+				$totalQueryTime *= 1000;
 
 				if ($totalQueryTime > ($totalTime * 0.25))
 				{
@@ -1776,7 +1776,7 @@ class PlgSystemDebug extends JPlugin
 					}
 				)
 			);
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDatabasequery;
+			$logEntriesTotal -= $logEntriesDatabasequery;
 		}
 
 		// Deprecated log entries
@@ -1792,7 +1792,7 @@ class PlgSystemDebug extends JPlugin
 
 		if (!$showDeprecated)
 		{
-			$logEntriesTotal = $logEntriesTotal - $logEntriesDeprecated;
+			$logEntriesTotal -= $logEntriesDeprecated;
 		}
 
 		$showEverything = $this->params->get('log-everything', 0);
