@@ -32,7 +32,7 @@ class PlgContentVote extends JPlugin
 	{
 		$parts = explode('.', $context);
 
-		if ($parts[0] != 'com_content')
+		if ($parts[0] !== 'com_content')
 		{
 			return false;
 		}
@@ -72,7 +72,7 @@ class PlgContentVote extends JPlugin
 			$html .= $img;
 			$html .= '</div>';
 
-			if ($view == 'article' && $row->state == 1)
+			if ($view === 'article' && $row->state == 1)
 			{
 				$uri = clone JUri::getInstance();
 				$uri->setVar('hitcount', '0');

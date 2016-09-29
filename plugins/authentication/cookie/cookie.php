@@ -224,7 +224,7 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
+		if (isset($options['responseType']) && $options['responseType'] === 'Cookie')
 		{
 			// Logged in using a cookie
 			$cookieName = 'joomla_remember_me_' . JUserHelper::getShortHashedUserAgent();

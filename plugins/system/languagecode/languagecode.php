@@ -124,7 +124,7 @@ class PlgSystemLanguagecode extends JPlugin
 		}
 
 		// Check we are manipulating the languagecode plugin.
-		if ($form->getName() != 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
+		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
 			return true;
 		}

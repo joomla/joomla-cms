@@ -343,7 +343,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the response - We need an OK message reply
-		if ($data['status'] != 'OK')
+		if ($data['status'] !== 'OK')
 		{
 			return false;
 		}

@@ -39,7 +39,7 @@ class PlgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if (($context == 'com_content.article') && ($view == 'article') && $params->get('show_item_navigation'))
+		if (($context === 'com_content.article') && ($view === 'article') && $params->get('show_item_navigation'))
 		{
 			$db       = JFactory::getDbo();
 			$user     = JFactory::getUser();
@@ -70,7 +70,7 @@ class PlgContentPagenavigation extends JPlugin
 			}
 
 			// Additional check for invalid sort ordering.
-			if ($order_method == 'front')
+			if ($order_method === 'front')
 			{
 				$order_method = '';
 			}

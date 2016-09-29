@@ -89,11 +89,11 @@ class PlgFinderTags extends FinderIndexerAdapter
 	 */
 	public function onFinderAfterDelete($context, $table)
 	{
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			$id = $table->id;
 		}
-		elseif ($context == 'com_finder.index')
+		elseif ($context === 'com_finder.index')
 		{
 			$id = $table->link_id;
 		}
@@ -120,7 +120,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
 		// We only want to handle tags here.
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			// Check if the access levels are different
 			if (!$isNew && $this->old_access != $row->access)
@@ -153,7 +153,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	public function onFinderBeforeSave($context, $row, $isNew)
 	{
 		// We only want to handle news feeds here
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			// Query the database for the old access level if the item isn't new
 			if (!$isNew)
@@ -181,12 +181,12 @@ class PlgFinderTags extends FinderIndexerAdapter
 	public function onFinderChangeState($context, $pks, $value)
 	{
 		// We only want to handle tags here
-		if ($context == 'com_tags.tag')
+		if ($context === 'com_tags.tag')
 		{
 			$this->itemStateChange($pks, $value);
 		}
 		// Handle when the plugin is disabled
-		if ($context == 'com_plugins.plugin' && $value === 0)
+		if ($context === 'com_plugins.plugin' && $value === 0)
 		{
 			$this->pluginDisable($pks);
 		}
