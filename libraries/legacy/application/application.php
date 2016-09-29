@@ -301,7 +301,7 @@ class JApplication extends JApplicationBase
 		$this->triggerEvent('onBeforeRender');
 
 		// Render the document.
-		$caching = ($this->getCfg('caching') >= 2) ? true : false;
+		$caching = ($this->getCfg('caching') >= 2);
 		JResponse::setBody($document->render($caching, $params));
 
 		// Trigger the onAfterRender event.
