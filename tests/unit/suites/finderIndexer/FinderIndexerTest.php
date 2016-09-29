@@ -91,7 +91,7 @@ class FinderIndexerTest extends TestCaseDatabase
 	 *
 	 * @since   3.0
 	 */
-	public function testGetInstanceSqlazure()
+	public function testGetInstancePostgresql()
 	{
 		JFactory::$database->name = 'postgresql';
 
