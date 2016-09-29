@@ -389,7 +389,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function finaliseconfirm()
 	{

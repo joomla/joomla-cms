@@ -68,7 +68,7 @@ abstract class JLoader
 	 * Holds a reference for all deprecated aliases (mainly for use by a logging platform).
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	protected static $deprecatedAliases = array();
 
@@ -142,7 +142,7 @@ abstract class JLoader
 	 *
 	 * @return  array  An associative array with deprecated class alias data.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public static function getDeprecatedAliases()
 	{
