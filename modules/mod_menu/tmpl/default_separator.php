@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $title      = $item->anchor_title ? ' title="' . $item->anchor_title . '"' : '';
-$anchor_css = $item->anchor_css ? $item->anchor_css : '';
+$anchor_css = $item->anchor_css ?: '';
 
 $linktype   = $item->title;
 
