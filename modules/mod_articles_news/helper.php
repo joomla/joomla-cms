@@ -73,7 +73,7 @@ abstract class ModArticlesNewsHelper
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
-		if (trim($ordering) == 'rand()')
+		if (trim($ordering) === 'rand()')
 		{
 			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}
