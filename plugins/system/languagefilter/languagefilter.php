@@ -504,7 +504,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user))
+		if ($this->params->get('automatic_change', '1') == '1' && array_key_exists('params', $user))
 		{
 			$registry = new Registry;
 			$registry->loadString($user['params']);
@@ -533,7 +533,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user) && $success)
+		if ($this->params->get('automatic_change', '1') == '1' && array_key_exists('params', $user) && $success)
 		{
 			$registry = new Registry;
 			$registry->loadString($user['params']);
