@@ -919,12 +919,12 @@ class PlgSystemDebug extends JPlugin
 			// Increment the count.
 			if (stripos($query, 'select') === 0)
 			{
-				$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
+				++$selectQueryTypeTicker[$fromString];
 				unset($otherQueryTypeTicker[$fromString]);
 			}
 			else
 			{
-				$otherQueryTypeTicker[$fromString] = $otherQueryTypeTicker[$fromString] + 1;
+				++$otherQueryTypeTicker[$fromString];
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
