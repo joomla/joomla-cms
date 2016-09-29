@@ -142,7 +142,7 @@ if ($params->get('show_autosuggest', 1))
 	});";
 }
 
-$script .= "});";
+$script .= '});';
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>

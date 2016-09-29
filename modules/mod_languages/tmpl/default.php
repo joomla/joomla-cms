@@ -35,8 +35,8 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
 				<?php $flag = ''; ?>
-				<?php $flag .= "&nbsp;" . JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-				<?php $flag .= "&nbsp;" . $language->title_native; ?>
+				<?php $flag .= '&nbsp;' . JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+				<?php $flag .= '&nbsp;' . $language->title_native; ?>
 				<a href="#" data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span><?php echo $flag; ?></a>
 			<?php endif; ?>
 		<?php endforeach;?>
