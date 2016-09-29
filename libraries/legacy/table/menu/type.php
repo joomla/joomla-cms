@@ -167,7 +167,7 @@ class JTableMenuType extends JTable
 	public function delete($pk = null)
 	{
 		$k = $this->_tbl_key;
-		$pk = (is_null($pk)) ? $this->$k : $pk;
+		$pk = $pk === null ? $this->$k : $pk;
 
 		// If no primary key is given, return false.
 		if ($pk !== null)
@@ -282,6 +282,6 @@ class JTableMenuType extends JTable
 			$assetId = $asset->id;
 		}
 
-		return is_null($assetId) ? parent::_getAssetParentId($table, $id) : $assetId;
+		return $assetId === null ? parent::_getAssetParentId($table, $id) : $assetId;
 	}
 }

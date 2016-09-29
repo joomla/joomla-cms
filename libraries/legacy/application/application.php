@@ -531,7 +531,7 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->get($key, $default);
 		}
@@ -555,7 +555,7 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$registry = $session->get('registry');
 
-		if (!is_null($registry))
+		if ($registry !== null)
 		{
 			return $registry->set($key, $value);
 		}

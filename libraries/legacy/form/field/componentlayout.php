@@ -39,7 +39,7 @@ class JFormFieldComponentlayout extends JFormField
 		// Get the client id.
 		$clientId = $this->element['client_id'];
 
-		if (is_null($clientId) && $this->form instanceof JForm)
+		if ($clientId === null && $this->form instanceof JForm)
 		{
 			$clientId = $this->form->getValue('client_id');
 		}

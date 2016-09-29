@@ -710,15 +710,15 @@ class JCategoryNode extends JObject
 	 */
 	public function setParent($parent)
 	{
-		if ($parent instanceof JCategoryNode || is_null($parent))
+		if ($parent instanceof JCategoryNode || $parent === null)
 		{
-			if (!is_null($this->_parent))
+			if ($this->_parent !== null)
 			{
 				$key = array_search($this, $this->_parent->_children);
 				unset($this->_parent->_children[$key]);
 			}
 
-			if (!is_null($parent))
+			if ($parent !== null)
 			{
 				$parent->_children[] = & $this;
 			}

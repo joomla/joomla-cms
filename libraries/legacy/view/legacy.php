@@ -386,7 +386,7 @@ class JViewLegacy extends JObject
 	public function get($property, $default = null)
 	{
 		// If $model is null we use the default model
-		if (is_null($default))
+		if ($default === null)
 		{
 			$model = $this->_defaultModel;
 		}
