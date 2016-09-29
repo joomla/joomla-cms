@@ -62,11 +62,12 @@ if ($color === 'image')
 {
 	$this->addStyleDeclaration("
 	.logoheader {
-		background: url('" . $this->baseurl . "/" . htmlspecialchars($headerImage) . "') no-repeat right;
+		background: url('" . $this->baseurl . '/' . htmlspecialchars($headerImage) . "') no-repeat right;
 	}
 	body {
-		background: " . $this->params->get('backgroundcolor') . ";
-	}");
+		background: " . $this->params->get('backgroundcolor') . ';
+	}'
+	);
 }
 
 // Check for a custom CSS file

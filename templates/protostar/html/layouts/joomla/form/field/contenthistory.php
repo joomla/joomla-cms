@@ -53,7 +53,7 @@ echo JHtml::_(
 		'height' => '300px',
 		'width'  => '800px',
 		'footer' => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
+			. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 	)
 );
 
