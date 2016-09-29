@@ -149,8 +149,7 @@ class ModRandomImageHelper
 			$folder = str_replace(JPATH_BASE, '', $folder);
 		}
 
-		$folder = str_replace('\\', DIRECTORY_SEPARATOR, $folder);
-		$folder = str_replace('/', DIRECTORY_SEPARATOR, $folder);
+		$folder = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $folder);
 
 		return $folder;
 	}
