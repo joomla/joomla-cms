@@ -111,16 +111,13 @@ class ModRandomImageHelper
 
 			foreach ($files as $img)
 			{
-				if (!is_dir($dir . '/' . $img))
+				if (!is_dir($dir . '/' . $img) && preg_match('/' . $type . '/', $img))
 				{
-					if (preg_match('/' . $type . '/', $img))
-					{
-						$images[$i] = new stdClass;
+					$images[$i] = new stdClass;
 
-						$images[$i]->name   = $img;
-						$images[$i]->folder = $folder;
-						$i++;
-					}
+					$images[$i]->name   = $img;
+					$images[$i]->folder = $folder;
+					$i++;
 				}
 			}
 		}
