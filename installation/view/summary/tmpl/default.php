@@ -17,7 +17,7 @@ $useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIG
 $prev = $useftp ? 'ftp' : 'database';
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-xs-right">
 			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
@@ -29,51 +29,35 @@ $prev = $useftp ? 'ftp' : 'database';
 	<hr class="hr-condensed" />
 
 	<div class="form-group">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('sample_file'); ?>
+		<?php echo $this->form->getLabel('sample_file'); ?>
+		<div class="form-text text-muted small">
+			<?php echo $this->form->getInput('sample_file'); ?>
 		</div>
-		<div class="controls">
-			<div class="form-text text-muted small">
-				<?php echo $this->form->getInput('sample_file'); ?>
-			</div>
-			<p class="form-text text-muted small">
-				<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?>
-			</p>
-		</div>
+		<p class="form-text text-muted small"><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
 	</div>
 
 	<h3><?php echo JText::_('INSTL_STEP_SUMMARY_LABEL'); ?></h3>
 	<hr class="hr-condensed" />
 
 	<div class="form-group" id="summary_email">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('summary_email'); ?>
-		</div>
-		<div class="controls">
-			<?php echo $this->form->getInput('summary_email'); ?>
-			<p class="form-text text-muted small">
-				<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">' . $this->options['admin_email'] . '</span>'); ?>
-			</p>
-		</div>
+		<?php echo $this->form->getLabel('summary_email'); ?>
+		<?php echo $this->form->getInput('summary_email'); ?>
+		<p class="form-text text-muted small">
+			<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="tag tag-default">' . $this->options['admin_email'] . '</span>'); ?>
+		</p>
 	</div>
 
 	<div class="form-group" id="email_passwords" style="display:none;">
-		<div class="control-label">
-			<?php echo $this->form->getLabel('summary_email_passwords'); ?>
-		</div>
-		<div class="controls">
-			<?php echo $this->form->getInput('summary_email_passwords'); ?>
-			<p class="form-text text-muted small">
-				<?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?>
-			</p>
-		</div>
+		<?php echo $this->form->getLabel('summary_email_passwords'); ?>
+		<?php echo $this->form->getInput('summary_email_passwords'); ?>
+		<p class="form-text text-muted small"><?php echo JText::_('INSTL_SUMMARY_EMAIL_PASSWORDS_DESC'); ?></p>
 	</div>
 
 	<div class="row">
 		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_SITE'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
@@ -98,7 +82,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['site_offline']) ? 'success' : 'important'; ?>">
+							<span class="tag tag-<?php echo ($this->options['site_offline']) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($this->options['site_offline']) ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -108,7 +92,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_EMAIL_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label"><?php echo $this->options['admin_email']; ?></span>
+							<span class="tag tag-default"><?php echo $this->options['admin_email']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -116,7 +100,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_ADMIN_USER_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label"><?php echo $this->options['admin_user']; ?></span>
+							<span class="tag tag-default"><?php echo $this->options['admin_user']; ?></span>
 						</td>
 					</tr>
 					<tr>
@@ -138,7 +122,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_DATABASE'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
@@ -193,7 +177,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
+							<span class="tag tag-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
 								<?php echo JText::_(($this->options['db_old'] == 'remove') ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
@@ -212,14 +196,14 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
 							<?php echo JText::_('INSTL_FTP_ENABLE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['ftp_enable']) ? 'success' : 'important'; ?>">
+							<span class="tag tag-<?php echo ($this->options['ftp_enable']) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($this->options['ftp_enable']) ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -262,7 +246,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_SAVE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['ftp_save']) ? 'important' : 'success'; ?>">
+							<span class="tag tag-<?php echo ($this->options['ftp_save']) ? 'important' : 'success'; ?>">
 								<?php echo JText::_(($this->options['ftp_save']) ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
@@ -285,7 +269,7 @@ $prev = $useftp ? 'ftp' : 'database';
 			<p class="install-text">
 				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
 			</p>
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 				<?php foreach ($this->phpoptions as $option) : ?>
 					<tr>
@@ -293,7 +277,7 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
+							<span class="tag tag-<?php echo ($option->state) ? 'success' : 'important'; ?>">
 								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice):?>
 								<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
@@ -314,7 +298,7 @@ $prev = $useftp ? 'ftp' : 'database';
 			<h3><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
 			<hr class="hr-condensed" />
 			<p class="install-text"><?php echo JText::_('INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<thead>
 					<tr>
 						<th>
@@ -335,12 +319,12 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $setting->label; ?>
 						</td>
 						<td>
-							<span class="label label-success disabled">
+							<span class="tag tag-success disabled">
 								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
+							<span class="tag tag-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
 								<?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>

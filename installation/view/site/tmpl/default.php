@@ -40,6 +40,11 @@ defined('_JEXEC') or die;
 				<?php echo $this->form->getInput('site_metadesc'); ?>
 				<p class="form-text text-muted small"><?php echo JText::_('INSTL_SITE_METADESC_TITLE_LABEL'); ?></p>
 			</div>
+			<div class="form-group">
+				<?php echo $this->form->getLabel('site_offline'); ?>
+				<?php echo $this->form->getInput('site_offline'); ?>
+				<p class="form-text text-muted small"><?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?></p>
+			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="form-group">
@@ -62,15 +67,6 @@ defined('_JEXEC') or die;
 				<?php echo $this->form->getLabel('admin_password2'); ?>
 				<?php // Disables autocomplete ?> <input type="password" style="display:none">
 				<?php echo $this->form->getInput('admin_password2'); ?>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<div class="form-group">
-				<?php echo $this->form->getLabel('site_offline'); ?>
-				<?php echo $this->form->getInput('site_offline'); ?>
-				<p class="form-text text-muted small"><?php echo JText::_('INSTL_SITE_OFFLINE_TITLE_LABEL'); ?></p>
 			</div>
 		</div>
 	</div>

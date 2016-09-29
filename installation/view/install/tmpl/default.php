@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewInstallHtml $this */
 ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 	<h3><?php echo JText::_('INSTL_INSTALLING'); ?></h3>
 	<hr class="hr-condensed" />
 	<div class="progress progress-striped active" id="install_progress">
@@ -47,10 +47,13 @@ defined('_JEXEC') or die;
 	{
 		doInstall();
 	});
-	function doInstall() {
-		if(document.getElementById('install_progress') != null) {
+	function doInstall()
+	{
+		if (document.getElementById('install_progress') != null)
+		{
 			Install.install(['<?php echo implode("','", $this->tasks); ?>']);
-		} else {
+		}
+		else
 			(function(){doInstall();}).delay(500);
 		}
 	}

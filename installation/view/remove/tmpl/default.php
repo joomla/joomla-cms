@@ -10,15 +10,15 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewRemoveHtml $this */
 ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
-	<div class="alert alert-error inlineError" id="theDefaultError" style="display: none">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
+	<div class="alert alert-danger inlineError" id="theDefaultError" style="display:none">
 		<h4 class="alert-heading"><?php echo JText::_('JERROR'); ?></h4>
 		<p id="theDefaultErrorMessage"></p>
 	</div>
 	<div class="alert alert-success">
 	<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
 	</div>
-	<div class="alert">
+	<div class="alert alert-info">
 		<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
 		<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
 	</div>

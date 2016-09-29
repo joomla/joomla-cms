@@ -91,14 +91,15 @@ class InstallationHtmlHelper
 	 */
 	private static function getTab($id, $tabs)
 	{
-		$input = JFactory::getApplication()->input;
-		$num   = static::getTabNumber($id, $tabs);
-		$view  = static::getTabNumber($input->getWord('view'), $tabs);
-		$tab   = '<span class="tag tag-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$input  = JFactory::getApplication()->input;
+		$num    = static::getTabNumber($id, $tabs);
+		$view   = static::getTabNumber($input->getWord('view'), $tabs);
+		$tab    = '<span class="tag tag-default">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
+		$active = $num == $view ? ' active' : '';
 
 		if ($view + 1 == $num)
 		{
-			$tab = '<a class="nav-link" href="#" onclick="Install.submitform();">' . $tab . '</a>';
+			$tab = '<a class="nav-link' . $active . '" href="#" onclick="Install.submitform();">' . $tab . '</a>';
 		}
 		elseif ($view < $num)
 		{
@@ -106,10 +107,10 @@ class InstallationHtmlHelper
 		}
 		else
 		{
-			$tab = '<a class="nav-link" href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
+			$tab = '<a class="nav-link' . $active . '" href="#" onclick="return Install.goToPage(\'' . $id . '\')">' . $tab . '</a>';
 		}
 
-		return '<li class="nav-item step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';
+		return '<li class="nav-item step" id="' . $id . '">' . $tab . '</li>';
 	}
 
 	/**
