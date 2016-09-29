@@ -1021,7 +1021,7 @@ class PlgSystemDebug extends JPlugin
 					$title = '<span class="dbg-noprofile">' . $title . '</span>';
 				}
 
-				$htmlProfile = ($info[$id]->profile ? $info[$id]->profile : JText::_('PLG_DEBUG_NO_PROFILE'));
+				$htmlProfile = ($info[$id]->profile ?: JText::_('PLG_DEBUG_NO_PROFILE'));
 
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
@@ -1526,7 +1526,7 @@ class PlgSystemDebug extends JPlugin
 			if (is_array($occurance) && isset($occurance[0]))
 			{
 				$info = $occurance[0];
-				$file = ($info['file']) ? $info['file'] : '';
+				$file = ($info['file']) ?: '';
 
 				if (!isset($guesses[$file]))
 				{
