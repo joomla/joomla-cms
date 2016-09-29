@@ -79,7 +79,7 @@ $params = &$this->params;
 <?php if ($params->get('show_author') && !empty($item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $item->author; ?>
-		<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author);?>
+		<?php $author = ($item->created_by_alias ?: $author);?>
 			<?php if (!empty($item->contact_link ) &&  $params->get('link_author') == true):?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $item->contact_link, $author)); ?>
 			<?php else :?>

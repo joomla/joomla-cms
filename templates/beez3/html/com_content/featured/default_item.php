@@ -69,7 +69,7 @@ $templateparams = $app->getTemplate(true)->params;
 <?php if ($params->get('show_parent_category') && $this->item->parent_id != 1) : ?>
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
-				$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
+				$title = ($title) ?: JText::_('JGLOBAL_UNCATEGORISED');
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
 			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -81,7 +81,7 @@ $templateparams = $app->getTemplate(true)->params;
 <?php if ($params->get('show_category')) : ?>
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
-					$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
+					$title = ($title) ?: JText::_('JGLOBAL_UNCATEGORISED');
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
 			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -108,7 +108,7 @@ $templateparams = $app->getTemplate(true)->params;
 <?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
+		<?php $author = ($this->item->created_by_alias ?: $author);?>
 		<?php if (!empty($this->item->contact_link ) &&  $params->get('link_author') == true) : ?>
 			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
 		<?php else :?>
