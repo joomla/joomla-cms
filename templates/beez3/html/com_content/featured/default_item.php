@@ -33,7 +33,7 @@ $templateparams = $app->getTemplate(true)->params;
 	</h2>
 <?php endif; ?>
 
-<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
+<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 	<ul class="actions">
 		<?php if ($params->get('show_print_icon')) : ?>
 		<li class="print-icon">
@@ -62,16 +62,16 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
-<?php if ($params->get('show_parent_category') && $this->item->parent_id != 1) : ?>
+<?php if ($this->item->parent_id != 1 && $params->get('show_parent_category')) : ?>
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
 				$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
+			<?php if ($this->item->parent_slug && $params->get('link_parent_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -83,7 +83,7 @@ $templateparams = $app->getTemplate(true)->params;
 			<?php 	$title = $this->escape($this->item->category_title);
 					$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
+			<?php if ($this->item->catslug && $params->get('link_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -105,7 +105,7 @@ $templateparams = $app->getTemplate(true)->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
+<?php if (!empty($this->item->author ) && $params->get('show_author')) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ?: $author);?>
@@ -121,11 +121,11 @@ $templateparams = $app->getTemplate(true)->params;
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') or $params->get('show_category') or $params->get('show_create_date') or $params->get('show_modify_date') or $params->get('show_publish_date') or $params->get('show_parent_category') or $params->get('show_hits')) : ?>
+<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
  </dl>
 <?php endif; ?>
 
-<?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
+<?php  if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = empty($images->float_intro) ? $params->get('float_intro') : $images->float_intro; ?>
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img
@@ -138,7 +138,7 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php echo $this->item->introtext; ?>
 
-<?php if ($params->get('show_readmore') && $this->item->readmore) :
+<?php if ($this->item->readmore && $params->get('show_readmore')) :
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 	else :

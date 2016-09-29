@@ -20,7 +20,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <section class="category-list<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
-<?php if ($this->params->get('show_page_heading') and ($this->params->get('show_category_title') or $this->params->get('page_subheading'))) : ?>
+<?php if ($this->params->get('show_page_heading') && ($this->params->get('show_category_title') || $this->params->get('page_subheading'))) : ?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -28,7 +28,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 </h1>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading')) : ?>
+<?php if ($this->params->get('show_category_title') || $this->params->get('page_subheading')) : ?>
 <h2>
 	<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -37,7 +37,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	}
 	?>
 </h2>
-<?php if ($this->params->get('show_page_heading') and ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading'))) : ?>
+<?php if ($this->params->get('show_page_heading') && ($this->params->get('show_category_title', 1) || $this->params->get('page_subheading'))) : ?>
 </hgroup>
 <?php endif; ?>
 <?php endif; ?>
@@ -47,7 +47,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
+	<?php if ($this->category->description && $this->params->get('show_description')) : ?>
 		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
@@ -55,10 +55,10 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 
-<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
+<?php if (is_array($this->children[$this->category->id]) && $this->params->get('maxLevel') != 0 && count($this->children[$this->category->id]) > 0) : ?>
 		<div class="cat-children">
 
-	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
+	<?php if ($this->params->get('show_category_title') || $this->params->get('page_subheading'))
 	{
 		echo '<h3>';
 	}
@@ -69,7 +69,7 @@ $pageClass = $this->params->get('pageclass_sfx');
     <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
+	<?php if ($this->params->get('show_category_title') || $this->params->get('page_subheading'))
 	{
 		echo '</h3>';
 	}

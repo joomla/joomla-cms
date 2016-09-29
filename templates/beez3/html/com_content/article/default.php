@@ -23,7 +23,7 @@ $params = $this->item->params;
 <article class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 
-<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) :?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -41,7 +41,7 @@ if ($params->get('show_title')) : ?>
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 <?php endif; ?>
-<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) :?>
 </hgroup>
 <?php endif; ?>
 
@@ -86,11 +86,11 @@ if ($params->get('show_title')) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
-<?php if ($params->get('show_parent_category') && $this->item->parent_slug !== '1:root') : ?>
+<?php if ($this->item->parent_slug !== '1:root' && $params->get('show_parent_category')) : ?>
 		<dd class="parent-category-name">
 			<?php 	$title = $this->escape($this->item->parent_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>';?>
-			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
+			<?php if ($this->item->parent_slug && $params->get('link_parent_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -101,7 +101,7 @@ if ($params->get('show_title')) : ?>
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
-			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
+			<?php if ($this->item->catslug && $params->get('link_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -123,7 +123,7 @@ if ($params->get('show_title')) : ?>
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
+<?php if (!empty($this->item->author ) && $params->get('show_author')) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ?: $author);?>
@@ -147,12 +147,12 @@ if ($params->get('show_title')) : ?>
 		<?php echo $this->item->toc; ?>
 	<?php endif; ?>
 
-<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR ($params->get('urls_position') == '0' AND empty($urls->urls_position)))
-		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))) : ?>
+<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '0')) || ($params->get('urls_position') == '0' && empty($urls->urls_position)))
+		OR (empty($urls->urls_position) && (!$params->get('urls_position')))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
-	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
+	<?php  if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
 	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
@@ -164,29 +164,29 @@ if ($params->get('show_title')) : ?>
 	</div>
 	<?php endif; ?>
 <?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
+if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
 	echo $this->item->pagination;
 endif;
 ?>
 	<?php echo $this->item->text; ?>
 
 <?php // TAGS ?>
-<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+<?php if (!empty($this->item->tags->itemTags) && $params->get('show_tags', 1)) : ?>
 	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 <?php endif; ?>
 
 <?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
+if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition &&!$this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))) : ?>
+	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ( $params->get('urls_position') == '1'))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 <?php
-if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
+if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>

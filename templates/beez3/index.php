@@ -105,9 +105,9 @@ require __DIR__ . '/jsstrings.php';
 						<?php if ($logo) : ?>
 							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
-						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
+						<?php if (!$logo && $this->params->get('sitetitle')) : ?>
 							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
-						<?php elseif (!$logo AND $config->get('sitename')) : ?>
+						<?php elseif (!$logo && $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
@@ -135,7 +135,7 @@ require __DIR__ . '/jsstrings.php';
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition === 'left' and $showleft) : ?>
+					<?php if ($navposition === 'left' && $showleft) : ?>
 						<nav class="left1 <?php if ($showRightColumn === false) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
@@ -175,7 +175,7 @@ require __DIR__ . '/jsstrings.php';
 						</aside><!-- end right -->
 					<?php endif; ?>
 
-					<?php if ($navposition === 'center' and $showleft) : ?>
+					<?php if ($navposition === 'center' && $showleft) : ?>
 						<nav class="left <?php if ($showRightColumn === false) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
