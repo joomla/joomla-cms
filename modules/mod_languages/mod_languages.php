@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the languages functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModLanguagesHelper', __DIR__ . '/helper.php');
 
 $headerText      = $params->get('header_text');
 $footerText      = $params->get('footer_text');

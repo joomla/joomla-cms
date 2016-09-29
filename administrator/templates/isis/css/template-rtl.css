@@ -3432,6 +3432,9 @@ input[type="submit"].btn.btn-mini {
 	color: #333;
 	text-decoration: none;
 }
+.navbar .nav > li > a:focus {
+	outline: 2px solid #5e9ed6;
+}
 .navbar .nav > .active > a,
 .navbar .nav > .active > a:hover,
 .navbar .nav > .active > a:focus {
@@ -5995,7 +5998,8 @@ hr.hr-condensed {
 	background-color: #f5f5f5;
 }
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;
@@ -6136,6 +6140,14 @@ fieldset.radio.btn-group {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
+}
+.element-invisible:focus {
+	width: auto;
+	height: auto;
+	overflow: auto;
+	background: #eee;
+	color: #000;
+	padding: 1em;
 }
 .form-vertical .control-label {
 	float: none;
@@ -7507,12 +7519,19 @@ h6 {
 .sidebar-nav .nav-list > li > a {
 	color: #555;
 	padding: 3px 25px;
-	margin-left: -25px;
-	margin-right: -25px;
+	margin-left: -26px;
+	margin-right: -26px;
 }
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
 	margin-right: -26px;
+}
+.sidebar-nav .nav-list > li > a:focus,
+.sidebar-nav .nav-list > li > a:hover {
+	text-decoration: none;
+	color: #fff;
+	background-color: #2d6ca2;
+	text-shadow: none;
 }
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;
@@ -7567,11 +7586,23 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
-	padding: 2px 10px 4px 10px;
+	padding: 4px 10px;
 	-webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	-moz-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6);
 	color: #626262;
+}
+#status .btn-group {
+	margin: 0;
+}
+#status .btn-group.separator:after {
+	content: ' ';
+	display: block;
+	float: left;
+	background: #ADADAD;
+	margin: 0 10px;
+	height: 15px;
+	width: 1px;
 }
 #status .btn-toolbar,
 #status p {
@@ -7583,6 +7614,9 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 }
 #status a {
 	color: #626262;
+}
+#status .badge {
+	margin-right: .25em;
 }
 #status.status-top {
 	background: #1a3867;
@@ -9056,8 +9090,24 @@ input[type="url"] {
 		margin-left: 10px;
 	}
 }
+#status {
+	padding: 4px 10px;
+}
+#status .btn-group {
+	margin: 0;
+}
+#status .btn-group.separator:after {
+	content: ' ';
+	display: block;
+	float: left;
+	background: #ADADAD;
+	margin: 0 10px;
+	height: 15px;
+	width: 1px;
+}
 #status .badge {
-	margin-left: 0;
+	margin-left: .25em;
+	margin-right: 0;
 }
 .dropdown-menu > li > a {
 	text-align: right;

@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API GPS class for the Joomla Platform
  *
- * @since  13.1
+ * @since       13.1
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapGps extends JOpenstreetmapObject
 {
@@ -68,7 +69,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 			'description' => $description,
 			'tags' => $tags,
 			'public' => $public,
-			'visibility' => $visibility
+			'visibility' => $visibility,
 		);
 
 		// Set the API base

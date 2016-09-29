@@ -82,7 +82,7 @@ abstract class JModelAdmin extends JModelForm
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag'
+		'tag' => 'batchTag',
 	);
 
 	/**
@@ -339,7 +339,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since	12.2
 	 */
@@ -357,7 +357,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$categoryId = $value;
 
-		if (!static::checkCategoryId($categoryId))
+		if (!$this->checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -390,7 +390,7 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			static::generateTitle($categoryId, $this->table);
+			$this->generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
@@ -527,7 +527,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$categoryId = (int) $value;
 
-		if (!static::checkCategoryId($categoryId))
+		if (!$this->checkCategoryId($categoryId))
 		{
 			return false;
 		}
@@ -598,7 +598,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  void.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   3.1
 	 */
@@ -654,9 +654,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.delete', $this->option);
+		return JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -670,9 +668,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -680,7 +676,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
 	 *
-	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
+	 * @return  integer|boolean  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
 	 * @since   12.2
 	 */
@@ -777,8 +773,7 @@ abstract class JModelAdmin extends JModelForm
 					// Multilanguage: if associated, delete the item in the _associations table
 					if ($this->associationsContext && JLanguageAssociations::isEnabled())
 					{
-
-						$db = JFactory::getDbo();
+						$db = $this->getDbo();
 						$query = $db->getQuery(true)
 							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
 							->from($db->quoteName('#__associations') . ' AS as1')
@@ -881,7 +876,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed    Object on success, false on failure.
+	 * @return  JObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   12.2
 	 */
@@ -1052,7 +1047,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   integer  $pks    The ID of the primary key to move.
 	 * @param   integer  $delta  Increment, usually +1 or -1
 	 *
-	 * @return  mixed  False on failure or error, true on success, null if the $pk is empty (no items selected).
+	 * @return  boolean|null  False on failure or error, true on success, null if the $pk is empty (no items selected).
 	 *
 	 * @since   12.2
 	 */
@@ -1233,19 +1228,41 @@ abstract class JModelAdmin extends JModelForm
 				);
 			}
 
-			// Adding self to the association
-			$associations[$table->language] = (int) $table->$key;
-
-			// Deleting old association for these items
+			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__associations'))
+				->select($db->qn('key'))
+				->from($db->qn('#__associations'))
 				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->qn('id') . ' IN (' . implode(',', $associations) . ')');
+				->where($db->qn('id') . ' = ' . (int) $table->$key);
+			$db->setQuery($query);
+			$old_key = $db->loadResult();
+
+			// Deleting old associations for the associated items
+			$query = $db->getQuery(true)
+				->delete($db->qn('#__associations'))
+				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext));
+
+			if ($associations)
+			{
+				$query->where('(' . $db->qn('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->qn('key') . ' = ' . $db->q($old_key) . ')');
+			}
+			else
+			{
+				$query->where($db->qn('key') . ' = ' . $db->q($old_key));
+			}
+
 			$db->setQuery($query);
 			$db->execute();
 
-			if ((count($associations) > 1) && ($table->language != '*'))
+			// Adding self to the association
+			if ($table->language != '*')
+			{
+				$associations[$table->language] = (int) $table->$key;
+			}
+
+			if ((count($associations)) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
@@ -1271,11 +1288,11 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  boolean|JException  Boolean true on success, boolean false or JException instance on error
+	 * @return  boolean|JException  Boolean true on success, false on failure, or JException if no items are selected
 	 *
 	 * @since   12.2
 	 */
-	public function saveorder($pks = null, $order = null)
+	public function saveorder($pks = array(), $order = null)
 	{
 		$table = $this->getTable();
 		$tableClassName = get_class($table);

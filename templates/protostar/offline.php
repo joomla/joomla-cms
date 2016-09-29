@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-
-$twofactormethods = UsersHelper::getTwoFactorMethods();
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 $app              = JFactory::getApplication();
 $doc              = JFactory::getDocument();
 $this->language   = $doc->language;

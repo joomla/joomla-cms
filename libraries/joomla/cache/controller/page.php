@@ -156,7 +156,7 @@ class JCacheControllerPage extends JCacheController
 						'nopathway' => 1,
 						'nohead'    => 1,
 						'nomodules' => 1,
-						'headers'   => true
+						'headers'   => true,
 					)
 				);
 			}

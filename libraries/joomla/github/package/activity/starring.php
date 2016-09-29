@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/activity/starring/
  *
- * @since  3.3 (CMS)
+ * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageActivityStarring extends JGithubPackage
 {

@@ -243,7 +243,7 @@ abstract class JUserHelper
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
+			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 

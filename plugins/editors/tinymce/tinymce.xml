@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>4.4.0</version>
+	<version>4.4.3</version>
 	<creationDate>2005-2016</creationDate>
 	<author>Ephox Corporation</author>
 	<authorEmail>N/A</authorEmail>
@@ -127,7 +127,9 @@
 					filter="\.js$"
 					size="10"
 					showon="lang_mode:0"
-				/>
+					>
+					<option value="en">en</option>
+				</field>
 
 				<field
 					name="text_direction"

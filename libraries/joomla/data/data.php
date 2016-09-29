@@ -309,7 +309,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 		 */
 		if (strpos($property, "\0") === 0)
 		{
-			return null;
+			return;
 		}
 
 		// Set the value.

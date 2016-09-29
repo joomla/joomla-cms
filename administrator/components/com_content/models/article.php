@@ -241,7 +241,7 @@ class ContentModelArticle extends JModelAdmin
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id))
 		{
-			$table->ordering = $table->getNextOrder('catid = ' . (int) $table->catid . ' AND state >= 0');
+			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
 		}
 	}
 
@@ -446,7 +446,9 @@ class ContentModelArticle extends JModelAdmin
 				);
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access'))));
+				$data->set('access',
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : JFactory::getConfig()->get('access')))
+				);
 			}
 		}
 
@@ -601,7 +603,6 @@ class ContentModelArticle extends JModelAdmin
 
 		if (parent::save($data))
 		{
-
 			if (isset($data['featured']))
 			{
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
@@ -640,9 +641,9 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
-						->update($db->quoteName('#__content'))
-						->set('featured = ' . (int) $value)
-						->where('id IN (' . implode(',', $pks) . ')');
+				->update($db->quoteName('#__content'))
+				->set('featured = ' . (int) $value)
+				->where('id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 			$db->execute();
 
@@ -651,8 +652,8 @@ class ContentModelArticle extends JModelAdmin
 				// Adjust the mapping table.
 				// Clear the existing features settings.
 				$query = $db->getQuery(true)
-							->delete($db->quoteName('#__content_frontpage'))
-							->where('content_id IN (' . implode(',', $pks) . ')');
+					->delete($db->quoteName('#__content_frontpage'))
+					->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -672,12 +673,10 @@ class ContentModelArticle extends JModelAdmin
 
 				// Featuring.
 				$tuples = array();
-				$ordering = $table->getNextOrder();
 
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = $pk . ', ' . $ordering;
-					$ordering++;
+					$tuples[] = $pk . ', 0';
 				}
 
 				if (count($tuples))
@@ -699,6 +698,8 @@ class ContentModelArticle extends JModelAdmin
 
 			return false;
 		}
+
+		$table->reorder();
 
 		$this->cleanCache();
 
@@ -815,7 +816,7 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */

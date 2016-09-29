@@ -147,7 +147,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'key', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 
@@ -181,7 +181,7 @@ class LanguagesModelOverrides extends JModelList
 		$app->setUserState('com_languages.overrides.filter.language', $language);
 
 		// List state information
-		parent::populateState('key', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**

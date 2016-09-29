@@ -38,7 +38,7 @@ class JFeed implements ArrayAccess
 		'updatedDate' => '',
 		'description' => '',
 		'categories' => array(),
-		'contributors' => array()
+		'contributors' => array(),
 	);
 
 	/**
@@ -327,9 +327,12 @@ class JFeed implements ArrayAccess
 		return $this;
 	}
 
-	/** Method to reverse the items if display is set to 'oldest first'
+	/**
+	 * Method to reverse the items if display is set to 'oldest first'
 	 *
-	 * @return JFeed
+	 * @return  JFeed
+	 *
+	 * @since   12.3
 	 */
 	public function reverseItems()
 	{
@@ -337,6 +340,7 @@ class JFeed implements ArrayAccess
 		{
 			$this->entries = array_reverse($this->entries);
 		}
+
 		return $this;
 	}
 }

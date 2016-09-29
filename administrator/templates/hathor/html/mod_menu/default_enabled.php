@@ -348,16 +348,16 @@ if ($showhelp == 1)
 	$menu->addSeparator();
 
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensions.joomla.org', 'class:help-jed', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'https://extensions.joomla.org', 'class:help-jed', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'http://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'https://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
 	);
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'http://community.joomla.org', 'class:help-community', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'https://community.joomla.org', 'class:help-community', false, '_blank')
 	);
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'https://developer.joomla.org/security-centre.html', 'class:help-security', false, '_blank')
@@ -369,7 +369,7 @@ if ($showhelp == 1)
 		new JMenuNode(JText::_('MOD_MENU_HELP_XCHANGE'), 'https://joomla.stackexchange.com', 'class:help-dev', false, '_blank')
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'https://shop.joomla.org', 'class:help-shop', false, '_blank')
+		new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'https://community.joomla.org/the-joomla-shop.html', 'class:help-shop', false, '_blank')
 	);
 	$menu->getParent();
 }

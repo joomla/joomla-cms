@@ -311,6 +311,12 @@ class MenusViewItems extends JViewLegacy
 			JToolbarHelper::trash('items.trash');
 		}
 
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_menus');
+		}
+
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 

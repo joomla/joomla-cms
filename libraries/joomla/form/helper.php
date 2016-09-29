@@ -32,7 +32,6 @@ class JFormHelper
 	 *
 	 * @var    array
 	 * @since  11.1
-	 *
 	 */
 	protected static $paths;
 
