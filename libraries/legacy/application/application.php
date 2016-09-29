@@ -346,7 +346,7 @@ class JApplication extends JApplicationBase
 		 * We could validly start with something else (e.g. ftp), though this would
 		 * be unlikely and isn't supported by this API.
 		 */
-		if (!preg_match('#^http#i', $url))
+		if (stripos($url, 'http') !== 0)
 		{
 			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
