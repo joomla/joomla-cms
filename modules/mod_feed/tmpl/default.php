@@ -21,18 +21,18 @@ else
 	$myrtl     = $params->get('rssrtl');
 	$direction = ' ';
 
-	if ($lang->isRtl() && $myrtl == 0)
+	if ($myrtl == 0 && $lang->isRtl())
 	{
 		$direction = ' redirect-rtl';
 	}
 
 	// Feed description
-	elseif ($lang->isRtl() && $myrtl == 1)
+	elseif ($myrtl == 1 && $lang->isRtl())
 	{
 		$direction = ' redirect-ltr';
 	}
 
-	elseif ($lang->isRtl() && $myrtl == 2)
+	elseif ($myrtl == 2 && $lang->isRtl())
 	{
 		$direction = ' redirect-rtl';
 	}
@@ -76,7 +76,7 @@ else
 			<?php
 		}
 		// Feed image
-		if ($params->get('rssimage', 1) && $iUrl) :
+		if ($iUrl && $params->get('rssimage', 1)) :
 		?>
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
 		<?php endif; ?>
@@ -102,7 +102,7 @@ else
 						<span class="feed-link"><?php  echo $title; ?></span>
 					<?php  endif; ?>
 
-					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
+					<?php if (!empty($text) && $params->get('rssitemdesc')) : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.

@@ -118,7 +118,7 @@ class ModMenuHelper
 							break;
 					}
 
-					if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false))
+					if ((strpos($item->flink, 'index.php?') !== false) && strcasecmp(substr($item->flink, 0, 4), 'http'))
 					{
 						$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
 					}
