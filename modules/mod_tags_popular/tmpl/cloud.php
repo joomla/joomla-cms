@@ -24,11 +24,11 @@ if (!count($list)) : ?>
 	$maxcount = null;
 	foreach ($list as $item)
 	{
-		if ($mincount === null or $mincount > $item->count)
+		if ($mincount === null || $mincount > $item->count)
 		{
 			$mincount = $item->count;
 		}
-		if ($maxcount === null or $maxcount < $item->count)
+		if ($maxcount === null || $maxcount < $item->count)
 		{
 			$maxcount = $item->count;
 		}

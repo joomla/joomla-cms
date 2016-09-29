@@ -42,7 +42,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 		<?php endforeach;?>
 		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
-			<?php if ($params->get('show_active', 0) || !$language->active) : ?>
+			<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 				<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" >
 				<a href="<?php echo $language->link;?>">
 						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
@@ -56,7 +56,7 @@ if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0))
 <?php else : ?>
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
-		<?php if ($params->get('show_active', 0) || !$language->active) : ?>
+		<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 			<li class="<?php echo $language->active ? 'lang-active' : ''; ?>" dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>
