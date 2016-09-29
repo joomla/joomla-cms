@@ -179,7 +179,7 @@ class JCategories
 		}
 
 		// If this $id has not been processed yet, execute the _load method
-		if ((!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])) || $forceload)
+		if ($forceload || (!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])))
 		{
 			$this->_load($id);
 		}
@@ -341,7 +341,7 @@ class JCategories
 
 					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
 					// then remove the node from the list
-					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
+					if (!($result->parent_id == 0 || isset($this->_nodes[$result->parent_id])))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;
@@ -366,7 +366,7 @@ class JCategories
 
 					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
 					// then remove the node from the list
-					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
+					if (!($result->parent_id == 0 || isset($this->_nodes[$result->parent_id])))
 					{
 						unset($this->_nodes[$result->id]);
 						continue;

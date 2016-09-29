@@ -380,7 +380,7 @@ class JModelList extends JModelLegacy
 		$hash = md5($source . serialize($options));
 
 		// Check if we can use a previously loaded form.
-		if (isset($this->_forms[$hash]) && !$clear)
+		if (!$clear && isset($this->_forms[$hash]))
 		{
 			return $this->_forms[$hash];
 		}

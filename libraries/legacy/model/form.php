@@ -195,7 +195,7 @@ abstract class JModelForm extends JModelLegacy
 		$hash = md5($source . serialize($options));
 
 		// Check if we can use a previously loaded form.
-		if (isset($this->_forms[$hash]) && !$clear)
+		if (!$clear && isset($this->_forms[$hash]))
 		{
 			return $this->_forms[$hash];
 		}
@@ -361,7 +361,7 @@ abstract class JModelForm extends JModelLegacy
 		}
 
 		// Tags B/C break at 3.1.2
-		if (isset($data['metadata']['tags']) && !isset($data['tags']))
+		if (!isset($data['tags']) && isset($data['metadata']['tags']))
 		{
 			$data['tags'] = $data['metadata']['tags'];
 		}

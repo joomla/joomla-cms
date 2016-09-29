@@ -686,7 +686,7 @@ class JApplication extends JApplicationBase
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
 
-				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
+				if (isset($response->length, $response->secure, $response->lifetime))
 				{
 					$options['length'] = $response->length;
 					$options['secure'] = $response->secure;

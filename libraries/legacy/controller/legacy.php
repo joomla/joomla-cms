@@ -336,7 +336,7 @@ class JControllerLegacy extends JObject
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if (!in_array($mName, $xMethods) || $mName == 'display')
+			if ($mName == 'display' || !in_array($mName, $xMethods))
 			{
 				$this->methods[] = strtolower($mName);
 
