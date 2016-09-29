@@ -54,7 +54,7 @@ $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=com
 // Invalidate the input value if no user selected
 if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
 {
-	$userName = "";
+	$userName = '';
 }
 
 // Load the modal behavior script.

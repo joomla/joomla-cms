@@ -100,7 +100,7 @@ else
 	$script[] = "       $('.modalTooltip').each(function(){;";
 	$script[] = "           var attr = $(this).attr('data-placement');";
 	$script[] = "           if ( attr === undefined || attr === false ) $(this).attr('data-placement', 'auto-dir top-left')";
-	$script[] = "       });";
+	$script[] = '       });';
 	$script[] = "       $('.modalTooltip').tooltip({'html': true, 'container': '#" . $selector . "'});";
 }
 
@@ -121,32 +121,32 @@ $script[] = "           padding = document.getElementById('" . $selector . "').o
 $script[] = "           maxModalHeight = ($(window).height()-(padding*2)),";
 
 // Calculate max-height for modal-body.
-$script[] = "           modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight),";
-$script[] = "           maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);";
+$script[] = '           modalBodyPadding = (modalBodyHeightOuter-modalBodyHeight),';
+$script[] = '           maxModalBodyHeight = maxModalHeight-(modalHeaderHeight+modalFooterHeight+modalBodyPadding);';
 
 if (isset($params['url']))
 {
 	// Set max-height for iframe if needed, to adapt to viewport height.
 	$script[] = "       var iframeHeight = $('.iframe').height();";
-	$script[] = "       if (iframeHeight > maxModalBodyHeight){;";
+	$script[] = '       if (iframeHeight > maxModalBodyHeight){;';
 	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
 	$script[] = "           $('.iframe').css('max-height', maxModalBodyHeight-modalBodyPadding);";
-	$script[] = "       }";
+	$script[] = '       }';
 }
 else
 {
 	// Set max-height for modal-body if needed, to adapt to viewport height.
-	$script[] = "       if (modalHeight > maxModalHeight){;";
+	$script[] = '       if (modalHeight > maxModalHeight){;';
 	$script[] = "           $('.modal-body').css({'max-height': maxModalBodyHeight, 'overflow-y': 'auto'});";
-	$script[] = "       }";
+	$script[] = '       }';
 }
 
 $script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
 $script[] = "       $('.modalTooltip').tooltip('destroy');";
-$script[] = "   });";
-$script[] = "});";
+$script[] = '   });';
+$script[] = '});';
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
