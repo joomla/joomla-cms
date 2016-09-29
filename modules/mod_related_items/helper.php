@@ -63,7 +63,7 @@ abstract class ModRelatedItemsHelper
 		$related  = array();
 		$query    = $db->getQuery(true);
 
-		if ($option == 'com_content' && $view == 'article' && $id)
+		if ($option === 'com_content' && $view === 'article' && $id)
 		{
 			// Select the meta keywords from the item
 			$query->select('metakey')

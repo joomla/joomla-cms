@@ -165,7 +165,7 @@ abstract class ModArticlesCategoryHelper
 		// Ordering
 		$ordering = $params->get('article_ordering', 'a.ordering');
 
-		if (trim($ordering) == 'random')
+		if (trim($ordering) === 'random')
 		{
 			$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}

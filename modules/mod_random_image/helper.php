@@ -96,7 +96,7 @@ class ModRandomImageHelper
 			{
 				while (false !== ($file = readdir($handle)))
 				{
-					if ($file != '.' && $file != '..' && $file != 'CVS' && $file != 'index.html')
+					if ($file !== '.' && $file !== '..' && $file !== 'CVS' && $file !== 'index.html')
 					{
 						$files[] = $file;
 					}
