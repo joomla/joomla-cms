@@ -1051,7 +1051,7 @@ class PlgEditorTinymce extends JPlugin
 					icon: \"" . $icon . "\",
 					onclick: function () {";
 
-				if ($button->get('modal') || $href)
+				if ($href || $button->get('modal'))
 				{
 					$tempConstructor .= "
 							var modalOptions = {

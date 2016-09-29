@@ -192,7 +192,7 @@ class PlgSystemRedirect extends JPlugin
 
 				$oldUrlParts = parse_url($redirect->old_url);
 
-				if (empty($oldUrlParts['query']) && $urlQuery !== '')
+				if ($urlQuery !== '' && empty($oldUrlParts['query']))
 				{
 					$redirect->new_url .= '?' . $urlQuery;
 				}

@@ -308,7 +308,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				if ($this->params->get('remove_default_prefix', 0) && $lang_code == $this->default_lang)
+				if ($lang_code == $this->default_lang && $this->params->get('remove_default_prefix', 0))
 				{
 					$found = true;
 				}
@@ -321,8 +321,9 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
-				if ($this->params->get('remove_default_prefix', 0)
-					&& $lang_code == $this->default_lang)
+				if ($lang_code == $this->default_lang
+					&& $this->params->get('remove_default_prefix', 0)
+				)
 				{
 					// Create a cookie.
 					$this->setLanguageCookie($lang_code);
@@ -345,7 +346,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$lang_code = $this->getLanguageCookie();
 
-			if ($this->params->get('detect_browser', 1) && !$lang_code)
+			if (!$lang_code && $this->params->get('detect_browser', 1))
 			{
 				$lang_code = JLanguageHelper::detectLanguage();
 			}
@@ -378,7 +379,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$lang_code = $this->getLanguageCookie();
 			}
 
-			if ($this->params->get('detect_browser', 1) && !$lang_code)
+			if (!$lang_code && $this->params->get('detect_browser', 1))
 			{
 				$lang_code = JLanguageHelper::detectLanguage();
 			}
@@ -416,8 +417,9 @@ class PlgSystemLanguageFilter extends JPlugin
 			if ($this->mode_sef)
 			{
 				// Use the current language sef or the default one.
-				if (!$this->params->get('remove_default_prefix', 0)
-					|| $lang_code != $this->default_lang)
+				if ($lang_code != $this->default_lang
+					|| !$this->params->get('remove_default_prefix', 0)
+				)
 				{
 					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
 				}
@@ -503,7 +505,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if ($this->params->get('automatic_change', '1') == '1' && array_key_exists('params', $user))
+		if (array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
 		{
 			$registry = new Registry;
 			$registry->loadString($user['params']);
@@ -532,7 +534,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($this->params->get('automatic_change', '1') == '1' && array_key_exists('params', $user) && $success)
+		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
 		{
 			$registry = new Registry;
 			$registry->loadString($user['params']);
@@ -772,7 +774,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			if (count($languages) > 1)
 			{
 				// Remove the sef from the default language if "Remove URL Language Code" is on
-				if (isset($languages[$this->default_lang]) && $remove_default_prefix)
+				if ($remove_default_prefix && isset($languages[$this->default_lang]))
 				{
 					$languages[$this->default_lang]->link
 									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);

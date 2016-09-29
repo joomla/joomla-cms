@@ -85,7 +85,7 @@ class PlgContentPagebreak extends JPlugin
 			$page = 0;
 		}
 
-		if ($params->get('intro_only') || $params->get('popup') || $full || $view !== 'article')
+		if ($view !== 'article' || $full || $params->get('intro_only') || $params->get('popup'))
 		{
 			$row->text = preg_replace($regex, '', $row->text);
 

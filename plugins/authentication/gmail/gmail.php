@@ -35,7 +35,7 @@ class PlgAuthenticationGMail extends JPlugin
 		$this->loadLanguage();
 
 		// No backend authentication
-		if (JFactory::getApplication()->isAdmin() && !$this->params->get('backendLogin', 0))
+		if (!$this->params->get('backendLogin', 0) && JFactory::getApplication()->isAdmin())
 		{
 			return;
 		}

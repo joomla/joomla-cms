@@ -70,7 +70,7 @@ class PlgUserProfile extends JPlugin
 		{
 			$userId = isset($data->id) ? $data->id : 0;
 
-			if (!isset($data->profile) and $userId > 0)
+			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
 				$db = JFactory::getDbo();
@@ -263,7 +263,7 @@ class PlgUserProfile extends JPlugin
 		// Change fields description when displayed in frontend or backend profile editing
 		$app = JFactory::getApplication();
 
-		if ($app->isSite() || $name === 'com_users.user' || $name === 'com_admin.profile')
+		if ($name === 'com_users.user' || $name === 'com_admin.profile' || $app->isSite())
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');

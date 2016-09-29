@@ -233,8 +233,9 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// No debug for Safari and Chrome redirection.
-		if (strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
-			&& strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0)
+		if (strpos($contents, '<html><head><meta http-equiv="refresh" content="0;') === 0
+			&& strpos(strtolower(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : ''), 'webkit') !== false
+		)
 		{
 			echo $contents;
 
@@ -281,7 +282,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('queries');
 			}
 
-			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			if (!empty($this->logEntries) && $this->params->get('logs', 1))
 			{
 				$html[] = $this->display('logs');
 			}
@@ -785,7 +786,7 @@ class PlgSystemDebug extends JPlugin
 				// Run a SHOW PROFILE query.
 				$profile = '';
 
-				if (in_array($db->name, array('mysqli', 'mysql', 'pdomysql')) && isset($this->sqlShowProfileEach[$id]))
+				if (isset($this->sqlShowProfileEach[$id]) && in_array($db->name, array('mysqli', 'mysql', 'pdomysql')))
 				{
 					$profileTable = $this->sqlShowProfileEach[$id];
 					$profile      = $this->tableToHtml($profileTable, $hasWarningsInProfile);

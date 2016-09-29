@@ -84,7 +84,7 @@ class PlgAuthenticationLdap extends JPlugin
 					// Search for users DN
 					$binddata = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
 
-					if (isset($binddata[0]) && isset($binddata[0]['dn']))
+					if (isset($binddata[0], $binddata[0]['dn']))
 					{
 						// Verify Users Credentials
 						$success = $ldap->bind($binddata[0]['dn'], $credentials['password'], 1);
