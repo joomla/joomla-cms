@@ -559,8 +559,6 @@ class JApplication extends JApplicationBase
 		{
 			return $registry->set($key, $value);
 		}
-
-		return;
 	}
 
 	/**
