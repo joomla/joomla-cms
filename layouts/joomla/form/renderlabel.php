@@ -36,7 +36,7 @@ if (!empty($description))
 		$title     = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
 			. ' data-content="'. htmlspecialchars($description) . '"';
 
-		if (JFactory::getLanguage()->isRtl() && !$position)
+		if (!$position && JFactory::getLanguage()->isRtl())
 		{
 			$position = ' data-placement="left" ';
 		}
