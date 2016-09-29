@@ -343,7 +343,7 @@ abstract class ModArticlesCategoryHelper
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString;
 			}
@@ -381,7 +381,7 @@ abstract class ModArticlesCategoryHelper
 
 		if (!is_array($list))
 		{
-			if ($list == '')
+			if ($list === '')
 			{
 				return $grouped;
 			}
@@ -416,7 +416,7 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Groups items by date
 	 *
-	 * @param   array   $list                        list of items
+	 * @param   array|string  $list                        list of items
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $month_year_format           date format to use
@@ -431,7 +431,7 @@ abstract class ModArticlesCategoryHelper
 
 		if (!is_array($list))
 		{
-			if ($list == '')
+			if ($list === '')
 			{
 				return $grouped;
 			}

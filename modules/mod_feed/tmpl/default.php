@@ -50,7 +50,7 @@ else
 		$direction = ' redirect-rtl';
 	}
 
-	if ($feed != false)
+	if ($feed !== false)
 	{
 		// Image handling
 		$iUrl   = isset($feed->image) ? $feed->image : null;

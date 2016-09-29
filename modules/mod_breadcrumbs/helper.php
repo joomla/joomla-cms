@@ -83,7 +83,7 @@ class ModBreadCrumbsHelper
 
 		// If a custom separator has not been provided we try to load a template
 		// specific one first, and if that is not present we load the default separator
-		if ($custom == null)
+		if ($custom === null)
 		{
 			if ($lang->isRtl())
 			{
