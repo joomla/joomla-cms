@@ -57,7 +57,7 @@ $class = ' class="first"';
 					$this->children[$child->id] = $child->getChildren();
 					$this->category = $child;
 					$this->maxLevel--;
-					if ($this->maxLevel != 0) :
+					if ($this->maxLevel !== 0) :
 						echo $this->loadTemplate('children');
 					endif;
 					$this->category = $child->getParent();

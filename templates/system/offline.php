@@ -36,11 +36,11 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<h1>
 			<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>
 		</h1>
-	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
+	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) !== '') : ?>
 		<p>
 			<?php echo $app->get('offline_message'); ?>
 		</p>
-	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != '') : ?>
+	<?php elseif ($app->get('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) !== '') : ?>
 		<p>
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>

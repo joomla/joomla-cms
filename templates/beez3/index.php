@@ -17,7 +17,7 @@ $showRightColumn = ($this->countModules('position-3') or $this->countModules('po
 $showbottom      = ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
 $showleft        = ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn == 0 and $showleft == 0)
+if ($showRightColumn === false && $showleft === false)
 {
 	$showno = 0;
 }
@@ -135,7 +135,7 @@ require __DIR__ . '/jsstrings.php';
 					</div>
 
 					<?php if ($navposition === 'left' and $showleft) : ?>
-						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
+						<nav class="left1 <?php if ($showRightColumn === false) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
 							<jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
@@ -175,7 +175,7 @@ require __DIR__ . '/jsstrings.php';
 					<?php endif; ?>
 
 					<?php if ($navposition === 'center' and $showleft) : ?>
-						<nav class="left <?php if ($showRightColumn == null) { echo 'leftbigger'; } ?>" id="nav" >
+						<nav class="left <?php if ($showRightColumn === false) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
