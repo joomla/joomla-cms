@@ -112,7 +112,7 @@ abstract class JLoader
 					$class = strtolower($classPrefix . preg_replace('#\.php$#', '', $fileName));
 
 					// Register the class with the autoloader if not already registered or the force flag is set.
-					if (empty(self::$classes[$class]) || $force)
+					if ($force || empty(self::$classes[$class]))
 					{
 						self::register($class, $file->getPath() . '/' . $fileName);
 					}
@@ -278,7 +278,7 @@ abstract class JLoader
 		if (!empty($class) && is_file($path))
 		{
 			// Register the class with the autoloader if not already registered or the force flag is set.
-			if (empty(self::$classes[$class]) || $force)
+			if ($force || empty(self::$classes[$class]))
 			{
 				self::$classes[$class] = $path;
 			}
@@ -314,7 +314,7 @@ abstract class JLoader
 		}
 
 		// If the prefix is not yet registered or we have an explicit reset flag then set set the path.
-		if (!isset(self::$prefixes[$prefix]) || $reset)
+		if ($reset || !isset(self::$prefixes[$prefix]))
 		{
 			self::$prefixes[$prefix] = array($path);
 		}
@@ -402,7 +402,7 @@ abstract class JLoader
 		}
 
 		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
-		if (!isset(self::$namespaces[$namespace]) || $reset)
+		if ($reset || !isset(self::$namespaces[$namespace]))
 		{
 			self::$namespaces[$namespace] = array($path);
 		}
