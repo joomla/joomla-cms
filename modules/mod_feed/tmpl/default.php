@@ -95,7 +95,7 @@ else
 			?>
 			<?php
 				$uri   = (!empty($feed[$i]->uri) || $feed[$i]->uri !== null) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-				$uri   = substr($uri, 0, 4) !== 'http' ? $params->get('rsslink') : $uri;
+				$uri = strpos($uri, 'http') !== 0 ? $params->get('rsslink') : $uri;
 				$text  = !empty($feed[$i]->content) || $feed[$i]->content !== null ? trim($feed[$i]->content) : trim($feed[$i]->description);
 				$title = trim($feed[$i]->title);
 			?>
