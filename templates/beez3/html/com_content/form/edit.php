@@ -56,7 +56,7 @@ endif;
 				</div>
 			</div>
 
-		<?php if (is_null($this->item->id)):?>
+		<?php if ($this->item->id === null):?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('alias'); ?>
@@ -279,7 +279,7 @@ endif;
 					<?php echo $this->form->getInput('access'); ?>
 				</div>
 			</div>
-			<?php if (is_null($this->item->id)):?>
+			<?php if ($this->item->id === null):?>
 				<div class="control-group">
 					<div class="control-label">
 					</div>
