@@ -20,12 +20,12 @@ $os = strtoupper(substr(PHP_OS, 0, 3));
 
 if (!defined('IS_WIN'))
 {
-	define('IS_WIN', ($os === 'WIN') ? true : false);
+	define('IS_WIN', $os === 'WIN');
 }
 
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (IS_WIN === false) ? true : false);
+	define('IS_UNIX', IS_WIN === false);
 }
 
 // Import the library loader if necessary.
