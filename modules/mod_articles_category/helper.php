@@ -414,7 +414,7 @@ abstract class ModArticlesCategoryHelper
 				$grouped[$item->$fieldName] = array();
 			}
 
-			if (is_null($fieldNameToKeep))
+			if ($fieldNameToKeep === null)
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
