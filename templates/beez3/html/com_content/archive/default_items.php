@@ -76,7 +76,7 @@ $params = &$this->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if (!empty($item->author ) && $params->get('show_author')) : ?>
+<?php if ($params->get('show_author') && !empty($item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $item->author; ?>
 		<?php $author = ($item->created_by_alias ?: $author);?>

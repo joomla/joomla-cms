@@ -105,7 +105,7 @@ $templateparams = $app->getTemplate(true)->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if (!empty($this->item->author ) && $params->get('show_author')) : ?>
+<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ?: $author);?>

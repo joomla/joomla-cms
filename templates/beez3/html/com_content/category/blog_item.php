@@ -132,7 +132,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 <?php echo $this->item->introtext; ?>
 
-<?php if ($this->item->readmore && $params->get('show_readmore')) :
+<?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language));
 	else :
