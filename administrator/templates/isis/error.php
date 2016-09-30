@@ -11,22 +11,15 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
+/** @var JDocumentError $this */
+
 // Getting params from template
 $params = JFactory::getApplication()->getTemplate(true)->params;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$lang            = JFactory::getLanguage();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
-$input           = $app->input;
-$user            = JFactory::getUser();
-
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
+$app   = JFactory::getApplication();
+$lang  = JFactory::getLanguage();
+$input = $app->input;
+$user  = JFactory::getUser();
 
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());

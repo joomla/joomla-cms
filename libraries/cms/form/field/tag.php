@@ -121,7 +121,16 @@ class JFormFieldTag extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-			$query->where('a.language = ' . $db->q($this->element['language']));
+			if (strpos($this->element['language'], ',') !== false)
+			{
+				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+			}
+			else
+			{
+				$language = $db->quote($this->element['language']);
+			}
+
+			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		$query->where($db->qn('a.lft') . ' > 0');
