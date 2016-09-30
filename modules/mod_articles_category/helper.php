@@ -415,10 +415,10 @@ abstract class ModArticlesCategoryHelper
 	/**
 	 * Groups items by date
 	 *
-	 * @param   array|string  $list                        list of items
-	 * @param   string  $type                        type of grouping
-	 * @param   string  $article_grouping_direction  ordering direction
-	 * @param   string  $month_year_format           date format to use
+	 * @param   array   $list                       list of items
+	 * @param   string  $type                       type of grouping
+	 * @param   string  $article_grouping_direction ordering direction
+	 * @param   string  $month_year_format          date format to use
 	 *
 	 * @return  array
 	 *
