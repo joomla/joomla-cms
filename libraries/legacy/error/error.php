@@ -159,7 +159,7 @@ abstract class JError
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @param   JException  &$e  Add an exception to the stack.
+	 * @param   JException  $e  Add an exception to the stack.
 	 *
 	 * @return  void
 	 *
