@@ -24,11 +24,11 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 				<?php endif; ?>
 			</dt>
 
-			<?php if ($displayData['params']->get('show_author') && !empty($displayData['item']->author )) : ?>
+			<?php if (!empty($displayData['item']->author ) && $displayData['params']->get('show_author')) : ?>
 				<?php echo JLayoutHelper::render('joomla.content.info_block.author', $displayData); ?>
 			<?php endif; ?>
 
-			<?php if ($displayData['params']->get('show_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
+			<?php if (!empty($displayData['item']->parent_slug) && $displayData['params']->get('show_parent_category')) : ?>
 				<?php echo JLayoutHelper::render('joomla.content.info_block.parent_category', $displayData); ?>
 			<?php endif; ?>
 
