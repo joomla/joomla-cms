@@ -416,8 +416,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				// Use the current language sef or the default one.
 				if ($lang_code !== $this->default_lang
-					|| !$this->params->get('remove_default_prefix', 0)
-				)
+					|| !$this->params->get('remove_default_prefix', 0))
 				{
 					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
 				}
