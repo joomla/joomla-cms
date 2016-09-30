@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.filesystem.file');
 
 // Check modules
-$showRightColumn = ($this->countModules('position-3') || $this->countModules('position-6') || $this->countModules('position-8'));
-$showbottom      = ($this->countModules('position-9') || $this->countModules('position-10') || $this->countModules('position-11'));
-$showleft        = ($this->countModules('position-4') || $this->countModules('position-7') || $this->countModules('position-5'));
+$showRightColumn = ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
+$showbottom      = ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
+$showleft        = ($this->countModules('position-4') or $this->countModules('position-7') or $this->countModules('position-5'));
 
-if ($showRightColumn === false && $showleft === false)
+if ($showRightColumn == 0 and $showleft == 0)
 {
 	$showno = 0;
 }
@@ -105,9 +105,9 @@ require __DIR__ . '/jsstrings.php';
 						<?php if ($logo) : ?>
 							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
-						<?php if (!$logo && $this->params->get('sitetitle')) : ?>
+						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
 							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>
-						<?php elseif (!$logo && $config->get('sitename')) : ?>
+						<?php elseif (!$logo AND $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename')); ?>
 						<?php endif; ?>
 						<span class="header1">
@@ -135,8 +135,8 @@ require __DIR__ . '/jsstrings.php';
 						<jdoc:include type="modules" name="position-2" />
 					</div>
 
-					<?php if ($navposition === 'left' && $showleft) : ?>
-						<nav class="left1 <?php if ($showRightColumn === false) { echo 'leftbigger';} ?>" id="nav">
+					<?php if ($navposition == 'left' and $showleft) : ?>
+						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
 							<jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
@@ -175,8 +175,8 @@ require __DIR__ . '/jsstrings.php';
 						</aside><!-- end right -->
 					<?php endif; ?>
 
-					<?php if ($navposition === 'center' && $showleft) : ?>
-						<nav class="left <?php if ($showRightColumn === false) { echo 'leftbigger'; } ?>" id="nav" >
+					<?php if ($navposition == 'center' and $showleft) : ?>
+						<nav class="left <?php if ($showRightColumn == null) { echo 'leftbigger'; } ?>" id="nav" >
 
 							<jdoc:include type="modules" name="position-7"  style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />

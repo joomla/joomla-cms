@@ -23,7 +23,7 @@ $params = $this->item->params;
 <article class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 
-<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
 <hgroup>
 <?php endif; ?>
 <h1>
@@ -41,7 +41,7 @@ if ($params->get('show_title')) : ?>
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 <?php endif; ?>
-<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading') and $params->get('show_title')) :?>
 </hgroup>
 <?php endif; ?>
 
@@ -78,9 +78,9 @@ if ($params->get('show_title')) : ?>
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
-<?php $useDefList = ($params->get('show_author') || $params->get('show_category') || $params->get('show_parent_category')
-	or $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date')
-	or $params->get('show_hits')); ?>
+<?php $useDefList = (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_parent_category'))
+	or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))
+	or ($params->get('show_hits'))); ?>
 
 <?php if ($useDefList) : ?>
  <dl class="article-info">
@@ -90,7 +90,7 @@ if ($params->get('show_title')) : ?>
 		<dd class="parent-category-name">
 			<?php 	$title = $this->escape($this->item->parent_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>';?>
-			<?php if ($params->get('link_parent_category') && $this->item->parent_slug) : ?>
+			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -101,7 +101,7 @@ if ($params->get('show_title')) : ?>
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
-			<?php if ($params->get('link_category') && $this->item->catslug) : ?>
+			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -147,13 +147,13 @@ if ($params->get('show_title')) : ?>
 		<?php echo $this->item->toc; ?>
 	<?php endif; ?>
 
-<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '0')) || ($params->get('urls_position') == '0' && empty($urls->urls_position)))
-		OR (empty($urls->urls_position) && (!$params->get('urls_position')))) : ?>
+<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR ($params->get('urls_position') == '0' AND empty($urls->urls_position)))
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
-	<?php  if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
-	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
+	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
 	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 	<img
@@ -164,7 +164,7 @@ if ($params->get('show_title')) : ?>
 	</div>
 	<?php endif; ?>
 <?php
-if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):
+if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
 	echo $this->item->pagination;
 endif;
 ?>
@@ -177,16 +177,16 @@ endif;
 <?php endif; ?>
 
 <?php
-if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition &&!$this->item->paginationrelative):
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ( $params->get('urls_position') == '1'))) : ?>
+	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 <?php
-if (!empty($this->item->pagination) && $this->item->pagination && $this->item->paginationposition && $this->item->paginationrelative):
+if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND $this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>

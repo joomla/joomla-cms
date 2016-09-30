@@ -33,7 +33,7 @@ $class = ' class="first"';
 					<?php echo $this->escape($child->title); ?></a>
 				</h3>
 				<?php if ($this->params->get('show_subcat_desc') == 1) :?>
-				<?php if ($child->description && $this->params->get('show_description') != 0 ) : ?>
+				<?php if ($child->description and $this->params->get('show_description') != 0 ) : ?>
 					<div class="category-desc">
 						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
 					</div>
