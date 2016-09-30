@@ -274,7 +274,7 @@ class JViewLegacy extends JObject
 			// Assign public properties
 			foreach (get_object_vars($arg0) as $key => $val)
 			{
-				if (strpos($key, '_') === 0)
+				if (strpos($key, '_') !== 0)
 				{
 					$this->$key = $val;
 				}
@@ -288,7 +288,7 @@ class JViewLegacy extends JObject
 		{
 			foreach ($arg0 as $key => $val)
 			{
-				if (strpos($key, '_') === 0)
+				if (strpos($key, '_') !== 0)
 				{
 					$this->$key = $val;
 				}
@@ -301,7 +301,7 @@ class JViewLegacy extends JObject
 
 		// We use array_key_exists() instead of isset() because isset()
 		// fails if the value is set to null.
-		if (is_string($arg0) && strpos($arg0, '_') === 0 && func_num_args() > 1)
+		if (is_string($arg0) && strpos($arg0, '_') !== 0 && func_num_args() > 1)
 		{
 			$this->$arg0 = $arg1;
 
@@ -341,7 +341,7 @@ class JViewLegacy extends JObject
 	{
 		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
 
-		if (is_string($key) && strpos($key, '_') === 0)
+		if (is_string($key) && strpos($key, '_') !== 0)
 		{
 			$this->$key = &$val;
 
