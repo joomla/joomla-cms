@@ -71,7 +71,7 @@ $templateparams = $app->getTemplate(true)->params;
 			<?php $title = $this->escape($this->item->parent_title);
 				$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
+			<?php if ($params->get('link_parent_category') && $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -83,7 +83,7 @@ $templateparams = $app->getTemplate(true)->params;
 			<?php 	$title = $this->escape($this->item->category_title);
 					$title = $title ?: JText::_('JGLOBAL_UNCATEGORISED');
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
+			<?php if ($params->get('link_category') && $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
