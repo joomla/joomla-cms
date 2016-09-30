@@ -32,7 +32,7 @@ $options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? J
 JFactory::getDocument()->addScriptDeclaration(
 	"
 		jQuery(document).ready(function (){
-			jQuery('" . $selector . "').chosen(" . $options_str . ');
+			jQuery('" . $selector . "').chosen(" . $options_str . ");
 		});
-	'
+	"
 );
