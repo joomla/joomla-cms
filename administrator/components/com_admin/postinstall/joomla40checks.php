@@ -23,10 +23,10 @@ defined('_JEXEC') or die;
 function admin_postinstall_joomla40checks_condition()
 {
 	$db            = JFactory::getDbo();
-	$serverType    = $db->getServerType()
+	$serverType    = $db->getServerType();
 	$serverVersion = $db->getVersion();
 
-	if ($serverType == 'mssql' )
+	if ($serverType == 'mssql')
 	{
 		// MS SQL support will be dropped
 		return true;
