@@ -29,7 +29,7 @@ $title = '';
 
 if (!empty($description))
 {
-	if ($text && $text != $description)
+	if ($text && $text !== $description)
 	{
 		JHtml::_('bootstrap.popover');
 		$classes[] = 'hasPopover';

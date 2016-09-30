@@ -21,7 +21,7 @@ switch ((string) $item->text)
 		break;
 
 	// Check for "Prev" item
-	case $item->text == JText::_('JPREV') :
+	case $item->text === JText::_('JPREV') :
 		$item->text = JText::_('JPREVIOUS');
 		$icon = 'icon-step-backward icon-previous';
 		break;
