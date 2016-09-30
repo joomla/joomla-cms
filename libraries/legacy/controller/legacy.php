@@ -735,10 +735,10 @@ class JControllerLegacy extends JObject
 
 			if (is_object($menu) && $item = $menu->getActive())
 			{
-					$params = $menu->getParams($item->id);
+				$params = $menu->getParams($item->id);
 
-					// Set default state data
-					$model->setState('parameters.menu', $params);
+				// Set default state data
+				$model->setState('parameters.menu', $params);
 			}
 		}
 
