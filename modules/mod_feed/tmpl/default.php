@@ -21,18 +21,19 @@ else
 	$myrtl     = $params->get('rssrtl');
 	$direction = ' ';
 
-	if ($myrtl == 0 && $lang->isRtl())
+	$isRtl = $lang->isRtl();
+	if ($myrtl == 0 && $isRtl)
 	{
 		$direction = ' redirect-rtl';
 	}
 
 	// Feed description
-	elseif ($myrtl == 1 && $lang->isRtl())
+	elseif ($myrtl == 1 && $isRtl)
 	{
 		$direction = ' redirect-ltr';
 	}
 
-	elseif ($myrtl == 2 && $lang->isRtl())
+	elseif ($myrtl == 2 && $isRtl)
 	{
 		$direction = ' redirect-rtl';
 	}
