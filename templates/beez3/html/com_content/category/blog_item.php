@@ -60,7 +60,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 <?php // to do not that elegant would be nice to group the params ?>
 
-<?php if ($params->get('show_author') || $params->get('show_category') || $params->get('show_create_date') || $params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_parent_category') || $params->get('show_hits')) : ?>
+<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
