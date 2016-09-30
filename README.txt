@@ -7,7 +7,7 @@
 2- What is Joomla?
 	* Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
 	* It's a free and OpenSource software, distributed under the GNU General Public License version 2 or later.
-	* This is a simple and powerful web server application and it requires a server with PHP and either MySQLor  PostgreSQL to run.
+	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL or PostgreSQL to run.
 	You can find full technical requirements here: https://www.joomla.org/about-joomla/technical-requirements.html.
 
 3- Is Joomla! for you?
@@ -54,7 +54,7 @@
 
 11- Do you already have a Joomla! site that's not built with Joomla! 4.x ?
 	* What's new in Joomla! 4.x: https://www.joomla.org/4
-	* What are the main differences from 3.x to 4.x? https://docs.joomla.org/What_are_the_major_differences_between_Joomla!_3.x_and_4.x
+	* What are the main differences between 3.x and 4.x? https://docs.joomla.org/What_are_the_major_differences_between_Joomla!_3.x_and_4.x
 	* How to migrate from 3.x to 4.x? Tutorial: https://docs.joomla.org/Joomla_3.x_to_4.x_Step_by_Step_Migration
 	* How to migrate from 2.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration
 	* How to migrate from 1.5.x to 3.x? Tutorial: https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration

@@ -73,8 +73,8 @@ Do you already have a Joomla! site that isn't built with Joomla! 4.x?
 * What's [new in Joomla! 4.x](https://www.joomla.org/4)?
 * What are the [main differences between 3.x and 4.x](https://docs.joomla.org/What_are_the_major_differences_between_Joomla!_3.x_and_4.x)?
 * How to [migrate from 3.x to 4.x](https://docs.joomla.org/Joomla_3.x_to_4.x_Step_by_Step_Migration).
-* How to [migrate from 2.5.x to 4.x](https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration).
-* How to [migrate from 1.5.x to 4.x](https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration).
+* How to [migrate from 2.5.x to 3.x](https://docs.joomla.org/Joomla_2.5_to_3.x_Step_by_Step_Migration).
+* How to [migrate from 1.5.x to 3.x](https://docs.joomla.org/Joomla_1.5_to_3.x_Step_by_Step_Migration).
 
 Do you want to improve Joomla?
 --------------------
