@@ -158,10 +158,12 @@ var Installation = function(_container, _base) {
      * @param step_width  The width of the progress bar element
      */
     var install = function(tasks, step_width) {
-        var $progress = $('#install_progress').find('.bar');
+        var $progressWrapper = $('#install_progress');
+		var $progress        = $progressWrapper.find('.progress-bar');
 
         if (!tasks.length) {
             $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 3) + '%');
+            $progressWrapper.val(parseFloat(($progress.get(0).style.width) + (step_width * 3)));
             goToPage('complete');
             return;
         }
@@ -176,6 +178,7 @@ var Installation = function(_container, _base) {
         var data = 'format: json&' + $form.serialize();
 
         $progress.css('width', parseFloat($progress.get(0).style.width) + step_width + '%');
+		$progressWrapper.val(parseFloat(($progress.get(0).style.width) + step_width));
         $tr.addClass('active');
         Joomla.loadingLayer("show");
 
@@ -192,6 +195,7 @@ var Installation = function(_container, _base) {
                 Install.goToPage(r.data.view, true);
             } else {
                 $progress.css('width', parseFloat($progress.get(0).style.width) + (step_width * 10) + '%');
+				$progressWrapper.val(parseFloat(($progress.get(0).style.width) + (step_width * 10)));
                 $tr.removeClass('active');
                 Joomla.loadingLayer("hide");
 
@@ -336,7 +340,8 @@ var Installation = function(_container, _base) {
     }
 
     var toggle = function(id, el, value) {
-        var val = $('input[name="jform[' + el + ']"]:checked').val(), $id = $('#' + id);
+        var val = $('input[name="jform[' + el + ']"]:checked').val(), 
+			$id = $('#' + id);
         if (val === value.toString()) {
             $id.show();
         } else {

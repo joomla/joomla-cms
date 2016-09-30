@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-xs-right">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
+		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 	</div>
 </div>
 <form action="index.php" method="post" id="languageForm">
@@ -70,11 +70,9 @@ defined('_JEXEC') or die;
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="btn-toolbar">
-			<div class="btn-group pull-xs-right">
-				<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
-			</div>
+	<div class="btn-toolbar">
+		<div class="btn-group pull-xs-right">
+			<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNEXT'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('JNEXT'); ?></a>
 		</div>
 	</div>
 	<input type="hidden" name="task" value="site" />

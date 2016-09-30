@@ -20,8 +20,8 @@ $prev = $useftp ? 'ftp' : 'database';
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-xs-right">
-			<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
-			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 
@@ -339,12 +339,10 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
-	<div class="row">
-		<div class="btn-toolbar">
-			<div class="btn-group pull-xs-right">
-				<a class="btn" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="icon-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
-				<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
-			</div>
+	<div class="btn-toolbar">
+		<div class="btn-group pull-xs-right">
+			<a class="btn btn-secondary" href="#" onclick="return Install.goToPage('<?php echo $prev; ?>');" rel="prev" title="<?php echo JText::_('JPREVIOUS'); ?>"><span class="fa fa-arrow-left"></span> <?php echo JText::_('JPREVIOUS'); ?></a>
+			<a class="btn btn-primary" href="#" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 

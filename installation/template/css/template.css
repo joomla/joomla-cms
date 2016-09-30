@@ -19,12 +19,9 @@
 .step .active span {
 	background-color: #f89406;
 }
-.form-group {
-    margin-bottom: 1.7rem;
-}
 .header {
-	background-color: #ffffff;
-	background-image: linear-gradient(#d9effa, #d9effa 25%, #ffffff);
+	background-color: #fff;
+	background-image: linear-gradient(#d9effa, #d9effa 25%, #fff);
 	background-repeat: no-repeat;
 	border-top: 3px solid #0088cc;
 	padding: 20px 0;
@@ -43,8 +40,6 @@
 /* Page Edit */
 .page-edit {
 	background: #555 url(../img/noise.png);
-	-moz-box-shadow: 0px 0px 40px #111 inset;
-	-webkit-box-shadow: 0px 0px 40px #111 inset;
 	box-shadow: 0px 0px 40px #111 inset;
 }
 .page-edit-inner {
@@ -75,7 +70,7 @@
 .module-header {
 	padding-bottom: 17px;
 	margin: 20px 0 18px 0;
-	border-bottom: 1px solid #eeeeee;
+	border-bottom: 1px solid #eee;
 }
 /* Single Item */
 .item-title {
@@ -126,4 +121,15 @@ textarea.noResize {
 /* Tooltip */
 .tooltip {
 	white-space: pre-wrap;
+}
+/* Form */
+.form-check,
+.form-check:last-child label {
+	margin-bottom: 0;
+}
+.form-group {
+    margin-bottom: 1.7rem;
+}
+td label {
+    margin: 0;
 }

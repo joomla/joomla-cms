@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 // Add Stylesheets
 JHtml::_('bootstrap.loadCss', true, $this->direction);
 JHtml::_('stylesheet', 'installation/template/css/template.css');
+JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css');
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
@@ -90,13 +91,13 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					$('.hasTooltip').tooltip({html:true});
 
 					// Chosen select boxes
-					$("select").chosen({
+					$('select').chosen({
 						disable_search_threshold : 10,
 						allow_single_deselect : true
 					});
 
 					// Turn radios into btn-group
-					$('.radio.btn-group label').addClass('btn');
+					$('.radio.btn-group label').addClass('btn btn-secondary');
 
 					$('fieldset.btn-group').each(function() {
 						var $self = $(this);

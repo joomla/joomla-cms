@@ -10,9 +10,8 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewCompleteHtml $this */
 ?>
-<form action="index.php" xmlns="http://www.w3.org/1999/html" method="post" id="adminForm"
-	class="form-validate form-horizontal">
-	<div class="alert alert-error inlineError" id="theDefaultError" style="display: none">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
+	<div class="alert alert-danger inlineError" id="theDefaultError" style="display: none">
 		<h4 class="alert-heading"><?php echo JText::_('JERROR'); ?></h4>
 		<p id="theDefaultErrorMessage"></p>
 	</div>
@@ -25,15 +24,15 @@ defined('_JEXEC') or die;
 		<div class="row">	
 			<div class="col-md-6">
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
-				<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="icon-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
+				<p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><span class="fa fa-arrow-right icon-white"></span> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
 			</div>
-			<div class="alert col-md-6">
+			<div class="alert alert-info col-md-6">
 				<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 			</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="alert">
+		<div class="alert alert-info">
 			<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
 			<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
 		</div>
@@ -41,7 +40,7 @@ defined('_JEXEC') or die;
 	<div class="row">
 		<div class="btn-toolbar col-md-6">
 			<div class="btn-group">
-				<a class="btn" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
+				<a class="btn btn-secondary" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
 			</div>
 			<div class="btn-group">
 				<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="icon-lock icon-white"></span> <?php echo JText::_('JADMINISTRATOR'); ?></a>
@@ -50,7 +49,7 @@ defined('_JEXEC') or die;
 		<div class="col-md-6">
 			<h3><?php echo JText::_('INSTL_COMPLETE_ADMINISTRATION_LOGIN_DETAILS'); ?></h3>
 			<hr class="hr-condensed" />
-			<table class="table table-striped table-condensed">
+			<table class="table table-striped table-sm">
 				<tbody>
 					<tr>
 						<td class="item">
@@ -78,7 +77,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<?php if ($this->config) : ?>
-	<div class="alert alert-error">
+	<div class="alert alert-danger">
 		<h3 class="alert-heading"><?php echo JText::_('JNOTICE'); ?></h3>
 		<p><?php echo JText::_('INSTL_CONFPROBLEM'); ?></p>
 		<textarea rows="10" cols="80" style="width: 100%;" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();"><?php echo $this->config; ?></textarea>

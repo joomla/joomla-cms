@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="btn-toolbar">
 		<div class="btn-group">
-			<a class="btn" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
+			<a class="btn btn-secondary" href="<?php echo JUri::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><span class="icon-eye-open"></span> <?php echo JText::_('JSITE'); ?></a>
 		</div>
 		<div class="btn-group">
 			<a class="btn btn-primary" href="<?php echo JUri::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><span class="icon-lock icon-white"></span> <?php echo JText::_('JADMINISTRATOR'); ?></a>
