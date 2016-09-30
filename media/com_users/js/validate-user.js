@@ -12,6 +12,7 @@
                     type: 'POST',
                     url: ajaxUrl + '&username=' + name
                 }).done(function(data){
+                    Joomla.removeMessages();
                     if(data.success){
                         message = {
                             'warning' : [data.message]
@@ -35,6 +36,7 @@
                     type: 'POST',
                     url:  ajaxUrl + '&email=' + mail
                 }).done(function (data) {
+                    Joomla.removeMessages();
                     if (data.success) {
                         message = {
                             'warning': [data.message]
@@ -59,6 +61,8 @@
                         'warning' : [ Joomla.JText._('COM_USERS_PROFILE_EMAIL2_MESSAGE') ]
                     };
                     Joomla.renderMessages(message);
+                }else{
+                    Joomla.removeMessages();
                 }
             }
         });
@@ -72,6 +76,8 @@
                         'warning' : [ Joomla.JText._('COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE')]
                     };
                     Joomla.renderMessages(message);
+                }else{
+                    Joomla.removeMessages();
                 }
             }
         });
