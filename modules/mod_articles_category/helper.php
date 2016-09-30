@@ -380,7 +380,7 @@ abstract class ModArticlesCategoryHelper
 
 		if (!is_array($list))
 		{
-			if ($list === '')
+			if ($list == '')
 			{
 				return $grouped;
 			}
