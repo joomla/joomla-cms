@@ -22,18 +22,18 @@ else
 	$direction = ' ';
 
 	$isRtl = $lang->isRtl();
-	if ($myrtl == 0 && $isRtl)
+	if ($isRtl && $myrtl == 0)
 	{
 		$direction = ' redirect-rtl';
 	}
 
 	// Feed description
-	elseif ($myrtl == 1 && $isRtl)
+	elseif ($isRtl && $myrtl == 1)
 	{
 		$direction = ' redirect-ltr';
 	}
 
-	elseif ($myrtl == 2 && $isRtl)
+	elseif ($isRtl && $myrtl == 2)
 	{
 		$direction = ' redirect-rtl';
 	}
