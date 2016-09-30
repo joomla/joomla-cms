@@ -38,7 +38,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
 		<img src="<?php echo $this->category->getParams()->get('image'); ?>"/>
 	<?php endif; ?>
-	<?php if ($this->category->description && $this->params->get('show_description')) : ?>
+	<?php if ($this->params->get('show_description') && $this->category->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->category->description, '', 'com_content.category'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
@@ -108,7 +108,7 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 <?php endif; ?>
 
-<?php if (($this->pagination->pagesTotal > 1) && ($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2))) : ?>
+<?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 	<div class="pagination">
 	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 		<p class="counter">

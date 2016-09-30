@@ -64,7 +64,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
  <dl class="article-info">
  <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
-<?php if ($this->item->parent_id != 1 && $params->get('show_parent_category')) : ?>
+<?php if ($params->get('show_parent_category') && $this->item->parent_id != 1) : ?>
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
 				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_id)) . '">' . $title . '</a>'; ?>
@@ -101,7 +101,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if (!empty($this->item->author ) && $params->get('show_author')) : ?>
+<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ?: $author);?>

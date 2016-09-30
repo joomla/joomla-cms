@@ -48,7 +48,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		</form>
 	<?php endif; ?>
 
-	<?php if (!empty($this->item->tags->itemTags) && $this->params->get('show_tags', 1)) : ?>
+	<?php if ($this->params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
@@ -90,7 +90,7 @@ $cparams = JComponentHelper::getParams('com_media');
 			<?php echo JText::_('COM_CONTACT_VCARD');?></a>
 	<?php endif; ?>
 
-	<?php if (($this->contact->email_to || $this->contact->user_id) && $this->params->get('show_email_form')) : ?>
+	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
 
 		<?php if ($this->params->get('presentation_style') === 'sliders') : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
@@ -109,7 +109,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 
-	<?php if ($this->contact->user_id && $this->contact->articles && $this->params->get('show_articles')) : ?>
+	<?php if ($this->params->get('show_articles') && $this->contact->user_id && $this->contact->articles) : ?>
 
 		<?php if ($this->params->get('presentation_style') === 'sliders') :
 			echo JHtml::_('sliders.panel', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
@@ -125,7 +125,7 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php endif; ?>
 
-	<?php if ($this->contact->user_id && $this->params->get('show_profile') && JPluginHelper::isEnabled('user', 'profile')) : ?>
+	<?php if ($this->params->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
 
 		<?php if ($this->params->get('presentation_style') === 'sliders') :
 			echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>

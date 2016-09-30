@@ -136,7 +136,7 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 				<?php echo $this->item->tagLayout->render($tagsData); ?>
 			<?php endif; ?>
 
-			<?php if (($item->description !== '') && $this->params->get('show_link_description')) : ?>
+			<?php if (($this->params->get('show_link_description')) && ($item->description !== '')) : ?>
 				<?php $images = json_decode($item->images); ?>
 				<?php  if (isset($images->image_first) && !empty($images->image_first)) : ?>
 				<?php $imgfloat = empty($images->float_first) ? $this->params->get('float_first') : $images->float_first; ?>

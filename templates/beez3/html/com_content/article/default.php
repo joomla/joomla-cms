@@ -90,7 +90,7 @@ if ($params->get('show_title')) : ?>
 		<dd class="parent-category-name">
 			<?php 	$title = $this->escape($this->item->parent_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>';?>
-			<?php if ($this->item->parent_slug && $params->get('link_parent_category')) : ?>
+			<?php if ($params->get('link_parent_category') and $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -101,7 +101,7 @@ if ($params->get('show_title')) : ?>
 		<dd class="category-name">
 			<?php 	$title = $this->escape($this->item->category_title);
 					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
-			<?php if ($this->item->catslug && $params->get('link_category')) : ?>
+			<?php if ($params->get('link_category') and $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -123,7 +123,7 @@ if ($params->get('show_title')) : ?>
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if (!empty($this->item->author ) && $params->get('show_author')) : ?>
+<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ?: $author);?>
@@ -171,7 +171,7 @@ endif;
 	<?php echo $this->item->text; ?>
 
 <?php // TAGS ?>
-<?php if (!empty($this->item->tags->itemTags) && $params->get('show_tags', 1)) : ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 <?php endif; ?>
