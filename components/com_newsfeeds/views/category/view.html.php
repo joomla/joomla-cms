@@ -70,9 +70,8 @@ class NewsfeedsViewCategory extends JViewCategory
 	{
 		parent::prepareDocument();
 
-		$id = (int) @$menu->query['id'];
-
 		$menu = $this->menu;
+		$id = (int) @$menu->query['id'];
 
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
 		{
