@@ -194,7 +194,7 @@ class PostinstallModelMessages extends FOFModel
 		$options = array();
 
 		JFactory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
-		
+
 		foreach ($extension_ids as $eid)
 		{
 			$options[] = JHtml::_('select.option', $eid, $this->getExtensionName($eid));
