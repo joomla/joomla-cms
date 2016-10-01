@@ -142,6 +142,7 @@ function jSelectPosition_$this->id(name) {
 	jModalClose();
 }
 TAG;
+		
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration($script);
 
