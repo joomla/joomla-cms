@@ -168,8 +168,8 @@ if($this->type == 'font')
 ?>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR')); ?>
-<div class="row-fluid">
-	<div class="span12">
+<div class="row">
+	<div class="col-md-12">
 		<?php if($this->type == 'file'): ?>
 			<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 		<?php endif; ?>
@@ -181,11 +181,11 @@ if($this->type == 'font')
 		<?php endif; ?>
 	</div>
 </div>
-<div class="row-fluid">
-	<div class="span3 tree-holder">
+<div class="row">
+	<div class="col-md-3 tree-holder">
 		<?php echo $this->loadTemplate('tree');?>
 	</div>
-	<div class="span9">
+	<div class="col-md-9">
 		<?php if($this->type == 'home'): ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 				<input type="hidden" name="task" value="" />
@@ -306,8 +306,8 @@ if($this->type == 'font')
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
-<div class="row-fluid">
-	<div class="span4">
+<div class="row">
+	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -324,7 +324,7 @@ if($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS');?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -350,7 +350,7 @@ if($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS');?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>

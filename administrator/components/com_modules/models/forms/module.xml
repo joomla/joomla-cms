@@ -22,7 +22,7 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="40"
-			class="span12"
+			class="col-md-12"
 		/>
 
 		<field name="module" type="hidden"

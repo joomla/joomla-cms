@@ -166,8 +166,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MODULES_MODULE')); ?>
 
-		<div class="row-fluid">
-			<div class="span9">
+		<div class="row">
+			<div class="col-md-9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
 						<h3>
@@ -226,7 +226,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				echo $html ? '<hr />' . $html : '';
 				?>
 			</div>
-			<div class="span3">
+			<div class="col-md-3">
 				<fieldset class="form-vertical">
 					<?php echo $this->form->renderField('showtitle'); ?>
 					<div class="control-group">

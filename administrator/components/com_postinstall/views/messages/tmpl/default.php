@@ -44,8 +44,8 @@ JHtml::_('formbehavior.chosen', 'select');
 </div>
 <?php else : ?>
 <?php if ($this->eid == 700) : ?>
-<div class="row-fluid">
-	<div class="span8">
+<div class="row">
+	<div class="col-md-8">
 <?php endif; ?>
 	<?php foreach ($this->items as $item) : ?>
 	<fieldset>
@@ -70,7 +70,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<?php endforeach; ?>
 <?php if ($this->eid == 700) : ?>
 	</div>
-	<div class="span4">
+	<div class="col-md-4">
 		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS'); ?></h2>
 		<?php echo $renderer->render($mod, $params, $options); ?>
 	</div>

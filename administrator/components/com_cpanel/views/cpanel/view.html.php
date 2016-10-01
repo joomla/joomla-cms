@@ -57,7 +57,7 @@ class CpanelViewCpanel extends JViewLegacy
 			$messages = array();
 
 			// Still render the error message from the Exception object
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 		}
 
 		$this->postinstall_message_count = count($messages);

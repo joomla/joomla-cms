@@ -24,7 +24,7 @@ $resetOptions = array(
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<div class="row-fluid">
+<div class="row">
 	<div id="batch-choose-action" class="combo control-group">
 		<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
 			<?php echo JText::_('COM_USERS_BATCH_GROUP') ?>

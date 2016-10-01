@@ -29,7 +29,7 @@
 		<field
 			name="sample_file"
 			type="installation.sample"
-			class="inputbox"
+			class="form-control"
 			label="INSTL_SITE_INSTALL_SAMPLE_LABEL"
 		/>
 	</fieldset>

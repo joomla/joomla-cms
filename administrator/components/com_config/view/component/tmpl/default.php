@@ -42,16 +42,16 @@ JFactory::getDocument()->addScriptDeclaration(
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
-	<div class="row-fluid">
+	<div class="row">
 
 		<!-- Begin Sidebar -->
-		<div class="span2" id="sidebar">
+		<div class="col-md-2" id="sidebar">
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
 		</div><!-- End Sidebar -->
 
-		<div class="span10" id="config">
+		<div class="col-md-10" id="config">
 
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>

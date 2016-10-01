@@ -71,7 +71,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="span12"
+			class="col-md-12"
 			multiple="true"
 		/>
 
@@ -81,7 +81,7 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			labelclass="control-label"
-			class="span12"
+			class="col-md-12"
 			size="45"
 			maxlength="255"
 		/>
@@ -101,7 +101,7 @@
 			type="url"
 			label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC"
-			class="span12"
+			class="col-md-12"
 			size="60"
 			required="true"
 			filter="url"

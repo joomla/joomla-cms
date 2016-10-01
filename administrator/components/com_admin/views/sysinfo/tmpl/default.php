@@ -14,9 +14,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="row-fluid">
+	<div class="row">
 		<!-- Begin Content -->
-		<div class="span12">
+		<div class="col-md-12">
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'site')); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site', JText::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>

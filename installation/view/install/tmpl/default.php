@@ -10,19 +10,23 @@ defined('_JEXEC') or die;
 
 /* @var InstallationViewInstallHtml $this */
 ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 	<h3><?php echo JText::_('INSTL_INSTALLING'); ?></h3>
 	<hr class="hr-condensed" />
-	<div class="progress progress-striped active" id="install_progress">
-		<div class="bar" style="width: 0%;"></div>
-	</div>
+
+	<progress class="progress progress-striped progress-animated" value="0" max="100" id="install_progress">
+		<div class="progress progress-striped progress-animated">
+			<span class="progress-bar" style="width: 0%;"></span>
+		</div>
+	</progress>
+
 	<table class="table">
 		<tbody>
 		<?php foreach ($this->tasks as $task) : ?>
 			<tr id="install_<?php echo $task; ?>">
 				<td class="item" nowrap="nowrap" width="10%">
 				<?php if ($task == 'Email') : ?>
-					<?php echo JText::sprintf('INSTL_INSTALLING_EMAIL', '<span class="label">' . $this->options['admin_email'] . '</span>'); ?>
+					<?php echo JText::sprintf('INSTL_INSTALLING_EMAIL', '<span class="tag tag-info">' . $this->options['admin_email'] . '</span>'); ?>
 				<?php else : ?>
 					<?php echo JText::_('INSTL_INSTALLING_' . strtoupper($task)); ?>
 				<?php endif; ?>
@@ -47,10 +51,14 @@ defined('_JEXEC') or die;
 	{
 		doInstall();
 	});
-	function doInstall() {
-		if(document.getElementById('install_progress') != null) {
+	function doInstall()
+	{
+		if (document.getElementById('install_progress') != null)
+		{
 			Install.install(['<?php echo implode("','", $this->tasks); ?>']);
-		} else {
+		}
+		else
+		{
 			(function(){doInstall();}).delay(500);
 		}
 	}

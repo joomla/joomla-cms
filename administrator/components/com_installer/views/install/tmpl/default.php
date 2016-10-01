@@ -88,10 +88,10 @@ JFactory::getDocument()->addStyleDeclaration(
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>"
 		method="post" name="adminForm" id="adminForm" class="form-horizontal">
 		<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
+		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div id="j-main-container" class="span10">
+		<div id="j-main-container" class="col-md-10">
 			<?php else : ?>
 			<div id="j-main-container">
 				<?php endif; ?>

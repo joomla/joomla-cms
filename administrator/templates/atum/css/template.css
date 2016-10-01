@@ -6975,7 +6975,7 @@ small, .small {
 .wrapper {
   padding-top: 48px;
   padding-left: 0;
-  transition: all 0.5s ease; }
+  transition: all .5s ease; }
   @media (min-width: 48em) {
     .wrapper {
       padding-left: 250px; } }
@@ -6987,7 +6987,7 @@ small, .small {
       padding-left: 55px; } }
   .wrapper.closed .status {
     margin-left: 55px;
-    transition: all 0.5s ease; }
+    transition: all .5s ease; }
 
 .sidebar-wrapper {
   position: fixed;
@@ -6997,7 +6997,7 @@ small, .small {
   margin-left: 0;
   background: #2e2633;
   transform: translateX(-250px);
-  transition: all 0.5s ease; }
+  transition: all .5s ease; }
   @media (min-width: 48em) {
     .sidebar-wrapper {
       left: 250px;
@@ -7217,7 +7217,7 @@ small, .small {
   background: #ebebeb;
   border-top: 1px solid #d4d4d4;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 -15px 15px rgba(255, 255, 255, 0.6);
-  transition: all 0.5s ease; }
+  transition: all .5s ease; }
   .status .btn-group {
     margin-top: 5px;
     margin-left: 5px; }
@@ -7393,6 +7393,12 @@ small, .small {
 .com_cpanel .card .list-group {
   position: relative;
   top: -1px; }
+
+.com_cpanel .card .list-group-item {
+  border-left: 0;
+  border-right: 0; }
+  .com_cpanel .card .list-group-item:last-child {
+    border-bottom: 0; }
 
 .com_cpanel .list-group-condensed > li {
   padding: .45rem 1.25rem; }

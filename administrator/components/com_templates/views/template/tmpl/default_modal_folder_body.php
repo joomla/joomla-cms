@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 $input = JFactory::getApplication()->input;
 ?>
-<div id="#template-manager-folder" class="row-fluid">
-	<div class="span12">
-		<div class="span6 column-right">
+<div id="#template-manager-folder" class="row">
+	<div class="col-md-12">
+		<div class="col-md-6 column-right">
 			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="well">
 				<fieldset class="form-inline">
 					<label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME');?></label>
@@ -24,7 +24,7 @@ $input = JFactory::getApplication()->input;
 				</fieldset>
 			</form>
 		</div>
-		<div class="span6 column-left">
+		<div class="col-md-6 column-left">
 			<?php echo $this->loadTemplate('folders');?>
 			<hr class="hr-condensed" />
 		</div>

@@ -35,7 +35,7 @@
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
 			maxlength="255"
-			class="span12"
+			class="col-md-12"
 			size="40"/>
 
 		<field

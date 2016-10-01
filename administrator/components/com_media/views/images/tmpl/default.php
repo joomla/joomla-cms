@@ -45,7 +45,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		<div class="well">
 			<div class="row">
-				<div class="span12 control-group">
+				<div class="col-md-12 control-group">
 					<div class="control-label">
 						<label class="control-label" for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY') ?></label>
 					</div>
@@ -66,7 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 		<div class="well">
 			<div class="row">
-				<div class="span6 control-group">
+				<div class="col-md-6 control-group">
 					<div class="control-label">
 						<label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label>
 					</div>
@@ -75,7 +75,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				</div>
 				<?php if (!$this->state->get('field.id')):?>
-					<div class="span6 control-group">
+					<div class="col-md-6 control-group">
 						<div class="control-label">
 							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 						</div>
@@ -92,7 +92,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			</div>
 			<?php if (!$this->state->get('field.id')):?>
 				<div class="row">
-					<div class="span6 control-group">
+					<div class="col-md-6 control-group">
 						<div class="control-label">
 							<label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label>
 						</div>
@@ -100,7 +100,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<input type="text" id="f_alt" value="" />
 						</div>
 					</div>
-					<div class="span6 control-group">
+					<div class="col-md-6 control-group">
 						<div class="control-label">
 							<label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE') ?></label>
 						</div>
@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				</div>
 				<div class="row">
-					<div class="span6 control-group">
+					<div class="col-md-6 control-group">
 						<div class="control-label">
 							<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
 						</div>
@@ -118,7 +118,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<input type="text" id="f_caption" value="" />
 						</div>
 					</div>
-					<div class="span6 control-group">
+					<div class="col-md-6 control-group">
 						<div class="control-label">
 							<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
 						</div>

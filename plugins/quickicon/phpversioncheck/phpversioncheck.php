@@ -85,7 +85,7 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 					break;
 
 				case self::PHP_UNSUPPORTED:
-					$this->app->enqueueMessage($supportStatus['message'], 'error');
+					$this->app->enqueueMessage($supportStatus['message'], 'danger');
 
 					break;
 			}

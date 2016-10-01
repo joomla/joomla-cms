@@ -42,9 +42,9 @@ if ($lang->isRtl())
 	JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 }
 ?>
-<div class="row-fluid">
+<div class="row">
 	<!-- Begin Sidebar -->
-	<div id="j-sidebar-container" class="span2">
+	<div id="j-sidebar-container" class="col-md-2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
 		<h3 style="padding-left: 10px;"><?php echo JText::_('COM_MEDIA_FOLDERS');?> </h3>
@@ -58,7 +58,7 @@ if ($lang->isRtl())
 	<!-- End Sidebar -->
 
 	<!-- Begin Content -->
-	<div id="j-main-container" class="span10">
+	<div id="j-main-container" class="col-md-10">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
