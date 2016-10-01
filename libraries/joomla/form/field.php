@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\Normalise;
+use Joomla\String\StringHelper;
+
 /**
  * Abstract Form Field class for the Joomla Platform.
  *
@@ -59,7 +62,7 @@ abstract class JFormField
 	protected $autofocus = false;
 
 	/**
-	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
+	 * The SimpleXMLElement object of the `<field>` XML element that describes the form field.
 	 *
 	 * @var    SimpleXMLElement
 	 * @since  11.1
@@ -343,15 +346,15 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(get_called_class(), true);
 
 			if ($parts[0] == 'J')
 			{
-				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = JString::ucfirst($parts[0], '_') . JString::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
 			}
 		}
 	}
@@ -417,7 +420,7 @@ abstract class JFormField
 				return $this->getTitle();
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -539,7 +542,7 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -568,11 +571,9 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required',
-			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel','translate_label', 'translateDescription',
-			'translate_description' ,'size');
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange', 'onclick', 'validate', 'pattern', 'default',
+			'required', 'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck', 'translateHint', 'translateLabel',
+			'translate_label', 'translateDescription', 'translate_description', 'size');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -742,7 +743,7 @@ abstract class JFormField
 			'text'        => $data['label'],
 			'for'         => $this->id,
 			'classes'     => explode(' ', $data['labelclass']),
-			'position'    => $position
+			'position'    => $position,
 		);
 
 		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
@@ -896,6 +897,23 @@ abstract class JFormField
 	}
 
 	/**
+	 * Render a layout of this field
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function render($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
+	}
+
+	/**
 	 * Method to get a control group with label and input.
 	 *
 	 * @param   array  $options  Options to be passed into the rendering of the field
@@ -933,7 +951,7 @@ abstract class JFormField
 				$showonarr[] = array(
 					'field'  => str_replace('[]', '', $this->getName($showon[0])),
 					'values' => explode(',', $showon[1]),
-					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : ''
+					'op'     => (preg_match('%\[(AND|OR)\]' . $showonfield . '%', $showonstring, $matches)) ? $matches[1] : '',
 				);
 			}
 
@@ -944,7 +962,7 @@ abstract class JFormField
 		$data = array(
 			'input'   => $this->getInput(),
 			'label'   => $this->getLabel(),
-			'options' => $options
+			'options' => $options,
 		);
 
 		return $this->getRenderer($this->renderLayout)->render($data);
@@ -993,8 +1011,20 @@ abstract class JFormField
 			'size'         => $this->size,
 			'spellcheck'   => $this->spellcheck,
 			'validate'     => $this->validate,
-			'value'        => $this->value
+			'value'        => $this->value,
 		);
+	}
+
+	/**
+	 * Allow to override renderer include paths in child fields
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	protected function getLayoutPaths()
+	{
+		return array();
 	}
 
 	/**
@@ -1012,6 +1042,13 @@ abstract class JFormField
 
 		$renderer->setDebug($this->isDebugEnabled());
 
+		$layoutPaths = $this->getLayoutPaths();
+
+		if ($layoutPaths)
+		{
+			$renderer->setIncludePaths($layoutPaths);
+		}
+
 		return $renderer;
 	}
 
@@ -1024,6 +1061,6 @@ abstract class JFormField
 	 */
 	protected function isDebugEnabled()
 	{
-		return ($this->getAttribute('debug', 'false') === 'true');
+		return $this->getAttribute('debug', 'false') === 'true';
 	}
 }

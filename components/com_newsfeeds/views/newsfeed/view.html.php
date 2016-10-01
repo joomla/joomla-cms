@@ -41,7 +41,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   1.6
 	 */
@@ -82,16 +82,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
-
-		// Check if cache directory is writeable
-		$cacheDir = JPATH_CACHE . '/';
-
-		if (!is_writable($cacheDir))
-		{
-			JError::raiseNotice('0', JText::_('COM_NEWSFEEDS_CACHE_DIRECTORY_UNWRITABLE'));
-
-			return;
-		}
 
 		// Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
 		// Otherwise, newsfeed params override menu item params

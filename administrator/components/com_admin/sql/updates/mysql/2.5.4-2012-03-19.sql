@@ -1,6 +1,6 @@
 ALTER TABLE `#__languages` ADD COLUMN `access` integer unsigned NOT NULL default 0 AFTER `published`;
 
-ALTER TABLE `#__languages` ADD KEY `idx_access` (`access`);
+ALTER TABLE `#__languages` ADD INDEX `idx_access` (`access`);
 
 UPDATE `#__categories` SET `extension` = 'com_users.notes' WHERE `extension` = 'com_users';
 

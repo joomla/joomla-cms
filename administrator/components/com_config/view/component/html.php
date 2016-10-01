@@ -66,7 +66,6 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		$this->component = &$component;
 
 		$this->components = ConfigHelperConfig::getComponentsWithConfig();
-		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');

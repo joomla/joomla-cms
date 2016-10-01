@@ -180,27 +180,31 @@ class JApplicationCms extends JApplicationWeb
 		{
 			$query->clear();
 
-			if ($session->isNew())
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
-				$db->setQuery($query);
-			}
-			else
-			{
-				$query->insert($db->quoteName('#__session'))
-					->columns(
-						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
-						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
-					)
-					->values(
-						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
-					);
+			$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
-				$db->setQuery($query);
-			}
+			$columns = array(
+				$db->quoteName('session_id'),
+				$db->quoteName('client_id'),
+				$db->quoteName('guest'),
+				$db->quoteName('time'),
+				$db->quoteName('userid'),
+				$db->quoteName('username'),
+			);
+
+			$values = array(
+				$db->quote($session->getId()),
+				(int) $this->getClientId(),
+				(int) $user->guest,
+				$db->quote((int) $time),
+				(int) $user->id,
+				$db->quote($user->username),
+			);
+
+			$query->insert($db->quoteName('#__session'))
+				->columns($columns)
+				->values(implode(', ', $values));
+
+			$db->setQuery($query);
 
 			// If the insert failed, exit the application.
 			try
@@ -227,7 +231,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// Don't add empty messages.
-		if (!strlen($msg))
+		if (!strlen(trim($msg)))
 		{
 			return;
 		}
@@ -436,7 +440,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $menu;
@@ -502,7 +506,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $pathway;
@@ -532,7 +536,7 @@ class JApplicationCms extends JApplicationWeb
 		}
 		catch (Exception $e)
 		{
-			return null;
+			return;
 		}
 
 		return $router;
@@ -624,9 +628,6 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = JFactory::getConfig();
-
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -641,6 +642,9 @@ class JApplicationCms extends JApplicationWeb
 
 		// Register the language object with JFactory
 		JFactory::$language = $this->getLanguage();
+
+		// Load the library language files
+		$this->loadLibraryLanguage();
 
 		// Set user specific editor.
 		$user = JFactory::getUser();
@@ -690,9 +694,9 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
-	 * Check the client interface by name or client id.
+	 * Check the client interface by name.
 	 *
-	 * @param   string|int  $identifier  Numeric or string identifier for the application interface
+	 * @param   string  $identifier  String identifier for the application interface
 	 *
 	 * @return  boolean  True if this application is of the given type client interface.
 	 *
@@ -701,6 +705,18 @@ class JApplicationCms extends JApplicationWeb
 	public function isClient($identifier)
 	{
 		return $this->getName() == $identifier;
+	}
+
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.3
+	 */
+	protected function loadLibraryLanguage()
+	{
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -734,7 +750,7 @@ class JApplicationCms extends JApplicationWeb
 		// Initialize the options for JSession.
 		$options = array(
 			'name'   => $name,
-			'expire' => $lifetime
+			'expire' => $lifetime,
 		);
 
 		switch ($this->getClientId())
@@ -758,7 +774,13 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
+		/*
+		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated meaning
+		 * each application will attempt to start a new session. https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and
+		 * burn if you ever attempt to make this change without a proper dependency injection container.
+		 */
+
 		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
 		$session->start();
@@ -811,15 +833,13 @@ class JApplicationCms extends JApplicationWeb
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean|JException  True on success, false if failed or silent handling is configured, or a JException object on authentication error.
 	 *
 	 * @since   3.2
 	 */
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
@@ -833,12 +853,11 @@ class JApplicationCms extends JApplicationWeb
 			 * This permits authentication plugins blocking the user.
 			 */
 			$authorisations = $authenticate->authorise($response, $options);
+			$denied_states = JAuthentication::STATUS_EXPIRED | JAuthentication::STATUS_DENIED;
 
 			foreach ($authorisations as $authorisation)
 			{
-				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
-
-				if (in_array($authorisation->status, $denied_states))
+				if ((int) $authorisation->status & $denied_states)
 				{
 					// Trigger onUserAuthorisationFailure Event.
 					$this->triggerEvent('onUserAuthorisationFailure', array((array) $authorisation));
@@ -855,17 +874,11 @@ class JApplicationCms extends JApplicationWeb
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 
-							break;
-
 						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 
-							break;
-
 						default:
 							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
-
-							break;
 					}
 				}
 			}
@@ -1143,7 +1156,7 @@ class JApplicationCms extends JApplicationWeb
 			return $registry->set($key, $value);
 		}
 
-		return null;
+		return;
 	}
 
 	/**

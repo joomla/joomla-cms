@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+use Joomla\Utilities\ArrayHelper;
+
+JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
- * About Page Model
+ * Methods supporting a list of featured article records.
  *
  * @since  1.6
  */
@@ -23,7 +25,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -63,13 +65,11 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @param   boolean  $resolveFKs  True to join selected foreign information
-	 *
-	 * @return  string
+	 * @return  JDatabaseQuery
 	 *
 	 * @since   1.6
 	 */
-	protected function getListQuery($resolveFKs = true)
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -86,7 +86,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->from('#__content AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title')
+		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the content table.
@@ -108,6 +108,14 @@ class ContentModelFeatured extends ContentModelArticles
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+
+		// Join on voting table
+		if (JPluginHelper::isEnabled('content', 'vote'))
+		{
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -143,8 +151,7 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 		elseif (is_array($categoryId))
 		{
-			JArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
+			$categoryId = implode(',', ArrayHelper::toInteger($categoryId));
 			$query->where('a.catid IN (' . $categoryId . ')');
 		}
 
@@ -156,6 +163,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by author
 		$authorId = $this->getState('filter.author_id');
+
 		if (is_numeric($authorId))
 		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
@@ -170,6 +178,11 @@ class ContentModelFeatured extends ContentModelArticles
 			if (stripos($search, 'id:') === 0)
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'author:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
+				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
 			else
 			{
@@ -191,7 +204,8 @@ class ContentModelFeatured extends ContentModelArticles
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
 				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					'LEFT',
+					$db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
 				);
@@ -201,5 +215,22 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.5
+	 */
+	protected function populateState($ordering = 'a.title', $direction = 'asc')
+	{
+		parent::populateState($ordering, $direction);
 	}
 }

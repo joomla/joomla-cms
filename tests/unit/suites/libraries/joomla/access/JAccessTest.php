@@ -367,7 +367,7 @@ class JAccessTest extends TestCaseDatabase
 </access>',
 				"/access/section[@name='unexisting']/",
 				array(),
-				'Unable to get actions from an unexiting section.'),
+				'Unable to get actions from an unexisting section.'),
 			array(
 				'<access component="com_banners',
 				"/access/section[@name='component']/",
@@ -503,6 +503,8 @@ class JAccessTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->_cleanupTestFiles();
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

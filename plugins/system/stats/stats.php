@@ -44,14 +44,6 @@ class PlgSystemStats extends JPlugin
 	protected $app;
 
 	/**
-	 * Load plugin language files automatically
-	 *
-	 * @var    boolean
-	 * @since  3.5
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
@@ -98,6 +90,9 @@ class PlgSystemStats extends JPlugin
 		{
 			return;
 		}
+
+		// Load plugin language files only when needed (ex: they are not needed in site client).
+		$this->loadLanguage();
 
 		JHtml::_('jquery.framework');
 		JHtml::script('plg_system_stats/stats.js', false, true, false);
@@ -230,6 +225,37 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
+	 * Get the data through events
+	 *
+	 * @param   string  $context  Context where this will be called from
+	 *
+	 * @return  array
+	 *
+	 * @since   3.5
+	 */
+	public function onGetStatsData($context)
+	{
+		return $this->getStatsData();
+	}
+
+	/**
+	 * Debug a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function debug($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->debug($data);
+	}
+
+	/**
 	 * Get the data for the layout
 	 *
 	 * @return  array
@@ -252,7 +278,7 @@ class PlgSystemStats extends JPlugin
 	 *
 	 * @since   3.5
 	 */
-	protected function getLayoutsPaths()
+	protected function getLayoutPaths()
 	{
 		$template = JFactory::getApplication()->getTemplate();
 
@@ -275,7 +301,7 @@ class PlgSystemStats extends JPlugin
 	{
 		$renderer = new JLayoutFile($layoutId);
 
-		$renderer->setIncludePaths($this->getLayoutsPaths());
+		$renderer->setIncludePaths($this->getLayoutPaths());
 
 		return $renderer;
 	}
@@ -380,6 +406,23 @@ class PlgSystemStats extends JPlugin
 	}
 
 	/**
+	 * Render a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   3.5
+	 */
+	public function render($layoutId, $data = array())
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
+	}
+
+	/**
 	 * Save the plugin parameters
 	 *
 	 * @return  boolean
@@ -454,7 +497,7 @@ class PlgSystemStats extends JPlugin
 		try
 		{
 			// Don't let the request take longer than 2 seconds to avoid page timeout issues
-			JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
+			$response = JHttpFactory::getHttp()->post($this->serverUrl, $this->getStatsData(), null, 2);
 		}
 		catch (UnexpectedValueException $e)
 		{
@@ -472,6 +515,13 @@ class PlgSystemStats extends JPlugin
 			throw new RuntimeException('Unexpected error connecting to statistics server: ' . $e->getMessage(), 500);
 		}
 
+		if ($response->code !== 200)
+		{
+			$data = json_decode($response->body);
+
+			throw new RuntimeException('Could not send site statistics to remote server: ' . $data->message, $response->code);
+		}
+
 		return true;
 	}
 
@@ -487,8 +537,6 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
-
 		foreach ($clearGroups as $group)
 		{
 			foreach ($cacheClients as $client_id)
@@ -497,8 +545,7 @@ class PlgSystemStats extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
+						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $this->app->get('cache_path', JPATH_SITE . '/cache')
 					);
 
 					$cache = JCache::getInstance('callback', $options);

@@ -77,7 +77,6 @@ class JClientLdap
 	public $username = null;
 
 	/**
-	 *
 	 * @var    string  Password to connect to server
 	 * @since  12.1
 	 */
@@ -90,7 +89,6 @@ class JClientLdap
 	private $_resource = null;
 
 	/**
-	 *
 	 * @var    string  Current DN
 	 * @since  12.1
 	 */
@@ -552,8 +550,8 @@ class JClientLdap
 	 *
 	 * Please keep this document block and author attribution in place.
 	 *
-	 * Novell Docs, see: http://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
-	 * for Address types: http://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
+	 * Novell Docs, see: https://developer.novell.com/ndk/doc/ndslib/schm_enu/data/sdk5624.html#sdk5624
+	 * for Address types: https://developer.novell.com/ndk/doc/ndslib/index.html?page=/ndk/doc/ndslib/schm_enu/data/sdk4170.html
 	 * LDAP Format, String:
 	 * taggedData = uint32String "#" octetstring
 	 * byte 0 = uint32String = Address Type: 0= IPX Address; 1 = IP Address
@@ -600,7 +598,8 @@ class JClientLdap
 			'TCP6',
 			'Reserved (12)',
 			'URL',
-			'Count');
+			'Count',
+		);
 		$len = strlen($networkaddress);
 
 		if ($len > 0)

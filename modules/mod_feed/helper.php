@@ -36,15 +36,7 @@ class ModFeedHelper
 			$feed   = new JFeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
-		catch (InvalidArgumentException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
-		catch (RunTimeException $e)
-		{
-			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
-		}
-		catch (LogicException $e)
+		catch (Exception $e)
 		{
 			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}

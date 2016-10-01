@@ -36,6 +36,12 @@ class LoginController extends JControllerLegacy
 		$this->input->set('view', 'login');
 		$this->input->set('layout', 'default');
 
+		// For non-html formats we do not have login view, so just display 403 instead
+		if ($this->input->get('format', 'html') !== 'html')
+		{
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display();
 	}
 
@@ -84,7 +90,7 @@ class LoginController extends JControllerLegacy
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 

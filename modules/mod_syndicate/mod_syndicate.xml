@@ -25,53 +25,59 @@
 				<field
 					name="display_text"
 					type="radio"
-					default="1"
-					class="btn-group btn-group-yesno"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
-					filter="integer">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
-					</field>
+					default="1"
+					class="btn-group btn-group-yesno"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field
 					name="text"
 					type="text"
 					label="MOD_SYNDICATE_FIELD_TEXT_LABEL"
-					description="MOD_SYNDICATE_FIELD_TEXT_DESC" />
+					description="MOD_SYNDICATE_FIELD_TEXT_DESC"
+					showon="display_text:1"
+				/>
+
 				<field
 					name="format"
 					type="list"
-					default="rss"
 					label="MOD_SYNDICATE_FIELD_FORMAT_LABEL"
-					description="MOD_SYNDICATE_FIELD_FORMAT_DESC">
-					<option
-						value="rss">MOD_SYNDICATE_FIELD_VALUE_RSS</option>
-					<option
-						value="atom">MOD_SYNDICATE_FIELD_VALUE_ATOM</option>
+					description="MOD_SYNDICATE_FIELD_FORMAT_DESC"
+					default="rss"
+					>
+					<option value="rss">MOD_SYNDICATE_FIELD_VALUE_RSS</option>
+					<option value="atom">MOD_SYNDICATE_FIELD_VALUE_ATOM</option>
 				</field>
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="cache"
 					type="list"
-					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="0"
+					>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 			</fieldset>
 		</fields>

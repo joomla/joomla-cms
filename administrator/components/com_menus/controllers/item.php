@@ -17,6 +17,85 @@ defined('_JEXEC') or die;
 class MenusControllerItem extends JControllerForm
 {
 	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.6
+	 */
+	protected function allowAdd($data = array())
+	{
+		$user = JFactory::getUser();
+
+		$menuType = JFactory::getApplication()->input->getCmd('menutype', isset($data['menutype']) ? $data['menutype'] : '');
+
+		$menutypeID = 0;
+
+		// Load menutype ID
+		if ($menuType)
+		{
+			$menutypeID = (int) $this->getMenuTypeId($menuType);
+		}
+
+		return $user->authorise('core.create', 'com_menus.menu.' . $menutypeID);
+	}
+
+	/**
+	 * Method to check if you edit a record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key; default is id.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.6
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		$user = JFactory::getUser();
+
+		$menutypeID = 0;
+
+		if (isset($data[$key]))
+		{
+			$model = $this->getModel();
+			$item = $model->getItem($data[$key]);
+
+			if (!empty($item->menutype))
+			{
+				$menutypeID = (int) $this->getMenuTypeId($item->menutype);
+			}
+		}
+
+		return $user->authorise('core.edit', 'com_menus.menu.' . (int) $menutypeID);
+	}
+
+	/**
+	 * Loads the menutype ID by a given menutype string
+	 *
+	 * @param   string  $menutype  The given menutype
+	 *
+	 * @return integer
+	 *
+	 * @since  3.6
+	 */
+	protected function getMenuTypeId($menutype)
+	{
+		$model = $this->getModel();
+		$table = $model->getTable('MenuType', 'JTable');
+
+		$table->load(array('menutype' => $menutype));
+
+		return (int) $table->id;
+	}
+
+	/**
 	 * Method to add a new menu item.
 	 *
 	 * @return  mixed  True if the record can be added, a JError object if not.
@@ -86,6 +165,14 @@ class MenusControllerItem extends JControllerForm
 			// Clear the ancillary data from the session.
 			$app->setUserState($context . '.type', null);
 			$app->setUserState($context . '.link', null);
+
+			// Redirect to the list screen.
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+				. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+				)
+			);
 		}
 
 		return $result;
@@ -134,13 +221,27 @@ class MenusControllerItem extends JControllerForm
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel('Item', '', array());
+		$table    = $model->getTable();
 		$data     = $this->input->post->get('jform', array(), 'array');
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
-		$recordId = $this->input->getInt('id');
+
+		// Determine the name of the primary key for the data.
+		if (empty($key))
+		{
+			$key = $table->getKeyName();
+		}
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		if (empty($urlVar))
+		{
+			$urlVar = $key;
+		}
+
+		$recordId = $this->input->getInt($urlVar);
 
 		// Populate the row id from the session.
-		$data['id'] = $recordId;
+		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
 		if ($task == 'save2copy')
@@ -158,6 +259,22 @@ class MenusControllerItem extends JControllerForm
 			$data['id'] = 0;
 			$data['associations'] = array();
 			$task = 'apply';
+		}
+
+		// Access check.
+		if (!$this->allowSave($data, $key))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
 		}
 
 		// Validate the posted data.
@@ -271,7 +388,7 @@ class MenusControllerItem extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(JRoute::_($editUrl, false));
 
 			return false;
@@ -326,7 +443,12 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.link', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
+				$this->setRedirect(
+					JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend()
+					. '&menutype=' . $app->getUserState('com_menus.items.menutype'), false
+					)
+				);
 				break;
 		}
 

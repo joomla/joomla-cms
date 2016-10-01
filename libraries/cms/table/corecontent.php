@@ -10,6 +10,8 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Core content table
@@ -94,7 +96,7 @@ class JTableCorecontent extends JTable
 	{
 		if (trim($this->core_title) == '')
 		{
-			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
@@ -138,7 +140,7 @@ class JTableCorecontent extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->core_metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->core_metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -334,7 +336,7 @@ class JTableCorecontent extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state = (int) $state;
 

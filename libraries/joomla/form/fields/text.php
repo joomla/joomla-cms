@@ -22,7 +22,6 @@ class JFormFieldText extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 *
 	 * @since  11.1
 	 */
 	protected $type = 'Text';
@@ -50,6 +49,14 @@ class JFormFieldText extends JFormField
 	 * @since  3.2
 	 */
 	protected $dirname;
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.text';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -108,7 +115,7 @@ class JFormFieldText extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
 	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
@@ -163,63 +170,7 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Translate placeholder text
-		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
-
-		// Initialize some field attributes.
-		$size         = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
-		$class        = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly     = $this->readonly ? ' readonly' : '';
-		$disabled     = $this->disabled ? ' disabled' : '';
-		$required     = $this->required ? ' required aria-required="true"' : '';
-		$hint         = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
-		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
-		$autofocus    = $this->autofocus ? ' autofocus' : '';
-		$spellcheck   = $this->spellcheck ? '' : ' spellcheck="false"';
-		$pattern      = !empty($this->pattern) ? ' pattern="' . $this->pattern . '"' : '';
-		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
-		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
-
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		$datalist = '';
-		$list     = '';
-
-		/* Get the field options for the datalist.
-		Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
-		$options  = (array) $this->getSuggestions();
-
-		if ($options)
-		{
-			$datalist = '<datalist id="' . $this->id . '_datalist">';
-
-			foreach ($options as $option)
-			{
-				if (!$option->value)
-				{
-					continue;
-				}
-
-				$datalist .= '<option value="' . $option->value . '">' . $option->text . '</option>';
-			}
-
-			$datalist .= '</datalist>';
-			$list     = ' list="' . $this->id . '_datalist"';
-		}
-
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . $dirname . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
-			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . $pattern . ' />';
-		$html[] = $datalist;
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
 
 	/**
@@ -262,5 +213,36 @@ class JFormFieldText extends JFormField
 	protected function getSuggestions()
 	{
 		return $this->getOptions();
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.7
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
+
+		// Initialize some field attributes.
+		$maxLength    = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$inputmode    = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$dirname      = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
+
+		/* Get the field options for the datalist.
+			Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0. */
+		$options  = (array) $this->getSuggestions();
+
+		$extraData = array(
+			'maxLength' => $maxLength,
+			'pattern'   => $this->pattern,
+			'inputmode' => $inputmode,
+			'dirname'   => $dirname,
+			'options'   => $options,
+		);
+
+		return array_merge($data, $extraData);
 	}
 }

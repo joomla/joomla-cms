@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Initiasile related data.
-require_once JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php';
+// Initialise related data.
+JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
 JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', false, true);
@@ -107,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						?>
 							<li>
 								<div class="treeselect-item pull-left">
-									<input type="checkbox" class="pull-left" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
+									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
 									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')

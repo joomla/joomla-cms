@@ -37,7 +37,7 @@ class TagsViewTag extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.1
 	 */
@@ -206,7 +206,12 @@ class TagsViewTag extends JViewLegacy
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($menu)
+		if ($this->tags_title)
+		{
+			$this->params->def('page_heading', $this->tags_title);
+			$title = $this->tags_title;
+		}
+		elseif ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $this->params->get('page_title', $menu->title);
@@ -215,11 +220,6 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
-		}
-		else
-		{
-			$this->params->def('page_heading', $this->tags_title);
-			$title = $this->tags_title;
 		}
 
 		if (empty($title))

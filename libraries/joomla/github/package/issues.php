@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Issues class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/issues
+ * @documentation https://developer.github.com/v3/issues
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackageIssuesAssignees   $assignees   GitHub API object for assignees.
  * @property-read  JGithubPackageIssuesComments    $comments    GitHub API object for comments.
@@ -26,9 +27,7 @@ class JGithubPackageIssues extends JGithubPackage
 {
 	protected $name = 'Issues';
 
-	protected $packages = array(
-		'assignees', 'comments', 'events', 'labels', 'milestones'
-	);
+	protected $packages = array('assignees', 'comments', 'events', 'labels', 'milestones');
 
 	/**
 	 * Method to create an issue.
@@ -64,7 +63,7 @@ class JGithubPackageIssues extends JGithubPackage
 				'assignee'  => $assignee,
 				'milestone' => $milestone,
 				'labels'    => $labels,
-				'body'      => $body
+				'body'      => $body,
 			)
 		);
 

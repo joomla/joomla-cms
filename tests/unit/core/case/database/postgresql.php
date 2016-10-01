@@ -44,14 +44,12 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	public static function setUpBeforeClass()
 	{
 		// First let's look to see if we have a DSN defined or in the environment variables.
-		if (defined('JTEST_DATABASE_POSTGRESQL_DSN') || getenv('JTEST_DATABASE_POSTGRESQL_DSN'))
+		if (!defined('JTEST_DATABASE_POSTGRESQL_DSN') && !getenv('JTEST_DATABASE_POSTGRESQL_DSN'))
 		{
-			$dsn = defined('JTEST_DATABASE_POSTGRESQL_DSN') ? JTEST_DATABASE_POSTGRESQL_DSN : getenv('JTEST_DATABASE_POSTGRESQL_DSN');
+			static::markTestSkipped('The PostgreSQL driver is not configured.');
 		}
-		else
-		{
-			return;
-		}
+
+		$dsn = defined('JTEST_DATABASE_POSTGRESQL_DSN') ? JTEST_DATABASE_POSTGRESQL_DSN : getenv('JTEST_DATABASE_POSTGRESQL_DSN');
 
 		// First let's trim the pgsql: part off the front of the DSN if it exists.
 		if (strpos($dsn, 'pgsql:') === 0)
@@ -90,22 +88,22 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 		try
 		{
 			// Attempt to instantiate the driver.
-			self::$driver = JDatabaseDriver::getInstance(self::$_options);
+			static::$driver = JDatabaseDriver::getInstance(self::$_options);
 		}
 		catch (RuntimeException $e)
 		{
-			self::$driver = null;
+			static::$driver = null;
 		}
 
 		// If for some reason an exception object was returned set our database object to null.
-		if (self::$driver instanceof Exception)
+		if (static::$driver instanceof Exception)
 		{
-			self::$driver = null;
+			static::$driver = null;
 		}
 
 		// Setup the factory pointer for the driver and stash the old one.
 		self::$_stash = JFactory::$database;
-		JFactory::$database = self::$driver;
+		JFactory::$database = static::$driver;
 	}
 
 	/**
@@ -118,7 +116,7 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		self::$driver = null;
+		static::$driver = null;
 	}
 
 	/**

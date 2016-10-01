@@ -37,11 +37,19 @@ class ContactViewCategory extends JViewCategory
 	protected $viewName = 'contact';
 
 	/**
+	 * Run the standard Joomla plugins
+	 *
+	 * @var    bool
+	 * @since  3.5
+	 */
+	protected $runPlugins = true;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -57,7 +65,7 @@ class ContactViewCategory extends JViewCategory
 			$item->params = clone($this->params);
 			$item->params->merge($temp);
 
-			if ($item->params->get('show_email', 0) == 1)
+			if ($item->params->get('show_email_headings', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
 

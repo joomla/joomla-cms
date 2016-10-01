@@ -43,8 +43,8 @@ class JSessionStorageMemcache extends JSessionStorage
 		$this->_servers = array(
 			array(
 				'host' => $config->get('session_memcache_server_host', 'localhost'),
-				'port' => $config->get('session_memcache_server_port', 11211)
-			)
+				'port' => $config->get('session_memcache_server_port', 11211),
+			),
 		);
 
 		parent::__construct($options);
@@ -76,6 +76,6 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public static function isSupported()
 	{
-		return (extension_loaded('memcache') && class_exists('Memcache'));
+		return extension_loaded('memcache') && class_exists('Memcache');
 	}
 }

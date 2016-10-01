@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Content table
@@ -79,7 +80,7 @@ class JTableContent extends JTable
 	{
 		$assetId = null;
 
-		// This is a article under a category.
+		// This is an article under a category.
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.
@@ -185,7 +186,7 @@ class JTableContent extends JTable
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -254,7 +255,7 @@ class JTableContent extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -334,7 +335,7 @@ class JTableContent extends JTable
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable', array('dbo', $this->getDbo()));
+		$table = JTable::getInstance('Content', 'JTable', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

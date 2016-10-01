@@ -17,10 +17,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?>	 </p>
+	<p><?php echo JText::_('COM_NEWSFEEDS_NO_ARTICLES'); ?></p>
 <?php else : ?>
 
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString(), ENT_COMPAT, 'UTF-8'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filters">
 	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -90,14 +90,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	</table>
 
 	<?php if ($this->params->get('show_pagination')) : ?>
-	<div class="pagination">
-	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-		<p class="counter">
-			<?php echo $this->pagination->getPagesCounter(); ?>
-		</p>
-	<?php endif; ?>
-	<?php echo $this->pagination->getPagesLinks(); ?>
-	</div>
+		<div class="pagination">
+		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+			<p class="counter">
+				<?php echo $this->pagination->getPagesCounter(); ?>
+			</p>
+		<?php endif; ?>
+		<?php echo $this->pagination->getPagesLinks(); ?>
+		</div>
 	<?php endif; ?>
 
 </form>

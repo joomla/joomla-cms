@@ -94,7 +94,7 @@ class LanguagesViewOverrides extends JViewLegacy
 
 		if ($canDo->get('core.delete') && $this->pagination->total)
 		{
-			JToolbarHelper::deleteList('', 'overrides.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'overrides.delete', 'JTOOLBAR_DELETE');
 		}
 
 		if (JFactory::getUser()->authorise('core.admin'))

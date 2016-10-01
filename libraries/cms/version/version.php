@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.5';
+	const RELEASE = '3.7';
 
 	/**
 	 * Maintenance version.
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '0-beta';
+	const DEV_LEVEL = '0-dev';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Beta';
+	const DEV_STATUS = 'Development';
 
 	/**
 	 * Build number.
@@ -62,7 +62,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Ember';
+	const CODENAME = 'Noether';
 
 	/**
 	 * Release date.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '21-December-2015';
+	const RELDATE = '27-June-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '16:00';
+	const RELTIME = '21:52';
 
 	/**
 	 * Release timezone.
@@ -102,7 +102,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const URL = '<a href="http://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
+	const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
 
 	/**
 	 * Magic getter providing access to constants previously defined as class member vars.
@@ -153,7 +153,7 @@ final class JVersion
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @see     http://www.php.net/version_compare
+	 * @see     https://secure.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible($minimum)
@@ -243,10 +243,9 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date   = new JDate;
-		$config = JFactory::getConfig();
+		$date = new JDate;
 
-		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . $date->toSql());
 	}
 
 	/**
@@ -267,9 +266,6 @@ final class JVersion
 
 		if ($mediaVersion === null)
 		{
-			$config = JFactory::getConfig();
-			$debugEnabled = $config->get('debug', 0);
-
 			// Get the joomla library params
 			$params = JLibraryHelper::getParams('joomla');
 
@@ -277,7 +273,7 @@ final class JVersion
 			$mediaVersion = $params->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if ($debugEnabled || empty($mediaVersion))
+			if (JDEBUG || empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 

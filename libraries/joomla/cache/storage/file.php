@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * File cache storage handler
  *
  * @since  11.1
+ * @note   For performance reasons this class does not use the Filesystem package's API
  */
 class JCacheStorageFile extends JCacheStorage
 {
@@ -37,16 +38,14 @@ class JCacheStorageFile extends JCacheStorage
 		$this->_root = $options['cachebase'];
 	}
 
-	// NOTE: raw php calls are up to 100 times faster than JFile or JFolder
-
 	/**
-	 * Get cached data from a file by id and group
+	 * Get cached data by ID and group
 	 *
-	 * @param   string   $id         The cache data id
+	 * @param   string   $id         The cache data ID
 	 * @param   string   $group      The cache data group
 	 * @param   boolean  $checkTime  True to verify cache time expiration threshold
 	 *
-	 * @return  mixed  Boolean false on failure or a cached data string
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
@@ -70,23 +69,19 @@ class JCacheStorageFile extends JCacheStorage
 
 			return $data;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
 	 * Get all cached data
 	 *
-	 * @return  array  The cached data
+	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
 	 * @since   11.1
 	 */
 	public function getAll()
 	{
-		parent::getAll();
-
 		$path    = $this->_root;
 		$folders = $this->_folders($path);
 		$data    = array();
@@ -108,13 +103,13 @@ class JCacheStorageFile extends JCacheStorage
 	}
 
 	/**
-	 * Store the data to a file by id and group
+	 * Store the data to cache by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 * @param   string  $data   The data to store in cache
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -137,23 +132,16 @@ class JCacheStorageFile extends JCacheStorage
 		}
 
 		// Data integrity check
-		if ($written && ($data == file_get_contents($path)))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return $written && ($data == file_get_contents($path));
 	}
 
 	/**
-	 * Remove a cached data file by id and group
+	 * Remove a cached data entry by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -172,12 +160,13 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Clean cache for a group given a mode.
 	 *
+	 * group mode    : cleans all cache in the group
+	 * notgroup mode : cleans all cache not in the group
+	 *
 	 * @param   string  $group  The cache data group
 	 * @param   string  $mode   The mode for cleaning cache [group|notgroup]
-	 * group mode     : cleans all cache in the group
-	 * notgroup mode  : cleans all cache not in the group
 	 *
-	 * @return  boolean  True on success, false otherwise
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -203,23 +192,26 @@ class JCacheStorageFile extends JCacheStorage
 						$return |= $this->_deleteFolder($this->_root . '/' . $folders[$i]);
 					}
 				}
+
 				break;
+
 			case 'group' :
 			default :
 				if (is_dir($this->_root . '/' . $folder))
 				{
 					$return = $this->_deleteFolder($this->_root . '/' . $folder);
 				}
+
 				break;
 		}
 
-		return $return;
+		return (bool) $return;
 	}
 
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -240,37 +232,35 @@ class JCacheStorageFile extends JCacheStorage
 			}
 		}
 
-		return $result;
+		return (bool) $result;
 	}
 
 	/**
-	 * Test to see if the cache storage is available.
+	 * Test to see if the storage handler is available.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 */
 	public static function isSupported()
 	{
-		$conf = JFactory::getConfig();
-
-		return is_writable($conf->get('cache_path', JPATH_CACHE));
+		return is_writable(JFactory::getConfig()->get('cache_path', JPATH_CACHE));
 	}
 
 	/**
 	 * Lock cached item
 	 *
-	 * @param   string   $id        The cache data id
+	 * @param   string   $id        The cache data ID
 	 * @param   string   $group     The cache data group
 	 * @param   integer  $locktime  Cached item max lock time
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
 	 *
 	 * @since   11.1
 	 */
 	public function lock($id, $group, $locktime)
 	{
-		$returning = new stdClass;
+		$returning             = new stdClass;
 		$returning->locklooped = false;
 
 		$looptime  = $locktime * 10;
@@ -315,10 +305,10 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Unlock cached item
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -331,23 +321,20 @@ class JCacheStorageFile extends JCacheStorage
 		{
 			$ret = @flock($_fileopen, LOCK_UN);
 			@fclose($_fileopen);
-		}
-		else
-		{
-			// Expect true if $_fileopen is false. Ref: http://issues.joomla.org/tracker/joomla-cms/2535
-			$ret = true;
+
+			return $ret;
 		}
 
-		return $ret;
+		return true;
 	}
 
 	/**
-	 * Check to make sure cache is still valid, if not, delete it.
+	 * Check if a cache object has expired
 	 *
-	 * @param   string  $id     Cache key to expire.
-	 * @param   string  $group  The cache data group.
+	 * @param   string  $id     Cache ID to check
+	 * @param   string  $group  The cache data group
 	 *
-	 * @return  boolean  False if not valid
+	 * @return  boolean  True if the cache ID is valid
 	 *
 	 * @since   11.1
 	 */
@@ -374,12 +361,12 @@ class JCacheStorageFile extends JCacheStorage
 	}
 
 	/**
-	 * Get a cache file path from an id/group pair
+	 * Get a cache file path from an ID/group pair
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  string   The cache file path
+	 * @return  boolean|string  The path to the data object or boolean false if the cache directory does not exist
 	 *
 	 * @since   11.1
 	 */
@@ -410,7 +397,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string  $path  The path to the folder to delete.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
@@ -420,7 +407,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!$path || !is_dir($path) || empty($this->_root))
 		{
 			// Bad programmer! Bad, bad programmer!
-			JLog::add('JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
+			JLog::add(__METHOD__ . ' ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -432,7 +419,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		if ($pos === false || $pos > 0)
 		{
-			JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -453,16 +440,10 @@ class JCacheStorageFile extends JCacheStorage
 			{
 				$file = $this->_cleanPath($file);
 
-				// In case of restricted permissions we zap it one way or the other
-				// as long as the owner is either the webserver or the ftp
-				if (@unlink($file))
+				// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
+				if (@unlink($file) !== true)
 				{
-					// Do nothing
-				}
-				else
-				{
-					$filename = basename($file);
-					JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename), JLog::WARNING, 'jerror');
+					JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), JLog::WARNING, 'jerror');
 
 					return false;
 				}
@@ -488,20 +469,15 @@ class JCacheStorageFile extends JCacheStorage
 			}
 		}
 
-		// In case of restricted permissions we zap it one way or the other
-		// as long as the owner is either the webserver or the ftp
+		// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
 		if (@rmdir($path))
 		{
-			$ret = true;
-		}
-		else
-		{
-			JLog::add('JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
-
-			$ret = false;
+			return true;
 		}
 
-		return $ret;
+		JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), JLog::WARNING, 'jerror');
+
+		return false;
 	}
 
 	/**
@@ -520,13 +496,11 @@ class JCacheStorageFile extends JCacheStorage
 
 		if (empty($path))
 		{
-			$path = $this->_root;
+			return $this->_root;
 		}
-		else
-		{
-			// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
-			$path = preg_replace('#[/\\\\]+#', $ds, $path);
-		}
+
+		// Remove double slashes and backslahses and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		$path = preg_replace('#[/\\\\]+#', $ds, $path);
 
 		return $path;
 	}
@@ -536,19 +510,17 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param   string   $path           The path of the folder to read.
 	 * @param   string   $filter         A filter for file names.
-	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an
-	 *                                   integer to specify the maximum depth.
+	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   boolean  $fullpath       True to return the full path to the file.
-	 * @param   array    $exclude        Array with names of files which should not be shown in
-	 *                                   the result.
+	 * @param   array    $exclude        Array with names of files which should not be shown in the result.
 	 * @param   array    $excludefilter  Array of folder names to exclude
 	 *
-	 * @return  array    Files in the given folder.
+	 * @return  array  Files in the given folder.
 	 *
 	 * @since   11.1
 	 */
-	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false
-		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
+	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false,
+		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
 	{
 		$arr = array();
 
@@ -558,7 +530,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JLog::add('JCacheStorageFile::_filesInFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -637,8 +609,8 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @since   11.1
 	 */
-	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false
-		, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*'))
+	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+		$excludefilter = array('^\..*'))
 	{
 		$arr = array();
 
@@ -648,7 +620,7 @@ class JCacheStorageFile extends JCacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			JLog::add('JCacheStorageFile::_folders' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
+			JLog::add(__METHOD__ . ' ' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), JLog::WARNING, 'jerror');
 
 			return false;
 		}

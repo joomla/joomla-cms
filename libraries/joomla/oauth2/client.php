@@ -56,8 +56,8 @@ class JOAuth2Client
 	{
 		$this->options = isset($options) ? $options : new Registry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
-		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
+		$this->input = isset($input) ? $input : $this->application->input;
 	}
 
 	/**
@@ -80,7 +80,7 @@ class JOAuth2Client
 
 			if ($response->code >= 200 && $response->code < 400)
 			{
-				if ($response->headers['Content-Type'] == 'application/json')
+				if (strpos($response->headers['Content-Type'], 'application/json') === 0)
 				{
 					$token = array_merge(json_decode($response->body, true), array('created' => time()));
 				}
@@ -192,7 +192,7 @@ class JOAuth2Client
 	/**
 	 * Send a signed Oauth request.
 	 *
-	 * @param   string  $url      The URL forf the request.
+	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request
 	 * @param   array   $headers  The headers to send with the request
 	 * @param   string  $method   The method with which to send the request
@@ -365,7 +365,7 @@ class JOAuth2Client
 
 		if ($response->code >= 200 || $response->code < 400)
 		{
-			if ($response->headers['Content-Type'] == 'application/json')
+			if (strpos($response->headers['Content-Type'], 'application/json') === 0)
 			{
 				$token = array_merge(json_decode($response->body, true), array('created' => time()));
 			}

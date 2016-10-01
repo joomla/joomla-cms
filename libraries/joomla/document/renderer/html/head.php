@@ -47,10 +47,15 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	public function fetchHead($document)
 	{
 		// Convert the tagids to titles
-		if (isset($document->_metaTags['standard']['tags']))
+		if (isset($document->_metaTags['name']['tags']))
 		{
 			$tagsHelper = new JHelperTags;
-			$document->_metaTags['standard']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['standard']['tags']));
+			$document->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['name']['tags']));
+		}
+
+		if ($document->getScriptOptions())
+		{
+			JHtml::_('behavior.core');
 		}
 
 		// Trigger the onBeforeCompileHead event
@@ -84,11 +89,11 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			{
 				if ($type == 'http-equiv' && !($document->isHtml5() && $name == 'content-type'))
 				{
-					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
-				elseif ($type == 'standard' && !empty($content))
+				elseif ($type != 'http-equiv' && !empty($content))
 				{
-					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
+					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="' . htmlspecialchars($content, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 				}
 			}
 		}
@@ -98,7 +103,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if ($documentDescription)
 		{
-			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription) . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="description" content="' . htmlspecialchars($documentDescription, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 		}
 
 		// Don't add empty generators
@@ -106,7 +111,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 		if ($generator)
 		{
-			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator) . '" />' . $lnEnd;
+			$buffer .= $tab . '<meta name="generator" content="' . htmlspecialchars($generator, ENT_COMPAT, 'UTF-8') . '" />' . $lnEnd;
 		}
 
 		$buffer .= $tab . '<title>' . htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8') . '</title>' . $lnEnd;
@@ -116,20 +121,25 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
+			if (is_array($linkAtrr['attribs']))
 			{
-				$buffer .= ' ' . $temp;
+				if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
+				{
+					$buffer .= ' ' . $temp;
+				}
 			}
 
 			$buffer .= ' />' . $lnEnd;
 		}
 
+		$defaultCssMimes = array('text/css');
+
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+			$buffer .= $tab . '<link href="' . $strSrc . '" rel="stylesheet"';
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || $strAttr['mime'] != 'text/css'))
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultCssMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
@@ -153,7 +163,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate stylesheet declarations
 		foreach ($document->_style as $type => $content)
 		{
-			$buffer .= $tab . '<style type="' . $type . '">' . $lnEnd;
+			$buffer .= $tab . '<style';
+
+			if (!is_null($type) && (!$document->isHtml5() || !in_array($type, $defaultCssMimes)))
+			{
+				$buffer .= ' type="' . $type . '"';
+			}
+
+			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
@@ -172,27 +189,51 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
 
+		// Generate scripts options
+		$scriptOptions = $document->getScriptOptions();
+
+		if (!empty($scriptOptions))
+		{
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
+
+			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+
+			$buffer .= $jsonOptions;
+			$buffer .= '</script>' . $lnEnd;
+		}
+
+		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
+
 		// Generate script file links
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
-			$defaultMimes = array(
-				'text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript'
-			);
 
-			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultMimes)))
+			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultJsMimes)))
 			{
 				$buffer .= ' type="' . $strAttr['mime'] . '"';
 			}
 
 			if ($strAttr['defer'])
 			{
-				$buffer .= ' defer="defer"';
+				$buffer .= ' defer';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="defer"';
+				}
 			}
 
 			if ($strAttr['async'])
 			{
-				$buffer .= ' async="async"';
+				$buffer .= ' async';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="async"';
+				}
 			}
 
 			$buffer .= '></script>' . $lnEnd;
@@ -201,7 +242,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate script declarations
 		foreach ($document->_script as $type => $content)
 		{
-			$buffer .= $tab . '<script type="' . $type . '">' . $lnEnd;
+			$buffer .= $tab . '<script';
+
+			if (!is_null($type) && (!$document->isHtml5() || !in_array($type, $defaultJsMimes)))
+			{
+				$buffer .= ' type="' . $type . '"';
+			}
+
+			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
@@ -212,28 +260,6 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 			$buffer .= $content . $lnEnd;
 
 			// See above note
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
-			}
-
-			$buffer .= $tab . '</script>' . $lnEnd;
-		}
-
-		// Generate script language declarations.
-		if (count(JText::script()))
-		{
-			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
-
-			if ($document->_mime != 'text/html')
-			{
-				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
-			}
-
-			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode(JText::script()) . ');' . $lnEnd;
-			$buffer .= $tab . $tab . '})();' . $lnEnd;
-
 			if ($document->_mime != 'text/html')
 			{
 				$buffer .= $tab . $tab . '//]]>' . $lnEnd;

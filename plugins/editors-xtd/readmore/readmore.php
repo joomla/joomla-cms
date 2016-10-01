@@ -55,16 +55,16 @@ class PlgButtonReadmore extends JPlugin
 
 		$doc->addScriptDeclaration($js);
 
-		$button = new JObject;
-		$button->modal = false;
-		$button->class = 'btn';
+		$button          = new JObject;
+		$button->modal   = false;
+		$button->class   = 'btn';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
-		$button->text = JText::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name = 'arrow-down';
+		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->name    = 'arrow-down';
 
 		// @TODO: The button writer needs to take into account the javascript directive
 		// $button->link', 'javascript:void(0)');
-		$button->link = '#';
+		$button->link    = '#';
 
 		return $button;
 	}

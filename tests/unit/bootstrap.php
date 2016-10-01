@@ -117,3 +117,6 @@ JLoader::registerPrefix('Test', __DIR__ . '/core');
 
 // Register the deprecation handler
 TestHelper::registerDeprecationHandler();
+
+// Register the logger if enabled
+TestHelper::registerLogger();

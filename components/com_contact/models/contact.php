@@ -166,11 +166,11 @@ class ContactModelContact extends JModelForm
 				$query->select($this->getState('item.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
 					->from('#__contact_details AS a')
 
-				// Join on category table.
+					// Join on category table.
 					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
 					->join('LEFT', '#__categories AS c on c.id = a.catid')
 
-				// Join over the categories to get parent category titles
+					// Join over the categories to get parent category titles
 					->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
@@ -359,7 +359,7 @@ class ContactModelContact extends JModelForm
 		}
 
 		// Get the profile information for the linked user
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 		$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 		$data = $userModel->getItem((int) $contact->user_id);
 
@@ -507,10 +507,7 @@ class ContactModelContact extends JModelForm
 					// Filter per language if plugin published
 					if (JLanguageMultilang::isEnabled())
 					{
-						$query->where(
-							('a.created_by = ' . (int) $result->user_id) . ' AND ' .
-							('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*'))
-						);
+						$query->where('a.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
 					if (is_numeric($published))
@@ -545,7 +542,7 @@ class ContactModelContact extends JModelForm
 				}
 
 				// Get the profile information for the linked user
-				require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_users/models', 'UsersModel');
 				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
 				$data = $userModel->getItem((int) $result->user_id);
 

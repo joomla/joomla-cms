@@ -122,7 +122,7 @@ class JModelDatabaseTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->_instance);
 		parent::teardown();
 	}
 }

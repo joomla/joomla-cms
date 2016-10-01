@@ -159,6 +159,14 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
+					<?php echo JText::_('COM_ADMIN_MCRYPT_ENABLED'); ?>
+				</td>
+				<td>
+					<?php echo JHtml::_('phpsetting.set', $this->php_settings['mcrypt']); ?>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<?php echo JText::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
 				</td>
 				<td>

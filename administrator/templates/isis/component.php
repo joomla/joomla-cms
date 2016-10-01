@@ -9,19 +9,21 @@
 
 defined('_JEXEC') or die;
 
-$app             = JFactory::getApplication();
-$doc             = JFactory::getDocument();
-$lang            = JFactory::getLanguage();
-$this->language  = $doc->language;
-$this->direction = $doc->direction;
+/** @var JDocumentHtml $this */
+
+$app  = JFactory::getApplication();
+$lang = JFactory::getLanguage();
+
+// Output as HTML5
+$this->setHtml5(true);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$doc->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/template.css');
+$this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -31,7 +33,7 @@ $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+	$this->addStyleSheet($file);
 }
 
 // Load custom.css
@@ -39,27 +41,20 @@ $file = 'templates/' . $this->template . '/css/custom.css';
 
 if (is_file($file))
 {
-	$doc->addStyleSheetVersion($file);
+	$this->addStyleSheetVersion($file);
+}
+
+// Link color
+if ($this->params->get('linkColor'))
+{
+	$this->addStyleDeclaration('a { color: ' . $this->params->get('linkColor') . '; }');
 }
 ?>
-
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]>
-		<script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script>
-	<![endif]-->
-
-	<!-- Link color -->
-	<?php if ($this->params->get('linkColor')) : ?>
-		<style type="text/css">
-			a
-			{
-				color: <?php echo $this->params->get('linkColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="contentpane component">
 	<jdoc:include type="message" />

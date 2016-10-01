@@ -41,7 +41,7 @@ class NewsfeedsViewCategory extends JViewCategory
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -70,9 +70,8 @@ class NewsfeedsViewCategory extends JViewCategory
 	{
 		parent::prepareDocument();
 
-		$id = (int) @$menu->query['id'];
-
 		$menu = $this->menu;
+		$id = (int) @$menu->query['id'];
 
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
 		{

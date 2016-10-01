@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.filesystem.path');
 
 /**
@@ -24,16 +26,14 @@ class JFormHelper
 	 * Array with paths where entities(field, rule, form) can be found.
 	 *
 	 * Array's structure:
-	 * <code>
+	 *
 	 * paths:
 	 * {ENTITY_NAME}:
 	 * - /path/1
 	 * - /path/2
-	 * </code>
 	 *
 	 * @var    array
 	 * @since  11.1
-	 *
 	 */
 	protected static $paths;
 
@@ -42,11 +42,9 @@ class JFormHelper
 	 * Prototypes for all fields and rules are here.
 	 *
 	 * Array's structure:
-	 * <code>
 	 * entities:
 	 * {ENTITY_NAME}:
 	 * {KEY}: {OBJECT}
-	 * </code>
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -59,7 +57,7 @@ class JFormHelper
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
+	 * @return  JFormField|boolean  JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -74,7 +72,7 @@ class JFormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormRule object on success, false otherwise.
+	 * @return  JFormRule|boolean  JFormRule object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -128,7 +126,7 @@ class JFormHelper
 	 *
 	 * @param   string  $type  Type of a field whose class should be loaded.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -143,7 +141,7 @@ class JFormHelper
 	 *
 	 * @param   string  $type  Type of a rule whose class should be loaded.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -160,7 +158,7 @@ class JFormHelper
 	 * @param   string  $entity  One of the form entities (field or rule).
 	 * @param   string  $type    Type of an entity.
 	 *
-	 * @return  mixed  Class name on success or false otherwise.
+	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -173,7 +171,7 @@ class JFormHelper
 			list($prefix, $type) = explode('.', $type);
 		}
 
-		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
+		$class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
 
 		if (class_exists($class))
 		{
@@ -305,6 +303,11 @@ class JFormHelper
 		foreach ($new as $path)
 		{
 			if (!in_array($path, $paths))
+			{
+				array_unshift($paths, trim($path));
+			}
+
+			if (!is_dir($path))
 			{
 				array_unshift($paths, trim($path));
 			}

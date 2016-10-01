@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 $com_path = JPATH_SITE . '/components/com_content/';
 require_once $com_path . 'helpers/route.php';
 
@@ -165,14 +167,28 @@ abstract class ModArticlesCategoryHelper
 		// Ordering
 		$ordering = $params->get('article_ordering', 'a.ordering');
 
-		if (trim($ordering) == 'random')
+		switch ($ordering)
 		{
-			$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
-		}
-		else
-		{
-			$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-			$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+			case 'random':
+				$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+				break;
+
+			case 'rating_count':
+			case 'rating':
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+
+				if (!JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$articles->setState('list.ordering', 'a.ordering');
+				}
+
+				break;
+
+			default:
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+				break;
 		}
 
 		// New Parameters
@@ -444,7 +460,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = JString::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->created, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -456,7 +472,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = JString::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->created, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{

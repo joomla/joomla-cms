@@ -143,19 +143,65 @@ abstract class MultilangstatusHelper
 	public static function getContacts()
 	{
 		$db = JFactory::getDbo();
+		$languages = count(JLanguageHelper::getLanguages());
+
+		// Get the number of contact with all as language
+		$alang = $db->getQuery(true)
+			->select('count(*)')
+			->from('#__contact_details AS cd')
+			->where('cd.user_id=u.id')
+			->where('cd.published=1')
+			->where('cd.language=' . $db->quote('*'));
+
+		// Get the number of languages for the contact
+		$slang = $db->getQuery(true)
+			->select('count(distinct(l.lang_code))')
+			->from('#__languages as l')
+			->join('LEFT', '#__contact_details AS cd ON cd.language=l.lang_code')
+			->where('cd.user_id=u.id')
+			->where('cd.published=1')
+			->where('l.published=1');
+
+		// Get the number of multiple contact/language
+		$mlang = $db->getQuery(true)
+			->select('count(*)')
+			->from('#__languages as l')
+			->join('LEFT', '#__contact_details AS cd ON cd.language=l.lang_code')
+			->where('cd.user_id=u.id')
+			->where('cd.published=1')
+			->where('l.published=1')
+			->group('l.lang_code')
+			->having('count(*) > 1');
+
+		// Get the contacts
 		$query = $db->getQuery(true)
-			->select('u.name, count(cd.language) as counted, MAX(cd.language=' . $db->quote('*') . ') as all_languages')
+			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
 			->from('#__users AS u')
 			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
-			->join('LEFT', '#__languages as l on cd.language=l.lang_code')
-			->where('EXISTS (SELECT * from #__content as c where  c.created_by=u.id)')
-			->where('(l.published=1 or cd.language=' . $db->quote('*') . ')')
-			->where('cd.published=1')
-			->group('u.id')
-			->having('(counted !=' . count(JLanguageHelper::getLanguages()) . ' OR all_languages=1)')
-			->having('(counted !=1 OR all_languages=0)');
-		$db->setQuery($query);
+			->where('EXISTS (SELECT 1 from #__content as c where  c.created_by=u.id)')
+			->group('u.id');
 
-		return $db->loadObjectList();
+		$db->setQuery($query);
+		$warnings = $db->loadObjectList();
+
+		foreach ($warnings as $index => $warn)
+		{
+			if (($warn->alang == 1) && ($warn->slang == 0))
+			{
+				unset($warnings[$index]);
+			}
+
+			if (($warn->alang == 0) && (($warn->slang == 0) && (empty($warn->mlang))))
+			{
+				unset($warnings[$index]);
+			}
+
+			if (($warn->alang == 0) && (($warn->slang == $languages) && (empty($warn->mlang))))
+			{
+				unset($warnings[$index]);
+			}
+		}
+
+		return $warnings;
 	}
 }

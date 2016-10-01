@@ -9,34 +9,43 @@
 
 defined('_JEXEC') or die;
 
+/** @var JDocumentHtml $this */
+
 $app = JFactory::getApplication();
+
+// Output as HTML5
+$this->setHtml5(true);
+
+// Styles
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline.css');
+
+if ($this->direction == 'rtl')
+{
+	$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/offline_rtl.css');
+}
+
+$this->addStyleSheet($this->baseurl . '/templates/' . $this->template . '/css/general.css');
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-
-$twofactormethods = UsersHelper::getTwoFactorMethods();
+$twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/offline.css" type="text/css" />
-	<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/offline_rtl.css" type="text/css" />
-	<?php endif; ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/general.css" type="text/css" />
+	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body>
-<jdoc:include type="message" />
+	<jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>" />
+			<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>" />
 		<?php endif; ?>
 		<h1>
-			<?php echo htmlspecialchars($app->get('sitename')); ?>
+			<?php echo htmlspecialchars($app->get('sitename'), ENT_COMPAT, 'UTF-8'); ?>
 		</h1>
 	<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 		<p>
