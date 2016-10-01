@@ -84,6 +84,12 @@ class FinderViewIndex extends JViewLegacy
 
 		FinderHelper::addSubmenu('index');
 
+		// Check for plugin state
+		if (!$this->pluginState['plg_content_finder']->enabled)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
