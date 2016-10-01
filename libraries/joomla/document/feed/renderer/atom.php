@@ -20,7 +20,7 @@ JLog::add('JDocumentRendererAtom is deprecated, use JDocumentRendererFeedAtom in
  *
  * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since       11.1
- * @deprecated  4.0  Use JDocumentRendererFeedAtom instead
+ * @deprecated  3.7  Use JDocumentRendererFeedAtom instead
  */
 class JDocumentRendererAtom extends JDocumentRendererFeedAtom
 {

@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * Deprecated class placeholder. You should use JApplicationCli instead.
  *
  * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
+ * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JApplicationCli instead.
  * @codeCoverageIgnore
  */
 class JCli extends JApplicationCli
@@ -36,7 +36,7 @@ class JCli extends JApplicationCli
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JApplicationCli instead.
 	 */
 	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
 	{

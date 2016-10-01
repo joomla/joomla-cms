@@ -416,7 +416,7 @@ class JComponentHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JComponentHelper::load() instead
+	 * @deprecated  3.7  Use JComponentHelper::load() instead
 	 */
 	protected static function _load($option)
 	{

@@ -17,7 +17,7 @@ JLog::add('JDaemon has been renamed to JApplicationDaemon.', JLog::WARNING, 'dep
  * Backward Compatability Stub for JApplicationDaemon
  *
  * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationDaemon instead.
+ * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JApplicationDaemon instead.
  * @codeCoverageIgnore
  */
 class JDaemon extends JApplicationDaemon

@@ -31,7 +31,7 @@ JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
  * can be passed through an input filter to avoid injection or returned raw.
  *
  * @since       11.1
- * @deprecated  12.1 (Platform) & 4.0 (CMS) - Get the JInput object from the application instead
+ * @deprecated  12.1 (Platform) & 3.7 (CMS) - Get the JInput object from the application instead
  */
 class JRequest
 {

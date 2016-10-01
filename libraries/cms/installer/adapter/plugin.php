@@ -314,7 +314,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
 		}
 		else
 		{
-			// @deprecated 4.0 - This path supports Joomla! 1.5 plugin folder layouts
+			// @deprecated 3.7 - This path supports Joomla! 1.5 plugin folder layouts
 			$manifestPath = $basePath . '/' . $this->extension->element . '.xml';
 		}
 
@@ -728,7 +728,7 @@ class JInstallerAdapterPlugin extends JInstallerAdapter
  * Deprecated class placeholder. You should use JInstallerAdapterPlugin instead.
  *
  * @since       3.1
- * @deprecated  4.0
+ * @deprecated  3.7
  * @codeCoverageIgnore
  */
 class JInstallerPlugin extends JInstallerAdapterPlugin

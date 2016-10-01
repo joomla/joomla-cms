@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * HTTP client class for connecting to a GitHub instance.
  *
  * @since       11.3
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  */
 class JGithubHttp extends JHttp
 {

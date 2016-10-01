@@ -39,7 +39,7 @@ class ContactViewFeatured extends JViewLegacy
 	 *
 	 * @var         array
 	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
+	 * @deprecated  3.7  This variable has been null since 1.6.0-beta8
 	 */
 	protected $category;
 
@@ -48,7 +48,7 @@ class ContactViewFeatured extends JViewLegacy
 	 *
 	 * @var         JObject  Maybe.
 	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has never been used ever
+	 * @deprecated  3.7  This variable has never been used ever
 	 */
 	protected $categories;
 

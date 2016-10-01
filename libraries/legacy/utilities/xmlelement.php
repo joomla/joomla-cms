@@ -15,7 +15,7 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
  * Wrapper class for php SimpleXMLElement.
  *
  * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXMLElement instead.
+ * @deprecated  13.3 (Platform) & 3.7(CMS) - Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {

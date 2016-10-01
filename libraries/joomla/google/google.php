@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
  * @property-read  JGoogleEmbed   $embed   Google API object for embed generation.
  *
  * @since       12.3
- * @deprecated  4.0  Use the `joomla/google` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/google` package via Composer instead
  */
 class JGoogle
 {

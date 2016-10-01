@@ -15,7 +15,7 @@ JLog::add('JDocumentRendererMessage is deprecated, use JDocumentRendererHtmlMess
  * JDocument system message renderer
  *
  * @since       11.1
- * @deprecated  4.0  Use JDocumentRendererHtmlMessage instead
+ * @deprecated  3.7  Use JDocumentRendererHtmlMessage instead
  */
 class JDocumentRendererMessage extends JDocumentRendererHtmlMessage
 {

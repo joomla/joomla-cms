@@ -765,7 +765,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::remove() instead
+	 * @deprecated  3.7 Use JFilterInput::remove() instead
 	 */
 	protected function _remove($source)
 	{
@@ -802,7 +802,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  'Cleaned' version of input parameter
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::cleanTags() instead
+	 * @deprecated  3.7 Use JFilterInput::cleanTags() instead
 	 */
 	protected function _cleanTags($source)
 	{
@@ -1050,7 +1050,7 @@ class JFilterInput extends InputFilter
 	 * @return  array  Filtered array of attribute pairs
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::cleanAttributes() instead
+	 * @deprecated  3.7 Use JFilterInput::cleanAttributes() instead
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
@@ -1124,7 +1124,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  Plaintext string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::decode() instead
+	 * @deprecated  3.7 Use JFilterInput::decode() instead
 	 */
 	protected function _decode($source)
 	{
@@ -1182,7 +1182,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  Filtered string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::escapeAttributeValues() instead
+	 * @deprecated  3.7 Use JFilterInput::escapeAttributeValues() instead
 	 */
 	protected function _escapeAttributeValues($source)
 	{
@@ -1197,7 +1197,7 @@ class JFilterInput extends InputFilter
 	 * @return  string  Filtered string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterInput::stripCSSExpressions() instead
+	 * @deprecated  3.7 Use JFilterInput::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)
 	{

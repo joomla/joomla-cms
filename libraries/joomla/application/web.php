@@ -214,7 +214,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  13.1 (Platform) & 3.7 (CMS)
 	 * @see     JApplicationWeb::loadSession()
 	 * @see     JApplicationWeb::loadDocument()
 	 * @see     JApplicationWeb::loadLanguage()
@@ -524,14 +524,14 @@ class JApplicationWeb extends JApplicationBase
 			else
 			{
 				// Check if we have a boolean for the status variable for compatability with old $move parameter
-				// @deprecated 4.0
+				// @deprecated 3.7
 				if (is_bool($status))
 				{
 					$status = $status ? 301 : 303;
 				}
 
 				// Now check if we have an integer status code that maps to a valid redirect. If we don't then set a 303
-				// @deprecated 4.0 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
+				// @deprecated 3.7 From 4.0 if no valid status code is given an InvalidArgumentException will be thrown
 				if (!is_int($status) || is_int($status) && !isset($this->responseMap[$status]))
 				{
 					$status = 303;

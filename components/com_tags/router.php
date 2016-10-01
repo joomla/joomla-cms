@@ -159,7 +159,7 @@ class TagsRouter extends JComponentRouterBase
  *
  * @return array
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function tagsBuildRoute(&$query)
 {
@@ -175,7 +175,7 @@ function tagsBuildRoute(&$query)
  *
  * @return  array  The URL attributes to be used by the application.
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function tagsParseRoute($segments)
 {

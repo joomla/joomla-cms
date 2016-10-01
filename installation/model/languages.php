@@ -734,7 +734,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  string
 	 *
 	 * @since   3.2
-	 * @depreacted   4.0 Not used anymore.
+	 * @deprecated   3.7 Not used anymore.
 	 */
 	public function getSefString($itemLanguage, $siteLanguages)
 	{
@@ -771,7 +771,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  boolean
 	 *
 	 * @since   3.2
-	 * @depreacted   4.0 Not used anymore.
+	 * @deprecated   3.7 Not used anymore.
 	 */
 	public function addLanguage($itemLanguage, $sefLangString)
 	{

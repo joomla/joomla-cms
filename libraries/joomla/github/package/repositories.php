@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * GitHub API Activity class for the Joomla Platform.
  *
  * @since       3.3 (CMS)
- * @deprecated  4.0  Use the `joomla/github` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/github` package via Composer instead
  *
  * @documentation  https://developer.github.com/v3/repos
  *

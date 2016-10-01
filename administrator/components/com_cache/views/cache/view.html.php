@@ -18,7 +18,7 @@ class CacheViewCache extends JViewLegacy
 {
 	/**
 	 * @var object client object.
-	 * @deprecated 4.0
+	 * @deprecated 3.7
 	 */
 	protected $client;
 

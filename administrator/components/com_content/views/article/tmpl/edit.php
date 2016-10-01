@@ -70,7 +70,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			' . $this->form->getField('articletext')->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
 
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+			// @deprecated 3.7  The following js is not needed since __DEPLOY_VERSION__.
 			if (task !== "article.apply")
 			{
 				window.parent.jQuery("#articleEdit' . (int) $this->item->id . 'Modal").modal("hide");

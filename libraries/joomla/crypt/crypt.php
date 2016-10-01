@@ -155,7 +155,7 @@ class JCrypt
 	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
 	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
 	 * @since   3.2
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function hasStrongPasswordSupport()
 	{

@@ -124,7 +124,7 @@ abstract class JToolbarButton
  * Deprecated class placeholder. You should use JToolbarButton instead.
  *
  * @since       1.5
- * @deprecated  4.0  Use JToolbarButton instead.
+ * @deprecated  3.7  Use JToolbarButton instead.
  * @codeCoverageIgnore
  */
 abstract class JButton extends JToolbarButton
@@ -134,7 +134,7 @@ abstract class JButton extends JToolbarButton
 	 *
 	 * @param   object  $parent  The parent
 	 *
-	 * @deprecated  4.0  Use JToolbarButton instead.
+	 * @deprecated  3.7  Use JToolbarButton instead.
 	 */
 	public function __construct($parent = null)
 	{

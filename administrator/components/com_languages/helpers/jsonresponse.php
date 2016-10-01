@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * JSON Response class.
  *
  * @since       2.5
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 class JJsonResponse
 {
@@ -67,7 +67,7 @@ class JJsonResponse
 	 * @param   boolean  $error     True, if the success flag shall be set to false, defaults to false.
 	 *
 	 * @since		2.5
-	 * @deprecated	4.0	 Use JResponseJson instead.
+	 * @deprecated	3.7	 Use JResponseJson instead.
 	 */
 	public function __construct($response = null, $message = null, $error = false)
 	{

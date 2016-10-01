@@ -616,7 +616,7 @@ class JInstallerAdapterTemplate extends JInstallerAdapter
  * Deprecated class placeholder. You should use JInstallerAdapterTemplate instead.
  *
  * @since       3.1
- * @deprecated  4.0
+ * @deprecated  3.7
  * @codeCoverageIgnore
  */
 class JInstallerTemplate extends JInstallerAdapterTemplate

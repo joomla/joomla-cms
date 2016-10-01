@@ -176,7 +176,7 @@ class JUserWrapperHelper
 	 *
 	 * @see     JUserHelper::getCryptedPassword()
 	 * @since   3.4
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
@@ -198,7 +198,7 @@ class JUserWrapperHelper
 	 *
 	 * @see     JUserHelper::getSalt()
 	 * @since   3.4
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
@@ -230,7 +230,7 @@ class JUserWrapperHelper
 	 *
 	 * @see     JUserHelper::invalidateCookie()
 	 * @since   3.4
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function invalidateCookie($userId, $cookieName)
 	{
@@ -244,7 +244,7 @@ class JUserWrapperHelper
 	 *
 	 * @see     JUserHelper::clearExpiredTokens()
 	 * @since   3.4
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function clearExpiredTokens()
 	{
@@ -258,7 +258,7 @@ class JUserWrapperHelper
 	 *
 	 * @see     JUserHelper::getRememberCookieData()
 	 * @since   3.4
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function getRememberCookieData()
 	{

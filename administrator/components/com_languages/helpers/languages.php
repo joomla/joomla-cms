@@ -24,7 +24,7 @@ class LanguagesHelper
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  4.0 $client parameter is not needed anymore.
+	 * @deprecated  3.7 $client parameter is not needed anymore.
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{

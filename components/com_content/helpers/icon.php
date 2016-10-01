@@ -197,9 +197,9 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   object    $article  Not used, @deprecated for 4.0
+	 * @param   object    $article  Not used, @deprecated 3.7
 	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Not used, @deprecated for 4.0
+	 * @param   array     $attribs  Not used, @deprecated 3.7
 	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link

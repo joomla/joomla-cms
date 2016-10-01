@@ -47,7 +47,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @var    integer
 	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $clientId
+	 * @deprecated  3.7  Will be renamed $clientId
 	 */
 	protected $_clientId = null;
 
@@ -56,7 +56,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @var    array
 	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $messageQueue
+	 * @deprecated  3.7  Will be renamed $messageQueue
 	 */
 	protected $_messageQueue = array();
 
@@ -65,7 +65,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @var    array
 	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $name
+	 * @deprecated  3.7  Will be renamed $name
 	 */
 	protected $_name = null;
 
@@ -362,7 +362,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  mixed  The user state.
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use get() instead
+	 * @deprecated  3.7  Use get() instead
 	 */
 	public function getCfg($varname, $default = null)
 	{

@@ -68,7 +68,7 @@ JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelpe
 JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
 // Register classes where the names have been changed to fit the autoloader rules
-// @deprecated  4.0
+// @deprecated  3.7
 JLoader::register('JToolBar', JPATH_PLATFORM . '/cms/toolbar/toolbar.php');
 JLoader::register('JButton',  JPATH_PLATFORM . '/cms/toolbar/button.php');
 JLoader::register('JInstallerComponent',  JPATH_PLATFORM . '/cms/installer/adapter/component.php');

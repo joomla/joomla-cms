@@ -326,7 +326,7 @@ abstract class JModuleHelper
 	 * @return  array
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JModuleHelper::load() instead
+	 * @deprecated  3.7  Use JModuleHelper::load() instead
 	 */
 	protected static function &_load()
 	{

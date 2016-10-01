@@ -245,7 +245,7 @@ abstract class JHtmlBootstrap
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  This method was used by the old renderModal() implementation.
+	 * @deprecated  3.7  This method was used by the old renderModal() implementation.
 	 *                   Since the new implementation it is unneeded and the broken JS it was injecting could create issues
 	 *                   As a case, please see: https://github.com/joomla/joomla-cms/pull/6918
 	 */
@@ -795,7 +795,7 @@ abstract class JHtmlBootstrap
 	 * @return  string
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.startTabSet') instead.
+	 * @deprecated  3.7	Use JHtml::_('bootstrap.startTabSet') instead.
 	 */
 	public static function startPane($selector = 'myTab', $params = array())
 	{
@@ -833,7 +833,7 @@ abstract class JHtmlBootstrap
 	 * @return  string  HTML to close the pane
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0	Use JHtml::_('bootstrap.endTabSet') instead.
+	 * @deprecated  3.7	Use JHtml::_('bootstrap.endTabSet') instead.
 	 */
 	public static function endPane()
 	{
@@ -849,7 +849,7 @@ abstract class JHtmlBootstrap
 	 * @return  string  HTML to start a new panel
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0 Use JHtml::_('bootstrap.addTab') instead.
+	 * @deprecated  3.7 Use JHtml::_('bootstrap.addTab') instead.
 	 */
 	public static function addPanel($selector, $id)
 	{
@@ -864,7 +864,7 @@ abstract class JHtmlBootstrap
 	 * @return  string  HTML to close the pane
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0 Use JHtml::_('bootstrap.endTab') instead.
+	 * @deprecated  3.7 Use JHtml::_('bootstrap.endTab') instead.
 	 */
 	public static function endPanel()
 	{

@@ -42,7 +42,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	 * @return  string  The head hTML
 	 *
 	 * @since   3.5
-	 * @deprecated  4.0  Method code will be moved into the render method
+	 * @deprecated  3.7  Method code will be moved into the render method
 	 */
 	public function fetchHead($document)
 	{

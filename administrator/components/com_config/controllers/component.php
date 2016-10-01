@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Note: this view is intended only to be opened in a popup
  *
  * @since       1.5
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 class ConfigControllerComponent extends JControllerLegacy
 {
@@ -23,7 +23,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public function __construct($config = array())
 	{
@@ -39,7 +39,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  4.0  Use ConfigControllerComponentCancel instead.
+	 * @deprecated  3.7  Use ConfigControllerComponentCancel instead.
 	 */
 	public function cancel()
 	{
@@ -55,7 +55,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 *
 	 * @return  boolean  True if successful; false otherwise.
 	 *
-	 * @deprecated  4.0  Use ConfigControllerComponentSave instead.
+	 * @deprecated  3.7  Use ConfigControllerComponentSave instead.
 	 */
 	public function save()
 	{

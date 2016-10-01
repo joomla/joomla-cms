@@ -79,7 +79,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of language extension objects.
 	 *
-	 * @deprecated  4.0  Use JLanguageMultilang::getSiteLangs() instead.
+	 * @deprecated  3.7  Use JLanguageMultilang::getSiteLangs() instead.
 	 */
 	public static function getSitelangs()
 	{
@@ -93,7 +93,7 @@ abstract class MultilangstatusHelper
 	 *
 	 * @return  array of menu objects.
 	 *
-	 * @deprecated  4.0  Use JLanguageMultilang::getSiteHomePages() instead.
+	 * @deprecated  3.7  Use JLanguageMultilang::getSiteHomePages() instead.
 	 */
 	public static function getHomepages()
 	{

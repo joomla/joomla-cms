@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       1.7
  *
- * @deprecated  4.0 Use JLayout directly
+ * @deprecated  3.7 Use JLayout directly
  */
 abstract class JHtmlBatch
 {
@@ -25,7 +25,7 @@ abstract class JHtmlBatch
 	 *
 	 * @since       1.7
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.access'); use JLayoutHelper::render('joomla.html.batch.access', array());
+	 * @deprecated  3.7 instead of JHtml::_('batch.access'); use JLayoutHelper::render('joomla.html.batch.access', array());
 	 */
 	public static function access()
 	{
@@ -43,7 +43,7 @@ abstract class JHtmlBatch
 	 *
 	 * @since       1.7
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.item'); use JLayoutHelper::render('joomla.html.batch.item', array('extension' => 'com_XXX'));
+	 * @deprecated  3.7 instead of JHtml::_('batch.item'); use JLayoutHelper::render('joomla.html.batch.item', array('extension' => 'com_XXX'));
 	 */
 	public static function item($extension)
 	{
@@ -61,7 +61,7 @@ abstract class JHtmlBatch
 	 *
 	 * @since       2.5
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.language'); use JLayoutHelper::render('joomla.html.batch.language', array());
+	 * @deprecated  3.7 instead of JHtml::_('batch.language'); use JLayoutHelper::render('joomla.html.batch.language', array());
 	 */
 	public static function language()
 	{
@@ -79,7 +79,7 @@ abstract class JHtmlBatch
 	 *
 	 * @since       2.5
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.user'); use JLayoutHelper::render('joomla.html.batch.user', array());
+	 * @deprecated  3.7 instead of JHtml::_('batch.user'); use JLayoutHelper::render('joomla.html.batch.user', array());
 	 */
 	public static function user($noUser = true)
 	{
@@ -97,7 +97,7 @@ abstract class JHtmlBatch
 	 *
 	 * @since       3.1
 	 *
-	 * @deprecated  4.0 instead of JHtml::_('batch.tag'); use JLayoutHelper::render('joomla.html.batch.tag', array());
+	 * @deprecated  3.7 instead of JHtml::_('batch.tag'); use JLayoutHelper::render('joomla.html.batch.tag', array());
 	 */
 	public static function tag()
 	{

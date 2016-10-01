@@ -146,7 +146,7 @@ class SearchHelper
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JSearchHelper::logSearch() instead.
+	 * @deprecated  3.7  Use JSearchHelper::logSearch() instead.
 	 */
 	public static function logSearch($search_term)
 	{

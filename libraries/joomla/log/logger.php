@@ -70,7 +70,7 @@ abstract class JLogLogger
  * Deprecated class placeholder.  You should use JLogLogger instead.
  *
  * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS)
+ * @deprecated  13.3 (Platform) & 3.7(CMS)
  * @codeCoverageIgnore
  */
 abstract class JLogger extends JLogLogger

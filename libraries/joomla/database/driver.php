@@ -1308,7 +1308,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use hasUTFSupport() instead
+	 * @deprecated 12.3 (Platform) & 3.7 (CMS) - Use hasUTFSupport() instead
 	 */
 	public function getUTFSupport()
 	{
@@ -1561,7 +1561,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
@@ -1599,7 +1599,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated  4.0 (CMS)  Use JDatabaseDriver::getIterator() instead
+	 * @deprecated  3.7 (CMS)  Use JDatabaseDriver::getIterator() instead
 	 */
 	public function loadNextRow()
 	{

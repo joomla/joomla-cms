@@ -191,7 +191,7 @@ class JRouterSite extends JRouter
 	 * @return  array
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
+	 * @deprecated  3.7  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseRawRoute(&$uri)
 	{
@@ -251,7 +251,7 @@ class JRouterSite extends JRouter
 	 * @return  string  Internal URI
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main parse stage
+	 * @deprecated  3.7  Attach your logic as rule to the main parse stage
 	 */
 	protected function parseSefRoute(&$uri)
 	{
@@ -432,7 +432,7 @@ class JRouterSite extends JRouter
 	 * @return  string  Raw Route
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 */
 	protected function buildRawRoute(&$uri)
 	{
@@ -459,7 +459,7 @@ class JRouterSite extends JRouter
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 * @codeCoverageIgnore
 	 */
 	protected function _buildSefRoute(&$uri)
@@ -475,7 +475,7 @@ class JRouterSite extends JRouter
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Attach your logic as rule to the main build stage
+	 * @deprecated  3.7  Attach your logic as rule to the main build stage
 	 */
 	protected function buildSefRoute(&$uri)
 	{
@@ -589,7 +589,7 @@ class JRouterSite extends JRouter
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  The special logic should be implemented as rule
+	 * @deprecated  3.7  The special logic should be implemented as rule
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{

@@ -60,7 +60,7 @@ class UsersRouter extends JComponentRouterView
  *
  * @return  array  Segments of the SEF url
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function usersBuildRoute(&$query)
 {
@@ -77,7 +77,7 @@ function usersBuildRoute(&$query)
  *
  * @return  array  Query variables
  *
- * @deprecated  4.0  Use Class based routers instead
+ * @deprecated  3.7  Use Class based routers instead
  */
 function usersParseRoute($segments)
 {

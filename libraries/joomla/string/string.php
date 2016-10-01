@@ -17,7 +17,7 @@ use Joomla\String\StringHelper;
  * All functions assume the validity of utf-8 strings.
  *
  * @since       11.1
- * @deprecated  4.0  Use {@link \Joomla\String\StringHelper} instead unless otherwise noted.
+ * @deprecated  3.7  Use {@link \Joomla\String\StringHelper} instead unless otherwise noted.
  */
 abstract class JString extends StringHelper
 {
@@ -36,7 +36,7 @@ abstract class JString extends StringHelper
 	 *
 	 * @return  array   The splitted string.
 	 *
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JStringNormalise::fromCamelCase()
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JStringNormalise::fromCamelCase()
 	 * @since   11.3
 	 */
 	public static function splitCamelCase($string)
@@ -55,7 +55,7 @@ abstract class JString extends StringHelper
 	 *
 	 * @see     http://us3.php.net/manual/en/function.parse-url.php
 	 * @since   11.1
-	 * @deprecated  4.0 (CMS) - Use {@link \Joomla\Uri\UriHelper::parse_url()} instead.
+	 * @deprecated  3.7 (CMS) - Use {@link \Joomla\Uri\UriHelper::parse_url()} instead.
 	 */
 	public static function parse_url($url)
 	{

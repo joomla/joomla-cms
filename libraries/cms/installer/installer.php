@@ -107,7 +107,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @var    JInstaller
 	 * @since  3.1
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static $instance;
 
@@ -2239,7 +2239,7 @@ class JInstaller extends JAdapter
 	 * @return  JInstallerAdapter
 	 *
 	 * @since       3.4
-	 * @deprecated  4.0  The internal adapter cache will no longer be supported,
+	 * @deprecated  3.7  The internal adapter cache will no longer be supported,
 	 *                   use loadAdapter() to fetch an adapter instance
 	 */
 	public function getAdapter($name, $options = array())
@@ -2340,7 +2340,7 @@ class JInstaller extends JAdapter
 
 		if (!class_exists($class))
 		{
-			// @deprecated 4.0 - The adapter should be autoloaded or manually included by the caller
+			// @deprecated 3.7 - The adapter should be autoloaded or manually included by the caller
 			$path = $this->_basepath . '/' . $this->_adapterfolder . '/' . $adapter . '.php';
 
 			// Try to load the adapter object
@@ -2372,7 +2372,7 @@ class JInstaller extends JAdapter
 	 * @return  void
 	 *
 	 * @since       3.4
-	 * @deprecated  4.0  Individual adapters should be instantiated as needed
+	 * @deprecated  3.7  Individual adapters should be instantiated as needed
 	 * @note        This method is serving as a proxy of the legacy JAdapter API into the preferred API
 	 */
 	public function loadAllAdapters($options = array())

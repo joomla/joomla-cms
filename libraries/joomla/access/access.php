@@ -890,7 +890,7 @@ class JAccess
 	 * @return  array  List of actions available for the given component and section.
 	 *
 	 * @since       11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
+	 * @deprecated  12.3 (Platform) & 3.7 (CMS)  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
 	 * @codeCoverageIgnore
 	 */
 	public static function getActions($component, $section = 'component')

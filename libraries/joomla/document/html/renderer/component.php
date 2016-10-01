@@ -15,7 +15,7 @@ JLog::add('JDocumentRendererComponent is deprecated, use JDocumentRendererHtmlCo
  * Component renderer
  *
  * @since       11.1
- * @deprecated  4.0  Use JDocumentRendererHtmlComponent instead
+ * @deprecated  3.7  Use JDocumentRendererHtmlComponent instead
  */
 class JDocumentRendererComponent extends JDocumentRendererHtmlComponent
 {

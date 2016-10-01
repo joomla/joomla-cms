@@ -77,7 +77,7 @@ abstract class JHtmlSortablelist
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 4.0 The logic is merged in the JLayout file
+	 * @deprecated 3.7 The logic is merged in the JLayout file
 	 */
 	public static function _proceedSaveOrderButton()
 	{

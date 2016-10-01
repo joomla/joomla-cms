@@ -1278,7 +1278,7 @@ class JLanguage
 	 * @return  string  Previous value.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0 (CMS) - Instantiate a new JLanguage object instead
+	 * @deprecated  3.7 (CMS) - Instantiate a new JLanguage object instead
 	 */
 	public function setLanguage($lang)
 	{

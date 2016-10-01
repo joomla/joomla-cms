@@ -15,7 +15,7 @@ JLog::add('JHtmlRules is deprecated.', JLog::WARNING, 'deprecated');
  * Extended Utility class for all HTML drawing classes.
  *
  * @since       1.6
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 abstract class JHtmlRules
 {
@@ -33,7 +33,7 @@ abstract class JHtmlRules
 	 * @see     JAccess
 	 * @see     JFormFieldRules
 	 * @since   1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
@@ -148,7 +148,7 @@ abstract class JHtmlRules
 	 * @return  integer  The id of the parent asset
 	 *
 	 * @since   1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static function _getParentAssetId($assetId)
 	{
@@ -171,7 +171,7 @@ abstract class JHtmlRules
 	 * @return  array  Array of user groups
 	 *
 	 * @since   1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static function _getUserGroups()
 	{
@@ -215,7 +215,7 @@ abstract class JHtmlRules
 	 * @return  array  An associative  array of permissions and images
 	 *
 	 * @since   1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	protected static function _getImagesArray()
 	{

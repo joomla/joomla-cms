@@ -23,7 +23,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @var    boolean
 	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $language_filter
+	 * @deprecated  3.7  Will be renamed $language_filter
 	 */
 	protected $_language_filter = false;
 
@@ -32,7 +32,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @var    boolean
 	 * @since  3.2
-	 * @deprecated  4.0  Will be renamed $detect_browser
+	 * @deprecated  3.7  Will be renamed $detect_browser
 	 */
 	protected $_detect_browser = false;
 
@@ -282,7 +282,7 @@ final class JApplicationSite extends JApplicationCms
 	 * @return  Registry  The parameters object
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use getParams() instead
+	 * @deprecated  3.7  Use getParams() instead
 	 */
 	public function getPageParameters($option = null)
 	{

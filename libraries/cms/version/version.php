@@ -112,7 +112,7 @@ final class JVersion
 	 * @return  mixed   A value if the property name is valid.
 	 *
 	 * @since   3.5
-	 * @deprecated  4.0  Access the constants directly
+	 * @deprecated  3.7  Access the constants directly
 	 */
 	public function __get($name)
 	{

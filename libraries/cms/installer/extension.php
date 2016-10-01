@@ -146,7 +146,7 @@ class JInstallerExtension extends JObject
  * Deprecated class placeholder. You should use JInstallerExtension instead.
  *
  * @since       3.1
- * @deprecated  4.0
+ * @deprecated  3.7
  * @codeCoverageIgnore
  */
 class JExtension extends JInstallerExtension

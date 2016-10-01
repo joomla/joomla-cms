@@ -153,7 +153,7 @@ abstract class JHtmlSelect
 	 * @return  string  HTML for the select list
 	 *
 	 * @since       3.2
-	 * @deprecated  4.0  Just create the `<datalist>` directly instead
+	 * @deprecated  3.7  Just create the `<datalist>` directly instead
 	 */
 	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
@@ -396,7 +396,7 @@ abstract class JHtmlSelect
 	 *
 	 * @return  stdClass
 	 *
-	 * @deprecated  4.0  Use JHtmlSelect::groupedList()
+	 * @deprecated  3.7  Use JHtmlSelect::groupedList()
 	 * @see     JHtmlSelect::groupedList()
 	 * @since   1.5
 	 */

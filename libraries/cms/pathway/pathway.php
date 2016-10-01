@@ -21,14 +21,14 @@ class JPathway
 	/**
 	 * @var    array  Array to hold the pathway item objects
 	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $pathway
+	 * @deprecated  3.7  Will convert to $pathway
 	 */
 	protected $_pathway = array();
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
 	 * @since  1.5
-	 * @deprecated  4.0  Will convert to $count
+	 * @deprecated  3.7  Will convert to $count
 	 */
 	protected $_count = 0;
 
@@ -71,7 +71,7 @@ class JPathway
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
+				// @deprecated 3.7 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the pathway object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
@@ -210,7 +210,7 @@ class JPathway
 	 * @return  JPathway  Pathway item object
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use makeItem() instead
+	 * @deprecated  3.7  Use makeItem() instead
 	 * @codeCoverageIgnore
 	 */
 	protected function _makeItem($name, $link)

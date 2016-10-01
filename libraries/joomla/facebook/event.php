@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @see         http://developers.facebook.com/docs/reference/api/event/
  * @since       13.1
- * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
+ * @deprecated  3.7  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookEvent extends JFacebookObject
 {

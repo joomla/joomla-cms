@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * JSimpleCrypt is a very simple encryption algorithm for encrypting/decrypting strings
  *
  * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JCrypt instead.
+ * @deprecated  12.3 (Platform) & 3.7 (CMS) - Use JCrypt instead.
  */
 class JSimplecrypt
 {

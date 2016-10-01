@@ -108,7 +108,7 @@ class JFilterOutput extends OutputFilter
 	 * @return  string  Replaced string
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0 Use JFilterOutput::ampReplaceCallback() instead
+	 * @deprecated  3.7 Use JFilterOutput::ampReplaceCallback() instead
 	 */
 	public static function _ampReplaceCallback($m)
 	{

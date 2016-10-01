@@ -901,7 +901,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
-	 * @deprecated  4.0 (CMS)  Use getIterator() instead
+	 * @deprecated  3.7 (CMS)  Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{
@@ -969,7 +969,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
-	 * @deprecated  4.0 (CMS)  Use getIterator() instead
+	 * @deprecated  3.7 (CMS)  Use getIterator() instead
 	 */
 	public function loadNextRow()
 	{

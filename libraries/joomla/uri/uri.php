@@ -245,7 +245,7 @@ class JUri extends Uri
 	 * @return  void
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0  Use {@link \Joomla\Uri\Uri::setPath()}
+	 * @deprecated  3.7  Use {@link \Joomla\Uri\Uri::setPath()}
 	 * @note        Present to proxy calls to the deprecated {@link JUri::_cleanPath()} method.
 	 */
 	public function setPath($path)
@@ -324,7 +324,7 @@ class JUri extends Uri
 	 * @return  string  Cleaned and resolved URI path.
 	 *
 	 * @since       11.1
-	 * @deprecated  4.0   Use {@link \Joomla\Uri\Uri::cleanPath()} instead
+	 * @deprecated  3.7   Use {@link \Joomla\Uri\Uri::cleanPath()} instead
 	 */
 	protected function _cleanPath($path)
 	{

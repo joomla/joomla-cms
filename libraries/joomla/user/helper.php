@@ -404,7 +404,7 @@ abstract class JUserHelper
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
@@ -525,7 +525,7 @@ abstract class JUserHelper
 	 * @return  string  The generated or extracted salt.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
@@ -725,7 +725,7 @@ abstract class JUserHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  This is handled in the authentication plugin itself. The 'invalid' column in the db should be removed as well
+	 * @deprecated  3.7  This is handled in the authentication plugin itself. The 'invalid' column in the db should be removed as well
 	 */
 	public static function invalidateCookie($userId, $cookieName)
 	{
@@ -753,7 +753,7 @@ abstract class JUserHelper
 	 * @return  mixed  Database query result
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  This is handled in the authentication plugin itself
+	 * @deprecated  3.7  This is handled in the authentication plugin itself
 	 */
 	public static function clearExpiredTokens()
 	{
@@ -773,7 +773,7 @@ abstract class JUserHelper
 	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  This is handled in the authentication plugin itself
+	 * @deprecated  3.7  This is handled in the authentication plugin itself
 	 */
 	public static function getRememberCookieData()
 	{

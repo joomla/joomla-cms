@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Tree Node Class.
  *
  * @since       11.1
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
+ * @deprecated  12.3 (Platform) & 3.7 (CMS)
  * @codeCoverageIgnore
  */
 class JNode extends JObject

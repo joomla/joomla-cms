@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Media helper class.
  * 
  * @since       1.6
- * @deprecated  4.0  Use JHelperMedia instead
+ * @deprecated  3.7  Use JHelperMedia instead
  */
 abstract class MediaHelper
 {
@@ -25,7 +25,7 @@ abstract class MediaHelper
 	 * @return  boolean
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JHelperMedia::isImage instead
+	 * @deprecated  3.7  Use JHelperMedia::isImage instead
 	 */
 	public static function isImage($fileName)
 	{
@@ -43,7 +43,7 @@ abstract class MediaHelper
 	 * @return  string  File extension
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JHelperMedia::getTypeIcon instead
+	 * @deprecated  3.7  Use JHelperMedia::getTypeIcon instead
 	 */
 	public static function getTypeIcon($fileName)
 	{
@@ -62,7 +62,7 @@ abstract class MediaHelper
 	 * @return  boolean
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JHelperMedia::canUpload instead
+	 * @deprecated  3.7  Use JHelperMedia::canUpload instead
 	 */
 	public static function canUpload($file, $error = '')
 	{
@@ -80,7 +80,7 @@ abstract class MediaHelper
 	 * @return  string  The converted file size
 	 *
 	 * @since   1.6
-	 * @deprecated  4.0  Use JHtmlNumber::bytes() instead
+	 * @deprecated  3.7  Use JHtmlNumber::bytes() instead
 	 */
 	public static function parseSize($size)
 	{
@@ -99,7 +99,7 @@ abstract class MediaHelper
 	 * @return  array  The new width and height
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use JHelperMedia::imageResize instead
+	 * @deprecated  3.7  Use JHelperMedia::imageResize instead
 	 */
 	public static function imageResize($width, $height, $target)
 	{
@@ -117,7 +117,7 @@ abstract class MediaHelper
 	 * @return  array  The number of files and directories in the given directory
 	 *
 	 * @since   1.5
-	 * @deprecated  4.0  Use JHelperMedia::countFiles instead
+	 * @deprecated  3.7  Use JHelperMedia::countFiles instead
 	 */
 	public static function countFiles($dir)
 	{

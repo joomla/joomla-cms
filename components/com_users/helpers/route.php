@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Users Route Helper
  *
  * @since       1.6
- * @deprecated  4.0
+ * @deprecated  3.7
  */
 class UsersHelperRoute
 {
@@ -23,7 +23,7 @@ class UsersHelperRoute
 	 * @return  array  	An array of menu items.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function &getItems()
 	{
@@ -53,7 +53,7 @@ class UsersHelperRoute
 	 * @return  mixed  	Integer menu id on success, null on failure.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getLoginRoute()
 	{
@@ -80,7 +80,7 @@ class UsersHelperRoute
 	 * @return  mixed  	Integer menu id on success, null on failure.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getProfileRoute()
 	{
@@ -109,7 +109,7 @@ class UsersHelperRoute
 	 * @return  mixed  	Integer menu id on success, null on failure.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getRegistrationRoute()
 	{
@@ -136,7 +136,7 @@ class UsersHelperRoute
 	 * @return  mixed  	Integer menu id on success, null on failure.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getRemindRoute()
 	{
@@ -163,7 +163,7 @@ class UsersHelperRoute
 	 * @return  mixed  	Integer menu id on success, null on failure.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getResendRoute()
 	{
@@ -190,7 +190,7 @@ class UsersHelperRoute
 	 * @return  mixed  	Integer menu id on success, null on failure.
 	 *
 	 * @since       1.6
-	 * @deprecated  4.0
+	 * @deprecated  3.7
 	 */
 	public static function getResetRoute()
 	{

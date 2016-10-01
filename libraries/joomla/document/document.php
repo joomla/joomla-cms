@@ -289,7 +289,7 @@ class JDocument
 
 			if (!class_exists($class))
 			{
-				// @deprecated 4.0 - JDocument objects should be autoloaded instead
+				// @deprecated 3.7 - JDocument objects should be autoloaded instead
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
 				if (file_exists($path))
@@ -1059,7 +1059,7 @@ class JDocument
 
 			if (!class_exists($class))
 			{
-				// @deprecated 4.0 - Non-autoloadable class support is deprecated, only log a message though if a file is found
+				// @deprecated 3.7 - Non-autoloadable class support is deprecated, only log a message though if a file is found
 				$path = __DIR__ . '/' . $this->getType() . '/renderer/' . $type . '.php';
 
 				if (!file_exists($path))

@@ -811,7 +811,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
  * Deprecated class placeholder. You should use JInstallerAdapterLanguage instead.
  *
  * @since       3.1
- * @deprecated  4.0
+ * @deprecated  3.7
  * @codeCoverageIgnore
  */
 class JInstallerLanguage extends JInstallerAdapterLanguage

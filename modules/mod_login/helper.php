@@ -67,7 +67,7 @@ class ModLoginHelper
 	 *
 	 * @return array
 	 *
-	 * @deprecated  4.0  Use JAuthenticationHelper::getTwoFactorMethods() instead.
+	 * @deprecated  3.7  Use JAuthenticationHelper::getTwoFactorMethods() instead.
 	 */
 	public static function getTwoFactorMethods()
 	{

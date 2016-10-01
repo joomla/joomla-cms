@@ -221,7 +221,7 @@ class PlgSystemSef extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @deprecated  4.0  No replacement.
+	 * @deprecated  3.7  No replacement.
 	 */
 	protected static function route(&$matches)
 	{

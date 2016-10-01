@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Deprecated class placeholder. You should use JApplicationWebClient instead.
  *
  * @since       11.3
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
+ * @deprecated  12.3 (Platform) & 3.7 (CMS)
  * @codeCoverageIgnore
  */
 class JWebClient extends JApplicationWebClient
