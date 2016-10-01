@@ -86,11 +86,13 @@ class JFormFieldCaptcha extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		$default = JFactory::getConfig()->get('captcha');
+		$app = JFactory::getApplication();
 
-		if (JFactory::getApplication()->isSite())
+		$default = $app->get('captcha');
+
+		if ($app->isSite())
 		{
-			$default = JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+			$default = $app->getParams()->get('captcha', $default);
 		}
 
 		$plugin = $this->element['plugin'] ?

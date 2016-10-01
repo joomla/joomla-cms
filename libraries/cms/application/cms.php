@@ -673,10 +673,11 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return $this->getClientId() === 1;
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -685,10 +686,25 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return $this->getClientId() === 0;
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() == $identifier;
 	}
 
 	/**
@@ -824,8 +840,6 @@ class JApplicationCms extends JApplicationWeb
 	public function login($credentials, $options = array())
 	{
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 
