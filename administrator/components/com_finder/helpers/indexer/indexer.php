@@ -373,8 +373,7 @@ abstract class FinderIndexer
 						$this->toggleTables(false);
 					}
 
-					unset($string);
-					unset($tokens);
+					unset($string, $tokens);
 				}
 			}
 			// If the input is greater than 2K in size, it is more efficient to

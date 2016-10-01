@@ -1028,9 +1028,7 @@ class FinderIndexerQuery
 					}
 
 					// Remove the processed terms.
-					unset($terms[$i]);
-					unset($terms[$i + 1]);
-					unset($terms[$i + 2]);
+					unset($terms[$i], $terms[$i + 1], $terms[$i + 2]);
 
 					// Adjust the loop.
 					$i += 2;
@@ -1090,9 +1088,7 @@ class FinderIndexerQuery
 					}
 
 					// Remove the processed terms.
-					unset($terms[$i]);
-					unset($terms[$i + 1]);
-					unset($terms[$i + 2]);
+					unset($terms[$i], $terms[$i + 1], $terms[$i + 2]);
 
 					// Adjust the loop.
 					$i += 2;
@@ -1130,8 +1126,7 @@ class FinderIndexerQuery
 				}
 
 				// Remove the processed terms.
-				unset($terms[$i]);
-				unset($terms[$i + 1]);
+				unset($terms[$i], $terms[$i + 1]);
 
 				// Adjust the loop.
 				$i++;
@@ -1167,8 +1162,7 @@ class FinderIndexerQuery
 				}
 
 				// Remove the processed terms.
-				unset($terms[$i]);
-				unset($terms[$i + 1]);
+				unset($terms[$i], $terms[$i + 1]);
 
 				// Adjust the loop.
 				$i++;
