@@ -137,10 +137,10 @@ class JFormFieldModulePosition extends JFormFieldText
 		// Build the script.
 		$script = /** @lang JavaScript */
 			<<<TAG
-	function jSelectPosition_$this->id(name) {
-    	document.getElementById("$this->id").value = name;
-		jModalClose();
-	}
+function jSelectPosition_$this->id(name) {
+   	document.getElementById("$this->id").value = name;
+	jModalClose();
+}
 TAG;
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration($script);
@@ -158,7 +158,7 @@ TAG;
 			<<<TAG
 <div class="input-append">
 	$parentInput
-	<a class="btn modal" title="$changePositionTitle"  href="$link" rel="{handler: 'iframe', size: {x: 800, y: 450}}">$changePositionButton</a>
+	<a class="btn modal" title="$changePositionTitle" href="$link" rel="{handler: 'iframe', size: {x: 800, y: 450}}">$changePositionButton</a>
 </div>
 TAG;
 
