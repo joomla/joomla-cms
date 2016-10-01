@@ -706,7 +706,8 @@ abstract class JHtmlBehavior
 
 		$script = /** @lang JavaScript */
 			<<<TAG
-window.setInterval(function(){var r;try{r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}if(r){r.open("GET","$url",true);r.send(null)}},$refresh_time);
+window.setInterval(function(){var r;try{r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}
+if(r){r.open("GET","$url",true);r.send(null)}},$refresh_time);
 TAG;
 
 		JFactory::getDocument()->addScriptDeclaration($script);
