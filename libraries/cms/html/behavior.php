@@ -704,13 +704,10 @@ abstract class JHtmlBehavior
 			$url .= '?option=com_ajax&format=json';
 		}
 
-		$script = 'window.setInterval(function(){';
-		$script .= 'var r;';
-		$script .= 'try{';
-		$script .= 'r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")';
-		$script .= '}catch(e){}';
-		$script .= 'if(r){r.open("GET","' . $url . '",true);r.send(null)}';
-		$script .= '},' . $refresh_time . ');';
+		$script = /** @lang JavaScript */
+			<<<TAG
+window.setInterval(function(){var r;try{r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}if(r){r.open("GET","$url",true);r.send(null)}},$refresh_time);
+TAG;
 
 		JFactory::getDocument()->addScriptDeclaration($script);
 
