@@ -105,10 +105,6 @@ abstract class FinderIndexer
 		{
 			$format = 'mysql';
 		}
-		elseif ($format == 'sqlazure')
-		{
-			$format = 'sqlsrv';
-		}
 
 		$path = __DIR__ . '/driver/' . $format . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($format);

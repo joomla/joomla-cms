@@ -167,7 +167,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	/**
 	 * Listener for the onBeforeExecute event
 	 *
-	 * @param   BeforeExecuteEvent  $event  Event
+	 * @param   BeforeExecuteEvent  $event  The Event object
 	 *
 	 * @return  void
 	 *
