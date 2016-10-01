@@ -81,7 +81,7 @@ abstract class JError
 	protected static $handlers = array(
 		E_NOTICE => array('mode' => 'ignore'),
 		E_WARNING => array('mode' => 'ignore'),
-		E_ERROR => array('mode' => 'ignore')
+		E_ERROR => array('mode' => 'ignore'),
 	);
 
 	/**

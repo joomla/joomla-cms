@@ -34,7 +34,7 @@ class JHtmlFormTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setup();
+		parent::setUp();
 
 		$this->saveFactoryState();
 
@@ -58,7 +58,7 @@ class JHtmlFormTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -78,7 +78,7 @@ class JHtmlFormTest extends TestCase
 		$token = JSession::getFormToken();
 
 		$this->assertThat(
-			JHtml::_('form.token'),
+			JHtmlForm::token(),
 			$this->equalTo('<input type="hidden" name="' . $token . '" value="1" />')
 		);
 	}

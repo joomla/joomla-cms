@@ -43,6 +43,7 @@ class ContentViewArticle extends JViewLegacy
 			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
 			parent::display($tpl);
+
 			return;
 		}
 
@@ -55,6 +56,7 @@ class ContentViewArticle extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 

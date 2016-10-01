@@ -44,7 +44,7 @@ class UsersViewUsers extends JViewLegacy
 	 * A JForm instance with filter fields.
 	 *
 	 * @var    JForm
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 public $filterForm;
 
@@ -52,7 +52,7 @@ class UsersViewUsers extends JViewLegacy
 	 * An array with active filters.
 	 *
 	 * @var    array
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	public $activeFilters;
 	
@@ -60,7 +60,7 @@ class UsersViewUsers extends JViewLegacy
 	 * An ACL object to verify user rights.
 	 *
 	 * @var    JObject
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 protected $canDo;
 	
@@ -68,7 +68,7 @@ class UsersViewUsers extends JViewLegacy
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  3.6
+	 * @since  3.6.3
 	 */
 	 protected $db;
 

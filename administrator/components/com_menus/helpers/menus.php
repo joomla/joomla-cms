@@ -159,8 +159,7 @@ class MenusHelper
 					  a.checked_out,
 					  a.language,
 					  a.lft')
-			->from('#__menu AS a')
-			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->from('#__menu AS a');
 
 		if (JLanguageMultilang::isEnabled())
 		{

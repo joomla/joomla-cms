@@ -441,15 +441,8 @@
         	// colorpicker
         	if($.fn.minicolors){
         		$row.find('.minicolors input').each(function(){
-        			$(this).removeData('minicolors-initialized')
-        			.removeData('minicolors-settings')
-        			.removeProp('size')
-        			.removeProp('maxlength')
-        			.removeClass('minicolors-input')
-        			// move out from <span>
-        			.parents('span.minicolors').parent().append(this);
+        			$(this).minicolors('destroy', $(this));
         		});
-        		$row.find('span.minicolors').remove();
         	}
         };
 

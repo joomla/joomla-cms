@@ -102,7 +102,7 @@
 		<field
 			name="float_first"
 			type="list"
-			label="COM_NEWSFEEDS_FLOAT_LABEL"
+			label="COM_NEWSFEEDS_FLOAT_FIRST_LABEL"
 			description="COM_NEWSFEEDS_FLOAT_DESC"
 			>
 			<option value="right">COM_NEWSFEEDS_RIGHT</option>
@@ -113,7 +113,7 @@
 		<field
 			name="float_second"
 			type="list"
-			label="COM_NEWSFEEDS_FLOAT_LABEL"
+			label="COM_NEWSFEEDS_FLOAT_SECOND_LABEL"
 			description="COM_NEWSFEEDS_FLOAT_DESC"
 			>
 			<option value="right">COM_NEWSFEEDS_RIGHT</option>

@@ -84,45 +84,32 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 
-		// If we get a deny at the component level, we cannot override here.
-		if (!parent::allowEdit($data, $key))
+		// Zero record (id:0), return component edit permission by calling parent controller method
+		if (!$recordId)
 		{
-			return false;
+			return parent::allowEdit($data, $key);
 		}
 
-		// Check general edit permission first.
+		// Check edit on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit', 'com_content.article.' . $recordId))
 		{
 			return true;
 		}
 
-		// Fallback on edit.own.
-		// First test if the permission is available.
+		// Check edit own on the record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', 'com_content.article.' . $recordId))
 		{
-			// Now test the owner is the user.
-			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
+			// Existing record already has an owner, get it
+			$record = $this->getModel()->getItem($recordId);
 
-			if (empty($ownerId) && $recordId)
+			if (empty($record))
 			{
-				// Need to do a lookup from the model.
-				$record = $this->getModel()->getItem($recordId);
-
-				if (empty($record))
-				{
-					return false;
-				}
-
-				$ownerId = $record->created_by;
+				return false;
 			}
 
-			// If the owner matches 'me' then permission is granted.
-			if ($ownerId == $userId)
-			{
-				return true;
-			}
+			// Grant if current user is owner of the record
+			return $user->get('id') == $record->created_by;
 		}
 
 		return false;

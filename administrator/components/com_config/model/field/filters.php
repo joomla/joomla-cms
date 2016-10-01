@@ -51,14 +51,16 @@ class JFormFieldFilters extends JFormField
 		$html[] = '			<span class="acl-action">' . JText::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '">' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '">'
+				. JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '">' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '">'
+				. JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
 		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '">'
-			. JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
+				. JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';

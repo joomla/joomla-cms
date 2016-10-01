@@ -5,18 +5,18 @@
 	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
-	* Joomla is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
+	* Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
 	* It's a free and OpenSource software, distributed under the GNU General Public License version 2 or later.
 	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL, or SQL Server to run.
 	You can find full technical requirements here: https://www.joomla.org/about-joomla/technical-requirements.html.
 
 3- Is Joomla! for you?
-	* Joomla is the right solution for most content web projects: https://docs.joomla.org/Portal:Learn_More
+	* Joomla! is the right solution for most content web projects: https://docs.joomla.org/Portal:Learn_More
 	* See Joomla's core features - https://www.joomla.org/core-features.html
 	* Try out our online demo: https://demo.joomla.org/
 
 4- How to find a Joomla! translation?
-	* Repository of accredited language packs: http://community.joomla.org/translations.html
+	* Repository of accredited language packs: https://community.joomla.org/translations.html
 	* You can also add languages directly to your website via your Joomla! administration panel: https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site/Installing_New_Language
 	* Learn how to setup a Multilingual Joomla! Site: https://docs.joomla.org/J3.x:Setup_a_Multilingual_Site
 
@@ -25,9 +25,9 @@
 	* Before installing, read the beginners guide: https://docs.joomla.org/Portal:Beginners
 
 6- What are the benefits of Joomla?
-	* The functionality of a Joomla website can be extended by installing extensions that you can create (or download) to suit your needs.
+	* The functionality of a Joomla! website can be extended by installing extensions that you can create (or download) to suit your needs.
 	* There are many ready-made extensions that you can download and install.
-	* Check out the Joomla! Extensions Directory (JED): http://extensions.joomla.org
+	* Check out the Joomla! Extensions Directory (JED): https://extensions.joomla.org
 
 7- Is it easy to change the layout display?
 	* The layout is controlled by templates that you can edit.
@@ -38,7 +38,7 @@
 	* Check the minimum requirements here: https://www.joomla.org/about-joomla/technical-requirements.html
 	* How do you install Joomla - hhttps://docs.joomla.org/J3.x:Installing_Joomla
 	* You could start your Joomla! experience building your site on a local test server.
-	When ready it can be moved to an on-line hosting account of your choice.
+	When ready it can be moved to an online hosting account of your choice.
 	See the tutorial: https://docs.joomla.org/Installing_Joomla_locally
 
 9- Updates are free!

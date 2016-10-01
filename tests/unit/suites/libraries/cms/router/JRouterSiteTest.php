@@ -58,6 +58,7 @@ class JRouterSiteTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
+		unset($this->server);
 
 		parent::tearDown();
 	}

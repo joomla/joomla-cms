@@ -74,7 +74,9 @@ class JToolbarButtonTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer);
+		unset($this->toolbar);
+		unset($this->object);
 		$this->restoreFactoryState();
 
 		parent::tearDown();

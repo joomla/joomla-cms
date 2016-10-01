@@ -52,7 +52,7 @@ class JCacheTest_Construct extends PHPUnit_Framework_TestCase
 		$cache2 = JCache::getInstance($type);
 		$this->assertTrue(
 			($cache !== $cache2),
-			'Type: ' . $type . ' Recieved the same instance twice'
+			'Type: ' . $type . ' received the same instance twice'
 		);
 	}
 }

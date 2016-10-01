@@ -161,7 +161,7 @@ abstract class JHtmlTag
 	 *
 	 * @since   3.1
 	 */
-	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
+	public static function ajaxfield($selector = '#jform_tags', $allowCustom = true)
 	{
 		// Get the component parameters
 		$params = JComponentHelper::getParams("com_tags");

@@ -98,7 +98,7 @@ class JCacheStorageTest extends TestCase
 	{
 		$this->restoreErrorHandlers();
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 

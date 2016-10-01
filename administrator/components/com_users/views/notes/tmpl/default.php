@@ -91,7 +91,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'notes.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php $subject = $item->subject ? $this->escape($item->subject) : JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
+						<?php $subject = $item->subject ? $item->subject : JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
 						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id=' . $item->id); ?>"><?php echo $this->escape($subject); ?></a>
 						<?php else : ?>

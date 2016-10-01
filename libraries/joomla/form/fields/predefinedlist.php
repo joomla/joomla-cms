@@ -80,7 +80,7 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 
 					$options[] = (object) array(
 						'value' => $value,
-						'text'  => $text
+						'text'  => $text,
 					);
 				}
 			}

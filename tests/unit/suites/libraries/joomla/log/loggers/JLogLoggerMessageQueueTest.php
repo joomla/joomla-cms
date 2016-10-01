@@ -45,6 +45,7 @@ class JLogLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		JFactory::$application = $this->app;
+		parent::tearDown();
 	}
 
 	/**

@@ -35,13 +35,10 @@ class JFormFieldComponentLayoutTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$field = new JFormFieldComponentlayout();
-
-		$this->assertTrue(
-			$field->setup(
-				new SimpleXmlElement('<field name="componentlayout" type="componentlayout" extension="com_content" client_id="0" view="blog" />'),
-				'value'
-			)
+		$field = new JFormFieldComponentlayout;
+		$field->setup(
+			new SimpleXmlElement('<field name="componentlayout" type="componentlayout" extension="com_content" client_id="0" view="blog" />'),
+			'value'
 		);
 
 		$this->assertNotEmpty(

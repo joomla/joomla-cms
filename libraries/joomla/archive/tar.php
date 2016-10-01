@@ -41,7 +41,8 @@ class JArchiveTar implements JArchiveExtractable
 		0x34 => 'Block special file',
 		0x35 => 'Directory',
 		0x36 => 'FIFO special file',
-		0x37 => 'Contiguous file');
+		0x37 => 'Contiguous file',
+	);
 
 	/**
 	 * Tar file data buffer
@@ -210,7 +211,8 @@ class JArchiveTar implements JArchiveExtractable
 					'date' => octdec($info['mtime']),
 					'name' => trim($info['filename']),
 					'size' => octdec($info['size']),
-					'type' => isset($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
+					'type' => isset($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null,
+				);
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35))
 				{

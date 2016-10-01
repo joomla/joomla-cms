@@ -58,6 +58,23 @@ class JGithubPackageOrgsTest extends PHPUnit_Framework_TestCase
 		$this->object = new JGithubPackageOrgs($this->options, $this->client);
 	}
 
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options);
+		unset($this->client);
+		unset($this->response);
+		unset($this->object);
+		parent::tearDown();
+	}
+
     /**
      * @covers JGithubPackageOrgs::getList
      */

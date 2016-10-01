@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -2054,7 +2054,7 @@ class FOFModel extends FOFUtilsObject
 	 *
 	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  FOFDatabaseQuery
 	 */
 	public function buildQuery($overrideLimits = false)
 	{
@@ -3115,7 +3115,7 @@ class FOFModel extends FOFUtilsObject
 	/**
 	 * Method to get the database driver object
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  FOFDatabaseDriver
 	 */
 	public function getDbo()
 	{
@@ -3152,7 +3152,7 @@ class FOFModel extends FOFUtilsObject
 	/**
 	 * Method to set the database driver object
 	 *
-	 * @param   JDatabaseDriver  $db  A JDatabaseDriver based object
+	 * @param   FOFDatabaseDriver  $db  A FOFDatabaseDriver based object
 	 *
 	 * @return  void
 	 */

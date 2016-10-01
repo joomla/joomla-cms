@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
- * Single check box field.
+ * Single checkbox field.
  * This is a boolean field with null for false and the specified option for true
  *
  * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox

@@ -118,6 +118,11 @@ class JFormFieldModal_Category extends JFormField
 		{
 			$linkCategories .= '&amp;forcedLanguage=' . $this->element['language'];
 			$linkCategory   .= '&amp;forcedLanguage=' . $this->element['language'];
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY') . ' &#8212; ' . $this->element['label'];
+		}
+		else
+		{
+			$modalTitle = JText::_('COM_CATEGORIES_CHANGE_CATEGORY');
 		}
 
 		$urlSelect = $linkCategories . '&amp;' . JSession::getFormToken() . '=1';
@@ -144,7 +149,7 @@ class JFormFieldModal_Category extends JFormField
 
 		if (empty($title))
 		{
-			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY');
+			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true);
 		}
 
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -195,14 +200,14 @@ class JFormFieldModal_Category extends JFormField
 			'bootstrap.renderModal',
 			'categorySelect' . $this->id . 'Modal',
 			array(
-				'title'       => JText::_('COM_CATEGORIES_SELECT_A_CATEGORY'),
+				'title'       => $modalTitle,
 				'url'         => $urlSelect,
 				'height'      => '400px',
 				'width'       => '800px',
 				'bodyHeight'  => '70',
 				'modalWidth'  => '80',
-				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>',
 			)
 		);
 
@@ -220,9 +225,9 @@ class JFormFieldModal_Category extends JFormField
 				'width'       => '800px',
 				'bodyHeight'  => '70',
 				'modalWidth'  => '80',
-				'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+				'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
 						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
-						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 						. '<button type="button" class="btn btn-primary" aria-hidden="true"'
 						. ' onclick="jQuery(\'#categoryEdit' . $value . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
