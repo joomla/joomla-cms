@@ -14,8 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Content table
  *
- * @since       11.1
- * @deprecated  Class will be removed upon completion of transition to UCM
+ * @since       1.5
+ * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
  */
 class JTableContent extends JTable
 {
@@ -24,7 +24,8 @@ class JTableContent extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -44,7 +45,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function _getAssetName()
 	{
@@ -58,7 +60,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function _getAssetTitle()
 	{
@@ -73,7 +76,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
@@ -118,7 +122,8 @@ class JTableContent extends JTable
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -169,7 +174,8 @@ class JTableContent extends JTable
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function check()
 	{
@@ -279,9 +285,12 @@ class JTableContent extends JTable
 	/**
 	 * Gets the default asset values for a component.
 	 *
-	 * @param   $string  $component  The component asset name to search for
+	 * @param   string  $component  The component asset name to search for
 	 *
 	 * @return  JAccessRules  The JAccessRules object for the asset
+	 *
+	 * @since   3.4
+	 * @deprecated  3.4 Class will be removed upon completion of transition to UCM
 	 */
 	protected function getDefaultAssetValues($component)
 	{
@@ -304,7 +313,8 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.6
+	 * @deprecated  3.1.4 Class will be removed upon completion of transition to UCM
 	 */
 	public function store($updateNulls = false)
 	{

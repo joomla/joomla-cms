@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Menu table
  *
- * @since  11.1
+ * @since  1.5
  */
 class JTableMenu extends JTableNested
 {
@@ -23,7 +23,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     JTable::bind()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -86,7 +86,7 @@ class JTableMenu extends JTableNested
 	 * @return  boolean  True on success
 	 *
 	 * @see     JTable::check()
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -160,7 +160,7 @@ class JTableMenu extends JTableNested
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     JTable::store()
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
