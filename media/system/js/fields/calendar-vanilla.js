@@ -33,7 +33,7 @@
 		var calendars = document.querySelectorAll(".field-calendar");
 		for (var i = 0; i < calendars.length; i++) {
 			var input = calendars[i].getElementsByTagName('input')[0];
-			input.value = (input.getAttribute("data-alt-value") !== '0000-00-00 00:00:00') ? input.getAttribute("data-alt-value") : '0000-00-00 00:00:00';
+			input.value = (input.getAttribute("data-alt-value") && (input.getAttribute("data-alt-value") !== '0000-00-00 00:00:00' || input.getAttribute("data-alt-value") !== '' )) ? input.getAttribute("data-alt-value") : '0000-00-00 00:00:00';
 		}
 	};
 
@@ -136,7 +136,7 @@
 
 	JoomlaCalendar.prototype.checkInputs = function () {
 		// Get the date from the input
-		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
+		var inputAltValueDate = Date.parseFieldDate(this.inputField.getAttribute('data-alt-value'), this.params.dateFormat, 'gregorian');
 
 		if (this.inputField.value.length) {
 			this.date = inputAltValueDate;
@@ -205,12 +205,12 @@
 	JoomlaCalendar.prototype.callHandler = function () {
 		/** Output the date **/
 		if (this.params.dateType == 'gregorian') {
-			this.inputField.setAttribute('data-alt-value', this.date.print('%Y-%m-%d %H:%M:%S', this.params.dateType, false));
+			this.inputField.setAttribute('data-alt-value', this.date.print(this.params.dateFormat, this.params.dateType, false));
 			if (this.inputField.getAttribute('data-alt-value') && this.inputField.getAttribute('data-alt-value') != '0000-00-00 00:00:00') {
 				this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 			}
 		} else {
-			this.inputField.setAttribute('data-alt-value', this.date.print('%Y-%m-%d %H:%M:%S', 'gregorian', false));
+			this.inputField.setAttribute('data-alt-value', this.date.print(this.params.dateFormat, 'gregorian', false));
 			this.inputField.setAttribute('data-local-value', this.date.print(this.params.dateFormat, this.params.dateType, false));
 			this.inputField.value = this.date.print(this.params.dateFormat, this.params.dateType, true);
 		}
@@ -690,7 +690,7 @@
 
 				if (t12) {
 					var selAttr = true,
-						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), '%Y-%m-%d %H:%M:%S', 'gregorian');
+						altDate = Date.parseFieldDate(self.inputField.getAttribute('data-alt-value'), self.params.dateFormat, 'gregorian');
 					pm = (altDate.getHours() > 12);
 
 					var part = createElement("select", cell);
