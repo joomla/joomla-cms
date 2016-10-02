@@ -151,6 +151,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Get the HTML document.
 		$html = JDocument::getInstance('html', $attributes);
+
+		//todo: Why is this document fetched and immediately overwritten?
 		$doc = JFactory::getDocument();
 
 		// Swap the documents.
@@ -164,6 +166,8 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		// Swap the app.
 		$app = JFactory::getApplication();
+
+		//todo: Why is the app fetched and immediately overwritten?
 		$app = $site;
 
 		// Start the indexer.
