@@ -27,10 +27,11 @@ class PlgButtonModule extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @param   string  $name  The name of the button to add
+	 * @param   string    $name  The name of the button to add
 	 *
-	 * @since  3.5
-	 * @return array
+	 * @return  stdClass  The button options as stdClass
+	 *
+	 * @since   3.5
 	 */
 	public function onDisplay($name)
 	{
@@ -41,7 +42,7 @@ class PlgButtonModule extends JPlugin
 		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
 				. $name . '&amp;' . JSession::getFormToken() . '=1';
 
-		$button          = new JObject;
+		$button          = new stdClass;
 		$button->modal   = true;
 		$button->class   = 'btn';
 		$button->link    = $link;
