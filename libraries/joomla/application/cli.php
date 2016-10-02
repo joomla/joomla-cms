@@ -9,25 +9,31 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\AbstractCliApplication;
+use Joomla\Application\Cli\CliInput;
 use Joomla\Application\Cli\CliOutput;
+use Joomla\Application\Cli\Output\Stdout;
+use Joomla\Cms\Application\Autoconfigurable;
+use Joomla\Cms\Application\EventAware;
+use Joomla\Cms\Application\IdentityAware;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
  * Base class for a Joomla! command line application.
  *
  * @since  11.4
- * @note   As of 4.0 this class will be abstract
  */
-class JApplicationCli extends JApplicationBase
+abstract class JApplicationCli extends AbstractCliApplication implements DispatcherAwareInterface
 {
-	/**
-	 * @var    CliOutput  The output type.
-	 * @since  3.3
-	 */
-	protected $output;
+	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware;
 
 	/**
-	 * @var    JApplicationCli  The application instance.
+	 * The application instance.
+	 *
+	 * @var    JApplicationCli
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -35,56 +41,39 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   JInputCli         $input       An optional argument to provide dependency injection for the application's
-	 *                                         input object.  If the argument is a JInputCli object that object will become
-	 *                                         the application's input object, otherwise a default input object is created.
-	 * @param   Registry          $config      An optional argument to provide dependency injection for the application's
-	 *                                         config object.  If the argument is a Registry object that object will become
-	 *                                         the application's config object, otherwise a default config object is created.
-	 * @param   JEventDispatcher  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                                         event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                                         the application's event dispatcher, if it is null then the default event dispatcher
-	 *                                         will be created based on the application's loadDispatcher() method.
+	 * @param   JInputCli            $input       An optional argument to provide dependency injection for the application's
+	 *                                            input object.  If the argument is a JInputCli object that object will become
+	 *                                            the application's input object, otherwise a default input object is created.
+	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
+	 *                                            config object.  If the argument is a Registry object that object will become
+	 *                                            the application's config object, otherwise a default config object is created.
+	 * @param   CliOutput            $output      The output handler.
+	 * @param   CliInput             $cliInput    The CLI input handler.
+	 * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                                            event dispatcher.  If the argument is a DispatcherInterface object that object will become
+	 *                                            the application's event dispatcher, if it is null then the default event dispatcher
+	 *                                            will be created based on the application's loadDispatcher() method.
 	 *
-	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, Registry $config = null, JEventDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
+		DispatcherInterface $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
-		// @codeCoverageIgnoreStart
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
-		// @codeCoverageIgnoreEnd
 
-		// If an input object is given use it.
-		if ($input instanceof JInput)
-		{
-			$this->input = $input;
-		}
-		// Create the input based on the application logic.
-		else
-		{
-			if (class_exists('JInput'))
-			{
-				$this->input = new JInputCli;
-			}
-		}
+		$this->input    = $input ?: new JInputCli;
+		$this->config   = $config ?: new Registry;
+		$this->output   = $output ?: new Stdout;
+		$this->cliInput = $cliInput ?: new CliInput;
 
-		// If a config object is given use it.
-		if ($config instanceof Registry)
+		if ($dispatcher)
 		{
-			$this->config = $config;
+			$this->setDispatcher($dispatcher);
 		}
-		// Instantiate a new configuration object.
-		else
-		{
-			$this->config = new Registry;
-		}
-
-		$this->loadDispatcher($dispatcher);
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -92,6 +81,7 @@ class JApplicationCli extends JApplicationBase
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
 		$this->set('execution.timestamp', time());
+		$this->set('execution.microtimestamp', microtime(true));
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
@@ -107,23 +97,22 @@ class JApplicationCli extends JApplicationBase
 	 * @return  JApplicationCli
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($name = null)
 	{
 		// Only create the object if it doesn't exist.
-		if (empty(self::$instance))
+		if (empty(static::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
+			if (!class_exists($name))
 			{
-				self::$instance = new $name;
+				throw new RuntimeException(sprintf('Unable to load application: %s', $name), 500);
 			}
-			else
-			{
-				self::$instance = new JApplicationCli;
-			}
+
+			static::$instance = new $name;
 		}
 
-		return self::$instance;
+		return static::$instance;
 	}
 
 	/**
@@ -146,74 +135,11 @@ class JApplicationCli extends JApplicationBase
 	}
 
 	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Write a string to standard output.
-	 *
-	 * @param   string   $text  The text to display.
-	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
-	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.1
-	 */
-	public function out($text = '', $nl = true)
-	{
-		$output = $this->getOutput();
-		$output->out($text, $nl);
-
-		return $this;
-	}
-
-	/**
-	 * Get an output object.
-	 *
-	 * @return  CliOutput
-	 *
-	 * @since   3.3
-	 */
-	public function getOutput()
-	{
-		if (!$this->output)
-		{
-			// In 4.0, this will convert to throwing an exception and you will expected to
-			// initialize this in the constructor. Until then set a default.
-			$default = new Joomla\Application\Cli\Output\Xml;
-			$this->setOutput($default);
-		}
-
-		return $this->output;
-	}
-
-	/**
 	 * Set an output object.
 	 *
 	 * @param   CliOutput  $output  CliOutput object
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return  $this
 	 *
 	 * @since   3.3
 	 */
@@ -222,64 +148,5 @@ class JApplicationCli extends JApplicationBase
 		$this->output = $output;
 
 		return $this;
-	}
-
-	/**
-	 * Get a value from standard input.
-	 *
-	 * @return  string  The input string from standard input.
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.1
-	 */
-	public function in()
-	{
-		return rtrim(fread(STDIN, 8192), "\n");
-	}
-
-	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
-	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_CONFIGURATION will be used.
-	 * @param   string  $class  The class name to instantiate.
-	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
-	 *
-	 * @since   11.1
-	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
-	{
-		// Instantiate variables.
-		$config = array();
-
-		if (empty($file))
-		{
-			$file = JPATH_CONFIGURATION . '/configuration.php';
-
-			// Applications can choose not to have any configuration data by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
-				$file = '';
-			}
-		}
-
-		if (!empty($file))
-		{
-			JLoader::register($class, $file);
-
-			if (class_exists($class))
-			{
-				$config = new $class;
-			}
-			else
-			{
-				throw new RuntimeException('Configuration class does not exist.');
-			}
-		}
-
-		return $config;
 	}
 }

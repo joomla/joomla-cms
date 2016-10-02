@@ -73,7 +73,7 @@ class JLayoutFile extends JLayoutBase
 		$this->setOptions($options);
 
 		// Main properties
-		$this->setLayout($layoutId);
+		$this->setLayoutId($layoutId);
 		$this->basePath = $basePath;
 
 		// Init Enviroment
@@ -334,7 +334,7 @@ class JLayoutFile extends JLayoutBase
 		$langParts = explode('-', $langTag);
 
 		$suffixes = array($langTag, $langParts[0]);
-		$suffixes[] = $lang->isRTL() ? 'rtl' : 'ltr';
+		$suffixes[] = $lang->isRtl() ? 'rtl' : 'ltr';
 
 		$this->setSuffixes($suffixes);
 
@@ -466,7 +466,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('component', $component);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -501,26 +501,7 @@ class JLayoutFile extends JLayoutBase
 		$this->options->set('client', $client);
 
 		// Refresh include paths
-		$this->refreshIncludePaths();
-	}
-
-	/**
-	 * Change the layout
-	 *
-	 * @param   string  $layoutId  Layout to render
-	 *
-	 * @return  self
-	 *
-	 * @since   3.2
-	 *
-	 * @deprecated  3.5  Use setLayoutId()
-	 */
-	public function setLayout($layoutId)
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::setLayoutId() instead.', JLog::WARNING, 'deprecated');
-
-		return $this->setLayoutId($layoutId);
+		$this->clearIncludePaths();
 	}
 
 	/**
@@ -536,25 +517,6 @@ class JLayoutFile extends JLayoutBase
 	{
 		$this->layoutId = $layoutId;
 		$this->fullPath = null;
-
-		return $this;
-	}
-
-	/**
-	 * Refresh the list of include paths
-	 *
-	 * @return  self
-	 *
-	 * @since   3.2
-	 *
-	 * @deprecated  3.5  Use JLayoutFile::clearIncludePaths()
-	 */
-	protected function refreshIncludePaths()
-	{
-		// Log usage of deprecated function
-		JLog::add(__METHOD__ . '() is deprecated, use JLayoutFile::clearIncludePaths() instead.', JLog::WARNING, 'deprecated');
-
-		$this->clearIncludePaths();
 
 		return $this;
 	}

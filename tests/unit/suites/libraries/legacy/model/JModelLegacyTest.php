@@ -38,6 +38,16 @@ class JModelLegacyTest extends TestCaseDatabase
 	public function setUp()
 	{
 		parent::setUp();
+
+		// Get the mocks
+		$this->saveFactoryState();
+
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
+
 		$this->fixture = JModelLegacy::getInstance('Lead', 'TestModel');
 	}
 
@@ -51,6 +61,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	public function tearDown()
 	{
 		$this->fixture = null;
+		$this->restoreFactoryState();
 		parent::tearDown();
 	}
 

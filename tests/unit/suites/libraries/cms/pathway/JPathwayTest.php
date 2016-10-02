@@ -73,46 +73,20 @@ class JPathwayTest extends TestCase
 	 */
 	public function testGetInstance()
 	{
-		$current = TestReflection::getValue('JApplicationHelper', '_clients');
+		$this->assertInstanceOf('JPathway', JPathway::getInstance('site'));
+	}
 
-		// Test Client
-		$obj = new stdClass;
-		$obj->id = 0;
-		$obj->name = 'inspector';
-		$obj->path = JPATH_TESTS;
-
-		$obj2 = new stdClass;
-		$obj2->id = 1;
-		$obj2->name = 'inspector2';
-		$obj2->path = __DIR__ . '/stubs';
-
-		TestReflection::setValue('JApplicationHelper', '_clients', array($obj, $obj2));
-
-		$pathway = JPathway::getInstance('');
-
-		$this->assertInstanceOf('JPathway', $pathway);
-
-		$pathway = JPathway::getInstance('Inspector2');
-
-		$this->assertInstanceOf('JPathwayInspector2', $pathway);
-
-		$ret = true;
-
-		try
-		{
-			JPathway::getInstance('Error');
-		}
-		catch (Exception $e)
-		{
-			$ret = false;
-		}
-
-		if ($ret)
-		{
-			$this->fail('JPathway did not throw a proper exception with a false client.');
-		}
-
-		TestReflection::setValue('JApplicationHelper', '_clients', $current);
+	/**
+	 * Test JPathway::getInstance() for an error loading the requested class.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 * @expectedException  RuntimeException
+	 */
+	public function testGetInstanceMissingClass()
+	{
+		JPathway::getInstance('error');
 	}
 
 	/**

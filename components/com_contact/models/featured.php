@@ -19,69 +19,6 @@ use Joomla\Registry\Registry;
 class ContactModelFeatured extends JModelList
 {
 	/**
-	 * Category items data
-	 *
-	 * @var         array
-	 * @since       1.6.0-beta1
-	 * @deprecated  4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_item = null;
-
-	/**
-	 * Who knows what this was for? It has never been used
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used ever
-	 */
-	protected $_articles = null;
-
-	/**
-	 * Get the siblings of the category
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_siblings = null;
-
-	/**
-	 * Get the children of the category
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_children = null;
-
-	/**
-	 * Get the parent of the category
-	 *
-	 * @var          array
-	 * @since        1.6.0-beta1
-	 * @deprecated   4.0  Variable not used since 1.6.0-beta8
-	 */
-	protected $_parent = null;
-
-	/**
-	 * The category that applies.
-	 *
-	 * @access      protected
-	 * @var         object
-	 * @deprecated   4.0  Variable not used ever
-	 */
-	protected $_category = null;
-
-	/**
-	 * The list of other contact categories.
-	 *
-	 * @access    protected
-	 * @var       array
-	 * @deprecated   4.0  Variable not used ever
-	 */
-	protected $_categories = null;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.

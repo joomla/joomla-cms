@@ -265,17 +265,10 @@ abstract class JModelForm extends JModelLegacy
 	protected function preprocessData($context, &$data)
 	{
 		// Get the dispatcher and load the users plugins.
-		$dispatcher = JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array($context, &$data));
-
-		// Check for errors encountered while preparing the data.
-		if (count($results) > 0 && in_array(false, $results, true))
-		{
-			$this->setError($dispatcher->getError());
-		}
+		JFactory::getApplication()->triggerEvent('onContentPrepareData', array($context, &$data));
 	}
 
 	/**
@@ -289,30 +282,14 @@ abstract class JModelForm extends JModelLegacy
 	 *
 	 * @see     JFormField
 	 * @since   12.2
-	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		// Import the appropriate plugin group.
 		JPluginHelper::importPlugin($group);
 
-		// Get the dispatcher.
-		$dispatcher = JEventDispatcher::getInstance();
-
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true))
-		{
-			// Get the last error.
-			$error = $dispatcher->getError();
-
-			if (!($error instanceof Exception))
-			{
-				throw new Exception($error);
-			}
-		}
+		JFactory::getApplication()->triggerEvent('onContentPrepareForm', array($form, $data));
 	}
 
 	/**
@@ -333,8 +310,7 @@ abstract class JModelForm extends JModelLegacy
 		// Include the plugins for the delete events.
 		JPluginHelper::importPlugin($this->events_map['validate']);
 
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+		JFactory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);

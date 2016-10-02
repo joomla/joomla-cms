@@ -23,7 +23,6 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 * The event name.
 	 *
 	 * @var    string
-	 *
 	 * @since  1.0
 	 */
 	protected $name;
@@ -32,7 +31,6 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 * The event arguments.
 	 *
 	 * @var    array
-	 *
 	 * @since  1.0
 	 */
 	protected $arguments;
@@ -41,7 +39,6 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	 * A flag to see if the event propagation is stopped.
 	 *
 	 * @var    boolean
-	 *
 	 * @since  1.0
 	 */
 	protected $stopped = false;
@@ -109,8 +106,7 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	/**
 	 * Get all event arguments.
 	 *
-	 * @return  array  An associative array of argument names as keys
-	 *                 and their values as values.
+	 * @return  array  An associative array of argument names as keys and their values as values.
 	 *
 	 * @since   1.0
 	 */
@@ -129,6 +125,18 @@ abstract class AbstractEvent implements EventInterface, ArrayAccess, Serializabl
 	public function isStopped()
 	{
 		return true === $this->stopped;
+	}
+
+	/**
+	 * Stops the propagation of the event to further event listeners.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function stopPropagation()
+	{
+		$this->stopped = true;
 	}
 
 	/**

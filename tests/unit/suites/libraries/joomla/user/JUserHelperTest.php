@@ -37,8 +37,10 @@ class JUserHelperTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		// Set the session object for JUserHelper::addUserToGroup()
-		JFactory::$session = $this->getMockSession();
+		JFactory::$application = $this->getMockCmsApp();
+		JFactory::$application->expects($this->any())
+			->method('triggerEvent')
+			->willReturn([]);
 	}
 
 	/**
@@ -127,9 +129,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testGetUserGroups($userid, $expected, $error)
 	{
-		$this->assertThat(
-			JUserHelper::getUserGroups($userid),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			JUserHelper::getUserGroups($userid)
 		);
 	}
 
@@ -170,10 +172,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testGetUserId($username, $expected, $error)
 	{
-		$expResult = $expected;
-		$this->assertThat(
-			JUserHelper::getUserId($username),
-			$this->equalTo($expResult)
+		$this->assertEquals(
+			$expected,
+			JUserHelper::getUserId($username)
 		);
 
 	}
@@ -213,9 +214,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testAddUserToGroup($userId, $groupId, $expected)
 	{
-		$this->assertThat(
-			JUserHelper::addUserToGroup($userId, $groupId),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			JUserHelper::addUserToGroup($userId, $groupId)
 		);
 	}
 
@@ -267,10 +268,9 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testRemoveUserFromGroup($userId, $groupId, $expected)
 	{
-		$this->markTestSkipped('Unexpected test failure in CMS environment');
-		$this->assertThat(
-			JUserHelper::removeUserFromGroup($userId, $groupId),
-			$this->equalTo($expected)
+		$this->assertEquals(
+			$expected,
+			JUserHelper::removeUserFromGroup($userId, $groupId)
 		);
 	}
 
@@ -284,10 +284,12 @@ class JUserHelperTest extends TestCaseDatabase
 		return array(
 			'Valid User' => array(
 				'30cc6de70fb18231196a28dd83363d57',
-				true),
+				true
+			),
 			'Invalid User' => array(
 				'30cc6de70fb18231196a28dd83363d72',
-				false),
+				false
+			),
 		);
 	}
 
@@ -305,6 +307,13 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testActivateUser($activation, $expected)
 	{
+		// Configure the container
+		$container = (new \Joomla\DI\Container)
+			->set('dispatcher', $this->getMockDispatcher())
+			->set('db', static::$driver);
+
+		JFactory::$container = $container;
+
 		$this->assertEquals(
 			JUserHelper::activateUser($activation),
 			$expected
@@ -322,57 +331,61 @@ class JUserHelperTest extends TestCaseDatabase
 	public function testHashPassword()
 	{
 		$this->assertEquals(
-			strpos(JUserHelper::hashPassword('mySuperSecretPassword'), '$P$'),
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword'), '$2y$'),
 			0,
-			'Joomla currently hashes passwords using PHPass, verify the correct prefix is present'
+			'Joomla currently hashes passwords using BCrypt, verify the correct prefix is present'
 		);
 	}
 
+	/**
+	 * Test cases for testVerifyPassword
+	 *
+	 * @return  array
+	 */
+	public function casesVerifyPassword()
+	{
+		// Plaintext password, hashed password
+		return [
+			'PHPass' => [
+				'mySuperSecretPassword',
+				'$P$D6vpNa203LlaQUah3KcVQIhgFZ4E6o1'
+			],
+			'BCrypt' => [
+				'mySuperSecretPassword',
+				'$2y$10$0GfV1d.dfYvWu83ZKFD4surhsaRpVjUZqhG9bShmPcSnmqwCes/lC'
+			],
+			'SHA256' => [
+				'mySuperSecretPassword',
+				'{SHA256}972c5f5b845306847cb4bf941b7a683f1a828f48c46abef8b9ae4dac9798b1d5:oeLpBZ2sFJwLZmm4'
+			],
+			'Joomla MD5' => [
+				'mySuperSecretPassword',
+				'693560686f4d591d8dd5e34006442061'
+			],
+			// See https://github.com/joomla/joomla-cms/pull/5551
+			'Joomla 1.0' => [
+				'test',
+				'098f6bcd4621d373cade4e832627b4f6:'
+			]
+		];
+	}
 	/**
 	 * Testing verifyPassword().
 	 *
+	 * @param   string   $password  The plaintext password to check.
+	 * @param   string   $hash      The hash to verify against.
+	 *
+	 * @dataProvider casesVerifyPassword
 	 * @covers  JUserHelper::verifyPassword
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function testVerifyPassword()
+	public function testVerifyPassword($password, $hash)
 	{
 		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '$P$D6vpNa203LlaQUah3KcVQIhgFZ4E6o1'),
-			'Properly verifies a password hashed with PHPass'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '$2y$10$0GfV1d.dfYvWu83ZKFD4surhsaRpVjUZqhG9bShmPcSnmqwCes/lC'),
-			'Properly verifies a password hashed with BCrypt'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '{SHA256}972c5f5b845306847cb4bf941b7a683f1a828f48c46abef8b9ae4dac9798b1d5:oeLpBZ2sFJwLZmm4'),
-			'Properly verifies a password hashed with SHA256'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '693560686f4d591d8dd5e34006442061'),
-			'Properly verifies a password hashed with Joomla legacy MD5'
-		);
-	}
-
-	/**
-	 * Testing verifyPassword() with a Joomla 1.0 style password with no salt.
-	 *
-	 * @covers  JUserHelper::verifyPassword
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @see     https://github.com/joomla/joomla-cms/pull/5551
-	 */
-	public function testVerifyPasswordWithNoSalt()
-	{
-		$this->assertTrue(
-			JUserHelper::verifyPassword('test', '098f6bcd4621d373cade4e832627b4f6:'),
-			'Joomla 1.0 passwords without a legacy hash are not verified correctly'
+			JUserHelper::verifyPassword($password, $hash),
+			'Properly verifies a password'
 		);
 	}
 

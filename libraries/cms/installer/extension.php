@@ -141,25 +141,3 @@ class JInstallerExtension extends JObject
 		}
 	}
 }
-
-/**
- * Deprecated class placeholder. You should use JInstallerExtension instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JExtension extends JInstallerExtension
-{
-	/**
-	 * Constructor
-	 *
-	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
-	 *
-	 * @since  3.1
-	 */
-	public function __construct(SimpleXMLElement $element = null)
-	{
-		parent::__construct($element);
-	}
-}

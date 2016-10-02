@@ -176,30 +176,18 @@ class JRouter
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
-				// Load the router object
-				$info = JApplicationHelper::getClientInfo($client, true);
-
-				if (is_object($info))
-				{
-					$path = $info->path . '/includes/router.php';
-
-					if (file_exists($path))
-					{
-						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-						include_once $path;
-					}
-				}
-			}
-
-			if (class_exists($classname))
-			{
-				self::$instances[$client] = new $classname($options);
-			}
-			else
-			{
 				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
+
+			// Check for a possible service from the container otherwise manually instantiate the class
+			if (JFactory::getContainer()->exists($classname))
+			{
+				self::$instances[$client] = JFactory::getContainer()->get($classname);
+			}
+  			else
+  			{
+				self::$instances[$client] = new $classname($options);
+  			}
 		}
 
 		return self::$instances[$client];
@@ -404,7 +392,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function attachBuildRule($callback, $stage = self::PROCESS_DURING)
+	public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('build' . $stage, $this->_rules))
 		{
@@ -427,7 +415,7 @@ class JRouter
 	 *
 	 * @since   1.5
 	 */
-	public function attachParseRule($callback, $stage = self::PROCESS_DURING)
+	public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
 		if (!array_key_exists('parse' . $stage, $this->_rules))
 		{

@@ -9,12 +9,15 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', JLog::WARNING, 'deprecated');
+
 /**
  * Image Filter class fill background with color;
  *
  * @package     Joomla.Platform
  * @subpackage  Image
  * @since       3.4
+ * @deprecated  5.0  Use Joomla\Image\Filter\Backgroundfill instead
  */
 class JImageFilterBackgroundfill extends JImageFilter
 {
@@ -28,6 +31,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *
 	 * @since   3.4
 	 * @throws  InvalidArgumentException
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Backgroundfill::execute() instead
 	 */
 	public function execute(array $options = array())
 	{
@@ -84,11 +88,11 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *                         or hex RGBA string when alpha FF is opaque.
 	 *                         Defaults to black and opaque alpha
 	 *
-	 * @return  array  Associative array of red, green, blue and alpha		 
+	 * @return  array  Associative array of red, green, blue and alpha
 	 *
 	 * @since   3.4
-	 *
 	 * @note    '#FF0000FF' returns an array with alpha of 0 (opaque)
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Backgroundfill::sanitizeColor() instead
 	 */
 	protected function sanitizeColor($input)
 	{

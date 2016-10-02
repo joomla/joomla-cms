@@ -538,7 +538,7 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 				$this->parent->manifestClass = new $classname($this);
 
 				// And set this so we can copy it later
-				$this->set('manifest_script', $manifestScript);
+				$this->manifest_script = $manifestScript;
 			}
 		}
 
@@ -688,15 +688,4 @@ class JInstallerAdapterPackage extends JInstallerAdapter
 			return false;
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder. You should use JInstallerAdapterPackage instead.
- *
- * @since       3.1
- * @deprecated  4.0
- * @codeCoverageIgnore
- */
-class JInstallerPackage extends JInstallerAdapterPackage
-{
 }

@@ -37,6 +37,12 @@ class JTableExtensionTest extends TestCaseDatabase
 
 		JFactory::$session = $this->getMockSession();
 
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getDispatcher')
+			->willReturn($this->getMockDispatcher());
+		JFactory::$application = $mockApp;
+
 		$this->object = new JTableExtension(self::$driver);
 	}
 

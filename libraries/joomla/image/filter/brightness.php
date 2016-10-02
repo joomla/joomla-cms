@@ -9,10 +9,13 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JImageFilterBrightness is deprecated, use Joomla\Image\Filter\Brightness instead.', JLog::WARNING, 'deprecated');
+
 /**
  * Image Filter class adjust the brightness of an image.
  *
- * @since  11.3
+ * @since       11.3
+ * @deprecated  5.0  Use Joomla\Image\Filter\Brightness instead
  */
 class JImageFilterBrightness extends JImageFilter
 {
@@ -25,6 +28,7 @@ class JImageFilterBrightness extends JImageFilter
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
+	 * @deprecated  5.0  Use Joomla\Image\Filter\Brightness::execute() instead
 	 */
 	public function execute(array $options = array())
 	{

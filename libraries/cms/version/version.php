@@ -30,7 +30,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELEASE = '3.6';
+	const RELEASE = '4.0';
 
 	/**
 	 * Maintenance version.
@@ -38,7 +38,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_LEVEL = '3-rc1';
+	const DEV_LEVEL = '0-dev';
 
 	/**
 	 * Development status.
@@ -46,7 +46,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Release Candidate';
+	const DEV_STATUS = 'Development';
 
 	/**
 	 * Build number.
@@ -70,7 +70,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '27-September-2016';
+	const RELDATE = '4-July-2016';
 
 	/**
 	 * Release time.
@@ -78,7 +78,7 @@ final class JVersion
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '21:52';
+	const RELTIME = '15:28';
 
 	/**
 	 * Release timezone.
@@ -103,36 +103,6 @@ final class JVersion
 	 * @since  3.5
 	 */
 	const URL = '<a href="https://www.joomla.org">Joomla!</a> is Free Software released under the GNU General Public License.';
-
-	/**
-	 * Magic getter providing access to constants previously defined as class member vars.
-	 *
-	 * @param   string  $name  The name of the property.
-	 *
-	 * @return  mixed   A value if the property name is valid.
-	 *
-	 * @since   3.5
-	 * @deprecated  4.0  Access the constants directly
-	 */
-	public function __get($name)
-	{
-		if (defined("JVersion::$name"))
-		{
-			JLog::add(
-				'Accessing JVersion data through class member variables is deprecated, use the corresponding constant instead.',
-				JLog::WARNING,
-				'deprecated'
-			);
-
-			return constant("JVersion::$name");
-		}
-
-		$trace = debug_backtrace();
-		trigger_error(
-			'Undefined constant via __get(): ' . $name . ' in ' . $trace[0]['file'] . ' on line ' . $trace[0]['line'],
-			E_USER_NOTICE
-		);
-	}
 
 	/**
 	 * Check if we are in development mode

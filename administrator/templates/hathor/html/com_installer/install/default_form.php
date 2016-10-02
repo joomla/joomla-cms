@@ -92,17 +92,17 @@ JFactory::getDocument()->addScriptDeclaration("
 	<?php endif; ?>
 	<div class="width-70 fltlft">
 
-		<?php $firstTab = JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array()); ?>
+		<?php $firstTab = JFactory::getApplication()->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
 
 		<?php // Show installation fieldsets ?>
-		<?php $tabs = JEventDispatcher::getInstance()->trigger('onInstallerAddInstallationTab', array()); ?>
+		<?php $tabs = JFactory::getApplication()->triggerEvent('onInstallerAddInstallationTab', array()); ?>
 		<?php foreach ($tabs as $tab) : ?>
 			<fieldset class="uploadform">
 				<?php echo $tab['content']; ?>
 			</fieldset>
 		<?php endforeach; ?>
 
-		<?php $lastTab = JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array()); ?>
+		<?php $lastTab = JFactory::getApplication()->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
 
 		<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 		<?php if (!$tabs) : ?>

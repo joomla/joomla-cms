@@ -21,13 +21,23 @@ class JLogEntry
 {
 	/**
 	 * Application responsible for log entry.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	public $category;
 
 	/**
+	 * The message context.
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	public $context;
+
+	/**
 	 * The date the message was logged.
+	 *
 	 * @var    JDate
 	 * @since  11.1
 	 */
@@ -35,6 +45,7 @@ class JLogEntry
 
 	/**
 	 * Message to be logged.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -42,6 +53,7 @@ class JLogEntry
 
 	/**
 	 * The priority of the message to be logged.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 * @see    JLogEntry::$priorities
@@ -50,6 +62,7 @@ class JLogEntry
 
 	/**
 	 * List of available log priority levels [Based on the Syslog default levels].
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -78,10 +91,11 @@ class JLogEntry
 	 * @param   int     $priority  Message priority based on {$this->priorities}.
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
+	 * @param   array   $context   An optional array with additional message context.
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($message, $priority = JLog::INFO, $category = '', $date = null)
+	public function __construct($message, $priority = JLog::INFO, $category = '', $date = null, array $context = array())
 	{
 		$this->message = (string) $message;
 
@@ -92,6 +106,7 @@ class JLogEntry
 		}
 
 		$this->priority = $priority;
+		$this->context  = $context;
 
 		// Sanitize category if it exists.
 		if (!empty($category))

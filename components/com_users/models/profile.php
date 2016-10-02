@@ -152,18 +152,10 @@ class UsersModelProfile extends JModelForm
 			$this->data->params = $registry->toArray();
 
 			// Get the dispatcher and load the users plugins.
-			$dispatcher = JEventDispatcher::getInstance();
 			JPluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
-			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $this->data));
-
-			// Check for errors encountered while preparing the data.
-			if (count($results) && in_array(false, $results, true))
-			{
-				$this->setError($dispatcher->getError());
-				$this->data = false;
-			}
+			$results = JFactory::getApplication()->triggerEvent('onContentPrepareData', array('com_users.profile', $this->data));
 		}
 
 		return $this->data;

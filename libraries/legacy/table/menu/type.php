@@ -38,6 +38,17 @@ class JTableMenuType extends JTable
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->menutype = JApplicationHelper::stringURLSafe($this->menutype);
 
 		if (empty($this->menutype))

@@ -208,6 +208,9 @@ class PlgUserJoomla extends JPlugin
 		// Mark the user as logged in
 		$instance->guest = 0;
 
+		// Load the logged in user to the application
+		$this->app->loadIdentity($instance);
+
 		$session = JFactory::getSession();
 
 		// Grab the current session ID
@@ -216,6 +219,7 @@ class PlgUserJoomla extends JPlugin
 		// Fork the session
 		$session->fork();
 
+		// Register the needed session variables
 		$session->set('user', $instance);
 
 		// Ensure the new session's metadata is written to the database

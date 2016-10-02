@@ -9,17 +9,21 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Cms\Application\Autoconfigurable;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionInterface;
 use Joomla\String\StringHelper;
 
 /**
  * Base class for a Joomla! Web application.
  *
  * @since  11.4
- * @note   As of 4.0 this class will be abstract
  */
 class JApplicationWeb extends JApplicationBase
 {
+	use Autoconfigurable;
+
 	/**
 	 * @var    string  Character encoding string.
 	 * @since  11.3
@@ -57,7 +61,7 @@ class JApplicationWeb extends JApplicationBase
 	protected $language;
 
 	/**
-	 * @var    JSession  The application session object.
+	 * @var    SessionInterface  The application session object.
 	 * @since  11.3
 	 */
 	protected $session;
@@ -193,7 +197,7 @@ class JApplicationWeb extends JApplicationBase
 	 * Initialise the application.
 	 *
 	 * @param   mixed  $session     An optional argument to provide dependency injection for the application's
-	 *                              session object.  If the argument is a JSession object that object will become
+	 *                              session object.  If the argument is a SessionInterface object that object will become
 	 *                              the application's session object, if it is false then there will be no session
 	 *                              object, and if it is null then the default session object will be created based
 	 *                              on the application's loadSession() method.
@@ -208,7 +212,7 @@ class JApplicationWeb extends JApplicationBase
 	 *                              object, and if it is null then the default language object will be created based
 	 *                              on the application's loadLanguage() method.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a DispatcherInterface object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
@@ -221,12 +225,12 @@ class JApplicationWeb extends JApplicationBase
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.3
 	 */
-	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
+	public function initialise($session = null, $document = null, $language = null, DispatcherInterface $dispatcher = null)
 	{
 		// Create the session based on the application logic.
 		if ($session !== false)
 		{
-			$this->loadSession($session);
+			$this->setSession($session);
 		}
 
 		// Create the document based on the application logic.
@@ -241,7 +245,10 @@ class JApplicationWeb extends JApplicationBase
 			$this->loadLanguage($language);
 		}
 
-		$this->loadDispatcher($dispatcher);
+		if ($dispatcher)
+		{
+			$this->setDispatcher($dispatcher);
+		}
 
 		return $this;
 	}
@@ -549,30 +556,6 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
-	 * Load an object or array into the application configuration object.
-	 *
-	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
-	 *
-	 * @return  JApplicationWeb  Instance of $this to allow chaining.
-	 *
-	 * @since   11.3
-	 */
-	public function loadConfiguration($data)
-	{
-		// Load the data into the configuration object.
-		if (is_array($data))
-		{
-			$this->config->loadArray($data);
-		}
-		elseif (is_object($data))
-		{
-			$this->config->loadObject($data);
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Set/get cachable state for the response.  If $allow is set, sets the cachable state of the
 	 * response.  Always returns the current state.
 	 *
@@ -776,12 +759,17 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Method to get the application session object.
 	 *
-	 * @return  JSession  The session object
+	 * @return  SessionInterface  The session object
 	 *
 	 * @since   11.3
 	 */
 	public function getSession()
 	{
+		if ($this->session === null)
+		{
+			throw new RuntimeException('A Joomla\Session\SessionInterface object has not been set.');
+		}
+
 		return $this->session;
 	}
 
@@ -862,54 +850,6 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return trim($uri);
-	}
-
-	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
-	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_CONFIGURATION will be used.
-	 * @param   string  $class  The class name to instantiate.
-	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
-	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
-	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
-	{
-		// Instantiate variables.
-		$config = array();
-
-		if (empty($file))
-		{
-			$file = JPATH_CONFIGURATION . '/configuration.php';
-
-			// Applications can choose not to have any configuration data
-			// by not implementing this method and not having a config file.
-			if (!file_exists($file))
-			{
-				$file = '';
-			}
-		}
-
-		if (!empty($file))
-		{
-			JLoader::register($class, $file);
-
-			if (class_exists($class))
-			{
-				$config = new $class;
-			}
-			else
-			{
-				throw new RuntimeException('Configuration class does not exist.');
-			}
-		}
-
-		return $config;
 	}
 
 	/**
@@ -1011,69 +951,29 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   11.3
+	 * @deprecated  5.0  The session should be injected as a service.
 	 */
 	public function loadSession(JSession $session = null)
 	{
-		if ($session !== null)
-		{
-			$this->session = $session;
-
-			return $this;
-		}
-
-		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('sess_lifetime')) ? $this->get('sess_lifetime') * 60 : 900);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('sess_handler', 'none');
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name' => $name,
-			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl'),
-		);
-
-		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
-
-		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		// Set the session object.
-		$this->session = $session;
+		$this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
 
 		return $this;
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
+	 * Sets the session for the application to use, if required.
 	 *
-	 * @return  void
+	 * @param   SessionInterface  $session  A session object.
 	 *
-	 * @since   12.2
+	 * @return  JApplicationWeb This method is chainable.
+	 *
+	 * @since   4.0
 	 */
-	public function afterSessionStart()
+	public function setSession(SessionInterface $session)
 	{
-		$session = JFactory::getSession();
+		$this->session = $session;
 
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry('session'));
-			$session->set('user', new JUser);
-		}
+		return $this;
 	}
 
 	/**

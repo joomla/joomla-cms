@@ -55,7 +55,7 @@ class JTableAsset extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__assets', 'id', $db);
 	}
@@ -95,6 +95,17 @@ class JTableAsset extends JTableNested
 	 */
 	public function check()
 	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
 		$this->parent_id = (int) $this->parent_id;
 
 		if (empty($this->rules))

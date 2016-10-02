@@ -17,14 +17,6 @@ defined('_JEXEC') or die;
 class ContactViewContact extends JViewLegacy
 {
 	/**
-	 * The item model state
-	 *
-	 * @var         \Joomla\Registry\Registry
-	 * @deprecated  4.0  Variable not used
-	 */
-	protected $state;
-
-	/**
 	 * The contact item
 	 *
 	 * @var   JObject

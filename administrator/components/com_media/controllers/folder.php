@@ -69,7 +69,6 @@ class MediaControllerFolder extends JControllerLegacy
 		$ret = true;
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher = JEventDispatcher::getInstance();
 
 		if (count($paths))
 		{
@@ -88,7 +87,7 @@ class MediaControllerFolder extends JControllerLegacy
 				if (is_file($object_file->filepath))
 				{
 					// Trigger the onContentBeforeDelete event.
-					$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
+					$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array('com_media.file', &$object_file));
 
 					if (in_array(false, $result, true))
 					{
@@ -101,7 +100,7 @@ class MediaControllerFolder extends JControllerLegacy
 					$ret &= JFile::delete($object_file->filepath);
 
 					// Trigger the onContentAfterDelete event.
-					$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
+					JFactory::getApplication()->triggerEvent('onContentAfterDelete', array('com_media.file', &$object_file));
 					$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 				}
 				elseif (is_dir($object_file->filepath))
@@ -111,7 +110,7 @@ class MediaControllerFolder extends JControllerLegacy
 					if (empty($contents))
 					{
 						// Trigger the onContentBeforeDelete event.
-						$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
+						$result = JFactory::getApplication()->triggerEvent('onContentBeforeDelete', array('com_media.folder', &$object_file));
 
 						if (in_array(false, $result, true))
 						{
@@ -124,7 +123,7 @@ class MediaControllerFolder extends JControllerLegacy
 						$ret &= !JFolder::delete($object_file->filepath);
 
 						// Trigger the onContentAfterDelete event.
-						$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
+						JFactory::getApplication()->triggerEvent('onContentAfterDelete', array('com_media.folder', &$object_file));
 						$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 					}
 					else
@@ -190,8 +189,7 @@ class MediaControllerFolder extends JControllerLegacy
 				// Trigger the onContentBeforeSave event.
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
-				$dispatcher = JEventDispatcher::getInstance();
-				$result     = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
+				$result     = JFactory::getApplication()->triggerEvent('onContentBeforeSave', array('com_media.folder', &$object_file, true));
 
 				if (in_array(false, $result, true))
 				{
@@ -207,7 +205,7 @@ class MediaControllerFolder extends JControllerLegacy
 					JFile::write($object_file->filepath . "/index.html", $data);
 
 					// Trigger the onContentAfterSave event.
-					$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
+					JFactory::getApplication()->triggerEvent('onContentAfterSave', array('com_media.folder', &$object_file, true));
 					$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 				}
 			}

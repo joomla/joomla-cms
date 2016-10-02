@@ -443,7 +443,7 @@ class JViewLegacyTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = TestMockApplication::create($this);
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$application->input = new JInput(array());
 
 		defined('JPATH_COMPONENT') or define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');

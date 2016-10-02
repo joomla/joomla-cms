@@ -131,10 +131,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher and session instances.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
-		TestReflection::setValue('JSession', 'instance', null);
-
 		// Reset some web inspector static settings.
 		JApplicationWebInspector::$headersSent = false;
 		JApplicationWebInspector::$connectionAlive = true;
@@ -176,9 +172,9 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function test__constructDependancyInjection()
 	{
-		if (PHP_VERSION == '5.4.29' || PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
+		if (PHP_VERSION == '5.5.13' || PHP_MINOR_VERSION == '6')
 		{
-			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
+			$this->markTestSkipped('Test is skipped due to a PHP bug in version 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
 		$mockInput = $this->getMock('JInput', array('test'), array(), '', false);
@@ -262,24 +258,6 @@ class JApplicationWebTest extends TestCase
 		$this->class->clearHeaders();
 
 		$this->assertEquals(array(), TestReflection::getValue($this->class, 'response')->headers);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::close method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testClose()
-	{
-		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
-
-		$this->class->close(3);
-
-		// Make sure the application is closed with code 3.
-		$this->assertSame($this->class->closed, 3);
 	}
 
 	/**
@@ -563,28 +541,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testExecuteWithoutDocument()
 	{
-		// Manually inject the dispatcher.
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
-			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
-			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
-
 		$this->class->execute();
-
-		$this->assertEquals(
-			array(
-				'onBeforeExecute',
-				'JWebDoExecute',
-				'onAfterExecute',
-				'onBeforeRespond',
-				'onAfterRespond',
-			),
-			TestMockDispatcher::$triggered
-		);
 	}
 
 	/**
@@ -602,35 +559,13 @@ class JApplicationWebTest extends TestCase
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
 
 		// Manually inject the mocks.
-		TestReflection::setValue($this->class, 'dispatcher', $dispatcher);
-		TestReflection::setValue($this->class, 'document', $document);
-
-		// Register all the methods so that we can track if they have been fired.
-		$this->class->registerEvent('onBeforeExecute', 'JWebTestExecute-onBeforeExecute')
-			->registerEvent('JWebDoExecute', 'JWebTestExecute-JWebDoExecute')
-			->registerEvent('onAfterExecute', 'JWebTestExecute-onAfterExecute')
-			->registerEvent('onBeforeRender', 'JWebTestExecute-onBeforeRender')
-			->registerEvent('onAfterRender', 'JWebTestExecute-onAfterRender')
-			->registerEvent('onBeforeRespond', 'JWebTestExecute-onBeforeRespond')
-			->registerEvent('onAfterRespond', 'JWebTestExecute-onAfterRespond');
+		$this->class->setDispatcher($dispatcher);
+		$this->class->loadDocument($document);
 
 		// Buffer the execution.
 		ob_start();
 		$this->class->execute();
 		$buffer = ob_get_clean();
-
-		$this->assertEquals(
-			array(
-				'onBeforeExecute',
-				'JWebDoExecute',
-				'onAfterExecute',
-				'onBeforeRender',
-				'onAfterRender',
-				'onBeforeRespond',
-				'onAfterRespond',
-			),
-			TestMockDispatcher::$triggered
-		);
 
 		$this->assertEquals('JWeb Body', $this->class->getBody());
 
@@ -699,23 +634,6 @@ class JApplicationWebTest extends TestCase
 		}
 
 		$this->assertEquals($expects, (array) $config);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::get method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testGet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->get('foo', 'car'));
-		$this->assertEquals('car', $this->class->get('goo', 'car'));
 	}
 
 	/**
@@ -801,7 +719,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
 		$this->assertAttributeInstanceOf('JLanguage', 'language', $this->class);
-		$this->assertAttributeInstanceOf('JEventDispatcher', 'dispatcher', $this->class);
+		$this->assertAttributeEmpty('dispatcher', $this->class);
 	}
 
 	/**
@@ -847,10 +765,10 @@ class JApplicationWebTest extends TestCase
 			->method('test')
 			->willReturnSelf();
 
-		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMock('\\Joomla\\Event\\DispatcherInterface', array('addListener', 'dispatch', 'removeListener'), array(), '', false);
 		$mockDispatcher
 			->expects($this->any())
-			->method('test')
+			->method('dispatch')
 			->willReturnSelf();
 
 		$this->class->initialise($mockSession, $mockDocument, $mockLanguage, $mockDispatcher);
@@ -858,7 +776,7 @@ class JApplicationWebTest extends TestCase
 		$this->assertSame($mockSession, $this->class->getSession()->test());
 		$this->assertSame($mockDocument, $this->class->getDocument()->test());
 		$this->assertSame($mockLanguage, $this->class->getLanguage()->test());
-		$this->assertSame($mockDispatcher, TestReflection::getValue($this->class, 'dispatcher')->test());
+		$this->assertSame($mockDispatcher, $this->class->getDispatcher()->dispatch('foo'));
 	}
 
 	/**
@@ -893,9 +811,6 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testLoadDocument()
 	{
-		// Inject the mock dispatcher into the JEventDispatcher singleton.
-		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
-
 		$this->class->loadDocument();
 
 		$this->assertAttributeInstanceOf('JDocument', 'document', $this->class);
@@ -1188,26 +1103,6 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Tests the JApplicationWeb::registerEvent method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testRegisterEvent()
-	{
-		TestReflection::setValue($this->class, 'dispatcher', $this->getMockDispatcher());
-
-		$this->assertSame($this->class, $this->class->registerEvent('onJWebRegisterEvent', 'function'));
-
-		$this->assertArrayHasKey(
-			'onJWebRegisterEvent',
-			TestMockDispatcher::$handlers,
-			'Checks the events were passed to the mock dispatcher.'
-		);
-	}
-
-	/**
 	 * Tests the JApplicationWeb::render method.
 	 *
 	 * @return  void
@@ -1252,24 +1147,6 @@ class JApplicationWebTest extends TestCase
 			),
 			$this->class->headers
 		);
-	}
-
-	/**
-	 * Tests the JApplicationWeb::set method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function testSet()
-	{
-		$config = new Registry(array('foo' => 'bar'));
-
-		TestReflection::setValue($this->class, 'config', $config);
-
-		$this->assertEquals('bar', $this->class->set('foo', 'car'));
-
-		$this->assertEquals('car', $config->get('foo'));
 	}
 
 	/**

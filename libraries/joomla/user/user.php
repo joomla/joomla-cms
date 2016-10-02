@@ -275,7 +275,7 @@ class JUser extends JObject
 			if (!$id = $userHelper->getUserId($identifier))
 			{
 				// If the $identifier doesn't match with any id, just return an empty JUser.
-				return new JUser;
+				return new static;
 			}
 		}
 		else
@@ -287,14 +287,13 @@ class JUser extends JObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new JUser;
+			return new static;
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			$user = new JUser($id, $userHelper);
-			self::$instances[$id] = $user;
+			self::$instances[$id] = new static($id, $userHelper);
 		}
 
 		return self::$instances[$id];
@@ -778,9 +777,8 @@ class JUser extends JObject
 
 			// Fire the onUserBeforeSave event.
 			JPluginHelper::importPlugin('user');
-			$dispatcher = JEventDispatcher::getInstance();
 
-			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+			$result = JFactory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
 			if (in_array(false, $result, true))
 			{
@@ -805,7 +803,7 @@ class JUser extends JObject
 			}
 
 			// Fire the onUserAfterSave event
-			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+			JFactory::getApplication()->triggerEvent('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
 		}
 		catch (Exception $e)
 		{
@@ -829,8 +827,7 @@ class JUser extends JObject
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		$dispatcher = JEventDispatcher::getInstance();
-		$dispatcher->trigger('onUserBeforeDelete', array($this->getProperties()));
+		JFactory::getApplication()->triggerEvent('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object
 		$table = $this->getTable();
@@ -841,7 +838,7 @@ class JUser extends JObject
 		}
 
 		// Trigger the onUserAfterDelete event
-		$dispatcher->trigger('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
+		JFactory::getApplication()->triggerEvent('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
 
 		return $result;
 	}

@@ -100,7 +100,7 @@ class JFactoryTest extends TestCaseDatabase
 	 */
 	public function testGetDocument()
 	{
-		JFactory::$application = TestMockApplication::create($this);
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->assertInstanceOf(
 			'JDocument',
@@ -135,22 +135,6 @@ class JFactoryTest extends TestCaseDatabase
 		$this->assertInstanceOf(
 			'JCacheControllerView',
 			JFactory::getCache('', 'view', null),
-			'Line: ' . __LINE__
-		);
-	}
-
-	/**
-	 * Tests the JFactory::getACL method.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function testGetAcl()
-	{
-		$this->assertInstanceOf(
-			'JAccess',
-			JFactory::getAcl(),
 			'Line: ' . __LINE__
 		);
 	}
@@ -284,7 +268,7 @@ class JFactoryTest extends TestCaseDatabase
 	 */
 	public function testGetUserInstance()
 	{
-		JFactory::$session = $this->getMockSession();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->assertInstanceOf(
 			'JUser',

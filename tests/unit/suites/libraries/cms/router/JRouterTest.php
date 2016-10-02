@@ -125,20 +125,6 @@ class JRouterTest extends TestCase
 
 	/**
 	 * @since   3.4
-	 */
-	public function testLegacyApplicationRouterIsStillLoaded()
-	{
-		JApplicationHelper::addClientInfo(array(
-			'id'   => 3,
-			'name' => 'tester',
-			'path' => __DIR__ . '/data'
-		));
-
-		$this->assertInstanceOf('JRouter', JRouter::getInstance('tester'));
-	}
-
-	/**
-	 * @since   3.4
 	 * @expectedException RuntimeException
 	 * @testdox getInstance() throws a RuntimeException, if a router for an unknown client is requested
 	 */
@@ -314,11 +300,7 @@ class JRouterTest extends TestCase
 	 */
 	public function testRouterThrowsInvalidArgumentExceptionWhenAttachingBuildRuleToUndefinedStage()
 	{
-		$callback = array(
-			function (JRouter $router, JUri $uri)
-			{
-			}
-		);
+		$callback = function (JRouter $router, JUri $uri) { };
 		$this->object->attachBuildRule($callback, 'undefined');
 	}
 
@@ -329,11 +311,7 @@ class JRouterTest extends TestCase
 	 */
 	public function testRouterThrowsInvalidArgumentExceptionWhenAttachingParseRuleToUndefinedStage()
 	{
-		$callback = array(
-			function (JRouter $router, JUri $uri)
-			{
-			}
-		);
+		$callback = function (JRouter $router, JUri $uri) { };
 		$this->object->attachParseRule($callback, 'undefined');
 	}
 

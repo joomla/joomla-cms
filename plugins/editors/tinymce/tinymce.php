@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Event\Event;
+
 /**
  * TinyMCE Editor Plugin
  *
@@ -273,7 +275,7 @@ class PlgEditorTinymce extends JPlugin
 			// Paragraph
 			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
-		
+
 		$ignore_filter = false;
 
 		// Text filtering
@@ -281,7 +283,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			// Use filters from com_config
 			$filter = static::getGlobalFilters();
-			
+
 			$ignore_filter = $filter === false;
 
 			$tagBlacklist  = !empty($filter->tagBlacklist) ? $filter->tagBlacklist : array();
@@ -998,7 +1000,16 @@ class PlgEditorTinymce extends JPlugin
 	private function tinyButtons($name, $excluded)
 	{
 		// Get the available buttons
-		$buttons = $this->_subject->getButtons($name, $excluded);
+		$buttonsEvent = new Event(
+			'getButtons',
+			[
+				'name'    => $this->_name,
+				'buttons' => $excluded,
+			]
+		);
+
+		$buttonsResult = $this->getDispatcher()->dispatch('getButtons', $buttonsEvent);
+		$buttons       = $buttonsResult['result'];
 
 		// Init the arrays for the buttons
 		$tinyBtns  = array();

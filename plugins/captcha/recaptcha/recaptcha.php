@@ -111,6 +111,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '1.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$challenge  = null;
+		$response   = null;
+		$spam       = false;
 
 		switch ($version)
 		{
@@ -130,25 +133,19 @@ class PlgCaptchaRecaptcha extends JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
-
-			return false;
+			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
-
-			return false;
+			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
-
-			return false;
+			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
@@ -187,10 +184,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if (trim($answers[0]) !== 'true')
 				{
-					// @todo use exceptions here
-					$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
-
-					return false;
+					throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))), 403);
 				}
 				break;
 			case '2.0':
@@ -201,10 +195,9 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 				if ( !isset($response->success) || !$response->success)
 				{
-					// @todo use exceptions here
 					foreach ($response->errorCodes as $error)
 					{
-						$this->_subject->setError($error);
+						throw new RuntimeException($error, 403);
 					}
 
 					return false;

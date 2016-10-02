@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Log\DelegatingPsrLogger;
+
 /**
  * Joomla! Log Class
  *
@@ -129,26 +131,27 @@ class JLog
 	 * @param   integer  $priority  Message priority.
 	 * @param   string   $category  Type of entry
 	 * @param   string   $date      Date of entry (defaults to now if not specified or blank)
+	 * @param   array    $context   An optional array with additional message context.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function add($entry, $priority = self::INFO, $category = '', $date = null)
+	public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
 	{
 		// Automatically instantiate the singleton object if not already done.
-		if (empty(self::$instance))
+		if (empty(static::$instance))
 		{
-			self::setInstance(new JLog);
+			static::setInstance(new static);
 		}
 
 		// If the entry object isn't a JLogEntry object let's make one.
 		if (!($entry instanceof JLogEntry))
 		{
-			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
+			$entry = new JLogEntry((string) $entry, $priority, $category, $date, $context);
 		}
 
-		self::$instance->addLogEntry($entry);
+		static::$instance->addLogEntry($entry);
 	}
 
 	/**
@@ -166,12 +169,12 @@ class JLog
 	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
 		// Automatically instantiate the singleton object if not already done.
-		if (empty(self::$instance))
+		if (empty(static::$instance))
 		{
-			self::setInstance(new JLog);
+			static::setInstance(new static);
 		}
 
-		self::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
+		static::$instance->addLoggerInternal($options, $priorities, $categories, $exclude);
 	}
 
 	/**
@@ -236,6 +239,24 @@ class JLog
 	}
 
 	/**
+	 * Creates a delegated PSR-3 compatible logger from the current singleton instance. This method always returns a new delegated logger.
+	 *
+	 * @return  DelegatingPsrLogger
+	 *
+	 * @since   4.0
+	 */
+	public static function createDelegatedLogger()
+	{
+		// Ensure a singleton instance has been created first
+		if (empty(static::$instance))
+		{
+			static::setInstance(new static);
+		}
+
+		return new DelegatingPsrLogger(static::$instance);
+	}
+
+	/**
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
 	 * Note: This is principally made available for testing and internal purposes.
 	 *
@@ -249,7 +270,7 @@ class JLog
 	{
 		if (($instance instanceof JLog) || $instance === null)
 		{
-			self::$instance = & $instance;
+			static::$instance = & $instance;
 		}
 	}
 

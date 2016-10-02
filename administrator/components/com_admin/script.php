@@ -244,7 +244,6 @@ class JoomlaInstallerScript
 			array('component', 'com_joomlaupdate', '', 1),
 
 			// Libraries
-			array('library', 'phputf8', '', 0),
 			array('library', 'joomla', '', 0),
 			array('library', 'idna_convert', '', 0),
 			array('library', 'fof', '', 0),
@@ -316,7 +315,6 @@ class JoomlaInstallerScript
 			array('plugin', 'newsfeeds', 'search', 0),
 			array('plugin', 'tags', 'search', 0),
 			array('plugin', 'languagefilter', 'system', 0),
-			array('plugin', 'p3p', 'system', 0),
 			array('plugin', 'cache', 'system', 0),
 			array('plugin', 'debug', 'system', 0),
 			array('plugin', 'log', 'system', 0),

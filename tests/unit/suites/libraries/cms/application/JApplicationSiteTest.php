@@ -104,7 +104,11 @@ class JApplicationSiteTest extends TestCaseDatabase
 
 		// Get a new JApplicationSite instance.
 		$this->class = new JApplicationSite($this->getMockInput(), $config);
+		$this->class->setSession(JFactory::$session);
+		$this->class->setDispatcher($this->getMockDispatcher());
 		TestReflection::setValue('JApplicationCms', 'instances', array('site' => $this->class));
+
+		JFactory::$application = $this->class;
 	}
 
 	/**
@@ -117,9 +121,9 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		// Reset the dispatcher and application instances.
-		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		// Reset the application instance.
 		TestReflection::setValue('JApplicationCms', 'instances', array());
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
 
 		$_SERVER = $this->backupServer;
 		unset($this->backupServer);
@@ -197,7 +201,6 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testGetParams()
 	{
-		JFactory::$application = $this->class;
 		$this->class->loadLanguage();
 		$params = $this->class->getParams('com_content');
 
@@ -281,8 +284,6 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		JFactory::$application = $this->class;
-
 		$document = $this->getMockDocument();
 
 		$this->assignMockReturns($document, array('render' => 'JWeb Body'));
@@ -332,12 +333,12 @@ class JApplicationSiteTest extends TestCaseDatabase
 	 */
 	public function testSetTemplate()
 	{
-		$this->class->setTemplate('beez3');
+		$this->class->setTemplate('protostar');
 
 		$template = $this->class->getTemplate(true);
 
 		$this->assertInstanceOf('\\Joomla\\Registry\\Registry', $template->params);
 
-		$this->assertEquals('beez3', $template->template);
+		$this->assertEquals('protostar', $template->template);
 	}
 }

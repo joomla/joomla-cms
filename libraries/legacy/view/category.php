@@ -115,14 +115,15 @@ class JViewCategory extends JViewLegacy
 		$category   = $this->get('Category');
 		$children   = $this->get('Children');
 		$parent     = $this->get('Parent');
+
 		if ($category == false)
 		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
 		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+			throw new InvalidArgumentException(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		$items      = $this->get('Items');
@@ -141,7 +142,7 @@ class JViewCategory extends JViewLegacy
 
 		if (!in_array($category->access, $groups))
 		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Setup the category parameters.
@@ -164,18 +165,26 @@ class JViewCategory extends JViewLegacy
 				// For some plugins.
 				!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
-				$dispatcher = JEventDispatcher::getInstance();
 				JPluginHelper::importPlugin('content');
 
-				$dispatcher->trigger('onContentPrepare', array($this->extension . '.category', &$itemElement, &$itemElement->params, 0));
+				JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
-				$results = $dispatcher->trigger('onContentAfterTitle', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent(
+					'onContentAfterTitle',
+					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentBeforeDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent(
+					'onContentBeforeDisplay',
+					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = $dispatcher->trigger('onContentAfterDisplay', array($this->extension . '.category', &$itemElement, &$itemElement->core_params, 0));
+				$results = JFactory::getApplication()->triggerEvent(
+					'onContentAfterDisplay',
+					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
+				);
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
 				if ($itemElement->text)

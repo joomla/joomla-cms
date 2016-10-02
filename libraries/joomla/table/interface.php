@@ -112,4 +112,13 @@ interface JTableInterface
 	 * @since   3.2
 	 */
 	public function store($updateNulls = false);
+
+	/**
+	 * Returns the identity (primary key) value of this record
+	 *
+	 * @return  mixed
+	 *
+	 * @since  4.0
+	 */
+	public function getId();
 }

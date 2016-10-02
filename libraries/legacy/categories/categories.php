@@ -141,17 +141,23 @@ class JCategories
 		{
 			$path = JPATH_SITE . '/components/' . $component . '/helpers/category.php';
 
-			if (is_file($path))
-			{
-				include_once $path;
-			}
-			else
+			if (!is_file($path))
 			{
 				return false;
 			}
+
+			include_once $path;
 		}
 
-		self::$instances[$hash] = new $classname($options);
+		// Check for a possible service from the container otherwise manually instantiate the class
+		if (JFactory::getContainer()->exists($classname))
+		{
+			self::$instances[$hash] = JFactory::getContainer()->get($classname);
+		}
+		else
+		{
+			self::$instances[$hash] = new $classname($options);
+		}
 
 		return self::$instances[$hash];
 	}

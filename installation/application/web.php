@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvent;
+use Joomla\DI\Container;
 
 /**
  * Joomla! Installation Application class.
@@ -21,18 +23,29 @@ final class InstallationApplicationWeb extends JApplicationCms
 	/**
 	 * Class constructor.
 	 *
+	 * @param   JInput                 $input      An optional argument to provide dependency injection for the application's
+	 *                                             input object.  If the argument is a JInput object that object will become
+	 *                                             the application's input object, otherwise a default input object is created.
+	 * @param   Registry               $config     An optional argument to provide dependency injection for the application's
+	 *                                             config object.  If the argument is a Registry object that object will become
+	 *                                             the application's config object, otherwise a default config object is created.
+	 * @param   JApplicationWebClient  $client     An optional argument to provide dependency injection for the application's
+	 *                                             client object.  If the argument is a JApplicationWebClient object that object will become
+	 *                                             the application's client object, otherwise a default client object is created.
+	 * @param   Container              $container  Dependency injection container.
+	 *
 	 * @since   3.1
 	 */
-	public function __construct()
+	public function __construct(JInput $input = null, Registry $config = null, JApplicationWebClient $client = null, Container $container = null)
 	{
 		// Register the application name.
-		$this->_name = 'installation';
+		$this->name = 'installation';
 
 		// Register the client ID.
-		$this->_clientId = 2;
+		$this->clientId = 2;
 
 		// Run the parent constructor.
-		parent::__construct();
+		parent::__construct($input, $config, $client, $container);
 
 		// Store the debug value to config based on the JDEBUG flag.
 		$this->config->set('debug', JDEBUG);
@@ -40,13 +53,29 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Register the config to JFactory.
 		JFactory::$config = $this->config;
 
-		// Register the application to JFactory.
-		JFactory::$application = $this;
-
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
 		array_pop($parts);
 		JUri::root(null, implode('/', $parts));
+	}
+
+	/**
+	 * After the session has been started we need to populate it with some default values.
+	 *
+	 * @param   SessionEvent  $event  Session event being triggered
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function afterSessionStart(SessionEvent $event)
+	{
+		$session = $event->getSession();
+
+		if ($session->isNew())
+		{
+			$session->set('registry', new Registry('session'));
+		}
 	}
 
 	/**
@@ -198,6 +227,35 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Dispatch the application.
 		$this->dispatch();
+	}
+
+	/**
+	 * Execute the application.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function execute()
+	{
+		// Perform application routines.
+		$this->doExecute();
+
+		// If we have an application document object, render it.
+		if ($this->document instanceof JDocument)
+		{
+			// Render the application output.
+			$this->render();
+		}
+
+		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		{
+			$this->compress();
+		}
+
+		// Send the application response.
+		$this->respond();
 	}
 
 	/**
@@ -483,65 +541,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		$this->document = $document;
-
-		return $this;
-	}
-
-	/**
-	 * Allows the application to load a custom or default session.
-	 *
-	 * The logic and options for creating this object are adequately generic for default cases
-	 * but for many applications it will make sense to override this method and create a session,
-	 * if required, based on more specific needs.
-	 *
-	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
-	 *
-	 * @return  InstallationApplicationWeb  This method is chainable.
-	 *
-	 * @since   3.1
-	 */
-	public function loadSession(JSession $session = null)
-	{
-		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name' => $name,
-			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl'),
-		);
-
-		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
-
-		if (!$session->get('registry') instanceof Registry)
-		{
-			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry('session'));
-		}
-
-		// Set the session object.
-		$this->session = $session;
-
-		// Register the session with JFactory.
-		JFactory::$session = $session;
 
 		return $this;
 	}

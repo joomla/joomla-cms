@@ -72,7 +72,6 @@ echo "Create list of changed files from git repository.\n";
  */
 $filesArray = array(
 	"administrator/index.php\n" => true,
-	"bin/index.html\n" => true,
 	"cache/index.html\n" => true,
 	"cli/index.html\n" => true,
 	"components/index.html\n" => true,
