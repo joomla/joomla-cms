@@ -48,7 +48,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -74,12 +74,12 @@ class FinderControllerIndexer extends JControllerLegacy
 			$state->start = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -112,7 +112,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -187,7 +187,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			$app = $admin;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (Exception $e)
@@ -196,7 +196,7 @@ class FinderControllerIndexer extends JControllerLegacy
 			$doc = $raw;
 
 			// Send the response.
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
@@ -217,7 +217,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$app->setHeader('Pragma', 'no-cache');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken('request') or static::sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -236,12 +236,12 @@ class FinderControllerIndexer extends JControllerLegacy
 			$state->complete = 1;
 
 			// Send the response.
-			$this->sendResponse($state);
+			static::sendResponse($state);
 		}
 		// Catch an exception and return the response.
 		catch (Exception $e)
 		{
-			$this->sendResponse($e);
+			static::sendResponse($e);
 		}
 	}
 
