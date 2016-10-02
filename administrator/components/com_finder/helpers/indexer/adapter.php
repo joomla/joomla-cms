@@ -904,7 +904,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// If category is present, factor in its states as well
 		if ($category !== null && $category == 0)
 		{
-				$item = 0;
+			$item = 0;
 		}
 
 		// Translate the state
