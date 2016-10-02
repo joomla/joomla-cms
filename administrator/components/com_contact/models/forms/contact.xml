@@ -478,8 +478,8 @@
 			<field
 				name="show_info"
 				type="list"
-				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
+				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
 				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -632,6 +632,18 @@
 			</field>
 
 			<field
+				name="show_misc"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
+				class="chzn-color"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
 				name="show_image"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
@@ -648,18 +660,6 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
-				class="chzn-color"
-				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
-				name="show_misc"
-				type="list"
-				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
 				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
