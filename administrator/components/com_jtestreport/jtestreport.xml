@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.1" method="upgrade">
+	<name>com_jtestreport</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2016</creationDate>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.6.3</version>
+	<description>COM_JTESTREPORT_XML_DESCRIPTION</description>
+	<administration>
+		<menu img="class:jtestreport">com_jtestreport</menu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>jtestreport.php</filename>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_jtestreport.ini</language>
+			<language tag="en-GB">language/en-GB.com_jtestreport.sys.ini</language>
+		</languages>
+	</administration>
+	<updateservers>
+		<server type="extension" name="Joomla! Test Report Component Update Site">https://update.joomla.org/core/extensions/com_jtestreport.xml</server>
+	</updateservers>
+</extension>

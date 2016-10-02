@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="personal" class="form-horizontal">
+
+		<field
+			name="name"
+			type="text"
+			label="COM_JTEXTREPORT_FIELD_NAME_LABEL"
+			description="COM_JTEXTREPORT_FIELD_NAME_DESC"
+			class=""
+			size="40"
+			required="false"
+		/>
+
+		<field
+				name="email"
+				type="text"
+				label="COM_JTEXTREPORT_FIELD_EMAIL_LABEL"
+				description="COM_JTEXTREPORT_FIELD_EMAIL_DESC"
+				class=""
+				size="40"
+				required="false"
+		/>
+
+		<field
+				name="github"
+				type="text"
+				label="COM_JTEXTREPORT_FIELD_GITHUB_LABEL"
+				description="COM_JTEXTREPORT_FIELD_GITHUB_DESC"
+				class=""
+				size="40"
+				required="false"
+		/>
+
+		</fieldset>
+
+		<fieldset name="site" class="form-horizontal">
+
+		<field
+				name="livesite"
+				type="radio"
+				label="COM_JTEXTREPORT_FIELD_LIVESITE_LABEL"
+				description="COM_JTEXTREPORT_FIELD_LIVESITE_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+		>
+			<!-- 0 = Vanilla Test, 1 = Updated Vanilla Test, 2 = Updated Production -->
+			<option value="0">COM_JTEXTREPORT_FIELD_LIVESITE_VALUE_0</option>
+			<option value="1">COM_JTEXTREPORT_FIELD_LIVESITE_VALUE_1</option>
+			<option value="2">COM_JTEXTREPORT_FIELD_LIVESITE_VALUE_2</option>
+		</field>
+		<field
+				name="prodenv"
+				type="radio"
+				label="COM_JTEXTREPORT_FIELD_PRODENV_LABEL"
+				description="COM_JTEXTREPORT_FIELD_PRODENV_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		<field
+				name="updatefrom"
+				type="list"
+				label="COM_JTEXTREPORT_FIELD_UPDATEFROM_LABEL"
+				description="COM_JTEXTREPORT_FIELD_UPDATEFROM_DESC"
+				class=""
+				default="3.6.2"
+		>
+			<option value="0">COM_JTEXTREPORT_FIELD_VALUE_UPDATEFROM_0</option>
+			<option value="2.5.x">2.5.x</option>
+			<option value="3.3.x">3.3.x</option>
+			<option value="3.4.x">3.4.x</option>
+			<option value="3.5.x">3.5.x</option>
+			<option value="3.6.2">3.6.0</option>
+			<option value="3.6.2">3.6.1</option>
+			<option value="3.6.2">3.6.2</option>
+		</field>
+		<field
+				name="overallresult"
+				type="radio"
+				label="COM_JTEXTREPORT_FIELD_OVERALLRESULT_LABEL"
+				description="COM_JTEXTREPORT_FIELD_OVERALLRESULT_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+
+</form>
