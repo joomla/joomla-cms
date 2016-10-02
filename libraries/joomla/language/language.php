@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Allows for quoting in language .ini files.
  */
@@ -398,7 +400,7 @@ class JLanguage
 		}
 
 		$string = JLanguageTransliterate::utf8_latin_to_ascii($string);
-		$string = JString::strtolower($string);
+		$string = StringHelper::strtolower($string);
 
 		return $string;
 	}
@@ -723,16 +725,17 @@ class JLanguage
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
+		// If language is null set as the current language.
+		if (!$lang)
+		{
+			$lang = $this->lang;
+		}
+
 		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		// with $default set to true
 		if (!$this->debug && ($lang != $this->default) && $default)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
-		}
-
-		if (!$lang)
-		{
-			$lang = $this->lang;
 		}
 
 		$path = self::getLanguagePath($basePath, $lang);

@@ -86,9 +86,10 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		if (!$result)
 		{
+			// Null out the connection to inform the constructor it will need to attempt to connect if this class is instantiated again
 			static::$_db = null;
 
-			throw new RuntimeException('Could not connect to memcache server');
+			throw new JCacheExceptionConnecting('Could not connect to memcache server');
 		}
 	}
 

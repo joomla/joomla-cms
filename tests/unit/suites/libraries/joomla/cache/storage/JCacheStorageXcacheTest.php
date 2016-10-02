@@ -20,7 +20,7 @@ class JCacheStorageXcacheTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageXcache::isSupported() || $this->isBlacklisted('xcache'))
+		if (!JCacheStorageXcache::isSupported())
 		{
 			$this->markTestSkipped('The XCache cache handler is not supported on this system.');
 		}

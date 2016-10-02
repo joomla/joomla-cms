@@ -71,19 +71,6 @@ abstract class TestCaseCache extends TestCase
 	}
 
 	/**
-	 * Check if the adapter is blacklisted in an environment
-	 *
-	 * @param   string  $name  The name of the adapter
-	 *
-	 * @return  boolean
-	 */
-	protected function isBlacklisted($name)
-	{
-		// Memcached & Redis test as supported on the Jenkins server but data processing fails, temporarily block them only in this environment
-		return in_array($name, array('memcached', 'redis')) && isset($_ENV['BUILD_TAG']) && strpos($_ENV['BUILD_TAG'], 'jenkins-cms-') === 0;
-	}
-
-	/**
 	 * @testdox  Data is correctly stored to and retrieved from the cache storage handler
 	 */
 	public function testCacheHit()
