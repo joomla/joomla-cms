@@ -30,6 +30,7 @@ class PlgButtonContact extends JPlugin
 	 * @param   string  $name  The name of the button to add
 	 *
 	 * @return array A four element array of (contact_id, contact_title, category_id, object)
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function onDisplay($name)
 	{
