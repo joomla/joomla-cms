@@ -110,7 +110,7 @@ class FinderRouter extends JComponentRouterBase
 
 		for ($i = 0; $i < $total; $i++)
 		{
-			$segments[$i] = str_replace('/-/', ':', $segments[$i]);
+			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
 		}
 
 		// Check if the view segment is set and it equals search or advanced.
