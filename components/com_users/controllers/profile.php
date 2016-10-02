@@ -136,8 +136,7 @@ class UsersControllerProfile extends UsersController
 			}
 
 			// Unset the passwords.
-			unset($requestData['password1']);
-			unset($requestData['password2']);
+			unset($requestData['password1'], $requestData['password2']);
 
 			// Save the data in the session.
 			$app->setUserState('com_users.edit.profile.data', $requestData);

@@ -60,9 +60,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 		// Are we dealing with a newsfeed that is attached to a menu item?
 		if (isset($query['view'], $query['id']) && ($mView == $query['view']) && ($mId == (int) $query['id']))
 		{
-			unset($query['view']);
-			unset($query['catid']);
-			unset($query['id']);
+			unset($query['view'], $query['catid'], $query['id']);
 
 			return $segments;
 		}
@@ -124,8 +122,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 				}
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
 		if (isset($query['layout']))

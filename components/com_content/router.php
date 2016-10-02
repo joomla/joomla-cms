@@ -195,8 +195,7 @@ class ContentRouter extends JComponentRouterBase
 				$segments[] = $id;
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
 		if ($view == 'archive')
