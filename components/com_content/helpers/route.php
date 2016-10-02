@@ -51,7 +51,7 @@ abstract class ContentHelperRoute
 			}
 		}
 
-		if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -100,7 +100,7 @@ abstract class ContentHelperRoute
 			$needles['category']   = $catids;
 			$needles['categories'] = $catids;
 
-			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;
@@ -164,7 +164,7 @@ abstract class ContentHelperRoute
 			$attributes = array('component_id');
 			$values     = array($component->id);
 
-			if ($language != '*')
+			if ($language !== '*')
 			{
 				$attributes[] = 'language';
 				$values[]     = array($needles['language'], '*');
@@ -190,7 +190,7 @@ abstract class ContentHelperRoute
 						 * language != * can override existing entries
 						 * language == * cannot override existing entries
 						 */
-						if ($item->language != '*' || !isset(self::$lookup[$language][$view][$item->query['id']]))
+						if ($item->language !== '*' || !isset(self::$lookup[$language][$view][$item->query['id']]))
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
@@ -220,8 +220,8 @@ abstract class ContentHelperRoute
 		$active = $menus->getActive();
 
 		if ($active
-			&& $active->component == 'com_content'
-			&& ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+			&& $active->component === 'com_content'
+			&& ($language === '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}

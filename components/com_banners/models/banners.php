@@ -62,7 +62,7 @@ class BannersModelBanners extends JModelList
 		$cid        = $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
-		$randomise  = ($ordering == 'random');
+		$randomise  = ($ordering === 'random');
 		$nullDate   = $db->quote($db->getNullDate());
 		$nowDate    = $db->quote(JFactory::getDate()->toSql());
 

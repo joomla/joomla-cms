@@ -36,7 +36,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 		$view   = $view === null ? $jinput->get('view') : $view;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view == 'newsfeed')
+		if ($view === 'newsfeed')
 		{
 			if ($id)
 			{
@@ -53,7 +53,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 			}
 		}
 
-		if ($view == 'category' || $view == 'categories')
+		if ($view === 'category' || $view === 'categories')
 		{
 			return self::getCategoryAssociations($id, 'com_newsfeeds');
 		}

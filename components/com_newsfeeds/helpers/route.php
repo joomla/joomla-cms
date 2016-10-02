@@ -50,7 +50,7 @@ abstract class NewsfeedsHelperRoute
 			}
 		}
 
-		if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -100,7 +100,7 @@ abstract class NewsfeedsHelperRoute
 			$needles['category'] = $catids;
 			$needles['categories'] = $catids;
 
-			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;
@@ -140,7 +140,7 @@ abstract class NewsfeedsHelperRoute
 			$attributes = array('component_id');
 			$values = array($component->id);
 
-			if ($language != '*')
+			if ($language !== '*')
 			{
 				$attributes[] = 'language';
 				$values[] = array($needles['language'], '*');
@@ -164,7 +164,7 @@ abstract class NewsfeedsHelperRoute
 						/* Here it will become a bit tricky
 						 language != * can override existing entries
 						 language == * cannot override existing entries */
-						if ($item->language != '*' || !isset(self::$lookup[$language][$view][$item->query['id']]))
+						if ($item->language !== '*' || !isset(self::$lookup[$language][$view][$item->query['id']]))
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
@@ -193,7 +193,7 @@ abstract class NewsfeedsHelperRoute
 		// Check if the active menuitem matches the requested language
 		$active = $menus->getActive();
 
-		if ($active && ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		if ($active && ($language === '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}

@@ -46,7 +46,7 @@ class TagsHelperRoute extends JHelperRoute
 
 			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
 			{
-				if ($routerMethod == 'getCategoryRoute')
+				if ($routerMethod === 'getCategoryRoute')
 				{
 					$link = $routerClass::$routerMethod($contentItemId, $language);
 				}

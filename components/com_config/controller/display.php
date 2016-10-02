@@ -95,7 +95,7 @@ class ConfigControllerDisplay extends JControllerBase
 			$view->document = $document;
 
 			// Reply for service requests
-			if ($viewFormat == 'json')
+			if ($viewFormat === 'json')
 			{
 				return $view->render();
 			}

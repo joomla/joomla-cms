@@ -341,7 +341,7 @@ class UsersModelProfile extends JModelForm
 			// Get the current One Time Password (two factor auth) configuration
 			$otpConfig = $model->getOtpConfig($userId);
 
-			if ($twoFactorMethod != 'none')
+			if ($twoFactorMethod !== 'none')
 			{
 				// Run the plugins
 				FOFPlatform::getInstance()->importPlugin('twofactorauth');

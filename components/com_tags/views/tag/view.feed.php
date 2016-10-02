@@ -35,7 +35,7 @@ class TagsViewTag extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != 'none')
+		if ($feedEmail !== 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -69,7 +69,7 @@ class TagsViewTag extends JViewLegacy
 				$feeditem->category    = $title;
 				$feeditem->author      = $author;
 
-				if ($feedEmail == 'site')
+				if ($feedEmail === 'site')
 				{
 					$item->authorEmail = $siteEmail;
 				}

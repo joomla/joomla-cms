@@ -49,7 +49,7 @@ class ContactRouter extends JComponentRouterBase
 		{
 			$view = $query['view'];
 
-			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_contact')
+			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component !== 'com_contact')
 			{
 				$segments[] = $query['view'];
 			}
@@ -64,11 +64,11 @@ class ContactRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if (isset($view) && ($view == 'category' || $view == 'contact'))
+		if (isset($view) && ($view === 'category' || $view === 'contact'))
 		{
 			if ($mView != $view || $mId != (int) $query['id'])
 			{
-				if ($view == 'contact' && isset($query['catid']))
+				if ($view === 'contact' && isset($query['catid']))
 				{
 					$catid = $query['catid'];
 				}
@@ -106,7 +106,7 @@ class ContactRouter extends JComponentRouterBase
 					$segments = array_merge($segments, array_reverse($array));
 				}
 
-				if ($view == 'contact')
+				if ($view === 'contact')
 				{
 					if ($advanced)
 					{
@@ -136,7 +136,7 @@ class ContactRouter extends JComponentRouterBase
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}

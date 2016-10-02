@@ -49,7 +49,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 		{
 			$view = $query['view'];
 
-			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_newsfeeds')
+			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component !== 'com_newsfeeds')
 			{
 				$segments[] = $query['view'];
 			}
@@ -65,11 +65,11 @@ class NewsfeedsRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if (isset($view) && ($view == 'category' || $view == 'newsfeed'))
+		if (isset($view) && ($view === 'category' || $view === 'newsfeed'))
 		{
 			if ($mView != $view || $mId != (int) $query['id'])
 			{
-				if ($view == 'newsfeed' && isset($query['catid']))
+				if ($view === 'newsfeed' && isset($query['catid']))
 				{
 					$catid = $query['catid'];
 				}
@@ -107,7 +107,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 					$segments = array_merge($segments, array_reverse($array));
 				}
 
-				if ($view == 'newsfeed')
+				if ($view === 'newsfeed')
 				{
 					if ($advanced)
 					{
@@ -136,7 +136,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}

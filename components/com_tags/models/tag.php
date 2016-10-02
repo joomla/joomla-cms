@@ -204,7 +204,7 @@ class TagsModelTag extends JModelList
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}

@@ -52,7 +52,7 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// Check again
-		if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_content')
+		if ($menuItemGiven && isset($menuItem) && $menuItem->component !== 'com_content')
 		{
 			$menuItemGiven = false;
 			unset($query['Itemid']);
@@ -91,7 +91,7 @@ class ContentRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if ($view == 'category' || $view == 'article')
+		if ($view === 'category' || $view === 'article')
 		{
 			if (!$menuItemGiven)
 			{
@@ -100,7 +100,7 @@ class ContentRouter extends JComponentRouterBase
 
 			unset($query['view']);
 
-			if ($view == 'article')
+			if ($view === 'article')
 			{
 				if (isset($query['id'], $query['catid']) && $query['catid'])
 				{
@@ -181,7 +181,7 @@ class ContentRouter extends JComponentRouterBase
 
 			$segments = array_merge($segments, $array);
 
-			if ($view == 'article')
+			if ($view === 'article')
 			{
 				if ($advanced)
 				{
@@ -198,9 +198,9 @@ class ContentRouter extends JComponentRouterBase
 			unset($query['id'], $query['catid']);
 		}
 
-		if ($view == 'archive')
+		if ($view === 'archive')
 		{
-			if (!$menuItemGiven || $menuItem->query['view'] != 'archive')
+			if (!$menuItemGiven || $menuItem->query['view'] !== 'archive')
 			{
 				// Did not work without removing Itemid
 				if (isset($menuItem))
@@ -226,7 +226,7 @@ class ContentRouter extends JComponentRouterBase
 			}
 		}
 
-		if ($view == 'featured')
+		if ($view === 'featured')
 		{
 			if (!$menuItemGiven)
 			{
@@ -251,7 +251,7 @@ class ContentRouter extends JComponentRouterBase
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}
@@ -305,7 +305,7 @@ class ContentRouter extends JComponentRouterBase
 			$vars['view'] = $segments[0];
 
 			// Called if no menu item created
-			if ($vars['view'] == 'archive')
+			if ($vars['view'] === 'archive')
 			{
 				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
 				$vars['month'] = $segments[$count - 1];

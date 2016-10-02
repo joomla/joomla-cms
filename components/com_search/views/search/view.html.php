@@ -146,7 +146,7 @@ class SearchViewSearch extends JViewLegacy
 			{
 				$row = & $results[$i]->text;
 
-				if ($state->get('match') == 'exact')
+				if ($state->get('match') === 'exact')
 				{
 					$searchwords = array($searchword);
 					$needle      = $searchword;
