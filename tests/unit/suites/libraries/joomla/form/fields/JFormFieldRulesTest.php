@@ -30,7 +30,6 @@ class JFormFieldRulesTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
-		JFactory::$session = $this->getMockSession();
 	}
 
 	/**
