@@ -112,9 +112,9 @@ else
 		}
 		?>
 		<?php
-			$uri   = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? trim($this->rssDoc[$i]->guid) : trim($this->rssDoc[$i]->uri);
+			$uri   = !empty($this->rssDoc[$i]->guid) || $this->rssDoc[$i]->guid !== null ? trim($this->rssDoc[$i]->guid) : trim($this->rssDoc[$i]->uri);
 			$uri   = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
-			$text  = !empty($this->rssDoc[$i]->content) || !is_null($this->rssDoc[$i]->content) ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description);
+			$text  = !empty($this->rssDoc[$i]->content) || $this->rssDoc[$i]->content !== null ? trim($this->rssDoc[$i]->content) : trim($this->rssDoc[$i]->description);
 			$title = trim($this->rssDoc[$i]->title);
 		?>
 			<li>
