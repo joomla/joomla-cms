@@ -2516,7 +2516,7 @@ SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__session](
 	[session_id] [nvarchar](200) NOT NULL DEFAULT '',
-	[client_id] [tinyint] NOT NULL DEFAULT 0,
+	[client_id] [tinyint] DEFAULT NULL,
 	[guest] [tinyint] NULL DEFAULT 1,
 	[time] [nvarchar](14) NULL DEFAULT '',
 	[data] [nvarchar](max) NULL,
