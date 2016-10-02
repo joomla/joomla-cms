@@ -153,8 +153,8 @@ class SearchViewSearch extends JViewLegacy
 				}
 				else
 				{
-					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
-					$searchwords = preg_split("/\s+/u", $searchworda);
+					$searchworda = preg_replace('#\xE3\x80\x80#', ' ', $searchword);
+					$searchwords = preg_split('/\s+/u', $searchworda);
 					$needle      = $searchwords[0];
 				}
 
