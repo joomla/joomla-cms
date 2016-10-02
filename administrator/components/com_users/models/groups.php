@@ -176,7 +176,7 @@ class UsersModelGroups extends JModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	private function populateExtraData(array $items)
 	{
