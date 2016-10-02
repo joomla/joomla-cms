@@ -417,16 +417,13 @@ class FinderModelIndex extends JModelList
 		{
 			$table->reset();
 
-			if ($table->load($pk))
+			if ($table->load($pk) && !$this->canEditState($table))
 			{
-				if (!$this->canEditState($table))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				// Prune items that you can't change.
+				unset($pks[$i]);
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
-					return false;
-				}
+				return false;
 			}
 		}
 
