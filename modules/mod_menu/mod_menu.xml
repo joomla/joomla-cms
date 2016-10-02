@@ -36,6 +36,8 @@
 					type="modal_menu"
 					label="MOD_MENU_FIELD_ACTIVE_LABEL"
 					description="MOD_MENU_FIELD_ACTIVE_DESC"
+					select="true"
+					new="true"
 					edit="true"
 					clear="true"
 					>
