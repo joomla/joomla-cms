@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for Sliders elements
  *
- * @since  1.6
+ * @since       1.6
  * @deprecated  __DEPLOY_VERSION__ These helpers are dependent on the deprecated MooTools support
  */
 abstract class JHtmlSliders
