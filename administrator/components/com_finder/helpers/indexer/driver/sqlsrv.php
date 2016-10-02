@@ -66,7 +66,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
-		if (!$isNew && $curSig == $oldSig)
+		if (!$isNew && $curSig === $oldSig)
 		{
 			return $linkId;
 		}
@@ -216,8 +216,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace('/', ' ', $ip);
-							$ip = str_replace('-', ' ', $ip);
+							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -577,7 +576,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 			$remaining--;
 
 			// Run the query if we've reached 1000 iterations or there are no tokens remaining
-			if ($iterations == 1000 || $remaining == 0)
+			if ($iterations === 1000 || $remaining === 0)
 			{
 				// Insert the tokens into the database.
 				$query->insert($db->quoteName('#__finder_tokens'))
@@ -600,12 +599,12 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 			}
 
 			// If there's nothing remaining, we're done looping
-			if ($remaining == 0)
+			if ($remaining === 0)
 			{
 				$loop = false;
 			}
 		}
-		while ($loop == true);
+		while ($loop === true);
 
 		return $values;
 	}

@@ -33,7 +33,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	public function parse($input)
 	{
 		// Strip invalid UTF-8 characters.
-		$input = iconv("utf-8", "utf-8//IGNORE", $input);
+		$input = iconv('utf-8', 'utf-8//IGNORE', $input);
 
 		// Convert <style>, <noscript> and <head> tags to <script> tags
 		// so we can remove them efficiently.

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\String\StringHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -86,6 +88,30 @@ class FinderIndexerToken
 	public $language;
 
 	/**
+	 * The container for matches.
+	 *
+	 * @var    array
+	 * @since  3.x
+	 */
+	public $matches = array();
+
+	/**
+	 * Is derived token (from individual words)
+	 *
+	 * @var    boolean
+	 * @since  3.x
+	 */
+	public $derived;
+
+	/**
+	 * The suggested term
+	 *
+	 * @var    string
+	 * @since  3.x
+	 */
+	public $suggestion;
+
+	/**
 	 * Method to construct the token object.
 	 *
 	 * @param   mixed   $term    The term as a string for words or an array for phrases.
@@ -107,7 +133,7 @@ class FinderIndexerToken
 			$this->numeric = false;
 			$this->common = false;
 			$this->phrase = true;
-			$this->length = JString::strlen($this->term);
+			$this->length = StringHelper::strlen($this->term);
 
 			/*
 			 * Calculate the weight of the token.
@@ -126,7 +152,7 @@ class FinderIndexerToken
 			$this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
 			$this->common = $this->numeric ? false : FinderIndexerHelper::isCommon($this->term, $lang);
 			$this->phrase = false;
-			$this->length = JString::strlen($this->term);
+			$this->length = StringHelper::strlen($this->term);
 
 			/*
 			 * Calculate the weight of the token.
@@ -137,8 +163,8 @@ class FinderIndexerToken
 			 * 4. Round weight to 4 decimal points.
 			 */
 			$this->weight = (($this->length >= 15 ? 15 : $this->length) / 15);
-			$this->weight = ($this->common == true ? $this->weight / 8 : $this->weight);
-			$this->weight = ($this->numeric == true ? $this->weight * 1.5 : $this->weight);
+			$this->weight = ($this->common === true ? $this->weight / 8 : $this->weight);
+			$this->weight = ($this->numeric === true ? $this->weight * 1.5 : $this->weight);
 			$this->weight = round($this->weight, 4);
 		}
 	}
