@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Editor Article buton
+ * Editor Contact buton
  *
  * @since  __DEPLOY_VERSION__
  */
