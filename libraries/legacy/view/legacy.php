@@ -96,14 +96,6 @@ class JViewLegacy extends JObject
 	protected $_output = null;
 
 	/**
-	 * Callback for escaping.
-	 *
-	 * @var string
-	 * @deprecated 13.3
-	 */
-	protected $_escape = 'htmlspecialchars';
-
-	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
@@ -224,137 +216,9 @@ class JViewLegacy extends JObject
 	}
 
 	/**
-	 * Assigns variables to the view script via differing strategies.
-	 *
-	 * This method is overloaded; you can assign all the properties of
-	 * an object, an associative array, or a single value by name.
-	 *
-	 * You are not allowed to set variables that begin with an underscore;
-	 * these are either private properties for JView or private variables
-	 * within the template script itself.
-	 *
-	 * <code>
-	 * $view = new JView;
-	 *
-	 * // Assign directly
-	 * $view->var1 = 'something';
-	 * $view->var2 = 'else';
-	 *
-	 * // Assign by name and value
-	 * $view->assign('var1', 'something');
-	 * $view->assign('var2', 'else');
-	 *
-	 * // Assign by assoc-array
-	 * $ary = array('var1' => 'something', 'var2' => 'else');
-	 * $view->assign($obj);
-	 *
-	 * // Assign by object
-	 * $obj = new stdClass;
-	 * $obj->var1 = 'something';
-	 * $obj->var2 = 'else';
-	 * $view->assign($obj);
-	 *
-	 * </code>
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @deprecated  13.3 Use native PHP syntax.
-	 */
-	public function assign()
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
-
-		// Get the arguments; there may be 1 or 2.
-		$arg0 = @func_get_arg(0);
-		$arg1 = @func_get_arg(1);
-
-		// Assign by object
-		if (is_object($arg0))
-		{
-			// Assign public properties
-			foreach (get_object_vars($arg0) as $key => $val)
-			{
-				if (substr($key, 0, 1) != '_')
-				{
-					$this->$key = $val;
-				}
-			}
-
-			return true;
-		}
-
-		// Assign by associative array
-		if (is_array($arg0))
-		{
-			foreach ($arg0 as $key => $val)
-			{
-				if (substr($key, 0, 1) != '_')
-				{
-					$this->$key = $val;
-				}
-			}
-
-			return true;
-		}
-
-		// Assign by string name and mixed value.
-
-		// We use array_key_exists() instead of isset() because isset()
-		// fails if the value is set to null.
-		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
-		{
-			$this->$arg0 = $arg1;
-
-			return true;
-		}
-
-		// $arg0 was not object, array, or string.
-		return false;
-	}
-
-	/**
-	 * Assign variable for the view (by reference).
-	 *
-	 * You are not allowed to set variables that begin with an underscore;
-	 * these are either private properties for JView or private variables
-	 * within the template script itself.
-	 *
-	 * <code>
-	 * $view = new JView;
-	 *
-	 * // Assign by name and value
-	 * $view->assignRef('var1', $ref);
-	 *
-	 * // Assign directly
-	 * $view->ref = &$var1;
-	 * </code>
-	 *
-	 * @param   string  $key   The name for the reference in the view.
-	 * @param   mixed   &$val  The referenced variable.
-	 *
-	 * @return  boolean  True on success, false on failure.
-	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Use native PHP syntax.
-	 */
-	public function assignRef($key, &$val)
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
-
-		if (is_string($key) && substr($key, 0, 1) != '_')
-		{
-			$this->$key = &$val;
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Escapes a value for output in a view script.
 	 *
-	 * If escaping mechanism is either htmlspecialchars or htmlentities, uses
+	 * If escaping mechanism is htmlspecialchars, use
 	 * {@link $_encoding} setting.
 	 *
 	 * @param   mixed  $var  The output to escape.
@@ -365,12 +229,7 @@ class JViewLegacy extends JObject
 	 */
 	public function escape($var)
 	{
-		if (in_array($this->_escape, array('htmlspecialchars', 'htmlentities')))
-		{
-			return call_user_func($this->_escape, $var, ENT_COMPAT, $this->_charset);
-		}
-
-		return call_user_func($this->_escape, $var);
+		return htmlspecialchars($var, ENT_COMPAT, $this->_charset);
 	}
 
 	/**
@@ -561,23 +420,6 @@ class JViewLegacy extends JObject
 		}
 
 		return $previous;
-	}
-
-	/**
-	 * Sets the _escape() callback.
-	 *
-	 * @param   mixed  $spec  The callback for _escape() to use.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 * @deprecated  13.3  Override JViewLegacy::escape() instead.
-	 */
-	public function setEscape($spec)
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Override JViewLegacy::escape() instead.', JLog::WARNING, 'deprecated');
-
-		$this->_escape = $spec;
 	}
 
 	/**
