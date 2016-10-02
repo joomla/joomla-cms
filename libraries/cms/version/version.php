@@ -213,10 +213,9 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date   = new JDate;
-		$config = JFactory::getConfig();
+		$date = new JDate;
 
-		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . $date->toSql());
 	}
 
 	/**
@@ -237,14 +236,10 @@ final class JVersion
 
 		if ($mediaVersion === null)
 		{
-			$config = JFactory::getConfig();
-			$debugEnabled = $config->get('debug', 0);
+			$debugEnabled = JFactory::getConfig()->get('debug', 0);
 
-			// Get the joomla library params
-			$params = JLibraryHelper::getParams('joomla');
-
-			// Get the media version
-			$mediaVersion = $params->get('mediaversion', '');
+			// Get the joomla library params and the media version
+			$mediaVersion = JLibraryHelper::getParams('joomla')->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
 			if ($debugEnabled || empty($mediaVersion))
@@ -267,9 +262,7 @@ final class JVersion
 	 */
 	public function refreshMediaVersion()
 	{
-		$newMediaVersion = $this->generateMediaVersion();
-
-		return $this->setMediaVersion($newMediaVersion);
+		return $this->setMediaVersion($this->generateMediaVersion());
 	}
 
 	/**
@@ -286,12 +279,10 @@ final class JVersion
 		// Do not allow empty media versions
 		if (!empty($mediaVersion))
 		{
-			// Get library parameters
-			$params = JLibraryHelper::getParams('joomla');
+			// Set the media version ...
+			JLibraryHelper::getParams('joomla')->set('mediaversion', $mediaVersion);
 
-			$params->set('mediaversion', $mediaVersion);
-
-			// Save modified params
+			// ... and save the modified params
 			JLibraryHelper::saveParams('joomla', $params);
 		}
 
