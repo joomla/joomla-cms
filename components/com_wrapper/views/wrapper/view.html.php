@@ -86,7 +86,7 @@ class WrapperViewWrapper extends JViewLegacy
 				// Relative url in component. Use server http_host.
 				$wrapper->url = 'http://' . $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+			elseif (strpos($url, 'http') === false && strpos($url, 'https') === false)
 			{
 				$wrapper->url = 'http://' . $url;
 			}
