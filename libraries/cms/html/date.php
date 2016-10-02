@@ -19,16 +19,17 @@ abstract class JHtmlDate
 	/**
 	 * Function to convert a static time into a relative measurement
 	 *
-	 * @param   string  $date  The date to convert
-	 * @param   string  $unit  The optional unit of measurement to return
-	 *                         if the value of the diff is greater than one
-	 * @param   string  $time  An optional time to compare to, defaults to now
+	 * @param   string  $date    The date to convert
+	 * @param   string  $unit    The optional unit of measurement to return
+	 *                           if the value of the diff is greater than one
+	 * @param   string  $time    An optional time to compare to, defaults to now
+	 * @param   string  $format  An optional format for the JHtml::date output
 	 *
 	 * @return  string  The converted time string
 	 *
 	 * @since   2.5
 	 */
-	public static function relative($date, $unit = null, $time = null)
+	public static function relative($date, $unit = null, $time = null, $format = null)
 	{
 		if (is_null($time))
 		{
@@ -82,6 +83,6 @@ abstract class JHtmlDate
 		}
 
 		// Over a month, return the absolute time
-		return JHtml::_('date', $date);
+		return JHtml::_('date', $date, $format);
 	}
 }

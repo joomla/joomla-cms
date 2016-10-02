@@ -272,7 +272,10 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('errors');
 			}
 
-			$html[] = $this->display('session');
+			if ($this->params->get('session', 1))
+			{
+				$html[] = $this->display('session');
+			}
 
 			if ($this->params->get('profile', 1))
 			{

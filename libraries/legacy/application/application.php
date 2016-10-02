@@ -1121,11 +1121,11 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return $this->_clientId == 1;
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -1134,11 +1134,25 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   11.1
-	 * @deprecated  4.0
+	 * @deprecated  4.0  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return $this->_clientId == 0;
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() == $identifier;
 	}
 
 	/**

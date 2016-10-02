@@ -362,7 +362,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		return msg;
-	}
+	};
 
 	/**
 	 * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -729,6 +729,120 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		}
 
 		return document.getElementById('loading-logo');
+	};
+
+	/**
+	 * Method to Extend Objects
+	 *
+	 * @param  {Object}  destination
+	 * @param  {Object}  source
+	 *
+	 * @return Object
+	 */
+	Joomla.extend = function (destination, source) {
+		for (var p in source) {
+			if (source.hasOwnProperty(p)) {
+				destination[p] = source[p];
+			}
+		}
+
+		return destination;
+	};
+
+	/**
+	 * Method to perform AJAX request
+	 *
+	 * @param {Object} options   Request options:
+	 * {
+	 *    url:       'index.php',  // Request URL
+	 *    method:    'GET',        // Request method GET (default), POST
+	 *    data:      null,         // Data to be sent, see https://developer.mozilla.org/docs/Web/API/XMLHttpRequest/send
+	 *    perform:   true,         // Perform the request immediately, or return XMLHttpRequest instance and perform it later
+	 *    headers:   null,         // Object of custom headers, eg {'X-Foo': 'Bar', 'X-Bar': 'Foo'}
+	 *
+	 *    onBefore:  function(xhr){}            // Callback on before the request
+	 *    onSuccess: function(response, xhr){}, // Callback on the request success
+	 *    onError:   function(xhr){},           // Callback on the request error
+	 * }
+	 *
+	 * @return XMLHttpRequest|Boolean
+	 *
+	 * @example
+	 *
+	 * 	Joomla.request({
+	 *		url: 'index.php?option=com_example&view=example',
+	 *		onSuccess: function(response, xhr){
+	 *			console.log(response);
+	 *		}
+	 * 	})
+	 *
+	 * @see    https://developer.mozilla.org/docs/Web/API/XMLHttpRequest
+	 */
+	Joomla.request = function (options) {
+
+		// Prepare the options
+		options = Joomla.extend({
+			url:    '',
+			method: 'GET',
+			data:    null,
+			perform: true
+		}, options);
+
+		// Use POST for send the data
+		options.method = options.data ? 'POST' : options.method;
+
+		// Set up XMLHttpRequest instance
+		try{
+			var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('MSXML2.XMLHTTP.3.0');
+			xhr.open(options.method, options.url, true);
+
+			// Set the headers
+			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+			xhr.setRequestHeader('X-Ajax-Engine', 'Joomla!');
+
+			if (options.method === 'POST' && (!options.headers || !options.headers['Content-Type'])) {
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			}
+
+			// Custom headers
+			if (options.headers){
+				for (var p in options.headers){
+					if (options.headers.hasOwnProperty(p)) {
+						xhr.setRequestHeader(p, options.headers[p]);
+					}
+				}
+			}
+
+			xhr.onreadystatechange = function () {
+				// Request not finished
+				if (xhr.readyState !== 4) return;
+
+				// Request finished and response is ready
+				if (xhr.status === 200) {
+					if(options.onSuccess) {
+						options.onSuccess.call(window, xhr.responseText, xhr);
+					}
+				} else if(options.onError) {
+					options.onError.call(window, xhr);
+				}
+			};
+
+			// Do request
+			if (options.perform) {
+				if (options.onBefore && options.onBefore.call(window, xhr) === false) {
+					// Request interrupted
+					return xhr;
+				}
+
+				xhr.send(options.data);
+			}
+
+		} catch (error) {
+			window.console ? console.log(error) : null;
+			return false;
+		}
+
+		return xhr;
 	};
 
 }( Joomla, document ));
