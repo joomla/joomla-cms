@@ -302,7 +302,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -1279,6 +1279,23 @@ class JForm
 			case 'SERVER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
@@ -1295,6 +1312,23 @@ class JForm
 			case 'USER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 

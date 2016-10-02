@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -483,7 +484,7 @@ class ModulesModelModule extends JModelAdmin
 
 		while ($table->load(array('position' => $position, 'title' => $title)))
 		{
-			$title = JString::increment($title);
+			$title = StringHelper::increment($title);
 		}
 
 		return array($title);

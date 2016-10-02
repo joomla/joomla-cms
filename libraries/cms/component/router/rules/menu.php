@@ -55,7 +55,13 @@ class JComponentRouterRulesMenu implements JComponentRouterRulesInterface
 	 */
 	public function preprocess(&$query)
 	{
-		if (isset($query['Itemid']) && $this->router->menu->getActive() && $query['Itemid'] != $this->router->menu->getActive()->id)
+		/**
+		 * If the active item id is not the same as the supplied item id or we have a supplied item id and no active
+		 * menu item then we just use the supplied menu item and continue
+		 */
+		if (isset($query['Itemid'])
+			&& (($this->router->menu->getActive() && $query['Itemid'] != $this->router->menu->getActive()->id)
+			|| ($this->router->menu->getActive() === null)))
 		{
 			return;
 		}

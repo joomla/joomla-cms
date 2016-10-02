@@ -29,6 +29,18 @@
 				/>
 
 				<field
+					name="session"
+					type="radio"
+					label="PLG_DEBUG_FIELD_SESSION_LABEL"
+					description="PLG_DEBUG_FIELD_SESSION_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="profile"
 					type="radio"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
@@ -191,10 +203,12 @@
 					rows="4"
 				/>
 
-				<field name="strip-suffix" type="textarea"
-					cols="30"
-					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
+				<field
+					name="strip-suffix"
+					type="textarea"
 					label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
+					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
+					cols="30"
 					rows="4"
 				/>
 			</fieldset>

@@ -23,7 +23,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -76,6 +76,7 @@ class ContentControllerArticles extends JControllerAdmin
 		else
 		{
 			// Get the model.
+			/** @var ContentModelArticle $model */
 			$model = $this->getModel();
 
 			// Publish the items.
@@ -113,27 +114,12 @@ class ContentControllerArticles extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  JModel
+	 * @return  JModelLegacy
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
-	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The array of ids for items being deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
 	}
 }
