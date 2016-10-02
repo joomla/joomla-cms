@@ -12,38 +12,31 @@
  * @since       1.5
  * @version  1.0
  */
-var JCaption = function(_selector) {
-    var $, selector,
-    
-    initialize = function(_selector) {
-        $ = jQuery.noConflict();
-        selector = _selector;
-        $(selector).each(function(index, el) {
-            createCaption(el);
-        })
-    },
-    
-    createCaption = function(element) {
-        var $el = $(element), 
-        caption = $el.attr('title'),
-        width = $el.attr("width") || element.width,
-        align = $el.attr("align") || $el.css("float") || element.style.styleFloat || "none",
-        $p = $('<p/>', {
-            "text" : caption,
-            "class" : selector.replace('.', '_')
-        }),
-        $container = $('<div/>', {
-            "class" : selector.replace('.', '_') + " " + align,
-            "css" : {
-                "float" : align,
-                "width" : width
-            }
-        });
-        $el.before($container);
-        $container.append($el);
-        if (caption !== "") {
-            $container.append($p);
+var JCaption = function(selector) {
+    var initialize = function(selector) {
+        var elements = document.querySelectorAll(selector);
+        for (var i = 0, count = elements.length; i < count; i++) {
+            createCaption(elements[i]);
         }
-    }
-    initialize(_selector);
-}
+    },
+
+    createCaption = function(element) {
+        var container, caption = element.getAttribute('title'),
+        width = element.getAttribute("width") || element.width,
+        align = element.getAttribute("align") || element.style.styleFloat || "none",
+        pEl = createElement('<p/>');
+        pEl.text = caption;
+        pEl.class = selector.replace('.', '_');
+        container = createElement('<div/>');
+        container.class = selector.replace('.', '_') + " " + align;
+        container.style.styleFloat = align;
+        container.style.width = width;
+        container.parentNode.insertBefore(element, container);
+        container.innerHTML = element;
+        if (caption !== "") {
+            container.innerHTML = pEl;
+        }
+    };
+
+    initialize(selector);
+};
