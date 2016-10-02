@@ -24,6 +24,12 @@ class FinderViewSearch extends JViewLegacy
 
 	protected $user;
 
+	protected $results;
+
+	protected $total;
+
+	protected $pagination;
+
 	/**
 	 * Method to display the view.
 	 *

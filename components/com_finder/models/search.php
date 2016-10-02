@@ -543,7 +543,7 @@ class FinderModelSearch extends JModelList
 						// Increment the term offset.
 						$reqStart += $limit;
 					}
-					while ($reqMore == true);
+					while ($reqMore === true);
 
 					// Store this set in cache.
 					$this->store($setId, $reqTemp);
@@ -864,7 +864,7 @@ class FinderModelSearch extends JModelList
 						// Increment the term offset.
 						$reqStart += $limit;
 					}
-					while ($reqMore == true);
+					while ($reqMore === true);
 
 					// Store this set in cache.
 					$this->store($setId, $reqTemp);

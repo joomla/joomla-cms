@@ -68,14 +68,14 @@ class FinderTableFilter extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->alias) == '')
+		if (trim($this->alias) === '')
 		{
 			$this->alias = $this->title;
 		}
 
 		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->alias)) === '')
 		{
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
@@ -169,7 +169,7 @@ class FinderTableFilter extends JTable
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) === $this->_db->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
