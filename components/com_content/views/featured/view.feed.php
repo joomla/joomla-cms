@@ -60,7 +60,7 @@ class ContentViewFeatured extends JViewLegacy
 			$row->fulltext = $db->loadResult();
 
 			$description = ($params->get('feed_summary', 0) ? $row->introtext . $row->fulltext : $row->introtext);
-			$author      = $row->created_by_alias ? $row->created_by_alias : $row->author;
+			$author      = $row->created_by_alias ?: $row->author;
 
 			// Load individual item creator class
 			$item           = new JFeedItem;
