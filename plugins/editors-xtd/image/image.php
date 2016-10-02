@@ -32,6 +32,7 @@ class PlgButtonImage extends JPlugin
 	 * @param   integer  $author  The id of the author owning the asset being edited.
 	 *
 	 * @return  JObject  The button options as JObject or false if not allowed
+	 *
 	 * @since   1.5
 	 */
 	public function onDisplay($name, $asset, $author)
