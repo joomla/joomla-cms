@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Content table
  *
- * @since       11.1
+ * @since  11.1
  */
 class JTableContent extends JTable
 {
