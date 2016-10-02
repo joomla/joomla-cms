@@ -174,7 +174,7 @@ class FinderTableFilter extends JTable
 			// Checkin the rows.
 			foreach ($pks as $pk)
 			{
-				$this->checkin($pk);
+				$this->checkIn($pk);
 			}
 		}
 

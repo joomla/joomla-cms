@@ -59,7 +59,7 @@ class FinderViewSearch extends JViewLegacy
 		// Configure the pathway.
 		if (!empty($query->input))
 		{
-			$app->getPathWay()->addItem($this->escape($query->input));
+			$app->getPathway()->addItem($this->escape($query->input));
 		}
 
 		// Push out the view data.
@@ -229,12 +229,12 @@ class FinderViewSearch extends JViewLegacy
 		// Configure the document meta-keywords.
 		if (!empty($query->highlight))
 		{
-			$this->document->setMetadata('keywords', implode(', ', $query->highlight));
+			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
 		}
 
 		if ($this->params->get('robots'))
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetaData('robots', $this->params->get('robots'));
 		}
 
 		// Add feed link to the document head.
