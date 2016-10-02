@@ -250,8 +250,11 @@ class ConfigModelApplication extends ConfigModelForm
 		// Purge the database session table if we are changing to the database handler.
 		if ($prev['session_handler'] != 'database' && $data['session_handler'] == 'database')
 		{
-			$table = JTable::getInstance('session');
-			$table->purge(-1);
+			$query = $this->_db->getQuery(true)
+				->delete($this->_db->quoteName('#__session'))
+				->where($this->_db->quoteName('time') . ' < ' . (time() - 1));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 		}
 
 		if (empty($data['cache_handler']))
