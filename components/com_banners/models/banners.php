@@ -168,9 +168,10 @@ AND cl.own_prefix=0
 AND $prefixCondition
 SQL;
 
-					// Todo: Check with other Joomla members if the above change makes enough sense if the above is not a complete
-					//       Statement and there are other conditions following.
-					//       The other question is of course, if such queries will in future all be done with the query builder
+					/* Todo: Check with other Joomla members if the above change makes enough sense if the above is not a complete
+					         Statement and there are other conditions following.
+					         The other question is of course, if such queries will in future all be done with the query builder
+					*/
 
 					$escapedKeyword = $db->escape($keyword);
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
