@@ -94,7 +94,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php if ($params->get('access-view')):?>
 	<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
-	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 	<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';
@@ -151,13 +151,13 @@ JHtml::_('behavior.caption');
 		elseif ($readmore = $attribs->alternative_readmore) :
 			echo $readmore;
 			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 			endif;
 		elseif ($params->get('show_readmore_title', 0) == 0) :
 			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
 		else :
 			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+			echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 		endif; ?>
 		</a>
 	</p>

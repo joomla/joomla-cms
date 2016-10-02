@@ -67,7 +67,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 
 	<?php
-	$introcount = (count($this->intro_items));
+	$introcount = count($this->intro_items);
 	$counter = 0;
 	?>
 
@@ -78,7 +78,7 @@ JHtml::_('behavior.caption');
 				<?php $row = $counter / $this->columns; ?>
 				<div class="items-row cols-<?php echo (int) $this->columns; ?> <?php echo 'row-' . $row; ?> row-fluid clearfix">
 			<?php endif; ?>
-			<div class="span<?php echo round((12 / $this->columns)); ?>">
+			<div class="span<?php echo round(12 / $this->columns); ?>">
 				<div class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php

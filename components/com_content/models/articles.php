@@ -498,7 +498,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Process the filter for list views with user-entered filters
-		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
+		if (is_object($params) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
 			$filter = JString::strtolower($filter);
