@@ -27,7 +27,7 @@ class PlgButtonArticle extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @param   string    $name  The name of the button to add
+	 * @param   string  $name  The name of the button to add
 	 *
 	 * @return  stdClass  The button options as stdClass
 	 *

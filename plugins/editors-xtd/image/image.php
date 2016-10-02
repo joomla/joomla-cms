@@ -27,9 +27,9 @@ class PlgButtonImage extends JPlugin
 	/**
 	 * Display the button.
 	 *
-	 * @param   string    $name    The name of the button to display.
-	 * @param   string    $asset   The name of the asset being edited.
-	 * @param   integer   $author  The id of the author owning the asset being edited.
+	 * @param   string   $name    The name of the button to display.
+	 * @param   string   $asset   The name of the asset being edited.
+	 * @param   integer  $author  The id of the author owning the asset being edited.
 	 *
 	 * @return  stdClass  The button options as stdClass or false if not allowed
 	 * @since   1.5
