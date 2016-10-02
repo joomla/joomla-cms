@@ -254,11 +254,11 @@ class FinderModelMaps extends JModelList
 		$listOrdering = $db->escape($this->getState('list.ordering', 'd.branch_title'));
 		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
-		if ($listOrdering == 'd.branch_title')
+		if ($listOrdering === 'd.branch_title')
 		{
 			$query->order('d.branch_title ' . $listDirn . ', d.level ASC, a.title ' . $listDirn);
 		}
-		elseif ($listOrdering == 'a.state')
+		elseif ($listOrdering === 'a.state')
 		{
 			$query->order('a.state ' . $listDirn . ', d.branch_title ' . $listDirn . ', d.level ASC');
 		}

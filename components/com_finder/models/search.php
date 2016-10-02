@@ -263,11 +263,11 @@ class FinderModelSearch extends JModelList
 			$date1 = $db->quote($this->query->date1);
 
 			// Add the appropriate WHERE condition.
-			if ($this->query->when1 == 'before')
+			if ($this->query->when1 === 'before')
 			{
 				$query->where($db->quoteName('l.start_date') . ' <= ' . $date1);
 			}
-			elseif ($this->query->when1 == 'after')
+			elseif ($this->query->when1 === 'after')
 			{
 				$query->where($db->quoteName('l.start_date') . ' >= ' . $date1);
 			}
@@ -284,11 +284,11 @@ class FinderModelSearch extends JModelList
 			$date2 = $db->quote($this->query->date2);
 
 			// Add the appropriate WHERE condition.
-			if ($this->query->when2 == 'before')
+			if ($this->query->when2 === 'before')
 			{
 				$query->where($db->quoteName('l.start_date') . ' <= ' . $date2);
 			}
-			elseif ($this->query->when2 == 'after')
+			elseif ($this->query->when2 === 'after')
 			{
 				$query->where($db->quoteName('l.start_date') . ' >= ' . $date2);
 			}
@@ -1136,7 +1136,7 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'l.list_price');
 				break;
 
-			case ($order == 'relevance' && !empty($this->includedTerms)):
+			case ($order === 'relevance' && !empty($this->includedTerms)):
 				$this->setState('list.ordering', 'm.weight');
 				break;
 

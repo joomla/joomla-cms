@@ -225,7 +225,7 @@ class FinderModelIndex extends JModelList
 		$listOrder = $this->getState('list.ordering', 'l.title');
 		$listDir   = $this->getState('list.direction', 'ASC');
 
-		if ($listOrder == 't.title')
+		if ($listOrder === 't.title')
 		{
 			$ordering = $db->quoteName('t.title') . ' ' . $db->escape($listDir) . ', ' . $db->quoteName('l.title') . ' ' . $db->escape($listDir);
 		}
