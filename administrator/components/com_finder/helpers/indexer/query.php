@@ -959,7 +959,7 @@ class FinderIndexerQuery
 		}
 
 		// Add the remaining terms if present.
-		if ($input !== '')
+		if ((bool) $input)
 		{
 			$terms = array_merge($terms, explode(' ', $input));
 		}
