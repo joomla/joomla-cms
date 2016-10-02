@@ -22,7 +22,7 @@ JHtml::_('behavior.formvalidator');
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
 				<fieldset>
-					<?php if (isset($fieldset->label) && strlen($legend = trim(JText::_($fieldset->label)))) : ?>
+					<?php if (isset($fieldset->label) && ($legend = trim(JText::_($fieldset->label))) !== '') : ?>
 						<legend><?php echo $legend; ?></legend>
 					<?php endif; ?>
 					<?php foreach ($fields as $field) : ?>
