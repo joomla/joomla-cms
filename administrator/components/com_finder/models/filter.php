@@ -168,8 +168,7 @@ class FinderModelFilter extends JModelAdmin
 			->select('MAX(link_id)')
 			->from('#__finder_links');
 		$db->setQuery($query);
-		$total = $db->loadResult();
 
-		return $total;
+		return $db->loadResult();
 	}
 }
