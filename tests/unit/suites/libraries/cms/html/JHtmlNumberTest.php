@@ -239,9 +239,6 @@ class JHtmlNumberTest extends TestCase
 	 */
 	public function testBytes($result, $bytes, $unit = 'auto', $precision = 2, $iec = false)
 	{
-		$this->assertThat(
-			JHtml::_('number.bytes', $bytes, $unit, $precision, $iec),
-			$this->equalTo($result)
-		);
+		$this->assertEquals($result, JHtmlNumber::bytes($bytes, $unit, $precision, $iec));
 	}
 }
