@@ -326,28 +326,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get an authorization object
-	 *
-	 * Returns the global {@link JAccess} object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @return  JAccess object
-	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
-	 */
-	public static function getAcl()
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
-
-		if (!self::$acl)
-		{
-			self::$acl = new JAccess;
-		}
-
-		return self::$acl;
-	}
-
-	/**
 	 * Get a database object.
 	 *
 	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
