@@ -213,9 +213,7 @@ final class JVersion
 	 */
 	public function generateMediaVersion()
 	{
-		$date = new JDate;
-
-		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . $date->toSql());
+		return md5($this->getLongVersion() . JFactory::getConfig()->get('secret') . (new JDate)->toSql());
 	}
 
 	/**
@@ -280,7 +278,7 @@ final class JVersion
 		if (!empty($mediaVersion))
 		{
 			// Set the media version ...
-			JLibraryHelper::getParams('joomla')->set('mediaversion', $mediaVersion);
+			$params = JLibraryHelper::getParams('joomla')->set('mediaversion', $mediaVersion);
 
 			// ... and save the modified params
 			JLibraryHelper::saveParams('joomla', $params);
