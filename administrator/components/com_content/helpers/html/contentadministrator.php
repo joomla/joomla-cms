@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
@@ -21,9 +23,11 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Render the list of associated items
 	 *
-	 * @param   int  $articleid  The article item id
+	 * @param   integer  $articleid  The article item id
 	 *
 	 * @return  string  The language HTML
+	 *
+	 * @throws  Exception
 	 */
 	public static function association($articleid)
 	{
@@ -58,7 +62,7 @@ abstract class JHtmlContentAdministrator
 			}
 			catch (RuntimeException $e)
 			{
-				throw new Exception($e->getMessage(), 500);
+				throw new Exception($e->getMessage(), 500, $e);
 			}
 
 			if ($items)
@@ -68,7 +72,9 @@ abstract class JHtmlContentAdministrator
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
 					$tooltipParts = array(
-						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
+						JHtml::_(
+							'image',
+							'mod_languages/' . $item->image . '.gif',
 							$item->language_title,
 							array('title' => $item->language_title),
 							true
@@ -99,8 +105,8 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Show the feature/unfeature links
 	 *
-	 * @param   int      $value      The state value
-	 * @param   int      $i          Row number
+	 * @param   integer  $value      The state value
+	 * @param   integer  $i          Row number
 	 * @param   boolean  $canChange  Is user allowed to change?
 	 *
 	 * @return  string       HTML code
@@ -114,7 +120,7 @@ abstract class JHtmlContentAdministrator
 			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
-		$state = JArrayHelper::getValue($states, (int) $value, $states[1]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon  = $state[0];
 
 		if ($canChange)

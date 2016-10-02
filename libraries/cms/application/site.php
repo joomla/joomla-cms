@@ -401,8 +401,7 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$config = JFactory::getConfig();
-		$options['mode'] = $config->get('sef');
+		$options['mode'] = JFactory::getConfig()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -686,7 +685,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	protected function loadLibraryLanguage()
 	{
