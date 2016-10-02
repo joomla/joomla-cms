@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+use Joomla\String\StringHelper;
+
 defined('_JEXEC') or die;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -338,7 +340,7 @@ abstract class FinderIndexer
 							$string = substr($buffer, 0, $ls);
 
 							// Adjust the buffer based on the last space for the next iteration and trim.
-							$buffer = JString::trim(substr($buffer, $ls));
+							$buffer = StringHelper::trim(substr($buffer, $ls));
 						}
 						// No space character was found.
 						else
