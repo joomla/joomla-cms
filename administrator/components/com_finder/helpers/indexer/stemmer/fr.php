@@ -163,7 +163,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			$rule = $vars['rules'][$i];
 			$rule = preg_replace($vars['rule_pattern'], "\\1", $rule);
 
-			if (stripos(utf8_decode($rule), $reversed_input) === 0)
+			if (strncasecmp(utf8_decode($rule), $reversed_input, strlen(utf8_decode($rule))) == 0)
 			{
 				return $i;
 			}
