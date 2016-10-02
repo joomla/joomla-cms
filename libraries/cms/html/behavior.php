@@ -704,17 +704,15 @@ abstract class JHtmlBehavior
 			$url .= '?option=com_ajax&format=json';
 		}
 
-		$script = /** @lang JavaScript */
-			<<<TAG
+		JFactory::getDocument()->addScriptDeclaration(
+		/** @lang JavaScript */
+			<<<JS
 window.setInterval(function(){var r;try{r=window.XMLHttpRequest?new XMLHttpRequest():new ActiveXObject("Microsoft.XMLHTTP")}catch(e){}
 if(r){r.open("GET","$url",true);r.send(null)}},$refresh_time);
-TAG;
-
-		JFactory::getDocument()->addScriptDeclaration($script);
+JS
+		);
 
 		static::$loaded[__METHOD__] = true;
-
-		return;
 	}
 
 	/**

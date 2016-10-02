@@ -135,16 +135,15 @@ class JFormFieldModulePosition extends JFormFieldText
 		JHtml::_('behavior.modal', 'a.modal');
 
 		// Build the script.
-		$script = /** @lang JavaScript */
-			<<<TAG
+		JFactory::getDocument()->addScriptDeclaration(
+		/** @lang JavaScript */
+			<<<JS
 function jSelectPosition_$this->id(name) {
    	document.getElementById("$this->id").value = name;
 	jModalClose();
 }
-TAG;
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration($script);
+JS
+		);
 
 		// Setup variables for display.
 		$link        = 'index.php?option=com_modules&view=positions&layout=modal&tmpl=component&function=jSelectPosition_' . $this->id
@@ -155,14 +154,14 @@ TAG;
 		$changePositionButton = JText::_('COM_MODULES_CHANGE_POSITION_BUTTON');
 
 		// The current user display field.
-		$html = /** @lang HTML */
-			<<<TAG
+
+		return /** @lang HTML */
+			<<<HTML
 <div class="input-append">
 	$parentInput
 	<a class="btn modal" title="$changePositionTitle" href="$link" rel="{handler: 'iframe', size: {x: 800, y: 450}}">$changePositionButton</a>
 </div>
-TAG;
-
-		return $html;
+HTML;
 	}
+
 }
