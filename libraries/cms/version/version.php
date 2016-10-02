@@ -268,8 +268,11 @@ final class JVersion
 		// Do not allow empty media versions
 		if (!empty($mediaVersion))
 		{
-			// Set the media version ...
-			$params = JLibraryHelper::getParams('joomla')->set('mediaversion', $mediaVersion);
+			// Get the params ...
+			$params = JLibraryHelper::getParams('joomla');
+
+			// ... set the media version ...
+			$params->set('mediaversion', $mediaVersion);
 
 			// ... and save the modified params
 			JLibraryHelper::saveParams('joomla', $params);
