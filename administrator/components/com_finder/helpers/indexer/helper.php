@@ -28,7 +28,7 @@ class FinderIndexerHelper
 	 * The token stemmer object. The stemmer is set by whatever class
 	 * wishes to use it but it must be an instance of FinderIndexerStemmer.
 	 *
-	 * @var        FinderIndexerStemmer
+	 * @var      FinderIndexerStemmer
 	 * @since    2.5
 	 */
 	public static $stemmer;
@@ -36,8 +36,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to parse input into plain text.
 	 *
-	 * @param   string $input  The raw input.
-	 * @param   string $format The format of the input. [optional]
+	 * @param   string  $input   The raw input.
+	 * @param   string  $format  The format of the input. [optional]
 	 *
 	 * @return  string  The parsed input.
 	 *
@@ -53,9 +53,9 @@ class FinderIndexerHelper
 	/**
 	 * Method to tokenize a text string.
 	 *
-	 * @param   string  $input  The input to tokenize.
-	 * @param   string  $lang   The language of the input.
-	 * @param   boolean $phrase Flag to indicate whether input could be a phrase. [optional]
+	 * @param   string   $input   The input to tokenize.
+	 * @param   string   $lang    The language of the input.
+	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase. [optional]
 	 *
 	 * @return  array|FinderIndexerToken  An array of FinderIndexerToken objects or a single FinderIndexerToken object.
 	 *
@@ -218,8 +218,8 @@ class FinderIndexerHelper
 	 * {@link FinderIndexerHelper::$stemmer} object if it is set. If no stemmer is set,
 	 * the original token is returned.
 	 *
-	 * @param   string $token The token to stem.
-	 * @param   string $lang  The language of the token.
+	 * @param   string  $token  The token to stem.
+	 * @param   string  $lang   The language of the token.
 	 *
 	 * @return  string  The root token.
 	 *
@@ -248,8 +248,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to add a content type to the database.
 	 *
-	 * @param   string $title The type of content. For example: PDF
-	 * @param   string $mime  The mime type of the content. For example: PDF [optional]
+	 * @param   string  $title  The type of content. For example: PDF
+	 * @param   string  $mime   The mime type of the content. For example: PDF [optional]
 	 *
 	 * @return  integer  The id of the content type.
 	 *
@@ -296,8 +296,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to check if a token is common in a language.
 	 *
-	 * @param   string $token The token to test.
-	 * @param   string $lang  The language to reference.
+	 * @param   string  $token  The token to test.
+	 * @param   string  $lang   The language to reference.
 	 *
 	 * @return  boolean  True if common, false otherwise.
 	 *
@@ -320,7 +320,7 @@ class FinderIndexerHelper
 	/**
 	 * Method to get an array of common terms for a language.
 	 *
-	 * @param   string $lang The language to use.
+	 * @param   string  $lang  The language to use.
 	 *
 	 * @return  array  Array of common terms.
 	 *
@@ -366,7 +366,7 @@ class FinderIndexerHelper
 	/**
 	 * Method to parse a language/locale key and return a simple language string.
 	 *
-	 * @param   string $lang The language/locale key. For example: en-GB
+	 * @param   string  $lang  The language/locale key. For example: en-GB
 	 *
 	 * @return  string  The simple language string. For example: en
 	 *
@@ -397,7 +397,7 @@ class FinderIndexerHelper
 	/**
 	 * Method to get the path (SEF route) for a content item.
 	 *
-	 * @param   string $url The non-SEF route to the content item.
+	 * @param   string  $url  The non-SEF route to the content item.
 	 *
 	 * @return  string  The path for the content item.
 	 *
@@ -428,7 +428,7 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult &$item The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item  The item to index as an FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -459,8 +459,8 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string   $text   The content to process.
-	 * @param   Registry $params The parameters object. [optional]
+	 * @param   string    $text    The content to process.
+	 * @param   Registry  $params  The parameters object. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *

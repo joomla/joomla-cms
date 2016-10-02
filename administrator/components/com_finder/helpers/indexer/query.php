@@ -165,7 +165,7 @@ class FinderIndexerQuery
 	/**
 	 * Method to instantiate the query object.
 	 *
-	 * @param   array $options An array of query options.
+	 * @param   array  $options  An array of query options.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -268,7 +268,7 @@ class FinderIndexerQuery
 	/**
 	 * Method to convert the query object into a URI string.
 	 *
-	 * @param   string $base The base URI. [optional]
+	 * @param   string  $base  The base URI. [optional]
 	 *
 	 * @return  string  The complete query URI.
 	 *
@@ -350,7 +350,7 @@ class FinderIndexerQuery
 				'f'    => $uri->getVar('f'),
 				'q'    => $uri->getVar('q')
 			);
-			$item  = FinderHelperRoute::getItemid($query);
+			$item = FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
 			if ($item !== null)
@@ -474,7 +474,7 @@ class FinderIndexerQuery
 	 * comes in the form of a pre-defined search filter that is assigned to the
 	 * search form.
 	 *
-	 * @param   integer $filterId The id of static filter.
+	 * @param   integer  $filterId  The id of static filter.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -570,7 +570,7 @@ class FinderIndexerQuery
 	 * because the dynamic options can be used to further narrow a static
 	 * taxonomy filter.
 	 *
-	 * @param   array $filters An array of taxonomy node ids.
+	 * @param   array  $filters  An array of taxonomy node ids.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -599,7 +599,8 @@ class FinderIndexerQuery
 		}
 
 		// Get the database object.
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
+
 		$query = $db->getQuery(true);
 
 		/*
@@ -655,10 +656,10 @@ class FinderIndexerQuery
 	 * Method to process the query date filters to determine start and end
 	 * date limitations.
 	 *
-	 * @param   string $date1 The first date filter.
-	 * @param   string $date2 The second date filter.
-	 * @param   string $when1 The first date modifier.
-	 * @param   string $when2 The second date modifier.
+	 * @param   string  $date1  The first date filter.
+	 * @param   string  $date2  The second date filter.
+	 * @param   string  $when1  The first date modifier.
+	 * @param   string  $when2  The second date modifier.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -719,9 +720,9 @@ class FinderIndexerQuery
 	 * Method to process the query input string and extract required, optional,
 	 * and excluded tokens; taxonomy filters; and date filters.
 	 *
-	 * @param   string $input The query input string.
-	 * @param   string $lang  The query input language.
-	 * @param   string $mode  The query matching mode.
+	 * @param   string  $input  The query input string.
+	 * @param   string  $lang   The query input language.
+	 * @param   string  $mode   The query matching mode.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1246,7 +1247,7 @@ class FinderIndexerQuery
 	 * that term and we should try to find a similar term to use that we can
 	 * match so that we can suggest the alternative search query to the user.
 	 *
-	 * @param   FinderIndexerToken $token A FinderIndexerToken object.
+	 * @param   FinderIndexerToken  $token  A FinderIndexerToken object.
 	 *
 	 * @return  FinderIndexerToken  A FinderIndexerToken object.
 	 *
