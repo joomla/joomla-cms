@@ -172,22 +172,22 @@ final class JVersion
 	/**
 	 * Returns the user agent.
 	 *
-	 * @param   string  $component    Name of the component.
-	 * @param   bool    $mask         Mask as Mozilla/5.0 or not.
-	 * @param   bool    $add_version  Add version afterwards to component.
+	 * @param   string  $component   Name of the component.
+	 * @param   bool    $mask        Mask as Mozilla/5.0 or not.
+	 * @param   bool    $addVersion  Add version afterwards to component.
 	 *
 	 * @return  string  User Agent.
 	 *
 	 * @since   1.0
 	 */
-	public function getUserAgent($component = null, $mask = false, $add_version = true)
+	public function getUserAgent($component = null, $mask = false, $addVersion = true)
 	{
 		if ($component === null)
 		{
 			$component = 'Framework';
 		}
 
-		if ($add_version)
+		if ($addVersion)
 		{
 			$component .= '/' . self::RELEASE;
 		}
@@ -197,10 +197,8 @@ final class JVersion
 		{
 			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
-		else
-		{
-			return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
-		}
+
+		return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
 	}
 
 	/**
@@ -234,13 +232,11 @@ final class JVersion
 
 		if ($mediaVersion === null)
 		{
-			$debugEnabled = JFactory::getConfig()->get('debug', 0);
-
 			// Get the joomla library params and the media version
 			$mediaVersion = JLibraryHelper::getParams('joomla')->get('mediaversion', '');
 
 			// Refresh assets in debug mode or when the media version is not set
-			if ($debugEnabled || empty($mediaVersion))
+			if (JFactory::getConfig()->get('debug', 0) || empty($mediaVersion))
 			{
 				$mediaVersion = $this->generateMediaVersion();
 
