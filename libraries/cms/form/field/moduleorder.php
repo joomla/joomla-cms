@@ -28,7 +28,7 @@ class JFormFieldModuleOrder extends JFormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	protected $layout = 'joomla.form.field.moduleorder';
 
@@ -39,7 +39,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function __get($name)
 	{
@@ -60,7 +60,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function __set($name, $value)
 	{
@@ -87,7 +87,7 @@ class JFormFieldModuleOrder extends JFormField
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -118,7 +118,7 @@ class JFormFieldModuleOrder extends JFormField
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.6.3
 	 */
 	protected function getLayoutData()
 	{
