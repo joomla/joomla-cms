@@ -193,12 +193,7 @@ final class JVersion
 		}
 
 		// If masked pretend to look like Mozilla 5.0 but still identify ourselves.
-		if ($mask)
-		{
-			return 'Mozilla/5.0 ' . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
-		}
-
-		return self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
+		return ($mask ? 'Mozilla/5.0 ' : '') . self::PRODUCT . '/' . self::RELEASE . '.' . self::DEV_LEVEL . ($component ? ' ' . $component : '');
 	}
 
 	/**
