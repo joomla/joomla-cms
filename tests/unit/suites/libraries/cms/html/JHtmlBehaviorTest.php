@@ -493,7 +493,7 @@ class JHtmlBehaviorTest extends TestCase
 				'JHtmlBehavior::keepalive' => true,
 				'JHtmlBehavior::core'      => true,
 				'JHtmlBehavior::framework' => array('core' => true),
-				'JHtmlBehavior::polyfill'  => array('event' => true, 'lt IE 9' => true),
+				'JHtmlBehavior::polyfill'  => array(md5(serialize(array('event', 'lt IE 9'))) => true),
 			),
 			JHtmlBehaviorInspector::getLoaded(),
 			'The keepalive behavior is not loaded with all dependencies'
