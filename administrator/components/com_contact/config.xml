@@ -76,30 +76,6 @@
 		</field>
 
 		<field
-			name="show_tags"
-			type="radio"
-			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_info"
-			type="radio"
-			label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
-		<field
 			name="show_name"
 			type="radio"
 			label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"

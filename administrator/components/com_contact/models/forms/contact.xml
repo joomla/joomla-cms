@@ -476,18 +476,6 @@
 			</field>
 
 			<field
-				name="show_info"
-				type="list"
-				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
-				class="chzn-color"
-				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
 				name="show_name"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
