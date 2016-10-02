@@ -20,7 +20,7 @@ class JCacheStorageFileTest extends TestCaseCache
 	 */
 	protected function setUp()
 	{
-		if (!JCacheStorageFile::isSupported() || $this->isBlacklisted('file'))
+		if (!JCacheStorageFile::isSupported())
 		{
 			$this->markTestSkipped('The file cache handler is not supported on this system.');
 		}

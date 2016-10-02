@@ -24,6 +24,7 @@
 			name="catid"
 			type="category"
 			extension="com_users"
+			required="true"
 			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
 			description="JFIELD_CATEGORY_DESC" >
 		</field>
