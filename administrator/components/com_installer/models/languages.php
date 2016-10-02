@@ -18,13 +18,17 @@ jimport('joomla.updater.update');
 class InstallerModelLanguages extends JModelList
 {
 	/**
-	 * @var     integer  Extension ID of the en-GB language pack.
+	 * Extension ID of the en-GB language pack.
+	 *
+	 * @var     integer
 	 * @since   3.4
 	 */
 	private $enGbExtensionId = 0;
 
 	/**
-	 * @var     integer  Upate Site ID of the en-GB language pack.
+	 * Upate Site ID of the en-GB language pack.
+	 *
+	 * @var     integer
 	 * @since   3.4
 	 */
 	private $updateSiteId = 0;
@@ -271,7 +275,8 @@ class InstallerModelLanguages extends JModelList
 				// Could not find the url, the information in the update server may be corrupt.
 				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
 				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
+				$app->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
@@ -283,7 +288,8 @@ class InstallerModelLanguages extends JModelList
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
 				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
 				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
+				$app->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
@@ -296,7 +302,8 @@ class InstallerModelLanguages extends JModelList
 				// There was an error installing the package.
 				$message  = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
 				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
-				$app->enqueueMessage($message);
+				$app->enqueueMessage($message, 'error');
+
 				continue;
 			}
 
@@ -306,8 +313,7 @@ class InstallerModelLanguages extends JModelList
 			// Cleanup the install files in tmp folder.
 			if (!is_file($package['packagefile']))
 			{
-				$config = JFactory::getConfig();
-				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+				$package['packagefile'] = JFactory::getConfig()->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
 			JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
