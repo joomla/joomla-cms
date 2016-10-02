@@ -29,8 +29,9 @@ class PlgButtonContact extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A four element array of (contact_id, contact_title, category_id, object)
-	 * @since  __DEPLOY_VERSION__
+	 * @return  stdClass  The button options as stdClass
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onDisplay($name)
 	{
@@ -53,8 +54,7 @@ class PlgButtonContact extends JPlugin
 			jModalClose();
 		}";
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
+		JFactory::getDocument()->addScriptDeclaration($js);
 
 		/*
 		 * Use the built-in element view to select the contact.
@@ -62,12 +62,12 @@ class PlgButtonContact extends JPlugin
 		 */
 		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
-		$button = new JObject;
-		$button->modal = true;
-		$button->class = 'btn';
-		$button->link = $link;
-		$button->text = JText::_('PLG_CONTACT_BUTTON_CONTACT');
-		$button->name = 'address';
+		$button = new stdClass;
+		$button->modal   = true;
+		$button->class   = 'btn';
+		$button->link    = $link;
+		$button->text    = JText::_('PLG_CONTACT_BUTTON_CONTACT');
+		$button->name    = 'address';
 		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 		return $button;
