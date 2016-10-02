@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ JHtml::script('com_joomlaupdate/update.js', false, true, false);
 $password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
-$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
 JFactory::getDocument()->addScriptDeclaration(
 	"

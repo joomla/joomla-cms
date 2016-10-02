@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class TemplatesViewStyles extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -65,7 +65,15 @@ class TemplatesViewStyles extends JViewLegacy
 	{
 		$canDo = JHelperContent::getActions('com_templates');
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'eye thememanager');
+		// Set the title.
+		if ((int) $this->get('State')->get('client_id') === 1)
+		{
+			JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
+		}
 
 		if ($canDo->get('core.edit.state'))
 		{
@@ -86,7 +94,7 @@ class TemplatesViewStyles extends JViewLegacy
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::deleteList('', 'styles.delete');
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
 			JToolbarHelper::divider();
 		}
 

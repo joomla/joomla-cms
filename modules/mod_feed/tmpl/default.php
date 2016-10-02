@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,8 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang = JFactory::getLanguage();
-	$myrtl = $params->get('rssrtl');
+	$lang      = JFactory::getLanguage();
+	$myrtl     = $params->get('rssrtl');
 	$direction = " ";
 
 	if ($lang->isRtl() && $myrtl == 0)
@@ -63,7 +63,7 @@ else
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo htmlspecialchars($rssurl); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($rssurl, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 					</h2>
 			<?php
@@ -94,17 +94,18 @@ else
 			}
 			?>
 			<?php
-				$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
-				$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
-				$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
+				$uri   = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
+				$uri   = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
+				$text  = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? trim($feed[$i]->content) : trim($feed[$i]->description);
+				$title = trim($feed[$i]->title);
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<span class="feed-link">
-						<a href="<?php echo htmlspecialchars($uri); ?>" target="_blank">
+						<a href="<?php echo htmlspecialchars($uri, ENT_COMPAT, 'UTF-8'); ?>" target="_blank">
 						<?php echo $feed[$i]->title; ?></a></span>
 					<?php else : ?>
-						<span class="feed-link"><?php  echo $feed[$i]->title; ?></span>
+						<span class="feed-link"><?php  echo $title; ?></span>
 					<?php  endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>

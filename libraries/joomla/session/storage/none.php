@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * File session handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see    https://secure.php.net/manual/en/function.session-set-save-handler.php
  * @since  11.1
  */
 class JSessionStorageNone extends JSessionStorage

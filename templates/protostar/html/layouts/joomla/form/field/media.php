@@ -59,6 +59,9 @@ switch ($preview)
 	case 'yes': // Deprecated parameter value
 	case 'true':
 	case 'show':
+		$showPreview = true;
+		$showAsTooltip = false;
+		break;
 	case 'tooltip':
 	default:
 		$showPreview = true;
@@ -84,7 +87,7 @@ $url    = ($readonly ? ''
 	: ($link ? $link
 		: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;folder=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;ismoo=0&amp;folder=' . $folder);
 ?>
 <div class="field-media-wrapper"
 	data-basepath="<?php echo JUri::root(); ?>"
@@ -97,10 +100,11 @@ $url    = ($readonly ? ''
 	data-button-clear=".button-clear"
 	data-button-save-selected=".button-save-selected"
 	data-preview="<?php echo $showPreview ? 'true' : 'false'; ?>"
+	data-preview-as-tooltip="<?php echo $showAsTooltip ? 'true' : 'false'; ?>"
 	data-preview-container=".field-media-preview"
 	data-preview-width="<?php echo $previewWidth; ?>"
 	data-preview-height="<?php echo $previewHeight; ?>"
-	>
+>
 	<?php
 	// Render the modal
 	echo JHtml::_('bootstrap.renderModal',
@@ -114,13 +118,13 @@ $url    = ($readonly ? ''
 
 	JHtml::_('script', 'media/mediafield.min.js', false, true, false, false, true);
 	?>
-	<?php if ($showPreview) : ?>
+	<?php if ($showPreview && $showAsTooltip) : ?>
 	<div class="input-prepend input-append">
-	<span rel="popover" class="add-on pop-helper field-media-preview"
-		title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
-		data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
-		<i class="icon-eye"></i>
-	</span>
+		<span rel="popover" class="add-on pop-helper field-media-preview"
+			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
+			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
+			<i class="icon-eye"></i>
+		</span>
 	<?php else: ?>
 	<div class="input-append">
 	<?php endif; ?>
@@ -130,4 +134,7 @@ $url    = ($readonly ? ''
 			<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
 		<?php endif; ?>
 	</div>
+	<?php if ($showPreview && !$showAsTooltip) : ?>
+		<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; max-height: <?php echo $previewHeight; ?>px;margin-top:10px;"></div>
+	<?php endif; ?>
 </div>

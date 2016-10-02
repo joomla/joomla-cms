@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,12 +47,21 @@ class MenusViewItem extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$user = JFactory::getUser();
+
 		$this->form    = $this->get('Form');
 		$this->item    = $this->get('Item');
 		$this->modules = $this->get('Modules');
 		$this->levels  = $this->get('ViewLevels');
 		$this->state   = $this->get('State');
-		$this->canDo   = JHelperContent::getActions('com_menus');
+		$this->canDo   = JHelperContent::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
+
+		// Check if we're allowed to edit this item
+		// No need to check for create, because then the moduletype select is empty
+		if (!empty($this->item->id) && !$this->canDo->get('core.edit'))
+		{
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -60,6 +69,25 @@ class MenusViewItem extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
+		}
+
+		if ($this->getLayout() == 'modal')
+		{
+			// If we are forcing a language in modal (used for associations).
+			if ($forcedLanguage = JFactory::getApplication()->input->get('forcedLanguage', '', 'cmd'))
+			{
+				// Set the language field to the forcedLanguage and disable changing it.
+				$this->form->setValue('language', null, $forcedLanguage);
+				$this->form->setFieldAttribute('language', 'readonly', 'true');
+
+				// Only allow to select categories with All language or with the forced language.
+				$this->form->setFieldAttribute('parent_id', 'language', '*,' . $forcedLanguage);
+			}
+		}
+		// If not in associations modal, block the language change if in edit modal, language not All and associations enabled.
+		elseif ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled())
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
 		}
 
 		parent::display($tpl);

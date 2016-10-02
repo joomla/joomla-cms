@@ -2,7 +2,8 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>com_checkin</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>April 2006</creationDate>
+	<copyright>(C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

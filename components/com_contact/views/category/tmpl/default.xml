@@ -10,16 +10,23 @@
 	</layout>
 
 	<!-- Add fields to the request variables for the layout. -->
-	<fields name="request">
+	<fields name="request"
+		addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		<fieldset name="request"
 			addfieldpath="/administrator/components/com_contact/models/fields"
 		>
-
-			<field name="id" type="category"
+			<field
+				name="id"
+				type="modal_category"
+				label="COM_CONTACT_FIELD_CATEGORY_LABEL"
 				description="COM_CONTACT_FIELD_CATEGORY_DESC"
 				extension="com_contact"
-				label="COM_CONTACT_FIELD_CATEGORY_LABEL"
 				required="true"
+				select="true"
+				new="true"
+				edit="true"
+				clear="true"
 			/>
 		</fieldset>
 	</fields>
@@ -133,6 +140,15 @@
 			<field name="show_headings" type="list"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_image_heading" type="list"
+				label="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_LABEL" 
+				description="COM_CONTACT_FIELD_CONFIG_SHOW_IMAGE_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

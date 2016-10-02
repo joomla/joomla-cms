@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Exception
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class JException extends Exception
 	protected $type = null;
 
 	/**
-	 * Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
+	 * Arguments received by the method the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    array
 	 * @since  11.1

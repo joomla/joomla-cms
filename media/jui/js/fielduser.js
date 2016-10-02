@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ function jSelectUser(element) {
 		name  = $el.data('user-name'),
 		fieldId = $el.data('user-field'),
 		$inputValue = jQuery('#' + fieldId + '_id'),
-		$inputName  = jQuery('#' + fieldId + '_name');
+		$inputName  = jQuery('#' + fieldId);
 
 	if (!$inputValue.length) {
 		// The input not found

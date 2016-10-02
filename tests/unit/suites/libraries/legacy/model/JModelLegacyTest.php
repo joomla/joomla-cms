@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -534,11 +534,12 @@ class JModelLegacyTest extends TestCaseDatabase
 				$this->equalTo('param1'),
 				$this->equalTo('param2'),
 				$this->equalTo('param3')
-			);
+			)
+			->willReturnSelf();
 
 		$dbMock->method('loadObjectList');
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$method->invokeArgs($this->fixture, array('param1', 'param2', 'param3'));
 	}
@@ -559,12 +560,13 @@ class JModelLegacyTest extends TestCaseDatabase
 
 		$dbMock = $this->getMockDatabase();
 
-		$dbMock->method('setQuery');
+		$dbMock->method('setQuery')
+			->willReturnSelf();
 
 		$dbMock->method('loadObjectList')
 			->willReturn('returnValue');
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$this->assertEquals('returnValue', $method->invokeArgs($this->fixture, array('')));
 	}
@@ -589,17 +591,17 @@ class JModelLegacyTest extends TestCaseDatabase
 			->method('setQuery')
 			->with(
 				$this->equalTo('param1')
-			);
+			)
+			->willReturnSelf();
 
 		$dbMock->expects($this->once())
 			->method('execute');
-
 
 		$dbMock->expects($this->once())
 			->method('getNumRows')
 			->willReturn(1);
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$this->assertEquals(1, $method->invokeArgs($this->fixture, array('param1')));
 	}
@@ -629,13 +631,14 @@ class JModelLegacyTest extends TestCaseDatabase
 			->method('setQuery')
 			->with(
 				$this->equalTo($queryMock)
-			);
+			)
+			->willReturnSelf();
 
 		$dbMock->expects($this->once())
 			->method('loadResult')
 			->willReturn(1);
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$this->assertEquals(1, $method->invokeArgs($this->fixture, array($queryMock)));
 	}

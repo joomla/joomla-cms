@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,9 +37,7 @@ class TemplatesModelTemplates extends JModelList
 				'checked_out_time', 'a.checked_out_time',
 				'state', 'a.state',
 				'enabled', 'a.enabled',
-				'access', 'a.access', 'access_level',
 				'ordering', 'a.ordering',
-				'client_id', 'a.client_id',
 			);
 		}
 
@@ -86,27 +84,17 @@ class TemplatesModelTemplates extends JModelList
 				'a.extension_id, a.name, a.element, a.client_id'
 			)
 		);
-		$query->from($db->quoteName('#__extensions') . ' AS a');
+		$query->from($db->quoteName('#__extensions', 'a'))
+			->where($db->quoteName('a.client_id') . ' = ' . (int) $this->getState('client_id'))
+			->where($db->quoteName('a.enabled') . ' = 1')
+			->where($db->quoteName('a.type') . ' = ' . $db->quote('template'));
 
-		// Filter by extension type.
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
-
-		// Filter by client.
-		$clientId = $this->getState('filter.client_id');
-
-		if (is_numeric($clientId))
-		{
-			$query->where('a.client_id = ' . (int) $clientId);
-		}
-
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		// Filter by search in title.
+		if ($search = $this->getState('filter.search'))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
 			}
 			else
 			{
@@ -116,7 +104,7 @@ class TemplatesModelTemplates extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.folder')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.element')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -137,8 +125,8 @@ class TemplatesModelTemplates extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
+		$id .= ':' . $this->getState('client_id');
 		$id .= ':' . $this->getState('filter.search');
-		$id .= ':' . $this->getState('filter.client_id');
 
 		return parent::getStoreId($id);
 	}
@@ -155,20 +143,21 @@ class TemplatesModelTemplates extends JModelList
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'a.element', $direction = 'asc')
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null);
-		$this->setState('filter.client_id', $clientId);
+		// Special case for the client id.
+		$clientId = (int) $this->getUserStateFromRequest($this->context . '.client_id', 'client_id', 0, 'int');
+		$clientId = (!in_array($clientId, array (0, 1))) ? 0 : $clientId;
+		$this->setState('client_id', $clientId);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('a.element', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 }

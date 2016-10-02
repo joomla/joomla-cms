@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,10 +45,25 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php echo $this->form->getInput('description'); ?></li>
 			</ul>
 	</fieldset>
+</div>
+	<div class="clr"></div>
+	<?php if ($this->canDo->get('core.admin')) : ?>
+		<div  class="col rules-section">
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_MENUS_FIELDSET_RULES'), 'access-rules'); ?>
+				<fieldset class="panelform">
+					<legend class="element-invisible"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
+					<?php echo $this->form->getLabel('rules'); ?>
+					<?php echo $this->form->getInput('rules'); ?>
+				</fieldset>
+
+			<?php echo JHtml::_('sliders.end'); ?>
+		</div>
+	<?php endif; ?>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-	</div>
+
 </form>
 <div class="clr"></div>
 </div>

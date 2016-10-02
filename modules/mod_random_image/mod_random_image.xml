@@ -3,7 +3,7 @@
 	<name>mod_random_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2015 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,50 +25,64 @@
 				<field
 					name="type"
 					type="text"
-					default="jpg"
 					label="MOD_RANDOM_IMAGE_FIELD_TYPE_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_TYPE_DESC" />
+					description="MOD_RANDOM_IMAGE_FIELD_TYPE_DESC"
+					default="jpg"
+				/>
+
 				<field
 					name="folder"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC" />
+					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC"
+				/>
+
 				<field
 					name="link"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_LINK_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_LINK_DESC" />
+					description="MOD_RANDOM_IMAGE_FIELD_LINK_DESC"
+				/>
+
 				<field
 					name="width"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC" />
+					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC"
+				/>
+
 				<field
 					name="height"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC" />
+					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC"
+				/>
+
 			</fieldset>
-			<fieldset
-				name="advanced">
+			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+				/>
+
 				<field
 					name="cache"
 					type="list"
-					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					default="0"
+					>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 			</fieldset>
 		</fields>

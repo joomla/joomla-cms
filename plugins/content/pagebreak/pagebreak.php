@@ -3,11 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\String\StringHelper;
 
 jimport('joomla.utilities.utility');
 
@@ -28,14 +30,6 @@ jimport('joomla.utilities.utility');
  */
 class PlgContentPagebreak extends JPlugin
 {
-	/**
-	 * Load the language file on instantiation.
-	 *
-	 * @var    boolean
-	 * @since  3.1
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point
 	 *
@@ -80,7 +74,7 @@ class PlgContentPagebreak extends JPlugin
 		}
 
 		// Simple performance check to determine whether bot should process further.
-		if (JString::strpos($row->text, 'class="system-pagebreak') === false)
+		if (StringHelper::strpos($row->text, 'class="system-pagebreak') === false)
 		{
 			return true;
 		}
@@ -99,6 +93,9 @@ class PlgContentPagebreak extends JPlugin
 
 			return;
 		}
+
+		// Load plugin language files only when needed (ex: not needed if no system-pagebreak class exists).
+		$this->loadLanguage();
 
 		// Find all instances of plugin and put in $matches.
 		$matches = array();
@@ -126,6 +123,11 @@ class PlgContentPagebreak extends JPlugin
 
 		// Split the text around the plugin.
 		$text = preg_split($regex, $row->text);
+
+		if (!isset($text[$page]))
+		{
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+		}
 
 		// Count the number of pages.
 		$n = count($text);

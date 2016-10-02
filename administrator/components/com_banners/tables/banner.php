@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,11 +65,16 @@ class BannersTableBanner extends JTable
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
 		// Set alias
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
-
-		if (empty($this->alias))
+		if (trim($this->alias) == '')
 		{
-			$this->alias = JApplicationHelper::stringURLSafe($this->name);
+			$this->alias = $this->name;
+		}
+
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
+
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
+			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
 
 		// Check the publish down date is not earlier than publish up.
@@ -90,6 +95,21 @@ class BannersTableBanner extends JTable
 		{
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
+		}
+
+		if (empty($this->publish_up))
+		{
+			$this->publish_up = $this->getDbo()->getNullDate();
+		}
+
+		if (empty($this->publish_down))
+		{
+			$this->publish_down = $this->getDbo()->getNullDate();
+		}
+
+		if (empty($this->modified))
+		{
+			$this->modified = $this->getDbo()->getNullDate();
 		}
 
 		return true;
@@ -178,19 +198,19 @@ class BannersTableBanner extends JTable
 					break;
 				case 2:
 					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$this->reset = $date->toSql();
 					break;
 				case 3:
 					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$this->reset = $date->toSql();
 					break;
 				case 4:
 					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$this->reset = $date->toSql();
 					break;
 				case 5:
 					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
-					$this->reset = $this->_db->quote($date->toSql());
+					$this->reset = $date->toSql();
 					break;
 			}
 

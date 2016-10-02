@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,7 +52,7 @@ $fieldsets = $this->form->getFieldsets();
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -60,7 +60,7 @@ $fieldsets = $this->form->getFieldsets();
 						</div>
 						<div class="controls">
 							<?php if ($field->fieldname == 'password') : ?>
-								<?php // Disables autocomplete ?> <input type="text" style="display:none">
+								<?php // Disables autocomplete ?> <input type="password" style="display:none">
 							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</div>
@@ -69,41 +69,18 @@ $fieldsets = $this->form->getFieldsets();
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->grouplist) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS')); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php
-			foreach ($fieldsets as $fieldset) :
-				if ($fieldset->name == 'user_details') :
-					continue;
-				endif;
+			$this->ignore_fieldsets = array('user_details');
+			echo JLayoutHelper::render('joomla.edit.params', $this);
 			?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
-				<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-					<?php if ($field->hidden) : ?>
-						<div class="control-group">
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-						</div>
-					<?php else: ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $field->label; ?>
-							</div>
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-				<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endforeach; ?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id): ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"

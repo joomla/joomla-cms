@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,9 +81,21 @@ class JMenu
 			}
 
 			// Decode the item params
-			$result = new Registry;
-			$result->loadString($item->params);
-			$item->params = $result;
+			try
+			{
+				$result = new Registry;
+				$result->loadString($item->params);
+				$item->params = $result;
+			}
+			catch (RuntimeException $e)
+			{
+				/**
+				 * Joomla shipped with a broken sample json string for 4 years which caused fatals with new
+				 * error checks. So for now we catch the exception here - but one day we should remove it and require
+				 * valid JSON.
+				 */
+				$item->params = new Registry;
+			}
 		}
 
 		$this->user = isset($options['user']) && $options['user'] instanceof JUser ? $options['user'] : JFactory::getUser();
@@ -200,7 +212,7 @@ class JMenu
 			return $this->_items[$this->_default['*']];
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -222,7 +234,7 @@ class JMenu
 			return $result;
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -241,7 +253,7 @@ class JMenu
 			return $item;
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -261,6 +273,7 @@ class JMenu
 		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
+		$count = count($attributes);
 
 		foreach ($this->_items as $item)
 		{
@@ -271,7 +284,7 @@ class JMenu
 
 			$test = true;
 
-			for ($i = 0, $count = count($attributes); $i < $count; $i++)
+			for ($i = 0; $i < $count; $i++)
 			{
 				if (is_array($values[$i]))
 				{

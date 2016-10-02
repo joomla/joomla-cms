@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,7 @@ class JCacheController
 	}
 
 	/**
-	 * Magic method to proxy JCacheControllerMethods
+	 * Magic method to proxy JCacheController method calls to JCache
 	 *
 	 * @param   string  $name       Name of the function
 	 * @param   array   $arguments  Array of arguments for the function
@@ -77,7 +77,7 @@ class JCacheController
 	 * @param   string  $type     The cache object type to instantiate; default is output.
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  JCache  A JCache object
+	 * @return  JCacheController
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -95,11 +95,17 @@ class JCacheController
 			// Search for the class file in the JCache include paths.
 			jimport('joomla.filesystem.path');
 
-			if ($path = JPath::find(self::addIncludePath(), strtolower($type) . '.php'))
+			$path = JPath::find(self::addIncludePath(), strtolower($type) . '.php');
+
+			if ($path === false)
 			{
-				include_once $path;
+				throw new RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
-			else
+
+			include_once $path;
+
+			// The class should now be loaded
+			if (!class_exists($class))
 			{
 				throw new RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
@@ -137,12 +143,11 @@ class JCacheController
 	}
 
 	/**
-	 * Add a directory where JCache should search for controllers. You may
-	 * either pass a string or an array of directories.
+	 * Add a directory where JCache should search for controllers. You may either pass a string or an array of directories.
 	 *
-	 * @param   string  $path  A path to search.
+	 * @param   array|string  $path  A path to search.
 	 *
-	 * @return  array   An array with directory elements
+	 * @return  array  An array with directory elements
 	 *
 	 * @since   11.1
 	 */
@@ -165,12 +170,12 @@ class JCacheController
 	}
 
 	/**
-	 * Get stored cached data by id and group
+	 * Get stored cached data by ID and group
 	 *
-	 * @param   string  $id     The cache data id
+	 * @param   string  $id     The cache data ID
 	 * @param   string  $group  The cache data group
 	 *
-	 * @return  mixed   False on no result, cached object otherwise
+	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
 	 * @since   11.1
 	 */
@@ -180,9 +185,6 @@ class JCacheController
 
 		if ($data === false)
 		{
-			$locktest = new stdClass;
-			$locktest->locked = null;
-			$locktest->locklooped = null;
 			$locktest = $this->cache->lock($id, $group);
 
 			if ($locktest->locked == true && $locktest->locklooped == true)
@@ -207,10 +209,10 @@ class JCacheController
 	}
 
 	/**
-	 * Store data to cache by id and group
+	 * Store data to cache by ID and group
 	 *
 	 * @param   mixed    $data        The data to store
-	 * @param   string   $id          The cache data id
+	 * @param   string   $id          The cache data ID
 	 * @param   string   $group       The cache data group
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
@@ -220,10 +222,6 @@ class JCacheController
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
-		$locktest = new stdClass;
-		$locktest->locked = null;
-		$locktest->locklooped = null;
-
 		$locktest = $this->cache->lock($id, $group);
 
 		if ($locktest->locked == false && $locktest->locklooped == true)
@@ -231,13 +229,13 @@ class JCacheController
 			$locktest = $this->cache->lock($id, $group);
 		}
 
-		$sucess = $this->cache->store(serialize($data), $id, $group);
+		$success = $this->cache->store(serialize($data), $id, $group);
 
 		if ($locktest->locked == true)
 		{
 			$this->cache->unlock($id, $group);
 		}
 
-		return $sucess;
+		return $success;
 	}
 }

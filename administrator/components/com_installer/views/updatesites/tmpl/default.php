@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,48 +19,52 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <div id="installer-manage" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesites'); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if (!empty( $this->sidebar)) : ?>
-			<div id="j-sidebar-container" class="span2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div id="j-main-container" class="span10">
+		<div id="j-sidebar-container" class="span2">
+			<?php echo $this->sidebar; ?>
+		</div>
+		<div id="j-main-container" class="span10">
 		<?php else : ?>
-			<div id="j-main-container">
+		<div id="j-main-container">
 		<?php endif; ?>
 			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-
-			<?php if (count($this->items)) : ?>
+			<div class="clearfix"></div>
+			<?php if (empty($this->items)) : ?>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+			<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="20" class="center">
+						<th width="1%" class="center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="10%" class="center">
-							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
+						<th width="1%" class="nowrap center">
+							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap hidden-phone">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+						</th>
+						<th class="hidden-phone hidden-tablet">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 						</th>
 						<th class="hidden-phone">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 						</th>
-						<th class="hidden-phone">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
+						<th class="hidden-phone hidden-tablet">
+							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 						</th>
-						<th class="hidden-phone">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
-						</th>
-						<th width="10" class="hidden-phone">
-							<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_UPDATESITEID', 'update_site_id', $listDirn, $listOrder); ?>
+						<th width="1%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="12">
+						<td colspan="8">
 							<?php echo $this->pagination->getListFooter(); ?>
 						</td>
 					</tr>
@@ -82,7 +86,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<label for="cb<?php echo $i; ?>">
 								<?php echo JText::_($item->update_site_name); ?>
 								<br />
-								<span class="small">
+								<span class="small break-word">
 									<a href="<?php echo $item->location; ?>" target="_blank"><?php echo $this->escape($item->location); ?></a>
 								</span>
 							</label>
@@ -92,14 +96,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo $item->name; ?>
 							</span>
 						</td>
-						<td class="hidden-phone">
-							<?php echo $item->client; ?>
+						<td class="hidden-phone hidden-tablet">
+							<?php echo $item->client_translated; ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
+							<?php echo $item->type_translated; ?>
 						</td>
-						<td class="hidden-phone">
-							<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+						<td class="hidden-phone hidden-tablet">
+							<?php echo $item->folder_translated; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $item->update_site_id; ?>
@@ -111,8 +115,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php endif; ?>
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>

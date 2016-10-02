@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,21 +12,11 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 
-$captchaEnabled = false;
-
-foreach (JPluginHelper::getPlugin('captcha') as $plugin)
-{
-	if (JFactory::getApplication()->get('captcha', '0') === $plugin->name)
-	{
-		$captchaEnabled = true;
-		break;
-	}
-}
 ?>
 <div class="contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
-			<?php if ($fieldset->name === 'captcha' && !$captchaEnabled) : ?>
+			<?php if ($fieldset->name === 'captcha' && !$this->captchaEnabled) : ?>
 				<?php continue; ?>
 			<?php endif; ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
@@ -54,6 +44,5 @@ foreach (JPluginHelper::getPlugin('captcha') as $plugin)
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</div>
-		</fieldset>
 	</form>
 </div>

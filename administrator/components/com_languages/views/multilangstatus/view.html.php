@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,16 +25,16 @@ class LanguagesViewMultilangstatus extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		require_once JPATH_COMPONENT . '/helpers/multilangstatus.php';
+		JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 		$this->homes           = MultilangstatusHelper::getHomes();
 		$this->language_filter = JLanguageMultilang::isEnabled();
 		$this->switchers       = MultilangstatusHelper::getLangswitchers();
 		$this->listUsersError  = MultilangstatusHelper::getContacts();
 		$this->contentlangs    = MultilangstatusHelper::getContentlangs();
-		$this->site_langs      = MultilangstatusHelper::getSitelangs();
+		$this->site_langs      = JLanguageMultilang::getSiteLangs();
 		$this->statuses        = MultilangstatusHelper::getStatus();
-		$this->homepages       = MultilangstatusHelper::getHomepages();
+		$this->homepages       = JLanguageMultilang::getSiteHomePages();
 
 		parent::display($tpl);
 	}

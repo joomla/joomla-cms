@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -462,8 +462,8 @@ class JViewLegacyTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		parent::tearDown();
-
 		$this->restoreFactoryState();
+		unset($this->class);
+		parent::tearDown();
 	}
 }

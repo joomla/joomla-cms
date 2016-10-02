@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1045,7 +1045,14 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 */
 	public function testSetUtf()
 	{
-		$this->assertEquals(0, self::$driver->setUtf());
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			$this->assertEquals(-1, self::$driver->setUtf());
+		}
+		else
+		{
+			$this->assertEquals(0, self::$driver->setUtf());
+		}
 	}
 
 	/**

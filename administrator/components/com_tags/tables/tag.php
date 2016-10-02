@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Tags table
@@ -58,7 +59,7 @@ class TagsTableTag extends JTableNested
 			$array['metadata'] = (string) $registry;
 		}
 
-		if (isset($array['urls']) && $array['urls'])
+		if (isset($array['urls']) && is_array($array['urls']))
 		{
 			$registry = new Registry;
 			$registry->loadArray($array['urls']);
@@ -96,7 +97,7 @@ class TagsTableTag extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -118,7 +119,7 @@ class TagsTableTag extends JTableNested
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = StringHelper::str_ireplace($bad_characters, "", $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -142,7 +143,7 @@ class TagsTableTag extends JTableNested
 		{
 			// Only process if not empty
 			$bad_characters = array("\"", "<", ">");
-			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
+			$this->metadesc = StringHelper::str_ireplace($bad_characters, "", $this->metadesc);
 		}
 		// Not Null sanity check
 		$date = JFactory::getDate();
@@ -154,12 +155,12 @@ class TagsTableTag extends JTableNested
 
 		if (empty($this->metadesc))
 		{
-			$this->metadesc = ' ';
+			$this->metadesc = '';
 		}
 
 		if (empty($this->metakey))
 		{
-			$this->metakey = ' ';
+			$this->metakey = '';
 		}
 
 		if (empty($this->metadata))
@@ -242,7 +243,7 @@ class TagsTableTag extends JTableNested
 		}
 
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Tag', 'TagsTable');
+		$table = JTable::getInstance('Tag', 'TagsTable', array('dbo' => $this->_db));
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
@@ -263,7 +264,6 @@ class TagsTableTag extends JTableNested
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @see     https://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

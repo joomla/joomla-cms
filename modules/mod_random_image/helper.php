@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\String\StringHelper;
 
 /**
  * Helper for mod_random_image
@@ -139,13 +141,13 @@ class ModRandomImageHelper
 		$LiveSite = JUri::base();
 
 		// If folder includes livesite info, remove
-		if (JString::strpos($folder, $LiveSite) === 0)
+		if (StringHelper::strpos($folder, $LiveSite) === 0)
 		{
 			$folder = str_replace($LiveSite, '', $folder);
 		}
 
 		// If folder includes absolute path, remove
-		if (JString::strpos($folder, JPATH_SITE) === 0)
+		if (StringHelper::strpos($folder, JPATH_SITE) === 0)
 		{
 			$folder = str_replace(JPATH_BASE, '', $folder);
 		}

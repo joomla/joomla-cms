@@ -24,7 +24,19 @@
 			>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
-			</field>		
+			</field>
+			<field
+				name="menu_show"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_SHOW_DESC"
+				default="1"
+				filter="integer"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>			
 		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_HEADING" />

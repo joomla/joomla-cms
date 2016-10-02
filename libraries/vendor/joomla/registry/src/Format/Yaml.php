@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Registry Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,8 +22,7 @@ class Yaml extends AbstractRegistryFormat
 	/**
 	 * The YAML parser class.
 	 *
-	 * @var    \Symfony\Component\Yaml\Parser;
-	 *
+	 * @var    \Symfony\Component\Yaml\Parser
 	 * @since  1.0
 	 */
 	private $parser;
@@ -31,8 +30,7 @@ class Yaml extends AbstractRegistryFormat
 	/**
 	 * The YAML dumper class.
 	 *
-	 * @var    \Symfony\Component\Yaml\Dumper;
-	 *
+	 * @var    \Symfony\Component\Yaml\Dumper
 	 * @since  1.0
 	 */
 	private $dumper;
