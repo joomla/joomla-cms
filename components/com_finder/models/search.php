@@ -212,7 +212,7 @@ class FinderModelSearch extends JModelList
 		// Use the cached data if possible.
 		if ($this->retrieve($store, false))
 		{
-			return clone($this->retrieve($store, false));
+			return clone $this->retrieve($store, false);
 		}
 
 		// Set variables
@@ -306,7 +306,7 @@ class FinderModelSearch extends JModelList
 		$this->store($store, $query, false);
 
 		// Return a copy of the query object.
-		return clone($this->retrieve($store, false));
+		return clone $this->retrieve($store, false);
 	}
 
 	/**
@@ -342,7 +342,7 @@ class FinderModelSearch extends JModelList
 		if (empty($this->includedTerms))
 		{
 			// Adjust the query to join on the appropriate mapping table.
-			$query = clone($base);
+			$query = clone $base;
 			$query->clear('select')
 				->select('COUNT(DISTINCT l.link_id)');
 
@@ -415,7 +415,7 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Adjust the query to join on the appropriate mapping table.
-					$query = clone($base);
+					$query = clone $base;
 					$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
 						->where('m.term_id IN (' . implode(',', $ids) . ')');
 
@@ -526,7 +526,7 @@ class FinderModelSearch extends JModelList
 						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
-						$query = clone($base);
+						$query = clone $base;
 						$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
 							->where('m.term_id IN (' . implode(',', $required) . ')');
 
@@ -694,7 +694,7 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Adjust the query to join on the appropriate mapping table.
-					$query = clone($base);
+					$query = clone $base;
 					$query->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
 						->where('m.term_id IN (' . implode(',', $ids) . ')');
 
@@ -847,7 +847,7 @@ class FinderModelSearch extends JModelList
 						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
-						$query = clone($base);
+						$query = clone $base;
 						$query->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
 							->where('m.term_id IN (' . implode(',', $required) . ')');
 
