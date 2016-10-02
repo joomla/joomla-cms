@@ -20,6 +20,8 @@ class FinderViewFilter extends JViewLegacy
 	 * The filter object
 	 *
 	 * @var  FinderTableFilter
+	 *
+	 * @since  2.5
 	 */
 	protected $filter;
 
@@ -27,22 +29,37 @@ class FinderViewFilter extends JViewLegacy
 	 * The JForm object
 	 *
 	 * @var  JForm
+	 *
+	 * @since  2.5
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var  JObject|boolean
+	 *
+	 * @since  2.5
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var  mixed
+	 *
+	 * @since  2.5
 	 */
 	protected $state;
+
+	/**
+	 * The total indexed items
+	 *
+	 * @var  int
+	 *
+	 * @since  2.5
+	 */
+	protected $total;
 
 	/**
 	 * Method to display the view.
