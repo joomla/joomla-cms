@@ -57,7 +57,7 @@ class TagsHelperRoute extends JHelperRoute
 			}
 		}
 
-		if ($link == '')
+		if ($link === '')
 		{
 			// Create a fallback link in case we can't find the component router
 			$router = new JHelperRoute;

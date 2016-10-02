@@ -91,7 +91,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 
 					foreach ($path as $id)
 					{
-						if ((int) $id == (int) $menuCatid)
+						if ((int) $id === (int) $menuCatid)
 						{
 							break;
 						}
@@ -214,7 +214,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 				}
 			}
 
-			if ($found == 0)
+			if ($found === 0)
 			{
 				if ($advanced)
 				{

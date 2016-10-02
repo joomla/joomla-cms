@@ -198,7 +198,7 @@ class UsersModelProfile extends JModelForm
 		{
 			$username = $this->loadFormData()->username;
 			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
+				|| trim($username) !== $username);
 		}
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);

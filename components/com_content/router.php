@@ -162,7 +162,7 @@ class ContentRouter extends JComponentRouterBase
 
 			foreach ($path as $id)
 			{
-				if ((int) $id == (int) $mCatid)
+				if ((int) $id === (int) $mCatid)
 				{
 					break;
 				}
@@ -323,7 +323,7 @@ class ContentRouter extends JComponentRouterBase
 		 * We test it first to see if it is a category.  If the id and alias match a category,
 		 * then we assume it is a category.  If they don't we assume it is an article
 		 */
-		if ($count == 1)
+		if ($count === 1)
 		{
 			// We check to see if an alias is given.  If not, we assume it is an article
 			if (strpos($segments[0], ':') === false)
@@ -428,7 +428,7 @@ class ContentRouter extends JComponentRouterBase
 				}
 			}
 
-			if ($found == 0)
+			if ($found === 0)
 			{
 				if ($advanced)
 				{

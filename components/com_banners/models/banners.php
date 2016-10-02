@@ -134,7 +134,7 @@ class BannersModelBanners extends JModelList
 
 		if ($tagSearch)
 		{
-			if (count($keywords) == 0)
+			if (count($keywords) === 0)
 			{
 				$query->where('0');
 			}
@@ -154,7 +154,7 @@ class BannersModelBanners extends JModelList
 					$keyword = trim($keyword);
 
 					$quotedKeyword = $db->quote($keyword);
-					$prefixCondition = ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+					$prefixCondition = ($prefix === substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
 					$condition1 = /** @lang SQL */
 						<<<SQL
@@ -300,7 +300,7 @@ SQL;
 					JError::raiseError(500, $e->getMessage());
 				}
 
-				if ($db->getAffectedRows() == 0)
+				if ($db->getAffectedRows() === 0)
 				{
 					// Insert new count
 					$query->clear();
