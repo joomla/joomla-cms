@@ -29,7 +29,7 @@ class PlgButtonContact extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  stdClass  The button options as stdClass
+	 * @return  JObject  The button options as JObject
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -62,7 +62,7 @@ class PlgButtonContact extends JPlugin
 		 */
 		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
-		$button = new stdClass;
+		$button = new JObject;
 		$button->modal   = true;
 		$button->class   = 'btn';
 		$button->link    = $link;
