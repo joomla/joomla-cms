@@ -29,7 +29,7 @@ class PlgButtonReadmore extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  stdClass  The button options as stdClass
+	 * @return  JObject  The button options as JObject
 	 *
 	 * @since   1.5
 	 */
@@ -54,7 +54,7 @@ class PlgButtonReadmore extends JPlugin
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 
-		$button = new stdClass;
+		$button = new JObject;
 		$button->modal   = false;
 		$button->class   = 'btn';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';

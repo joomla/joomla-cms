@@ -31,7 +31,7 @@ class PlgButtonImage extends JPlugin
 	 * @param   string   $asset   The name of the asset being edited.
 	 * @param   integer  $author  The id of the author owning the asset being edited.
 	 *
-	 * @return  stdClass  The button options as stdClass or false if not allowed
+	 * @return  JObject  The button options as JObject or false if not allowed
 	 * @since   1.5
 	 */
 	public function onDisplay($name, $asset, $author)
@@ -53,7 +53,7 @@ class PlgButtonImage extends JPlugin
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 
-			$button = new stdClass;
+			$button = new JObject;
 			$button->modal   = true;
 			$button->class   = 'btn';
 			$button->link    = $link;

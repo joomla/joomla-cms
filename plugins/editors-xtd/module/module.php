@@ -29,7 +29,7 @@ class PlgButtonModule extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return  stdClass  The button options as stdClass
+	 * @return  JObject  The button options as JObject
 	 *
 	 * @since   3.5
 	 */
@@ -42,7 +42,7 @@ class PlgButtonModule extends JPlugin
 		$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
 				. $name . '&amp;' . JSession::getFormToken() . '=1';
 
-		$button          = new stdClass;
+		$button = new JObject;
 		$button->modal   = true;
 		$button->class   = 'btn';
 		$button->link    = $link;
