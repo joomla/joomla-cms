@@ -507,8 +507,7 @@ class FinderIndexerQuery
 		$this->filter = (int) $filterId;
 
 		// Get a parameter object for the filter date options.
-		$registry = new Registry;
-		$registry->loadString($return->params);
+		$registry = new Registry($return->params);
 		$params = $registry;
 
 		// Set the dates if not already set.

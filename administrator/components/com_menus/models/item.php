@@ -730,8 +730,7 @@ class MenusModelItem extends JModelAdmin
 		$result = ArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
-		$registry = new Registry;
-		$registry->loadString($table->params);
+		$registry = new Registry($table->params);
 		$result->params = $registry->toArray();
 
 		// Merge the request arguments in to the params for a component.
@@ -1237,8 +1236,7 @@ class MenusModelItem extends JModelAdmin
 
 		foreach ($items as &$item)
 		{
-			$registry = new Registry;
-			$registry->loadString($item->params);
+			$registry = new Registry($item->params);
 			$params = (string) $registry;
 
 			$query->clear();
