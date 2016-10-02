@@ -294,26 +294,6 @@ class JViewLegacyTest extends TestCase
 	}
 
 	/**
-	 * Test JViewLegacy::setEscape()
-	 *
-	 * @since   11.3
-	 *
-	 * @return  void
-	 */
-	public function testSetEscape()
-	{
-		$this->assertAttributeEquals('htmlspecialchars', '_escape', $this->class);
-
-		$this->class->setEscape('escapefunc');
-
-		$this->assertAttributeEquals('escapefunc', '_escape', $this->class);
-
-		$this->class->setEscape(array('EscapeClass', 'func'));
-
-		$this->assertAttributeEquals(array('EscapeClass', 'func'), '_escape', $this->class);
-	}
-
-	/**
 	 * Test JViewLegacy::addTemplatePath()
 	 *
 	 * @since   11.3
