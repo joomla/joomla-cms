@@ -258,7 +258,7 @@ class TagsModelTag extends JModelList
 	 */
 	public function getItem($pk = null)
 	{
-		if (!isset($this->item) ||$this->item === null)
+		if (!isset($this->item))
 		{
 			$this->item = false;
 

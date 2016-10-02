@@ -101,7 +101,7 @@ JHtml::_('behavior.caption');
 		</div>
 	<?php endif; ?>
 
-	<?php if (!empty($this->children[$this->category->id]) && $this->maxLevel != 0) : ?>
+	<?php if ($this->maxLevel != 0 && !empty($this->children[$this->category->id])) : ?>
 		<div class="cat-children">
 			<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 				<h3> <?php echo JText::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>

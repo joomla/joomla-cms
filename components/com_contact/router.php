@@ -58,7 +58,7 @@ class ContactRouter extends JComponentRouterBase
 		}
 
 		// Are we dealing with a contact that is attached to a menu item?
-		if (isset($view) && ($mView == $view) and isset($query['id']) and ($mId == (int) $query['id']))
+		if (isset($view, $query['id']) && ($mView == $view) && ($mId == (int) $query['id']))
 		{
 			unset($query['view']);
 			unset($query['catid']);
@@ -66,9 +66,9 @@ class ContactRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if (isset($view) and ($view == 'category' or $view == 'contact'))
+		if (isset($view) && ($view == 'category' || $view == 'contact'))
 		{
-			if ($mId != (int) $query['id'] || $mView != $view)
+			if ($mView != $view || $mId != (int) $query['id'])
 			{
 				if ($view == 'contact' && isset($query['catid']))
 				{

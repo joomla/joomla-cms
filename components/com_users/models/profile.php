@@ -204,7 +204,7 @@ class UsersModelProfile extends JModelForm
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -323,7 +323,7 @@ class UsersModelProfile extends JModelForm
 		$username            = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			unset($data['username']);
 		}

@@ -102,7 +102,7 @@ class ContentRouter extends JComponentRouterBase
 
 			if ($view == 'article')
 			{
-				if (isset($query['id']) && isset($query['catid']) && $query['catid'])
+				if (isset($query['id'], $query['catid']) && $query['catid'])
 				{
 					$catid = $query['catid'];
 

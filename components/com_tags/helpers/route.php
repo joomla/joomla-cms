@@ -126,7 +126,7 @@ class TagsHelperRoute extends JHelperRoute
 			{
 				foreach ($items as $item)
 				{
-					if (isset($item->query) && isset($item->query['view']))
+					if (isset($item->query, $item->query['view']))
 					{
 						$lang = ($item->language != '' ? $item->language : '*');
 

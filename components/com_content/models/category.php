@@ -457,7 +457,8 @@ class ContentModelCategory extends JModelList
 		{
 			$params = $this->getState()->get('params');
 
-			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
+			$orderByPri = $params->get('orderby_pri');
+			if ($orderByPri == 'alpha' || $orderByPri == 'ralpha')
 			{
 				$this->_children = ArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : (-1));
 			}

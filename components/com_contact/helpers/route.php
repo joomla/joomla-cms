@@ -155,7 +155,7 @@ abstract class ContactHelperRoute
 
 			foreach ($items as $item)
 			{
-				if (isset($item->query) && isset($item->query['view']))
+				if (isset($item->query, $item->query['view']))
 				{
 					$view = $item->query['view'];
 
@@ -171,7 +171,7 @@ abstract class ContactHelperRoute
 						* language != * can override existing entries
 						* language == * cannot override existing entries
 						*/
-						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						if ($item->language != '*' || !isset(self::$lookup[$language][$view][$item->query['id']]))
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
