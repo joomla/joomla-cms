@@ -996,7 +996,8 @@ class FinderIndexerQuery
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
-					//todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
+
+					// todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
 					$token = $this->getTokenData($token);
 
 					// Set the required flag.
