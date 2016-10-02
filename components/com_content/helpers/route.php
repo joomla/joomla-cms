@@ -51,7 +51,7 @@ abstract class ContentHelperRoute
 			}
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -100,7 +100,7 @@ abstract class ContentHelperRoute
 			$needles['category']   = $catids;
 			$needles['categories'] = $catids;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;

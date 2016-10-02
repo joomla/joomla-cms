@@ -98,11 +98,11 @@ if (!empty($this->items))
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th id="categorylist_header_date">
-						<?php if ($date == "created") : ?>
+						<?php if ($date == 'created') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "modified") : ?>
+						<?php elseif ($date == 'modified') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "published") : ?>
+						<?php elseif ($date == 'published') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>

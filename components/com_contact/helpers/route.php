@@ -54,7 +54,7 @@ abstract class ContactHelperRoute
 			}
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -106,7 +106,7 @@ abstract class ContactHelperRoute
 			$needles['category']   = $catids;
 			$needles['categories'] = $catids;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;

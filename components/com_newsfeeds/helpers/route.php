@@ -50,7 +50,7 @@ abstract class NewsfeedsHelperRoute
 			}
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -100,7 +100,7 @@ abstract class NewsfeedsHelperRoute
 			$needles['category'] = $catids;
 			$needles['categories'] = $catids;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;
