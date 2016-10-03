@@ -1172,6 +1172,15 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/xml.php',
 			// Joomla 3.3.1
 			'/administrator/templates/isis/html/message.php',
+			// Joomla 3.3.6
+			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/plugins/compat3x/validate.js',
+			'/plugins/user/profile/fields/index.html',
+			'/plugins/user/profile/fields/tos.php',
+			'/administrator/components/com_media/models/forms/index.html',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
@@ -1484,6 +1493,10 @@ class JoomlaInstallerScript
 			'/plugins/user/joomla/postinstall',
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
+			// Joomla! 3.3
+			'/administrator/components/com_media/models/forms',
+			'/plugins/user/profile/fields',
+			'/media/editors/tinymce/plugins/compat3x',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html',
 			'/administrator/components/com_tags/models/fields',
