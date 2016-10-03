@@ -57,13 +57,13 @@ JFactory::getDocument()->addScriptDeclaration('
 		<!-- Begin Content -->
 		<div class="col-md-10">
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#page-site" data-toggle="tab"><?php echo JText::_('JSITE'); ?></a></li>
-				<li><a href="#page-system" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></a></li>
-				<li><a href="#page-server" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SERVER'); ?></a></li>
-				<li><a href="#page-permissions" data-toggle="tab"><?php echo JText::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
-				<li><a href="#page-filters" data-toggle="tab"><?php echo JText::_('COM_CONFIG_TEXT_FILTERS'); ?></a></li>
+				<li class="nav-item"><a class="nav-link active" href="#page-site" data-toggle="tab"><?php echo JText::_('JSITE'); ?></a></li>
+				<li class="nav-item"><a class="nav-link" href="#page-system" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SYSTEM'); ?></a></li>
+				<li class="nav-item"><a class="nav-link" href="#page-server" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SERVER'); ?></a></li>
+				<li class="nav-item"><a class="nav-link" href="#page-permissions" data-toggle="tab"><?php echo JText::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
+				<li class="nav-item"><a class="nav-link" href="#page-filters" data-toggle="tab"><?php echo JText::_('COM_CONFIG_TEXT_FILTERS'); ?></a></li>
 				<?php if ($this->ftp) : ?>
-					<li><a href="#page-ftp" data-toggle="tab"><?php echo JText::_('COM_CONFIG_FTP_SETTINGS'); ?></a></li>
+					<li class="nav-item"><a class="nav-link" href="#page-ftp" data-toggle="tab"><?php echo JText::_('COM_CONFIG_FTP_SETTINGS'); ?></a></li>
 				<?php endif; ?>
 			</ul>
 			<div id="config-document" class="tab-content">
