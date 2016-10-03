@@ -42,7 +42,7 @@ class UsersViewReset extends JViewLegacy
 			$name = 'default';
 		}
 
-		if ('default' == $name)
+		if ('default' === $name)
 		{
 			$formname = 'Form';
 		}
