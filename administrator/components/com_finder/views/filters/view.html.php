@@ -55,7 +55,7 @@ class FinderViewFilters extends JViewLegacy
 	/**
 	 * The total number of items
 	 *
-	 * @var  int
+	 * @var  integer
 	 *
 	 * @since  2.5
 	 */
