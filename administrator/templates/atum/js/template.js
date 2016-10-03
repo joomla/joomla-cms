@@ -127,7 +127,7 @@
 		/**
 		 * Turn radios into btn-group
 		 */
-		$('.radio.btn-group label').addClass('btn btn-secondary-outline');
+		$('.radio.btn-group label').addClass('btn btn-outline-secondary');
 
 		$('.btn-group label:not(.active)').click(function()
 		{
@@ -142,30 +142,30 @@
 				{
 					if (input.val() == '')
 					{
-						label.addClass('active btn-primary-outline');
+						label.addClass('active btn-outline-primary');
 					}
 					else if (input.val() == 0)
 					{
-						label.addClass('active btn-success-outline');
+						label.addClass('active btn-outline-success');
 					}
 					else
 					{
-						label.addClass('active btn-danger-outline');
+						label.addClass('active btn-outline-danger');
 					}
 				}
 				else
 				{
 					if (input.val() == '')
 					{
-						label.addClass('active btn-primary-outline');
+						label.addClass('active btn-outline-primary');
 					}
 					else if (input.val() == 0)
 					{
-						label.addClass('active btn-danger-outline');
+						label.addClass('active btn-outline-danger');
 					}
 					else
 					{
-						label.addClass('active btn-success-outline');
+						label.addClass('active btn-outline-success');
 					}
 
 				}
@@ -183,30 +183,30 @@
 			{
 				if ($self.val() == '')
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-primary-outline');
+					$('label[for=' + attrId + ']').addClass('active btn-outline-primary');
 				}
 				else if ($self.val() == 0)
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-success-outline');
+					$('label[for=' + attrId + ']').addClass('active btn-outline-success');
 				}
 				else
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-danger-outline');
+					$('label[for=' + attrId + ']').addClass('active btn-outline-danger');
 				}
 			}
 			else
 			{
 				if ($self.val() == '')
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-primary-outline');
+					$('label[for=' + attrId + ']').addClass('active btn-outline-primary');
 				}
 				else if ($self.val() == 0)
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-danger-outline');
+					$('label[for=' + attrId + ']').addClass('active btn-outline-danger');
 				}
 				else
 				{
-					$('label[for=' + attrId + ']').addClass('active btn-success-outline');
+					$('label[for=' + attrId + ']').addClass('active btn-outline-success');
 				}
 			}
 		});
