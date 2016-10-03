@@ -71,14 +71,14 @@ small, .small {
   padding-left: 0;
   transition: all .5s ease;
 
-  @media (min-width: 48em) {
+  @include media-breakpoint-up(md) {
     padding-left: 250px;
   }
 }
 .wrapper.closed {
   padding-left: 0;
 
-  @media (min-width: 48em) {
+  @include media-breakpoint-up(md) {
     padding-left: 55px;
   }
 
@@ -98,21 +98,21 @@ small, .small {
   transform: translateX(-250px);
   transition: all .5s ease;
 
-  @media (min-width: 48em) {
+  @include media-breakpoint-up(md) {
     left: 250px;
     width: 250px;
     margin-left: -250px;
     transform: translateX(0);
   }
 
-  @media (max-width: 48em) {
+  @include media-breakpoint-down(sm) {
     z-index: 1;
   }
 }
 .wrapper.closed .sidebar-wrapper {
   transform: translateX(0);
 
-  @media (min-width: 48em) {
+  @include media-breakpoint-up(md) {
     width: 55px;
     transform: translateX(0);
   }
@@ -129,7 +129,7 @@ small, .small {
   padding-bottom: 5px;
   padding-left: 55px;
 
-  @media (min-width: 48em) {
+  @include media-breakpoint-up(md) {
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 265px;
@@ -156,7 +156,7 @@ small, .small {
     line-height: 50px;
     color: #d9d9d9;
 
-    @media (max-width: 48em) {
+    @include media-breakpoint-down(sm) {
       display: none;
     }
   }
@@ -203,7 +203,7 @@ small, .small {
         transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, top $atum-button-transistion-duration;
         transform-origin: top left;
 
-        @media (max-width: 48em) {
+        @include media-breakpoint-down(sm) {
           transform-origin: top right;
         }
       }
@@ -213,13 +213,13 @@ small, .small {
         transition: transform $atum-button-transistion-duration, width $atum-button-transistion-duration, bottom $atum-button-transistion-duration;
         transform-origin: bottom left;
 
-        @media (max-width: 48em) {
+        @include media-breakpoint-down(sm) {
           transform-origin: bottom right;
         }
       }
     }
 
-    @media (max-width: 48em) {
+    @include media-breakpoint-down(sm) {
       float: none;
       margin: 0 auto;
     }
@@ -238,7 +238,7 @@ small, .small {
         top: 0;
         transform: translateX(-$atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
 
-        @media (max-width: 48em) {
+        @include media-breakpoint-down(sm) {
           transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(45deg);
         }
       }
@@ -247,7 +247,7 @@ small, .small {
         bottom: 0;
         transform: translateX(-$atum-bar-thickness) translateY(-$atum-bar-thickness / 2) rotate(45deg);
 
-        @media (max-width: 48em) {
+        @include media-breakpoint-down(sm) {
           bottom: 4px;
           transform: translateX($atum-button-width / 2 - $atum-button-pad + $atum-bar-thickness) translateY($atum-bar-thickness / 2) rotate(-45deg);
         }
@@ -255,7 +255,7 @@ small, .small {
     }
   }
 
-  @media (min-width: 48em) {
+  @include media-breakpoint-up(md) {
     position: fixed;
     width: 250px;
     padding: 0 20px;
