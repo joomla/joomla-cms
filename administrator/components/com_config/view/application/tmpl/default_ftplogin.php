@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<fieldset title="<?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?>" class="form-horizontal">
+<fieldset title="<?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?>">
 	<legend><?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 	<?php echo JText::_('COM_CONFIG_FTP_DETAILS_TIP'); ?>
 	<?php if ($this->ftp instanceof Exception) : ?>
