@@ -1,0 +1,1 @@
+DELETE FROM `#__assets` WHERE `id` = 47;
