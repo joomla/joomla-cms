@@ -57,8 +57,7 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>
-	data-toggle="buttons">
+	<?php echo $autofocus ? 'autofocus' : ''; ?>>
 
 	<?php if (!empty($options)) : ?>
 		<?php foreach ($options as $i => $option) : ?>
@@ -78,10 +77,12 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required aria-required="true"'; ?>
 			<?php endif; ?>
-			<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-				<?php echo $option->text; ?>
-			</label>
+			<div class="radio m-b-0">
+				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
+					<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+					<?php echo JText::alt($option->text, $alt); ?>
+				</label>
+			</div>
 		<?php endforeach; ?>
 	<?php endif; ?>
 </fieldset>

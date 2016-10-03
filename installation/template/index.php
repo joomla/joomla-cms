@@ -82,7 +82,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<div id="container-installation">
 				<jdoc:include type="component" />
 			</div>
-			<hr />
+			<hr>
 		</div>
 		<script>
 			function initElements()
@@ -99,7 +99,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					// Turn radios into btn-group
 					$('.radio.btn-group label').addClass('btn btn-secondary');
 
-					$('fieldset.btn-group').each(function() {
+					$('fieldset.btn-group').each(function()
+					{
 						var $self = $(this);
 						// Handle disabled, prevent clicks on the container, and add disabled style to each button
 						if ($self.prop('disabled'))
@@ -111,8 +112,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 
 					$(".btn-group label:not(.active)").click(function()
 					{
-						var label = $(this);
-						var input = $('#' + label.attr('for'));
+						var label = $(this),
+						    input = label.find('input');
 
 						if (!input.prop('checked'))
 						{
@@ -153,10 +154,11 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					});
 					$(".btn-group input[checked='checked']").each(function()
 					{
-						var $self  = $(this);
-						var attrId = $self.attr('id');
+						var $self  = $(this),
+						    parent = $self.parents('.btn-group'),
+						    attrId = $self.attr('id');
 
-						if ($self.hasClass('btn-group-reverse'))
+						if (parent.hasClass('btn-group-reverse'))
 						{
 							if ($self.val() == '')
 							{
