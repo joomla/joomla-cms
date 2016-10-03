@@ -42,7 +42,6 @@ extract($displayData);
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.min.js', false, true);
 
 /**
  * The format of the input tag to be filled in using sprintf.
