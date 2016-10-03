@@ -96,8 +96,9 @@ class CategoriesViewCategory extends JViewLegacy
 				$this->form->setFieldAttribute('tags', 'language', '*,' . $forcedLanguage);
 			}
 		}
-		// If not in associations modal, block the language change if in edit modal, language not All and associations enabled.
-		elseif ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled())
+		// If not in associations modal, block the language change if in edit modal, language not All, associations enabled and some association.
+		elseif ($this->item->id && $this->form->getValue('language', null, '*') != '*' && JLanguageAssociations::isEnabled()
+			&& count($this->item->associations) > 0)
 		{
 			$this->form->setFieldAttribute('language', 'readonly', 'true');
 		}
