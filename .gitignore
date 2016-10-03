@@ -28,7 +28,6 @@ phpdoc-*
 
 # Patch Tester #
 /administrator/components/com_patchtester
-/administrator/templates/hathor/html/com_patchtester
 /components/com_patchtester
 /media/com_patchtester
 
