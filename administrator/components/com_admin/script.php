@@ -1179,7 +1179,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
 			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/plugins/user/profile/fields/index.html',
-			'/plugins/user/profile/fields/tos.php',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
@@ -1435,6 +1434,7 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/media/system/js/permissions.min.js',
 			'/libraries/platform.php',
+			'/plugins/user/profile/fields/tos.php',
 			// Joomla! 3.6.3
 			'/media/editors/codemirror/mode/jade/jade.js',
 			'/media/editors/codemirror/mode/jade/jade.min.js',
