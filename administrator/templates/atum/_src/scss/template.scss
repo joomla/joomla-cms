@@ -792,6 +792,12 @@ legend {
   .btn-toolbar {
     margin-bottom: 0;
 
+    .btn-group-sm > .btn,
+	.btn-sm {
+      padding: .25rem .75rem;
+      line-height: 1.5;
+    }
+
     .btn-success {
       width: 140px;
     }

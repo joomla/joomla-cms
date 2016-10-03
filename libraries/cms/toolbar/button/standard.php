@@ -46,12 +46,27 @@ class JToolbarButtonStandard extends JToolbarButton
 
 		if ($name == 'apply' || $name == 'new')
 		{
-			$options['btnClass'] = 'btn btn-small btn-success';
+			$options['btnClass'] = 'btn btn-sm btn-success';
 			$options['class'] .= ' icon-white';
+		}
+		elseif ($name == 'publish')
+		{
+			$options['btnClass'] = 'btn btn-sm btn-outline-success';
+			$options['class'] .= ' icon-green';
+		}
+		elseif ($name == 'unpublish')
+		{
+			$options['btnClass'] = 'btn btn-sm btn-outline-danger';
+			$options['class'] .= ' icon-red';
+		}
+		elseif ($name == 'featured')
+		{
+			$options['btnClass'] = 'btn btn-sm btn-outline-warning';
+			$options['class'] .= ' icon-yellow';
 		}
 		else
 		{
-			$options['btnClass'] = 'btn btn-small';
+			$options['btnClass'] = 'btn btn-sm btn-outline-primary';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
