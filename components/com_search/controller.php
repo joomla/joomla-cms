@@ -48,7 +48,7 @@ class SearchController extends JControllerLegacy
 		$searchword = trim(str_replace($badchars, '', $this->input->getString('searchword', null, 'post')));
 
 		// If searchword enclosed in double quotes, strip quotes and do exact match
-		if (substr($searchword, 0, 1) == '"' && substr($searchword, -1) == '"')
+		if (substr($searchword, 0, 1) === '"' && substr($searchword, -1) === '"')
 		{
 			$post['searchword'] = substr($searchword, 1, -1);
 			$this->input->set('searchphrase', 'exact');
@@ -86,7 +86,7 @@ class SearchController extends JControllerLegacy
 		$item = $menu->getItem($post['Itemid']);
 
 		// The requested Item is not a search page so we need to find one
-		if ($item->component != 'com_search' || $item->query['view'] != 'search')
+		if ($item->component !== 'com_search' || $item->query['view'] !== 'search')
 		{
 			// Get item based on component, not link. link is not reliable.
 			$item = $menu->getItems('component', 'com_search', true);
@@ -98,8 +98,7 @@ class SearchController extends JControllerLegacy
 			}
 		}
 
-		unset($post['task']);
-		unset($post['submit']);
+		unset($post['task'], $post['submit']);
 
 		$uri = JUri::getInstance();
 		$uri->setQuery($post);
