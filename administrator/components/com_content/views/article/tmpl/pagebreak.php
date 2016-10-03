@@ -32,7 +32,7 @@ $script .= '}' . "\n";
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <div class="container-popup">
-	<form class="form-horizontal">
+	<form>
 
 		<div class="control-group">
 			<label for="title" class="control-label"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>

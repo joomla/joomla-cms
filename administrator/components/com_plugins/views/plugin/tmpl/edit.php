@@ -26,7 +26,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
-	<div class="form-horizontal">
+	<div>
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 

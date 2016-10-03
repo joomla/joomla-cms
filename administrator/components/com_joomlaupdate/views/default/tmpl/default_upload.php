@@ -86,7 +86,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 </fieldset>
 <?php endif; ?>
 
-<form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm" class="form-horizontal">
+<form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm">
 	<fieldset class="uploadform">
 		<legend><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
 		<table class="table table-striped">

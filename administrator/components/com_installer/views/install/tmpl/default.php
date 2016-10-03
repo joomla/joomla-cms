@@ -86,7 +86,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 <div id="installer-install" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>"
-		method="post" name="adminForm" id="adminForm" class="form-horizontal">
+		method="post" name="adminForm" id="adminForm">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>

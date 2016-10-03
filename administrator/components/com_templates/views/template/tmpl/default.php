@@ -187,7 +187,7 @@ if($this->type == 'font')
 	</div>
 	<div class="col-md-9">
 		<?php if($this->type == 'home'): ?>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 				<div class="hero-unit" style="text-align: justify;">
@@ -202,7 +202,7 @@ if($this->type == 'font')
 			</form>
 		<?php endif; ?>
 		<?php if($this->type == 'file'): ?>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 
 				<div class="editor-border">
 					<?php echo $this->form->getInput('source'); ?>
@@ -216,7 +216,7 @@ if($this->type == 'font')
 		<?php endif; ?>
 		<?php if($this->type == 'archive'): ?>
 			<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<ul class="nav nav-stacked nav-list well">
 					<?php foreach ($this->archive as $file): ?>
 						<li>
@@ -236,7 +236,7 @@ if($this->type == 'font')
 		<?php endif; ?>
 		<?php if($this->type == 'image'): ?>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
 					<input type ="hidden" id="x" name="x" />
 					<input type ="hidden" id="y" name="y" />
@@ -249,7 +249,7 @@ if($this->type == 'font')
 		<?php endif; ?>
 		<?php if($this->type == 'font'): ?>
 			<div class="font-preview">
-				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
 						<p class="lead">H1</p><h1>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h1>
 						<p class="lead">H2</p><h2>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h2>
