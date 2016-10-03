@@ -337,7 +337,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * USED IN: media/system/js/moduleorder.js
+	 * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
 	 *
 	 * Writes a dynamically generated list
 	 *
@@ -348,26 +348,34 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 * @param string
 	 *          The key to display for the initial state of the list
 	 * @param string
+	 *          The original key that was selected
+	 * @param string
 	 *          The original item value that was selected
 	 * @param string
-	 *          The element where the list will be inserted
+	 *          The elem where the list will be written
 	 */
-	window.writeDynaList = function ( selectParams, source, key, orig_val, element ) {
-		var html = '<select ' + selectParams + '>', i, selected, item;
+	window.writeDynaList = function ( selectParams, source, key, orig_key, orig_val, element ) {
+		var html = '<select ' + selectParams + '>',
+			hasSelection = key == orig_key, i, selected, item;
 
-		for ( i = 0; i < source.length; i++ ) {
+		for (i = 0 ; i < source.length; i++) {
 			item = source[ i ];
 
 			if ( item[ 0 ] != key ) { continue; }
 
-			selected = orig_val == item[ 1 ] ? ' selected="selected"' : '';
+			selected = hasSelection ? orig_val == item[ 1 ] : i === 0;
 
-			html += '<option value="' + item[ 1 ] + '"' + selected + '>' + item[ 2 ] + '</option>';
+			html += '<option value="' + item[ 1 ] + '"' + (selected ? ' selected="selected"' : '') + '>'
+				+ item[ 2 ] + '</option>';
 		}
-		
+
 		html += '</select>';
 
-		element.innerHTML = html;
+		if (element) {
+			element.innerHTML = html;
+		} else {
+			document.writeln( html );
+		}
 	};
 
 	/**
