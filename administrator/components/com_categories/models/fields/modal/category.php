@@ -43,8 +43,11 @@ class JFormFieldModal_Category extends JFormField
 				$extension_field = explode('.', substr($extension, 6));
 				$extension_field_name = array_pop($extension_field);
 				$extension_field_group = implode('.', $extension_field);
-				$extension = $this->form->getValue($extension_field_name, $extension_field_group,
-					$this->form->getFieldAttribute($extension_field_name, 'default', null, $extension_field_group));
+				$extension = $this->form->getValue(
+					$extension_field_name,
+					$extension_field_group,
+					$this->form->getFieldAttribute($extension_field_name, 'default', null, $extension_field_group)
+				);
 			}
 		}
 		else
