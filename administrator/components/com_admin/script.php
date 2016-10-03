@@ -287,7 +287,6 @@ class JoomlaInstallerScript
 			array('module', 'mod_quickicon', '', 1),
 			array('module', 'mod_stats_admin', '', 1),
 			array('module', 'mod_status', '', 1),
-			array('module', 'mod_submenu', '', 1),
 			array('module', 'mod_title', '', 1),
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
@@ -347,7 +346,6 @@ class JoomlaInstallerScript
 
 			// Templates
 			array('template', 'beez3', '', 0),
-			array('template', 'hathor', '', 1),
 			array('template', 'protostar', '', 0),
 			array('template', 'isis', '', 1),
 
