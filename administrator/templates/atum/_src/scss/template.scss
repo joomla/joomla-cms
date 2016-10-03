@@ -366,7 +366,7 @@ small, .small {
     color: #fff;
   }
 
-  @media (min-width: 34em) and (max-width: 48em) {
+  @include media-breakpoint-only(sm) {
     margin-right: 0;
     margin-left: 10px;
   }
@@ -523,7 +523,7 @@ small, .small {
     margin-top: -206px;
     margin-left: -165px;
 
-    @media (max-width: 480px) {
+    @include media-breakpoint-only(xs) {
       margin-top: -170px;
     }
   }
@@ -555,7 +555,7 @@ small, .small {
   }
 
   .btn {
-    @media (max-width: 480px) {
+    @include media-breakpoint-only(xs) {
       padding: 4px 10px;
       font-size: 13px;
     }
@@ -868,9 +868,9 @@ legend {
 .icon-back::before {
   content: "\e008";
 }
-.btn-success-outline:hover .icon-green::before,
-.btn-danger-outline:hover .icon-red::before,
-.btn-warning-outline:hover .icon-yellow::before {
+.btn-outline-success:hover .icon-green::before,
+.btn-outline-danger:hover .icon-red::before,
+.btn-outline-warning:hover .icon-yellow::before {
   color: #fff;
 }
 

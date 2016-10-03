@@ -7173,10 +7173,11 @@ small, .small {
   color: #fff; }
   .navbar-brand:hover, .navbar-brand:focus {
     color: #fff; }
-  @media (min-width: 34em) and (max-width: 48em) {
-    .navbar-brand {
-      margin-right: 0;
-      margin-left: 10px; } }
+
+@media (min-width: 544px) and (max-width: 767px) {
+  .navbar-brand {
+    margin-right: 0;
+    margin-left: 10px; } }
 
 .main-brand {
   padding: 0 20px;
@@ -7278,7 +7279,7 @@ small, .small {
     width: 330px;
     margin-top: -206px;
     margin-left: -165px; }
-    @media (max-width: 480px) {
+    @media (max-width: 543px) {
       .view-login .container {
         margin-top: -170px; } }
   .view-login .card-img-top {
@@ -7297,7 +7298,7 @@ small, .small {
     height: 24px;
     margin-left: -12px;
     font-size: 22px; }
-  @media (max-width: 480px) {
+  @media (max-width: 543px) {
     .view-login .btn {
       padding: 4px 10px;
       font-size: 13px; } }
@@ -7525,9 +7526,9 @@ legend {
 .icon-back::before {
   content: "\e008"; }
 
-.btn-success-outline:hover .icon-green::before,
-.btn-danger-outline:hover .icon-red::before,
-.btn-warning-outline:hover .icon-yellow::before {
+.btn-outline-success:hover .icon-green::before,
+.btn-outline-danger:hover .icon-red::before,
+.btn-outline-warning:hover .icon-yellow::before {
   color: #fff; }
 
 .js-pstats-data-details {
