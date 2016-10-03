@@ -79,7 +79,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (50, 18, 64, 65, 2, 'com_modules.module.17', 'Breadcrumbs', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (51, 18, 66, 67, 2, 'com_modules.module.79', 'Multilanguage status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (52, 18, 68, 69, 2, 'com_modules.module.86', 'Joomla Version', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(53, 18, 70, 71, 2, 'com_menus.menu.1', 'Main Menu', '{}');
+(53, 16, 36, 37, 2, 'com_menus.menu.1', 'Main Menu', '{}');
 
 SELECT setval('#__assets_id_seq', 55, false);
 
