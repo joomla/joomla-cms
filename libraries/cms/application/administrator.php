@@ -469,18 +469,28 @@ class JApplicationAdministrator extends JApplicationCms
 	 */
 	public function findOption()
 	{
-		$option = strtolower($this->input->get('option'));
-		$this->loadIdentity();
-		$user = $this->getIdentity();
+		$app = JFactory::getApplication();
+		$option = strtolower($app->input->get('option'));
+		$user = $app->getIdentity();
+
+		if (!$user)
+		{
+			$app->loadIdentity(JFactory::getUser());
+			$user = $app->getIdentity();
+		}
+
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
 			$option = 'com_login';
 		}
+
 		if (empty($option))
 		{
 			$option = 'com_cpanel';
 		}
-		$this->input->set('option', $option);
+
+		$app->input->set('option', $option);
+
 		return $option;
 	}
 }
