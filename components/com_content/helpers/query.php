@@ -180,9 +180,7 @@ class ContentHelperQuery
 			$join = '';
 		}
 
-		$results = array ('select' => $select, 'join' => $join);
-
-		return $results;
+		return array ('select' => $select, 'join' => $join);
 	}
 
 	/**

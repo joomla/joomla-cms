@@ -82,7 +82,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<div class="tab-pane active" id="editor">
 					<?php echo $this->form->renderField('title'); ?>
 
-					<?php if (is_null($this->item->id)) : ?>
+					<?php if ($this->item->id === null) : ?>
 						<?php echo $this->form->renderField('alias'); ?>
 					<?php endif; ?>
 
@@ -142,7 +142,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
 					<?php echo $this->form->renderField('access'); ?>
-					<?php if (is_null($this->item->id)):?>
+					<?php if ($this->item->id === null):?>
 						<div class="control-group">
 							<div class="control-label">
 							</div>

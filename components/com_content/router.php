@@ -52,7 +52,7 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// Check again
-		if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_content')
+		if ($menuItemGiven && isset($menuItem) && $menuItem->component !== 'com_content')
 		{
 			$menuItemGiven = false;
 			unset($query['Itemid']);
@@ -91,7 +91,7 @@ class ContentRouter extends JComponentRouterBase
 			return $segments;
 		}
 
-		if ($view == 'category' || $view == 'article')
+		if ($view === 'category' || $view === 'article')
 		{
 			if (!$menuItemGiven)
 			{
@@ -100,9 +100,9 @@ class ContentRouter extends JComponentRouterBase
 
 			unset($query['view']);
 
-			if ($view == 'article')
+			if ($view === 'article')
 			{
-				if (isset($query['id']) && isset($query['catid']) && $query['catid'])
+				if (isset($query['id'], $query['catid']) && $query['catid'])
 				{
 					$catid = $query['catid'];
 
@@ -162,7 +162,7 @@ class ContentRouter extends JComponentRouterBase
 
 			foreach ($path as $id)
 			{
-				if ((int) $id == (int) $mCatid)
+				if ((int) $id === (int) $mCatid)
 				{
 					break;
 				}
@@ -181,7 +181,7 @@ class ContentRouter extends JComponentRouterBase
 
 			$segments = array_merge($segments, $array);
 
-			if ($view == 'article')
+			if ($view === 'article')
 			{
 				if ($advanced)
 				{
@@ -195,13 +195,12 @@ class ContentRouter extends JComponentRouterBase
 				$segments[] = $id;
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
-		if ($view == 'archive')
+		if ($view === 'archive')
 		{
-			if (!$menuItemGiven || $menuItem->query['view'] != 'archive')
+			if (!$menuItemGiven || $menuItem->query['view'] !== 'archive')
 			{
 				// Did not work without removing Itemid
 				if (isset($menuItem))
@@ -227,7 +226,7 @@ class ContentRouter extends JComponentRouterBase
 			}
 		}
 
-		if ($view == 'featured')
+		if ($view === 'featured')
 		{
 			if (!$menuItemGiven)
 			{
@@ -252,7 +251,7 @@ class ContentRouter extends JComponentRouterBase
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}
@@ -306,7 +305,7 @@ class ContentRouter extends JComponentRouterBase
 			$vars['view'] = $segments[0];
 
 			// Called if no menu item created
-			if ($vars['view'] == 'archive')
+			if ($vars['view'] === 'archive')
 			{
 				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
 				$vars['month'] = $segments[$count - 1];
@@ -324,7 +323,7 @@ class ContentRouter extends JComponentRouterBase
 		 * We test it first to see if it is a category.  If the id and alias match a category,
 		 * then we assume it is a category.  If they don't we assume it is an article
 		 */
-		if ($count == 1)
+		if ($count === 1)
 		{
 			// We check to see if an alias is given.  If not, we assume it is an article
 			if (strpos($segments[0], ':') === false)
@@ -429,7 +428,7 @@ class ContentRouter extends JComponentRouterBase
 				}
 			}
 
-			if ($found == 0)
+			if ($found === 0)
 			{
 				if ($advanced)
 				{
