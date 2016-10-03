@@ -305,9 +305,6 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-		JCrypt::hasStrongPasswordSupport();
-
 		return password_hash($password, PASSWORD_DEFAULT);
 	}
 
@@ -341,8 +338,6 @@ abstract class JUserHelper
 		}
 		elseif ($hash[0] == '$')
 		{
-			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-			JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
 
 			// Uncomment this line if we actually move to bcrypt.
