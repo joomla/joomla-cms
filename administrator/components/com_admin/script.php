@@ -1178,7 +1178,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
 			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
 			'/media/editors/tinymce/plugins/compat3x/validate.js',
-			'/plugins/user/profile/fields/index.html',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
@@ -1493,7 +1492,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
 			// Joomla! 3.3
-			'/administrator/components/com_media/models/forms',
 			'/plugins/user/profile/fields',
 			'/media/editors/tinymce/plugins/compat3x',
 			// Joomla! 3.4
