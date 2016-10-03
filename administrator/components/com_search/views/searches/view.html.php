@@ -57,7 +57,7 @@ class SearchViewSearches extends JViewLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'error');
+			$app->enqueueMessage(JText::_('COM_SEARCH_LOGGING_DISABLED'), 'warning');
 		}
 
 		$this->addToolbar();
