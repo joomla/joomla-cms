@@ -326,28 +326,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get an authorization object
-	 *
-	 * Returns the global {@link JAccess} object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * @return  JAccess object
-	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
-	 */
-	public static function getAcl()
-	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess directly.', JLog::WARNING, 'deprecated');
-
-		if (!self::$acl)
-		{
-			self::$acl = new JAccess;
-		}
-
-		return self::$acl;
-	}
-
-	/**
 	 * Get a database object.
 	 *
 	 * Returns the global {@link JDatabaseDriver} object, only creating it if it doesn't already exist.
@@ -394,30 +372,6 @@ abstract class JFactory
 		$copy = clone self::$mailer;
 
 		return $copy;
-	}
-
-	/**
-	 * Get a parsed XML Feed Source
-	 *
-	 * @param   string   $url         Url for feed source.
-	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
-	 *
-	 * @return  mixed  SimplePie parsed object on success, false on failure.
-	 *
-	 * @since   11.1
-	 * @throws  BadMethodCallException
-	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
-	 */
-	public static function getFeedParser($url, $cache_time = 0)
-	{
-		if (!class_exists('JSimplepieFactory'))
-		{
-			throw new BadMethodCallException('JSimplepieFactory not found');
-		}
-
-		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', JLog::WARNING, 'deprecated');
-
-		return JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
 
 	/**
