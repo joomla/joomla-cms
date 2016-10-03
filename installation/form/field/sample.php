@@ -8,14 +8,14 @@
 
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('radio');
+JFormHelper::loadFieldClass('radiobasic');
 
 /**
  * Sample data Form Field class.
  *
  * @since  1.6
  */
-class InstallationFormFieldSample extends JFormFieldRadio
+class InstallationFormFieldSample extends JFormFieldRadioBasic
 {
 	/**
 	 * The form field type.
