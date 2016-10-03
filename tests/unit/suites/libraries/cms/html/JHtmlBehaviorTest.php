@@ -492,7 +492,6 @@ class JHtmlBehaviorTest extends TestCase
 			array(
 				'JHtmlBehavior::keepalive' => true,
 				'JHtmlBehavior::core'      => true,
-				'JHtmlBehavior::framework' => array('core' => true),
 				'JHtmlBehavior::polyfill'  => array(md5(serialize(array('event', 'lt IE 9'))) => true),
 			),
 			JHtmlBehaviorInspector::getLoaded(),
