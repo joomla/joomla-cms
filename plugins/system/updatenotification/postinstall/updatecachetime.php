@@ -12,7 +12,7 @@
  *
  * @return  boolean
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.6.3
  */
 function updatecachetime_postinstall_condition()
 {
@@ -32,7 +32,7 @@ function updatecachetime_postinstall_condition()
  *
  * @return  void
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.6.3
  */
 function updatecachetime_postinstall_action()
 {

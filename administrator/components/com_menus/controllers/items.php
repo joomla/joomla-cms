@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * The Menu Item Controller
  *
@@ -126,7 +128,7 @@ class MenusControllerItems extends JControllerAdmin
 		$cid   = $this->input->get('cid', array(), 'array');
 		$data  = array('setDefault' => 1, 'unsetDefault' => 0);
 		$task  = $this->getTask();
-		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
@@ -138,7 +140,7 @@ class MenusControllerItems extends JControllerAdmin
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			if (!$model->setHome($cid, $value))
@@ -184,7 +186,7 @@ class MenusControllerItems extends JControllerAdmin
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
 		$data = array('publish' => 1, 'unpublish' => 0, 'trash' => -2, 'report' => -3);
 		$task = $this->getTask();
-		$value = JArrayHelper::getValue($data, $task, 0, 'int');
+		$value = ArrayHelper::getValue($data, $task, 0, 'int');
 
 		if (empty($cid))
 		{
@@ -196,7 +198,7 @@ class MenusControllerItems extends JControllerAdmin
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Publish the items.
 			try

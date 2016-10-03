@@ -349,7 +349,7 @@ class JDocument
 	/**
 	 * Get the contents of the document buffer
 	 *
-	 * @return  The contents of the document buffer
+	 * @return  mixed
 	 *
 	 * @since   11.1
 	 */

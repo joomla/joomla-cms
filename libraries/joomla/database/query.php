@@ -251,14 +251,19 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->having;
 				}
 
-				if ($this->order)
-				{
-					$query .= (string) $this->order;
-				}
-
 				if ($this->union)
 				{
 					$query .= (string) $this->union;
+				}
+
+				if ($this->unionAll)
+				{
+					$query .= (string) $this->unionAll;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
 				}
 
 				break;
@@ -1489,7 +1494,7 @@ abstract class JDatabaseQuery
 	 * @param   boolean  $distinct  True to only return distinct rows from the union.
 	 * @param   string   $glue      The glue by which to join the conditions.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
@@ -1532,7 +1537,7 @@ abstract class JDatabaseQuery
 	 * @param   mixed   $query  The JDatabaseQuery object or string to union.
 	 * @param   string  $glue   The glue by which to join the conditions.
 	 *
-	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
@@ -1740,9 +1745,9 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   datetime  $date      The date to add to. May be date or datetime
-	 * @param   string    $interval  The string representation of the appropriate number of units
-	 * @param   string    $datePart  The part of the date to perform the addition on
+	 * @param   mixed   $date      The date to add to. May be date or datetime
+	 * @param   string  $interval  The string representation of the appropriate number of units
+	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
@@ -1766,7 +1771,7 @@ abstract class JDatabaseQuery
 	 * @param   boolean  $distinct  Not used - ignored.
 	 * @param   string   $glue      Not used - ignored.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *

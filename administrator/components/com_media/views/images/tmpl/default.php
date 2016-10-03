@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
-$user   = JFactory::getUser();
-$input  = JFactory::getApplication()->input;
-$params = JComponentHelper::getParams('com_media');
-$lang   = JFactory::getLanguage();
+$user       = JFactory::getUser();
+$input      = JFactory::getApplication()->input;
+$params     = JComponentHelper::getParams('com_media');
+$lang       = JFactory::getLanguage();
+$onClick    = '';
+$fieldInput = $this->state->get('field.id');
+$isMoo      = $input->getInt('ismoo', 1);
 
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -34,6 +37,26 @@ JFactory::getDocument()->addScriptDeclaration(
 		var image_base_path = '" . $params->get('image_path', 'images') . "/';
 	"
 );
+
+/**
+ * Mootools compatibility
+ *
+ * There is an extra option passed in the url for the iframe &ismoo=0 for the bootstrap fields.
+ * By default the value will be 1 or defaults to mootools behaviour
+ *
+ * This should be removed when mootools won't be shipped by Joomla.
+ */
+if (!empty($fieldInput)) // Media Form Field
+{
+	if ($isMoo)
+	{
+		$onClick = "window.parent.jInsertFieldValue(document.getElementById('f_url').value, '" . $fieldInput . "');window.parent.jModalClose();window.parent.jQuery('.modal.in').modal('hide');";
+	}
+}
+else // XTD Image plugin
+{
+	$onClick = "ImageManager.onok();window.parent.jModalClose();";
+}
 ?>
 <div class="container-popup">
 
@@ -55,8 +78,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					</div>
 				</div>
 				<div class="pull-right">
-					<button class="btn btn-success button-save-selected" type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.getElementById('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.jQuery('.modal.in').modal('hide');window.parent.jModalClose();" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
-					<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');window.parent.jModalClose();<?php if (!$this->state->get('field.id')) :
+					<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
+					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+					<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
 						// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL') ?></button>
 				</div>
 			</div>
