@@ -62,7 +62,7 @@ class ConfigControllerHelper
 			}
 		}
 
-		if (empty($tasks[0]) || $tasks[0] == 'Config')
+		if (empty($tasks[0]) || $tasks[0] === 'Config')
 		{
 			$location = 'Config';
 		}
@@ -90,7 +90,7 @@ class ConfigControllerHelper
 		// Some special handling for com_config administrator
 		$option = $app->input->get('option');
 
-		if ($app->isAdmin() && $option == 'com_config')
+		if ($option === 'com_config' && $app->isAdmin())
 		{
 			$component = $app->input->get('component');
 
@@ -98,7 +98,7 @@ class ConfigControllerHelper
 			{
 				$view = 'Component';
 			}
-			elseif ($option == 'com_config')
+			elseif ($option === 'com_config')
 			{
 				$view = 'Application';
 			}

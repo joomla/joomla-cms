@@ -62,7 +62,7 @@ class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 
 		if (class_exists($viewClass))
 		{
-			if ($viewName != 'close')
+			if ($viewName !== 'close')
 			{
 				$model = new $modelClass;
 

@@ -62,7 +62,7 @@ class BannersModelBanners extends JModelList
 		$cid        = $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
-		$randomise  = ($ordering == 'random');
+		$randomise  = ($ordering === 'random');
 		$nullDate   = $db->quote($db->getNullDate());
 		$nowDate    = $db->quote(JFactory::getDate()->toSql());
 
@@ -120,7 +120,7 @@ class BannersModelBanners extends JModelList
 				$query->where($categoryEquals);
 			}
 		}
-		elseif ((is_array($categoryId)) && (count($categoryId) > 0))
+		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
@@ -134,7 +134,7 @@ class BannersModelBanners extends JModelList
 
 		if ($tagSearch)
 		{
-			if (count($keywords) == 0)
+			if (count($keywords) === 0)
 			{
 				$query->where('0');
 			}
@@ -152,31 +152,44 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
-					$condition1 = "a.own_prefix=1 "
-						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
-						. " OR a.own_prefix=0 "
-						. " AND cl.own_prefix=1 "
-						. " AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) "
-						. " OR a.own_prefix=0 "
-						. " AND cl.own_prefix=0 "
-						. " AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
-					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+					$quotedKeyword = $db->quote($keyword);
+					$prefixCondition = ($prefix === substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+
+					$condition1 = /** @lang SQL */
+						<<<SQL
+a.own_prefix=1 
+AND a.metakey_prefix=SUBSTRING($quotedKeyword,1,LENGTH( a.metakey_prefix)) 
+OR a.own_prefix=0 
+AND cl.own_prefix=1 
+AND cl.metakey_prefix=SUBSTRING($quotedKeyword,1,LENGTH(cl.metakey_prefix)) 
+OR a.own_prefix=0 
+AND cl.own_prefix=0 
+AND $prefixCondition
+SQL;
+
+					/* Todo: Check with other Joomla members if the above change makes enough sense if the above is not a complete
+					         Statement and there are other conditions following.
+					         The other question is of course, if such queries will in future all be done with the query builder
+					*/
+
+					$escapedKeyword = $db->escape($keyword);
+					$condition2 = "a.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
 
 					if ($cid)
 					{
-						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
 					}
 
 					if ($categoryId)
 					{
-						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $escapedKeyword . "[[:>:]]'";
 					}
 
-					$temp[] = "($condition1) AND ($condition2)";
+					$temp = "($condition1) AND ($condition2)";
 				}
 
-				$query->where('(' . implode(' OR ', $temp) . ')');
+				$query->where($temp);
 			}
 		}
 
@@ -288,7 +301,7 @@ class BannersModelBanners extends JModelList
 					JError::raiseError(500, $e->getMessage());
 				}
 
-				if ($db->getAffectedRows() == 0)
+				if ($db->getAffectedRows() === 0)
 				{
 					// Insert new count
 					$query->clear();
