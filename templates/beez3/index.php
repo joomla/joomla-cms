@@ -60,14 +60,19 @@ if ($this->direction === 'rtl')
 
 if ($color === 'image')
 {
-	$this->addStyleDeclaration("
-	.logoheader {
-		background: url('" . $this->baseurl . '/' . htmlspecialchars($headerImage) . "') no-repeat right;
-	}
-	body {
-		background: " . $this->params->get('backgroundcolor') . ';
-	}'
-	);
+	$cssVUrl=$this->baseurl . '/' . htmlspecialchars($headerImage);
+	$cssVBGColor = $this->params->get('backgroundcolor');
+
+	$this->addStyleDeclaration(	/** @lang CSS */
+	<<<CSS
+    .logoheader {
+        background: url('$cssVUrl') no-repeat right;
+    }
+    body {
+        background: $cssVBGColor;
+    }
+CSS
+  );
 }
 
 // Check for a custom CSS file
