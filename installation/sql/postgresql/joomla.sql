@@ -1496,7 +1496,7 @@ CREATE TABLE "#__schemas" (
 --
 CREATE TABLE "#__session" (
   "session_id" varchar(200) DEFAULT '' NOT NULL,
-  "client_id" smallint DEFAULT 0 NOT NULL,
+  "client_id" smallint DEFAULT NULL,
   "guest" smallint DEFAULT 1,
   "time" varchar(14) DEFAULT '',
   "data" text,
