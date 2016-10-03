@@ -143,7 +143,7 @@ class ContentViewCategory extends JViewCategory
 
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interrogate the arrays.
-		if (($params->get('layout_type') === 'blog') || ($this->getLayout() === 'blog'))
+		if ($params->get('layout_type') === 'blog' || $this->getLayout() === 'blog')
 		{
 			foreach ($this->items as $i => $item)
 			{
