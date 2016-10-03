@@ -35,12 +35,10 @@ class SearchRouter extends JComponentRouterBase
 		}
 
 		// Fix up search for URL
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
 			// Urlencode twice because it is decoded once after redirect
-			$segments[$i] = urlencode(urlencode(stripcslashes($segments[$i])));
+			$segment = urlencode(urlencode(stripcslashes($segment)));
 		}
 
 		return $segments;
@@ -60,12 +58,10 @@ class SearchRouter extends JComponentRouterBase
 		$vars = array();
 
 		// Fix up search for URL
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
 			// Urldecode twice because it is encoded twice
-			$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
+			$segment = urldecode(urldecode(stripcslashes($segment)));
 		}
 
 		$searchword         = array_shift($segments);

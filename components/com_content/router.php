@@ -259,11 +259,10 @@ class ContentRouter extends JComponentRouterBase
 			}
 		}
 
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
+
+			$segment = str_replace(':', '-', $segment);
 		}
 
 		return $segments;
@@ -280,13 +279,14 @@ class ContentRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
 		$vars = array();
 
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+			$segment = preg_replace('/-/', ':', $segment, 1);
 		}
+
+		unset($segment);
 
 		// Get the active menu item.
 		$item = $this->menu->getActive();

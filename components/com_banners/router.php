@@ -41,11 +41,10 @@ class BannersRouter extends JComponentRouterBase
 			unset($query['id']);
 		}
 
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
+
+			$segment = str_replace(':', '-', $segment);
 		}
 
 		return $segments;
@@ -62,13 +61,14 @@ class BannersRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
-		$vars = array();
+		$vars  = array();
 
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+			$segment = preg_replace('/-/', ':', $segment, 1);
 		}
+
+		unset($segment);
 
 		// View is always the first element of the array
 		$count = count($segments);

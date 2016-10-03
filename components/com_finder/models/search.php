@@ -248,11 +248,12 @@ class FinderModelSearch extends JModelList
 			$groups = array_values($this->query->filters);
 
 			// Iterate through each taxonomy group and add the join and where.
-			for ($i = 0, $c = count($groups); $i < $c; $i++)
+			foreach ($groups as $i => $group)
+
 			{
 				// We use the offset because each join needs a unique alias.
 				$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t' . $i . ' ON t' . $i . '.link_id = l.link_id')
-					->where('t' . $i . '.node_id IN (' . implode(',', $groups[$i]) . ')');
+					->where('t' . $i . '.node_id IN (' . implode(',', $group) . ')');
 			}
 		}
 
@@ -431,9 +432,9 @@ class FinderModelSearch extends JModelList
 					$temp = array();
 
 					// Convert to an associative array.
-					for ($i = 0, $c = count($junk); $i < $c; $i++)
+					foreach ($junk as $ju)
 					{
-						$temp[$junk[$i]->link_id] = $junk[$i];
+						$temp[$ju->link_id] = $ju;
 					}
 
 					// Store this set in cache.
@@ -448,9 +449,9 @@ class FinderModelSearch extends JModelList
 			if (count($excluded))
 			{
 				// Remove any results that match excluded terms.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
+				foreach ($results as $i => $result)
 				{
-					if (in_array($results[$i]->link_id, $excluded))
+					if (in_array($result->link_id, $excluded))
 					{
 						unset($results[$i]);
 					}
@@ -461,11 +462,11 @@ class FinderModelSearch extends JModelList
 			}
 
 			// Iterate through the set to extract the unique items.
-			for ($i = 0, $c = count($results); $i < $c; $i++)
+			foreach ($results as $i => $result)
 			{
-				if (!isset($sorted[$results[$i]->link_id]))
+				if (!isset($sorted[$result->link_id]))
 				{
-					$sorted[$results[$i]->link_id] = $results[$i]->ordering;
+					$sorted[$result->link_id] = $result->ordering;
 				}
 			}
 
@@ -720,9 +721,9 @@ class FinderModelSearch extends JModelList
 			if (count($excluded))
 			{
 				// Remove any results that match excluded terms.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
+				foreach ($results as $i => $result)
 				{
-					if (in_array($results[$i]->link_id, $excluded))
+					if (in_array($result->link_id, $excluded))
 					{
 						unset($results[$i]);
 					}
@@ -739,16 +740,16 @@ class FinderModelSearch extends JModelList
 			if ($ordering === 'm.weight')
 			{
 				// Iterate through the set to extract the unique items.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
+				foreach ($results as $i => $result)
 				{
 					// Add the total weights for all included search terms.
-					if (isset($sorted[$results[$i]->link_id]))
+					if (isset($sorted[$result->link_id]))
 					{
-						$sorted[$results[$i]->link_id] += (float) $results[$i]->ordering;
+						$sorted[$result->link_id] += (float) $result->ordering;
 					}
 					else
 					{
-						$sorted[$results[$i]->link_id] = (float) $results[$i]->ordering;
+						$sorted[$result->link_id] = (float) $result->ordering;
 					}
 				}
 			}
@@ -759,11 +760,11 @@ class FinderModelSearch extends JModelList
 			elseif ($ordering === 'l.start_date')
 			{
 				// Iterate through the set to extract the unique items.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
+				foreach ($results as $i => $result)
 				{
-					if (!isset($sorted[$results[$i]->link_id]))
+					if (!isset($sorted[$result->link_id]))
 					{
-						$sorted[$results[$i]->link_id] = strtotime($results[$i]->ordering);
+						$sorted[$result->link_id] = strtotime($result->ordering);
 					}
 				}
 			}
@@ -774,11 +775,11 @@ class FinderModelSearch extends JModelList
 			else
 			{
 				// Iterate through the set to extract the unique items.
-				for ($i = 0, $c = count($results); $i < $c; $i++)
+				foreach ($results as $i => $result)
 				{
-					if (!isset($sorted[$results[$i]->link_id]))
+					if (!isset($sorted[$result->link_id]))
 					{
-						$sorted[$results[$i]->link_id] = $results[$i]->ordering;
+						$sorted[$result->link_id] = $result->ordering;
 					}
 				}
 			}
