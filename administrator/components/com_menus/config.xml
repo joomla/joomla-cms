@@ -3,7 +3,7 @@
 	<fieldset
 		name="page-options"
 		label="COM_MENUS_PAGE_OPTIONS_LABEL"
-		>
+		description="COM_MENUS_PAGE_OPTIONS_FIELDSET_DESC">
 
 		<field
 			name="page_title"
