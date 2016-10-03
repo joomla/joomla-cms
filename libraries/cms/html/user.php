@@ -31,7 +31,7 @@ abstract class JHtmlUser
 
 		foreach ($options as &$option)
 		{
-			$option->value = $options->id;
+			$option->value = $option->id;
 			$option->text = str_repeat('- ', $option->level) . $option->title;
 			$groups[] = JHtml::_('select.option', $option->value, $option->text);
 		}

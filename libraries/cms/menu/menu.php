@@ -259,10 +259,10 @@ class JMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   mixed   $attributes   The field name(s).
-	 * @param   mixed   $values       The value(s) of the field. If an array, need to match field names
-	 *                                each attribute may have multiple values to lookup for.
-	 * @param   boolean $firstOnly    If true, only returns the first item found
+	 * @param   mixed   $attributes  The field name(s).
+	 * @param   mixed   $values      The value(s) of the field. If an array, need to match field names
+	 *                               each attribute may have multiple values to lookup for.
+	 * @param   boolean  $firstOnly  If true, only returns the first item found
 	 *
 	 * @return  array
 	 *
@@ -283,7 +283,7 @@ class JMenu
 
 			$test = true;
 
-			foreach($attributes as $i => $attribute)
+			foreach ($attributes as $i => $attribute)
 			{
 				if (is_array($values[$i]))
 				{

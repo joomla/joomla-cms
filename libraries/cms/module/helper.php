@@ -32,15 +32,14 @@ abstract class JModuleHelper
 	{
 		$result = null;
 		$modules =& static::load();
-		$total = count($modules);
 
-		foreach ($modules as &$module)
+		foreach ($modules as $module)
 		{
 			// Match the name of the module
-			if ($modules->name == $name || $modules->module == $name)
+			if ($module->name == $name || $module->module == $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules->title == $title)
+				if (!$title || $module->title == $title)
 				{
 					// Found it
 					$result = &$module;

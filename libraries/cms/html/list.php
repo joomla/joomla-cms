@@ -101,7 +101,7 @@ abstract class JHtmlList
 
 		$options[] = JHtml::_('select.option', 0, '0 ' . JText::_('JOPTION_ORDER_FIRST'));
 
-		foreach($items as $i => &$item)
+		foreach ($items as $i => &$item)
 		{
 			$item->text = JText::_($item->text);
 
