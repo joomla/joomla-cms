@@ -1180,7 +1180,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/plugins/user/profile/fields/index.html',
 			'/plugins/user/profile/fields/tos.php',
-			'/administrator/components/com_media/models/forms/index.html',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
