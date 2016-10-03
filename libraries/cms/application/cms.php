@@ -525,7 +525,7 @@ class JApplicationCms extends JApplicationWeb implements ContainerAwareInterface
 
 			if (count($sessionQueue))
 			{
-				$this->_messageQueue = $sessionQueue;
+				$this->messageQueue = $sessionQueue;
 				$this->getSession()->set('application.queue', null);
 			}
 		}
