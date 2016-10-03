@@ -280,4 +280,103 @@ class JApplicationAdministratorTest extends TestCaseDatabase
 
 		$this->assertEquals(array('JWeb Body'), TestReflection::getValue($this->class, 'response')->body);
 	}
+
+	/**
+	 * Tests the findOption() method simulating a guest.
+	 */
+	public function testFindOptionGuest()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(true);
+		$user->expects($this->never())
+			->method('authorise');
+		$this->class->loadIdentity($user);
+		$this->assertEquals(
+			'com_login',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_login',
+			$this->class->input->get('option')
+		);
+	}
+
+	/**
+	 * Tests the findOption() method simulating an user without login admin permissions.
+	 */
+	public function testFindOptionCanNotLoginAdmin()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('authorise')
+			->with($this->equalTo('core.login.admin'))
+			->willReturn(false);
+		$this->class->loadIdentity($user);
+		$this->assertEquals(
+			'com_login',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_login',
+			$this->class->input->get('option')
+		);
+	}
+
+	/**
+	 * Tests the findOption() method simulating an user who is able to log in to admin.
+	 */
+	public function testFindOptionCanLoginAdmin()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('authorise')
+			->with($this->equalTo('core.login.admin'))
+			->willReturn(true);
+		$this->class->loadIdentity($user);
+		$this->assertEquals(
+			'com_cpanel',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_cpanel',
+			$this->class->input->get('option')
+		);
+	}
+
+	/**
+	 * Tests the findOption() method simulating the option at a special value.
+	 */
+	public function testFindOptionCanLoginAdminOptionSet()
+	{
+		$user = $this->getMock('JUser', array('get', 'authorise'));
+		$user->expects($this->once())
+			->method('get')
+			->with($this->equalTo('guest'))
+			->willReturn(false);
+		$user->expects($this->once())
+			->method('authorise')
+			->with($this->equalTo('core.login.admin'))
+			->willReturn(false);
+		$this->class->loadIdentity($user);
+		$this->class->input->set('option', 'foo');
+		$this->assertEquals(
+			'com_login',
+			$this->class->findOption()
+		);
+		$this->assertEquals(
+			'com_login',
+			JFactory::$application->input->get('option')
+		);
+	}
 }

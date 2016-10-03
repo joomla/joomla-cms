@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('JSubMenuHelper', JPATH_BASE . '/includes/subtoolbar.php');
-
 /**
  * Utility class for the button bar.
  *
