@@ -47,19 +47,6 @@ class RedirectViewLinks extends JViewLegacy
 		$this->filterForm           = $this->get('FilterForm');
 		$this->activeFilters        = $this->get('ActiveFilters');
 
-		if ($this->enabled && $this->collect_urls_enabled)
-		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
-		}
-		elseif ($this->enabled && !$this->collect_urls_enabled)
-		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::_('COM_REDIRECT_COLLECT_URLS_DISABLED'), 'notice');
-		}
-		else
-		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
-		}
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -68,15 +55,20 @@ class RedirectViewLinks extends JViewLegacy
 			return false;
 		}
 
-		if (!$this->enabled)
+		// Show messages about the enabled plugin and if the plugin should collect URLs
+		if ($this->enabled && $this->collect_urls_enabled)
 		{
-			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'warning');
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . ' ' . JText::_('COM_REDIRECT_COLLECT_URLS_ENABLED'), 'notice');
 		}
-		elseif (!$this->collect_urls_enabled)
+		elseif ($this->enabled && !$this->collect_urls_enabled)
 		{
 			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_ENABLED') . JText::sprintf('COM_REDIRECT_COLLECT_URLS_DISABLED', $link), 'notice');
+		}
+		else
+		{
+			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . RedirectHelper::getRedirectPluginId());
+			$app->enqueueMessage(JText::sprintf('COM_REDIRECT_PLUGIN_DISABLED', $link), 'error');
 		}
 
 		$this->addToolbar();
