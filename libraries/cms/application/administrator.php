@@ -63,7 +63,7 @@ class JApplicationAdministrator extends JApplicationCms
 	{
 		if ($component === null)
 		{
-			$component = JAdministratorHelper::findOption();
+			$component = $this->findOption();
 		}
 
 		// Load the document to the API
@@ -458,5 +458,29 @@ class JApplicationAdministrator extends JApplicationCms
 		// Trigger the onAfterRoute event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
+	}
+
+	/**
+	 * Return the application option string [main component].
+	 *
+	 * @return  string  The component to access.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function findOption()
+	{
+		$option = strtolower($this->input->get('option'));
+		$this->loadIdentity();
+		$user = $this->getIdentity();
+		if ($user->get('guest') || !$user->authorise('core.login.admin'))
+		{
+			$option = 'com_login';
+		}
+		if (empty($option))
+		{
+			$option = 'com_cpanel';
+		}
+		$this->input->set('option', $option);
+		return $option;
 	}
 }
