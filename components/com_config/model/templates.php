@@ -111,7 +111,7 @@ class ConfigModelTemplates extends ConfigModelForm
 		// Get the template form.
 		if (file_exists($formFile) && !$form->loadFile($formFile, false, '//config'))
 		{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Attempt to load the xml file.
