@@ -34,16 +34,16 @@ abstract class JModuleHelper
 		$modules =& static::load();
 		$total = count($modules);
 
-		for ($i = 0; $i < $total; $i++)
+		foreach ($modules as &$module)
 		{
 			// Match the name of the module
-			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
+			if ($modules->name == $name || $modules->module == $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title == $title)
+				if (!$title || $modules->title == $title)
 				{
 					// Found it
-					$result = &$modules[$i];
+					$result = &$module;
 					break;
 				}
 			}
@@ -83,13 +83,11 @@ abstract class JModuleHelper
 
 		$modules =& static::load();
 
-		$total = count($modules);
-
-		for ($i = 0; $i < $total; $i++)
+		foreach ($modules as &$module)
 		{
-			if ($modules[$i]->position == $position)
+			if ($module->position == $position)
 			{
-				$result[] = &$modules[$i];
+				$result[] = &$module;
 			}
 		}
 

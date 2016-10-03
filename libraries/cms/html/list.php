@@ -101,20 +101,20 @@ abstract class JHtmlList
 
 		$options[] = JHtml::_('select.option', 0, '0 ' . JText::_('JOPTION_ORDER_FIRST'));
 
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach($items as $i => &$item)
 		{
-			$items[$i]->text = JText::_($items[$i]->text);
+			$item->text = JText::_($item->text);
 
-			if (JString::strlen($items[$i]->text) > $chop)
+			if (JString::strlen($item->text) > $chop)
 			{
-				$text = JString::substr($items[$i]->text, 0, $chop) . "...";
+				$text = JString::substr($item->text, 0, $chop) . "...";
 			}
 			else
 			{
-				$text = $items[$i]->text;
+				$text = $item->text;
 			}
 
-			$options[] = JHtml::_('select.option', $items[$i]->value, $items[$i]->value . '. ' . $text);
+			$options[] = JHtml::_('select.option', $item->value, $item->value . '. ' . $text);
 		}
 
 		$options[] = JHtml::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . ' ' . JText::_('JOPTION_ORDER_LAST'));
