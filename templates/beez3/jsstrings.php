@@ -21,13 +21,28 @@ JText::script('TPL_BEEZ3_DECREASE_SIZE');
 JText::script('TPL_BEEZ3_OPENMENU');
 JText::script('TPL_BEEZ3_CLOSEMENU');
 
-$this->addScriptDeclaration("
-	var big        = '" . (int) $this->params->get('wrapperLarge') . "%';
-	var small      = '" . (int) $this->params->get('wrapperSmall') . "%';
-	var bildauf    = '" . $this->baseurl . '/templates/' . $this->template . "/images/plus.png';
-	var bildzu     = '" . $this->baseurl . '/templates/' . $this->template . "/images/minus.png';
-	var rightopen  = '" . JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true) . "';
-	var rightclose = '" . JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true) . "';
-	var altopen    = '" . JText::_('TPL_BEEZ3_ALTOPEN', true) . "';
-	var altclose   = '" . JText::_('TPL_BEEZ3_ALTCLOSE', true) . "';
-");
+
+$jsSVBig         = (int) $this->params->get('wrapperLarge');
+$jsSVSmall       = (int) $this->params->get('wrapperSmall');
+$jsSVTemplateUrl = $this->baseurl . '/templates/' . $this->template;
+$jsSVRightOpen   = JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true);
+$jsSVRightClose  = JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true);
+$jsSVAltOpen     = JText::_('TPL_BEEZ3_ALTOPEN', true);
+$jsSVAltClose    = JText::_('TPL_BEEZ3_ALTCLOSE', true);
+
+
+$this->addScriptDeclaration(
+/** @lang JavaScript */
+	<<<JS
+	var big        = '$jsSVBig%';
+	var small      = '$jsSVSmall%';
+	var bildauf    = '$jsSVTemplateUrl/images/plus.png';
+	var bildzu     = '$jsSVTemplateUrl/images/minus.png';
+	var rightopen  = '$jsSVRightOpen';
+	var rightclose = '$jsSVRightClose';
+	var altopen    = '$jsSVAltOpen';
+	var altclose   = '$jsSVAltClose';
+JS
+);
+
+unset($jsSVBig, $jsSVSmall, $jsSVTemplateUrl, $jsSVRightOpen, $jsSVRightClose, $jsSVAltOpen, $jsSVAltClose);
