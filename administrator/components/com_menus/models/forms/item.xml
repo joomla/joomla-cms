@@ -133,6 +133,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			id="access"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
@@ -164,6 +165,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			class="custom-select"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
 			>

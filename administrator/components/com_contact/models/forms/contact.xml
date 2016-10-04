@@ -71,6 +71,7 @@
 		<field
 			name="catid"
 			type="categoryedit"
+			class="advancedSelect"
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
 			extension="com_contact"
@@ -81,6 +82,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			size="1"
@@ -202,6 +204,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			class="custom-select"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTACT_FIELD_LANGUAGE_DESC"
 			>
@@ -225,7 +228,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="col-md-12"
+			class="advancedSelect col-md-12"
 			multiple="true"
 		/>
 
@@ -806,6 +809,7 @@
 			<field
 				name="contact_layout"
 				type="componentlayout"
+				class="custom-select"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_contact"

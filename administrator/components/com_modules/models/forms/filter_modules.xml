@@ -59,6 +59,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
@@ -68,6 +69,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			class="custom-select"
 			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"

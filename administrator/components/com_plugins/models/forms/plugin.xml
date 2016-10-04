@@ -33,6 +33,7 @@
         <field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			size="1" />

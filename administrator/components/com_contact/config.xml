@@ -10,6 +10,7 @@
 		<field
 			name="contact_layout"
 			type="componentlayout"
+			class="custom-select"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -468,6 +469,7 @@
 		<field
 			name="category_layout"
 			type="componentlayout"
+			class="custom-select"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"

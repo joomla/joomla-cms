@@ -73,6 +73,7 @@
 		</field>
 		
 		<field name="access" type="accesslevel"
+		       class="custom-select"
 		size="1"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"

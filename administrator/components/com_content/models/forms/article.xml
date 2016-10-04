@@ -425,6 +425,7 @@
 				size="25" />
 
 			<field name="article_layout" type="componentlayout"
+			       class="custom-select"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				useglobal="true"
