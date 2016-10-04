@@ -31,17 +31,17 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="center">
+						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="5%" class="nowrap center">
+						<th width="5%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th>
@@ -50,16 +50,16 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 						<th width="20%" class="hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 						</th>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 						</th>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 						</th>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></i>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down">
@@ -85,21 +85,12 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 						$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center">
+							<td class="text-xs-center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="center">
+							<td class="text-xs-center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
-									<?php // Create dropdown items and render the dropdown list.
-
-									if ($canChange)
-									{
-										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'clients');
-										JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'clients');
-										echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
-									}
-									?>
 								</div>
 							</td>
 							<td class="nowrap has-context">
@@ -118,19 +109,19 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 							<td class="small hidden-sm-down">
 								<?php echo $item->contact; ?>
 							</td>
-							<td class="center btns hidden-sm-down">
+							<td class="text-xs-center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
-							<td class="center btns hidden-sm-down">
+							<td class="text-xs-center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
-							<td class="center btns hidden-sm-down">
+							<td class="text-xs-center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=2'); ?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
-							<td class="center btns hidden-sm-down">
+							<td class="text-xs-center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" href="<?php echo JRoute::_('index.php?option=com_banners&view=banners&filter[client_id]=' . (int) $item->id . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>

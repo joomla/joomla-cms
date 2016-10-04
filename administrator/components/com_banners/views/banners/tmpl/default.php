@@ -38,26 +38,26 @@ if ($saveOrder)
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="articleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="center">
+						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_BANNERS_HEADING_STICKY', 'a.sticky', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down">
@@ -94,7 +94,7 @@ if ($saveOrder)
 						$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-							<td class="order nowrap center hidden-sm-down">
+							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
 								$iconClass = '';
 
@@ -115,20 +115,12 @@ if ($saveOrder)
 										value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 								<?php endif; ?>
 							</td>
-							<td class="center">
+							<td class="text-xs-center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="center">
+							<td class="text-xs-center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-									<?php // Create dropdown items and render the dropdown list.
-									if ($canChange)
-									{
-										JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'banners');
-										JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'banners');
-										echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
-									}
-									?>
 								</div>
 							</td>
 							<td class="nowrap has-context">
@@ -150,7 +142,7 @@ if ($saveOrder)
 									</div>
 								</div>
 							</td>
-							<td class="center hidden-sm-down">
+							<td class="text-xs-center hidden-sm-down">
 								<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 							</td>
 							<td class="small hidden-sm-down">
