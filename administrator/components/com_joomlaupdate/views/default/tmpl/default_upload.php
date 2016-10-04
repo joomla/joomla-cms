@@ -96,10 +96,7 @@ JFactory::getDocument()->addStyleDeclaration($css);
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_PACKAGE_FILE'); ?>
 				</td>
 				<td>
-					<label class="custom-file">
-						<input type="file" class="custom-file-input" id="install_package" name="install_package">
-						<span class="custom-file-control"></span>
-					</label>
+					<input class="form-control" id="install_package" name="install_package" type="file" size="57" />
 				</td>
 			</tr>
 			<tr>
