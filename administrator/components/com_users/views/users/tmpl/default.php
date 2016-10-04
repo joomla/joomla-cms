@@ -56,13 +56,13 @@ $loggeduser = JFactory::getUser();
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-sm-down">
+						<th width="15%" class="nowrap hidden-md-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-md-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-sm-down">
+						<th width="10%" class="nowrap hidden-md-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-sm-down">
@@ -144,17 +144,17 @@ $loggeduser = JFactory::getUser();
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-sm-down break-word">
+						<td class="hidden-md-down break-word">
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-md-down">
 							<?php if ($item->lastvisitDate != $this->db->getNullDate()):?>
 								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 							<?php else:?>
 								<?php echo JText::_('JNEVER'); ?>
 							<?php endif;?>
 						</td>
-						<td class="hidden-sm-down">
+						<td class="hidden-md-down">
 							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 						</td>
 						<td class="hidden-sm-down">

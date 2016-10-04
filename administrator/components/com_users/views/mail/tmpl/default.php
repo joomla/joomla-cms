@@ -37,13 +37,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 	<div class="row">
 		<div class="col-md-9">
 			<fieldset class="adminform">
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('subject'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('subject'); ?></div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('subject'); ?>
+					<?php echo $this->form->getInput('subject'); ?>
 				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('message'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('message'); ?></div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('message'); ?>
+					<?php echo $this->form->getInput('message'); ?>
 				</div>
 			</fieldset>
 			<input type="hidden" name="task" value="" />
@@ -51,21 +51,21 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		</div>
 		<div class="col-md-3">
 			<fieldset class="form-inline">
-				<div class="control-group checkbox">
-					<div class="controls"><?php echo $this->form->getInput('recurse'); ?> <?php echo $this->form->getLabel('recurse'); ?></div>
+				<div class="form-group checkbox">
+					<?php echo $this->form->getInput('recurse'); ?> <?php echo $this->form->getLabel('recurse'); ?>
 				</div>
-				<div class="control-group checkbox">
-					<div class="control-label"><?php echo $this->form->getInput('mode'); ?> <?php echo $this->form->getLabel('mode'); ?></div>
+				<div class="form-group checkbox">
+					<?php echo $this->form->getInput('mode'); ?> <?php echo $this->form->getLabel('mode'); ?>
 				</div>
-				<div class="control-group checkbox">
-					<div class="control-label"><?php echo $this->form->getInput('disabled'); ?> <?php echo $this->form->getLabel('disabled'); ?></div>
+				<div class="form-group checkbox">
+					<?php echo $this->form->getInput('disabled'); ?> <?php echo $this->form->getLabel('disabled'); ?>
 				</div>
-				<div class="control-group checkbox">
-					<div class="control-label"><?php echo $this->form->getInput('bcc'); ?> <?php echo $this->form->getLabel('bcc'); ?></div>
+				<div class="form-group checkbox">
+					<?php echo $this->form->getInput('bcc'); ?> <?php echo $this->form->getLabel('bcc'); ?>
 				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('group'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('group'); ?></div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('group'); ?>
+					<?php echo $this->form->getInput('group'); ?>
 				</div>
 			</fieldset>
 		</div>

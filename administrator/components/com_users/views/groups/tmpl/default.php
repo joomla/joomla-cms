@@ -16,9 +16,9 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$user       = JFactory::getUser();
-$listOrder  = $this->escape($this->state->get('list.ordering'));
-$listDirn   = $this->escape($this->state->get('list.direction'));
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
@@ -118,11 +118,11 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center btns">
-							<a class="tag <?php if ($item->count_enabled > 0) echo "tag-success"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
+							<a class="tag<?php echo $item->count_enabled > 0 ? ' tag-success' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 								<?php echo $item->count_enabled; ?></a>
 						</td>
 						<td class="text-xs-center btns">
-							<a class="tag <?php if ($item->count_disabled > 0) echo "tag-danger"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
+							<a class="tag<?php echo $item->count_disabled > 0 ? ' tag-danger' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 								<?php echo $item->count_disabled; ?></a>
 						</td>
 						<td class="hidden-sm-down">

@@ -77,14 +77,6 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<td class="text-xs-center">
 						<div class="btn-group">
 							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-							<?php // Create dropdown items and render the dropdown list.
-							if ($canChange)
-							{
-								JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'notes');
-								JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'notes');
-								echo JHtml::_('actionsdropdown.render', $this->escape($subject));
-							}
-							?>
 						</div>
 					</td>
 					<td>
