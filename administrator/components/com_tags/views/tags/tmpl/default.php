@@ -222,25 +222,25 @@ if ($saveOrder)
 							
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<td class="text-xs-center btns hidden-sm-down">
-								<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1');?>">
+								<a class="tag <?php if ($item->count_published > 0) echo "tag-success"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1');?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<td class="text-xs-center btns hidden-sm-down">
-								<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0');?>">
+								<a class="tag <?php if ($item->count_unpublished > 0) echo "tag-important"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0');?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<td class="text-xs-center btns hidden-sm-down">
-								<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2');?>">
+								<a class="tag <?php if ($item->count_archived > 0) echo "tag-info"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2');?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<td class="text-xs-center btns hidden-sm-down">
-								<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2');?>">
+								<a class="tag <?php if ($item->count_trashed > 0) echo "tag-inverse"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2');?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
 						<?php endif;?>

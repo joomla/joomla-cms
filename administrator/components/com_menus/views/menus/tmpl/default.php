@@ -125,28 +125,28 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+								<a class="tag<?php if ($item->count_published > 0) echo ' tag-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							<?php else : ?>
-								<span class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>">
+								<span class="tag<?php if ($item->count_published > 0) echo ' tag-success'; ?>">
 									<?php echo $item->count_published; ?></span>
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+								<a class="tag<?php if ($item->count_unpublished > 0) echo ' tag-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							<?php else : ?>
-								<span class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>">
+								<span class="tag<?php if ($item->count_unpublished > 0) echo ' tag-important'; ?>">
 									<?php echo $item->count_unpublished; ?></span>
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+								<a class="tag<?php if ($item->count_trashed > 0) echo ' tag-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							<?php else : ?>
-								<span class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>">
+								<span class="tag<?php if ($item->count_trashed > 0) echo ' tag-inverse'; ?>">
 									<?php echo $item->count_trashed; ?></span>
 							<?php endif; ?>
 						</td>

@@ -87,7 +87,7 @@ abstract class JHtmlCategoriesAdministrator
 						$text,
 						$url,
 						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
+						'hasTooltip tag tag-association tag-' . $item->lang_sef
 					);
 				}
 			}

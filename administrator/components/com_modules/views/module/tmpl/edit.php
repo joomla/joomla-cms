@@ -73,11 +73,11 @@ $script .= "
 							}
 						});
 						if (updMenus == 0) {
-							tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+							tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
 							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
 						}
 						if (updMenus == '-') {
-							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
 						}
 						if (updMenus > 0) {
@@ -85,18 +85,18 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
 									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
 							}
 						}
@@ -105,31 +105,31 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
 						if (updStatus == 1) {
-							tmpStatus.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
 							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
 						}
 						if (updStatus == 0) {
-							tmpStatus.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTRASHED") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-default\">" . JText::_("JTRASHED") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
@@ -214,7 +214,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
+					<div class="alert alert-danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)

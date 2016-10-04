@@ -83,7 +83,7 @@ JFactory::getDocument()->addScriptDeclaration("
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
+					<div class="alert alert-danger"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
 				<?php endif; ?>
 
 				<?php

@@ -166,7 +166,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 						</td>
 						<td class="small hidden-sm-down">
 							<?php if ($item->position) : ?>
-								<span class="label label-info">
+								<span class="tag tag-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
