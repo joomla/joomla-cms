@@ -861,7 +861,7 @@ abstract class JHtml
 			$tip = $text;
 		}
 
-		if ($class == 'hasTip')
+		if ($class === 'hasTip')
 		{
 			// Still using MooTools tooltips!
 			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
@@ -965,8 +965,8 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+		$readonly = isset($attribs['readonly']) && $attribs['readonly'] === 'readonly';
+		$disabled = isset($attribs['disabled']) && $attribs['disabled'] === 'disabled';
 
 		if (is_array($attribs))
 		{

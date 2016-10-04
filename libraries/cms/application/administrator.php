@@ -404,7 +404,7 @@ class JApplicationAdministrator extends JApplicationCms
 		$component = $input->getCmd('option', 'com_login');
 		$file      = $input->getCmd('tmpl', 'index');
 
-		if ($component == 'com_login')
+		if ($component === 'com_login')
 		{
 			$file = 'login';
 		}
@@ -446,7 +446,7 @@ class JApplicationAdministrator extends JApplicationCms
 	{
 		$uri = JUri::getInstance();
 
-		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		if ($this->get('force_ssl') >= 1 && strtolower($uri->getScheme()) !== 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');

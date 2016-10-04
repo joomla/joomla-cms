@@ -233,7 +233,7 @@ abstract class JInstallerHelper
 				continue;
 			}
 
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				unset($xml);
 				continue;

@@ -197,7 +197,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 	protected function setupInstallPaths()
 	{
 		// Set the file root path
-		if ($this->name == 'files_joomla')
+		if ($this->name === 'files_joomla')
 		{
 			// If we are updating the Joomla core, set the root path to the root of Joomla
 			$this->parent->setPath('extension_root', JPATH_ROOT);
@@ -324,7 +324,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 			}
 
 			// Check for a valid XML root tag.
-			if ($xml->getName() != 'extension')
+			if ($xml->getName() !== 'extension')
 			{
 				JLog::add(JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
@@ -419,7 +419,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					// Loop through all filenames elements
 					foreach ($eFiles->children() as $eFileName)
 					{
-						if ($eFileName->getName() == 'folder')
+						if ($eFileName->getName() === 'folder')
 						{
 							$folderList[] = $targetFolder . '/' . $eFileName;
 						}
@@ -582,7 +582,7 @@ class JInstallerAdapterFile extends JInstallerAdapter
 					$path['dest'] = $targetFolder . '/' . $eFileName;
 					$path['type'] = 'file';
 
-					if ($eFileName->getName() == 'folder')
+					if ($eFileName->getName() === 'folder')
 					{
 						$folderName = $targetFolder . '/' . $eFileName;
 						array_push($this->folderList, $folderName);

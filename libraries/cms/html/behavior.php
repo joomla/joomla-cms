@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 			$debug = $config->get('debug');
 		}
 
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
+		if ($type !== 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
 			static::framework(false, $debug);
 		}
@@ -680,7 +680,7 @@ abstract class JHtmlBehavior
 		$session = JFactory::getSession();
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if ($session->storeName != 'database')
+		if ($session->storeName !== 'database')
 		{
 			$refresh_time = 300000;
 		}

@@ -49,7 +49,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 60);
 
 		// 1 to 59 minutes
-		if ($diff < 60 || $unit == 'minute')
+		if ($diff < 60 || $unit === 'minute')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_MINUTES', $diff);
 		}
@@ -58,7 +58,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 60);
 
 		// 1 to 23 hours
-		if ($diff < 24 || $unit == 'hour')
+		if ($diff < 24 || $unit === 'hour')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_HOURS', $diff);
 		}
@@ -67,7 +67,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 24);
 
 		// 1 to 6 days
-		if ($diff < 7 || $unit == 'day')
+		if ($diff < 7 || $unit === 'day')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_DAYS', $diff);
 		}
@@ -76,7 +76,7 @@ abstract class JHtmlDate
 		$diff = round($diff / 7);
 
 		// 1 to 4 weeks
-		if ($diff <= 4 || $unit == 'week')
+		if ($diff <= 4 || $unit === 'week')
 		{
 			return JText::plural('JLIB_HTML_DATE_RELATIVE_WEEKS', $diff);
 		}

@@ -91,7 +91,7 @@ abstract class JHtmlNumber
 			$i      = array_search($unit, $stdSuffixes, true);
 			$suffix = $unit;
 		}
-		elseif ($unit == 'binary')
+		elseif ($unit === 'binary')
 		{
 			$base   = 1024;
 			$i      = (int) floor(log($oBytes, $base));

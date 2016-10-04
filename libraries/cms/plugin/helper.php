@@ -44,7 +44,7 @@ abstract class JPluginHelper
 		{
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
-			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$template = ($temp[0] === '_') ? $template : $temp[0];
 			$layout = $temp[1];
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}

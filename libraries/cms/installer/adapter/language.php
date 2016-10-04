@@ -167,7 +167,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 			foreach ($files as $file)
 			{
-				if ((string) $file->attributes()->file == 'meta')
+				if ((string) $file->attributes()->file === 'meta')
 				{
 					$this->core = true;
 					break;
@@ -367,7 +367,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		{
 			foreach ($xml->files->children() as $file)
 			{
-				if ((string) $file->attributes()->file == 'meta')
+				if ((string) $file->attributes()->file === 'meta')
 				{
 					$this->core = true;
 					break;
@@ -544,7 +544,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
 
-		if ($client->name == 'administrator')
+		if ($client->name === 'administrator')
 		{
 			$param_name = 'admin_language';
 		}

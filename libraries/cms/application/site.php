@@ -543,7 +543,7 @@ final class JApplicationSite extends JApplicationCms
 
 			foreach ($templates as $tmpl)
 			{
-				if ($tmpl->template == 'beez3')
+				if ($tmpl->template === 'beez3')
 				{
 					$template = $tmpl;
 					break;
