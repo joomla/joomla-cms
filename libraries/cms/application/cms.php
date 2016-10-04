@@ -184,7 +184,6 @@ class JApplicationCms extends JApplicationWeb
 
 			$columns = array(
 				$db->quoteName('session_id'),
-				$db->quoteName('client_id'),
 				$db->quoteName('guest'),
 				$db->quoteName('time'),
 				$db->quoteName('userid'),
@@ -193,12 +192,17 @@ class JApplicationCms extends JApplicationWeb
 
 			$values = array(
 				$db->quote($session->getId()),
-				(int) $this->getClientId(),
 				(int) $user->guest,
 				$db->quote((int) $time),
 				(int) $user->id,
 				$db->quote($user->username),
 			);
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
+			}
 
 			$query->insert($db->quoteName('#__session'))
 				->columns($columns)
@@ -673,10 +677,11 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
-		return $this->getClientId() === 1;
+		return $this->isClient('administrator');
 	}
 
 	/**
@@ -685,10 +690,25 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
-		return $this->getClientId() === 0;
+		return $this->isClient('site');
+	}
+
+	/**
+	 * Check the client interface by name.
+	 *
+	 * @param   string  $identifier  String identifier for the application interface
+	 *
+	 * @return  boolean  True if this application is of the given type client interface.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function isClient($identifier)
+	{
+		return $this->getName() == $identifier;
 	}
 
 	/**
@@ -696,7 +716,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	protected function loadLibraryLanguage()
 	{

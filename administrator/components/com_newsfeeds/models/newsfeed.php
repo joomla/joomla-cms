@@ -367,13 +367,11 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->metadata);
+			$registry = new Registry($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->images);
+			$registry = new Registry($item->images);
 			$item->images = $registry->toArray();
 		}
 
