@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="nowrap">
@@ -58,7 +58,7 @@ jQuery(document).ready(function($) {
 						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="center">
+						<th width="5%" class="text-xs-center">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
 						<th width="40%" class="nowrap hidden-sm-down">
@@ -86,7 +86,7 @@ jQuery(document).ready(function($) {
 					$language->code  = $element[1];
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $language->update_id, false, 'cid'); ?>
 						</td>
 						<td>
@@ -97,12 +97,12 @@ jQuery(document).ready(function($) {
 						<td>
 							<?php echo $language->code; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::RELEASE || substr($language->version, 0, 5) != $currentShortVersion) : ?>
-									<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
+									<span class="tag tag-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 								<?php else : ?>
-									<span class="label label-success"><?php echo $language->version; ?></span>
+									<span class="tag tag-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 						</td>
 						<td class="small hidden-sm-down">
