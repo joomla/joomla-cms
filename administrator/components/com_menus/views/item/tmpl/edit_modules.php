@@ -98,35 +98,35 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<td id="menus-<?php echo $module->id; ?>">
 					<?php if (is_null($module->menuid)) : ?>
 						<?php if ($module->except):?>
-							<span class="label label-success">
+							<span class="tag tag-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
 						<?php else : ?>
-							<span class="label label-important">
+							<span class="tag tag-danger">
 								<?php echo JText::_('JNO'); ?>
 							</span>
 						<?php endif;?>
 					<?php elseif ($module->menuid > 0) : ?>
-						<span class="label label-success">
+						<span class="tag tag-success">
 							<?php echo JText::_('JYES'); ?>
 						</span>
 					<?php elseif ($module->menuid < 0) : ?>
-						<span class="label label-important">
+						<span class="tag tag-danger">
 							<?php echo JText::_('JNO'); ?>
 						</span>
 					<?php else : ?>
-						<span class="label label-info">
+						<span class="tag tag-info">
 							<?php echo JText::_('JALL'); ?>
 						</span>
 					<?php endif; ?>
 				</td>
 				<td id="status-<?php echo $module->id; ?>">
 						<?php if ($module->published):?>
-							<span class="label label-success">
+							<span class="tag tag-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
 						<?php else : ?>
-							<span class="label label-important">
+							<span class="tag tag-danger">
 								<?php echo JText::_('JNO'); ?>
 							</span>
 						<?php endif;?>

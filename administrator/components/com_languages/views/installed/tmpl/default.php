@@ -101,9 +101,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="text-xs-center small">
 					<?php // Display a Note if language pack version is not equal to Joomla version ?>
 					<?php if (substr($row->version, 0, 3) != $version::RELEASE || substr($row->version, 0, 5) != $currentShortVersion) : ?>
-						<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
+						<span class="tag tag-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
 					<?php else : ?>
-						<span class="label label-success"><?php echo $row->version; ?></span>
+						<span class="tag tag-success"><?php echo $row->version; ?></span>
 					<?php endif; ?>
 					</td>
 					<td class="hidden-sm-down">

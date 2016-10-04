@@ -111,7 +111,7 @@ $loggeduser = JFactory::getUser();
 							</div>
 							<?php echo JHtml::_('users.notesModal', $item->note_count, $item->id); ?>
 							<?php if ($item->requireReset == '1') : ?>
-								<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+								<span class="tag tag-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 							<?php endif; ?>
 							<?php if (JDEBUG) : ?>
 								<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">

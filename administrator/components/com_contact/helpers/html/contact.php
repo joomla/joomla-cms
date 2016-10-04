@@ -91,7 +91,7 @@ abstract class JHtmlContact
 						$text,
 						$url,
 						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
+						'hasTooltip tag tag-association label-' . $item->lang_sef
 					);
 				}
 			}
