@@ -12,10 +12,6 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset>
-	<legend>
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL'); ?>
-	</legend>
-	<p>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL_DESC', $this->updateInfo['latest']); ?>
-	</p>
+	<legend><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL'); ?></legend>
+	<p><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL_DESC', $this->updateInfo['latest']); ?></p>
 </fieldset>
