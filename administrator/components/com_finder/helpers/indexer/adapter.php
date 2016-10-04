@@ -240,7 +240,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$items = $this->getItems($offset, $limit);
 
 		// Iterate through the items and index them.
-		foreach($items as $item)
+		foreach ($items as $item)
 		{
 			// Index the item.
 			$this->index($item);
