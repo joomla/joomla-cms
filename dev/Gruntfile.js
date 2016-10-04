@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
 	var CmSettings = grunt.file.readYAML('codemirror.yaml');
 	var path = require('path');
-console.log(CmSettings.version);
+
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
@@ -55,7 +55,6 @@ console.log(CmSettings.version);
 		// Get the latest codemirror
 		curl: {
 			'cmGet': {
-		// Change the version of codemirror here:
 				src: 'https://github.com/codemirror/CodeMirror/archive/' + CmSettings.version + '.zip',
 				dest: 'assets/tmp/cmzip.zip'
 			}
@@ -95,7 +94,7 @@ console.log(CmSettings.version);
 				}
 			}
 		},
-		// Concatenate some jacascript files
+		// Concatenate some javascript files
 		concat: {
 			someFiles: {
 				files: [
