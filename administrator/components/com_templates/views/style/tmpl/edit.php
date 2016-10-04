@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo JText::_($this->item->template); ?>
 				</h3>
 				<div class="info-labels">
-					<span class="label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
+					<span class="tag tag-default hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
 						<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 					</span>
 				</div>
@@ -62,7 +62,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr />' . $html : '';
+				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
 			<div class="col-md-3">

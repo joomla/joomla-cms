@@ -23,7 +23,7 @@ $input = JFactory::getApplication()->input;
 // No access if not global SuperUser
 if (!JFactory::getUser()->authorise('core.admin'))
 {
-	JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+	JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'danger');
 }
 
 if ($this->type == 'image')
@@ -77,7 +77,7 @@ jQuery(document).ready(function($){
 	});
 });");
 
-if($this->type == 'image')
+if ($this->type == 'image')
 {
 	JFactory::getDocument()->addScriptDeclaration("
 		jQuery(document).ready(function($) {
@@ -112,11 +112,11 @@ if($this->type == 'image')
 
 JFactory::getDocument()->addStyleDeclaration("
 	/* Styles for modals */
-	.selected{
+	.selected {
 		background: #08c;
 		color: #fff;
 	}
-	.selected:hover{
+	.selected:hover {
 		background: #08c !important;
 		color: #fff;
 	}
@@ -131,26 +131,26 @@ JFactory::getDocument()->addStyleDeclaration("
 			float: left;
 		}
 	}
-	#deleteFolder{
+	#deleteFolder {
 		margin: 0;
 	}
 
-	#image-crop{
+	#image-crop {
 		max-width: 100% !important;
 		width: auto;
 		height: auto;
 	}
 
-	.directory-tree{
+	.directory-tree {
 		display: none;
 	}
 
-	.tree-holder{
+	.tree-holder {
 		overflow-x: auto;
 	}
 ");
 
-if($this->type == 'font')
+if ($this->type == 'font')
 {
 	JFactory::getDocument()->addStyleDeclaration(
 			"/* Styles for font preview */
@@ -186,7 +186,7 @@ if($this->type == 'font')
 		<?php echo $this->loadTemplate('tree');?>
 	</div>
 	<div class="col-md-9">
-		<?php if($this->type == 'home'): ?>
+		<?php if ($this->type == 'home'): ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
@@ -194,14 +194,14 @@ if($this->type == 'font')
 					<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 					<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 					<p>
-						<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+						<a href="https://docs.joomla.org/J3.x:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-lg">
 							<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
 						</a>
 					</p>
 				</div>
 			</form>
 		<?php endif; ?>
-		<?php if($this->type == 'file'): ?>
+		<?php if ($this->type == 'file'): ?>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 
 				<div class="editor-border">
@@ -214,17 +214,17 @@ if($this->type == 'font')
 
 			</form>
 		<?php endif; ?>
-		<?php if($this->type == 'archive'): ?>
+		<?php if ($this->type == 'archive'): ?>
 			<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<ul class="nav nav-stacked nav-list well">
 					<?php foreach ($this->archive as $file): ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
-								<span class="icon-folder"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa-fw fa fa-folder"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
-								<span class="icon-file"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa-fw fa fa-file-o"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -234,7 +234,7 @@ if($this->type == 'font')
 
 			</form>
 		<?php endif; ?>
-		<?php if($this->type == 'image'): ?>
+		<?php if ($this->type == 'image'): ?>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 			<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
@@ -247,7 +247,7 @@ if($this->type == 'font')
 				</fieldset>
 			</form>
 		<?php endif; ?>
-		<?php if($this->type == 'font'): ?>
+		<?php if ($this->type == 'font'): ?>
 			<div class="font-preview">
 				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
@@ -309,7 +309,7 @@ if($this->type == 'font')
 <div class="row">
 	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
-		<ul class="nav nav-list">
+		<ul class="list-unstyled">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach($this->overridesList['modules'] as $module): ?>
 				<li>
@@ -318,7 +318,7 @@ if($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="fa fa-files-o"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -326,14 +326,14 @@ if($this->type == 'font')
 	</div>
 	<div class="col-md-4">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS');?></legend>
-		<ul class="nav nav-list">
+		<ul class="list-unstyled">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['components'] as $key => $value): ?>
 				<li class="component-folder">
 					<a href="#" class="component-folder-url">
 						<span class="icon-folder"></span>&nbsp;<?php echo $key; ?>
 					</a>
-					<ul class="nav nav-list">
+					<ul class="list-unstyled">
 						<?php foreach ($value as $view): ?>
 							<li>
 								<?php
@@ -341,7 +341,7 @@ if($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-									<span class="icon-copy"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="fa fa-files-o"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -361,7 +361,7 @@ if($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo JRoute::_($overrideLinkUrl); ?>">
-						<span class="icon-copy"></span>&nbsp;<?php echo $layout->name; ?>
+						<span class="fa fa-files-o"></span>&nbsp;<?php echo $layout->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
