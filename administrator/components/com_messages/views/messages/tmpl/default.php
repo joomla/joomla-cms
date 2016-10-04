@@ -63,7 +63,7 @@ JFactory::getDocument()->addStyleDeclaration(
 						<th width="15%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th width="20%" class="nowrap hidden-tablet hidden-phone">
+						<th width="20%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -93,7 +93,7 @@ JFactory::getDocument()->addStyleDeclaration(
 						<td>
 							<?php echo $item->user_from; ?>
 						</td>
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-sm-down">
 							<?php echo JHtml::_('date', $item->date_time, JText::_('DATE_FORMAT_LC2')); ?>
 						</td>
 					</tr>

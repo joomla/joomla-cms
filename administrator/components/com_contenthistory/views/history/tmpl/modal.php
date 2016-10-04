@@ -89,17 +89,17 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 <div class="container-popup">
 
-	<div class="btn-group pull-right">
+	<div class="btn-group pull-xs-right">
 		<button id="toolbar-load" type="submit" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl);?>">
-			<span class="icon-upload"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span></button>
+			<span class="icon-upload"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span></button>
 		<button id="toolbar-preview" type="button" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1');?>">
-			<span class="icon-search"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span></button>
+			<span class="icon-search"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW'); ?></span></button>
 		<button id="toolbar-compare" type="button" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=compare&layout=compare&tmpl=component&' . JSession::getFormToken() . '=1');?>">
-			<span class="icon-zoom-in"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span></button>
+			<span class="icon-zoom-in"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span></button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.keep')}" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
-			<span class="icon-lock"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span></button>
+			<span class="icon-lock"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span></button>
 		<button onclick="if (document.adminForm.boxchecked.value==0){alert('<?php echo $deleteMessage; ?>');}else{ Joomla.submitbutton('history.delete')}" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
-			<span class="icon-delete"></span><span class="hidden-phone"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
+			<span class="icon-delete"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_DELETE'); ?></span></button>
 	</div>
 
 	<div class="clearfix"></div>
@@ -115,13 +115,13 @@ JFactory::getDocument()->addScriptDeclaration("
 					<th width="15%">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="15%" class="nowrap hidden-phone">
+					<th width="15%" class="nowrap hidden-sm-down">
 						<?php echo JText::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
 					<th width="10%" class="nowrap">
 						<?php echo JText::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th width="15%" class="nowrap hidden-phone">
+					<th width="15%" class="nowrap hidden-sm-down">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 					<th width="10%" class="nowrap center">
@@ -152,7 +152,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<span class="icon-featured"></span>&nbsp;
 						<?php endif; ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo htmlspecialchars($item->version_note); ?>
 					</td>
 					<td>
@@ -170,7 +170,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							</a>
 						<?php endif; ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
 					<td class="center">

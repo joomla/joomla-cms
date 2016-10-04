@@ -53,16 +53,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th class="nowrap center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone hidden-tablet">
+					<th class="hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap hidden-phone">
+					<th class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -106,16 +106,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<span class="label label-success"><?php echo $row->version; ?></span>
 					<?php endif; ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($row->creationDate); ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($row->author); ?>
 					</td>
-					<td class="hidden-phone hidden-tablet">
+					<td class="hidden-sm-down">
 						<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($row->extension_id); ?>
 					</td>
 				</tr>

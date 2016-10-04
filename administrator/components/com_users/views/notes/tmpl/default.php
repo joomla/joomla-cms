@@ -45,13 +45,13 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 					</th>
-					<th width="20%" class="nowrap hidden-phone">
+					<th width="20%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_USER', 'u.name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone hidden-tablet">
+					<th width="10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-phone">
+					<th width="1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -101,17 +101,17 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 						</div>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($item->user_name); ?>
 					</td>
-					<td class="hidden-phone hidden-tablet">
+					<td class="hidden-sm-down">
 						<?php if ($item->review_time !== JFactory::getDbo()->getNullDate()) : ?>
 							<?php echo JHtml::_('date', $item->review_time, JText::_('DATE_FORMAT_LC4')); ?>
 						<?php else : ?>
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
 						<?php endif; ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>

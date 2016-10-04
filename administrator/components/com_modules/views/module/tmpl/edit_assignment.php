@@ -67,7 +67,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query pull-right" size="16"
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query pull-xs-right" size="16"
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 			</div>
 
@@ -80,8 +80,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php if (count($type->links)) : ?>
 					<?php $prevlevel = 0; ?>
 					<li>
-						<div class="treeselect-item pull-left">
-							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
+						<div class="treeselect-item pull-xs-left">
+							<label class="pull-xs-left nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
 						if ($prevlevel < $link->level)
@@ -106,9 +106,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						}
 						?>
 							<li>
-								<div class="treeselect-item pull-left">
-									<input type="checkbox" class="pull-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
-									<label for="<?php echo $id . $link->value; ?>" class="pull-left">
+								<div class="treeselect-item pull-xs-left">
+									<input type="checkbox" class="pull-xs-left novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; ?> />
+									<label for="<?php echo $id . $link->value; ?>" class="pull-xs-left">
 										<?php echo $link->text; ?> <span class="small"><?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($link->alias));?></span>
 										<?php if (JLanguageMultilang::isEnabled() && $link->language != '' && $link->language != '*')
 										{
@@ -138,9 +138,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 			<div style="display:none;" id="treeselectmenu">
-				<div class="pull-left nav-hover treeselect-menu">
+				<div class="pull-xs-left nav-hover treeselect-menu">
 					<div class="btn-group">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-micro">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs">
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
