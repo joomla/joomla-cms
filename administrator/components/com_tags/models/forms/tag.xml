@@ -94,7 +94,7 @@
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
+		class="custom-select custom-select-color-state"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
@@ -121,6 +121,7 @@
 	<field
 		name="access"
 		type="accesslevel"
+		class="custom-select"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"
 	/>
@@ -202,6 +203,7 @@
 	<field
 		name="language"
 		type="contentlanguage"
+		class="custom-select"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_TAGS_FIELD_LANGUAGE_DESC"
 	>
@@ -226,6 +228,7 @@
 			<field
 				name="tag_layout"
 				type="componentlayout"
+				class="custom-select"
 				labelclass="control-label"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
@@ -260,6 +263,7 @@
 			<field
 				name="float_intro"
 				type="list"
+				class="custom-select"
 				labelclass="control-label"
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
@@ -305,6 +309,7 @@
 			<field
 				name="float_fulltext"
 				type="list"
+				class="custom-select"
 				labelclass="control-label"
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
@@ -349,6 +354,7 @@
 			<field
 				name="robots"
 				type="list"
+				class="custom-select"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 			>

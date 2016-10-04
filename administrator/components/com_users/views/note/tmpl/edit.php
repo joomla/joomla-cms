@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 JFactory::getDocument()->addScriptDeclaration('
 jQuery(document).ready(function() {

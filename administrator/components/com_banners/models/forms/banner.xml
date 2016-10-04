@@ -40,6 +40,7 @@
 			required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields"
 			default=""
+			class="advancedSelect"
 		/>
 
 		<field
@@ -47,7 +48,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_BANNERS_FIELD_STATE_DESC"
-			class="chzn-color-state"
+			class="custom-select custom-select-color-state"
 			size="1"
 			default="1"
 			>
@@ -70,6 +71,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_BANNERS_FIELD_LANGUAGE_DESC"
+		    class="custom-select"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -98,6 +100,7 @@
 		<field
 			name="type"
 			type="list"
+			class="custom-select"
 			label="COM_BANNERS_FIELD_TYPE_LABEL"
 			description="COM_BANNERS_FIELD_TYPE_DESC"
 			default="0"
@@ -249,6 +252,7 @@
 		<field
 			name="cid"
 			type="bannerclient"
+			class="custom-select"
 			label="COM_BANNERS_FIELD_CLIENT_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_DESC"
 		/>
@@ -256,6 +260,7 @@
 		<field
 			name="purchase_type"
 			type="list"
+			class="custom-select"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
@@ -271,6 +276,7 @@
 		<field
 			name="track_impressions"
 			type="list"
+			class="custom-select"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			default="0"
@@ -283,6 +289,7 @@
 		<field
 			name="track_clicks"
 			type="list"
+			class="custom-select"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			default="0"

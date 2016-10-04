@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)

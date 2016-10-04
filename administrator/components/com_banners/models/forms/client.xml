@@ -45,7 +45,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
-			class="chzn-color-state"
+			class="custom-select custom-select-color-state"
 			size="1"
 			default="1"
 			>
@@ -68,6 +68,7 @@
 		<field
 			name="purchase_type"
 			type="list"
+			class="custom-select"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
@@ -86,7 +87,7 @@
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 			default="0"
-			class="chzn-color"
+			class="custom-select custom-select-color"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>
@@ -99,7 +100,7 @@
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 			default="0"
-			class="chzn-color"
+			class="custom-select custom-select-color"
 			>
 			<option value="-1">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>

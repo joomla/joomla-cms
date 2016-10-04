@@ -108,7 +108,7 @@ abstract class JHtmlRules
 					. ($inheriting->allow($action->name, $group->identities) ? $images['allow-i'] : $images['deny-i']) . '</td>';
 				$html[] = '				<td class="col3">';
 				$html[] = '					<select id="' . $idPrefix . '_' . $action->name . '_' . $group->value
-					. '" class="inputbox" size="1" name="' . $control . '[' . $action->name . '][' . $group->value . ']" title="'
+					. '" class="custom-select" size="1" name="' . $control . '[' . $action->name . '][' . $group->value . ']" title="'
 					. JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', $actionTitle, $group->text) . '">';
 				$html[] = '						<option value=""' . ($selected === null ? ' selected="selected"' : '') . '>'
 					. JText::_('JLIB_RULES_INHERIT') . '</option>';

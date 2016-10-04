@@ -15,7 +15,6 @@ $template = $app->getTemplate();
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
 
 // Load JS message titles
 JText::script('ERROR');

@@ -11,6 +11,7 @@
 		<field
 			name="state"
 			type="status"
+			class="custom-select"
 			filter="0,1"
 			label="COM_FINDER_FILTER_PUBLISHED"
 			description="COM_FINDER_FILTER_PUBLISHED_DESC"
@@ -21,12 +22,14 @@
 		<field
 			name="branch"
 			type="branches"
+			class="custom-select"
 			default="0"
 			onchange="this.form.submit();"
 		/>
 		<field
 			name="level"
 			type="integer"
+			class="custom-select"
 			label="JOPTION_FILTER_LEVEL"
 			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
@@ -42,6 +45,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			onchange="this.form.submit();"
 			default="d.branch_title ASC"
 			>
@@ -54,7 +58,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

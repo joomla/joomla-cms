@@ -70,7 +70,7 @@
 		<field
 			name="published"
 			type="list"
-			class="chzn-color-state"
+			class="custom-select custom-select-color-state"
 			id="published"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
@@ -119,6 +119,7 @@
 		<field
 			name="browserNav"
 			type="list"
+			class="custom-select"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -132,6 +133,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			id="access"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
@@ -163,6 +165,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			class="custom-select"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
 			>
