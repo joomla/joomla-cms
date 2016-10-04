@@ -40,7 +40,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
@@ -52,16 +52,12 @@ JFactory::getDocument()->addScriptDeclaration(
 			<?php echo $this->form->renderField('title_native'); ?>
 			<?php echo $this->form->renderField('lang_code'); ?>
 			<?php echo $this->form->renderField('sef'); ?>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('image'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('image'); ?>
-						<span id="flag">
-							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), array('title' => $this->form->getValue('image')), true); ?>
-						</span>
-					</div>
+			<div class="form-group">
+				<?php echo $this->form->getLabel('image'); ?>
+				<?php echo $this->form->getInput('image'); ?>
+				<span id="flag">
+					<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), array('title' => $this->form->getValue('image')), true); ?>
+				</span>
 			</div>
 			<?php if ($this->canDo->get('core.edit.state')) : ?>
 				<?php echo $this->form->renderField('published'); ?>

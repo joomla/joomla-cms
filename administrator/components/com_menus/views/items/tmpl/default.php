@@ -56,7 +56,7 @@ if ($menuType == '')
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
 		?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -64,37 +64,37 @@ if ($menuType == '')
 				<thead>
 					<tr>
 						<?php if ($menuType) : ?>
-							<th width="1%" class="nowrap center hidden-phone">
+							<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 							</th>
 						<?php endif; ?>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap hidden-phone">
+						<th class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="center nowrap hidden-phone">
+						<th width="5%" class="text-xs-center nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-							<th width="5%" class="nowrap hidden-phone">
+							<th width="5%" class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -146,7 +146,7 @@ if ($menuType == '')
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 						<?php if ($menuType) : ?>
-							<td class="order nowrap center hidden-phone">
+							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
 								$iconClass = '';
 
@@ -167,10 +167,10 @@ if ($menuType == '')
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
 						</td>
 						<td>
@@ -202,10 +202,10 @@ if ($menuType == '')
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="text-xs-center hidden-sm-down">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>
@@ -218,17 +218,17 @@ if ($menuType == '')
 								<?php endif; ?>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<?php if ($assoc) : ?>
-							<td class="small hidden-phone">
+							<td class="small hidden-sm-down">
 								<?php if ($item->association) : ?>
 									<?php echo JHtml::_('MenusHtml.Menus.association', $item->id); ?>
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php if ($item->language == ''):?>
 								<?php echo JText::_('JDEFAULT'); ?>
 							<?php elseif ($item->language == '*') : ?>
@@ -237,7 +237,7 @@ if ($menuType == '')
 								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 								<?php echo (int) $item->id; ?>
 							</span>

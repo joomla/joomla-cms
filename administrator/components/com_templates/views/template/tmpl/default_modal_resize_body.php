@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<div id="template-manager-resize" class="form-horizontal">
+<div id="template-manager-resize">
 	<div class="control-group">
 		<div class="control-label">
 			<label for="height" class="modalTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>">

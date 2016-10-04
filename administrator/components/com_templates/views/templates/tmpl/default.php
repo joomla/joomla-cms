@@ -29,26 +29,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'); ?>
 		</div>
 	<?php else : ?>
 		<table class="table table-striped" id="template-mgr">
 			<thead>
 				<tr>
-					<th class="col1template hidden-phone" width="20%">
+					<th class="col1template hidden-sm-down" width="20%">
 						<?php echo JText::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 					</th>
 					<th width="30%">
 						<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="hidden-phone">
+					<th width="10%" class="hidden-sm-down">
 						<?php echo JText::_('JVERSION'); ?>
 					</th>
-					<th width="15%" class="hidden-phone">
+					<th width="15%" class="hidden-sm-down">
 						<?php echo JText::_('JDATE'); ?>
 					</th>
-					<th width="25%" class="hidden-phone" >
+					<th width="25%" class="hidden-sm-down" >
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
 				</tr>
@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center hidden-phone">
+					<td class="text-xs-center hidden-sm-down">
 						<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 					</td>
 					<td class="template-name">
@@ -81,13 +81,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php endif; ?>
 						</div>
 					</td>
-					<td class="small hidden-phone">
+					<td class="small hidden-sm-down">
 						<?php echo $this->escape($item->xmldata->get('version')); ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="small hidden-sm-down">
 						<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php if ($author = $item->xmldata->get('author')) : ?>
 							<div><?php echo $this->escape($author); ?></div>
 						<?php else : ?>

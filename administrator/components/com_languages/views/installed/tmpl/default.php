@@ -31,7 +31,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->rows)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 		<?php else : ?>
@@ -47,22 +47,22 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap center">
+					<th class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap center">
+					<th class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone">
+					<th class="hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 					</th>
-					<th class="hidden-phone hidden-tablet">
+					<th class="hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap hidden-phone">
+					<th class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -95,27 +95,27 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td>
 						<?php echo $this->escape($row->language); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 					</td>
-					<td class="center small">
+					<td class="text-xs-center">
 					<?php // Display a Note if language pack version is not equal to Joomla version ?>
 					<?php if (substr($row->version, 0, 3) != $version::RELEASE || substr($row->version, 0, 5) != $currentShortVersion) : ?>
-						<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
+						<span class="tag tag-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
 					<?php else : ?>
-						<span class="label label-success"><?php echo $row->version; ?></span>
+						<span class="tag tag-success"><?php echo $row->version; ?></span>
 					<?php endif; ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($row->creationDate); ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($row->author); ?>
 					</td>
-					<td class="hidden-phone hidden-tablet">
+					<td class="hidden-sm-down">
 						<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($row->extension_id); ?>
 					</td>
 				</tr>

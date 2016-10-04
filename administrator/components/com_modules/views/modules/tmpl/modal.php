@@ -45,35 +45,35 @@ modulePosIns = function(position) {
 		<div class="clearfix"></div>
 
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
 		</div>
 		<?php else : ?>
 		<table class="table table-striped" id="moduleList">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th class="title">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="15%" class="nowrap hidden-phone">
+					<th width="15%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone hidden-tablet">
+					<th width="10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-phone">
+					<th width="1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -96,29 +96,29 @@ modulePosIns = function(position) {
 				foreach ($this->items as $i => $item) :
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center">
+					<td class="text-xs-center">
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 					</td>
 					<td class="has-context">
 						<a class="btn btn-small btn-block btn-success" href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>');"><?php echo $this->escape($item->title); ?></a>
 					</td>
-					<td class="small hidden-phone">
+					<td class="small hidden-sm-down">
 						<?php if ($item->position) : ?>
 						<a class="btn btn-small btn-block btn-warning" href="#" onclick="modulePosIns('<?php echo $this->escape($item->position); ?>');"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
 						<span class="label"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="small hidden-sm-down">
 						<?php echo $item->name; ?>
 					</td>
-					<td class="small hidden-phone hidden-tablet">
+					<td class="small hidden-sm-down">
 						<?php echo $item->pages; ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="small hidden-sm-down">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="small hidden-sm-down">
 						<?php if ($item->language == '') : ?>
 							<?php echo JText::_('JDEFAULT'); ?>
 						<?php elseif ($item->language == '*') : ?>
@@ -127,7 +127,7 @@ modulePosIns = function(position) {
 							<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>

@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('COM_CHECKIN_NO_ITEMS'); ?>
 			</div>
 		<?php else : ?>
@@ -51,14 +51,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php $i = 0; ?>
 					<?php foreach ($this->items as $table => $count): ?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
+							<td class="text-xs-center"><?php echo JHtml::_('grid.id', $i, $table); ?></td>
 							<td>
 								<label for="cb<?php echo $i ?>">
 									<?php echo JText::sprintf('COM_CHECKIN_TABLE', $table); ?>
 								</label>
 							</td>
 							<td>
-								<span class="label label-warning"><?php echo $count; ?></span>
+								<span class="tag tag-default"><?php echo $count; ?></span>
 							</td>
 						</tr>
 						<?php $i++; ?>

@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
 ?>
 
 <div id="joomlaupdate-wrapper">
-	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm" class="form-horizontal">
+	<form enctype="multipart/form-data" action="index.php" method="post" id="adminForm">
 
 		<?php if ($this->showUploadAndUpdate) : ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'joomlaupdate-tabs', array('active' => 'online-update')); ?>

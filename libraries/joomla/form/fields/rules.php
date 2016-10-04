@@ -252,11 +252,11 @@ class JFormFieldRules extends JFormField
 
 			if ((int) $group->value === 1)
 			{
-				$active = 'active';
+				$active = 'active ';
 			}
 
-			$html[] = '<li class="' . $active . '">';
-			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+			$html[] = '<li class="nav-link">';
+			$html[] = '<a class="' . $active . 'nav-item" href="#permission-' . $group->value . '" data-toggle="tab">';
 			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';

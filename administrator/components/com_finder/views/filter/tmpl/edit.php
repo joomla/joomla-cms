@@ -62,7 +62,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
@@ -72,10 +72,10 @@ JFactory::getDocument()->addStyleDeclaration(
 					<div class="well">
 						<?php echo $this->form->renderField('map_count'); ?>
 					</div>
-					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
+					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-					<button class="btn btn-default pull-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+					<button class="btn btn-secondary pull-xs-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
 				<?php endif; ?>
 
@@ -88,7 +88,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row form-horizontal-desktop">
+		<div class="row">
 			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

@@ -78,7 +78,7 @@ abstract class MenusHtmlMenus
 						$item->title,
 						'(' . $item->menu_title . ')'
 					);
-					$class = 'hasTooltip label label-association label-' . $item->lang_sef;
+					$class = 'hasTooltip tag tag-association tag-' . $item->lang_sef;
 					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, $class);
 				}
 			}

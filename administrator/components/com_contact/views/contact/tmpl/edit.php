@@ -51,13 +51,13 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::_('COM_CONTACT_EDIT_CONTACT')); ?>
 		<div class="row">
 			<div class="col-md-9">
-				<div class="row form-horizontal-desktop">
+				<div class="row">
 					<div class="col-md-6">
 						<?php echo $this->form->renderField('user_id'); ?>
 						<?php echo $this->form->renderField('image'); ?>
@@ -87,17 +87,17 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS')); ?>
-		<div class="row form-horizontal-desktop">
-				<div class="form-vertical">
-					<?php echo $this->form->renderField('misc'); ?>
-				</div>
+		<div class="row">
+			<div class="form-vertical">
+				<?php echo $this->form->renderField('misc'); ?>
+			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row form-horizontal-desktop">
+		<div class="row">
 			<div class="col-md-6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>

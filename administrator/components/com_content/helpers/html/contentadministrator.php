@@ -91,7 +91,7 @@ abstract class JHtmlContentAdministrator
 						$text,
 						$url,
 						null,
-						'hasTooltip label label-association label-' . $item->lang_sef
+						'hasTooltip tag tag-association tag-' . $item->lang_sef
 					);
 				}
 			}
@@ -125,12 +125,12 @@ abstract class JHtmlContentAdministrator
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip'
+			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs btn-secondary hasTooltip'
 				. ($value == 1 ? ' active' : '') . '" title="' . JHtml::tooltipText($state[3]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
+			$html = '<a class="btn btn-xs btn-secondary hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
 				. JHtml::tooltipText($state[2]) . '"><span class="icon-' . $icon . '"></span></a>';
 		}
 

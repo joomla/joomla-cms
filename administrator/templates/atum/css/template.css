@@ -6962,13 +6962,13 @@ small, .small {
   padding-top: 48px;
   padding-left: 0;
   transition: all .5s ease; }
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
     .wrapper {
       padding-left: 250px; } }
 
 .wrapper.closed {
   padding-left: 0; }
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
     .wrapper.closed {
       padding-left: 55px; } }
   .wrapper.closed .status {
@@ -6984,19 +6984,19 @@ small, .small {
   background: #2e2633;
   transform: translateX(-250px);
   transition: all .5s ease; }
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
     .sidebar-wrapper {
       left: 250px;
       width: 250px;
       margin-left: -250px;
       transform: translateX(0); } }
-  @media (max-width: 48em) {
+  @media (max-width: 767px) {
     .sidebar-wrapper {
       z-index: 1; } }
 
 .wrapper.closed .sidebar-wrapper {
   transform: translateX(0); }
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
     .wrapper.closed .sidebar-wrapper {
       width: 55px;
       transform: translateX(0); } }
@@ -7010,7 +7010,7 @@ small, .small {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 55px; }
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
     .container-title {
       padding-top: 5px;
       padding-bottom: 5px;
@@ -7031,7 +7031,7 @@ small, .small {
     font-size: 16px;
     line-height: 50px;
     color: #d9d9d9; }
-    @media (max-width: 48em) {
+    @media (max-width: 767px) {
       .menu-collapse .menu-text {
         display: none; } }
   .menu-collapse .menu-toggle {
@@ -7068,17 +7068,17 @@ small, .small {
         top: -10px;
         transition: transform 0.3s, width 0.3s, top 0.3s;
         transform-origin: top left; }
-        @media (max-width: 48em) {
+        @media (max-width: 767px) {
           .menu-collapse .menu-toggle span::before {
             transform-origin: top right; } }
       .menu-collapse .menu-toggle span::after {
         bottom: -10px;
         transition: transform 0.3s, width 0.3s, bottom 0.3s;
         transform-origin: bottom left; }
-        @media (max-width: 48em) {
+        @media (max-width: 767px) {
           .menu-collapse .menu-toggle span::after {
             transform-origin: bottom right; } }
-    @media (max-width: 48em) {
+    @media (max-width: 767px) {
       .menu-collapse .menu-toggle {
         float: none;
         margin: 0 auto; } }
@@ -7089,17 +7089,17 @@ small, .small {
     .menu-collapse .menu-toggle .active span::before {
       top: 0;
       transform: translateX(-4px) translateY(2px) rotate(-45deg); }
-      @media (max-width: 48em) {
+      @media (max-width: 767px) {
         .menu-collapse .menu-toggle .active span::before {
           transform: translateX(19px) translateY(2px) rotate(45deg); } }
     .menu-collapse .menu-toggle .active span::after {
       bottom: 0;
       transform: translateX(-4px) translateY(-2px) rotate(45deg); }
-      @media (max-width: 48em) {
+      @media (max-width: 767px) {
         .menu-collapse .menu-toggle .active span::after {
           bottom: 4px;
           transform: translateX(19px) translateY(2px) rotate(-45deg); } }
-  @media (min-width: 48em) {
+  @media (min-width: 768px) {
     .menu-collapse {
       position: fixed;
       width: 250px;
@@ -7173,10 +7173,11 @@ small, .small {
   color: #fff; }
   .navbar-brand:hover, .navbar-brand:focus {
     color: #fff; }
-  @media (min-width: 34em) and (max-width: 48em) {
-    .navbar-brand {
-      margin-right: 0;
-      margin-left: 10px; } }
+
+@media (min-width: 544px) and (max-width: 767px) {
+  .navbar-brand {
+    margin-right: 0;
+    margin-left: 10px; } }
 
 .main-brand {
   padding: 0 20px;
@@ -7278,7 +7279,7 @@ small, .small {
     width: 330px;
     margin-top: -206px;
     margin-left: -165px; }
-    @media (max-width: 480px) {
+    @media (max-width: 543px) {
       .view-login .container {
         margin-top: -170px; } }
   .view-login .card-img-top {
@@ -7297,7 +7298,7 @@ small, .small {
     height: 24px;
     margin-left: -12px;
     font-size: 22px; }
-  @media (max-width: 480px) {
+  @media (max-width: 543px) {
     .view-login .btn {
       padding: 4px 10px;
       font-size: 13px; } }
@@ -7525,9 +7526,9 @@ legend {
 .icon-back::before {
   content: "\e008"; }
 
-.btn-success-outline:hover .icon-green::before,
-.btn-danger-outline:hover .icon-red::before,
-.btn-warning-outline:hover .icon-yellow::before {
+.btn-outline-success:hover .icon-green::before,
+.btn-outline-danger:hover .icon-red::before,
+.btn-outline-warning:hover .icon-yellow::before {
   color: #fff; }
 
 .js-pstats-data-details {

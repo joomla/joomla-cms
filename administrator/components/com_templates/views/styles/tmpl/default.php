@@ -34,31 +34,31 @@ $colSpan = $clientId === 1 ? 5 : 6;
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clear"> </div>
 		<?php if (empty($this->items)) : ?>
-				<div class="alert alert-no-items">
+				<div class="alert alert-warning alert-no-items">
 					<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'); ?>
 				</div>
 		<?php else : ?>
 			<table class="table table-striped" id="styleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							&#160;
 						</th>
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
-						<th width="20%" class="nowrap hidden-phone">
+						<th width="20%" class="nowrap hidden-sm-down">
 							<?php echo JText::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 						</th>
 						<?php endif; ?>
-						<th width="30%" class="hidden-phone hidden-tablet">
+						<th width="30%" class="hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone hidden-tablet">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -77,7 +77,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 						$canChange = $user->authorise('core.edit.state', 'com_templates');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td width="1%" class="center">
+						<td width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>
@@ -96,7 +96,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<?php echo $this->escape($item->title);?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if ($item->home == '0' || $item->home == '1'):?>
 								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 							<?php elseif ($canChange):?>
@@ -108,7 +108,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endif;?>
 						</td>
 						<?php if ($clientId === 0) : ?>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php if ($item->home == '1') : ?>
 								<?php echo JText::_('COM_TEMPLATES_STYLES_PAGES_ALL'); ?>
 							<?php elseif ($item->home != '0' && $item->home != '1') : ?>
@@ -120,14 +120,14 @@ $colSpan = $clientId === 1 ? 5 : 6;
 							<?php endif; ?>
 						</td>
 						<?php endif;?>
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-sm-down">
 							<label for="cb<?php echo $i;?>" class="small">
 								<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->e_id); ?>  ">
 									<?php echo ucfirst($this->escape($item->template));?>
 								</a>
 							</label>
 						</td>
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
