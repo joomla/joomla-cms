@@ -56,7 +56,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
 // Including fallback code for HTML5 non supported browsers.
-JHtml::_('behaviour.core');
+JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
 JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold' => 0));
 JHtml::_('script', 'system/fields/moduleorder.js', false, true);
