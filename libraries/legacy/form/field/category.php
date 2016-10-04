@@ -51,7 +51,7 @@ class JFormFieldCategory extends JFormFieldList
 			$extension_field_name = array_pop($extension_field);
 			$extension_field_group = implode('.', $extension_field);
 			$default = $this->form->getFieldAttribute($extension_field_name, 'default', null, $extension_field_group);
-			$extension = $this->form->getValue($extension_field_name, $extension_field_group, $default);					
+			$extension = $this->form->getValue($extension_field_name, $extension_field_group, $default);
 		}
 
 		// Load the category options for a given extension.
