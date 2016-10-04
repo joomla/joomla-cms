@@ -1,8 +1,8 @@
 module.exports = function(grunt) {
 
-	var CmSettings = grunt.file.readYAML('settings.yaml');
+	var CmSettings = grunt.file.readYAML('codemirror.yaml');
 	var path = require('path');
-
+console.log(CmSettings.version);
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
@@ -56,15 +56,16 @@ module.exports = function(grunt) {
 		curl: {
 			'cmGet': {
 		// Change the version of codemirror here:
-				src: 'https://github.com/codemirror/CodeMirror/archive/5.19.0.zip',
+				src: 'https://github.com/codemirror/CodeMirror/archive/' + CmSettings.version + '.zip',
 				dest: 'assets/tmp/cmzip.zip'
 			}
 		},
 		unzip: {
 			'cmUnzip': {
 				router: function (filepath) {
-					var filename = filepath.replace(/(CodeMirror-)\d\.\d\d\.\d\//g, '');
-					return filename;
+					var re = new RegExp('CodeMirror-' + CmSettings.version + '/', 'g');
+					var newFilename = filepath.replace(re, '');
+					return newFilename;
 				},
 				src: 'assets/tmp/cmzip.zip',
 				dest: 'assets/tmp/codemirror/'
@@ -72,13 +73,6 @@ module.exports = function(grunt) {
 		},
 		// Download latest packages from github for any assets with no npm package
 		gitclone: {
-			// cloneCodemirror: {
-			// 	options: {
-			// 		repository: 'https://github.com/codemirror/CodeMirror.git',
-			// 		branch: 'master',
-			// 		directory: 'assets/tmp/codemirror'
-			// 	}
-			// },
 			cloneCombobox: {
 				options: {
 					repository: 'https://github.com/danielfarrell/bootstrap-combobox.git',
@@ -101,7 +95,6 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		//	https://github.com/codemirror/CodeMirror/archive/5.19.0.zip
 		// Concatenate some jacascript files
 		concat: {
 			someFiles: {
@@ -425,7 +418,6 @@ module.exports = function(grunt) {
 			'shell:update',
 			'curl:cmGet',
 			'unzip:cmUnzip',
-			//'gitclone:cloneCodemirror',
 			'gitclone:cloneCombobox',
 			'gitclone:cloneCropjs',
 			'gitclone:cloneAutojs',

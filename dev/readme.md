@@ -9,7 +9,8 @@ possible commands:
 
 - `grunt clean:assets`.................clears the media/vendor folder
 - `grunt shell:update`.................will update all the npm packages to the version defined in /dev/assets/package.json
-- `grunt gitclone:cloneCodemirror`.....fetches latest codemirror to assets/tmp folder
+- `grunt curl:cmGet`...................fetches latest codemirror to assets/tmp folder, the version is defined in codemirror.yml
+- `grunt unzip:cmUnzip`................extracts the downladed codemirror zip to assets/tmp/codemirror folder
 - `grunt gitclone:cloneCombobox`.......fetches latest combobox to assets/tmp folder
 - `grunt gitclone:cloneCropjs`.........fetches latest combobox to assets/tmp folder
 - `grunt gitclone:cloneAutojs`.........fetches latest autocomplete to assets/tmp folder
