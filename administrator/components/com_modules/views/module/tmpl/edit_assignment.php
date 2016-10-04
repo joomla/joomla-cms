@@ -40,19 +40,18 @@ $script = "
 // Add the script to the document head
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-<div class="control-group">
-	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
-
+<div class="form-group">
+	<label id="jform_menus-lbl" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
 		<select name="jform[assignment]" id="jform_assignment">
 			<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>
 </div>
-<div id="menuselect-group" class="control-group">
-	<label id="jform_menuselect-lbl" class="control-label" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
+<div id="menuselect-group" class="form-group">
+	<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
-	<div id="jform_menuselect" class="controls">
+	<div id="jform_menuselect">
 		<?php if (!empty($menuTypes)) : ?>
 		<?php $id = 'jform_menuselect'; ?>
 
@@ -67,13 +66,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<a id="treeExpandAll" href="javascript://"><?php echo JText::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo JText::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="input-medium search-query pull-xs-right" size="16"
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query pull-xs-right" size="16"
 					autocomplete="off" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
 			</div>
 
 			<div class="clearfix"></div>
 
-			<hr class="hr-condensed" />
+			<hr class="hr-condensed">
 
 			<ul class="treeselect">
 				<?php foreach ($menuTypes as &$type) : ?>
@@ -137,25 +136,23 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<div id="noresultsfound" style="display:none;" class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
-			<div style="display:none;" id="treeselectmenu">
+			<div style="display:none" id="treeselectmenu">
 				<div class="pull-xs-left nav-hover treeselect-menu">
-					<div class="btn-group">
-						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs">
+					<div class="dropdown">
+						<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">
 							<span class="caret"></span>
 						</a>
-						<ul class="dropdown-menu">
-							<li class="nav-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></li>
-							<li class="divider"></li>
-							<li class=""><a class="checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
-							</li>
-							<li><a class="uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
-							</li>
+						<div class="dropdown-menu">
+							<h5 class="dropdown-header"><?php echo JText::_('COM_MODULES_SUBITEMS'); ?></h5>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item checkall" href="javascript://"><span class="icon-checkbox"></span> <?php echo JText::_('JSELECT'); ?></a>
+							<a class="dropdown-item uncheckall" href="javascript://"><span class="icon-checkbox-unchecked"></span> <?php echo JText::_('COM_MODULES_DESELECT'); ?></a>
 							<div class="treeselect-menu-expand">
-							<li class="divider"></li>
-							<li><a class="expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a></li>
-							<li><a class="collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a></li>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item expandall" href="javascript://"><span class="icon-plus"></span> <?php echo JText::_('COM_MODULES_EXPAND'); ?></a>
+								<a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus"></span> <?php echo JText::_('COM_MODULES_COLLAPSE'); ?></a>
 							</div>
-						</ul>
+						</div>
 					</div>
 				</div>
 			</div>

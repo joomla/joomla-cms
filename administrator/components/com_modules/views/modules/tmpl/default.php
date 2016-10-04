@@ -52,7 +52,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap text-xs-center" style="min-width:55px">
+						<th width="1%" class="nowrap text-xs-center" style="min-width:85px">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -127,7 +127,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn btn-xs hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
 							<?php endif; ?>
 							</div>
 						</td>
