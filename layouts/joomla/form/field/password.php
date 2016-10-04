@@ -70,7 +70,7 @@ JHtml::_('script', 'system/html5fallback.min.js', false, true);
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
-	!empty($class) ? 'class="' . $class . '"' : '',
+	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',

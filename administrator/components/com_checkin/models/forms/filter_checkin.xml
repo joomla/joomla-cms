@@ -29,7 +29,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="input-mini"
+			class="form-control-sm"
 			default="5"
 			onchange="this.form.submit();"
 		/>

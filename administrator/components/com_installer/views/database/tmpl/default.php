@@ -55,7 +55,7 @@ defined('_JEXEC') or die;
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
-				<div class="control-group" >
+				<div class="form-group">
 					<fieldset class="panelform">
 						<ul>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 <div class="row">
 	<div class="col-md-12">
 		<p class="tab-description"><?php echo JText::sprintf('COM_FINDER_STATISTICS_STATS_DESCRIPTION', number_format($this->data->term_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_node_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_branch_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'))); ?></p>
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
 					<th>
@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 						?>
 					</td>
 					<td>
-						<span class="badge badge-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));?></span>
+						<span class="tag tag-info"><?php echo number_format($type->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));?></span>
 					</td>
 				</tr>
 				<?php endforeach; ?>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 						<strong><?php echo JText::_('COM_FINDER_STATISTICS_LINK_TYPE_TOTAL'); ?></strong>
 					</td>
 					<td>
-						<span class="badge badge-info"><?php echo number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
+						<span class="tag tag-info"><?php echo number_format($this->data->link_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?></span>
 					</td>
 				</tr>
 			</tbody>

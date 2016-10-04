@@ -94,7 +94,7 @@ $doc->addScriptDeclaration(
 	</div>
 
 	<div class="manager">
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 		<thead>
 			<tr>
 				<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>

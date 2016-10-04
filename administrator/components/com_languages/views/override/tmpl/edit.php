@@ -48,65 +48,41 @@ JFactory::getDocument()->addScriptDeclaration('
 ');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form">
 	<div class="row">
 		<div class="col-md-6">
 			<fieldset>
 				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('language'); ?>
+					<?php echo $this->form->getInput('language'); ?>
 				</div>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('client'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('client'); ?>
-					</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('client'); ?>
+					<?php echo $this->form->getInput('client'); ?>
 				</div>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('key'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('key'); ?>
-					</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('key'); ?>
+					<?php echo $this->form->getInput('key'); ?>
 				</div>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('override'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('override'); ?>
-					</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('override'); ?>
+					<?php echo $this->form->getInput('override'); ?>
 				</div>
 
 				<?php if ($this->state->get('filter.client') == 'administrator') : ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('both'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('both'); ?>
-					</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('both'); ?>
+					<?php echo $this->form->getInput('both'); ?>
 				</div>
 				<?php endif; ?>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('file'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('file'); ?>
-					</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('file'); ?>
+					<?php echo $this->form->getInput('file'); ?>
 				</div>
 			</fieldset>
 
@@ -118,17 +94,17 @@ JFactory::getDocument()->addScriptDeclaration('
 
 				<div class="alert alert-info"><p><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></p></div>
 
-				<div class="control-group">
+				<div class="form-group">
 					<?php echo $this->form->getInput('searchstring'); ?>
 					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 					</button>
-					<span id="refresh-status" class="overrider-spinner  help-block">
+					<span id="refresh-status" class="overrider-spinner help-block">
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>
-				<div class="control-group">
-					<div class="control-label">
+				<div class="form-group">
+
 						<?php echo $this->form->getLabel('searchtype'); ?>
 					</div>
 					<div class="controls">

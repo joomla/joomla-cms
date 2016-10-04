@@ -37,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<div class="clearfix"></div>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-no-items alert-info">
+					<div class="alert alert-info alert-no-items">
 						<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 					</div>
 				<?php else : ?>
@@ -56,19 +56,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th class="nowrap">
 								<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap hidden-phone">
+							<th class="nowrap hidden-sm-down">
 								<?php echo JText::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 							</th>
 							<th class="nowrap">
 								<?php echo JText::_('COM_INSTALLER_NEW_VERSION'); ?>
 							</th>
-							<th class="nowrap hidden-phone">
+							<th class="nowrap hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 							</th>
-							<th class="nowrap hidden-phone">
+							<th class="nowrap hidden-sm-down">
 								<?php echo JText::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 							</th>
-							<th width="40%" class="nowrap hidden-phone hidden-tablet">
+							<th width="40%" class="nowrap hidden-sm-down">
 								<?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 							</th>
 						</tr>
@@ -104,19 +104,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td>
 									<?php echo $item->type_translated; ?>
 								</td>
-								<td class="hidden-phone">
-									<span class="label label-warning"><?php echo $item->current_version; ?></span>
+								<td class="hidden-sm-down">
+									<span class="tag tag-warning"><?php echo $item->current_version; ?></span>
 								</td>
 								<td>
-									<span class="label label-success"><?php echo $item->version; ?></span>
+									<span class="tag tag-success"><?php echo $item->version; ?></span>
 								</td>
-								<td class="hidden-phone">
+								<td class="hidden-sm-down">
 									<?php echo $item->folder_translated; ?>
 								</td>
-								<td class="hidden-phone">
+								<td class="hidden-sm-down">
 									<?php echo $item->install_type; ?>
 								</td>
-								<td class="hidden-phone hidden-tablet">
+								<td class="hidden-sm-down">
 							<span class="break-word">
 							<?php echo $item->detailsurl; ?>
 								<?php if (isset($item->infourl)) : ?>

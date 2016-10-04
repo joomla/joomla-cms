@@ -253,7 +253,7 @@ abstract class JHtmlGrid
 			$state,
 			'filter_state',
 			array(
-				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
+				'list.attr' => 'class="form-control" size="1" onchange="Joomla.submitform();"',
 				'list.select' => $filter_state,
 				'option.key' => null,
 			)
@@ -274,7 +274,7 @@ abstract class JHtmlGrid
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
 		return '<a href="javascript:saveorder('
-			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-xs btn-secondary pull-xs-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 

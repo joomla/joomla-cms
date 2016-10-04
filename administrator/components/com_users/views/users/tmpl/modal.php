@@ -47,18 +47,18 @@ if ($isMoo)
 <div class="container-popup">
 	<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if (!$userRequired) : ?>
-		<div class="pull-left">
+		<div class="pull-xs-left">
 			<button type="button" class="btn button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
 				data-user-field="<?php echo $this->escape($field);?>" <?php if ($isMoo) : ?>value="" onclick="window.parent.jSelectUser(this)"<?php endif; ?>><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
 		</div>
 		<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 		<?php else : ?>
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
 					<th class="nowrap">
@@ -67,10 +67,10 @@ if ($isMoo)
 					<th width="25%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
 					<th width="25%" class="nowrap">
@@ -102,10 +102,10 @@ if ($isMoo)
 					<td>
 						<?php echo $this->escape($item->username); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
 					</td>
 					<td>

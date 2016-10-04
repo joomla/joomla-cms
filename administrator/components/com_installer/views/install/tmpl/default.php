@@ -86,7 +86,7 @@ JFactory::getDocument()->addStyleDeclaration(
 
 <div id="installer-install" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install'); ?>"
-		method="post" name="adminForm" id="adminForm" class="form-horizontal">
+		method="post" name="adminForm" id="adminForm">
 		<?php if (!empty($this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="col-md-2">
 			<?php echo $this->sidebar; ?>
@@ -99,13 +99,12 @@ JFactory::getDocument()->addStyleDeclaration(
 				<?php if ($this->showMessage) : ?>
 					<?php echo $this->loadTemplate('message'); ?>
 				<?php elseif ($this->showJedAndWebInstaller) : ?>
-					<div class="alert alert-info j-jed-message"
-						style="margin-bottom: 40px; line-height: 2em; color:#333333;">
+					<div class="alert alert-info j-jed-message" style="margin-bottom: 40px; line-height: 2em; color:#333333;">
 						<?php echo JHtml::_(
 							'link',
 							JRoute::_('index.php?option=com_config&view=component&component=com_installer&path=&return=' . urlencode(base64_encode(JUri::getInstance()))),
 							'',
-							'class="alert-options hasTooltip icon-options" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
+							'class="close hasTooltip icon-options" data-dismiss="alert" title="' . str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')) . '"'
 						);
 						?>
 						<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>

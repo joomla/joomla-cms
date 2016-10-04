@@ -39,43 +39,43 @@ $colSpan = $clientId === 1 ? 9 : 10;
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center" style="min-width:55px">
+						<th width="1%" class="nowrap text-xs-center" style="min-width:85px">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone hidden-tablet">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
-						<th width="10%" class="nowrap hidden-phone hidden-tablet">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif; ?>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -96,7 +96,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position ? $item->position : 'none'; ?>">
-						<td class="order nowrap center hidden-phone">
+						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -115,38 +115,24 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canCreate)
-								{
-									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
-								}
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'modules');
-								}
-								if ($canCreate || $canChange)
-								{
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-								}
-								?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn-micro hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-xs btn-secondary hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
 							<?php endif; ?>
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="pull-left">
+							<div class="pull-xs-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
@@ -164,29 +150,29 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<?php endif; ?>
 							</div>
 						</td>
-						<td class="small hidden-phone">
+						<td class="hidden-sm-down">
 							<?php if ($item->position) : ?>
-								<span class="label label-info">
+								<span class="tag tag-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="label">
+								<span class="tag tag-default">
 									<?php echo JText::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-phone hidden-tablet">
+						<td class="small hidden-sm-down">
 							<?php echo $item->name;?>
 						</td>
 						<?php if ($clientId === 0) : ?>
-						<td class="small hidden-phone hidden-tablet">
+						<td class="small hidden-sm-down">
 							<?php echo $item->pages; ?>
 						</td>
 						<?php endif; ?>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php if ($item->language == '') : ?>
 								<?php echo JText::_('JDEFAULT'); ?>
 							<?php elseif ($item->language == '*'):?>
@@ -195,7 +181,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

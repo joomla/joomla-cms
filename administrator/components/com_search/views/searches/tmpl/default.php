@@ -31,7 +31,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 		<?php else : ?>
@@ -44,7 +44,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>
@@ -66,13 +66,12 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<?php echo (int) $item->hits; ?>
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
-					
-					<td class="center btns">
-						<a class="badge <?php if ($item->returns > 0) echo "badge-success"; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+					<td class="text-xs-center btns">
+						<a class="tag <?php echo $item->returns > 0 ? ' tag-success' : ' tag-default'; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?></a>
 					</td>
 					<?php else: ?>
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>
 					</td>
 					<?php endif; ?>

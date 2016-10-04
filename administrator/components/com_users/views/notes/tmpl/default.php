@@ -29,29 +29,29 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 					</th>
-					<th width="20%" class="nowrap hidden-phone">
+					<th width="20%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_USER', 'u.name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone hidden-tablet">
+					<th width="10%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-phone">
+					<th width="1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -71,20 +71,12 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				$subject    = $item->subject ? $item->subject : JText::_('COM_USERS_EMPTY_SUBJECT');
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center checklist">
+					<td class="text-xs-center checklist">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<div class="btn-group">
 							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-							<?php // Create dropdown items and render the dropdown list.
-							if ($canChange)
-							{
-								JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'notes');
-								JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'notes');
-								echo JHtml::_('actionsdropdown.render', $this->escape($subject));
-							}
-							?>
 						</div>
 					</td>
 					<td>
@@ -101,17 +93,17 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 						</div>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo $this->escape($item->user_name); ?>
 					</td>
-					<td class="hidden-phone hidden-tablet">
+					<td class="hidden-sm-down">
 						<?php if ($item->review_time !== JFactory::getDbo()->getNullDate()) : ?>
 							<?php echo JHtml::_('date', $item->review_time, JText::_('DATE_FORMAT_LC4')); ?>
 						<?php else : ?>
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
 						<?php endif; ?>
 					</td>
-					<td class="hidden-phone">
+					<td class="hidden-sm-down">
 						<?php echo (int) $item->id; ?>
 					</td>
 				</tr>

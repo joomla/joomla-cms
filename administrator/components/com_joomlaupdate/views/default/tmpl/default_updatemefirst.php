@@ -12,10 +12,6 @@ defined('_JEXEC') or die;
 ?>
 
 <fieldset>
-	<legend>
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE'); ?>
-	</legend>
-	<p>
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE_DESC'); ?>
-	</p>
+	<legend><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE'); ?></legend>
+	<p><?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_LIVE_UPDATE_DESC'); ?></p>
 </fieldset>

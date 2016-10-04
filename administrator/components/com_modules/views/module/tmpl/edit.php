@@ -73,11 +73,11 @@ $script .= "
 							}
 						});
 						if (updMenus == 0) {
-							tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+							tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
 							if (tmpRow.hasClass('no')) { tmpRow.removeClass('no '); }
 						}
 						if (updMenus == '-') {
-							tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 							if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no '); }
 						}
 						if (updMenus > 0) {
@@ -85,18 +85,18 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
 									if (tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 								if (!tmpRow.hasClass('no')) { tmpRow.addClass('no'); }
 							}
 						}
@@ -105,31 +105,31 @@ $script .= "
 							{
 								if (window.parent.numMenus == window.parent.inMenus.length)
 								{
-									tmpMenu.html('<span class=\"label label-info\">" . JText::_("JALL") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-info\">" . JText::_("JALL") . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 								else
 								{
-									tmpMenu.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+									tmpMenu.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
 									if (tmpRow.hasClass('no')) { tmpRow.removeClass('no'); }
 								}
 							}
 							if (window.parent.inMenus.indexOf(parent.menuId) < 0)
 							{
-								tmpMenu.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+								tmpMenu.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 								if (!tmpRow.hasClass('no') || tmpRow.hasClass('')) { tmpRow.addClass('no'); }
 							}
 						}
 						if (updStatus == 1) {
-							tmpStatus.html('<span class=\"label label-success\">" . JText::_("JYES") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-success\">" . JText::_("JYES") . "</span>');
 							if (tmpRow.hasClass('unpublished')) { tmpRow.removeClass('unpublished '); }
 						}
 						if (updStatus == 0) {
-							tmpStatus.html('<span class=\"label label-important\">" . JText::_("JNO") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-danger\">" . JText::_("JNO") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (updStatus == -2) {
-							tmpStatus.html('<span class=\"label label-default\">" . JText::_("JTRASHED") . "</span>');
+							tmpStatus.html('<span class=\"tag tag-default\">" . JText::_("JTRASHED") . "</span>');
 							if (!tmpRow.hasClass('unpublished') || tmpRow.hasClass('')) { tmpRow.addClass('unpublished'); }
 						}
 						if (document.formvalidator.isValid(document.getElementById('module-form'))) {
@@ -161,7 +161,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="form-horizontal">
+	<div>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_MODULES_MODULE')); ?>
@@ -183,21 +183,27 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							?>
 						</h3>
 						<div class="info-labels">
-							<span class="label hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+							<span class="tag tag-default hasTooltip" title="<?php echo JHtml::tooltipText('COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
 								<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 							</span>
 						</div>
 						<div>
 							<?php
+							$this->fieldset    = 'description';
 							$short_description = JText::_($this->item->xml->description);
-							$this->fieldset = 'description';
-							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-							if(!$long_description) {
+							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
+
+							if (!$long_description)
+							{
 								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-								if(strlen($truncated) > 500) {
-									$long_description = $short_description;
+
+								if (strlen($truncated) > 500)
+								{
+									$long_description  = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
-									if($short_description == $long_description) {
+
+									if ($short_description == $long_description)
+									{
 										$long_description = '';
 									}
 								}
@@ -214,7 +220,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
+					<div class="alert alert-danger"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)
@@ -229,13 +235,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="col-md-3">
 				<fieldset class="form-vertical">
 					<?php echo $this->form->renderField('showtitle'); ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('position'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->loadTemplate('positions'); ?>
-						</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('position'); ?>
+						<?php echo $this->loadTemplate('positions'); ?>
 					</div>
 				</fieldset>
 				<?php
@@ -275,7 +277,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php endif; ?>
 
 		<?php
-		$this->fieldsets = array();
+		$this->fieldsets        = array();
 		$this->ignore_fieldsets = array('basic', 'description');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>

@@ -41,7 +41,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off">
 	<div class="row">
 
 		<!-- Begin Sidebar -->
@@ -102,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php if ($field->hidden) : ?>
 								<?php echo $field->input; ?>
 							<?php else : ?>
-								<div class="control-group"<?php echo $datashowon; ?>>
+								<div class="form-group"<?php echo $datashowon; ?>>
 									<?php if ($name != "permissions") : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>

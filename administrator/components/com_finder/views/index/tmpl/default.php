@@ -63,25 +63,25 @@ JFactory::getDocument()->addScriptDeclaration('
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<th width="5%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-phone">
+					<th width="1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center hidden-phone hidden-tablet">
+					<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 						<?php echo JText::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 					</th>
-					<th width="35%" class="nowrap hidden-phone hidden-tablet">
+					<th width="35%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -97,10 +97,10 @@ JFactory::getDocument()->addScriptDeclaration('
 				<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
 				<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 					</td>
 					<td>
@@ -108,21 +108,21 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo $this->escape($item->title); ?>
 						</label>
 					</td>
-					<td class="small nowrap hidden-phone">
+					<td class="small nowrap hidden-sm-down">
 						<?php
 						$key = FinderHelperLanguage::branchSingular($item->t_title);
 						echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
 						?>
 					</td>
-					<td class="small nowrap hidden-phone">
+					<td class="small nowrap hidden-sm-down">
 						<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
-					<td class="center hidden-phone hidden-tablet">
+					<td class="text-xs-center hidden-sm-down">
 						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
 							<span class="icon-calendar pop hasPopover" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
 						<?php endif; ?>
 					</td>
-					<td class="small break-word hidden-phone hidden-tablet">
+					<td class="small break-word hidden-sm-down">
 						<?php echo (strlen($item->url) > 80) ? substr($item->url, 0, 70) . '...' : $item->url; ?>
 					</td>
 				</tr>
