@@ -49,24 +49,30 @@ JFactory::getDocument()->addScriptDeclaration("
 							?>
 						</h3>
 						<div class="info-labels">
-							<span class="label hasTooltip" title="<?php echo JHtml::tooltipText('COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
+							<span class="tag tag-default hasTooltip" title="<?php echo JHtml::tooltipText('COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
 								<?php echo $this->form->getValue('folder'); ?>
 							</span> /
-							<span class="label hasTooltip" title="<?php echo JHtml::tooltipText('COM_PLUGINS_FIELD_ELEMENT_LABEL', 'COM_PLUGINS_FIELD_ELEMENT_DESC'); ?>">
+							<span class="tag tag-default hasTooltip" title="<?php echo JHtml::tooltipText('COM_PLUGINS_FIELD_ELEMENT_LABEL', 'COM_PLUGINS_FIELD_ELEMENT_DESC'); ?>">
 								<?php echo $this->form->getValue('element'); ?>
 							</span>
 						</div>
 						<div>
 							<?php
+							$this->fieldset    = 'description';
 							$short_description = JText::_($this->item->xml->description);
-							$this->fieldset = 'description';
-							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-							if(!$long_description) {
+							$long_description  = JLayoutHelper::render('joomla.edit.fieldset', $this);
+
+							if (!$long_description)
+							{
 								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-								if(strlen($truncated) > 500) {
-									$long_description = $short_description;
+
+								if (strlen($truncated) > 500)
+								{
+									$long_description  = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
-									if($short_description == $long_description) {
+
+									if ($short_description == $long_description)
+									{
 										$long_description = '';
 									}
 								}
@@ -89,35 +95,23 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr />' . $html : '';
+				echo $html ? '<hr>' . $html : '';
 				?>
 			</div>
 			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				<div class="form-vertical">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('ordering'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('ordering'); ?>
-						</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('ordering'); ?>
+						<?php echo $this->form->getInput('ordering'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('folder'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('folder'); ?>
-						</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('folder'); ?>
+						<?php echo $this->form->getInput('folder'); ?>
 					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('element'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('element'); ?>
-						</div>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('element'); ?>
+						<?php echo $this->form->getInput('element'); ?>
 					</div>
 				</div>
 			</div>
