@@ -6,7 +6,7 @@
             <field
                 name="redirect_edit"
                 type="list"
-                class="advancedSelect"
+                class="custom-select"
                 default="site"
                 label="COM_MODULES_REDIRECT_EDIT_LABEL"
                 description="COM_MODULES_REDIRECT_EDIT_DESC">

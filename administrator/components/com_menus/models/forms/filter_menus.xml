@@ -13,6 +13,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"

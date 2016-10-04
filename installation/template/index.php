@@ -17,7 +17,7 @@ JHtml::_('stylesheet', 'media/vendor/font-awesome/css/font-awesome.min.css');
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
-JHtml::_('formbehavior.chosen', 'select');
+
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');

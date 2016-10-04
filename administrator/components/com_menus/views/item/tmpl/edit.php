@@ -15,7 +15,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.core');
 JHtml::_('behavior.tabstate');
 JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 
 JText::script('ERROR');

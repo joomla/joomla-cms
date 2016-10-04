@@ -23,6 +23,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			>

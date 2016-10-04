@@ -21,7 +21,7 @@ $resetOptions = array(
 	JHtml::_('select.option', 'yes', JText::_('JYES')),
 	JHtml::_('select.option', 'no', JText::_('JNO'))
 );
-JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 
 <div class="row">

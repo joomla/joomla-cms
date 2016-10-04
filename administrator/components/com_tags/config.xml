@@ -94,6 +94,7 @@
 	
 		<field name="tag_list_orderby"
 			type="list"
+			   class="custom-select"
 			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
@@ -131,6 +132,7 @@
 		<field 
 			name="tag_list_show_date"
 			type="list"
+			class="custom-select"
 			default="0"
 			description="COM_TAGS_TAG_LIST_SHOW_DATE_LABEL"
 			label="COM_TAGS_TAG_LIST_SHOW_DATE_DESC"
@@ -256,6 +258,7 @@
 		<field 
 			name="all_tags_orderby"
 			type="list"
+			class="custom-select"
 			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
@@ -357,6 +360,7 @@
 		<field 
 			name="show_pagination" 
 			type="list"
+			class="custom-select"
 			default="2"
 			description="JGLOBAL_PAGINATION_DESC"
 			label="JGLOBAL_PAGINATION_LABEL"

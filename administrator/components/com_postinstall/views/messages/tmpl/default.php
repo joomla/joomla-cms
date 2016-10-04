@@ -24,7 +24,6 @@ $param    = array(
 	);
 $params = array('params' => json_encode($param));
 
-JHtml::_('formbehavior.chosen', 'select');
 ?>
 
 <form action="index.php" method="post" name="adminForm" class="form-inline">

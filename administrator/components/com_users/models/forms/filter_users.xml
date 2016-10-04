@@ -58,6 +58,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="COM_CONTENT_LIST_FULL_ORDERING"
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"

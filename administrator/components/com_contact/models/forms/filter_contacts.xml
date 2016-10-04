@@ -85,6 +85,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="COM_CONTACT_LIST_FULL_ORDERING"
 			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
 			default="a.name ASC"

@@ -127,6 +127,7 @@
 			</field>
 
 			<field name="timezone" type="timezone"
+				class="custom-select"
 				label="COM_ADMIN_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_ADMIN_USER_FIELD_TIMEZONE_DESC"
 			>

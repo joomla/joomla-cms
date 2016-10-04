@@ -91,6 +91,7 @@
 		<field 
 			name="feed_display_order" 
 			type="list"
+			class="custom-select"
 			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 			description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 			id="feed_display_order"
@@ -102,6 +103,7 @@
 		<field
 			name="float_first"
 			type="list"
+			class="custom-select"
 			label="COM_NEWSFEEDS_FLOAT_FIRST_LABEL"
 			description="COM_NEWSFEEDS_FLOAT_DESC"
 			>
@@ -113,6 +115,7 @@
 		<field
 			name="float_second"
 			type="list"
+			class="custom-select"
 			label="COM_NEWSFEEDS_FLOAT_SECOND_LABEL"
 			description="COM_NEWSFEEDS_FLOAT_DESC"
 			>
@@ -191,6 +194,7 @@
 		<field
 			name="maxLevel"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
@@ -277,6 +281,7 @@
 		<field
 			name="maxLevelcat"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			default="-1"
@@ -401,6 +406,7 @@
 		<field
 			name="show_pagination"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC"
 			default="2"

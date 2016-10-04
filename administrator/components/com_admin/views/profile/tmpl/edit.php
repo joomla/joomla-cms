@@ -24,9 +24,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	};
 ');
 
-// Load chosen.css
-JHtml::_('formbehavior.chosen', 'select');
-
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 ?>

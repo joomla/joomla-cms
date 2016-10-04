@@ -13,6 +13,7 @@
 		<field
 			name="enabled"
 			type="list"
+			class="custom-select"
 			label="COM_PLUGINS_FILTER_PUBLISHED"
 			description="COM_PLUGINS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
@@ -47,6 +48,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"

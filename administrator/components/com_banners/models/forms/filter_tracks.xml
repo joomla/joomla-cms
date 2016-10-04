@@ -34,6 +34,7 @@
 		<field
 			name="type"
 			type="list"
+			class="custom-select"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
@@ -83,6 +84,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"

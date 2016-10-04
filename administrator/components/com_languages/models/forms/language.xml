@@ -61,6 +61,7 @@
 		/>
 
 		<field name="published" type="list"
+		       class="custom-select"
 			default="1"
 			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"

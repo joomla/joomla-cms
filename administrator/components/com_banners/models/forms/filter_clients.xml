@@ -22,6 +22,7 @@
 		<field
 			name="purchase_type"
 			type="list"
+			class="custom-select"
 			label="COM_BANNERS_FILTER_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
@@ -39,6 +40,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"

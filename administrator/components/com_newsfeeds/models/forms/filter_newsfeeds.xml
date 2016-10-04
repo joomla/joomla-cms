@@ -84,6 +84,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="COM_NEWSFEEDS_LIST_FULL_ORDERING"
 			description="COM_NEWSFEEDS_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
