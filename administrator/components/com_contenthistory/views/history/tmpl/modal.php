@@ -106,7 +106,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<hr class="hr-condensed" />
 
 	<form action="<?php echo JRoute::_($formUrl);?>" method="post" name="adminForm" id="adminForm">
-		<table class="table table-striped table-condensed">
+		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
 					<th width="1%" class="center">
