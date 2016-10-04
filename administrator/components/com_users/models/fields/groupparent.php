@@ -48,13 +48,13 @@ class JFormFieldGroupParent extends JFormFieldList
 		$options = array_values($options);
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		foreach ($options as $i => &$option)
 		{
 			// Show groups only if user is super admin or group is not super admin
 			if ($user->authorise('core.admin') || (!JAccess::checkGroup($options[$i]->value, 'core.admin')))
 			{
-				$options[$i]->value = $options[$i]->id;
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+				$option->value = $option->id;
+				$option->text = str_repeat('- ', $option->level) . $option->title;
 			}
 			else
 			{
