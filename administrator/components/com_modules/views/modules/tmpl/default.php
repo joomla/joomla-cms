@@ -125,23 +125,9 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canCreate)
-								{
-									JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
-								}
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'modules');
-								}
-								if ($canCreate || $canChange)
-								{
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-								}
-								?>
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
-								<button class="btn-xs hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
+								<button class="btn btn-xs hasTooltip" title="<?php echo JText::_('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED'); ?>"><i class="icon-ban-circle"></i></button>
 							<?php endif; ?>
 							</div>
 						</td>
@@ -164,13 +150,13 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<?php endif; ?>
 							</div>
 						</td>
-						<td class="small hidden-sm-down">
+						<td class="hidden-sm-down">
 							<?php if ($item->position) : ?>
 								<span class="tag tag-info">
 									<?php echo $item->position; ?>
 								</span>
 							<?php else : ?>
-								<span class="label">
+								<span class="tag tag-default">
 									<?php echo JText::_('JNONE'); ?>
 								</span>
 							<?php endif; ?>
