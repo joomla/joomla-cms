@@ -9,8 +9,10 @@
     "grunt-contrib-copy": "latest",
     "grunt-contrib-cssmin": "latest",
     "grunt-contrib-uglify": "latest",
+    "grunt-curl": "^2.2.0",
     "grunt-git": "latest",
-    "grunt-shell": "latest"
+    "grunt-shell": "latest",
+    "grunt-zip": "^0.17.1"
   },
   "license": "GPL-2.0+"
 }

@@ -1,3 +1,5 @@
+version: '5.19.0'
+
 addons:
     js:
         - 'addon/display/fullscreen.js'
@@ -19,3 +21,4 @@ addons:
         - 'addon/display/fullscreen.css'
         - 'addon/fold/foldgutter.css'
         - 'addon/scroll/simplescrollbars.css'
+

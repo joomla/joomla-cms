@@ -115,30 +115,3 @@
 	});
 
 })(jQuery);
-
-// Compatibility with mootools modal layout
-function jSelectUser(element) {
-	var $el = jQuery(element),
-		value = $el.data('user-value'),
-		name  = $el.data('user-name'),
-		fieldId = $el.data('user-field'),
-		$inputValue = jQuery('#' + fieldId + '_id'),
-		$inputName  = jQuery('#' + fieldId);
-
-	if (!$inputValue.length) {
-		// The input not found
-		return;
-	}
-
-	// Update the value
-	$inputValue.val(value).trigger('change');
-	$inputName.val(name || value).trigger('change');
-
-	// Check for onchange callback,
-	var onchangeStr = $inputValue.attr('data-onchange'), onchangeCallback;
-	if(onchangeStr) {
-		onchangeCallback = new Function(onchangeStr);
-		onchangeCallback.call($inputValue[0]);
-	}
-	jModalClose();
-}
