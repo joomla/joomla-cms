@@ -51,13 +51,13 @@ JFactory::getDocument()->addStyleDeclaration(
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="title nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MESSAGES_HEADING_READ', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%" class="nowrap">
@@ -80,14 +80,14 @@ JFactory::getDocument()->addStyleDeclaration(
 					$canChange = $user->authorise('core.edit.state', 'com_messages');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->message_id); ?>
 						</td>
 						<td>
 							<a href="<?php echo JRoute::_('index.php?option=com_messages&view=message&message_id=' . (int) $item->message_id); ?>">
 								<?php echo $this->escape($item->subject); ?></a>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('messages.status', $i, $item->state, $canChange); ?>
 						</td>
 						<td>

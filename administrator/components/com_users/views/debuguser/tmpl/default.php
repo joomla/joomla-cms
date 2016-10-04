@@ -40,14 +40,14 @@ $colSpan   = 4 + count($this->actions);
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
 					<?php foreach ($this->actions as $key => $action) : ?>
-					<th width="5%" class="center">
+					<th width="5%" class="text-xs-center">
 						<span class="hasTooltip" title="<?php echo JHtml::tooltipText($key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 					</th>
 					<?php endforeach; ?>
-					<th width="5%" class="nowrap center">
+					<th width="5%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -86,15 +86,15 @@ $colSpan   = 4 + count($this->actions);
 								$button = '';
 							endif;
 							?>
-						<td class="center">
+						<td class="text-xs-center">
 							<span class="icon-white <?php echo $class; ?>"></span>
 						</td>
 						<?php endforeach; ?>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo (int) $item->lft; ?>
 							- <?php echo (int) $item->rgt; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

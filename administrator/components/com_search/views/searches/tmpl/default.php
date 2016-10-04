@@ -44,7 +44,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<th width="15%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>
@@ -67,12 +67,12 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
 					
-					<td class="center btns">
+					<td class="text-xs-center btns">
 						<a class="badge <?php if ($item->returns > 0) echo "badge-success"; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?></a>
 					</td>
 					<?php else: ?>
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JText::_('COM_SEARCH_NO_RESULTS'); ?>
 					</td>
 					<?php endif; ?>

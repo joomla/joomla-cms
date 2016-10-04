@@ -64,14 +64,14 @@ if ($menuType == '')
 				<thead>
 					<tr>
 						<?php if ($menuType) : ?>
-							<th width="1%" class="nowrap center hidden-sm-down">
+							<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 								<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 							</th>
 						<?php endif; ?>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -80,7 +80,7 @@ if ($menuType == '')
 						<th class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="center nowrap hidden-sm-down">
+						<th width="5%" class="text-xs-center nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down">
@@ -146,7 +146,7 @@ if ($menuType == '')
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 						<?php if ($menuType) : ?>
-							<td class="order nowrap center hidden-sm-down">
+							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
 								$iconClass = '';
 
@@ -167,10 +167,10 @@ if ($menuType == '')
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('MenusHtml.Menus.state', $item->published, $i, $canChange, 'cb'); ?>
 						</td>
 						<td>
@@ -205,7 +205,7 @@ if ($menuType == '')
 						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->menutype_title); ?>
 						</td>
-						<td class="center hidden-sm-down">
+						<td class="text-xs-center hidden-sm-down">
 							<?php if ($item->type == 'component') : ?>
 								<?php if ($item->language == '*' || $item->home == '0') : ?>
 									<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange); ?>

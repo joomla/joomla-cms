@@ -48,7 +48,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 			<table class="table table-striped" id="overrideList">
 				<thead>
 					<tr>
-						<th width="1%" class="center">
+						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="30%" class="left">
@@ -77,7 +77,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 				<?php $i = 0; ?>
 				<?php foreach ($this->items as $key => $text) : ?>
 					<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $key); ?>
 						</td>
 						<td>
