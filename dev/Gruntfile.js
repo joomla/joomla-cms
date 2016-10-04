@@ -24,6 +24,7 @@ module.exports = function(grunt) {
 					'assets/tmp/codemirror/**',
 					'assets/tmp/combobox/**',
 					'assets/tmp/jcrop/**',
+					'assets/node_modules/**',
 					'../media/vendor/jquery/js/*',
 					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
 					'../media/vendor/bootstrap/**',
@@ -45,6 +46,16 @@ module.exports = function(grunt) {
 					force: true
 				},
 			},
+			tmp: {
+				src: [
+					'assets/tmp/**',
+					'assets/node_modules/**',
+				],
+				expand: true,
+				options: {
+					force: true
+				}
+			}
 		},
 		// Update all the packages to the version specified in assets/package.json
 		shell: {
@@ -423,7 +434,8 @@ module.exports = function(grunt) {
 			'concat:someFiles',
 			'copy:fromSource',
 			'uglify:allJs',
-			'cssmin:allCss'
+			'cssmin:allCss',
+			'clean:tmp',
 		]
 	);
 };
