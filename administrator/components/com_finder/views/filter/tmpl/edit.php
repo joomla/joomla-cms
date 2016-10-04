@@ -72,10 +72,10 @@ JFactory::getDocument()->addStyleDeclaration(
 					<div class="well">
 						<?php echo $this->form->renderField('map_count'); ?>
 					</div>
-					<button class="btn btn-default" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
+					<button class="btn btn-secondary" type="button" class="jform-rightbtn" onclick="jQuery('.filter-node').each(function () { this.click(); });">
 						<span class="icon-checkbox-partial"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
-					<button class="btn btn-default pull-xs-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
+					<button class="btn btn-secondary pull-xs-right" type="button" id="rightbtn" ><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 					<hr>
 				<?php endif; ?>
 
