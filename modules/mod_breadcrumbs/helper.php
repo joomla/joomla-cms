@@ -44,16 +44,14 @@ class ModBreadCrumbsHelper
 			$home  = $menu->getDefault();
 		}
 
-		$count = count($items);
-
 		// Don't use $items here as it references JPathway properties directly
 		$crumbs = array();
 
-		for ($i = 0; $i < $count; $i ++)
+		foreach ($items as $i => $item)
 		{
 			$crumbs[$i]       = new stdClass;
-			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$crumbs[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i]->name = stripslashes(htmlspecialchars($item->name, ENT_COMPAT, 'UTF-8'));
+			$crumbs[$i]->link = JRoute::_($item->link);
 		}
 
 		if ($params->get('showHome', 1))
