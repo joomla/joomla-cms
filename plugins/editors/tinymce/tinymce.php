@@ -729,6 +729,73 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
+		$languageButton   = '';
+		$langsConstructor = '';
+
+		if ($this->params->get('langs_wcag', 0) && $this->params->get('langstags', ''))
+		{
+			include_once __DIR__ . '/helpers/tinymce.php';
+			$langString        = JText::_('PLG_TINY_LANGUAGES_LABEL');
+			$languageButton    = 'JlanguagesBtn';
+			$extended_elements = 'span[lang|dir|class|[xml:lang]],' . $extended_elements;
+			$availLangs        = TinymceHelper::getAllLanguages();
+			$selectedLangs   = (array) $this->params->get('langstags', '');
+
+			foreach ($availLangs as $key => $value)
+			{
+				if (!preg_match('/"' . $value['code'] . '"/i', json_encode($selectedLangs)))
+				{
+					unset($availLangs[$key]);
+				}
+			}
+
+			$langsConstructorTmp = array();
+
+			// Build the script
+			foreach ($availLangs as $availLang)
+			{
+					// Set some vars
+					$langName  = $availLang['name'] . ' ' . $availLang['nativeName'];
+					$langTitle = $availLang['code'];
+					$langDir   = $availLang['dir'];
+					$langsConstructorTmp[] = '
+					{ text: "' . $langName . '",
+						onclick: function () {
+							editor.focus();
+							if (editor.selection.getContent().length) {
+								if (/^<span/.test(editor.selection.getNode().outerHTML.toLowerCase())) {
+									var tmpNode = editor.selection.getNode();
+									tmpNode.setAttribute("lang", "' . $langTitle . '");
+									tmpNode.setAttribute("dir", "' . $langDir . '");
+									tmpNode.setAttribute("xml:lang", "' . $langTitle . '");
+								} else {
+									editor.selection.setContent(\'<span lang="'
+						. $langTitle . '" dir="' . $langDir . '" xml:lang="' . $langTitle . '">\' 
+									+ editor.selection.getContent() + \'</span>\');
+								}
+							}
+							editor.nodeChanged();
+							editor.focus();
+ 						}
+					}';
+			}
+
+			$langsConstructor = '
+					editor.addButton("JlanguagesBtn", {
+						type: "menubutton",
+						text: "' . $langString . '",
+						tooltip: "' . $langString . '",
+						icon: "translate",
+						menu: [ ' . implode(',', $langsConstructorTmp) . ']
+					});
+					';
+		}
+
+		if ($extended_elements != "")
+		{
+			$elements[] = $extended_elements;
+		}
+
 		// We shall put the XTD button inside tinymce
 		$btns      = $this->tinyButtons($id, $buttons);
 		$btnsNames = $btns['names'];
@@ -800,7 +867,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar5 = implode(" | ", $btnsNames);
 
 		// The buttons script
-		$tinyBtns = implode("; ", $tinyBtns);
+		$tinyBtns = implode("; ", $tinyBtns). $langsConstructor;
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
@@ -874,7 +941,7 @@ class PlgEditorTinymce extends JPlugin
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
+					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap " . $languageButton;
 
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
@@ -894,7 +961,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
 				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
-				$scriptOptions['toolbar1'] = $toolbar1;
+				$scriptOptions['toolbar1'] = $toolbar1 . ' ' . $languageButton;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
 					array('title' => 'Alternate', 'value' => 'alternate'),
@@ -923,7 +990,7 @@ class PlgEditorTinymce extends JPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}");
+		$doc->addStyleDeclaration(".mce-in { padding: 5px 10px !important;}.mce-btn-small .mce-ico { font-family: 'tinymce',Arial !important;;}");
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;

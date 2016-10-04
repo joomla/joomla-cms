@@ -185,6 +185,29 @@
 				</field>
 
 				<field
+					name="langs_wcag"
+					type="radio"
+					label="PLG_TINY_FIELD_LANGS_WCAG_LABEL"
+					description="PLG_TINY_FIELD_LANGS_WCAG_LABEL_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field
+					name="langstags"
+					type="langstags"
+					label="PLG_TINY_FIELD_LANGS_LANGSTAGS_LABEL"
+					description="PLG_TINY_FIELD_LANGS_LANGSTAGS_LABEL_DESC"
+					cols="30"
+					default="JNONE"
+					multiple="true"
+					showon="langs_wcag:1"
+				/>
+
+				<field
 					name="use_config_textfilters"
 					type="radio"
 					label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
