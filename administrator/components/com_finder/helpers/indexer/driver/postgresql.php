@@ -545,10 +545,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			$db->execute();
 		}
 
-		// Optimize the terms mapping table.
-		// $db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
-		// $db->execute();
-
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
