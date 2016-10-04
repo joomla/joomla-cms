@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th class="title nowrap">
