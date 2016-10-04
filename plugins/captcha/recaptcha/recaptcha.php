@@ -258,7 +258,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$http_request  = "POST $path HTTP/1.0\r\n";
 		$http_request .= "Host: $host\r\n";
 		$http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
-		$http_request .= 'Content-Length: ' . strlen($req) . "\r\n";
+		$http_request .= "Content-Length: " . strlen($req) . "\r\n";
 		$http_request .= "User-Agent: reCAPTCHA/PHP\r\n";
 		$http_request .= "\r\n";
 		$http_request .= $req;

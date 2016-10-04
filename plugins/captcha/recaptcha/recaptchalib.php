@@ -56,7 +56,7 @@ class JReCaptcha
 		if ($secret === null || $secret === '')
 		{
 			die("To use reCAPTCHA you must get an API key from <a href='"
-				. self::$_signupUrl . "'>" . self::$_signupUrl . '</a>');
+				. self::$_signupUrl . "'>" . self::$_signupUrl . "</a>");
 		}
 		$this->_secret = $secret;
 	}
