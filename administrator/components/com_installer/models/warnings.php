@@ -33,7 +33,7 @@ class InstallerModelWarnings extends JModelList
 	 */
 	public function return_bytes($val)
 	{
-		$val = trim($val);
+		$val = trim((int) $val);
 		$last = strtolower($val{strlen($val) - 1});
 
 		switch ($last)
