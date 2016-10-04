@@ -79,14 +79,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="text-xs-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'links');
-									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'links');
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->old_url));
-								}
-								?>
 							</div>
 						</td>
 						<td class="break-word">
