@@ -29,7 +29,7 @@ $params = array('params' => json_encode($param));
 <form action="index.php" method="post" name="adminForm" class="form-inline">
 	<input type="hidden" name="option" value="com_postinstall">
 	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
-	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control'), 'value', 'text', $this->eid, 'eid'); ?>
+	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'form-control custom-select'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
 
 <?php if (empty($this->items)) : ?>

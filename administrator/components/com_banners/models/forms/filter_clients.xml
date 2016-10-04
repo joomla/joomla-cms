@@ -12,6 +12,7 @@
 		<field
 			name="state"
 			type="status"
+			class="custom-select"
 			label="JOPTION_SELECT_PUBLISHED"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"

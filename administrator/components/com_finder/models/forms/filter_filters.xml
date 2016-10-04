@@ -11,6 +11,7 @@
 		<field
 			name="state"
 			type="status"
+			class="custom-select"
 			filter="0,1"
 			label="COM_FINDER_FILTER_PUBLISHED"
 			description="COM_FINDER_FILTER_PUBLISHED_DESC"
@@ -44,7 +45,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>
