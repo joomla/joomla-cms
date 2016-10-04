@@ -74,7 +74,7 @@ if ($color === 'image')
 		background: $cssVBGColor;
 	}
 CSS
-  );
+	);
 }
 
 // Check for a custom CSS file
