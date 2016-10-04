@@ -51,10 +51,10 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="30%" class="left">
+						<th width="30%">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 						</th>
-						<th class="left hidden-sm-down">
+						<th class="hidden-sm-down">
 							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap hidden-sm-down">
