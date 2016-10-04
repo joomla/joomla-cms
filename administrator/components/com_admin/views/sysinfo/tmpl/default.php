@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 <form action="<?php echo JRoute::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<!-- Begin Content -->
+		<?php // Begin Content ?>
 		<div class="col-md-12">
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'site')); ?>
 
@@ -43,6 +43,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		</div>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
-		<!-- End Content -->
+		<?php // End Content ?>
 	</div>
 </form>
