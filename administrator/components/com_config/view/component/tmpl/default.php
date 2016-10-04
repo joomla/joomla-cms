@@ -102,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php if ($field->hidden) : ?>
 								<?php echo $field->input; ?>
 							<?php else : ?>
-								<div class="control-group"<?php echo $datashowon; ?>>
+								<div class="form-group"<?php echo $datashowon; ?>>
 									<?php if ($name != "permissions") : ?>
 										<div class="control-label">
 											<?php echo $field->label; ?>
