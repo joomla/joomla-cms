@@ -66,9 +66,8 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<?php echo (int) $item->hits; ?>
 					</td>
 					<?php if ($this->state->get('show_results')) : ?>
-					
 					<td class="text-xs-center btns">
-						<a class="tag <?php if ($item->returns > 0) echo "tag-success"; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
+						<a class="tag <?php echo $item->returns > 0 ? ' tag-success' : ' tag-default'; ?>" href="<?php echo JUri::root(); ?>index.php?option=com_search&amp;view=search&amp;searchword=<?php echo JFilterOutput::stringURLSafe($item->search_term); ?>">
 							<?php echo $item->returns; ?></a>
 					</td>
 					<?php else: ?>
