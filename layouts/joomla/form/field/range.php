@@ -50,7 +50,7 @@ JHtml::_('script', 'system/html5fallback.min.js', false, true);
 
 // Initialize some field attributes.
 $attributes = array(
-	$class ? 'class="' . $class . '"' : '',
+	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
