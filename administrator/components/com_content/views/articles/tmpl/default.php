@@ -53,13 +53,13 @@ $assoc = JLanguageAssociations::isEnabled();
 			<table class="table table-striped" id="articleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="center">
+						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" style="min-width:55px" class="nowrap center">
+						<th width="1%" style="min-width:85px" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th>
@@ -108,7 +108,7 @@ $assoc = JLanguageAssociations::isEnabled();
 					$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-						<td class="order nowrap center hidden-sm-down">
+						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -127,21 +127,13 @@ $assoc = JLanguageAssociations::isEnabled();
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->state === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'articles');
-									JHtml::_('actionsdropdown.' . ((int) $item->state === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'articles');
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-								}
-								?>
 							</div>
 						</td>
 						<td class="has-context">
