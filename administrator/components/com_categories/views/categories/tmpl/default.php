@@ -215,7 +215,7 @@ if ($saveOrder)
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 								<td class="text-xs-center btns hidden-sm-down">
-									<a class="tag <?php if ($item->count_unpublished > 0) echo "tag-important"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
+									<a class="tag <?php if ($item->count_unpublished > 0) echo "tag-danger"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_unpublished; ?></a>
 								</td>
 							<?php endif;?>

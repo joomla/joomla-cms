@@ -134,10 +134,10 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="tag<?php if ($item->count_unpublished > 0) echo ' tag-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+								<a class="tag<?php if ($item->count_unpublished > 0) echo ' tag-danger'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							<?php else : ?>
-								<span class="tag<?php if ($item->count_unpublished > 0) echo ' tag-important'; ?>">
+								<span class="tag<?php if ($item->count_unpublished > 0) echo ' tag-danger'; ?>">
 									<?php echo $item->count_unpublished; ?></span>
 							<?php endif; ?>
 						</td>

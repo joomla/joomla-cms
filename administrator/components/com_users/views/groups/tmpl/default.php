@@ -122,7 +122,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo $item->count_enabled; ?></a>
 						</td>
 						<td class="text-xs-center btns">
-							<a class="tag <?php if ($item->count_disabled > 0) echo "tag-important"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
+							<a class="tag <?php if ($item->count_disabled > 0) echo "tag-danger"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 								<?php echo $item->count_disabled; ?></a>
 						</td>
 						<td class="hidden-sm-down">
