@@ -54,7 +54,7 @@ if ($saveOrder)
 						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="5%" class="nowrap text-xs-center">
+						<th width="5%" style="min-width:85px" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -124,14 +124,6 @@ if ($saveOrder)
 						<td class="text-xs-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'newsfeeds');
-									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'newsfeeds');
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
-								}
-								?>
 							</div>
 						</td>
 						<td class="nowrap has-context">
