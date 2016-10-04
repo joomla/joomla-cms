@@ -65,13 +65,13 @@ if ($saveOrder)
 			<table class="table table-striped" id="categoryList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="center">
+						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
@@ -79,25 +79,25 @@ if ($saveOrder)
 						</th>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :
 							$columns++; ?>
-							<th width="1%" class="nowrap center hidden-sm-down">
+							<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :
 							$columns++; ?>
-							<th width="1%" class="nowrap center hidden-sm-down">
+							<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :
 							$columns++; ?>
-							<th width="1%" class="nowrap center hidden-sm-down">
+							<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :
 							$columns++; ?>
-							<th width="1%" class="nowrap center hidden-sm-down">
+							<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
@@ -161,7 +161,7 @@ if ($saveOrder)
 						}
 						?>
 						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id ?>" parents="<?php echo $parentsStr ?>" level="<?php echo $item->level ?>">
-							<td class="order nowrap center hidden-sm-down">
+							<td class="order nowrap text-xs-center hidden-sm-down">
 								<?php
 								$iconClass = '';
 								if (!$canChange)
@@ -180,23 +180,12 @@ if ($saveOrder)
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
 								<?php endif; ?>
 							</td>
-							<td class="center">
+							<td class="text-xs-center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="center">
+							<td class="text-xs-center">
 								<div class="btn-group">
 									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
-									<?php
-									if ($canChange)
-									{
-										// Create dropdown items
-										JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'categories');
-										JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'categories');
-
-										// Render dropdown list
-										echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
-									}
-									?>
 								</div>
 							</td>
 							<td>
@@ -219,25 +208,25 @@ if ($saveOrder)
 								</span>
 							</td>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-								<td class="center btns hidden-sm-down">
+								<td class="text-xs-center btns hidden-sm-down">
 									<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=1' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_published; ?></a>
 								</td>
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-								<td class="center btns hidden-sm-down">
+								<td class="text-xs-center btns hidden-sm-down">
 									<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=0' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_unpublished; ?></a>
 								</td>
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-								<td class="center btns hidden-sm-down">
+								<td class="text-xs-center btns hidden-sm-down">
 									<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=2' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_archived; ?></a>
 								</td>
 							<?php endif;?>
 							<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-								<td class="center btns hidden-sm-down">
+								<td class="text-xs-center btns hidden-sm-down">
 									<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_CATEGORY_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($section ? '&view=' . $section : '') . '&filter[category_id]=' . (int) $item->id . '&filter[published]=-2' . '&filter[level]=' . (int) $item->level);?>">
 										<?php echo $item->count_trashed; ?></a>
 								</td>
