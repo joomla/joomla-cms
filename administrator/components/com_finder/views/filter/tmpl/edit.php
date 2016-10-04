@@ -88,7 +88,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
-		<div class="row form-horizontal-desktop">
+		<div class="row">
 			<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
