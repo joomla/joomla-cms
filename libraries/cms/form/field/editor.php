@@ -152,11 +152,11 @@ class JFormFieldEditor extends JFormFieldTextarea
 			case 'buttons':
 				$value = (string) $value;
 
-				if ($value === 'true' || $value === 'yes' || $value == '1')
+				if ($value === 'true' || $value === 'yes' || $value === '1')
 				{
 					$this->buttons = true;
 				}
-				elseif ($value === 'false' || $value === 'no' || $value == '0')
+				elseif ($value === 'false' || $value === 'no' || $value === '0')
 				{
 					$this->buttons = false;
 				}
@@ -199,7 +199,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			$this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
 			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
@@ -211,11 +211,11 @@ class JFormFieldEditor extends JFormFieldTextarea
 			$hide       = (string) $this->element['hide'];
 			$editorType = (string) $this->element['editor'];
 
-			if ($buttons === 'true' || $buttons === 'yes' || $buttons == '1')
+			if ($buttons === 'true' || $buttons === 'yes' || $buttons === '1')
 			{
 				$this->buttons = true;
 			}
-			elseif ($buttons === 'false' || $buttons === 'no' || $buttons == '0')
+			elseif ($buttons === 'false' || $buttons === 'no' || $buttons === '0')
 			{
 				$this->buttons = false;
 			}

@@ -225,7 +225,7 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', $this->app->input->getInt('Itemid', null));
 
 		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
+		if (count($this->getVars()) === 1 || ($this->app->getLanguageFilter() && count($this->getVars()) === 2))
 		{
 			$item = $this->menu->getItem($this->getVar('Itemid'));
 
@@ -323,7 +323,7 @@ class JRouterSite extends JRouter
 					if (!$this->app->getLanguageFilter())
 					{
 						// Exact route match. We can break iteration because exact item was found.
-						if ($item->route == $route_lowercase)
+						if ($item->route === $route_lowercase)
 						{
 							$found = $item;
 							break;
@@ -336,22 +336,22 @@ class JRouterSite extends JRouter
 						}
 					}
 					// Multilingual site.
-					elseif ($item->language === '*' || $item->language == $lang_tag)
+					elseif ($item->language === '*' || $item->language === $lang_tag)
 					{
 						// Exact route match.
-						if ($item->route == $route_lowercase)
+						if ($item->route === $route_lowercase)
 						{
 							$found = $item;
 
 							// Break iteration only if language is matched.
-							if ($item->language == $lang_tag)
+							if ($item->language === $lang_tag)
 							{
 								break;
 							}
 						}
 
 						// Partial route match. Item with highest level or same language takes priority.
-						if (!$found || $found->level < $item->level || $item->language == $lang_tag)
+						if (!$found || $found->level < $item->level || $item->language === $lang_tag)
 						{
 							$found = $item;
 						}
@@ -495,7 +495,7 @@ class JRouterSite extends JRouter
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
 		$result    = implode('/', $parts);
-		$tmp       = ($result != "") ? $result : '';
+		$tmp       = ($result !== '') ? $result : '';
 
 		// Build the application route
 		$built = false;
@@ -597,7 +597,7 @@ class JRouterSite extends JRouter
 			$query = $uri->getQuery(true);
 			if ($this->_mode != 1
 				&& isset($query['Itemid'])
-				&& (count($query) == 2 || (count($query) == 3 && isset($query['lang']))))
+				&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
 			{
 				// Get the active menu item
 				$itemid = $uri->getVar('Itemid');

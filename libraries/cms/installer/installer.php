@@ -859,7 +859,7 @@ class JInstaller extends JAdapter
 		// Get the array of query nodes to process
 		$queries = $element->children();
 
-		if (count($queries) == 0)
+		if (count($queries) === 0)
 		{
 			// No queries to process
 			return 0;
@@ -953,7 +953,7 @@ class JInstaller extends JAdapter
 				// Create an array of queries from the sql file
 				$queries = JDatabaseDriver::splitSql($buffer);
 
-				if (count($queries) == 0)
+				if (count($queries) === 0)
 				{
 					// No queries to process
 					return 0;
@@ -1142,7 +1142,7 @@ class JInstaller extends JAdapter
 							// Create an array of queries from the sql file
 							$queries = JDatabaseDriver::splitSql($buffer);
 
-							if (count($queries) == 0)
+							if (count($queries) === 0)
 							{
 								// No queries to process
 								continue;
@@ -1304,7 +1304,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1386,11 +1386,11 @@ class JInstaller extends JAdapter
 			// We will only install language files where a core language pack
 			// already exists.
 
-			if ((string) $file->attributes()->tag != '')
+			if ((string) $file->attributes()->tag !== '')
 			{
 				$path['src'] = $source . '/' . $file;
 
-				if ((string) $file->attributes()->client != '')
+				if ((string) $file->attributes()->client !== '')
 				{
 					// Override the client
 					$langclient = JApplicationHelper::getClientInfo((string) $file->attributes()->client, true);
@@ -1420,7 +1420,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1501,7 +1501,7 @@ class JInstaller extends JAdapter
 			 * we need to create it.
 			 */
 
-			if (basename($path['dest']) != $path['dest'])
+			if (basename($path['dest']) !== $path['dest'])
 			{
 				$newdir = dirname($path['dest']);
 
@@ -1624,7 +1624,7 @@ class JInstaller extends JAdapter
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
 					// It's okay if the manifest already exists
-					if ($this->getPath('manifest') == $filesource)
+					if ($this->getPath('manifest') === $filesource)
 					{
 						continue;
 					}
@@ -1721,7 +1721,7 @@ class JInstaller extends JAdapter
 		// Get the array of file nodes to process
 		$files = $element->children();
 
-		if (count($files) == 0)
+		if (count($files) === 0)
 		{
 			// No files to process
 			return true;
@@ -1796,7 +1796,7 @@ class JInstaller extends JAdapter
 			 * would go in the en_US subdirectory of the languages directory.
 			 */
 
-			if ($file->getName() === 'language' && (string) $file->attributes()->tag != '')
+			if ($file->getName() === 'language' && (string) $file->attributes()->tag !== '')
 			{
 				if ($source)
 				{

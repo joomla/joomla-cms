@@ -132,7 +132,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	{
 		$result = parent::setup($element, $value, $group);
 
-		if ($result == true)
+		if ($result === true)
 		{
 			$this->menuType  = (string) $this->element['menu_type'];
 			$this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();

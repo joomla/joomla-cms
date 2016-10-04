@@ -93,7 +93,7 @@ abstract class JModuleHelper
 			}
 		}
 
-		if (count($result) == 0)
+		if (count($result) === 0)
 		{
 			if ($input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{

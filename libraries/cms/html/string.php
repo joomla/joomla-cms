@@ -103,7 +103,7 @@ abstract class JHtmlString
 				$numOpened = count($openedTags);
 
 				// All tags are closed so trim the text and finish.
-				if (count($closedTags) == $numOpened)
+				if (count($closedTags) === $numOpened)
 				{
 					return trim($tmp) . '...';
 				}
@@ -163,7 +163,7 @@ abstract class JHtmlString
 		$baseLength = strlen($html);
 
 		// If the original HTML string is shorter than the $maxLength do nothing and return that.
-		if ($baseLength <= $maxLength || $maxLength == 0)
+		if ($baseLength <= $maxLength || $maxLength === 0)
 		{
 			return $html;
 		}
@@ -175,7 +175,7 @@ abstract class JHtmlString
 		}
 
 		// Deal with maximum length of 1 where the string starts with a tag.
-		if ($maxLength == 1 && $html[0] === '<')
+		if ($maxLength === 1 && $html[0] === '<')
 		{
 			$endTagPos = strlen(strstr($html, '>', true));
 			$tag = substr($html, 1, $endTagPos);

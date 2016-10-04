@@ -93,21 +93,21 @@ class JTableCorecontent extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->core_title) == '')
+		if (trim($this->core_title) === '')
 		{
 			$this->setError(JText::_('JLIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 
 			return false;
 		}
 
-		if (trim($this->core_alias) == '')
+		if (trim($this->core_alias) === '')
 		{
 			$this->core_alias = $this->core_title;
 		}
 
 		$this->core_alias = JApplicationHelper::stringURLSafe($this->core_alias);
 
-		if (trim(str_replace('-', '', $this->core_alias)) == '')
+		if (trim(str_replace('-', '', $this->core_alias)) === '')
 		{
 			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
@@ -392,7 +392,7 @@ class JTableCorecontent extends JTable
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
+		if ($checkin && (count($pks) === $this->_db->getAffectedRows()))
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)

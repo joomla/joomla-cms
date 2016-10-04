@@ -68,8 +68,8 @@ abstract class JHtml
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
-		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file = (count($parts) == 2 ? array_shift($parts) : '');
+		$prefix = (count($parts) === 3 ? array_shift($parts) : 'JHtml');
+		$file = (count($parts) === 2 ? array_shift($parts) : '');
 		$func = array_shift($parts);
 
 		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
@@ -633,11 +633,11 @@ abstract class JHtml
 		// If only path is required
 		if ($path_only)
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
-			elseif (count($includes) == 1)
+			elseif (count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -686,11 +686,11 @@ abstract class JHtml
 		// If only path is required
 		if ($path_only)
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
-			elseif (count($includes) == 1)
+			elseif (count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -898,10 +898,10 @@ abstract class JHtml
 		$result = '';
 
 		// Don't process empty strings
-		if ($content != '' || $title != '')
+		if ($content !== '' || $title !== '')
 		{
 			// Split title into title and content if the title contains '::' (old Mootools format).
-			if ($content == '' && !(strpos($title, '::') === false))
+			if ($content === '' && !(strpos($title, '::') === false))
 			{
 				list($title, $content) = explode('::', $title, 2);
 			}
@@ -914,17 +914,17 @@ abstract class JHtml
 			}
 
 			// Use only the content if no title is given.
-			if ($title == '')
+			if ($title === '')
 			{
 				$result = $content;
 			}
 			// Use only the title, if title and text are the same.
-			elseif ($title == $content)
+			elseif ($title === $content)
 			{
 				$result = '<strong>' . $title . '</strong>';
 			}
 			// Use a formatted string combining the title and content.
-			elseif ($content != '')
+			elseif ($content !== '')
 			{
 				$result = '<strong>' . $title . '</strong><br />' . $content;
 			}
@@ -979,7 +979,7 @@ abstract class JHtml
 		static::_('bootstrap.tooltip');
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($value && $value != JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
+		if ($value && $value !== JFactory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
