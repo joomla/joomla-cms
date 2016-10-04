@@ -98,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td class="text-xs-center">
 						<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 					</td>
-					<td class="text-xs-center small">
+					<td class="text-xs-center">
 					<?php // Display a Note if language pack version is not equal to Joomla version ?>
 					<?php if (substr($row->version, 0, 3) != $version::RELEASE || substr($row->version, 0, 5) != $currentShortVersion) : ?>
 						<span class="tag tag-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>
