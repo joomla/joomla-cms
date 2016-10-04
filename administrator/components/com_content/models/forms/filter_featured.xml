@@ -11,6 +11,7 @@
 		<field
 			name="published"
 			type="status"
+			class="custom-select"
 			label="COM_CONTENT_FILTER_PUBLISHED"
 			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
@@ -20,6 +21,7 @@
 		<field
 			name="category_id"
 			type="category"
+			class="custom-select"
 			label="JOPTION_FILTER_CATEGORY"
 			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
@@ -30,6 +32,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
@@ -39,6 +42,7 @@
 		<field
                 	name="author_id"
                 	type="author"
+	                class="custom-select"
                 	label="COM_CONTENT_FILTER_AUTHOR"
                 	description="COM_CONTENT_FILTER_AUTHOR_DESC"
                 	onchange="this.form.submit();"
@@ -48,6 +52,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			class="custom-select"
 			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
@@ -58,6 +63,7 @@
 		<field
 			name="tag"
 			type="tag"
+			class="custom-select"
 			mode="nested"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
@@ -68,6 +74,7 @@
         	<field
                 	name="level"
                 	type="integer"
+	                class="custom-select"
                 	first="1"
                 	last="10"
                 	step="1"
@@ -114,7 +121,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="form-control-sm"
+			class="custom-select form-control-sm"
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"

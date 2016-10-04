@@ -43,6 +43,7 @@
 
 		<field name="catid"
 			   type="categoryedit"
+			   class="advancedSelect"
 			label="JCATEGORY"
 			   description="JFIELD_CATEGORY_DESC"
 			required="true"
@@ -54,7 +55,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="col-md-12"
+			class="advancedSelect col-md-12"
 			multiple="true"
 		>
 		</field>
@@ -117,14 +118,18 @@
 			rows="3" cols="30" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+		       class="custom-select"
 			description="JFIELD_ACCESS_DESC" size="1" />
 
 		<field name="hits" type="text" label="JGLOBAL_HITS"
 			description="COM_CONTENT_FIELD_HITS_DESC" class="readonly" size="6"
 			readonly="true" filter="unset" />
 
-		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTENT_FIELD_LANGUAGE_DESC"
+		<field name="language"
+				type="contentlanguage"
+				class="custom-select"
+				label="JFIELD_LANGUAGE_LABEL"
+				description="COM_CONTENT_FIELD_LANGUAGE_DESC"
 		>
 			<option value="*">JALL</option>
 		</field>
