@@ -36,10 +36,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th width="1%" class="center">
+						<th width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
@@ -72,10 +72,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
 					<tr class="row<?php echo $i % 2; if ($item->enabled == 2) echo ' protected'; ?>">
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->update_site_id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if (!$item->element) : ?>
 								<strong>X</strong>
 							<?php else : ?>

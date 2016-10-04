@@ -45,7 +45,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th width="1%" class="nowrap">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
@@ -87,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td>
 							<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if (!$item->element) : ?>
 							<strong>X</strong>
 							<?php else : ?>
