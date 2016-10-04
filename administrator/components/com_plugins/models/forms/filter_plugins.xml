@@ -69,7 +69,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

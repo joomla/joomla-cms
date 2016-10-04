@@ -13,6 +13,7 @@
 		<field
 			name="status"
 			type="extensionstatus"
+			class="custom-select"
 			label="COM_PLUGINS_FILTER_PUBLISHED"
 			description="COM_PLUGINS_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
@@ -22,6 +23,7 @@
 		<field
 			name="client_id"
 			type="location"
+			class="custom-select"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
@@ -29,6 +31,7 @@
 		<field
 			name="type"
 			type="type"
+			class="custom-select"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
@@ -36,6 +39,7 @@
 		<field
 			name="folder"
 			type="folder"
+			class="custom-select"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
@@ -70,7 +74,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="form-control-sm"
+			class="custom-select form-control-sm"
 			default="25"
 			onchange="this.form.submit();"
 		/>
