@@ -6,14 +6,14 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		folder : {
-			system : '../media/system/js',
-			fields : '../media/system/js/fields',
-			puny   : '../media/vendor/punycode/js',
-			cmadd  : '../media/vendor/codemirror/addon',
-			cmkey  : '../media/vendor/codemirror/keymap',
-			cmlib  : '../media/vendor/codemirror/lib',
-			cmmod  : '../media/vendor/codemirror/mode',
-			cmthem : '../media/vendor/codemirror/theme',
+			system   : '../media/system/js',
+			fields   : '../media/system/js/fields',
+			puny     : '../media/vendor/punycode/js',
+			cmadd    : '../media/vendor/codemirror/addon',
+			cmkey    : '../media/vendor/codemirror/keymap',
+			cmlib    : '../media/vendor/codemirror/lib',
+			cmmod    : '../media/vendor/codemirror/mode',
+			cmthem   : '../media/vendor/codemirror/theme',
 		},
 
 		// Let's clean up the system
@@ -40,6 +40,7 @@ module.exports = function(grunt) {
 					'../media/vendor/combobox/*',
 					'../media/vendor/autocomplete/*',
 					'../media/vendor/mediaelement/*',
+					'../media/vendor/chosenjs/*',
 				],
 				expand: true,
 				options: {
@@ -179,6 +180,12 @@ module.exports = function(grunt) {
 					// 	expand: true,
 					// 	ext: '.min.js'
 					// }
+					{
+						src: ['<%= folder.chosenjs %>/j-chosen.js','!<%= folder.chosenjs %>/j-chosen.min.js'],
+						dest: '',
+						expand: true,
+						ext: '.min.js'
+					},
 				]
 			}
 		},
@@ -269,6 +276,20 @@ module.exports = function(grunt) {
 						cwd: 'assets/tmp/autocomplete/dist',
 						src: ['jquery.autocomplete.min.js', 'jquery.autocomplete.js', 'license.txt'],
 						dest: '../media/vendor/autocomplete/js/',
+						filter: 'isFile'
+					},
+					{ // chosen
+						expand: true,
+						cwd: 'assets/node_modules/chosenjs',
+						src: ['chosen.css', 'chosen.min.js', 'chosen-sprite.png', 'chosen-sprite@2x.png'],
+						dest: '../media/vendor/chosenjs/css/',
+						filter: 'isFile'
+					},
+					{ // chosen
+						expand: true,
+						cwd: 'assets/node_modules/chosenjs',
+						src: ['chosen.jquery.min.js', 'chosen.jquery.js'],
+						dest: '../media/vendor/chosenjs/js/',
 						filter: 'isFile'
 					},
 					{ //Font Awesome css files
