@@ -132,7 +132,7 @@ abstract class JHtmlAccess
 
 		$html = array();
 
-		foreach ($groups as &$item)
+		foreach ($groups as $item)
 		{
 
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
@@ -194,23 +194,20 @@ abstract class JHtmlAccess
 		$html   = array();
 		$html[] = '<ul class="checklist access-actions">';
 
-		if ((bool) $actions)
+		foreach ($actions as $item)
 		{
-			foreach ($actions as &$item)
-			{
-				// Setup  the variable attributes.
-				$eid     = $count . 'action_' . $item->id;
-				$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
+			// Setup  the variable attributes.
+			$eid     = $count . 'action_' . $item->id;
+			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 
-				// Build the HTML for the item.
-				$html[] = '	<li>';
-				$html[] = '		<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
-				$html[] = '			' . $checked . ' />';
-				$html[] = '		<label for="' . $eid . '">';
-				$html[] = '			' . JText::_($item->title);
-				$html[] = '		</label>';
-				$html[] = '	</li>';
-			}
+			// Build the HTML for the item.
+			$html[] = '	<li>';
+			$html[] = '		<input type="checkbox" name="' . $name . '[]" value="' . $item->id . '" id="' . $eid . '"';
+			$html[] = '			' . $checked . ' />';
+			$html[] = '		<label for="' . $eid . '">';
+			$html[] = '			' . JText::_($item->title);
+			$html[] = '		</label>';
+			$html[] = '	</li>';
 		}
 
 		$html[] = '</ul>';
