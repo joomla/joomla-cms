@@ -48,13 +48,13 @@ if ($saveOrder)
 			<table class="table table-striped" id="newsfeedList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="5%" class="nowrap center">
+						<th width="5%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -99,7 +99,7 @@ if ($saveOrder)
 					$canChange  = $user->authorise('core.edit.state', 'com_newsfeeds.category.' . $item->catid) && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
-						<td class="order nowrap center hidden-sm-down">
+						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -118,10 +118,10 @@ if ($saveOrder)
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'newsfeeds.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php // Create dropdown items and render the dropdown list.

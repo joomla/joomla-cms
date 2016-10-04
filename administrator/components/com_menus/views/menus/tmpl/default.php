@@ -69,19 +69,19 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="nowrap text-xs-center">
 							<span class="icon-publish"></span>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 						</th>
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="nowrap text-xs-center">
 							<span class="icon-unpublish"></span>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 						</th>
-						<th width="10%" class="nowrap center">
+						<th width="10%" class="nowrap text-xs-center">
 							<span class="icon-trash"></span>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 						</th>
-						<th width="20%" class="nowrap center">
+						<th width="20%" class="nowrap text-xs-center">
 							<span class="icon-cube"></span>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 						</th>
@@ -103,7 +103,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 					$canManageItems = $user->authorise('core.manage', 'com_menus.menu.' . (int) $item->id);
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>
@@ -123,7 +123,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								<?php endif; ?>
 							</div>
 						</td>
-						<td class="center btns">
+						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
 								<a class="badge<?php if ($item->count_published > 0) echo ' badge-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
@@ -132,7 +132,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									<?php echo $item->count_published; ?></span>
 							<?php endif; ?>
 						</td>
-						<td class="center btns">
+						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
 								<a class="badge<?php if ($item->count_unpublished > 0) echo ' badge-important'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
@@ -141,7 +141,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									<?php echo $item->count_unpublished; ?></span>
 							<?php endif; ?>
 						</td>
-						<td class="center btns">
+						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
 								<a class="badge<?php if ($item->count_trashed > 0) echo ' badge-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
@@ -150,7 +150,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									<?php echo $item->count_trashed; ?></span>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if (isset($this->modules[$item->menutype])) : ?>
 								<div class="btn-group">
 									<a href="#" class="btn btn-small dropdown-toggle" data-toggle="dropdown">

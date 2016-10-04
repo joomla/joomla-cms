@@ -66,11 +66,11 @@ JFactory::getDocument()->addScriptDeclaration('
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></i>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></i>
 							<span class="hidden-sm-down"><?php echo JText::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 						</th>
@@ -99,7 +99,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					$canChange = $user->authorise('core.edit.state', 'com_users');
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center" data-usercount="<?php echo $item->user_count; ?>">
+						<td class="text-xs-center" data-usercount="<?php echo $item->user_count; ?>">
 							<?php if ($canEdit) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
@@ -117,11 +117,11 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
 							<?php endif; ?>
 						</td>
-						<td class="center btns">
+						<td class="text-xs-center btns">
 							<a class="badge <?php if ($item->count_enabled > 0) echo "badge-success"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 								<?php echo $item->count_enabled; ?></a>
 						</td>
-						<td class="center btns">
+						<td class="text-xs-center btns">
 							<a class="badge <?php if ($item->count_disabled > 0) echo "badge-important"; ?>" href="<?php echo JRoute::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=1'); ?>">
 								<?php echo $item->count_disabled; ?></a>
 						</td>

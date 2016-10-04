@@ -109,7 +109,7 @@ JFactory::getDocument()->addScriptDeclaration("
 		<table class="table table-striped table-sm">
 			<thead>
 				<tr>
-					<th width="1%" class="center">
+					<th width="1%" class="text-xs-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
 					<th width="15%">
@@ -124,7 +124,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<th width="15%" class="nowrap hidden-sm-down">
 						<?php echo JText::_('JAUTHOR'); ?>
 					</th>
-					<th width="10%" class="nowrap center">
+					<th width="10%" class="nowrap text-xs-center">
 						<?php echo JText::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -140,7 +140,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php $i = 0; ?>
 			<?php foreach ($this->items as $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JHtml::_('grid.id', $i, $item->version_id); ?>
 					</td>
 					<td>
@@ -173,7 +173,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<td class="hidden-sm-down">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo number_format((int) $item->character_count, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>

@@ -67,10 +67,10 @@ if ($isMoo)
 					<th width="25%" class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
 					<th width="25%" class="nowrap">
@@ -102,10 +102,10 @@ if ($isMoo)
 					<td>
 						<?php echo $this->escape($item->username); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<span class="<?php echo $activatedStates[(int) $this->escape($item->activation)]; ?>"></span>
 					</td>
 					<td>

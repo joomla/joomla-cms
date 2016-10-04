@@ -22,7 +22,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<table class="center" width="90%">
+<table class="text-xs-center" width="90%">
 	<tr>
 		<td class="contentheading" colspan="2" id="td-title"></td>
 	</tr>

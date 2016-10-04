@@ -45,13 +45,13 @@ if ($saveOrder)
 			<table class="table table-striped" id="contentList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%"  class="nowrap center">
+						<th width="1%"  class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title nowrap">
@@ -95,7 +95,7 @@ if ($saveOrder)
 					$canChange = $user->authorise('core.edit.state', 'com_languages');
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="order nowrap center hidden-sm-down">
+						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php if ($canChange) :
 								$disableClassName = '';
 								$disabledLabel	  = '';
@@ -117,7 +117,7 @@ if ($saveOrder)
 						<td>
 							<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 						</td>
 						<td>

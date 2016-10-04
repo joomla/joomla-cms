@@ -38,7 +38,7 @@ $loggeduser = JFactory::getUser();
 			<table class="table table-striped" id="userList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th class="nowrap">
@@ -47,10 +47,10 @@ $loggeduser = JFactory::getUser();
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center">
+						<th width="5%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center hidden-sm-down">
+						<th width="5%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
@@ -90,7 +90,7 @@ $loggeduser = JFactory::getUser();
 					}
 				?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if ($canEdit || $canChange) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
@@ -121,7 +121,7 @@ $loggeduser = JFactory::getUser();
 						<td class="break-word">
 							<?php echo $this->escape($item->username); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if ($canChange) : ?>
 								<?php
 								$self = $loggeduser->id == $item->id;
@@ -131,7 +131,7 @@ $loggeduser = JFactory::getUser();
 								<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-sm-down">
+						<td class="text-xs-center hidden-sm-down">
 							<?php
 							$activated = empty( $item->activation) ? 0 : 1;
 							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);

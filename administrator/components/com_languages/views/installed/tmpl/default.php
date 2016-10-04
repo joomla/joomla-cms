@@ -47,10 +47,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<th class="nowrap">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'language', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap center">
+					<th class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap center">
+					<th class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 					</th>
 					<th class="hidden-sm-down">
@@ -95,10 +95,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<td>
 						<?php echo $this->escape($row->language); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 					</td>
-					<td class="center small">
+					<td class="text-xs-center small">
 					<?php // Display a Note if language pack version is not equal to Joomla version ?>
 					<?php if (substr($row->version, 0, 3) != $version::RELEASE || substr($row->version, 0, 5) != $currentShortVersion) : ?>
 						<span class="label label-warning hasTooltip" title="<?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $row->version; ?></span>

@@ -46,13 +46,13 @@ $colSpan = $clientId === 1 ? 9 : 10;
 			<table class="table table-striped" id="moduleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" class="nowrap center" style="min-width:55px">
+						<th width="1%" class="nowrap text-xs-center" style="min-width:55px">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="title">
@@ -75,7 +75,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center hidden-sm-down">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -96,7 +96,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position ? $item->position : 'none'; ?>">
-						<td class="order nowrap center hidden-sm-down">
+						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -115,12 +115,12 @@ $colSpan = $clientId === 1 ? 9 : 10;
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if ($item->enabled > 0) : ?>
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<div class="btn-group">
 							<?php // Check if extension is enabled ?>
 							<?php if ($item->enabled > 0) : ?>

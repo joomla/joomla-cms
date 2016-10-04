@@ -36,10 +36,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" class="nowrap text-xs-center">
 						<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 					<th class="nowrap">
@@ -71,10 +71,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 				$subject    = $item->subject ? $item->subject : JText::_('COM_USERS_EMPTY_SUBJECT');
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center checklist">
+					<td class="text-xs-center checklist">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
-					<td class="center">
+					<td class="text-xs-center">
 						<div class="btn-group">
 							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 							<?php // Create dropdown items and render the dropdown list.

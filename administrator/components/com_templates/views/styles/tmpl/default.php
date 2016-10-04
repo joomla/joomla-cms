@@ -41,13 +41,13 @@ $colSpan = $clientId === 1 ? 5 : 6;
 			<table class="table table-striped" id="styleList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							&#160;
 						</th>
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($clientId === 0) : ?>
@@ -77,7 +77,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 						$canChange = $user->authorise('core.edit.state', 'com_templates');
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td width="1%" class="center">
+						<td width="1%" class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
 						<td>
@@ -96,7 +96,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 								<?php echo $this->escape($item->title);?>
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php if ($item->home == '0' || $item->home == '1'):?>
 								<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 							<?php elseif ($canChange):?>

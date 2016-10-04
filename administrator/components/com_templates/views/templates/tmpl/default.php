@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="center hidden-sm-down">
+					<td class="text-xs-center hidden-sm-down">
 						<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
 					</td>
 					<td class="template-name">
