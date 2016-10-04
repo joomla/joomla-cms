@@ -63,14 +63,16 @@ if ($color === 'image')
 	$cssVUrl=$this->baseurl . '/' . htmlspecialchars($headerImage);
 	$cssVBGColor = $this->params->get('backgroundcolor');
 
-	$this->addStyleDeclaration(	/** @lang CSS */
+
+	$this->addStyleDeclaration(
+	/** @lang CSS */
 	<<<CSS
-    .logoheader {
-        background: url('$cssVUrl') no-repeat right;
-    }
-    body {
-        background: $cssVBGColor;
-    }
+	.logoheader {
+		background: url('$cssVUrl') no-repeat right;
+	}
+	body {
+		background: $cssVBGColor;
+	}
 CSS
   );
 }
