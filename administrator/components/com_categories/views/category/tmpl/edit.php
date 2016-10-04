@@ -72,7 +72,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
-		<div class="row form-horizontal-desktop">
+		<div class="row">
 			<div class="col-md-6">
 				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 			</div>
