@@ -45,7 +45,7 @@ modulePosIns = function(position) {
 		<div class="clearfix"></div>
 
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'); ?>
 		</div>
 		<?php else : ?>

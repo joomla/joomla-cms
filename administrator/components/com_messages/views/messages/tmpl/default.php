@@ -44,7 +44,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>

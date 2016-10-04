@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration('
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
 		</div>
 		<?php else : ?>

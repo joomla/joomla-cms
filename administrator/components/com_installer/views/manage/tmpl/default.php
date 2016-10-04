@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 			<div class="clearfix"></div>
 			<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
 			</div>
 			<?php else : ?>

@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<div class="clearfix"> </div>
 	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'); ?>
 		</div>
 	<?php else : ?>

@@ -40,7 +40,7 @@ if ($saveOrder)
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning alert-no-items">
 				<?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
 			</div>
 		<?php else : ?>
