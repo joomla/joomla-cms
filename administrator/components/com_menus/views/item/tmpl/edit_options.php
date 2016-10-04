@@ -24,16 +24,9 @@ defined('_JEXEC') or die;
 				endif;
 				?>
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-
 						<div class="control-group">
-
-							<div class="control-label">
-								<?php echo $field->label; ?>
-							</div>
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-
+							<?php echo $field->label; ?>
+							<?php echo $field->input; ?>
 						</div>
 					<?php endforeach;
 			echo JHtml::_('bootstrap.endSlide');

@@ -125,51 +125,49 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="tag<?php if ($item->count_published > 0) echo ' tag-success'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+								<a class="tag<?php echo ($item->count_published > 0) ? ' tag-success' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							<?php else : ?>
-								<span class="tag<?php if ($item->count_published > 0) echo ' tag-success'; ?>">
+								<span class="tag<?php echo ($item->count_published > 0) ? ' tag-success' : ' tag-default'; ?>">
 									<?php echo $item->count_published; ?></span>
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="tag<?php if ($item->count_unpublished > 0) echo ' tag-danger'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+								<a class="tag<?php echo ($item->count_unpublished > 0) ? ' tag-danger' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							<?php else : ?>
-								<span class="tag<?php if ($item->count_unpublished > 0) echo ' tag-danger'; ?>">
+								<span class="tag<?php echo ($item->count_unpublished > 0) ? ' tag-danger' : ' tag-default'; ?>">
 									<?php echo $item->count_unpublished; ?></span>
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center btns">
 							<?php if ($canManageItems) : ?>
-								<a class="tag<?php if ($item->count_trashed > 0) echo ' tag-inverse'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+								<a class="tag<?php echo ($item->count_trashed > 0) ? ' tag-danger' : ' tag-default'; ?>" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							<?php else : ?>
-								<span class="tag<?php if ($item->count_trashed > 0) echo ' tag-inverse'; ?>">
+								<span class="tag<?php echo ($item->count_trashed > 0) ? ' tag-danger' : ' tag-default'; ?>">
 									<?php echo $item->count_trashed; ?></span>
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center">
 							<?php if (isset($this->modules[$item->menutype])) : ?>
-								<div class="btn-group">
-									<a href="#" class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+								<div class="dropdown">
+									<a href="#" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
 										<?php echo JText::_('COM_MENUS_MODULES'); ?>
 										<span class="caret"></span>
 									</a>
-									<ul class="dropdown-menu">
+									<div class="dropdown-menu">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
-											<li>
-												<?php if ($canEdit) : ?>
-													<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
-													<a href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
-														<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
-												<?php else : ?>
-													<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?>
-												<?php endif; ?>
-											</li>
+											<?php if ($canEdit) : ?>
+												<?php $link = JRoute::_('index.php?option=com_modules&task=module.edit&id=' . $module->id . '&return=' . $return . '&tmpl=component&layout=modal'); ?>
+												<a class="dropdown-item" href="#moduleEdit<?php echo $module->id; ?>Modal" role="button" class="button" data-toggle="modal" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>">
+													<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
+											<?php else : ?>
+												<span class="dropdown-item"><?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></span>
+											<?php endif; ?>
 										<?php endforeach; ?>
-									</ul>
+									</div>
 								 </div>
 								<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 									<?php if ($canEdit) : ?>
@@ -202,7 +200,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 								<?php endforeach; ?>
 							<?php elseif ($modMenuId) : ?>
 								<?php $link = JRoute::_('index.php?option=com_modules&task=module.add&eid=' . $modMenuId . '&params[menutype]=' . $item->menutype . '&tmpl=component&layout=modal'); ?>
-								<a class="btn btn-small btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
+								<a class="btn btn-sm btn-primary" data-toggle="modal" role="button" href="#moduleAddModal"><?php echo JText::_('COM_MENUS_ADD_MENU_MODULE'); ?></a>
 								<?php echo JHtml::_(
 										'bootstrap.renderModal',
 										'moduleAddModal',
