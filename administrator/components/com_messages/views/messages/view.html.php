@@ -89,7 +89,7 @@ class MessagesViewMessages extends JViewLegacy
 			0,
 			'',
 			'',
-			'<button class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
+			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
 			. JText::_('JCANCEL')
 			. '</button>'
 			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'

@@ -50,7 +50,7 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 	<table class="table table-striped">
 		<thead>
 		<tr>
-			<th class="left">
+			<th>
 				<?php echo JText::_('COM_MENUS_HEADING_ASSIGN_MODULE');?>
 			</th>
 			<th>
@@ -79,9 +79,9 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 				<?php  $no = ""; ?>
 			<?php  endif; ?>
 			<?php  if ($module->published) : ?>
-				<?php  $status = ""; ?>
+				<?php  $status = ''; ?>
 			<?php  else : ?>
-				<?php  $status = "unpublished "; ?>
+				<?php  $status = 'unpublished '; ?>
 			<?php  endif; ?>
 			<tr class="<?php echo $no;?><?php echo $status;?>row<?php echo $i % 2;?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
 				<td id="<?php echo $module->id; ?>">
