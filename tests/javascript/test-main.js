@@ -31,9 +31,6 @@ require.config({
 		jasmineJquery: ['jquery'],
 		bootstrap: ['jquery'],
 		'jui-sortable': ['jquery'],
-		'libs/repeatable': {
-			deps: ['bootstrap', 'jquery']
-		},
 		'libs/validate': {
 			deps: ['jquery']
 		},

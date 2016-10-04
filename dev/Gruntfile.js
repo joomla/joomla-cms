@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
 	var CmSettings = grunt.file.readYAML('settings.yaml');
+	var path = require('path');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -19,7 +20,10 @@ module.exports = function(grunt) {
 		clean: {
 			assets: {
 				src: [
-					'assets/tmp/**',
+					'assets/tmp/autocomplete/**',
+					'assets/tmp/codemirror/**',
+					'assets/tmp/combobox/**',
+					'assets/tmp/jcrop/**',
 					'../media/vendor/jquery/js/*',
 					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
 					'../media/vendor/bootstrap/**',
@@ -34,6 +38,7 @@ module.exports = function(grunt) {
 					'../media/vendor/codemirror/*',
 					'../media/vendor/combobox/*',
 					'../media/vendor/autocomplete/*',
+					'../media/vendor/mediaelement/*',
 				],
 				expand: true,
 				options: {
@@ -47,15 +52,33 @@ module.exports = function(grunt) {
 				command: 'cd assets; npm install'
 			}
 		},
+		// Get the latest codemirror
+		curl: {
+			'cmGet': {
+		// Change the version of codemirror here:
+				src: 'https://github.com/codemirror/CodeMirror/archive/5.19.0.zip',
+				dest: 'assets/tmp/cmzip.zip'
+			}
+		},
+		unzip: {
+			'cmUnzip': {
+				router: function (filepath) {
+					var filename = filepath.replace(/(CodeMirror-)\d\.\d\d\.\d\//g, '');
+					return filename;
+				},
+				src: 'assets/tmp/cmzip.zip',
+				dest: 'assets/tmp/codemirror/'
+			}
+		},
 		// Download latest packages from github for any assets with no npm package
 		gitclone: {
-			cloneCodemirror: {
-				options: {
-					repository: 'https://github.com/codemirror/CodeMirror.git',
-					branch: 'master',
-					directory: 'assets/tmp/codemirror'
-				}
-			},
+			// cloneCodemirror: {
+			// 	options: {
+			// 		repository: 'https://github.com/codemirror/CodeMirror.git',
+			// 		branch: 'master',
+			// 		directory: 'assets/tmp/codemirror'
+			// 	}
+			// },
 			cloneCombobox: {
 				options: {
 					repository: 'https://github.com/danielfarrell/bootstrap-combobox.git',
@@ -78,7 +101,7 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-
+		//	https://github.com/codemirror/CodeMirror/archive/5.19.0.zip
 		// Concatenate some jacascript files
 		concat: {
 			someFiles: {
@@ -352,6 +375,20 @@ module.exports = function(grunt) {
 						src: ['assets/tmp/jcrop/MIT-LICENSE.txt'],
 						dest: '../media/vendor/jcrop/MIT-LICENSE.txt',
 					},
+					{ // Media Element
+						expand: true,
+						cwd: 'assets/node_modules/mediaelement/build',
+						src: ['*.js', '*.swf', '*.xap', '!jquery.js'],
+						dest: '../media/vendor/mediaelement/js/',
+						filter: 'isFile'
+					},
+					{ // Media Element
+						expand: true,
+						cwd: 'assets/node_modules/mediaelement/build',
+						src: ['*.css', '*.png', '*.svg', '*.gif'],
+						dest: '../media/vendor/mediaelement/css/',
+						filter: 'isFile'
+					},
 				]
 			}
 		},
@@ -379,12 +416,16 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-git');
+	grunt.loadNpmTasks('grunt-zip');
+	grunt.loadNpmTasks('grunt-curl');
 
 	grunt.registerTask('default',
 		[
 			'clean:assets',
 			'shell:update',
-			'gitclone:cloneCodemirror',
+			'curl:cmGet',
+			'unzip:cmUnzip',
+			//'gitclone:cloneCodemirror',
 			'gitclone:cloneCombobox',
 			'gitclone:cloneCropjs',
 			'gitclone:cloneAutojs',
