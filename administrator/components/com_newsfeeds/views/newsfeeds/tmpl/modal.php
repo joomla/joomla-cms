@@ -47,13 +47,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="nowrap title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -106,17 +106,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 							</div>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php if ($item->language == '*'):?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
 								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

@@ -40,40 +40,40 @@ if ($saveOrder)
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning alert-no-items">
 			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 		</div>
 		<?php else : ?>
 			<table class="table table-striped" id="contactList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap text-xs-center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
-						<th width="1%" class="nowrap center">
+						<th width="1%" class="nowrap text-xs-center">
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
-						<th width="1%" style="min-width:55px" class="nowrap center">
+						<th width="1%" style="min-width:85px" class="nowrap text-xs-center">
 							<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap hidden-phone hidden-tablet">
+						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($assoc) : ?>
-						<th width="5%" class="nowrap hidden-phone hidden-tablet">
+						<th width="5%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
 						<?php endif;?>
-						<th width="15%" class="nowrap hidden-phone">
+						<th width="15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -98,7 +98,7 @@ if ($saveOrder)
 					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id=' . $item->catid);
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-						<td class="order nowrap center hidden-phone">
+						<td class="order nowrap text-xs-center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -118,25 +118,17 @@ if ($saveOrder)
 									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 							<?php endif; ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 						</td>
-						<td class="center">
+						<td class="text-xs-center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
-								<?php // Create dropdown items and render the dropdown list.
-								if ($canChange)
-								{
-									JHtml::_('actionsdropdown.' . ((int) $item->published === 2 ? 'un' : '') . 'archive', 'cb' . $i, 'contacts');
-									JHtml::_('actionsdropdown.' . ((int) $item->published === -2 ? 'un' : '') . 'trash', 'cb' . $i, 'contacts');
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
-								}
-								?>
 							</div>
 						</td>
 						<td class="nowrap has-context">
-							<div class="pull-left">
+							<div class="pull-xs-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
 								<?php endif; ?>
@@ -153,30 +145,30 @@ if ($saveOrder)
 								</div>
 							</div>
 						</td>
-						<td class="small hidden-phone hidden-tablet">
+						<td class="small">
 							<?php if (!empty($item->linked_user)) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $item->access_level; ?>
 						</td>
 						<?php if ($assoc) : ?>
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-sm-down">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('contact.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<?php endif;?>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php if ($item->language == '*') : ?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else : ?>
 								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

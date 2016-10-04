@@ -47,7 +47,7 @@ if ($saveOrder)
 			<table class="table table-striped" id="pluginList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="nowrap center">
@@ -59,16 +59,16 @@ if ($saveOrder)
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_NAME_HEADING', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_FOLDER_HEADING', 'folder', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="hidden-phone">
+						<th width="5%" class="hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -88,7 +88,7 @@ if ($saveOrder)
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->folder; ?>">
-						<td class="order nowrap center hidden-phone">
+						<td class="order nowrap center hidden-sm-down">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -124,16 +124,16 @@ if ($saveOrder)
 									<?php echo $item->name; ?>
 							<?php endif; ?>
 						</td>
-						<td class="nowrap small hidden-phone">
+						<td class="nowrap small hidden-sm-down">
 							<?php echo $this->escape($item->folder); ?>
 						</td>
-						<td class="nowrap small hidden-phone">
+						<td class="nowrap small hidden-sm-down">
 							<?php echo $this->escape($item->element); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->extension_id; ?>
 						</td>
 					</tr>

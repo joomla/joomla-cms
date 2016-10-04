@@ -50,7 +50,7 @@ if ($saveOrder)
 				<table class="table table-striped" id="articleList">
 					<thead>
 					<tr>
-						<th width="1%" class="nowrap center hidden-phone">
+						<th width="1%" class="nowrap center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="center">
@@ -62,22 +62,22 @@ if ($saveOrder)
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -101,7 +101,7 @@ if ($saveOrder)
 						$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
-							<td class="order nowrap center hidden-phone">
+							<td class="order nowrap center hidden-sm-down">
 								<?php
 								$iconClass = '';
 
@@ -139,7 +139,7 @@ if ($saveOrder)
 								</div>
 							</td>
 							<td class="has-context">
-								<div class="pull-left break-word">
+								<div class="pull-xs-left break-word">
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 									<?php endif; ?>
@@ -162,10 +162,10 @@ if ($saveOrder)
 									</div>
 								</div>
 							</td>
-							<td class="small hidden-phone">
+							<td class="small hidden-sm-down">
 								<?php echo $this->escape($item->access_level); ?>
 							</td>
-							<td class="small hidden-phone">
+							<td class="small hidden-sm-down">
 								<?php if ($item->created_by_alias) : ?>
 									<?php echo $this->escape($item->author_name); ?>
 									<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
@@ -173,20 +173,20 @@ if ($saveOrder)
 									<?php echo $this->escape($item->author_name); ?>
 								<?php endif; ?>
 							</td>
-							<td class="small hidden-phone">
+							<td class="small hidden-sm-down">
 								<?php if ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else:?>
 									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 								<?php endif;?>
 							</td>
-							<td class="nowrap small hidden-phone">
+							<td class="nowrap small hidden-sm-down">
 								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center hidden-sm-down">
 								<?php echo (int) $item->hits; ?>
 							</td>
-							<td class="center hidden-phone">
+							<td class="center hidden-sm-down">
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>

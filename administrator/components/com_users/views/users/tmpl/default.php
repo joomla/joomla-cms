@@ -50,22 +50,22 @@ $loggeduser = JFactory::getUser();
 						<th width="5%" class="nowrap center">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap center hidden-phone">
+						<th width="5%" class="nowrap center hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 						</th>
-						<th width="15%" class="nowrap hidden-phone hidden-tablet">
+						<th width="15%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone hidden-tablet">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone hidden-tablet">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -131,7 +131,7 @@ $loggeduser = JFactory::getUser();
 								<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 							<?php endif; ?>
 						</td>
-						<td class="center hidden-phone">
+						<td class="center hidden-sm-down">
 							<?php
 							$activated = empty( $item->activation) ? 0 : 1;
 							echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
@@ -144,20 +144,20 @@ $loggeduser = JFactory::getUser();
 								<?php echo nl2br($item->group_names); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone break-word hidden-tablet">
+						<td class="hidden-sm-down break-word">
 							<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 						</td>
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-sm-down">
 							<?php if ($item->lastvisitDate != $this->db->getNullDate()):?>
 								<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 							<?php else:?>
 								<?php echo JText::_('JNEVER'); ?>
 							<?php endif;?>
 						</td>
-						<td class="hidden-phone hidden-tablet">
+						<td class="hidden-sm-down">
 							<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

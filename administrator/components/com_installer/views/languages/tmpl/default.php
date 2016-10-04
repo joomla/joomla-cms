@@ -61,10 +61,10 @@ jQuery(document).ready(function($) {
 						<th width="5%" class="center">
 							<?php echo JText::_('JVERSION'); ?>
 						</th>
-						<th width="40%" class="nowrap hidden-phone">
+						<th width="40%" class="nowrap hidden-sm-down">
 							<?php echo JText::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_ID', 'update_id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -105,10 +105,10 @@ jQuery(document).ready(function($) {
 									<span class="label label-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<a href="<?php echo $language->detailsurl; ?>" target="_blank"><?php echo $language->detailsurl; ?></a>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>

@@ -71,21 +71,21 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 						</th>
 						<th width="10%" class="nowrap center">
 							<span class="icon-publish"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
+							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 						</th>
 						<th width="10%" class="nowrap center">
 							<span class="icon-unpublish"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
+							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 						</th>
 						<th width="10%" class="nowrap center">
 							<span class="icon-trash"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
+							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 						</th>
 						<th width="20%" class="nowrap center">
 							<span class="icon-cube"></span>
-							<span class="hidden-phone"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
+							<span class="hidden-sm-down"><?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -229,7 +229,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 									); ?>
 							<?php endif; ?>
 						</td>
-						<td class="hidden-phone">
+						<td class="hidden-sm-down">
 							<?php echo $item->id; ?>
 						</td>
 					</tr>

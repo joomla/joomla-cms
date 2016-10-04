@@ -77,7 +77,7 @@ if ($saveOrder)
 			<table class="table table-striped" id="categoryList">
 				<thead>
 					<tr>
-						<th width="1%" class="nowrap hidden-phone center">
+						<th width="1%" class="nowrap hidden-sm-down center">
 							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%">
@@ -91,33 +91,33 @@ if ($saveOrder)
 						</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) :?>
-							<th width="1%" class="nowrap center hidden-phone">
+							<th width="1%" class="nowrap center hidden-sm-down">
 								<i class="icon-publish hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) :?>
-							<th width="1%" class="nowrap center hidden-phone">
+							<th width="1%" class="nowrap center hidden-sm-down">
 								<i class="icon-unpublish hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) :?>
-							<th width="1%" class="nowrap center hidden-phone">
+							<th width="1%" class="nowrap center hidden-sm-down">
 								<i class="icon-archive hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) :?>
-							<th width="1%" class="nowrap center hidden-phone">
+							<th width="1%" class="nowrap center hidden-sm-down">
 								<i class="icon-trash hasTooltip" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"></i>
 							</th>
 						<?php endif;?>
  
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap hidden-phone">
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -165,7 +165,7 @@ if ($saveOrder)
 					}
 					?>
 						<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
-							<td class="order nowrap center hidden-phone">
+							<td class="order nowrap center hidden-sm-down">
 								<?php
 								$iconClass = '';
 								if (!$canChange)
@@ -221,25 +221,25 @@ if ($saveOrder)
 							</td>
 							
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-							<td class="center btns hidden-phone">
+							<td class="center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_published > 0) echo "badge-success"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_PUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1');?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-							<td class="center btns hidden-phone">
+							<td class="center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_unpublished > 0) echo "badge-important"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0');?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-							<td class="center btns hidden-phone">
+							<td class="center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_archived > 0) echo "badge-info"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_ARCHIVED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2');?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
 						<?php endif;?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-							<td class="center btns hidden-phone">
+							<td class="center btns hidden-sm-down">
 								<a class="badge <?php if ($item->count_trashed > 0) echo "badge-inverse"; ?>" title="<?php echo JText::_('COM_TAGS_COUNT_TRASHED_ITEMS');?>" href="<?php echo JRoute::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2');?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
@@ -247,17 +247,17 @@ if ($saveOrder)
 							
 							
 							
-						<td class="small hidden-phone">
+						<td class="small hidden-sm-down">
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
-						<td class="small nowrap hidden-phone">
+						<td class="small nowrap hidden-sm-down">
 						<?php if ($item->language == '*') : ?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
 								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 							</td>
-							<td class="hidden-phone">
+							<td class="hidden-sm-down">
 								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 									<?php echo (int) $item->id; ?></span>
 							</td>
