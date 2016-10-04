@@ -48,7 +48,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	<span class="icon-pencil"></span> <?php echo JText::_('COM_CONTENTHISTORY_BUTTON_COMPARE_TEXT'); ?></button>
 </div>
 </legend>
-<table id="diff" class="table table-striped table-condensed">
+<table id="diff" class="table table-striped table-sm">
 <thead><tr>
 	<th width="25%"><?php echo JText::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
 	<th style="display:none" />

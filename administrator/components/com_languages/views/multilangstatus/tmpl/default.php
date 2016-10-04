@@ -21,7 +21,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<div class="alert alert-info"><?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_USELESS_HOMES'); ?></div>
 		<?php endif; ?>
 	<?php else: ?>
-	<table class="table table-striped table-condensed">
+	<table class="table table-striped table-sm">
 		<tbody>
 		<?php if ($notice_homes) : ?>
 			<tr class="warning">
@@ -94,7 +94,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<?php endif; ?>
 		</tbody>
 	</table>
-	<table class="table table-striped table-condensed" style="border-top: 1px solid #CCCCCC;">
+	<table class="table table-striped table-sm" style="border-top: 1px solid #CCCCCC;">
 		<thead>
 			<tr>
 				<th>
@@ -149,7 +149,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			</tr>
 		</tbody>
 	</table>
-	<table class="table table-striped table-condensed" style="border-top: 1px solid #CCCCCC;">
+	<table class="table table-striped table-sm" style="border-top: 1px solid #CCCCCC;">
 		<thead>
 			<tr>
 				<th>
