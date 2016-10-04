@@ -14,6 +14,6 @@ $id = empty($displayData['id']) ? '' : $displayData['id'];
 $active = empty($displayData['active']) ? '' : $displayData['active'];
 $title = empty($displayData['title']) ? '' : $displayData['title'];
 
-$li = '<li class="' . $active . '"><a href="#' . $id . '" data-toggle="tab">' . $title . '</a></li>';
+$li = '<li class="nav-item"><a class="nav-link ' . $active . '" href="#' . $id . '" data-toggle="tab">' . $title . '</a></li>';
 
 echo 'jQuery(function($){ $(', json_encode('#' . $selector . 'Tabs'), ').append($(', json_encode($li), ')); });';
