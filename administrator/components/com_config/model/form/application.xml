@@ -208,6 +208,7 @@
 		<field
 			name="dbtype"
 			type="databaseconnection"
+			class="custom-select"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
@@ -401,6 +402,7 @@
 		<field
 			name="offset"
 			type="timezone"
+			class="custom-select"
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC">
@@ -886,6 +888,7 @@
 		<field
 			name="editor"
 			type="plugins"
+			class="custom-select"
 			folder="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
@@ -895,6 +898,7 @@
 		<field
 			name="captcha"
 			type="plugins"
+			class="custom-select"
 			folder="captcha"
 			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
@@ -906,6 +910,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
@@ -980,6 +985,7 @@
 		<field
 			name="helpurl"
 			type="helpsite"
+			class="custom-select"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
 			showDefault="false" />

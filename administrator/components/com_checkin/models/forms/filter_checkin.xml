@@ -30,7 +30,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="form-control-sm"
+			class="custom-select form-control-sm"
 			default="5"
 			onchange="this.form.submit();"
 		/>
