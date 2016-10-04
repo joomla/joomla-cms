@@ -97,9 +97,8 @@ abstract class JPlugin extends JEvent
 		if (property_exists($this, 'app'))
 		{
 			$reflection = new ReflectionClass($this);
-			$appProperty = $reflection->getProperty('app');
 
-			if ($appProperty->isPrivate() === false && $this->app === null)
+			if ($reflection->getProperty('app')->isPrivate() === false && $this->app === null)
 			{
 				$this->app = JFactory::getApplication();
 			}
@@ -108,9 +107,8 @@ abstract class JPlugin extends JEvent
 		if (property_exists($this, 'db'))
 		{
 			$reflection = new ReflectionClass($this);
-			$dbProperty = $reflection->getProperty('db');
 
-			if ($dbProperty->isPrivate() === false && $this->db === null)
+			if ($reflection->getProperty('db')->isPrivate() === false && $this->db === null)
 			{
 				$this->db = JFactory::getDbo();
 			}
