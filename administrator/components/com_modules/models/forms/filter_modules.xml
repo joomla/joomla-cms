@@ -23,6 +23,7 @@
 		<field
 			name="state"
 			type="status"
+			class="custom-select"
 			label="JSTATUS"
 			filter="*,-2,0,1"
 			onchange="this.form.submit();"
@@ -32,6 +33,7 @@
 		<field
 			name="position"
 			type="modulesposition"
+			class="custom-select"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			onchange="this.form.submit();"
 			>
@@ -40,6 +42,7 @@
 		<field
 			name="module"
 			type="ModulesModule"
+			class="custom-select"
 			label="COM_MODULES_OPTION_SELECT_MODULE"
 			onchange="this.form.submit();"
 			>
@@ -48,6 +51,7 @@
 		<field
 			name="menuitem"
 			type="menuitem"
+			class="custom-select"
 			label="COM_MODULES_OPTION_SELECT_PAGE"
 			disable="separator,alias,heading,url"
 			showon="client_id:0"
@@ -114,7 +118,7 @@
 			type="limitbox"
 			label="COM_MODULES_LIST_LIMIT"
 			description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

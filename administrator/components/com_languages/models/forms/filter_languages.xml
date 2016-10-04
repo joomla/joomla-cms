@@ -11,6 +11,7 @@
 		<field
 			name="published"
 			type="status"
+			class="custom-select"
 			filter="1,0,-2,*"
 			onchange="this.form.submit();"
 			>
@@ -62,7 +63,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

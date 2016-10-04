@@ -42,6 +42,7 @@
 		/>
 
 		<field name="image" type="filelist"
+		       class="custom-select"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
 			stripext="1"

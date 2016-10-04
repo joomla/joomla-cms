@@ -11,6 +11,7 @@
 		<field
 			name="component"
 			type="Components"
+			class="custom-select"
 			label="COM_USERS_FILTER_COMPONENT_LABEL"
 			description="COM_USERS_FILTER_COMPONENT_DESC"
 			onchange="this.form.submit();"
@@ -20,6 +21,7 @@
 		<field
 			name="level_start"
 			type="Levels"
+			class="custom-select"
 			label="COM_USERS_FILTER_LEVEL_START_LABEL"
 			description="COM_USERS_FILTER_LEVEL_START_DESC"
 			onchange="this.form.submit();"
@@ -29,6 +31,7 @@
 		<field
 			name="level_end"
 			type="Levels"
+			class="custom-select"
 			label="COM_USERS_FILTER_LEVEL_END_LABEL"
 			description="COM_USERS_FILTER_LEVEL_END_DESC"
 			onchange="this.form.submit();"
@@ -57,7 +60,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>
