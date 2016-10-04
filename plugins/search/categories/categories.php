@@ -184,7 +184,7 @@ class PlgSearchCategories extends JPlugin
 
 		if ($rows)
 		{
-			foreach ($rows as $row)
+			foreach ($rows as &$row)
 			{
 				$row->href = ContentHelperRoute::getCategoryRoute($row->slug);
 				$row->section = JText::_('JCATEGORY');
