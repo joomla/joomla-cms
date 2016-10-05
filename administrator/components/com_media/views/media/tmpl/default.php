@@ -43,7 +43,7 @@ if ($lang->isRtl())
 }
 ?>
 <div class="row">
-	<!-- Begin Sidebar -->
+
 	<div id="j-sidebar-container" class="col-md-2">
 		<?php echo $this->sidebar; ?>
 		<div class="j-toggle-sidebar-header">
@@ -55,10 +55,8 @@ if ($lang->isRtl())
 			</div>
 		</div>
 	</div>
-	<!-- End Sidebar -->
 
-	<!-- Begin Content -->
-	<div id="j-main-container" class="col-md-10">
+	<div id="j-main-container">
 		<?php echo $this->loadTemplate('navigation'); ?>
 		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
@@ -81,7 +79,7 @@ if ($lang->isRtl())
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')):?>
-		<!-- File Upload Form -->
+		<?php // File Upload Form ?>
 		<div id="collapseUpload" class="collapse">
 			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
 				<div id="uploadform">
@@ -141,5 +139,4 @@ echo JHtml::_(
 	'<div id="videoPlayer" style="z-index: -100;"><video id="mejsPlayer" style="height: 250px;"/></div>'
 );
 ?>
-	<!-- End Content -->
 </div>

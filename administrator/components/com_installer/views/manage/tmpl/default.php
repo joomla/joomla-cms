@@ -17,14 +17,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage'); ?>" method="post" name="adminForm" id="adminForm">
-		<?php if (!empty( $this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="col-md-10">
-		<?php else : ?>
 		<div id="j-main-container">
-		<?php endif;?>
 			<?php if ($this->showMessage) : ?>
 				<?php echo $this->loadTemplate('message'); ?>
 			<?php endif; ?>
