@@ -7530,6 +7530,9 @@ legend {
 .icon-back::before {
   content: "\e008"; }
 
+.icon-white {
+  color: #fff; }
+
 .js-pstats-data-details {
   margin-top: 10px; }
   .js-pstats-data-details dd {

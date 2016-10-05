@@ -223,6 +223,7 @@
 		name="tags"
 		type="tag"
 		label="JTAG"
+		class="col-sm-12"
 		description="JTAG_DESC"
 		multiple="true"
 	/>

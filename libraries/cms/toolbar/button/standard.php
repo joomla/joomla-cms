@@ -49,35 +49,26 @@ class JToolbarButtonStandard extends JToolbarButton
 			case 'apply':
 			case 'new':
 				$options['btnClass'] = 'btn btn-sm btn-success';
-				$options['class']   .= ' icon-white';
 				break;
 
 			case 'save':
 			case 'save-new':
 			case 'save-copy':
 			case 'save-close':
-				$options['btnClass'] = 'btn btn-sm btn-outline-success';
-				$options['class']   .= ' icon-white';
-				break;
-
 			case 'publish':
 				$options['btnClass'] = 'btn btn-sm btn-outline-success';
-				$options['class']   .= ' icon-green';
 				break;
 
 			case 'unpublish':
 				$options['btnClass'] = 'btn btn-sm btn-outline-danger';
-				$options['class']   .= ' icon-red';
 				break;
 
 			case 'featured':
 				$options['btnClass'] = 'btn btn-sm btn-outline-warning';
-				$options['class']   .= ' icon-yellow';
 				break;
 
 			case 'cancel':
 				$options['btnClass'] = 'btn btn-sm btn-danger';
-				$options['class']   .= ' icon-white';
 				break;
 
 			default:
