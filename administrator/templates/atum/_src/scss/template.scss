@@ -450,6 +450,10 @@ small, .small {
 
     .btn-toolbar {
       margin-bottom: 5px;
+
+      .btn-group:first-child {
+        margin-left: 0;
+      }
 	}
 
     .input-append {

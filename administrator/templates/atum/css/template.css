@@ -7233,6 +7233,8 @@ small, .small {
     float: left; }
     .js-stools .js-stools-container-bar .btn-toolbar {
       margin-bottom: 5px; }
+      .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
+        margin-left: 0; }
     .js-stools .js-stools-container-bar .input-append {
       margin-bottom: 0; }
   .js-stools .js-stools-container-list {
