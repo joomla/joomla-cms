@@ -66,7 +66,7 @@ class MenusControllerMenus extends JControllerLegacy
 
 		if (count($cids) < 1)
 		{
-			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'notice');
+			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'info');
 		}
 		else
 		{
