@@ -40,33 +40,48 @@ class JToolbarButtonStandard extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
+		$options['text']   = JText::_($text);
+		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
+//var_dump($name);
+		switch ($name)
+		{
+			case 'apply':
+			case 'new':
+				$options['btnClass'] = 'btn btn-sm btn-success';
+				$options['class']   .= ' icon-white';
+				break;
 
-		if ($name == 'apply' || $name == 'new')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-success';
-			$options['class'] .= ' icon-white';
-		}
-		elseif ($name == 'publish')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-success';
-			$options['class'] .= ' icon-green';
-		}
-		elseif ($name == 'unpublish')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-danger';
-			$options['class'] .= ' icon-red';
-		}
-		elseif ($name == 'featured')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-warning';
-			$options['class'] .= ' icon-yellow';
-		}
-		else
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-primary';
+			case 'save':
+			case 'save-new':
+			case 'save-copy':
+			case 'save-close':
+				$options['btnClass'] = 'btn btn-sm btn-outline-success';
+				$options['class']   .= ' icon-white';
+				break;
+
+			case 'publish':
+				$options['btnClass'] = 'btn btn-sm btn-outline-success';
+				$options['class']   .= ' icon-green';
+				break;
+
+			case 'unpublish':
+				$options['btnClass'] = 'btn btn-sm btn-outline-danger';
+				$options['class']   .= ' icon-red';
+				break;
+
+			case 'featured':
+				$options['btnClass'] = 'btn btn-sm btn-outline-warning';
+				$options['class']   .= ' icon-yellow';
+				break;
+
+			case 'cancel':
+				$options['btnClass'] = 'btn btn-sm btn-danger';
+				$options['class']   .= ' icon-white';
+				break;
+
+			default:
+				$options['btnClass'] = 'btn btn-sm btn-outline-primary';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout
