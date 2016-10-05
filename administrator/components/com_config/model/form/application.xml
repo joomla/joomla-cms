@@ -780,6 +780,18 @@
 			size="6" />
 
 		<field
+			name="shared_session"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
+			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="session_handler"
 			type="sessionhandler"
 			default="none"

@@ -60,7 +60,7 @@ class JComponentRouterViewInspector extends JComponentRouterView
 
 		if ($category)
 		{
-			return array_reverse($category->getPath());
+			return array_reverse($category->getPath(), true);
 		}
 
 		return array();
@@ -91,7 +91,7 @@ class JComponentRouterViewInspector extends JComponentRouterView
 	*/
 	public function getArticleSegment($id, $query)
 	{
-		return array($id);
+		return array((int) $id => $id);
 	}
 }
 

@@ -184,7 +184,6 @@ class JApplicationCms extends JApplicationWeb
 
 			$columns = array(
 				$db->quoteName('session_id'),
-				$db->quoteName('client_id'),
 				$db->quoteName('guest'),
 				$db->quoteName('time'),
 				$db->quoteName('userid'),
@@ -193,12 +192,17 @@ class JApplicationCms extends JApplicationWeb
 
 			$values = array(
 				$db->quote($session->getId()),
-				(int) $this->getClientId(),
 				(int) $user->guest,
 				$db->quote((int) $time),
 				(int) $user->id,
 				$db->quote($user->username),
 			);
+
+			if (!$this->get('shared_session', '0'))
+			{
+				$columns[] = $db->quoteName('client_id');
+				$values[] = (int) $this->getClientId();
+			}
 
 			$query->insert($db->quoteName('#__session'))
 				->columns($columns)
