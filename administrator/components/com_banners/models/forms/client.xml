@@ -145,7 +145,6 @@
 			type="textarea"
 			label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
 			description="COM_BANNERS_FIELD_EXTRAINFO_DESC"
-			class="col-md-12"
 			rows="5"
 			cols="80"
 		/>

@@ -94,13 +94,15 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-8">
 				<fieldset class="adminform">
 					<?php echo $this->form->getInput('articletext'); ?>
 				</fieldset>
 			</div>
-			<div class="col-md-3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			<div class="col-md-4">
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

@@ -29,9 +29,13 @@ foreach ($this->fieldsets as $name => $fieldset)
 			if (!$field->hidden)
 			{
 				?>
-				<div class="form-group">
-					<?php echo $field->label; ?>
-					<?php echo $field->input; ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $field->label; ?>
+					</div>
+					<div class="controls">
+						<?php echo $field->input; ?>
+					</div>
 				</div>
 			<?php
 			}

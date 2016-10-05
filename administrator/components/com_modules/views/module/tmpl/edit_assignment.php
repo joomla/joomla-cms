@@ -40,15 +40,15 @@ $script = "
 // Add the script to the document head
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-<div class="form-group">
-	<label id="jform_menus-lbl" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
+<div class="control-group">
+	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 	<div id="jform_menus" class="controls">
 		<select name="jform[assignment]" id="jform_assignment">
 			<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>
 </div>
-<div id="menuselect-group" class="form-group">
+<div id="menuselect-group" class="control-group">
 	<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
 	<div id="jform_menuselect">

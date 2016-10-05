@@ -54,12 +54,16 @@ $fieldsets = $this->form->getFieldsets();
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
-					<div class="form-group">
-						<?php echo $field->label; ?>
-						<?php if ($field->fieldname == 'password') : ?>
-							<?php // Disables autocomplete ?> <input type="password" style="display:none">
-						<?php endif; ?>
-						<?php echo $field->input; ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php if ($field->fieldname == 'password') : ?>
+								<?php // Disables autocomplete ?> <input type="password" style="display:none">
+							<?php endif; ?>
+							<?php echo $field->input; ?>
+						</div>
 					</div>
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -77,12 +81,16 @@ $fieldsets = $this->form->getFieldsets();
 
 		<?php if (!empty($this->tfaform) && $this->item->id): ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
-		<div class="form-group">
-			<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-				title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
-				<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
-			</label>
-			<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false) ?>
+		<div class="control-group">
+			<div class="control-label">
+				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
+					title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
+					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
+				</label>
+			</div>
+			<div class="controls">
+				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false) ?>
+			</div>
 		</div>
 		<div id="com_users_twofactor_forms_container">
 			<?php foreach($this->tfaform as $form): ?>
