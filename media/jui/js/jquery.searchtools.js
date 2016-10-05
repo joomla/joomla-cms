@@ -257,35 +257,43 @@
 		hideList: function () {
 			this.hideContainer(this.listContainer);
 			this.listButton.removeClass('btn-primary');
+			this.listButton.addClass('btn-secondary');
 		},
 		showList: function () {
 			this.showContainer(this.listContainer);
 			this.listButton.addClass('btn-primary');
+			this.listButton.removeClass('btn-secondary');
 		},
 		toggleList: function () {
 			this.toggleContainer(this.listContainer);
 
 			if (this.listContainer.hasClass('shown')) {
 				this.listButton.addClass('btn-primary');
+				this.listButton.removeClass('btn-secondary');
 			} else {
-				this.listButton.removeClass('btn-primary');
+				this.listButton.addClass('btn-primary');
+				this.listButton.removeClass('btn-secondary');
 			}
 		},
 		// Filters container management
 		hideFilters: function () {
 			this.hideContainer(this.filterContainer);
 			this.filterButton.removeClass('btn-primary');
+			this.filterButton.addClass('btn-secondary');
 		},
 		showFilters: function () {
 			this.showContainer(this.filterContainer);
 			this.filterButton.addClass('btn-primary');
+			this.filterButton.removeClass('btn-secondary');
 		},
 		toggleFilters: function () {
 			this.toggleContainer(this.filterContainer);
 
 			if (this.filterContainer.hasClass('shown')) {
 				this.filterButton.addClass('btn-primary');
+				this.filterButton.removeClass('btn-secondary');
 			} else {
+				this.filterButton.addClass('btn-secondary');
 				this.filterButton.removeClass('btn-primary');
 			}
 		},
