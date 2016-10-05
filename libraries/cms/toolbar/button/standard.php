@@ -43,7 +43,7 @@ class JToolbarButtonStandard extends JToolbarButton
 		$options['text']   = JText::_($text);
 		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
-//var_dump($name);
+
 		switch ($name)
 		{
 			case 'apply':
