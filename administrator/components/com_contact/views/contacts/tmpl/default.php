@@ -62,9 +62,6 @@ if ($saveOrder)
 						<th class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="5%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
-						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
@@ -127,6 +124,7 @@ if ($saveOrder)
 						<td class="center">
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 								<?php // Create dropdown items and render the dropdown list.
 								if ($canChange)
 								{
@@ -160,9 +158,6 @@ if ($saveOrder)
 								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 								<div class="small"><?php echo $item->email; ?></div>
 							<?php endif; ?>
-						</td>
-						<td class="center hidden-phone">
-							<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 						</td>
 						<td class="small hidden-phone">
 							<?php echo $item->access_level; ?>

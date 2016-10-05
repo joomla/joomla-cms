@@ -482,4 +482,19 @@ class JDataSetTest extends TestCase
 			)
 		);
 	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     PHPUnit_Framework_TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->_instance);
+		parent::tearDown();
+	}
+
 }

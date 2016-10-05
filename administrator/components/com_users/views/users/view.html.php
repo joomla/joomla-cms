@@ -39,6 +39,38 @@ class UsersViewUsers extends JViewLegacy
 	 * @since 1.6
 	 */
 	protected $state;
+	
+	/**
+	 * A JForm instance with filter fields.
+	 *
+	 * @var    JForm
+	 * @since  3.6.3
+	 */
+	 public $filterForm;
+
+	/**
+	 * An array with active filters.
+	 *
+	 * @var    array
+	 * @since  3.6.3
+	 */
+	public $activeFilters;
+	
+	/**
+	 * An ACL object to verify user rights.
+	 *
+	 * @var    JObject
+	 * @since  3.6.3
+	 */
+	 protected $canDo;
+	
+	/**
+	 * An instance of JDatabaseDriver.
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.6.3
+	 */
+	 protected $db;
 
 	/**
 	 * Display the view
@@ -55,6 +87,7 @@ class UsersViewUsers extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->canDo         = JHelperContent::getActions('com_users');
+		$this->db            = JFactory::getDbo();
 
 		UsersHelper::addSubmenu('users');
 

@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer updater pattern implementation for Joomla
  *
- * @link   https://docs.joomla.org/JObserverUpdater
  * @since  3.1.2
  */
 class JObserverUpdater implements JObserverUpdaterInterface
@@ -76,7 +75,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 			return $this->observers[$observerClass];
 		}
 
-		return null;
+		return;
 	}
 
 	/**

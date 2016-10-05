@@ -45,9 +45,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function getModel($name = 'Menu', $prefix = 'MenusModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
@@ -140,9 +138,9 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Temporary method. This should go into the 1.5 to 1.6 upgrade routines.
 	 *
-	 * @return   void
+	 * @return  JException|void  JException instance on error
 	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function resync()
 	{

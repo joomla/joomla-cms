@@ -73,7 +73,7 @@ class JInputFiles extends JInput
 					$this->data[$name]['type'],
 					$this->data[$name]['tmp_name'],
 					$this->data[$name]['error'],
-					$this->data[$name]['size']
+					$this->data[$name]['size'],
 				)
 			);
 

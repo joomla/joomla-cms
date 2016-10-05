@@ -34,7 +34,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -89,7 +89,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -159,7 +159,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -215,10 +215,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @param   string   $group_id          The unique identifier for a group.
 	 * @param   boolean  $show_logo         Show group logo in profile.
-	 * @param   string   $digest_frequency  E-mail digest frequency.
-	 * @param   boolean  $announcements     E-mail announcements from managers.
+	 * @param   string   $digest_frequency  Email digest frequency.
+	 * @param   boolean  $announcements     Email announcements from managers.
 	 * @param   boolean  $allow_messages    Allow messages from members.
-	 * @param   boolean  $new_post          E-mail for every new post.
+	 * @param   boolean  $new_post          Email for every new post.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -231,7 +231,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -283,10 +283,10 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @param   string   $group_id          The unique identifier for a group.
 	 * @param   boolean  $show_logo         Show group logo in profile.
-	 * @param   string   $digest_frequency  E-mail digest frequency.
-	 * @param   boolean  $announcements     E-mail announcements from managers.
+	 * @param   string   $digest_frequency  Email digest frequency.
+	 * @param   boolean  $announcements     Email announcements from managers.
 	 * @param   boolean  $allow_messages    Allow messages from members.
-	 * @param   boolean  $new_post          E-mail for every new post.
+	 * @param   boolean  $new_post          Email for every new post.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -299,7 +299,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -364,7 +364,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -403,7 +403,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -480,7 +480,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -562,7 +562,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -603,7 +603,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -655,7 +655,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -697,7 +697,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -764,7 +764,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -831,7 +831,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -869,7 +869,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -903,7 +903,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -942,7 +942,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -983,7 +983,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -1017,7 +1017,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -1066,7 +1066,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.

@@ -171,7 +171,7 @@ class JImage
 			'channels'    => isset($info['channels']) ? $info['channels'] : null,
 			'mime'        => $info['mime'],
 			'filesize'    => filesize($path),
-			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1])
+			'orientation' => self::getOrientationString((int) $info[0], (int) $info[1]),
 		);
 
 		return $properties;
@@ -192,7 +192,7 @@ class JImage
 			return self::getOrientationString($this->getWidth(), $this->getHeight());
 		}
 
-		return null;
+		return;
 	}
 
 	/**
@@ -205,7 +205,7 @@ class JImage
 	 *
 	 * @since   3.4.2
 	 */
-	static private function getOrientationString($width, $height)
+	private static function getOrientationString($width, $height)
 	{
 		if ($width > $height)
 		{
@@ -563,7 +563,7 @@ class JImage
 			throw new LogicException('No valid image was loaded.');
 		}
 
-		return (imagecolortransparent($this->handle) >= 0);
+		return imagecolortransparent($this->handle) >= 0;
 	}
 
 	/**
@@ -901,9 +901,8 @@ class JImage
 	/**
 	 * Method to flip the current image.
 	 *
-	 * @param   integer  $mode       The flip mode for flipping the image {@link http://php.net/imageflip#refsect1-function.imageflip-parameters}
-	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else
-	 *                               the current image will be flipped and returned.
+	 * @param   integer  $mode       The flip mode for flipping the image {@link https://secure.php.net/imageflip#refsect1-function.imageflip-parameters}
+	 * @param   boolean  $createNew  If true the current image will be cloned, flipped and returned; else the current image will be flipped and returned.
 	 *
 	 * @return  JImage
 	 *
@@ -959,7 +958,7 @@ class JImage
 	 *
 	 * @return  boolean
 	 *
-	 * @see     http://www.php.net/manual/image.constants.php
+	 * @see     https://secure.php.net/manual/image.constants.php
 	 * @since   11.3
 	 * @throws  LogicException
 	 */

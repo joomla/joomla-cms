@@ -95,10 +95,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type == 'alias') : ?>
-					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
-				<?php endif; ?>
-
 				<?php if ($this->item->type != 'url') : ?>
 					<li><?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?></li>

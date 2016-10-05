@@ -378,15 +378,21 @@ class JDocument
 	/**
 	 * Gets a meta tag.
 	 *
-	 * @param   string   $name       Value of name or http-equiv tag
-	 * @param   boolean  $httpEquiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public function getMetaData($name, $httpEquiv = false)
+	public function getMetaData($name, $attribute = 'name')
 	{
+		// B/C old http_equiv parameter.
+		if (!is_string($attribute))
+		{
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
+		}
+
 		if ($name == 'generator')
 		{
 			$result = $this->getGenerator();
@@ -397,14 +403,7 @@ class JDocument
 		}
 		else
 		{
-			if ($httpEquiv == true)
-			{
-				$result = @$this->_metaTags['http-equiv'][$name];
-			}
-			else
-			{
-				$result = @$this->_metaTags['standard'][$name];
-			}
+			$result = isset($this->_metaTags[$attribute]) && isset($this->_metaTags[$attribute][$name]) ? $this->_metaTags[$attribute][$name] : '';
 		}
 
 		return $result;
@@ -413,16 +412,22 @@ class JDocument
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param   string   $name        Value of name or http-equiv tag
-	 * @param   string   $content     Value of the content tag
-	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
+	 * @param   string  $name       Name of the meta HTML tag
+	 * @param   string  $content    Value of the meta HTML tag
+	 * @param   string  $attribute  Attribute to use in the meta HTML tag
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false)
+	public function setMetaData($name, $content, $attribute = 'name')
 	{
+		// B/C old http_equiv parameter.
+		if (!is_string($attribute))
+		{
+			$attribute = $attribute == true ? 'http-equiv' : 'name';
+		}
+
 		if ($name == 'generator')
 		{
 			$this->setGenerator($content);
@@ -433,14 +438,7 @@ class JDocument
 		}
 		else
 		{
-			if ($http_equiv == true)
-			{
-				$this->_metaTags['http-equiv'][$name] = $content;
-			}
-			else
-			{
-				$this->_metaTags['standard'][$name] = $content;
-			}
+			$this->_metaTags[$attribute][$name] = $content;
 		}
 
 		return $this;
@@ -468,7 +466,7 @@ class JDocument
 	}
 
 	/**
-	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
+	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js?54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
 	 * @param   string   $url      URL to the linked script
@@ -949,7 +947,7 @@ class JDocument
 	{
 		$this->_mime = strtolower($type);
 
-		// Syncing with meta-data
+		// Syncing with metadata
 		if ($sync)
 		{
 			$this->setMetaData('content-type', $type . '; charset=' . $this->_charset, true);

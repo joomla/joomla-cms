@@ -176,7 +176,7 @@ abstract class JHtmlMenu
 				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
 				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="1"' : $attribs),
 				'list.select' => (int) $selected,
-				'list.translate' => false
+				'list.translate' => false,
 			)
 		);
 	}

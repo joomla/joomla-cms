@@ -52,7 +52,7 @@ class MenusViewMenu extends JViewLegacy
 		$this->item	 = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$this->canDo = JHelperContent::getActions('com_menus');
+		$this->canDo = JHelperContent::getActions('com_menus', 'menu', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

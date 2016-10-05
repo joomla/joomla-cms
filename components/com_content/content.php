@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/route.php';
-require_once JPATH_COMPONENT . '/helpers/query.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+JLoader::register('ContentHelperQuery', JPATH_SITE . '/components/com_content/helpers/query.php');
 
 $input = JFactory::getApplication()->input;
 $user  = JFactory::getUser();

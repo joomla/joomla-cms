@@ -28,17 +28,17 @@ class SearchController extends JControllerLegacy
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  SearchController  This object to support chaining.
 	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT . '/helpers/search.php';
+		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
 
 		// Load the submenu.
 		SearchHelper::addSubmenu($this->input->get('view', 'searches'));
 
-		parent::display();
+		return parent::display();
 	}
 }

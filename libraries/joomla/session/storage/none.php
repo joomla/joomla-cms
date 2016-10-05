@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * File session handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see    https://secure.php.net/manual/en/function.session-set-save-handler.php
  * @since  11.1
  */
 class JSessionStorageNone extends JSessionStorage

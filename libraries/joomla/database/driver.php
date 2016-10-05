@@ -703,7 +703,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function dropTable($table, $ifExists = true);
+	abstract public function dropTable($table, $ifExists = true);
 
 	/**
 	 * Escapes a string for usage in an SQL statement.
@@ -1452,7 +1452,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an associative array.
@@ -1493,7 +1493,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set.
@@ -1537,7 +1537,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set as arrays.
@@ -1571,7 +1571,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
-		if ( is_null($cursor) )
+		if (is_null($cursor))
 		{
 			if (!($cursor = $this->execute()))
 			{
@@ -1609,7 +1609,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		static $cursor = null;
 
 		// Execute the query and get the result set cursor.
-		if ( is_null($cursor) )
+		if (is_null($cursor))
 		{
 			if (!($cursor = $this->execute()))
 			{
@@ -1649,7 +1649,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an object of type $class.
@@ -1688,7 +1688,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set as objects of type $class.
@@ -1727,7 +1727,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an array.
@@ -1760,7 +1760,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get the first row from the result set as an array.
@@ -1798,7 +1798,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		// Execute the query and get the result set cursor.
 		if (!($cursor = $this->execute()))
 		{
-			return null;
+			return;
 		}
 
 		// Get all of the rows from the result set as arrays.
@@ -1830,7 +1830,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function lockTable($tableName);
+	abstract public function lockTable($tableName);
 
 	/**
 	 * Quotes and optionally escapes a string to database requirements for use in database queries.
@@ -2063,7 +2063,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
+	abstract public function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.
@@ -2294,5 +2294,5 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function unlockTables();
+	abstract public function unlockTables();
 }

@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
 			try {
 				var updateInfoList = jQuery.parseJSON(data);
 			} catch (e) {
-				// An error occured
+				// An error occurred
 				link.html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 
@@ -32,12 +32,12 @@ jQuery(document).ready(function() {
 					link.html(updateString);
 				}
 			} else {
-				// An error occured
+				// An error occurred
 				link.html(plg_quickicon_extensionupdate_text.ERROR);
 			}
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
-			// An error occured
+			// An error occurred
 			jQuery('#plg_quickicon_extensionupdate').find('span.j-links-link').html(plg_quickicon_extensionupdate_text.ERROR);
 		},
 		url: plg_quickicon_extensionupdate_ajax_url + '&eid=0&skip=700'

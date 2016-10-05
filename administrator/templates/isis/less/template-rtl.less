@@ -37,6 +37,10 @@
 			}
 		}
 	}
+	.nav > .dropdown.open:after {
+		right: 10px;
+		width: 0;
+	}
 	.empty-nav {
 		display: none;
 	}
@@ -87,8 +91,25 @@
 }
 
 /* Status module */
-#status .badge {
-	margin-left: 0;
+#status {
+	padding: 4px 10px;
+
+	.btn-group {
+		margin: 0;
+	}
+	.btn-group.separator:after {
+		content: ' ';
+		display: block;
+		float: left;
+		background: #ADADAD;
+		margin: 0 10px;
+		height: 15px;
+		width: 1px;
+	}
+	.badge {
+		margin-left: .25em;
+		margin-right: 0;
+	}
 }
 
 /* Menus */

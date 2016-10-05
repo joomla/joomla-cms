@@ -151,7 +151,7 @@ class JFormFieldCalendar extends JFormField
 		!$this->readonly        ? null : $attributes['readonly'] = 'readonly';
 		!$this->disabled        ? null : $attributes['disabled'] = 'disabled';
 		empty($this->onchange)  ? null : $attributes['onchange'] = $this->onchange;
-		empty($hint)            ? null : $attributes['placeholder'] = $hint;
+		!strlen($hint)          ? null : $attributes['placeholder'] = $hint;
 		$this->autocomplete     ? null : $attributes['autocomplete'] = 'off';
 		!$this->autofocus       ? null : $attributes['autofocus'] = '';
 

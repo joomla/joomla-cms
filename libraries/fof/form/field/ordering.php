@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -200,14 +200,14 @@ class FOFFormFieldOrdering extends JFormField implements FOFFormField
 	 *
 	 * @since 2.3.2
 	 *
-	 * @return JDatabaseQuery  The query for the ordering form field
+	 * @return FOFDatabaseQuery  The query for the ordering form field
 	 */
 	protected function getQuery()
 	{
 		$ordering = $this->name;
 		$title    = $this->element['ordertitle'] ? (string) $this->element['ordertitle'] : $this->item->getColumnAlias('title');
 
-		$db = JFactory::getDbo();
+		$db = FOFPlatform::getInstance()->getDbo();
 		$query = $db->getQuery(true);
 		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
 				->from($db->quoteName($this->item->getTableName()))

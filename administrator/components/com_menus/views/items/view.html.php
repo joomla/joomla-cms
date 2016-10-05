@@ -184,8 +184,8 @@ class MenusViewItems extends JViewLegacy
 								$titleParts[] = $vars['view'];
 							}
 
-							$value = implode(' » ', $titleParts);
 						}
+						$value = implode(' » ', $titleParts);
 					}
 					else
 					{
@@ -309,6 +309,12 @@ class MenusViewItems extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_menus');
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
