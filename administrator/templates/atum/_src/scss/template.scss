@@ -736,12 +736,13 @@ small, .small {
   top: 7px;
   display: block;
   padding: 0;
-}
-.j-toggle-button-wrapper.j-toggle-visible {
-  right: 10px;
-}
-.j-toggle-button-wrapper.j-toggle-hidden {
-  right: -24px;
+  
+  &.j-toggle-visible {
+    right: 10px;
+  }
+  &.j-toggle-hidden {
+    right: -24px;
+  }
 }
 .j-toggle-sidebar-button {
   font-size: 1rem;
@@ -765,6 +766,30 @@ small, .small {
 
 
 // Form
+form:not(.form-no-margin) {
+  .control-group {
+    margin-bottom: 18px;
+  }
+  .control-label {
+    width: auto;
+    padding-top: 5px;
+    padding-right: 5px;
+    float: left;
+    text-align: left;
+  }
+  .controls {
+    margin-left: 180px;
+  }
+}
+form .form-no-margin {
+  .controls {
+    margin-left: 0;
+  }
+  .control-label {
+    float: none;
+  }
+}
+
 td .form-control {
   display: inline-block;
   width: auto;
