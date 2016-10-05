@@ -423,7 +423,7 @@ class FOFController extends FOFUtilsObject
 
 		$this->methods = array();
 		$this->message = null;
-		$this->messageType = 'message';
+		$this->messageType = 'info';
 		$this->paths = array();
 		$this->redirect = null;
 		$this->taskMap = array();
@@ -2040,7 +2040,7 @@ class FOFController extends FOFUtilsObject
 		{
 			if (empty($this->messageType))
 			{
-				$this->messageType = 'message';
+				$this->messageType = 'info';
 			}
 		}
 		// If the type is explicitly set, set it.

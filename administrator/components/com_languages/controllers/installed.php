@@ -82,7 +82,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
 			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
-			$type = 'message';
+			$type = 'success';
 		}
 		else
 		{

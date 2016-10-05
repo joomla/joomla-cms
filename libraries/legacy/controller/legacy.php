@@ -312,7 +312,7 @@ class JControllerLegacy extends JObject
 	{
 		$this->methods = array();
 		$this->message = null;
-		$this->messageType = 'message';
+		$this->messageType = 'info';
 		$this->paths = array();
 		$this->redirect = null;
 		$this->taskMap = array();
