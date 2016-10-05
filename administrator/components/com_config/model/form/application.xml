@@ -6,6 +6,7 @@
 		<field
 			name="caching"
 			type="list"
+			class="custom-select"
 			default="2"
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_DESC"
@@ -207,6 +208,7 @@
 		<field
 			name="dbtype"
 			type="databaseconnection"
+			class="custom-select"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
@@ -400,6 +402,7 @@
 		<field
 			name="offset"
 			type="timezone"
+			class="custom-select"
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC">
@@ -462,6 +465,7 @@
 		<field
 			name="mailer"
 			type="list"
+			class="custom-select"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
 			default="mail"
@@ -510,6 +514,7 @@
 		<field
 			name="smtpsecure"
 			type="list"
+			class="custom-select"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
 			default="none"
@@ -582,6 +587,7 @@
 
 		<field name="robots"
 			type="list"
+			class="custom-select"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default="">
@@ -682,6 +688,7 @@
 		<field
 			name="sitename_pagetitles"
 			type="list"
+			class="custom-select"
 			default="0"
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
@@ -719,6 +726,7 @@
 		<field
 			name="error_reporting"
 			type="list"
+			class="custom-select"
 			default="default"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
@@ -733,6 +741,7 @@
 		<field
 			name="force_ssl"
 			type="list"
+			class="custom-select"
 			default="-1"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
@@ -835,6 +844,7 @@
 		<field
 			name="display_offline_message"
 			type="list"
+			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
@@ -865,6 +875,7 @@
 		<field
 			name="frontediting"
 			type="list"
+			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
@@ -877,6 +888,7 @@
 		<field
 			name="editor"
 			type="plugins"
+			class="custom-select"
 			folder="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
@@ -886,6 +898,7 @@
 		<field
 			name="captcha"
 			type="plugins"
+			class="custom-select"
 			folder="captcha"
 			default="0"
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
@@ -897,6 +910,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			class="custom-select"
 			default="1"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
@@ -905,6 +919,7 @@
 		<field
 			name="list_limit"
 			type="list"
+			class="custom-select"
 			default="20"
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_DESC"
@@ -924,6 +939,7 @@
 		<field
 			name="feed_limit"
 			type="list"
+			class="custom-select"
 			default="10"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
@@ -941,6 +957,7 @@
 		<field
 			name="feed_email"
 			type="list"
+			class="custom-select"
 			default="none"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
@@ -968,6 +985,7 @@
 		<field
 			name="helpurl"
 			type="helpsite"
+			class="custom-select"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
 			showDefault="false" />

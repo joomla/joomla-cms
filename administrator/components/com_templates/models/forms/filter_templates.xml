@@ -4,6 +4,7 @@
 	<field
 		name="client_id"
 		type="list"
+		class="custom-select"
 		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
 		>
 		<option value="0">JSITE</option>
@@ -22,6 +23,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_SORT_BY"
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
@@ -36,7 +38,7 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="input-mini"
+			class="custom-select input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

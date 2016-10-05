@@ -15,6 +15,7 @@
 		/>
 
 		<field name="parent_id" type="groupparent"
+		       class="custom-select"
 			description="COM_USERS_GROUP_FIELD_PARENT_DESC"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
 			required="true"

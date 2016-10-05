@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
+
 
 $clientId   = (int) $this->state->get('client_id', 0);
 $user		= JFactory::getUser();

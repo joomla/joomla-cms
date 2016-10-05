@@ -14,7 +14,7 @@ $input  = JFactory::getApplication()->input;
 $params = JComponentHelper::getParams('com_media');
 $lang   = JFactory::getLanguage();
 
-JHtml::_('formbehavior.chosen', 'select');
+
 
 // Load tooltip instance without HTML support because we have a HTML tag in the tip
 JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));

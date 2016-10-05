@@ -16,7 +16,7 @@ if (JFactory::getApplication()->isSite())
 
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
-JHtml::_('formbehavior.chosen', 'select');
+
 
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');

@@ -7,6 +7,7 @@
 
 		<field
 			name="article_layout" type="componentlayout"
+			class="custom-select"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -51,6 +52,7 @@
 		<field
 			name="info_block_position"
 			type="list"
+			class="custom-select"
 			default="0"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
@@ -305,6 +307,7 @@
 			<field
 			name="urls_position"
 			type="list"
+			class="custom-select"
 			default="0"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
@@ -398,6 +401,7 @@
 		<field
 			name="targeta"
 			type="list"
+			class="custom-select"
 			label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -412,6 +416,7 @@
 		<field
 			name="targetb"
 			type="list"
+			class="custom-select"
 			label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -426,6 +431,7 @@
 		<field
 			name="targetc"
 			type="list"
+			class="custom-select"
 			label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -446,6 +452,7 @@
 		<field
 			name="float_intro"
 			type="list"
+			class="custom-select"
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
 			description="COM_CONTENT_FLOAT_DESC"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
@@ -457,6 +464,7 @@
 		<field
 			name="float_fulltext"
 			type="list"
+			class="custom-select"
 			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
 			description="COM_CONTENT_FLOAT_DESC"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
@@ -475,6 +483,7 @@
 
 		<field
 			name="category_layout" type="componentlayout"
+			class="custom-select"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
@@ -523,6 +532,7 @@
 		</field>
 
 		<field name="maxLevel" type="list"
+		       class="custom-select"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
@@ -608,6 +618,7 @@
 		</field>
 
 		<field name="maxLevelcat" type="list"
+		       class="custom-select"
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -693,6 +704,7 @@
 
 		<field name="multi_column_order"
 			type="list"
+			   class="custom-select"
 			default="0"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
@@ -708,6 +720,7 @@
 			/>
 
 		<field name="show_subcategory_content" type="list"
+		       class="custom-select"
 				default="0"
 				description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
 				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
@@ -739,6 +752,7 @@
 
 		<field name="filter_field"
 			type="list"
+			   class="custom-select"
 			default="hide"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC">
@@ -761,6 +775,7 @@
 
 		<field name="list_show_date"
 			type="list"
+			   class="custom-select"
 			default="0"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC">
@@ -806,6 +821,7 @@
 		>
 	<field name="orderby_pri"
 			type="list"
+           class="custom-select"
 			default="none"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			description="JGLOBAL_CATEGORY_ORDER_DESC">
@@ -821,6 +837,7 @@
 
 		<field name="orderby_sec"
 			type="list"
+			   class="custom-select"
 			default="rdate"
 			label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			description="JGLOBAL_ARTICLE_ORDER_DESC">
@@ -845,6 +862,7 @@
 		</field>
 
 		<field name="order_date" type="list"
+		       class="custom-select"
 				default="published"
 				description="JGLOBAL_ORDERING_DATE_DESC"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
@@ -857,6 +875,7 @@
 
 		<field name="show_pagination"
 			type="list"
+			   class="custom-select"
 			default="2"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC">
@@ -878,6 +897,7 @@
 		</field>
 
 		<field name="show_featured" type="list" default="show"
+		       class="custom-select"
 			   label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
 			   description="JGLOBAL_SHOW_FEATURED_ARTICLES_DESC"
 				>
@@ -907,6 +927,7 @@
 		<field
 			name="feed_summary"
 			type="list"
+			class="custom-select"
 			label="JGLOBAL_FEED_SUMMARY_LABEL"
 			description="JGLOBAL_FEED_SUMMARY_DESC"
 			default="0"

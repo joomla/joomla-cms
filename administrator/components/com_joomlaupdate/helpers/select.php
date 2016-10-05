@@ -34,6 +34,6 @@ class JoomlaupdateHelperSelect
 		$options[] = JHtml::_('select.option', 'hybrid', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_HYBRID'));
 		$options[] = JHtml::_('select.option', 'ftp', JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD_FTP'));
 
-		return JHtml::_('select.genericlist', $options, $name, '', 'value', 'text', $default, $id);
+		return JHtml::_('select.genericlist', $options, $name, 'class="custom-select"', 'value', 'text', $default, $id);
 	}
 }
