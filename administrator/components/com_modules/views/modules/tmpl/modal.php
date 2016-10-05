@@ -100,11 +100,11 @@ modulePosIns = function(position) {
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 					</td>
 					<td class="has-context">
-						<a class="btn btn-small btn-block btn-success" href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>');"><?php echo $this->escape($item->title); ?></a>
+						<a class="btn btn-sm btn-block btn-success" href="#" onclick="moduleIns('<?php echo $this->escape($item->module); ?>', '<?php echo $this->escape($item->title); ?>');"><?php echo $this->escape($item->title); ?></a>
 					</td>
 					<td class="small hidden-sm-down">
 						<?php if ($item->position) : ?>
-						<a class="btn btn-small btn-block btn-warning" href="#" onclick="modulePosIns('<?php echo $this->escape($item->position); ?>');"><?php echo $this->escape($item->position); ?></a>
+						<a class="btn btn-sm btn-block btn-warning" href="#" onclick="modulePosIns('<?php echo $this->escape($item->position); ?>');"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
 						<span class="label"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>

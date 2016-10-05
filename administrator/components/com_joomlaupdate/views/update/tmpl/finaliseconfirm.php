@@ -76,7 +76,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<a tabindex="4" class="btn btn-danger btn-small" href="index.php?option=com_joomlaupdate">
+					<a tabindex="4" class="btn btn-danger btn-sm" href="index.php?option=com_joomlaupdate">
 						<span class="icon-cancel icon-white"></span> <?php echo JText::_('JCANCEL'); ?>
 					</a>
 					<button tabindex="5" class="btn btn-primary btn-large">
