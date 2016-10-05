@@ -66,7 +66,7 @@ class JFormFieldFrontend_Language extends JFormFieldList
 
 			if (JFactory::getUser()->authorise('core.admin'))
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 			}
 		}
 

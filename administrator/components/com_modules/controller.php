@@ -44,7 +44,7 @@ class ModulesController extends JControllerLegacy
 				// Checkin table entry
 				if (!$model->checkout($id))
 				{
-					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
+					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'danger');
 					return false;
 				}
 
@@ -67,7 +67,7 @@ class ModulesController extends JControllerLegacy
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 			$this->setRedirect(JRoute::_('index.php?option=com_modules&view=modules', false));
 
 			return false;

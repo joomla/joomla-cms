@@ -162,7 +162,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			// Don't allow to delete Joomla Core update sites.
 			if (in_array((int) $id, $joomlaUpdateSitesIds))
 			{
-				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'error');
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_CANNOT_DELETE', $updateSitesNames[$id]->name), 'danger');
 				continue;
 			}
 
@@ -191,7 +191,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			}
 			catch (RuntimeException $e)
 			{
-				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
+				$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'danger');
 			}
 		}
 
@@ -234,7 +234,7 @@ class InstallerModelUpdatesites extends InstallerModel
 			$pluginId = (int) $db->loadResult();
 
 			$link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $pluginId);
-			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'error');
+			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATESITES_REBUILD_EXTENSION_PLUGIN_NOT_ENABLED', $link), 'danger');
 
 			return;
 		}

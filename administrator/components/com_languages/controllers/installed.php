@@ -42,12 +42,12 @@ class LanguagesControllerInstalled extends JControllerLegacy
 			}
 
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-			$type = 'message';
+			$type = 'success';
 		}
 		else
 		{
 			$msg = $this->getError();
-			$type = 'error';
+			$type = 'danger';
 		}
 
 		$clientId = $model->getState('client_id');
@@ -82,12 +82,12 @@ class LanguagesControllerInstalled extends JControllerLegacy
 			$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 
 			$msg = JText::sprintf('COM_LANGUAGES_MSG_SWITCH_ADMIN_LANGUAGE_SUCCESS', $languageName);
-			$type = 'message';
+			$type = 'success';
 		}
 		else
 		{
 			$msg = $this->getError();
-			$type = 'error';
+			$type = 'danger';
 		}
 
 		$this->setredirect('index.php?option=com_languages&view=installed', $msg, $type);

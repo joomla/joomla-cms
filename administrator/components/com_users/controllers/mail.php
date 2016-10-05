@@ -38,11 +38,11 @@ class UsersControllerMail extends JControllerLegacy
 
 		if ($model->send())
 		{
-			$type = 'message';
+			$type = 'success';
 		}
 		else
 		{
-			$type = 'error';
+			$type = 'danger';
 		}
 
 		$msg = $model->getError();

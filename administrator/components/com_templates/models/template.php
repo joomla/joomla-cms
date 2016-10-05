@@ -81,7 +81,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (!is_writable($path))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'), 'danger');
 			}
 
 			if (is_dir($path))
@@ -90,7 +90,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'), 'danger');
 
 				return false;
 			}
@@ -201,7 +201,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (empty($result))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'), 'danger');
 				$this->template = false;
 			}
 			else
@@ -268,7 +268,7 @@ class TemplatesModelTemplate extends JModelForm
 			{
 				if (!JFolder::delete($toPath))
 				{
-					$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'error');
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'), 'danger');
 
 					return false;
 				}
@@ -284,7 +284,7 @@ class TemplatesModelTemplate extends JModelForm
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'danger');
 
 			return false;
 		}
@@ -440,7 +440,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			catch (Exception $e)
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'danger');
 				return;
 			}
 
@@ -452,7 +452,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'danger');
 			}
 		}
 
@@ -513,7 +513,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		if (!$return)
 		{
-			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'error');
+			$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName), 'danger');
 
 			return false;
 		}
@@ -660,7 +660,7 @@ class TemplatesModelTemplate extends JModelForm
 			{
 				if (!JFolder::create($htmlPath))
 				{
-					$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'danger');
 
 					return false;
 				}
@@ -687,7 +687,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_OVERRIDE_FAILED'), 'danger');
 
 				return false;
 			}
@@ -785,7 +785,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			catch (Exception $e)
 			{
-				$app->enqueueMessage($e->getMessage(), 'error');
+				$app->enqueueMessage($e->getMessage(), 'danger');
 			}
 		}
 	}
@@ -812,7 +812,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (!$return)
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_DELETE_FAIL'), 'danger');
 
 				return false;
 			}
@@ -842,14 +842,14 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (file_exists(JPath::clean($path . '/' . $location . '/' . $name . '.' . $type)))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'danger');
 
 				return false;
 			}
 
 			if (!fopen(JPath::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_CREATE_ERROR'), 'danger');
 
 				return false;
 			}
@@ -898,14 +898,14 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (file_exists(JPath::clean($path . '/' . $location . '/' . $file['name'])))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'danger');
 
 				return false;
 			}
 
 			if (!JFile::upload($file['tmp_name'], JPath::clean($path . '/' . $location . '/' . $fileName)))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'), 'danger');
 
 				return false;
 			}
@@ -938,14 +938,14 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (file_exists(JPath::clean($path . '/' . $location . '/' . $name . '/')))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_EXISTS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_EXISTS'), 'danger');
 
 				return false;
 			}
 
 			if (!JFolder::create(JPath::clean($path . '/' . $location . '/' . $name)))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_CREATE_ERROR'), 'danger');
 
 				return false;
 			}
@@ -975,7 +975,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (!file_exists($path))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_NOT_EXISTS'), 'danger');
 
 				return false;
 			}
@@ -984,7 +984,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (!$return)
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_DELETE_ERROR'), 'danger');
 
 				return false;
 			}
@@ -1018,14 +1018,14 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (file_exists($path . $newName))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'danger');
 
 				return false;
 			}
 
 			if (!rename($path . $fileName, $path . $newName))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'danger');
 
 				return false;
 			}
@@ -1072,7 +1072,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_IMAGE_FILE_NOT_FOUND'), 'danger');
 
 				return false;
 			}
@@ -1113,7 +1113,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			catch (Exception $e)
 			{
-				$app->enqueueMessage($e->getMessage(), 'error');
+				$app->enqueueMessage($e->getMessage(), 'danger');
 			}
 		}
 	}
@@ -1149,7 +1149,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			catch (Exception $e)
 			{
-				$app->enqueueMessage($e->getMessage(), 'error');
+				$app->enqueueMessage($e->getMessage(), 'danger');
 			}
 		}
 	}
@@ -1232,7 +1232,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'danger');
 
 				return false;
 			}
@@ -1266,7 +1266,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (file_exists($newPath))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'danger');
 
 				return false;
 			}
@@ -1315,14 +1315,14 @@ class TemplatesModelTemplate extends JModelForm
 				}
 				else
 				{
-					$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'danger');
 
 					return false;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'danger');
 
 				return false;
 			}
@@ -1364,7 +1364,7 @@ class TemplatesModelTemplate extends JModelForm
 
 						if (file_exists(JPath::clean($path . '/' . $entry)))
 						{
-							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
+							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'danger');
 
 							return false;
 						}
@@ -1376,14 +1376,14 @@ class TemplatesModelTemplate extends JModelForm
 				}
 				else
 				{
-					$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'danger');
 
 					return false;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'danger');
 
 				return false;
 			}

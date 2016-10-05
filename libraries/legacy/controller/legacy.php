@@ -312,7 +312,7 @@ class JControllerLegacy extends JObject
 	{
 		$this->methods = array();
 		$this->message = null;
-		$this->messageType = 'message';
+		$this->messageType = 'info';
 		$this->paths = array();
 		$this->redirect = null;
 		$this->taskMap = array();
@@ -1053,7 +1053,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @param   string  $url   URL to redirect to.
 	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
-	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
+	 * @param   string  $type  Message type. Optional, defaults to 'info' or the type set by a previous call to setMessage.
 	 *
 	 * @return  JControllerLegacy  This object to support chaining.
 	 *
@@ -1074,7 +1074,7 @@ class JControllerLegacy extends JObject
 		{
 			if (empty($this->messageType))
 			{
-				$this->messageType = 'message';
+				$this->messageType = 'info';
 			}
 		}
 		// If the type is explicitly set, set it.

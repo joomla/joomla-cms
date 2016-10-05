@@ -39,7 +39,7 @@ class MessagesController extends JControllerLegacy
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 			$this->setRedirect(JRoute::_('index.php?option=com_messages&view=messages', false));
 
 			return false;

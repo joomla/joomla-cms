@@ -178,7 +178,7 @@ class InstallerModelInstall extends JModelLegacy
 				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 			}
 
-			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'error');
+			$app->enqueueMessage(JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'), 'danger');
 
 			return false;
 		}
@@ -189,14 +189,14 @@ class InstallerModelInstall extends JModelLegacy
 			// There was an error installing the package.
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = false;
-			$msgType = 'error';
+			$msgType = 'danger';
 		}
 		else
 		{
 			// Package installed successfully.
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
-			$msgType = 'message';
+			$msgType = 'success';
 		}
 
 		// This event allows a custom a post-flight:

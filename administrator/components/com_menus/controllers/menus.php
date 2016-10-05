@@ -66,7 +66,7 @@ class MenusControllerMenus extends JControllerLegacy
 
 		if (count($cids) < 1)
 		{
-			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'notice');
+			$app->enqueueMessage(JText::_('COM_MENUS_NO_MENUS_SELECTED'), 'info');
 		}
 		else
 		{
@@ -77,7 +77,7 @@ class MenusControllerMenus extends JControllerLegacy
 				{
 					// Prune items that you can't change.
 					unset($cids[$i]);
-					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'danger');
 				}
 			}
 
@@ -129,7 +129,7 @@ class MenusControllerMenus extends JControllerLegacy
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'error');
+			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getError()), 'danger');
 
 			return false;
 		}

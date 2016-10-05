@@ -151,7 +151,7 @@ class JControllerForm extends JControllerLegacy
 		{
 			// Set the internal error and also the redirect error.
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -318,7 +318,7 @@ class JControllerForm extends JControllerLegacy
 				{
 					// Check-in failed, go back to the record and display a notice.
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-					$this->setMessage($this->getError(), 'error');
+					$this->setMessage($this->getError(), 'danger');
 
 					$this->setRedirect(
 						JRoute::_(
@@ -384,7 +384,7 @@ class JControllerForm extends JControllerLegacy
 		if (!$this->allowEdit(array($key => $recordId), $key))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -401,7 +401,7 @@ class JControllerForm extends JControllerLegacy
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -543,7 +543,7 @@ class JControllerForm extends JControllerLegacy
 
 		if (!$model->loadhistory($historyId, $table))
 		{
-			$this->setMessage($model->getError(), 'error');
+			$this->setMessage($model->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -570,7 +570,7 @@ class JControllerForm extends JControllerLegacy
 		if (!$this->allowEdit(array($key => $recordId), $key))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -652,7 +652,7 @@ class JControllerForm extends JControllerLegacy
 			{
 				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-				$this->setMessage($this->getError(), 'error');
+				$this->setMessage($this->getError(), 'danger');
 
 				$this->setRedirect(
 					JRoute::_(
@@ -674,7 +674,7 @@ class JControllerForm extends JControllerLegacy
 		if (!$this->allowSave($data, $key))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -692,7 +692,7 @@ class JControllerForm extends JControllerLegacy
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'error');
+			$app->enqueueMessage($model->getError(), 'danger');
 
 			return false;
 		}
@@ -746,7 +746,7 @@ class JControllerForm extends JControllerLegacy
 
 			// Redirect back to the edit screen.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -766,7 +766,7 @@ class JControllerForm extends JControllerLegacy
 
 			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
+			$this->setMessage($this->getError(), 'danger');
 
 			$this->setRedirect(
 				JRoute::_(

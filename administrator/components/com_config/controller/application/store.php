@@ -32,7 +32,7 @@ class ConfigControllerApplicationStore extends JControllerBase
 		// Check if user token is valid.
 		if (!JSession::checkToken('get'))
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'danger');
 			echo new JResponseJson;
 			$this->app->close();
 		}

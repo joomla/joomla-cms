@@ -69,7 +69,7 @@ function admin_postinstall_eaccelerator_action()
 
 	if (!JFile::write($file, $configuration))
 	{
-		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'danger');
 
 		return;
 	}

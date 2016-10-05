@@ -36,7 +36,7 @@ class ConfigViewApplicationJson extends ConfigViewCmsJson
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 
 			return false;
 		}

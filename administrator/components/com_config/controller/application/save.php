@@ -35,14 +35,14 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'danger');
 			$this->app->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'danger');
 			$this->app->redirect('index.php');
 		}
 
