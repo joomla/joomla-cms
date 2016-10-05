@@ -31,11 +31,11 @@ JHtml::_('bootstrap.tooltip');
 				</strong>
 
 				<small class="small hasTooltip" title="<?php echo JHtml::tooltipText('JCLIENT'); ?>">
-					<?php if ($user->client_id === null) : ?>
-						<?php // Don't display a client ?>
-					<?php elseif ($user->client_id) : ?>
+					<?php if (JFactory::getApplication()->get('session_name')) : ?>
+						<?php // Don't display a client if we have a shared session ?>
+					<?php elseif ($user->client_id == 1) : ?>
 						<?php echo JText::_('JADMINISTRATION'); ?>
-					<?php else : ?>
+					<?php elseif ($user->client_id == 0) : ?>
 						<?php echo JText::_('JSITE'); ?>
 					<?php endif; ?>
 				</small>

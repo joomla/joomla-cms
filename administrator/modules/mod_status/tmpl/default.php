@@ -40,7 +40,7 @@ if ($params->get('show_viewadmin', 0))
 }
 
 // Print logged in user count based on the shared session state
-if (JFactory::getConfig()->get('shared_session', '0'))
+if (JFactory::getConfig()->get('session_name', '') != '')
 {
 	// Print the frontend logged in  users.
 	if ($params->get('show_loggedin_users', 1))
