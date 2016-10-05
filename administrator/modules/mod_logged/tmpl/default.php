@@ -31,7 +31,7 @@ JHtml::_('bootstrap.tooltip');
 				</strong>
 
 				<small class="small hasTooltip" title="<?php echo JHtml::tooltipText('JCLIENT'); ?>">
-					<?php if (JFactory::getApplication()->get('session_name')) : ?>
+					<?php if (JFactory::getConfig()->get('session_name', '')) : ?>
 						<?php // Don't display a client if we have a shared session ?>
 					<?php elseif ($user->client_id == 1) : ?>
 						<?php echo JText::_('JADMINISTRATION'); ?>
