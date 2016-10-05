@@ -42,7 +42,7 @@ if ($disabled != true)
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="input-small hasTooltip field-media-input ' . $class . '"' : ' class="input-small hasTooltip field-media-input"';
+$attr .= !empty($class) ? ' class="form-control hasTooltip field-media-input ' . $class . '"' : ' class="form-control hasTooltip field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // Initialize JavaScript field attributes.
@@ -112,29 +112,26 @@ $url    = ($readonly ? ''
 		array(
 			'title' => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer' => '<button class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
+			'footer' => '<button class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>'
 		)
 	);
 
 	JHtml::_('script', 'system/fields/mediafield.min.js', false, true, false, false, true);
 	?>
-	<?php if ($showPreview && $showAsTooltip) : ?>
-	<div class="input-prepend input-append">
-		<span rel="popover" class="add-on pop-helper field-media-preview"
-			title="<?php echo	JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
-			data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
-			<i class="icon-eye"></i>
-		</span>
-		<?php else: ?>
-		<div class="input-append">
-			<?php endif; ?>
-			<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>/>
-			<?php if ($disabled != true) : ?>
-				<a class="btn add-on button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-				<a class="btn icon-remove hasTooltip add-on button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"></a>
-			<?php endif; ?>
-		</div>
-		<?php if ($showPreview && !$showAsTooltip) : ?>
-			<div class="field-media-preview" style="width: <?php echo $previewWidth; ?>px; max-height: <?php echo $previewHeight; ?>px;margin-top:10px;"></div>
+	<div class="input-group">
+		<?php if ($showPreview && $showAsTooltip) : ?>
+			<div rel="popover" class="input-group-addon pop-helper field-media-preview"
+				title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-content="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY'); ?>"
+				data-original-title="<?php echo JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'); ?>" data-trigger="hover">
+				<i class="icon-eye"></i>
+			</div>
+		<?php endif; ?>
+		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?> />
+		<?php if ($disabled != true) : ?>
+			<div class="input-group-btn">
+				<a class="btn btn-secondary button-select"><?php echo JText::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
+				<a class="btn btn-secondary hasTooltip button-clear" title="<?php echo JText::_("JLIB_FORM_BUTTON_CLEAR"); ?>"><i class="icon-remove"></i></a>
+			</div>
 		<?php endif; ?>
 	</div>
+</div>

@@ -776,6 +776,9 @@ small, .small {
 
 
 // Form
+.control-group {
+  clear: both;
+}
 form:not(.form-no-margin) {
   .control-group {
     margin-bottom: 18px;
@@ -798,6 +801,12 @@ form .form-no-margin {
   .control-label {
     float: none;
   }
+}
+.spacer hr {
+  width: 380px;
+}
+label.btn {
+  margin-bottom: 0;
 }
 .card .custom-select {
   width: 100%;
