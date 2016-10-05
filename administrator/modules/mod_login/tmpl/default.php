@@ -18,7 +18,7 @@ if ($langs)
 
 }
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" class="form-no-margin">
 	<fieldset>
 		<div class="form-group">
 			<div class="input-group">
