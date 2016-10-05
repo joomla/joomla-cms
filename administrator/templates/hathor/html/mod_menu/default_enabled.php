@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /* @var $menu JAdminCSSMenu */
 
 $shownew = (boolean) $params->get('shownew', 1);
@@ -131,7 +133,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 	// Menu Types
 	$menuTypes = ModMenuHelper::getMenus();
-	$menuTypes = JArrayHelper::sortObjects($menuTypes, 'title', 1, false);
+	$menuTypes = ArrayHelper::sortObjects($menuTypes, 'title', 1, false);
 
 	foreach ($menuTypes as $menuType)
 	{

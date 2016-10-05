@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Module model.
@@ -522,9 +523,9 @@ class ModulesModelModule extends JModelAdmin
 		}
 		else
 		{
-			$clientId = JArrayHelper::getValue($data, 'client_id');
-			$module   = JArrayHelper::getValue($data, 'module');
-			$id       = JArrayHelper::getValue($data, 'id');
+			$clientId = ArrayHelper::getValue($data, 'client_id');
+			$module   = ArrayHelper::getValue($data, 'module');
+			$id       = ArrayHelper::getValue($data, 'id');
 		}
 
 		// Add the default fields directory
@@ -693,7 +694,7 @@ class ModulesModelModule extends JModelAdmin
 
 			// Convert to the JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
 			$registry = new Registry;

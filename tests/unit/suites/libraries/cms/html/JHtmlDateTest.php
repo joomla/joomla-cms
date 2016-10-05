@@ -14,7 +14,7 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlDateTest extends TestCase
+class JHtmlDateTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Test data for the testRelative method
@@ -30,42 +30,36 @@ class JHtmlDateTest extends TestCase
 			// result - 1 hour ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_HOURS',
-				JFactory::getDate('2011-10-18 11:00:00'),
+				new JDate('2011-10-18 11:00:00'),
 				null,
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
 			// Result - 10 days ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_DAYS',
-				JFactory::getDate('2011-10-08 12:00:00'),
+				new JDate('2011-10-08 12:00:00'),
 				'day',
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
 			// Result - 3 weeks ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_WEEKS',
-				JFactory::getDate('2011-09-27 12:00:00'),
+				new JDate('2011-09-27 12:00:00'),
 				'week',
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
 			// Result - 10 minutes ago
 			array(
 				'JLIB_HTML_DATE_RELATIVE_MINUTES',
-				JFactory::getDate('2011-10-18 11:50:00'),
+				new JDate('2011-10-18 11:50:00'),
 				'minute',
-				JFactory::getDate('2011-10-18 12:00:00')
+				new JDate('2011-10-18 12:00:00')
 			),
-
-			/*
-			 Cannot test this result while running the full suite
-			 because the getDate function returns the time the suite starts testing
-
-			 result - Less than a minute ago
+			// Result - Less than a minute ago
 			array(
-			'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
-			JFactory::getDate('now'),
+				'JLIB_HTML_DATE_RELATIVE_LESSTHANAMINUTE',
+				new JDate('now'),
 			)
-			*/
 		);
 	}
 
@@ -85,9 +79,6 @@ class JHtmlDateTest extends TestCase
 	 */
 	public function testRelative($result, $date, $unit = null, $time = null)
 	{
-		$this->assertThat(
-			JHtml::_('date.relative', $date, $unit, $time),
-			$this->equalTo($result)
-		);
+		$this->assertEquals($result, JHtmlDate::relative($date, $unit, $time));
 	}
 }

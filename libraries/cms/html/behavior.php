@@ -594,6 +594,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.7
+	 *
+	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function colorpicker()
 	{
@@ -638,6 +640,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.1
+	 *
+	 * @deprecated 4.0 Use directly the field or the layout
 	 */
 	public static function simplecolorpicker()
 	{

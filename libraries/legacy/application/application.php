@@ -616,11 +616,9 @@ class JApplication extends JApplicationBase
 	 */
 	public function login($credentials, $options = array())
 	{
-		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		JPluginHelper::importPlugin('user');
 
+		// Get the global JAuthentication object.
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($credentials, $options);
 

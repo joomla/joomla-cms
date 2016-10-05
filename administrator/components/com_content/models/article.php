@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
@@ -625,7 +626,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		if (empty($pks))
 		{
