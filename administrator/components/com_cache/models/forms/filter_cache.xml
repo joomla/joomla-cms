@@ -42,7 +42,6 @@
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
 			description="JGLOBAL_LIMIT"
-			class="form-control-sm"
 			default="25"
 			onchange="this.form.submit();"
 		/>

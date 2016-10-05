@@ -82,7 +82,6 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			maxlength="255"
-			class="col-md-12"
 			size="45"
 			labelclass="control-label"
 		/>

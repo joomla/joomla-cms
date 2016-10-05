@@ -13,14 +13,7 @@ defined('_JEXEC') or die;
 <div id="installer-database" class="clearfix">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
 
-	<?php if (!empty( $this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="col-md-10">
-	<?php else : ?>
 		<div id="j-main-container">
-	<?php endif;?>
 		<?php if ($this->errorCount === 0) : ?>
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
@@ -55,7 +48,7 @@ defined('_JEXEC') or die;
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO')); ?>
-				<div class="form-group">
+				<div class="control-group">
 					<fieldset class="panelform">
 						<ul>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>

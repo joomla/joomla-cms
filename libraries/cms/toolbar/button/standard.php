@@ -40,33 +40,39 @@ class JToolbarButtonStandard extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text'] = JText::_($text);
-		$options['class'] = $this->fetchIconClass($name);
+		$options['text']   = JText::_($text);
+		$options['class']  = $this->fetchIconClass($name);
 		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 
-		if ($name == 'apply' || $name == 'new')
+		switch ($name)
 		{
-			$options['btnClass'] = 'btn btn-sm btn-success';
-			$options['class'] .= ' icon-white';
-		}
-		elseif ($name == 'publish')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-success';
-			$options['class'] .= ' icon-green';
-		}
-		elseif ($name == 'unpublish')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-danger';
-			$options['class'] .= ' icon-red';
-		}
-		elseif ($name == 'featured')
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-warning';
-			$options['class'] .= ' icon-yellow';
-		}
-		else
-		{
-			$options['btnClass'] = 'btn btn-sm btn-outline-primary';
+			case 'apply':
+			case 'new':
+				$options['btnClass'] = 'btn btn-sm btn-success';
+				break;
+
+			case 'save':
+			case 'save-new':
+			case 'save-copy':
+			case 'save-close':
+			case 'publish':
+				$options['btnClass'] = 'btn btn-sm btn-outline-success';
+				break;
+
+			case 'unpublish':
+				$options['btnClass'] = 'btn btn-sm btn-outline-danger';
+				break;
+
+			case 'featured':
+				$options['btnClass'] = 'btn btn-sm btn-outline-warning';
+				break;
+
+			case 'cancel':
+				$options['btnClass'] = 'btn btn-sm btn-danger';
+				break;
+
+			default:
+				$options['btnClass'] = 'btn btn-sm btn-outline-primary';
 		}
 
 		// Instantiate a new JLayoutFile instance and render the layout

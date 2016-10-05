@@ -22,7 +22,7 @@ JHtml::_('behavior.core');
  */
 
 $selector = $displayData['selector'];
-$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-small';
+$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-sm';
 $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'out-3';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>

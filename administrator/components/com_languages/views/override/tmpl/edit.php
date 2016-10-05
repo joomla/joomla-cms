@@ -53,36 +53,61 @@ JFactory::getDocument()->addScriptDeclaration('
 		<div class="col-md-6">
 			<fieldset>
 				<legend><?php echo empty($this->item->key) ? JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
-				<div class="form-group">
-					<?php echo $this->form->getLabel('language'); ?>
-					<?php echo $this->form->getInput('language'); ?>
+				<div class="control-group">
+<div class="control-label"
+>
+						<?php echo $this->form->getLabel('language'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('language'); ?>
+					</div>
 				</div>
 
-				<div class="form-group">
-					<?php echo $this->form->getLabel('client'); ?>
-					<?php echo $this->form->getInput('client'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('client'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('client'); ?>
+					</div>
 				</div>
 
-				<div class="form-group">
-					<?php echo $this->form->getLabel('key'); ?>
-					<?php echo $this->form->getInput('key'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('key'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('key'); ?>
+					</div>
 				</div>
 
-				<div class="form-group">
-					<?php echo $this->form->getLabel('override'); ?>
-					<?php echo $this->form->getInput('override'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('override'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('override'); ?>
+					</div>
 				</div>
 
 				<?php if ($this->state->get('filter.client') == 'administrator') : ?>
-				<div class="form-group">
-					<?php echo $this->form->getLabel('both'); ?>
-					<?php echo $this->form->getInput('both'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('both'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('both'); ?>
+					</div>
 				</div>
 				<?php endif; ?>
 
-				<div class="form-group">
-					<?php echo $this->form->getLabel('file'); ?>
-					<?php echo $this->form->getInput('file'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('file'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('file'); ?>
+					</div>
 				</div>
 			</fieldset>
 
@@ -94,7 +119,7 @@ JFactory::getDocument()->addScriptDeclaration('
 
 				<div class="alert alert-info"><p><?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></p></div>
 
-				<div class="form-group">
+				<div class="control-group">
 					<?php echo $this->form->getInput('searchstring'); ?>
 					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
@@ -103,8 +128,8 @@ JFactory::getDocument()->addScriptDeclaration('
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>
-				<div class="form-group">
-
+				<div class="control-group">
+					<div class="control-label">
 						<?php echo $this->form->getLabel('searchtype'); ?>
 					</div>
 					<div class="controls">

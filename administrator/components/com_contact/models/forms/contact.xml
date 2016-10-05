@@ -39,7 +39,6 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			labelclass="control-label"
-			class="col-md-12"
 			size="45"
 			maxlength="255"
 		/>
@@ -228,7 +227,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="advancedSelect col-md-12"
+			class="advancedSelect"
 			multiple="true"
 		/>
 

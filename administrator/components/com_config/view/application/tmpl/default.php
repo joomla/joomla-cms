@@ -105,17 +105,23 @@ JFactory::getDocument()->addScriptDeclaration('
 				</div>
 				<div id="page-permissions" class="tab-pane">
 					<div class="row">
-						<?php echo $this->loadTemplate('permissions'); ?>
+						<div class="col-md-12">
+							<?php echo $this->loadTemplate('permissions'); ?>
+						</div>
 					</div>
 				</div>
 				<div id="page-filters" class="tab-pane">
 					<div class="row">
-						<?php echo $this->loadTemplate('filters'); ?>
+						<div class="col-md-12">
+							<?php echo $this->loadTemplate('filters'); ?>
+						</div>
 					</div>
 				</div>
 				<?php if ($this->ftp) : ?>
 					<div id="page-ftp" class="tab-pane">
-						<?php echo $this->loadTemplate('ftplogin'); ?>
+						<div class="col-md-12">
+							<?php echo $this->loadTemplate('ftplogin'); ?>
+						</div>
 					</div>
 				<?php endif; ?>
 				<input type="hidden" name="task" value="" />

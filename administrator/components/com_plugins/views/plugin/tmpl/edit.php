@@ -101,17 +101,29 @@ JFactory::getDocument()->addScriptDeclaration("
 			<div class="col-md-3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				<div class="form-vertical">
-					<div class="form-group">
-						<?php echo $this->form->getLabel('ordering'); ?>
-						<?php echo $this->form->getInput('ordering'); ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('ordering'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('ordering'); ?>
+						</div>
 					</div>
-					<div class="form-group">
-						<?php echo $this->form->getLabel('folder'); ?>
-						<?php echo $this->form->getInput('folder'); ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('folder'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('folder'); ?>
+						</div>
 					</div>
-					<div class="form-group">
-						<?php echo $this->form->getLabel('element'); ?>
-						<?php echo $this->form->getInput('element'); ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('element'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('element'); ?>
+						</div>
 					</div>
 				</div>
 			</div>

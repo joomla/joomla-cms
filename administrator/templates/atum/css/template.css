@@ -7116,6 +7116,11 @@ small, .small {
   list-style: none; }
   .main-nav.second {
     margin-bottom: 0; }
+  .main-nav > li > .no-dropdown {
+    color: #bbb; }
+    .main-nav > li > .no-dropdown:hover {
+      background: none;
+      color: #bbb; }
   .main-nav li {
     line-height: 40px; }
     .main-nav li a {
@@ -7228,6 +7233,8 @@ small, .small {
     float: left; }
     .js-stools .js-stools-container-bar .btn-toolbar {
       margin-bottom: 5px; }
+      .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
+        margin-left: 0; }
     .js-stools .js-stools-container-bar .input-append {
       margin-bottom: 0; }
   .js-stools .js-stools-container-list {
@@ -7419,12 +7426,10 @@ small, .small {
   top: 7px;
   display: block;
   padding: 0; }
-
-.j-toggle-button-wrapper.j-toggle-visible {
-  right: 10px; }
-
-.j-toggle-button-wrapper.j-toggle-hidden {
-  right: -24px; }
+  .j-toggle-button-wrapper.j-toggle-visible {
+    right: 10px; }
+  .j-toggle-button-wrapper.j-toggle-hidden {
+    right: -24px; }
 
 .j-toggle-sidebar-button {
   font-size: 1rem;
@@ -7438,6 +7443,37 @@ small, .small {
   .table th label,
   .table td label {
     margin-bottom: 0; }
+
+.control-group {
+  clear: both; }
+
+form:not(.form-no-margin) .control-group {
+  margin-bottom: 18px; }
+
+form:not(.form-no-margin) .control-label {
+  width: auto;
+  padding-top: 5px;
+  padding-right: 5px;
+  float: left;
+  text-align: left; }
+
+form:not(.form-no-margin) .controls {
+  margin-left: 180px; }
+
+form .form-no-margin .controls {
+  margin-left: 0; }
+
+form .form-no-margin .control-label {
+  float: none; }
+
+.spacer hr {
+  width: 380px; }
+
+label.btn {
+  margin-bottom: 0; }
+
+.card .custom-select {
+  width: 100%; }
 
 td .form-control {
   display: inline-block;
@@ -7456,7 +7492,6 @@ legend {
   padding: 9px 0;
   margin-bottom: 10px;
   color: #0c192e;
-  text-shadow: 0 1px 0 #fff;
   background: #f5f5f5;
   border-bottom: 1px solid #e3e3e3; }
   .subhead .btn-toolbar {
@@ -7503,32 +7538,10 @@ legend {
 .btn.group-move {
   cursor: move; }
 
-.icon-publish::before,
-.icon-save::before,
-.icon-ok::before,
-.icon-save-new::before {
-  color: #449d44; }
-
-.icon-unpublish::before,
-.icon-not-ok::before,
-.icon-eye-close::before,
-.icon-ban-circle::before,
-.icon-minus-sign::before,
-.btn-toolbar .icon-cancel::before {
-  color: #942a25; }
-
-.icon-featured::before,
-.icon-default::before,
-.icon-expired::before,
-.icon-pending::before {
-  color: #c67605; }
-
 .icon-back::before {
   content: "\e008"; }
 
-.btn-outline-success:hover .icon-green::before,
-.btn-outline-danger:hover .icon-red::before,
-.btn-outline-warning:hover .icon-yellow::before {
+.icon-white {
   color: #fff; }
 
 .js-pstats-data-details {

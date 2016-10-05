@@ -240,10 +240,10 @@ class JFormFieldRules extends JFormField
 		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
 
 		// Begin tabs
-		$html[] = '<div class="tabbable tabs-left" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
+		$html[] = '<div class="clearfix" data-ajaxuri="' . $ajaxUri . '" id="permissions-sliders">';
 
 		// Building tab nav
-		$html[] = '<ul class="nav nav-tabs">';
+		$html[] = '<ul class="nav nav-pills nav-stacked col-md-3">';
 
 		foreach ($groups as $group)
 		{
@@ -255,8 +255,8 @@ class JFormFieldRules extends JFormField
 				$active = 'active ';
 			}
 
-			$html[] = '<li class="nav-link">';
-			$html[] = '<a class="' . $active . 'nav-item" href="#permission-' . $group->value . '" data-toggle="tab">';
+			$html[] = '<li class="nav-item ' . $active . '">';
+			$html[] = '<a class="nav-link ' . $active . '" href="#permission-' . $group->value . '" data-toggle="tab">';
 			$html[] = JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
 			$html[] = '</a>';
 			$html[] = '</li>';
@@ -264,7 +264,7 @@ class JFormFieldRules extends JFormField
 
 		$html[] = '</ul>';
 
-		$html[] = '<div class="tab-content">';
+		$html[] = '<div class="tab-content col-md-9">';
 
 		// Start a row for each user group.
 		foreach ($groups as $group)
@@ -356,7 +356,7 @@ class JFormFieldRules extends JFormField
 				// Current group is a Super User group, so calculated setting is "Allowed (Super User)".
 				if ($isSuperUserGroup)
 				{
-					$result['class'] = 'label label-success';
+					$result['class'] = 'tag tag-success';
 					$result['text'] = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_ALLOWED_ADMIN');
 				}
 				// Not super user.
@@ -367,13 +367,13 @@ class JFormFieldRules extends JFormField
 					// If recursive calculated setting is "Denied" or null. Calculated permission is "Not Allowed (Inherited)".
 					if ($inheritedGroupRule === null || $inheritedGroupRule === false)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'tag tag-danger';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_INHERITED');
 					}
 					// If recursive calculated setting is "Allowed". Calculated permission is "Allowed (Inherited)".
 					else
 					{
-						$result['class'] = 'label label-success';
+						$result['class'] = 'tag tag-success';
 						$result['text']  = JText::_('JLIB_RULES_ALLOWED_INHERITED');
 					}
 
@@ -388,13 +388,13 @@ class JFormFieldRules extends JFormField
 					// If there is an explicit permission "Not Allowed". Calculated permission is "Not Allowed".
 					if ($assetRule === false)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'tag tag-danger';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED');
 					}
 					// If there is an explicit permission is "Allowed". Calculated permission is "Allowed".
 					elseif ($assetRule === true)
 					{
-						$result['class'] = 'label label-success';
+						$result['class'] = 'tag tag-success';
 						$result['text']  = JText::_('JLIB_RULES_ALLOWED');
 					}
 
@@ -403,7 +403,7 @@ class JFormFieldRules extends JFormField
 					// Global configuration with "Not Set" permission. Calculated permission is "Not Allowed (Default)".
 					if (empty($group->parent_id) && $isGlobalConfig === true && $assetRule === null)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'tag tag-danger';
 						$result['text']  = JText::_('JLIB_RULES_NOT_ALLOWED_DEFAULT');
 					}
 
@@ -414,7 +414,7 @@ class JFormFieldRules extends JFormField
 					 */
 					elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 					{
-						$result['class'] = 'label label-important';
+						$result['class'] = 'tag tag-danger';
 						$result['text']  = '<span class="icon-lock icon-white"></span>' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 					}
 				}
@@ -429,8 +429,7 @@ class JFormFieldRules extends JFormField
 		}
 
 		$html[] = '</div></div>';
-		$html[] = '<div class="clr"></div>';
-		$html[] = '<div class="alert">';
+		$html[] = '<div class="alert alert-warning">';
 
 		if ($section === 'component' || $section === null)
 		{

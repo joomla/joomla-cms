@@ -17,9 +17,13 @@ foreach ($fieldSets as $name => $fieldSet) :
 		<p class="alert alert-info"><?php echo $this->escape(JText::_($fieldSet->description)); ?></p>
 	<?php endif; ?>
 	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-		<div class="form-group">
-			<?php echo $field->label; ?>
-			<?php echo $field->input; ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $field->label; ?>
+			</div>
+			<div class="controls">
+				<?php echo $field->input; ?>
+			</div>
 		</div>
 	<?php endforeach; ?>
 	</div>

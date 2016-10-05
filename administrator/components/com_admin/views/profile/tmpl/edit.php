@@ -34,7 +34,9 @@ $fieldsets = $this->form->getFieldsets();
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'account', JText::_('COM_ADMIN_USER_ACCOUNT_DETAILS')); ?>
 	<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 		<div class="control-group">
-			<div class="control-label"><?php echo $field->label; ?></div>
+			<div class="control-label">
+				<?php echo $field->label; ?>
+			</div>
 			<div class="controls">
 				<?php if ($field->fieldname == 'password2') : ?>
 					<?php // Disables autocomplete ?> <input type="password" style="display:none">
@@ -60,7 +62,9 @@ $fieldsets = $this->form->getFieldsets();
 				</div>
 			<?php else: ?>
 				<div class="control-group">
-					<div class="control-label"><?php echo $field->label; ?></div>
+					<div class="control-label">
+						<?php echo $field->label; ?>
+					</div>
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
 			<?php endif; ?>

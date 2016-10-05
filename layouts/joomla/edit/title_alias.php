@@ -14,7 +14,7 @@ $form = $displayData->getForm();
 $title = $form->getField('title') ? 'title' : ($form->getField('name') ? 'name' : '');
 
 ?>
-<div class="form-inline form-inline-header">
+<div class="m-t-2 m-b-3">
 	<?php
 	echo $title ? $form->renderField($title) : '';
 	echo $form->renderField('alias');

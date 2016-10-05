@@ -29,16 +29,24 @@ JFactory::getDocument()->addScriptDeclaration("
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="group-form">
 	<fieldset>
 		<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS');?></legend>
-		<div class="form-group">
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('title'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('title'); ?>
+			</div>
 		</div>
-		<div class="form-group">
+		<div class="control-group">
 			<?php $parent_id = $this->form->getField('parent_id');?>
 			<?php if (!$parent_id->hidden) : ?>
-				<?php echo $parent_id->label; ?>
+				<div class="control-label">
+					<?php echo $parent_id->label; ?>
+				</div>
 			<?php endif;?>
-			<?php echo $parent_id->input; ?>
+			<div class="controls">
+				<?php echo $parent_id->input; ?>
+			</div>
 		</div>
 	</fieldset>
 	<input type="hidden" name="task" value="" />

@@ -33,13 +33,21 @@ JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <div class="container-popup">
 	<form>
-		<div class="form-group">
-			<label for="title"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
-			<input type="text" id="title" name="title" />
+		<div class="control-group">
+			<div class="control-label">
+				<label for="title"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TITLE'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="title" name="title" />
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="alias"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
-			<input type="text" id="alt" name="alt" />
+		<div class="control-group">
+			<div class="control-label">
+				<label for="alias"><?php echo JText::_('COM_CONTENT_PAGEBREAK_TOC'); ?></label>
+			</div>
+			<div class="controls">
+				<input type="text" id="alt" name="alt" />
+			</div>
 		</div>
 		<button onclick="insertPagebreak();" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
 	</form>

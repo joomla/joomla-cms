@@ -957,8 +957,8 @@ abstract class JHtml
 
 		if (is_array($attribs))
 		{
-			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
-			$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+			$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : '';
+			$attribs['class'] = trim($attribs['class'] . ' form-control hasTooltip');
 
 			$attribs = ArrayHelper::toString($attribs);
 		}
@@ -1003,13 +1003,20 @@ abstract class JHtml
 
 		// Hide button using inline styles for readonly/disabled fields
 		$btn_style = ($readonly || $disabled) ? ' style="display:none;"' : '';
-		$div_class = (!$readonly && !$disabled) ? ' class="input-append"' : '';
+		$div_class = (!$readonly && !$disabled) ? ' class="input-group"' : '';
+		$title     = 'title="' . ($inputvalue ? static::_('date', $value, null, null) : ''). '"';
+		
+		$html = '<div' . $div_class . '>';
+		$html .= '<input type="text" ' . $title . ' name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />';
+		if (!$readonly && !$disabled)
+		{
+			$html .= '<span class="input-group-btn">';
+			$html .= '<button type="button" class="btn btn-secondary" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>';
+			$html .= '</span>';
+		}
+		$html .= '</div>';
 
-		return '<div' . $div_class . '>'
-				. '<input type="text" title="' . ($inputvalue ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><span class="icon-calendar"></span></button>'
-			. '</div>';
+		return $html;
 	}
 
 	/**
