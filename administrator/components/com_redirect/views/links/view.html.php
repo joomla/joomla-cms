@@ -57,7 +57,7 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'error');
+			$app->enqueueMessage(JText::_('COM_REDIRECT_PLUGIN_DISABLED'), 'danger');
 		}
 
 		// Check for errors.

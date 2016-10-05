@@ -57,7 +57,7 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 		catch (RuntimeException $e)
 		{
 			// Save failed, go back to the screen and display a notice.
-			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'danger');
 			$this->app->redirect(JRoute::_('index.php', false));
 		}
 

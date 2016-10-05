@@ -82,7 +82,7 @@ class JSchemaChangeset
 				}
 				catch (RuntimeException $e)
 				{
-					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 				}
 			}
 			else

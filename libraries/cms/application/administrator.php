@@ -122,11 +122,11 @@ class JApplicationAdministrator extends JApplicationCms
 
 			if ($lang->hasKey('JERROR_MAGIC_QUOTES'))
 			{
-				$this->enqueueMessage(JText::_('JERROR_MAGIC_QUOTES'), 'error');
+				$this->enqueueMessage(JText::_('JERROR_MAGIC_QUOTES'), 'danger');
 			}
 			else
 			{
-				$this->enqueueMessage('Your host needs to disable magic_quotes_gpc to run this version of Joomla!', 'error');
+				$this->enqueueMessage('Your host needs to disable magic_quotes_gpc to run this version of Joomla!', 'danger');
 			}
 		}
 
@@ -216,7 +216,7 @@ class JApplicationAdministrator extends JApplicationCms
 
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'danger');
 			$template->params = new Registry;
 			$template->template = 'atum';
 		}

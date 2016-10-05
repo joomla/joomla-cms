@@ -103,7 +103,7 @@ final class JApplicationSite extends JApplicationCms
 				}
 
 				// Otherwise redirect to the homepage and show an error
-				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'danger');
 				$this->redirect(JRoute::_('index.php?Itemid=' . $home_item->id, false));
 			}
 		}
@@ -537,7 +537,7 @@ final class JApplicationSite extends JApplicationCms
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
-			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
+			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'danger');
 
 			// Check, the data were found and if template really exists
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))

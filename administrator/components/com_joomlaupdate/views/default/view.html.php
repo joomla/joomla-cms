@@ -178,7 +178,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		{
 			// Something is wrong here!
 			$joomlaUpdateComponentId = 0;
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 		}
 
 		// Try the update only if we have a extension id
@@ -205,7 +205,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			{
 				// Something is wrong here!
 				$joomlaUpdateComponentObject = null;
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
 			}
 
 			if (is_null($joomlaUpdateComponentObject))
