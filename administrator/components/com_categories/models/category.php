@@ -424,6 +424,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
+		if ($data->language && $this->getAssoc())
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 

@@ -724,6 +724,7 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Association content items
+		if ($data->language && JLanguageAssociations::isEnabled())
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 

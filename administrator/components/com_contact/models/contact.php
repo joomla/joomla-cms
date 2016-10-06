@@ -536,6 +536,7 @@ class ContactModelContact extends JModelAdmin
 		}
 
 		// Association contact items
+		if ($data->language && JLanguageAssociations::isEnabled())
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
