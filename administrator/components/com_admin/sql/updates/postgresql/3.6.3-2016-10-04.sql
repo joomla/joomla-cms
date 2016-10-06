@@ -1,2 +1,3 @@
 ALTER TABLE "#__finder_links" ALTER COLUMN "title" TYPE character varying(400);
-ALTER TABLE "#__finder_links" ALTER COLUMN "description" TYPE text DEFAULT '' NOT NULL;
+ALTER TABLE "#__finder_links" ALTER COLUMN "description" TYPE text;
+ALTER TABLE "#__finder_link" ALTER COLUMN "description" SET NOT NULL;
