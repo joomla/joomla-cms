@@ -46,7 +46,7 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
-		JHtml::_('behavior.polyfill', array('event', 'classlist'), 'lte IE 11');
+		JHtml::_('behavior.polyfill', array('event'), 'lte IE 11');
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', false, false, false, false, false);
 		JHtml::_('script', 'system/tinymce-init.min.js', false, true);
 	}
