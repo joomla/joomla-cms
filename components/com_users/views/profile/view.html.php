@@ -56,9 +56,7 @@ class UsersViewProfile extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
-
-			return false;
+			throw new JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
@@ -79,9 +77,7 @@ class UsersViewProfile extends JViewLegacy
 		// Check if a user was found.
 		if (!$this->data->id)
 		{
-			JError::raiseError(404, JText::_('JERROR_USERS_PROFILE_NOT_FOUND'));
-
-			return false;
+			throw new Exception(JText::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
 
 		$this->data->tags = new JHelperTags;
