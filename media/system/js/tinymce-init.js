@@ -45,13 +45,10 @@
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
 				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
 				defaultOptions = tinyMCEOptions['default'] || {},
-				options        = defaultOptions,
-				currentOptions = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
-			// Merge the parameters
-			for (name in currentOptions) {
-				options[name] = currentOptions[name];
-			}
+			// Avoid unexpected changes
+			Joomla.extend({}, options);
 
 			if (element) {
 				// We already have the Target, so reset the selector and assign given element as target
