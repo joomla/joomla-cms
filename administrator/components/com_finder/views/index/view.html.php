@@ -105,7 +105,7 @@ class FinderViewIndex extends JViewLegacy
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP'), 'info');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

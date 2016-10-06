@@ -36,7 +36,7 @@ class ConfigControllerComponentSave extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'danger');
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			$this->app->redirect('index.php');
 		}
 
@@ -53,7 +53,7 @@ class ConfigControllerComponentSave extends JControllerBase
 		// Check if the user is authorised to do this.
 		if (!$user->authorise('core.admin', $option) && !$user->authorise('core.options', $option))
 		{
-			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'danger');
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 			$this->app->redirect('index.php');
 		}
 
@@ -106,7 +106,7 @@ class ConfigControllerComponentSave extends JControllerBase
 			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'danger');
+			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
 			$this->app->redirect(JRoute::_('index.php?option=com_config&view=component&component=' . $option . $redirect, false));
 		}
 

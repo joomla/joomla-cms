@@ -72,7 +72,7 @@ class MenusControllerItems extends JControllerAdmin
 		else
 		{
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'danger');
+			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
 
 			return false;
 		}
@@ -211,7 +211,7 @@ class MenusControllerItems extends JControllerAdmin
 					if ($errors)
 					{
 						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'danger');
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
@@ -231,7 +231,7 @@ class MenusControllerItems extends JControllerAdmin
 			}
 			catch (Exception $e)
 			{
-				$this->setMessage($e->getMessage(), 'danger');
+				$this->setMessage($e->getMessage(), 'error');
 			}
 		}
 

@@ -72,7 +72,7 @@ class TemplatesControllerStyle extends JControllerForm
 			if (!$this->allowSave($data, $key))
 			{
 
-				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'danger');
+				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
@@ -85,7 +85,7 @@ class TemplatesControllerStyle extends JControllerForm
 
 			if (!$form)
 			{
-				$app->enqueueMessage($model->getError(), 'danger');
+				$app->enqueueMessage($model->getError(), 'error');
 
 				return false;
 			}
@@ -128,7 +128,7 @@ class TemplatesControllerStyle extends JControllerForm
 				// Save the data in the session.
 				$app->setUserState($context . '.data', $validData);
 
-				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'danger');
+				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -140,7 +140,7 @@ class TemplatesControllerStyle extends JControllerForm
 				$app->setUserState($context . '.data', $validData);
 
 				// Check-in failed, so go back to the record and display a notice.
-				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'danger');
+				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				return false;
 			}

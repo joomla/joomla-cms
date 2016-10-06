@@ -133,7 +133,7 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			else
 			{
-				$this->setMessage($model->getError(), 'danger');
+				$this->setMessage($model->getError(), 'error');
 			}
 
 			// Invoke the postDelete method to allow for the child class to access the model.
@@ -214,7 +214,7 @@ class JControllerAdmin extends JControllerLegacy
 					if ($errors)
 					{
 						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'danger');
+						$app->enqueueMessage(JText::plural($this->text_prefix . '_N_ITEMS_FAILED_PUBLISHING', count($cid)), 'error');
 					}
 					else
 					{
@@ -238,7 +238,7 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			catch (Exception $e)
 			{
-				$this->setMessage($e->getMessage(), 'danger');
+				$this->setMessage($e->getMessage(), 'error');
 			}
 		}
 
@@ -269,7 +269,7 @@ class JControllerAdmin extends JControllerLegacy
 		{
 			// Reorder failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'danger');
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
@@ -313,7 +313,7 @@ class JControllerAdmin extends JControllerLegacy
 		{
 			// Reorder failed
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'danger');
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}
@@ -348,7 +348,7 @@ class JControllerAdmin extends JControllerLegacy
 		{
 			// Checkin failed.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'danger');
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message, 'error');
 
 			return false;
 		}

@@ -607,7 +607,7 @@ class JUser extends JObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'danger');
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 				return false;
 			}

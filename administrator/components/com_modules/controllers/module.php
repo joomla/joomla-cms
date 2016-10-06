@@ -243,7 +243,7 @@ class ModulesControllerModule extends JControllerForm
 		// Check if user token is valid.
 		if (!JSession::checkToken('get'))
 		{
-			$app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'danger');
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			echo new JResponseJson;
 			$app->close();
 		}

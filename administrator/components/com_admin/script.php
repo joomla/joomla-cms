@@ -1761,12 +1761,12 @@ class JoomlaInstallerScript
 		catch (Exception $e)
 		{
 			// Render the error message from the Exception object
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			if ($doDbFixMsg)
 			{
 				// Show an error message telling to check database problems
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'danger');
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 			}
 
 			return;
@@ -1823,7 +1823,7 @@ class JoomlaInstallerScript
 						$converted = 0;
 
 						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 					}
 				}
 			}
@@ -1832,7 +1832,7 @@ class JoomlaInstallerScript
 		if ($doDbFixMsg && $converted == 0)
 		{
 			// Show an error message telling to check database problems
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'danger');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// Set flag in database if the update is done.

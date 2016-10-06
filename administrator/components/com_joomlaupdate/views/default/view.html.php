@@ -88,7 +88,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		if (!is_null($this->updateInfo['object']))
 		{
 			// Show the message if an update is found.
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'info');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'notice');
 		}
 
 		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
@@ -178,7 +178,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		{
 			// Something is wrong here!
 			$joomlaUpdateComponentId = 0;
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Try the update only if we have a extension id
@@ -205,7 +205,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			{
 				// Something is wrong here!
 				$joomlaUpdateComponentObject = null;
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 			}
 
 			if (is_null($joomlaUpdateComponentObject))

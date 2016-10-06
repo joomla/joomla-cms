@@ -53,7 +53,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', null);
 			$url = 'index.php?option=com_joomlaupdate';
 			$message = JText::_('COM_JOOMLAUPDATE_VIEW_UPDATE_DOWNLOADFAILED');
-			$messageType = 'danger';
+			$messageType = 'error';
 		}
 
 		$this->setRedirect($url, $message, $messageType);
@@ -205,7 +205,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		catch (RuntimeException $e)
 		{
 			$url = 'index.php?option=com_joomlaupdate';
-			$this->setRedirect($url, $e->getMessage(), 'danger');
+			$this->setRedirect($url, $e->getMessage(), 'error');
 		}
 
 		$token = JSession::getFormToken();

@@ -41,7 +41,7 @@ class ModulesViewModule extends JViewLegacy
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'danger');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

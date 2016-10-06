@@ -423,7 +423,7 @@ class FOFController extends FOFUtilsObject
 
 		$this->methods = array();
 		$this->message = null;
-		$this->messageType = 'info';
+		$this->messageType = 'message';
 		$this->paths = array();
 		$this->redirect = null;
 		$this->taskMap = array();
@@ -1288,7 +1288,7 @@ class FOFController extends FOFUtilsObject
 			}
 
 			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 
 			return false;
 		}
@@ -1397,7 +1397,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$status)
 		{
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 
 			return false;
 		}
@@ -1530,7 +1530,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$model->loadhistory($historyId, $table, $alias))
 		{
-			$this->setMessage($model->getError(), 'danger');
+			$this->setMessage($model->getError(), 'error');
 
 			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 			$this->setRedirect($url);
@@ -1558,7 +1558,7 @@ class FOFController extends FOFUtilsObject
 		if (!$this->checkACL($privilege))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'danger');
+			$this->setMessage($this->getError(), 'error');
 
 			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 			$this->setRedirect($url);
@@ -1791,7 +1791,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$status)
 		{
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 		}
 		else
 		{
@@ -1833,7 +1833,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$status)
 		{
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 		}
 		else
 		{
@@ -1875,7 +1875,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$status)
 		{
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 		}
 		else
 		{
@@ -2040,7 +2040,7 @@ class FOFController extends FOFUtilsObject
 		{
 			if (empty($this->messageType))
 			{
-				$this->messageType = 'info';
+				$this->messageType = 'message';
 			}
 		}
 		// If the type is explicitly set, set it.
@@ -2080,7 +2080,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$status)
 		{
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 		}
 		else
 		{
@@ -2138,7 +2138,7 @@ class FOFController extends FOFUtilsObject
 
 		if (!$status)
 		{
-			$this->setRedirect($url, $model->getError(), 'danger');
+			$this->setRedirect($url, $model->getError(), 'error');
 		}
 		else
 		{
@@ -2222,7 +2222,7 @@ class FOFController extends FOFUtilsObject
 				$url = 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=add' . $this->getItemidURLSuffix();
 			}
 
-			$this->setRedirect($url, '<li>' . implode('</li><li>', $model->getErrors()) . '</li>', 'danger');
+			$this->setRedirect($url, '<li>' . implode('</li><li>', $model->getErrors()) . '</li>', 'error');
 
 			return false;
 		}
