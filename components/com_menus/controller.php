@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 /**
- * Modules manager master display controller.
+ * Menus manager master display controller.
  *
- * @since  3.5
+ * @since  __DEPLOY_VERSION__
  */
 class MenusController extends JControllerLegacy
 {
@@ -29,7 +29,7 @@ class MenusController extends JControllerLegacy
 	{
 		$this->input = JFactory::getApplication()->input;
 
-		// Modules frontpage Editor Module proxying:
+		// Menus frontpage Editor Menu proxying:
 		if ($this->input->get('view') === 'items' && $this->input->get('layout') === 'modal')
 		{
 			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);

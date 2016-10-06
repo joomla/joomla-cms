@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+$app = JFactory::getApplication();
+
+if ($app->isSite())
+{
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+}
+
 JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/helpers/route.php');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -20,13 +27,6 @@ JHtml::_('formbehavior.chosen', 'select');
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
 JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searchFilterDesc), 'placement' => 'bottom'));
-
-$app = JFactory::getApplication();
-
-if ($app->isSite())
-{
-	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
-}
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
 $listOrder = $this->escape($this->state->get('list.ordering'));
