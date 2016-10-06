@@ -66,6 +66,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif;?>
+						<th width="10%" class="nowrap hidden-sm-down">
 							<?php echo JHtml::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-sm-down">
@@ -191,31 +192,24 @@ $assoc = JLanguageAssociations::isEnabled();
 						<td class="nowrap small hidden-sm-down">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-<<<<<<< HEAD
-						<td class="hidden-sm-down">
-							<?php echo (int) $item->hits; ?>
-						</td>
-						<td class="hidden-sm-down">
-=======
-						<td class="hidden-phone center">
-							<span class="badge badge-info">
+						<td class="hidden-sm-down text-xs-center">
+							<span class="tag tag-info">
 								<?php echo (int) $item->hits; ?>
 							</span>
 						</td>
 						<?php if ($this->vote) : ?>
-							<td class="hidden-phone center">
-								<span class="badge badge-success" >
+							<td class="hidden-sm-down text-xs-center">
+								<span class="tag tag-success">
 								<?php echo (int) $item->rating_count; ?>
 								</span>
 							</td>
-							<td class="hidden-phone center">
-								<span class="badge badge-warning" >
+							<td class="hidden-sm-down text-xs-center">
+								<span class="tag tag-warning">
 								<?php echo (int) $item->rating; ?>
 								</span>
 							</td>
 						<?php endif; ?>
-						<td class="hidden-phone">
->>>>>>> 9ea6ffff46e50b4bd3d919e3d88cabfd9ac47bad
+						<td class="hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
