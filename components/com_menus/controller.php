@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_modules
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -23,7 +23,7 @@ class MenusController extends JControllerLegacy
 	 *                          Recognized key values include 'name', 'default_task', 'model_path', and
 	 *                          'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   3.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array())
 	{

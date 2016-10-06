@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_modules
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
 $config = array();
+
 $lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_menus', JPATH_ADMINISTRATOR);
 
