@@ -1142,7 +1142,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Association menu items
-		if ($data->language && JLanguageAssociations::isEnabled())
+		if (JLanguageAssociations::isEnabled())
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
@@ -1155,12 +1155,12 @@ class MenusModelItem extends JModelAdmin
 				$fieldset->addAttribute('name', 'item_associations');
 				$fieldset->addAttribute('description', 'COM_MENUS_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
-				foreach ($languages as $tag => $language)
+				foreach ($languages as $language)
 				{
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_menu');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('select', 'true');

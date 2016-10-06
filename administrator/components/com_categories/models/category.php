@@ -424,7 +424,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		if ($data->language && $this->getAssoc())
+		if ($this->getAssoc())
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
@@ -437,12 +437,12 @@ class CategoriesModelCategory extends JModelAdmin
 				$fieldset->addAttribute('name', 'item_associations');
 				$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
 
-				foreach ($languages as $tag => $language)
+				foreach ($languages as $language)
 				{
 					$field = $fieldset->addChild('field');
-					$field->addAttribute('name', $tag);
+					$field->addAttribute('name', $language->lang_code);
 					$field->addAttribute('type', 'modal_category');
-					$field->addAttribute('language', $tag);
+					$field->addAttribute('language', $language->lang_code);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
 					$field->addAttribute('extension', $extension);
