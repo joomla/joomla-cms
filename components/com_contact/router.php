@@ -26,6 +26,11 @@ class ContactRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
+		if ($app->input->get('view') === 'contacts' && $app->input->get('layout') === 'modal')
+		{
+			return;
+		}
+
 		$params = JComponentHelper::getParams('com_contact');
 		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new JComponentRouterViewconfiguration('categories');
