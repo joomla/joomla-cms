@@ -7284,22 +7284,20 @@ small, .small {
     top: 50%;
     left: 50%;
     width: 330px;
-    margin-top: -206px;
+    margin-top: -240px;
     margin-left: -165px; }
-    @media (max-width: 767px) {
+    @media (max-width: 543px) {
       .view-login .container {
-        position: static;
-        top: auto;
-        left: auto;
+        top: 10px;
         width: 320px;
-        margin-top: 30px;
-        margin-left: 0; } }
+        margin-top: 0 !important;
+        margin-left: -160px; } }
   .view-login .login-logo {
     margin: 3rem 0;
     text-align: center; }
     @media (max-width: 767px) {
       .view-login .login-logo {
-        margin: 0.5rem 0; } }
+        margin: 1rem 0; } }
   .view-login h2 {
     font-size: 1.9rem;
     font-weight: 300; }
@@ -7326,7 +7324,7 @@ small, .small {
   @media (max-width: 543px) {
     .view-login .btn {
       padding: 8px 10px;
-      font-size: 13px; } }
+      font-size: 14px; } }
 
 .navbar.navbar-inverse {
   background: #10223e;

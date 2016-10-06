@@ -12,22 +12,22 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 
-$spacing = '';
+$spacing = 0;
 
 // Load chosen if we have language selector, ie, more than one administrator language installed and enabled.
 if ($langs)
 {
-	$spacing += 30;
+	$spacing += 33;
 }
 
 if (count($twofactormethods) > 1)
 {
-	$spacing += 30;
+	$spacing += 33;
 }
 
 if ($spacing > 0)
 {
-	$marginTop = 206 + $spacing;
+	$marginTop = 240 + $spacing;
 
 	JFactory::getDocument()->addStyleDeclaration('
 		.view-login .container {
