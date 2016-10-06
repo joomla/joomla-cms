@@ -19,6 +19,70 @@ use Joomla\Registry\Registry;
 class JApplicationCms extends JApplicationWeb
 {
 	/**
+	 * Constant defining an enqueued emergency message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_EMERGENCY = 'emergency';
+
+	/**
+	 * Constant defining an enqueued alert message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_ALERT = 'alert';
+
+	/**
+	 * Constant defining an enqueued critical message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_CRITICAL = 'critical';
+
+	/**
+	 * Constant defining an enqueued error message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_ERROR = 'error';
+
+	/**
+	 * Constant defining an enqueued warning message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_WARNING = 'warning';
+
+	/**
+	 * Constant defining an enqueued notice message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_NOTICE = 'notice';
+
+	/**
+	 * Constant defining an enqueued info message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_INFO = 'info';
+
+	/**
+	 * Constant defining an enqueued debug message
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	const MSG_DEBUG = 'debug';
+
+	/**
 	 * Array of options for the JDocument object
 	 *
 	 * @var    array
@@ -228,7 +292,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @since   3.2
 	 */
-	public function enqueueMessage($msg, $type = 'message')
+	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
 		// Don't add empty messages.
 		if (!strlen(trim($msg)))

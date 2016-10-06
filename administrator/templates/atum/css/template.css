@@ -3327,13 +3327,13 @@ a.tag:focus, a.tag:hover {
   .alert-success .alert-link {
     color: #2b542c; }
 
-.alert-info {
+.alert-info, .alert-message {
   background-color: #d9edf7;
   border-color: #bcdff1;
   color: #31708f; }
-  .alert-info hr {
+  .alert-info hr, .alert-message hr {
     border-top-color: #a6d5ec; }
-  .alert-info .alert-link {
+  .alert-info .alert-link, .alert-message .alert-link {
     color: #245269; }
 
 .alert-warning {
@@ -6908,6 +6908,7 @@ a.text-danger:focus, a.text-danger:hover {
 [class*=" icon-"].disabled {
   font-weight: normal; }
 
+/* Bootstrap alert mapping */
 html, body {
   font-size: 14px; }
 
