@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Menu items manager master display controller.
  *
- * @since   __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class MenusController extends JControllerLegacy
 {
