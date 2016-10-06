@@ -337,7 +337,7 @@ class FinderIndexerTaxonomy
 			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
 			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
 			' WHERE t.parent_id > 1' .
-			' AND m.link_id IS NULL';
+			' AND m.link_id IS NULL) temp)';
 		$db->setQuery($query);
 		$db->execute();
 
