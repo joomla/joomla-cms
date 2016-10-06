@@ -350,7 +350,7 @@ abstract class JUserHelper
 			$crypt     = $parts[0];
 			$salt      = @$parts[1];
 
-			$testcrypt = '{SHA256}' . hash('sha256', $password . $salt);
+			$testcrypt = '{SHA256}' . hash('sha256', $password . $salt) . ':' . $salt;
 
 			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 
