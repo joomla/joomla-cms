@@ -354,6 +354,10 @@ class JUserHelperTest extends TestCaseDatabase
 				'mySuperSecretPassword',
 				'$2y$10$0GfV1d.dfYvWu83ZKFD4surhsaRpVjUZqhG9bShmPcSnmqwCes/lC'
 			],
+			'SHA256' => [
+				'mySuperSecretPassword',
+				'{SHA256}972c5f5b845306847cb4bf941b7a683f1a828f48c46abef8b9ae4dac9798b1d5:oeLpBZ2sFJwLZmm4'
+			],
 			'Joomla MD5' => [
 				'mySuperSecretPassword',
 				'693560686f4d591d8dd5e34006442061'
