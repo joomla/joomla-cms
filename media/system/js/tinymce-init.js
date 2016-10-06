@@ -7,7 +7,7 @@
 	"use strict";
 
 	// This line is for Mootools b/c
-	window.getSize = window.getSize || function(){return {x: window.width, y: window.height};};
+	window.getSize = window.getSize || function(){return {x: window.innerWidth, y: window.innerHeight};};
 
 	window.jInsertEditorText = function ( text, editor ) {
 		tinyMCE.activeEditor.execCommand('mceInsertContent', false, text);
@@ -45,7 +45,13 @@
 			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
 				tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
 				defaultOptions = tinyMCEOptions['default'] || {},
-				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+				options        = defaultOptions,
+				currentOptions = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
+
+			// Merge the parameters
+			for (name in currentOptions) {
+				options[name] = currentOptions[name];
+			}
 
 			if (element) {
 				// We already have the Target, so reset the selector and assign given element as target
