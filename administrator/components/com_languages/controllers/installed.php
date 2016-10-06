@@ -46,12 +46,12 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		}
 		else
 		{
-			$msg = $this->getError();
+			$msg = $model->getError();
 			$type = 'error';
 		}
 
 		$clientId = $model->getState('client_id');
-		$this->setredirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
+		$this->setRedirect('index.php?option=com_languages&view=installed&client=' . $clientId, $msg, $type);
 	}
 
 	/**
@@ -86,10 +86,10 @@ class LanguagesControllerInstalled extends JControllerLegacy
 		}
 		else
 		{
-			$msg = $this->getError();
+			$msg = $model->getError();
 			$type = 'error';
 		}
 
-		$this->setredirect('index.php?option=com_languages&view=installed', $msg, $type);
+		$this->setRedirect('index.php?option=com_languages&view=installed', $msg, $type);
 	}
 }
