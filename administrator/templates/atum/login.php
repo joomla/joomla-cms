@@ -70,7 +70,7 @@ $sitename = $app->get('sitename');
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<?php // Container ?>
 	<div class="container">
-		<div class="m-b-3 text-xs-center">
+		<div class="login-logo">
 			<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.png" alt="<?php echo $sitename; ?>" />
 		</div>
 		<div id="content">
