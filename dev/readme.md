@@ -19,7 +19,7 @@ possible commands:
 - `grunt uglify:allJs`.................minifies various javascripts
 - `grunt cssmin:allCss`................minifies various stylesheets
 
-Make sure that you have updated the assets/package.json in order to update the libraries!!!
+Make sure that you have updated the vendors_versions.yaml file in order to update the libraries!!!
 
 Will update the following external sourced static assets that Joomla is using.
 
