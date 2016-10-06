@@ -19,8 +19,6 @@ JHtml::_('formbehavior.chosen', 'select', null, array('disable_search_threshold'
 $app   = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = JLanguageAssociations::isEnabled();
-
 JFactory::getDocument()->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
@@ -94,12 +92,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ( ! $isModal && $assoc) : ?>
+		<?php if (JLanguageAssociations::isEnabled()) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php elseif ($isModal && $assoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>

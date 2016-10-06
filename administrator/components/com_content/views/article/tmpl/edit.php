@@ -26,8 +26,6 @@ $params = $this->state->get('params');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = JLanguageAssociations::isEnabled();
-
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $params = json_decode($params);
 $editoroptions = isset($params->show_publishing_options);
@@ -141,13 +139,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-
-		<?php if ( ! $isModal && $assoc) : ?>
+		<?php if (JLanguageAssociations::isEnabled()) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php elseif ($isModal && $assoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
