@@ -14,9 +14,11 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 ?>
 <div class="blog<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Blog">
+	<meta itemprop="inLanguage" content="<?php echo ($this->category->language === '*') ? JFactory::getConfig()->get('language') : $this->category->language; ?>" />
+	<meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="<?php echo JUri::getInstance(); ?>"/>
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<div class="page-header">
-			<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
+			<h1 itemprop="name headline"> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 		</div>
 	<?php endif; ?>
 
