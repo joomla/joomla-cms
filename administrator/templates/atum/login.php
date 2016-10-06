@@ -67,22 +67,23 @@ $sitename = $app->get('sitename');
 	</style>
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>">
-	<!-- Container -->
+<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
+	<?php // Container ?>
 	<div class="container">
+		<div class="login-logo">
+			<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.png" alt="<?php echo $sitename; ?>" />
+		</div>
 		<div id="content">
-			<!-- Begin Content -->
+			<?php // Begin Content ?>
 			<div id="element-box" class="login card card-block">
-				<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/joomla.png" alt="<?php echo $sitename; ?>" />
-				<h2 class="text-xs-center"><?php echo $sitename; ?></h2>
-				<hr>
+				<h2 class="text-xs-center m-t-1 m-b-2"><?php echo JText::_('MOD_LOGIN_LOGIN'); ?></h2>
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 			</div>
 			<noscript>
 				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 			</noscript>
-			<!-- End Content -->
+			<?php // End Content ?>
 		</div>
 	</div>
 	<div class="navbar navbar-fixed-bottom hidden-sm-down">

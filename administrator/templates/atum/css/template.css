@@ -7285,11 +7285,27 @@ small, .small {
     top: 50%;
     left: 50%;
     width: 330px;
-    margin-top: -206px;
+    margin-top: -240px;
     margin-left: -165px; }
     @media (max-width: 543px) {
       .view-login .container {
-        margin-top: -170px; } }
+        top: 10px;
+        width: 320px;
+        margin-top: 0 !important;
+        margin-left: -160px; } }
+  .view-login .login-logo {
+    margin: 3rem 0;
+    text-align: center; }
+    @media (max-width: 767px) {
+      .view-login .login-logo {
+        margin: 1rem 0; } }
+  .view-login h2 {
+    font-size: 1.9rem;
+    font-weight: 300; }
+  .view-login .forgot {
+    text-align: center; }
+  .view-login .card {
+    margin-bottom: 0; }
   .view-login .card-img-top {
     max-width: 100%; }
   .view-login .navbar p,
@@ -7308,8 +7324,8 @@ small, .small {
     font-size: 22px; }
   @media (max-width: 543px) {
     .view-login .btn {
-      padding: 4px 10px;
-      font-size: 13px; } }
+      padding: 8px 10px;
+      font-size: 14px; } }
 
 .navbar.navbar-inverse {
   background: #10223e;
@@ -7574,3 +7590,5 @@ legend {
 
 .name:hover {
   background-color: transparent; }
+
+/*# sourceMappingURL=template.css.map */

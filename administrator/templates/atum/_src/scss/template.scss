@@ -535,14 +535,38 @@ small, .small {
     top: 50%;
     left: 50%;
     width: 330px;
-    margin-top: -206px;
+    margin-top: -240px;
     margin-left: -165px;
 
     @include media-breakpoint-only(xs) {
-      margin-top: -170px;
+      top: 10px;
+      width: 320px;
+      margin-top: 0 !important;
+      margin-left: -160px;
     }
   }
 
+  .login-logo {
+    margin: 3rem 0;
+    text-align: center;
+	
+    @include media-breakpoint-down(sm) {
+      margin: 1rem 0;
+    }
+  }
+
+  h2 {
+    font-size: 1.9rem;
+    font-weight: 300;
+  }
+
+  .forgot {
+    text-align: center;
+  }
+
+  .card {
+    margin-bottom: 0;
+  }
   .card-img-top {
     max-width: 100%;
   }
@@ -571,8 +595,8 @@ small, .small {
 
   .btn {
     @include media-breakpoint-only(xs) {
-      padding: 4px 10px;
-      font-size: 13px;
+      padding: 8px 10px;
+      font-size: 14px;
     }
   }
 }
