@@ -55,8 +55,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row-fluid">
 			<div class="span9">
 				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('link'); ?>
-					<?php echo $this->form->getControlGroup('description'); ?>
+					<?php echo $this->form->renderField('link'); ?>
+					<?php echo $this->form->renderField('description'); ?>
 				</div>
 			</div>
 			<div class="span3">
@@ -68,9 +68,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS')); ?>
 		<div class="row-fluid">
 			<div class="span6">
-					<?php echo $this->form->getControlGroup('images'); ?>
+					<?php echo $this->form->renderField('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php echo $field->getControlGroup(); ?>
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
 				</div>
 			</div>

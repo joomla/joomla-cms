@@ -233,7 +233,7 @@ class ContentModelArticles extends JModelList
 				$query->where('a.featured = 1');
 			}
 		}
-		elseif ($orderby_sec == 'front')
+		elseif ($orderby_sec == 'front' || $this->getState('list.ordering') == 'fp.ordering')
 		{
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}

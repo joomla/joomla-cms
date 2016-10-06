@@ -54,5 +54,5 @@ abstract class JObserver extends JObject
 	 * @since   11.1
 	 * @deprecated  12.3
 	 */
-	public abstract function update(&$args);
+	abstract public function update(&$args);
 }

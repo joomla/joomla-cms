@@ -133,11 +133,11 @@ $navposition = $params->get('navposition');
 									<?php echo JModuleHelper::renderModule($module); ?>
 								</div><!-- end searchbox -->
 							<?php endif; ?>
-							<div><!-- start gotohomepage -->
+							<div><!-- start goto home page -->
 								<p>
 								<a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a>
 								</p>
-							</div><!-- end gotohomepage -->
+							</div><!-- end goto home page -->
 							<h3>
 								<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>
 							</h3>
@@ -147,9 +147,26 @@ $navposition = $params->get('navposition');
 						</div><!-- end errorboxbody -->
 					</div><!-- end wrapper2 -->
 				</div><!-- end contentarea2 -->
-				<?php if ($this->debug) :
-					echo $this->renderBacktrace();
-				endif; ?>
+				<?php if ($this->debug) : ?>
+					<div>
+						<?php echo $this->renderBacktrace(); ?>
+						<?php // Check if there are more Exceptions and render their data as well ?>
+						<?php if ($this->error->getPrevious()) : ?>
+							<?php $loop = true; ?>
+							<?php // Reference $this->_error here and in the loop as setError() assigns errors to this property and we need this for the backtrace to work correctly ?>
+							<?php // Make the first assignment to setError() outside the loop so the loop does not skip Exceptions ?>
+							<?php $this->setError($this->_error->getPrevious()); ?>
+							<?php while ($loop === true) : ?>
+								<p><strong><?php echo JText::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
+								<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
+								<?php echo $this->renderBacktrace(); ?>
+								<?php $loop = $this->setError($this->_error->getPrevious()); ?>
+							<?php endwhile; ?>
+							<?php // Reset the main error object to the base error ?>
+							<?php $this->setError($this->error); ?>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>
 			</div><!--end back -->
 		</div><!--end all -->
 		<div id="footer-outer">

@@ -86,7 +86,7 @@ abstract class JHtmlFormbehavior
 		$displayData = array(
 			'debug'     => $debug,
 			'options'  => $options,
-			'selector' => $selector
+			'selector' => $selector,
 		);
 
 		JLayoutHelper::render('joomla.html.formbehavior.chosen', $displayData);
@@ -139,7 +139,7 @@ abstract class JHtmlFormbehavior
 				'dataType'       => $dataType,
 				'jsonTermKey'    => $jsonTermKey,
 				'afterTypeDelay' => $afterTypeDelay,
-				'minTermLength'  => $minTermLength
+				'minTermLength'  => $minTermLength,
 			);
 
 			JLayoutHelper::render('joomla.html.formbehavior.ajaxchosen', $displayData);

@@ -244,7 +244,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	/**
 	 * Fixes up a string for inclusion in a query.
 	 * Replaces name quote character with normal quote for literal.
-	 * Drops trailing semi-colon. Injects the database prefix.
+	 * Drops trailing semicolon. Injects the database prefix.
 	 *
 	 * @param   string  $string  The input string to be cleaned up.
 	 *

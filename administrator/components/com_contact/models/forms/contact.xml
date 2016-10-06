@@ -75,7 +75,6 @@
 			description="JFIELD_CATEGORY_DESC"
 			extension="com_contact"
 			required="true"
-			allowAdd="true"
 			default=""
 		/>
 
@@ -432,6 +431,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CATEGORY_DESC"
+				class="chzn-color"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
