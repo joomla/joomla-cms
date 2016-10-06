@@ -271,8 +271,10 @@ class PlgUserJoomla extends JPlugin
 			return true;
 		}
 
+		$sharedSessions = $this->app->get('shared_session', '0');
+
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && $options['clientid'] == $this->app->getClientId())
+		if ($my->id == $user['id'] && (!$sharedSessions && $options['clientid'] == $this->app->getClientId()))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -288,8 +290,12 @@ class PlgUserJoomla extends JPlugin
 		{
 			$query = $this->db->getQuery(true)
 				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
-				->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+
+			if (!$sharedSessions)
+			{
+				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+			}
 
 			try
 			{

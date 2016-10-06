@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -319,7 +320,7 @@ class UsersModelGroup extends JModelAdmin
 		{
 			if ($title == $table->title)
 			{
-				$title = JString::increment($title);
+				$title = StringHelper::increment($title);
 			}
 		}
 

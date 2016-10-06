@@ -17,10 +17,11 @@ JHtml::_('bootstrap.tooltip');
 			<div class="row">
 				<div class="col-md-6">
 					<?php if ($user->client_id == 0) : ?>
-						<a title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-xs">
+						<a title="<?php echo JHtml::tooltipText('MOD_LOGGED_LOGOUT'); ?>" href="<?php echo $user->logoutLink; ?>" class="btn btn-danger btn-xs hasTooltip">
 							<span class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT'); ?>"></span>
 						</a>
 					<?php endif; ?>
+
 					<strong class="row-title">
 						<?php if (isset($user->editLink)) : ?>
 							<a href="<?php echo $user->editLink; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('JGRID_HEADING_ID'); ?> : <?php echo $user->id; ?>">
@@ -29,8 +30,11 @@ JHtml::_('bootstrap.tooltip');
 							<?php echo $user->name; ?>
 						<?php endif; ?>
 					</strong>
+
 					<small class="small hasTooltip" title="<?php echo JHtml::tooltipText('JCLIENT'); ?>">
-						<?php if ($user->client_id) : ?>
+						<?php if ($user->client_id === null) : ?>
+							<?php // Don't display a client ?>
+						<?php elseif ($user->client_id) : ?>
 							<?php echo JText::_('JADMINISTRATION'); ?>
 						<?php else : ?>
 							<?php echo JText::_('JSITE'); ?>
@@ -38,9 +42,9 @@ JHtml::_('bootstrap.tooltip');
 					</small>
 				</div>
 				<div class="col-md-6 text-sm-right">
-					<span class="text-sm-right small hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
+					<div class="small pull-xs-right hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGGED_LAST_ACTIVITY'); ?>">
 						<span class="icon-calendar"></span> <?php echo JHtml::_('date', $user->time, JText::_('DATE_FORMAT_LC5')); ?>
-					</span>
+					</div>
 				</div>
 			</div>
 		</li>

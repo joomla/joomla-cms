@@ -62,7 +62,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 		// Get the views and the currently active query vars
 		$views = $this->router->getViews();
 		$active = $this->router->menu->getActive();
-		$vars = array_merge($active->query, $vars);
+
+		if ($active)
+		{
+			$vars = array_merge($active->query, $vars);
+		}
 
 		// We don't have a view or its not a view of this component! We stop here
 		if (!isset($vars['view']) || !isset($views[$vars['view']]))
@@ -231,11 +235,11 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 				$ids = array_shift($path);
 				if ($views[$view]->nestable)
 				{
-					foreach (array_reverse($ids, true) as $id)
+					foreach (array_reverse($ids, true) as $id => $segment)
 					{
 						if ($found2)
 						{
-							$segments[] = str_replace(':', '-', $id);
+							$segments[] = str_replace(':', '-', $segment);
 						}
 						else
 						{
@@ -254,7 +258,7 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 					}
 					else
 					{
-						$segments[] = str_replace(':', '-', $ids[0]);
+						$segments[] = str_replace(':', '-', array_shift($ids));
 					}
 				}
 			}
@@ -280,8 +284,12 @@ class JComponentRouterRulesStandard implements JComponentRouterRulesInterface
 			}
 			unset($query[$views[$view]->parent_key]);
 		}
-		unset($query['layout']);
-		unset($query[$views[$query['view']]->key]);
-		unset($query['view']);
+
+		if ($found)
+		{
+			unset($query['layout']);
+			unset($query[$views[$query['view']]->key]);
+			unset($query['view']);
+		}
 	}
 }

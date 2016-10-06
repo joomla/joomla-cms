@@ -50,6 +50,14 @@ class ContactViewContact extends JViewLegacy
 	protected $return_page;
 
 	/**
+	 * Should we show a captcha form for the submission of the contact request?
+	 *
+	 * @var   bool
+	 * @since 3.6.3
+	 */
+	protected $captchaEnabled = false;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -288,8 +296,19 @@ class ContactViewContact extends JViewLegacy
 
 		$model = $this->getModel();
 		$model->hit();
-		$this->_prepareDocument();
 
+		$captchaSet = $params->get('captcha', JFactory::getApplication()->get('captcha', '0'));
+
+		foreach (JPluginHelper::getPlugin('captcha') as $plugin)
+		{
+			if ($captchaSet === $plugin->name)
+			{
+				$this->captchaEnabled = true;
+				break;
+			}
+		}
+
+		$this->_prepareDocument();
 		return parent::display($tpl);
 	}
 

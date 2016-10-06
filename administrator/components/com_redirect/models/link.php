@@ -201,7 +201,7 @@ class RedirectModelLink extends JModelAdmin
 	}
 
 	/**
-	 * Method to duplicate URL links.
+	 * Method to batch update URLs to have new redirect urls and comments. Note will publish any unpublished URLs.
 	 *
 	 * @param   array   &$pks     An array of link ids.
 	 * @param   string  $url      The new URL to set for the redirect.
@@ -238,6 +238,7 @@ class RedirectModelLink extends JModelAdmin
 				->update($db->quoteName('#__redirect_links'))
 				->set($db->quoteName('new_url') . ' = ' . $db->quote($url))
 				->set($db->quoteName('modified_date') . ' = ' . $db->quote($date))
+				->set($db->quoteName('published') . ' = ' . 1)
 				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
 
 			if (!empty($comment))

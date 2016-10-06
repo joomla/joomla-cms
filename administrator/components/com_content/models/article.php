@@ -269,23 +269,19 @@ class ContentModelArticle extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			// Convert the params field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->attribs);
+			$registry = new Registry($item->attribs);
 			$item->attribs = $registry->toArray();
 
 			// Convert the metadata field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->metadata);
+			$registry = new Registry($item->metadata);
 			$item->metadata = $registry->toArray();
 
 			// Convert the images field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->images);
+			$registry = new Registry($item->images);
 			$item->images = $registry->toArray();
 
 			// Convert the urls field to an array.
-			$registry = new Registry;
-			$registry->loadString($item->urls);
+			$registry = new Registry($item->urls);
 			$item->urls = $registry->toArray();
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
@@ -481,8 +477,7 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['images']) && is_array($data['images']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($data['images']);
+			$registry = new Registry($data['images']);
 
 			$data['images'] = (string) $registry;
 		}
@@ -533,8 +528,7 @@ class ContentModelArticle extends JModelAdmin
 
 			unset($check);
 
-			$registry = new Registry;
-			$registry->loadArray($data['urls']);
+			$registry = new Registry($data['urls']);
 
 			$data['urls'] = (string) $registry;
 		}

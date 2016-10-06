@@ -9,17 +9,16 @@
 
 defined('_JEXEC') or die;
 
-$showhelp = $params->get('showhelp', 1);
 $user = JFactory::getUser();
 
 /**
  * Site SubMenu
-**/
+ */
 $menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'class:cog fa-fw'));
 
 /**
  * Users Submenu
-**/
+ */
 if ($user->authorise('core.manage', 'com_users'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_USERS'), null, 'class:users fa-fw'));
@@ -27,7 +26,7 @@ if ($user->authorise('core.manage', 'com_users'))
 
 /**
  * Menus Submenu
-**/
+ */
 if ($user->authorise('core.manage', 'com_menus'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MENUS'), null, 'class:list fa-fw'));
@@ -35,7 +34,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 
 /**
  * Content Submenu
-**/
+ */
 if ($user->authorise('core.manage', 'com_content'))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), null, 'class:file-text-o fa-fw'));
@@ -43,7 +42,7 @@ if ($user->authorise('core.manage', 'com_content'))
 
 /**
  * Components Submenu
-**/
+ */
 
 // Get the authorised components and sub-menus.
 $components = ModMenuHelper::getComponents(true);
@@ -56,7 +55,7 @@ if ($components)
 
 /**
  * Extensions Submenu
-**/
+ */
 $im = $user->authorise('core.manage', 'com_installer');
 $mm = $user->authorise('core.manage', 'com_modules');
 $pm = $user->authorise('core.manage', 'com_plugins');
@@ -70,8 +69,8 @@ if ($im || $mm || $pm || $tm || $lm)
 
 /**
  * Help Submenu
-**/
-if ($showhelp == 1)
+ */
+if ($params->get('showhelp', 1))
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'class:info-circle fa-fw'));
 }

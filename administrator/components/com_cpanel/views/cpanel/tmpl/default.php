@@ -68,6 +68,7 @@ $user = JFactory::getUser();
 					echo '</div><div class="row">';
 					$cols = $bootstrapSize;
 				}
+
 				echo JModuleHelper::renderModule($module, array('style' => 'well'));
 			}
 			?>
