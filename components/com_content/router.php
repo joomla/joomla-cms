@@ -26,6 +26,11 @@ class ContentRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
+		if ($app->input->get('view') === 'articles' && $app->input->get('layout') === 'modal')
+		{
+			return;
+		}
+
 		$params = JComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new JComponentRouterViewconfiguration('categories');
