@@ -17,7 +17,7 @@ window.hideAssociation = function(formControl, languageCode)
 	jQuery('#associations .control-group').each(function()
 	{
 		// Current selected language. Hide it.
-		if (jQuery(this).find('.control-label label').attr('for') == formControl + '_associations_' + languageCode.replace('-', '_'))
+		if (jQuery(this).find('.control-label label').attr('for').replace('_id', '') == formControl + '_associations_' + languageCode.replace('-', '_'))
 		{
 			jQuery(this).hide();
 		}
@@ -59,7 +59,7 @@ window.showAssociationMessage = function()
 			// For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create.
 			$('#associations .control-group').each(function()
 			{
-				var languageCode = $(this).find('.control-label label').attr('for').replace('jform_associations_', '');
+				var languageCode = $(this).find('.control-label label').attr('for').replace('_id', '').replace('jform_associations_', '');
 
 				// Show the association fields.
 				$(this).show();
