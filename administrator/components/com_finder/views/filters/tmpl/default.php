@@ -94,8 +94,8 @@ JFactory::getDocument()->addScriptDeclaration('
 				$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
 				$userId                     = $user->get('id');
 				foreach ($this->items as $i => $item) :
-					$canCheckin = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
-					$canChange = $userAuthoriseCoreEditState && $canCheckin;
+					$canCheckIn = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
+					$canChange = $userAuthoriseCoreEditState && $canCheckIn;
 					$escapedTitle = $this->escape($item->title);
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
@@ -107,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration('
 						</td>
 						<td>
 							<?php if ($item->checked_out) : ?>
-								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin); ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckIn); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
