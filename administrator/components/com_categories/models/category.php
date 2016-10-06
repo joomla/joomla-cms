@@ -426,7 +426,7 @@ class CategoriesModelCategory extends JModelAdmin
 		// Association category items
 		if ($this->getAssoc())
 		{
-			$languages = JLanguageHelper::getLanguages('lang_code');
+			$languages = JLanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
