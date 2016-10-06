@@ -13,10 +13,10 @@ $app = JFactory::getApplication();
 
 if ($app->isSite())
 {
-	JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
