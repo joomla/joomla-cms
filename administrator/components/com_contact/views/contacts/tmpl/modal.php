@@ -23,6 +23,11 @@ JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($searc
 
 $app = JFactory::getApplication();
 
+if ($app->isSite())
+{
+	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+}
+
 $function  = $app->input->getCmd('function', 'jSelectContact');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
