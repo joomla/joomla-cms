@@ -93,7 +93,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			if (!JFactory::getUser()->authorise('core.create', 'com_templates'))
 			{
 				// User is not authorised to delete
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
@@ -104,7 +104,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
 				return false;
 			}
@@ -112,7 +112,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			// Check that new name doesn't already exist
 			if (!$model->checkNewName())
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'), 'error');
 
 				return false;
 			}
@@ -122,7 +122,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 			if (!$fromName)
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 				return false;
 			}
@@ -130,7 +130,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			// Call model's copy method
 			if (!$model->copy())
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'), 'error');
 
 				return false;
 			}
@@ -142,7 +142,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 			if (!$installModel->install())
 			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'), 'error');
 
 				return false;
 			}
@@ -216,7 +216,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Access check.
 		if (!$this->allowSave())
 		{
-			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -224,19 +224,19 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Match the stored id's with the submitted.
 		if (empty($data['extension_id']) || empty($data['filename']))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
 			return false;
 		}
 		elseif ($data['extension_id'] != $model->getState('extension.id'))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
 			return false;
 		}
 		elseif ($data['filename'] != end($explodeArray))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
 			return false;
 		}
@@ -246,7 +246,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'danger');
+			$app->enqueueMessage($model->getError(), 'error');
 
 			return false;
 		}
@@ -358,7 +358,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_COMPILE_ERROR'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_COMPILE_ERROR'), 'error');
 		}
 
 		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -398,7 +398,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_DELETE'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_DELETE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -426,13 +426,13 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		if ($type == 'null')
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
 		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $name))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -445,7 +445,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -479,7 +479,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -506,7 +506,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -518,7 +518,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FOLDER_CREATE'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FOLDER_CREATE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -562,7 +562,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -594,7 +594,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -606,7 +606,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_RENAME'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_RENAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -632,7 +632,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		if (empty($w) && empty($h) && empty($x) && empty($y))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_CROP_AREA_ERROR'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_CROP_AREA_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -644,7 +644,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_CROP_ERROR'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_CROP_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -674,7 +674,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RESIZE_ERROR'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RESIZE_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -701,7 +701,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -712,7 +712,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_COPY_FAIL'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_COPY_FAIL'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -743,7 +743,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 		else
 		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_FAIL'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_FAIL'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}

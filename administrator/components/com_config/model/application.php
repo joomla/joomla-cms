@@ -114,7 +114,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
 
 			return false;
 		}
@@ -171,7 +171,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if (!$hasSuperAdmin)
 			{
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'), 'danger');
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'), 'error');
 
 				return false;
 			}
@@ -184,14 +184,14 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'danger');
+					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
 
 					return;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND'), 'danger');
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -216,14 +216,14 @@ class ConfigModelApplication extends ConfigModelForm
 
 				if (!$extension->check() || !$extension->store())
 				{
-					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'danger');
+					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
 
 					return;
 				}
 			}
 			else
 			{
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'), 'danger');
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -348,7 +348,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Attempt to make the file writeable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 		{
-			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'info');
+			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
@@ -362,7 +362,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Attempt to make the file unwriteable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
-			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'info');
+			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
 		return true;
@@ -400,7 +400,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// We are creating a new item so we don't have an item id so don't allow.
 		if (substr($permission['component'], -6) === '.false')
 		{
-			$app->enqueueMessage(JText::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_RULES_SAVE_BEFORE_CHANGE_PERMISSIONS'), 'error');
 
 			return false;
 		}
@@ -408,7 +408,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// Check if the user is authorized to do this.
 		if (!$user->authorise('core.admin', $permission['component']))
 		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'danger');
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return false;
 		}
@@ -433,7 +433,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a group it belongs to.
 		if (!$currentUserSuperUser && $currentUserBelongsToGroup)
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_GROUPS'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_GROUPS'), 'error');
 
 			return false;
 		}
@@ -441,7 +441,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a group it belongs to.
 		if (!$currentUserSuperUser && in_array((int) $permission['rule'], $currentUserGroupsTree))
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_OWN_PARENT_GROUPS'), 'error');
 
 			return false;
 		}
@@ -449,7 +449,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the permissions of a Super User Group.
 		if (!$currentUserSuperUser && $isSuperUserGroupBefore && !$currentUserBelongsToGroup)
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_SUPER_USER'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_CHANGE_SUPER_USER'), 'error');
 
 			return false;
 		}
@@ -457,7 +457,7 @@ class ConfigModelApplication extends ConfigModelForm
 		// If user is not Super User cannot change the Super User permissions in any group it belongs to.
 		if ($isSuperUserGroupBefore && $currentUserBelongsToGroup && $permission['action'] === 'core.admin')
 		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'danger');
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'), 'error');
 
 			return false;
 		}
@@ -477,7 +477,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'danger');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -521,7 +521,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if (!$asset->check() || !$asset->store())
 			{
-				$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'danger');
+				$app->enqueueMessage(JText::_('JLIB_UNKNOWN'), 'error');
 
 				return false;
 			}
@@ -573,7 +573,7 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			catch (Exception $e)
 			{
-				$app->enqueueMessage($e->getMessage(), 'danger');
+				$app->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -646,7 +646,7 @@ class ConfigModelApplication extends ConfigModelForm
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'danger');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -743,13 +743,13 @@ class ConfigModelApplication extends ConfigModelForm
 		// If removed or added super user from group, we need to refresh the page to recalculate all settings.
 		if ($isSuperUserGroupBefore != $isSuperUserGroupAfter)
 		{
-			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_PERMISSIONS'), 'info');
+			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_PERMISSIONS'), 'notice');
 		}
 
 		// If this group has child groups, we need to refresh the page to recalculate the child settings.
 		if ($totalChildGroups > 0)
 		{
-			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_CHILDS_PERMISSIONS'), 'info');
+			$app->enqueueMessage(JText::_('JLIB_RULES_NOTICE_RECALCULATE_GROUP_CHILDS_PERMISSIONS'), 'notice');
 		}
 
 		return $result;
@@ -803,7 +803,7 @@ class ConfigModelApplication extends ConfigModelForm
 			return true;
 		}
 
-		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'danger');
+		$app->enqueueMessage(JText::_('COM_CONFIG_SENDMAIL_ERROR'), 'error');
 
 		return false;
 	}

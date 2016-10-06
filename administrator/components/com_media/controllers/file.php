@@ -118,7 +118,7 @@ class MediaControllerFile extends JControllerLegacy
 			if (!isset($file['name']))
 			{
 				// No filename (after the name was cleaned by JFile::makeSafe)
-				$this->setRedirect('index.php', JText::_('COM_MEDIA_INVALID_REQUEST'), 'danger');
+				$this->setRedirect('index.php', JText::_('COM_MEDIA_INVALID_REQUEST'), 'error');
 
 				return false;
 			}
@@ -222,7 +222,7 @@ class MediaControllerFile extends JControllerLegacy
 		// Just return if there's nothing to do
 		if (empty($paths))
 		{
-			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'danger');
+			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 
 			return true;
 		}
@@ -253,7 +253,7 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			$path = JPath::clean(implode(DIRECTORY_SEPARATOR, array($folder, $path)));
 			$path = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
-			$app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', $path), 'danger');
+			$app->enqueueMessage(JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', $path), 'error');
 		}
 
 		foreach ($safePaths as $path)

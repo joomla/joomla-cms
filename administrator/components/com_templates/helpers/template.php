@@ -48,7 +48,7 @@ abstract class TemplateHelper
 		if (empty($file['name']))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_UPLOAD_INPUT'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
@@ -69,7 +69,7 @@ abstract class TemplateHelper
 				if (in_array($extensionName, $explodedFileName))
 				{
 					$app = JFactory::getApplication();
-					$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'danger');
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
 
 					return false;
 				}
@@ -81,7 +81,7 @@ abstract class TemplateHelper
 		if ($file['name'] !== JFile::makeSafe($file['name']) || preg_match('/\s/', JFile::makeSafe($file['name'])))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -98,7 +98,7 @@ abstract class TemplateHelper
 		if ($format == '' || $format == false || (!in_array($format, $allowable)))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -122,7 +122,7 @@ abstract class TemplateHelper
 						if (!in_array($ext, $allowable))
 						{
 							$app = JFactory::getApplication();
-							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'danger');
+							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
 
 							return false;
 						}
@@ -132,7 +132,7 @@ abstract class TemplateHelper
 			else
 			{
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
 
 				return false;
 			}
@@ -144,7 +144,7 @@ abstract class TemplateHelper
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETOOLARGE'), 'danger');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -167,7 +167,7 @@ abstract class TemplateHelper
 			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
 			{
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNIEXSS'), 'danger');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}

@@ -106,7 +106,7 @@ class JCaptcha extends JObject
 			}
 			catch (RuntimeException $e)
 			{
-				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return;
 			}
@@ -135,7 +135,7 @@ class JCaptcha extends JObject
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

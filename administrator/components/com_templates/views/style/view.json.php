@@ -55,7 +55,7 @@ class TemplatesViewStyle extends JViewLegacy
 		catch (Exception $e)
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage($e->getMessage(), 'danger');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

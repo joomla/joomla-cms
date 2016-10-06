@@ -60,21 +60,21 @@ class JViewCategories extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			$app->enqueueMessage($errors, 'danger');
+			$app->enqueueMessage($errors, 'error');
 
 			return false;
 		}
 
 		if ($items === false)
 		{
-			$app->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'danger');
+			$app->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
 			return false;
 		}
 
 		if ($parent == false)
 		{
-			$app->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'danger');
+			$app->enqueueMessage(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
 			return false;
 		}

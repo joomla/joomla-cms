@@ -137,7 +137,7 @@ class RedirectControllerLinks extends JControllerAdmin
 		}
 
 		// Set default message on error - overwrite if successful
-		$this->setMessage(JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'danger');
+		$this->setMessage(JText::_('COM_REDIRECT_NO_ITEM_ADDED'), 'error');
 
 		if (!empty($batch_urls))
 		{

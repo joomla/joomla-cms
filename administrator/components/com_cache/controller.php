@@ -86,7 +86,7 @@ class CacheController extends JControllerLegacy
 
 			if ($result !== array())
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'danger');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', implode(', ', $result)), 'error');
 			}
 			else
 			{
@@ -123,7 +123,7 @@ class CacheController extends JControllerLegacy
 			{
 				if ((int) $mCache->clean($cache->group) !== 1)
 				{
-					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'danger');
+					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
 					$allCleared = false;
 				}
 			}
@@ -153,7 +153,7 @@ class CacheController extends JControllerLegacy
 
 		if (!$this->getModel('cache')->purge())
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'danger');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR'), 'error');
 		}
 		else
 		{

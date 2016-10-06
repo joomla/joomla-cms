@@ -43,7 +43,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'danger');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

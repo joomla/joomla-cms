@@ -139,7 +139,7 @@ class JInstallerScript
 
 			if (version_compare($this->release, $oldRelease, '<'))
 			{
-				JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'danger');
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_INSTALLER_INCORRECT_SEQUENCE', $oldRelease, $this->release), 'error');
 
 				return false;
 			}

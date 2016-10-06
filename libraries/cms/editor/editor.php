@@ -295,7 +295,7 @@ class JEditor extends JObject
 		// Check whether editor is already loaded
 		if (is_null(($this->_editor)))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'error');
 
 			return;
 		}

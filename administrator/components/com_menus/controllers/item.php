@@ -265,7 +265,7 @@ class MenusControllerItem extends JControllerForm
 		if (!$this->allowSave($data, $key))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'danger');
+			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
 				JRoute::_(
@@ -388,7 +388,7 @@ class MenusControllerItem extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$editUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId);
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'danger');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(JRoute::_($editUrl, false));
 
 			return false;

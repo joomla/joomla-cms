@@ -347,7 +347,7 @@ class JApplicationCms extends JApplicationWeb
 			if ($redirect)
 			{
 				// Redirect to the profile edit page
-				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'info');
+				$this->enqueueMessage(JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
 				$this->redirect(JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
@@ -1009,7 +1009,7 @@ class JApplicationCms extends JApplicationWeb
 				}
 				else
 				{
-					$type = 'info';
+					$type = 'message';
 				}
 
 				// Enqueue the message

@@ -60,7 +60,7 @@ class FinderControllerFilter extends JControllerForm
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'danger');
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return false;
@@ -77,7 +77,7 @@ class FinderControllerFilter extends JControllerForm
 			{
 				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-				$this->setMessage($this->getError(), 'danger');
+				$this->setMessage($this->getError(), 'error');
 				$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $urlVar));
 
 				return false;
@@ -92,7 +92,7 @@ class FinderControllerFilter extends JControllerForm
 		if (!$this->allowSave($data, $key))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'danger');
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));
 
 			return false;
@@ -104,7 +104,7 @@ class FinderControllerFilter extends JControllerForm
 
 		if (!$form)
 		{
-			$app->enqueueMessage($model->getError(), 'danger');
+			$app->enqueueMessage($model->getError(), 'error');
 
 			return false;
 		}
@@ -161,7 +161,7 @@ class FinderControllerFilter extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'danger');
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(
 				JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key), false)
 			);
@@ -177,7 +177,7 @@ class FinderControllerFilter extends JControllerForm
 
 			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'danger');
+			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $key));
 
 			return false;
