@@ -10,14 +10,13 @@
 defined('JPATH_BASE') or die;
 
 $form     = $displayData->getForm();
-$disabled = (int) ((int) $form->getValue('id') === 0 || JFactory::getApplication()->input->get('layout') === 'modal');
 $options  = array(
 	'formControl' => $form->getFormControl(),
-	'disabled'    => $disabled,
-	'hidden'      => (int) ($disabled || $form->getValue('language') === '*'),
+	'hidden'      => (int) ($form->getValue('language', null, '*') === '*'),
 );
 
 JHtml::_('behavior.core');
+JText::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 JFactory::getDocument()->addScriptOptions('system.associations.edit', $options);
 JHtml::script('system/associations-edit.js', false, true);
 

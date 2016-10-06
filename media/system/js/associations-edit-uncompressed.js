@@ -24,16 +24,10 @@ window.hideAssociation = function(formControl, languageCode)
 	});
 }
 
-window.showTab = function(tabid)
+window.showAssociationMessage = function()
 {
-	jQuery('a[data-toggle="tab"][href="#' + tabid + '"]').show();
-	jQuery('#' + tabid + '').show();
-}
-
-window.hideTab = function(tabid)
-{
-	jQuery('a[data-toggle="tab"][href="#' + tabid + '"]').hide();
-	jQuery('#' + tabid + '').hide();
+	jQuery('#associations .control-group').hide();
+	jQuery('#associations').prepend('<div id="associations-message" class="alert alert-info">' + Joomla.JText._('JGLOBAL_ASSOC_NOT_POSSIBLE') + '</div>');
 }
 
 !(function()
@@ -41,46 +35,46 @@ window.hideTab = function(tabid)
 	jQuery(document).ready(function($)
 	{	
 		var associationsEditOptions = Joomla.getOptions('system.associations.edit'), formControl = associationsEditOptions.formControl || 'jform';
+
 		// Hide the associations tab if needed.
 		if (associationsEditOptions.hidden == 1)
 		{
-			window.hideTab('associations');
+			window.showAssociationMessage();
 		}
 		// Hide only the associations for the current language.
 		else
 		{
-			window.hideAssociation(formControl, jQuery('#' + formControl + '_language').val());
+			window.hideAssociation(formControl, $('#' + formControl + '_language').val());
 		}
 
-		if (associationsEditOptions.disabled != 1)
+		// When changing the language.
+		$('#' + formControl + '_language').on('change', function(event)
 		{
-			// When changing the language.
-			$('#' + formControl + '_language').on('change', function(event)
+			// Remove message if any.
+			$('#associations-message').remove();
+
+			// For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create.
+			$('#associations .control-group').each(function()
 			{
-				// For each language, remove the associations, ie, empty the associations fields and reset the buttons to Select/Create.
-				$('#associations .control-group').each(function()
-				{
-					// Show the association fields.
-					$(this).show();
+				// Show the association fields.
+				$(this).show();
 
-					// Call the modal clear button.
-					$('#' + $(this).find('.control-label label').attr('id').replace('_id-lbl', '') + '_clear').click();
-				});
-
-				var selectedLanguage = $(this).val();
-
-				// If the selected language is All hide the associations fields/buttons ans reset the buttons.
-				if (selectedLanguage == '*')
-				{
-					window.hideTab('associations');
-				}
-				// Else show the associations fields/buttons and hide the current selected language.
-				else
-				{
-					window.hideAssociation(formControl, selectedLanguage);
-					window.showTab('associations');
-				}
+				// Call the modal clear button.
+				$('#' + $(this).find('.control-label label').attr('id').replace('_id-lbl', '') + '_clear').click();
 			});
-		}
+
+			var selectedLanguage = $(this).val();
+
+			// If the selected language is All hide the fields and add a message.
+			if (selectedLanguage == '*')
+			{
+				window.showAssociationMessage();
+			}
+			// Else show the associations fields/buttons and hide the current selected language.
+			else
+			{
+				window.hideAssociation(formControl, selectedLanguage);
+			}
+		});
 	});
 })(window, document, Joomla);
