@@ -26,6 +26,9 @@
 # Node modules #
 node_modules/
 
+# CSS map files #
+.map
+
 # phpDocumentor Logs #
 phpdoc-*
 
