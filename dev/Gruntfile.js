@@ -418,6 +418,20 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/mediaelement/css/',
 						filter: 'isFile'
 					},
+					{ // MiniColors
+						expand: true,
+						cwd: 'assets/node_modules/jquery-minicolors',
+						src: ['*.js'],
+						dest: '../media/vendor/minicolors/js/',
+						filter: 'isFile'
+					},
+					{ // MiniColors
+						expand: true,
+						cwd: 'assets/node_modules/jquery-minicolors',
+						src: ['*.css', '*.png'],
+						dest: '../media/vendor/minicolors/css/',
+						filter: 'isFile'
+					},
 				]
 			}
 		},
