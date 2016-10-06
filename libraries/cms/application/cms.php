@@ -292,7 +292,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @since   3.2
 	 */
-	public function enqueueMessage($msg, $type = self::MSG_INFO)
+	public function enqueueMessage($msg, $type = 'success')
 	{
 		// Don't add empty messages.
 		if (!strlen(trim($msg)))
