@@ -194,7 +194,7 @@ if ($user->authorise('core.manage', 'com_content'))
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#', 'class:file-text-o fa-fw'), true);
 	$createContent = $shownew && $user->authorise('core.create', 'com_content');
 
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content', 'class:article'), $createContent);
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content'), $createContent);
 
 	if ($createContent)
 	{
@@ -352,7 +352,7 @@ if ($showhelp == 1)
 	$menu->getParent();
 }
 
-/*
+/**
  * User Submenu
  */
 $menu->addChild(new JMenuNode($user->username, '#', 'class:user fa-fw'), true);
