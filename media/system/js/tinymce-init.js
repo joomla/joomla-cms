@@ -48,7 +48,7 @@
 				options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name
 
 			// Avoid unexpected changes
-			Joomla.extend({}, options);
+			options = Joomla.extend({}, options);
 
 			if (element) {
 				// We already have the Target, so reset the selector and assign given element as target
@@ -72,9 +72,11 @@
 		Joomla.JoomlaTinyMCE.setupEditors();
 
 		// Init in subform field
-		document.addEventListener('subform-row-add', function(event, row){
-			Joomla.JoomlaTinyMCE.setupEditors(row);
-		})
+		if(window.jQuery) {
+			jQuery(document).on('subform-row-add', function (event, row) {
+				Joomla.JoomlaTinyMCE.setupEditors(row);
+			});
+		}
 	});
 
 }(tinyMCE, Joomla, window, document));
