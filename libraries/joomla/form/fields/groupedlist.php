@@ -143,7 +143,7 @@ class JFormFieldGroupedList extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';

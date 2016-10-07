@@ -104,7 +104,7 @@ else // XTD Image plugin
 							<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 						</div>
 						<div class="controls">
-							<select size="1" id="f_align">
+							<select class="custom-select" size="1" id="f_align">
 								<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
 								<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
 								<option value="text-xs-center"><?php echo JText::_('JGLOBAL_CENTER') ?></option>

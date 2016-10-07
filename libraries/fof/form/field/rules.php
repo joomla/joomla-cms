@@ -513,7 +513,7 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
 
                 $html[] = '<td headers="settings-th' . $group->value . '">';
 
-                $html[] = '<select class="input-small" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name
+                $html[] = '<select class="custom-select" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name
                     . '_' . $group->value . '" title="'
                     . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 

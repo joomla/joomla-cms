@@ -34,89 +34,213 @@
 					<option value="0">JNO</option>
 				</field>
 
-				<field
-					name="showHome"
-					type="radio"
-					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC"
-					class="btn-group btn-group-yesno"
-					default="1"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="homeText"
-					type="text"
-					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC"
-					showon="showHome:1"
-				/>
-
-				<field
-					name="showLast"
-					type="radio"
-					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC"
-					default="1"
-					class="btn-group btn-group-yesno"
-					>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-
-				<field
-					name="separator"
-					type="text"
-					label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
-					description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC"
-				/>
-
 			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-				/>
+			
+			
+			
+<fieldset name="another">
+	<field name="access" type="accesslevel"
+		label="access"
+		class="custom-select"
+	/>
+	
+	<field name="cache_handler"
+		type="cachehandler"
+		default=""
+		label="cache handler"
+		filter="word">
+	</field>
+	
+	<field name="mycalendar" type="calendar" default="5-10-2008" label="Calendar" format="%d-%m-%Y" />
+	
+	<field name="mycategory" type="category" extension="com_content" label="Category" />
+	
+	<field name="show_title" type="checkbox" label="Checkbox" value="1" />
+	
+	<field name="toppings" type="checkboxes" label="Checkboxes">
+		<option value="anch">Anchovies</option>
+		<option value="chor">Chorizo</option>
+		<option value="on">Onions</option>
+		<option value="mush">Mushrooms</option>
+	</field>
+	
+	<field name="style" type="chromestyle"
+		label="chrome style"
+	/>
+	
+	<field name="backgroundcolor" type="color" default="#eee"
+		label="color"
+	/>
 
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
-					rows="3"
-				/>
+	<field name="types" type="contenttype"
+		label="content type"
+		multiple="true"
+	/>
+	
+	<field name="myeditbox" type="combo" label="combo" size="7">
+		<option value="1">Option 1</option>
+		<option value="2">Option 2</option>
+	</field>
+	
+	<field name="mylayout" type="componentlayout" extension="com_content" view="article" label="componentlayout" useglobal="true" />
+	
+	<field name="language" type="contentlanguage"
+		label="JFIELD_LANGUAGE_LABEL"
+		class="span12" >
+		<option value="*">JALL</option>
+	</field>
+	
+	<field name="dbtype" type="databaseconnection"
+	label="databaseconnection"
+	supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
+	filter="string" />
+	
+	<field name="myeditor" type="editors" default="none" label="editors" />
+	
+	<field name="email" type="email"
+		label="JGLOBAL_EMAIL"
+		required="true"
+		size="30"
+		class="inputbox"
+		validate="email" />
+					
+	<field name="myfilevalue" type="file" label="file" size="10" accept="image/*" />
+	
+	<field name="myfile" type="filelist" default="" label="filelist" directory="administrator" filter="" exclude="" stripext="" />
+	
+	<field name="myfolder" type="folderlist" default="" label="folderlist" directory="administrator" filter="" exclude="" stripext="" />
+	
+	<field name="mylistvalue" type="groupedlist" default="" label="groupedlist">
+	  <group label="Group 1">
+		<option value="0">Option 1</option>
+		<option value="1">Option 2</option>
+	  </group>
+	  <group label="Group 2">
+		<option value="3">Option 3</option>
+		<option value="4">Option 4</option>
+	  </group>
+	  <option value="5">Option 5</option>
+	  <option value="6">Option 6</option>
+	</field>
+	
+	<field name="header_tag" type="headertag"
+	label="headertag"
+	default="h3"/>
+	
+	<field name="myhelpsite" type="helpsite" default="" label="helpsite" />
+	
+	<field name="myimage" type="imagelist" default="" label="imagelist" directory="" exclude="" stripext="" />
+	
+	<field name="myintegervalue" type="integer" default="Some integer" label="integer" first="1" last="10" step="1" />
+	
+	<field name="mylanguage" type="language" client="site" default="en-GB" label="language" />
+	
+	<field name="mylistvalue" type="list" default="" label="list">
+	  <option value="0">Option 1</option>
+	  <option value="1">Option 2</option>
+	</field>
 
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					default="0"
-					>
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
+	<field name="myimage" type="media" label="media" directory="stories" />
+	
+	<field name="mymenu" type="menu" default="mainmenu" label="menu" />
+	
+	<field name="mymenuitem" type="menuitem" default="45" label="menuitem" />
+	
+	<field name="meter"
+	   active="true"
+	   type="meter"
+	   label="Meter"
+	   max="1000"
+	   min="1"
+	   step="10"
+	   default="240"
+	   />
+	  
+	<field name="mymodulelayout" type="modulelayout" label="modulelayout" />
 
-				<field
-					name="cache_time"
-					type="text"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
-					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
-					default="0"
-				/>
-
-				<field
-					name="cachemode"
-					type="hidden"
-					default="itemid"
-					>
-					<option value="itemid"></option>
-				</field>
-			</fieldset>
+	<field name="module_tag" type="moduletag"
+	label="moduletag"
+	default="div" />
+	
+	<field name="opt20" type="text" label="NOTE TEXT" />
+	<field name="note21" type="note" class="alert" label="NOT ACTUAL" />
+	
+	<field name="mynumbervalue" type="number" default="0" label="number" min="0" max="10" step="1" />
+	
+	<field name="mypassword" type="password" default="secret" label="Enter a password" size="5" />
+	
+	<field name="editor" type="plugins" folder="editors"
+		label="plugins" >
+		<option value="">JOPTION_USE_DEFAULT</option>
+	</field>
+	
+	<field name="myradiovalue" type="radio" default="0" label="radio">
+	  <option value="0">1</option>
+	  <option value="1">2</option>
+	</field>
+	
+	<field 
+		name="range" 
+		type="range" 
+		default="1" 
+		label="range" 
+		description="" 
+		min="1" 
+		max="10" 
+		step="1"
+	/>
+	
+	<field name="session_handler" type="sessionhandler"
+	default="none"
+	label="sessionhandler"
+	required="true"
+	filter="word" />
+	
+	<field type="spacer" name="myspacer" hr="true" />
+	
+	<field name="tags" type="tag" label="tag" mode="ajax" class="inputbox span12 small" multiple="true" />
+	
+	<field name="contact_telephone"
+		type="tel"
+		id="contact-telephone"
+		size="30"
+		label="tel"
+		filter="string"
+		required="true"
+	/>
+	
+	<field name="admin_style" type="templatestyle"
+		client="administrator"
+		description="templatestyle">
+			<option value="">JOPTION_USE_DEFAULT</option>
+	</field>
+	
+	<field name="mytextvalue" type="text" default="text" label="Enter some text" size="10" />
+	
+	<field name="mytextarea" type="textarea" default="default" label="textarea" rows="10" cols="5" />
+	
+	<field name="mytimezone" type="timezone" default="-10" label="timezone" />
+	
+	<field name="mytextvalue" type="url" default="http://www.example.com" label="URL" description="" size="10" />
+	
+	<field name="modified_user_id" type="user"
+	label="user"
+	class="readonly"
+	readonly="true"
+	filter="unset" />
+	
+	<field name="guest_usergroup" type="usergroup"
+	label="usergroup"
+	multiple="true" />
+	
+	
+				
+</fieldset>
+			
+			
+			
+			
+			
 		</fields>
 	</config>
 </extension>

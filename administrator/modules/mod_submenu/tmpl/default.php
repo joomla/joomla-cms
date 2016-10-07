@@ -42,7 +42,7 @@ defined('_JEXEC') or die;
 			<form action="<?php echo JRoute::_($action); ?>" method="post">
 				<?php foreach ($filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
-					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="span12 small" onchange="this.form.submit()">
+					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="custom-select" onchange="this.form.submit()">
 						<?php if (!$filter['noDefault']) : ?>
 							<option value=""><?php echo $filter['label']; ?></option>
 						<?php endif; ?>

@@ -35,7 +35,7 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 				<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 			</label>
 			<div class="controls">
-				<select name="batch[menu_id]" id="batch-menu-id">
+				<select class="custom-select" name="batch[menu_id]" id="batch-menu-id">
 					<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published, 'checkacl' => (int) $this->state->get('menutypeid')))); ?>
 				</select>
