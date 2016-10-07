@@ -805,7 +805,9 @@ small, .small {
 
 
 // Form
-.control-group {
+.control-group::after {
+  content: '';
+  display: table;
   clear: both;
 }
 form:not(.form-no-margin) {

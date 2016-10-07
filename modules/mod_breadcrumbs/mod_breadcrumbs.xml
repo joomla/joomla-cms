@@ -163,7 +163,7 @@
 	default="div" />
 	
 	<field name="opt20" type="text" label="NOTE TEXT" />
-	<field name="note21" type="note" class="alert" label="NOT ACTUAL" />
+	<field name="note21" type="note" class="alert alert-info" label="NOT ACTUAL" />
 	
 	<field name="mynumbervalue" type="number" default="0" label="number" min="0" max="10" step="1" />
 	

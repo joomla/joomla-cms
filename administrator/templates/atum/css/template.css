@@ -7462,7 +7462,9 @@ small, .small {
   .table td label {
     margin-bottom: 0; }
 
-.control-group {
+.control-group::after {
+  content: '';
+  display: table;
   clear: both; }
 
 form:not(.form-no-margin) .control-group {
