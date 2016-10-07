@@ -246,7 +246,7 @@ class JRouter
 	 *
 	 * @param   string  $url  The internal URL or an associative array
 	 *
-	 * @return  string  The absolute search engine friendly URL
+	 * @return  JUri  The absolute search engine friendly URL object
 	 *
 	 * @since   1.5
 	 */
