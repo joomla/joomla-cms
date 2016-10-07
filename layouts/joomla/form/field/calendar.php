@@ -57,6 +57,7 @@ $document = JFactory::getDocument();
  * @var   integer  $filltable       The previous/next month filling
  * @var   integer  $timeformat      The time format
  * @var   integer  $singleheader    Display different header row for month/year
+ * @var   integer  $direction       The document direction
  */
 
 $inputvalue = '';
@@ -91,14 +92,16 @@ if (is_array($attributes))
 	$attributes = ArrayHelper::toString($attributes);
 }
 
+$cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
+
 // Load polyfills for older IE
-//JHtml::_('behavior.polyfill', array('event', 'classlist'), 'lte IE 11');
+JHtml::_('behavior.polyfill', array('event', 'classlist'), 'lte IE 11');
 
 // The static assets for the calendar
 JHtml::_('script', $localesPath, false, true, false, false, true);
 JHtml::_('script', $helperPath, false, true, false, false, true);
 JHtml::_('script', 'system/fields/calendar-vanilla.min.js', false, true, false, false, true);
-JHtml::_('stylesheet', 'system/fields/calendar-vanilla.css', array(), true);
+JHtml::_('stylesheet', 'system/fields/calendar-vanilla' . $cssFileExt, array(), true);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>

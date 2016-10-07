@@ -197,11 +197,12 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 	 */
 	protected function getLayoutData()
 	{
-		$data     = parent::getLayoutData();
-		$tag      = JFactory::getLanguage()->getTag();
-		$calendar = JFactory::getLanguage()->getCalendar();
-		$config   = JFactory::getConfig();
-		$user     = JFactory::getUser();
+		$data      = parent::getLayoutData();
+		$tag       = JFactory::getLanguage()->getTag();
+		$calendar  = JFactory::getLanguage()->getCalendar();
+		$config    = JFactory::getConfig();
+		$user      = JFactory::getUser();
+		$direction = strtolower(JFactory::getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -267,6 +268,7 @@ class JFormFieldCalendar extends JFormField implements JFormDomfieldinterface
 			'localesPath'  => $localesPath,
 			'minYear'      => $this->minyear,
 			'maxYear'      => $this->maxyear,
+			'direction'    => $direction,
 		);
 
 		return array_merge($data, $extraData);

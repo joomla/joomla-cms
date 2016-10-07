@@ -102,7 +102,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	content: " ";
 	position: relative;
 	top: .25em;
-	right: -1.6em;
+	right: -1em;
 	width: 0;
 	height: 0;
 	border-top: 0.8em solid lime;

@@ -988,8 +988,9 @@ abstract class JHtml
 	 */
 	public static function calendar($value, $name, $id, $format = '%Y-%m-%d', $attribs = array())
 	{
-		$tag      = JFactory::getLanguage()->getTag();
-		$calendar = JFactory::getLanguage()->getCalendar();
+		$tag       = JFactory::getLanguage()->getTag();
+		$calendar  = JFactory::getLanguage()->getCalendar();
+		$direction = strtolower(JFactory::getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';
@@ -1061,6 +1062,7 @@ abstract class JHtml
 			'tag'          => $tag,
 			'helperPath'   => $helperPath,
 			'localesPath'  => $localesPath,
+			'direction'    => $direction,
 			);
 
 		return JLayoutHelper::render('joomla.form.field.calendar', $data, null, null);
