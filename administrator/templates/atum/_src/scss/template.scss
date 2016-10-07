@@ -811,24 +811,27 @@ small, .small {
 form:not(.form-no-margin) {
   .control-group {
     margin-bottom: 18px;
-  }
-  .control-label {
-    width: auto;
-    padding-top: 5px;
-    padding-right: 5px;
-    float: left;
-    text-align: left;
-  }
-  .controls {
-    margin-left: 180px;
+	
+	.control-label {
+      width: auto;
+      padding-top: 5px;
+      padding-right: 5px;
+      float: left;
+      text-align: left;
+    }
+    .controls {
+      margin-left: 180px;
+    }
   }
 }
 form .form-no-margin {
-  .controls {
-    margin-left: 0;
-  }
-  .control-label {
-    float: none;
+  .control-group {
+    .controls {
+      margin-left: 0;
+    }
+    .control-label {
+      float: none;
+    }
   }
 }
 .spacer hr {

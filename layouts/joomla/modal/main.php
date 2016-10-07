@@ -144,7 +144,7 @@ else
 $script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
-$script[] = "       $('.modalTooltip').tooltip('destroy');";
+$script[] = "       $('.modalTooltip').tooltip('dispose');";
 $script[] = "   });";
 $script[] = "});";
 

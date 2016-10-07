@@ -5417,7 +5417,8 @@ a.text-danger:focus, a.text-danger:hover {
 .fa-copy:before,
 .fa-files-o:before,
 .icon-save-copy:before,
-.icon-copy:before {
+.icon-copy:before,
+.icon-stack:before {
   content: ""; }
 
 .fa-paperclip:before, .icon-attachment:before, .icon-paperclip:before, .icon-flag-2:before {
@@ -5921,7 +5922,7 @@ a.text-danger:focus, a.text-danger:hover {
 .fa-dropbox:before {
   content: ""; }
 
-.fa-stack-overflow:before, .icon-stack:before {
+.fa-stack-overflow:before {
   content: ""; }
 
 .fa-instagram:before {
@@ -7466,21 +7467,19 @@ small, .small {
 
 form:not(.form-no-margin) .control-group {
   margin-bottom: 18px; }
+  form:not(.form-no-margin) .control-group .control-label {
+    width: auto;
+    padding-top: 5px;
+    padding-right: 5px;
+    float: left;
+    text-align: left; }
+  form:not(.form-no-margin) .control-group .controls {
+    margin-left: 180px; }
 
-form:not(.form-no-margin) .control-label {
-  width: auto;
-  padding-top: 5px;
-  padding-right: 5px;
-  float: left;
-  text-align: left; }
-
-form:not(.form-no-margin) .controls {
-  margin-left: 180px; }
-
-form .form-no-margin .controls {
+form .form-no-margin .control-group .controls {
   margin-left: 0; }
 
-form .form-no-margin .control-label {
+form .form-no-margin .control-group .control-label {
   float: none; }
 
 .spacer hr {
@@ -7590,5 +7589,3 @@ legend {
 
 .name:hover {
   background-color: transparent; }
-
-/*# sourceMappingURL=template.css.map */

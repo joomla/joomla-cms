@@ -19,12 +19,12 @@ $published = $this->state->get('filter.published');
 	<div class="modal-body modal-batch">
 		<p><?php echo JText::_('COM_CONTACT_BATCH_TIP'); ?></p>
 		<div class="row">
-			<div class="control-group col-md-6">
+			<div class="form-group col-md-6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
-			<div class="control-group col-md-6">
+			<div class="form-group col-md-6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.access'); ?>
 				</div>
@@ -32,13 +32,13 @@ $published = $this->state->get('filter.published');
 		</div>
 		<div class="row">
 		<?php if ($published >= 0) : ?>
-			<div class="control-group col-md-6">
+			<div class="form-group col-md-6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.item', 'com_contact'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
-		<div class="control-group col-md-6">
+		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo JHtml::_('batch.tag'); ?>
 			</div>

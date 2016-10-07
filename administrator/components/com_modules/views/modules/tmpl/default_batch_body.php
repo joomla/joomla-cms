@@ -33,12 +33,12 @@ $attr = array(
 
 <p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
 <div class="row">
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.language'); ?>
 		</div>
 	</div>
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.access'); ?>
 		</div>

@@ -17,12 +17,12 @@ $menuType = JFactory::getApplication()->getUserState('com_menus.items.menutype')
 ?>
 <?php if (strlen($menuType) && $menuType != '*') : ?>
 <div class="row">
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.language'); ?>
 		</div>
 	</div>
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.access'); ?>
 		</div>
