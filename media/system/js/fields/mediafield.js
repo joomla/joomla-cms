@@ -110,8 +110,8 @@
 			}
 		} else {
 			// Reset tooltip and preview
-			this.$containerPreview.popover('destroy');
-			this.$input.tooltip('destroy');
+			this.$containerPreview.popover('dispose');
+			this.$input.tooltip('dispose');
 
 			var value = this.$input.val();
 
