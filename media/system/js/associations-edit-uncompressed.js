@@ -64,7 +64,7 @@ window.showAssociationMessage = function()
 				// Show the association fields.
 				$(this).show();
 
-				// Check if there was a association selected for this language.
+				// Check if there was an association selected for this language.
 				if (!existsAssociations && $('#' + formControl + '_associations_' + languageCode + '_id').val() !== '')
 				{
 					existsAssociations = true;
