@@ -227,7 +227,7 @@ class JLanguageHelper
 		$languages = array();
 		$clients   = $clientId === null ? array(0, 1) : array((int) $clientId);
 
-		foreach($installedLanguages as $language)
+		foreach ($installedLanguages as $language)
 		{
 			// If the language client is not needed continue cycle. Drop for performance.
 			if (!in_array((int) $language->client_id, $clients))
@@ -308,11 +308,11 @@ class JLanguageHelper
 	/**
 	 * Get a list of content languages.
 	 *
-	 * @param   integer  $checkPublished   Check if the content language is published.
-	 * @param   integer  $checkInstalled   Check if the content language is installed.
-	 * @param   string   $pivot            The pivot of the returning array.
-	 * @param   string   $orderField       Field to order the results.
-	 * @param   string   $orderDirection   Direction to order the results.
+	 * @param   integer  $checkPublished  Check if the content language is published.
+	 * @param   integer  $checkInstalled  Check if the content language is installed.
+	 * @param   string   $pivot           The pivot of the returning array.
+	 * @param   string   $orderField      Field to order the results.
+	 * @param   string   $orderDirection  Direction to order the results.
 	 *
 	 * @return  array  Array of the content languages.
 	 *
@@ -346,7 +346,7 @@ class JLanguageHelper
 		// Check if the language is published, if needed.
 		if ($checkPublished)
 		{
-			foreach($languages as $key => $language)
+			foreach ($languages as $key => $language)
 			{
 				if ((int) $language->published === 0)
 				{
