@@ -572,18 +572,18 @@
 		if (this.params.compressedHeader === false) {                                                        // Head - year
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
-			this._nav_py = hh("<", 1, -2, '', '', 'js-btn btn-prev-year');                   // Previous year button
+			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-year');                   // Previous year button
 			this.title = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title";
-			this._nav_ny = hh(">", 1, 2, '', '', 'js-btn btn-next-year');                   // Next year button
+			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-year');                   // Next year button
 		}
 
 		row = createElement("tr", thead);                                                                   // Head - month
 		row.className = "calendar-head-row";
-		this._nav_pm = hh("<", 1, -1, '', '', 'js-btn btn-prev-month');                       // Previous month button
+		this._nav_pm = hh("&lsaquo;", 1, -1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-month');                       // Previous month button
 		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 		this._nav_month.className = "title";
-		this._nav_nm = hh(">", 1, 1, '', '', 'js-btn btn-next-month');                       // Next month button
+		this._nav_nm = hh(" &rsaquo;", 1, 1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-month');                       // Next month button
 
 		row = createElement("tr", thead);                                                                   // day names
 		row.className = "daynames";
@@ -613,6 +613,7 @@
 			if (weekend.indexOf(realday) != -1) { cell.classList.add("weekend"); }
 
 			cell.innerHTML = JoomlaCalLocale.shortDays[(i + fdow) % 7];
+			cell.style.width = this.params.weekNumbers ? '12.5%' : '14.28%';
 			cell = cell.nextSibling;
 		}
 
@@ -727,7 +728,7 @@
 		row = createElement("tr", tbody);
 		row.className = "btn-row";
 		var clearAttr = this.inputField.hasAttribute('required') ? 'none;' : 'block;';
-		this._nav_save = hh('<a class="js-btn btn-clear" data-action="clear" style="display:' + clearAttr + 'padding:2px 6px;">'
+		this._nav_save = hh('<a class="js-btn btn btn-clear" data-action="clear" style="display:' + clearAttr + 'padding:2px 6px;">'
 			+ JoomlaCalLocale.save + '</a>', 2, 100, 'td', {'textAlign': 'center'});
 
 		if (!this.inputField.hasAttribute('required')) {
@@ -743,7 +744,7 @@
 
 		if (this.params.showsTodayBtn) {                                                                    // Head - today
 
-			this._nav_now = hh('<a class="js-btn btn-today" data-action="today" style="display:block;padding:2px 6px;">'
+			this._nav_now = hh('<a class="js-btn btn btn-primary btn-today" data-action="today" style="display:block;padding:2px 6px;">'
 				+ JoomlaCalLocale.today + '</a>', this.params.weekNumbers ? 4 : 3, 0, 'td', {'textAlign': 'center'});
 			var todaya = row.querySelector('a[data-action="today"]');
 			todaya.addEventListener('click', function (e) {
@@ -756,7 +757,7 @@
 			cell.colSpan = this.params.weekNumbers ? 4 : 3;
 		}
 
-		this._nav_exit = hh('<a class="js-btn btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
+		this._nav_exit = hh('<a class="js-btn btn btn-danger btn-exit" data-action="exit" style="display:block;padding:2px 6px;">'
 			+ JoomlaCalLocale.exit + '</a>', 2, 200, 'td', {'textAlign': 'center'});
 		var exita = row.querySelector('a[data-action="exit"]');
 		exita.addEventListener('click', function (e) {
@@ -940,6 +941,28 @@
 	var createElement = function (type, parent) { var el = null; el = document.createElement(type); if (typeof parent != "undefined") { parent.appendChild(el); } return el; };
 	var isInt = function (input) { return !isNaN(input) && (function(x) { return (x | 0) === x; })(parseFloat(input)) };
 	var getBoundary = function (input, type) { var date = new Date(); var y = date.getLocalFullYear(type); return y + input; };
+	/**
+	 * IE8 polyfill for indexOf()
+	 */
+	if (!Array.prototype.indexOf) {
+		Array.prototype.indexOf = function(elt) {
+			var len = this.length >>> 0,
+				from = Number(arguments[1]) || 0;
+
+			from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+
+			if (from < 0) {
+				from += len;
+			}
+
+			for (; from < len; from++) {
+				if (from in this && this[from] === elt) {
+					return from;
+				}
+			}
+			return -1;
+		};
+	}
 
 	/** Method to get the active calendar element through any descendant element. */
 	JoomlaCalendar.getCalObject = function(element) {
