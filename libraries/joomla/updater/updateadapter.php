@@ -263,13 +263,13 @@ abstract class JUpdateAdapter extends JAdapterInstance
 
 		$allowedResponseCodes = array(
 			// HTTP 200 Ok
-			'200',
+			200,
 			// HTTP 301 Moved Permanently
-			'301',
+			301,
 			// HTTP 302 Found
-			'302',
+			302,
 			// HTTP 303 See Other
-			'303',
+			303,
 		);
 
 		if ($response === null || !in_array($response->code, $allowedResponseCodes)
