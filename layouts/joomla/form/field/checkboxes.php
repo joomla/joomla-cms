@@ -41,11 +41,6 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  */
-
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.min.js', false, true);
-
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
