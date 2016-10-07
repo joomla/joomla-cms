@@ -187,10 +187,10 @@ class JLanguageHelper
 	/**
 	 * Get a list of installed languages.
 	 *
-	 * @param   integer  $pivot            The pivot of the array.
 	 * @param   integer  $clientId         The client app id.
 	 * @param   boolean  $processMetaData  Fetch Language metadata.
 	 * @param   boolean  $processManifest  Fetch Language manifest.
+	 * @param   string   $pivot            The pivot of the returning array.
 	 * @param   string   $orderField       Field to order the results.
 	 * @param   string   $orderDirection   Direction to order the results.
 	 *
@@ -308,9 +308,9 @@ class JLanguageHelper
 	/**
 	 * Get a list of content languages.
 	 *
-	 * @param   integer  $pivot            The pivot of the array.
 	 * @param   integer  $checkPublished   Check if the content language is published.
 	 * @param   integer  $checkInstalled   Check if the content language is installed.
+	 * @param   string   $pivot            The pivot of the returning array.
 	 * @param   string   $orderField       Field to order the results.
 	 * @param   string   $orderDirection   Direction to order the results.
 	 *
