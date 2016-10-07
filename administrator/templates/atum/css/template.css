@@ -7503,6 +7503,9 @@ legend {
   position: static;
   margin-left: 0; }
 
+.modal label {
+  width: 100%; }
+
 .subhead {
   min-height: 43px;
   padding: 9px 0;
