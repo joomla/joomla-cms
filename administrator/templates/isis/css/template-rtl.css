@@ -8008,8 +8008,8 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
   vertical-align: baseline;
 }
 .j-jed-message {
-	line-height: 2em;
-	color: #333333;
+  line-height: 2em;
+  color: #333333;
 }
 .form-horizontal .control-label {
   width: auto;
