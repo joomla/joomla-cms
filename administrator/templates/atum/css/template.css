@@ -7591,4 +7591,13 @@ legend {
 .name:hover {
   background-color: transparent; }
 
+.minicolors-theme-bootstrap .minicolors-input {
+  width: 120px; }
+
+.minicolors-theme-bootstrap .rgb {
+  width: 175px; }
+
+.minicolors-theme-bootstrap .rgba {
+  width: 220px; }
+
 /*# sourceMappingURL=template.css.map */
