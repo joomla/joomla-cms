@@ -318,7 +318,7 @@ class JLanguageHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = null, $orderField = null,
+	public static function getContentLanguages($checkPublished = true, $checkInstalled = true, $pivot = 'lang_code', $orderField = null,
 		$orderDirection = null)
 	{
 		static $contentLanguages = null;
