@@ -32,10 +32,10 @@ var JFormValidator = function() {
 				return false;
 			}
 			// This is old syntax for labels, do we need to support it?
-			// label = form.querySelector('#' + id + '-lbl');
-			// if (label.length) {
-			//  	return label;
-			// }
+			label = form.querySelector('#' + id + '-lbl');
+			if (label.length) {
+			 	return label;
+			}
 			label = form.querySelector('label[for="' + id + '"]');
 			if (label.length) {
 				return label;
