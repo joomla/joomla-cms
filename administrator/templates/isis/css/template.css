@@ -7633,7 +7633,7 @@ h6 {
   color: #555;
   padding: 3px 25px;
   margin-left: -26px;
-  margin-right: -25px;
+  margin-right: -26px;
 }
 .sidebar-nav .nav-list > li.active > a {
   color: #fff;
@@ -8008,8 +8008,8 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
   vertical-align: baseline;
 }
 .j-jed-message {
-	line-height: 2em;
-	color: #333333;
+  line-height: 2em;
+  color: #333333;
 }
 .form-horizontal .control-label {
   width: auto;
@@ -8579,4 +8579,8 @@ body.modal-open {
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
+}
+/* Removes Text Shadows */
+body * {
+  text-shadow: none;
 }
