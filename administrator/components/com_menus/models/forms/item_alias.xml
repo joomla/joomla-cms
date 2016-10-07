@@ -9,8 +9,10 @@
 				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
 				required="true"
+				select="true"
+				new="true"
 				edit="true"
-				clear="false"
+				clear="true"
 			/>
 		</fieldset>
 

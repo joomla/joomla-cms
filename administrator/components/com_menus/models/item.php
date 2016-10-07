@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 jimport('joomla.filesystem.path');
@@ -729,8 +730,7 @@ class MenusModelItem extends JModelAdmin
 		$result = ArrayHelper::toObject($properties);
 
 		// Convert the params field to an array.
-		$registry = new Registry;
-		$registry->loadString($table->params);
+		$registry = new Registry($table->params);
 		$result->params = $registry->toArray();
 
 		// Merge the request arguments in to the params for a component.
@@ -1168,6 +1168,8 @@ class MenusModelItem extends JModelAdmin
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('select', 'true');
+					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
@@ -1234,8 +1236,7 @@ class MenusModelItem extends JModelAdmin
 
 		foreach ($items as &$item)
 		{
-			$registry = new Registry;
-			$registry->loadString($item->params);
+			$registry = new Registry($item->params);
 			$params = (string) $registry;
 
 			$query->clear();
@@ -1664,10 +1665,10 @@ class MenusModelItem extends JModelAdmin
 		{
 			if ($title == $table->title)
 			{
-				$title = JString::increment($title);
+				$title = StringHelper::increment($title);
 			}
 
-			$alias = JString::increment($alias, 'dash');
+			$alias = StringHelper::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);

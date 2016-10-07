@@ -65,8 +65,11 @@
 			type="spacer" />
 
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
-			description="COM_CONTENT_FIELD_CREATED_DESC" size="22"
-			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+			description="COM_CONTENT_FIELD_CREATED_DESC"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" />
 
 		<field name="created_by" type="user"
 			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" description="COM_CONTENT_FIELD_CREATED_BY_DESC" />
@@ -77,7 +80,11 @@
 
 		<field name="modified" type="calendar" class="readonly"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_CONTENT_FIELD_MODIFIED_DESC"
-			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+			translateformat="true"
+			showtime="true"
+			size="22"
+			readonly="true"
+			filter="user_utc" />
 
 		<field name="modified_by" type="user"
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
@@ -92,12 +99,16 @@
 
 		<field name="publish_up" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTENT_FIELD_PUBLISH_UP_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTENT_FIELD_PUBLISH_DOWN_DESC"
-			format="%Y-%m-%d %H:%M:%S" size="22"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			filter="user_utc" />
 
 		<field name="version" type="text" class="readonly"
@@ -261,6 +272,17 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option	value="0">JNO</option>
 				<option	value="1">JYES</option>
+			</field>
+			
+			<field
+				name="show_associations"
+				type="list"
+				class="chzn-color"
+				label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
+				description="JGLOBAL_SHOW_ASSOCIATIONS_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field

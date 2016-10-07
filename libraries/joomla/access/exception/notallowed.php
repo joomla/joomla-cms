@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Exception class defining an not allowed access
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.6.3
  */
 class JAccessExceptionNotallowed extends RuntimeException
 {

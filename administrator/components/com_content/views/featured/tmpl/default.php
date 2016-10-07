@@ -16,7 +16,7 @@ JHtml::_('behavior.multiselect');
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
-$listOrder = $this->escape($this->state->get('list.ordering'));
+$listOrder = str_replace(' ' . $this->state->get('list.direction'), '', $this->state->get('list.fullordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $canOrder  = $user->authorise('core.edit.state', 'com_content.article');
 $saveOrder = $listOrder == 'fp.ordering';
@@ -69,6 +69,14 @@ if ($saveOrder)
 					<th width="1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
+					<?php if ($this->vote) : ?>
+						<th width="1%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap hidden-sm-down">
+							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif;?>
 					<th width="1%" class="nowrap hidden-sm-down">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
@@ -110,7 +118,7 @@ if ($saveOrder)
 							<span class="icon-menu"></span>
 						</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
 						<td class="text-xs-center">
@@ -168,8 +176,22 @@ if ($saveOrder)
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
 						<td class="text-xs-center hidden-sm-down">
+							<span class="tag tag-info">
 							<?php echo (int) $item->hits; ?>
+							</span>
 						</td>
+						<?php if ($this->vote) : ?>
+							<td class="hidden-sm-down">
+								<span class="tag tag-success">
+								<?php echo (int) $item->rating_count; ?>
+								</span>
+							</td>
+							<td class="hidden-sm-down">
+								<span class="tag tag-warning">
+								<?php echo (int) $item->rating; ?>
+								</span>
+							</td>
+						<?php endif; ?>
 						<td class="text-xs-center hidden-sm-down">
 							<?php echo (int) $item->id; ?>
 						</td>

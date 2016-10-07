@@ -47,6 +47,8 @@
 			label="COM_USERS_FIELD_LOGIN_REDIRECTMENU_LABEL"
 			description="COM_USERS_FIELD_LOGIN_REDIRECTMENU_DESC"
 			showon="loginredirectchoice:1"
+			select="true"
+			new="true"
 			edit="true"
 			clear="true"
 		>
@@ -118,6 +120,8 @@
 			label="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_LABEL"
 			description="COM_USERS_FIELD_LOGOUT_REDIRECTMENU_DESC"
 			showon="logoutredirectchoice:1"
+			select="true"
+			new="true"
 			edit="true"
 			clear="true"
 		>
