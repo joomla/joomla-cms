@@ -329,15 +329,25 @@ class FinderIndexerTaxonomy
 	{
 		// Delete all orphaned nodes.
 		$db = JFactory::getDbo();
-		$query = 'DELETE ' .
-			' FROM ' . $db->quoteName('#__finder_taxonomy') .
-			' WHERE id IN (' .
-			' SELECT id FROM (' .
-			' SELECT t.id' .
-			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
-			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
-			' WHERE t.parent_id > 1' .
-			' AND m.link_id IS NULL) temp)';
+		$query     = $db->getQuery(true);
+		$subquery  = $db->getQuery(true);
+		$subquery1 = $db->getQuery(true);
+
+		$subquery1->clear()
+			->select($db->quoteName('t.id'))
+			->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+			->join('LEFT',$db->quoteName('#__finder_taxonomy_map') . ' AS m ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
+			->where($db->quoteName('t.parent_id') . ' > 1 ')
+			->where($db->quoteName('m.link_id') . ' IS NULL');
+
+		$subquery->clear()
+			->select($db->quoteName('id'))
+			->from('(' . $subquery1 . ') temp');
+
+		$query->clear()
+			->delete($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('id') . ' IN (' . $subquery . ')');
+
 		$db->setQuery($query);
 		$db->execute();
 
