@@ -321,14 +321,34 @@ class JUpdate extends JObject
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || JVersion::DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || JVersion::DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
+					$phpMatch = false;
+
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
 					{
 						$phpMatch = true;
 					}
+
+					$dbMatch      = false;
+					$supportedDbs = $this->currentUpdate->supported_databases;
+
+					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+					if (isset($supportedDbs))
+					{
+						$db        = JFactory::getDbo();
+						$dbType    = $db->getServerType();
+						$dbVersion = $db->getVersion();
+
+						// Do we have a entry for the database?
+						if (isset($supportedDbs->$dbType))
+						{
+							$dbMatch = version_compare($dbVersion, $supportedDbs->$dbType, '>='));
+						}
+					}
 					else
 					{
-						$phpMatch = false;
+						// Set to true if the <supported_databases> tag is not set
+						$dbMatch = true;
 					}
 
 					// Check minimum stability
@@ -339,7 +359,7 @@ class JUpdate extends JObject
 						$stabilityMatch = false;
 					}
 
-					if ($phpMatch && $stabilityMatch)
+					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
 						if (isset($this->latest))
 						{

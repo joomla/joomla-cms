@@ -70,6 +70,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
+
+				if ($name == 'supported_databases')
+				{
+					$this->currentUpdate->supported_databases = '';
+				}
 				break;
 		}
 	}
@@ -124,7 +129,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$msg = JText::sprintf(
+						$phpMsg = JText::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -132,9 +137,46 @@ class JUpdaterExtension extends JUpdateAdapter
 							PHP_VERSION
 						);
 
-						JFactory::getApplication()->enqueueMessage($msg, 'warning');
+						JFactory::getApplication()->enqueueMessage($phpMsg, 'warning');
 
 						$phpMatch = false;
+					}
+
+					$dbMatch      = false;
+					$supportedDbs = $this->currentUpdate->supported_databases;
+
+					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
+					if (isset($supportedDbs))
+					{
+						$db        = JFactory::getDbo();
+						$dbType    = $db->getServerType();
+						$dbVersion = $db->getVersion();
+
+						// Do we have a entry for the database?
+						if (isset($supportedDbs->$dbType))
+						{
+							$dbMatch = version_compare($dbVersion, $supportedDbs->$dbType, '>='));
+						}
+
+						if ($dbMatch === false)
+						{
+							// Notify the user of the potential update
+							$dbMsg = JText::sprintf(
+								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
+								$this->currentUpdate->name,
+								$this->currentUpdate->version,
+								$dbType,
+								$dbVersion
+							);
+
+							JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+
+						}
+					}
+					else
+					{
+						// Set to true if the <supported_databases> tag is not set
+						$dbMatch = true;
 					}
 
 					// Check minimum stability
@@ -153,13 +195,18 @@ class JUpdaterExtension extends JUpdateAdapter
 						unset($this->currentUpdate->php_minimum);
 					}
 
+					if (isset($this->currentUpdate->supported_databases))
+					{
+						unset($this->currentUpdate->supported_databases);
+					}
+
 					if (isset($this->currentUpdate->stability))
 					{
 						unset($this->currentUpdate->stability);
 					}
 
 					// If the PHP version and minimum stability checks pass, consider this version as a possible update
-					if ($phpMatch && $stabilityMatch)
+					if ($phpMatch && $stabilityMatch && $dbMatch)
 					{
 						if (isset($this->latest))
 						{
