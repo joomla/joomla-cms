@@ -2333,6 +2333,7 @@ input[type="button"].btn-block {
 .btn-warning:hover,
 .btn-warning:focus {
   background-color: #ad6704;
+  color: #fff;
   text-decoration: none;
   text-shadow: none;
 }
@@ -2345,6 +2346,7 @@ input[type="button"].btn-block {
 .btn-danger:hover,
 .btn-danger:focus {
   background-color: #802420;
+  color: #fff;
   text-decoration: none;
 }
 .btn-success {
@@ -2356,8 +2358,8 @@ input[type="button"].btn-block {
 .btn-success:hover,
 .btn-success:focus {
   background-color: #2f6f2f;
+  color: #fff;
   text-decoration: none;
-  color: #ffffff;
 }
 .btn-info {
   border: 1px solid #2f96b4;
@@ -2368,6 +2370,7 @@ input[type="button"].btn-block {
 .btn-info:hover,
 .btn-info:focus {
   background-color: #1f6377;
+  color: #fff;
   text-decoration: none;
 }
 .btn-inverse {
@@ -2379,6 +2382,7 @@ input[type="button"].btn-block {
 .btn-inverse:hover,
 .btn-inverse:focus {
   background-color: #1e1e1e;
+  color: #fff;
   text-decoration: none;
 }
 button.btn,
