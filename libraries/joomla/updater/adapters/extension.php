@@ -129,7 +129,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$phpMsg = JText::sprintf(
+						$msg = JText::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -137,7 +137,7 @@ class JUpdaterExtension extends JUpdateAdapter
 							PHP_VERSION
 						);
 
-						JFactory::getApplication()->enqueueMessage($phpMsg, 'warning');
+						JFactory::getApplication()->enqueueMessage($msg, 'warning');
 
 						$phpMatch = false;
 					}
@@ -165,7 +165,7 @@ class JUpdaterExtension extends JUpdateAdapter
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								$dbType,
+								JText::_($db->name),
 								$dbVersion
 							);
 
