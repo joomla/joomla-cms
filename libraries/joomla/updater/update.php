@@ -335,14 +335,15 @@ class JUpdate extends JObject
 					if (isset($this->currentUpdate->supported_databases))
 					{
 						$db           = JFactory::getDbo();
-						$dbType       = $db->getServerType();
+						$dbType       = strtolower($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
 						// Do we have a entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
-							$dbMatch = version_compare($dbVersion, $supportedDbs->$dbType, '>=');
+							$minumumVersion = $supportedDbs->$dbType;
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
 						}
 					}
 					else

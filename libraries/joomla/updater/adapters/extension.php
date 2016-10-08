@@ -71,9 +71,9 @@ class JUpdaterExtension extends JUpdateAdapter
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'supported_databases')
+				if ($name == 'SUPPORTED_DATABASES')
 				{
-					$this->currentUpdate->supported_databases = '';
+					$this->currentUpdate->supported_databases = $attrs;
 				}
 				break;
 		}
@@ -148,29 +148,43 @@ class JUpdaterExtension extends JUpdateAdapter
 					if (isset($this->currentUpdate->supported_databases))
 					{
 						$db           = JFactory::getDbo();
-						$dbType       = $db->getServerType();
+						$dbType       = strtoupper($db->getServerType());
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
 						// Do we have a entry for the database?
-						if (isset($supportedDbs->$dbType))
+						if (array_key_exists($dbType, $supportedDbs))
 						{
-							$dbMatch = version_compare($dbVersion, $supportedDbs->$dbType, '>=');
-						}
+							$minumumVersion = $supportedDbs[$dbType];
+							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
 
-						if ($dbMatch === false)
+							if (!$dbMatch)
+							{
+								// Notify the user of the potential update
+								$dbMsg = JText::sprintf(
+									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
+									$this->currentUpdate->name,
+									$this->currentUpdate->version,
+									JText::_($db->name),
+									$dbVersion,
+									$minumumVersion
+								);
+
+								JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
+
+							}
+						}
+						else
 						{
 							// Notify the user of the potential update
 							$dbMsg = JText::sprintf(
-								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
+								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								JText::_($db->name),
-								$dbVersion
+								JText::_($db->name)
 							);
 
 							JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
-
 						}
 					}
 					else
