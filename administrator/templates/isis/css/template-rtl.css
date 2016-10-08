@@ -8204,7 +8204,11 @@ th .tooltip-inner {
 }
 /* Permissions dropdown display */
 #permissions-sliders .chzn-container {
+  margin-top: -5px;
   position: absolute;
+}
+#permissions-sliders .table td {
+  padding: 8px 8px 9px;
 }
 /* Component pop-up */
 .container-popup {
