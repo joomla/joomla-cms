@@ -2357,6 +2357,7 @@ input[type="button"].btn-block {
 .btn-success:focus {
   background-color: #2f6f2f;
   text-decoration: none;
+  color: #ffffff;
 }
 .btn-info {
   border: 1px solid #2f96b4;
