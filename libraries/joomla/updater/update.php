@@ -329,20 +329,20 @@ class JUpdate extends JObject
 						$phpMatch = true;
 					}
 
-					$dbMatch      = false;
-					$supportedDbs = $this->currentUpdate->supported_databases;
+					$dbMatch = false;
 
 					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
-					if (isset($supportedDbs))
+					if (isset($this->currentUpdate->supported_databases))
 					{
-						$db        = JFactory::getDbo();
-						$dbType    = $db->getServerType();
-						$dbVersion = $db->getVersion();
+						$db           = JFactory::getDbo();
+						$dbType       = $db->getServerType();
+						$dbVersion    = $db->getVersion();
+						$supportedDbs = $this->currentUpdate->supported_databases;
 
 						// Do we have a entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
-							$dbMatch = version_compare($dbVersion, $supportedDbs->$dbType, '>='));
+							$dbMatch = version_compare($dbVersion, $supportedDbs->$dbType, '>=');
 						}
 					}
 					else
