@@ -729,66 +729,33 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = $custom_button;
 		}
 
-		$languageButton   = '';
-		$langsConstructor = '';
+		$externalPlugins  = array();
+		$joomlaLanguages  = array();
 
-		if ($this->params->get('langs_wcag', 0) && $this->params->get('langstags', ''))
+		if ($this->params->get('langs_wcag', 0) && $this->params->get('langstags'))
 		{
 			include_once __DIR__ . '/helpers/tinymce.php';
-			$langString        = JText::_('PLG_TINY_LANGUAGES_LABEL');
-			$languageButton    = 'JlanguagesBtn';
+
+			JText::script('PLG_TINY_LANGUAGES_LABEL');
+			$pluginFile = JHtml::_('script', 'editors/tinymce/plugin-joomlalanguages.js', false, true, true);
+			$externalPlugins['joomlalanguages'] = $pluginFile;
+
+			$toolbar4_add[]    = 'joomlalanguages';
 			$extended_elements = 'span[lang|dir|class|[xml:lang]],' . $extended_elements;
+
 			$availLangs        = TinymceHelper::getAllLanguages();
-			$selectedLangs   = (array) $this->params->get('langstags', '');
+			$selectedLangs     = (array) $this->params->get('langstags', '');
+			$selectedLangs     = array_flip($selectedLangs); // Make easy to test active
 
 			foreach ($availLangs as $key => $value)
 			{
-				if (!preg_match('/"' . $value['code'] . '"/i', json_encode($selectedLangs)))
+				if (empty($value['code']) || !array_key_exists($value['code'], $selectedLangs))
 				{
 					unset($availLangs[$key]);
 				}
 			}
 
-			$langsConstructorTmp = array();
-
-			// Build the script
-			foreach ($availLangs as $availLang)
-			{
-					// Set some vars
-					$langName  = $availLang['name'] . ' ' . $availLang['nativeName'];
-					$langTitle = $availLang['code'];
-					$langDir   = $availLang['dir'];
-					$langsConstructorTmp[] = '
-					{ text: "' . $langName . '",
-						onclick: function () {
-							editor.focus();
-							if (editor.selection.getContent().length) {
-								if (/^<span/.test(editor.selection.getNode().outerHTML.toLowerCase())) {
-									var tmpNode = editor.selection.getNode();
-									tmpNode.setAttribute("lang", "' . $langTitle . '");
-									tmpNode.setAttribute("dir", "' . $langDir . '");
-									tmpNode.setAttribute("xml:lang", "' . $langTitle . '");
-								} else {
-									editor.selection.setContent(\'<span lang="'
-						. $langTitle . '" dir="' . $langDir . '" xml:lang="' . $langTitle . '">\' 
-									+ editor.selection.getContent() + \'</span>\');
-								}
-							}
-							editor.nodeChanged();
-							editor.focus();
- 						}
-					}';
-			}
-
-			$langsConstructor = '
-					editor.addButton("JlanguagesBtn", {
-						type: "menubutton",
-						text: "' . $langString . '",
-						tooltip: "' . $langString . '",
-						icon: "translate",
-						menu: [ ' . implode(',', $langsConstructorTmp) . ']
-					});
-					';
+			$joomlaLanguages['languages'] = array_values($availLangs);
 		}
 
 		if ($extended_elements != "")
@@ -867,7 +834,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar5 = implode(" | ", $btnsNames);
 
 		// The buttons script
-		$tinyBtns = implode("; ", $tinyBtns). $langsConstructor;
+		$tinyBtns = implode("; ", $tinyBtns);
 
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 0);
@@ -897,9 +864,13 @@ class PlgEditorTinymce extends JPlugin
 			'document_base_url'  => JUri::root(true) . '/',
 			'paste_data_images'  => $allowImgPaste,
 
+			'external_plugins'   => $externalPlugins,
+			'joomla_languages'   => $joomlaLanguages,
+
 			// @TODO make it better, do not generate JavaScript in PHP !!!
 			'setupCallbacString' => $tinyBtns,
 		);
+
 
 		if ($this->params->get('newlines'))
 		{
@@ -941,7 +912,7 @@ class PlgEditorTinymce extends JPlugin
 			case 1:
 			default: /* Advanced mode*/
 				$toolbar1 = "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | formatselect | bullist numlist "
-					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap " . $languageButton;
+					. "| outdent indent | undo redo | link unlink anchor code | hr table | subscript superscript | charmap";
 
 				$scriptOptions['valid_elements'] = $valid_elements;
 				$scriptOptions['extended_valid_elements'] = $elements;
@@ -961,7 +932,7 @@ class PlgEditorTinymce extends JPlugin
 				$scriptOptions['extended_valid_elements'] = $elements;
 				$scriptOptions['invalid_elements'] = $invalid_elements;
 				$scriptOptions['plugins']  = $plugins . ' ' . $dragDropPlg;
-				$scriptOptions['toolbar1'] = $toolbar1 . ' ' . $languageButton;
+				$scriptOptions['toolbar1'] = $toolbar1;
 				$scriptOptions['removed_menuitems'] = 'newdocument';
 				$scriptOptions['rel_list'] = array(
 					array('title' => 'Alternate', 'value' => 'alternate'),
