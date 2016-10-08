@@ -538,10 +538,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			$db->execute();
 		}
 
-		// Optimize the terms mapping table.
-		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
-		$db->execute();
-
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
