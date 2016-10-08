@@ -356,8 +356,8 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// The param is true for vertical resizing only, false or both
-		$resizing          = $levelParams->get('resizing', 1);
-		$resize_horizontal = $levelParams->get('resize_horizontal', 1);
+		$resizing          = (bool) $levelParams->get('resizing', true);
+		$resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
 
 		if ($resizing && $resize_horizontal)
 		{
@@ -403,7 +403,6 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar1 = (array) $levelParams->get('toolbar1', array());
 		$toolbar2 = (array) $levelParams->get('toolbar2', array());
 
-
 		// Make an easy way to check which button is enabled
 		$allButtons = array_merge($toolbar1, $toolbar2);
 		$allButtons = array_combine($allButtons, $allButtons);
@@ -418,7 +417,6 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Template
-		$template  = $this->params->get('template', 1);
 		$templates = array();
 
 		if (!empty($allButtons['template']))
@@ -578,8 +576,8 @@ class PlgEditorTinymce extends JPlugin
 
 			// Toolbars
 			'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-			'toolbar1' => empty($toolbar1) ? null  : implode(' ', array_unique($toolbar1)),
-			'toolbar2' => empty($toolbar2) ? null  : implode(' ', array_unique($toolbar2)),
+			'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1),
+			'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
 
 			'plugins'  => implode(',', array_unique($plugins)),
 
@@ -1109,9 +1107,7 @@ class PlgEditorTinymce extends JPlugin
 				'link', 'unlink', 'anchor', 'image', '|',
 				'code', '|',
 				'forecolor', 'backcolor', '|',
-				'fullscreen',
-			),
-			'toolbar2' => array(
+				'fullscreen', '|',
 				'table', '|',
 				'subscript', 'superscript', '|',
 				'charmap', 'emoticons', 'media', 'hr', 'ltr', 'rtl', '|',
@@ -1119,6 +1115,7 @@ class PlgEditorTinymce extends JPlugin
 				'visualchars', 'visualblocks', 'nonbreaking', 'blockquote', 'template', '|',
 				'print', 'preview', 'codesample', 'insertdatetime', 'removeformat',
 			),
+			'toolbar2' => array(),
 		);
 
 		return $preset;
