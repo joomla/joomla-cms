@@ -151,7 +151,7 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->content = $content;
 
 		// Render Editor markup
-		$editor  = '<div class="editor">';
+		$editor = '<div class="editor">';
 		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_toogleButton($id);
 		$editor .= '</div>';
@@ -160,7 +160,7 @@ class PlgEditorTinymce extends JPlugin
 		$doc      = JFactory::getDocument();
 		$options  = $doc->getScriptOptions('plg_editor_tinymce');
 
-		// Check whether we already have them
+		// Check whether we alredy have them
 		if (!empty($options['tinyMCE']['default']))
 		{
 			return $editor;
@@ -211,11 +211,11 @@ class PlgEditorTinymce extends JPlugin
 
 		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
-			$skin = basename($skindirs[(int) $levelParams->get('skin', 0)]);
+			$skin = basename($skindirs[(int) $this->params->get($side, 0)]);
 		}
 
-		$langMode        = $levelParams->get('lang_mode', 0);
-		$langPrefix      = $levelParams->get('lang_code', 'en');
+		$langMode        = $this->params->get('lang_mode', 0);
+		$langPrefix      = $this->params->get('lang_code', 'en');
 
 		if ($langMode)
 		{
@@ -418,6 +418,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		// Template
+		$template  = $this->params->get('template', 1);
 		$templates = array();
 
 		if (!empty($allButtons['template']))

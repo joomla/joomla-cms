@@ -45,6 +45,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
+		JFactory::$session = $this->getMockSession();
 
 		// We generate a random template name so that we don't collide or hit anything
 		JFactory::$application->expects($this->any())
@@ -488,7 +489,12 @@ class JHtmlBehaviorTest extends TestCase
 		JHtmlBehavior::keepalive();
 
 		$this->assertEquals(
-			array('JHtmlBehavior::keepalive' => true),
+			array(
+				'JHtmlBehavior::keepalive' => true,
+				'JHtmlBehavior::core'      => true,
+				'JHtmlBehavior::framework' => array('core' => true),
+				'JHtmlBehavior::polyfill'  => array(md5(serialize(array('event', 'lt IE 9'))) => true),
+			),
 			JHtmlBehaviorInspector::getLoaded(),
 			'The keepalive behavior is not loaded with all dependencies'
 		);

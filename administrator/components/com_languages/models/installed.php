@@ -229,7 +229,7 @@ class LanguagesModelInstalled extends JModelList
 					continue;
 				}
 
-				$row  = new StdClass;
+				$row  = new stdClass;
 
 				$row->language     = $lang->element;
 				$row->client_id    = (int) $lang->client_id;
