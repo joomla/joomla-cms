@@ -19,7 +19,12 @@ JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+
+// Add installation js
 JHtml::_('script', 'installation/template/js/installation.js');
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
 
 // Load JavaScript message titles
 JText::script('ERROR');
@@ -42,9 +47,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
 		<jdoc:include type="head" />
-		<!--[if lt IE 9]>
-			<script src="../media/jui/js/html5.js"></script>
-		<![endif]-->
 		<script type="text/javascript">
 			jQuery(function()
 			{
