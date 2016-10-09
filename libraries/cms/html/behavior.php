@@ -60,7 +60,7 @@ abstract class JHtmlBehavior
 			static::framework(false, $debug);
 		}
 
-		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('script', 'system/mootools-' . $type . '.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Keep loading core.js for BC reasons
 		static::core();
@@ -87,7 +87,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/core.js', false, true);
+		JHtml::_('script', 'system/core.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 
 		return;
@@ -113,7 +113,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', false, true);
+		JHtml::_('script', 'system/caption.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -186,8 +186,8 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		JHtml::_('script', 'system/punycode.js', false, true);
-		JHtml::_('script', 'system/validate.js', false, true);
+		JHtml::_('script', 'system/punycode.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', 'system/validate.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -209,7 +209,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/switcher.js', true, true);
+		JHtml::_('script', 'system/switcher.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
 
 		$script = "
 			document.switcher = null;
@@ -244,7 +244,7 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('script', 'system/combobox.js', false, true);
+		JHtml::_('script', 'system/combobox.js', array('version' => 'auto', 'relative' => true));
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -358,7 +358,7 @@ abstract class JHtmlBehavior
 			static::framework(true);
 
 			// Load the JavaScript and css
-			JHtml::_('script', 'system/modal.js', true, true);
+			JHtml::_('script', 'system/modal.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
 			JHtml::_('stylesheet', 'system/modal.css', array(), true);
 		}
 
@@ -473,7 +473,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/multiselect.js', false, true);
+		JHtml::_('script', 'system/multiselect.js', array('version' => 'auto', 'relative' => true));
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -504,7 +504,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		JHtml::_('script', 'system/mootree.js', true, true, false, false);
+		JHtml::_('script', 'system/mootree.js', array('framework' => true, 'version' => 'auto', 'relative' => true));
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
 		if (isset(static::$loaded[__METHOD__][$id]))
@@ -574,8 +574,8 @@ abstract class JHtmlBehavior
 		$tag = JFactory::getLanguage()->getTag();
 
 		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
+		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
+		JHtml::_('script', $tag . '/calendar-setup.js', array('version' => 'auto', 'relative' => true));
 
 		$translation = static::calendartranslation();
 
@@ -607,7 +607,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
+		JHtml::_('script', 'jui/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
 		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
@@ -653,7 +653,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
+		JHtml::_('script', 'jui/jquery.simplecolors.min.js', array('version' => 'auto', 'relative' => true));
 		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
@@ -708,7 +708,7 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
 
 		// Add script.
-		JHtml::script('system/keepalive.js', false, true);
+		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 
@@ -755,7 +755,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/highlighter.js', false, true);
+		JHtml::_('script', 'system/highlighter.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
@@ -963,7 +963,7 @@ abstract class JHtmlBehavior
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.js', false, true);
+		JHtml::_('script', 'system/tabs-state.js', array('version' => 'auto', 'relative' => true));
 		self::$loaded[__METHOD__] = true;
 	}
 
