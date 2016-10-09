@@ -27,7 +27,11 @@ $mainPageUri = $frontEndUri->toString();
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
-$this->addScriptVersion($this->baseurl . '/templates/' . $this->template . '/js/template.js');
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 // Add Stylesheets
 $this->addStyleSheetVersion($this->baseurl . '/templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
@@ -174,7 +178,6 @@ if ($this->params->get('linkColor'))
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
-	<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 </head>
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" data-basepath="<?php echo JURI::root(true); ?>">
 <!-- Top Navigation -->
