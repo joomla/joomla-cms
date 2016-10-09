@@ -877,6 +877,7 @@ class JHtmlTest extends TestCase
 
 		JFactory::getConfig()->set('debug', 0);
 		JFactory::$document->_scripts = array();
+		JHtml::script($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'detectDebug' => false));
 
 		$this->assertArrayHasKey(
 			'/media/system/js/' . $element . '/' . $urlpath . $urlfilename,
