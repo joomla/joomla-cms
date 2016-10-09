@@ -130,6 +130,14 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::versions('com_content.article', $this->item->id);
 			}
 
+			if (!$isNew)
+			{
+				JLoader::register('Preview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
+				$url = Preview::url($this->item);
+
+				JToolbarHelper::preview($url, 'Preview', 'eye');
+			}
+
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
