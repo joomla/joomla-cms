@@ -171,7 +171,6 @@ class JUpdaterExtension extends JUpdateAdapter
 								);
 
 								JFactory::getApplication()->enqueueMessage($dbMsg, 'warning');
-
 							}
 						}
 						else
