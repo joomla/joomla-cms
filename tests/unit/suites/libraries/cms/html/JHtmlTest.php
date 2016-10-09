@@ -1270,7 +1270,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertEquals(
 			JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename],
-			array('media' => 'print, screen'),
+			array('media' => 'print, screen', 'type' => 'text/css', 'options' => array('relative' => true, 'detectBrowser' => true, 'detectDebug' => true)),
 			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
