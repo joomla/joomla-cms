@@ -679,7 +679,7 @@ class JDocument
 
 		if (isset($this->_styleSheets[$url]['options']))
 		{
-			$this->_styleSheets[$url]['options'] = array_replace($this->_styleSheets[$url]['options'], $options)
+			$this->_styleSheets[$url]['options'] = array_replace($this->_styleSheets[$url]['options'], $options);
 		}
 		else
 		{
