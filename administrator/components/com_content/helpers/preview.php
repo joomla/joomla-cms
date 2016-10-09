@@ -14,12 +14,12 @@ defined('_JEXEC') or die;
  *
  * @since  3.0
  */
-class Preview
+class ContentHelperPreview
 {
 	/**
 	 * Get the article URL
 	 *
-	 * @param   object  $article  The article object
+	 * @param   object  $article  The article item object
 	 *
 	 * @return  string  The article URL
 	 */

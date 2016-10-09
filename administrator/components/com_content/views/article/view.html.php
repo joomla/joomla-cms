@@ -132,8 +132,8 @@ class ContentViewArticle extends JViewLegacy
 
 			if (!$isNew)
 			{
-				JLoader::register('Preview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
-				$url = Preview::url($this->item);
+				JLoader::register('ContentHelperPreview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
+				$url = ContentHelperPreview::url($this->item);
 
 				JToolbarHelper::preview($url, JText::_('JGLOBAL_PREVIEW'), 'eye');
 			}
