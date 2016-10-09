@@ -9,27 +9,14 @@
 
 defined('_JEXEC') or die;
 
-$script  = 'function insertPagebreak() {' . "\n\t";
+JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
+JHtml::_('script', 'com_content/article-pagebreak.js', false, true);
 
-// Get the pagebreak title
-$script .= 'var title = document.getElementById("title").value;' . "\n\t";
-$script .= 'if (title != \'\') {' . "\n\t\t";
-$script .= 'title = "title=\""+title+"\" ";' . "\n\t";
-$script .= '}' . "\n\t";
+$document    = JFactory::getDocument();
+$this->eName = JFactory::getApplication()->input->get('e_name', '', 'cmd');
+$this->eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $this->eName);
 
-// Get the pagebreak toc alias -- not inserting for now
-// don't know which attribute to use...
-$script .= 'var alt = document.getElementById("alt").value;' . "\n\t";
-$script .= 'if (alt != \'\') {' . "\n\t\t";
-$script .= 'alt = "alt=\""+alt+"\" ";' . "\n\t";
-$script .= '}' . "\n\t";
-$script .= 'var tag = "<hr class=\"system-pagebreak\" "+title+" "+alt+"/>";' . "\n\t";
-$script .= 'window.parent.jInsertEditorText(tag, ' . json_encode($this->eName) . ');' . "\n\t";
-$script .= 'window.parent.jModalClose();' . "\n\t";
-$script .= 'return false;' . "\n";
-$script .= '}' . "\n";
-
-JFactory::getDocument()->addScriptDeclaration($script);
+$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 ?>
 <div class="container-popup">
 	<form class="form-horizontal">
@@ -44,7 +31,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<div class="controls"><input type="text" id="alt" name="alt" /></div>
 		</div>
 
-		<button onclick="insertPagebreak();" class="btn btn-primary"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
+		<button class="js-insert-pagebreak btn btn-success pull-right" data-editor="<?php echo $this->eName; ?>"><?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
 
 	</form>
 </div>
