@@ -605,7 +605,7 @@ abstract class JHtml
 	public static function stylesheet($file, $options = array(), $attribs = array())
 	{
 		// B/C before __DEPLOY_VERSION__
-		if (!is_array($options) && !is_array($attribs))
+		if (is_array($options) && !is_array($attribs))
 		{
 			JLog::add('The stylesheet method signature used has changed, use (file, options, attributes) instead.', JLog::WARNING, 'deprecated');
 
