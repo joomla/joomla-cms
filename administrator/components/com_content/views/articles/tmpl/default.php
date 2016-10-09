@@ -81,7 +81,11 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+							<?php if (stripos($listOrder, 'publish') !== false) : ?>
+								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_CREATED', 'a.publish_up', $listDirn, $listOrder); ?>
+							<?php else; ?>
+								<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+							<?php endif; ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
