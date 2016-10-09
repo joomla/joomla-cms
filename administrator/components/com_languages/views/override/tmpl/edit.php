@@ -21,7 +21,7 @@ JHtml::_('stylesheet', 'overrider/overrider.css', array(), true);
 
 JHtml::_('behavior.core');
 JHtml::_('jquery.framework');
-JHtml::_('script', 'overrider/overrider.min.js', false, true, false, true);
+JHtml::_('script', 'overrider/overrider.min.js', array('version' => 'auto', 'relative' => true));
 
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($) {

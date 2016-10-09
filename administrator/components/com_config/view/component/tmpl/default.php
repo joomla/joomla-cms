@@ -58,7 +58,7 @@ JFactory::getDocument()->addScriptDeclaration(
 					<?php $rel = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
 						<?php JHtml::_('jquery.framework'); ?>
-						<?php JHtml::_('script', 'jui/cms.js', false, true); ?>
+						<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 						<?php $showonarr = array(); ?>
 						<?php foreach (preg_split('%\[AND\]|\[OR\]%', $fieldSet->showon) as $showonfield) : ?>
 							<?php $showon = explode(':', $showonfield, 2); ?>
@@ -87,7 +87,7 @@ JFactory::getDocument()->addScriptDeclaration(
 							<?php $datashowon = ''; ?>
 							<?php if ($showonstring = $field->getAttribute('showon')) : ?>
 								<?php JHtml::_('jquery.framework'); ?>
-								<?php JHtml::_('script', 'jui/cms.js', false, true); ?>
+								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 								<?php $showonarr = array(); ?>
 								<?php foreach (preg_split('%\[AND\]|\[OR\]%', $showonstring) as $showonfield) : ?>
 									<?php $showon = explode(':', $showonfield, 2); ?>
