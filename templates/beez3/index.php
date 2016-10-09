@@ -80,12 +80,19 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 }
 
 JHtml::_('bootstrap.framework');
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/md_stylechanger.js');
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/hide.js');
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/respond.src.js');
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/template.js');
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
+
+JHtml::_('script', 'javascript/md_stylechanger.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'javascript/hide.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'javascript/respond.src.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'javascript/template.js', array('version' => 'auto', 'relative' => true));
 
 require __DIR__ . '/jsstrings.php';
+
+// Add html5 shiv
+JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -95,7 +102,6 @@ require __DIR__ . '/jsstrings.php';
 		<meta name="apple-mobile-web-app-capable" content="YES" />
 		<jdoc:include type="head" />
 		<!--[if IE 7]><link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/ie7only.css" rel="stylesheet" /><![endif]-->
-		<!--[if lt IE 9]><script src="<?php echo JUri::root(true); ?>/media/jui/js/html5.js"></script><![endif]-->
 	</head>
 	<body id="shadow">
 		<div id="all">
