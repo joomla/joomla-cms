@@ -675,8 +675,16 @@ class JDocument
 			$attribs['type'] = 'text/css';
 		}
 
-		$this->_styleSheets[$url]            = isset($this->_styleSheets[$url]) ? array_replace($this->_styleSheets[$url], $attribs) : $attribs;
-		$this->_styleSheets[$url]['options'] = isset($this->_styleSheets[$url]['options']) ? array_replace($this->_styleSheets[$url]['options'], $options) : $options;
+		$this->_styleSheets[$url] = isset($this->_styleSheets[$url]) ? array_replace($this->_styleSheets[$url], $attribs) : $attribs;
+
+		if (isset($this->_styleSheets[$url]['options']))
+		{
+			$this->_styleSheets[$url]['options'] = array_replace($this->_styleSheets[$url]['options'], $options)
+		}
+		else
+		{
+			$this->_styleSheets[$url]['options'] = $options;
+		}
 
 		return $this;
 	}
