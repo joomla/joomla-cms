@@ -29,7 +29,7 @@ defined('JPATH_BASE') or die;
 			if ($showonstring = $displayData->form->getFieldAttribute($field->fieldname, 'showon'))
 			{
 				JHtml::_('jquery.framework');
-				JHtml::_('script', 'jui/cms.js', false, true);
+				JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true));
 
 				$showonarr = array();
 
