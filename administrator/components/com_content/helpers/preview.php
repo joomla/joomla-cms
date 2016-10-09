@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Preview Link Helper
  *
- * @since  3.0
+ * @since  __DEPLOY_VERSION__
  */
 class ContentHelperPreview
 {
