@@ -35,8 +35,8 @@
 					filter="int"
 					validate="number"
 					min="3"
-					label="PLG_TINY_FIELD_SETS_AMOUNT_LABEL"
-					description="PLG_TINY_FIELD_SETS_AMOUNT_DESC"
+					label="PLG_TINY_FIELD_NUMBER_OF_SETS_LABEL"
+					description="PLG_TINY_FIELD_NUMBER_OF_SETS_DESC"
 					default="3"
 				/>
 				<field
