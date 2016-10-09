@@ -135,7 +135,7 @@ class ContentViewArticle extends JViewLegacy
 				JLoader::register('Preview', JPATH_ADMINISTRATOR . '/components/com_content/helpers/preview.php');
 				$url = Preview::url($this->item);
 
-				JToolbarHelper::preview($url, 'Preview', 'eye');
+				JToolbarHelper::preview($url, JText::_('JGLOBAL_PREVIEW'), 'eye');
 			}
 
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
