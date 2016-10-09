@@ -941,13 +941,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/templates/' . $template . '/css/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the templates directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the templates directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/templates/' . $template . '/css/' . $urlpath . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the templates directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the templates directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -956,7 +956,7 @@ class JHtmlTest extends TestCase
 		rmdir(JPATH_THEMES . '/' . $template . '/css');
 		rmdir(JPATH_THEMES . '/' . $template);
 
-		// We create the file that JHtml::script will look for
+		// We create the file that JHtml::stylesheet will look for
 		if (!is_dir(dirname(JPATH_ROOT . '/media/' . $urlpath . 'css/' . $urlfilename)))
 		{
 			mkdir(dirname(JPATH_ROOT . '/media/' . $urlpath . 'css/' . $urlfilename), 0777, true);
@@ -968,13 +968,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/' . $urlpath . 'css/' . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/' . $urlpath . 'css/' . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -982,7 +982,7 @@ class JHtmlTest extends TestCase
 		rmdir(JPATH_ROOT . '/media/' . $urlpath . 'css');
 		rmdir(JPATH_ROOT . '/media/' . $urlpath);
 
-		// We create the file that JHtml::script will look for.
+		// We create the file that JHtml::stylesheet will look for.
 		if (!is_dir(dirname(JPATH_ROOT . '/media/system/css/' . $urlfilename)))
 		{
 			mkdir(dirname(JPATH_ROOT . '/media/system/css/' . $urlfilename), 0777, true);
@@ -995,13 +995,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/system/css/' . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -1013,12 +1013,12 @@ class JHtmlTest extends TestCase
 		$this->assertArrayNotHasKey(
 			'/media/system/css/' . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEmpty(
 			JHtml::stylesheet($urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		$extension = 'testextension';
@@ -1033,13 +1033,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/' . $extension . '/' . $element . '/css/' . $urlpath . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		// We remove the file from the media directory
@@ -1057,13 +1057,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/' . $extension . '/css/' . $element . '/' . $urlpath . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -1084,13 +1084,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -1103,12 +1103,12 @@ class JHtmlTest extends TestCase
 		$this->assertArrayNotHasKey(
 			'/media/system/css/' . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEmpty(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		if (!is_dir(JPATH_ROOT . '/media/system/css/' . $element . '/' . $urlpath))
@@ -1125,13 +1125,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser.css',
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
@@ -1142,13 +1142,13 @@ class JHtmlTest extends TestCase
 				JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0.css',
 				JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1_mybrowser_0_0.css'
 			),
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true, 'detectBrowser' => false)),
 			JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -1170,19 +1170,19 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertArrayNotHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::getConfig()->set('debug', 0);
@@ -1192,19 +1192,19 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertArrayNotHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true)),
 			JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1.css',
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::getConfig()->set('debug', 1);
@@ -1214,19 +1214,19 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertArrayNotHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true, 'detectDebug' => false)),
 			JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::getConfig()->set('debug', 0);
@@ -1236,19 +1236,19 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertArrayNotHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . 'style1-uncompressed.css',
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
 			JHtml::stylesheet($extension . '/' . $element . '/' . $urlpath . $urlfilename, array('relative' => true, 'pathOnly' => true, 'detectDebug' => false)),
 			JUri::base(true) . '/media/system/css/' . $element . '/' . $urlpath . 'style1.css',
-			'Line:' . __LINE__ . ' JHtml::script failed in URL only mode when it should come from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed in URL only mode when it should come from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
@@ -1265,13 +1265,13 @@ class JHtmlTest extends TestCase
 		$this->assertArrayHasKey(
 			'/media/system/css/' . $element . '/' . $urlpath . $urlfilename,
 			JFactory::$document->_styleSheets,
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		$this->assertEquals(
-			JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename]['attribs'],
+			JFactory::$document->_styleSheets['/media/system/css/' . $element . '/' . $urlpath . $urlfilename],
 			array('media' => 'print, screen'),
-			'Line:' . __LINE__ . ' JHtml::script failed when we should get it from the media directory'
+			'Line:' . __LINE__ . ' JHtml::stylesheet failed when we should get it from the media directory'
 		);
 
 		JFactory::$document->_styleSheets = array();
