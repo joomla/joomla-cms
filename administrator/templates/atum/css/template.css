@@ -7234,6 +7234,7 @@ small, .small {
   .js-stools .js-stools-container-bar {
     float: left; }
     .js-stools .js-stools-container-bar .btn-toolbar {
+      float: left;
       margin-bottom: 5px; }
       .js-stools .js-stools-container-bar .btn-toolbar .btn-group:first-child {
         margin-left: 0; }
