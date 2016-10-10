@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('number');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a meter to show value in a range.
@@ -18,7 +16,7 @@ JFormHelper::loadFieldClass('number');
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  3.2
  */
-class JFormFieldMeter extends JFormFieldNumber
+class JFormFieldMeter extends JFormField
 {
 	/**
 	 * The form field type.
@@ -27,14 +25,6 @@ class JFormFieldMeter extends JFormFieldNumber
 	 * @since  3.2
 	 */
 	protected $type = 'Meter';
-
-	/**
-	 * The width of the field increased or decreased.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $width;
 
 	/**
 	 * Whether the field is active or not.
@@ -53,12 +43,20 @@ class JFormFieldMeter extends JFormFieldNumber
 	protected $animated = true;
 
 	/**
-	 * The color of the field
+	 * The max value of the progress bar
 	 *
 	 * @var    boolean
-	 * @since  3.2
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $color;
+	protected $max = 100;
+
+	/**
+	 * The striped class for the progress bar
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $striped;
 
 	/**
 	 * Name of the layout being used to render the field
@@ -82,9 +80,6 @@ class JFormFieldMeter extends JFormFieldNumber
 		switch ($name)
 		{
 			case 'active':
-			case 'width':
-			case 'animated':
-			case 'color':
 				return $this->$name;
 		}
 
@@ -105,19 +100,9 @@ class JFormFieldMeter extends JFormFieldNumber
 	{
 		switch ($name)
 		{
-			case 'width':
-			case 'color':
-				$this->$name = (string) $value;
-				break;
-
 			case 'active':
 				$value = (string) $value;
 				$this->active = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'animated':
-				$value = (string) $value;
-				$this->animated = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
 			default:
@@ -145,14 +130,8 @@ class JFormFieldMeter extends JFormFieldNumber
 
 		if ($return)
 		{
-			$this->width = isset($this->element['width']) ? (string) $this->element['width'] : '';
-			$this->color = isset($this->element['color']) ? (string) $this->element['color'] : '';
-
 			$active       = (string) $this->element['active'];
 			$this->active = ($active == 'true' || $active == 'on' || $active == '1');
-
-			$animated       = (string) $this->element['animated'];
-			$this->animated = !($animated == 'false' || $animated == 'off' || $animated == '0');
 		}
 
 		return $return;
@@ -184,13 +163,8 @@ class JFormFieldMeter extends JFormFieldNumber
 
 		// Initialize some field attributes.
 		$extraData = array(
-			'width'    => $this->width,
-			'color'    => $this->color,
-			'animated' => $this->animated,
 			'active'   => $this->active,
 			'max'      => $this->max,
-			'min'      => $this->min,
-			'step'     => $this->step,
 		);
 
 		return array_merge($data, $extraData);
