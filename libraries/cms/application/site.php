@@ -520,7 +520,12 @@ final class JApplicationSite extends JApplicationCms
 				{
 					if ($tmpl->template == $template_override)
 					{
-						$template->template = $template_override;
+						$template = $tmpl;
+
+						$registry = new Registry;
+						$registry->loadString($template->params);
+						$template->params = $registry;
+
 						break;
 					}
 				}
@@ -674,7 +679,17 @@ final class JApplicationSite extends JApplicationCms
 
 		// Finish initialisation
 		parent::initialiseApp($options);
+	}
 
+	/**
+	 * Load the library language files for the application
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.3
+	 */
+	protected function loadLibraryLanguage()
+	{
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary

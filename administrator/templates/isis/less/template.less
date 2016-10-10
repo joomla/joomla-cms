@@ -496,14 +496,22 @@ h6 {
 .sidebar-nav .nav-list > li > a {
 	color: #555;
 	padding: 3px 25px;
-	margin-left: -25px;
-	margin-right: -25px;
+	margin-left: -26px;
+	margin-right: -26px;
 }
 
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
 	margin-right: -26px;
 }
+.sidebar-nav .nav-list > li > a:focus,
+.sidebar-nav .nav-list > li > a:hover {
+	text-decoration: none;
+	color: #fff;
+	background-color: #2d6ca2;
+    text-shadow: none;
+}
+
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;

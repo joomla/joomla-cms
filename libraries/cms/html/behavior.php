@@ -35,6 +35,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.6
+	 * @deprecated 4.0 Update scripts to jquery
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -45,6 +46,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::framework is deprecated. Update to jquery scripts.', JLog::WARNING, 'deprecated');
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
@@ -343,6 +346,7 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 * @deprecated 4.0  Use the modal equivalent from bootstrap
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -365,6 +369,8 @@ abstract class JHtmlBehavior
 		{
 			return;
 		}
+
+		JLog::add('JHtmlBehavior::modal is deprecated. Use the modal equivalent from bootstrap.', JLog::WARNING, 'deprecated');
 
 		// Setup options object
 		$opt['ajaxOptions']   = (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
@@ -671,14 +677,16 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		$session = JFactory::getSession();
+
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		if (JFactory::getConfig()->get('session_handler') != 'database')
+		if ($session->storeName != 'database')
 		{
 			$refresh_time = 300000;
 		}
 		else
 		{
-			$life_time    = JFactory::getConfig()->get('lifetime') * 60000;
+			$life_time    = $session->getExpire() * 1000;
 			$refresh_time = ($life_time <= 60000) ? 45000 : $life_time - 60000;
 
 			// The longest refresh period is one hour to prevent integer overflow.
@@ -688,14 +696,12 @@ abstract class JHtmlBehavior
 			}
 		}
 
+		$url = JUri::base(true) . '/index.php';
+
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		if (JFactory::getApplication()->isSite() || !JFactory::getUser()->guest)
 		{
-			$url = JUri::base(true) . '/index.php?option=com_ajax&format=json';
-		}
-		else
-		{
-			$url = JUri::base(true) . '/index.php';
+			$url .= '?option=com_ajax&format=json';
 		}
 
 		$script = 'window.setInterval(function(){';
