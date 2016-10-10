@@ -142,7 +142,7 @@ class MediaControllerFile extends JControllerLegacy
 			}
 
 			// Trigger the onContentBeforeSave event.
-			$object_file = new JObject($file);
+			$object_file = new stdClass($file);
 			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
@@ -249,7 +249,7 @@ class MediaControllerFile extends JControllerLegacy
 			}
 
 			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
-			$object_file = new JObject(array('filepath' => $fullPath));
+			$object_file = new stdClass(array('filepath' => $fullPath));
 
 			if (is_file($object_file->filepath))
 			{

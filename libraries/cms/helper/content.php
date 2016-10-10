@@ -37,7 +37,7 @@ class JHelperContent
 	 * @param   integer  $id          The item ID.
 	 * @param   string   $assetName   The asset name
 	 *
-	 * @return  JObject
+	 * @return  object
 	 *
 	 * @since   3.1
 	 * @deprecated  3.2  Use JHelperContent::getActions() instead
@@ -49,7 +49,7 @@ class JHelperContent
 
 		// Reverted a change for version 2.5.6
 		$user   = JFactory::getUser();
-		$result = new JObject;
+		$result = new stdClass();
 
 		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
 
@@ -86,7 +86,7 @@ class JHelperContent
 	 * @param   string   $section    The access section name.
 	 * @param   integer  $id         The item ID.
 	 *
-	 * @return  JObject
+	 * @return  object
 	 *
 	 * @since   3.2
 	 */
@@ -101,7 +101,7 @@ class JHelperContent
 		}
 
 		$user   = JFactory::getUser();
-		$result = new JObject;
+		$result = new stdClass();
 
 		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
 

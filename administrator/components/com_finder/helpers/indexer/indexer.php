@@ -148,7 +148,7 @@ abstract class FinderIndexer
 		// If the state is empty, load the values for the first time.
 		if (empty($data))
 		{
-			$data = new JObject;
+			$data = new stdClass();
 
 			// Load the default configuration options.
 			$data->options = JComponentHelper::getParams('com_finder');
@@ -202,7 +202,7 @@ abstract class FinderIndexer
 	public static function setState($data)
 	{
 		// Check the state object.
-		if (empty($data) || !$data instanceof JObject)
+		if (empty($data) || !$data instanceof stdClass)
 		{
 			return false;
 		}

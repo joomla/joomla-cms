@@ -288,9 +288,9 @@ class TagsModelTag extends JModelList
 						}
 					}
 
-					// Convert the JTable to a clean JObject.
+					// Convert the JTable to a clean object.
 					$properties = $table->getProperties(1);
-					$this->item[] = ArrayHelper::toObject($properties, 'JObject');
+					$this->item[] = ArrayHelper::toObject($properties);
 				}
 				catch (RuntimeException $e)
 				{

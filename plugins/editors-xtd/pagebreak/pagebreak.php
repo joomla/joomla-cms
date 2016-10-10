@@ -35,7 +35,7 @@ class PlgButtonPagebreak extends JPlugin
 	{
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
-		$button          = new JObject;
+		$button          = new stdClass();
 		$button->modal   = true;
 		$button->class   = 'btn';
 		$button->link    = $link;

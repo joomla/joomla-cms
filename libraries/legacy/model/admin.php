@@ -901,7 +901,7 @@ abstract class JModelAdmin extends JModelForm
 
 		// Convert to the JObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = JArrayHelper::toObject($properties, 'JObject');
+		$item = JArrayHelper::toObject($properties);
 
 		if (property_exists($item, 'params'))
 		{

@@ -161,9 +161,9 @@ class PluginsModelPlugin extends JModelAdmin
 				return false;
 			}
 
-			// Convert to the JObject before adding other data.
+			// Convert to an object before adding other data.
 			$properties = $table->getProperties(1);
-			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = JArrayHelper::toObject($properties);
 
 			// Convert the params field to an array.
 			$registry = new Registry;

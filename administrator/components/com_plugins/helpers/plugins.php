@@ -101,7 +101,7 @@ class PluginsHelper
 	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new JObject;
+		$data = new JObject();
 
 		// Check of the xml file exists.
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
