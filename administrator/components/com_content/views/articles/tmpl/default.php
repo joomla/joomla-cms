@@ -83,7 +83,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						<th width="10%" class="nowrap hidden-phone">
 							<?php if (stripos($listOrder, 'publish') !== false) : ?>
 								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_CREATED', 'a.publish_up', $listDirn, $listOrder); ?>
-							<?php else; ?>
+							<?php else : ?>
 								<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 							<?php endif; ?>
 						</th>
