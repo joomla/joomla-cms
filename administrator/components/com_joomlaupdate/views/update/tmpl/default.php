@@ -20,7 +20,7 @@ JHtml::script('com_joomlaupdate/update.js', false, true, false);
 $password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 $filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
 $ajaxUrl = JUri::base() . 'components/com_joomlaupdate/restore.php';
-$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
+$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . JFactory::getSession()->getFormToken() . '=1';
 
 JFactory::getDocument()->addScriptDeclaration(
 	"

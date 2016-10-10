@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
  * Extension Manager Discover View

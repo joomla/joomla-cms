@@ -11,6 +11,9 @@
 @import "modals.less";
 //@import "../../../../media/jui/less/modals.joomla.less";
 
+// Bootstrap Popovers
+@import "../../../../media/jui/less/popovers.less";
+
 // Icon Font
 @import "icomoon.less";
 
@@ -1063,6 +1066,21 @@ fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
 
+}
+
+
+fieldset.adminform,
+fieldset.panelform {
+	.input-prepend,
+	.input-append {
+		float: left;
+	}
+	.adminformlist .btn.modal,
+	.input-prepend > *,
+	.input-append > * {
+		float: none;
+		vertical-align: middle;
+	}
 }
 
 /* JParameter classes on radio button labels */
@@ -3331,7 +3349,8 @@ fieldset.uploadform {
 }
 
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 .row-striped .row-fluid [class*="span"] {

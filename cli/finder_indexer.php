@@ -286,7 +286,7 @@ class FinderCli extends JApplicationCli
 				$query
 					->select('t.id')
 					->from($db->qn('#__finder_taxonomy') . ' AS t')
-					->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+					->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
 					->where($db->qn('t.title') . ' = ' . $db->q($element['title']))
 					->where($db->qn('p.title') . ' = ' . $db->q($element['parent']));
 				$taxonomy = $db->setQuery($query)->loadResult();
@@ -355,7 +355,7 @@ class FinderCli extends JApplicationCli
 			$query
 				->select('t.title, p.title AS parent')
 				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->leftjoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
+				->leftJoin($db->qn('#__finder_taxonomy') . ' AS p ON p.id = t.parent_id')
 				->where($db->qn('t.id') . ' IN (' . $filter->data . ')');
 			$taxonomies = $db->setQuery($query)->loadObjectList();
 

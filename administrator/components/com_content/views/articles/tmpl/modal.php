@@ -16,9 +16,11 @@ if ($app->isSite())
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
+// Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 JHtml::_('behavior.core');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 JHtml::_('formbehavior.chosen', 'select');
@@ -40,9 +42,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<div class="clearfix"></div>
 
 		<?php if (empty($this->items)) : ?>
-		<div class="alert alert-no-items">
-			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
+			<div class="alert alert-no-items">
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 			<table class="table table-striped table-condensed">
 				<thead>
@@ -53,7 +55,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th class="title">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%" class="nowrap">
@@ -62,7 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th width="5%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -118,7 +120,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="small">
 							<?php if ($item->language == '*'): ?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
@@ -128,7 +130,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<td class="nowrap small hidden-phone">
 							<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 						</td>
-						<td>
+						<td class="nowrap small hidden-phone">
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>

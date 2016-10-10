@@ -48,17 +48,15 @@ abstract class FinderIndexerParser
 		$class = 'FinderIndexerParser' . ucfirst($format);
 
 		// Check if a parser exists for the format.
-		if (file_exists($path))
-		{
-			// Instantiate the parser.
-			include_once $path;
-			$instances[$format] = new $class;
-		}
-		else
+		if (!file_exists($path))
 		{
 			// Throw invalid format exception.
 			throw new Exception(JText::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
 		}
+
+		// Instantiate the parser.
+		include_once $path;
+		$instances[$format] = new $class;
 
 		return $instances[$format];
 	}

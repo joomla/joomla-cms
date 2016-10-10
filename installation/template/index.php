@@ -1,14 +1,12 @@
 <?php
 /**
- * @package    Joomla.Installation
+ * @package	Joomla.Installation
  *
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license	GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-$doc = JFactory::getDocument();
 
 // Add Stylesheets
 JHtml::_('bootstrap.loadCss', true, $this->direction);
@@ -20,6 +18,20 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
 JHtml::_('script', 'installation/template/js/installation.js');
+
+
+// Load JavaScript message titles
+JText::script('ERROR');
+JText::script('WARNING');
+JText::script('NOTICE');
+JText::script('MESSAGE');
+
+// Add strings for JavaScript error translations.
+JText::script('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT');
+JText::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
+JText::script('JLIB_JS_AJAX_ERROR_OTHER');
+JText::script('JLIB_JS_AJAX_ERROR_PARSE');
+JText::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
@@ -34,33 +46,28 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<![endif]-->
 		<script type="text/javascript">
 			jQuery(function()
-			{	// Delay instantiation after document.formvalidation and other dependencies loaded
+			{
+				// Delay instantiation after document.formvalidation and other dependencies loaded
 				window.setTimeout(function(){
 					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
-			   	}, 500);
-
+				}, 500);
 			});
 		</script>
 	</head>
-	<body>
+	<body data-basepath="<?php echo JURI::root(true); ?>">
 		<!-- Header -->
 		<div class="header">
 			<img src="<?php echo $this->baseurl ?>/template/images/joomla.png" alt="Joomla" />
 			<hr />
 			<h5>
-				<?php
-				// Fix wrong display of Joomla!® in RTL language
-				if (JFactory::getLanguage()->isRtl())
-				{
-					$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>';
-				}
-				else
-				{
-					$joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>';
-				}
-				$license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
-				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license);
-				?>
+				<?php // Fix wrong display of Joomla!® in RTL language ?>
+				<?php if (JFactory::getLanguage()->isRtl()) : ?>
+					<?php $joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;&#x200E;</sup>'; ?>
+				<?php else : ?>
+					<?php $joomla = '<a href="https://www.joomla.org" target="_blank">Joomla!</a><sup>&#174;</sup>'; ?>
+				<?php endif; ?>
+				<?php $license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>'; ?>
+				<?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license); ?>
 			</h5>
 		</div>
 		<!-- Container -->
@@ -91,42 +98,52 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 					});
 
 					// Turn radios into btn-group
-				    $('.radio.btn-group label').addClass('btn');
-				    $(".btn-group label:not(.active)").click(function()
-					{
-				        var label = $(this);
-				        var input = $('#' + label.attr('for'));
+					$('.radio.btn-group label').addClass('btn');
 
-				        if (!input.prop('checked'))
+					$('fieldset.btn-group').each(function() {
+						// Handle disabled, prevent clicks on the container, and add disabled style to each button
+						if ($(this).prop('disabled')) {
+							$(this).css('pointer-events', 'none').off('click');
+							$(this).find('.btn').addClass('disabled');
+						}
+					});
+
+					$(".btn-group label:not(.active)").click(function()
+					{
+						var label = $(this);
+						var input = $('#' + label.attr('for'));
+
+						if (!input.prop('checked'))
 						{
-				            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				            if(input.val()== '')
+							label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
+							if(input.val()== '')
 							{
-				                    label.addClass('active btn-primary');
-				             } else if(input.val()==0 || input.val()=='remove')
+									label.addClass('active btn-primary');
+							 } else if(input.val()==0 || input.val()=='remove')
 							{
-				                    label.addClass('active btn-danger');
-				             } else {
-				            label.addClass('active btn-success');
-				             }
-				            input.prop('checked', true);
-				        }
-				    });
-				    $(".btn-group input[checked=checked]").each(function()
+									label.addClass('active btn-danger');
+							 } else {
+							label.addClass('active btn-success');
+							 }
+							input.prop('checked', true);
+						}
+					});
+					$(".btn-group input[checked='checked']").each(function()
 					{
 						if ($(this).val()== '')
 						{
-				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-				        } else if($(this).val()==0 || $(this).val()=='remove')
+						   $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
+						} else if($(this).val()==0 || $(this).val()=='remove')
 						{
-				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-				        } else {
-				            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-				        }
-				    });
+						   $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
+						} else {
+							$("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
+						}
+					});
 				})(jQuery);
 			}
 			initElements();
 		</script>
+
 	</body>
 </html>

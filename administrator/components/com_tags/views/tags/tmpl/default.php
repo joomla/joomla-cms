@@ -153,13 +153,11 @@ if ($saveOrder)
 								</div>
 							</td>
 							<td>
-								<?php if ($item->level > 0): ?>
-								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
-								<?php endif; ?>
+								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
-								<?php if ($canEdit || $canEditOwn) : ?>
+								<?php if ($canEdit) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id);?>">
 										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>

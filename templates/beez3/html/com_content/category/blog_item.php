@@ -125,9 +125,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_intro_caption):
-			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
+			echo 'class="caption"'.' title="' . htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8') . '"';
 		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
+		src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>"/>
 	</div>
 <?php endif; ?>
 <?php echo $this->item->introtext; ?>

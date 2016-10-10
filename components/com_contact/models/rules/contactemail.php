@@ -14,14 +14,14 @@ use Joomla\Registry\Registry;
 JFormHelper::loadRuleClass('email');
 
 /**
- * JFormRule for com_contact to make sure the E-Mail adress is not blocked.
+ * JFormRule for com_contact to make sure the email address is not blocked.
  *
  * @since  1.6
  */
 class JFormRuleContactEmail extends JFormRuleEmail
 {
 	/**
-	 * Method to test for banned e-mail addresses
+	 * Method to test for banned email addresses
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.

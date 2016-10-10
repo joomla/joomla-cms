@@ -18,7 +18,7 @@ $params = $this->params;
 		<?php $info = $item->params->get('info_block_position', 0); ?>
 		<div class="row<?php echo $i % 2; ?>" itemscope itemtype="https://schema.org/Article">
 			<div class="page-header">
-				<h2 itemprop="name">
+				<h2 itemprop="headline">
 					<?php if ($params->get('link_titles')) : ?>
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>

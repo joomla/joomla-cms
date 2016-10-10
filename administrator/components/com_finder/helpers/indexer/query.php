@@ -290,8 +290,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the filters in the request.
-		$input = JFactory::getApplication()->input;
-		$t = $input->request->get('t', array(), 'array');
+		$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
 
 		// Add the dynamic taxonomy filters if present.
 		if (!empty($this->filters))
@@ -380,9 +379,8 @@ class FinderIndexerQuery
 
 		// Sanitize the terms.
 		$results = array_unique($results);
-		$results = ArrayHelper::toInteger($results);
 
-		return $results;
+		return ArrayHelper::toInteger($results);
 	}
 
 	/**
@@ -487,8 +485,7 @@ class FinderIndexerQuery
 		$db = JFactory::getDbo();
 
 		// Initialize user variables
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true)
@@ -581,8 +578,7 @@ class FinderIndexerQuery
 	protected function processDynamicTaxonomy($filters)
 	{
 		// Initialize user variables
-		$user = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
 
 		// Remove duplicates and sanitize.
 		$filters = array_unique($filters);
@@ -683,8 +679,7 @@ class FinderIndexerQuery
 		// The value of 'today' is a special case that we need to handle.
 		if ($date1 === JString::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 		{
-			$today = JFactory::getDate('now', $offset);
-			$date1 = $today->format('%Y-%m-%d');
+			$date1 = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
 		}
 
 		// Try to parse the date string.
@@ -701,8 +696,7 @@ class FinderIndexerQuery
 		// The value of 'today' is a special case that we need to handle.
 		if ($date2 === JString::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 		{
-			$today = JFactory::getDate('now', $offset);
-			$date2 = $today->format('%Y-%m-%d');
+			$date2 = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
 		}
 
 		// Try to parse the date string.
@@ -809,8 +803,7 @@ class FinderIndexerQuery
 						// The value of 'today' is a special case that we need to handle.
 						if ($value === JString::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 						{
-							$today = JFactory::getDate('now', $offset);
-							$value = $today->format('%Y-%m-%d');
+							$value = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
 						}
 
 						// Try to parse the date string.

@@ -82,7 +82,7 @@ $colSpan = $clientId === 1 ? 5 : 6;
 						</td>
 						<td>
 							<?php if ($this->preview && $item->client_id == '0') : ?>
-								<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&template=' . (int) $item->id ?>" class="jgrid">
+								<a target="_blank" href="<?php echo JUri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
 								<span class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></span></a>
 							<?php elseif ($item->client_id == '1') : ?>
 								<span class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></span>

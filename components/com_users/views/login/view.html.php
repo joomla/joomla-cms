@@ -57,12 +57,11 @@ class UsersViewLogin extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
-		$tfa = UsersHelper::getTwoFactorMethods();
+		$tfa = JAuthenticationHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
 
 		// Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
 
 		$this->prepareDocument();
 

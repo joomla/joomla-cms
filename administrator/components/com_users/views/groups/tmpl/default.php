@@ -105,7 +105,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php endif; ?>
 						</td>
 						<td>
-							<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level); ?>
+							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)); ?>
 							<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>">
 								<?php echo $this->escape($item->title); ?></a>

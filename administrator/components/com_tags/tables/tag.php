@@ -96,7 +96,7 @@ class TagsTableTag extends JTableNested
 			$this->alias = $this->title;
 		}
 
-		$this->alias = JApplicationHelper::stringURLSafe($this->alias);
+		$this->alias = JApplicationHelper::stringURLSafe($this->alias, $this->language);
 
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
@@ -263,7 +263,6 @@ class TagsTableTag extends JTableNested
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 * @see     https://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = false)
 	{

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @see    http://php.net/pdo
+ * @see    https://secure.php.net/pdo
  * @since  12.1
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
@@ -374,19 +374,13 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	{
 		$this->connect();
 
-		if (!is_object($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
-		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
+		if (!is_object($this->connection))
 		{
-			// @TODO
-			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -466,7 +460,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-					throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum, $e);
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -482,7 +476,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
 
-				throw new JDatabaseExceptionExecuting($this->errorMsg, $this->errorNum);
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 			}
 		}
 
@@ -491,15 +485,15 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 	/**
 	 * Retrieve a PDO database connection attribute
-	 * http://www.php.net/manual/en/pdo.getattribute.php
 	 *
 	 * Usage: $db->getOption(PDO::ATTR_CASE);
 	 *
 	 * @param   mixed  $key  One of the PDO::ATTR_* Constants
 	 *
-	 * @return mixed
+	 * @return  mixed
 	 *
-	 * @since  12.1
+	 * @see     https://secure.php.net/manual/en/pdo.getattribute.php
+	 * @since   12.1
 	 */
 	public function getOption($key)
 	{
@@ -522,18 +516,16 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 
 	/**
 	 * Sets an attribute on the PDO database handle.
-	 * http://www.php.net/manual/en/pdo.setattribute.php
 	 *
 	 * Usage: $db->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 	 *
 	 * @param   integer  $key    One of the PDO::ATTR_* Constants
-	 * @param   mixed    $value  One of the associated PDO Constants
-	 *                           related to the particular attribute
-	 *                           key.
+	 * @param   mixed    $value  One of the associated PDO Constants related to the particular attribute key.
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 *
-	 * @since  12.1
+	 * @see     https://secure.php.net/manual/en/pdo.setattribute.php
+	 * @since   12.1
 	 */
 	public function setOption($key, $value)
 	{

@@ -67,7 +67,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account.
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file   = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 			$return = $ftp->delete($file);
 
 			// Delete the extra XML file while we're at it.
@@ -85,7 +85,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 			if ($return)
 			{
 				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
-				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+				$distFile   = JPath::clean($options->ftp_root . '/robots.txt.dist');
 
 				if (!file_exists($robotsFile) && file_exists($distFile))
 				{
@@ -155,6 +155,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 		// Send the JSON response.
 		JLoader::register('InstallationResponseJson', __FILE__);
+
 		echo json_encode(new InstallationResponseJson($response));
 
 		// Close the application.

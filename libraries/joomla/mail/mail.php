@@ -451,6 +451,8 @@ class JMail extends PHPMailer
 			// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 			try
 			{
+				$result = true;
+
 				if (is_array($path))
 				{
 					if (!empty($name) && count($path) != count($name))
@@ -756,7 +758,7 @@ class JMail extends PHPMailer
 		$message = sprintf(JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
 		$message .= JText::_('JLIB_MAIL_MSG') . "\n";
 
-		if ($this->addRecipient($recipient) === false)
+		if ($this->addRecipient($adminEmail) === false)
 		{
 			return false;
 		}

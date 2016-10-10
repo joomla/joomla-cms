@@ -67,7 +67,7 @@ abstract class JHtmlList
 			$name,
 			array(
 				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
-				'list.select' => $active
+				'list.select' => $active,
 			)
 		);
 
@@ -205,7 +205,7 @@ abstract class JHtmlList
 			$name,
 			array(
 				'list.attr' => 'class="inputbox" size="1" ' . $javascript,
-				'list.select' => $active
+				'list.select' => $active,
 			)
 		);
 

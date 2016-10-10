@@ -209,10 +209,6 @@
 				<option value="1">JGLOBAL_ACROSS</option>
 			</field>
 
-			<field name="subcategories" type="spacer" class="spacer"
-					label="JGLOBAL_SUBSLIDER_BLOG_EXTENDED_LABEL"
-			/>
-
 		<field name="show_subcategory_content" type="list"
 
 				description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"

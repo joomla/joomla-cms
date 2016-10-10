@@ -22,10 +22,39 @@ abstract class JModelForm extends JModelLegacy
 	/**
 	 * Array of form objects.
 	 *
-	 * @var    array
+	 * @var    JForm[]
 	 * @since  12.2
 	 */
 	protected $_forms = array();
+
+	/**
+	 * Maps events to plugin groups.
+	 *
+	 * @var array
+	 */
+	protected $events_map = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.6
+	 */
+	public function __construct($config = array())
+	{
+		$config['events_map'] = isset($config['events_map']) ? $config['events_map'] : array();
+
+		$this->events_map = array_merge(
+			array(
+				'validate' => 'content',
+			),
+			$config['events_map']
+		);
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to checkin a row.
@@ -137,7 +166,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   12.2
 	 */
@@ -152,7 +181,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   boolean  $clear    Optional argument to force load a new form.
 	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
-	 * @return  mixed  JForm object on success, False on error.
+	 * @return  JForm|boolean  JForm object on success, false on error.
 	 *
 	 * @see     JForm
 	 * @since   12.2
@@ -214,7 +243,7 @@ abstract class JModelForm extends JModelLegacy
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  array    The default data is an empty array.
+	 * @return  array  The default data is an empty array.
 	 *
 	 * @since   12.2
 	 */
@@ -293,7 +322,7 @@ abstract class JModelForm extends JModelLegacy
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
-	 * @return  mixed  Array of filtered data if valid, false otherwise.
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
@@ -301,6 +330,12 @@ abstract class JModelForm extends JModelLegacy
 	 */
 	public function validate($form, $data, $group = null)
 	{
+		// Include the plugins for the delete events.
+		JPluginHelper::importPlugin($this->events_map['validate']);
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onUserBeforeDataValidation', array($form, &$data));
+
 		// Filter and validate the form data.
 		$data = $form->filter($data);
 		$return = $form->validate($data, $group);

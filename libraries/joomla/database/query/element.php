@@ -109,6 +109,22 @@ class JDatabaseQueryElement
 	}
 
 	/**
+	 * Sets the name of this element.
+	 *
+	 * @param   string  $name  Name of the element.
+	 *
+	 * @return  JDatabaseQueryElement  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+
+		return $this;
+	}
+
+	/**
 	 * Method to provide deep copy support to nested objects and arrays
 	 * when cloning.
 	 *

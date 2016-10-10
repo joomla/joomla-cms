@@ -55,15 +55,6 @@ class MenusViewItems extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		$menutypeId = (int) $this->state->get('menutypeid');
-		$menuType = $this->state->get('filter.menutype');
-
-		// Do not validate "*" because, that is our "show all" selection
-		if ($menuType != '*' && (!$menutypeId || !$user->authorise('core.manage', 'com_menus.menu.' . (int) $menutypeId)))
-		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-		}
-
 		MenusHelper::addSubmenu('items');
 
 		// Check for errors.
@@ -193,8 +184,8 @@ class MenusViewItems extends JViewLegacy
 								$titleParts[] = $vars['view'];
 							}
 
-							$value = implode(' » ', $titleParts);
 						}
+						$value = implode(' » ', $titleParts);
 					}
 					else
 					{
@@ -318,6 +309,12 @@ class MenusViewItems extends JViewLegacy
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('items.trash');
+		}
+
+		if ($canDo->get('core.admin') || $canDo->get('core.options'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::preferences('com_menus');
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');

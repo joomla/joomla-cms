@@ -51,14 +51,16 @@ class JFormFieldFilters extends JFormField
 		$html[] = '			<span class="acl-action">' . JText::_('JGLOBAL_FILTER_GROUPS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '">' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '">'
+				. JText::_('JGLOBAL_FILTER_TYPE_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '">' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
+		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '">'
+				. JText::_('JGLOBAL_FILTER_TAGS_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
 		$html[] = '			<span class="acl-action" title="' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '">'
-			. JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
+				. JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL') . '</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -79,9 +81,9 @@ class JFormFieldFilters extends JFormField
 			$group_filter['filter_attributes'] = !empty($group_filter['filter_attributes']) ? $group_filter['filter_attributes'] : '';
 
 			$html[] = '	<tr>';
-			$html[] = '		<th class="acl-groups left">';
-			$html[] = '			' . str_repeat('<span class="gi">|&mdash;</span>', $group->level) . $group->text;
-			$html[] = '		</th>';
+			$html[] = '		<td class="acl-groups left">';
+			$html[] = '			' . JLayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)) . $group->text;
+			$html[] = '		</td>';
 			$html[] = '		<td>';
 			$html[] = '				<select'
 				. ' name="' . $this->name . '[' . $group->value . '][filter_type]"'

@@ -31,6 +31,11 @@ JFactory::getDocument()->addScriptDeclaration('
 			jQuery("#permissions-sliders select").attr("disabled", "disabled");
 			' . $this->form->getField("description")->save() . '
 			Joomla.submitform(task, document.getElementById("item-form"));
+
+			if (task !== "category.apply")
+			{
+				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
+			}
 		}
 	};
 ');
@@ -38,9 +43,13 @@ JFactory::getDocument()->addScriptDeclaration('
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 
+// In case of modal
+$isModal = $input->get('layout') == 'modal' ? true : false;
+$layout  = $isModal ? 'modal' : 'edit';
+$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -59,6 +68,8 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -70,10 +81,12 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($assoc && $extensionassoc) : ?>
+		<?php if ( ! $isModal && $assoc && $extensionassoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php elseif ($isModal && $assoc && $extensionassoc) : ?>
+			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
@@ -81,8 +94,6 @@ $this->ignore_fieldsets = array('jmetadata', 'item_associations');
 			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

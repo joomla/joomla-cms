@@ -74,6 +74,11 @@
 		"url": "//fonts.googleapis.com/css?family=Source+Code+Pro",
 		"css": "'Source Code Pro', monospace"
 	},
+	"space_mono": {
+		"name": "Space Mono",
+		"url": "//fonts.googleapis.com/css?family=Space+Mono",
+		"css": "'Space Mono', monospace"
+	},
 	"ubuntu_mono": {
 		"name": "Ubuntu Mono",
 		"url": "//fonts.googleapis.com/css?family=Ubuntu+Mono",

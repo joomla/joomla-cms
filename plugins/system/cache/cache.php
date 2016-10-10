@@ -52,8 +52,6 @@ class PlgSystemCache extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		global $_PROFILER;
-
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
@@ -83,7 +81,7 @@ class PlgSystemCache extends JPlugin
 
 			if (JDEBUG)
 			{
-				$_PROFILER->mark('afterCache');
+				JProfiler::getInstance('Application')->mark('afterCache');
 			}
 
 			$app->close();
@@ -134,7 +132,7 @@ class PlgSystemCache extends JPlugin
 		{
 			// Get the current menu item
 			$active = JFactory::getApplication()->getMenu()->getActive();
-			
+
 			if ($active && $active->id && in_array($active->id, (array) $exclusions))
 			{
 				return true;

@@ -47,6 +47,7 @@ class JFilterOutput extends OutputFilter
 		{
 			$new_str .= (ord(substr($string, $i, 1)) < 16 ? '\\x0' : '\\x') . dechex(ord(substr($string, $i, 1)));
 		}
+
 		return $new_str;
 	}
 
@@ -54,17 +55,20 @@ class JFilterOutput extends OutputFilter
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
 	 *
-	 * @param   string  $string  String to process
+	 * @param   string  $string    String to process
+	 * @param   string  $language  Language to transilterate to
 	 *
 	 * @return  string  Processed string
 	 *
 	 * @since   11.1
 	 */
-	public static function stringURLSafe($string)
+	public static function stringURLSafe($string, $language = '')
 	{
 		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
-		$lang = JFactory::getLanguage();
+
+		// Transliterate on the language requested (fallback to current language if not specified)
+		$lang = $language == '' || $language == '*' ? JFactory::getLanguage() : JLanguage::getInstance($language);
 		$str = $lang->transliterate($str);
 
 		// Trim white spaces at beginning and end of alias and make lowercase
