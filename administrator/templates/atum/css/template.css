@@ -7501,9 +7501,15 @@ legend {
   margin-bottom: 1.1rem;
   border-bottom: 1px solid #e5e5e5; }
 
-.checkboxes .checkbox input {
-  position: static;
-  margin-left: 0; }
+.checkboxes {
+  padding-top: 5px; }
+  .checkboxes .checkbox input {
+    position: static;
+    margin-left: 0; }
+
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0; }
 
 .modal label {
   width: 100%; }
