@@ -39,21 +39,23 @@ class PlgButtonReadmore extends JPlugin
 
 		$getContent = $this->_subject->getContent($name);
 		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
-		$js = "
-			function insertReadmore(editor)
-			{
-				var content = $getContent
-				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
-				{
-					alert('$present');
-					return false;
-				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
-				}
-			}
-			";
 
-		$doc->addScriptDeclaration($js);
+		$doc->addScriptDeclaration(
+			"
+		function insertReadmore(editor)
+		{
+			var content = $getContent
+			if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
+			{
+				alert('$present');
+				return false;
+			} else {
+				jInsertEditorText('<hr id=\"system-readmore\" />', editor);
+				return false;
+			}
+		}
+			"
+		);
 
 		$button          = new JObject;
 		$button->modal   = false;
@@ -61,10 +63,7 @@ class PlgButtonReadmore extends JPlugin
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
-
-		// @TODO: The button writer needs to take into account the javascript directive
-		// $button->link', 'javascript:void(0)');
-		$button->link    = '#';
+		$button->link   = '#';
 
 		return $button;
 	}
