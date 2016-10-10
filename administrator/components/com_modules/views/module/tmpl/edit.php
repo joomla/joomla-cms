@@ -233,31 +233,33 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				?>
 			</div>
 			<div class="col-md-3">
-				<fieldset class="form-vertical">
-					<?php echo $this->form->renderField('showtitle'); ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('position'); ?>
+				<div class="card card-block card-light">
+					<fieldset class="form-vertical form-no-margin">
+						<?php echo $this->form->renderField('showtitle'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('position'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->loadTemplate('positions'); ?>
+							</div>
 						</div>
-						<div class="controls">
-							<?php echo $this->loadTemplate('positions'); ?>
-						</div>
-					</div>
-				</fieldset>
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'published',
-					'publish_up',
-					'publish_down',
-					'access',
-					'ordering',
-					'language',
-					'note'
-				);
+					</fieldset>
+					<?php
+					// Set main fields.
+					$this->fields = array(
+						'published',
+						'publish_up',
+						'publish_down',
+						'access',
+						'ordering',
+						'language',
+						'note'
+					);
 
-				?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					?>
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

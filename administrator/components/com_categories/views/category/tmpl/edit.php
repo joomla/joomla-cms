@@ -59,11 +59,11 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY')); ?>
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-9">
 				<?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<div class="card card-block card-light">
 					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				</div>
