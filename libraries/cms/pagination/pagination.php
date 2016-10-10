@@ -581,7 +581,7 @@ class JPagination
 				'select.genericlist',
 				$limits,
 				$this->prefix . 'limit',
-				'class="inputbox input-mini" size="1" onchange="Joomla.submitform();"',
+				'class="custom-select" onchange="Joomla.submitform();"',
 				'value',
 				'text',
 				$selected
