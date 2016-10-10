@@ -35,42 +35,6 @@
 				</field>
 
 			</fieldset>
-			
-			
-			
-<fieldset name="another">
-
-	<field name="show_title" type="checkbox" label="Checkbox" value="1" />
-	
-	<field name="toppings" type="checkboxes" label="Checkboxes">
-		<option value="anch">Anchovies</option>
-		<option value="chor">Chorizo</option>
-		<option value="on">Onions</option>
-		<option value="mush">Mushrooms</option>
-	</field>
-	
-	<field name="myeditbox" type="combo" label="combo" size="7">
-		<option value="1">Option 1</option>
-		<option value="2">Option 2</option>
-	</field>
-
-	<field name="myeditor" type="editors" default="none" label="editors" />
-
-	<field name="myimage" type="imagelist" default="" label="imagelist" directory="" exclude="" stripext="" />
-
-	<field name="myimage" type="media" label="media" directory="stories" />
-
-	<field name="modified_user_id" type="user"
-	label="user"
-	class="readonly"
-	readonly="true" />
-
-</fieldset>
-			
-			
-			
-			
-			
 		</fields>
 	</config>
 </extension>
