@@ -7255,6 +7255,10 @@ small, .small {
     .js-stools .js-stools-field-filter .form-control {
       display: inline-block; }
 
+.js-stools-column-order [class*=" icon-"],
+.js-stools-column-order [class^="icon-"] {
+  text-align: center; }
+
 .admin.com_modules .js-stools-container-bar .btn-toolbar {
   float: left; }
 

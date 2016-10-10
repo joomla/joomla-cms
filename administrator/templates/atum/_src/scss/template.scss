@@ -437,6 +437,7 @@ small, .small {
 // search tools
 .js-stools {
   width: 100%;
+
   .btn-wrapper {
     display: inline-block;
     margin-right: 5px;
@@ -485,6 +486,10 @@ small, .small {
       display: inline-block;
 	}
   }
+}
+.js-stools-column-order [class*=" icon-"],
+.js-stools-column-order [class^="icon-"] {
+  text-align: center;
 }
 
 
