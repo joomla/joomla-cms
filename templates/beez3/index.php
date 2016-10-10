@@ -81,9 +81,7 @@ if (file_exists($userCss) && filesize($userCss) > 0)
 
 JHtml::_('bootstrap.framework');
 
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
-
+// Add template scripts
 JHtml::_('script', 'javascript/md_stylechanger.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'javascript/hide.js', array('version' => 'auto', 'relative' => true));
 JHtml::_('script', 'javascript/respond.src.js', array('version' => 'auto', 'relative' => true));
