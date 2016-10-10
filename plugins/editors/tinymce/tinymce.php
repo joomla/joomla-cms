@@ -46,9 +46,8 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	public function onInit()
 	{
+		JHtml::_('jquery.framework');
 		JHtml::script($this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-
-		return;
 	}
 
 	/**
@@ -129,35 +128,20 @@ class PlgEditorTinymce extends JPlugin
 		$language = JFactory::getLanguage();
 		$mode     = (int) $this->params->get('mode', 1);
 		$theme    = 'modern';
-		$idField  = str_replace('[', '_', substr($name, 0, -1));
+		$id       = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
 
 		// List the skins
 		$skindirs = glob(JPATH_ROOT . '/media/editors/tinymce/skins' . '/*', GLOB_ONLYDIR);
 
-		// Set the selected skin
-		if ($app->isSite())
+		// Set the selected skin in the current side, front-end or back-end
+		$side = $app->isAdmin() ? 'skin_admin' : 'skin';
+		if ((int) $this->params->get($side, 0) < count($skindirs))
 		{
-			if ((int) $this->params->get('skin', 0) < count($skindirs))
-			{
-				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
-			}
+			$skin = 'skin : "' . basename($skindirs[(int) $this->params->get($side, 0)]) . '",';
 		}
-
-		// Set the selected administrator skin
-		elseif ($app->isAdmin())
+		else
 		{
-			if ((int) $this->params->get('skin_admin', 0) < count($skindirs))
-			{
-				$skin = 'skin : "' . basename($skindirs[(int) $this->params->get('skin_admin', 0)]) . '",';
-			}
-			else
-			{
-				$skin = 'skin : "lightgray",';
-			}
+			$skin = 'skin : "lightgray",';
 		}
 
 		$entity_encoding = $this->params->get('entity_encoding', 'raw');
@@ -875,7 +859,7 @@ class PlgEditorTinymce extends JPlugin
 			case 0: /* Simple mode*/
 				$script .= "
 			menubar: false,
-			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | $toolbar5 | code\",
+			toolbar1: \"bold italics underline strikethrough | undo redo | bullist numlist | code | $toolbar5\",
 			plugins: \"$dragDropPlg code\",
 		});
 		";
@@ -1176,7 +1160,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 			else
 			{
-				// Black or white list.
+				// Blacklist or whitelist.
 				// Preprocess the tags and attributes.
 				$tags           = explode(',', $filterData->filter_tags);
 				$attributes     = explode(',', $filterData->filter_attributes);
@@ -1203,7 +1187,7 @@ class PlgEditorTinymce extends JPlugin
 					}
 				}
 
-				// Collect the black or white list tags and attributes.
+				// Collect the blacklist or whitelist tags and attributes.
 				// Each list is cummulative.
 				if ($filterType == 'BL')
 				{
@@ -1230,7 +1214,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		// Remove duplicates before processing (because the black list uses both sets of arrays).
+		// Remove duplicates before processing (because the blacklist uses both sets of arrays).
 		$blackListTags        = array_unique($blackListTags);
 		$blackListAttributes  = array_unique($blackListAttributes);
 		$customListTags       = array_unique($customListTags);
@@ -1262,7 +1246,7 @@ class PlgEditorTinymce extends JPlugin
 					$filter->attrBlacklist = $customListAttributes;
 				}
 			}
-			// Black lists take second precedence.
+			// Blacklists take second precedence.
 			elseif ($blackList)
 			{
 				// Remove the white-listed tags and attributes from the black-list.
@@ -1271,19 +1255,19 @@ class PlgEditorTinymce extends JPlugin
 
 				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
-				// Remove white listed tags from filter's default blacklist
+				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
 
-				// Remove white listed attributes from filter's default blacklist
+				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
 				}
 			}
-			// White lists take third precedence.
+			// Whitelists take third precedence.
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean

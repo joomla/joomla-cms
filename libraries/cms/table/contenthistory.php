@@ -54,7 +54,8 @@ class JTableContenthistory extends JTable
 			'checked_out_time',
 			'version',
 			'hits',
-			'path');
+			'path',
+		);
 		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
 	}
 
@@ -95,7 +96,7 @@ class JTableContenthistory extends JTable
 	 * @param   mixed              $jsonData   Either an object or a string with json-encoded data
 	 * @param   JTableContenttype  $typeTable  Table object with data for this content type
 	 *
-	 * @return  string  SHA1 hash on sucess. Empty string on failure.
+	 * @return  string  SHA1 hash on success. Empty string on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -156,7 +157,7 @@ class JTableContenthistory extends JTable
 	 * Utility method to get a matching row based on the hash value and id columns.
 	 * This lets us check to make sure we don't save duplicate versions.
 	 *
-	 * @return  string  SHA1 hash on sucess. Empty string on failure.
+	 * @return  string  SHA1 hash on success. Empty string on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -179,7 +180,7 @@ class JTableContenthistory extends JTable
 	 *
 	 * @param   integer  $maxVersions  The maximum number of versions to save. All others will be deleted.
 	 *
-	 * @return  boolean   true on sucess, false on failure.
+	 * @return  boolean   true on success, false on failure.
 	 *
 	 * @since   3.2
 	 */

@@ -17,7 +17,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/orgs/teams/
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageOrgsTeams extends JGithubPackage
 {
@@ -84,7 +85,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 		$path = '/orgs/' . $org . '/teams';
 
 		$data = array(
-			'name' => $name
+			'name' => $name,
 		);
 
 		if ($repoNames)
@@ -131,7 +132,7 @@ class JGithubPackageOrgsTeams extends JGithubPackage
 		$path = '/teams/' . (int) $id;
 
 		$data = array(
-			'name' => $name
+			'name' => $name,
 		);
 
 		if ($permission)

@@ -496,14 +496,22 @@ h6 {
 .sidebar-nav .nav-list > li > a {
 	color: #555;
 	padding: 3px 25px;
-	margin-left: -25px;
-	margin-right: -25px;
+	margin-left: -26px;
+	margin-right: -26px;
 }
 
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
 	margin-right: -26px;
 }
+.sidebar-nav .nav-list > li > a:focus,
+.sidebar-nav .nav-list > li > a:hover {
+	text-decoration: none;
+	color: #fff;
+	background-color: #2d6ca2;
+    text-shadow: none;
+}
+
 /* Quick-icons */
 .quick-icons .nav li + .nav-header {
 	margin-top: 12px;
@@ -566,10 +574,22 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
-	padding: 2px 10px 4px 10px;
+	padding: 4px 10px;
 	.box-shadow(~"0px 1px 0px rgba(255, 255, 255, 0.8) inset, 0px -15px 15px rgba(255, 255, 255, 0.6)");
 	color: #626262;
 
+	.btn-group {
+		margin: 0;
+	}
+	.btn-group.separator:after {
+		content: ' ';
+		display: block;
+		float: left;
+		background: #ADADAD;
+		margin: 0 10px;
+		height: 15px;
+		width: 1px;
+	}
 	.btn-toolbar, p {
 		margin: 0px;
 	}
@@ -578,6 +598,9 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"], html[dir=rtl] .quick-icon
 	}
 	a {
 		color: #626262;
+	}
+	.badge {
+		margin-right: .25em;
 	}
 }
 /* Status Module in top position */

@@ -7,9 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
-
 /**
  * Test class for JGithub.
  *
@@ -66,6 +63,10 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->options);
+		unset($this->transport);
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**

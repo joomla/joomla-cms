@@ -83,7 +83,7 @@ class JException extends Exception
 	protected $type = null;
 
 	/**
-	 * Arguments recieved by the method the error occurred in [Available if backtrace is enabled]
+	 * Arguments received by the method the error occurred in [Available if backtrace is enabled]
 	 *
 	 * @var    array
 	 * @since  11.1

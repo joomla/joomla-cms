@@ -243,7 +243,7 @@ class InstallerModelManage extends InstallerModel
 					continue;
 				}
 
-				// Package uninstalled sucessfully
+				// Package uninstalled successfully
 				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
 

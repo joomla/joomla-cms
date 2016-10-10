@@ -132,7 +132,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		// Generate stylesheet links
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
-			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '"';
+			$buffer .= $tab . '<link href="' . $strSrc . '" rel="stylesheet"';
 
 			if (!is_null($strAttr['mime']) && (!$document->isHtml5() || !in_array($strAttr['mime'], $defaultCssMimes)))
 			{
@@ -198,12 +198,22 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 
 			if ($strAttr['defer'])
 			{
-				$buffer .= ' defer="defer"';
+				$buffer .= ' defer';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="defer"';
+				}
 			}
 
 			if ($strAttr['async'])
 			{
-				$buffer .= ' async="async"';
+				$buffer .= ' async';
+
+				if (!$document->isHtml5())
+				{
+					$buffer .= '="async"';
+				}
 			}
 
 			$buffer .= '></script>' . $lnEnd;

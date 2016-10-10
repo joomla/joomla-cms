@@ -451,6 +451,8 @@ class JMail extends PHPMailer
 			// Wrapped in try/catch if PHPMailer is configured to throw exceptions
 			try
 			{
+				$result = true;
+
 				if (is_array($path))
 				{
 					if (!empty($name) && count($path) != count($name))

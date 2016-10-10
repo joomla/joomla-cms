@@ -261,7 +261,7 @@ abstract class JInstallerAdapter extends JAdapterInstance
 			$this->parent->pushStep(
 				array(
 					'type' => 'folder',
-					'path' => $this->parent->getPath('extension_root')
+					'path' => $this->parent->getPath('extension_root'),
 				)
 			);
 		}
