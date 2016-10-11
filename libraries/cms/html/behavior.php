@@ -152,14 +152,11 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
-
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
 		JHtml::_('script', 'vendor/punycode/punycode.js', false, true);
-		JHtml::_('script', 'system/validate.min.js', false, true);
+		JHtml::_('script', 'system/fields/validate.min.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 

@@ -87,6 +87,7 @@ $script[] = "       $('body').addClass('modal-open');";
 
 if (isset($params['url']))
 {
+	var_dump('TEST');
 	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
 
 	// Script for destroying and reloading the iframe

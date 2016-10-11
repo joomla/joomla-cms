@@ -73,8 +73,6 @@ else
 	$value = (isset($min)) ? $min : $value;
 }
 
-JHtml::_('jquery.framework');
-
 ?>
 <input
 	type="number"
@@ -82,4 +80,3 @@ JHtml::_('jquery.framework');
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo implode(' ', $attributes); ?> />
-

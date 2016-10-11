@@ -42,9 +42,6 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  */
 
-// Including fallback code for HTML5 non supported browsers.
-JHtml::_('jquery.framework');
-
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id

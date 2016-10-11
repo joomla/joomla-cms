@@ -108,4 +108,4 @@ Joomla.Highlighter = function(_options){
         highlight: highlight,
         unhighlight : unhighlight
     };
-}
+};

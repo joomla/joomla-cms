@@ -141,9 +141,6 @@ class JFormFieldCheckbox extends JFormField
 		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-
 		$html = '<div class="form-check">';
 		$html .= '<label class="form-check-label">';
 		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'

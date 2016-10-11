@@ -67,12 +67,10 @@ $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction    = $lang->isRTL() ? ' dir="ltr" style="text-align:right"' : '';
 
-// Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
-JHtml::_('script', 'system/html5fallback.min.js', false, true);
-JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
-JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
-JHtml::_('script', 'system/field/color-field-adv-init.min.js', false, true, false, false, true);
+JHtml::_('script', 'vendor/minicolors/jquery.minicolors.min.js', false, true);
+JHtml::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', false, true);
+JHtml::_('script', 'system/fields/color-field-adv-init.min.js', false, true, false, false, true);
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php
 echo htmlspecialchars($color, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $hint; ?><?php echo $class; ?><?php echo
