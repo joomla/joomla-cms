@@ -492,4 +492,12 @@ module.exports = function(grunt) {
 			'clean:tmp',
 		]
 	);
+	
+	grunt.registerTask('minify', 'Minifies scripts and styles.', function() {
+		grunt.task.run([
+			'uglify:allJs',
+			'cssmin:allCss',
+			'clean:tmp',
+		]);
+	});
 };
