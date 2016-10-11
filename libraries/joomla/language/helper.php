@@ -23,13 +23,12 @@ class JLanguageHelper
 	 * @param   string   $basePath        Base path to use
 	 * @param   boolean  $caching         True if caching is used
 	 * @param   boolean  $installed       Get only installed languages
-	 * @param   string   $field           The metadata field name
 	 *
 	 * @return  array  List of system languages
 	 *
 	 * @since   11.1
 	 */
-	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false, $field ='nativeName')
+	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
 		$list = array();
 
@@ -56,7 +55,7 @@ class JLanguageHelper
 			{
 				$option = array();
 
-				$option['text'] = isset($metadata[$field]) ? $metadata[$field] : $metadata['name'];
+				$option['text'] = isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'];
 				$option['value'] = $lang;
 
 				if ($lang == $actualLanguage)
