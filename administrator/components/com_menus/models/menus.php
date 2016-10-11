@@ -164,7 +164,7 @@ class MenusModelMenus extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description'))
+		$query->select($this->getState('list.select', 'a.id, a.menutype, a.title, a.description, a.client_id'))
 			->from($db->quoteName('#__menu_types') . ' AS a')
 			->where('a.id > 0');
 

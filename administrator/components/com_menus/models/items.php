@@ -409,11 +409,18 @@ class MenusModelItems extends JModelList
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-		if ($form->getName() == 'com_menus.items.filter')
+		$name = $form->getName();
+
+		if ($name == 'com_menus.items.filter')
 		{
 			$clientId = $this->getState('filter.client_id');
 
 			$form->setFieldAttribute('menutype', 'client_id', $clientId);
+		}
+		elseif ($name == 'com_menus.items.modal.filter')
+		{
+			$form->removeField('client_id');
+			$form->setFieldAttribute('menutype', 'client_id', 0);
 		}
 	}
 

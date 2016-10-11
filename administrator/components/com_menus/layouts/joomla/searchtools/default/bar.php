@@ -19,10 +19,13 @@ if ($data['view'] instanceof MenusViewItems)
 
 	// Add the client selector before the form filters.
 	$clientIdField = $data['view']->filterForm->getField('client_id');
-	?>
+
+	if ($clientIdField): ?>
 	<div class="js-stools-field-filter js-stools-client_id">
 		<?php echo $clientIdField->input; ?>
 	</div>
+	<?php endif; ?>
+
 	<div class="js-stools-field-filter js-stools-menutype">
 		<?php echo $menuTypeField->input; ?>
 	</div>
