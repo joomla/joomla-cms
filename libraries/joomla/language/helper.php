@@ -53,17 +53,11 @@ class JLanguageHelper
 		{
 			if (!$installed || array_key_exists($lang, $installed_languages))
 			{
-				$option = array();
-
-				$option['text'] = isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'];
-				$option['value'] = $lang;
-
-				if ($lang == $actualLanguage)
-				{
-					$option['selected'] = 'selected="selected"';
-				}
-
-				$list[] = $option;
+				$list[] = array(
+					'text'     => isset($metadata['nativeName']) ? $metadata['nativeName'] : $metadata['name'],
+					'value'    => $lang,
+					'selected' => $lang === $actualLanguage ? 'selected="selected"' : null,
+				);
 			}
 		}
 
