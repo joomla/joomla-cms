@@ -7588,6 +7588,9 @@ legend {
 .table.table-font-sm {
   font-size: .9rem; }
 
+.editor .mce-container {
+  margin-bottom: 1rem; }
+
 .element-invisible {
   position: absolute;
   width: 1px;

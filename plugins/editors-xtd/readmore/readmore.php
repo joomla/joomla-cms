@@ -57,7 +57,7 @@ class PlgButtonReadmore extends JPlugin
 
 		$button          = new JObject;
 		$button->modal   = false;
-		$button->class   = 'btn';
+		$button->class   = 'btn btn-secondary';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
 		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
 		$button->name    = 'arrow-down';
