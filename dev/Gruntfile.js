@@ -20,6 +20,7 @@ module.exports = function(grunt) {
 		folder : {
 			system   : '../media/system/js',
 			fields   : '../media/system/js/fields',
+			legacy   : '../media/system/js/legacy',
 			puny     : '../media/vendor/punycode/js',
 			cmadd    : '../media/vendor/codemirror/addon',
 			cmkey    : '../media/vendor/codemirror/keymap',
@@ -72,7 +73,10 @@ module.exports = function(grunt) {
 		// Update all the packages to the version specified in assets/package.json
 		shell: {
 			update: {
-				command: 'cd assets; npm install'
+				command: [
+					'cd assets',
+					'npm install'
+					].join('&&')
 			}
 		},
 		// Get the latest codemirror
@@ -147,13 +151,23 @@ module.exports = function(grunt) {
 						expand: true,
 						ext: '.min.js'
 					},
-					// calendar is still with the old name conv
-					// {
-					// 	src: ['<%= folder.fields %>/*.js','!<%= folder.fields %>/*.min.js'],
-					// 	dest: '',
-					// 	expand: true,
-					// 	ext: '.min.js'
-					// },
+					{
+					 	src: [
+							'<%= folder.fields %>/*.js',
+							'!<%= folder.fields %>/*.min.js',
+							'!<%= folder.fields %>/calendar.js',  // exclude calendar
+							'!<%= folder.fields %>/calendar-*.js' // exclude calendar
+						],
+					 	dest: '',
+					 	expand: true,
+					 	ext: '.min.js'
+					},
+					{
+					 	src: ['<%= folder.legacy %>/*.js', '!<%= folder.legacy %>/*.min.js'],
+					 	dest: '',
+					 	expand: true,
+					 	ext: '.min.js'
+					},
 					{
 						src: ['<%= folder.cmadd %>/*/*.js','!<%= folder.cmadd %>/*/*.min.js'],
 						dest: '',

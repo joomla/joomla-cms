@@ -2,6 +2,10 @@
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joomla/40-backend-template.git"
+  },
   "dependencies": {
     "grunt": "latest",
     "grunt-contrib-clean": "latest",

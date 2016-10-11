@@ -16,7 +16,7 @@
 		// Set up elements
 		this.$container = $(container);
 		this.$modal = this.$container.find(this.options.modal);
-		this.$modalBody = this.$modal.children('.modal-body');
+		this.$modalBody = this.$modal.find('.modal-body');
 		this.$input = this.$container.find(this.options.input);
 		this.$containerPreview = this.$container.find(this.options.previewContainer);
 		this.$buttonSelect = this.$container.find(this.options.buttonSelect);
