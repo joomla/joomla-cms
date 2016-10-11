@@ -306,33 +306,43 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 			// Load the site language manifest.
 			$siteLanguageManifest = JLanguage::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
 
-			// Set the content language title as name in site xx-XX.ini.
+			// Set the content language title as the language metadata name.
 			$contentLanguageTitle = $siteLanguageManifest['name'];
 
-			// Set the content language as installation native title language variable, fallback to content language title.
+			// Set, as fallback, the content language native title to the language metadata name.
 			$contentLanguageNativeTitle = $contentLanguageTitle;
 
-			if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
+			// If exist, load the native title from the language xml metadata.
+			if (isset($siteLanguageMetadata['nativeName']) && $siteLanguageMetadata['nativeName'])
 			{
-				$installationLanguage = new JLanguage($this->tag);
-				$installationLanguage->load('', JPATH_INSTALLATION);
+				$contentLanguageNativeTitle = $siteLanguageMetadata['nativeName'];
+			}
 
-				if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
+			// Try to load a language string from the installation language var. Will be removed in 4.0.
+			if ($contentLanguageNativeTitle === $contentLanguageTitle)
+			{
+				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
 				{
-					// Make sure it will not use the en-GB fallback.
-					$defaultLanguage = new JLanguage('en-GB');
-					$defaultLanguage->load('', JPATH_INSTALLATION);
+					$installationLanguage = new JLanguage($this->tag);
+					$installationLanguage->load('', JPATH_INSTALLATION);
 
-					$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-					$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-
-					if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+					if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
 					{
-						$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+						// Make sure it will not use the en-GB fallback.
+						$defaultLanguage = new JLanguage('en-GB');
+						$defaultLanguage->load('', JPATH_INSTALLATION);
+
+						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+						if ($defaultLanguageNativeTitle != $installationLanguageNativeTitle)
+						{
+							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+						}
 					}
 				}
 			}
-			
+
 			// Prepare language data for store.
 			$languageData = array(
 				'lang_id'      => 0,
