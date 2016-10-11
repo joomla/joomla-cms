@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<field
+		name="client_id"
+		type="list"
+		label=""
+		onchange="this.form.submit();"
+	>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
+	<field
 		name="menutype"
 		type="menu"
 		label="COM_MENUS_FILTER_CATEGORY"

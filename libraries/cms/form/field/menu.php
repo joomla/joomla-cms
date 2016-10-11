@@ -38,21 +38,33 @@ class JFormFieldMenu extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$menus = JHtml::_('menu.menus');
+		$clientId   = (string) $this->element['client_id'];
+		$accessType = (string) $this->element['accesstype'];
 
-		$accesstype = $this->element['accesstype'];
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->qn(array('id', 'menutype', 'title'), array('id', 'value', 'text')))
+			->from($db->quoteName('#__menu_types'))
+			->order('title');
 
-		if ($accesstype)
+		if (strlen($clientId))
+		{
+			$query->where('client_id = ' . (int) $clientId);
+		}
+
+		$menus = $db->setQuery($query)->loadObjectList();
+
+		if ($accessType)
 		{
 			$user = JFactory::getUser();
 
 			foreach ($menus as $key => $menu)
 			{
-				switch ($accesstype)
+				switch ($accessType)
 				{
 					case 'create':
 					case 'manage':
-						if (!$user->authorise('core.' . $accesstype, 'com_menus.menu.' . (int) $menu->id))
+						if (!$user->authorise('core.' . $accessType, 'com_menus.menu.' . (int) $menu->id))
 						{
 							unset($menus[$key]);
 						}
@@ -60,7 +72,6 @@ class JFormFieldMenu extends JFormFieldList
 
 					// Editing a menu item is a bit tricky, we have to check the current menutype for core.edit and all others for core.create
 					case 'edit':
-
 						$check = $this->value == $menu->value ? 'edit' : 'create';
 
 						if (!$user->authorise('core.' . $check, 'com_menus.menu.' . (int) $menu->id))
