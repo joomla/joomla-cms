@@ -29,7 +29,7 @@ class JLanguageHelper
 	 *
 	 * @since   11.1
 	 */
-	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false, $field ='name')
+	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false, $field ='nativeName')
 	{
 		$list = array();
 
