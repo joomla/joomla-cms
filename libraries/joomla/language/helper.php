@@ -146,7 +146,6 @@ class JLanguageHelper
 					$obj = new stdClass;
 					$obj->lang_code = $metadata['tag'];
 					$languages[$key][] = $obj;
-					
 				}
 			}
 			else
