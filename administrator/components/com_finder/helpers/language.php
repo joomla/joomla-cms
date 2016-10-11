@@ -116,7 +116,7 @@ class FinderHelperLanguage
 		// Get array of all the enabled Smart Search plugin names.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select(array($db->qn('name'), $db->qn('element')))
+			->select('name')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))
@@ -136,8 +136,7 @@ class FinderHelperLanguage
 		// Load language file for each plugin.
 		foreach ($plugins as $plugin)
 		{
-			$lang->load($plugin->name, JPATH_ADMINISTRATOR)
-				|| $lang->load($plugin->name, JPATH_PLUGINS . '/finder/' . $plugin->element);
+			$lang->load($plugin->name, JPATH_ADMINISTRATOR);
 		}
 	}
 }
