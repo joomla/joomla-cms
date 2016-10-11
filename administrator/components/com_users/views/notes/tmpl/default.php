@@ -12,13 +12,12 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-
 $user       = JFactory::getUser();
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
+
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=notes'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-main-container">
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
