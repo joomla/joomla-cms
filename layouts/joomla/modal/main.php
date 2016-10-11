@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 // Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
-JHtml::_('bootstrap.tooltipExtended');
+JHtml::_('bootstrap.tooltip');
 
 extract($displayData);
 
@@ -150,8 +150,8 @@ $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<div id="<?php echo $selector; ?>" <?php echo JArrayHelper::toString($modalAttributes); ?>>
-	<div class="modal-dialog">
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?>>
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<?php
 				// Header

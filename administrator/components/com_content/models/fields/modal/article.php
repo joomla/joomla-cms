@@ -220,7 +220,7 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'add\', \'article\', \'cancel\', \'item-form\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'
@@ -249,7 +249,7 @@ class JFormFieldModal_Article extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id . '\', \'edit\', \'article\', \'cancel\', \'item-form\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 							. '<a role="button" class="btn btn-primary" aria-hidden="true"'

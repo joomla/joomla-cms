@@ -960,12 +960,15 @@ legend {
 
 
 // iframe
+iframe {
+  border: 0;
+}
+.modal iframe {
+  width: 100%;
+}
 .contentpane.component .j-main-container {
   padding: 0;
   margin-left: 0;
-}
-.table.table-font-sm {
-  font-size: .9rem;
 }
 
 

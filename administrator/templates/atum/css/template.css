@@ -7581,12 +7581,15 @@ legend {
   .js-pstats-data-details dd {
     margin-bottom: .2rem; }
 
+iframe {
+  border: 0; }
+
+.modal iframe {
+  width: 100%; }
+
 .contentpane.component .j-main-container {
   padding: 0;
   margin-left: 0; }
-
-.table.table-font-sm {
-  font-size: .9rem; }
 
 .editor .mce-container {
   margin-bottom: 1rem; }

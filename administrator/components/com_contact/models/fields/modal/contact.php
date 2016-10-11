@@ -217,7 +217,7 @@ class JFormFieldModal_Contact extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \''
 							. $this->id . '\', \'add\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
@@ -249,7 +249,7 @@ class JFormFieldModal_Contact extends JFormField
 					'width'       => '800px',
 					'bodyHeight'  => '70',
 					'modalWidth'  => '80',
-					'footer'      => '<a role="button" class="btn" aria-hidden="true"'
+					'footer'      => '<a role="button" class="btn btn-secondary" aria-hidden="true"'
 							. ' onclick="window.processModalEdit(this, \'' . $this->id
 							. '\', \'edit\', \'contact\', \'cancel\', \'contact-form\', \'jform_id\', \'jform_name\'); return false;">'
 							. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
