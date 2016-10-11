@@ -181,7 +181,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
-		// Try the update only if we have a extension id
+		// Try the update only if we have an extension id
 		if ($joomlaUpdateComponentId != 0)
 		{
 			// Allways force to check for an update!
