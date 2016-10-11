@@ -161,7 +161,7 @@ class JFormFieldList extends JFormField
 	}
 
 	/**
-	 * Method to add a option to the list field.
+	 * Method to add an option to the list field.
 	 *
 	 * @param   string  $text        Text/Language variable of the option.
 	 * @param   array   $attributes  Array of attributes ('name' => 'value' format)
