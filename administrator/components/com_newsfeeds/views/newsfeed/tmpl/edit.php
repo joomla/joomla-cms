@@ -60,7 +60,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 			</div>
 			<div class="col-md-3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

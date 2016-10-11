@@ -513,7 +513,7 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
 
                 $html[] = '<td headers="settings-th' . $group->value . '">';
 
-                $html[] = '<select class="input-small" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name
+                $html[] = '<select class="custom-select" name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name
                     . '_' . $group->value . '" title="'
                     . JText::sprintf('JLIB_RULES_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
@@ -555,28 +555,28 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
                     {
                         if ($inheritedRule === null)
                         {
-                            $html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+                            $html[] = '<span class="tag tag-danger">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
                         }
                         elseif ($inheritedRule === true)
                         {
-                            $html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+                            $html[] = '<span class="tag tag-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
                         }
                         elseif ($inheritedRule === false)
                         {
                             if ($assetRule === false)
                             {
-                                $html[] = '<span class="label label-important">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
+                                $html[] = '<span class="tag tag-danger">' . JText::_('JLIB_RULES_NOT_ALLOWED') . '</span>';
                             }
                             else
                             {
-                                $html[] = '<span class="label"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
+                                $html[] = '<span class="tag"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED')
                                     . '</span>';
                             }
                         }
                     }
                     elseif (!empty($component))
                     {
-                        $html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+                        $html[] = '<span class="tag tag-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
                             . '</span>';
                     }
                     else
@@ -585,17 +585,17 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
                         // The admin rights can be changed.
                         if ($action->name === 'core.admin')
                         {
-                            $html[] = '<span class="label label-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
+                            $html[] = '<span class="tag tag-success">' . JText::_('JLIB_RULES_ALLOWED') . '</span>';
                         }
                         elseif ($inheritedRule === false)
                         {
                             // Other actions cannot be changed.
-                            $html[] = '<span class="label label-important"><i class="icon-lock icon-white"></i> '
+                            $html[] = '<span class="tag tag-danger"><i class="icon-lock icon-white"></i> '
                                 . JText::_('JLIB_RULES_NOT_ALLOWED_ADMIN_CONFLICT') . '</span>';
                         }
                         else
                         {
-                            $html[] = '<span class="label label-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
+                            $html[] = '<span class="tag tag-success"><i class="icon-lock icon-white"></i> ' . JText::_('JLIB_RULES_ALLOWED_ADMIN')
                                 . '</span>';
                         }
                     }
@@ -612,7 +612,7 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
 
         $html[] = '</div></div>';
 
-        $html[] = '<div class="alert">';
+        $html[] = '<div class="alert alert-info">';
 
         if ($section == 'component' || $section == null)
         {

@@ -69,12 +69,14 @@ if (is_numeric($value))
 }
 else
 {
-	$value = "";
+	$value = '';
 	$value = (isset($min)) ? $min : $value;
 }
 
 ?>
-<input type="number" name="<?php
-echo $name; ?>" id="<?php
-echo $id; ?>" value="<?php echo
-htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" <?php echo implode(' ', $attributes); ?> />
+<input
+	type="number"
+	name="<?php echo $name; ?>"
+	id="<?php echo $id; ?>"
+	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
+	<?php echo implode(' ', $attributes); ?> />

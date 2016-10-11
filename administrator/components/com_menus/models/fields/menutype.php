@@ -40,7 +40,7 @@ class JFormFieldMenutype extends JFormFieldList
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
 		$size     = ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = ($v = $this->element['class']) ? ' class="' . $v . '"' : 'class="text_area"';
+		$class    = ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
 		$required = ($v = $this->element['required']) ? ' required="required"' : '';
 
 		// Get a reverse lookup of the base link URL to Title
@@ -83,11 +83,11 @@ class JFormFieldMenutype extends JFormFieldList
 		');
 
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&recordId=' . $recordId);
-		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
+		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . ' />';
-		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
+		$html[] = '<span class="input-group-btn"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
 			. '<span class="icon-list icon-white"></span> '
-			. JText::_('JSELECT') . '</a></span>';
+			. JText::_('JSELECT') . '</a></span></span>';
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',
@@ -98,11 +98,11 @@ class JFormFieldMenutype extends JFormFieldList
 				'height'     => '300px',
 				'modalWidth' => '80',
 				'bodyHeight' => '70',
-				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
+				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 						. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 			)
 		);
-		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'
+		$html[] = '<input type="hidden" name="' . $this->name . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" />';
 
 		return implode("\n", $html);

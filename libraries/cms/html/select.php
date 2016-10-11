@@ -262,7 +262,7 @@ abstract class JHtmlSelect
 		$options['groups'] = false;
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol'];
+		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . ' class="custom-select">' . $options['format.eol'];
 		$groupIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 
 		foreach ($data as $dataKey => $group)

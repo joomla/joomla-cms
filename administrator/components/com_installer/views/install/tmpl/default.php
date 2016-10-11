@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// MooTools is loaded for B/C for extensions generating JavaScript in their install scripts, this call will be removed at 4.0
-JHtml::_('behavior.framework', true);
 JHtml::_('bootstrap.tooltip');
 
 JFactory::getDocument()->addScriptDeclaration(
@@ -101,7 +99,7 @@ JFactory::getDocument()->addStyleDeclaration(
 					?>
 					<p><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFO'); ?>
 						<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_TOS'); ?></p>
-					<input class="btn" type="button"
+					<input class="btn btn-primary" type="button"
 						value="<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB'); ?>"
 						onclick="Joomla.submitbuttonInstallWebInstaller()"/>
 				</div>

@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 // Load bootstrap-tooltip-extended plugin for additional tooltip positions in modal
-JHtml::_('bootstrap.tooltipExtended');
+JHtml::_('bootstrap.tooltip');
 
 extract($displayData);
 
@@ -35,7 +35,7 @@ extract($displayData);
  *
  */
 
-$modalClasses = array('modal', 'hide');
+$modalClasses = array('modal');
 
 if (!isset($params['animation']) || $params['animation'])
 {
@@ -87,6 +87,7 @@ $script[] = "       $('body').addClass('modal-open');";
 
 if (isset($params['url']))
 {
+	var_dump('TEST');
 	$iframeHtml = JLayoutHelper::render('joomla.modal.iframe', $displayData);
 
 	// Script for destroying and reloading the iframe
@@ -144,27 +145,31 @@ else
 $script[] = "   }).on('hide.bs.modal', function () {";
 $script[] = "       $('body').removeClass('modal-open');";
 $script[] = "       $('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});";
-$script[] = "       $('.modalTooltip').tooltip('destroy');";
+$script[] = "       $('.modalTooltip').tooltip('dispose');";
 $script[] = "   });";
 $script[] = "});";
 
 JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 ?>
-<div id="<?php echo $selector; ?>" <?php echo JArrayHelper::toString($modalAttributes); ?>>
-	<?php
-		// Header
-		if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
-		{
-			echo JLayoutHelper::render('joomla.modal.header', $displayData);
-		}
+<div id="<?php echo $selector; ?>" role="dialog" <?php echo JArrayHelper::toString($modalAttributes); ?>>
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<?php
+				// Header
+				if (!isset($params['closeButton']) || isset($params['title']) || $params['closeButton'])
+				{
+					echo JLayoutHelper::render('joomla.modal.header', $displayData);
+				}
 
-		// Body
-		echo JLayoutHelper::render('joomla.modal.body', $displayData);
+				// Body
+				echo JLayoutHelper::render('joomla.modal.body', $displayData);
 
-		// Footer
-		if (isset($params['footer']))
-		{
-			echo JLayoutHelper::render('joomla.modal.footer', $displayData);
-		}
-	?>
+				// Footer
+				if (isset($params['footer']))
+				{
+					echo JLayoutHelper::render('joomla.modal.footer', $displayData);
+				}
+			?>
+		</div>
+	</div>
 </div>

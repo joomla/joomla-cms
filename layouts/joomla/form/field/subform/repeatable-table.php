@@ -79,7 +79,7 @@ else
 					<th style="width:8%;">
 					<?php if (!empty($buttons['add'])):?>
 						<div class="btn-group">
-							<a class="group-add btn btn-sm button btn-success"><span class="icon-plus"></span> </a>
+							<a class="group-add btn btn-sm button btn-success"><span class="icon-plus icon-white"></span> </a>
 						</div>
 					<?php endif;?>
 					</th>

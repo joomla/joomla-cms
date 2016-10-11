@@ -44,37 +44,26 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  * @var   string   $animated        Is it animated.
  * @var   string   $active          Is it active.
- * @var   string   $min             The minimum value.
  * @var   string   $max             The maximum value.
- * @var   string   $step            The step value.
  */
 
 // Initialize some field attributes.
 $class = 'progress ' . $class;
-$class .= $animated ? ' progress-striped' : '';
 $class .= $active ? ' active' : '';
 $class = 'class="' . $class . '"';
 
-$value = (float) $value;
-$value = $value < $min ? $min : $value;
-$value = $value > $max ? $max : $value;
-
 $data = '';
-$data .= 'data-max="' . $max . '"';
-$data .= ' data-min="' . $min . '"';
-$data .= ' data-step="' . $step . '"';
-$data .= ' data-value="' . $value . '"';
+$data .= 'max="' . $max . '"';
+$data .= ' value="' . (float) $value . '"';
 
 $attributes = array(
 	$class,
-	!empty($width) ? ' style="width:' . $width . ';"' : '',
 	$data
 );
 
-$value = ((float) ($value - $min) * 100) / ($max - $min);
 ?>
-<div <?php echo implode(' ', $attributes); ?> >
-	<div class="bar" style="width: <?php
-	echo strval($value); ?>%;<?php
-	echo !empty($color) ? ' background-color:' . $color . ';' : ''; ?>"></div>
-</div>
+<progress <?php echo implode(' ', $attributes); ?> >
+	<div class="progress">
+		<span class="progress-bar" style="width: <?php echo (float) $value; ?>%;"></span>
+	</div>
+</progress>

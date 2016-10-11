@@ -213,7 +213,7 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('script', 'media/vendor/combobox/bootstrap-combobox.js', false, true);
+		JHtml::_('script', 'vendor/combobox/bootstrap-combobox.js', false, true);
 		static::$loaded[__METHOD__] = true;
 	}
 

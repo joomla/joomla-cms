@@ -17,12 +17,12 @@ $extension = $this->escape($this->state->get('filter.extension'));
 ?>
 
 <div class="row">
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.language'); ?>
 		</div>
 	</div>
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.access'); ?>
 		</div>
@@ -36,7 +36,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
 				</label>
 				<div id="batch-choose-action" class="combo controls">
-					<select name="batch[category_id]" id="batch-category-id">
+					<select class="custom-select" name="batch[category_id]" id="batch-category-id">
 						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 					</select>
@@ -48,7 +48,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	<?php endif; ?>
-	<div class="control-group col-md-6">
+	<div class="form-group col-md-6">
 		<div class="controls">
 			<?php echo JHtml::_('batch.tag'); ?>
 		</div>

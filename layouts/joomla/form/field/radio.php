@@ -47,14 +47,16 @@ extract($displayData);
  *     %3 - value
  *     %4 = any other attributes
  */
-$format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
-$alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
+$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
+$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);	
+$dataToggle = (strpos(trim($class), 'btn-group') !== false) ? ' data-toggle="buttons"' : '';
+
 ?>
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required aria-required="true"' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>
-	data-toggle="buttons">
+	<?php echo $dataToggle; ?>>
 
 	<?php if (!empty($options)) : ?>
 		<?php foreach ($options as $i => $option) : ?>

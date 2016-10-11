@@ -437,6 +437,7 @@ small, .small {
 // search tools
 .js-stools {
   width: 100%;
+
   .btn-wrapper {
     display: inline-block;
     margin-right: 5px;
@@ -450,6 +451,7 @@ small, .small {
     float: left;
 
     .btn-toolbar {
+      float: left;
       margin-bottom: 5px;
 
       .btn-group:first-child {
@@ -485,6 +487,10 @@ small, .small {
       display: inline-block;
 	}
   }
+}
+.js-stools-column-order [class*=" icon-"],
+.js-stools-column-order [class^="icon-"] {
+  text-align: center;
 }
 
 
@@ -805,30 +811,35 @@ small, .small {
 
 
 // Form
-.control-group {
+.control-group::after {
+  content: '';
+  display: table;
   clear: both;
 }
 form:not(.form-no-margin) {
   .control-group {
     margin-bottom: 18px;
-  }
-  .control-label {
-    width: auto;
-    padding-top: 5px;
-    padding-right: 5px;
-    float: left;
-    text-align: left;
-  }
-  .controls {
-    margin-left: 180px;
+	
+	.control-label {
+      width: auto;
+      padding-top: 5px;
+      padding-right: 5px;
+      float: left;
+      text-align: left;
+    }
+    .controls {
+      margin-left: 180px;
+    }
   }
 }
 form .form-no-margin {
-  .controls {
-    margin-left: 0;
-  }
-  .control-label {
-    float: none;
+  .control-group {
+    .controls {
+      margin-left: 0;
+    }
+    .control-label {
+      float: none;
+    }
   }
 }
 .spacer hr {
@@ -848,9 +859,20 @@ legend {
   margin-bottom: 1.1rem;
   border-bottom: 1px solid #e5e5e5;
 }
-.checkboxes .checkbox input {
-  position: static;
-  margin-left: 0;
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+}
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+.modal label {
+  width: 100%;
 }
 
 
@@ -938,12 +960,21 @@ legend {
 
 
 // iframe
+iframe {
+  border: 0;
+}
+.modal iframe {
+  width: 100%;
+}
 .contentpane.component .j-main-container {
   padding: 0;
   margin-left: 0;
 }
-.table.table-font-sm {
-  font-size: .9rem;
+
+
+// Editor
+.editor .mce-container {
+  margin-bottom: 1rem;
 }
 
 
@@ -972,6 +1003,7 @@ legend {
 .name:hover {
   background-color: transparent;
 }
+
 
 // Color field
 .minicolors-theme-bootstrap {

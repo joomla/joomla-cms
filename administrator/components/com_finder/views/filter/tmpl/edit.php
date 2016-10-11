@@ -82,7 +82,9 @@ JFactory::getDocument()->addStyleDeclaration(
 				<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 			</div>
 			<div class="col-md-3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

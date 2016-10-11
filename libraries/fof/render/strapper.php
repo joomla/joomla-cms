@@ -795,7 +795,7 @@ HTML;
 					$desc_sel	 = ($view->getLists()->order_Dir == 'desc') ? 'selected="selected"' : '';
 					$html .= "\t" . '<div class="btn-group pull-right hidden-phone">' . "\n";
 					$html .= "\t\t" . '<label for="directionTable" class="element-invisible">' . JText::_('JFIELD_ORDERING_DESC') . '</label>' . "\n";
-					$html .= "\t\t" . '<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">' . "\n";
+					$html .= "\t\t" . '<select name="directionTable" id="directionTable" class="custom-select" onchange="Joomla.orderTable()">' . "\n";
 					$html .= "\t\t\t" . '<option value="">' . JText::_('JFIELD_ORDERING_DESC') . '</option>' . "\n";
 					$html .= "\t\t\t" . '<option value="asc" ' . $asc_sel . '>' . JText::_('JGLOBAL_ORDER_ASCENDING') . '</option>' . "\n";
 					$html .= "\t\t\t" . '<option value="desc" ' . $desc_sel . '>' . JText::_('JGLOBAL_ORDER_DESCENDING') . '</option>' . "\n";
@@ -805,7 +805,7 @@ HTML;
 					// Display the sort fields
 					$html .= "\t" . '<div class="btn-group pull-right">' . "\n";
 					$html .= "\t\t" . '<label for="sortTable" class="element-invisible">' . JText::_('JGLOBAL_SORT_BY') . '</label>' . "\n";
-					$html .= "\t\t" . '<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">' . "\n";
+					$html .= "\t\t" . '<select name="sortTable" id="sortTable" class="custom-select" onchange="Joomla.orderTable()">' . "\n";
 					$html .= "\t\t\t" . '<option value="">' . JText::_('JGLOBAL_SORT_BY') . '</option>' . "\n";
 					$html .= "\t\t\t" . JHtml::_('select.options', $sortFields, 'value', 'text', $view->getLists()->order) . "\n";
 					$html .= "\t\t" . '</select>' . "\n";

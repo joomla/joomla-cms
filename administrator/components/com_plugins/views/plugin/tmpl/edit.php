@@ -99,30 +99,32 @@ JFactory::getDocument()->addScriptDeclaration("
 				?>
 			</div>
 			<div class="col-md-3">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
-				<div class="form-vertical">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('ordering'); ?>
+				<div class="card card-block card-light">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					<div class="form-vertical form-no-margin">
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('ordering'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('ordering'); ?>
+							</div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('ordering'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('folder'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('folder'); ?>
+							</div>
 						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('folder'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('folder'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('element'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('element'); ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('element'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('element'); ?>
+							</div>
 						</div>
 					</div>
 				</div>

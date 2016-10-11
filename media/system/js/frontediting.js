@@ -113,7 +113,7 @@
                 var moduleTarget = $(this).data('target');
 
 				// Stop timeout on previous tooltip and remove it:
-				$('body>.btn.jmodedit').clearQueue().tooltip('destroy').remove();
+				$('body>.btn.jmodedit').clearQueue().tooltip('dispose').remove();
 
 				// Add editing button with tooltip:
 				$(this).addClass('jmodinside')
@@ -131,7 +131,7 @@
 						mouseleave: function() {
 							// Delay remove editing button if not hovering it:
 							$(this).delay(500).queue(function(next) {
-								$(this).tooltip('destroy').remove();
+								$(this).tooltip('dispose').remove();
 								next();
 							});
 						}
@@ -141,7 +141,7 @@
 
 				// Delay remove editing button if not hovering it:
 				$('body>.btn.jmodedit').delay(500).queue(function(next) {
-					$(this).tooltip('destroy').remove();
+					$(this).tooltip('dispose').remove();
 					next();
 				});
 			}

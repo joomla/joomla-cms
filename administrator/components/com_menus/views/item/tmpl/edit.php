@@ -124,26 +124,28 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				?>
 			</div>
 			<div class="col-md-3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'id',
-					'menutype',
-					'parent_id',
-					'menuordering',
-					'published',
-					'home',
-					'access',
-					'language',
-					'note',
-				);
+				<div class="card card-block card-light">
+					<?php
+					// Set main fields.
+					$this->fields = array(
+						'id',
+						'menutype',
+						'parent_id',
+						'menuordering',
+						'published',
+						'home',
+						'access',
+						'language',
+						'note',
+					);
 
-				if ($this->item->type != 'component')
-				{
-					$this->fields = array_diff($this->fields, array('home'));
-				}
-				?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+					if ($this->item->type != 'component')
+					{
+						$this->fields = array_diff($this->fields, array('home'));
+					}
+					?>
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

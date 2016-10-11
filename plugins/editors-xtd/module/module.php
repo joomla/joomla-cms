@@ -43,7 +43,7 @@ class PlgButtonModule extends JPlugin
 
 		$button          = new JObject;
 		$button->modal   = true;
-		$button->class   = 'btn';
+		$button->class   = 'btn btn-secondary';
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
 		$button->name    = 'file-add';

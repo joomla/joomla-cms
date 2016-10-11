@@ -177,7 +177,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 													'width'       => '800px',
 													'bodyHeight'  => '70',
 													'modalWidth'  => '80',
-													'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+													'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 															. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 															. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 															. '<button type="button" class="btn btn-primary" aria-hidden="true"'
@@ -206,7 +206,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 											'width'       => '800px',
 											'bodyHeight'  => '70',
 											'modalWidth'  => '80',
-											'footer'      => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+											'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
 													. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
 													. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</a>'
 													. '<button type="button" class="btn btn-primary" aria-hidden="true"'

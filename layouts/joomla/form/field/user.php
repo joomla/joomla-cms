@@ -55,7 +55,7 @@ $link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=com
 // Invalidate the input value if no user selected
 if (JText::_('JLIB_FORM_SELECT_USER') == htmlspecialchars($userName, ENT_COMPAT, 'UTF-8'))
 {
-	$userName = "";
+	$userName = '';
 }
 
 JHtml::script('system/fields/fielduser.min.js', false, true, false, false, true);
@@ -88,7 +88,7 @@ JHtml::script('system/fields/fielduser.min.js', false, true, false, false, true)
 						array(
 							'title'  => JText::_('JLIB_FORM_CHANGE_USER'),
 							'closeButton' => true,
-							'footer' => '<a type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
+							'footer' => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . JText::_('JCANCEL') . '</a>'
 						)
 					); ?>
 				</span>

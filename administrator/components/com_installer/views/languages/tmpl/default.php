@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
 						<th class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap">
+						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 						</th>
 						<th width="5%" class="text-xs-center">

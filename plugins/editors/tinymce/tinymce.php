@@ -47,7 +47,7 @@ class PlgEditorTinymce extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('script', $this->_basePath . '/tinymce.min.js', false, false, false, false, false);
-		JHtml::_('script', 'system/tinymce-init.min.js', false, true, true, false, true);
+		JHtml::_('script', 'system/tinymce-init.min.js', false, true);
 
 		return;
 	}
@@ -737,7 +737,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			$modalFix = JHtml::_('script', 'system/tiny-close.min.js', false, true, true, false, true);
+			$modalFix = JHtml::_('script', 'system/tiny-close.min.js', false, true);
 			JFactory::getDocument()->addScript($modalFix, "text/javascript", true, false);
 		}
 
