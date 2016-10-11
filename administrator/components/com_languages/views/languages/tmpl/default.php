@@ -139,7 +139,11 @@ if ($saveOrder)
 							<?php echo $this->escape($item->sef); ?>
 						</td>
 						<td class="hidden-phone">
-							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, array('title' => $item->image), true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php if ($item->image) : ?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->image, null, true); ?>&nbsp;<?php echo $this->escape($item->image); ?>
+							<?php else : ?>
+								<?php echo JText::_('JNONE'); ?>
+							<?php endif; ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>

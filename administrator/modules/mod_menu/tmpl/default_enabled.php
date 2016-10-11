@@ -169,20 +169,13 @@ if ($user->authorise('core.manage', 'com_menus'))
 				. JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true)
 				. '</span>';
 		}
+		elseif ($menuType->image && JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true))
+		{
+			$titleicon = ' <span>' . JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true) . '</span>';
+		}
 		else
 		{
-			$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', null, null, true, true);
-
-			if (!$image)
-			{
-				$image = JHtml::_('image', 'mod_languages/icon-16-language.png', $alt, array('title' => $menuType->title_native), true);
-			}
-			else
-			{
-				$image = JHtml::_('image', 'mod_languages/' . $menuType->image . '.gif', $alt, array('title' => $menuType->title_native), true);
-			}
-
-			$titleicon = ' <span>' . $image . '</span>';
+			$titleicon = ' <span class="label" title="' . $menuType->title_native . '">' . $menuType->sef . '</span>';
 		}
 
 		$menu->addChild(
