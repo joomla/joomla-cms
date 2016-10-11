@@ -62,7 +62,7 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		}
 
 		// Get the list of available languages.
-		$options = JLanguageHelper::createLanguageList($native);
+		$options = JLanguageHelper::createLanguageList($native, JPATH_BASE, false, false, 'nativeName');
 
 		// Fix wrongly set parentheses in RTL languages
 		if (JFactory::getLanguage()->isRtl())
