@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 			},
 			tmp: {
 				src: [
-					'assets/**',
+					'assets/',
 				],
 				expand: true,
 				options: {
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 				command: [
 					'cd assets',
 					'npm install'
-					].join('&&')
+				].join('&&')
 			}
 		},
 		// Get the latest codemirror
