@@ -21,7 +21,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 // Scripts for the modules xtd-button
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
-JHtml::_('script', 'com_modules/admin-modules-modal.min.js', false, true);
+JHtml::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 // Special case for the search field tooltip.
 $searchFilterDesc = $this->filterForm->getFieldAttribute('search', 'description', null, 'filter');
