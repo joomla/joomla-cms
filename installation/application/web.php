@@ -534,7 +534,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if (!$session->get('registry') instanceof Registry)
 		{
 			// Registry has been corrupted somehow.
-			$session->set('registry', new Registry('session'));
+			$session->set('registry', new Registry);
 		}
 
 		// Set the session object.

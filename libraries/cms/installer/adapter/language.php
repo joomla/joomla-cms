@@ -670,8 +670,7 @@ class JInstallerAdapterLanguage extends JInstallerAdapter
 
 		foreach ($users as $user)
 		{
-			$registry = new Registry;
-			$registry->loadString($user->params);
+			$registry = new Registry($user->params);
 
 			if ($registry->get($param_name) == $element)
 			{
