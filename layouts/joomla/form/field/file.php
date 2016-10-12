@@ -59,4 +59,7 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
-	<?php echo $required ? ' required aria-required="true"' : ''; ?> />
+	<?php echo $required ? ' required aria-required="true"' : ''; ?> /><br>
+<?php
+$maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
+echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize);

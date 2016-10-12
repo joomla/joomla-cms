@@ -217,7 +217,9 @@ if($this->type == 'font')
 						<fieldset>
 							<input type="hidden" class="address" name="address" />
 							<input type="file" name="files" required />
-							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
+							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" /><br>
+							<?php $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize()); ?>
+							<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 						</fieldset>
 					</form>
 					<br />
