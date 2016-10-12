@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	"use strict";
 
 	/** Get the elements **/
-	var modulesLinks = document.querySelectorAll('.js-module-insert'),
+	var modulesLinks = document.querySelectorAll('.js-module-insert'), i,
 		positionsLinks = document.querySelectorAll('.js-position-insert');
 
 	/** Assign listener for click event (for single module insertion) **/
-	for (var i= 0; modulesLinks.length > i; i++) {
+	for (i= 0; modulesLinks.length > i; i++) {
 		modulesLinks[i].addEventListener('click', function(event) {
 			event.preventDefault();
 			var type = event.target.getAttribute('data-module'),
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	/** Assign listener for click event (for position insertion) **/
-	for (var j= 0; positionsLinks.length > j; j++) {
-		positionsLinks[j].addEventListener('click', function(event) {
+	for (i= 0; positionsLinks.length > i; i++) {
+		positionsLinks[i].addEventListener('click', function(event) {
 			event.preventDefault();
 			var position = event.target.getAttribute('data-position'),
 				editor = event.target.getAttribute('data-editor');
