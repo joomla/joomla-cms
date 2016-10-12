@@ -58,9 +58,7 @@ class JComponentHelper
 
 		if (is_string($result->params))
 		{
-			$temp = new Registry;
-			$temp->loadString(static::$components[$option]->params);
-			static::$components[$option]->params = $temp;
+			static::$components[$option]->params = new Registry(static::$components[$option]->params);
 		}
 
 		return $result;

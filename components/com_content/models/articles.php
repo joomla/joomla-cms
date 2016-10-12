@@ -580,8 +580,7 @@ class ContentModelArticles extends JModelList
 		// Convert the parameter fields into objects.
 		foreach ($items as &$item)
 		{
-			$articleParams = new Registry;
-			$articleParams->loadString($item->attribs);
+			$articleParams = new Registry($item->attribs);
 
 			// Unpack readmore and layout params
 			$item->alternative_readmore = $articleParams->get('alternative_readmore');
@@ -620,8 +619,7 @@ class ContentModelArticles extends JModelList
 				// Merge the selected article params
 				if (count($articleArray) > 0)
 				{
-					$articleParams = new Registry;
-					$articleParams->loadArray($articleArray);
+					$articleParams = new Registry($articleArray);
 					$item->params->merge($articleParams);
 				}
 			}
