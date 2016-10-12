@@ -845,4 +845,24 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		return xhr;
 	};
 
+	/**
+	 * Listener for control+s. Maps it to apply/save button
+	 */
+	Joomla.keysave = function ( button ) {
+		document.addEventListener("keydown", function(e) {
+			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+				e.preventDefault();
+				Joomla.submitbutton.call(button)
+			}
+		}, false);
+
+	};
+
+	// Initiate the listener for the combo key
+	document.addEventListener( 'DOMContentLoaded', function() {
+		if (Joomla.getOptions( 'keySave' ) ) {
+			Joomla.keysave( Joomla.getOptions( 'keySave' ).task );
+		}
+	});
+
 }( Joomla, document ));
