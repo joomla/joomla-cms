@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
 JHtml::_('behavior.formvalidator');
-JHtml::_('script', 'com_content/article-save-admin.js', false, true);
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0 ));
 JHtml::_('formbehavior.chosen', 'select');
@@ -64,16 +62,31 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 	$params->show_urls_images_backend = $this->item->attribs['show_urls_images_backend'];
 }
 
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(task)
+	{
+		if (task == "article.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
+		{
+			jQuery("#permissions-sliders select").attr("disabled", "disabled");
+			' . $this->form->getField('articletext')->save() . '
+			Joomla.submitform(task, document.getElementById("item-form"));
+
+			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+			if (task !== "article.apply")
+			{
+				window.parent.jQuery("#articleEdit' . (int) $this->item->id . 'Modal").modal("hide");
+			}
+		}
+	};
+');
+
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php
-echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" data-article-id="<?php
-echo (int) $this->item->id; ?>" data-callback="<?php
-echo $this->form->getField('articletext')->save() ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

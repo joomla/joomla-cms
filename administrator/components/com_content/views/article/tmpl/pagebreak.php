@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.core');
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
-JHtml::_('script', 'com_content/article-pagebreak.js', false, true);
+JHtml::_('script', 'com_content/admin-article-pagebreak.js', false, true);
 
 $document    = JFactory::getDocument();
 $this->eName = JFactory::getApplication()->input->get('e_name', '', 'cmd');
