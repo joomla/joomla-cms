@@ -25,15 +25,6 @@ JText::script('MESSAGE');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
-	Joomla.submitbutton = function(task)
-	{
-		if (task === "config.cancel.component" || document.formvalidator.isValid(document.getElementById("component-form")))
-		{
-			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			Joomla.submitform(task, document.getElementById("component-form"));
-		}
-	};
-
 	// Select first tab
 	jQuery(document).ready(function() {
 		jQuery("#configTabs a:first").tab("show");
@@ -41,7 +32,8 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="js-form form-validate form-horizontal"
+	data-cancel="config.cancel.component" data-before-save="jQuery('#permissions-sliders select').attr('disabled', 'disabled');">
 	<div class="row-fluid">
 
 		<!-- Begin Sidebar -->

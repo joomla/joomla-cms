@@ -16,14 +16,6 @@ JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration(
 	'
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "language.cancel" || document.formvalidator.isValid(document.getElementById("language-form")))
-		{
-			Joomla.submitform(task, document.getElementById("language-form"));
-		}
-	};
-
 	jQuery(document).ready(function() {
 		jQuery("#jform_image").on("change", function() {
 			var flag = this.value;
@@ -40,7 +32,7 @@ JFactory::getDocument()->addScriptDeclaration(
 );
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="js-form form-validate form-horizontal" data-cancel="language.cancel">
 
 	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 

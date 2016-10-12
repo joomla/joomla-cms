@@ -48,8 +48,30 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Default function. Usually would be overriden by the component
 	 */
-	Joomla.submitbutton = function( pressbutton ) {
-		Joomla.submitform( pressbutton );
+	Joomla.submitbutton = function( pressbutton )
+	{
+		var form = document.querySelector( '.js-form' );
+
+		if (form) {
+			var cancelTask = form.getAttribute( 'data-cancel' ),
+				beforeSave = form.getAttribute( 'data-before-save' ),
+				afterSave  = form.getAttribute( 'data-after-save' );
+
+			if (( cancelTask && pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-form' ) ))
+			{
+				if ( beforeSave ) {
+					new Function( beforeSave );
+				}
+
+				Joomla.submitform( pressbutton, document.querySelector( '.js-form' ) );
+
+				if ( afterSave ) {
+					new Function( afterSave );
+				}
+			}
+		} else {
+			Joomla.submitform( pressbutton );
+		}
 	};
 
 	/**

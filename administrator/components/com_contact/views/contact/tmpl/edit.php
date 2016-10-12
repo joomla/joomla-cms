@@ -21,22 +21,8 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "contact.cancel" || document.formvalidator.isValid(document.getElementById("contact-form")))
-		{
-			' . $this->form->getField("misc")->save() . '
-			Joomla.submitform(task, document.getElementById("contact-form"));
-
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-			if (task !== "contact.apply")
-			{
-				window.parent.jQuery("#contactEdit' . $this->item->id . 'Modal").modal("hide");
-			}
-		}
-	};
-');
+// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+$afterSave = 'if (task !== \'contact.apply\') { window.parent.jQuery(\'#contactEdit' . $this->item->id . 'Modal\').modal(\'hide\'); }';
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
@@ -47,7 +33,10 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="js-form form-validate"
+	data-cancel="contact.cancel"
+	data-before-save="<?php echo htmlentities($this->form->getField("misc")->save(), ENT_QUOTES, 'UTF-8'); ?>"
+	data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

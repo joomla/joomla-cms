@@ -25,17 +25,6 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
-		{
-			" . $this->form->getField('articletext')->save() . "
-			Joomla.submitform(task);
-		}
-	}
-");
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($params->get('show_page_heading')) : ?>
@@ -46,7 +35,7 @@ JFactory::getDocument()->addScriptDeclaration("
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="js-form form-validate form-vertical" data-cancel="article.cancel" data-before-save="<?php echo htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8'); ?>">
 		<fieldset>
 			<?php echo JHtml::_("bootstrap.startTabSet", "com-content-form", array("active" => "editor")); ?>
 

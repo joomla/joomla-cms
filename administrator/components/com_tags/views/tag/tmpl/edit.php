@@ -13,21 +13,11 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'tag.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-			" . $this->form->getField('description')->save() . "
-			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-	};
-");
-
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-form form-validate" data-cancel="tag.cancel" data-before-save="<?php echo htmlentities($this->form->getField('description')->save(), ENT_QUOTES, 'UTF-8'); ?>">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

@@ -23,23 +23,8 @@ $assoc = JLanguageAssociations::isEnabled();
 // Are associations implemented for this extension?
 $extensionassoc = array_key_exists('item_associations', $this->form->getFieldsets());
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "category.cancel" || document.formvalidator.isValid(document.getElementById("item-form")))
-		{
-			jQuery("#permissions-sliders select").attr("disabled", "disabled");
-			' . $this->form->getField("description")->save() . '
-			Joomla.submitform(task, document.getElementById("item-form"));
-
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-			if (task !== "category.apply")
-			{
-				window.parent.jQuery("#categoryEdit' . $this->item->id . 'Modal").modal("hide");
-			}
-		}
-	};
-');
+// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+$afterSave = 'if (task !== \'category.apply\') { window.parent.jQuery(\'#categoryEdit' . $this->item->id . 'Modal\').modal(\'hide\'); }';
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata', 'item_associations');
@@ -50,7 +35,10 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-form form-validate"
+	data-cancel="category.cancel"
+	data-before-save="jQuery('#permissions-sliders select').attr('disabled', 'disabled'); <?php echo htmlentities($this->form->getField("description")->save(), ENT_QUOTES, 'UTF-8'); ?>"
+	data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

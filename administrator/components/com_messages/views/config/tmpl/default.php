@@ -16,20 +16,9 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip', '.hasTooltip', array('placement' => 'bottom'));
 
-JFactory::getDocument()->addScriptDeclaration(
-	"
-		Joomla.submitbutton = function(task)
-		{
-			if (task == 'config.cancel' || document.formvalidator.isValid(document.getElementById('config-form')))
-			{
-				Joomla.submitform(task, document.getElementById('config-form'));
-			}
-		};
-	"
-);
 ?>
 <div class="container-popup">
-	<form action="<?php echo JRoute::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
+	<form action="<?php echo JRoute::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form" class="js-form form-validate form-horizontal" data-cancel="config.cancel">
 		<fieldset>
 			<?php echo $this->form->renderField('lock'); ?>
 			<?php echo $this->form->renderField('mail_on_new'); ?>

@@ -22,22 +22,12 @@ if (JLanguageMultilang::isEnabled())
 {
 	$this->form->setFieldAttribute('language', 'readonly', 'true');
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.getElementById('modules-form')))
-		{
-			Joomla.submitform(task, document.getElementById('modules-form'));
-		}
-	}
-");
 ?>
 
 <form
 	action="<?php echo JRoute::_('index.php?option=com_config'); ?>"
 	method="post" name="adminForm" id="modules-form"
-	class="form-validate">
+	class="js-form form-validate" data-cancel="config.cancel.modules">
 
 	<div class="row-fluid">
 

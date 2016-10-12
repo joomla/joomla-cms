@@ -21,20 +21,8 @@ $input = $app->input;
 
 $assoc = JLanguageAssociations::isEnabled();
 
-JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbutton = function(task)
-	{
-		if (task == "newsfeed.cancel" || document.formvalidator.isValid(document.getElementById("newsfeed-form"))) {
-			Joomla.submitform(task, document.getElementById("newsfeed-form"));
-
-			// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-			if (task !== "newsfeed.apply")
-			{
-				window.parent.jQuery("#newsfeedEdit' . $this->item->id . 'Modal").modal("hide");
-			}
-		}
-	};
-');
+// @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
+$afterSave = 'if (task !== \'newsfeed.apply\') { window.parent.jQuery(\'#newsfeedEdit' . $this->item->id . 'Modal\').modal(\'hide\'); }';
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('images', 'jbasic', 'jmetadata', 'item_associations');
@@ -45,7 +33,7 @@ $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="js-form form-validate" data-cancel="newsfeed.cancel" data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

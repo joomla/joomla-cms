@@ -38,17 +38,10 @@ JFactory::getDocument()->addScriptDeclaration('
 			$(this).removeClass("invalid");
 		});
 	});
-
-	Joomla.submitbutton = function(task) {
-		if (task == "override.cancel" || document.formvalidator.isValid(document.getElementById("override-form")))
-		{
-			Joomla.submitform(task, document.getElementById("override-form"));
-		}
-	};
 ');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="js-form form-validate form-horizontal" data-cancel="override.cancel">
 	<div class="row-fluid">
 		<div class="span6">
 			<fieldset>
