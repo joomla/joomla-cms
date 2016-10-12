@@ -23,8 +23,7 @@ JText::script('NOTICE');
 JText::script('MESSAGE');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="js-form form-validate" data-cancel="config.cancel.application"
-data-before-save="jQuery('#permissions-sliders select').attr('disabled', 'disabled');">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="js-form form-validate" data-cancel="config.cancel.application"  data-skip-permissions="true">
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="span2">

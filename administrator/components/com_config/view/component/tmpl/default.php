@@ -33,7 +33,7 @@ JFactory::getDocument()->addScriptDeclaration(
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="js-form form-validate form-horizontal"
-	data-cancel="config.cancel.component" data-before-save="jQuery('#permissions-sliders select').attr('disabled', 'disabled');">
+	data-cancel="config.cancel.component" data-skip-permissions="true">
 	<div class="row-fluid">
 
 		<!-- Begin Sidebar -->

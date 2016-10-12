@@ -72,8 +72,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-form form-validate"
 	data-cancel="article.cancel"
-	data-before-save="jQuery('#permissions-sliders select').attr('disabled', 'disabled'); <?php echo htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8'); ?>"
-	data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>">
+	data-before-save="<?php echo htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8'); ?>"
+	data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>"
+	data-skip-permissions="true">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

@@ -55,10 +55,25 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		if (form) {
 			var cancelTask = form.getAttribute( 'data-cancel' ),
 				beforeSave = form.getAttribute( 'data-before-save' ),
-				afterSave  = form.getAttribute( 'data-after-save' );
+				afterSave = form.getAttribute( 'data-after-save' ),
+				permContainer = form.getAttribute( 'data-permissions-selector' ),
+				skipPermissionsValidation = form.getAttribute( 'data-skip-permissions' );
 
 			if (( cancelTask && pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-form' ) ))
 			{
+				if ( skipPermissionsValidation ) {
+
+					if ( !permContainer ) {
+						permContainer = '#permissions-sliders'
+					}
+
+					var i, items = document.querySelectorAll( permContainer + ' select'), l = items.length;
+
+					for (i = 0, l; i < l; i++) {
+						items[i].setAttribute('disabled', 'disabled');
+					}
+				}
+
 				if ( beforeSave ) {
 					new Function( beforeSave );
 				}
