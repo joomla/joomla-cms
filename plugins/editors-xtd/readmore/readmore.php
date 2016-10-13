@@ -33,34 +33,20 @@ class PlgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$doc = JFactory::getDocument();
+		// Pass the message to scriptOptions
+		JText::script('PLG_READMORE_ALREADY_EXISTS', true);
 
-		// Button is not active in specific content components
+		JFactory::getDocument()->addScriptOptions('xtd-readmore', $this->_subject->getContent($name));
 
-		$getContent = $this->_subject->getContent($name);
-		$present = JText::_('PLG_READMORE_ALREADY_EXISTS', true);
-		$js = "
-			function insertReadmore(editor)
-			{
-				var content = $getContent
-				if (content.match(/<hr\s+id=(\"|')system-readmore(\"|')\s*\/*>/i))
-				{
-					alert('$present');
-					return false;
-				} else {
-					jInsertEditorText('<hr id=\"system-readmore\" />', editor);
-				}
-			}
-			";
+		JHtml::_('script', 'plg_editors-xtd_readmore/readmore.js', false, true);
 
-		$doc->addScriptDeclaration($js);
-
-		$button          = new JObject;
-		$button->modal   = false;
+		$button           = new JObject;
+		$button->modal    = false;
+		$button->class    = 'js-readmore';
+		$button->text     = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->name     = 'arrow-down';
+		$button->link     = '#';
 		$button->onclick = 'insertReadmore(\'' . $name . '\');return false;';
-		$button->text    = JText::_('PLG_READMORE_BUTTON_READMORE');
-		$button->name    = 'arrow-down';
-		$button->link    = '#';
 
 		return $button;
 	}
