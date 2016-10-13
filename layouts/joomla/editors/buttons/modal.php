@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 $button = $displayData;
 
+if (!$button->get('modal'))
+{
+	return;
+}
+
 $class    = ($button->get('class')) ? $button->get('class') : null;
 $class   .= ($button->get('modal')) ? ' modal-button' : null;
 $href     = '#' . str_replace(' ', '', $button->get('text')) . 'Modal';
@@ -19,18 +24,15 @@ $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') .
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
 
 // Create the modal
-if ($button->get('modal'))
-{
-	echo JHtml::_(
-		'bootstrap.renderModal',
-		str_replace(' ', '', $button->get('text')) . 'Modal',
-		array(
-			'url'    => $link,
-			'title'  => $title,
-			'height' => '300px',
-			'width'  => '800px',
-			'footer' => '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-				. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-		)
-	);
-}
+echo JHtml::_(
+	'bootstrap.renderModal',
+	str_replace(' ', '', $button->get('text')) . 'Modal',
+	array(
+		'url'    => $link,
+		'title'  => $title,
+		'height' => '300px',
+		'width'  => '800px',
+		'footer' => '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+	)
+);
