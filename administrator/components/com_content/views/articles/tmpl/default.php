@@ -82,20 +82,20 @@ $assoc = JLanguageAssociations::isEnabled();
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php
-							if (stripos($listOrder, 'publish') !== false)
+							if (strpos($listOrder, 'publish_up') !== false)
 							{
-								if ($listOrder === 'a.publish_up')
-								{
-									echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_UP', 'a.publish_up', $listDirn, $listOrder);
-								}
-								else
-								{
-									echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_DOWN', 'a.publish_down', $listDirn, $listOrder);
-								}
+								echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_UP', 'a.publish_up', $listDirn, $listOrder);
+								$orderingColumn = 'publish_up';
+							}
+							else (strpos($listOrder, 'publish_down') !== false)
+							{
+								echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_DOWN', 'a.publish_down', $listDirn, $listOrder);
+								$orderingColumn = 'publish_down';
 							}
 							else
 							{
 								echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder);
+								$orderingColumn = 'created';
 							}
 							?>
 						</th>
@@ -213,14 +213,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 						<td class="nowrap small hidden-phone">
 							<?php
-							$date = $item->created;
-
-							if (stripos($listOrder, 'publish') !== false)
-							{
-								$var = str_replace('a.', '', $listOrder);
-								$date = $item->{$var};
-							}
-
+							$date = $item->{$orderingColumn};
 							echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
 							?>
 						</td>
