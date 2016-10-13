@@ -23,6 +23,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 $columns   = 10;
 
+if (strpos($listOrder, 'publish_up') !== false)
+{
+	$orderingColumn = 'publish_up';
+}
+elseif (strpos($listOrder, 'publish_down') !== false)
+{
+	$orderingColumn = 'publish_down';
+}
+else
+{
+	$orderingColumn = 'created';
+}
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component';
@@ -81,23 +94,7 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
-							<?php
-							if (strpos($listOrder, 'publish_up') !== false)
-							{
-								echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_UP', 'a.publish_up', $listDirn, $listOrder);
-								$orderingColumn = 'publish_up';
-							}
-							elseif (strpos($listOrder, 'publish_down') !== false)
-							{
-								echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_DOWN', 'a.publish_down', $listDirn, $listOrder);
-								$orderingColumn = 'publish_down';
-							}
-							else
-							{
-								echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder);
-								$orderingColumn = 'created';
-							}
-							?>
+							<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
