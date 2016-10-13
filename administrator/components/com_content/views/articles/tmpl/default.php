@@ -81,11 +81,23 @@ $assoc = JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap hidden-phone">
-							<?php if (stripos($listOrder, 'publish') !== false) : ?>
-								<?php echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_CREATED', 'a.publish_up', $listDirn, $listOrder); ?>
-							<?php else : ?>
-								<?php echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
-							<?php endif; ?>
+							<?php
+							if (stripos($listOrder, 'publish') !== false)
+							{
+								if ($listOrder === 'a.publish_up')
+								{
+									echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_UP', 'a.publish_up', $listDirn, $listOrder);
+								}
+								else
+								{
+									echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_DOWN', 'a.publish_down', $listDirn, $listOrder);
+								}
+							}
+							else
+							{
+								echo JHtml::_('searchtools.sort', 'JDATE', 'a.created', $listDirn, $listOrder);
+							}
+							?>
 						</th>
 						<th width="1%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
@@ -209,7 +221,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								$date = $item->{$var};
 							}
 
-							echo JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4'));
+							echo $date > 0 ? JHtml::_('date', $date, JText::_('DATE_FORMAT_LC4')) : '-';
 							?>
 						</td>
 						<td class="hidden-phone">
