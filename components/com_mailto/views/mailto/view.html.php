@@ -58,7 +58,7 @@ class MailtoViewMailto extends JViewLegacy
 
 		if ($data->link == '')
 		{
-			throw new Exception(JText::_('COM_MAILTO_LINK_IS_MISSING'), 403);
+			throw new Exception(JText::_('COM_MAILTO_LINK_IS_MISSING'), 400);
 		}
 
 		// Load with previous data, if it exists
