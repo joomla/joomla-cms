@@ -12,7 +12,8 @@ defined('JPATH_BASE') or die;
 $button = $displayData;
 
 if ($button->get('name')) :
-	$class = ($button->get('class')) ? $button->get('class') : null;
+	$class = 'btn btn-secondary';
+	$class .= ($button->get('class')) ? ' ' . $button->get('class') : null;
 	$class .= ($button->get('modal')) ? ' modal-button' : null;
 	$href    = '#' . str_replace(' ', '', $button->get('text')) . 'Modal';
 	$link    = ($button->get('link')) ? JUri::base() . $button->get('link') : null;

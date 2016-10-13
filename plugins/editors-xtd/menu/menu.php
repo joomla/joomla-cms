@@ -64,7 +64,7 @@ class PlgButtonMenu extends JPlugin
 
 		$button          = new JObject;
 		$button->modal   = true;
-		$button->class   = 'btn btn-secondary';
+		$button->class   = null;
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
 		$button->name    = 'share-alt';
