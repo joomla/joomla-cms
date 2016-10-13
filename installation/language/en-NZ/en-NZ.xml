@@ -2,18 +2,18 @@
 <metafile
 	version="3.6"
 	client="installation">
-	<name>Bosanski (BA)</name>
+	<name>English (New Zealand)</name>
 	<version>3.6.3</version>
 	<creationDate>October 2016</creationDate>
-	<author>Bosnian Translation Team</author>
- 	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
+	<author>Joomla! Project</author>
+	<copyright>Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
-		<filename>bs-BA.ini</filename>
+		<filename>en-NZ.ini</filename>
 	</files>
 	<metadata>
-		<name>Bosanski (Bosnia)</name>
-		<tag>bs-BA</tag>
+		<name>English (New Zealand)</name>
+		<tag>en-NZ</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params />
