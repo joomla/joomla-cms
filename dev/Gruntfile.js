@@ -3,17 +3,23 @@ module.exports = function(grunt) {
 	var CmSettings  = grunt.file.readYAML('codemirror.yaml'),
 		venVersions = grunt.file.readYAML('vendors_versions.yaml'),
 		path        = require('path'),
-		preText     = '{ "name": "joomla-assets", "version": "4.0.0", "description": "External assets that Joomla is using", "dependencies": { ',
-		postText    = ' }, "license": "GPL-2.0+" }',
+		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
+		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		vendorsTxt = '';
+		vendorsTxt = '',
+		vendorsArr = '';
 
 	for (name in venVersions.vendors) {
-		vendorsTxt += '"' + name + '": "' + venVersions.vendors[name] + '",';
+		vendorsTxt += '"' + name + '": "' + venVersions.vendors[name].version + '",';
 	}
 
-	// Build the package.json for all 3rd Party assets
+	for (name in venVersions.vendors) {
+		vendorsArr += '\'' + name + '\' => array(\'version\' => \'' + venVersions.vendors[name].version + '\',' + '\'dependencies\' => \'' + venVersions.vendors[name].dependencies + '\'),\n\t\t\t';
+	}
+
+	// Build the package.json and assets.php for all 3rd Party assets
 	grunt.file.write('assets/package.json', preText + vendorsTxt.substring(0, vendorsTxt.length - 1) + postText);
+	grunt.file.write('assets.php', '<?php\ndefined(\'_JEXEC\') or die;\n\nabstract class ExternalAssets{\n\tpublic static function getCoreAssets() {\n\t\t return array(\n\t\t\t' + vendorsArr + '\n\t\t);\n\t}\n}\n');
 
 	// Project configuration.
 	grunt.initConfig({
@@ -82,14 +88,14 @@ module.exports = function(grunt) {
 		// Get the latest codemirror
 		curl: {
 			'cmGet': {
-				src: 'https://github.com/codemirror/CodeMirror/archive/' + venVersions.vendors.codemirror + '.zip',
+				src: 'https://github.com/codemirror/CodeMirror/archive/' + venVersions.vendors.codemirror.version + '.zip',
 				dest: 'assets/tmp/cmzip.zip'
 			}
 		},
 		unzip: {
 			'cmUnzip': {
 				router: function (filepath) {
-					var re = new RegExp('CodeMirror-' + venVersions.vendors.codemirror + '/', 'g');
+					var re = new RegExp('CodeMirror-' + venVersions.vendors.codemirror.version + '/', 'g');
 					var newFilename = filepath.replace(re, '');
 					return newFilename;
 				},
