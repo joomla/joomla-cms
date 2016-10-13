@@ -22,6 +22,7 @@ $href     = '#' . str_replace(' ', '', $button->get('text')) . 'Modal';
 $link     = ($button->get('link')) ? JUri::base() . $button->get('link') : null;
 $onclick  = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 $title    = ($button->get('title')) ? $button->get('title') : $button->get('text');
+$options  = is_array($button->get('options')) ? $button->get('options') : array();
 
 // Create the modal
 echo JHtml::_(
@@ -30,8 +31,10 @@ echo JHtml::_(
 	array(
 		'url'    => $link,
 		'title'  => $title,
-		'height' => '300px',
-		'width'  => '800px',
+		'height' => array_key_exists('height', $options) ? $options['height'] : '400px',
+		'width'  => array_key_exists('width', $options) ? $options['width'] : '800px',
+		'bodyHeight'  => array_key_exists('wibodyHeightdth', $options) ? $options['bodyHeight'] : '70',
+		'modalWidth'  => array_key_exists('modalWidth', $options) ? $options['modalWidth'] : '80',
 		'footer' => '<button class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 			. JText::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
 	)

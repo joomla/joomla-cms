@@ -43,11 +43,15 @@ class PlgButtonModule extends JPlugin
 
 		$button          = new JObject;
 		$button->modal   = true;
-		$button->class   = null;
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
 		$button->name    = 'file-add';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		$button->options = array(
+			'height' => '300px',
+			'width'  => '800px',
+			'bodyHeight'  => '70',
+			'modalWidth'  => '80',
+		);
 
 		return $button;
 	}
