@@ -82,7 +82,7 @@ if (isset($params['keyboard']))
  * Specific hack for Bootstrap 2.3.x
  */
 $script[] = "jQuery(document).ready(function($) {";
-$script[] = "   if (jModalClose === undefined && typeof(jModalClose) != 'function') { var jModalClose = function() { jQuery('.modal.in').modal('hide'); }; }";
+$script[] = "   window.jModalClose = function() { jQuery('.modal.in').modal('hide'); };";
 $script[] = "   $('#" . $selector . "').on('show.bs.modal', function() {";
 
 $script[] = "       $('body').addClass('modal-open');";
