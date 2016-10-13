@@ -1200,8 +1200,14 @@ th .tooltip-inner {
 	opacity: 1;
 }
 /* Permissions dropdown display */
-#permissions-sliders .chzn-container {
-	position: absolute;
+#permissions-sliders {
+	.chzn-container {
+		margin-top: -5px;
+		position: absolute;
+	}
+	.table td {
+		padding: 8px 8px 9px;
+	}
 }
 /* Component pop-up */
 .container-popup {
@@ -1505,3 +1511,29 @@ body.modal-open {
   border-radius: 0 @inputBorderRadius @inputBorderRadius 0;
 }
 
+/* Removes Text Shadows */
+.alert,
+.alert-options,
+.badge,
+.breadcrumb > li,
+.close,
+.input-append .add-on,
+.input-prepend .add-on,
+.label,
+.nav-header,
+.nav-list .nav-header,
+.nav-list > .active > a,
+.nav-list > .active > a:focus,
+.nav-list > .active > a:hover,
+.nav-list > li > a,
+.nav-tabs.nav-dark,
+.navbar .brand,
+.navbar .nav > li > a,
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a,
+.navbar-inverse .navbar-search .search-query.focused,
+.navbar-inverse .navbar-search .search-query:focus,
+.progress .bar,
+.subhead {
+  text-shadow: none;
+}
