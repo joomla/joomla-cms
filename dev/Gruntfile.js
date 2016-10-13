@@ -439,8 +439,8 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/codemirror/LICENSE',
 					},
 					{ // Jcrop
-						src: ['assets/tmp/jcrop/MIT-LICENSE.txt'],
-						dest: '../media/vendor/jcrop/MIT-LICENSE.txt',
+						src: ['assets/tmp/jcrop/jcrop-MIT-LICENSE.txt'],
+						dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt',
 					},
 					{ // Media Element
 						expand: true,
