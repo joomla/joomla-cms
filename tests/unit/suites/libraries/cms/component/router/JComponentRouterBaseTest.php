@@ -28,7 +28,7 @@ class JComponentRouterBaseTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$app_bkp = JFactory::$application;
+		$this->saveFactoryState();
 		$app = $this->getMockCmsApp();
 		JFactory::$application = $app;
 		$menu = TestMockMenu::create($this);
@@ -69,7 +69,7 @@ class JComponentRouterBaseTest extends TestCase
 		$this->assertEquals($app, $object->app);
 		$this->assertEquals($menu, $object->menu);
 
-		JFactory::$language = $app_bkp;
+		$this->restoreFactoryState();
 	}
 
 	/**
