@@ -1,20 +1,22 @@
 module.exports = function(grunt) {
 
-	var CmSettings  = grunt.file.readYAML('codemirror.yaml'),
-		venVersions = grunt.file.readYAML('vendors_versions.yaml'),
+	var settings  = grunt.file.readYAML('settings.yaml'),
 		path        = require('path'),
 		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
+		disabledNPM = ['jcrop', 'autocomplete', 'coddemirror', 'combobox'],
 		vendorsTxt = '',
 		vendorsArr = '';
 
-	for (name in venVersions.vendors) {
-		vendorsTxt += '"' + name + '": "' + venVersions.vendors[name].version + '",';
+	for (name in settings.vendors) {
+		if (disabledNPM.indexOf(name) < 0 ) {
+			vendorsTxt += '"' + name + '": "' + settings.vendors[name].version + '",';
+		}
 	}
 
-	for (name in venVersions.vendors) {
-		vendorsArr += '\'' + name + '\' => array(\'version\' => \'' + venVersions.vendors[name].version + '\',' + '\'dependencies\' => \'' + venVersions.vendors[name].dependencies + '\'),\n\t\t\t';
+	for (name in settings.vendors) {
+		vendorsArr += '\'' + name + '\' => array(\'version\' => \'' + settings.vendors[name].version + '\',' + '\'dependencies\' => \'' + settings.vendors[name].dependencies + '\'),\n\t\t\t';
 	}
 
 	// Build the package.json and assets.php for all 3rd Party assets
@@ -39,11 +41,8 @@ module.exports = function(grunt) {
 		clean: {
 			assets: {
 				src: [
-					'assets/tmp/autocomplete/**',
-					'assets/tmp/codemirror/**',
-					'assets/tmp/combobox/**',
-					'assets/tmp/jcrop/**',
 					'assets/node_modules/**',
+					'assets/tmp/**',
 					'../media/vendor/jquery/js/*',
 					'!../media/vendor/jquery/js/*jquery-noconflict.js*', // Joomla owned
 					'../media/vendor/bootstrap/**',
@@ -88,57 +87,72 @@ module.exports = function(grunt) {
 		// Get the latest codemirror
 		curl: {
 			'cmGet': {
-				src: 'https://github.com/codemirror/CodeMirror/archive/' + venVersions.vendors.codemirror.version + '.zip',
+				src: 'https://github.com/codemirror/CodeMirror/archive/' + settings.vendors.codemirror.version + '.zip',
 				dest: 'assets/tmp/cmzip.zip'
-			}
+			},
+			'jCrop': {
+				src: 'https://github.com/tapmodo/Jcrop/archive/v' + settings.vendors.jcrop.version + '.zip',
+				dest: 'assets/tmp/jcrop.zip'
+			},
+			'comboBox': {
+				src: 'https://github.com/danielfarrell/bootstrap-combobox/archive/' + settings.vendors.combobox.version + '.zip',
+				dest: 'assets/tmp/combo.zip'
+			},
+			'autoComplete': {
+				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
+				dest: 'assets/tmp/autoc.zip'
+			},
 		},
 		unzip: {
 			'cmUnzip': {
 				router: function (filepath) {
-					var re = new RegExp('CodeMirror-' + venVersions.vendors.codemirror.version + '/', 'g');
+					var re = new RegExp('CodeMirror-' + settings.vendors.codemirror.version + '/', 'g');
 					var newFilename = filepath.replace(re, '');
 					return newFilename;
 				},
 				src: 'assets/tmp/cmzip.zip',
 				dest: 'assets/tmp/codemirror/'
-			}
-		},
-		// Download latest packages from github for any assets with no npm package
-		gitclone: {
-			cloneCombobox: {
-				options: {
-					repository: 'https://github.com/danielfarrell/bootstrap-combobox.git',
-					branch    : 'master',
-					directory : 'assets/tmp/combobox'
-				}
 			},
-			cloneCropjs: {
-				options: {
-					repository: 'https://github.com/tapmodo/Jcrop.git',
-					branch    : 'master',
-					directory : 'assets/tmp/jcrop'
-				}
+			'comboUnzip': {
+				router: function (filepath) {
+					var re = new RegExp(settings.vendors.combobox.version + '/', 'g');
+					var newFilename = filepath.replace(re, '');
+					return newFilename;
+				},
+				src: 'assets/tmp/combo.zip',
+				dest: 'assets/tmp/combobox/'
 			},
-			cloneAutojs: {
-				options: {
-					repository: 'https://github.com/devbridge/jQuery-Autocomplete',
-					branch    : 'master',
-					directory : 'assets/tmp/autocomplete'
-				}
-			}
+			'autoUnzip': {
+				router: function (filepath) {
+					var re = new RegExp('jQuery-Autocomplete-' + settings.vendors.autocomplete.version + '/', 'g');
+					var newFilename = filepath.replace(re, '');
+					return newFilename;
+				},
+				src: 'assets/tmp/autoc.zip',
+				dest: 'assets/tmp/autocomplete/'
+			},
+			'jcropUnzip': {
+				router: function (filepath) {
+					var re = new RegExp(settings.vendors.jcrop.version + '/', 'g');
+					var newFilename = filepath.replace(re, '');
+					return newFilename;
+				},
+				src: 'assets/tmp/jcrop.zip',
+				dest: 'assets/tmp/jcrop/'
+			},
 		},
 		// Concatenate some javascript files
 		concat: {
 			someFiles: {
 				files: [
 					{
-						src: CmSettings.addons.js.map(function (v) {
+						src: settings.CmAddons.js.map(function (v) {
 							return 'assets/tmp/codemirror/' + v;
 						}),
 						dest:'assets/tmp/codemirror/lib/addons.js'
 					},
 					{
-						src: CmSettings.addons.css.map(function (v) {
+						src: settings.CmAddons.css.map(function (v) {
 							return 'assets/tmp/codemirror/' + v;
 						}),
 						dest: 'assets/tmp/codemirror/lib/addons.css'
@@ -270,29 +284,29 @@ module.exports = function(grunt) {
 					},
 					{ // Bootstrap-combobox
 						expand: true,
-						cwd: 'assets/tmp/combobox/js',
+						cwd: 'assets/tmp/combobox/bootstrap-combobox-js',
 						src: 'bootstrap-combobox.js',
 						dest: '../media/vendor/combobox/js/',
 						filter: 'isFile'
 					},
 					{ // Bootstrap-combobox
 						expand: true,
-						cwd: 'assets/tmp/combobox/css',
+						cwd: 'assets/tmp/combobox/bootstrap-combobox-css',
 						src: 'bootstrap-combobox.css',
 						dest: '../media/vendor/combobox/css/',
 						filter: 'isFile'
 					},
 					{ // jcrop
 						expand: true,
-						cwd: 'assets/tmp/jcrop/css',
+						cwd: 'assets/tmp/jcrop/jcrop-css',
 						src: ['**'],
 						dest: '../media/vendor/jcrop/css/',
 						filter: 'isFile'
 					},
 					{ // jcrop
 						expand: true,
-						cwd: 'assets/tmp/jcrop/js',
-						src: ['jquery.Jcrop.min.js', 'jquery.Jcrop.js'],
+						cwd: 'assets/tmp/jcrop/jcrop-js',
+						src: ['jcrop.min.js', 'jcrop.js'],
 						dest: '../media/vendor/jcrop/js/',
 						filter: 'isFile'
 					},
@@ -408,6 +422,10 @@ module.exports = function(grunt) {
 						src: ['assets/node_modules/jquery/LICENSE.txt'],
 						dest: '../media/vendor/jquery/LICENSE.txt',
 					},
+					{ // jCrop
+						src: ['assets/tmp/jcop/jcrop-MIT-LICENSE.txt'],
+						dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt',
+					},
 					{ // Bootstrap
 						src: ['assets/node_modules/bootstrap/LICENSE'],
 						dest: '../media/vendor/bootstrap/LICENSE',
@@ -478,7 +496,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-shell');
-	grunt.loadNpmTasks('grunt-git');
 	grunt.loadNpmTasks('grunt-zip');
 	grunt.loadNpmTasks('grunt-curl');
 
@@ -487,10 +504,13 @@ module.exports = function(grunt) {
 			'clean:assets',
 			'shell:update',
 			'curl:cmGet',
+			'curl:jCrop',
+			'curl:comboBox',
+			'curl:autoComplete',
 			'unzip:cmUnzip',
-			'gitclone:cloneCombobox',
-			'gitclone:cloneCropjs',
-			'gitclone:cloneAutojs',
+			'unzip:comboUnzip',
+			'unzip:autoUnzip',
+			'unzip:jcropUnzip',
 			'concat:someFiles',
 			'copy:fromSource',
 			'uglify:allJs',

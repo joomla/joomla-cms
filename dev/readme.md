@@ -19,7 +19,7 @@ possible commands:
 - `grunt uglify:allJs`.................minifies various javascripts
 - `grunt cssmin:allCss`................minifies various stylesheets
 
-Make sure that you have updated the vendors_versions.yaml file in order to update the libraries!!!
+Make sure that you have updated the settings.yaml file in order to update the libraries!!!
 
 Will update the following external sourced static assets that Joomla is using.
 
@@ -35,10 +35,10 @@ Will update the following external sourced static assets that Joomla is using.
 - MediaElement:..... version .... 2.22.0
 - Punycode.......... version .... 1.4.1
 - TinyMCE:.......... version .... 4.4.3
+
+The following are always fetched with curl (no module available)
+
 - Codemirror........ version .... 5.19.0
-
-The following are always fetching the gihub repo (master branch)
-
-- Combobox
-- Jcrop
-- Autocomplete
+- Combobox.......... version .... 1.1.7
+- Jcrop............. version .... 2.0.4
+- Autocomplete...... version .... 1.2.26

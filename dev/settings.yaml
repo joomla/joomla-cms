@@ -1,4 +1,5 @@
 vendors:
+#### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
                  'version': '2.1.4'
                  'dependencies': ''
@@ -36,7 +37,39 @@ vendors:
     'tinymce':
                   'version': '4.4.3'
                   'dependencies': ''
+### These are always fetced with curl ###
     'codemirror':
                   'version': '5.19.0'
                   'dependencies': ''
+    'jcrop':
+                  'version': '2.0.4'
+                  'dependencies': ''
+    'combobox':
+                  'version': '1.1.7'
+                  'dependencies': ''
+    'autocomplete':
+                  'version': '1.2.26'
+                  'dependencies': ''
 
+## DO NOT EDIT THE NEXT LINES UNLESS YOU KNOW WHAT YOU ARE DOING ##
+CmAddons:
+        js:
+            - 'addon/display/fullscreen.js'
+            - 'addon/display/panel.js'
+            - 'addon/edit/closebrackets.js'
+            - 'addon/edit/closetag.js'
+            - 'addon/edit/matchbrackets.js'
+            - 'addon/edit/matchtags.js'
+            - 'addon/fold/brace-fold.js'
+            - 'addon/fold/foldcode.js'
+            - 'addon/fold/foldgutter.js'
+            - 'addon/fold/xml-fold.js'
+            - 'addon/mode/loadmode.js'
+            - 'addon/mode/multiplex.js'
+            - 'addon/scroll/simplescrollbars.js'
+            - 'addon/selection/active-line.js'
+            - 'keymap/vim.js'
+        css:
+            - 'addon/display/fullscreen.css'
+            - 'addon/fold/foldgutter.css'
+            - 'addon/scroll/simplescrollbars.css'
