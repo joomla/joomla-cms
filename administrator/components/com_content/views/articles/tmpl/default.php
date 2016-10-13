@@ -87,7 +87,7 @@ $assoc = JLanguageAssociations::isEnabled();
 								echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_UP', 'a.publish_up', $listDirn, $listOrder);
 								$orderingColumn = 'publish_up';
 							}
-							else (strpos($listOrder, 'publish_down') !== false)
+							elseif (strpos($listOrder, 'publish_down') !== false)
 							{
 								echo JHtml::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_PUBLISH_DOWN', 'a.publish_down', $listDirn, $listOrder);
 								$orderingColumn = 'publish_down';
