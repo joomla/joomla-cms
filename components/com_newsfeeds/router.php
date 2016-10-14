@@ -42,14 +42,14 @@ class NewsfeedsRouter extends JComponentRouterBase
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId   = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (isset($query['view']))
 		{
 			$view = $query['view'];
 
-			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_newsfeeds')
+			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component !== 'com_newsfeeds')
 			{
 				$segments[] = $query['view'];
 			}
@@ -58,20 +58,18 @@ class NewsfeedsRouter extends JComponentRouterBase
 		}
 
 		// Are we dealing with a newsfeed that is attached to a menu item?
-		if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
+		if (isset($query['view'], $query['id']) && ($mView == $query['view']) && ($mId == (int) $query['id']))
 		{
-			unset($query['view']);
-			unset($query['catid']);
-			unset($query['id']);
+			unset($query['view'], $query['catid'], $query['id']);
 
 			return $segments;
 		}
 
-		if (isset($view) and ($view == 'category' or $view == 'newsfeed'))
+		if (isset($view) && ($view === 'category' || $view === 'newsfeed'))
 		{
-			if ($mId != (int) $query['id'] || $mView != $view)
+			if ($mView != $view || $mId != (int) $query['id'])
 			{
-				if ($view == 'newsfeed' && isset($query['catid']))
+				if ($view === 'newsfeed' && isset($query['catid']))
 				{
 					$catid = $query['catid'];
 				}
@@ -93,7 +91,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 
 					foreach ($path as $id)
 					{
-						if ((int) $id == (int) $menuCatid)
+						if ((int) $id === (int) $menuCatid)
 						{
 							break;
 						}
@@ -109,7 +107,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 					$segments = array_merge($segments, array_reverse($array));
 				}
 
-				if ($view == 'newsfeed')
+				if ($view === 'newsfeed')
 				{
 					if ($advanced)
 					{
@@ -124,8 +122,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 				}
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
 		if (isset($query['layout']))
@@ -139,7 +136,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}
@@ -217,7 +214,7 @@ class NewsfeedsRouter extends JComponentRouterBase
 				}
 			}
 
-			if ($found == 0)
+			if ($found === 0)
 			{
 				if ($advanced)
 				{

@@ -146,15 +146,15 @@ class SearchViewSearch extends JViewLegacy
 			{
 				$row = & $results[$i]->text;
 
-				if ($state->get('match') == 'exact')
+				if ($state->get('match') === 'exact')
 				{
 					$searchwords = array($searchword);
 					$needle      = $searchword;
 				}
 				else
 				{
-					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
-					$searchwords = preg_split("/\s+/u", $searchworda);
+					$searchworda = preg_replace('#\xE3\x80\x80#', ' ', $searchword);
+					$searchwords = preg_split('/\s+/u', $searchworda);
 					$needle      = $searchwords[0];
 				}
 

@@ -34,11 +34,11 @@ if (!empty($this->items))
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') !== 'hide' || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar clearfix">
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<?php if ($this->params->get('filter_field') !== 'hide') :?>
 			<div class="btn-group">
-				<?php if ($this->params->get('filter_field') != 'tag') :?>
+				<?php if ($this->params->get('filter_field') !== 'tag') :?>
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
@@ -98,11 +98,11 @@ if (!empty($this->items))
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th id="categorylist_header_date">
-						<?php if ($date == "created") : ?>
+						<?php if ($date === 'created') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.created', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "modified") : ?>
+						<?php elseif ($date === 'modified') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.modified', $listDirn, $listOrder); ?>
-						<?php elseif ($date == "published") : ?>
+						<?php elseif ($date === 'published') : ?>
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_' . $date . '_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
 						<?php endif; ?>
 					</th>
@@ -177,7 +177,7 @@ if (!empty($this->items))
 				<td <?php echo $headerAuthor; ?> class="list-author">
 					<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 						<?php $author = $article->author ?>
-						<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
+						<?php $author = ($article->created_by_alias ?: $author);?>
 						<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
 						<?php else: ?>

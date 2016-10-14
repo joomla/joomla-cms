@@ -143,9 +143,9 @@ class TagsModelTags extends JModelList
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
@@ -156,7 +156,7 @@ class TagsModelTags extends JModelList
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}

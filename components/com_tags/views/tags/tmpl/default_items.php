@@ -80,11 +80,11 @@ JFactory::getDocument()->addScriptDeclaration("
 		</fieldset>
 	<?php endif; ?>
 
-	<?php if ($this->items == false || $n == 0) : ?>
+	<?php if ($this->items == false || $n === 0) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
 	<?php else : ?>
 		<?php foreach ($this->items as $i => $item) : ?>
-			<?php if ($n == 1 || $i == 0 || $bscolumns == 1 || $i % $bscolumns == 0) : ?>
+			<?php if ($n === 1 || $i === 0 || $bscolumns === 1 || $i % $bscolumns === 0) : ?>
 				<ul class="thumbnails">
 			<?php endif; ?>
 			<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
@@ -99,7 +99,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php $images  = json_decode($item->images); ?>
 				<span class="tag-body">
 			<?php if (!empty($images->image_intro)): ?>
-				<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
+				<?php $imgfloat = empty($images->float_intro) ? $this->params->get('float_intro') : $images->float_intro; ?>
 				<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
 					<img
 						<?php if ($images->image_intro_caption) : ?>
@@ -124,7 +124,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 			</li>
 
-			<?php if (($i == 0 && $n == 1) || $i == $n - 1 || $bscolumns == 1 || (($i + 1) % $bscolumns == 0)) : ?>
+			<?php if (($i === 0 && $n === 1) || $i === $n - 1 || $bscolumns === 1 || (($i + 1) % $bscolumns === 0)) : ?>
 				</ul>
 			<?php endif; ?>
 

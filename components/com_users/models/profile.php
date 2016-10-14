@@ -145,8 +145,7 @@ class UsersModelProfile extends JModelForm
 			}
 
 			// Unset the passwords.
-			unset($this->data->password1);
-			unset($this->data->password2);
+			unset($this->data->password1, $this->data->password2);
 
 			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
@@ -199,12 +198,12 @@ class UsersModelProfile extends JModelForm
 		{
 			$username = $this->loadFormData()->username;
 			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
+				|| trim($username) !== $username);
 		}
 
 		$this->setState('user.username.compliant', $isUsernameCompliant);
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -323,16 +322,14 @@ class UsersModelProfile extends JModelForm
 		$username            = $data['username'];
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if ($isUsernameCompliant && !JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			unset($data['username']);
 		}
 
 		// Unset the block so it does not get overwritten
-		unset($data['block']);
-
 		// Unset the sendEmail so it does not get overwritten
-		unset($data['sendEmail']);
+		unset($data['block'], $data['sendEmail']);
 
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
@@ -344,7 +341,7 @@ class UsersModelProfile extends JModelForm
 			// Get the current One Time Password (two factor auth) configuration
 			$otpConfig = $model->getOtpConfig($userId);
 
-			if ($twoFactorMethod != 'none')
+			if ($twoFactorMethod !== 'none')
 			{
 				// Run the plugins
 				FOFPlatform::getInstance()->importPlugin('twofactorauth');

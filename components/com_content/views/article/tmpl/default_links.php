@@ -35,10 +35,10 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 				endif;
 
 				// If no label is present, take the link
-				$label = ($label) ? $label : $link;
+				$label = $label ?: $link;
 
 				// If no target is present, use the default
-				$target = $target ? $target : $params->get('target' . $id);
+				$target = $target ?: $params->get('target' . $id);
 				?>
 			<li class="content-links-<?php echo $id; ?>">
 				<?php

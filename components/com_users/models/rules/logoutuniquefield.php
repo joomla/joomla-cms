@@ -41,12 +41,12 @@ class JFormRuleLogoutUniqueField extends JFormRule
 		$logoutRedirectUrl      = $input['params']->logout_redirect_url;
 		$logoutRedirectMenuitem = $input['params']->logout_redirect_menuitem;
 
-		if (is_null($form))
+		if ($form === null)
 		{
 			throw new InvalidArgumentException(sprintf('The value for $form must not be null in %s', get_class($this)));
 		}
 
-		if (is_null($input))
+		if ($input === null)
 		{
 			throw new InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
 		}
