@@ -1196,22 +1196,20 @@ abstract class AKAbstractObject
 	 */
 	private function getItemFromArray($array, $i = null)
 	{
-		// Find the item
-		if ( $i === null) {
+		if ($i === null)
+		{
 			// Default, return the last item
-			$item = end($array);
+			return end($array);
 		}
-		else
-		if ( ! array_key_exists($i, $array) ) {
+
+		if (!array_key_exists($i, $array))
+		{
 			// If $i has been specified but does not exist, return false
 			return false;
 		}
-		else
-		{
-			$item	= $array[$i];
-		}
 
-		return $item;
+		// Return the specified item
+		return $array[$i];
 	}
 
 }
