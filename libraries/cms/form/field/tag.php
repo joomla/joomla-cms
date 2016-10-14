@@ -118,6 +118,14 @@ class JFormFieldTag extends JFormFieldList
 			->from('#__tags AS a')
 			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		//Block the possibility to set a tag as it own parent
+		$id   = (int) $this->form->getValue('id', 0);
+		$name = (int) $this->form->getValue('name', '');
+		if ($name == 'com_tags.tag')
+		{
+			$query->where('a.id != ' . $db->quote($id));
+		}
+
 		// Filter language
 		if (!empty($this->element['language']))
 		{
