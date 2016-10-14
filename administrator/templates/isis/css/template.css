@@ -7344,6 +7344,8 @@ body .navbar-fixed-top {
 	background-color: #1a3867;
 	border-top: 1px solid rgba(255,255,255,0.2);
 	padding: 5px 25px;
+	height: 36px;
+	overflow: hidden;
 }
 .navbar .btn-navbar {
 	background: #17568c;
@@ -7355,6 +7357,7 @@ body .navbar-fixed-top {
 		padding: 4px 18px;
 		margin-left: -20px;
 		margin-right: -20px;
+		height: auto;
 	}
 	.navbar .admin-logo {
 		margin-left: 10px;
