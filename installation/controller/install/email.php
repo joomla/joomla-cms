@@ -132,7 +132,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 
 		try
 		{
-			$mail->Send();
+			$mail->SendAtInstall();
 		}
 		catch (Exception $e)
 		{
