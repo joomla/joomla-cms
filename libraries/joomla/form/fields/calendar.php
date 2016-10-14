@@ -161,47 +161,37 @@ class JFormFieldCalendar extends JFormField
 			$attributes['aria-required'] = 'true';
 		}
 
-		// Handle the special case for "now".
-		if (strtoupper($this->value) == 'NOW')
+		if ($this->value && $this->value !== JFactory::getDbo()->getNullDate())
 		{
-			$this->value = JFactory::getDate()->format('Y-m-d H:i:s');
-		}
+			// Get some system objects.
+			$config = JFactory::getConfig();
+			$user   = JFactory::getUser();
 
-		// Get some system objects.
-		$config = JFactory::getConfig();
-		$user = JFactory::getUser();
+			// Get a date object.
+			$date   = JFactory::getDate($this->value, 'UTC');
 
-		// If a known filter is given use it.
-		switch (strtoupper($this->filter))
-		{
-			case 'SERVER_UTC':
-				// Convert a date to UTC based on the server timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
+			// If a known filter is given use it.
+			switch (strtoupper($this->filter))
+			{
+				case 'SERVER_UTC':
+					// Convert a date to UTC based on the server timezone.
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
+					break;
 
-				break;
-
-			case 'USER_UTC':
-				// Convert a date to UTC based on the user timezone.
-				if ($this->value && $this->value != JFactory::getDbo()->getNullDate())
-				{
-					// Get a date object based on the correct timezone.
-					$date = JFactory::getDate($this->value, 'UTC');
-
+				case 'USER_UTC':
+					// Convert a date to UTC based on the user timezone.
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);
-				}
+					break;
 
-				break;
+				default:
+					$this->value = $date->format('Y-m-d H:i:s', false, false);
+			}
 		}
 
 		// Including fallback code for HTML5 non supported browsers.
