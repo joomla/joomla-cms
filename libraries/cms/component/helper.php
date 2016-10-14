@@ -38,6 +38,8 @@ class JComponentHelper
 	 */
 	public static function getComponent($option, $strict = false)
 	{
+		$option = strtolower($option);
+
 		if (!isset(static::$components[$option]))
 		{
 			if (static::load($option))
@@ -93,6 +95,8 @@ class JComponentHelper
 	 */
 	public static function isInstalled($option)
 	{
+		$option = strtolower($option);
+
 		$db = JFactory::getDbo();
 
 		return (int) $db->setQuery(
@@ -318,6 +322,8 @@ class JComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
+		$option = strtolower($option);
+
 		$app = JFactory::getApplication();
 
 		// Load template language files.
@@ -434,6 +440,8 @@ class JComponentHelper
 	 */
 	protected static function load($option)
 	{
+		$option = strtolower($option);
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
