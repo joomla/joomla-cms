@@ -920,7 +920,7 @@ SELECT 408, 'plg_content_pagenavigation', 'plugin', 'pagenavigation', 'content',
 UNION ALL
 SELECT 409, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 6, 0
 UNION ALL
-SELECT 410, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', '', '', 0, '1900-01-01 00:00:00', 1, 0
+SELECT 410, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '{"lineNumbers":"1","codeFolding":"0","markerGutter":"1","lineWrapping":"1","activeLine":"0","matchTags":"1","matchBrackets":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","vimKeyBinding":"0","fullScreen":"F10","theme":"","activeLineColor":"#a4c2eb","highlightMatchColor":"#fa542f","fontFamily":"0","fontSize":13,"lineHeight":"1.2","scrollbarStyle":"native"}', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
 SELECT 411, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 2, 0
 UNION ALL
