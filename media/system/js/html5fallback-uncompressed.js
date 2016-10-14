@@ -146,8 +146,8 @@
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
 				isMissing = false,
-				isRequired = !!($(elem).attr("required")),
-				isDisabled = !!($elem.attr("disabled"));
+				isPatternMismatched = false,
+				isRequired = !!($(elem).attr("required"));
 			if(!elem.isDisabled){
 				isMissing = !self.browser.isRequiredNative && isRequired && self.isValueMissing(self, elem);
 				isPatternMismatched = !self.browser.isPatternNative && self.matchPattern(self, elem);
