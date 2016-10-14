@@ -181,4 +181,38 @@ class JLanguageHelper
 
 		return $languages[$key];
 	}
+
+	/**
+	 * Gets the current language.
+	 *
+	 * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
+	 *
+	 * @return  string  The language code.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getCurrentLanguage($detectBrowser = true)
+	{
+		static $currentLanguageCode = array();
+
+		if (!isset($currentLanguageCode[$detectBrowser]))
+		{
+			$currentLanguageCode[$detectBrowser] = JFactory::getApplication()->input->cookie->getString(JApplicationHelper::getHash('language'));
+
+			// No cookie - let's try to detect browser language or use site default
+			if (!$currentLanguageCode[$detectBrowser])
+			{
+				if ($detectBrowser)
+				{
+					$currentLanguageCode[$detectBrowser] = self::detectLanguage();
+				}
+				else
+				{
+					$currentLanguageCode[$detectBrowser] = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				}
+			}
+		}
+
+		return $currentLanguageCode[$detectBrowser];
+	}
 }
