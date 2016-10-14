@@ -26,6 +26,28 @@ class MenusModelMenutypes extends JModelLegacy
 	protected $rlu = array();
 
 	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
+	 * @return  void
+	 *
+	 * @note    Calling getState in this method will result in recursion.
+	 * @since   12.2
+	 */
+	protected function populateState()
+	{
+		parent::populateState();
+
+		$app      = JFactory::getApplication();
+		$clientId = $app->input->get('client_id', 0);
+
+		$this->state->set('client_id', $clientId);
+	}
+
+	/**
 	 * Method to get the reverse lookup of the base link URL to Title
 	 *
 	 * @return  array  Array of reverse lookup of the base link URL to Title
@@ -124,8 +146,8 @@ class MenusModelMenutypes extends JModelLegacy
 	protected function getTypeOptionsByComponent($component)
 	{
 		$options = array();
-
-		$mainXML = JPATH_SITE . '/components/' . $component . '/metadata.xml';
+		$client  = JApplicationHelper::getClientInfo($this->getState('client_id'));
+		$mainXML = $client->path . '/components/' . $component . '/metadata.xml';
 
 		if (is_file($mainXML))
 		{
@@ -233,18 +255,19 @@ class MenusModelMenutypes extends JModelLegacy
 	 *
 	 * @param   string  $component  Component option like in URLs
 	 *
-	 * @return  array
+	 * @return  array|bool
 	 *
 	 * @since   1.6
 	 */
 	protected function getTypeOptionsFromMvc($component)
 	{
 		$options = array();
+		$client  = JApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.
-		if (is_dir(JPATH_SITE . '/components/' . $component))
+		if (is_dir($client->path . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
+			$folders = JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		$path = '';
@@ -359,11 +382,12 @@ class MenusModelMenutypes extends JModelLegacy
 		$layoutNames = array();
 		$lang        = JFactory::getLanguage();
 		$path        = '';
+		$client      = JApplicationHelper::getClientInfo($this->getState('client_id'));
 
 		// Get the views for this component.
-		if (is_dir(JPATH_SITE . '/components/' . $component))
+		if (is_dir($client->path . '/components/' . $component))
 		{
-			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, '^view[s]?$', false, true);
+			$folders = JFolder::folders($client->path . '/components/' . $component, '^view[s]?$', false, true);
 		}
 
 		if (!empty($folders[0]))
@@ -393,7 +417,7 @@ class MenusModelMenutypes extends JModelLegacy
 
 		// Get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
-		$folders = JFolder::folders(JPATH_SITE . '/templates', '', false, true);
+		$folders = JFolder::folders($client->path . '/templates', '', false, true);
 
 		// Array to hold association between template file names and templates
 		$templateName = array();
@@ -403,8 +427,8 @@ class MenusModelMenutypes extends JModelLegacy
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
-				|| $lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
+				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
+				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 

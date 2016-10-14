@@ -581,6 +581,7 @@ class MenusModelItem extends JModelAdmin
 		$action = $this->getState('item.id') > 0 ? 'edit' : 'create';
 
 		$form->setFieldAttribute('menutype', 'accesstype', $action);
+		$form->setFieldAttribute('type', 'clientid', $clientId);
 
 		return $form;
 	}
