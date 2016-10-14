@@ -1,31 +1,30 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Data
+ * Part of the Joomla Framework Data Package
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Data;
 
 use Joomla\Registry\Registry;
 
 /**
- * JData is a class that is used to store data but allowing you to access the data
+ * DataObject is a class that is used to store data but allowing you to access the data
  * by mimicking the way PHP handles class properties.
  *
- * @since  12.3
+ * @since  1.0
  */
-class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Countable
+class DataObject implements DumpableInterface, \IteratorAggregate, \JsonSerializable, \Countable
 {
 	/**
-	 * The data properties.
+	 * The data object properties.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  1.0
 	 */
-	private $_properties = array();
+	private $properties = array();
 
 	/**
 	 * The class constructor.
@@ -33,8 +32,8 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 * @param   mixed  $properties  Either an associative array or another object
 	 *                              by which to set the initial properties of the new object.
 	 *
-	 * @since   12.3
-	 * @throws  InvalidArgumentException
+	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($properties = array())
 	{
@@ -60,8 +59,8 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  mixed  The value of the data property, or null if the data property does not exist.
 	 *
-	 * @see     JData::getProperty()
-	 * @since   12.3
+	 * @see     DataObject::getProperty()
+	 * @since   1.0
 	 */
 	public function __get($property)
 	{
@@ -75,11 +74,11 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  boolean  True if set, otherwise false is returned.
 	 *
-	 * @since   12.3
+	 * @since   1.0
 	 */
 	public function __isset($property)
 	{
-		return isset($this->_properties[$property]);
+		return isset($this->properties[$property]);
 	}
 
 	/**
@@ -92,8 +91,8 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  void
 	 *
-	 * @see     JData::setProperty()
-	 * @since   12.3
+	 * @see     DataObject::setProperty()
+	 * @since   1.0
 	 */
 	public function __set($property, $value)
 	{
@@ -107,11 +106,11 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   1.0
 	 */
 	public function __unset($property)
 	{
-		unset($this->_properties[$property]);
+		unset($this->properties[$property]);
 	}
 
 	/**
@@ -120,27 +119,27 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 * @param   mixed    $properties   An associative array of properties or an object.
 	 * @param   boolean  $updateNulls  True to bind null values, false to ignore null values.
 	 *
-	 * @return  JData  Returns itself to allow chaining.
+	 * @return  DataObject  Returns itself to allow chaining.
 	 *
-	 * @since   12.3
-	 * @throws  InvalidArgumentException
+	 * @since   1.0
+	 * @throws  \InvalidArgumentException
 	 */
 	public function bind($properties, $updateNulls = true)
 	{
 		// Check the properties data type.
 		if (!is_array($properties) && !is_object($properties))
 		{
-			throw new InvalidArgumentException(sprintf('%s(%s)', __METHOD__, gettype($properties)));
+			throw new \InvalidArgumentException(sprintf('%s(%s)', __METHOD__, gettype($properties)));
 		}
 
 		// Check if the object is traversable.
-		if ($properties instanceof Traversable)
+		if ($properties instanceof \Traversable)
 		{
 			// Convert iterator to array.
 			$properties = iterator_to_array($properties);
 		}
-		// Check if the object needs to be converted to an array.
 		elseif (is_object($properties))
+		// Check if the object needs to be converted to an array.
 		{
 			// Convert properties to an array.
 			$properties = (array) $properties;
@@ -165,31 +164,31 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	/**
 	 * Dumps the data properties into a stdClass object, recursively if appropriate.
 	 *
-	 * @param   integer           $depth   The maximum depth of recursion (default = 3).
-	 *                                     For example, a depth of 0 will return a stdClass with all the properties in native
-	 *                                     form. A depth of 1 will recurse into the first level of properties only.
-	 * @param   SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
+	 * @param   integer            $depth   The maximum depth of recursion (default = 3).
+	 *                                      For example, a depth of 0 will return a stdClass with all the properties in native
+	 *                                      form. A depth of 1 will recurse into the first level of properties only.
+	 * @param   \SplObjectStorage  $dumped  An array of already serialized objects that is used to avoid infinite loops.
 	 *
-	 * @return  stdClass  The data properties as a simple PHP stdClass object.
+	 * @return  \stdClass  The data properties as a simple PHP stdClass object.
 	 *
-	 * @since   12.3
+	 * @since   1.0
 	 */
-	public function dump($depth = 3, SplObjectStorage $dumped = null)
+	public function dump($depth = 3, \SplObjectStorage $dumped = null)
 	{
 		// Check if we should initialise the recursion tracker.
 		if ($dumped === null)
 		{
-			$dumped = new SplObjectStorage;
+			$dumped = new \SplObjectStorage;
 		}
 
 		// Add this object to the dumped stack.
 		$dumped->attach($this);
 
 		// Setup a container.
-		$dump = new stdClass;
+		$dump = new \stdClass;
 
 		// Dump all object properties.
-		foreach (array_keys($this->_properties) as $property)
+		foreach (array_keys($this->properties) as $property)
 		{
 			// Get the property.
 			$dump->$property = $this->dumpProperty($property, $depth, $dumped);
@@ -203,14 +202,14 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * This allows the data properties to be access via a foreach statement.
 	 *
-	 * @return  ArrayIterator  This object represented as an ArrayIterator.
+	 * @return  \ArrayIterator  This object represented as an ArrayIterator.
 	 *
 	 * @see     IteratorAggregate::getIterator()
-	 * @since   12.3
+	 * @since   1.0
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->dump(0));
+		return new \ArrayIterator($this->dump(0));
 	}
 
 	/**
@@ -218,7 +217,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  string  An object that can be serialised by json_encode().
 	 *
-	 * @since   12.3
+	 * @since   1.0
 	 */
 	public function jsonSerialize()
 	{
@@ -228,25 +227,25 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	/**
 	 * Dumps a data property.
 	 *
-	 * If recursion is set, this method will dump any object implementing JDumpable (like JData and JDataSet); it will
-	 * convert a JDate object to a string; and it will convert a Registry to an object.
+	 * If recursion is set, this method will dump any object implementing Data\Dumpable (like Data\Object and Data\Set); it will
+	 * convert a Date object to a string; and it will convert a Registry to an object.
 	 *
-	 * @param   string            $property  The name of the data property.
-	 * @param   integer           $depth     The current depth of recursion (a value of 0 will ignore recursion).
-	 * @param   SplObjectStorage  $dumped    An array of already serialized objects that is used to avoid infinite loops.
+	 * @param   string             $property  The name of the data property.
+	 * @param   integer            $depth     The current depth of recursion (a value of 0 will ignore recursion).
+	 * @param   \SplObjectStorage  $dumped    An array of already serialized objects that is used to avoid infinite loops.
 	 *
 	 * @return  mixed  The value of the dumped property.
 	 *
-	 * @since   12.3
+	 * @since   1.0
 	 */
-	protected function dumpProperty($property, $depth, SplObjectStorage $dumped)
+	protected function dumpProperty($property, $depth, \SplObjectStorage $dumped)
 	{
 		$value = $this->getProperty($property);
 
 		if ($depth > 0)
 		{
 			// Check if the object is also an dumpable object.
-			if ($value instanceof JDataDumpable)
+			if ($value instanceof DumpableInterface)
 			{
 				// Do not dump the property if it has already been dumped.
 				if (!$dumped->contains($value))
@@ -256,12 +255,12 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 			}
 
 			// Check if the object is a date.
-			if ($value instanceof JDate)
+			if ($value instanceof \DateTime)
 			{
-				$value = (string) $value;
+				$value = $value->format('Y-m-d H:i:s');
 			}
-			// Check if the object is a registry.
 			elseif ($value instanceof Registry)
+			// Check if the object is a registry.
 			{
 				$value = $value->toObject();
 			}
@@ -277,13 +276,13 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  mixed  The value of the data property.
 	 *
-	 * @see     JData::__get()
-	 * @since   12.3
+	 * @see     DataObject::__get()
+	 * @since   1.0
 	 */
 	protected function getProperty($property)
 	{
 		// Get the raw value.
-		$value = array_key_exists($property, $this->_properties) ? $this->_properties[$property] : null;
+		$value = array_key_exists($property, $this->properties) ? $this->properties[$property] : null;
 
 		return $value;
 	}
@@ -298,8 +297,8 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  mixed  The value of the data property.
 	 *
-	 * @see     JData::__set()
-	 * @since   12.3
+	 * @see     DataObject::__set()
+	 * @since   1.0
 	 */
 	protected function setProperty($property, $value)
 	{
@@ -309,11 +308,11 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 		 */
 		if (strpos($property, "\0") === 0)
 		{
-			return;
+			return null;
 		}
 
 		// Set the value.
-		$this->_properties[$property] = $value;
+		$this->properties[$property] = $value;
 
 		return $value;
 	}
@@ -323,10 +322,10 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 *
 	 * @return  integer  The number of data properties.
 	 *
-	 * @since   12.3
+	 * @since   1.0
 	 */
 	public function count()
 	{
-		return count($this->_properties);
+		return count($this->properties);
 	}
 }
