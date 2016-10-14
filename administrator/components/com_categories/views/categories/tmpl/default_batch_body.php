@@ -32,9 +32,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 	<?php if ($published >= 0) : ?>
 		<div class="span6">
 			<div class="control-group">
-				<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
-					<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
-				</label>
+				<label id="batch-choose-action-lbl" data-placement="auto-dir top-left" for="batch-category-id" class="control-label modalTooltip" title="<?php echo JHtml::tooltipText('JLIB_HTML_BATCH_MENU_LABEL', 'JLIB_HTML_BATCH_MENU_LABEL_DESC'); ?>"><?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?></label>
 				<div id="batch-choose-action" class="combo controls">
 					<select name="batch[category_id]" id="batch-category-id">
 						<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>

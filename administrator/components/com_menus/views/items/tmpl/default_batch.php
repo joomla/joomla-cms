@@ -39,9 +39,7 @@ $published = $this->state->get('filter.published');
 		<div class="row-fluid">
 			<?php if ($published >= 0) : ?>
 				<div id="batch-choose-action" class="combo control-group">
-					<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
-						<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
-					</label>
+					<label id="batch-choose-action-lbl" data-placement="auto-dir top-left" for="batch-category-id" class="control-label modalTooltip" title="<?php echo JHtml::tooltipText('JLIB_HTML_BATCH_MENU_LABEL', 'COM_MENUS_BATCH_MENU_LABEL_DESC'); ?>"><?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?></label>
 					<div class="controls">
 						<select name="batch[menu_id]" id="batch-menu-id">
 							<option value=""><?php echo JText::_('JSELECT') ?></option>

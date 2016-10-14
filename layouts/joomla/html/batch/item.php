@@ -24,7 +24,8 @@ $options = array(
 	JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 );
 ?>
-<label id="batch-choose-action-lbl" for="batch-choose-action"><?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?></label>
+<label id="batch-choose-action-lbl" for="batch-choose-action" class="control-label modalTooltip" title="<?php echo JHtml::tooltipText('JLIB_HTML_BATCH_MENU_LABEL', 'JLIB_HTML_BATCH_MENU_LABEL_DESC'); ?>">
+	<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?></label>
 <div id="batch-choose-action" class="control-group">
 	<select name="batch[category_id]" class="inputbox" id="batch-category-id">
 		<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
