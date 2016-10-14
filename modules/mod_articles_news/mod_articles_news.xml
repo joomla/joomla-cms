@@ -100,6 +100,18 @@
 				</field>
 
 				<field
+					name="show_introtext"
+					type="radio"
+					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_DESC"
+					default="1"
+					class="btn-group btn-group-yesno"
+				>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
 					name="readmore"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
