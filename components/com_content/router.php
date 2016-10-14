@@ -326,13 +326,16 @@ class ContentRouter extends JComponentRouterBase
 		 */
 		if ($count == 1)
 		{
-			// We check to see if an alias is given.  If not, we assume it is an article
-			if (strpos($segments[0], ':') === false)
+			if (!$advanced)
 			{
-				$vars['view'] = 'article';
-				$vars['id'] = (int) $segments[0];
+				// We check to see if an alias is given.  If not, we assume it is an article
+				if (strpos($segments[0], ':') === false)
+				{
+					$vars['view'] = 'article';
+					$vars['id'] = (int) $segments[0];
 
-				return $vars;
+					return $vars;
+				}
 			}
 
 			list($id, $alias) = explode(':', $segments[0], 2);
@@ -397,7 +400,11 @@ class ContentRouter extends JComponentRouterBase
 		}
 
 		// We get the category id from the menu item and search from there
-		$id = $item->query['id'];
+		if (!$advanced)
+		{
+			$id = $item->query['id'];
+		}
+
 		$category = JCategories::getInstance('Content')->get($id);
 
 		if (!$category)
