@@ -97,6 +97,12 @@ class JException extends Exception
 	protected $backtrace = null;
 
 	/**
+	 * @var    array  An array of error messages or Exception objects.
+	 * @since  11.1
+	 */
+	protected $_errors = array();
+
+	/**
 	 * Constructor
 	 * - used to set up the error with all needed error details.
 	 *
