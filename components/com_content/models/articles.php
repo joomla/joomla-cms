@@ -587,8 +587,8 @@ class ContentModelArticles extends JModelList
 			/*For blogs, article params override menu item params only if menu param = 'use_article'
 			Otherwise, menu item params control the layout
 			If menu item is 'use_article' and there is no article param, use global*/
-			if (($input->getString('layout') == 'blog') || ($input->getString('view') == 'featured')
-				|| ($this->getState('params')->get('layout_type') == 'blog'))
+			if ($input->getString('option') == 'com_content' && (($input->getString('layout') == 'blog') || ($input->getString('view') == 'featured')
+				|| ($this->getState('params')->get('layout_type') == 'blog')))
 			{
 				// Create an array of just the params set to 'use_article'
 				$menuParamsArray = $this->getState('params')->toArray();
