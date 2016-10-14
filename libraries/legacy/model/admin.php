@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype admin model.
@@ -187,7 +188,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Sanitize ids.
 		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
+		ArrayHelper::toInteger($pks);
 
 		// Remove any values of zero.
 		if (array_search(0, $pks, true))
@@ -222,7 +223,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if ($this->batch_copymove && !empty($commands[$this->batch_copymove]))
 		{
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
+			$cmd = ArrayHelper::getValue($commands, 'move_copy', 'c');
 
 			if ($cmd == 'c')
 			{
@@ -901,7 +902,7 @@ abstract class JModelAdmin extends JModelForm
 
 		// Convert to the JObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = JArrayHelper::toObject($properties, 'JObject');
+		$item = ArrayHelper::toObject($properties, 'JObject');
 
 		if (property_exists($item, 'params'))
 		{
@@ -1303,7 +1304,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (empty($pks))
 		{
-			return JError::raiseWarning(500, JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'));
+			return JFactory::getApplication()->enqueueMessage(JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 
 		// Update ordering values
