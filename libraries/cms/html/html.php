@@ -470,6 +470,18 @@ abstract class JHtml
 										break;
 									}
 
+									// Try to deal with media files in the module folder
+									$path = JPATH_ROOT . "/modules/$extension/media/$folder/$file";
+
+									if (file_exists($path))
+									{
+										$md5 = dirname($path) . '/MD5SUM';
+										$includes[] = JUri::root(true) . "/modules/$extension/media/$folder/$file" .
+											(file_exists($md5) ? ('?' . file_get_contents($md5)) : '');
+
+										break;
+									}
+
 									// Try to deal with system files in the media folder
 									$path = JPATH_ROOT . "/media/system/$folder/$file";
 
