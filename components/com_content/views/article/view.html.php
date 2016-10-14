@@ -95,9 +95,36 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($layout);
 				}
 
+				// Get the global params
+				$globalParams = JComponentHelper::getParams('com_content', true);
+				$tempArray = $temp->toArray();
+
+				foreach ($tempArray as $key => $value)
+				{
+					if ($value === 'use_article')
+					{
+						// If the article has a value, use it
+						if ($item->params->get($key) != '')
+						{
+							// Get the value from the article
+							$tempArray[$key] = $item->params->get($key);
+						}
+						else
+						{
+							// Otherwise, use the global value
+							$tempArray[$key] = $globalParams->get($key);
+						}
+					}
+				}
+
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
-				$item->params->merge($temp);
+				if (count($tempArray) > 0)
+				{
+					$articleParams = new Registry;
+					$articleParams->loadArray($tempArray);
+					$item->params->merge($articleParams);
+				}
 			}
 			else
 			{
