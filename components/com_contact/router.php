@@ -26,11 +26,6 @@ class ContactRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
-		if ($app->input->get('view') === 'contacts' && $app->input->get('layout') === 'modal')
-		{
-			return;
-		}
-
 		$params = JComponentHelper::getParams('com_contact');
 		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new JComponentRouterViewconfiguration('categories');
@@ -42,6 +37,8 @@ class ContactRouter extends JComponentRouterView
 		$contact = new JComponentRouterViewconfiguration('contact');
 		$contact->setKey('id')->setParent($category, 'catid');
 		$this->registerView($contact);
+		$contacts = new JComponentRouterViewconfiguration('contacts');
+		$this->registerView($contacts);
 		$this->registerView(new JComponentRouterViewconfiguration('featured'));
 
 		parent::__construct($app, $menu);
