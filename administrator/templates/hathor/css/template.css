@@ -3937,3 +3937,6 @@ div.toggle-editor {
 .muted {
 	color: #999;
 }
+div.mce-fullscreen {
+    z-index: 1031;
+}
