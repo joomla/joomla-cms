@@ -1277,33 +1277,54 @@ class JForm
 
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
+				$return = '';
+
 				if ((int) $value > 0)
 				{
-					// Get the server timezone setting.
-					$offset = JFactory::getConfig()->get('offset');
+					try
+					{
+						// Get the server timezone setting.
+						$offset = JFactory::getConfig()->get('offset');
 
-					// Return an SQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
-				}
-				else
-				{
-					$return = '';
+						// Return an SQL formatted datetime string in UTC.
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						$validate = (string) $element['validate'];
+
+						// Return the entered value
+						if ($validate == 'datetime')
+						{
+							$return = $value;
+						}
+					}
 				}
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
+				$return = '';
+
 				if ((int) $value > 0)
 				{
-					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
+					try
+					{
+						// Get the user timezone setting defaulting to the server timezone setting.
+						$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
-					// Return a MySQL formatted datetime string in UTC.
-					$return = JFactory::getDate($value, $offset)->toSql();
-				}
-				else
-				{
-					$return = '';
+						// Return a MySQL formatted datetime string in UTC.
+						$return = JFactory::getDate($value, $offset)->toSql();
+					}
+					catch (Exception $e)
+					{
+						$validate = (string) $element['validate'];
+
+						if ($validate == 'datetime')
+						{
+							$return = $value;
+						}
+					}
 				}
 				break;
 
