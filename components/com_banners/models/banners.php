@@ -152,6 +152,7 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
+
 					$condition1 = "a.own_prefix=1 "
 						. " AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) "
 						. " OR a.own_prefix=0 "
