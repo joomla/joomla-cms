@@ -45,6 +45,16 @@ class JFormFieldList extends JFormField
 		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
+
+ 		foreach ($this->element->attributes() as  $a => $b)
+                {
+                    if(preg_match('(data-[a-zA-Z\-]+)', $a))
+                    {
+                        $attr .= $this->element[$a] ? $a.'="'.(string) $this->element[$a].'"' : '';
+                    }
+                }
+
+
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
 		{
