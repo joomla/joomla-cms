@@ -372,18 +372,21 @@ class UsersModelRegistration extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  $temp  The form data.
+	 * @param   array  $temp      The form data.
+	 * @param   bool   $verified  Is this user account / email address pre-verified (e.g. through a social network integration)?
 	 *
 	 * @return  mixed  The user id on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
-	public function register($temp)
+	public function register($temp, $verified = false)
 	{
 		$params = JComponentHelper::getParams('com_users');
 
 		// Initialise the table with JUser.
 		$user = new JUser;
+
+		// Get the default data from the site's setup
 		$data = (array) $this->getData();
 
 		// Merge in the registration data.
@@ -397,6 +400,12 @@ class UsersModelRegistration extends JModelForm
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
+
+		// If the email / user account is pre-verified there's no need to send an activation email.
+		if ($verified)
+		{
+			$useractivation = 0;
+		}
 
 		// Check if the user needs to activate their account.
 		if (($useractivation == 1) || ($useractivation == 2))
