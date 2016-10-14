@@ -541,6 +541,8 @@ class JApplicationWeb extends JApplicationBase
 				$this->header($this->responseMap[$status]);
 				$this->header('Location: ' . $url);
 				$this->header('Content-Type: text/html; charset=' . $this->charSet);
+				// For headers that have been set like cache headers.
+				$this->sendHeaders();
 			}
 		}
 
