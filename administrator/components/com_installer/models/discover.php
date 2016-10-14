@@ -182,43 +182,41 @@ class InstallerModelDiscover extends InstallerModel
 		$input = $app->input;
 		$eid   = $input->get('cid', 0, 'array');
 
-		if (is_array($eid) || $eid)
-		{
-			if (!is_array($eid))
-			{
-				$eid = array($eid);
-			}
-
-			JArrayHelper::toInteger($eid);
-			$failed = false;
-
-			foreach ($eid as $id)
-			{
-				$installer = new JInstaller;
-
-				$result = $installer->discover_install($id);
-
-				if (!$result)
-				{
-					$failed = true;
-					$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
-				}
-			}
-
-			// TODO - We are only receiving the message for the last JInstaller instance
-			$this->setState('action', 'remove');
-			$this->setState('name', $installer->get('name'));
-			$app->setUserState('com_installer.message', $installer->message);
-			$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
-
-			if (!$failed)
-			{
-				$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
-			}
-		}
-		else
+		if (!is_array($eid) && !$eid)
 		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
+		}
+
+		if (!is_array($eid))
+		{
+			$eid = array($eid);
+		}
+
+		JArrayHelper::toInteger($eid);
+		$failed = false;
+
+		foreach ($eid as $id)
+		{
+			$installer = new JInstaller;
+
+			$result = $installer->discover_install($id);
+
+			if (!$result)
+			{
+				$failed = true;
+				$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
+			}
+		}
+
+		// TODO - We are only receiving the message for the last JInstaller instance
+		$this->setState('action', 'remove');
+		$this->setState('name', $installer->get('name'));
+		$app->setUserState('com_installer.message', $installer->message);
+		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+		if (!$failed)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
 		}
 	}
 
