@@ -142,9 +142,9 @@ class SearchViewSearch extends JViewLegacy
 
 			JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
-			for ($i = 0, $count = count($results); $i < $count; $i++)
+			foreach ($results as $i => &$result)
 			{
-				$row = & $results[$i]->text;
+				$row = &$result->text;
 
 				if ($state->get('match') == 'exact')
 				{
@@ -270,8 +270,6 @@ class SearchViewSearch extends JViewLegacy
 						}
 					}
 				}
-
-				$result = & $results[$i];
 
 				if ($result->created)
 				{

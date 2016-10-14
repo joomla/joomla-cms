@@ -91,9 +91,8 @@ class ContactModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($items as &$item)
 		{
-			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
 				$params = new Registry;

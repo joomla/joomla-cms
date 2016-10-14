@@ -46,42 +46,42 @@ class UsersRouter extends JComponentRouterBase
 			$items = $this->menu->getItems('component', 'com_users');
 
 			// Build an array of serialized query strings to menu item id mappings.
-			for ($i = 0, $n = count($items); $i < $n; $i++)
+			foreach ($items as $item)
 			{
 				// Check to see if we have found the resend menu item.
-				if (empty($resend) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'resend'))
+				if (empty($resend) && !empty($item->query['view']) && ($item->query['view'] == 'resend'))
 				{
-					$resend = $items[$i]->id;
+					$resend = $item->id;
 				}
 
 				// Check to see if we have found the reset menu item.
-				if (empty($reset) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'reset'))
+				if (empty($reset) && !empty($item->query['view']) && ($item->query['view'] == 'reset'))
 				{
-					$reset = $items[$i]->id;
+					$reset = $item->id;
 				}
 
 				// Check to see if we have found the remind menu item.
-				if (empty($remind) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'remind'))
+				if (empty($remind) && !empty($item->query['view']) && ($item->query['view'] == 'remind'))
 				{
-					$remind = $items[$i]->id;
+					$remind = $item->id;
 				}
 
 				// Check to see if we have found the login menu item.
-				if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login'))
+				if (empty($login) && !empty($item->query['view']) && ($item->query['view'] == 'login'))
 				{
-					$login = $items[$i]->id;
+					$login = $item->id;
 				}
 
 				// Check to see if we have found the registration menu item.
-				if (empty($registration) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'registration'))
+				if (empty($registration) && !empty($item->query['view']) && ($item->query['view'] == 'registration'))
 				{
-					$registration = $items[$i]->id;
+					$registration = $item->id;
 				}
 
 				// Check to see if we have found the profile menu item.
-				if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile'))
+				if (empty($profile) && !empty($item->query['view']) && ($item->query['view'] == 'profile'))
 				{
-					$profile = $items[$i]->id;
+					$profile = $item->id;
 				}
 			}
 
@@ -191,11 +191,10 @@ class UsersRouter extends JComponentRouterBase
 			}
 		}
 
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
-			$segments[$i] = str_replace(':', '-', $segments[$i]);
+
+			$segment = str_replace(':', '-', $segment);
 		}
 
 		return $segments;
@@ -212,12 +211,11 @@ class UsersRouter extends JComponentRouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
-		$vars = array();
+		$vars  = array();
 
-		for ($i = 0; $i < $total; $i++)
+		foreach ($segments as &$segment)
 		{
-			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+			$segment = preg_replace('/-/', ':', $segment, 1);
 		}
 
 		// Only run routine if there are segments to parse.

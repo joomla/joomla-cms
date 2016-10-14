@@ -92,9 +92,8 @@ class ContactViewFeatured extends JViewLegacy
 
 		// Prepare the data.
 		// Compute the contact slug.
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($items as &$item)
 		{
-			$item       = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 			$temp       = new Registry;
 
