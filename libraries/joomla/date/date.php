@@ -106,6 +106,12 @@ class JDate extends DateTime
 		date_default_timezone_set('UTC');
 		$date = is_numeric($date) ? date('c', $date) : $date;
 
+		// Only continue if $date is valid by strtotime()
+		if (strtotime($date) === false)
+		{
+			$date = 'now';
+		}
+
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
