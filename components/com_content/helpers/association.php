@@ -36,7 +36,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		$view   = is_null($view) ? $jinput->get('view') : $view;
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 
-		if ($view == 'article')
+		if ($view == 'article' || $view == 'category' || $view == 'featured')
 		{
 			if ($id)
 			{
@@ -59,5 +59,67 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		}
 
 		return array();
+	}
+
+	/**
+	 * Method to display in frontend the associations for a given article
+	 *
+	 * @param   integer  $id  Id of the article
+	 *
+	 * @return  string   The url of each associated article
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function displayAssociations($id)
+	{
+		$url_assoc    = '';
+		$associations = self::getAssociations($id);
+
+		if (!empty($associations))
+		{
+			jimport('joomla.application.component.helper');
+			$params    = JComponentHelper::getParams('com_content');
+			$levels    = JFactory::getUser()->getAuthorisedViewLevels();
+			$languages = JLanguageHelper::getLanguages();
+
+			foreach ($associations as $key => $value)
+			{
+				foreach ($languages as $language)
+				{
+					// Do not display language without frontend UI
+					if (!array_key_exists($language->lang_code, JLanguageMultilang::getSiteLangs()))
+					{
+						$key == null;
+					}
+					// Do not display language without specific home menu
+					elseif (!array_key_exists($key, JLanguageMultilang::getSiteHomePages()))
+					{
+						$key == null;
+					}
+					// Do not display language without authorized access level
+					elseif (isset($language->access) && $language->access && !in_array($language->access, $levels))
+					{
+						$key == null;
+					}
+					elseif (isset($key) && ($key == $language->lang_code))
+					{
+						$class = 'label label-association label-' . $language->sef;
+						$url   = '&nbsp;<a class="' . $class . '" href="' . JRoute::_($value) . '">' . strtoupper($language->sef) . '</a>&nbsp;';
+
+						if ($params->get('flags', 1))
+						{
+							$flag = JHtml::_('image', 'mod_languages/' . $language->image . '.gif',
+									$language->title_native, array('title' => $language->title_native), true
+									);
+							$url  = '&nbsp;<a href="' . JRoute::_($value) . '">' . $flag . '</a>&nbsp;';
+						}
+
+						$url_assoc .= $url;
+					}
+				}
+			}
+		}
+
+		return $url_assoc;
 	}
 }
