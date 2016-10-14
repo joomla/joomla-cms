@@ -41,6 +41,9 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
 				<span class="icon-search"></span>
 			</button>
+			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
+				<i class="icon-remove"></i>
+			</button>
 		</div>
 		<?php if ($filterButton) : ?>
 			<div class="btn-wrapper hidden-phone">
@@ -49,10 +52,5 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				</button>
 			</div>
 		<?php endif; ?>
-		<div class="btn-wrapper">
-			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
-				<?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
-			</button>
-		</div>
 	<?php endif; ?>
 <?php endif;
