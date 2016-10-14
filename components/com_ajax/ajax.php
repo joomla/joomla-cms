@@ -51,76 +51,76 @@ elseif ($input->get('module'))
 
 	/*
 	 * As JModuleHelper::isEnabled always returns true, we check
-	 * for an id other than 0 to see if it is published.
+	 * for an id 0 to see if it isn't published.
 	 */
-	if ($moduleObject->id != 0)
+	if ($moduleObject->id == 0)
 	{
-		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+		// Module is not published, you do not have access to it, or it is not assigned to the current menu item
+		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
 
-		if (strpos($module, '_'))
-		{
-			$parts = explode('_', $module);
-		}
-		elseif (strpos($module, '-'))
-		{
-			$parts = explode('-', $module);
-		}
-
-		if ($parts)
-		{
-			$class = 'Mod';
-
-			foreach ($parts as $part)
-			{
-				$class .= ucfirst($part);
-			}
-
-			$class .= 'Helper';
-		}
-		else
-		{
-			$class = 'Mod' . ucfirst($module) . 'Helper';
-		}
-
-		$method = $input->get('method') ? $input->get('method') : 'get';
-
-		if (is_file($helperFile))
-		{
-			require_once $helperFile;
-
-			if (method_exists($class, $method . 'Ajax'))
-			{
-				// Load language file for module
-				$basePath = JPATH_BASE;
-				$lang     = JFactory::getLanguage();
-				$lang->load('mod_' . $module, $basePath, null, false, true)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
-
-				try
-				{
-					$results = call_user_func($class . '::' . $method . 'Ajax');
-				}
-				catch (Exception $e)
-				{
-					$results = $e;
-				}
-			}
-			// Method does not exist
-			else
-			{
-				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
-			}
-		}
-		// The helper file does not exist
-		else
-		{
-			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
-		}
+		return;
 	}
-	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
+
+	$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
+
+	if (strpos($module, '_'))
+	{
+		$parts = explode('_', $module);
+	}
+	elseif (strpos($module, '-'))
+	{
+		$parts = explode('-', $module);
+	}
+
+	if ($parts)
+	{
+		$class = 'Mod';
+
+		foreach ($parts as $part)
+		{
+			$class .= ucfirst($part);
+		}
+
+		$class .= 'Helper';
+	}
 	else
 	{
-		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_ACCESSIBLE', 'mod_' . $module), 404);
+		$class = 'Mod' . ucfirst($module) . 'Helper';
+	}
+
+	$method = $input->get('method') ? $input->get('method') : 'get';
+
+	if (!is_file($helperFile))
+	{
+		// The helper file does not exist
+		$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'mod_' . $module . '/helper.php'), 404);
+
+		return;
+	}
+
+	require_once $helperFile;
+
+	if (method_exists($class, $method . 'Ajax'))
+	{
+		// Method does not exist
+		$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+
+		return;
+	}
+
+	// Load language file for module
+	$basePath = JPATH_BASE;
+	$lang     = JFactory::getLanguage();
+	$lang->load('mod_' . $module, $basePath, null, false, true)
+	||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
+	try
+	{
+		$results = call_user_func($class . '::' . $method . 'Ajax');
+	}
+	catch (Exception $e)
+	{
+		$results = $e;
 	}
 }
 /*
