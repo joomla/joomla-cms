@@ -667,13 +667,15 @@ abstract class JHtml
 	 * @param   boolean  $path_only       return the path to the file only.
 	 * @param   boolean  $detect_browser  detect browser to include specific browser js files.
 	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on.
+	 * @param   array    $attribs         Attributes of the script tag
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
 	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
-	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
+	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true,
+		$detect_debug = true, array $attribs = array())
 	{
 		// Include MooTools framework
 		if ($framework)
@@ -706,7 +708,7 @@ abstract class JHtml
 
 			foreach ($includes as $include)
 			{
-				$document->addScript($include);
+				$document->addScript($include, 'text/javascript', false, false, $attribs);
 			}
 		}
 	}
