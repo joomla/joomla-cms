@@ -350,7 +350,10 @@ class MenusModelItems extends JModelList
 				}
 			}
 
-			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			if (!empty($types))
+			{
+				$query->where('a.menutype IN(' . implode(',', $types) . ')');
+			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))

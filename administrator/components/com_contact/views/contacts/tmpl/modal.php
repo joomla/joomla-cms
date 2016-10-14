@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 
 if ($app->isSite())
 {
-	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+	(JSession::checkToken('get') || JSession::checkToken('post')) or die(JText::_('JINVALID_TOKEN'));
 }
 
 JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/helpers/route.php');
