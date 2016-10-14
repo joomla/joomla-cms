@@ -269,16 +269,20 @@ class JAuthentication extends JObject
 		{
 			$className = 'plg' . $plugin->type . $plugin->name;
 
-			if (class_exists($className))
-			{
-				$plugin = new $className($this, (array) $plugin);
-			}
-			else
+			if (!class_exists($className))
 			{
 				// Bail here if the plugin can't be created
 				JLog::add(JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className), JLog::WARNING, 'jerror');
 				continue;
 			}
+
+			if (!is_callable(array($className, 'onUserAuthenticate')))
+			{
+				// This plugin does not implement the onUserAuthenticate function.
+				continue;
+			}
+
+			$plugin = new $className($this, (array) $plugin);
 
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
