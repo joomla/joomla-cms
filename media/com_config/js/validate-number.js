@@ -1,0 +1,1 @@
+(function(e){e(function(){document.formvalidator.setHandler("range",function(e,t){var n=parseFloat(t.prop("min")),r=parseFloat(t.prop("max")),i=parseFloat(t.prop("step"));return!isNaN(n)&&n>e?!1:!isNaN(r)&&r<e?!1:!isNaN(i)&&e%i!==0?!1:!0})})})(jQuery);
