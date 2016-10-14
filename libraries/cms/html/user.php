@@ -29,11 +29,11 @@ abstract class JHtmlUser
 	{
 		$options = array_values(JHelperUsergroups::getInstance()->getAll());
 
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		foreach ($options as &$option)
 		{
-			$options[$i]->value = $options[$i]->id;
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
-			$groups[] = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
+			$option->value = $option->id;
+			$option->text = str_repeat('- ', $option->level) . $option->title;
+			$groups[] = JHtml::_('select.option', $option->value, $option->text);
 		}
 
 		// Exclude super admin groups if requested

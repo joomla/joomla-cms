@@ -66,11 +66,10 @@ class JComponentRouterLegacy implements JComponentRouterInterface
 		if (function_exists($function))
 		{
 			$segments = $function($query);
-			$total    = count($segments);
 
-			for ($i = 0; $i < $total; $i++)
+			foreach ($segments as &$segment)
 			{
-				$segments[$i] = str_replace(':', '-', $segments[$i]);
+				$segment = str_replace(':', '-', $segment);
 			}
 
 			return $segments;
@@ -94,11 +93,9 @@ class JComponentRouterLegacy implements JComponentRouterInterface
 
 		if (function_exists($function))
 		{
-			$total = count($segments);
-
-			for ($i = 0; $i < $total; $i++)
+			foreach ($segments as &$segment)
 			{
-				$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);
+				$segment = preg_replace('/-/', ':', $segment, 1);
 			}
 
 			return $function($segments);

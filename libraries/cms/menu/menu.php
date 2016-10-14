@@ -262,18 +262,17 @@ class JMenu
 	 * @param   mixed    $attributes  The field name(s).
 	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param   boolean  $firstOnly   If true, only returns the first item found
 	 *
 	 * @return  array
 	 *
 	 * @since   1.5
 	 */
-	public function getItems($attributes, $values, $firstonly = false)
+	public function getItems($attributes, $values, $firstOnly = false)
 	{
 		$items = array();
 		$attributes = (array) $attributes;
 		$values = (array) $values;
-		$count = count($attributes);
 
 		foreach ($this->_items as $item)
 		{
@@ -284,11 +283,11 @@ class JMenu
 
 			$test = true;
 
-			for ($i = 0; $i < $count; $i++)
+			foreach ($attributes as $i => $attribute)
 			{
 				if (is_array($values[$i]))
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
+					if (!in_array($item->{$attribute}, $values[$i]))
 					{
 						$test = false;
 						break;
@@ -296,7 +295,7 @@ class JMenu
 				}
 				else
 				{
-					if ($item->{$attributes[$i]} != $values[$i])
+					if ($item->{$attribute} != $values[$i])
 					{
 						$test = false;
 						break;
@@ -306,7 +305,7 @@ class JMenu
 
 			if ($test)
 			{
-				if ($firstonly)
+				if ($firstOnly)
 				{
 					return $item;
 				}

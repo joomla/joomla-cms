@@ -112,15 +112,15 @@ abstract class JHtmlString
 				$openedTags = array_reverse($openedTags);
 
 				// Close tags
-				for ($i = 0; $i < $numOpened; $i++)
+				foreach ($openedTags as $openedTag)
 				{
-					if (!in_array($openedTags[$i], $closedTags))
+					if (!in_array($openedTag, $closedTags))
 					{
-						$tmp .= "</" . $openedTags[$i] . ">";
+						$tmp .= "</" . $openedTag . ">";
 					}
 					else
 					{
-						unset($closedTags[array_search($openedTags[$i], $closedTags)]);
+						unset($closedTags[array_search($openedTag, $closedTags)]);
 					}
 				}
 			}

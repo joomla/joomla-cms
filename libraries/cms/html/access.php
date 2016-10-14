@@ -40,7 +40,7 @@ abstract class JHtmlAccess
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('a.id', 'value') . ', ' . $db->quoteName('a.title', 'text'))
 			->from($db->quoteName('#__viewlevels', 'a'))
@@ -69,9 +69,9 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'list.attr' => $attribs,
+				'list.attr'   => $attribs,
 				'list.select' => $selected,
-				'id' => $id,
+				'id'          => $id,
 			)
 		);
 	}
@@ -94,10 +94,10 @@ abstract class JHtmlAccess
 	{
 		$options = array_values(JHelperUsergroups::getInstance()->getAll());
 
-		for ($i = 0, $n = count($options); $i < $n; $i++)
+		foreach ($options as &$option)
 		{
-			$options[$i]->value = $options[$i]->id;
-			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
+			$option->value = $option->id;
+			$option->text  = str_repeat('- ', $option->level) . $option->title;
 		}
 
 		// If all usergroups is allowed, push it into the array.
@@ -132,9 +132,8 @@ abstract class JHtmlAccess
 
 		$html = array();
 
-		for ($i = 0, $n = count($groups); $i < $n; $i++)
+		foreach ($groups as $item)
 		{
-			$item = &$groups[$i];
 
 			// If checkSuperAdmin is true, only add item if the user is superadmin or the group is not super admin
 			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin')))
@@ -192,15 +191,13 @@ abstract class JHtmlAccess
 			"/access/section[@name='" . $section . "']/"
 		);
 
-		$html = array();
+		$html   = array();
 		$html[] = '<ul class="checklist access-actions">';
 
-		for ($i = 0, $n = count($actions); $i < $n; $i++)
+		foreach ($actions as $item)
 		{
-			$item = &$actions[$i];
-
 			// Setup  the variable attributes.
-			$eid = $count . 'action_' . $item->id;
+			$eid     = $count . 'action_' . $item->id;
 			$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 
 			// Build the HTML for the item.
@@ -229,7 +226,7 @@ abstract class JHtmlAccess
 	{
 		if (empty(static::$asset_groups))
 		{
-			$db = JFactory::getDbo();
+			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('a.id AS value, a.title AS text')
 				->from($db->quoteName('#__viewlevels') . ' AS a')
@@ -271,8 +268,8 @@ abstract class JHtmlAccess
 			$options,
 			$name,
 			array(
-				'id' => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
-				'list.attr' => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
+				'id'          => isset($config['id']) ? $config['id'] : 'assetgroups_' . (++$count),
+				'list.attr'   => (is_null($attribs) ? 'class="inputbox" size="3"' : $attribs),
 				'list.select' => (int) $selected,
 			)
 		);
