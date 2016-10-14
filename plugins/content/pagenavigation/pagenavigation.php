@@ -86,7 +86,7 @@ class PlgContentPagenavigation extends JPlugin
 					$orderby = $queryDate;
 					break;
 				case 'rdate' :
-					$orderby = $queryDate . ' DESC ';
+					$orderby = $queryDate . ' DESC';
 					break;
 				case 'alpha' :
 					$orderby = 'a.title';
@@ -100,9 +100,6 @@ class PlgContentPagenavigation extends JPlugin
 				case 'rhits' :
 					$orderby = 'a.hits DESC';
 					break;
-				case 'order' :
-					$orderby = 'a.ordering';
-					break;
 				case 'author' :
 					$orderby = 'a.created_by_alias, u.name';
 					break;
@@ -110,10 +107,11 @@ class PlgContentPagenavigation extends JPlugin
 					$orderby = 'a.created_by_alias DESC, u.name DESC';
 					break;
 				case 'front' :
-					$orderby = 'f.ordering';
+					$orderby = 'f.ordering DESC';
 					break;
+				case 'order' :
 				default :
-					$orderby = 'a.ordering';
+					$orderby = 'a.ordering DESC';
 					break;
 			}
 

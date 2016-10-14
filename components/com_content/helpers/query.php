@@ -70,7 +70,7 @@ class ContentHelperQuery
 				break;
 
 			case 'rdate' :
-				$orderby = $queryDate . ' DESC ';
+				$orderby = $queryDate . ' DESC';
 				break;
 
 			case 'alpha' :
@@ -89,10 +89,6 @@ class ContentHelperQuery
 				$orderby = 'a.hits';
 				break;
 
-			case 'order' :
-				$orderby = 'a.ordering';
-				break;
-
 			case 'author' :
 				$orderby = 'author';
 				break;
@@ -102,15 +98,16 @@ class ContentHelperQuery
 				break;
 
 			case 'front' :
-				$orderby = 'a.featured DESC, fp.ordering, ' . $queryDate . ' DESC ';
+				$orderby = 'a.featured DESC, fp.ordering DESC, ' . $queryDate . ' DESC';
 				break;
 
 			case 'random' :
 				$orderby = JFactory::getDbo()->getQuery(true)->Rand();
 				break;
 
+			case 'order' :
 			default :
-				$orderby = 'a.ordering';
+				$orderby = 'a.ordering DESC';
 				break;
 		}
 
