@@ -83,6 +83,7 @@
 
 		polyfill : function(elem){
 			if(elem.nodeName.toLowerCase() === 'form')return true;
+			if(!elem.form || !elem.form.H5Form) return true; 
 			var	self = elem.form.H5Form;
 			self.placeholder(self, elem);
 			self.numberType(self, elem);
@@ -143,8 +144,10 @@
 			if(elem.form === undefined){
 				return null;
 			}
-			var	self = elem.form.H5Form,
-				$elem = $(elem),
+			if(!elem.form || !elem.form.H5Form) return true; 
+			var	self = elem.form.H5Form;
+
+			$elem = $(elem),
 				isMissing = false,
 				isRequired = !!($(elem).attr("required")),
 				isDisabled = !!($elem.attr("disabled"));
