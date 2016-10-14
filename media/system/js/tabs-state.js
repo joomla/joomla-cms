@@ -11,9 +11,8 @@
 jQuery(function($) {
     var loadTabs = function() {
         function saveActiveTab(href) {
-            if (activeTabsHrefs === null) {
-                activeTabsHrefs = [];
-            }
+            // Reset the local Storage
+            activeTabsHrefs = [];
 
             // Save clicked tab href to the array
             activeTabsHrefs.push(href);
