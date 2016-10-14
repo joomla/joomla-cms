@@ -114,9 +114,10 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState($context . '.type', null);
 			$app->setUserState($context . '.link', null);
 
+			$clientId = $app->getUserStateFromRequest($this->context . '.client_id', 'client_id', '0', 'int');
 			$menuType = $app->getUserStateFromRequest($this->context . '.filter.menutype', 'menutype', 'mainmenu', 'cmd');
 
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&menutype=' . $menuType . $this->getRedirectToItemAppend(), false));
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&menutype=' . $menuType . $this->getRedirectToItemAppend(), false));
 		}
 
 		return $result;
@@ -429,7 +430,6 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.data', null);
 				$app->setUserState('com_menus.edit.item.type', null);
 				$app->setUserState('com_menus.edit.item.link', null);
-				$app->setUserState('com_menus.edit.item.menutype', $model->getState('item.menutype'));
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend(), false));

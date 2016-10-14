@@ -21,8 +21,6 @@ JHtml::_('behavior.keepalive');
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-$assoc = JLanguageAssociations::isEnabled();
-
 // Ajax for parent items
 $script = "
 jQuery(document).ready(function ($){
@@ -155,17 +153,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		$this->ignore_fieldsets = array('aliasoptions', 'request', 'item_associations');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
-
-		<?php if (!$isModal && $assoc) : ?>
-			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
-				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
-			<?php endif; ?>
-		<?php elseif ($isModal && $assoc) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
-		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'modules', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>

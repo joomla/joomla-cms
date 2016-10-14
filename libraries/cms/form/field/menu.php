@@ -38,7 +38,7 @@ class JFormFieldMenu extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$clientId   = (string) $this->element['client_id'];
+		$clientId   = (string) $this->element['clientid'];
 		$accessType = (string) $this->element['accesstype'];
 
 		$db    = JFactory::getDbo();

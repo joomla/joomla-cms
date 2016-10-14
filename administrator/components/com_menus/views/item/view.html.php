@@ -49,11 +49,11 @@ class MenusViewItem extends JViewLegacy
 	{
 		$user = JFactory::getUser();
 
+		$this->state   = $this->get('State');
 		$this->form    = $this->get('Form');
 		$this->item    = $this->get('Item');
 		$this->modules = $this->get('Modules');
 		$this->levels  = $this->get('ViewLevels');
-		$this->state   = $this->get('State');
 		$this->canDo   = JHelperContent::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
 		// Check if we're allowed to edit this item
@@ -69,6 +69,12 @@ class MenusViewItem extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 
 			return false;
+		}
+
+		// Todo: Care for modal layout first
+		if ($this->state->get('item.client_id') == 1)
+		{
+			$this->setLayout('adminmenu');
 		}
 
 		if ($this->getLayout() == 'modal')

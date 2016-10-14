@@ -4,8 +4,6 @@
 		<field
 			name="id"
 			type="hidden"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
 			class="readonly"
 			default="0"
 			filter="int"
@@ -19,16 +17,8 @@
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
-			required="true"/>
-
-		<field
-			name="alias"
-			type="alias"
-			label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40"/>
-
+			readonly="true"/>
+		
 		<field
 			name="note"
 			type="text"
@@ -53,7 +43,7 @@
 			label="COM_MENUS_ITEM_FIELD_CLIENT_ID_LABEL"
 			description="COM_MENUS_ITEM_FIELD_CLIENT_ID_DESC"
 			onchange="this.form.submit();"
-			filter="unset"
+		    filter="unset"
 		>
 			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>
@@ -65,7 +55,7 @@
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
 			required="true"
-			clientid="0"
+			clientid="1"
 			size="1"
 			>
 			<option value="">COM_MENUS_SELECT_MENU</option>
@@ -78,7 +68,8 @@
 			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
 			class="input-medium"
 			required="true"
-			size="40" />
+			size="40"
+		/>
 
 		<field
 			name="published"
@@ -131,31 +122,20 @@
 
 		<field
 			name="browserNav"
-			type="list"
-			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
-			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
-			default="Parent"
-			filter="int"
-			>
-				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
-				<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
-				<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
-			</field>
+			type="hidden"
+			filter="unset"/>
 
 		<field
 			name="access"
-			type="accesslevel"
-			id="access"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			filter="integer"/>
-
+			type="hidden"
+			filter="unset"/>
 
 		<field
 			name="template_style_id"
 			type="templatestyle"
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
+			client="administrator"
 			filter="int"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>
@@ -175,12 +155,8 @@
 
 		<field
 			name="language"
-			type="contentlanguage"
-			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
-			>
-			<option value="*">JALL</option>
-		</field>
+			type="hidden"
+			default="*"/>
 
 		<field
 			name="path"
@@ -211,30 +187,6 @@
 			name="rgt"
 			type="hidden"
 			filter="unset"/>
-
-		<field
-			name="toggle_modules_assigned"
-			type="radio"
-			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
-			description="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
-			filter="integer">
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
-
-		<field
-			name="toggle_modules_published"
-			type="radio"
-			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
-			description="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_DESC"
-			default="1"
-			class="btn-group btn-group-yesno"
-			filter="integer">
-			<option value="1">JSHOW</option>
-			<option value="0">JHIDE</option>
-		</field>
 	</fieldset>
 
 	<fields name="params">

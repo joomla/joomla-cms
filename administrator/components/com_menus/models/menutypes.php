@@ -146,7 +146,7 @@ class MenusModelMenutypes extends JModelLegacy
 	 * @param   string  $file       File path
 	 * @param   string  $component  Component option as in URL
 	 *
-	 * @return  array
+	 * @return  array|bool
 	 *
 	 * @since   1.6
 	 */
@@ -199,31 +199,29 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			return false;
 		}
-		else
+
+		// Process each child as an option.
+		foreach ($children as $child)
 		{
-			// Process each child as an option.
-			foreach ($children as $child)
+			if ($child->getName() == 'option')
 			{
-				if ($child->getName() == 'option')
-				{
-					// Create the menu option for the component.
-					$o = new JObject;
-					$o->title       = (string) $child['name'];
-					$o->description = (string) $child['msg'];
-					$o->request     = array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
+				// Create the menu option for the component.
+				$o = new JObject;
+				$o->title       = (string) $child['name'];
+				$o->description = (string) $child['msg'];
+				$o->request     = array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
 
-					$options[] = $o;
-				}
-				elseif ($child->getName() == 'default')
-				{
-					// Create the menu option for the component.
-					$o = new JObject;
-					$o->title       = (string) $child['name'];
-					$o->description = (string) $child['msg'];
-					$o->request     = array('option' => $component);
+				$options[] = $o;
+			}
+			elseif ($child->getName() == 'default')
+			{
+				// Create the menu option for the component.
+				$o = new JObject;
+				$o->title       = (string) $child['name'];
+				$o->description = (string) $child['msg'];
+				$o->request     = array('option' => $component);
 
-					$options[] = $o;
-				}
+				$options[] = $o;
 			}
 		}
 

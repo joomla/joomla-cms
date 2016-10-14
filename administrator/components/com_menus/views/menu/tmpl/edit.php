@@ -47,18 +47,18 @@ JFactory::getDocument()->addScriptDeclaration("
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<?php echo $this->form->getLabel('client_id'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('client_id'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="control-label">
 					<?php echo $this->form->getLabel('description'); ?>
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('description'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('client_id'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('client_id'); ?>
 				</div>
 			</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

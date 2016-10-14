@@ -542,8 +542,17 @@ class MenusModelItem extends JModelAdmin
 			$this->setState('item.type', ArrayHelper::getValue($data, 'type'));
 		}
 
+		$clientId = $this->getState('item.client_id');
+
 		// Get the form.
-		$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
+		if ($clientId == 1)
+		{
+			$form = $this->loadForm('com_menus.item.admin', 'itemadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+		}
+		else
+		{
+			$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
+		}
 
 		if (empty($form))
 		{
@@ -568,7 +577,7 @@ class MenusModelItem extends JModelAdmin
 			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
-		// Filter available menues
+		// Filter available menus
 		$action = $this->getState('item.id') > 0 ? 'edit' : 'create';
 
 		$form->setFieldAttribute('menutype', 'accesstype', $action);
@@ -659,7 +668,8 @@ class MenusModelItem extends JModelAdmin
 		if (empty($table->id))
 		{
 			$table->parent_id = $this->getState('item.parent_id');
-			$table->menutype = $this->getState('item.menutype');
+			$table->menutype  = $this->getState('item.menutype');
+			$table->client_id = $this->getState('item.client_id');
 			$table->params = '{}';
 		}
 
@@ -922,25 +932,40 @@ class MenusModelItem extends JModelAdmin
 
 		$this->setState('item.parent_id', $parentId);
 
-		$menuType = $app->getUserState('com_menus.edit.item.menutype');
+		$menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
 
-		if ($forcedMenuType = $app->input->get('menutype', '', 'string'))
-		{
-			$menuType = $forcedMenuType;
-
-			// Set the menu type on the list view state, so we return to this menu after saving.
-			$app->setUserState('com_menus.items.menutype', $forcedMenuType);
-		}
-
-		$this->setState('item.menutype', $menuType);
-
-		$menuTypeId = 0;
-
+		// If we have a menutype we take client_id from there, unless forced otherwise
 		if ($menuType)
 		{
-			$menuTypeId = $this->getMenuTypeId($menuType);
+			$menuTypeObj = $this->getMenuType($menuType);
+
+			// An invalid menutype will be handled as clientId = 0 and menuType = ''
+			$menuType   = (string) $menuTypeObj->menutype;
+			$menuTypeId = (int) $menuTypeObj->client_id;
+			$clientId   = (int) $menuTypeObj->client_id;
+		}
+		else
+		{
+			$menuTypeId = 0;
+			$clientId   = $app->getUserState('com_menus.items.client_id', 0);
 		}
 
+		// Forced client id will override/clear menuType if conflicted
+		$forcedClientId = $app->input->get('client_id', '', 'string');
+
+		if ($forcedClientId && $forcedClientId != $clientId)
+		{
+			$clientId   = $forcedClientId;
+			$menuType   = '';
+			$menuTypeId = 0;
+		}
+
+		// Set the menu type and client id on the list view state, so we return to this menu after saving.
+		$app->setUserState('com_menus.items.menutype', $menuType);
+		$app->setUserState('com_menus.items.client_id', $clientId);
+
+		$this->setState('item.menutype', $menuType);
+		$this->setState('item.client_id', $clientId);
 		$this->setState('item.menutypeid', $menuTypeId);
 
 		if (!($type = $app->getUserState('com_menus.edit.item.type')))
@@ -966,21 +991,37 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	 * Loads the menutype ID by a given menutype string
+	 * Loads the menutype object by a given menutype string
 	 *
 	 * @param   string  $menutype  The given menutype
 	 *
-	 * @return integer
+	 * @return  stdClass
 	 *
-	 * @since  3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getMenuTypeId($menutype)
+	protected function getMenuType($menutype)
 	{
 		$table = $this->getTable('MenuType', 'JTable');
 
 		$table->load(array('menutype' => $menutype));
 
-		return (int) $table->id;
+		return (object) $table->getProperties();
+	}
+
+	/**
+	 * Loads the menutype ID by a given menutype string
+	 *
+	 * @param   string  $menutype  The given menutype
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.6
+	 */
+	protected function getMenuTypeId($menutype)
+	{
+		$menu = $this->getMenuType($menutype);
+
+		return (int) $menu->id;
 	}
 
 	/**
