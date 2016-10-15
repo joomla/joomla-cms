@@ -7169,11 +7169,8 @@ a:focus {
 }
 .view-login .container {
 	width: 300px;
-	position: absolute;
 	top: 50%;
 	left: 50%;
-	margin-top: -206px;
-	margin-left: -150px;
 }
 .view-login .navbar-fixed-bottom {
 	padding-left: 20px;
@@ -7580,9 +7577,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 	border-top: 2px solid #DDDDDD;
 }
 .container-main,
-#system-debug {
-	padding-bottom: 50px;
-}
 #status {
 	background: #ebebeb;
 	border-top: 1px solid #d4d4d4;
