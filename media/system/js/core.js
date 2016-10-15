@@ -852,7 +852,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		document.addEventListener("keydown", function(e) {
 			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
 				e.preventDefault();
-				Joomla.submitbutton.call(button)
+				Joomla.submitbutton(button)
 			}
 		}, false);
 
