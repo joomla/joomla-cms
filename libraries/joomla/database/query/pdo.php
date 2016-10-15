@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JDatabaseQueryPdo extends JDatabaseQuery
 {
- 	/**
+	/**
 	 * Casts a value to a char.
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
