@@ -538,11 +538,27 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			$db->execute();
 		}
 
+		// Optimize the filters table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->execute();
+
+		// Optimize the terms common table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->execute();
+
+		// Optimize the types table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_types'));
+		$db->execute();
+
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->execute();
+
+		// Optimize the taxonomy table.
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
 		return true;
