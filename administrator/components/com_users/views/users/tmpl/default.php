@@ -58,7 +58,7 @@ $tfa = JPluginHelper::isEnabled('twofactorauth');
 						</th>
 						<?php if ($tfa) : ?>
 							<th width="5%" class="nowrap center hidden-phone">
-								<abbr title="<?php echo JText::_('COM_USERS_HEADING_TFA_ABBR'); ?>"><?php echo JText::_('COM_USERS_HEADING_TFA'); ?></abbr>
+								<?php echo JText::_('COM_USERS_HEADING_TFA'); ?>
 							</th>
 						<?php endif; ?>
 						<th width="10%" class="nowrap">
