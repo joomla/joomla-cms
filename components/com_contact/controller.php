@@ -29,7 +29,7 @@ class ContactController extends JControllerLegacy
 	{
 		$this->input = JFactory::getApplication()->input;
 
-		// Article frontpage Editor contact proxying:
+		// Contact frontpage Editor contacts proxying:
 		if ($this->input->get('view') === 'contacts' && $this->input->get('layout') === 'modal')
 		{
 			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
