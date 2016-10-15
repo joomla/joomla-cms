@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders an apply/save button
  *
- * @since  3.0
+ * @since  __DEPLOY_VERSION__
  */
 class JToolbarButtonApply extends JToolbarButton
 {
@@ -34,7 +34,7 @@ class JToolbarButtonApply extends JToolbarButton
 	 *
 	 * @return  string  HTML string for the button
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fetchButton($type = 'Apply', $name = '', $text = '', $task = '', $list = true)
 	{
@@ -72,7 +72,7 @@ class JToolbarButtonApply extends JToolbarButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function fetchId($type = 'Apply', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -88,7 +88,7 @@ class JToolbarButtonApply extends JToolbarButton
 	 *
 	 * @return  string   JavaScript command string
 	 *
-	 * @since   3.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
