@@ -733,6 +733,10 @@ class JMail extends PHPMailer
 			return false;
 		}
 
+		// Add sender to replyTo only if no replyTo received
+		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$this->setSender(array($from, $fromName, $autoReplyTo));
+
 		return $this->Send();
 	}
 
