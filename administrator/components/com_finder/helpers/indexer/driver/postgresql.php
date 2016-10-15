@@ -416,7 +416,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
 				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
 				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
-				' GROUP BY ' . $db->quoteName('term') . ' ,' . $db->quoteName('term_id') .
+				' GROUP BY ' . $db->quoteName('term') . ', ' . $db->quoteName('term_id') .
 				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
@@ -545,11 +545,27 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			$db->execute();
 		}
 
+		// Optimize the filters table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->execute();
+
+		// Optimize the terms common table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->execute();
+		
+		// Optimize the types table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_types'));
+		$db->execute();
+
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
 		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->execute();
+
+		// Optimize the taxonomy table.
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
 
 		return true;
