@@ -406,25 +406,6 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Casts a value to a char.
-	 *
-	 * Ensure that the value is properly quoted before passing to the method.
-	 *
-	 * Usage:
-	 * $query->select($query->castAsChar('a'));
-	 *
-	 * @param   string  $value  The value to cast as a char.
-	 *
-	 * @return  string  Returns the cast value.
-	 *
-	 * @since   11.1
-	 */
-	public function castAsChar($value)
-	{
-		return $value;
-	}
-
-	/**
 	 * Gets the number of characters in a string.
 	 *
 	 * Note, use 'length' to find the number of bytes in a string.
