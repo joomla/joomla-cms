@@ -40,7 +40,7 @@
 			placeholder:ops.placeHolderClassName,
 			helper:function (e, ui) {
 				//hard set left position to fix y-axis drag problem on Safari
-				$(ui).css({'left':'0px'})
+				$(ui).css({'left':'0px'});
 
 				ui.children().each(function () {
 					$(this).width($(this).width());
@@ -110,15 +110,15 @@
 		});
 		
 		this.hideChildrenNodes = function (itemId) {
-			root.childrenNodes = root.getChildrenNodes(itemId);				
+			root.childrenNodes = root.getChildrenNodes(itemId);
 			root.childrenNodes.hide();
-		}
+		};
 
 		this.showChildrenNodes = function (item) {
-			item.after(root.childrenNodes)
+			item.after(root.childrenNodes);
 			root.childrenNodes.show();
 			root.childrenNodes="";
-		}
+		};
 
 		this.hideSameLevelChildrenNodes = function (level) {
 			root.sameLevelNodes = root.getSameLevelNodes(level);
@@ -127,7 +127,7 @@
 				_childrenNodes.addClass('child-nodes-tmp-hide');
 				_childrenNodes.hide();
 			});
-		}
+		};
 
 		this.showSameLevelChildrenNodes = function (item) {
 			prevItem = item.prev();
@@ -135,7 +135,7 @@
 			prevItem.after(prevItemChildrenNodes);
 			$('tr.child-nodes-tmp-hide').show().removeClass('child-nodes-tmp-hide');
 			root.sameLevelNodes = "";
-		}
+		};
 
 
 		this.disableOtherGroupSort = function (e, ui) {
@@ -145,22 +145,22 @@
 
 				$(tableWrapper).sortable('refresh');
 			}
-		}
+		};
 
 		this.enableOtherGroupSort = function (e, ui) {
 			var _tr = $('tr', $(tableWrapper)).removeClass(ops.sortableClassName);
 			_tr.addClass(ops.sortableClassName)
 				.removeClass('dndlist-group-disabled');
 			$(tableWrapper).sortable('refresh');
-		}
+		};
 
 		this.disableOrderingControl = function () {
 			$('.' + ops.orderingWrapper + ' .add-on a', root.sortableRange).hide();
-		}
+		};
 
 		this.enableOrderingControl = function () {
 			$('.' + ops.orderingWrapper + ' .add-on a', root.disabledOrderingElements).show();
-		}
+		};
 
 		this.rearrangeOrderingControl = function (sortableGroupId, ui) {
 			var range;
@@ -199,7 +199,7 @@
 				//remove order down icon for last record
 				$('.' + ops.orderingWrapper + ' .add-on:last a', range[(count - 1)]).remove();
 			}
-		}
+		};
 
 		this.rearrangeOrderingValues = function (sortableGroupId, ui) {
 			var range;
@@ -253,7 +253,7 @@
 					});
 				}
 			}
-		}
+		};
 
 		this.cloneMarkedCheckboxes = function () {
 			$('[name="order[]"]', $(tableWrapper)).attr('name', 'order-tmp');
@@ -264,16 +264,16 @@
 
 				$('[name="order-tmp"]', $(this).parents('tr')).attr('name', 'order[]');
 			});
-		}
+		};
 
 		this.removeClonedCheckboxes = function () {
 			$('[shadow=shadow]').remove();
 			$('[name="order-tmp"]', $(tableWrapper)).attr('name', 'order[]');
-		}
+		};
 
 		this.getChildrenNodes = function (parentId) {
 			return $('tr[parents~="'+parentId+'"]');
-		}
+		};
 
 		this.getSameLevelNodes = function (level) {
 			return $('tr[level='+level+']');
@@ -281,3 +281,28 @@
 
 	}
 })(jQuery);
+
+jQuery(document).ready(function ($){
+	if (Joomla.getOptions('sortable-list')) {
+
+		var options = Joomla.getOptions('sortable-list'),
+			sortableList = new $.JSortableList(options.id, options.formId, options.direction, options.url, options.options, options.nestedList);
+
+		if (options.button === 'true') {
+			var saveOrderButton = $('.saveorder');
+			saveOrderButton.css({'opacity':'0.2', 'cursor':'default'}).attr('onclick','return false;');
+			var oldOrderingValue = '';
+			$('.text-area-order').focus(function ()
+			{
+				oldOrderingValue = $(this).attr('value');
+			})
+				.keyup(function (){
+					var newOrderingValue = $(this).attr('value');
+					if (oldOrderingValue != newOrderingValue)
+					{
+						saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
+					}
+				});
+		}
+	}
+});

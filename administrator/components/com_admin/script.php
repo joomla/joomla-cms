@@ -1560,6 +1560,11 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/mode/jade',
 			// Joomla __DEPLOY_VERSION__
 			'/libraries/joomla/data',
+			'layouts/joomla/html/tag',
+			'layouts/joomla/html/sortablelist',
+			'layouts/joomla/html/formbehavior/ajaxchosen',
+			'layouts/joomla/html/formbehavior/chosen.php'
+
 		);
 
 		jimport('joomla.filesystem.file');

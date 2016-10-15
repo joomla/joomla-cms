@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Utility class for tags
@@ -167,14 +168,19 @@ abstract class JHtmlTag
 		$params = JComponentHelper::getParams("com_tags");
 		$minTermLength = (int) $params->get("min_term_length", 3);
 
-		$displayData = array(
-			'minTermLength' => $minTermLength,
-			'selector'      => $selector,
-			'allowCustom'   => JFactory::getUser()->authorise('core.create', 'com_tags') ? $allowCustom : false,
+		// Tags field ajax
+		$chosenAjaxSettings = new Registry(
+			array(
+				'selector'      => $selector,
+				'type'          => 'GET',
+				'url'           => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'dataType'      => 'json',
+				'jsonTermKey'   => 'like',
+				'minTermLength' => $minTermLength,
+				'allowCustom'   => $allowCustom
+			)
 		);
 
-		JLayoutHelper::render('joomla.html.tag', $displayData);
-
-		return;
+		JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
 	}
 }
