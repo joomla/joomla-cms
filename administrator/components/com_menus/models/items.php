@@ -375,8 +375,12 @@ class MenusModelItems extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+
+			if (!empty($groups))
+			{
+				$query->where('a.access IN (' . implode(',', $groups) . ')');
+			}
 		}
 
 		// Filter on the level.
