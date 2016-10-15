@@ -335,7 +335,7 @@ class FinderIndexerTaxonomy
 
 		$subquery1->select($db->quoteName('t.id'))
 			->from($db->quoteName('#__finder_taxonomy', 't'))
-			->join('LEFT',$db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
+			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
 			->where($db->quoteName('t.parent_id') . ' > 1 ')
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
