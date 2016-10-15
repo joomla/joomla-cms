@@ -15,10 +15,8 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
+$tfa        = JPluginHelper::isEnabled('twofactorauth');
 $loggeduser = JFactory::getUser();
-
-$tfa = JPluginHelper::isEnabled('twofactorauth');
-
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty( $this->sidebar)) : ?>
