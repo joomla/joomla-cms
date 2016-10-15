@@ -50,6 +50,10 @@ class ContentRouter extends JComponentRouterBase
 			$menuItem = $this->menu->getItem($query['Itemid']);
 			$menuItemGiven = true;
 		}
+		
+		if (isset($query['layout'])) {
+			unset($query['layout']);
+		}
 
 		// Check again
 		if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_content')
