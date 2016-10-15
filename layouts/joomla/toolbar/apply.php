@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+JHtml::_('behavior.core');
 
 if (preg_match('/Joomla.submitbutton/', $displayData['doTask']))
 {
@@ -16,14 +17,8 @@ if (preg_match('/Joomla.submitbutton/', $displayData['doTask']))
 	$ctrls = str_replace("')", '', $ctrls);
 	$ctrls = str_replace(";", '', $ctrls);
 
-	JHtml::_('behavior.core');
-	JHtml::_('jquery.framework');
 	$options = array('task' => $ctrls);
 	JFactory::getDocument()->addScriptOptions('keySave', $options);
-}
-else
-{
-	JHtml::_('behavior.core');
 }
 
 $doTask   = $displayData['doTask'];
