@@ -952,9 +952,9 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Forced client id will override/clear menuType if conflicted
-		$forcedClientId = $app->input->get('client_id', '', 'string');
+		$forcedClientId = $app->input->get('client_id', null, 'string');
 
-		if ($forcedClientId && $forcedClientId != $clientId)
+		if (isset($forcedClientId) && $forcedClientId != $clientId)
 		{
 			$clientId   = $forcedClientId;
 			$menuType   = '';
@@ -1181,6 +1181,11 @@ class MenusModelItem extends JModelAdmin
 		if (!$form->loadFile('item_' . $type, false, false))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+		}
+
+		if ($type == 'alias')
+		{
+			$form->setFieldAttribute('aliasoptions', 'clientid', $this->getState('item.client_id'), 'params');
 		}
 
 		// Association menu items

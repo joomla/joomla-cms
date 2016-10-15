@@ -113,11 +113,6 @@ class MenusControllerItem extends JControllerForm
 		{
 			$app->setUserState($context . '.type', null);
 			$app->setUserState($context . '.link', null);
-
-			$clientId = $app->getUserStateFromRequest($this->context . '.client_id', 'client_id', '0', 'int');
-			$menuType = $app->getUserStateFromRequest($this->context . '.filter.menutype', 'menutype', 'mainmenu', 'cmd');
-
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&menutype=' . $menuType . $this->getRedirectToItemAppend(), false));
 		}
 
 		return $result;
@@ -203,6 +198,38 @@ class MenusControllerItem extends JControllerForm
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   12.2
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
+
+		if ($recordId)
+		{
+			$model    = $this->getModel();
+			$item     = $model->getItem($recordId);
+			$clientId = $item->client_id;
+			$append   = '&client_id=' . $clientId . $append;
+		}
+		else
+		{
+			$app      = JFactory::getApplication();
+			$clientId = $app->input->get('client_id', '0', 'int');
+			$menuType = $app->input->get('menutype', 'mainmenu', 'cmd');
+			$append   = '&client_id=' . $clientId . ($menuType ? '&menutype=' . $menuType : '') . $append;
+		}
+
+		return $append;
 	}
 
 	/**

@@ -37,6 +37,11 @@ class MenusViewItem extends JViewLegacy
 	protected $state;
 
 	/**
+	 * @var  JObject
+	 */
+	protected $canDo;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -68,13 +73,7 @@ class MenusViewItem extends JViewLegacy
 		{
 			JError::raiseError(500, implode("\n", $errors));
 
-			return false;
-		}
-
-		// Todo: Care for modal layout first
-		if ($this->state->get('item.client_id') == 1)
-		{
-			$this->setLayout('adminmenu');
+			return;
 		}
 
 		if ($this->getLayout() == 'modal')

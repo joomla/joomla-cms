@@ -48,18 +48,6 @@
 			size="50"/>
 
 		<field
-			name="client_id"
-			type="hidden"
-			label="COM_MENUS_ITEM_FIELD_CLIENT_ID_LABEL"
-			description="COM_MENUS_ITEM_FIELD_CLIENT_ID_DESC"
-			onchange="this.form.submit();"
-			filter="unset"
-		>
-			<option value="0">JSITE</option>
-			<option value="1">JADMINISTRATOR</option>
-		</field>
-
-		<field
 			name="menutype"
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"

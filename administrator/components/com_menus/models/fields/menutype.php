@@ -45,9 +45,6 @@ class JFormFieldMenutype extends JFormFieldList
 		$clientId = (int) $this->element['clientid'] ?: 0;
 
 		// Get a reverse lookup of the base link URL to Title
-		$model = JModelLegacy::getInstance('menutypes', 'menusModel');
-		$rlu   = $model->getReverseLookup();
-
 		switch ($this->value)
 		{
 			case 'url':
@@ -68,6 +65,12 @@ class JFormFieldMenutype extends JFormFieldList
 
 			default:
 				$link = $this->form->getValue('link');
+
+				/** @var  MenusModelMenutypes $model */
+				$model = JModelLegacy::getInstance('Menutypes', 'MenusModel', array('ignore_request' => true));
+				$model->setState('client_id', $clientId);
+
+				$rlu   = $model->getReverseLookup();
 
 				// Clean the link back to the option, view and layout
 				$value = JText::_(ArrayHelper::getValue($rlu, MenusHelper::getLinkKey($link)));

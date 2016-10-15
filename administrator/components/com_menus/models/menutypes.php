@@ -79,7 +79,7 @@ class MenusModelMenutypes extends JModelLegacy
 		$list = array();
 
 		// Get the list of components.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('name, element AS ' . $db->quoteName('option'))
 			->from('#__extensions')
@@ -91,7 +91,9 @@ class MenusModelMenutypes extends JModelLegacy
 
 		foreach ($components as $component)
 		{
-			if ($options = $this->getTypeOptionsByComponent($component->option))
+			$options = $this->getTypeOptionsByComponent($component->option);
+
+			if ($options)
 			{
 				$list[$component->name] = $options;
 

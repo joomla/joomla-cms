@@ -25,7 +25,7 @@ $ordering   = ($listOrder == 'a.lft');
 $canOrder   = $user->authorise('core.edit.state',	'com_menus');
 $saveOrder  = ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $menuTypeId = (int) $this->state->get('menutypeid');
-$menuType   = (string) $app->getUserState('com_menus.items.menutype', '', 'string');
+$menuType   = (string) $app->getUserState('com_menus.items.menutype', '');
 
 if ($saveOrder && $menuType)
 {

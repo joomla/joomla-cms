@@ -4,6 +4,8 @@
 		<field
 			name="id"
 			type="hidden"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
 			class="readonly"
 			default="0"
 			filter="int"
@@ -18,6 +20,14 @@
 			class="input-xxlarge input-large-text"
 			size="40"
 			readonly="true"/>
+		
+		<field
+			name="alias"
+			type="alias"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="40"/>
 		
 		<field
 			name="note"
@@ -36,18 +46,6 @@
 			readonly="true"
 			class="input-xxlarge"
 			size="50"/>
-
-		<field
-			name="client_id"
-			type="hidden"
-			label="COM_MENUS_ITEM_FIELD_CLIENT_ID_LABEL"
-			description="COM_MENUS_ITEM_FIELD_CLIENT_ID_DESC"
-			onchange="this.form.submit();"
-		    filter="unset"
-		>
-			<option value="0">JSITE</option>
-			<option value="1">JADMINISTRATOR</option>
-		</field>
 
 		<field
 			name="menutype"

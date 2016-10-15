@@ -87,12 +87,12 @@ $input = JFactory::getApplication()->input;
 // Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
-$layout  = $isModal ? 'modal' : 'edit';
-$tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$isModal  = $input->get('layout') == 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$clientId = $this->state->get('item.client_id', 0);
 ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
