@@ -44,11 +44,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		</div>
 	<?php endif; ?>
 
-	<?php if ($this->params->get('show_headings')) : ?>
-		<?php echo $this->loadTemplate('itemsh'); ?>
-	<?php else: ?>
-		<?php echo $this->loadTemplate('items'); ?>
-	<?php endif; ?>
+	<?php echo $this->loadTemplate('items'); ?>
 
 	<?php if (!empty($this->children[$this->category->id]) && $this->maxLevel != 0) : ?>
 		<div class="cat-children">
