@@ -63,7 +63,9 @@ class JHelperTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
+		unset($this->object);
 		$this->restoreFactoryState();
+		parent::tearDown();
 	}
 
 	/**

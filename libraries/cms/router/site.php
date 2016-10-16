@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Class to create and parse routes for the site application
  *
@@ -115,6 +117,19 @@ class JRouterSite extends JRouter
 		// Set the route
 		$uri->setPath(trim($path, '/'));
 
+		// Set the parsepreprocess components methods
+		$components = JComponentHelper::getComponents();
+
+		foreach ($components as $component)
+		{
+			$componentRouter = $this->getComponentRouter($component->option);
+
+			if (method_exists($componentRouter, 'parsepreprocess'))
+			{
+				$this->attachParseRule(array($componentRouter, 'parsepreprocess'), static::PROCESS_BEFORE);
+			}
+		}
+
 		$vars += parent::parse($uri);
 
 		return $vars;
@@ -212,7 +227,7 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', $this->app->input->getInt('Itemid', null));
 
 		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
-		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2 ))
+		if (count($this->getVars()) == 1 || ($this->app->getLanguageFilter() && count($this->getVars()) == 2))
 		{
 			$item = $this->menu->getItem($this->getVar('Itemid'));
 
@@ -298,13 +313,13 @@ class JRouterSite extends JRouter
 			$items = $this->menu->getMenu();
 
 			$found           = false;
-			$route_lowercase = JString::strtolower($route);
+			$route_lowercase = StringHelper::strtolower($route);
 			$lang_tag        = $this->app->getLanguage()->getTag();
 
 			// Iterate through all items and check route matches.
 			foreach ($items as $item)
 			{
-				if ($item->route && JString::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
 				{
 					// Usual method for non-multilingual site.
 					if (!$this->app->getLanguageFilter())

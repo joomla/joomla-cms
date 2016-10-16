@@ -111,15 +111,21 @@ class CacheController extends JControllerLegacy
 
 		$app        = JFactory::getApplication();
 		$model      = $this->getModel('cache');
-		$data       = $model->getCache()->getAll();
 		$allCleared = true;
+		$clients    = array(1, 0);
 
-		foreach ($data as $cache)
+		foreach ($clients as $client)
 		{
-			if ((int) $model->clean($cache->group) !== 1)
+			$mCache    = $model->getCache($client);
+			$clientStr = JText::_($client ? 'JADMINISTRATOR' : 'JSITE') .' > ';
+
+			foreach ($mCache->getAll() as $cache)
 			{
-				$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $cache->group), 'error');
-				$allCleared = false;
+				if ((int) $mCache->clean($cache->group) !== 1)
+				{
+					$app->enqueueMessage(JText::sprintf('COM_CACHE_EXPIRED_ITEMS_DELETE_ERROR', $clientStr . $cache->group), 'error');
+					$allCleared = false;
+				}
 			}
 		}
 

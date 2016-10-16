@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.filesystem.path');
 
 /**
@@ -32,7 +34,6 @@ class JFormHelper
 	 *
 	 * @var    array
 	 * @since  11.1
-	 *
 	 */
 	protected static $paths;
 
@@ -170,7 +171,7 @@ class JFormHelper
 			list($prefix, $type) = explode('.', $type);
 		}
 
-		$class = JString::ucfirst($prefix, '_') . 'Form' . JString::ucfirst($entity, '_') . JString::ucfirst($type, '_');
+		$class = StringHelper::ucfirst($prefix, '_') . 'Form' . StringHelper::ucfirst($entity, '_') . StringHelper::ucfirst($type, '_');
 
 		if (class_exists($class))
 		{

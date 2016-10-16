@@ -302,7 +302,7 @@ class JForm
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof SimpleXMLElement) && ((string) $element[$attribute]))
+		if (($element instanceof SimpleXMLElement) && strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -1141,7 +1141,7 @@ class JForm
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
 	 *                          fields to be validated.
 	 *
-	 * @return  boolean  True on sucess.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -1279,6 +1279,23 @@ class JForm
 			case 'SERVER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the server timezone setting.
 					$offset = JFactory::getConfig()->get('offset');
 
@@ -1295,6 +1312,23 @@ class JForm
 			case 'USER_UTC':
 				if ((int) $value > 0)
 				{
+					// Check if we have a localised date format
+					$translateFormat = (string) $element['translateformat'];
+
+					if ($translateFormat && $translateFormat != 'false')
+					{
+						$showTime = (string) $element['showtime'];
+						$showTime = ($showTime && $showTime != 'false');
+						$format   = ($showTime) ? JText::_('DATE_FORMAT_FILTER_DATETIME') : JText::_('DATE_FORMAT_FILTER_DATE');
+						$date     = date_parse_from_format($format, $value);
+						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
+
+						if ($showTime)
+						{
+							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
+						}
+					}
+
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset = JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset'));
 
@@ -1505,10 +1539,10 @@ class JForm
 			$elements = &$this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
-			foreach ($elements as $element)
+			foreach ($elements as $el)
 			{
 				// If there are matching field elements add them to the fields array.
-				if ($tmp = $element->xpath('descendant::field[@name="' . $name . '"]'))
+				if ($tmp = $el->xpath('descendant::field[@name="' . $name . '"]'))
 				{
 					$fields = array_merge($fields, $tmp);
 				}

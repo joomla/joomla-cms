@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  table
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class FOFTableNested extends FOFTable
 	 *
 	 * @param   string          $table  Name of the database table to model.
 	 * @param   string          $key    Name of the primary key field in the table.
-	 * @param   JDatabaseDriver &$db    Database driver
+	 * @param   FOFDatabaseDriver &$db    Database driver
 	 * @param   array           $config The configuration parameters array
 	 *
 	 * @throws \RuntimeException When lft/rgt columns are not found
@@ -2157,7 +2157,7 @@ class FOFTableNested extends FOFTable
 	/**
 	 * Builds the query for the get() method
 	 *
-	 * @return JDatabaseQuery
+	 * @return FOFDatabaseQuery
 	 */
 	protected function buildQuery()
 	{

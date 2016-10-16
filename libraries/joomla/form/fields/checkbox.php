@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
- * Single check box field.
+ * Single checkbox field.
  * This is a boolean field with null for false and the specified option for true
  *
  * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
@@ -96,6 +96,16 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
+		// Handle the default attribute
+		$default = (string) $element['default'];
+
+		if ($default)
+		{
+			$test = $this->form->getValue((string) $element['name'], $group);
+
+			$value = ($test == $default) ? $default : null;
+		}
+
 		$return = parent::setup($element, $value, $group);
 
 		if ($return)

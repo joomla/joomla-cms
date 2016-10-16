@@ -115,7 +115,8 @@ class JControllerForm extends JControllerLegacy
 				array('/([^aeiouy]|qu)ies$/i', "$1y"),
 				array('/(bu)s$/i', "$1ses"),
 				array('/s$/i', "s"),
-				array('/$/', "s"));
+				array('/$/', "s"),
+			);
 
 			// Check for matches using regular expressions
 			foreach ($plural as $pattern)
@@ -191,7 +192,7 @@ class JControllerForm extends JControllerLegacy
 	{
 		$user = JFactory::getUser();
 
-		return ($user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create')));
+		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
 
 	/**
@@ -461,19 +462,22 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit', 'string');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
 		}
 
-		if ($layout)
+		if ($layout = $this->input->get('layout', 'edit', 'string'))
 		{
 			$append .= '&layout=' . $layout;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		if ($recordId)
@@ -493,13 +497,17 @@ class JControllerForm extends JControllerLegacy
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = $this->input->get('tmpl');
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl)
+		if ($tmpl = $this->input->get('tmpl', '', 'string'))
 		{
 			$append .= '&tmpl=' . $tmpl;
+		}
+
+		if ($forcedLanguage = $this->input->get('forcedLanguage', '', 'cmd'))
+		{
+			$append .= '&forcedLanguage=' . $forcedLanguage;
 		}
 
 		return $append;

@@ -80,6 +80,7 @@
 				type="radio"
 				class="btn-group btn-group-yesno"
 				default="1"
+				description="COM_WRAPPER_FIELD_FRAME_DESC"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
 			>
 				<option value="1">JYES</option>

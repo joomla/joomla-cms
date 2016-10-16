@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/components/com_banners/helpers/banner.php';
+JLoader::register('BannerHelper', JPATH_ROOT . '/components/com_banners/helpers/banner.php');
 $baseurl = JUri::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx ?>">

@@ -42,7 +42,7 @@ jQuery(function() {";
 
 		$script .= "
 	var suggest = jQuery('#q').autocomplete({
-		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component', false) . "',
+		serviceUrl: '" . JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component') . "',
 		paramName: 'q',
 		minChars: 1,
 		maxHeight: 400,

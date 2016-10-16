@@ -25,9 +25,20 @@ abstract class JHtmlSelect
 	 * @since   1.5
 	 */
 	protected static $optionDefaults = array(
-		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
-			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
+		'option' => array(
+			'option.attr' => null,
+			'option.disable' => 'disable',
+			'option.id' => null,
+			'option.key' => 'value',
+			'option.key.toHtml' => true,
+			'option.label' => null,
+			'option.label.toHtml' => true,
+			'option.text' => 'text',
+			'option.text.toHtml' => true,
+			'option.class' => 'class',
+			'option.onclick' => 'onclick',
+		),
+	);
 
 	/**
 	 * Generates a yes/no radio list.
@@ -449,8 +460,15 @@ abstract class JHtmlSelect
 	 */
 	public static function option($value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 	{
-		$options = array('attr' => null, 'disable' => false, 'option.attr' => null, 'option.disable' => 'disable', 'option.key' => 'value',
-			'option.label' => null, 'option.text' => 'text');
+		$options = array(
+			'attr' => null,
+			'disable' => false,
+			'option.attr' => null,
+			'option.disable' => 'disable',
+			'option.key' => 'value',
+			'option.label' => null,
+			'option.text' => 'text',
+		);
 
 		if (is_array($optKey))
 		{

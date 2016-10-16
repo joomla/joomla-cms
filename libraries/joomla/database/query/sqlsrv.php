@@ -376,7 +376,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 		is_string($columns) && $columns = explode(',', str_replace(" ", "", $columns));
 
 		// Get the _formatted_ FROM string and remove everything except `table AS alias`
-		$fromStr = str_replace(array("[","]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
+		$fromStr = str_replace(array("[", "]"), "", str_replace("#__", $this->db->getPrefix(), str_replace("FROM ", "", (string) $this->from)));
 
 		// Start setting up an array of alias => table
 		list($table, $alias) = preg_split("/\sAS\s/i", $fromStr);
