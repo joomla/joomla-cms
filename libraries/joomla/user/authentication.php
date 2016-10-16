@@ -24,10 +24,9 @@ class JAuthentication extends JObject
 	 */
 	const STATUS_SUCCESS = 1;
 
-	// These are for authentication purposes (username and password is valid)
 	/**
-	 * Status to indicate cancellation of authentication (unused)
-	 * @const  STATUS_CANCEL cancelled request (unused)
+	 * Status to indicate cancellation of authentication
+	 * @const  STATUS_CANCEL cancelled request
 	 * @since  11.2
 	 */
 	const STATUS_CANCEL = 2;
@@ -282,6 +281,12 @@ class JAuthentication extends JObject
 
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
+
+			// If authentication is canceled break out of the loop
+			if ($response->status === self::STATUS_CANCEL)
+			{
+				break;
+			}
 
 			// If authentication is successful break out of the loop
 			if ($response->status === self::STATUS_SUCCESS)
