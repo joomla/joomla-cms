@@ -14,9 +14,6 @@ $doc             = JFactory::getDocument();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Output as HTML5
-$doc->setHtml5(true);
-
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
