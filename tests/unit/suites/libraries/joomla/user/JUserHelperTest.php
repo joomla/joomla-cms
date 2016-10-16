@@ -438,7 +438,7 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
 
 		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 13,
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 60,
 			'Password is hashed to crypt-blowfish without salt'
 		);
 
