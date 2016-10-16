@@ -22,12 +22,6 @@ $this->direction = $doc->direction;
 $input           = $app->input;
 $user            = JFactory::getUser();
 
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
-
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
