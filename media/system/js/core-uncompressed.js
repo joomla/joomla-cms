@@ -330,7 +330,8 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	Joomla.ajaxErrorsMessages = function( xhr, textStatus, error ) {
 		var msg = {};
 
-		if (textStatus == 'parsererror')
+		// For jQuery jqXHR
+		if (textStatus === 'parsererror')
 		{
 			// Html entity encode.
 			var encodedJson = xhr.responseText.trim();
@@ -344,25 +345,26 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson) ];
 		}
-		else if (textStatus == 'nocontent')
+		else if (textStatus === 'nocontent')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT') ];
 		}
-		else if (textStatus == 'timeout')
+		else if (textStatus === 'timeout')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT') ];
 		}
-		else if (textStatus == 'abort')
+		else if (textStatus === 'abort')
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 		}
-		else if (textStatus == 'error' && xhr.statusText)
-		{
-			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.statusText + '</em>' ];
-		}
-		else if (textStatus == 'error' && xhr.responseJSON)
+		// For vannila XHR
+		else if (xhr.responseJSON && xhr.responseJSON.message)
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.responseJSON.message + '</em>' ];
+		}
+		else if (xhr.statusText)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.statusText + '</em>' ];
 		}
 		else
 		{
