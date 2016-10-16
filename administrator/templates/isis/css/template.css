@@ -8615,3 +8615,8 @@ body.modal-open {
 .subhead {
   text-shadow: none;
 }
+/* Session Field Invalid Integer */
+#jform_lifetime:invalid {
+  border-color: #b94a48 !important;
+  color: #b94a48;
+}
