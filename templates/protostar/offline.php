@@ -15,9 +15,6 @@ $doc              = JFactory::getDocument();
 $this->language   = $doc->language;
 $this->direction  = $doc->direction;
 
-// Output as HTML5
-$doc->setHtml5(true);
-
 $fullWidth = 1;
 
 // Add JavaScript Frameworks

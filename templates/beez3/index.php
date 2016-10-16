@@ -33,9 +33,6 @@ $config         = JFactory::getConfig();
 $bootstrap      = explode(',', $this->params->get('bootstrap'));
 $option         = JFactory::getApplication()->input->getCmd('option', '');
 
-// Output as HTML5
-$this->setHtml5(true);
-
 if (in_array($option, $bootstrap))
 {
 	// Load optional rtl Bootstrap css and Bootstrap bugfixes

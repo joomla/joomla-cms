@@ -15,12 +15,6 @@ $user            = JFactory::getUser();
 $this->language  = $doc->language;
 $this->direction = $doc->direction;
 
-// Output document as HTML5.
-if (is_callable(array($doc, 'setHtml5')))
-{
-	$doc->setHtml5(true);
-}
-
 // Getting params from template
 $params = $app->getTemplate(true)->params;
 

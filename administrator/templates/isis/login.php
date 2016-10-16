@@ -13,9 +13,6 @@ $app  = JFactory::getApplication();
 $doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
-// Output as HTML5
-$doc->setHtml5(true);
-
 // Gets the FrontEnd Main page Uri
 $frontEndUri = JUri::getInstance(JUri::root());
 $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'http');
