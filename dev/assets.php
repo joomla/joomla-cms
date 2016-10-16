@@ -20,6 +20,7 @@ abstract class ExternalAssets{
 			'jcrop' => array('version' => '2.0.4','dependencies' => ''),
 			'combobox' => array('version' => '1.1.7','dependencies' => ''),
 			'autocomplete' => array('version' => '1.2.26','dependencies' => ''),
+			'dragula' => array('version' => '3.7.2','dependencies' => ''),
 			
 		);
 	}

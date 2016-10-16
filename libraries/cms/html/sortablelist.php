@@ -52,56 +52,115 @@ abstract class JHtmlSortablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
-		$displayData = array(
-			'tableId'                => $tableId,
-			'formId'                 => $formId,
-			'sortDir'                => $sortDir,
-			'saveOrderingUrl'        => $saveOrderingUrl,
-			'nestedList'             => $nestedList,
-			'proceedSaveOrderButton' => $proceedSaveOrderButton,
-		);
+			// Depends on jQuery UI
+//		JHtml::_('jquery.ui', array('core', 'sortable'));
+//
+//		JHtml::_('script', 'jui/sortablelist.js', false, true);
+//		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
+//		JFactory::getDocument()->addScriptDeclaration("
+//		jQuery(document).ready(function ($){
+//			var sortableList = new $.JSortableList('#"
+//			. $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
+//		});
+//		");
 
-		JLayoutHelper::render('joomla.html.sortablelist', $displayData);
+// Attach sortable to document
+JHtml::_('script', 'vendor/dragula/dragula.js', false, true);
+JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
+JFactory::getDocument()->addScriptDeclaration(
+<<<JS
+document.addEventListener('DOMContentLoaded', function() {
+
+	var container = document.querySelector('.js-draggable');
+
+	if (container) {
+		var rows = container.querySelectorAll('input[name=\"order[]\"]'),
+			saveOrderingUrl = "$saveOrderingUrl",
+			formId = "$formId";
+
+			var arr = Array.prototype.slice.call(rows);
+			//var arr = arr.reverse();
+
+			//console.log(arr);
+			// for (var i = 0; i < array.length; i++) {
+			// 	callback.call(scope, i, array[i]);
+			// }
+var sortArray = function (array, arr) {
+	for (var i= 0, l = array.length; l<i; i++) {
+		var orderValue = array[i].value;
+		var oldOrderValue = arr[1].value;
+		if (orderValue = oldOrderValue) {
+			array[i].value = 0;
+		} else if ( orderValue > oldOrderValue) {
+			array[i].value = 1;
+		} else {
+			array[i].value = -1; 
+		}
+	}
+}
+		// forEach method from http://toddmotto.com/ditch-the-array-foreach-call-nodelist-hack/
+		var nodeListForEach = function (array, callback, scope) {
+			for (var i = 0; i < array.length; i++) {
+				callback.call(scope, i, array[i]);
+			}
+		};
+
+		cloneMarkedCheckboxes = function () {
+			jQuery('[name="order[]"]', container).attr('name', 'order-tmp');
+			jQuery('[type=checkbox]', container).each(function () {
+				var _shadow = jQuery(this).clone();
+				jQuery(_shadow).attr({'checked':'checked', 'shadow':'shadow', 'id':''});
+				jQuery('#' + formId).append(jQuery(_shadow));
+
+				jQuery('[name="order-tmp"]', jQuery(this).parents('tr')).attr('name', 'order[]');
+			});
+		}
+
+		removeClonedCheckboxes = function () {
+			jQuery('[shadow=shadow]').remove();
+			jQuery('[name="order-tmp"]', container).attr('name', 'order[]');
+		}
+
+		var sortableTable = dragula([container]);
+
+		sortableTable.on('dragend', function() {
+			console.log(rows, arr)
+			sortArray(rows);
+			
+			// nodeListForEach(rows, function (index, row) {
+			// 	row.value = index;
+			// 	// if (index > 0) row.value = '-1';
+			// 	//    row.lastElementChild.textContent = index + 1;
+			// 	//    row.dataset.rowPosition = index + 1;
+			// 	// do some ajax form submit!
+			// });
+			console.log(rows)
+				if (saveOrderingUrl) {
+					//clone and check all the checkboxes in sortable range to post
+					cloneMarkedCheckboxes();
+
+					// Detach task field if exists
+					var f  = jQuery('#' + formId);
+					var ft = jQuery('input[name|="task"]', f);
+
+					if (ft.length) ft.detach();
+
+					//serialize form then post to callback url
+					jQuery.post(saveOrderingUrl, f.serialize());
+
+					// Re-Append original task field
+					if (ft.length) ft.appendTo(f);
+
+					//remove cloned checkboxes
+					removeClonedCheckboxes();
+				}
+		});
+	}
+});
+JS
+);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
-
-		return;
-	}
-
-	/**
-	 * Method to inject script for enabled and disable Save order button
-	 * when changing value of ordering input boxes
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0 The logic is merged in the JLayout file
-	 */
-	public static function _proceedSaveOrderButton()
-	{
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function ($){
-				$(document).ready(function (){
-					var saveOrderButton = $('.saveorder');
-					saveOrderButton.css({'opacity':'0.2', 'cursor':'default'}).attr('onclick','return false;');
-					var oldOrderingValue = '';
-					$('.text-area-order').focus(function ()
-					{
-						oldOrderingValue = $(this).attr('value');
-					})
-					.keyup(function (){
-						var newOrderingValue = $(this).attr('value');
-						if (oldOrderingValue != newOrderingValue)
-						{
-							saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
-						}
-					});
-				});
-			})(jQuery);"
-		);
-
-		return;
 	}
 }

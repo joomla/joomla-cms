@@ -99,7 +99,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 					</tr>
 				</tfoot>
-				<tbody>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable"<?php endif; ?>>
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
 					$ordering   = ($listOrder == 'a.ordering');
