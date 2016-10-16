@@ -12,14 +12,13 @@ defined('_JEXEC') or die;
 // Load the required admin language files
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
-$user   = JFactory::getUser();
 $config = array();
 $lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_modules', JPATH_ADMINISTRATOR);
 
 if ($app->input->get('view') === 'module' && $app->input->get('layout') === 'modal')
 {
-	if (!$user->authorise('core.create', 'com_modules'))
+	if (!JFactory::getUser()->authorise('core.create', 'com_modules'))
 	{
 		$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
