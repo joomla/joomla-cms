@@ -569,11 +569,11 @@ abstract class JUserHelper
 			case 'crypt-blowfish':
 				if ($seed)
 				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 16);
+					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 30);
 				}
 				else
 				{
-					return '$2$' . substr(md5(JCrypt::genRandomBytes()), 0, 12) . '$';
+					return '$2y$04$' . substr(md5(JCrypt::genRandomBytes()), 0, 22) . '$';
 				}
 				break;
 
