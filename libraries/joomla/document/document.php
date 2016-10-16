@@ -486,6 +486,12 @@ class JDocument
 			}
 		}
 
+		// Default value for type.
+		if (!isset($attribs['type']) && !isset($attribs['mime']))
+		{
+			$attribs['type'] = 'text/javascript';
+		}
+
 		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
 		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
 

@@ -707,34 +707,31 @@ abstract class JHtml
 		// If only path is required
 		if ($options['pathOnly'])
 		{
-			if (count($includes) == 0)
+			if (count($includes) === 0)
 			{
 				return;
 			}
-			elseif (count($includes) == 1)
+
+			if (count($includes) === 1)
 			{
 				return $includes[0];
 			}
-			else
-			{
-				return $includes;
-			}
+			
+			return $includes;
 		}
+
 		// If inclusion is required
-		else
+		$document = JFactory::getDocument();
+
+		foreach ($includes as $include)
 		{
-			$document = JFactory::getDocument();
-
-			foreach ($includes as $include)
+			// If there is already a version hash in the script reference (by using deprecated MD5SUM).
+			if ($pos = strpos($include, '?') !== false)
 			{
-				// If there is already a version hash in the script reference (by using deprecated MD5SUM).
-				if ($pos = strpos($include, '?') !== false)
-				{
-					$options['version'] = substr($include, $pos + 1);
-				}
-
-				$document->addScript($include, $options, $attribs);
+				$options['version'] = substr($include, $pos + 1);
 			}
+
+			$document->addScript($include, $options, $attribs);
 		}
 	}
 
