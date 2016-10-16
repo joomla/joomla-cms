@@ -97,6 +97,8 @@ class JDocumentHtml extends JDocument
 	 *
 	 * @var    boolean
 	 * @since  12.1
+	 *
+	 * @note  4.0  Will be replaced by $html5 and the default value will be true.
 	 */
 	private $_html5 = null;
 
