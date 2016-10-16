@@ -33,15 +33,6 @@ elseif ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
 		return;
 	}
 }
-elseif ($input->get('view') === 'module' && $input->get('layout') === 'modal')
-{
-	if (!$user->authorise('core.create', 'com_modules'))
-	{
-		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
-
-		return;
-	}
-}
 
 $controller = JControllerLegacy::getInstance('Content');
 $controller->execute(JFactory::getApplication()->input->get('task'));
