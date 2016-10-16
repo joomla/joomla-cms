@@ -175,12 +175,11 @@ else // XTD Image plugin
 						</div>
 						<div class="controls">
 							<input required type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><span class="icon-upload icon-white"></span> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
-							<p class="help-block"><?php
-								$cMax    = (int) $this->config->get('upload_maxsize');
-								$maxSize = JUtility::getMaxUploadSize($cMax . 'MB');
-
-								echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize));
-							?></p>
+							<p class="help-block">
+								<?php $cMax    = (int) $this->config->get('upload_maxsize'); ?>
+								<?php $maxSize = JUtility::getMaxUploadSize($cMax . 'MB'); ?>
+								<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', JHtml::_('number.bytes', $maxSize)); ?>
+							</p>
 						</div>
 					</div>
 				</fieldset>
