@@ -96,9 +96,9 @@ class JDocumentHtml extends JDocument
 	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  4.0
 	 */
-	private $_html5 = null;
+	private $html5 = true;
 
 	/**
 	 * Class constructor
@@ -331,7 +331,7 @@ class JDocumentHtml extends JDocument
 	 */
 	public function isHtml5()
 	{
-		return $this->_html5;
+		return $this->html5;
 	}
 
 	/**
@@ -347,7 +347,7 @@ class JDocumentHtml extends JDocument
 	{
 		if (is_bool($state))
 		{
-			$this->_html5 = $state;
+			$this->html5 = $state;
 		}
 	}
 
