@@ -316,10 +316,10 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	};
 
 	/**
-	 * Treat AJAX jQuery errors.
+	 * Treat AJAX errors.
 	 * Used by some javascripts such as sendtestmail.js and permissions.js
 	 *
-	 * @param   object  jqXHR        jQuery XHR object. See http://api.jquery.com/jQuery.ajax/#jqXHR
+	 * @param   object  xhr          XHR object.
 	 * @param   string  textStatus   Type of error that occurred.
 	 * @param   string  error        Textual portion of the HTTP status.
 	 *
@@ -327,13 +327,13 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	 *
 	 * @since  3.6.0
 	 */
-	Joomla.ajaxErrorsMessages = function( jqXHR, textStatus, error ) {
+	Joomla.ajaxErrorsMessages = function( xhr, textStatus, error ) {
 		var msg = {};
 
 		if (textStatus == 'parsererror')
 		{
 			// Html entity encode.
-			var encodedJson = jqXHR.responseText.trim();
+			var encodedJson = xhr.responseText.trim();
 
 			var buf = [];
 			for (var i = encodedJson.length-1; i >= 0; i--) {
@@ -356,9 +356,17 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 		{
 			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT') ];
 		}
+		else if (textStatus == 'error' && xhr.statusText)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.statusText + '</em>' ];
+		}
+		else if (textStatus == 'error' && xhr.responseJSON)
+		{
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) + ' <em>' + xhr.responseJSON.message + '</em>' ];
+		}
 		else
 		{
-			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', jqXHR.status) ];
+			msg.error = [ Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status) ];
 		}
 
 		return msg;
