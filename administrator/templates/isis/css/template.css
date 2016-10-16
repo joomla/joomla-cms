@@ -5954,14 +5954,9 @@ fieldset.radio.btn-group {
 .input-prepend .chzn-container-single .chzn-single,
 .input-append .chzn-container-single .chzn-single {
   border-color: #cccccc;
-  height: 26px;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-}
-.input-prepend .chzn-container-single .chzn-drop,
-.input-append .chzn-container-single .chzn-drop {
-  border-color: #cccccc;
 }
 .input-prepend > .add-on,
 .input-append > .add-on {
@@ -7256,14 +7251,6 @@ a:focus {
 }
 .navbar-inverse {
   color: #333333;
-}
-.login .chzn-single {
-  width: 222px !important;
-}
-.login .chzn-container,
-.login .chzn-drop {
-  width: 230px !important;
-  max-width: 230px !important;
 }
 .login .btn-large {
   margin-top: 15px;
