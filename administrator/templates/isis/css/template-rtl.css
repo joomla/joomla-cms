@@ -2333,6 +2333,7 @@ input[type="button"].btn-block {
 .btn-warning:hover,
 .btn-warning:focus {
   background-color: #ad6704;
+  color: #fff;
   text-decoration: none;
   text-shadow: none;
 }
@@ -2345,6 +2346,7 @@ input[type="button"].btn-block {
 .btn-danger:hover,
 .btn-danger:focus {
   background-color: #802420;
+  color: #fff;
   text-decoration: none;
 }
 .btn-success {
@@ -2356,6 +2358,7 @@ input[type="button"].btn-block {
 .btn-success:hover,
 .btn-success:focus {
   background-color: #2f6f2f;
+  color: #fff;
   text-decoration: none;
 }
 .btn-info {
@@ -2367,6 +2370,7 @@ input[type="button"].btn-block {
 .btn-info:hover,
 .btn-info:focus {
   background-color: #1f6377;
+  color: #fff;
   text-decoration: none;
 }
 .btn-inverse {
@@ -2378,6 +2382,7 @@ input[type="button"].btn-block {
 .btn-inverse:hover,
 .btn-inverse:focus {
   background-color: #1e1e1e;
+  color: #fff;
   text-decoration: none;
 }
 button.btn,
@@ -7632,8 +7637,8 @@ h6 {
 .sidebar-nav .nav-list > li > a {
   color: #555;
   padding: 3px 25px;
-  margin-left: -25px;
-  margin-right: -25px;
+  margin-left: -26px;
+  margin-right: -26px;
 }
 .sidebar-nav .nav-list > li.active > a {
   color: #fff;
@@ -8008,8 +8013,8 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
   vertical-align: baseline;
 }
 .j-jed-message {
-	line-height: 2em;
-	color: #333333;
+  line-height: 2em;
+  color: #333333;
 }
 .form-horizontal .control-label {
   width: auto;
@@ -8199,7 +8204,11 @@ th .tooltip-inner {
 }
 /* Permissions dropdown display */
 #permissions-sliders .chzn-container {
+  margin-top: -5px;
   position: absolute;
+}
+#permissions-sliders .table td {
+  padding: 8px 8px 9px;
 }
 /* Component pop-up */
 .container-popup {
@@ -8579,6 +8588,32 @@ body.modal-open {
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
+}
+/* Removes Text Shadows */
+.alert,
+.alert-options,
+.badge,
+.breadcrumb > li,
+.close,
+.input-append .add-on,
+.input-prepend .add-on,
+.label,
+.nav-header,
+.nav-list .nav-header,
+.nav-list > .active > a,
+.nav-list > .active > a:focus,
+.nav-list > .active > a:hover,
+.nav-list > li > a,
+.nav-tabs.nav-dark,
+.navbar .brand,
+.navbar .nav > li > a,
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a,
+.navbar-inverse .navbar-search .search-query.focused,
+.navbar-inverse .navbar-search .search-query:focus,
+.progress .bar,
+.subhead {
+  text-shadow: none;
 }
 /* Bootstrap RTL */
 /* Pull right or left */

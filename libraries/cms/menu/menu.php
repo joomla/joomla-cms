@@ -83,9 +83,7 @@ class JMenu
 			// Decode the item params
 			try
 			{
-				$result = new Registry;
-				$result->loadString($item->params);
-				$item->params = $result;
+				$item->params = new Registry($item->params);
 			}
 			catch (RuntimeException $e)
 			{

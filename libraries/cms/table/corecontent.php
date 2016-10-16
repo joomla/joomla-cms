@@ -48,36 +48,31 @@ class JTableCorecontent extends JTable
 	{
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_params']);
+			$registry = new Registry($array['core_params']);
 			$array['core_params'] = (string) $registry;
 		}
 
 		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_metadata']);
+			$registry = new Registry($array['core_metadata']);
 			$array['core_metadata'] = (string) $registry;
 		}
 
 		if (isset($array['core_images']) && is_array($array['core_images']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_images']);
+			$registry = new Registry($array['core_images']);
 			$array['core_images'] = (string) $registry;
 		}
 
 		if (isset($array['core_urls']) && is_array($array['core_urls']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_urls']);
+			$registry = new Registry($array['core_urls']);
 			$array['core_urls'] = (string) $registry;
 		}
 
 		if (isset($array['core_body']) && is_array($array['core_body']))
 		{
-			$registry = new Registry;
-			$registry->loadArray($array['core_body']);
+			$registry = new Registry($array['core_body']);
 			$array['core_body'] = (string) $registry;
 		}
 
