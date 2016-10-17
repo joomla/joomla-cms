@@ -50,16 +50,7 @@ if ($meter)
 
 	$class = 'js-password-strength ' . $class;
 }
-/*
- * 			'maxLength' => $this->maxLength,
-			'meter'     => $this->meter,
-			'threshold' => $this->threshold,
-			''     => $this->minLength,
-			''     => $this->minIntegers,
-			'minSymbols'     => $this->minSymbols,
-			'minUppercase'     => $this->minUppercase,
-			'minLowercase'     => $this->minLowercase,
- */
+
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',

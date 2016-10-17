@@ -57,8 +57,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 		fields[i].parentNode.append(meter);
 
-		// Add a listener for keydown
-		fields[i].addEventListener('keydown', function(event) {
+		// Add a listener for keyup
+		fields[i].addEventListener('keyup', function(event) {
 			var $minLength = event.target.getAttribute('data-min-length'),
 				$minIntegers = event.target.getAttribute('data-min-integers'),
 				$minSymbols = event.target.getAttribute('data-min-symbols'),
@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function(){
 			var score = strength.getScore(event.target.value);
 			var meter = event.target.parentNode.querySelector('progress');
 
-			// console.log(meter)
 			if (score > 80) {
 				meter.setAttribute('class', 'progress progress-success');
 			} else if (score > 50 && score < 80) {
@@ -85,11 +84,6 @@ document.addEventListener('DOMContentLoaded', function(){
 				meter.setAttribute('class', 'progress progress-danger');
 			}
 
-			if (!score || event.target.value === '' || event.target.value < 2) {
-				meter.setAttribute('class', 'progress progress-danger');
-			}
-
-			console.log(score)
 			meter.value = score;
 		})
 	}
