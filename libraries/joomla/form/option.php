@@ -52,9 +52,9 @@ abstract class JFormOption
 			}
 		}
 
-		$provider = $option['provider'] ? (string) $option['provider'] : 'standard';
+		$type = $option['type'] ? (string) $option['type'] : 'standard';
 
-		$class = JFormHelper::loadOptionClass($provider);
+		$class = JFormHelper::loadOptionClass($type);
 
 		return $class ? $class::getOptions($option, $fieldname) : array();
 	}
