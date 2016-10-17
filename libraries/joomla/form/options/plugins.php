@@ -35,35 +35,36 @@ abstract class JFormOptionPlugins
 		// Get list of plugins
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('element AS value, name AS text, folder')
-			->from('#__extensions')
-			->where('enabled = 1')
-			->order('folder, ordering, name');
+			->select(array($db->qn('element', 'value'), $db->qn('name', 'text'), $db->qn('folder')))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('enabled'))
+			->where($db->qn('type') . ' = ' . $db->q('plugin'))
+			->order(array($db->qn('folder'), $db->qn('ordering'), $db->qn('name')));
 
 		if (!empty($folder))
 		{
-			$query->where('folder = ' . $db->q($folder));
+			$query->where($db->qn('folder') . ' = ' . $db->q($folder));
 		}
 
 		$options = $db->setQuery($query)->loadObjectList();
 
 		$lang = JFactory::getLanguage();
 
-		foreach ($options as $i => $item)
+		foreach ($options as &$item)
 		{
-			$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
-			$extension = 'plg_' . $folder . '_' . $item->value;
+			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->value;
+			$extension = 'plg_' . $item->folder . '_' . $item->value;
 
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+			$what = $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
 				|| $lang->load($extension . '.sys', $source, null, false, false)
 				|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 				|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
 
-			$options[$i]->text = JText::_($item->text);
+			$item->text = JText::_($item->text);
 
 			if (empty($folder))
 			{
-				$options[$i]->text .= ' (' . $item->folder . ')';
+				$item->text .= ' (' . $item->folder . ')';
 			}
 		}
 

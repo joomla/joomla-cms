@@ -34,7 +34,7 @@ abstract class JFormOptionSQL
 		$options = array();
 
 		// Initialize some field attributes.
-		$key = $option['key_field'] ? (string) $option['key_field'] : 'value';
+		$text = $option['text_field'] ? (string) $option['text_field'] : 'value';
 		$value = $option['value_field'] ? (string) $option['value_field'] : (string) $option['name'];
 		$disable = $option['disable_field'] ? (string) $option['disable_field'] : null;
 		$translate = $option['translate'] ? (string) $option['translate'] : false;
@@ -65,9 +65,9 @@ abstract class JFormOptionSQL
 			foreach ($items as $item)
 			{
 				$options[] = (object) array(
-					'value' => $item->$key,
-					'text' => $translate ? JText::_($item->$value) : $item->$value,
-					'disable' => ($disable ? (bool) $item->$disable : false)
+					'value' => $item->$value,
+					'text' => $translate ? JText::_($item->$text) : $item->$text,
+					'disable' => is_string($disable) ? (bool) $item->$disable : false
 				);
 			}
 		}
