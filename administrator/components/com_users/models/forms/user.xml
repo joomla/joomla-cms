@@ -17,10 +17,10 @@
 
 		<field name="password" type="password"
 			autocomplete="off"
-			class="validate-password"
+			class="validate-metered-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
-			validate="metered-password"
+			validate="password"
 			strengthmeter="true"
 			label="JGLOBAL_PASSWORD"
 			size="30"
