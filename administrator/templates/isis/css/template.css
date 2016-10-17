@@ -8530,7 +8530,7 @@ textarea:focus,
 input:focus,
 .uneditable-input:focus {
   box-shadow: none;
-  border: 1px solid #3071a9 !important;
+  border: 1px solid #3071a9;
 }
 /* Customize Textarea Resizing */
 textarea {
@@ -8614,9 +8614,4 @@ body.modal-open {
 .progress .bar,
 .subhead {
   text-shadow: none;
-}
-/* Input Invalid Integer */
-input:invalid {
-  border-color: #b94a48 !important;
-  color: #b94a48;
 }
