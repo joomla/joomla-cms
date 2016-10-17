@@ -47,7 +47,7 @@ $this->addScriptDeclaration("
 	{
 		// Delay instantiation after document.formvalidation and other dependencies loaded
 		window.setTimeout(function(){
-			window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			window.Install = new Installation('container-installation', '" . JUri::current() . "');
 		}, 500);
 	});
 
