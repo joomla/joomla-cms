@@ -137,7 +137,7 @@ else
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<!-- Body -->
-	<div class="body">
+	<div class="body" id="top">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : ''); ?>">
 			<!-- Header -->
 			<header class="header" role="banner">
