@@ -136,7 +136,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	{
 		$tab     = $document->_getTab();
 		$isHtml5 = $document->isHtml5();
-		$tagEnd  = $isHtml5 ? ' >' : ' />';
+		$tagEnd  = $isHtml5 ? '>' : '/>';
 		$buffer  = array();
 
 		// Generate charset when using HTML5 (should happen first)
@@ -158,8 +158,8 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		{
 			foreach ($tag as $name => $content)
 			{
-				// Html5 doesn't need content-type
-				if ($isHtml5 && $type == 'http-equiv' && $name == 'content-type')
+				// Html5 doesn't need content-type and we don't need empty meta tags
+				if (($isHtml5 && $type == 'http-equiv' && $name == 'content-type') || empty($content))
 				{
 					continue;
 				}
@@ -202,7 +202,7 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 	{
 		$tab     = $document->_getTab();
 		$isHtml5 = $document->isHtml5();
-		$tagEnd  = $isHtml5 ? ' >' : ' />';
+		$tagEnd  = $isHtml5 ? '>' : '/>';
 		$buffer  = array();
 
 		// Generate link declarations
