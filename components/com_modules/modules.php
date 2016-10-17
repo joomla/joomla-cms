@@ -16,7 +16,7 @@ $config = array();
 $lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_modules', JPATH_ADMINISTRATOR);
 
-if ($app->input->get('view') === 'module' && $app->input->get('layout') === 'modal')
+if ($app->input->get('view') === 'modules' && $app->input->get('layout') === 'modal')
 {
 	if (!JFactory::getUser()->authorise('core.create', 'com_modules'))
 	{
