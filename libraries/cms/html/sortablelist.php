@@ -52,18 +52,6 @@ abstract class JHtmlSortablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
-			// Depends on jQuery UI
-//		JHtml::_('jquery.ui', array('core', 'sortable'));
-//
-//		JHtml::_('script', 'jui/sortablelist.js', false, true);
-//		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
-//		JFactory::getDocument()->addScriptDeclaration("
-//		jQuery(document).ready(function ($){
-//			var sortableList = new $.JSortableList('#"
-//			. $tableId . " tbody','" . $formId . "','" . $sortDir . "' , '" . $saveOrderingUrl . "','','" . $nestedList . "');
-//		});
-//		");
-
 // Attach sortable to document
 JHtml::_('script', 'vendor/dragula/dragula.js', false, true);
 JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
@@ -74,30 +62,43 @@ document.addEventListener('DOMContentLoaded', function() {
 	var container = document.querySelector('.js-draggable');
 
 	if (container) {
-		var rows = container.querySelectorAll('input[name=\"order[]\"]'),
+		var orderRows = container.querySelectorAll('input[name=\"order[]\"]'),
+			orderIds = container.querySelectorAll('input[name=\"cid[]\"]'),
 			saveOrderingUrl = "$saveOrderingUrl",
 			formId = "$formId";
 
-			var arr = Array.prototype.slice.call(rows);
+			var orderIds = Array.prototype.slice.call(orderIds);
+			var orderRows = Array.prototype.slice.call(orderRows);
 			//var arr = arr.reverse();
 
-			//console.log(arr);
-			// for (var i = 0; i < array.length; i++) {
-			// 	callback.call(scope, i, array[i]);
-			// }
-var sortArray = function (array, arr) {
-	for (var i= 0, l = array.length; l<i; i++) {
-		var orderValue = array[i].value;
-		var oldOrderValue = arr[1].value;
-		if (orderValue = oldOrderValue) {
-			array[i].value = 0;
-		} else if ( orderValue > oldOrderValue) {
-			array[i].value = 1;
-		} else {
-			array[i].value = -1; 
-		}
-	}
-}
+			// Store the initial values
+			var setInitalValues = function () {
+				for (var i = 0; i < orderRows.length; i++) {
+					orderRows[i].setAttribute('data-initial', i);
+				}
+				console.log('darag', orderRows)
+			}
+
+			setInitalValues();
+
+			var sortedArray = function () {
+				console.log('called')
+				var orderRows = container.querySelectorAll('input[name=\"order[]\"]');
+				for (var i= 0, l = orderRows.length; l > i; i++) {
+					var orderPreviousValue = orderRows[i].getAttribute('data-initial');
+
+					
+					if (i === orderPreviousValue) {
+						orderRows[i].value = 0;
+					} else if ( i > orderPreviousValue) {
+						orderRows[i].value = 1;
+					} else {
+						orderRows[i].value = -1; 
+					}
+					console.log(i, orderPreviousValue, orderRows[i].value)
+				}
+			}
+
 		// forEach method from http://toddmotto.com/ditch-the-array-foreach-call-nodelist-hack/
 		var nodeListForEach = function (array, callback, scope) {
 			for (var i = 0; i < array.length; i++) {
@@ -122,19 +123,15 @@ var sortArray = function (array, arr) {
 		}
 
 		var sortableTable = dragula([container]);
+		
+		// sortableTable.on('drag', function() {
+		// 	setInitalValues(orderRows);
+		// });
 
 		sortableTable.on('dragend', function() {
-			console.log(rows, arr)
-			sortArray(rows);
-			
-			// nodeListForEach(rows, function (index, row) {
-			// 	row.value = index;
-			// 	// if (index > 0) row.value = '-1';
-			// 	//    row.lastElementChild.textContent = index + 1;
-			// 	//    row.dataset.rowPosition = index + 1;
-			// 	// do some ajax form submit!
-			// });
-			console.log(rows)
+
+			sortedArray(orderRows);
+
 				if (saveOrderingUrl) {
 					//clone and check all the checkboxes in sortable range to post
 					cloneMarkedCheckboxes();
