@@ -31,7 +31,7 @@ class JToolbarButtonStandard extends JToolbarButton
 	 * @param   string   $text   Button text.
 	 * @param   string   $task   Task associated with the button.
 	 * @param   boolean  $list   True to allow lists
-	 * @param   boolean  $group  Gorup of buttons
+	 * @param   boolean  $group  Does the button belong to a group?
 	 *
 	 * @return  string  HTML string for the button
 	 *

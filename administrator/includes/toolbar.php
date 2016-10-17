@@ -85,7 +85,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true)
+	public static function custom($task = '', $icon = '', $iconOver = '', $alt = '', $listSelect = true, $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
@@ -93,7 +93,7 @@ abstract class JToolbarHelper
 		$icon = preg_replace('#\.[^.]*$#', '', $icon);
 
 		// Add a standard button.
-		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect);
+		$bar->appendButton('Standard', $icon, $alt, $task, $listSelect, $group);
 	}
 
 	/**
@@ -483,7 +483,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = true)
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
@@ -502,7 +502,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = true)
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
@@ -522,7 +522,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = true)
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
@@ -648,6 +648,8 @@ abstract class JToolbarHelper
 		$i = 0;
 		foreach ($buttons as $button)
 		{
+			$options['group'] = $button['group'];
+
 			if ($i++ == 0)
 			{
 				call_user_func_array('JToolbarHelper::' . $button['function'], array($button['task']));
@@ -662,7 +664,7 @@ abstract class JToolbarHelper
 		}
 
 		$layout = new JLayoutFile('joomla.toolbar.group.groupclose');
-		$bar->appendButton('Custom', $layout->render($options));
+		$bar->appendButton('Custom', $layout->render());
 	}
 	
 
