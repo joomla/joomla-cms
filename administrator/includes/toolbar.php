@@ -464,12 +464,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY')
+	public static function apply($task = 'apply', $alt = 'JTOOLBAR_APPLY', $group = false)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Standard', 'apply', $alt, $task, false);
+		$bar->appendButton('Standard', 'apply', $alt, $task, false, $group);
 	}
 
 	/**
@@ -483,12 +483,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = true)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false);
+		$bar->appendButton('Standard', 'save', $alt, $task, false, $group);
 	}
 
 	/**
@@ -502,12 +502,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = true)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-new', $alt, $task, false);
+		$bar->appendButton('Standard', 'save-new', $alt, $task, false, $group);
 	}
 
 	/**
@@ -522,12 +522,12 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = true)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-copy', $alt, $task, false);
+		$bar->appendButton('Standard', 'save-copy', $alt, $task, false, $group);
 	}
 
 	/**
@@ -631,6 +631,40 @@ abstract class JToolbarHelper
 		$layout = new JLayoutFile('joomla.toolbar.versions');
 		$bar->appendButton('Custom', $layout->render($options), 'versions');
 	}
+	
+
+	
+	public static function group($buttons = array(), $class = 'btn-success')
+	{
+		// Options array for JLayout
+		$options          = array();
+		$options['class'] = $class;
+
+		$bar = JToolbar::getInstance('toolbar');
+
+		$layout = new JLayoutFile('joomla.toolbar.group.groupopen');
+		$bar->appendButton('Custom', $layout->render($options));
+
+		$i = 0;
+		foreach ($buttons as $button)
+		{
+			if ($i++ == 0)
+			{
+				call_user_func_array('JToolbarHelper::' . $button['function'], array($button['task']));
+
+				$layout = new JLayoutFile('joomla.toolbar.group.groupmid');
+				$bar->appendButton('Custom', $layout->render($options));
+			}
+			else
+			{
+				call_user_func_array('JToolbarHelper::' . $button['function'], array($button['task']));
+			}
+		}
+
+		$layout = new JLayoutFile('joomla.toolbar.group.groupclose');
+		$bar->appendButton('Custom', $layout->render($options));
+	}
+	
 
 	/**
 	 * Displays a modal button
