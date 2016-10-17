@@ -69,7 +69,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
 
 			// In case there is no stored value, use the option's default state.
-			$checked     = (!$hasValue && $option->checked) ? 'checked' : $checked;
+			$checked     = (!$hasValue && isset($option->checked) && $option->checked) ? 'checked' : $checked;
 			$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
 			$disabled    = !empty($option->disable) || $disabled ? 'disabled' : '';
 
