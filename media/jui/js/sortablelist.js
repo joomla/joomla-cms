@@ -3,8 +3,8 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(function ($) {
-	$.JSortableList = function (tableWrapper, formId, sortDir, saveOrderingUrl, options, nestedList) {
+(function () {
+	JSortableList = function (tableWrapper, formId, sortDir, saveOrderingUrl, options, nestedList) {
 		var root = this;
 		var disabledOrderingElements = '';
 		var sortableGroupId = '';
@@ -15,7 +15,7 @@
 			sortDir = 'asc';
 		}
 
-		var ops = $.extend({
+		var ops = Joomla.extend({
 			orderingIcon:'add-on', //class name of order icon
 			orderingWrapper:'input-prepend', //ordering control wrapper class name
 			orderingGroup:'sortable-group-id', //sortable-group-id
@@ -24,15 +24,15 @@
 			sortableHandle:'.sortable-handler'
 		}, options);
 
-		$('tr', tableWrapper).removeClass(ops.sortableClassName).addClass(ops.sortableClassName);
+		document.querySelector('tr', tableWrapper).classList.remove(ops.sortableClassName).classList.add(ops.sortableClassName);
 		//make wrapper table position be relative, to fix y-axis drag problem on Safari
-		$(tableWrapper).parents('table').css('position', 'relative');
-		$(ops.sortableHandle, tableWrapper).css('cursor', 'move');
-		$('#' + formId).attr('autocomplete', 'off');
+		document.querySelector(tableWrapper).parents('table').css('position', 'relative');
+		document.querySelector(ops.sortableHandle, tableWrapper).css('cursor', 'move');
+		document.querySelector('#' + formId).attr('autocomplete', 'off');
 
-		var _handle = $(ops.sortableHandle, $(tableWrapper)).length > 0 ? ops.sortableHandle : '';
+		var _handle = document.querySelector(ops.sortableHandle, document.querySelector(tableWrapper)).length > 0 ? ops.sortableHandle : '';
 
-		$(tableWrapper).sortable({
+		document.querySelector(tableWrapper).sortable({
 			axis:'y',
 			cursor:'move',
 			handle:_handle,
@@ -45,7 +45,7 @@
 				ui.children().each(function () {
 					$(this).width($(this).width());
 				});
-				$(ui).children('td').addClass('dndlist-dragged-row');
+				$(ui).children('td').classList.add('dndlist-dragged-row');
 				return ui;
 			},
 
@@ -68,7 +68,7 @@
 			},
 
 			stop:function (e, ui) {
-				$('td', $(this)).removeClass('dndlist-dragged-row');
+				$('td', $(this)).classList.remove('dndlist-dragged-row');
 				$(ui.item).css({opacity:0});
 				$(ui.item).animate({
 					opacity:1,
@@ -85,7 +85,7 @@
 					root.cloneMarkedCheckboxes();
 
 					// Detach task field if exists
-					var f  = $('#' + formId);
+					var f  = ('#' + formId);
 					var ft = $('input[name|="task"]', f);
 
 					if (ft.length) ft.detach();
@@ -110,7 +110,7 @@
 		});
 		
 		this.hideChildrenNodes = function (itemId) {
-			root.childrenNodes = root.getChildrenNodes(itemId);				
+			root.childrenNodes = root.getChildrenNodes(itemId);
 			root.childrenNodes.hide();
 		}
 
@@ -124,7 +124,7 @@
 			root.sameLevelNodes = root.getSameLevelNodes(level);
 			root.sameLevelNodes.each(function (){
 				_childrenNodes = root.getChildrenNodes($(this).attr('item-id'));
-				_childrenNodes.addClass('child-nodes-tmp-hide');
+				_childrenNodes.classList.add('child-nodes-tmp-hide');
 				_childrenNodes.hide();
 			});
 		}
@@ -133,7 +133,7 @@
 			prevItem = item.prev();
 			prevItemChildrenNodes = root.getChildrenNodes(prevItem.attr('item-id'));
 			prevItem.after(prevItemChildrenNodes);
-			$('tr.child-nodes-tmp-hide').show().removeClass('child-nodes-tmp-hide');
+			$('tr.child-nodes-tmp-hide').show().classList.remove('child-nodes-tmp-hide');
 			root.sameLevelNodes = "";
 		}
 
@@ -141,16 +141,16 @@
 		this.disableOtherGroupSort = function (e, ui) {
 			if (root.sortableGroupId) {
 				var _tr = $('tr[' + ops.orderingGroup + '!=' + root.sortableGroupId + ']', $(tableWrapper));
-				_tr.removeClass(ops.sortableClassName).addClass('dndlist-group-disabled');
+				_tr.classList.remove(ops.sortableClassName).classList.add('dndlist-group-disabled');
 
 				$(tableWrapper).sortable('refresh');
 			}
 		}
 
 		this.enableOtherGroupSort = function (e, ui) {
-			var _tr = $('tr', $(tableWrapper)).removeClass(ops.sortableClassName);
-			_tr.addClass(ops.sortableClassName)
-				.removeClass('dndlist-group-disabled');
+			var _tr = $('tr', $(tableWrapper)).classList.remove(ops.sortableClassName);
+			_tr.classList.add(ops.sortableClassName)
+				.classList.remove('dndlist-group-disabled');
 			$(tableWrapper).sortable('refresh');
 		}
 
@@ -253,7 +253,7 @@
 					});
 				}
 			}
-		}
+		};
 
 		this.cloneMarkedCheckboxes = function () {
 			$('[name="order[]"]', $(tableWrapper)).attr('name', 'order-tmp');
@@ -280,4 +280,4 @@
 		}
 
 	}
-})(jQuery);
+})();

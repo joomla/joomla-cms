@@ -87,13 +87,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				for (var i= 0, l = orderRows.length; l > i; i++) {
 					var orderPreviousValue = orderRows[i].getAttribute('data-initial');
 
-					
-					if (i === orderPreviousValue) {
-						orderRows[i].value = 0;
-					} else if ( i > orderPreviousValue) {
-						orderRows[i].value = 1;
-					} else {
-						orderRows[i].value = -1; 
+					if ( i+1 <= orderPreviousValue) {
+						if (i == 0 ){
+							orderRows[i].value = 0;
+						} else {
+							orderRows[i].value = i + parseInt(orderPreviousValue);
+						}
+					} else if ( i+1 >= orderPreviousValue) {
+						if (i == 0 ){
+							orderRows[i].value = 0;
+						} else {
+							orderRows[i].value = i - parseInt(orderPreviousValue);
+						}
 					}
 					console.log(i, orderPreviousValue, orderRows[i].value)
 				}
