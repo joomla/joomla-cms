@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			var score = strength.getScore(event.target.value);
 			var meter = event.target.parentNode.querySelector('progress');
 
-			if (score > 80) {
+			if (score > 79) {
 				meter.setAttribute('class', 'progress progress-success');
 			} else if (score > 50 && score < 80) {
 				meter.setAttribute('class', 'progress progress-warning');
