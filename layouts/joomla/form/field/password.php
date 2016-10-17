@@ -51,6 +51,12 @@ if ($meter)
 	$class = 'js-password-strength ' . $class;
 }
 
+JText::script('JFIELD_PASSWORD_INDICATE_NORMAL', true);
+JText::script('JFIELD_PASSWORD_INDICATE_MEDIUM', true);
+JText::script('JFIELD_PASSWORD_INDICATE_STRONG', true);
+JText::script('JFIELD_PASSWORD_INDICATE_VSTRONG', true);
+JText::script('JFIELD_PASSWORD_INDICATE_WEAK', true);
+
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',

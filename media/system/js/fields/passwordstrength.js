@@ -42,19 +42,27 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	for(var i = 0, l = fields.length; i<l; i++) {
 
-		var startClass = '';
-		var initialVal = '';
+		var startClass = '',
+			initialVal = '';
 
 		if (!fields[i].value.length) {
 			startClass =' progress-danger';
 			initialVal = 100;
 		}
-		// Create a progress meter
+
+		// Create a progress meter and the label
 		var meter = document.createElement('progress');
 		meter.setAttribute('class', 'progress' + startClass);
 		meter.value = 0 + initialVal;
 		meter.max = 100;
+		meter.style.height = '2em';
+		meter.setAttribute('aria-describedby', 'password-' + i);
 
+		var label = document.createElement('div');
+		label.setAttribute('class', 'text-xs-center');
+		label.setAttribute('id', 'password-' + i);
+
+		fields[i].parentNode.append(label);
 		fields[i].parentNode.append(meter);
 
 		// Add a listener for keyup
@@ -73,15 +81,30 @@ document.addEventListener('DOMContentLoaded', function(){
 				length: $minLength ? $minLength : 4
 			});
 
-			var score = strength.getScore(event.target.value);
-			var meter = event.target.parentNode.querySelector('progress');
+			var score = strength.getScore(event.target.value),
+				meter = event.target.parentNode.querySelector('progress'),
+				i = meter.getAttribute('aria-describedby').replace( /^\D+/g, ''),
+				label = event.target.parentNode.querySelector('#password-' + i);
 
-			if (score > 79) {
+			if (score > 79){
 				meter.setAttribute('class', 'progress progress-success');
-			} else if (score > 50 && score < 80) {
+				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_VSTRONG');
+			}
+			if (score > 64 && score < 80){
+				meter.setAttribute('class', 'progress progress-success');
+				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_STRONG');
+			}
+			if (score > 50 && score < 65){
+				meter.setAttribute('class', 'progress progress-info');
+				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_NORMAL');
+			}
+			if (score > 40 && score < 51){
 				meter.setAttribute('class', 'progress progress-warning');
-			} else {
+				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_MEDIUM');
+			}
+			if (score < 41){
 				meter.setAttribute('class', 'progress progress-danger');
+				label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_WEAK');
 			}
 
 			meter.value = score;
