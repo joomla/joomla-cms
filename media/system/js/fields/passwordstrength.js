@@ -1,100 +1,96 @@
-// @TODO Refactor script from Mootools to jQuery or vanilla code
-/*
----
-description: Form.PasswordStrength class, and basic dom methods
+var PasswordStrength;
 
-license: MIT-style
-
-authors:
- - Al Kent
-
-requires:
- - core/1.3.1: '*'
-
-provides:
- - Form.PasswordStrength
- - Element.Events.keyupandchange
- - String.strength
-...
-*/
-
-if (!this.Form) this.Form = {};
-
-Form.PasswordStrength = new Class({
-	
-	Implements: [Options, Events],
-	
-	options: {
-		//onUpdate: $empty,
-		threshold: 66,
-		primer: '',
-		height: 5,
-		opacity: 1,
-		bgcolor: 'transparent'
-	},
-	
-	element: null,
-	fx: null,
-	
-	initialize: function(el, options){
-		this.element = document.id(el);
-		this.setOptions(options);
-		if (this.options.primer) this.options.threshold = this.options.primer.strength();
-		var coord = this.element.getCoordinates();
-		var bar = new Element('div', {
-			styles: {
-				'width': coord.width,
-				'height': this.options.height,
-				'opacity': this.options.opacity,
-				'background-color': this.options.bgcolor
-			}
-		}).inject(this.element, 'after');
-		var meter = new Element('div', {
-			styles: {
-				'width': 0,
-				'height': '100%'
-			}
-		}).inject(bar);
-		this.fx = new Fx.Morph(meter, {
-			duration: 'short',
-			link: 'cancel',
-			unit: '%'
-		});
-		this.element.addEvent('keyupandchange', this.animate.bind(this));
-		if (this.element.get('value')) this.animate();
-	},
-	
-	animate: function(){
-		var value = this.element.get('value');
-		var color, strength = value.strength(), ratio = (strength / this.options.threshold).round(2).limit(0, 1);
-		if (ratio < 0.5) color = ('rgb(255, ' + (255 * ratio * 2).round() + ', 0)').rgbToHex();
-		else color = ('rgb(' + (255 * (1 - ratio) * 2).round() + ', 255, 0)').rgbToHex();
-		this.fx.start({
-			'width': 100 * ratio,
-			'background-color': color
-		});
-		this.fireEvent('update', [this.element, strength, this.options.threshold]);
+PasswordStrength = (function() {
+	function PasswordStrength(settings) {
+		this.lowercase = settings.lowercase || 1;
+		this.uppercase = settings.uppercase || 1;
+		this.numbers = settings.numbers || 1;
+		this.special = settings.special || 1;
+		this.length = settings.length || 8;
 	}
-});
 
-Element.Events.keyupandchange = {
-	base: 'keyup',
-	condition: function(event){
-		var prev = this.retrieve('prev', null);
-		var cur = this.get('value');
-		if (typeOf(prev) != 'null' && prev == cur) return false;
-		this.store('prev', cur);
-		return true;
-	}
-};
+	PasswordStrength.prototype.getScore = function(value) {
+		var score;
+		score = 0;
+		score += this.calc(value, /[a-z]/g, this.lowercase);
+		score += this.calc(value, /[A-Z]/g, this.uppercase);
+		score += this.calc(value, /[0-9]/g, this.numbers);
+		score += this.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g, this.special);
+		score += value.length > this.length ? 20 : 20 / this.length * value.length;
+		return score;
+	};
 
-String.implement({
-	strength: function(){
-		var n = 0;
-		if (this.match(/\d/)) n += 10;
-		if (this.match(/[a-z]+/)) n += 26;
-		if (this.match(/[A-Z]+/)) n += 26;
-		if (this.match(/[^\da-zA-Z]/)) n += 33;
-		return (n == 0) ? 0 : (this.length * n.log() / (2).log()).round();
+	PasswordStrength.prototype.calc = function(value, pattern, length) {
+		var count;
+		count = value.match(pattern);
+		if (count && count.length > length) {
+			return 20;
+		}
+		if (count) {
+			return 20 / length * count.length;
+		} else {
+			return 0;
+		}
+	};
+
+	return PasswordStrength;
+
+})();
+
+document.addEventListener('DOMContentLoaded', function(){
+	var fields = document.querySelectorAll('.js-password-strength');
+
+	for(var i = 0, l = fields.length; i<l; i++) {
+
+		var startClass = '';
+		var initialVal = '';
+
+		if (!fields[i].value.length) {
+			startClass =' progress-danger';
+			initialVal = 100;
+		}
+		// Create a progress meter
+		var meter = document.createElement('progress');
+		meter.setAttribute('class', 'progress' + startClass);
+		meter.value = 0 + initialVal;
+		meter.max = 100;
+
+		fields[i].parentNode.append(meter);
+
+		// Add a listener for keydown
+		fields[i].addEventListener('keydown', function(event) {
+			var $minLength = event.target.getAttribute('data-min-length'),
+				$minIntegers = event.target.getAttribute('data-min-integers'),
+				$minSymbols = event.target.getAttribute('data-min-symbols'),
+				$minUppercase = event.target.getAttribute('data-min-uppercase'),
+				$minLowercase = event.target.getAttribute('data-min-lowercase');
+
+			var strength = new PasswordStrength({
+				lowercase: $minLowercase ? $minLowercase : 0,
+				uppercase: $minUppercase ? $minUppercase : 0,
+				numbers: $minIntegers ? $minIntegers : 0,
+				special: $minSymbols ? $minSymbols : 0,
+				length: $minLength ? $minLength : 4
+			});
+
+			var score = strength.getScore(event.target.value);
+			var meter = event.target.parentNode.querySelector('progress');
+
+			// console.log(meter)
+			if (score > 80) {
+				meter.setAttribute('class', 'progress progress-success');
+			} else if (score > 50 && score < 80) {
+				meter.setAttribute('class', 'progress progress-warning');
+			} else {
+				meter.setAttribute('class', 'progress progress-danger');
+			}
+
+			if (!score || event.target.value === '' || event.target.value < 2) {
+				meter.setAttribute('class', 'progress progress-danger');
+			}
+
+			console.log(score)
+			meter.value = score;
+		})
 	}
 });

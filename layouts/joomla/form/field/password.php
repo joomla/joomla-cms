@@ -46,23 +46,20 @@ extract($displayData);
 
 if ($meter)
 {
-	JHtml::_('script', 'system/fields/passwordstrength.js', false, true); // @TODO Refactor script from Mootools to jQuery or vanilla code
+	JHtml::_('script', 'system/fields/passwordstrength.js', false, true);
 
-	// Load script on document load.
-	JFactory::getDocument()->addScriptDeclaration(
-		"
-		jQuery(document).ready(function() {
-			new Form.PasswordStrength('" . $id . "',
-				{
-					threshold: " . $threshold . ",
-					onUpdate: function(element, strength, threshold) {
-						element.set('data-passwordstrength', strength);
-					}
-				});
-		});"
-	);
+	$class = 'js-password-strength ' . $class;
 }
-
+/*
+ * 			'maxLength' => $this->maxLength,
+			'meter'     => $this->meter,
+			'threshold' => $this->threshold,
+			''     => $this->minLength,
+			''     => $this->minIntegers,
+			'minSymbols'     => $this->minSymbols,
+			'minUppercase'     => $this->minUppercase,
+			'minLowercase'     => $this->minLowercase,
+ */
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . $hint . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
@@ -73,6 +70,11 @@ $attributes = array(
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
 	$required ? 'required aria-required="true"' : '',
 	$autofocus ? 'autofocus' : '',
+	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
+	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
+	!empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
+	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
+	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
 );
 
 ?>

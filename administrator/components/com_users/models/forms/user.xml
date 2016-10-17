@@ -20,7 +20,8 @@
 			class="validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
-			validate="password"
+			validate="metered-password"
+			strengthmeter="true"
 			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>

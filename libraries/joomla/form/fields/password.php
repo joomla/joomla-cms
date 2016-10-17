@@ -131,11 +131,15 @@ class JFormFieldPassword extends JFormField
 
 		if ($return)
 		{
-			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
-			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
-
-			$meter       = (string) $this->element['strengthmeter'];
-			$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$this->maxLength    = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
+			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
+			$meter              = (string) $this->element['strengthmeter'];
+			$this->meter        = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$this->minLength    = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
+			$this->minIntegers  = (int) JComponentHelper::getParams('com_users')->get('minimum_integers', 0);
+			$this->minSymbols   = (int) JComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
+			$this->minUppercase = (int) JComponentHelper::getParams('com_users')->get('minimum_uppercase', 0);
+			$this->minLowercase = (int) JComponentHelper::getParams('com_users')->get('minimum_lowercase', 0);
 		}
 
 		return $return;
@@ -170,7 +174,11 @@ class JFormFieldPassword extends JFormField
 			'maxLength' => $this->maxLength,
 			'meter'     => $this->meter,
 			'threshold' => $this->threshold,
-			'meter'     => $this->meter,
+			'minLength'     => $this->minLength,
+			'minIntegers'     => $this->minIntegers,
+			'minSymbols'     => $this->minSymbols,
+			'minUppercase'     => $this->minUppercase,
+			'minLowercase'     => $this->minLowercase,
 		);
 
 		return array_merge($data, $extraData);
