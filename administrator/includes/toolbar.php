@@ -483,7 +483,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false)
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = true)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
@@ -502,7 +502,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false)
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = true)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
@@ -522,7 +522,7 @@ abstract class JToolbarHelper
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false)
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = true)
 	{
 		$bar = JToolbar::getInstance('toolbar');
 
