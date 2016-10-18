@@ -50,6 +50,11 @@ class PlgContentCreateMenuitem extends JPlugin
 			return true;
 		}
 
+		if (is_array($data))
+		{
+			$data = Joomla\Utilities\ArrayHelper::toObject($data, 'JObject');
+		}
+
 		$jinput    = JFactory::getApplication()->input;
 		$component = $jinput->getCmd('option');
 		$view      = $jinput->getCmd('view');
@@ -75,11 +80,6 @@ class PlgContentCreateMenuitem extends JPlugin
 			$data->menuordering = $menuItems[0]->id;
 
 			JHtml::_('script', 'plg_content_createmenuitem/parentitem.js', false, true);
-		}
-
-		else
-		{
-			JHtml::_('script', 'plg_content_createmenuitem/copytitle.js', false, true);
 		}
 
 		return true;
@@ -136,7 +136,19 @@ class PlgContentCreateMenuitem extends JPlugin
 	 */
 	public function onContentBeforeSave($context, $article)
 	{
-		JFactory::getSession()->set('formData', JFactory::getApplication()->input->post->get('jform', array(), 'array'));
+		$session = JFactory::getSession();
+		$session->set('formData', JFactory::getApplication()->input->post->get('jform', array(), 'array'));
+		$table = JTable::getInstance('Menu');
+		$formData = $session->get('formData');
+
+		if ($table->load(array('title' => $formData['menutitle'])))
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::sprintf('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS', $table->getErrors()),
+				'error');
+
+			return false;
+		}
 
 		return true;
 	}
@@ -199,14 +211,17 @@ class PlgContentCreateMenuitem extends JPlugin
 		$itemModel->addTablePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables');
 
 		// Attempt to save the data.
-		if (!$itemModel->save($menuData))
+		if (!empty($menuData['title']))
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $itemModel->getError()),
-				'error'
-			);
+			if (!$itemModel->save($menuData))
+			{
+				JFactory::getApplication()->enqueueMessage(
+					JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $itemModel->getError()),
+					'error'
+				);
 
-			return false;
+				return false;
+			}
 		}
 
 		return true;
