@@ -202,4 +202,6 @@ class UsersControllerRegistration extends UsersController
 
 		return true;
 	}
+
+
 }

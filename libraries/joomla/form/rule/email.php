@@ -25,7 +25,7 @@ class JFormRuleEmail extends JFormRule
 	 * @since  11.1
 	 * @see    http://www.w3.org/TR/html-markup/input.email.html
 	 */
-	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
+	protected $regex = '^[a-zA-Z0-9.!#$%&’*+/=?^_   `{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
 
 	/**
 	 * Method to test the email address and optionally check for uniqueness.
@@ -86,6 +86,35 @@ class JFormRuleEmail extends JFormRule
 
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
+				{
+					return false;
+				}
+			}
+		}
+
+		// Check if the email is blacklisted by the user
+		$component = array_key_exists('component', $element) ? (string) $element['component'] : 'com_users';
+		$params = JComponentHelper::getParams($component);
+
+		$emailPreset = $params->get('custom_chars_email', '');
+
+		if ('' === $emailPreset)
+		{
+			return true;
+		}
+
+		$presets = preg_split('/\r\n|\n|\r/', $emailPreset);
+
+		// Check all entries
+		foreach ($presets as $regex)
+		{
+			if ($regex != '' && $regex != '*')
+			{
+				// Skip new lines
+				$regex = '/(.*)@' . $regex . '/';
+				preg_match($regex, $value, $output);
+
+				if ($output)
 				{
 					return false;
 				}

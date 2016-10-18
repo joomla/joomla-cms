@@ -140,52 +140,139 @@
 			step="1"
 			default="1">
 			</field>
+		<field
+				name="minimum_length"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
+				first="4"
+				last="99"
+				step="1"
+				default="4">
+		</field>
 
 		<field
-			name="minimum_length"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
-			first="4"
-			last="99"
-			step="1"
-			default="4">
-			</field>
+				name="minimum_integers"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
+				first="0"
+				last="98"
+				step="1"
+				default="0">
+		</field>
 
 		<field
-			name="minimum_integers"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
-			first="0"
-			last="98"
-			step="1"
-			default="0">
-			</field>
+				name="minimum_symbols"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
+				first="0"
+				last="98"
+				step="1"
+				default="0">
+		</field>
 
 		<field
-			name="minimum_symbols"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
-			first="0"
-			last="98"
-			step="1"
-			default="0">
-			</field>
-
-		<field
-			name="minimum_uppercase"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
-			description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
-			first="0"
-			last="98"
-			step="1"
-			default="0">
-			</field>
+				name="minimum_uppercase"
+				type="integer"
+				label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
+				description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
+				first="0"
+				last="98"
+				step="1"
+				default="0">
+		</field>
 	</fieldset>
+	
+	<fieldset
+		name="username"
+		label="COM_USERS_CONFIG_USERNAME_OPTIONS" >
+		
+		<field
+			name="minimum_length_username"
+			type="number"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_MINNUMCHARS_DESC"
+			min="3"
+			max="255"
+			step="1"
+			validate="number"
+			default="3">
+			</field>
+			
+		<field
+			name="maximum_length_username"
+			type="number"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_MAXNUMCHARS_DESC"
+			min="0"
+			max="255"
+			step="1"
+			validate="number"
+			default="0">
+			</field>
 
+		<field 
+			name="allowed_chars_username_preset" 
+			type="list"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_DESC"
+			filter="integer"
+			defaut="0"
+			>
+			<option value="0">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_DISABLECHECK
+			</option>
+			<option value="1">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM_ALLOWED
+			</option>
+			<option value="2">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM_FORBIDDEN
+			</option>
+			<option value="3">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_CUSTOM_REGEXP
+			</option>
+			<option value="4">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_ALPHANUMERIC
+			</option>
+			<option value="5">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_LATIN
+			</option>
+			<option value="6">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_UNICODE_HIGHLY_RESTRICTIVE
+			</option>
+			<option value="7">
+				COM_USERS_CONFIG_FIELD_USERNAME_CHARSPRESET_OPTION_EMAIL
+			</option>
+		</field>
+
+		<field 
+			name="custom_chars_username" 
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERNAME_CHARSET_DESC" 
+			rows="4" 
+			cols="50"
+			filter="string"
+			showon="allowed_chars_username_preset:1,2,3"
+			default=""
+			>
+		</field>
+
+		<field
+			name="custom_chars_email"
+			type="textarea"
+			label="COM_USERS_CONFIG_FIELD_EMAIL_REGEX_LABEL"
+			description="COM_USERS_CONFIG_FIELD_EMAIL_REGEX_DESC"
+			rows="4"
+			cols="50"
+			filter="string"
+			default=""
+			>
+		</field>
+	</fieldset>
+	
 	<fieldset
 		name="user_notes_history"
 		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
@@ -233,6 +320,25 @@
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
 		/>
+
+	</fieldset>
+
+	<fieldset name="integration"
+		label="JGLOBAL_INTEGRATION_LABEL"
+		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
+	>
+
+		<field
+			name="sef_advanced"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SEF_ADVANCED_LABEL"
+			description="JGLOBAL_SEF_ADVANCED_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 
 	</fieldset>
 

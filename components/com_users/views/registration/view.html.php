@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
 /**
  * Registration view class for Users.
  *
@@ -42,6 +41,7 @@ class UsersViewRegistration extends JViewLegacy
 		$this->form   = $this->get('Form');
 		$this->state  = $this->get('State');
 		$this->params = $this->state->get('params');
+
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -109,7 +109,6 @@ class UsersViewRegistration extends JViewLegacy
 		}
 
 		$this->document->setTitle($title);
-
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
