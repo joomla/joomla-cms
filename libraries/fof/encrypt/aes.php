@@ -44,11 +44,11 @@ class FOFEncryptAes
 	 */
 	public function __construct($key, $strength = 128, $mode = 'cbc', FOFUtilsPhpfunc $phpfunc = null)
 	{
-		$this->adapter = new FOFEncryptAesOpenssl();
+		$this->adapter = new FOFEncryptAesMcrypt();
 
 		if (!$this->adapter->isSupported($phpfunc))
 		{
-			$this->adapter = new FOFEncryptAesMcrypt();
+			$this->adapter = new FOFEncryptAesOpenssl();
 		}
 
 		$this->adapter->setEncryptionMode($mode, $strength);
