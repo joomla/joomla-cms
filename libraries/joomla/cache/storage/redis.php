@@ -55,6 +55,7 @@ class JCacheStorageRedis extends JCacheStorage
 	 * @return  Redis|boolean  Redis connection object on success, boolean on failure
 	 *
 	 * @since   3.4
+	 * @note    As of 4.0 this method will throw a JCacheExceptionConnecting object on connection failure
 	 */
 	protected function getConnection()
 	{
