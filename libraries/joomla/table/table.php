@@ -1358,9 +1358,9 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true)
-			->select(implode(',', $this->_tbl_keys) . ', '.$this->_db->quoteName($orderingField))
+			->select(implode(',', $this->_tbl_keys) . ', ' . $this->_db->quoteName($orderingField))
 			->from($this->_tbl)
-			->where($this->_db->quoteName($orderingField).' >= 0')
+			->where($this->_db->quoteName($orderingField) . ' >= 0')
 			->order($this->_db->quoteName($orderingField));
 
 		// Setup the extra where and ordering clause data.
@@ -1384,7 +1384,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 					// Update the row ordering field.
 					$query->clear()
 						->update($this->_tbl)
-						->set($this->_db->quoteName($orderingField).' = ' . ($i + 1));
+						->set($this->_db->quoteName($orderingField) . ' = ' . ($i + 1));
 					$this->appendPrimaryKeys($query, $row);
 					$this->_db->setQuery($query);
 					$this->_db->execute();
@@ -1428,20 +1428,20 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$query = $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
-		$query->select(implode(',', $this->_tbl_keys) . ', '.$this->_db->quoteName($orderingField))
+		$query->select(implode(',', $this->_tbl_keys) . ', ' . $this->_db->quoteName($orderingField))
 			->from($this->_tbl);
 
 		// If the movement delta is negative move the row up.
 		if ($delta < 0)
 		{
-			$query->where($this->_db->quoteName($orderingField).' < ' . (int) $this->$orderingField)
-				->order($this->_db->quoteName($orderingField).' DESC');
+			$query->where($this->_db->quoteName($orderingField) . ' < ' . (int) $this->$orderingField)
+				->order($this->_db->quoteName($orderingField) . ' DESC');
 		}
 		// If the movement delta is positive move the row down.
 		elseif ($delta > 0)
 		{
-			$query->where($this->_db->quoteName($orderingField).' > ' . (int) $this->$orderingField)
-				->order($this->_db->quoteName($orderingField).' ASC');
+			$query->where($this->_db->quoteName($orderingField) . ' > ' . (int) $this->$orderingField)
+				->order($this->_db->quoteName($orderingField) . ' ASC');
 		}
 
 		// Add the custom WHERE clause if set.
@@ -1460,7 +1460,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the ordering field for this instance to the row's ordering value.
 			$query->clear()
 				->update($this->_tbl)
-				->set($this->_db->quoteName($orderingField).' = ' . (int) $row->$orderingField);
+				->set($this->_db->quoteName($orderingField) . ' = ' . (int) $row->$orderingField);
 			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1468,7 +1468,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the ordering field for the row to this instance's ordering value.
 			$query->clear()
 				->update($this->_tbl)
-				->set($this->_db->quoteName($orderingField).' = ' . (int) $this->$orderingField);
+				->set($this->_db->quoteName($orderingField) . ' = ' . (int) $this->$orderingField);
 			$this->appendPrimaryKeys($query, $row);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1481,7 +1481,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the ordering field for this instance.
 			$query->clear()
 				->update($this->_tbl)
-				->set($this->_db->quoteName($orderingField).' = ' . (int) $this->$orderingField);
+				->set($this->_db->quoteName($orderingField) . ' = ' . (int) $this->$orderingField);
 			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
