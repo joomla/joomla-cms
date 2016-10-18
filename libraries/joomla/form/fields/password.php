@@ -52,6 +52,14 @@ class JFormFieldPassword extends JFormField
 	protected $meter = false;
 
 	/**
+	 * Whether to attach a password strength meter or not.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $force = false;
+
+	/**
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
@@ -75,6 +83,7 @@ class JFormFieldPassword extends JFormField
 			case 'threshold':
 			case 'maxLength':
 			case 'meter':
+			case 'force':
 				return $this->$name;
 		}
 
@@ -103,6 +112,7 @@ class JFormFieldPassword extends JFormField
 				break;
 
 			case 'meter':
+			case 'force':
 				$this->meter = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
@@ -135,6 +145,8 @@ class JFormFieldPassword extends JFormField
 			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter              = (string) $this->element['strengthmeter'];
 			$this->meter        = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$force              = (string) $this->element['forcePassword'];
+			$this->force        = (($force == 'true' || $force == 'on' || $force == '1') && $this->meter === true);
 			$this->minLength    = (int) JComponentHelper::getParams('com_users')->get('minimum_length', 4);
 			$this->minIntegers  = (int) JComponentHelper::getParams('com_users')->get('minimum_integers', 0);
 			$this->minSymbols   = (int) JComponentHelper::getParams('com_users')->get('minimum_symbols', 0);
@@ -179,6 +191,7 @@ class JFormFieldPassword extends JFormField
 			'minSymbols'     => $this->minSymbols,
 			'minUppercase'     => $this->minUppercase,
 			'minLowercase'     => $this->minLowercase,
+			'forcePassword'    => $this->force,
 		);
 
 		return array_merge($data, $extraData);

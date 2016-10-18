@@ -110,4 +110,30 @@ document.addEventListener('DOMContentLoaded', function(){
 			meter.value = score;
 		})
 	}
+
+	if (fields[0].getAttribute())
+	document.formvalidator.setHandler('passwordExtra', function(value) {
+console.log('called')
+		var returnedValue = false,
+			fields = document.querySelectorAll('.js-password-strength'),
+			$minLength = fields[0].getAttribute('data-min-length'),
+			$minIntegers = fields[0].getAttribute('data-min-integers'),
+			$minSymbols = fields[0].getAttribute('data-min-symbols'),
+			$minUppercase = fields[0].getAttribute('data-min-uppercase'),
+			$minLowercase = fields[0].getAttribute('data-min-lowercase');
+
+		var strength = new PasswordStrength({
+			lowercase: $minLowercase ? $minLowercase : 0,
+			uppercase: $minUppercase ? $minUppercase : 0,
+			numbers: $minIntegers ? $minIntegers : 0,
+			special: $minSymbols ? $minSymbols : 0,
+			length: $minLength ? $minLength : 4
+		});
+
+		var score = strength.getScore(value);
+console.log(score)
+		if (score > 60 ) returnedValue = true;
+
+		return returnedValue;
+	});
 });

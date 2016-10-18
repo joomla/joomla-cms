@@ -49,6 +49,11 @@ if ($meter)
 	JHtml::_('script', 'system/fields/passwordstrength.js', false, true);
 
 	$class = 'js-password-strength ' . $class;
+
+	if ($forcePassword)
+	{
+		$class = $class . ' meteredPassword';
+	}
 }
 
 JText::script('JFIELD_PASSWORD_INDICATE_NORMAL', true);
@@ -72,6 +77,7 @@ $attributes = array(
 	!empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
 	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
 	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
+	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
 );
 
 ?>
