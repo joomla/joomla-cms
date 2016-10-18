@@ -18,7 +18,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 <?php if ($params->get('show_title') || $displayData->state == 0 || ($params->get('show_author') && !empty($displayData->author ))) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="name">
+			<h2 itemprop="name headline">
 				<?php if ($params->get('link_titles') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
 					<a href="<?php echo JRoute::_(
 						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)

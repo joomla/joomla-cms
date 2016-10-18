@@ -20,6 +20,7 @@ $info    = $params->get('info_block_position', 0);
 	<div class="system-unpublished">
 <?php endif; ?>
 
+<meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="<?php echo JUri::getInstance(); ?>"/>
 <?php echo JLayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
 <?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>

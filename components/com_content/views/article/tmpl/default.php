@@ -22,9 +22,10 @@ JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
 	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language; ?>" />
+	<meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="<?php echo JUri::getInstance(); ?>"/>
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
-		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
+		<h1 itemprop="name headline"> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 	</div>
 	<?php endif;
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && $this->item->paginationrelative)
@@ -46,7 +47,7 @@ JHtml::_('behavior.caption');
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
+			<h2 itemprop="name headline">
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
@@ -100,6 +101,10 @@ JHtml::_('behavior.caption');
 		echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_fulltext_caption) . '"';
 	endif; ?>
 	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" itemprop="image"/> </div>
+	<meta itemprop="url" content="<?php echo JUri::base() . htmlspecialchars($images->image_fulltext); ?>">
+	<?php $imageDetails = getimagesize(JUri::base() . htmlspecialchars($images->image_fulltext)); ?>
+	<meta itemprop="width" content="<?php echo $imageDetails[0]; ?>">
+	<meta itemprop="height" content="<?php echo $imageDetails[1]; ?>">
 	<?php endif; ?>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):

@@ -13,7 +13,7 @@ $params = $displayData->params;
 <?php $images = json_decode($displayData->images); ?>
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+	<div class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)); ?>"><img
 		<?php if ($images->image_intro_caption) : ?>
@@ -25,6 +25,12 @@ $params = $displayData->params;
 			<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
 		<?php endif; ?>
 		src="<?php echo htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8'); ?>" itemprop="thumbnailUrl"/>
+	<?php endif; ?>
+	<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
+	<meta itemprop="url" content="<?php echo JUri::base() . htmlspecialchars($images->image_fulltext); ?>">
+	<?php $imageDetails = getimagesize(JUri::base() . htmlspecialchars($images->image_fulltext)); ?>
+	<meta itemprop="width" content="<?php echo $imageDetails[0]; ?>">
+	<meta itemprop="height" content="<?php echo $imageDetails[1]; ?>">
 	<?php endif; ?>
 	</div>
 <?php endif; ?>
