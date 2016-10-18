@@ -48,6 +48,8 @@ extract($displayData);
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
+
+$maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
 ?>
 <input type="file"
 	name="<?php echo $name; ?>"
@@ -60,6 +62,4 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
 	<?php echo $required ? ' required aria-required="true"' : ''; ?> /><br>
-<?php
-$maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
-echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize);
+	<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
