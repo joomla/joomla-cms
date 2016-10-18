@@ -31,6 +31,8 @@ class JoomlaInstallerScript
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
 
+		// This needs to stay for 2.5 update compatibility
+		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 		$this->clearRadCache();
@@ -248,8 +250,8 @@ class JoomlaInstallerScript
 			array('library', 'fof', '', 0),
 			array('library', 'phpass', '', 0),
 
-			// Modules site
-			// Site
+			// Modules
+			// - Site
 			array('module', 'mod_articles_archive', '', 0),
 			array('module', 'mod_articles_latest', '', 0),
 			array('module', 'mod_articles_popular', '', 0),
@@ -275,7 +277,7 @@ class JoomlaInstallerScript
 			array('module', 'mod_tags_popular', '', 0),
 			array('module', 'mod_tags_similar', '', 0),
 
-			// Administrator
+			// - Administrator
 			array('module', 'mod_custom', '', 1),
 			array('module', 'mod_feed', '', 1),
 			array('module', 'mod_latest', '', 1),
@@ -291,7 +293,7 @@ class JoomlaInstallerScript
 			array('module', 'mod_toolbar', '', 1),
 			array('module', 'mod_multilangstatus', '', 1),
 
-			// Plug-ins
+			// Plugins
 			array('plugin', 'gmail', 'authentication', 0),
 			array('plugin', 'joomla', 'authentication', 0),
 			array('plugin', 'ldap', 'authentication', 0),
@@ -1170,6 +1172,12 @@ class JoomlaInstallerScript
 			'/libraries/joomla/registry/format/xml.php',
 			// Joomla 3.3.1
 			'/administrator/templates/isis/html/message.php',
+			// Joomla 3.3.6
+			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js',
+			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html/index.html',
 			'/administrator/components/com_tags/models/fields/index.html',
@@ -1276,9 +1284,25 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/js/php.js',
 			'/media/editors/codemirror/js/xml-fold.js',
 			'/media/editors/codemirror/js/xml.js',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.svg',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.ttf',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.woff',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.eot',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.svg',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.ttf',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon-small.woff',
+			'/media/editors/tinymce/skins/lightgray/fonts/readme.md',
+			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
+			'/media/editors/tinymce/skins/lightgray/fonts/tinymce-small.dev.svg',
+			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
+			'/plugins/editors/codemirror/styles.css',
+			'/plugins/editors/codemirror/styles.min.css',
 			// Joomla! 3.4.1
 			'/libraries/joomla/environment/request.php',
 			'/media/editors/tinymce/templates/template_list.js',
+			'/media/editors/codemirror/lib/addons-uncompressed.js',
+			'/media/editors/codemirror/lib/codemirror-uncompressed.css',
+			'/media/editors/codemirror/lib/codemirror-uncompressed.js',
 			'/administrator/help/en-GB/Components_Banners_Banners.html',
 			'/administrator/help/en-GB/Components_Banners_Banners_Edit.html',
 			'/administrator/help/en-GB/Components_Banners_Categories.html',
@@ -1380,6 +1404,29 @@ class JoomlaInstallerScript
 			'/administrator/components/com_config/models/forms/index.html',
 			// Joomla 3.4.2
 			'/libraries/composer_autoload.php',
+			'/administrator/templates/hathor/html/com_categories/categories/default_batch.php',
+			'/administrator/templates/hathor/html/com_tags/tags/default_batch.php',
+			'/media/editors/codemirror/mode/clike/scala.html',
+			'/media/editors/codemirror/mode/css/less.html',
+			'/media/editors/codemirror/mode/css/less_test.js',
+			'/media/editors/codemirror/mode/css/scss.html',
+			'/media/editors/codemirror/mode/css/scss_test.js',
+			'/media/editors/codemirror/mode/css/test.js',
+			'/media/editors/codemirror/mode/gfm/test.js',
+			'/media/editors/codemirror/mode/haml/test.js',
+			'/media/editors/codemirror/mode/javascript/json-ld.html',
+			'/media/editors/codemirror/mode/javascript/test.js',
+			'/media/editors/codemirror/mode/javascript/typescript.html',
+			'/media/editors/codemirror/mode/markdown/test.js',
+			'/media/editors/codemirror/mode/php/test.js',
+			'/media/editors/codemirror/mode/ruby/test.js',
+			'/media/editors/codemirror/mode/shell/test.js',
+			'/media/editors/codemirror/mode/slim/test.js',
+			'/media/editors/codemirror/mode/stex/test.js',
+			'/media/editors/codemirror/mode/textile/test.js',
+			'/media/editors/codemirror/mode/verilog/test.js',
+			'/media/editors/codemirror/mode/xml/test.js',
+			'/media/editors/codemirror/mode/xquery/test.js',
 			// Joomla 3.4.3
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
@@ -1390,6 +1437,17 @@ class JoomlaInstallerScript
 			'/media/com_joomlaupdate/encryption.js',
 			'/media/com_joomlaupdate/json2.js',
 			'/media/com_joomlaupdate/update.js',
+			'/media/com_finder/css/finder-rtl.css',
+			'/media/com_finder/css/selectfilter.css',
+			'/media/com_finder/css/sliderfilter.css',
+			'/media/com_finder/js/sliderfilter.js',
+			'/media/editors/codemirror/mode/kotlin/kotlin.js',
+			'/media/editors/codemirror/mode/kotlin/kotlin.min.js',
+			'/media/editors/tinymce/plugins/compat3x/editable_selects.js',
+			'/media/editors/tinymce/plugins/compat3x/form_utils.js',
+			'/media/editors/tinymce/plugins/compat3x/mctabs.js',
+			'/media/editors/tinymce/plugins/compat3x/tiny_mce_popup.js', 
+			'/media/editors/tinymce/plugins/compat3x/validate.js',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Dumper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Escaper.php',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Inline.php',
@@ -1410,8 +1468,13 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch/opensearch.php',
 			'/libraries/joomla/document/raw/raw.php',
 			'/libraries/joomla/document/xml/xml.php',
+			'/plugins/editors/tinymce/fields/skins.php',
+			'/plugins/user/profile/fields/dob.php',
+			'/plugins/user/profile/fields/tos.php',
 			'/administrator/components/com_installer/views/languages/tmpl/default_filter.php',
 			'/administrator/components/com_joomlaupdate/helpers/download.php',
+			'/administrator/components/com_config/controller/application/refreshhelp.php',
+			'/administrator/components/com_media/models/forms/index.html',
 			// Joomla 3.6.0
 			'/libraries/simplepie/README.txt',
 			'/libraries/simplepie/simplepie.php',
@@ -1424,6 +1487,15 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/jquery.js',
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/media/system/js/permissions.min.js',
+			'/libraries/platform.php',
+			'/plugins/user/profile/fields/tos.php',
+			'/libraries/joomla/application/web/client.php',
+			// Joomla! 3.6.1
+			'/libraries/joomla/database/iterator/azure.php',
+			'/media/editors/tinymce/skins/lightgray/fonts/icomoon.eot',
+			// Joomla! 3.6.3
+			'/media/editors/codemirror/mode/jade/jade.js',
+			'/media/editors/codemirror/mode/jade/jade.min.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1478,6 +1550,9 @@ class JoomlaInstallerScript
 			'/plugins/user/joomla/postinstall',
 			'/libraries/joomla/registry/format',
 			'/libraries/joomla/registry',
+			// Joomla! 3.3
+			'/plugins/user/profile/fields',
+			'/media/editors/tinymce/plugins/compat3x',
 			// Joomla! 3.4
 			'/administrator/components/com_tags/helpers/html',
 			'/administrator/components/com_tags/models/fields',
@@ -1502,10 +1577,13 @@ class JoomlaInstallerScript
 			'/libraries/phpmailer',
 			'/media/editors/codemirror/css',
 			'/media/editors/codemirror/js',
+			'/media/com_banners',
 			// Joomla! 3.4.1
 			'/administrator/components/com_config/views',
 			'/administrator/components/com_config/models/fields',
 			'/administrator/components/com_config/models/forms',
+			// Joomla! 3.4.2
+			'/media/editors/codemirror/mode/smartymixed',
 			// Joomla! 3.5
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml/Exception',
 			'/libraries/vendor/symfony/yaml/Symfony/Component/Yaml',
@@ -1517,9 +1595,16 @@ class JoomlaInstallerScript
 			'/libraries/joomla/document/opensearch',
 			'/libraries/joomla/document/raw',
 			'/libraries/joomla/document/xml',
+			'/administrator/components/com_media/models/forms',
+			'/media/editors/codemirror/mode/kotlin',
+			'/media/editors/tinymce/plugins/compat3x',
+			'/plugins/editors/tinymce/fields',
+			'/plugins/user/profile/fields',
 			// Joomla 3.6
 			'/libraries/simplepie/idn',
 			'/libraries/simplepie',
+			// Joomla! 3.6.3
+			'/media/editors/codemirror/mode/jade',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1546,10 +1631,10 @@ class JoomlaInstallerScript
 		 * Needed for updates post-3.4
 		 * If com_weblinks doesn't exist then assume we can delete the weblinks package manifest (included in the update packages)
 		 */
-		if (!JFile::exists(JPATH_ADMINISTRATOR . '/components/com_weblinks/weblinks.php')
-			&& JFile::exists(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml'))
+		if (!JFile::exists(JPATH_ROOT . '/administrator/components/com_weblinks/weblinks.php')
+			&& JFile::exists(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml'))
 		{
-			JFile::delete(JPATH_MANIFESTS . '/packages/pkg_weblinks.xml');
+			JFile::delete(JPATH_ROOT . '/administrator/manifests/packages/pkg_weblinks.xml');
 		}
 	}
 
@@ -1566,9 +1651,9 @@ class JoomlaInstallerScript
 	{
 		jimport('joomla.filesystem.file');
 
-		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		if (JFile::exists(JPATH_ROOT . '/cache/fof/cache.php'))
 		{
-			JFile::delete(JPATH_CACHE . '/fof/cache.php');
+			JFile::delete(JPATH_ROOT . '/cache/fof/cache.php');
 		}
 	}
 
@@ -1742,7 +1827,7 @@ class JoomlaInstallerScript
 		}
 
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
+		$fileName1 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql";
 
 		if (is_file($fileName1))
 		{
@@ -1766,7 +1851,7 @@ class JoomlaInstallerScript
 		}
 
 		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ADMINISTRATOR . "/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
+		$fileName2 = JPATH_ROOT . "/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql";
 
 		if (is_file($fileName2))
 		{
@@ -1812,8 +1897,14 @@ class JoomlaInstallerScript
 	 */
 	private function cleanJoomlaCache()
 	{
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_cache/models');
+		JModelLegacy::addIncludePath(JPATH_ROOT . '/administrator/components/com_cache/models');
 		$model = JModelLegacy::getInstance('cache', 'CacheModel');
+
+		// Clean frontend cache
+		$model->clean();
+
+		// Clean admin cache
+		$model->setState('client_id', 1);
 		$model->clean();
 	}
 }

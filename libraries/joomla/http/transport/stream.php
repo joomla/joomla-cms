@@ -135,7 +135,7 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		// Build the headers string for the request.
-		$headerEntries = null;
+		$headerEntries = array();
 
 		if (isset($headers))
 		{
@@ -162,7 +162,7 @@ class JHttpTransportStream implements JHttpTransport
 					'verify_peer'   => true,
 					'cafile'        => $this->options->get('stream.certpath', __DIR__ . '/cacert.pem'),
 					'verify_depth'  => 5,
-				)
+				),
 			)
 		);
 

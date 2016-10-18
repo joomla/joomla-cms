@@ -23,7 +23,9 @@ abstract class ModTagsPopularHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  &$params  module parameters
 	 *
-	 * @return mixed
+	 * @return  mixed
+	 *
+	 * @since   3.1
 	 */
 	public static function getList(&$params)
 	{
@@ -42,7 +44,8 @@ abstract class ModTagsPopularHelper
 					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
 					' COUNT(*) AS count', 'MAX(t.title) AS title',
 					'MAX(' . $db->quoteName('t.access') . ') AS access',
-					'MAX(' . $db->quoteName('t.alias') . ') AS alias'
+					'MAX(' . $db->quoteName('t.alias') . ') AS alias',
+					'MAX(' . $db->quoteName('t.params') . ') AS params',
 				)
 			)
 			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))

@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Twitter API object class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       12.3
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 abstract class JTwitterObject
 {

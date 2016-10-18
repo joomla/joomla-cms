@@ -368,8 +368,11 @@ class JLanguage
 		}
 		elseif ($interpretBackSlashes)
 		{
-			// Interpret \n and \t characters
-			$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			if (strpos($string, '\\') !== false)
+			{
+				// Interpret \n and \t characters
+				$string = str_replace(array('\\\\', '\t', '\n'), array("\\", "\t", "\n"), $string);
+			}
 		}
 
 		return $string;
@@ -720,16 +723,17 @@ class JLanguage
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
+		// If language is null set as the current language.
+		if (!$lang)
+		{
+			$lang = $this->lang;
+		}
+
 		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
 		// with $default set to true
 		if (!$this->debug && ($lang != $this->default) && $default)
 		{
 			$this->load($extension, $basePath, $this->default, false, true);
-		}
-
-		if (!$lang)
-		{
-			$lang = $this->lang;
 		}
 
 		$path = self::getLanguagePath($basePath, $lang);
@@ -848,85 +852,112 @@ class JLanguage
 			// Restore error tracking to what it was before.
 			ini_set('track_errors', $track_errors);
 
-			// Initialise variables for manually parsing the file for common errors.
-			$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
-			$this->debug = false;
-			$errors = array();
-
-			// Open the file as a stream.
-			$file = new SplFileObject($filename);
-
-			foreach ($file as $lineNumber => $line)
-			{
-				// Avoid BOM error as BOM is OK when using parse_ini.
-				if ($lineNumber == 0)
-				{
-					$line = str_replace("\xEF\xBB\xBF", '', $line);
-				}
-
-				$line = trim($line);
-
-				// Ignore comment lines.
-				if (!strlen($line) || $line['0'] == ';')
-				{
-					continue;
-				}
-
-				// Ignore grouping tag lines, like: [group]
-				if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
-				{
-					continue;
-				}
-
-				// Remove the "_QQ_" from the equation
-				$line = str_replace('"_QQ_"', '', $line);
-				$realNumber = $lineNumber + 1;
-
-				// Check for any incorrect uses of _QQ_.
-				if (strpos($line, '_QQ_') !== false)
-				{
-					$errors[] = $realNumber;
-					continue;
-				}
-
-				// Check for odd number of double quotes.
-				if (substr_count($line, '"') % 2 != 0)
-				{
-					$errors[] = $realNumber;
-					continue;
-				}
-
-				// Check that the line passes the necessary format.
-				if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
-				{
-					$errors[] = $realNumber;
-					continue;
-				}
-
-				// Check that the key is not in the blacklist.
-				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
-
-				if (in_array($key, $blacklist))
-				{
-					$errors[] = $realNumber;
-				}
-			}
-
-			// Check if we encountered any errors.
-			if (count($errors))
-			{
-				$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
-			}
-			elseif ($php_errormsg)
-			{
-				// We didn't find any errors but there's probably a parse notice.
-				$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
-			}
-
-			$this->debug = true;
+			$this->debugFile($filename);
 		}
 
 		return $strings;
+	}
+
+	/**
+	 * Debugs a language file
+	 *
+	 * @param   string  $filename  Absolute path to the file to debug
+	 *
+	 * @return  integer  A count of the number of parsing errors
+	 *
+	 * @since   3.6.3
+	 * @throws  InvalidArgumentException
+	 */
+	public function debugFile($filename)
+	{
+		// Make sure our file actually exists
+		if (!file_exists($filename))
+		{
+			throw new InvalidArgumentException(
+				sprintf('Unable to locate file "%s" for debugging', $filename)
+			);
+		}
+
+		// Initialise variables for manually parsing the file for common errors.
+		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+		$debug = $this->getDebug();
+		$this->debug = false;
+		$errors = array();
+		$php_errormsg = null;
+
+		// Open the file as a stream.
+		$file = new SplFileObject($filename);
+
+		foreach ($file as $lineNumber => $line)
+		{
+			// Avoid BOM error as BOM is OK when using parse_ini.
+			if ($lineNumber == 0)
+			{
+				$line = str_replace("\xEF\xBB\xBF", '', $line);
+			}
+
+			$line = trim($line);
+
+			// Ignore comment lines.
+			if (!strlen($line) || $line['0'] == ';')
+			{
+				continue;
+			}
+
+			// Ignore grouping tag lines, like: [group]
+			if (preg_match('#^\[[^\]]*\](\s*;.*)?$#', $line))
+			{
+				continue;
+			}
+
+			// Remove the "_QQ_" from the equation
+			$line = str_replace('"_QQ_"', '', $line);
+			$realNumber = $lineNumber + 1;
+
+			// Check for any incorrect uses of _QQ_.
+			if (strpos($line, '_QQ_') !== false)
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check for odd number of double quotes.
+			if (substr_count($line, '"') % 2 != 0)
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check that the line passes the necessary format.
+			if (!preg_match('#^[A-Z][A-Z0-9_\*\-\.]*\s*=\s*".*"(\s*;.*)?$#', $line))
+			{
+				$errors[] = $realNumber;
+				continue;
+			}
+
+			// Check that the key is not in the blacklist.
+			$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+
+			if (in_array($key, $blacklist))
+			{
+				$errors[] = $realNumber;
+			}
+		}
+
+		// Check if we encountered any errors.
+		if (count($errors))
+		{
+			$this->errorfiles[$filename] = $filename . ' : error(s) in line(s) ' . implode(', ', $errors);
+		}
+		elseif ($php_errormsg)
+		{
+			// We didn't find any errors but there's probably a parse notice.
+			$this->errorfiles['PHP' . $filename] = 'PHP parser errors :' . $php_errormsg;
+		}
+
+		$this->debug = $debug;
+
+		return count($errors);
 	}
 
 	/**
@@ -961,7 +992,7 @@ class JLanguage
 		// Try to determine the source if none was provided
 		if (!function_exists('debug_backtrace'))
 		{
-			return null;
+			return;
 		}
 
 		$backtrace = debug_backtrace();
@@ -1023,7 +1054,7 @@ class JLanguage
 				return $this->paths[$extension];
 			}
 
-			return null;
+			return;
 		}
 		else
 		{
@@ -1190,7 +1221,7 @@ class JLanguage
 
 		if (empty($result))
 		{
-			return null;
+			return;
 		}
 
 		return $result;
@@ -1374,13 +1405,13 @@ class JLanguage
 
 		if (!$xml)
 		{
-			return null;
+			return;
 		}
 
 		// Check that it's a metadata file
 		if ((string) $xml->getName() != 'metafile')
 		{
-			return null;
+			return;
 		}
 
 		$metadata = array();

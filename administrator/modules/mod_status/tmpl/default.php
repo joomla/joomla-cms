@@ -24,8 +24,8 @@ if ($params->get('show_viewsite', 1))
 		. '<a href="' . $frontEndUri->toString() . '" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('JGLOBAL_VIEW_SITE')
 		. '</a>'
-		. '</div>'
-		. '<div class="btn-group divider"></div>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 // Print the link to open a new Administrator window.
@@ -35,25 +35,27 @@ if ($params->get('show_viewadmin', 0))
 		. '<a href="' . JUri::base() . 'index.php" target="_blank">'
 		. '<span class="icon-out-2"></span>' . JText::_('MOD_STATUS_FIELD_LINK_VIEWADMIN_LABEL')
 		. '</a>'
-		. '</div>'
-		. '<div class="btn-group divider"></div>';
+		. '<span class="btn-group separator"></span>'
+		. '</div>';
 }
 
 // Print the frontend logged in  users.
 if ($params->get('show_loggedin_users', 1))
 {
 	$output[] = '<div class="btn-group loggedin-users">'
-		. '<span class="badge">' . $online_num . '</span> '
+		. '<span class="badge">' . $online_num . '</span>'
 		. JText::plural('MOD_STATUS_USERS', $online_num)
+		. '<span class="btn-group separator"></span>'
 		. '</div>';
 }
 
-// Print the back-end logged in users.
+// Print the backend logged in users.
 if ($params->get('show_loggedin_users_admin', 1))
 {
 	$output[] = '<div class="btn-group backloggedin-users">'
-		. '<span class="badge">' . $count . '</span> '
+		. '<span class="badge">' . $count . '</span>'
 		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
+		. '<span class="btn-group separator"></span>'
 		. '</div>';
 }
 
@@ -61,13 +63,12 @@ if ($params->get('show_loggedin_users_admin', 1))
 if ($params->get('show_messages', 1))
 {
 	$active   = $unread ? ' badge-warning' : '';
-	$output[] = '<div class="btn-group hasTooltip ' . $inboxClass . '"'
-		. ' title="' . JText::plural('MOD_STATUS_MESSAGES', $unread) . '">'
+	$output[] = '<div class="btn-group ' . $inboxClass . '">'
 		. ($hideLinks ? '' : '<a href="' . $inboxLink . '">')
-		. '<span class="icon-envelope"></span>'
 		. '<span class="badge' . $active . '">' . $unread . '</span>'
+		. JText::plural('MOD_STATUS_MESSAGES_LABEL', $unread)
 		. ($hideLinks ? '' : '</a>')
-		. '<div class="btn-group divider"></div>'
+		. '<span class="btn-group separator"></span>'
 		. '</div>';
 }
 

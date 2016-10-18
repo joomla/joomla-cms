@@ -16,7 +16,7 @@ if ($app->isSite())
 	JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 }
 
-require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');

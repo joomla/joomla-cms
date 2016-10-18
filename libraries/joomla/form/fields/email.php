@@ -13,7 +13,7 @@ JFormHelper::loadFieldClass('text');
 
 /**
  * Form Field class for the Joomla Platform.
- * Provides and input field for e-mail addresses
+ * Provides and input field for email addresses
  *
  * @link   http://www.w3.org/TR/html-markup/input.email.html#input.email
  * @see    JFormRuleEmail
@@ -30,7 +30,7 @@ class JFormFieldEMail extends JFormFieldText
 	protected $type = 'Email';
 
 	/**
-	 * Method to get the field input markup for e-mail addresses.
+	 * Method to get the field input markup for email addresses.
 	 *
 	 * @return  string  The field input markup.
 	 *

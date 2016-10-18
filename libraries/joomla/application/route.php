@@ -49,7 +49,7 @@ class JRoute
 			// Make sure that we have our router
 			if (!self::$_router)
 			{
-				return null;
+				return;
 			}
 		}
 

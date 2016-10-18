@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for Joomla Newsfeeds.
@@ -274,13 +274,13 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*
-		 * Add the meta-data processing instructions based on the newsfeeds
+		 * Add the metadata processing instructions based on the newsfeeds
 		 * configuration parameters.
 		 */
-		// Add the meta-author.
+		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
-		// Handle the link to the meta-data.
+		// Handle the link to the metadata.
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
 
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
@@ -315,7 +315,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/components/com_newsfeeds/helpers/route.php';
+		JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
 
 		return true;
 	}

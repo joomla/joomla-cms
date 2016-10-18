@@ -34,7 +34,7 @@ extract($displayData);
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
  * @var   integer  $size            Size attribute of the input.
- * @var   boolean  $spellchec       Spellcheck state for the form field.
+ * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.

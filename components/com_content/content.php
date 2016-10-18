@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/route.php';
-require_once JPATH_COMPONENT . '/helpers/query.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+JLoader::register('ContentHelperQuery', JPATH_SITE . '/components/com_content/helpers/query.php');
 
 $input = JFactory::getApplication()->input;
 $user  = JFactory::getUser();
 
 if ($input->get('view') === 'article' && $input->get('layout') === 'pagebreak')
 {
-	if (!$user->authorise('core.edit', 'com_content'))
+	if (!$user->authorise('core.create', 'com_content'))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
@@ -26,7 +26,7 @@ if ($input->get('view') === 'article' && $input->get('layout') === 'pagebreak')
 }
 elseif ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
 {
-	if (!$user->authorise('core.edit', 'com_content'))
+	if (!$user->authorise('core.create', 'com_content'))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
@@ -35,5 +35,5 @@ elseif ($input->get('view') === 'articles' && $input->get('layout') === 'modal')
 }
 
 $controller = JControllerLegacy::getInstance('Content');
-$controller->execute($input->get('task'));
+$controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

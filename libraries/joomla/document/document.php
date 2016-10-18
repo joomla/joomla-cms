@@ -466,7 +466,7 @@ class JDocument
 	}
 
 	/**
-	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
+	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js?54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
 	 * @param   string   $url      URL to the linked script
@@ -947,7 +947,7 @@ class JDocument
 	{
 		$this->_mime = strtolower($type);
 
-		// Syncing with meta-data
+		// Syncing with metadata
 		if ($sync)
 		{
 			$this->setMetaData('content-type', $type . '; charset=' . $this->_charset, true);

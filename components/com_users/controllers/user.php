@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Registration controller class for Users.
@@ -200,13 +200,18 @@ class UsersControllerUser extends UsersController
 			}
 
 			$return = 'index.php?Itemid=' . $return . $lang;
-
-			// Redirect to internal URLs only
-			if (JUri::isInternal($return))
+		}
+		else
+		{
+			// Don't redirect to an external URL.
+			if (!JUri::isInternal($return))
 			{
-				$app->redirect(JRoute::_($return, false));
+				$return = '';
 			}
 		}
+
+		// Redirect the user.
+		$app->redirect(JRoute::_($return, false));
 	}
 
 	/**

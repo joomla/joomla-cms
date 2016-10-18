@@ -74,7 +74,7 @@ class FinderIndexerHelper
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
-		$lang = self::getPrimaryLanguage($lang);
+		$lang = static::getPrimaryLanguage($lang);
 
 		/*
 		 * Parsing the string input into terms is a multi-step process.
@@ -224,14 +224,12 @@ class FinderIndexerHelper
 		}
 
 		// Stem the token if we have a valid stemmer to use.
-		if (self::$stemmer instanceof FinderIndexerStemmer)
+		if (static::$stemmer instanceof FinderIndexerStemmer)
 		{
-			return self::$stemmer->stem($token, $lang);
+			return static::$stemmer->stem($token, $lang);
 		}
-		else
-		{
-			return $token;
-		}
+
+		return $token;
 	}
 
 	/**
@@ -303,14 +301,7 @@ class FinderIndexerHelper
 		}
 
 		// Check if the token is in the common array.
-		if (in_array($token, $data[$lang]))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return in_array($token, $data[$lang]);
 	}
 
 	/**
@@ -335,9 +326,8 @@ class FinderIndexerHelper
 
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
-		$results = $db->loadColumn();
 
-		return $results;
+		return $db->loadColumn();
 	}
 
 	/**

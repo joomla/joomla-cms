@@ -156,7 +156,7 @@ class JDocumentHtml extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return null;
+			return;
 		}
 
 		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
@@ -194,7 +194,7 @@ class JDocumentHtml extends JDocument
 	{
 		if (empty($data) || !is_array($data))
 		{
-			return null;
+			return;
 		}
 
 		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))

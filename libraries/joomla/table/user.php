@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Users table
@@ -88,7 +89,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		// Convert e-mail from punycode
+		// Convert email from punycode
 		$data['email'] = JStringPunycode::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
@@ -138,7 +139,7 @@ class JTableUser extends JTable
 		if ($return && !empty($this->groups))
 		{
 			// Set the group ids.
-			JArrayHelper::toInteger($this->groups);
+			$this->groups = ArrayHelper::toInteger($this->groups);
 
 			// Get the titles for the user groups.
 			$query = $this->_db->getQuery(true)
@@ -202,7 +203,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		// Convert e-mail to punycode for storage
+		// Convert email to punycode for storage
 		$this->email = JStringPunycode::emailToPunycode($this->email);
 
 		// Set the registration timestamp

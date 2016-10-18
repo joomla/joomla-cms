@@ -30,7 +30,7 @@ class InstallerModelLanguages extends JModelList
 	private $updateSiteId = 0;
 
 	/**
-	 * Constructor override, defines a white list of column filters.
+	 * Constructor override, defines a whitelist of column filters.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
@@ -343,13 +343,18 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @since   2.5.7
 	 */
-	protected function _getPackageUrl( $remote_manifest )
+	protected function _getPackageUrl($remote_manifest)
 	{
 		$update = new JUpdate;
 		$update->loadFromXml($remote_manifest);
-		$package_url = trim($update->get('downloadurl', false)->_data);
+		$downloadUrlElement = $update->get('downloadurl', false);
 
-		return $package_url;
+		if ($downloadUrlElement === false)
+		{
+			return false;
+		}
+
+		return trim($downloadUrlElement->_data);
 	}
 
 	/**
