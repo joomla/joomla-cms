@@ -24,13 +24,13 @@
 			sortableHandle:'.sortable-handler'
 		}, options);
 
-		document.querySelector('tr', tableWrapper).classList.remove(ops.sortableClassName).classList.add(ops.sortableClassName);
+		document.querySelector(tableWrapper, ' tr').classList.remove(ops.sortableClassName).classList.add(ops.sortableClassName);
 		//make wrapper table position be relative, to fix y-axis drag problem on Safari
 		document.querySelector(tableWrapper).parents('table').css('position', 'relative');
 		document.querySelector(ops.sortableHandle, tableWrapper).css('cursor', 'move');
-		document.querySelector('#' + formId).attr('autocomplete', 'off');
+		document.querySelector('#' + formId).setAttribute('autocomplete', 'off');
 
-		var _handle = document.querySelector(ops.sortableHandle, document.querySelector(tableWrapper)).length > 0 ? ops.sortableHandle : '';
+		var _handle = document.querySelector(tableWrapper).querySelector(ops.sortableHandle).length > 0 ? ops.sortableHandle : '';
 
 		document.querySelector(tableWrapper).sortable({
 			axis:'y',
@@ -38,16 +38,6 @@
 			handle:_handle,
 			items:'tr.' + ops.sortableClassName,
 			placeholder:ops.placeHolderClassName,
-			helper:function (e, ui) {
-				//hard set left position to fix y-axis drag problem on Safari
-				$(ui).css({'left':'0px'})
-
-				ui.children().each(function () {
-					$(this).width($(this).width());
-				});
-				$(ui).children('td').classList.add('dndlist-dragged-row');
-				return ui;
-			},
 
 			start:function (e, ui) {
 				root.sortableGroupId = ui.item.attr(ops.orderingGroup);

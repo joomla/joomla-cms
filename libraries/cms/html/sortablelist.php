@@ -69,47 +69,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 			var orderIds = Array.prototype.slice.call(orderIds);
 			var orderRows = Array.prototype.slice.call(orderRows);
-			//var arr = arr.reverse();
-
-			// Store the initial values
-			var setInitalValues = function () {
-				for (var i = 0; i < orderRows.length; i++) {
-					orderRows[i].setAttribute('data-initial', i);
-				}
-				console.log('darag', orderRows)
-			}
-
-			setInitalValues();
 
 			var sortedArray = function () {
 				console.log('called')
 				var orderRows = container.querySelectorAll('input[name=\"order[]\"]');
 				for (var i= 0, l = orderRows.length; l > i; i++) {
-					var orderPreviousValue = orderRows[i].getAttribute('data-initial');
-
-					if ( i+1 <= orderPreviousValue) {
-						if (i == 0 ){
-							orderRows[i].value = 0;
-						} else {
-							orderRows[i].value = i + parseInt(orderPreviousValue);
-						}
-					} else if ( i+1 >= orderPreviousValue) {
-						if (i == 0 ){
-							orderRows[i].value = 0;
-						} else {
-							orderRows[i].value = i - parseInt(orderPreviousValue);
-						}
-					}
-					console.log(i, orderPreviousValue, orderRows[i].value)
+					orderRows[i].value= i +1;
 				}
 			}
-
-		// forEach method from http://toddmotto.com/ditch-the-array-foreach-call-nodelist-hack/
-		var nodeListForEach = function (array, callback, scope) {
-			for (var i = 0; i < array.length; i++) {
-				callback.call(scope, i, array[i]);
-			}
-		};
 
 		cloneMarkedCheckboxes = function () {
 			jQuery('[name="order[]"]', container).attr('name', 'order-tmp');
@@ -128,10 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 
 		var sortableTable = dragula([container]);
-		
-		// sortableTable.on('drag', function() {
-		// 	setInitalValues(orderRows);
-		// });
 
 		sortableTable.on('dragend', function() {
 
