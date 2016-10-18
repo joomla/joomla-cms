@@ -54,7 +54,7 @@ abstract class ContactHelperRoute
 			}
 		}
 
-		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+		if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 		{
 			$link .= '&lang=' . $language;
 			$needles['language'] = $language;
@@ -106,7 +106,7 @@ abstract class ContactHelperRoute
 			$needles['category']   = $catids;
 			$needles['categories'] = $catids;
 
-			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
+			if ($language && $language !== '*' && JLanguageMultilang::isEnabled())
 			{
 				$link .= '&lang=' . $language;
 				$needles['language'] = $language;
@@ -145,7 +145,7 @@ abstract class ContactHelperRoute
 			$attributes = array('component_id');
 			$values     = array($component->id);
 
-			if ($language != '*')
+			if ($language !== '*')
 			{
 				$attributes[] = 'language';
 				$values[] = array($needles['language'], '*');
@@ -155,7 +155,7 @@ abstract class ContactHelperRoute
 
 			foreach ($items as $item)
 			{
-				if (isset($item->query) && isset($item->query['view']))
+				if (isset($item->query, $item->query['view']))
 				{
 					$view = $item->query['view'];
 
@@ -171,7 +171,7 @@ abstract class ContactHelperRoute
 						* language != * can override existing entries
 						* language == * cannot override existing entries
 						*/
-						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						if ($item->language !== '*' || !isset(self::$lookup[$language][$view][$item->query['id']]))
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
@@ -199,7 +199,7 @@ abstract class ContactHelperRoute
 
 		// Check if the active menuitem matches the requested language
 		$active = $menus->getActive();
-		if ($active && ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		if ($active && ($language === '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
