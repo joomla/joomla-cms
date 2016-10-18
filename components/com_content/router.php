@@ -36,7 +36,6 @@ class ContentRouter extends JComponentRouterView
 		$this->registerView($category);
 		$article = new JComponentRouterViewconfiguration('article');
 		$article->setKey('id')->setParent($category, 'catid');
-		$articles = new JComponentRouterViewconfiguration('articles');
 		$this->registerView($article);
 		$this->registerView(new JComponentRouterViewconfiguration('archive'));
 		$this->registerView(new JComponentRouterViewconfiguration('featured'));
