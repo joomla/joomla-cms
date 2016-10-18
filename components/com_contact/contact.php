@@ -15,11 +15,13 @@ $input = JFactory::getApplication()->input;
 
 if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 {
-	if (!JFactory::getUser()->authorise('core.edit', 'com_contact'))
+	if (!JFactory::getUser()->authorise('core.create', 'com_contact'))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 		return;
 	}
+
+	JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 }
 
 $controller = JControllerLegacy::getInstance('Contact');

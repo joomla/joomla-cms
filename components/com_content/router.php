@@ -27,18 +27,17 @@ class ContentRouter extends JComponentRouterView
 	public function __construct($app = null, $menu = null)
 	{
 		$params = JComponentHelper::getParams('com_content');
-        	$this->noIDs = (bool) $params->get('sef_ids');
-        	$categories = new JComponentRouterViewconfiguration('categories');
-        	$categories->setKey('id');
-        	$this->registerView($categories);
-        	$category = new JComponentRouterViewconfiguration('category');
+		$this->noIDs = (bool) $params->get('sef_ids');
+		$categories = new JComponentRouterViewconfiguration('categories');
+		$categories->setKey('id');
+		$this->registerView($categories);
+		$category = new JComponentRouterViewconfiguration('category');
 		$category->setKey('id')->setParent($categories, 'catid')->setNestable()->addLayout('blog');
-        	$this->registerView($category);
-        	$article = new JComponentRouterViewconfiguration('article');
-        	$article->setKey('id')->setParent($category, 'catid');
-        	$articles = new JComponentRouterViewconfiguration('articles');
-        	$this->registerView($article);
-		$this->registerView($articles);
+		$this->registerView($category);
+		$article = new JComponentRouterViewconfiguration('article');
+		$article->setKey('id')->setParent($category, 'catid');
+		$articles = new JComponentRouterViewconfiguration('articles');
+		$this->registerView($article);
 		$this->registerView(new JComponentRouterViewconfiguration('archive'));
 		$this->registerView(new JComponentRouterViewconfiguration('featured'));
 		$this->registerView(new JComponentRouterViewconfiguration('form'));
