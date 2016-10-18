@@ -13,6 +13,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('bootstrap.tooltip');
 $this->fieldsets = $this->form->getFieldsets('params');
 
 JFactory::getDocument()->addScriptDeclaration("
