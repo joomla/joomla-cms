@@ -142,7 +142,7 @@ class ConfigModelApplication extends ConfigModelForm
 				// If available in HTTPS check also the status code.
 				if (!in_array($response->code, array(200, 503, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 401), true))
 				{
-					throw new RuntimeException('HTTPS version of the site returned an invalid HTTP status code.');
+					throw new RuntimeException(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE_HTTP_CODE'));
 				}
 			}
 			catch (RuntimeException $e)
@@ -153,7 +153,7 @@ class ConfigModelApplication extends ConfigModelForm
 				$app->setUserState('com_config.config.global.data.force_ssl', 0);
 
 				// Inform the user
-				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE'), 'warning');
+				$app->enqueueMessage(JText::sprintf('COM_CONFIG_ERROR_SSL_NOT_AVAILABLE', $e->getMessage()), 'warning');
 			}
 		}
 
