@@ -37,8 +37,6 @@ class ContactRouter extends JComponentRouterView
 		$contact = new JComponentRouterViewconfiguration('contact');
 		$contact->setKey('id')->setParent($category, 'catid');
 		$this->registerView($contact);
-		$contacts = new JComponentRouterViewconfiguration('contacts');
-		$this->registerView($contacts);
 		$this->registerView(new JComponentRouterViewconfiguration('featured'));
 
 		parent::__construct($app, $menu);
