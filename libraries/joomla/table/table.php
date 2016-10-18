@@ -1287,14 +1287,15 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	public function getNextOrder($where = '')
 	{
 		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering'))
+		$orderingField = $this->getColumnAlias('ordering');
+		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
 		$query = $this->_db->getQuery(true)
-			->select('MAX(ordering)')
+			->select('MAX(' . $this->_db->quoteName($orderingField) . ')')
 			->from($this->_tbl);
 
 		if ($where)
@@ -1347,7 +1348,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	public function reorder($where = '')
 	{
 		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering'))
+		$orderingField = $this->getColumnAlias('ordering');
+		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1356,10 +1358,10 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 
 		// Get the primary keys and ordering values for the selection.
 		$query = $this->_db->getQuery(true)
-			->select(implode(',', $this->_tbl_keys) . ', ordering')
+			->select(implode(',', $this->_tbl_keys) . ', '.$this->_db->quoteName($orderingField))
 			->from($this->_tbl)
-			->where('ordering >= 0')
-			->order('ordering');
+			->where($this->_db->quoteName($orderingField).' >= 0')
+			->order($this->_db->quoteName($orderingField));
 
 		// Setup the extra where and ordering clause data.
 		if ($where)
@@ -1374,15 +1376,15 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		foreach ($rows as $i => $row)
 		{
 			// Make sure the ordering is a positive integer.
-			if ($row->ordering >= 0)
+			if ($row->$orderingField >= 0)
 			{
 				// Only update rows that are necessary.
-				if ($row->ordering != $i + 1)
+				if ($row->$orderingField != $i + 1)
 				{
 					// Update the row ordering field.
 					$query->clear()
 						->update($this->_tbl)
-						->set('ordering = ' . ($i + 1));
+						->set($this->_db->quoteName($orderingField).' = ' . ($i + 1));
 					$this->appendPrimaryKeys($query, $row);
 					$this->_db->setQuery($query);
 					$this->_db->execute();
@@ -1409,7 +1411,8 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	public function move($delta, $where = '')
 	{
 		// If there is no ordering field set an error and return false.
-		if (!property_exists($this, 'ordering'))
+		$orderingField = $this->getColumnAlias('ordering');
+		if (!property_exists($this, $orderingField))
 		{
 			throw new UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
@@ -1425,20 +1428,20 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 		$query = $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
-		$query->select(implode(',', $this->_tbl_keys) . ', ordering')
+		$query->select(implode(',', $this->_tbl_keys) . ', '.$this->_db->quoteName($orderingField))
 			->from($this->_tbl);
 
 		// If the movement delta is negative move the row up.
 		if ($delta < 0)
 		{
-			$query->where('ordering < ' . (int) $this->ordering)
-				->order('ordering DESC');
+			$query->where($this->_db->quoteName($orderingField).' < ' . (int) $this->$orderingField)
+				->order($this->_db->quoteName($orderingField).' DESC');
 		}
 		// If the movement delta is positive move the row down.
 		elseif ($delta > 0)
 		{
-			$query->where('ordering > ' . (int) $this->ordering)
-				->order('ordering ASC');
+			$query->where($this->_db->quoteName($orderingField).' > ' . (int) $this->$orderingField)
+				->order($this->_db->quoteName($orderingField).' ASC');
 		}
 
 		// Add the custom WHERE clause if set.
@@ -1457,7 +1460,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the ordering field for this instance to the row's ordering value.
 			$query->clear()
 				->update($this->_tbl)
-				->set('ordering = ' . (int) $row->ordering);
+				->set($this->_db->quoteName($orderingField).' = ' . (int) $row->$orderingField);
 			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1465,7 +1468,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the ordering field for the row to this instance's ordering value.
 			$query->clear()
 				->update($this->_tbl)
-				->set('ordering = ' . (int) $this->ordering);
+				->set($this->_db->quoteName($orderingField).' = ' . (int) $this->$orderingField);
 			$this->appendPrimaryKeys($query, $row);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1478,7 +1481,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			// Update the ordering field for this instance.
 			$query->clear()
 				->update($this->_tbl)
-				->set('ordering = ' . (int) $this->ordering);
+				->set($this->_db->quoteName($orderingField).' = ' . (int) $this->$orderingField);
 			$this->appendPrimaryKeys($query);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
