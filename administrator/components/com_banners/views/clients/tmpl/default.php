@@ -15,6 +15,14 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
+$purchaseTypes = array(
+		'1' => 'UNLIMITED',
+		'2' => 'YEARLY',
+		'3' => 'MONTHLY',
+		'4' => 'WEEKLY',
+		'5' => 'DAILY',
+);
+
 $user       = JFactory::getUser();
 $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
@@ -136,9 +144,9 @@ $params     = (isset($this->state->params)) ? $this->state->params : new JObject
 							</td>
 							<td class="small hidden-phone">
 								<?php if ($item->purchase_type < 0): ?>
-									<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_' . $params->get('purchase_type'))); ?>
+									<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$params->get('purchase_type')])); ?>
 								<?php else: ?>
-									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $item->purchase_type); ?>
+									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $purchaseTypes[$item->purchase_type]); ?>
 								<?php endif; ?>
 							</td>
 							<td class="hidden-phone">

@@ -628,6 +628,9 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	protected function initialiseApp($options = array())
 	{
+		// Set the configuration in the API.
+		$this->config = JFactory::getConfig();
+
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -696,7 +699,7 @@ class JApplicationCms extends JApplicationWeb
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.3
 	 */
 	protected function loadLibraryLanguage()
 	{
@@ -758,7 +761,13 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
+		/*
+		 * Note: The below code CANNOT change from instantiating a session via JFactory until there is a proper dependency injection container supported
+		 * by the application. The current default behaviours result in this method being called each time an application class is instantiated meaning
+		 * each application will attempt to start a new session. https://github.com/joomla/joomla-cms/issues/12108 explains why things will crash and
+		 * burn if you ever attempt to make this change without a proper dependency injection container.
+		 */
+
 		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
 		$session->start();
