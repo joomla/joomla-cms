@@ -42,14 +42,14 @@ class ContactRouter extends JComponentRouterBase
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-		$mId = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
+		$mId = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
 		if (isset($query['view']))
 		{
 			$view = $query['view'];
 
-			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_contact')
+			if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component !== 'com_contact')
 			{
 				$segments[] = $query['view'];
 			}
@@ -58,19 +58,17 @@ class ContactRouter extends JComponentRouterBase
 		}
 
 		// Are we dealing with a contact that is attached to a menu item?
-		if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id']))
+		if (isset($view, $query['id']) && ($mView == $view) && ($mId == (int) $query['id']))
 		{
-			unset($query['view']);
-			unset($query['catid']);
-			unset($query['id']);
+			unset($query['view'], $query['catid'], $query['id']);
 			return $segments;
 		}
 
-		if (isset($view) and ($view == 'category' or $view == 'contact'))
+		if (isset($view) && ($view === 'category' || $view === 'contact'))
 		{
-			if ($mId != (int) $query['id'] || $mView != $view)
+			if ($mView != $view || $mId != (int) $query['id'])
 			{
-				if ($view == 'contact' && isset($query['catid']))
+				if ($view === 'contact' && isset($query['catid']))
 				{
 					$catid = $query['catid'];
 				}
@@ -92,7 +90,7 @@ class ContactRouter extends JComponentRouterBase
 
 					foreach ($path as $id)
 					{
-						if ((int) $id == (int) $menuCatid)
+						if ((int) $id === (int) $menuCatid)
 						{
 							break;
 						}
@@ -108,7 +106,7 @@ class ContactRouter extends JComponentRouterBase
 					$segments = array_merge($segments, array_reverse($array));
 				}
 
-				if ($view == 'contact')
+				if ($view === 'contact')
 				{
 					if ($advanced)
 					{
@@ -123,8 +121,7 @@ class ContactRouter extends JComponentRouterBase
 				}
 			}
 
-			unset($query['id']);
-			unset($query['catid']);
+			unset($query['id'], $query['catid']);
 		}
 
 		if (isset($query['layout']))
@@ -139,7 +136,7 @@ class ContactRouter extends JComponentRouterBase
 			}
 			else
 			{
-				if ($query['layout'] == 'default')
+				if ($query['layout'] === 'default')
 				{
 					unset($query['layout']);
 				}
@@ -196,7 +193,7 @@ class ContactRouter extends JComponentRouterBase
 
 		$contactCategory = JCategories::getInstance('Contact')->get($id);
 
-		$categories = ($contactCategory) ? $contactCategory->getChildren() : array();
+		$categories = $contactCategory ? $contactCategory->getChildren() : array();
 		$vars['catid'] = $id;
 		$vars['id'] = $id;
 		$found = 0;
@@ -218,7 +215,7 @@ class ContactRouter extends JComponentRouterBase
 				}
 			}
 
-			if ($found == 0)
+			if ($found === 0)
 			{
 				if ($advanced)
 				{
