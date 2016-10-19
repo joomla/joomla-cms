@@ -600,7 +600,7 @@ abstract class JLoader
 	}
 
 	/**
-	 * Load a class based on name and lookup array. 
+	 * Load a class based on name and lookup array.
 	 *
 	 * @param   string  $class   The class to be loaded (wihtout prefix).
 	 * @param   array   $lookup  The array of base paths to use for finding the class file.
