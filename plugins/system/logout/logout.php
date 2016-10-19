@@ -17,12 +17,12 @@ defined('_JEXEC') or die;
 class PlgSystemLogout extends JPlugin
 {
 	/**
-	 * Application object.
+	 * Load the language file on instantiation.
 	 *
-	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	protected $app;
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Constructor.
@@ -36,18 +36,16 @@ class PlgSystemLogout extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// If we are on admin don't process.
-		if (!$this->app->isSite())
-		{
-			return;
-		}
-
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 		$hash  = JApplicationHelper::getHash('PlgSystemLogout');
 
-		if ($this->app->input->cookie->getString($hash))
+		if ($app->isSite() && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie.
-			$this->app->input->cookie->set($hash, '', 1, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain', ''));
+			$cookie_domain = $app->get('cookie_domain', '');
+			$cookie_path   = $app->get('cookie_path', '/');
+			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
 			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
@@ -66,18 +64,16 @@ class PlgSystemLogout extends JPlugin
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		if ($this->app->isSite())
+		$app = JFactory::getApplication();
+
+		if ($app->isSite())
 		{
 			// Create the cookie.
-			$this->app->input->cookie->set(
-				JApplicationHelper::getHash('PlgSystemLogout'),
-				true,
-				time() + 86400,
-				$this->app->get('cookie_path', '/'),
-				$this->app->get('cookie_domain', ''),
-				$this->app->isHttpsForced(),
-				true
-			);
+			$hash = JApplicationHelper::getHash('PlgSystemLogout');
+
+			$cookie_domain = $app->get('cookie_domain', '');
+			$cookie_path   = $app->get('cookie_path', '/');
+			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
 
 		return true;
@@ -86,13 +82,13 @@ class PlgSystemLogout extends JPlugin
 	/**
 	 * Method to handle an error condition.
 	 *
-	 * @param   Exception  $error  The Exception object to be handled.
+	 * @param   Exception  &$error  The Exception object to be handled.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function handleError($error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -100,12 +96,9 @@ class PlgSystemLogout extends JPlugin
 		// Make sure the error is a 403 and we are in the frontend.
 		if ($error->getCode() == 403 && $app->isSite())
 		{
-			// Load language file.
-			parent::loadLanguage();
-
 			// Redirect to the home page.
-			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), 'message');
-			$app->redirect(JRoute::_('index.php'));
+			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
+			$app->redirect('index.php');
 		}
 		else
 		{
