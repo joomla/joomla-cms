@@ -39,9 +39,10 @@ if ($displayData->get('show_options', 1))
 	foreach ($fieldSets as $name => $fieldSet)
 	{
 		// Ensure any fieldsets we don't want to show are skipped (including repeating formfield fieldsets)
-		if (in_array($name, $ignoreFieldsets) || (!empty($configFieldsets) && in_array($name, $configFieldsets))
-			|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets)
-			|| (isset($fieldSet->repeat) && $fieldSet->repeat == true)
+		if ((isset($fieldSet->repeat) && $fieldSet->repeat == true)
+			|| in_array($name, $ignoreFieldsets)
+			|| (!empty($configFieldsets) && in_array($name, $configFieldsets))
+			|| (!empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets))
 		)
 		{
 			continue;
@@ -54,7 +55,7 @@ if ($displayData->get('show_options', 1))
 		else
 		{
 			$label = strtoupper('JGLOBAL_FIELDSET_' . $name);
-			if (JText::_($label) == $label)
+			if (JText::_($label) === $label)
 			{
 				$label = strtoupper($app->input->get('option') . '_' . $name . '_FIELDSET_LABEL');
 			}
