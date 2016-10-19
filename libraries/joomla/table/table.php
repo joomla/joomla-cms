@@ -601,7 +601,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 			}
 		}
 
-		// If the source value is not an array or object return false.
+		// Check if the source value is an array or object
 		if (!is_object($src) && !is_array($src))
 		{
 			throw new InvalidArgumentException(sprintf('%s::bind(*%s*)', get_class($this), gettype($src)));
@@ -1286,7 +1286,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function getNextOrder($where = '')
 	{
-		// If there is no ordering field set an error and return false.
+		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 		if (!property_exists($this, $orderingField))
 		{
@@ -1347,7 +1347,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function reorder($where = '')
 	{
-		// If there is no ordering field set an error and return false.
+		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 		if (!property_exists($this, $orderingField))
 		{
@@ -1410,7 +1410,7 @@ abstract class JTable extends JObject implements JObservableInterface, JTableInt
 	 */
 	public function move($delta, $where = '')
 	{
-		// If there is no ordering field set an error and return false.
+		// Check if there is an ordering field set
 		$orderingField = $this->getColumnAlias('ordering');
 		if (!property_exists($this, $orderingField))
 		{
