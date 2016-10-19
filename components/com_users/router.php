@@ -69,7 +69,10 @@ class UsersRouter extends JComponentRouterBase
 				// Check to see if we have found the login menu item.
 				if (empty($login) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'login'))
 				{
-					$login = $items[$i]->id;
+					if (!empty($items[$i]->query['layout']) && ($items[$i]->query['layout'] != 'logout'))
+					{
+						$login = $items[$i]->id;
+					}
 				}
 
 				// Check to see if we have found the registration menu item.
