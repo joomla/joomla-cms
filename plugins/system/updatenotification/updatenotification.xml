@@ -30,13 +30,13 @@
 
 				<field
 					name="language_override"
-					type="language"
+					type="list"
 					label="PLG_SYSTEM_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_LBL"
 					description="PLG_SYSTEM_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_DESC"
 					default=""
-					client="administrator"
 					>
 					<option value="">PLG_SYSTEM_UPDATENOTIFICATION_LANGUAGE_OVERRIDE_NONE</option>
+					<option type="languages" client="administrator"/>
 				</field>
 
 				<field

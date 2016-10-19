@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<fieldset 
+	<fieldset
 		name="user_options"
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
@@ -69,16 +69,14 @@
 
 		<field
 			name="captcha"
-			type="plugins"
-			folder="captcha"
+			type="list"
 			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			filter="cmd" >
-			<option
-				value="">JOPTION_USE_DEFAULT</option>
-			<option
-				value="0">JOPTION_DO_NOT_USE</option>
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
+			<option type="plugins" folder="captcha" />
 		</field>
 
 		<field

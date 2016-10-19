@@ -45,13 +45,21 @@ abstract class JFormOptionSQL
 		$driver = $db->name;
 
 		// Check for a query specific to the driver in use.
-		foreach ($option->children() as $child)
+		foreach ($option->xpath('query') as $queryNode)
 		{
-			if ($child->getName() == 'query'
-				&& isset($child['driver'], $child['query'])
-				&& (string) $child['driver'] == $driver)
+			$drivers = array_filter(array_map('trim', explode(',', (string) $queryNode['driver'])));
+			$found = in_array($driver, $drivers);
+
+			if ($found || empty($drivers) || in_array('*', $drivers))
 			{
-				$query = (string) $child['query'];
+				$query = (string) $queryNode;
+				$text = $queryNode['text_field'] ? (string) $queryNode['text_field'] : $text;
+				$value = $queryNode['value_field'] ? (string) $queryNode['value_field'] : $value;
+			}
+
+			// This is the exact query we are looking for
+			if ($found)
+			{
 				break;
 			}
 		}

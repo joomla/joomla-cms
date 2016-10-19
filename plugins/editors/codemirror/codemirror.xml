@@ -239,17 +239,17 @@
 
 				<field
 					name="theme"
-					type="filelist"
+					type="list"
 					label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
 					description="PLG_CODEMIRROR_FIELD_THEME_DESC"
 					default=""
-					filter="\.css$"
-					stripext="true"
-					hide_none="true"
-					hide_default="false"
-					directory="media/editors/codemirror/theme"
 					>
 					<option value="">JDEFAULT</option>
+					<option type="files"
+						filter="\.css$"
+						stripext="true"
+						directory="media/editors/codemirror/theme"
+					/>
 				</field>
 
 				<field

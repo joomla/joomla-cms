@@ -115,20 +115,20 @@
 
 				<field
 					name="lang_code"
-					type="filelist"
+					type="list"
 					label="PLG_TINY_FIELD_LANGCODE_LABEL"
 					description="PLG_TINY_FIELD_LANGCODE_DESC"
 					class="inputbox"
-					stripext="1"
-					directory="media/editors/tinymce/langs/"
-					hide_none="1"
 					default="en"
-					hide_default="1"
-					filter="\.js$"
 					size="10"
 					showon="lang_mode:0"
 					>
 					<option value="en">en</option>
+					<option type="files"
+						stripext="1"
+						directory="media/editors/tinymce/langs/"
+						filter="\.js$"
+					/>
 				</field>
 
 				<field

@@ -4,14 +4,15 @@
 		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 			<field
 				name="language"
-				type="language"
-				client="site"
+				type="list"
 				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 				required="true"
 				filter="cmd"
 				default="active"
-			/>
+			>
+				<option type="languages" client="site"/>
+			</field>
 		</fieldset>
 	</fields>
 </form>
