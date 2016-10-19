@@ -584,7 +584,7 @@ abstract class JLoader
 	 *
 	 * @since   11.3
 	 */
-	private static function _autoload($class)
+	public static function _autoload($class)
 	{
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
@@ -600,7 +600,7 @@ abstract class JLoader
 	}
 
 	/**
-	 * Load a class based on name and lookup array.
+	 * Load a class based on name and lookup array. 
 	 *
 	 * @param   string  $class   The class to be loaded (wihtout prefix).
 	 * @param   array   $lookup  The array of base paths to use for finding the class file.
@@ -609,7 +609,7 @@ abstract class JLoader
 	 *
 	 * @since   12.1
 	 */
-	private static function _load($class, $lookup)
+	public static function _load($class, $lookup)
 	{
 		// Split the class name into parts separated by camelCase.
 		$parts = preg_split('/(?<=[a-z0-9])(?=[A-Z])/x', $class);
