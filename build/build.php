@@ -99,6 +99,7 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.drone.yml',
 	'.github',
 	'.gitignore',
 	'.php_cs',
@@ -108,10 +109,10 @@ $doNotPackage = array(
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'karma.conf.js',
 	'phpunit.xml.dist',
 	'tests',
 	'travisci-phpunit.xml',
-	'karma.conf.js',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
