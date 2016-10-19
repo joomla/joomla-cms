@@ -896,7 +896,7 @@ class JForm
 	 *
 	 * @param   string  $group  The dot-separated form group path for the group to remove.
 	 *
-	 * @return  boolean  True on success, false otherwise.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
