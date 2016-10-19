@@ -10,10 +10,6 @@ defined('_JEXEC') or die;
 
 /** @var JDocumentHtml $this */
 
-// Add Stylesheets
-JHtml::_('bootstrap.loadCss', true, $this->direction);
-JHtml::_('stylesheet', 'installation/template/css/template.css');
-
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
 JHtml::_('formbehavior.chosen', 'select');
@@ -25,6 +21,10 @@ JHtml::_('script', 'installation/template/js/installation.js');
 
 // Add html5 shiv
 JHtml::_('script', 'jui/html5.js', array('relative' => true, 'conditional' => 'lt IE 9'));
+
+// Add Stylesheets
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css');
 
 // Load JavaScript message titles
 JText::script('ERROR');

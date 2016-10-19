@@ -270,7 +270,7 @@ class PlgContentEmailcloakTest extends TestCaseDatabase
 
         } else {
 
-            // ok we never cloaked a email but lets ensure we did not screw up the article text anyway!
+            // ok we never cloaked an email but lets ensure we did not screw up the article text anyway!
             $this->assertEquals($expectedHTML, $row->text);
 
         }

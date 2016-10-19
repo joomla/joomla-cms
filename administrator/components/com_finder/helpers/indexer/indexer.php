@@ -119,7 +119,7 @@ abstract class FinderIndexer
 		if (file_exists($path))
 		{
 			// Instantiate the parser.
-			include_once $path;
+			JLoader::register($class, $path);
 
 			return new $class;
 		}

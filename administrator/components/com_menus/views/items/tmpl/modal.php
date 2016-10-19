@@ -139,7 +139,11 @@ jQuery(document).ready(function($) {
 									<?php if ($item->language == '*' || $item->home == '0') : ?>
 										<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && 0); ?>
 									<?php else : ?>
-										<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+										<?php if ($item->language_image) : ?>
+											<?php echo JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
+										<?php else : ?>
+											<span class="label" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+										<?php endif; ?>
 									<?php endif; ?>
 								<?php endif; ?>
 							</td>
@@ -152,7 +156,7 @@ jQuery(document).ready(function($) {
 								<?php elseif ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else : ?>
-									<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 								<?php endif; ?>
 							</td>
 							<td class="hidden-phone">

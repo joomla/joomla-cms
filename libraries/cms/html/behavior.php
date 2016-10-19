@@ -971,7 +971,7 @@ abstract class JHtmlBehavior
 	 * Add javascript polyfills.
 	 *
 	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
-	 * @param   string        $conditionalBrowser  A IE conditional expression. Example: lt IE 9 (lower than IE 9).
+	 * @param   string        $conditionalBrowser  An IE conditional expression. Example: lt IE 9 (lower than IE 9).
 	 *
 	 * @return  void
 	 *

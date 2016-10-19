@@ -292,10 +292,11 @@ class JDocument
 				// @deprecated 4.0 - JDocument objects should be autoloaded instead
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 
-				if (file_exists($path))
+				JLoader::register($class, $path);
+
+				if (class_exists($class))
 				{
 					JLog::add('Non-autoloadable JDocument subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-					require_once $path;
 				}
 				// Default to the raw format
 				else
@@ -484,6 +485,12 @@ class JDocument
 			{
 				$attribs['async'] = true;
 			}
+		}
+
+		// Default value for type.
+		if (!isset($attribs['type']) && !isset($attribs['mime']))
+		{
+			$attribs['type'] = 'text/javascript';
 		}
 
 		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
@@ -1118,8 +1125,9 @@ class JDocument
 					throw new RuntimeException('Unable to load renderer class', 500);
 				}
 
+				JLoader::register($class, $path);
+
 				JLog::add('Non-autoloadable JDocumentRenderer subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
-				require_once $path;
 
 				// If the class still doesn't exist after including the path, we've got issues
 				if (!class_exists($class))

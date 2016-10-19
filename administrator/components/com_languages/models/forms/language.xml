@@ -41,17 +41,21 @@
 			size="10"
 		/>
 
-		<field name="image" type="filelist"
-			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
+		<field
+			name="image"
+			type="filelist"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
+			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			stripext="1"
 			directory="media/mod_languages/images/"
 			hide_none="1"
 			hide_default="1"
-			required="true"
+			required="false"
 			filter="\.gif$"
 			size="10"
-		/>
+			>
+			<option value="">JNONE</option>
+		</field>
 
 		<field name="description" type="textarea"
 			cols="80"
