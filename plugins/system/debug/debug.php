@@ -1335,7 +1335,9 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$html[] = '<table class="table table-striped dbg-query-table"><tr>';
+		$html[] = '<table class="table table-striped dbg-query-table">';
+		$html[] = '<thead>';
+		$html[] = '<tr>';
 
 		foreach (array_keys($table[0]) as $k)
 		{
@@ -1343,7 +1345,8 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		$html[] = '</tr>';
-
+		$html[] = '</thead>';
+		$html[] = '<tbody>';
 		$durations = array();
 
 		foreach ($table as $tr)
@@ -1439,7 +1442,7 @@ class PlgSystemDebug extends JPlugin
 
 			$html[] = '</tr>';
 		}
-
+		$html[] = '</tbody>';
 		$html[] = '</table>';
 
 		return implode('', $html);
@@ -1735,9 +1738,9 @@ class PlgSystemDebug extends JPlugin
 			$j = 1;
 
 			$html[] = '<table cellpadding="0" cellspacing="0">';
-
+			$html[] = '<thead>';
 			$html[] = '<tr>';
-			$html[] = '<td colspan="3"><strong>Call stack</strong></td>';
+			$html[] = '<th colspan="3"><strong>Call stack</strong></th>';
 			$html[] = '</tr>';
 
 			$html[] = '<tr>';
@@ -1745,6 +1748,8 @@ class PlgSystemDebug extends JPlugin
 			$html[] = '<th>Function</th>';
 			$html[] = '<th>Location</th>';
 			$html[] = '</tr>';
+			$html[] = '</thead>';
+			$html[] = '<tbody>';
 
 			for ($i = count($backtrace) - 1; $i >= 0; $i--)
 			{
@@ -1772,7 +1777,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = '</tr>';
 				$j++;
 			}
-
+			$html[] = '</tbody>';
 			$html[] = '</table>';
 		}
 
@@ -1960,6 +1965,7 @@ class PlgSystemDebug extends JPlugin
 			$htmlCallStack .= '<div>';
 			$htmlCallStack .= '<table class="table table-striped dbg-query-table">';
 			$htmlCallStack .= '<thead>';
+			$htmlCallStack .= '<tr>';
 			$htmlCallStack .= '<th>#</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_CALLER') . '</th>';
 			$htmlCallStack .= '<th>' . JText::_('PLG_DEBUG_CALL_STACK_FILE_AND_LINE') . '</th>';

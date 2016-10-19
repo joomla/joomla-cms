@@ -116,7 +116,7 @@ abstract class JHtml
 				throw new InvalidArgumentException(sprintf('%s %s not found.', $prefix, $file), 500);
 			}
 
-			require_once $path;
+			JLoader::register($className, $path);
 
 			if (!class_exists($className))
 			{
