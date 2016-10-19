@@ -5,9 +5,8 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 	"use strict";
-	/** Get the button **/
-	var button = document.querySelector('.js-insert-pagebreak'),
-		insertPagebreak = function() {
+
+	var insertPagebreak = function() {
 			/** Get the pagebreak title **/
 			var title = document.getElementById('title').value;
 
