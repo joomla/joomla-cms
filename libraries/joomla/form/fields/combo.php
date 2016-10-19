@@ -37,10 +37,11 @@ class JFormFieldCombo extends JFormFieldList
 	protected function getInput()
 	{
 		$html = array();
+		$val  = array();
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="combobox form-control ' . $this->class . '"' : ' class="combobox form-control"';
+		$attr .= !empty($this->class) ? ' class="awesomplete form-control ' . $this->class . '"' : ' class="awesomplete form-control"';
 		$attr .= $this->readonly ? ' readonly' : '';
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
@@ -55,26 +56,14 @@ class JFormFieldCombo extends JFormFieldList
 		// Load the combobox behavior.
 		JHtml::_('behavior.combobox');
 
-		$html[] = '<div class="combobox input-group">';
+		foreach ($options as $option)
+		{
+			$val[] = $option->text;
+		}
 
 		// Build the input for the combo box.
 		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . ' autocomplete="off" />';
-
-		$html[] = '<div class="input-group-btn">';
-		$html[] = '<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">';
-		$html[] = '		<span class="caret"></span>';
-		$html[] = '</button>';
-
-		// Build the list for the combo box.
-		$html[] = '<div class="dropdown-menu dropdown-menu-right">';
-
-		foreach ($options as $option)
-		{
-			$html[] = '<a href="#" class="dropdown-item">' . $option->text . '</a>';
-		}
-
-		$html[] = '</div></div></div>';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . ' data-list="' . implode(', ', $val) . '" />';
 
 		return implode($html);
 	}

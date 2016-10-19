@@ -59,6 +59,7 @@ module.exports = function(grunt) {
 					'../media/vendor/autocomplete/*',
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
+					'../media/vendor/awesomplete/*',
 				],
 				expand: true,
 				options: {
@@ -468,6 +469,20 @@ module.exports = function(grunt) {
 						cwd: 'assets/node_modules/jquery-minicolors',
 						src: ['*.css', '*.png'],
 						dest: '../media/vendor/minicolors/css/',
+						filter: 'isFile'
+					},
+					{ // Awesomplete
+						expand: true,
+						cwd: 'assets/node_modules/awesomplete',
+						src: ['*.js'],
+						dest: '../media/vendor/awesomplete/js/',
+						filter: 'isFile'
+					},
+					{ // Awesomplete
+						expand: true,
+						cwd: 'assets/node_modules/awesomplete',
+						src: ['*.css'],
+						dest: '../media/vendor/awesomplete/css/',
 						filter: 'isFile'
 					},
 				]
