@@ -5,10 +5,10 @@
 			name="advanced">
 
 			<field
-				name="module_id"
+				name="modulecss_id"
 				type="text"
-				label="COM_MODULES_FIELD_MODULE_ID_LABEL"
-				description="COM_MODULES_FIELD_MODULE_ID_DESC"
+				label="COM_MODULES_FIELD_MODULECSS_ID_LABEL"
+				description="COM_MODULES_FIELD_MODULECSS_ID_DESC"
 			/>
 
 			<field
