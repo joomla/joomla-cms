@@ -29,7 +29,9 @@ class PlgButtonArticle extends JPlugin
 	 *
 	 * @param   string  $name  The name of the button to add
 	 *
-	 * @return array A four element array of (article_id, article_title, category_id, object)
+	 * @return  JObject  The button options as JObject
+	 *
+	 * @since   1.5
 	 */
 	public function onDisplay($name)
 	{
@@ -52,8 +54,7 @@ class PlgButtonArticle extends JPlugin
 			jModalClose();
 		}";
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration($js);
+		JFactory::getDocument()->addScriptDeclaration($js);
 
 		/*
 		 * Use the built-in element view to select the article.
@@ -62,11 +63,11 @@ class PlgButtonArticle extends JPlugin
 		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
 		$button = new JObject;
-		$button->modal = true;
-		$button->class = 'btn';
-		$button->link = $link;
-		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
-		$button->name = 'file-add';
+		$button->modal   = true;
+		$button->class   = 'btn';
+		$button->link    = $link;
+		$button->text    = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
+		$button->name    = 'file-add';
 		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 		return $button;

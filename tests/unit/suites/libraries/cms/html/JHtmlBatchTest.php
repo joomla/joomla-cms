@@ -201,7 +201,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 			'tag'   => 'select',
 			'child' => array(
 				'tag'        => 'option',
-				'content'    => 'English (UK)',
+				'content'    => 'English (en-GB)',
 				'attributes' => array('value' => 'en-GB')
 			)
 		);
