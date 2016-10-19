@@ -48,9 +48,6 @@ vendors:
     'jcrop':
                   'version': '2.0.4'
                   'dependencies': ''
-    'combobox':
-                  'version': '1.1.7'
-                  'dependencies': ''
     'autocomplete':
                   'version': '1.2.26'
                   'dependencies': ''
