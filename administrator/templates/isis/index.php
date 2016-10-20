@@ -184,6 +184,7 @@ if ($this->params->get('linkColor'))
 		<div class="container-fluid">
 			<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<a href="#" class="btn btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="element-invisible"><?php echo JTEXT::_('TPL_ISIS_TOGGLE_MENU'); ?></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
