@@ -48,6 +48,7 @@ module.exports = function(grunt) {
 					'../media/vendor/bootstrap/**',
 					'../media/vendor/tether/**',
 					'../media/vendor/jcrop/**',
+					'../media/vendor/dragula/**',
 					'../media/vendor/font-awesome/**',
 					'../media/vendor/tinymce/plugins/*',
 					'../media/vendor/tinymce/skins/*',
@@ -415,6 +416,10 @@ module.exports = function(grunt) {
 						src: ['assets/tmp/jcrop/jcrop-MIT-LICENSE.txt'],
 						dest: '../media/vendor/jcrop/jcrop-MIT-LICENSE.txt',
 					},
+					{ // Dragula
+						src: ['assets/node_modules/dragula/license'],
+						dest: '../media/vendor/dragula/license',
+					},
 					{ // Media Element
 						expand: true,
 						cwd: 'assets/node_modules/mediaelement/build',
@@ -455,6 +460,19 @@ module.exports = function(grunt) {
 						cwd: 'assets/node_modules/awesomplete',
 						src: ['awesomplete.css'],
 						dest: '../media/vendor/awesomplete/css/',
+					},
+					{ // Dragula
+						expand: true,
+						cwd: 'assets/node_modules/dragula/dist',
+						src: ['*.js'],
+						dest: '../media/vendor/dragula/js/',
+						filter: 'isFile'
+					},
+					{ // Dragula
+						expand: true,
+						cwd: 'assets/node_modules/dragula/dist',
+						src: ['*.css'],
+						dest: '../media/vendor/dragula/css/',
 						filter: 'isFile'
 					},
 				]
