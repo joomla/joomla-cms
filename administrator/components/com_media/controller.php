@@ -30,8 +30,16 @@ class MediaController extends JControllerLegacy
 	{
 		JPluginHelper::importPlugin('content');
 
+		$app      = JFactory::getApplication();
 		$vType    = JFactory::getDocument()->getType();
-		$vName    = $this->input->get('view', 'media');
+		$vName    = $this->input->get('view', 'media', 'string');
+
+		if ($app->isSite())
+		{
+			$template = $this->input->get('template', '', 'string');
+			$app->setTemplate(($template != '') ? $template : $app->getTemplate());
+
+		}
 
 		switch ($vName)
 		{
@@ -48,7 +56,6 @@ class MediaController extends JControllerLegacy
 				break;
 
 			case 'mediaList':
-				$app     = JFactory::getApplication();
 				$mName   = 'list';
 				$vLayout = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
