@@ -15,6 +15,18 @@
 			size="30"
 		/>
 
+		<field name="email" type="email"
+		       description="COM_USERS_USER_FIELD_EMAIL_DESC"
+		       label="JGLOBAL_EMAIL"
+		       required="true"
+		       size="30"
+		       validate="email"
+		/>
+
+		<field name="note_password" type="note"
+			class="alert alert-info"
+			label="Password must contain:" description="1 symbol(s), 1 uppercase letter(s), 1 lowercase letter(s), 1 number(s)" />
+
 		<field name="password" type="password"
 			autocomplete="off"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
@@ -24,7 +36,6 @@
 			force="on"
 			label="JGLOBAL_PASSWORD"
 			size="30"
-			required="true"
 		/>
 
 		<field name="password2" type="password"
@@ -37,14 +48,6 @@
 			size="30"
 			validate="equals"
 			field="password"
-		/>
-
-		<field name="email" type="email"
-			description="COM_USERS_USER_FIELD_EMAIL_DESC"
-			label="JGLOBAL_EMAIL"
-			required="true"
-			size="30"
-			validate="email"
 		/>
 
 		<field
