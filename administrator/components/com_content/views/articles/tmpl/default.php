@@ -25,7 +25,7 @@ $columns   = 10;
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('dragablelist.dragable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
 $assoc = JLanguageAssociations::isEnabled();
@@ -99,7 +99,7 @@ $assoc = JLanguageAssociations::isEnabled();
 						</td>
 					</tr>
 				</tfoot>
-				<tbody>
+				<tbody <?php if ($saveOrder) :?> class="js-draggable"<?php endif; ?>>
 				<?php foreach ($this->items as $i => $item) :
 					$item->max_ordering = 0;
 					$ordering   = ($listOrder == 'a.ordering');
