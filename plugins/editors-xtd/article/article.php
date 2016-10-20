@@ -35,7 +35,8 @@ class PlgButtonArticle extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1&amp;editor=' . $name;
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button = new JObject;
 		$button->modal   = true;

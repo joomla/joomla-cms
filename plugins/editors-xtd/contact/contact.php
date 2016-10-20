@@ -36,7 +36,8 @@ class PlgButtonContact extends JPlugin
 	public function onDisplay($name)
 	{
 		// The url for the contacts list
-		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1&amp;editor=' . $name;
+		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;'
+			. JSession::getFormToken() . '=1&amp;editor=' . $name;
 
 		$button = new JObject;
 		$button->modal   = true;
