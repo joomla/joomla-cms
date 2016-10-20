@@ -35,6 +35,8 @@ class PlgButtonPagebreak extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
+		JFactory::getDocument()->addScriptOptions('xtd-pagebreak', array('editor' => $name));
+
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
 		$button = new JObject;
