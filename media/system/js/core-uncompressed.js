@@ -67,7 +67,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 				cancelTask = pressbutton[0] + '.cancel';
 			}
 
-			if ((pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-form' ) ))
+			if ((pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-submit-button' ) ))
 			{
 				if ( skipPermissionsValidation ) {
 
@@ -86,7 +86,7 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 					new Function( beforeSave );
 				}
 
-				Joomla.submitform( task, document.querySelector( '.js-form' ) );
+				Joomla.submitform( task, document.querySelector( '.js-submit-button' ) );
 
 				if ( afterSave ) {
 					new Function( afterSave );
