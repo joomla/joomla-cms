@@ -92,7 +92,17 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		// Set sql_mode to MySql 5.7.8+ default strict mode.
-		mysql_query("SET @@SESSION.sql_mode = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';", $this->connection);
+		$sqlModes = array(
+			'ONLY_FULL_GROUP_BY',
+			'STRICT_TRANS_TABLES',
+			'NO_ZERO_IN_DATE',
+			'NO_ZERO_DATE',
+			'ERROR_FOR_DIVISION_BY_ZERO',
+			'NO_AUTO_CREATE_USER',
+			'NO_ENGINE_SUBSTITUTION',
+		);
+
+		mysql_query("SET @@SESSION.sql_mode = '" . implode(',', $sqlModes). "';", $this->connection);
 
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
