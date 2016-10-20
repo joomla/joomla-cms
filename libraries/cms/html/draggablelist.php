@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class JHtmlDragablelist
+abstract class JHtmlDraggablelist
 {
 	/**
 	 * @var    array  Array containing information for loaded files
@@ -38,7 +38,7 @@ abstract class JHtmlDragablelist
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public static function dragable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
+	public static function draggable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -129,7 +129,17 @@ function serialize(form) {
 	if (container) {
 		var saveOrderingUrl = "$saveOrderingUrl",
 			formId = "$formId"
-			sortableTable = dragula([container]);
+			sortableTable = dragula(
+				[container],
+				{ direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
+				copy: false,                       // elements are moved by default, not copied
+				copySortSource: false,             // elements in copy-source containers can be reordered
+				revertOnSpill: true,              // spilling will put the element back where it was dragged from, if this is true
+				removeOnSpill: false              // spilling will `.remove` the element, if this is true
+				//mirrorContainer: document.body,    // set the element that gets mirror elements appended
+				//ignoreInputTextSelection: true     // allows users to select input text, see details below
+				}
+				);
 
 		var sortedArray = function () {
 			var orderRows = container.querySelectorAll('input[name="order[]"]');
@@ -159,41 +169,44 @@ function serialize(form) {
 			}
 		}
 
-		sortableTable.on('dragend', function() {
+		sortableTable.on('drop', function(event) {
+			console.log(event);
+			
 			sortedArray();
-				if (saveOrderingUrl) {
-					// Set the form
-					var form  = document.querySelector('#' + formId);
 
-					// Detach task field if exists
-					var task = document.querySelector('[name="task"]');
+			if (saveOrderingUrl) {
+				// Set the form
+				var form  = document.querySelector('#' + formId);
 
-					//clone and check all the checkboxes in sortable range to post
-					cloneIds(form);
+				// Detach task field if exists
+				var task = document.querySelector('[name="task"]');
 
-					// Detach task field if exists
-					if (task) {
-						task.setAttribute('name', 'some__Temporary__Name__');
-					}
+				//clone and check all the checkboxes in sortable range to post
+				cloneIds(form);
 
-					// Prepare the options
-					var ajaxOptions = {
-						url:    saveOrderingUrl,
-						method: 'POST',
-						data:    serialize(form),
-						perform: true
-					};
-
-					Joomla.request(ajaxOptions);
-
-					// Re-Append original task field
-					if (task) {
-						task.setAttribute('name', 'task');
-					}
-
-					//remove cloned checkboxes
-					removeIds(form);
+				// Detach task field if exists
+				if (task) {
+					task.setAttribute('name', 'some__Temporary__Name__');
 				}
+
+				// Prepare the options
+				var ajaxOptions = {
+					url:    saveOrderingUrl,
+					method: 'POST',
+					data:    serialize(form),
+					perform: true
+				};
+
+				Joomla.request(ajaxOptions);
+
+				// Re-Append original task field
+				if (task) {
+					task.setAttribute('name', 'task');
+				}
+
+				//remove cloned checkboxes
+				removeIds(form);
+			}
 		});
 	}
 });

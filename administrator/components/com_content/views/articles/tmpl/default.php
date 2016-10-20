@@ -25,7 +25,7 @@ $columns   = 10;
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component';
-	JHtml::_('dragablelist.dragable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('draggablelist.draggable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 
 $assoc = JLanguageAssociations::isEnabled();
