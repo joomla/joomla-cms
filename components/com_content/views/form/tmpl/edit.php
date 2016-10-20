@@ -25,6 +25,14 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
+
+// Pass some PHP created script to javascipt
+JFactory::getDocument()->addScriptOptions(
+	'form',
+	array(
+		'beforeSave' => htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8')
+	)
+);
 ?>
 <div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($params->get('show_page_heading')) : ?>
@@ -35,7 +43,7 @@ if (!$editoroptions)
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="js-form form-validate form-vertical" data-cancel="article.cancel" data-before-save="<?php echo htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8'); ?>">
+	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="js-submit-button form-validate form-vertical">
 		<fieldset>
 			<?php echo JHtml::_("bootstrap.startTabSet", "com-content-form", array("active" => "editor")); ?>
 

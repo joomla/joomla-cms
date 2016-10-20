@@ -11,8 +11,14 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
+
+// Pass some PHP created script to javascipt
+JFactory::getDocument()->addScriptOptions(
+	'form',
+	array('beforeSave' => htmlentities($this->form->getField('body')->save(), ENT_QUOTES, 'UTF-8'))
+);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="js-form form-validate form-horizontal" data-cancel="note.cancel" data-before-save="<?php echo htmlentities($this->form->getField('body')->save(), ENT_QUOTES, 'UTF-8'); ?>">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id);?>" method="post" name="adminForm" id="note-form" class="js-submit-button form-validate form-horizontal">
 		<fieldset class="adminform">
 			<div class="control-group">
 				<div class="control-label">

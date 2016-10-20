@@ -22,7 +22,7 @@ $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
 
 // @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-$afterSave = 'if (task !== \'contact.apply\') { window.parent.jQuery(\'#contactEdit' . $this->item->id . 'Modal\').modal(\'hide\'); }';
+$afterSave = "if (task !== 'contact.apply') { window.parent.jQuery('#contactEdit" . $this->item->id . "Modal').modal('hide'); }";
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
@@ -31,12 +31,19 @@ $this->ignore_fieldsets = array('details', 'item_associations', 'jmetadata');
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
+// Pass some PHP created script to javascipt
+JFactory::getDocument()->addScriptOptions(
+	'form',
+	array(
+		'beforeSave' => htmlentities($this->form->getField("description")->save(), ENT_COMPAT, 'UTF-8'),
+		'afterSave' => htmlentities($afterSave, ENT_COMPAT, 'UTF-8'),
+
+	)
+);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="js-form form-validate"
-	data-cancel="contact.cancel"
-	data-before-save="<?php echo htmlentities($this->form->getField("misc")->save(), ENT_QUOTES, 'UTF-8'); ?>"
-	data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>">
+<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="js-submit-button form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

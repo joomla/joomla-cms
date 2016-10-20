@@ -15,9 +15,15 @@ JHtml::_('formbehavior.chosen', 'select');
 
 // Fieldsets to not automatically render by /layouts/joomla/edit/params.php
 $this->ignore_fieldsets = array('jmetadata');
+
+// Pass some PHP created script to javascipt
+JFactory::getDocument()->addScriptOptions(
+	'form',
+	array('beforeSave' => htmlentities($this->form->getField('description')->save(), ENT_QUOTES, 'UTF-8'))
+);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-form form-validate" data-cancel="tag.cancel" data-before-save="<?php echo htmlentities($this->form->getField('description')->save(), ENT_QUOTES, 'UTF-8'); ?>">
+<form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-submit-button form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

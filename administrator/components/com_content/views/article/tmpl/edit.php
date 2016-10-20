@@ -62,19 +62,24 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 }
 
 // @deprecated 4.0  The following js is not needed since __DEPLOY_VERSION__.
-$afterSave = 'if (task !== \'article.apply\') { window.parent.jQuery(\'#articleEdit' . $this->item->id . 'Modal\').modal(\'hide\'); }';
+$afterSave = "if (task !== 'article.apply') { window.parent.jQuery('#articleEdit" . $this->item->id . "Modal').modal('hide'); }";
 
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
+// Pass some PHP created script to javascipt
+JFactory::getDocument()->addScriptOptions(
+	'form',
+	array(
+		'beforeSave' => htmlentities($this->form->getField("description")->save(), ENT_COMPAT, 'UTF-8'),
+		'afterSave' => htmlentities($afterSave, ENT_COMPAT, 'UTF-8'),
+	)
+);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-form form-validate"
-	data-cancel="article.cancel"
-	data-before-save="<?php echo htmlentities($this->form->getField('articletext')->save(), ENT_QUOTES, 'UTF-8'); ?>"
-	data-after-save="<?php echo htmlentities($afterSave, ENT_QUOTES, 'UTF-8'); ?>"
-	data-skip-permissions="true">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="js-submit-button form-validate" data-skip-permissions="true">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

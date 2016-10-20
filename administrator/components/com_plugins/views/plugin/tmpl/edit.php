@@ -16,7 +16,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $this->fieldsets = $this->form->getFieldsets('params');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="js-form form-validate" data-cancel="plugin.cancel">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="js-submit-button form-validate">
 	<div class="form-horizontal">
 
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>

@@ -15,8 +15,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('script', 'com_banners/admin-banner-edit.js', array('version' => 'auto', 'relative' => true));
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="js-form form-validate"
-data-cancel="banner.cancel">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="js-submit-button form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 

@@ -48,18 +48,26 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 	/**
 	 * Default function. Usually would be overriden by the component
 	 */
-	Joomla.submitbutton = function( pressbutton )
+	Joomla.submitbutton = function( task )
 	{
-		var form = document.querySelector( '.js-form' );
+		var form = document.querySelector( '.js-submit-button' );
 
 		if (form) {
-			var cancelTask = form.getAttribute( 'data-cancel' ),
-				beforeSave = form.getAttribute( 'data-before-save' ),
-				afterSave = form.getAttribute( 'data-after-save' ),
+			var pressbutton = task.split('.'),
+				cancelTask = form.getAttribute( 'data-cancel' ),
 				permContainer = form.getAttribute( 'data-permissions-selector' ),
 				skipPermissionsValidation = form.getAttribute( 'data-skip-permissions' );
 
-			if (( cancelTask && pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-form' ) ))
+			if (Joomla.getOptions('form')) {
+				var beforeSave = Joomla.getOptions('form').beforeSave.replace(/&quot;/, '"'),
+					afterSave = Joomla.getOptions('form').afterSave.replace(/&quot;/, '"');
+			}
+
+			if (!cancelTask) {
+				cancelTask = pressbutton[0] + '.cancel';
+			}
+
+			if ((pressbutton == cancelTask ) || document.formvalidator.isValid( document.querySelector( '.js-form' ) ))
 			{
 				if ( skipPermissionsValidation ) {
 
@@ -78,14 +86,14 @@ Joomla.editors.instances = Joomla.editors.instances || {};
 					new Function( beforeSave );
 				}
 
-				Joomla.submitform( pressbutton, document.querySelector( '.js-form' ) );
+				Joomla.submitform( task, document.querySelector( '.js-form' ) );
 
 				if ( afterSave ) {
 					new Function( afterSave );
 				}
 			}
 		} else {
-			Joomla.submitform( pressbutton );
+			Joomla.submitform( task );
 		}
 	};
 

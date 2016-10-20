@@ -14,8 +14,7 @@ JHtml::_('behavior.formvalidator');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="js-form form-validate"
-data-cancel="client.cancel">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="js-submit-button form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
