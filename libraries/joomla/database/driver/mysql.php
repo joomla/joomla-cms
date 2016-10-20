@@ -102,7 +102,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			'NO_ENGINE_SUBSTITUTION',
 		);
 
-		mysql_query("SET @@SESSION.sql_mode = '" . implode(',', $sqlModes). "';", $this->connection);
+		mysql_query("SET @@SESSION.sql_mode = '" . implode(',', $sqlModes) . "';", $this->connection);
 
 		// If auto-select is enabled select the given database.
 		if ($this->options['select'] && !empty($this->options['database']))
