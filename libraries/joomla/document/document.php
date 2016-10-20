@@ -447,20 +447,22 @@ class JDocument
 	/**
 	 * Adds a linked script to the page
 	 *
-	 * @param   string   $url    URL to the linked script
-	 * @param   string   $type   Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer  Adds the defer attribute.
-	 * @param   boolean  $async  Adds the async attribute.
+	 * @param   string   $url       URL to the linked script
+	 * @param   string   $type      Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer     Adds the defer attribute.
+	 * @param   boolean  $async     Adds the async attribute.
+	 * @param   integer  $priority  The scripts priority
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
+	public function addScript($url, $type = "text/javascript", $defer = false, $async = false, $priority = 10)
 	{
 		$this->_scripts[$url]['mime'] = $type;
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
+		$this->_scripts[$url]['priority'] = $priority;
 
 		return $this;
 	}
@@ -469,17 +471,18 @@ class JDocument
 	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js?54771616b5bceae9df03c6173babf11d
 	 * If not specified Joomla! automatically handles versioning
 	 *
-	 * @param   string   $url      URL to the linked script
-	 * @param   string   $version  Version of the script
-	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
-	 * @param   boolean  $defer    Adds the defer attribute.
-	 * @param   boolean  $async    [description]
+	 * @param   string   $url       URL to the linked script
+	 * @param   string   $version   Version of the script
+	 * @param   string   $type      Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer     Adds the defer attribute.
+	 * @param   boolean  $async     [description]
+	 * @param   integer  $priority  The scripts priority 
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   3.2
 	 */
-	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false)
+	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false, $priority = 10)
 	{
 		// Automatic version
 		if ($version === null)
@@ -492,7 +495,7 @@ class JDocument
 			$url .= '?' . $version;
 		}
 
-		return $this->addScript($url, $type, $defer, $async);
+		return $this->addScript($url, $type, $defer, $async, $priority);
 	}
 
 	/**

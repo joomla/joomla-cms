@@ -187,6 +187,14 @@ class JDocumentRendererHtmlHead extends JDocumentRenderer
 		$defaultJsMimes = array('text/javascript', 'application/javascript', 'text/x-javascript', 'application/x-javascript');
 
 		// Generate script file links
+		uasort(
+			$document->_scripts,
+			function ($a, $b)
+			{
+				return ($a['priority'] < $b['priority']) ? -1 : 1;
+			}
+		);
+
 		foreach ($document->_scripts as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
