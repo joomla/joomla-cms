@@ -52,78 +52,28 @@ abstract class JHtmlSortablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
-// Attach sortable to document
-JHtml::_('script', 'vendor/dragula/dragula.js', false, true);
-JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
-JFactory::getDocument()->addScriptDeclaration(
-<<<JS
-document.addEventListener('DOMContentLoaded', function() {
+		// Depends on Joomla.getOptions()
+		JHtml::_('behavior.core');
 
-	var container = document.querySelector('.js-draggable');
+		// Depends on jQuery UI
+		JHtml::_('jquery.ui', array('core', 'sortable'));
 
-	if (container) {
-		var orderRows = container.querySelectorAll('input[name=\"order[]\"]'),
-			orderIds = container.querySelectorAll('input[name=\"cid[]\"]'),
-			saveOrderingUrl = "$saveOrderingUrl",
-			formId = "$formId";
+		JHtml::_('script', 'system/legacy/sortablelist.min.js', false, true);
+		JHtml::_('stylesheet', 'system/sortablelist.css', false, true, false);
 
-			var orderIds = Array.prototype.slice.call(orderIds);
-			var orderRows = Array.prototype.slice.call(orderRows);
-
-			var sortedArray = function () {
-				console.log('called')
-				var orderRows = container.querySelectorAll('input[name=\"order[]\"]');
-				for (var i= 0, l = orderRows.length; l > i; i++) {
-					orderRows[i].value= i +1;
-				}
-			}
-
-		cloneMarkedCheckboxes = function () {
-			jQuery('[name="order[]"]', container).attr('name', 'order-tmp');
-			jQuery('[type=checkbox]', container).each(function () {
-				var _shadow = jQuery(this).clone();
-				jQuery(_shadow).attr({'checked':'checked', 'shadow':'shadow', 'id':''});
-				jQuery('#' + formId).append(jQuery(_shadow));
-
-				jQuery('[name="order-tmp"]', jQuery(this).parents('tr')).attr('name', 'order[]');
-			});
-		}
-
-		removeClonedCheckboxes = function () {
-			jQuery('[shadow=shadow]').remove();
-			jQuery('[name="order-tmp"]', container).attr('name', 'order[]');
-		}
-
-		var sortableTable = dragula([container]);
-
-		sortableTable.on('dragend', function() {
-
-			sortedArray(orderRows);
-
-				if (saveOrderingUrl) {
-					//clone and check all the checkboxes in sortable range to post
-					cloneMarkedCheckboxes();
-
-					// Detach task field if exists
-					var f  = jQuery('#' + formId);
-					var ft = jQuery('input[name|="task"]', f);
-
-					if (ft.length) ft.detach();
-
-					//serialize form then post to callback url
-					jQuery.post(saveOrderingUrl, f.serialize());
-
-					// Re-Append original task field
-					if (ft.length) ft.appendTo(f);
-
-					//remove cloned checkboxes
-					removeClonedCheckboxes();
-				}
-		});
-	}
-});
-JS
-);
+		// Attach sortable to document
+		JFactory::getDocument()->addScriptOptions(
+			'sortable-list',
+			array(
+				'id'         => '#' . $tableId . ' tbody',
+				'formId'     => $formId,
+				'direction'  => $sortDir,
+				'url'        => $saveOrderingUrl,
+				'options'    => '',
+				'nestedList' => $nestedList,
+				'button'     => $proceedSaveOrderButton
+			)
+		);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;

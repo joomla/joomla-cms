@@ -2,9 +2,8 @@
  * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-(function () {
-	JSortableList = function (tableWrapper, formId, sortDir, saveOrderingUrl, options, nestedList) {
+(function ($) {
+	$.JSortableList = function (tableWrapper, formId, sortDir, saveOrderingUrl, options, nestedList) {
 		var root = this;
 		var disabledOrderingElements = '';
 		var sortableGroupId = '';
@@ -15,7 +14,7 @@
 			sortDir = 'asc';
 		}
 
-		var ops = Joomla.extend({
+		var ops = $.extend({
 			orderingIcon:'add-on', //class name of order icon
 			orderingWrapper:'input-prepend', //ordering control wrapper class name
 			orderingGroup:'sortable-group-id', //sortable-group-id
@@ -24,20 +23,30 @@
 			sortableHandle:'.sortable-handler'
 		}, options);
 
-		document.querySelector(tableWrapper, ' tr').classList.remove(ops.sortableClassName).classList.add(ops.sortableClassName);
+		$('tr', tableWrapper).removeClass(ops.sortableClassName).addClass(ops.sortableClassName);
 		//make wrapper table position be relative, to fix y-axis drag problem on Safari
-		document.querySelector(tableWrapper).parents('table').css('position', 'relative');
-		document.querySelector(ops.sortableHandle, tableWrapper).css('cursor', 'move');
-		document.querySelector('#' + formId).setAttribute('autocomplete', 'off');
+		$(tableWrapper).parents('table').css('position', 'relative');
+		$(ops.sortableHandle, tableWrapper).css('cursor', 'move');
+		$('#' + formId).attr('autocomplete', 'off');
 
-		var _handle = document.querySelector(tableWrapper).querySelector(ops.sortableHandle).length > 0 ? ops.sortableHandle : '';
+		var _handle = $(ops.sortableHandle, $(tableWrapper)).length > 0 ? ops.sortableHandle : '';
 
-		document.querySelector(tableWrapper).sortable({
+		$(tableWrapper).sortable({
 			axis:'y',
 			cursor:'move',
 			handle:_handle,
 			items:'tr.' + ops.sortableClassName,
 			placeholder:ops.placeHolderClassName,
+			helper:function (e, ui) {
+				//hard set left position to fix y-axis drag problem on Safari
+				$(ui).css({'left':'0px'});
+
+				ui.children().each(function () {
+					$(this).width($(this).width());
+				});
+				$(ui).children('td').addClass('dndlist-dragged-row');
+				return ui;
+			},
 
 			start:function (e, ui) {
 				root.sortableGroupId = ui.item.attr(ops.orderingGroup);
@@ -58,7 +67,7 @@
 			},
 
 			stop:function (e, ui) {
-				$('td', $(this)).classList.remove('dndlist-dragged-row');
+				$('td', $(this)).removeClass('dndlist-dragged-row');
 				$(ui.item).css({opacity:0});
 				$(ui.item).animate({
 					opacity:1,
@@ -75,7 +84,7 @@
 					root.cloneMarkedCheckboxes();
 
 					// Detach task field if exists
-					var f  = ('#' + formId);
+					var f  = $('#' + formId);
 					var ft = $('input[name|="task"]', f);
 
 					if (ft.length) ft.detach();
@@ -98,59 +107,59 @@
 				}
 			}
 		});
-		
+
 		this.hideChildrenNodes = function (itemId) {
 			root.childrenNodes = root.getChildrenNodes(itemId);
 			root.childrenNodes.hide();
-		}
+		};
 
 		this.showChildrenNodes = function (item) {
-			item.after(root.childrenNodes)
+			item.after(root.childrenNodes);
 			root.childrenNodes.show();
 			root.childrenNodes="";
-		}
+		};
 
 		this.hideSameLevelChildrenNodes = function (level) {
 			root.sameLevelNodes = root.getSameLevelNodes(level);
 			root.sameLevelNodes.each(function (){
 				_childrenNodes = root.getChildrenNodes($(this).attr('item-id'));
-				_childrenNodes.classList.add('child-nodes-tmp-hide');
+				_childrenNodes.addClass('child-nodes-tmp-hide');
 				_childrenNodes.hide();
 			});
-		}
+		};
 
 		this.showSameLevelChildrenNodes = function (item) {
 			prevItem = item.prev();
 			prevItemChildrenNodes = root.getChildrenNodes(prevItem.attr('item-id'));
 			prevItem.after(prevItemChildrenNodes);
-			$('tr.child-nodes-tmp-hide').show().classList.remove('child-nodes-tmp-hide');
+			$('tr.child-nodes-tmp-hide').show().removeClass('child-nodes-tmp-hide');
 			root.sameLevelNodes = "";
-		}
+		};
 
 
 		this.disableOtherGroupSort = function (e, ui) {
 			if (root.sortableGroupId) {
 				var _tr = $('tr[' + ops.orderingGroup + '!=' + root.sortableGroupId + ']', $(tableWrapper));
-				_tr.classList.remove(ops.sortableClassName).classList.add('dndlist-group-disabled');
+				_tr.removeClass(ops.sortableClassName).addClass('dndlist-group-disabled');
 
 				$(tableWrapper).sortable('refresh');
 			}
-		}
+		};
 
 		this.enableOtherGroupSort = function (e, ui) {
-			var _tr = $('tr', $(tableWrapper)).classList.remove(ops.sortableClassName);
-			_tr.classList.add(ops.sortableClassName)
-				.classList.remove('dndlist-group-disabled');
+			var _tr = $('tr', $(tableWrapper)).removeClass(ops.sortableClassName);
+			_tr.addClass(ops.sortableClassName)
+				.removeClass('dndlist-group-disabled');
 			$(tableWrapper).sortable('refresh');
-		}
+		};
 
 		this.disableOrderingControl = function () {
 			$('.' + ops.orderingWrapper + ' .add-on a', root.sortableRange).hide();
-		}
+		};
 
 		this.enableOrderingControl = function () {
 			$('.' + ops.orderingWrapper + ' .add-on a', root.disabledOrderingElements).show();
-		}
+		};
 
 		this.rearrangeOrderingControl = function (sortableGroupId, ui) {
 			var range;
@@ -189,7 +198,7 @@
 				//remove order down icon for last record
 				$('.' + ops.orderingWrapper + ' .add-on:last a', range[(count - 1)]).remove();
 			}
-		}
+		};
 
 		this.rearrangeOrderingValues = function (sortableGroupId, ui) {
 			var range;
@@ -254,20 +263,45 @@
 
 				$('[name="order-tmp"]', $(this).parents('tr')).attr('name', 'order[]');
 			});
-		}
+		};
 
 		this.removeClonedCheckboxes = function () {
 			$('[shadow=shadow]').remove();
 			$('[name="order-tmp"]', $(tableWrapper)).attr('name', 'order[]');
-		}
+		};
 
 		this.getChildrenNodes = function (parentId) {
 			return $('tr[parents~="'+parentId+'"]');
-		}
+		};
 
 		this.getSameLevelNodes = function (level) {
 			return $('tr[level='+level+']');
 		}
 
 	}
-})();
+})(jQuery);
+
+jQuery(document).ready(function ($){
+	if (Joomla.getOptions('sortable-list')) {
+
+		var options = Joomla.getOptions('sortable-list'),
+			sortableList = new $.JSortableList(options.id, options.formId, options.direction, options.url, options.options, options.nestedList);
+
+		if (options.button === 'true') {
+			var saveOrderButton = $('.saveorder');
+			saveOrderButton.css({'opacity':'0.2', 'cursor':'default'}).attr('onclick','return false;');
+			var oldOrderingValue = '';
+			$('.text-area-order').focus(function ()
+			{
+				oldOrderingValue = $(this).attr('value');
+			})
+				.keyup(function (){
+					var newOrderingValue = $(this).attr('value');
+					if (oldOrderingValue != newOrderingValue)
+					{
+						saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
+					}
+				});
+		}
+	}
+});
