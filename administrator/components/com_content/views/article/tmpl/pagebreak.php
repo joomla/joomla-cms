@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
 JHtml::_('behavior.polyfill', array('event'), 'lt IE 9');
-JHtml::_('script', 'com_content/admin-article-pagebreak.js', array('version' => 'auto', 'relative' => true));
+JHtml::_('script', 'com_content/admin-article-pagebreak.min.js', array('version' => 'auto', 'relative' => true));
 
 $document    = JFactory::getDocument();
-$this->eName = JFactory::getApplication()->input->get('e_name', '', 'cmd');
+$this->eName = JFactory::getApplication()->input->getCmd('e_name', '');
 $this->eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $this->eName);
 
 $document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
@@ -32,7 +32,9 @@ $document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			<div class="controls"><input type="text" id="alt" name="alt" /></div>
 		</div>
 
-		<button onclick="insertPagebreak();" class="btn btn-success pull-right" <?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?></button>
+		<button onclick="insertPagebreak();" class="btn btn-success pull-right">
+			<?php echo JText::_('COM_CONTENT_PAGEBREAK_INSERT_BUTTON'); ?>
+		</button>
 
 	</form>
 </div>

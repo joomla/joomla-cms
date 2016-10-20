@@ -88,16 +88,13 @@ $editor    = JFactory::getApplication()->input->get('editor', '', 'cmd');
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>"></span>
 					</td>
 					<td class="has-context">
-						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php
-						echo $this->escape($item->module); ?>" data-title="<?php
-						echo $this->escape($item->title); ?>" data-editor="<?php
-						echo $this->escape($editor); ?>"><?php echo $this->escape($item->title); ?></a>
+						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+							<?php echo $this->escape($item->title); ?>
+						</a>
 					</td>
 					<td class="small hidden-phone">
 						<?php if ($item->position) : ?>
-						<a class="js-position-insert btn btn-small btn-block btn-warning" href="#" data-position="<?php
-						echo $this->escape($item->position); ?>" data-editor="<?php
-						echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
+						<a class="js-position-insert btn btn-small btn-block btn-warning" href="#" data-position="<?php echo $this->escape($item->position); ?>" data-editor="<?php echo $this->escape($editor); ?>"><?php echo $this->escape($item->position); ?></a>
 						<?php else : ?>
 						<span class="label"><?php echo JText::_('JNONE'); ?></span>
 						<?php endif; ?>
