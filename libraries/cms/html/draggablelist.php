@@ -25,12 +25,12 @@ abstract class JHtmlDraggablelist
 	/**
 	 * Method to load the Dragula script and make table sortable
 	 *
-	 * @param   string   $tableId                 DOM id of the table
-	 * @param   string   $formId                  DOM id of the form
-	 * @param   string   $sortDir                 Sort direction
-	 * @param   string   $saveOrderingUrl         Save ordering url, ajax-load after an item dropped
-	 * @param   boolean  $proceedSaveOrderButton  Set whether a save order button is displayed
-	 * @param   boolean  $nestedList              Set whether the list is a nested list
+	 * @param   string   $tableId          DOM id of the table
+	 * @param   string   $formId           DOM id of the form
+	 * @param   string   $sortDir          Sort direction
+	 * @param   string   $saveOrderingUrl  Save ordering url, ajax-load after an item dropped
+	 * @param   string   $redundant        Not used
+	 * @param   boolean  $nestedList       Set whether the list is a nested list
 	 *
 	 * @return  void
 	 *
@@ -38,7 +38,7 @@ abstract class JHtmlDraggablelist
 	 *
 	 * @throws  InvalidArgumentException
 	 */
-	public static function draggable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
+	public static function draggable($tableId = null, $formId = null, $sortDir = 'asc', $saveOrderingUrl = null, $redundant = null, $nestedList = false)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -46,37 +46,32 @@ abstract class JHtmlDraggablelist
 			return;
 		}
 
-		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if (null === $saveOrderingUrl)
-		{
-			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
-		}
-
-		$saveOrderingUrl = $saveOrderingUrl . '&' . JSession::getFormToken() . '=1';
-
 		$doc = JFactory::getDocument();
 
-		// Depends on Joomla.getOptions()
-		JHtml::_('behavior.core');
+		// Please consider using data attributes instead of passing arguments here!
+		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir)) {
+			// Depends on Joomla.getOptions()
+			JHtml::_('behavior.core');
+
+			$doc->addScriptOptions(
+				'draggable-list',
+				array(
+					'id'         => '#' . $tableId . ' tbody',
+					'formId'     => $formId,
+					'direction'  => $sortDir,
+					'url'        => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
+					'nestedList' => $nestedList
+				)
+			);
+		}
 
 		// Attach draggable to document
 		JHtml::_('script', 'vendor/dragula/dragula.min.js', false, true);
 		JHtml::_('script', 'system/draggable.js', false, true);
 		JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
 
-		$doc->addScriptOptions(
-			'draggable-list',
-			array(
-				'id'         => '#' . $tableId . ' tbody',
-				'formId'     => $formId,
-				'direction'  => $sortDir,
-				'url'        => $saveOrderingUrl,
-				'options'    => '',
-				'nestedList' => $nestedList
-			)
-		);
-
 		$doc->addStyleDeclaration(".gu-mirror{display:table;}.gu-mirror td {display:table-cell;}");
+
 		// Set static array
 		static::$loaded[__METHOD__] = true;
 	}

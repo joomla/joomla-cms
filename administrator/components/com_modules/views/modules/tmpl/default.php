@@ -21,7 +21,7 @@ $saveOrder = ($listOrder == 'a.ordering');
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'moduleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	JHtml::_('draggablelist.draggable', 'moduleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $colSpan = $clientId === 1 ? 9 : 10;
 ?>
