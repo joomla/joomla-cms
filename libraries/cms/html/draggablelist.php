@@ -52,7 +52,7 @@ abstract class JHtmlDraggablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
-		$saveOrderingUrl = JUri::root(true) . $saveOrderingUrl;
+		$doc = JFactory::getDocument();
 
 		// Depends on Joomla.getOptions()
 		JHtml::_('behavior.core');
@@ -62,7 +62,7 @@ abstract class JHtmlDraggablelist
 		JHtml::_('script', 'system/draggable.js', false, true);
 		JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
 
-		JFactory::getDocument()->addScriptOptions(
+		$doc->addScriptOptions(
 			'draggable-list',
 			array(
 				'id'         => '#' . $tableId . ' tbody',
@@ -74,7 +74,7 @@ abstract class JHtmlDraggablelist
 			)
 		);
 
-		JFactory::getDocument()->addStyleDeclaration(".gu-mirror{display:table;}.gu-mirror td {display:table-cell;}");
+		$doc->addStyleDeclaration(".gu-mirror{display:table;}.gu-mirror td {display:table-cell;}");
 		// Set static array
 		static::$loaded[__METHOD__] = true;
 	}
