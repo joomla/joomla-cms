@@ -341,17 +341,20 @@ class MenusModelItems extends JModelList
 
 			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
 
-			$types = array();
-
-			foreach ($menuTypes as $type)
+			if ($menuTypes)
 			{
-				if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
-				{
-					$types[] = $query->q($type->menutype);
-				}
-			}
+				$types = array();
 
-			$query->where('a.menutype IN(' . implode(',', $types) . ')');
+				foreach ($menuTypes as $type)
+				{
+					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
+					{
+						$types[] = $query->q($type->menutype);
+					}
+				}
+
+				$query->where($types ? 'a.menutype IN(' . implode(',', $types) . ')' : 0);
+			}
 		}
 		// Default behavior => load all items from a specific menu
 		elseif (strlen($menuType))

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CHECKIN_CHECKIN_VIEW_DEFAULT_TITLE" option="COM_CHECKIN_CHECKIN_VIEW_DEFAULT_OPTION">
+		
+		<message>
+			<![CDATA[COM_CHECKIN_CHECKIN_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /* @var $menu JAdminCSSMenu */
-
+/** @var Registry $params */
 $shownew  = (boolean) $params->get('shownew', 1);
 $showhelp = (boolean) $params->get('showhelp', 1);
 $user     = JFactory::getUser();

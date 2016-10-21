@@ -144,8 +144,8 @@ $clientId = $this->state->get('item.client_id', 0);
 				{
 					$this->fields = array_diff($this->fields, array('home'));
 				}
-				?>
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+
+				echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

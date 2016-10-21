@@ -144,6 +144,7 @@
 			type="templatestyle"
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
+			client="site"
 			filter="int"
 			>
 			<option value="0">JOPTION_USE_DEFAULT</option>

@@ -19,8 +19,8 @@
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
 			class="input-xxlarge input-large-text"
 			size="40"
-			readonly="true"/>
-		
+		/>
+
 		<field
 			name="alias"
 			type="alias"
@@ -28,7 +28,7 @@
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40"/>
-		
+
 		<field
 			name="note"
 			type="text"
@@ -120,13 +120,25 @@
 
 		<field
 			name="browserNav"
-			type="hidden"
-			filter="unset"/>
+			type="list"
+			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
+			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
+			default="Parent"
+			filter="int"
+			>
+				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
+				<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
+				<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
+			</field>
 
 		<field
 			name="access"
-			type="hidden"
-			filter="unset"/>
+			type="accesslevel"
+			id="access"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			filter="integer"/>
+
 
 		<field
 			name="template_style_id"
@@ -153,8 +165,12 @@
 
 		<field
 			name="language"
-			type="hidden"
-			default="*"/>
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
+			>
+			<option value="*">JALL</option>
+		</field>
 
 		<field
 			name="path"
