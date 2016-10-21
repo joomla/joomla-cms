@@ -4,9 +4,9 @@ defined('_JEXEC') or die;
 abstract class ExternalAssets{
 	public static function getCoreAssets() {
 		 return array(
-			'jquery' => array('version' => '2.1.4','dependencies' => ''),
+			'jquery' => array('version' => '2.2.4','dependencies' => ''),
 			'jquery-migrate' => array('version' => '1.4.1','dependencies' => 'jquery'),
-			'bootstrap' => array('version' => '~4.0.0-alpha.4','dependencies' => 'jquery, tether'),
+			'bootstrap' => array('version' => '~4.0.0-alpha.5','dependencies' => 'jquery, tether'),
 			'tether' => array('version' => '1.3.7','dependencies' => 'jquery, tether'),
 			'font-awesome' => array('version' => '4.6.3','dependencies' => ''),
 			'chosenjs' => array('version' => '1.4.3','dependencies' => 'jquery, tether'),

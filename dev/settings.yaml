@@ -1,14 +1,14 @@
 vendors:
 #### PLEASE ALTER ONLY THE VERSIONS NUMBERS BELLOW. USE x.x.x NOT LATEST! ###
     'jquery':
-                 'version': '2.1.4'
+                 'version': '2.2.4'
                  'dependencies': ''
 
     'jquery-migrate':
                   'version': '1.4.1'
                   'dependencies': 'jquery'
     'bootstrap':
-                  'version': '~4.0.0-alpha.4'
+                  'version': '~4.0.0-alpha.5'
                   'dependencies': 'jquery, tether'
     'tether':
                   'version': '1.3.7'
