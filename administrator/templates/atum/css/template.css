@@ -7534,8 +7534,6 @@ small, .small {
     font-weight: 300; }
   .view-login .forgot {
     text-align: center; }
-  .view-login .card {
-    margin-bottom: 0; }
   .view-login .card-img-top {
     max-width: 100%; }
   .view-login .navbar p,
@@ -7847,5 +7845,3 @@ iframe {
 
 div.awesomplete {
   display: block; }
-
-/*# sourceMappingURL=template.css.map */
