@@ -13,7 +13,7 @@ $doTask = $displayData['doTask'];
 $class  = $displayData['class'];
 $text   = $displayData['text'];
 ?>
-<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-outline-danger btn-sm pull-sm-right">
+<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-outline-danger btn-sm float-sm-right">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>
 </button>

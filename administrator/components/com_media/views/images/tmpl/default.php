@@ -77,7 +77,7 @@ else // XTD Image plugin
 						<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><?php echo JText::_('COM_MEDIA_UP') ?></button>
 					</div>
 				</div>
-				<div class="pull-xs-right">
+				<div class="float-xs-right">
 					<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
 					// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
 					<button class="btn btn-outline-danger button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :

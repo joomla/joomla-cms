@@ -13,7 +13,7 @@ var_dump('TEST');
 ?>
 <form action="index.php" method="post" id="languageForm">
 	<div class="btn-toolbar">
-		<div class="btn-group pull-xs-right">
+		<div class="btn-group float-xs-right">
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 		</div>
 	</div>
@@ -104,7 +104,7 @@ var_dump('TEST');
 		</div>
 	</div>
 	<div class="btn-toolbar">
-		<div class="btn-group pull-xs-right">
+		<div class="btn-group float-xs-right">
 			<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><span class="icon-refresh icon-white"></span> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
 		</div>
 	</div>

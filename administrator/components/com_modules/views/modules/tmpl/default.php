@@ -125,7 +125,7 @@ $colSpan = $clientId === 1 ? 9 : 10;
 							</div>
 						</td>
 						<td class="has-context">
-							<div class="pull-xs-left">
+							<div class="float-xs-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'modules.', $canCheckin); ?>
 								<?php endif; ?>
