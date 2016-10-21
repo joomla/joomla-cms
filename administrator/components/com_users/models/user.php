@@ -963,7 +963,7 @@ class UsersModelUser extends JModelAdmin
 		list($method, $config) = explode(':', $item->otpKey, 2);
 		$encryptedOtep = $item->otep;
 		
-		// Get the secret key, yes the thing that is save in the configuration file
+		// Get the secret key, yes the thing that is saved in the configuration file
 		$key = $this->getOtpConfigEncryptionKey();
 		
 		if (strpos($config, '{') === false)
@@ -975,13 +975,13 @@ class UsersModelUser extends JModelAdmin
 			
 			if (strpos($decryptedConfig, '{') !== false)
 			{
-				// Data crypted with mcrypt
+				// Data encrypted with mcrypt
 				$decryptedOtep = $mcrypt->decryptString($encryptedOtep);
 				$encryptedOtep = $openssl->encryptString($decryptedOtep);
 			}
 			else
 			{
-				// Config data seems to be save crypted, this can happen with 3.6.3 and openssl, lets get the data
+				// Config data seems to be save encrypted, this can happen with 3.6.3 and openssl, lets get the data
 				$decryptedConfig = $openssl->decryptString($config);
 			}
 			
