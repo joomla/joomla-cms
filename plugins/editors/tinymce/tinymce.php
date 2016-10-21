@@ -737,8 +737,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if (!empty($btnsNames))
 		{
-			$modalFix = JHtml::_('script', 'system/tiny-close.min.js', false, true);
-			JFactory::getDocument()->addScript($modalFix, "text/javascript", true, false);
+			JHtml::_('script', 'system/tiny-close.min.js', false, true);
 		}
 
 		// Drag and drop Images
@@ -1056,8 +1055,8 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		return array(
-				'names'  => $btnsNames,
-				'script' => $tinyBtns
+			'names'  => $btnsNames,
+			'script' => $tinyBtns
 		);
 	}
 
