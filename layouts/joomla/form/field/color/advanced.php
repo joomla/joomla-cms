@@ -56,7 +56,7 @@ else
 }
 
 $inputclass   = ($keywords && ! in_array($format, array('rgb', 'rgba'))) ? ' keywords' : ' ' . $format;
-$class        = ' class="' . trim('minicolors ' . $class) . ($validate == 'color' ? '' : $inputclass) . '"';
+$class        = ' class="form-control ' . trim('minicolors ' . $class) . ($validate == 'color' ? 'form-control ' : $inputclass) . '"';
 $control      = $control ? ' data-control="' . $control . '"' : '';
 $format       = $format ? ' data-format="' . $format . '"' : '';
 $keywords     = $keywords ? ' data-keywords="' . $keywords . '"' : '';
