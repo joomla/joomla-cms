@@ -43,12 +43,13 @@ JFactory::getDocument()->addScriptDeclaration(
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off">
 	<div class="row">
 
-		<!-- Begin Sidebar -->
+		<?php // Begin Sidebar ?>
 		<div class="col-md-2" id="sidebar">
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 			</div>
-		</div><!-- End Sidebar -->
+		</div>
+		<?php // End Sidebar ?>
 
 		<div class="col-md-10" id="config">
 
@@ -70,9 +71,9 @@ JFactory::getDocument()->addScriptDeclaration(
 						<?php $rel = ' data-showon=\'' . json_encode($showonarr) . '\''; ?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
-					<li<?php echo $rel; ?>><a data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
+					<li class="nav-item"<?php echo $rel; ?>><a class="nav-link" data-toggle="tab" href="#<?php echo $name; ?>"><?php echo JText::_($label); ?></a></li>
 				<?php endforeach; ?>
-			</ul><!-- /configTabs -->
+			</ul>
 
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
@@ -115,9 +116,9 @@ JFactory::getDocument()->addScriptDeclaration(
 						<?php endforeach; ?>
 					</div>
 				<?php endforeach; ?>
-			</div><!-- /configContent -->
+			</div>
 
-		</div><!-- /config -->
+		</div>
 
 		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>" />
 		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>" />
