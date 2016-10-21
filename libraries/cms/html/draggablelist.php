@@ -74,6 +74,7 @@ abstract class JHtmlDraggablelist
 			)
 		);
 
+		JFactory::getDocument()->addStyleDeclaration(".gu-mirror{display:table;}.gu-mirror td {display:table-cell;}");
 		// Set static array
 		static::$loaded[__METHOD__] = true;
 	}
