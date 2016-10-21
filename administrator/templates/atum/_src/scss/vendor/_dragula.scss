@@ -1,0 +1,16 @@
+// Dragula
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: .8;
+  background-color: lightgreen;
+
+  &.table {
+    display:table;
+    td {
+      display:table-cell;
+    }
+  }
+}

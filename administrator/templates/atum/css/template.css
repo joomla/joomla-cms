@@ -7587,6 +7587,17 @@ div.awesomplete {
 .nav.nav-tabs {
   margin-bottom: 20px; }
 
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: .8;
+  background-color: lightgreen; }
+  .gu-mirror.table {
+    display: table; }
+    .gu-mirror.table td {
+      display: table-cell; }
+
 .minicolors-theme-bootstrap .minicolors-input {
   width: 120px; }
 
@@ -7723,3 +7734,5 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
+
+/*# sourceMappingURL=template.css.map */
