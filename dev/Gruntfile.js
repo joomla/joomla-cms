@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		preText     = '{\n "name": "joomla-assets",\n "version": "4.0.0",\n "description": "External assets that Joomla is using",\n "dependencies": {\n  ',
 		postText    = '  },\n  "license": "GPL-2.0+"\n}',
 		name,
-		disabledNPM = ['jcrop', 'autocomplete', 'coddemirror', 'combobox'],
+		disabledNPM = ['jcrop', 'autocomplete', 'coddemirror'],
 		vendorsTxt = '',
 		vendorsArr = '';
 
@@ -56,10 +56,10 @@ module.exports = function(grunt) {
 					'!../media/vendor/tinymce/plugins/*jdragdrop*',  // Joomla owned
 					'../media/vendor/punycode/*',
 					'../media/vendor/codemirror/*',
-					'../media/vendor/combobox/*',
 					'../media/vendor/autocomplete/*',
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
+					'../media/vendor/awesomplete/*',
 				],
 				expand: true,
 				options: {
@@ -95,10 +95,6 @@ module.exports = function(grunt) {
 				src: 'https://github.com/tapmodo/Jcrop/archive/v' + settings.vendors.jcrop.version + '.zip',
 				dest: 'assets/tmp/jcrop.zip'
 			},
-			'comboBox': {
-				src: 'https://github.com/danielfarrell/bootstrap-combobox/archive/' + settings.vendors.combobox.version + '.zip',
-				dest: 'assets/tmp/combo.zip'
-			},
 			'autoComplete': {
 				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
 				dest: 'assets/tmp/autoc.zip'
@@ -113,15 +109,6 @@ module.exports = function(grunt) {
 				},
 				src: 'assets/tmp/cmzip.zip',
 				dest: 'assets/tmp/codemirror/'
-			},
-			'comboUnzip': {
-				router: function (filepath) {
-					var re = new RegExp(settings.vendors.combobox.version + '/', 'g');
-					var newFilename = filepath.replace(re, '');
-					return newFilename;
-				},
-				src: 'assets/tmp/combo.zip',
-				dest: 'assets/tmp/combobox/'
 			},
 			'autoUnzip': {
 				router: function (filepath) {
@@ -281,20 +268,6 @@ module.exports = function(grunt) {
 						cwd: 'assets/node_modules/punycode/',
 						src: ['punycode.js', 'LICENSE-MIT.txt'],
 						dest: '../media/vendor/punycode/js/',
-						filter: 'isFile'
-					},
-					{ // Bootstrap-combobox
-						expand: true,
-						cwd: 'assets/tmp/combobox/bootstrap-combobox-js',
-						src: 'bootstrap-combobox.js',
-						dest: '../media/vendor/combobox/js/',
-						filter: 'isFile'
-					},
-					{ // Bootstrap-combobox
-						expand: true,
-						cwd: 'assets/tmp/combobox/bootstrap-combobox-css',
-						src: 'bootstrap-combobox.css',
-						dest: '../media/vendor/combobox/css/',
 						filter: 'isFile'
 					},
 					{ // jcrop
@@ -475,6 +448,19 @@ module.exports = function(grunt) {
 						dest: '../media/vendor/minicolors/css/',
 						filter: 'isFile'
 					},
+					{ // Awesomplete
+						expand: true,
+						cwd: 'assets/node_modules/awesomplete',
+						src: ['awesomplete.js', 'awesomplete.min.js'],
+						dest: '../media/vendor/awesomplete/js/',
+						filter: 'isFile'
+					},
+					{ // Awesomplete
+						expand: true,
+						cwd: 'assets/node_modules/awesomplete',
+						src: ['awesomplete.css'],
+						dest: '../media/vendor/awesomplete/css/',
+					},
 					{ // Dragula
 						expand: true,
 						cwd: 'assets/node_modules/dragula/dist',
@@ -524,10 +510,8 @@ module.exports = function(grunt) {
 			'shell:update',
 			'curl:cmGet',
 			'curl:jCrop',
-			'curl:comboBox',
 			'curl:autoComplete',
 			'unzip:cmUnzip',
-			'unzip:comboUnzip',
 			'unzip:autoUnzip',
 			'unzip:jcropUnzip',
 			'concat:someFiles',

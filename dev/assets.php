@@ -16,9 +16,9 @@ abstract class ExternalAssets{
 			'mediaelement' => array('version' => '2.22.0','dependencies' => 'jquery'),
 			'punycode' => array('version' => '1.4.1','dependencies' => ''),
 			'tinymce' => array('version' => '4.4.3','dependencies' => ''),
+			'awesomplete' => array('version' => '1.1.1','dependencies' => ''),
 			'codemirror' => array('version' => '5.19.0','dependencies' => ''),
 			'jcrop' => array('version' => '2.0.4','dependencies' => ''),
-			'combobox' => array('version' => '1.1.7','dependencies' => ''),
 			'autocomplete' => array('version' => '1.2.26','dependencies' => ''),
 			'dragula' => array('version' => '3.7.2','dependencies' => ''),
 			
