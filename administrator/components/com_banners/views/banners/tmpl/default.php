@@ -120,7 +120,7 @@ if ($saveOrder)
 								</div>
 							</td>
 							<td class="nowrap has-context">
-								<div class="pull-xs-left">
+								<div class="float-xs-left">
 									<?php if ($item->checked_out) : ?>
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
 									<?php endif; ?>

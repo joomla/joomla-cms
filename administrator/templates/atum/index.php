@@ -81,7 +81,7 @@ $logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 	<?php // Header ?>
 	<header id="header" class="header">
 
-		<div class="menu-collapse pull-xs-left">
+		<div class="menu-collapse float-xs-left">
 			<span class="menu-text"><?php echo JText::_('TPL_ATUM_MENU'); ?></span>
 			<a id="menu-collapse" class="menu-toggle" href="#">
 				<span></span>
@@ -90,7 +90,7 @@ $logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 
 		<div class="container-title">
 
-			<div class="page-title hidden-xs-down pull-xs-left">
+			<div class="page-title hidden-xs-down float-xs-left">
 				<a class="navbar-brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ATUM_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
 					<span class="icon-out-2 small"></span>
 				</a>
@@ -172,7 +172,7 @@ $logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 			<?php if ($this->countModules('status')) : ?>
 				<?php // Begin Status Module ?>
 				<div id="status" class="status navbar navbar-fixed-bottom hidden-sm-down">
-					<div class="btn-group pull-sm-right">
+					<div class="btn-group float-sm-right">
 						<p>
 							<jdoc:include type="modules" name="footer" style="no" />
 							&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>

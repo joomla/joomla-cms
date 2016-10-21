@@ -7642,7 +7642,7 @@ small, .small {
 .com_cpanel .list-group-condensed > li {
   padding: .45rem 1.25rem; }
 
-.system-message-container.pull-xs-right, .j-main-container {
+.system-message-container.float-xs-right, .j-main-container {
   min-height: 0;
   padding-left: 15px;
   margin-left: 15px; }

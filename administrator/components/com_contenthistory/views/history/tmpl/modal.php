@@ -89,7 +89,7 @@ JFactory::getDocument()->addScriptDeclaration("
 ?>
 <div class="container-popup">
 
-	<div class="btn-group pull-xs-right">
+	<div class="btn-group float-xs-right">
 		<button id="toolbar-load" type="submit" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo JRoute::_($loadUrl);?>">
 			<span class="icon-upload"></span><span class="hidden-sm-down"><?php echo JText::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span></button>
 		<button id="toolbar-preview" type="button" class="btn hasTooltip" title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_PREVIEW_DESC'); ?>" data-url="<?php echo JRoute::_('index.php?option=com_contenthistory&view=preview&layout=preview&tmpl=component&' . JSession::getFormToken() . '=1');?>">

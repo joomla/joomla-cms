@@ -47,7 +47,7 @@ if ($isMoo)
 <div class="container-popup">
 	<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component&groups=' . $input->get('groups', '', 'BASE64') . '&excluded=' . $input->get('excluded', '', 'BASE64')); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if (!$userRequired) : ?>
-		<div class="pull-xs-left">
+		<div class="float-xs-left">
 			<button type="button" class="btn button-select" data-user-value="0" data-user-name="<?php echo $this->escape(JText::_('JLIB_FORM_SELECT_USER')); ?>"
 				data-user-field="<?php echo $this->escape($field);?>" <?php if ($isMoo) : ?>value="" onclick="window.parent.jSelectUser(this)"<?php endif; ?>><?php echo JText::_('JOPTION_NO_USER'); ?></button>&nbsp;
 		</div>
