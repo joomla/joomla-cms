@@ -40,7 +40,7 @@ class InstallationHtmlHelper
 		$tabs[] = 'summary';
 
 		$html = array();
-		$html[] = '<ul class="nav nav-tabs m-b-1">';
+		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
 		{
@@ -67,7 +67,7 @@ class InstallationHtmlHelper
 		$tabs[] = 'complete';
 
 		$html = array();
-		$html[] = '<ul class="nav nav-tabs m-b-1">';
+		$html[] = '<ul class="nav nav-tabs mb-1">';
 
 		foreach ($tabs as $tab)
 		{
