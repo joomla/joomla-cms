@@ -1,3 +1,10 @@
+/**
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+"use strict";
+
 function serialize(form) {
 	if (!form || form.nodeName !== "FORM") {
 		return;
@@ -63,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	if (Joomla.getOptions('draggable-list')) {
 
 		var options = Joomla.getOptions('draggable-list');
-
+console.log(options.direction)
 		// IOS 10 BUG
 		document.addEventListener("touchstart", function() {},false);
 
@@ -92,15 +99,21 @@ document.addEventListener('DOMContentLoaded', function() {
 					}
 				);
 
-			var sortedArray = function () {
+			var sortedArray = function (container, direction) {
 				var orderRows = container.querySelectorAll('input[name="order[]"]');
+
+				if (direction  === 'desc') {
+					// Reverse the array
+					var orderRows = Array.prototype.slice.call(orderRows);
+					orderRows.reverse();
+				}
 
 				for (var i= 0, l = orderRows.length; l > i; i++) {
 					orderRows[i].value = i;
 				}
 			};
 
-			cloneIds = function (form) {
+			var cloneIds = function (form) {
 				var i, l, _shadow, inputs = form.querySelectorAll('[name="cid[]"]');
 
 				for(i = 0, l = inputs.length; l>i; i++) {
@@ -112,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				}
 			};
 
-			removeIds = function (form) {
+			var removeIds = function (form) {
 				var i, l, inputs = form.querySelectorAll('[shadow="shadow"]');
 
 				for(i = 0, l = inputs.length; l>i; i++) {
@@ -123,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			sortableTable.on('drop', function(event) {
 				console.log(event);
 
-				sortedArray();
+				sortedArray(container, options.direction);
 
 				if (saveOrderingUrl) {
 					// Set the form
