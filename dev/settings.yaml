@@ -16,9 +16,6 @@ vendors:
     'font-awesome':
                   'version': '4.6.3'
                   'dependencies': ''
-    'chosenjs':
-                  'version': '1.4.3'
-                  'dependencies': 'jquery, tether'
     'jquery-minicolors':
                   'version': '2.1.10'
                   'dependencies': 'jquery'
