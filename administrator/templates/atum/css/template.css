@@ -7316,7 +7316,7 @@ legend {
     .sidebar-wrapper {
       z-index: 1; } }
   .sidebar-wrapper .main-brand {
-    padding: 0 20px;
+    padding: 25px 20px;
     font-size: 30px;
     text-align: center;
     text-indent: 0;
@@ -7329,8 +7329,7 @@ legend {
       .sidebar-wrapper .main-brand a:hover {
         background: none; }
     .sidebar-wrapper .main-brand img {
-      width: 100%;
-      padding: 25px 0; }
+      width: 100%; }
 
 .wrapper.closed .sidebar-wrapper {
   transform: translateX(0); }
@@ -7724,5 +7723,3 @@ iframe {
 
 .name:hover {
   background-color: transparent; }
-
-/*# sourceMappingURL=template.css.map */
