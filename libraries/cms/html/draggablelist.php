@@ -52,6 +52,8 @@ abstract class JHtmlDraggablelist
 			throw new InvalidArgumentException('$saveOrderingUrl is a required argument in JHtmlSortablelist::sortable');
 		}
 
+		$saveOrderingUrl = $saveOrderingUrl . '&' . JSession::getFormToken() . '=1';
+
 		$doc = JFactory::getDocument();
 
 		// Depends on Joomla.getOptions()

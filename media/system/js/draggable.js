@@ -5,67 +5,6 @@
 
 "use strict";
 
-function serialize(form) {
-	if (!form || form.nodeName !== "FORM") {
-		return;
-	}
-	var i, j, q = [];
-	for (i = form.elements.length - 1; i >= 0; i = i - 1) {
-		if (form.elements[i].name === "") {
-			continue;
-		}
-		switch (form.elements[i].nodeName) {
-			case 'INPUT':
-				switch (form.elements[i].type) {
-					case 'text':
-					case 'hidden':
-					case 'password':
-					case 'button':
-					case 'reset':
-					case 'submit':
-						q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-						break;
-					case 'checkbox':
-					case 'radio':
-						if (form.elements[i].checked) {
-							q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-						}
-						break;
-					case 'file':
-						break;
-				}
-				break;
-			case 'TEXTAREA':
-				q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-				break;
-			case 'SELECT':
-				switch (form.elements[i].type) {
-					case 'select-one':
-						q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-						break;
-					case 'select-multiple':
-						for (j = form.elements[i].options.length - 1; j >= 0; j = j - 1) {
-							if (form.elements[i].options[j].selected) {
-								q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].options[j].value));
-							}
-						}
-						break;
-				}
-				break;
-			case 'BUTTON':
-				switch (form.elements[i].type) {
-					case 'reset':
-					case 'submit':
-					case 'button':
-						q.push(form.elements[i].name + "=" + encodeURIComponent(form.elements[i].value));
-						break;
-				}
-				break;
-		}
-	}
-	return q.join("&");
-}
-
 document.addEventListener('DOMContentLoaded', function() {
 	if (Joomla.getOptions('draggable-list')) {
 
@@ -100,7 +39,7 @@ console.log(options.direction)
 				);
 
 			var sortedArray = function (container, direction) {
-				var orderRows = container.querySelectorAll('input[name="order[]"]');
+				var result = [], orderRows = container.querySelectorAll('input[name="order[]"]');
 
 				if (direction  === 'desc') {
 					// Reverse the array
@@ -110,34 +49,21 @@ console.log(options.direction)
 
 				for (var i= 0, l = orderRows.length; l > i; i++) {
 					orderRows[i].value = i;
+					result.push("order[]=" + encodeURIComponent(i));
 				}
+				return result;
 			};
 
-			var cloneIds = function (form) {
-				var i, l, _shadow, inputs = form.querySelectorAll('[name="cid[]"]');
+			var originalIds = function (form, result) {
+				var i, l, inputs = form.querySelectorAll('[name="cid[]"]');
 
 				for(i = 0, l = inputs.length; l>i; i++) {
-					_shadow = inputs[i].cloneNode();
-					_shadow.setAttribute('checked', 'checked');
-					_shadow.setAttribute('shadow', 'shadow');
-					_shadow.setAttribute('id', '');
-					form.append(_shadow);
+					 result.push("cid[]=" + encodeURIComponent(inputs[i].value));
 				}
-			};
-
-			var removeIds = function (form) {
-				var i, l, inputs = form.querySelectorAll('[shadow="shadow"]');
-
-				for(i = 0, l = inputs.length; l>i; i++) {
-					inputs[i].parentNode.removeChild(inputs[i]);
-				}
+				return result;
 			};
 
 			sortableTable.on('drop', function(event) {
-				console.log(event);
-
-				sortedArray(container, options.direction);
-
 				if (saveOrderingUrl) {
 					// Set the form
 					var form  = document.querySelector('#' + formId);
@@ -145,19 +71,19 @@ console.log(options.direction)
 					// Detach task field if exists
 					var task = document.querySelector('[name="task"]');
 
-					//clone and check all the checkboxes in sortable range to post
-					cloneIds(form);
-
 					// Detach task field if exists
 					if (task) {
 						task.setAttribute('name', 'some__Temporary__Name__');
 					}
 
+					var results = sortedArray(container, options.direction);
+					results = originalIds(form, results);
+
 					// Prepare the options
 					var ajaxOptions = {
 						url:    saveOrderingUrl,
 						method: 'POST',
-						data:    serialize(form),
+						data:    results.join("&"),
 						perform: true
 					};
 
@@ -167,9 +93,6 @@ console.log(options.direction)
 					if (task) {
 						task.setAttribute('name', 'task');
 					}
-
-					//remove cloned checkboxes
-					removeIds(form);
 				}
 			});
 		}
