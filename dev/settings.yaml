@@ -40,6 +40,12 @@ vendors:
     'awesomplete':
                   'version': '1.1.1'
                   'dependencies': ''
+    'dragula':
+                  'version': '3.7.2'
+                  'dependencies': ''
+    'selectize':
+                  'version': '0.12.4'
+                  'dependencies': ''
 
 ### These are always fetced with curl ###
     'codemirror':
@@ -50,9 +56,6 @@ vendors:
                   'dependencies': ''
     'autocomplete':
                   'version': '1.2.26'
-                  'dependencies': ''
-    'dragula':
-                  'version': '3.7.2'
                   'dependencies': ''
 
 ### The javascript polyfills
