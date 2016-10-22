@@ -1,4 +1,5 @@
-/* Polyfill service v3.13.0
+/**
+ * Polyfill service v3.13.0
  * For detailed credits and licence information see http://github.com/financial-times/polyfill-service.
  * 
  * Features requested: Event
