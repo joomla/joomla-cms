@@ -519,6 +519,7 @@ class JApplicationWeb extends JApplicationBase
 				$this->header($this->responseMap[$status]);
 				$this->setHeader('Location', $url);
 				$this->setHeader('Content-Type', $this->mimeType . '; charset=' . $this->charSet);
+
 				// Set cache related headers
 				$this->setCacheHeaders();
 				$this->sendHeaders();
@@ -577,6 +578,8 @@ class JApplicationWeb extends JApplicationBase
 	/**
 	 * Set all the necessary cache-related headers, based on the current value of $this->response->cachable,
 	 * which in turn can be set by the components controllers, in case of need, with JApplicationWeb::allowCache()
+	 *
+	 * @return  void
 	 *
 	 * @since 3.6.4
 	 */
