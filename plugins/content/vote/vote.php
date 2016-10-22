@@ -185,6 +185,8 @@ class PlgContentVote extends JPlugin
 		switch ($context)
 		{
 			case 'com_content.article':
+			case 'com_content.category':
+			case 'com_content.featured':
 				// Fetch the data from the voting table
 				try
 				{
