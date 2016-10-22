@@ -320,6 +320,8 @@ class JFormHelper
 	/**
 	 * Method to check if fulfills requirements.
 	 *
+	 * @param   string  $requiredString  The requires attribute string.
+	 *
 	 * @return  boolean  True if yes, false otherwise.
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -413,6 +415,9 @@ class JFormHelper
 
 	/**
 	 * Method to check a component/plugin fulfills required parameters.
+	 *
+	 * @param   Registry  $params          The config/component/plugin params.
+	 * @param   string    $requiredParams  The required params.
 	 *
 	 * @return  boolean  True if yes, false otherwise.
 	 *
