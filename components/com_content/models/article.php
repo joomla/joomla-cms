@@ -119,11 +119,8 @@ class ContentModelArticle extends JModelItem
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
-				// Join on voting table
-				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id')
-
-					->where('a.id = ' . (int) $pk);
+				// Filter on the requested item ID
+				$query->where('a.id = ' . (int) $pk);
 
 				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 				{

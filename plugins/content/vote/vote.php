@@ -131,7 +131,7 @@ class PlgContentVote extends JPlugin
 			$html .= '<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">';
 			$html .= '<p class="unseen element-invisible">'
 					. JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>')
-					. '<meta itemprop="ratingCount" content="' . (int) $row->rating_count . '" />'
+					. '<meta itemprop="ratingCount" content="' . (int) @$row->rating_count . '" />'
 					. '<meta itemprop="worstRating" content="0" />'
 					. '</p>';
 			$html .= $img;
@@ -166,6 +166,52 @@ class PlgContentVote extends JPlugin
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Add the voting data for items to the data object
+	 *
+	 * @param   string   $context   The context of the content being passed to the plugin.
+	 * @param   object   &$article  The article object.  Note $article->text is also available
+	 * @param   mixed    &$params   The article params
+	 * @param   integer  $page      The 'page' number
+	 *
+	 * @return  void
+	 *
+	 * @since   1.0
+	 */
+	public function onContentPrepare($context, &$article, &$params, $page = 0)
+	{
+		switch ($context)
+		{
+			case 'com_content.article':
+				// Fetch the data from the voting table
+				try
+				{
+					$query = $this->db->getQuery(true)
+						->select('ROUND(rating_sum / rating_count, 0) AS rating, rating_count')
+						->from('#__content_rating')
+						->where('content_id = ' . (int) $article->id);
+
+					$data = $this->db->setQuery($query)->loadObject();
+
+					// If we have data, merge it to the article object
+					if ($data)
+					{
+						$article->rating       = $data->rating;
+						$article->rating_count = $data->rating_count;
+					}
+				}
+				catch (JDatabaseExceptionExecuting $e)
+				{
+					// Let's not fatal out here
+				}
+
+				break;
+
+			default:
+				// Unsupported context
+		}
 	}
 
 	/**
