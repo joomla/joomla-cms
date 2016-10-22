@@ -353,15 +353,24 @@ class JFormHelper
 			}
 
 			// Requires a particular extension enabled
-			$regex   = '#(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+))($|\[([a-z0-9_:\-]+)\])#i';
+			$regex   = '#(config|(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+)))($|\[([a-z0-9_:\-]+)\])#i';
 
 			if (preg_match($regex, $require, $matches))
 			{
+				// When requiring global config options.
+				if ($matches[1] === 'config' && isset($matches[6]))
+				{
+					if (!static::fulfillsRequirementsParams(JFactory::getConfig(), $matches[7]))
+					{
+						return false;
+					}
+				}
+
 				// When requiring components.
-				if ($matches[1] === 'com')
+				elseif ($matches[2] === 'com')
 				{
 					// Check if is installed and enabled.
-					if (!JComponentHelper::isEnabled($matches[1] . '_' . $matches[2]))
+					if (!JComponentHelper::isEnabled($matches[2] . '_' . $matches[3]))
 					{
 						return false;
 					}
@@ -369,7 +378,7 @@ class JFormHelper
 					// Check the required params, if any.
 					elseif (isset($matches[6]))
 					{
-						if (!static::fulfillsRequirementsParams(JComponentHelper::getComponent($matches[1] . '_' . $matches[2])->params, $matches[6]))
+						if (!static::fulfillsRequirementsParams(JComponentHelper::getComponent($matches[2] . '_' . $matches[3])->params, $matches[7]))
 						{
 							return false;
 						}
@@ -377,20 +386,20 @@ class JFormHelper
 				}
 
 				// When requiring plugins.
-				elseif ($matches[1] === 'plg')
+				elseif ($matches[2] === 'plg')
 				{
 					// Check if is installed and enabled.
-					if (!JPluginHelper::isEnabled($matches[3], $matches[4]))
+					if (!JPluginHelper::isEnabled($matches[4], $matches[5]))
 					{
 						return false;
 					}
 
 					// Check the required params, if any.
-					elseif (isset($matches[6]))
+					elseif (isset($matches[7]))
 					{
-						$params = new Joomla\Registry\Registry(JPluginHelper::getPlugin($matches[3], $matches[4])->params, $matches[6]);
+						$params = new Joomla\Registry\Registry(JPluginHelper::getPlugin($matches[4], $matches[5])->params, $matches[7]);
 
-						if (!static::fulfillsRequirementsParams($params, $matches[6]))
+						if (!static::fulfillsRequirementsParams($params, $matches[7]))
 						{
 							return false;
 						}
