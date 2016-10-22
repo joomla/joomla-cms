@@ -7,7 +7,8 @@ module.exports = function(grunt) {
 		name,
 		disabledNPM = ['jcrop', 'autocomplete', 'coddemirror'],
 		vendorsTxt = '',
-		vendorsArr = '';
+		vendorsArr = '',
+		polyFillsUrls =[];
 
 	for (name in settings.vendors) {
 		if (disabledNPM.indexOf(name) < 0 ) {
@@ -17,6 +18,13 @@ module.exports = function(grunt) {
 
 	for (name in settings.vendors) {
 		vendorsArr += '\'' + name + '\' => array(\'version\' => \'' + settings.vendors[name].version + '\',' + '\'dependencies\' => \'' + settings.vendors[name].dependencies + '\'),\n\t\t\t';
+	}
+
+	// Build the array of the polyfills urls for curl
+	for (name in settings.polyfills) {
+		var filename = settings.polyfills[name].toLowerCase();
+		if (filename === 'element.prototype.classlist') filename = 'classlist';
+		polyFillsUrls.push({url: 'https://cdn.polyfill.io/v2/polyfill.js?features=' + settings.polyfills[name] + '&flags=always,gated&ua=Mozilla/4.0%20(compatible;%20MSIE%208.0;%20Windows%20NT%206.0;%20Trident/4.0)', localFile: 'polyfill.' + filename + '.js'});
 	}
 
 	// Build the package.json and assets.php for all 3rd Party assets
@@ -35,6 +43,7 @@ module.exports = function(grunt) {
 			cmlib    : '../media/vendor/codemirror/lib',
 			cmmod    : '../media/vendor/codemirror/mode',
 			cmthem   : '../media/vendor/codemirror/theme',
+			polyfills : '../media/vendor/polyfills/js',
 		},
 
 		// Let's clean up the system
@@ -60,6 +69,7 @@ module.exports = function(grunt) {
 					'../media/vendor/mediaelement/*',
 					'../media/vendor/chosenjs/*',
 					'../media/vendor/awesomplete/*',
+					'../media/vendor/polyfills/*',
 				],
 				expand: true,
 				options: {
@@ -99,6 +109,18 @@ module.exports = function(grunt) {
 				src: 'https://github.com/devbridge/jQuery-Autocomplete/archive/v' + settings.vendors.autocomplete.version + '.zip',
 				dest: 'assets/tmp/autoc.zip'
 			},
+		},
+		fetchpages: {
+			polyfills: {
+				options: {
+					baseURL: '',
+					destinationFolder: '../media/vendor/polyfills/js/',
+					urls: polyFillsUrls,
+					cleanHTML: false,
+					fetchBaseURL: false,
+					followLinks: false
+				}
+			}
 		},
 		unzip: {
 			'cmUnzip': {
@@ -205,6 +227,14 @@ module.exports = function(grunt) {
 						dest: '',
 						expand: true,
 						ext: '.min.js'
+					},
+					{
+						src: '<%= folder.polyfills %>/polyfill.classlist.js',
+						dest: '<%= folder.polyfills %>/polyfill.classlist.min.js',
+					},
+					{
+						src: '<%= folder.polyfills %>/polyfill.event.js',
+						dest: '<%= folder.polyfills %>/polyfill.event.min.js',
 					},
 					// Uglifying punicode.js fails!!!
 					// {
@@ -503,6 +533,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-zip');
 	grunt.loadNpmTasks('grunt-curl');
+	grunt.loadNpmTasks('grunt-fetch-pages');
 
 	grunt.registerTask('default',
 		[
@@ -511,6 +542,7 @@ module.exports = function(grunt) {
 			'curl:cmGet',
 			'curl:jCrop',
 			'curl:autoComplete',
+			'fetchpages:polyfills',
 			'unzip:cmUnzip',
 			'unzip:autoUnzip',
 			'unzip:jcropUnzip',
