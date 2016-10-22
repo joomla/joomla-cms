@@ -133,5 +133,6 @@ class ContentControllerArticles extends JControllerAdmin
 	 */
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
+		return $model->delete_featured($ids);
 	}
 }
