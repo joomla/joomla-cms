@@ -235,14 +235,14 @@ class BannersModelBanners extends JModelList
 			$query->clear()
 				->update('#__banners')
 				->set('impmade = (impmade + 1)')
-				->where('id = ' . $db->quote((int)$item->id));
+				->where('id = ' . $db->quote((int) $item->id));
 			$db->setQuery($query);
 			
 			try
 			{
 				$db->execute();
 			}
-				catch (JDatabaseExceptionExecuting $e)
+			catch (JDatabaseExceptionExecuting $e)
 			{
 				JError::raiseError(500, $e->getMessage());
 			}
