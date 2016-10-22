@@ -254,7 +254,7 @@ class BannersModelBanners extends JModelList
 		{
 			JError::raiseError(500, $e->getMessage());
 		}
-			
+
 		foreach ($items as $item)
 		{
 			// Track impressions
