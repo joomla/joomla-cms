@@ -8,6 +8,9 @@ if (typeof(Joomla) === 'undefined') {
 	var Joomla = {};
 }
 
+!(function (document, Joomla) {
+	"use strict";
+
 /**
  * Sets the HTML of the container-collapse element
  */
@@ -15,7 +18,7 @@ Joomla.setcollapse = function(url, name, height) {
     if (!document.getElementById('collapse-' + name)) {
         document.getElementById('container-collapse').innerHTML = '<div class="collapse fade" id="collapse-' + name + '"><iframe class="iframe" src="' + url + '" height="'+ height + '" width="100%"></iframe></div>';
     }
-}
+};
 
 /**
  * IE8 polyfill for indexOf()
@@ -44,15 +47,17 @@ if (!Array.prototype.indexOf)
 		return -1;
 	};
 }
+	/**
+	 * JField 'showon' feature.
+	 */
+	window.jQuery && (function ($) {
 
-if (jQuery) {
-	jQuery(document).ready(function($) {
-		var linkedoptions = function(target) {
+		function linkedoptions (target) {
 			var showfield = true, itemval, jsondata = target.data('showon');
 
 			// Check if target conditions are satisfied
 			$.each(jsondata, function(j, item) {
-				$fields = $('[name="' + jsondata[j]['field'] + '"], [name="' + jsondata[j]['field'] + '[]"]');
+				var $fields = $('[name="' + jsondata[j]['field'] + '"], [name="' + jsondata[j]['field'] + '[]"]');
 				jsondata[j]['valid'] = 0;
 
 				// Test in each of the elements in the field array if condition is valid
@@ -110,21 +115,38 @@ if (jQuery) {
 
 			// If conditions are satisfied show the target field(s), else hide
 			(showfield) ? target.slideDown() : target.slideUp();
-		};
+		}
 
-		$('[data-showon]').each(function() {
-			var target = $(this), jsondata = $(this).data('showon');
+		/**
+		 * Method for setup the 'showon' feature, for the fields in given container
+		 * @param {HTMLElement} container
+		 */
+		function setUpShowon (container) {
+			container = container || document;
 
-			// Attach events to referenced element
-			$.each(jsondata, function(j, item) {
-				$fields = $('[name="' + jsondata[j]['field'] + '"], [name="' + jsondata[j]['field'] + '[]"]');
-				// Attach events to referenced element
-				$fields.each(function() {
-					linkedoptions(target);
-				}).bind('change', function() {
-					linkedoptions(target);
+			$(container).find('[data-showon]').each(function() {
+				var target = $(this), jsondata = target.data('showon') || [],
+					field, $fields;
+
+				$.each(jsondata, function(j, item) {
+					field   = jsondata[j]['field'];
+					$fields = $('[name="' + field + '"], [name="' + field + '[]"]');
+
+					// Attach events to referenced element
+					$fields.each(function() {
+						linkedoptions(target);
+					}).on('change', function() {
+						linkedoptions(target);
+					});
 				});
 			});
+		}
+
+		$(document).ready(function() {
+			setUpShowon();
 		});
-	});
-}
+
+	})(jQuery);
+
+
+})(document, Joomla);
