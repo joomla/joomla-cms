@@ -229,30 +229,32 @@ class BannersModelBanners extends JModelList
 		$db        = $this->getDbo();
 		$query     = $db->getQuery(true);
 
-		if (count($items))
+		if (!count($items))
 		{
-			foreach ($items as $item)
-			{
-				$bid[] = (int) $item->id;
-			}
+			return;
+		}
+		
+		foreach ($items as $item)
+		{
+			$bid[] = (int) $item->id;
+		}
 
-			// Increment impression made
-			$query->clear()
-				->update('#__banners')
-				->set('impmade = (impmade + 1)')
-				->where('id IN (' . implode(',', $bid) . ')');
-			$db->setQuery($query);
+		// Increment impression made
+		$query->clear()
+			->update('#__banners')
+			->set('impmade = (impmade + 1)')
+			->where('id IN (' . implode(',', $bid) . ')');
+		$db->setQuery($query);
 
-			try
-			{
-				$db->execute();
-			}
-			catch (JDatabaseExceptionExecuting $e)
-			{
-				JError::raiseError(500, $e->getMessage());
-			}
-		}	
-
+		try
+		{
+			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			JError::raiseError(500, $e->getMessage());
+		}
+			
 		foreach ($items as $item)
 		{
 			// Track impressions
