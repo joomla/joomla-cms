@@ -316,4 +316,113 @@ class JFormHelper
 
 		return $paths;
 	}
+
+	/**
+	 * Method to check if fulfills requirements.
+	 *
+	 * @return  boolean  True if yes, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function fulfillsRequirements($requiredString = '')
+	{
+		if ($requiredString === '')
+		{
+			return true;
+		}
+
+		// Filter requirements
+		$requires = explode(',', (string) $requiredString);
+
+		foreach ($requires as $require)
+		{
+			// B/C part. Will be removed in 4.0
+			switch ($require)
+			{
+				case 'multilanguage':
+					$require = 'plg_system_languagefilter';
+					break;
+				case 'associations':
+					$require = 'plg_system_languagefilter[item_associations:1]';
+					break;
+				case 'vote':
+					$require = 'plg_content_vote';
+					break;
+				default:
+					break;
+			}
+
+			// Requires a particular extension enabled
+			$regex   = '#(plg|com)_([a-z0-9\-]+|([a-z0-9\-]+)_([a-z0-9_\-]+))($|\[([a-z0-9_:\-]+)\])#i';
+
+			if (preg_match($regex, $require, $matches))
+			{
+				// When requiring components.
+				if ($matches[1] === 'com')
+				{
+					// Check if is installed and enabled.
+					if (!JComponentHelper::isEnabled($matches[1] . '_' . $matches[2]))
+					{
+						return false;
+					}
+
+					// Check the required params, if any.
+					elseif (isset($matches[6]))
+					{
+						if (!static::fulfillsRequirementsParams(JComponentHelper::getComponent($matches[1] . '_' . $matches[2])->params, $matches[6]))
+						{
+							return false;
+						}
+					}
+				}
+
+				// When requiring plugins.
+				elseif ($matches[1] === 'plg')
+				{
+					// Check if is installed and enabled.
+					if (!JPluginHelper::isEnabled($matches[3], $matches[4]))
+					{
+						return false;
+					}
+
+					// Check the required params, if any.
+					elseif (isset($matches[6]))
+					{
+						$params = new Joomla\Registry\Registry(JPluginHelper::getPlugin($matches[3], $matches[4])->params, $matches[6]);
+
+						if (!static::fulfillsRequirementsParams($params, $matches[6]))
+						{
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to check a component/plugin fulfills required parameters.
+	 *
+	 * @return  boolean  True if yes, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected static function fulfillsRequirementsParams(Joomla\Registry\Registry $params, $requiredParams = '')
+	{
+		$requireParams = explode(',', $requiredParams);
+
+		foreach ($requireParams as $requireParam)
+		{
+			$parts = explode(':', $requireParam);
+
+			if ($params->get($parts[0]) != $parts[1])
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
