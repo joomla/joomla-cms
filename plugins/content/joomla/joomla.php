@@ -321,8 +321,8 @@ class PlgContentJoomla extends JPlugin
 		// Now check to see if this article was featured if so delete it from the #__content_frontpage table
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			    ->delete($db->quoteName('#__content_frontpage'))
-			    ->where('content_id = ' . $data->id);
+			 ->delete($db->quoteName('#__content_frontpage'))
+			 ->where('content_id = ' . $data->id);
 		$db->setQuery($query);
 		$db->execute();
 
