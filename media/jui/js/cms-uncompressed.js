@@ -54,9 +54,10 @@ if (!Array.prototype.indexOf)
 
 		/**
 		 * Method to check condition and change the target visibility
-		 * @param {jQuery} target
+		 * @param {jQuery}  target
+		 * @param {Boolean} animate
 		 */
-		function linkedoptions (target) {
+		function linkedoptions (target, animate) {
 			var showfield = true,
 				jsondata  = target.data('showon') || [],
 				itemval, condition, fieldName, $fields;
@@ -126,7 +127,11 @@ if (!Array.prototype.indexOf)
 			}
 
 			// If conditions are satisfied show the target field(s), else hide
-			(showfield) ? target.slideDown() : target.slideUp();
+			if (animate) {
+				(showfield) ? target.slideDown() : target.slideUp();
+			} else {
+				target.toggle(showfield);
+			}
 		}
 
 		/**
@@ -148,7 +153,7 @@ if (!Array.prototype.indexOf)
 					// Collect an all referenced elements
 					for (var ij = 0, lj = jsondata.length; ij < lj; ij++) {
 						field   = jsondata[ij]['field'];
-						$fields = $fields.add($(container).find('[name="' + field + '"], [name="' + field + '[]"]'));
+						$fields = $fields.add($('[name="' + field + '"], [name="' + field + '[]"]'));
 					}
 
 					// Check current condition for element
@@ -156,14 +161,38 @@ if (!Array.prototype.indexOf)
 
 					// Attach events to referenced element, to check condition on change
 					$fields.on('change', function() {
-						linkedoptions($target);
+						linkedoptions($target, true);
 					});
 				})();
 			}
 		}
 
+		/**
+		 * Initialize 'showon' feature
+		 */
 		$(document).ready(function() {
 			setUpShowon();
+
+			// Setup showon feature in the subform field
+			$(document).on('subform-row-add', function(event, row){
+				var $row = $(row),
+					$elements = $row.find('[data-showon]'),
+					baseName  = $row.data('baseName'),
+					group     = $row.data('group'),
+					search    = new RegExp('\\[' + baseName + '\\]\\[' + baseName + 'X\\]', 'g'),
+					replace   = '[' + baseName + '][' + group + ']',
+					$elm, showon;
+
+				// Fix showon field names in a current group
+				for (var i = 0, l = $elements.length; i < l; i++) {
+					$elm   = $($elements[i]);
+					showon = $elm.attr('data-showon').replace(search, replace);
+
+					$elm.attr('data-showon', showon);
+				}
+
+				setUpShowon(row);
+			});
 		});
 
 	})(jQuery);
